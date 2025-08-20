@@ -1,0 +1,15 @@
+{
+  "task_id": "Test_Task_Agent-1_20250819_074521_649821",
+  "title": "Test Task",
+  "description": "Test description",
+  "assigned_to": "Agent-1",
+  "created_by": "TestAgent",
+  "priority": "TaskPriority.HIGH",
+  "status": "TaskStatus.PENDING",
+  "created_at": "2025-08-19T07:45:21.649821",
+  "due_date": null,
+  "started_at": null,
+  "completed_at": null,
+  "dependencies": [],
+  "metadata": {}
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "contract_id": "CONTRACT-001",
+    "task_id": "TASK-001",
+    "agent_id": "Agent-1",
+    "completed_at": "2025-08-19T10:58:30.369047",
+    "completion_evidence": {},
+    "fsm_state": "completed"
+  },
+  {
+    "contract_id": "CONTRACT-002",
+    "task_id": "TASK-002",
+    "agent_id": "Agent-2",
+    "completed_at": "2025-08-19T10:59:02.192220",
+    "completion_evidence": {},
+    "fsm_state": "completed"
+  }
+]

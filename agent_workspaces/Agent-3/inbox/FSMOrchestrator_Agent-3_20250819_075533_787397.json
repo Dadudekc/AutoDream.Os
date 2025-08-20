@@ -1,0 +1,15 @@
+{
+  "message_id": "FSMOrchestrator_Agent-3_20250819_075533_787397",
+  "sender": "FSMOrchestrator",
+  "recipient": "Agent-3",
+  "subject": "FSM Update: completed",
+  "content": "Task: 3c9eac1b-1f12-4b1f-9fdd-4a8ec5ddc694\nState: completed\nSummary: Agent swarm coordination completed successfully",
+  "priority": "normal",
+  "status": "pending",
+  "created_at": "2025-08-19T07:55:33.787397",
+  "read_at": null,
+  "metadata": {
+    "fsm_update": true,
+    "update_id": "4045fb81-94a2-4e27-acd1-c7fc9fbfef93"
+  }
+}

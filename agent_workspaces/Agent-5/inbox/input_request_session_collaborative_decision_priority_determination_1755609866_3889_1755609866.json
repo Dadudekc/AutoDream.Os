@@ -1,0 +1,10 @@
+{
+  "type": "input_request",
+  "from": "DecisionCoordinationSystem",
+  "to": "Agent-5",
+  "timestamp": 1755609866.0379283,
+  "session_id": "session_collaborative_decision_priority_determination_1755609866_3889_1755609866",
+  "decision_id": "decision_priority_determination_1755609866_3889",
+  "action": "provide_decision_input",
+  "deadline": 1755609926.0379283
+}

@@ -1,0 +1,8 @@
+{
+  "from": "Captain-5",
+  "to": "Agent-2",
+  "message": "\ud83d\udea8 HIGH PRIORITY: CONTRACT ASSIGNMENT! You are assigned TECHNICAL EXCELLENCE & REFACTORING. Target: 8 contracts completed by EOD. Focus: LOC compliance, SRP enforcement, OOP design improvement, code quality enhancement. V2 STANDARDS UPDATE: New line limits 300 target, 350 maximum (was 200). Maintain code quality, avoid artificial line cutting. Your 3 assigned contracts are ready in contracts/contract_pool.json. ACKNOWLEDGE AND BEGIN IMMEDIATELY!",
+  "priority": "HIGH",
+  "timestamp": "2024-08-19T11:25:00Z",
+  "type": "coordination_directive"
+}

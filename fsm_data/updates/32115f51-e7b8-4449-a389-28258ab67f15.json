@@ -1,0 +1,13 @@
+{
+  "update_id": "32115f51-e7b8-4449-a389-28258ab67f15",
+  "task_id": "9215f9c7-bc72-4dae-b976-70480e6b45fb",
+  "agent_id": "Agent-4",
+  "state": "blocked",
+  "summary": "Blocked waiting for response capture service update",
+  "evidence": {
+    "blocking_issue": "API compatibility",
+    "estimated_resolution": "2 hours"
+  },
+  "timestamp": "2025-08-19T07:55:33.790400",
+  "metadata": {}
+}

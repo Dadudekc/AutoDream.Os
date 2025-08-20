@@ -1,0 +1,10 @@
+{
+  "contract_id": "CONTRACT-1755623774-000",
+  "task_id": "TASK-1755623774-000",
+  "title": "Performance Optimization #1",
+  "description": "Identify and optimize performance bottlenecks in the system",
+  "assignee": "Agent-1",
+  "state": "ready",
+  "created_at": "2025-08-19T12:16:14.469756",
+  "template_source": "Performance Optimization"
+}

@@ -1,0 +1,38 @@
+{
+  "type": "decision_result",
+  "from": "DecisionMakingEngine",
+  "to": "Agent-2",
+  "timestamp": 1755609865.9810877,
+  "decision_id": "decision_task_assignment_1755609865_1877",
+  "decision": [
+    {
+      "task": {
+        "id": "task_001",
+        "type": "analysis",
+        "priority": "high",
+        "complexity": "medium"
+      },
+      "agent": "Agent-1"
+    },
+    {
+      "task": {
+        "id": "task_002",
+        "type": "development",
+        "priority": "medium",
+        "complexity": "high"
+      },
+      "agent": "Agent-1"
+    },
+    {
+      "task": {
+        "id": "task_003",
+        "type": "testing",
+        "priority": "low",
+        "complexity": "low"
+      },
+      "agent": "Agent-1"
+    }
+  ],
+  "confidence": 0.8000000000000002,
+  "reasoning": "Assigned 3 tasks to 1 agents"
+}

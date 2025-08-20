@@ -1,0 +1,9 @@
+{
+  "agent_id": "Agent-2",
+  "workspace_path": "agent_workspaces\\Agent-2",
+  "inbox_path": "agent_workspaces\\Agent-2\\inbox",
+  "tasks_path": "agent_workspaces\\Agent-2\\tasks",
+  "responses_path": "agent_workspaces\\Agent-2\\responses",
+  "created_at": "2025-08-19T07:43:21.936649",
+  "last_accessed": "2025-08-19T07:43:21.936649"
+}

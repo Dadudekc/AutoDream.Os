@@ -1,0 +1,100 @@
+[
+  {
+    "timestamp": "2025-08-19T12:39:36.393449",
+    "agent_id": "Agent-4",
+    "trigger_contract": "CONTRACT-011",
+    "contract_quality": 95.0,
+    "contract_effort": "45 minutes",
+    "performance_analysis": {
+      "expertise_level": "intermediate",
+      "total_contracts": 2,
+      "avg_quality": 95.0,
+      "recent_quality": 95.0,
+      "strengths": [
+        "High quality output"
+      ],
+      "areas_for_growth": [
+        "Experience building"
+      ],
+      "recommended_categories": [
+        "testing",
+        "documentation",
+        "basic_optimization",
+        "integration"
+      ],
+      "performance_trend": "stable"
+    },
+    "instruction_type": "contract_creation",
+    "priority": "high",
+    "specific_guidance": {
+      "target_categories": [
+        "testing",
+        "documentation",
+        "basic_optimization",
+        "integration"
+      ],
+      "difficulty_level": "intermediate",
+      "focus_areas": [
+        "Experience building"
+      ],
+      "leverage_strengths": [
+        "High quality output"
+      ],
+      "estimated_effort": "1-2 hours (standard tasks with growth opportunities)",
+      "success_metrics": {
+        "quality_target": "85+",
+        "skill_development": "Required",
+        "best_practices": "Demonstrated",
+        "team_collaboration": "Encouraged"
+      }
+    },
+    "captain_notes": "Agent Agent-4 completed CONTRACT-011 with 95.0/100 quality. Expertise level: intermediate. Performance trend: stable.",
+    "status": "pending_captain_action"
+  },
+  {
+    "timestamp": "2025-08-19T12:40:22.983911",
+    "agent_id": "Agent-4",
+    "trigger_contract": "CONTRACT-012",
+    "contract_quality": 92.0,
+    "contract_effort": "1.5 hours",
+    "performance_analysis": {
+      "expertise_level": "advanced",
+      "total_contracts": 3,
+      "avg_quality": 94.0,
+      "recent_quality": 94.0,
+      "strengths": [
+        "High quality output"
+      ],
+      "areas_for_growth": [],
+      "recommended_categories": [
+        "complex_integration",
+        "performance_optimization",
+        "security_enhancement"
+      ],
+      "performance_trend": "stable"
+    },
+    "instruction_type": "contract_creation",
+    "priority": "high",
+    "specific_guidance": {
+      "target_categories": [
+        "complex_integration",
+        "performance_optimization",
+        "security_enhancement"
+      ],
+      "difficulty_level": "advanced",
+      "focus_areas": [],
+      "leverage_strengths": [
+        "High quality output"
+      ],
+      "estimated_effort": "1-3 hours (challenging integration/optimization)",
+      "success_metrics": {
+        "quality_target": "90+",
+        "complexity_level": "High",
+        "integration_depth": "Deep",
+        "performance_improvement": "Measurable"
+      }
+    },
+    "captain_notes": "Agent Agent-4 completed CONTRACT-012 with 92.0/100 quality. Expertise level: advanced. Performance trend: stable.",
+    "status": "pending_captain_action"
+  }
+]

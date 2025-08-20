@@ -1,0 +1,22 @@
+{
+  "data": {
+    "test_id": "test_8",
+    "timestamp": 1755610956.3321779,
+    "data": "Test data entry 8",
+    "metadata": {
+      "type": "performance_test",
+      "iteration": 8
+    }
+  },
+  "metadata": {
+    "data_id": "perf_test_8",
+    "timestamp": 1755610956.3321779,
+    "checksum": "7544957e2918d6de4407c843eb4cf517193a8cde7f22d455e9c3e1f9408952aa",
+    "size": 141,
+    "version": 1,
+    "integrity_level": "basic",
+    "backup_count": 0,
+    "last_backup": null
+  },
+  "stored_at": 1755610956.5173469
+}

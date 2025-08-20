@@ -1,0 +1,8 @@
+{
+  "from": "Captain-5",
+  "to": "Agent-4",
+  "message": "\ud83d\udea8 HIGH PRIORITY: V2 STANDARDS UPDATED! NEW LINE LIMITS: 300 target, 350 maximum (was 200). QUALITY FOCUS: Maintain code quality, avoid artificial line cutting. FLEXIBILITY: 50-line buffer when needed for proper implementation. IMMEDIATE ACTIONS: Update all task requirements to use 300/350 line limits, continue package-based refactoring, maintain high code quality standards, no artificial line cutting from 309 to 300. ACKNOWLEDGE RECEIPT AND PROCEED WITH UPDATED STANDARDS!",
+  "priority": "HIGH",
+  "timestamp": "2024-08-19T11:25:00Z",
+  "type": "coordination_directive"
+}

@@ -1,0 +1,34 @@
+{
+  "data": {
+    "timestamp": 1755610952.3898132,
+    "agents": {
+      "Agent-1": {
+        "status": "online",
+        "performance": 0.95,
+        "tasks": 3
+      },
+      "Agent-2": {
+        "status": "coordinating",
+        "performance": 0.87,
+        "tasks": 2
+      },
+      "Agent-3": {
+        "status": "processing",
+        "performance": 0.92,
+        "tasks": 1
+      }
+    }
+  },
+  "metadata": {
+    "data_id": "agent_status_current",
+    "timestamp": 1755610952.3898132,
+    "checksum": "5ee1efb1005a2dc8ca7764511f092a3c20e9bed3ad195e8b91ea970e8f7d0c46",
+    "size": 253,
+    "version": 1,
+    "integrity_level": "advanced",
+    "backup_count": 0,
+    "last_backup": null
+  },
+  "backup_timestamp": 1755610952.80563,
+  "backup_version": 1
+}

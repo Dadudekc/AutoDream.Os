@@ -1,0 +1,18 @@
+# Agent_Cellphone_V2 Dependencies
+# Core system requirements
+
+# Core dependencies
+PyYAML>=6.0
+watchdog>=3.0.0
+
+# Optional dependencies for enhanced functionality
+psutil>=5.9.0  # System monitoring and performance metrics
+
+# Development dependencies (optional)
+# pytest>=7.0.0  # Alternative testing framework
+# coverage>=7.0.0  # Code coverage analysis
+# black>=23.0.0  # Code formatting
+# flake8>=6.0.0  # Code linting
+
+# Note: These are the minimum required dependencies
+# Additional packages can be installed as needed for specific use cases

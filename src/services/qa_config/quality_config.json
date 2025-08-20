@@ -1,0 +1,56 @@
+{
+  "thresholds": {
+    "test_coverage": {
+      "minimum": 80.0,
+      "target": 90.0,
+      "excellent": 95.0
+    },
+    "performance": {
+      "response_time_max": 200,
+      "throughput_min": 1000,
+      "error_rate_max": 1.0
+    },
+    "security": {
+      "vulnerabilities_max": 0,
+      "authentication_required": true,
+      "encryption_required": true
+    },
+    "compatibility": {
+      "v1_support": true,
+      "v2_compliance": true,
+      "api_versioning": true
+    },
+    "documentation": {
+      "coverage_min": 70.0,
+      "examples_required": true,
+      "api_docs_required": true
+    }
+  },
+  "rules": [
+    {
+      "rule_id": "QA-001",
+      "name": "Test Coverage Rule",
+      "description": "All services must maintain minimum test coverage",
+      "enforced": true
+    },
+    {
+      "rule_id": "QA-002",
+      "name": "Performance Rule",
+      "description": "All API endpoints must respond within performance thresholds",
+      "enforced": true
+    },
+    {
+      "rule_id": "QA-003",
+      "name": "Security Rule",
+      "description": "All services must pass security validation",
+      "enforced": true
+    },
+    {
+      "rule_id": "QA-004",
+      "name": "Documentation Rule",
+      "description": "All services must have adequate documentation",
+      "enforced": true
+    }
+  ],
+  "last_updated": 1755654648.11583
+}

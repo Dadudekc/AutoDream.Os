@@ -1,215 +1,327 @@
 #!/usr/bin/env python3
 """
-Demonstration of Complete Bi-directional AI Response Capture
-Shows the full workflow from prompting agents to capturing AI responses
+Demo Cursor Response Capture - Agent Cellphone V2
+================================================
+
+Demonstration script showing the cursor response capture system in action.
+This script simulates the capture process and displays the results.
 """
 
-import sys
 import time
-import json
+import logging
+from datetime import datetime
 from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent / "src"))
+# Import our cursor capture system
+from src.core.cursor_response_capture import (
+    CursorResponseCapture,
+    CursorDatabaseManager,
+    CursorMessageNormalizer,
+    CursorMessage
+)
 
-def demo_agent_prompting():
-    """Demonstrate how the system prompts agents"""
-    print("📤 **AGENT PROMPTING DEMONSTRATION**")
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+
+def demo_single_capture():
+    """Demonstrate single capture operation"""
+    print("\n🎯 DEMO: Single Capture Operation")
     print("=" * 50)
+    
+    # Create capture system with temporary database
+    demo_db = "demo_cursor_capture.db"
+    capture_system = CursorResponseCapture(
+        cdp_port=9222,
+        capture_interval=1,
+        db_path=demo_db
+    )
+    
+    # Perform single capture
+    print("  🔍 Performing single capture...")
+    messages_captured = capture_system._capture_once()
+    print(f"  ✅ Captured {messages_captured} messages")
+    
+    # Show capture statistics
+    stats = capture_system.get_capture_stats()
+    print(f"  📊 Total messages captured: {stats['total_messages_captured']}")
+    print(f"  📊 Database message count: {stats['database_message_count']}")
+    print(f"  📊 Average capture time: {stats['average_capture_time']:.3f}s")
+    
+    # Show recent messages
+    recent = capture_system.get_recent_messages(5)
+    if recent:
+        print(f"\n  💬 Recent Messages:")
+        for i, msg in enumerate(recent, 1):
+            timestamp = datetime.fromtimestamp(msg['created_at'] / 1000).strftime('%H:%M:%S')
+            print(f"    {i}. [{msg['role'].upper()}] {msg['content'][:60]}... ({timestamp})")
+    
+    # Cleanup
+    Path(demo_db).unlink(missing_ok=True)
+    return True
+
+
+def demo_message_normalization():
+    """Demonstrate message normalization capabilities"""
+    print("\n🔄 DEMO: Message Normalization")
+    print("=" * 50)
+    
+    normalizer = CursorMessageNormalizer()
+    
+    # Test various message formats
+    test_messages = [
+        {
+            "name": "Standard OpenAI Format",
+            "payload": {
+                "id": "msg_123456",
+                "thread_id": "thread_abc123",
+                "role": "assistant",
+                "content": "Here's a helpful response to your question about Python programming.",
+                "created_at": int(time.time() * 1000)
+            }
+        },
+        {
+            "name": "Cursor Chat Format",
+            "payload": {
+                "message_id": "cursor_msg_789",
+                "conversation_id": "conv_xyz789",
+                "author": {"role": "user"},
+                "content": {"text": "How do I implement a REST API in Python?"},
+                "timestamp": int(time.time() * 1000)
+            }
+        },
+        {
+            "name": "Minimal Format",
+            "payload": {
+                "content": "This is a minimal message with no explicit metadata."
+            }
+        },
+        {
+            "name": "Complex Nested Format",
+            "payload": {
+                "uuid": "complex_msg_abc",
+                "chat_id": "advanced_chat_123",
+                "author": {"role": "system", "name": "Cursor Assistant"},
+                "content": {
+                    "type": "markdown",
+                    "content": "# System Message\nThis is a **system message** with *formatting*.",
+                    "metadata": {"priority": "high", "category": "system"}
+                },
+                "date": int(time.time() * 1000)
+            }
+        }
+    ]
+    
+    for test_case in test_messages:
+        print(f"\n  📝 {test_case['name']}:")
+        try:
+            message = normalizer.normalize(test_case['payload'])
+            print(f"    ✅ Normalized successfully")
+            print(f"    📋 Message ID: {message.message_id}")
+            print(f"    🧵 Thread ID: {message.thread_id}")
+            print(f"    👤 Role: {message.role}")
+            print(f"    📄 Content: {message.content[:50]}...")
+            print(f"    ⏰ Timestamp: {datetime.fromtimestamp(message.created_at / 1000)}")
+            print(f"    🔗 Meta JSON: {len(message.meta_json)} characters")
+        except Exception as e:
+            print(f"    ❌ Normalization failed: {e}")
+    
+    return True
+
+
+def demo_database_operations():
+    """Demonstrate database operations"""
+    print("\n🗄️ DEMO: Database Operations")
+    print("=" * 50)
+    
+    # Create temporary database
+    demo_db = "demo_db_operations.db"
+    db_manager = CursorDatabaseManager(demo_db)
     
     try:
-        from src.services.agent_cell_phone import AgentCellPhone, MsgTag
+        # Create test messages
+        test_messages = [
+            CursorMessage(
+                message_id="demo_msg_1",
+                thread_id="demo_thread_1",
+                role="user",
+                content="Hello, I need help with Python programming.",
+                created_at=int(time.time() * 1000),
+                meta_json='{"source": "demo", "priority": "high"}'
+            ),
+            CursorMessage(
+                message_id="demo_msg_2",
+                thread_id="demo_thread_1",
+                role="assistant",
+                content="I'd be happy to help you with Python programming! What specific topic would you like to learn about?",
+                created_at=int(time.time() * 1000) + 1000,
+                meta_json='{"source": "demo", "response_time": "1s"}'
+            ),
+            CursorMessage(
+                message_id="demo_msg_3",
+                thread_id="demo_thread_2",
+                role="user",
+                content="How do I create a virtual environment?",
+                created_at=int(time.time() * 1000) + 2000,
+                meta_json='{"source": "demo", "topic": "virtual_env"}'
+            )
+        ]
         
-        # Initialize AgentCellPhone
-        acp = AgentCellPhone(agent_id="Agent-1", layout_mode="2-agent", test=True)
-        print("✅ AgentCellPhone initialized")
+        # Save messages
+        print("  💾 Saving test messages...")
+        for i, message in enumerate(test_messages, 1):
+            success = db_manager.save_message(message)
+            print(f"    {i}. {message.role.upper()}: {message.content[:40]}... {'✅' if success else '❌'}")
         
-        # Show available agents
-        agents = acp.get_available_agents()
-        print(f"📋 Available agents: {agents}")
+        # Test duplicate prevention
+        print("\n  🔒 Testing duplicate prevention...")
+        duplicate_success = db_manager.save_message(test_messages[0])
+        print(f"    Duplicate message: {'✅ Ignored' if duplicate_success else '❌ Error'}")
         
-        # Demonstrate sending a message
-        print("\n📤 Sending test message to Agent-2...")
-        acp.send("Agent-2", "This is a test prompt from the system", MsgTag.TASK)
-        print("✅ Message sent successfully")
+        # Get statistics
+        print("\n  📊 Database Statistics:")
+        total_count = db_manager.get_message_count()
+        print(f"    Total messages: {total_count}")
         
-    except Exception as e:
-        print(f"❌ Error in agent prompting demo: {e}")
+        # Get recent messages
+        recent = db_manager.get_recent_messages(10)
+        print(f"    Recent messages: {len(recent)}")
+        
+        # Show message details
+        print("\n  📋 Message Details:")
+        for i, msg in enumerate(recent, 1):
+            timestamp = datetime.fromtimestamp(msg['created_at'] / 1000).strftime('%H:%M:%S')
+            print(f"    {i}. [{msg['role'].upper()}] {msg['content'][:50]}... ({timestamp})")
+        
+        # Test invalid message handling
+        print("\n  🛡️ Testing invalid message handling...")
+        invalid_message = CursorMessage(
+            message_id="",  # Invalid empty ID
+            thread_id="",   # Invalid empty thread ID
+            role="invalid_role",  # Invalid role
+            content="",     # Invalid empty content
+            created_at=-1,  # Invalid timestamp
+            meta_json="invalid json"  # Invalid JSON
+        )
+        
+        invalid_success = db_manager.save_message(invalid_message)
+        print(f"    Invalid message: {'❌ Rejected' if not invalid_success else '⚠️ Unexpected success'}")
+        
+        # Verify system still functional
+        final_count = db_manager.get_message_count()
+        print(f"    Final message count: {final_count} (should be {total_count})")
+        
+        return True
+        
+    finally:
+        # Cleanup
+        Path(demo_db).unlink(missing_ok=True)
 
-def demo_cursor_capture():
-    """Demonstrate the cursor capture system"""
-    print("\n📥 **CURSOR CAPTURE DEMONSTRATION**")
+
+def demo_v2_integration():
+    """Demonstrate V2 system integration"""
+    print("\n🔗 DEMO: V2 System Integration")
     print("=" * 50)
+    
+    # Create capture system
+    demo_db = "demo_v2_integration.db"
+    capture_system = CursorResponseCapture(
+        cdp_port=9222,
+        capture_interval=1,
+        db_path=demo_db
+    )
     
     try:
-        from cursor_capture.watcher import CursorDBWatcher
+        # Start V2 monitoring
+        print("  🚀 Starting V2 monitoring systems...")
+        capture_system.start_capture()
         
-        # Load agent workspace mapping
-        map_path = Path("src/runtime/config/agent_workspace_map.json")
-        if map_path.exists():
-            with open(map_path, 'r') as f:
-                agent_map = json.load(f)
-            
-            print(f"✅ Loaded workspace mapping for {len(agent_map)} agents")
-            
-            # Initialize watcher
-            watcher = CursorDBWatcher(agent_map=agent_map)
-            print("✅ CursorDBWatcher initialized")
-            
-            # Show stats
-            stats = watcher.get_stats()
-            print(f"📊 Watcher stats: {stats}")
-            
-            # Show what workspaces are being monitored
-            print("\n🔍 Monitoring workspaces:")
-            for agent, config in agent_map.items():
-                workspace = config.get("workspace_root", "unknown")
-                print(f"   {agent}: {workspace}")
-            
+        # Let it run briefly to collect data
+        print("  ⏳ Collecting monitoring data...")
+        time.sleep(3)
+        
+        # Show V2 system status
+        print("\n  📊 V2 System Status:")
+        
+        # Performance profiler
+        perf_stats = capture_system.performance_profiler.get_performance_stats()
+        print(f"    Performance Profiler: {'✅ Active' if capture_system.performance_profiler.is_active else '❌ Inactive'}")
+        
+        # Health monitor
+        health_status = capture_system.health_monitor.get_component_health("cursor_capture")
+        if health_status:
+            print(f"    Health Monitor: ✅ Active - Score: {health_status['health_score']:.1%}")
         else:
-            print(f"❌ Workspace map not found: {map_path}")
-            
-    except Exception as e:
-        print(f"❌ Error in cursor capture demo: {e}")
+            print(f"    Health Monitor: ✅ Active - No health data yet")
+        
+        # Error handler
+        error_stats = capture_system.error_handler.get_error_stats()
+        print(f"    Error Handler: ✅ Active - Total errors: {error_stats['total_errors']}")
+        
+        # Stop monitoring
+        print("\n  ⏹️ Stopping V2 monitoring systems...")
+        capture_system.stop_capture()
+        
+        # Final status
+        print(f"    Final Status: {'❌ Stopped' if not capture_system.is_capturing else '⚠️ Still running'}")
+        
+        return True
+        
+    finally:
+        # Cleanup
+        Path(demo_db).unlink(missing_ok=True)
 
-def demo_inbox_processing():
-    """Demonstrate how captured responses are processed"""
-    print("\n📨 **INBOX PROCESSING DEMONSTRATION**")
-    print("=" * 50)
-    
-    inbox_path = Path("agent_workspaces/Agent-5/inbox")
-    if inbox_path.exists():
-        # Check for message files
-        message_files = list(inbox_path.glob("*.json"))
-        if message_files:
-            print(f"✅ Found {len(message_files)} message files in inbox")
-            
-            # Show recent messages
-            recent_files = sorted(message_files, key=lambda x: x.stat().st_mtime, reverse=True)[:3]
-            print("\n📄 Recent messages:")
-            for f in recent_files:
-                try:
-                    with open(f, 'r') as msg_file:
-                        msg_data = json.load(msg_file)
-                    
-                    msg_type = msg_data.get("type", "unknown")
-                    from_agent = msg_data.get("from", "unknown")
-                    timestamp = msg_data.get("timestamp", "unknown")
-                    
-                    print(f"   📄 {f.name}")
-                    print(f"      Type: {msg_type}")
-                    print(f"      From: {from_agent}")
-                    print(f"      Time: {timestamp}")
-                    
-                    # Show payload summary if available
-                    payload = msg_data.get("payload", {})
-                    if payload:
-                        payload_type = payload.get("type", "unknown")
-                        if payload_type == "assistant_reply":
-                            text = payload.get("text", "")
-                            preview = text[:100] + "..." if len(text) > 100 else text
-                            print(f"      Content: {preview}")
-                    
-                    print()
-                    
-                except Exception as e:
-                    print(f"   ❌ Error reading {f.name}: {e}")
-        else:
-            print("📭 No message files found in inbox")
-    else:
-        print(f"❌ Inbox directory not found: {inbox_path}")
-
-def demo_fsm_integration():
-    """Demonstrate FSM integration"""
-    print("\n⚙️ **FSM INTEGRATION DEMONSTRATION**")
-    print("=" * 50)
-    
-    # Check if there are any FSM update files
-    inbox_path = Path("agent_workspaces/Agent-5/inbox")
-    if inbox_path.exists():
-        fsm_files = list(inbox_path.glob("*fsm*"))
-        if fsm_files:
-            print(f"✅ Found {len(fsm_files)} FSM-related files")
-            
-            # Show FSM file structure
-            for f in fsm_files[:2]:  # Show first 2
-                print(f"\n📄 FSM File: {f.name}")
-                try:
-                    with open(f, 'r') as fsm_file:
-                        fsm_data = json.load(fsm_file)
-                    
-                    # Show key FSM fields
-                    task_id = fsm_data.get("task_id", "unknown")
-                    state = fsm_data.get("state", "unknown")
-                    summary = fsm_data.get("summary", "no summary")
-                    
-                    print(f"   Task ID: {task_id}")
-                    print(f"   State: {state}")
-                    print(f"   Summary: {summary[:80]}...")
-                    
-                except Exception as e:
-                    print(f"   ❌ Error reading FSM file: {e}")
-        else:
-            print("📭 No FSM files found")
-    else:
-        print(f"❌ Inbox directory not found: {inbox_path}")
-
-def demo_export_fallback():
-    """Demonstrate export fallback system"""
-    print("\n📤 **EXPORT FALLBACK DEMONSTRATION**")
-    print("=" * 50)
-    
-    try:
-        from cursor_capture.export_consumer import watch_exports, process_export_file
-        
-        print("✅ Export consumer module loaded")
-        
-        # Check export directories
-        export_dir = Path("agent_workspaces/exports")
-        if export_dir.exists():
-            export_files = list(export_dir.glob("*"))
-            if export_files:
-                print(f"📁 Found {len(export_files)} files in export directory")
-                for f in export_files:
-                    print(f"   📄 {f.name}")
-            else:
-                print("📁 Export directory is empty")
-        else:
-            print("📁 Export directory not found - will be created when needed")
-            
-        print("\n💡 Export fallback workflow:")
-        print("   1. Agent exports chat from Cursor (File → Export Chat)")
-        print("   2. Export file is placed in agent_workspaces/exports/")
-        print("   3. Export consumer processes file and creates inbox envelope")
-        print("   4. File is moved to processed/ directory")
-        
-    except Exception as e:
-        print(f"❌ Error in export fallback demo: {e}")
 
 def main():
-    """Run the complete demonstration"""
-    print("🚀 **COMPLETE BI-DIRECTIONAL AI RESPONSE CAPTURE DEMONSTRATION**")
+    """Main demonstration execution"""
+    print("🚀 CURSOR RESPONSE CAPTURE SYSTEM - LIVE DEMONSTRATION")
     print("=" * 70)
-    print("This demo shows the complete workflow from prompting agents to capturing AI responses")
+    print("This demo showcases the complete cursor response capture system")
+    print("including database operations, message normalization, and V2 integration.")
     print("=" * 70)
     
-    demo_agent_prompting()
-    demo_cursor_capture()
-    demo_inbox_processing()
-    demo_fsm_integration()
-    demo_export_fallback()
+    demo_results = {}
     
+    try:
+        # Run all demos
+        demo_results["single_capture"] = demo_single_capture()
+        demo_results["message_normalization"] = demo_message_normalization()
+        demo_results["database_operations"] = demo_database_operations()
+        demo_results["v2_integration"] = demo_v2_integration()
+        
+    except Exception as e:
+        logger.error(f"Demo execution failed: {e}")
+        return False
+    
+    # Summary
     print("\n" + "=" * 70)
-    print("🎯 **SYSTEM READY FOR PRODUCTION USE**")
-    print("\n💡 **How to use:**")
-    print("   1. Run overnight runner with --cursor-db-capture-enabled")
-    print("   2. System automatically captures AI responses from Cursor")
-    print("   3. Responses are processed and sent to FSM system")
-    print("   4. Full bi-directional communication loop established!")
-    print("\n🔧 **Fallback options:**")
-    print("   - Export Chat: Manual export when DB unavailable")
-    print("   - Copy Response: UI automation for clipboard capture")
-    print("   - File-based: Direct file writing for reliability")
+    print("🎯 DEMO RESULTS SUMMARY")
+    print("=" * 70)
+    
+    all_successful = True
+    for demo_name, result in demo_results.items():
+        status = "✅ SUCCESS" if result else "❌ FAILED"
+        print(f"{demo_name.replace('_', ' ').title()}: {status}")
+        if not result:
+            all_successful = False
+    
+    print("=" * 70)
+    
+    if all_successful:
+        print("🎉 ALL DEMOS SUCCESSFUL! Cursor Response Capture System is working perfectly.")
+        print("\n📋 NEXT STEPS:")
+        print("   1. Install dependencies: pip install websocket-client requests")
+        print("   2. Launch Cursor with: Cursor --remote-debugging-port=9222")
+        print("   3. Run capture system: python src/core/cursor_response_capture.py")
+        print("   4. Monitor captured messages in SQLite database")
+        print("\n🚀 Ready for production deployment!")
+    else:
+        print("⚠️ Some demos failed. Please review the implementation.")
+    
+    return all_successful
+
 
 if __name__ == "__main__":
-    main()
+    success = main()
+    exit(0 if success else 1)

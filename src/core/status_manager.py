@@ -23,24 +23,9 @@ from collections import defaultdict
 
 from .agent_manager import AgentManager, AgentStatus, AgentCapability, AgentInfo
 from .config_manager import ConfigManager
+from .health_models import HealthStatus, AlertSeverity
 
 logger = logging.getLogger(__name__)
-
-
-class HealthStatus(Enum):
-    """System health status"""
-    HEALTHY = "healthy"
-    WARNING = "warning"
-    CRITICAL = "critical"
-    UNKNOWN = "unknown"
-
-
-class AlertLevel(Enum):
-    """Alert severity levels"""
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
-    CRITICAL = "critical"
 
 
 class StatusTransition(Enum):

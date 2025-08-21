@@ -1,0 +1,14 @@
+# Security Requirements - Agent_Cellphone_V2_Repository
+# Security and networking tools
+# Foundation & Testing Specialist - Requirements Consolidation
+
+-r ../base.txt
+
+# Security frameworks
+paramiko>=3.0.0
+cryptography>=3.4.0
+scapy>=2.4.0
+
+# Network tools
+nmap>=7.0.0
+netaddr>=0.8.0

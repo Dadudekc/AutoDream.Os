@@ -18,16 +18,25 @@ from .workflow_definitions import (
 
 
 class WorkflowExecutionEngine:
-    """Executes and manages workflow instances"""
+    """Executes and manages workflow instances - Now delegates to consolidated system"""
     
     def __init__(self):
-        self.definition_manager = WorkflowDefinitionManager()
-        self.active_workflows: Dict[str, WorkflowExecution] = {}
-        self.completed_workflows: Dict[str, WorkflowExecution] = {}
-        self.workflow_handlers: Dict[WorkflowStep, List[Callable]] = {}
-        self.logger = logging.getLogger(f"{__name__}.WorkflowExecutionEngine")
+        # Import consolidated workflow engine
+        try:
+            from ..core.advanced_workflow_engine import AdvancedWorkflowEngine
+            self.workflow_engine = AdvancedWorkflowEngine(None, None, None)
+            self.definition_manager = self.workflow_engine.definition_manager
+            self.active_workflows = self.workflow_engine.executions
+            self.completed_workflows = self.workflow_engine.active_workflows
+            self.workflow_handlers = self.workflow_engine.workflow_handlers
+        except ImportError:
+            self.workflow_engine = None
+            self.definition_manager = None
+            self.active_workflows = {}
+            self.completed_workflows = {}
+            self.workflow_handlers = {}
         
-        self._initialize_workflow_handlers()
+        self.logger = logging.getLogger(f"{__name__}.WorkflowExecutionEngine")
     
     def _initialize_workflow_handlers(self):
         """Initialize default workflow step handlers"""

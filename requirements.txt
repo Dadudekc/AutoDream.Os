@@ -1,18 +1,98 @@
-# Agent_Cellphone_V2 Dependencies
-# Core system requirements
+# Agent_Cellphone_V2 - Consolidated Requirements
+# Following V2 coding standards: ≤300 LOC per file, OOP design, SRP
 
-# Core dependencies
+# Core system requirements
 PyYAML>=6.0
 watchdog>=3.0.0
 
-# Optional dependencies for enhanced functionality
-psutil>=5.9.0  # System monitoring and performance metrics
+# Performance monitoring and system integration
+psutil>=5.9.0
+py-cpuinfo>=9.0.0
 
-# Development dependencies (optional)
-# pytest>=7.0.0  # Alternative testing framework
-# coverage>=7.0.0  # Code coverage analysis
-# black>=23.0.0  # Code formatting
-# flake8>=6.0.0  # Code linting
+# Async HTTP client for API gateway
+aiohttp>=3.8.0
+aiofiles>=23.0.0
 
-# Note: These are the minimum required dependencies
-# Additional packages can be installed as needed for specific use cases
+# Data serialization and validation
+pydantic>=2.0.0
+marshmallow>=3.19.0
+
+# HTTP server and client
+fastapi>=0.100.0
+uvicorn>=0.22.0
+requests>=2.31.0
+
+# Database and caching
+redis>=4.5.0
+sqlalchemy>=2.0.0
+alembic>=1.11.0
+
+# Message queuing and async processing
+celery>=5.3.0
+kombu>=5.3.0
+
+# Monitoring and observability
+prometheus-client>=0.17.0
+structlog>=23.1.0
+
+# Testing and development (REQUIRED for V2 standards)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+pytest-html>=3.1.0
+pytest-xdist>=3.0.0
+coverage>=7.0.0
+
+# Code quality and formatting (REQUIRED for V2 standards)
+black>=23.7.0
+isort>=5.12.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# Documentation
+sphinx>=7.1.0
+sphinx-rtd-theme>=1.3.0
+
+# Development tools
+pre-commit>=3.3.0
+tox>=4.6.0
+
+# System utilities
+click>=8.1.0
+rich>=13.4.0
+tabulate>=0.9.0
+
+# Configuration management
+python-dotenv>=1.0.0
+configparser>=5.3.0
+
+# Logging and debugging
+colorlog>=6.7.0
+python-json-logger>=2.0.0
+
+# Network and communication
+websockets>=11.0.0
+asyncio-mqtt>=0.13.0
+
+# Data processing and analysis
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Security and authentication
+cryptography>=41.0.0
+passlib>=1.7.4
+python-jose>=3.3.0
+
+# File handling and utilities
+pathlib2>=2.3.7
+
+# Note: These are the consolidated dependencies for the V2 system
+# All components must follow V2 coding standards:
+# - ≤300 LOC per file (≤500 for GUI components)
+# - Object-Oriented Design
+# - Single Responsibility Principle
+# - CLI interfaces for testing
+# - Smoke tests for validation

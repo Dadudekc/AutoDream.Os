@@ -1,0 +1,29 @@
+# Development Requirements - Agent_Cellphone_V2_Repository
+# Development tools and utilities
+# Foundation & Testing Specialist - Requirements Consolidation
+
+-r base.txt
+-r testing.txt
+
+# Version Control Integration
+gitpython>=3.1.0
+github3.py>=3.2.0
+
+# Database and Storage
+sqlalchemy>=1.4.0
+alembic>=1.8.0
+
+# API and Communication
+fastapi>=0.95.0
+uvicorn>=0.20.0
+websockets>=10.3
+aiohttp>=3.8.0
+
+# Performance Monitoring
+memory-profiler>=0.60.0
+line-profiler>=3.5.0
+
+# Debugging and Development
+ipython>=8.0.0
+ipdb>=0.13.0
+pre-commit>=2.20.0

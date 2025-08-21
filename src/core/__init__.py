@@ -1,253 +1,142 @@
-#!/usr/bin/env python3
 """
-Core Module - Agent Cellphone V2
-================================
+🔧 Core Package - Agent_Cellphone_V2
 
-Core system components and managers.
+This package contains the core components for the Agent_Cellphone_V2 system:
+- Performance monitoring and tracking
+- API gateway and communication
+- Health monitoring and alerting
+- Agent communication protocols
+
+Following V2 coding standards: ≤300 LOC per file, OOP design, SRP.
 """
 
+__version__ = "2.0.0"
+__author__ = "Integration & Performance Optimization Captain"
+__status__ = "ACTIVE"
+
+import argparse
+import sys
+
+# Core component imports
 try:
-    # Package imports
-    from .core_manager import CoreManager
-    from .workspace_manager import WorkspaceManager, WorkspaceConfig
-    from .inbox_manager import InboxManager, Message, MessagePriority, MessageStatus
-    from .task_manager import TaskManager, Task, TaskPriority, TaskStatus
-    # FSM V2 Components (V2 Standards Compliant)
-    from .fsm_task_v2 import FSMTask, FSMUpdate, TaskState, TaskPriority, TaskValidator
-    # V2 FSM Components (V2 Standards Compliant)
-    from .fsm_task_v2 import FSMTask as FSMTaskV2, FSMUpdate as FSMUpdateV2, TaskState as TaskStateV2, TaskPriority as TaskPriorityV2, TaskValidator
-    from .fsm_data_v2 import FSMDataManager as FSMDataManagerV2
-    from .fsm_core_v2 import FSMCoreV2
+    from .performance_tracker import PerformanceTracker
+    from .performance_profiler import PerformanceProfiler
+    from .performance_dashboard import PerformanceDashboard
+    from .api_gateway import APIGateway
+    from .agent_communication import AgentCommunicationProtocol
+    from .health_monitor_core import HealthMonitorCore
+    from .agent_health_monitor import AgentHealthMonitor
+    from .health_metrics_collector import HealthMetricsCollector
+    from .health_alert_manager import HealthAlertManager
+    from .health_threshold_manager import HealthThresholdManager
+    from .health_score_calculator import HealthScoreCalculator
     
-    # Refactored monitoring system
-    from .monitor import AgentStatusMonitor, AgentInfo, AgentStatus, AgentCapability
+    __all__ = [
+        'PerformanceTracker',
+        'PerformanceProfiler', 
+        'PerformanceDashboard',
+        'APIGateway',
+        'AgentCommunicationProtocol',
+        'HealthMonitorCore',
+        'AgentHealthMonitor',
+        'HealthMetricsCollector',
+        'HealthAlertManager',
+        'HealthThresholdManager',
+        'HealthScoreCalculator'
+    ]
     
-    # Refactored decision-making system
-    from .decision import DecisionMakingEngine, DecisionType, DecisionStatus, DecisionRequest, DecisionResult
-    
-    # Refactored horizontal scaling system
-    from .scaling import HorizontalScalingEngine, ScalingStrategy, ScalingStatus, ScalingConfig
-    
-    # Refactored live status system
-    from .status import LiveStatusSystem, UpdateFrequency, StatusEventType, StatusEvent
-    
-    # Persistent data storage (refactored)
-    from .persistent_data_storage import PersistentDataStorage, StorageType, DataIntegrityLevel, StorageMetadata
-    
-    # Data integrity manager (refactored)
-    from .integrity import DataIntegrityManager, IntegrityCheckType, RecoveryStrategy, IntegrityCheck
-    
-    # Decision coordination system
-    from .decision_coordination_system import DecisionCoordinationSystem, CoordinationMode, CoordinationSession
-
-    # Continuous coordination components
-    from .continuous_coordinator import ContinuousCoordinator, CoordinationCycle, CoordinationState
-    from .collaboration_engine import CollaborationEngine, CollaborationMetrics, CollaborationLevel
-
-except ImportError:
-    # Direct execution - add src to path
-    import sys
-    from pathlib import Path
-    src_path = Path(__file__).parent.parent
-    sys.path.insert(0, str(src_path))
-    
-    # Absolute imports
-    from core.core_manager import CoreManager
-    from core.workspace_manager import WorkspaceManager, WorkspaceConfig
-    from core.inbox_manager import InboxManager, Message, MessagePriority, MessageStatus
-    from core.task_manager import TaskManager, Task, TaskPriority, TaskStatus
-    # FSM V2 Components (V2 Standards Compliant)
-    from core.fsm_task_v2 import FSMTask, FSMUpdate, TaskState, TaskPriority, TaskValidator
-    # V2 FSM Components (V2 Standards Compliant)
-    from core.fsm_task_v2 import FSMTask as FSMTaskV2, FSMUpdate as FSMUpdateV2, TaskState as TaskStateV2, TaskPriority as TaskPriorityV2, TaskValidator
-    from core.fsm_data_v2 import FSMDataManager as FSMDataManagerV2
-    from core.fsm_core_v2 import FSMCoreV2
-    
-    # Refactored monitoring system
-    from core.monitor import AgentStatusMonitor, AgentInfo, AgentStatus, AgentCapability
-    
-    # Refactored decision-making system
-    from core.decision import DecisionMakingEngine, DecisionType, DecisionStatus, DecisionRequest, DecisionResult
-    
-    # Refactored horizontal scaling system
-    from core.scaling import HorizontalScalingEngine, ScalingStrategy, ScalingStatus, ScalingConfig
-    
-    # Refactored live status system
-    from core.status import LiveStatusSystem, UpdateFrequency, StatusEventType, StatusEvent
-    
-    # Persistent data storage (refactored)
-    from core.persistent_data_storage import PersistentDataStorage, StorageType, DataIntegrityLevel, StorageMetadata
-    
-    # Data integrity manager (refactored)
-    from core.integrity import DataIntegrityManager, IntegrityCheckType, RecoveryStrategy, IntegrityCheck
-
-    # Decision coordination system
-    from core.decision_coordination_system import DecisionCoordinationSystem, CoordinationMode, CoordinationSession
-
-    # Continuous coordination components
-    from core.continuous_coordinator import ContinuousCoordinator, CoordinationCycle, CoordinationState
-    from core.collaboration_engine import CollaborationEngine, CollaborationMetrics, CollaborationLevel
-
-__all__ = [
-    # Core managers
-    'CoreManager',
-    'WorkspaceManager', 'WorkspaceConfig',
-    'InboxManager', 'Message', 'MessagePriority', 'MessageStatus',
-    'TaskManager', 'Task', 'TaskPriority', 'TaskStatus',
-    'FSMTask', 'FSMUpdate', 'TaskState', 'TaskPriority', 'TaskValidator',
-    # V2 FSM Components (V2 Standards Compliant)
-    'FSMTaskV2', 'FSMUpdateV2', 'TaskStateV2', 'TaskPriorityV2', 'TaskValidator',
-    'FSMDataManagerV2', 'FSMCoreV2',
-    
-    # Refactored agent monitoring system
-    'AgentStatusMonitor', 'AgentInfo', 'AgentStatus', 'AgentCapability',
-    
-    # Refactored decision-making system
-    'DecisionMakingEngine', 'DecisionType', 'DecisionStatus', 'DecisionRequest', 'DecisionResult',
-    
-    # Refactored horizontal scaling system
-    'HorizontalScalingEngine', 'ScalingStrategy', 'ScalingStatus', 'ScalingConfig',
-    
-    # Live status system (to be refactored)
-    'LiveStatusSystem', 'UpdateFrequency', 'StatusEventType', 'StatusEvent',
-    
-    # Persistent data storage (refactored)
-    'PersistentDataStorage', 'StorageType', 'DataIntegrityLevel', 'StorageMetadata',
-    
-    # Data integrity manager (to be refactored)
-    'DataIntegrityManager', 'IntegrityCheckType', 'RecoveryStrategy', 'IntegrityCheck',
-    
-    # Decision coordination system
-    'DecisionCoordinationSystem', 'CoordinationMode', 'CoordinationSession',
-    
-    # Continuous coordination
-    'ContinuousCoordinator', 'CoordinationCycle', 'CoordinationState',
-    'CollaborationEngine', 'CollaborationMetrics', 'CollaborationLevel'
-]
-
+except ImportError as e:
+    print(f"⚠️ Warning: Some core components not available: {e}")
+    __all__ = []
 
 def main():
-    """CLI interface for Core Module"""
-    import argparse
+    """CLI interface for core module"""
+    parser = argparse.ArgumentParser(
+        description="Agent_Cellphone_V2 Core Module",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    python -m src.core --test                    # Run core tests
+    python -m src.core --status                 # Show core status
+    python -m src.core --demo                   # Run core demo
+        """
+    )
     
-    parser = argparse.ArgumentParser(description="Core Module CLI")
-    parser.add_argument("--test", "-t", action="store_true", help="Test core components")
-    parser.add_argument("--status", "-s", action="store_true", help="Show core status")
+    parser.add_argument("--test", action="store_true", 
+                       help="Run core module tests")
+    parser.add_argument("--status", action="store_true", 
+                       help="Show core module status")
+    parser.add_argument("--demo", action="store_true", 
+                       help="Run core module demo")
+    parser.add_argument("--list", action="store_true", 
+                       help="List available core components")
     
     args = parser.parse_args()
     
     if args.test:
-        print("🧪 Testing Core Module Components...")
+        print("🧪 Running core module tests...")
+        # Run tests for each component
+        test_results = {}
+        for component in __all__:
+            try:
+                component_class = globals()[component]
+                if hasattr(component_class, 'run_smoke_test'):
+                    print(f"  Testing {component}...")
+                    success = component_class().run_smoke_test()
+                    test_results[component] = success
+                    print(f"    {'✅ PASS' if success else '❌ FAIL'}")
+                else:
+                    print(f"  ⚠️ {component} has no smoke test")
+                    test_results[component] = False
+            except Exception as e:
+                print(f"  ❌ {component} test failed: {e}")
+                test_results[component] = False
         
-        # Test workspace manager
-        try:
-            workspace_mgr = WorkspaceManager()
-            print("✅ WorkspaceManager: OK")
-        except Exception as e:
-            print(f"❌ WorkspaceManager: {e}")
-        
-        # Test inbox manager
-        try:
-            inbox_mgr = InboxManager()
-            print("✅ InboxManager: OK")
-        except Exception as e:
-            print(f"❌ InboxManager: {e}")
-        
-        # Test task manager
-        try:
-            task_mgr = TaskManager()
-            print("✅ TaskManager: OK")
-        except Exception as e:
-            print(f"❌ TaskManager: {e}")
-        
-        # Test FSM orchestrator
-        try:
-            fsm_org = FSMOrchestrator()
-            print("✅ FSMOrchestrator: OK")
-        except Exception as e:
-            print(f"❌ FSMOrchestrator: {e}")
-        
-        # Test refactored agent status monitor
-        try:
-            status_monitor = AgentStatusMonitor()
-            print("✅ AgentStatusMonitor (Refactored): OK")
-        except Exception as e:
-            print(f"❌ AgentStatusMonitor: {e}")
-        
-        # Test live status system
-        try:
-            live_status = LiveStatusSystem()
-            print("✅ LiveStatusSystem: OK")
-        except Exception as e:
-            print(f"❌ LiveStatusSystem: {e}")
-        
-        # Test refactored persistent data storage
-        try:
-            data_storage = PersistentDataStorage()
-            print("✅ PersistentDataStorage (Refactored): OK")
-        except Exception as e:
-            print(f"❌ PersistentDataStorage: {e}")
-        
-        # Test data integrity manager
-        try:
-            integrity_mgr = DataIntegrityManager()
-            print("✅ DataIntegrityManager: OK")
-        except Exception as e:
-            print(f"❌ DataIntegrityManager: {e}")
-        
-        # Test refactored decision making engine
-        try:
-            decision_engine = DecisionMakingEngine()
-            print("✅ DecisionMakingEngine (Refactored): OK")
-        except Exception as e:
-            print(f"❌ DecisionMakingEngine: {e}")
-        
-        # Test decision coordination system
-        try:
-            coord_system = DecisionCoordinationSystem()
-            print("✅ DecisionCoordinationSystem: OK")
-        except Exception as e:
-            print(f"❌ DecisionCoordinationSystem: {e}")
-        
-        # Test continuous coordinator
-        try:
-            cont_coord = ContinuousCoordinator()
-            print("✅ ContinuousCoordinator: OK")
-        except Exception as e:
-            print(f"❌ ContinuousCoordinator: {e}")
-        
-        # Test collaboration engine
-        try:
-            collab_engine = CollaborationEngine()
-            print("✅ CollaborationEngine: OK")
-        except Exception as e:
-            print(f"❌ CollaborationEngine: {e}")
-        
-        # Test refactored horizontal scaling engine
-        try:
-            scaling_engine = HorizontalScalingEngine()
-            print("✅ HorizontalScalingEngine (Refactored): OK")
-        except Exception as e:
-            print(f"❌ HorizontalScalingEngine: {e}")
-        
-        print("\n🎉 Core Module Test Complete!")
+        passed = sum(test_results.values())
+        total = len(test_results)
+        print(f"\n📊 Test Results: {passed}/{total} passed")
+        return 0 if passed == total else 1
     
     elif args.status:
-        print("📊 Core Module Status:")
-        print(f"  Total Components: {len(__all__)}")
-        print(f"  Core Managers: 8")
-        print(f"  Refactored Systems: 4")
-        print(f"  Agent Monitoring: 1 (Refactored)")
-        print(f"  Decision Making: 1 (Refactored)")
-        print(f"  Horizontal Scaling: 1 (Refactored)")
-        print(f"  Persistent Storage: 1 (Refactored)")
-        print(f"  Live Status: 1 (Pending Refactoring)")
-        print(f"  Data Integrity: 1 (Pending Refactoring)")
-        print("  Status: CORE_MODULE_ACTIVE")
+        print("📊 Core Module Status")
+        print("=" * 25)
+        print(f"Version: {__version__}")
+        print(f"Status: {__status__}")
+        print(f"Components: {len(__all__)}")
+        print("\n🔧 Available Components:")
+        for component in __all__:
+            print(f"  ✅ {component}")
+        return 0
+    
+    elif args.demo:
+        print("🚀 Starting core module demo...")
+        try:
+            # Create instances and demonstrate functionality
+            if 'PerformanceTracker' in __all__:
+                tracker = PerformanceTracker()
+                print("✅ PerformanceTracker created")
+            
+            if 'HealthMonitorCore' in __all__:
+                monitor = HealthMonitorCore()
+                print("✅ HealthMonitorCore created")
+            
+            print("🎯 Core module demo completed")
+            return 0
+        except Exception as e:
+            print(f"❌ Demo failed: {e}")
+            return 1
+    
+    elif args.list:
+        print("📋 Available Core Components:")
+        for component in __all__:
+            print(f"  🔧 {component}")
+        return 0
     
     else:
-        print("Core Module - Use --help for options")
-
+        parser.print_help()
+        print(f"\n🔧 Core Module {__version__} - {__status__}")
+        print("Use --help for more options!")
+        return 0
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

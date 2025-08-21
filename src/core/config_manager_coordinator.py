@@ -9,28 +9,26 @@ LOC: 80 lines (under 200 limit)
 """
 
 from typing import Dict, Any, Optional
-from .config_core import ConfigCore, ConfigSection
-from .config_handlers import ConfigChangeHandler, ConfigChangeManager
+from .config_manager import ConfigManager, ConfigSection, ConfigChangeHandler
 
 
 class ConfigManagerCoordinator:
-    """Coordinates all core configuration modules"""
+    """Coordinates all core configuration modules - Updated to use consolidated ConfigManager"""
     
     def __init__(self, config_dir: str = "config"):
-        self.config_core = ConfigCore(config_dir)
-        self.change_manager = ConfigChangeManager()
+        self.config_manager = ConfigManager(config_dir)
     
     def load_configs(self) -> bool:
         """Load all configurations"""
-        return self.config_core.load_configs()
+        return self.config_manager.load_configs()
     
     def get_config_section(self, section_name: str) -> Optional[ConfigSection]:
         """Get a configuration section"""
-        return self.config_core.get_config_section(section_name)
+        return self.config_manager.get_config_section(section_name)
     
     def get_config_value(self, section_name: str, key: str, default: Any = None) -> Any:
         """Get a configuration value"""
-        return self.config_core.get_config_value(section_name, key, default)
+        return self.config_manager.get_config_value(section_name, key, default)
     
     def set_config_value(self, section_name: str, key: str, value: Any) -> bool:
         """Set a configuration value and notify handlers"""

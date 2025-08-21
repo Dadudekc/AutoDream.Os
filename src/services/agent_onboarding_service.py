@@ -19,6 +19,8 @@ from dataclasses import dataclass
 from enum import Enum
 import logging
 
+from ..core.agent_models import AgentRole, AgentStatus, AgentCapability
+
 logger = logging.getLogger(__name__)
 
 
@@ -33,13 +35,7 @@ class OnboardingStatus(Enum):
     FAILED = "failed"
 
 
-class AgentRole(Enum):
-    """Agent role definitions"""
-    COORDINATOR = "coordinator"
-    WORKER = "worker"
-    MONITOR = "monitor"
-    ANALYST = "analyst"
-    SPECIALIST = "specialist"
+# AgentRole now imported from unified agent_models
 
 
 class TrainingModule(Enum):

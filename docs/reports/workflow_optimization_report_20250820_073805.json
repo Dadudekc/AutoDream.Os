@@ -1,0 +1,139 @@
+{
+  "timestamp": "2025-08-20T07:38:05.531527",
+  "overall_summary": {
+    "total_workflows": 3,
+    "total_executions": 47,
+    "overall_success_rate": 89.36170212765957,
+    "avg_duration": 3003.8297872340427,
+    "status": "active"
+  },
+  "workflow_analytics": {
+    "v2_standards_enforcement": {
+      "workflow_id": "v2_standards_enforcement",
+      "total_executions": 15,
+      "success_rate": 80.0,
+      "avg_duration": 3960.0,
+      "min_duration": 2700.0,
+      "max_duration": 5220.0,
+      "trend": "degrading",
+      "bottlenecks": [
+        {
+          "type": "performance_degradation",
+          "severity": "medium",
+          "description": "Recent executions slower than historical average",
+          "recommendation": "Investigate recent changes or resource constraints"
+        }
+      ],
+      "optimization_opportunities": [
+        {
+          "type": "duration_optimization",
+          "potential_improvement": "Reduce execution time",
+          "current_avg": "3960.0s",
+          "target": "Under 60s",
+          "recommendation": "Profile workflow steps and optimize slow operations"
+        },
+        {
+          "type": "reliability_optimization",
+          "potential_improvement": "Improve success rate",
+          "current_rate": "80.0%",
+          "target": "95%+",
+          "recommendation": "Analyze failure patterns and implement error handling"
+        }
+      ]
+    },
+    "test_coverage_improvement": {
+      "workflow_id": "test_coverage_improvement",
+      "total_executions": 20,
+      "success_rate": 100.0,
+      "avg_duration": 1830.0,
+      "min_duration": 1260.0,
+      "max_duration": 2400.0,
+      "trend": "improving",
+      "bottlenecks": [],
+      "optimization_opportunities": [
+        {
+          "type": "duration_optimization",
+          "potential_improvement": "Reduce execution time",
+          "current_avg": "1830.0s",
+          "target": "Under 60s",
+          "recommendation": "Profile workflow steps and optimize slow operations"
+        }
+      ]
+    },
+    "workflow_automation": {
+      "workflow_id": "workflow_automation",
+      "total_executions": 12,
+      "success_rate": 83.33333333333334,
+      "avg_duration": 3765.0,
+      "min_duration": 3600.0,
+      "max_duration": 3930.0,
+      "trend": "stable",
+      "bottlenecks": [],
+      "optimization_opportunities": [
+        {
+          "type": "duration_optimization",
+          "potential_improvement": "Reduce execution time",
+          "current_avg": "3765.0s",
+          "target": "Under 60s",
+          "recommendation": "Profile workflow steps and optimize slow operations"
+        },
+        {
+          "type": "reliability_optimization",
+          "potential_improvement": "Improve success rate",
+          "current_rate": "83.33333333333334%",
+          "target": "95%+",
+          "recommendation": "Analyze failure patterns and implement error handling"
+        }
+      ]
+    }
+  },
+  "bottlenecks": [
+    {
+      "type": "performance_degradation",
+      "severity": "medium",
+      "description": "Recent executions slower than historical average",
+      "recommendation": "Investigate recent changes or resource constraints"
+    }
+  ],
+  "optimization_opportunities": [
+    {
+      "type": "duration_optimization",
+      "potential_improvement": "Reduce execution time",
+      "current_avg": "3960.0s",
+      "target": "Under 60s",
+      "recommendation": "Profile workflow steps and optimize slow operations"
+    },
+    {
+      "type": "reliability_optimization",
+      "potential_improvement": "Improve success rate",
+      "current_rate": "80.0%",
+      "target": "95%+",
+      "recommendation": "Analyze failure patterns and implement error handling"
+    },
+    {
+      "type": "duration_optimization",
+      "potential_improvement": "Reduce execution time",
+      "current_avg": "1830.0s",
+      "target": "Under 60s",
+      "recommendation": "Profile workflow steps and optimize slow operations"
+    },
+    {
+      "type": "duration_optimization",
+      "potential_improvement": "Reduce execution time",
+      "current_avg": "3765.0s",
+      "target": "Under 60s",
+      "recommendation": "Profile workflow steps and optimize slow operations"
+    },
+    {
+      "type": "reliability_optimization",
+      "potential_improvement": "Improve success rate",
+      "current_rate": "83.33333333333334%",
+      "target": "95%+",
+      "recommendation": "Analyze failure patterns and implement error handling"
+    }
+  ],
+  "recommendations": [
+    "Optimize 3 workflows for better performance",
+    "Implement comprehensive error handling and retry mechanisms"
+  ]
+}

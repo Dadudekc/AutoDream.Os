@@ -1,0 +1,20 @@
+# Web Development Requirements - Agent_Cellphone_V2_Repository
+# Web development frameworks and tools
+# Foundation & Testing Specialist - Requirements Consolidation
+
+-r ../base.txt
+
+# Web frameworks
+flask>=2.2.0
+fastapi>=0.95.0
+uvicorn>=0.20.0
+
+# Web scraping and automation
+selenium>=4.8.0
+beautifulsoup4>=4.11.0
+requests-html>=0.10.0
+requests>=2.31.0
+
+# Frontend tools
+jinja2>=3.1.0
+markupsafe>=2.1.0

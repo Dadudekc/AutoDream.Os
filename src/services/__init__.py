@@ -1,138 +1,118 @@
-#!/usr/bin/env python3
 """
-Services Module - Agent Cellphone V2
-====================================
+🚀 Services Package - Agent_Cellphone_V2
 
-Service layer modules with strict OOP design and CLI testing interfaces.
-Follows Single Responsibility Principle with 200 LOC limit per file.
+This package contains the business logic services for the Agent_Cellphone_V2 system:
+- Agent management services
+- Communication services
+- Integration services
+- Business workflow services
+
+Following V2 coding standards: ≤300 LOC per file, OOP design, SRP.
 """
 
-from .agent_cell_phone import AgentCellPhone
-from .response_capture_service import ResponseCaptureService, CapturedResponse, CaptureStrategy
-from .agent_onboarding_service import AgentOnboardingService, OnboardingStatus, AgentRole, TrainingModule
-from .training_content_service import TrainingContentService
-from .training_content_definitions import TrainingContent, ContentType, DifficultyLevel
-from .role_assignment_service import RoleAssignmentService, Capability, PermissionLevel, CapabilityType
-from .orientation_workflow_service import OrientationWorkflowService, WorkflowStep, WorkflowStatus
-from .contract_lifecycle_service import ContractLifecycleService, ContractState, ContractType
-from .contract_validation_service import ContractValidationService, ViolationType, ValidationSeverity
-from .unified_contract_manager import UnifiedContractManager
-from .perpetual_motion_contract_service import PerpetualMotionContractService
+__version__ = "2.0.0"
+__author__ = "Services & Integration Team"
+__status__ = "ACTIVE"
 
-__all__ = [
-    # Core Services
-    "AgentCellPhone",
-    "ResponseCaptureService",
-    "CapturedResponse", 
-    "CaptureStrategy",
-    
-    # Onboarding Services
-    "AgentOnboardingService",
-    "OnboardingStatus",
-    "AgentRole",
-    "TrainingModule",
-    
-    # Training Services
-    "TrainingContentService",
-    "TrainingContent",
-    "ContentType",
-    "DifficultyLevel",
-    
-    # Role Management
-    "RoleAssignmentService",
-    "Capability",
-    "PermissionLevel",
-    "CapabilityType",
-    
-    # Workflow Services
-    "OrientationWorkflowService",
-    "WorkflowStep",
-    "WorkflowStatus",
-    
-    # Contract Management
-    "ContractLifecycleService",
-    "ContractState",
-    "ContractType",
-    "ContractValidationService",
-    "ViolationType",
-    "ValidationSeverity",
-    "UnifiedContractManager",
-    
-    # Perpetual Motion
-    "PerpetualMotionContractService"
-]
+import argparse
+import sys
 
-def get_services_info():
-    """Get services module information for CLI testing."""
-    return {
-        "module": "services",
-        "components": __all__,
-        "standards": [
-            "Object-Oriented Design",
-            "Single Responsibility Principle",
-            "200 LOC limit per file",
-            "CLI interface for testing"
-        ]
-    }
-
-if __name__ == "__main__":
-    """CLI interface for services module testing."""
-    import argparse
+# Services component imports
+try:
+    from .agent_cell_phone import AgentCellPhone
     
-    parser = argparse.ArgumentParser(description="Services Module Testing Interface")
-    parser.add_argument("--info", action="store_true", help="Show services module information")
-    parser.add_argument("--test", action="store_true", help="Run services module tests")
+    __all__ = [
+        'AgentCellPhone'
+    ]
+    
+except ImportError as e:
+    print(f"⚠️ Warning: Some services components not available: {e}")
+    __all__ = []
+
+def main():
+    """CLI interface for services module"""
+    parser = argparse.ArgumentParser(
+        description="Agent_Cellphone_V2 Services Module",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    python -m src.services --test                    # Run services tests
+    python -m src.services --status                 # Show services status
+    python -m src.services --demo                   # Run services demo
+        """
+    )
+    
+    parser.add_argument("--test", action="store_true", 
+                       help="Run services module tests")
+    parser.add_argument("--status", action="store_true", 
+                       help="Show services module status")
+    parser.add_argument("--demo", action="store_true", 
+                       help="Run services module demo")
+    parser.add_argument("--list", action="store_true", 
+                       help="List available services components")
     
     args = parser.parse_args()
     
-    if args.info or not any([args.info, args.test]):
-        info = get_services_info()
-        print(f"🔧 Services Module - Agent Cellphone V2")
-        print(f"Components: {', '.join(info['components'])}")
-        print("Standards:")
-        for standard in info['standards']:
-            print(f"  ✅ {standard}")
-    
     if args.test:
         print("🧪 Running services module tests...")
+        # Run tests for each component
+        test_results = {}
+        for component in __all__:
+            try:
+                component_class = globals()[component]
+                if hasattr(component_class, 'run_smoke_test'):
+                    print(f"  Testing {component}...")
+                    success = component_class().run_smoke_test()
+                    test_results[component] = success
+                    print(f"    {'✅ PASS' if success else '❌ FAIL'}")
+                else:
+                    print(f"  ⚠️ {component} has no smoke test")
+                    test_results[component] = False
+            except Exception as e:
+                print(f"  ❌ {component} test failed: {e}")
+                test_results[component] = False
+        
+        passed = sum(test_results.values())
+        total = len(test_results)
+        print(f"\n📊 Test Results: {passed}/{total} passed")
+        return 0 if passed == total else 1
+    
+    elif args.status:
+        print("📊 Services Module Status")
+        print("=" * 28)
+        print(f"Version: {__version__}")
+        print(f"Status: {__status__}")
+        print(f"Components: {len(__all__)}")
+        print("\n🚀 Available Services:")
+        for component in __all__:
+            print(f"  ✅ {component}")
+        return 0
+    
+    elif args.demo:
+        print("🚀 Starting services module demo...")
         try:
-            # Import and test service components
-            from .agent_cell_phone import AgentCellPhone
-            from .response_capture_service import ResponseCaptureService
-            from .agent_onboarding_service import AgentOnboardingService
-            from .training_content_service import TrainingContentService
-            from .role_assignment_service import RoleAssignmentService
-            from .orientation_workflow_service import OrientationWorkflowService
-            from .contract_lifecycle_service import ContractLifecycleService
-            from .contract_validation_service import ContractValidationService
-            from .unified_contract_manager import UnifiedContractManager
+            # Create instances and demonstrate functionality
+            if 'AgentCellPhone' in __all__:
+                service = AgentCellPhone()
+                print("✅ AgentCellPhone service created")
             
-            service1 = AgentCellPhone()
-            print("✅ AgentCellPhone imported and instantiated successfully")
-            
-            service2 = ResponseCaptureService()
-            print("✅ ResponseCaptureService imported and instantiated successfully")
-            
-            service3 = AgentOnboardingService()
-            print("✅ AgentOnboardingService imported and instantiated successfully")
-            
-            service4 = TrainingContentService()
-            print("✅ TrainingContentService imported and instantiated successfully")
-            
-            service5 = RoleAssignmentService()
-            print("✅ RoleAssignmentService imported and instantiated successfully")
-            
-            service6 = OrientationWorkflowService()
-            print("✅ OrientationWorkflowService imported and instantiated successfully")
-            
-            service7 = ContractLifecycleService()
-            print("✅ ContractLifecycleService imported and instantiated successfully")
-            
-            service8 = ContractValidationService()
-            print("✅ ContractValidationService imported and instantiated successfully")
-            
-            service9 = UnifiedContractManager()
-            print("✅ UnifiedContractManager imported and instantiated successfully")
-            
+            print("🎯 Services module demo completed")
+            return 0
         except Exception as e:
-            print(f"❌ Services module test failed: {e}")
+            print(f"❌ Demo failed: {e}")
+            return 1
+    
+    elif args.list:
+        print("📋 Available Services Components:")
+        for component in __all__:
+            print(f"  🚀 {component}")
+        return 0
+    
+    else:
+        parser.print_help()
+        print(f"\n🚀 Services Module {__version__} - {__status__}")
+        print("Use --help for more options!")
+        return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

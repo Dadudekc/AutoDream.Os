@@ -80,6 +80,8 @@ class V2WorkflowEngine:
     - AI response monitoring and processing
     - Multi-agent coordination
     - Workflow state management
+    
+    NOTE: This class now delegates to the consolidated AdvancedWorkflowEngine
     """
     
     def __init__(self, fsm_orchestrator, agent_manager, response_capture_service):
@@ -87,16 +89,21 @@ class V2WorkflowEngine:
         self.fsm_orchestrator = fsm_orchestrator
         self.agent_manager = agent_manager
         self.response_capture_service = response_capture_service
-        self.workflows: Dict[str, V2Workflow] = {}
-        self.active_workflows: Dict[str, Dict[str, Any]] = {}
+        
+        # Import consolidated workflow engine
+        try:
+            from ..core.advanced_workflow_engine import AdvancedWorkflowEngine
+            self.workflow_engine = AdvancedWorkflowEngine(
+                agent_manager, None, None, fsm_orchestrator, response_capture_service
+            )
+            self.workflows = self.workflow_engine.v2_workflows
+            self.active_workflows = self.workflow_engine.active_workflows
+        except ImportError:
+            self.workflow_engine = None
+            self.workflows = {}
+            self.active_workflows = {}
+        
         self.logger = self._setup_logging()
-        
-        # Workflow persistence
-        self.workflow_data_path = Path("workflow_data")
-        self.workflow_data_path.mkdir(exist_ok=True)
-        
-        # Load existing workflows
-        self._load_workflows()
         
         # Start monitoring thread
         self.monitoring = False

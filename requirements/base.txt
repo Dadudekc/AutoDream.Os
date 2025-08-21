@@ -1,0 +1,22 @@
+# Base Requirements - Agent_Cellphone_V2_Repository
+# Core dependencies required by all systems
+# Foundation & Testing Specialist - Requirements Consolidation
+
+# Core Python packages
+PyYAML>=6.0
+watchdog>=3.0.0
+psutil>=5.9.0
+
+# Logging and monitoring
+loguru>=0.6.0
+rich>=12.0.0
+tqdm>=4.64.0
+
+# Configuration and environment
+python-dotenv>=0.20.0
+configparser>=5.2.0
+click>=8.1.0
+typer>=0.7.0
+
+# Utilities
+pathlib2>=2.3.0

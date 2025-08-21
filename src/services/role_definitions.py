@@ -9,8 +9,10 @@ LOC: 180 lines (under 200 limit)
 """
 
 from typing import Dict, List, Optional, Any, Set
-from dataclasses import dataclass
 from enum import Enum
+from dataclasses import dataclass
+
+from ..core.agent_models import AgentRole, AgentStatus, AgentCapability
 
 
 class PermissionLevel(Enum):
@@ -43,16 +45,7 @@ class Capability:
     metadata: Optional[Dict[str, Any]] = None
 
 
-@dataclass
-class AgentRole:
-    """Agent role definition"""
-    role_id: str
-    name: str
-    description: str
-    capabilities: List[str]
-    required_training: List[str]
-    permissions: List[PermissionLevel]
-    metadata: Optional[Dict[str, Any]] = None
+# AgentRole now imported from unified agent_models
 
 
 @dataclass

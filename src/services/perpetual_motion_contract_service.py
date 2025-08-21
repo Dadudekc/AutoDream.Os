@@ -67,6 +67,15 @@ class PerpetualMotionContractService:
         self.monitor_thread = None
         self.monitoring_active = False
         
+        # 🔄 PERPETUAL MOTION: Auto-completion detection
+        self.completion_triggers = [
+            "fsm_update",  # FSM system updates
+            "contract_complete",  # Direct contract completion
+            "task_done",  # Task completion
+            "mission_accomplished"  # Mission completion
+        ]
+        
+        self.logger.info("🔄 PERPETUAL MOTION: Auto-completion detection enabled")
         self.logger.info("Perpetual Motion Contract Service initialized")
     
     def setup_logging(self):
@@ -182,10 +191,188 @@ class PerpetualMotionContractService:
             # Send resume message to agent to prompt more work
             self._send_resume_message(agent_id, new_contracts)
             
-            self.logger.info(f"Generated {len(new_contracts)} new contracts for {agent_id}")
+            # 🔄 PERPETUAL MOTION: Automatically assign new contracts
+            self._auto_assign_contracts(agent_id, new_contracts)
+            
+            # 📊 Update perpetual motion metrics
+            self._update_perpetual_motion_metrics(agent_id, contract_id)
+            
+            self.logger.info(f"🔄 PERPETUAL MOTION: Generated {len(new_contracts)} new contracts for {agent_id}")
             
         except Exception as e:
             self.logger.error(f"Error handling contract completion: {e}")
+    
+    def _auto_assign_contracts(self, agent_id: str, contracts: List[GeneratedContract]):
+        """Automatically assign new contracts to keep perpetual motion running."""
+        try:
+            for contract in contracts:
+                # Update contract state to assigned
+                contract.state = "assigned"
+                contract.assigned_at = datetime.now()
+                
+                # Save updated contract
+                self._save_contract(contract)
+                
+                # Create immediate task assignment
+                self._create_task_assignment(contract)
+                
+            self.logger.info(f"🔄 Auto-assigned {len(contracts)} contracts to {agent_id}")
+            
+        except Exception as e:
+            self.logger.error(f"Error auto-assigning contracts: {e}")
+    
+    def _create_task_assignment(self, contract: GeneratedContract):
+        """Create immediate task assignment to trigger agent action."""
+        try:
+            task_assignment = {
+                "task_id": contract.task_id,
+                "contract_id": contract.contract_id,
+                "title": contract.title,
+                "description": contract.description,
+                "priority": "high",
+                "assigned_at": datetime.now().isoformat(),
+                "deadline": (datetime.now() + timedelta(hours=2)).isoformat(),
+                "status": "ready",
+                "agent_id": contract.assignee
+            }
+            
+            # Save to agent's task queue
+            task_file = Path(f"agent_workspaces/{contract.assignee}/tasks/{contract.task_id}.json")
+            task_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            with open(task_file, 'w') as f:
+                json.dump(task_assignment, f, indent=2)
+                
+            self.logger.info(f"📋 Created task assignment: {contract.task_id}")
+            
+        except Exception as e:
+            self.logger.error(f"Error creating task assignment: {e}")
+    
+    def _update_perpetual_motion_metrics(self, agent_id: str, completed_contract_id: str):
+        """Update perpetual motion metrics to track the cycle."""
+        try:
+            metrics_file = Path("persistent_data/perpetual_motion_metrics.json")
+            metrics_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Load existing metrics
+            if metrics_file.exists():
+                with open(metrics_file, 'r') as f:
+                    metrics = json.load(f)
+            else:
+                metrics = {
+                    "total_contracts_completed": 0,
+                    "perpetual_motion_cycles": 0,
+                    "agents_active": {},
+                    "last_cycle": None
+                }
+            
+            # Update metrics
+            metrics["total_contracts_completed"] += 1
+            metrics["perpetual_motion_cycles"] += 1
+            metrics["last_cycle"] = datetime.now().isoformat()
+            
+            if agent_id not in metrics["agents_active"]:
+                metrics["agents_active"][agent_id] = {
+                    "contracts_completed": 0,
+                    "cycles_participated": 0,
+                    "last_active": None
+                }
+            
+            metrics["agents_active"][agent_id]["contracts_completed"] += 1
+            metrics["agents_active"][agent_id]["cycles_participated"] += 1
+            metrics["agents_active"][agent_id]["last_active"] = datetime.now().isoformat()
+            
+            # Save updated metrics
+            with open(metrics_file, 'w') as f:
+                json.dump(metrics, f, indent=2)
+                
+            self.logger.info(f"📊 Updated perpetual motion metrics for {agent_id}")
+            
+        except Exception as e:
+            self.logger.error(f"Error updating perpetual motion metrics: {e}")
+    
+    def detect_contract_completion(self, agent_id: str, trigger_type: str, data: Dict[str, Any]):
+        """🔴 CRITICAL: Detect contract completion from various triggers and auto-resume perpetual motion."""
+        try:
+            self.logger.info(f"🔄 PERPETUAL MOTION: Detected completion trigger '{trigger_type}' from {agent_id}")
+            
+            # Check if this is a completion trigger
+            if trigger_type in self.completion_triggers:
+                # Find the agent's active contracts
+                active_contracts = self._get_agent_active_contracts(agent_id)
+                
+                if active_contracts:
+                    # Mark the first active contract as completed
+                    contract_to_complete = active_contracts[0]
+                    contract_to_complete.state = "completed"
+                    contract_to_complete.completed_at = datetime.now()
+                    
+                    # Save completed contract
+                    self._save_contract(contract_to_complete)
+                    
+                    # 🔄 TRIGGER PERPETUAL MOTION
+                    self.on_contract_completion(
+                        contract_to_complete.contract_id,
+                        agent_id,
+                        data
+                    )
+                    
+                    self.logger.info(f"🔄 PERPETUAL MOTION: Contract {contract_to_complete.contract_id} completed - new contracts generated!")
+                    return True
+                else:
+                    # No active contracts - generate new ones anyway
+                    self.logger.info(f"🔄 PERPETUAL MOTION: No active contracts for {agent_id} - generating new ones")
+                    new_contracts = self._generate_new_contracts(agent_id, self.contracts_per_completion)
+                    
+                    for contract in new_contracts:
+                        self._save_contract(contract)
+                    
+                    self._auto_assign_contracts(agent_id, new_contracts)
+                    self._send_resume_message(agent_id, new_contracts)
+                    
+                    return True
+            
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Error detecting contract completion: {e}")
+            return False
+    
+    def _get_agent_active_contracts(self, agent_id: str) -> List[GeneratedContract]:
+        """Get all active contracts for an agent."""
+        try:
+            active_contracts = []
+            
+            for contract_file in self.contracts_dir.glob("*.json"):
+                try:
+                    with open(contract_file, 'r') as f:
+                        contract_data = json.load(f)
+                        
+                    if (contract_data.get("assignee") == agent_id and 
+                        contract_data.get("state") in ["ready", "assigned", "in_progress"]):
+                        
+                        # Reconstruct contract object
+                        contract = GeneratedContract(
+                            contract_id=contract_data["contract_id"],
+                            task_id=contract_data["task_id"],
+                            title=contract_data["title"],
+                            description=contract_data["description"],
+                            assignee=contract_data["assignee"],
+                            state=contract_data["state"],
+                            created_at=datetime.fromisoformat(contract_data["created_at"]),
+                            template_source=contract_data.get("template_source", "unknown")
+                        )
+                        
+                        active_contracts.append(contract)
+                        
+                except Exception as e:
+                    self.logger.error(f"Error reading contract file {contract_file}: {e}")
+            
+            return active_contracts
+            
+        except Exception as e:
+            self.logger.error(f"Error getting agent active contracts: {e}")
+            return []
     
     def _generate_new_contracts(self, agent_id: str, count: int) -> List[GeneratedContract]:
         """Generate new contracts based on templates."""
@@ -363,6 +550,35 @@ class PerpetualMotionContractService:
             "contracts_per_completion": self.contracts_per_completion,
             "min_contracts_maintained": self.min_contracts_maintained
         }
+    
+    def test_perpetual_motion(self, agent_id: str = "Agent-1"):
+        """🧪 TEST: Simulate contract completion to test perpetual motion."""
+        try:
+            self.logger.info(f"🧪 TESTING PERPETUAL MOTION for {agent_id}")
+            
+            # Simulate a completion trigger
+            test_data = {
+                "test": True,
+                "timestamp": datetime.now().isoformat(),
+                "message": "Testing perpetual motion system"
+            }
+            
+            # Trigger the perpetual motion system
+            result = self.detect_contract_completion(agent_id, "fsm_update", test_data)
+            
+            if result:
+                self.logger.info("✅ PERPETUAL MOTION TEST SUCCESSFUL!")
+                self.logger.info("🔄 New contracts generated and assigned automatically")
+                self.logger.info(f"📊 Check agent_workspaces/{agent_id}/tasks/ for new assignments")
+                self.logger.info(f"📊 Check agent_workspaces/{agent_id}/inbox/ for resume messages")
+            else:
+                self.logger.warning("⚠️ PERPETUAL MOTION TEST: No completion detected")
+            
+            return result
+            
+        except Exception as e:
+            self.logger.error(f"Error testing perpetual motion: {e}")
+            return False
 
 def main():
     """CLI interface for the service."""
@@ -371,6 +587,7 @@ def main():
     parser.add_argument("--stop", action="store_true", help="Stop the service")
     parser.add_argument("--status", action="store_true", help="Show service status")
     parser.add_argument("--test-completion", type=str, help="Test contract completion for agent")
+    parser.add_argument("--test-perpetual-motion", type=str, help="🧪 TEST: Test the perpetual motion system for agent")
     parser.add_argument("--generate", type=int, help="Generate N new contracts")
     
     args = parser.parse_args()
@@ -396,6 +613,16 @@ def main():
         test_data = {"test": True, "timestamp": datetime.now().isoformat()}
         service.on_contract_completion("TEST-CONTRACT", args.test_completion, test_data)
         print(f"✅ Tested contract completion for {args.test_completion}")
+        
+    elif args.test_perpetual_motion:
+        # 🧪 TEST: Test the perpetual motion system
+        print(f"🧪 TESTING PERPETUAL MOTION for {args.test_perpetual_motion}")
+        result = service.test_perpetual_motion(args.test_perpetual_motion)
+        if result:
+            print("✅ PERPETUAL MOTION TEST SUCCESSFUL!")
+            print("🔄 Check agent workspaces for new contracts and tasks")
+        else:
+            print("⚠️ PERPETUAL MOTION TEST: No completion detected")
         
     elif args.generate:
         # Generate test contracts

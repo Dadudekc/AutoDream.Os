@@ -1,0 +1,335 @@
+{
+  "cross_system_communication": {
+    "enabled": true,
+    "default_timeout": 30.0,
+    "default_retry_attempts": 3,
+    "health_check_interval": 60.0,
+    "max_connections_per_system": 10,
+    "connection_pool_size": 20,
+    "message_queue_size": 1000,
+    "enable_compression": true,
+    "enable_encryption": false,
+    "log_level": "INFO"
+  },
+  "protocols": {
+    "http": {
+      "enabled": true,
+      "default_port": 80,
+      "timeout": 30.0,
+      "max_redirects": 5,
+      "enable_keepalive": true,
+      "keepalive_timeout": 60.0
+    },
+    "https": {
+      "enabled": true,
+      "default_port": 443,
+      "timeout": 30.0,
+      "verify_ssl": true,
+      "enable_keepalive": true,
+      "keepalive_timeout": 60.0
+    },
+    "websocket": {
+      "enabled": true,
+      "default_port": 8080,
+      "ping_interval": 30.0,
+      "ping_timeout": 10.0,
+      "max_message_size": 1048576,
+      "enable_compression": true
+    },
+    "tcp": {
+      "enabled": true,
+      "default_port": 8000,
+      "timeout": 30.0,
+      "buffer_size": 8192,
+      "enable_nagle": false,
+      "keepalive": true
+    },
+    "udp": {
+      "enabled": false,
+      "default_port": 8001,
+      "timeout": 10.0,
+      "buffer_size": 65507,
+      "enable_broadcast": false
+    }
+  },
+  "systems": {
+    "agent_cellphone_v2": {
+      "system_id": "agent_cellphone_v2",
+      "name": "Agent Cellphone V2 Core System",
+      "protocol": "http",
+      "host": "localhost",
+      "port": 8000,
+      "path": "/api/v2",
+      "timeout": 30.0,
+      "retry_attempts": 3,
+      "health_check_interval": 30.0,
+      "credentials": null,
+      "metadata": {
+        "version": "2.0.0",
+        "capabilities": ["api_management", "middleware_orchestration", "service_registry"],
+        "environment": "development"
+      }
+    },
+    "external_api_gateway": {
+      "system_id": "external_api_gateway",
+      "name": "External API Gateway",
+      "protocol": "https",
+      "host": "api.example.com",
+      "port": 443,
+      "path": "/v1",
+      "timeout": 60.0,
+      "retry_attempts": 5,
+      "health_check_interval": 120.0,
+      "credentials": {
+        "api_key": "${EXTERNAL_API_KEY}",
+        "api_secret": "${EXTERNAL_API_SECRET}"
+      },
+      "metadata": {
+        "version": "1.0.0",
+        "capabilities": ["external_integration", "rate_limiting", "authentication"],
+        "environment": "production"
+      }
+    },
+    "database_system": {
+      "system_id": "database_system",
+      "name": "Database Management System",
+      "protocol": "tcp",
+      "host": "localhost",
+      "port": 5432,
+      "path": "",
+      "timeout": 15.0,
+      "retry_attempts": 3,
+      "health_check_interval": 60.0,
+      "credentials": {
+        "username": "${DB_USERNAME}",
+        "password": "${DB_PASSWORD}"
+      },
+      "metadata": {
+        "version": "13.0",
+        "capabilities": ["data_storage", "query_processing", "transaction_management"],
+        "environment": "development"
+      }
+    },
+    "message_broker": {
+      "system_id": "message_broker",
+      "name": "Message Broker System",
+      "protocol": "websocket",
+      "host": "localhost",
+      "port": 8080,
+      "path": "/ws",
+      "timeout": 30.0,
+      "retry_attempts": 3,
+      "health_check_interval": 30.0,
+      "credentials": null,
+      "metadata": {
+        "version": "5.0.0",
+        "capabilities": ["message_queuing", "pub_sub", "task_distribution"],
+        "environment": "development"
+      }
+    },
+    "monitoring_system": {
+      "system_id": "monitoring_system",
+      "name": "System Monitoring and Metrics",
+      "protocol": "http",
+      "host": "localhost",
+      "port": 9090,
+      "path": "/metrics",
+      "timeout": 10.0,
+      "retry_attempts": 2,
+      "health_check_interval": 15.0,
+      "credentials": null,
+      "metadata": {
+        "version": "2.0.0",
+        "capabilities": ["metrics_collection", "health_monitoring", "alerting"],
+        "environment": "development"
+      }
+    }
+  },
+  "integration_testing": {
+    "enabled": true,
+    "test_timeout": 300.0,
+    "parallel_execution": true,
+    "max_parallel_tests": 5,
+    "stop_on_failure": false,
+    "retry_failed_tests": true,
+    "max_retries": 3,
+    "generate_reports": true,
+    "report_format": "json",
+    "log_level": "INFO",
+    "test_suites": {
+      "cross_system_communication": {
+        "enabled": true,
+        "priority": "high",
+        "timeout": 600.0,
+        "tests": [
+          "test_system_connections",
+          "test_message_routing",
+          "test_protocol_handling",
+          "test_error_handling",
+          "test_health_checks"
+        ]
+      },
+      "api_integration": {
+        "enabled": true,
+        "priority": "high",
+        "timeout": 300.0,
+        "tests": [
+          "test_endpoint_registration",
+          "test_request_handling",
+          "test_response_validation",
+          "test_error_scenarios",
+          "test_rate_limiting"
+        ]
+      },
+      "middleware_integration": {
+        "enabled": true,
+        "priority": "normal",
+        "timeout": 300.0,
+        "tests": [
+          "test_middleware_chains",
+          "test_data_transformation",
+          "test_validation_rules",
+          "test_routing_logic",
+          "test_performance_metrics"
+        ]
+      },
+      "end_to_end_workflows": {
+        "enabled": true,
+        "priority": "critical",
+        "timeout": 900.0,
+        "tests": [
+          "test_complete_user_workflow",
+          "test_system_failover",
+          "test_data_consistency",
+          "test_performance_under_load",
+          "test_security_scenarios"
+        ]
+      }
+    }
+  },
+  "message_routing": {
+    "default_routing": "direct",
+    "routing_rules": [
+      {
+        "pattern": "system.*.health",
+        "target": "monitoring_system",
+        "priority": "high",
+        "timeout": 10.0
+      },
+      {
+        "pattern": "api.*.request",
+        "target": "external_api_gateway",
+        "priority": "normal",
+        "timeout": 30.0
+      },
+      {
+        "pattern": "data.*.query",
+        "target": "database_system",
+        "priority": "normal",
+        "timeout": 15.0
+      },
+      {
+        "pattern": "task.*.distribute",
+        "target": "message_broker",
+        "priority": "high",
+        "timeout": 20.0
+      }
+    ],
+    "fallback_routing": {
+      "default_target": "agent_cellphone_v2",
+      "retry_attempts": 2,
+      "timeout": 60.0
+    }
+  },
+  "security": {
+    "authentication": {
+      "enabled": true,
+      "method": "api_key",
+      "api_key_header": "X-API-Key",
+      "api_key_env_var": "CROSS_SYSTEM_API_KEY"
+    },
+    "authorization": {
+      "enabled": true,
+      "role_based_access": true,
+      "default_role": "readonly"
+    },
+    "encryption": {
+      "enabled": false,
+      "algorithm": "AES-256",
+      "key_rotation_interval": 86400
+    },
+    "rate_limiting": {
+      "enabled": true,
+      "requests_per_minute": 100,
+      "burst_limit": 20,
+      "per_system_limits": true
+    }
+  },
+  "monitoring": {
+    "metrics_collection": {
+      "enabled": true,
+      "collection_interval": 15.0,
+      "retention_period": 86400
+    },
+    "health_checks": {
+      "enabled": true,
+      "check_interval": 30.0,
+      "timeout": 10.0,
+      "failure_threshold": 3
+    },
+    "alerting": {
+      "enabled": true,
+      "alert_channels": ["log", "email"],
+      "critical_threshold": 0.8,
+      "warning_threshold": 0.9
+    },
+    "logging": {
+      "level": "INFO",
+      "format": "json",
+      "output": "file",
+      "file_path": "logs/cross_system_communication.log",
+      "max_file_size": "10MB",
+      "backup_count": 5
+    }
+  },
+  "performance": {
+    "connection_pooling": {
+      "enabled": true,
+      "max_connections": 100,
+      "min_connections": 10,
+      "connection_timeout": 30.0,
+      "idle_timeout": 300.0
+    },
+    "caching": {
+      "enabled": true,
+      "cache_type": "memory",
+      "max_size": 1000,
+      "ttl": 300.0
+    },
+    "compression": {
+      "enabled": true,
+      "algorithm": "gzip",
+      "min_size": 1024,
+      "compression_level": 6
+    },
+    "load_balancing": {
+      "enabled": false,
+      "algorithm": "round_robin",
+      "health_check_weight": 0.3
+    }
+  },
+  "deployment": {
+    "environment": "development",
+    "auto_restart": true,
+    "graceful_shutdown": true,
+    "shutdown_timeout": 30.0,
+    "health_check_endpoint": "/health",
+    "readiness_probe": "/ready",
+    "liveness_probe": "/live",
+    "resource_limits": {
+      "max_memory": "512MB",
+      "max_cpu": "2.0",
+      "max_connections": 1000
+    }
+  }
+}

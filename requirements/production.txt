@@ -1,0 +1,9 @@
+# Production Requirements - Agent_Cellphone_V2_Repository
+# Production-ready dependencies only
+# Foundation & Testing Specialist - Requirements Consolidation
+
+-r base.txt
+
+# Production essentials only
+requests>=2.31.0
+gunicorn>=20.1.0

@@ -1,0 +1,149 @@
+{
+  "version": "2.0.0",
+  "description": "AI/ML Development Environment Configuration",
+  "author": "AI & ML Integration Specialist - Agent-2",
+  "last_updated": "2025-08-20",
+  
+  "environment": {
+    "python_version": "3.8+",
+    "python_path": "./src",
+    "log_level": "INFO",
+    "log_file": "logs/ai_ml_development.log",
+    "enable_performance_monitoring": true,
+    "performance_log_file": "logs/performance.log"
+  },
+  
+  "frameworks": {
+    "pytorch": {
+      "enabled": true,
+      "device": "auto",
+      "num_threads": 4,
+      "backend_mkl": true,
+      "model_cache_dir": "models/",
+      "model_save_dir": "saved_models/",
+      "model_log_dir": "logs/models/"
+    },
+    "tensorflow": {
+      "enabled": false,
+      "version": "2.x",
+      "gpu_support": false,
+      "memory_growth": true,
+      "mixed_precision": false
+    },
+    "scikit_learn": {
+      "enabled": true,
+      "n_jobs": -1,
+      "random_state": 42,
+      "cv_folds": 5
+    },
+    "jax": {
+      "enabled": false,
+      "jit_compilation": true,
+      "gpu_acceleration": true,
+      "precision": "float32"
+    }
+  },
+  
+  "ai_services": {
+    "openai": {
+      "enabled": true,
+      "base_url": "https://api.openai.com/v1",
+      "default_model": "gpt-4",
+      "max_tokens": 4000,
+      "temperature": 0.7,
+      "timeout": 30
+    },
+    "anthropic": {
+      "enabled": true,
+      "base_url": "https://api.anthropic.com",
+      "default_model": "claude-3-sonnet-20240229",
+      "max_tokens": 4000,
+      "temperature": 0.7,
+      "timeout": 30
+    }
+  },
+  
+  "testing": {
+    "framework": "pytest",
+    "pytest_addopts": "--verbose --tb=short --strict-markers",
+    "coverage_file": ".coverage",
+    "coverage_report": "htmlcov/",
+    "test_timeout": 300,
+    "parallel_tests": true
+  },
+  
+  "code_quality": {
+    "linting": {
+      "enabled": true,
+      "tools": ["flake8", "black", "isort"],
+      "max_line_length": 88,
+      "ignore_errors": ["E501", "W503"]
+    },
+    "type_checking": {
+      "enabled": true,
+      "tool": "mypy",
+      "strict_mode": false
+    },
+    "formatting": {
+      "enabled": true,
+      "tool": "black",
+      "line_length": 88
+    },
+    "pre_commit_hooks": {
+      "enabled": true,
+      "hooks": [
+        "trailing-whitespace",
+        "end-of-file-fixer",
+        "check-yaml",
+        "check-added-large-files"
+      ]
+    }
+  },
+  
+  "workflow_automation": {
+    "enabled": true,
+    "auto_test_generation": true,
+    "auto_code_review": true,
+    "auto_documentation": true,
+    "auto_performance_optimization": true
+  },
+
+  "ml_robot_maker": {
+    "enabled": true,
+    "ai_blueprint_generation": true,
+    "auto_hyperparameter_tuning": true,
+    "cross_validation": true,
+    "experiment_tracking": true,
+    "model_persistence": true,
+    "cleanup_old_experiments": true,
+    "cleanup_threshold_days": 30,
+    "max_concurrent_experiments": 5,
+    "default_training_epochs": 100,
+    "default_learning_rate": 0.001,
+    "default_batch_size": 32
+  },
+  
+  "model_management": {
+    "auto_save_models": true,
+    "model_versioning": true,
+    "experiment_tracking": true,
+    "model_registry": "models/registry.json"
+  },
+  
+  "security": {
+    "api_key_validation": true,
+    "rate_limiting": true,
+    "input_sanitization": true,
+    "secure_model_storage": true
+  },
+  
+  "monitoring": {
+    "performance_metrics": ["cpu", "memory", "disk", "gpu"],
+    "logging_levels": ["INFO", "WARNING", "ERROR", "CRITICAL"],
+    "alert_thresholds": {
+      "cpu_usage": 80,
+      "memory_usage": 85,
+      "disk_usage": 90
+    }
+  }
+}

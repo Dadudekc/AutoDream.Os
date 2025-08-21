@@ -13,18 +13,13 @@ import json
 from typing import Dict, Any, Optional
 from pathlib import Path
 import logging
-from dataclasses import dataclass
+
+from .config_models import ConfigSection, ConfigType, ConfigValidationLevel
 
 logger = logging.getLogger(__name__)
 
 
-@dataclass
-class ConfigSection:
-    """Configuration section definition"""
-    name: str
-    data: Dict[str, Any]
-    source_file: Optional[str] = None
-    last_modified: Optional[float] = None
+# ConfigSection now imported from unified config_models
 
 
 class ConfigStorage:

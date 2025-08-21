@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Agent_Cellphone_V2 Unified Portal{% endblock %}</title>
+    
+    <!-- Portal-specific CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portal/portal_framework.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/portal/portal_components.css') }}">
+    
+    <!-- Base responsive framework -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_framework.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ui_components.css') }}">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Portal-specific meta tags -->
+    <meta name="portal-version" content="1.0.0">
+    <meta name="portal-theme" content="default">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="portal-body">
+    <!-- Portal Header -->
+    <header class="portal-header">
+        <div class="container">
+            <div class="portal-header-content">
+                <div class="portal-brand">
+                    <i class="fas fa-robot"></i>
+                    <h1>Agent_Cellphone_V2</h1>
+                    <span class="portal-subtitle">Unified Portal</span>
+                </div>
+                
+                <nav class="portal-main-nav">
+                    <ul class="portal-nav-list">
+                        <li><a href="{{ url_for('portal_dashboard') }}" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="{{ url_for('portal_agents') }}" class="nav-link"><i class="fas fa-users"></i> Agents</a></li>
+                        <li><a href="{{ url_for('portal_automation') }}" class="nav-link"><i class="fas fa-cogs"></i> Automation</a></li>
+                        <li><a href="{{ url_for('portal_projects') }}" class="nav-link"><i class="fas fa-project-diagram"></i> Projects</a></li>
+                        <li><a href="{{ url_for('portal_coordination') }}" class="nav-link"><i class="fas fa-network-wired"></i> Coordination</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="portal-user-menu">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="username">{{ session.get('username', 'Portal User') }}</span>
+                    </div>
+                    <div class="portal-status">
+                        <span class="status-indicator online"></span>
+                        <span class="status-text">Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Portal Sidebar -->
+    <aside class="portal-sidebar">
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                {% block sidebar_nav %}
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Quick Actions</h3>
+                    <ul class="nav-section-list">
+                        <li><a href="{{ url_for('portal_agent_status') }}" class="nav-link"><i class="fas fa-heartbeat"></i> Agent Status</a></li>
+                        <li><a href="{{ url_for('portal_system_health') }}" class="nav-link"><i class="fas fa-shield-alt"></i> System Health</a></li>
+                        <li><a href="{{ url_for('portal_recent_activity') }}" class="nav-link"><i class="fas fa-clock"></i> Recent Activity</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <h3 class="nav-section-title">Agent Systems</h3>
+                    <ul class="nav-section-list">
+                        {% for agent in portal_agents %}
+                        <li>
+                            <a href="{{ url_for('portal_agent_details', agent_id=agent.agent_id) }}" 
+                               class="nav-link agent-link {{ 'offline' if agent.status == 'offline' else 'online' }}">
+                                <i class="fas fa-robot"></i>
+                                <span class="agent-name">{{ agent.name }}</span>
+                                <span class="agent-status">{{ agent.status }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endblock %}
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Portal Main Content -->
+    <main class="portal-main">
+        <div class="portal-content-wrapper">
+            <!-- Breadcrumb Navigation -->
+            <nav class="portal-breadcrumb">
+                <div class="container">
+                    <ol class="breadcrumb-list">
+                        <li><a href="{{ url_for('portal_dashboard') }}">Portal</a></li>
+                        {% block breadcrumb %}{% endblock %}
+                    </ol>
+                </div>
+            </nav>
+
+            <!-- Page Content -->
+            <div class="portal-page-content">
+                <div class="container">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Portal Footer -->
+    <footer class="portal-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <span>&copy; 2024 Agent_Cellphone_V2 Repository</span>
+                    <span class="separator">|</span>
+                    <span>Portal v{{ config.get('version', '1.0.0') }}</span>
+                    <span class="separator">|</span>
+                    <span>Status: <span class="status-text online">Operational</span></span>
+                </div>
+                <div class="footer-actions">
+                    <a href="{{ url_for('portal_help') }}" class="footer-link"><i class="fas fa-question-circle"></i> Help</a>
+                    <a href="{{ url_for('portal_settings') }}" class="footer-link"><i class="fas fa-cog"></i> Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portal JavaScript -->
+    <script src="{{ url_for('static', filename='js/portal/portal_framework.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/portal/portal_components.js') }}"></script>
+    
+    <!-- Base responsive framework -->
+    <script src="{{ url_for('static', filename='js/responsive_framework.js') }}"></script>
+    
+    <!-- Portal-specific scripts -->
+    <script>
+        // Portal configuration
+        window.PortalConfig = {
+            version: '{{ config.get("version", "1.0.0") }}',
+            theme: '{{ config.get("theme", "default") }}',
+            enableRealTime: {{ 'true' if config.get("enable_real_time", True) else 'false' }},
+            enableWebSockets: {{ 'true' if config.get("enable_websockets", True) else 'false' }},
+            sessionTimeout: {{ config.get("session_timeout", 3600) }},
+            debugMode: {{ 'true' if config.get("debug_mode", False) else 'false' }}
+        };
+        
+        // Initialize portal
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.PortalFramework) {
+                window.PortalFramework.init();
+            }
+        });
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

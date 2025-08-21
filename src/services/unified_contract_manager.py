@@ -19,13 +19,12 @@ from typing import Dict, List, Optional, Any
 from pathlib import Path
 import logging
 
-# Import our contract services
+# Import consolidated contract manager
 try:
-    from .contract_lifecycle_service import ContractLifecycleService, ContractState, ContractType
-    from .contract_validation_service import ContractValidationService, ViolationType, ValidationSeverity
+    from ..core.contract_manager import ContractManager, ContractStatus, ContractType, ContractPriority
     SERVICES_AVAILABLE = True
 except ImportError:
-    print("Warning: Contract services not available for import")
+    print("Warning: Consolidated contract manager not available for import")
     SERVICES_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
@@ -51,17 +50,14 @@ class UnifiedContractManager:
             return
         
         self.services_available = True
-        self.lifecycle_service = ContractLifecycleService()
-        self.validation_service = ContractValidationService()
+        # Use consolidated contract manager instead of separate services
+        self.contract_manager = ContractManager(None, None, legacy_contracts_path)
         
         self.legacy_contracts_path = legacy_contracts_path or "Agent_Cellphone/CONTRACTS"
         self.contract_analytics = {}
         self.system_status = {}
         
-        # Load existing contracts
-        self._load_legacy_contracts()
-        
-        self.logger.info("Unified Contract Manager initialized")
+        self.logger.info("Unified Contract Manager initialized - using consolidated system")
     
     def _load_legacy_contracts(self):
         """Load and migrate existing contract files"""
@@ -163,37 +159,55 @@ class UnifiedContractManager:
             return {"error": "Services not available"}
         
         try:
-            # Create contract using lifecycle service
-            contract_id = self.lifecycle_service.create_contract(
-                title, description, contract_type, parties, terms, priority
+            # Convert string priority to enum
+            priority_enum = ContractPriority.NORMAL
+            if priority == "high":
+                priority_enum = ContractPriority.HIGH
+            elif priority == "urgent":
+                priority_enum = ContractPriority.URGENT
+            elif priority == "critical":
+                priority_enum = ContractPriority.CRITICAL
+            elif priority == "low":
+                priority_enum = ContractPriority.LOW
+            
+            # Convert string contract type to enum
+            contract_type_enum = ContractType.TASK_ASSIGNMENT
+            if contract_type == "agent_response":
+                contract_type_enum = ContractType.AGENT_RESPONSE
+            elif contract_type == "collaboration":
+                contract_type_enum = ContractType.COLLABORATION
+            elif contract_type == "service_agreement":
+                contract_type_enum = ContractType.SERVICE_AGREEMENT
+            
+            # Create contract using consolidated contract manager
+            contract_id = self.contract_manager.create_contract(
+                title=title,
+                description=description,
+                priority=priority_enum,
+                contract_type=contract_type_enum,
+                parties=parties,
+                terms=terms,
+                auto_validate=auto_validate
             )
             
             if not contract_id:
                 return {"error": "Failed to create contract"}
             
-            # Get contract data for validation
-            contract_data = self.lifecycle_service.get_contract(contract_id)
+            # Get contract data
+            contract_data = self.contract_manager.get_contract(contract_id)
             
-            # Validate contract if requested
-            validation_results = []
-            if auto_validate and contract_data:
-                validation_results = self.validation_service.validate_contract(contract_data)
+            # Get validation results
+            validation_results = contract_data.validation_results if contract_data else []
             
-            # Determine if contract can be approved automatically
-            has_critical_issues = any(not r.passed and r.severity.value == "critical" 
-                                    for r in validation_results)
-            
-            if not has_critical_issues and auto_validate:
-                self.lifecycle_service.transition_contract_state(
-                    contract_id, "approved", "Auto-approved after validation"
-                )
+            # Determine if contract was auto-approved
+            auto_approved = contract_data.status == ContractStatus.APPROVED if contract_data else False
             
             return {
                 "contract_id": contract_id,
                 "status": "created",
                 "validation_results": len(validation_results),
-                "validation_passed": len([r for r in validation_results if r.passed]),
-                "auto_approved": not has_critical_issues and auto_validate,
+                "validation_passed": len([r for r in validation_results if r.get("passed", False)]),
+                "auto_approved": auto_approved,
                 "timestamp": time.time()
             }
             

@@ -15,13 +15,16 @@ system:
 # Agent Configuration
 # ------------------
 agents:
-  count: 5
+  count: 8
   names:
     - "Agent-1"
     - "Agent-2" 
     - "Agent-3"
     - "Agent-4"
     - "Agent-5"
+    - "Agent-6"
+    - "Agent-7"
+    - "Agent-8"
   
   roles:
     Agent-1: "Project Coordinator"
@@ -30,7 +33,7 @@ agents:
     Agent-4: "Quality Assurance Specialist"
     Agent-5: "Captain Coordinator"
   
-  default_mode: "5-agent"
+  default_mode: "8-agent"
   startup_delay: 1.0  # seconds between agent startups
   
 # Communication Configuration
@@ -73,7 +76,7 @@ ui:
       height: 1080
       agents: ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
   
-  default_layout: "5-agent"
+  default_layout: "8-agent"
   input_box_size: 20  # characters
   message_delay: 0.5  # seconds between messages
   

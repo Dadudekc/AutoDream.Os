@@ -10,19 +10,11 @@ LOC: 150 lines (under 200 limit)
 
 from typing import Dict, List
 from dataclasses import dataclass
-from enum import Enum
+
+from ..core.agent_models import AgentRole, AgentStatus, AgentCapability
 
 
-class AgentRole(Enum):
-    """Agent role types"""
-    SYSTEM_COORDINATOR = "System Coordinator & Project Manager"
-    TECHNICAL_ARCHITECT = "Technical Architect & Developer"
-    DATA_ENGINEER = "Data Engineer & Analytics Specialist"
-    DEVOPS_ENGINEER = "DevOps Engineer & Infrastructure Specialist"
-    AI_ML_ENGINEER = "AI/ML Engineer & Algorithm Specialist"
-    FRONTEND_DEVELOPER = "Frontend Developer & UI/UX Specialist"
-    BACKEND_DEVELOPER = "Backend Developer & API Specialist"
-    QA_SPECIALIST = "Quality Assurance & Testing Specialist"
+# AgentRole now imported from unified agent_models
 
 
 @dataclass

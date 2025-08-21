@@ -491,6 +491,35 @@ def assert_cli_help(script_path: Path, expected_help_text: List[str] = None):
 def assert_cli_version(script_path: Path, expected_version: str = None):
     """Assert that a CLI script provides version information."""
     return_code, stdout, stderr = run_cli_command(script_path, ["--version"])
-    
+
     # Version command should succeed or fail gracefully
     assert return_code in [0, 1], f"Version command failed unexpectedly with return code {return_code}"
+
+
+def test_v2_standards_checker(v2_checker):
+    """Verify V2StandardsChecker flags compliant files correctly."""
+    compliant_code = """\
+import argparse
+
+class Sample:
+    def action(self):
+        return True
+
+
+def main():
+    parser = argparse.ArgumentParser(description='demo')
+    parser.add_argument('--flag', help='sample flag')
+    parser.parse_args()
+    Sample()
+
+
+if __name__ == '__main__':
+    main()
+"""
+
+    temp_file = create_temp_test_file(compliant_code, "v2_sample.py")
+    try:
+        result = v2_checker.check_file_compliance(temp_file)
+        assert result["compliant"], f"Violations: {result['violations']}"
+    finally:
+        cleanup_temp_files(temp_file)

@@ -93,7 +93,7 @@ class V2StandardsChecker:
         code_lines = []
         for line in lines:
             stripped = line.strip()
-            if stripped and not stripped.startswith('#'') and not stripped.startswith('"""'):
+            if stripped and not stripped.startswith('#') and not stripped.startswith('"""'):
                 code_lines.append(line)
         
         line_count = len(code_lines)
@@ -453,12 +453,12 @@ def assert_file_structure(directory: Path, expected_structure: Dict[str, Any]):
 def run_cli_command(script_path: Path, args: List[str], cwd: Optional[Path] = None) -> Tuple[int, str, str]:
     """
     Run a CLI script with arguments and capture output.
-    
+
     Args:
         script_path: Path to the script to run
         args: List of command line arguments
         cwd: Working directory for execution
-        
+
     Returns:
         Tuple of (return_code, stdout, stderr)
     """

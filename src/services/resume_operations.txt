@@ -93,3 +93,12 @@ COORDINATION STATUS:
 🎯 Return to your assigned development tasks
 ✅ Confirm system stability in your domain
 
+DISCORD REPORTING (Enabled)
+- Use the built-in Discord communicator to post updates.
+- Post on: status start, progress (at least every 15 minutes), and completion.
+- Message types supported: Status, Progress, Completion, Coordination, Error, System Update.
+- Examples (system-integrated):
+  - Status: ping_discord_status('Agent-N', 'Resuming ops', 'Working on assigned task')
+  - Progress: ping_discord_progress('Agent-N', 'Task Title', 50, 'Midpoint complete')
+  - Completion: ping_discord_completion('Agent-N', 'Task Title', '45m', 'Pushed to branch: agent')
+

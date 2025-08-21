@@ -400,19 +400,11 @@ class V2MessageDeliveryService:
             pyautogui.press('delete')
             time.sleep(0.1)
             
-            # Paste-based delivery with Shift+Enter line breaks
+            # Keystroke typing with Shift+Enter for line breaks (more reliable in some setups)
             lines = message.split('\n')
             for i, line in enumerate(lines):
                 content = line if line is not None else ""
-                if PYPERCLIP_AVAILABLE:
-                    try:
-                        pyperclip.copy(content)
-                        time.sleep(0.05)
-                        pyautogui.hotkey('ctrl', 'v')
-                    except Exception:
-                        pyautogui.write(content)
-                else:
-                    pyautogui.write(content)
+                pyautogui.write(content)
                 if i < len(lines) - 1:
                     pyautogui.hotkey('shift', 'enter')
                     time.sleep(0.1)
@@ -547,6 +539,10 @@ def main():
                        help='Broadcast message to all agents (type message)')
     parser.add_argument('--broadcast-file', nargs=2, metavar=('TYPE', 'FILEPATH'), 
                        help='Broadcast message to all agents from file (type file)')
+    parser.add_argument('--broadcast-sync', nargs=2, metavar=('TYPE', 'MESSAGE'),
+                       help='Broadcast message synchronously to all agents (type message)')
+    parser.add_argument('--broadcast-file-sync', nargs=2, metavar=('TYPE', 'FILEPATH'), 
+                       help='Broadcast message synchronously to all agents from file (type file)')
     parser.add_argument('--update-coords', nargs=3, metavar=('AGENT', 'X', 'Y'), 
                        help='Update agent coordinates (agent x y)')
     parser.add_argument('--test', action='store_true', help='Test message delivery')
@@ -687,6 +683,17 @@ def main():
             success_count = sum(1 for success in results.values() if success)
             print(f"📢 Broadcast sent to {success_count}/8 agents")
             print(f"Results: {results}")
+        elif args.broadcast_sync:
+            message_type, message = args.broadcast_sync
+            agents = list(delivery_service.agent_coordinates.keys())
+            results = {}
+            for agent_id in agents:
+                ok = delivery_service.send_message_sync(agent_id, message_type, message)
+                results[agent_id] = ok
+                time.sleep(0.2)
+            success_count = sum(1 for success in results.values() if success)
+            print(f"📢 Broadcast (sync) sent to {success_count}/{len(results)} agents")
+            print(f"Results: {results}")
         elif args.broadcast_file:
             message_type, filepath = args.broadcast_file
             try:
@@ -704,6 +711,31 @@ def main():
                 results = delivery_service.broadcast_message(message_type, content)
                 success_count = sum(1 for success in results.values() if success)
                 print(f"📢 Broadcast sent to {success_count}/8 agents")
+                print(f"Results: {results}")
+            except Exception as e:
+                print(f"❌ Error reading file: {e}")
+        elif args.broadcast_file_sync:
+            message_type, filepath = args.broadcast_file_sync
+            try:
+                with open(filepath, 'rb') as f:
+                    raw = f.read()
+                content = None
+                for enc in ('utf-8-sig', 'cp1252', 'latin-1'):
+                    try:
+                        content = raw.decode(enc)
+                        break
+                    except Exception:
+                        continue
+                if content is None:
+                    raise UnicodeDecodeError('unknown', raw, 0, 1, 'cannot decode')
+                agents = list(delivery_service.agent_coordinates.keys())
+                results = {}
+                for agent_id in agents:
+                    ok = delivery_service.send_message_sync(agent_id, message_type, content)
+                    results[agent_id] = ok
+                    time.sleep(0.2)
+                success_count = sum(1 for success in results.values() if success)
+                print(f"📢 Broadcast (sync) sent to {success_count}/{len(results)} agents")
                 print(f"Results: {results}")
             except Exception as e:
                 print(f"❌ Error reading file: {e}")
@@ -745,6 +777,8 @@ def main():
             print("  --send-file AGENT TYPE FILE           Send file content to agent")
             print("  --broadcast TYPE MESSAGE              Broadcast to all agents")
             print("  --broadcast-file TYPE FILE            Broadcast file content to all agents")
+            print("  --broadcast-sync TYPE MESSAGE         Broadcast synchronously to all agents")
+            print("  --broadcast-file-sync TYPE FILE       Broadcast file content synchronously to all agents")
             print("  --ping AGENT      Send ping to specific agent")
             print("  --ping-all        Send ping to all agents")
             print("  --coordinate AGENTS MESSAGE  Coordinate with specific agents")

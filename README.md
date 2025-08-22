@@ -1,6 +1,5 @@
 > AutoDream.OS is an open-source operating system for orchestrating collaborative AI agents.
 
-<<<<<<< HEAD
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://github.com/your-org/agent-cellphone-v2)
@@ -9,15 +8,9 @@
 [![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)](https://github.com/your-org/agent-cellphone-v2)
 
 > **🚀 PRODUCTION READY - Enterprise-Grade Agent Coordination System with FSM-Communication Integration**
-=======
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-# AutoDream.OS
->>>>>>> 331f2ad58f109788ac2503ee7f266630f811767a
 
 AutoDream.OS provides tooling and frameworks for building systems of cooperating autonomous agents. The project bundles core communication services, security utilities, and developer scripts used to coordinate complex agent workflows.
 
-<<<<<<< HEAD
 Agent Cellphone V2 is a **PRODUCTION READY** platform that revolutionizes autonomous agent coordination through the **"WE. ARE. SWARM"** philosophy. This enterprise-grade system implements advanced FSM-Communication integration, real agent communication protocols, and comprehensive onboarding sequences that enable 8 specialized agents to work together as a coordinated, intelligent development swarm.
 
 ### 🌟 **WE. ARE. SWARM** - Our Development Mantra
@@ -110,7 +103,6 @@ Phase 2 will focus on AI/ML integration, predictive task routing, and self-optim
 ## Documentation
 - [Product Requirements](docs/PRD.md)
 - [Project Roadmap](docs/ROADMAP.md)
->>>>>>> 331f2ad58f109788ac2503ee7f266630f811767a
 
 ## Quick Start
 ```bash
@@ -419,4 +411,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 =======
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
->>>>>>> 331f2ad58f109788ac2503ee7f266630f811767a

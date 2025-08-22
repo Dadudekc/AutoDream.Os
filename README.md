@@ -99,12 +99,7 @@ Phase 2 will focus on AI/ML integration, predictive task routing, and self-optim
 - **Virtual environment** (recommended)
 
 ### Installation
-=======
-## Documentation
-- [Product Requirements](docs/PRD.md)
-- [Project Roadmap](docs/ROADMAP.md)
 
-## Quick Start
 ```bash
 # create virtual environment
 python -m venv venv
@@ -119,8 +114,6 @@ python src/main.py
 
 ## Contributing
 Pull requests are welcome. Please run the test suite before submitting changes.
-
-<<<<<<< HEAD
 ```bash
 # Launch FSM-Communication Integration System
 python -m src.launchers.fsm_communication_integration_launcher
@@ -408,6 +401,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=social&logo=linkedin)](https://linkedin.com/company/agent-cellphone)
 
 </div>
-=======
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

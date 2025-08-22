@@ -325,6 +325,9 @@ git push origin feature/amazing-feature
 
 ### Additional Resources
 
+- [📝 Product Requirements Document](docs/PRD.md)
+- [🗺️ Project Roadmap](docs/ROADMAP.md)
+
 - [📖 API Documentation](docs/API.md)
 - [🔧 Development Guide](docs/DEVELOPMENT.md)
 - [🚀 Deployment Guide](docs/DEPLOYMENT.md)

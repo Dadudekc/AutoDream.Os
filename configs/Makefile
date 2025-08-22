@@ -314,3 +314,20 @@ emergency-clean: ## Emergency cleanup (use with caution)
 	else \
 		echo "$(YELLOW)Emergency cleanup cancelled$(NC)"; \
 	fi
+
+.PHONY: status demo test validate fmt
+
+status:
+	@python -m src --status
+
+demo:
+	@python -m src --demo
+
+test:
+	@python -m src --test
+
+validate:
+	@python -m src --validate
+
+fmt:
+	@ruff format src || true

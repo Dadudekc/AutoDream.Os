@@ -1,3 +1,3 @@
 # AutoDream.OS
 
-Welcome to the AutoDream.OS repository. This project powers Agent Cellphone V2, an enterprise platform for coordinating multiple AI agents. Explore the [Product Requirements](../../docs/PRD.md) and [Project Roadmap](../../docs/ROADMAP.md) for planning details.
+AutoDream.OS is an open-source operating system for orchestrating collaborative AI agents. Learn more in the [Product Requirements](../../docs/PRD.md) and [Project Roadmap](../../docs/ROADMAP.md).

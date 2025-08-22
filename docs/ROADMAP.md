@@ -1,22 +1,21 @@
 # Project Roadmap
 
-## Phase 1 – Foundation (Q1)
-- Establish core multi-agent framework and FSM communication bridge.
-- Implement basic dashboard, logging, and configuration systems.
-- Achieve unit test coverage above 80%.
+## Phase 1 – Core Framework
+- Establish messaging and coordination services.
+- Provide scripts for launching and observing agents.
+- Set up basic security and logging.
 
-## Phase 2 – Intelligence & Integration (Q2)
-- Add AI/ML decision modules and knowledge database.
-- Introduce authentication/authorization and security monitoring.
-- Expand dashboard for real-time performance metrics.
+## Phase 2 – Developer Tooling
+- Expand test infrastructure and CI coverage.
+- Improve documentation and onboarding guides.
+- Add utilities for reproducible experimentation.
 
-## Phase 3 – Scalability (Q3)
-- Optimize performance for concurrent agent workloads.
-- Implement cross-system communication and external API integrations.
-- Harden CI/CD pipeline and containerized deployment.
+## Phase 3 – Intelligence & Integration
+- Introduce shared knowledge modules and decision logic.
+- Integrate cross-system communication bridges.
+- Expose API for external services.
 
-## Phase 4 – Enterprise Readiness (Q4)
-- Conduct load and security testing for production environments.
-- Provide comprehensive documentation and onboarding guides.
-- Prepare for general availability release.
-
+## Phase 4 – Production Hardening
+- Optimize performance for large agent networks.
+- Enhance monitoring and alerting capabilities.
+- Conduct security audits and load testing.

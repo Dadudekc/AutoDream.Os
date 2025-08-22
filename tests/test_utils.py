@@ -93,7 +93,7 @@ class V2StandardsChecker:
         code_lines = []
         for line in lines:
             stripped = line.strip()
-            if stripped and not stripped.startswith('#'') and not stripped.startswith('"""'):
+            if stripped and not stripped.startswith('#') and not stripped.startswith('"""'):
                 code_lines.append(line)
         
         line_count = len(code_lines)
@@ -453,12 +453,12 @@ def assert_file_structure(directory: Path, expected_structure: Dict[str, Any]):
 def run_cli_command(script_path: Path, args: List[str], cwd: Optional[Path] = None) -> Tuple[int, str, str]:
     """
     Run a CLI script with arguments and capture output.
-    
+
     Args:
         script_path: Path to the script to run
         args: List of command line arguments
         cwd: Working directory for execution
-        
+
     Returns:
         Tuple of (return_code, stdout, stderr)
     """
@@ -491,6 +491,35 @@ def assert_cli_help(script_path: Path, expected_help_text: List[str] = None):
 def assert_cli_version(script_path: Path, expected_version: str = None):
     """Assert that a CLI script provides version information."""
     return_code, stdout, stderr = run_cli_command(script_path, ["--version"])
-    
+
     # Version command should succeed or fail gracefully
     assert return_code in [0, 1], f"Version command failed unexpectedly with return code {return_code}"
+
+
+def test_v2_standards_checker(v2_checker):
+    """Verify V2StandardsChecker flags compliant files correctly."""
+    compliant_code = """\
+import argparse
+
+class Sample:
+    def action(self):
+        return True
+
+
+def main():
+    parser = argparse.ArgumentParser(description='demo')
+    parser.add_argument('--flag', help='sample flag')
+    parser.parse_args()
+    Sample()
+
+
+if __name__ == '__main__':
+    main()
+"""
+
+    temp_file = create_temp_test_file(compliant_code, "v2_sample.py")
+    try:
+        result = v2_checker.check_file_compliance(temp_file)
+        assert result["compliant"], f"Violations: {result['violations']}"
+    finally:
+        cleanup_temp_files(temp_file)

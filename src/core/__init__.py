@@ -20,31 +20,23 @@ import sys
 # Core component imports
 try:
     from .performance_tracker import PerformanceTracker
-    from .performance_profiler import PerformanceProfiler
-    from .performance_dashboard import PerformanceDashboard
-    from .api_gateway import APIGateway
-    from .agent_communication import AgentCommunicationProtocol
-    from .health_monitor_core import HealthMonitorCore
-    from .agent_health_monitor import AgentHealthMonitor
-    from .health_metrics_collector import HealthMetricsCollector
-    from .health_alert_manager import HealthAlertManager
-    from .health_threshold_manager import HealthThresholdManager
     from .health_score_calculator import HealthScoreCalculator
+    
+    # Decision system components
+    from .decision import AutonomousDecisionEngine, LearningEngine
+    
+    # FSM system components
+    from .fsm_core_v2 import FSMCoreV2
+    from .fsm_discord_bridge import FSMDiscordBridge
     
     __all__ = [
         'PerformanceTracker',
-        'PerformanceProfiler', 
-        'PerformanceDashboard',
-        'APIGateway',
-        'AgentCommunicationProtocol',
-        'HealthMonitorCore',
-        'AgentHealthMonitor',
-        'HealthMetricsCollector',
-        'HealthAlertManager',
-        'HealthThresholdManager',
-        'HealthScoreCalculator'
+        'HealthScoreCalculator',
+        'AutonomousDecisionEngine',
+        'LearningEngine',
+        'FSMCoreV2',
+        'FSMDiscordBridge'
     ]
-    
 except ImportError as e:
     print(f"⚠️ Warning: Some core components not available: {e}")
     __all__ = []
@@ -116,9 +108,9 @@ Examples:
                 tracker = PerformanceTracker()
                 print("✅ PerformanceTracker created")
             
-            if 'HealthMonitorCore' in __all__:
-                monitor = HealthMonitorCore()
-                print("✅ HealthMonitorCore created")
+            if 'HealthScoreCalculator' in __all__:
+                calculator = HealthScoreCalculator()
+                print("✅ HealthScoreCalculator created")
             
             print("🎯 Core module demo completed")
             return 0

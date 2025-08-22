@@ -34,7 +34,7 @@ from dataclasses import dataclass
 
 # Configure PyAutoGUI for real agent communication
 pyautogui.FAILSAFE = True
-pyautogui.PAUSE = 0.3
+pyautogui.PAUSE = 0.1  # Reduced from 0.3 for faster operation
 
 @dataclass
 class ScreenRegion:
@@ -163,15 +163,15 @@ class ScreenRegionManager:
                 target_y = region.y + 10
             
             # Move to target within region
-            pyautogui.moveTo(target_x, target_y, duration=0.2)
+            pyautogui.moveTo(target_x, target_y, duration=0.1)  # Reduced from 0.2
             
             # Click to focus
             pyautogui.click(target_x, target_y)
-            time.sleep(0.1)
+            time.sleep(0.05)  # Reduced from 0.1
             
             # Type message
             if method == "type":
-                pyautogui.typewrite(message, interval=0.05)
+                pyautogui.typewrite(message, interval=0.03)  # Reduced from 0.05
             elif method == "paste":
                 pyperclip.copy(message)
                 pyautogui.hotkey('ctrl', 'v')
@@ -205,11 +205,11 @@ class ScreenRegionManager:
                 target_y = region.y + 10
             
             # Move to target within region
-            pyautogui.moveTo(target_x, target_y, duration=0.2)
+            pyautogui.moveTo(target_x, target_y, duration=0.1)  # Reduced from 0.2
             
             # Click to focus
             pyautogui.click(target_x, target_y)
-            time.sleep(0.1)
+            time.sleep(0.05)  # Reduced from 0.1
             
             # Split message into lines and handle line breaks properly
             lines = message.split('\n')
@@ -218,7 +218,7 @@ class ScreenRegionManager:
                 # Type the line
                 if line.strip():  # Only type non-empty lines
                     if method == "type":
-                        pyautogui.typewrite(line, interval=0.05)
+                        pyautogui.typewrite(line, interval=0.03)  # Reduced from 0.05
                     elif method == "paste":
                         pyperclip.copy(line)
                         pyautogui.hotkey('ctrl', 'v')
@@ -227,7 +227,7 @@ class ScreenRegionManager:
                 if i < len(lines) - 1:
                     # Send Shift+Enter for line break
                     pyautogui.hotkey('shift', 'enter')
-                    time.sleep(0.1)  # Small delay for line break processing
+                    time.sleep(0.05)  # Reduced from 0.1 for faster processing
             
             # Press Enter to send the complete message
             pyautogui.press('enter')
@@ -366,7 +366,7 @@ class InputBufferSystem:
                 input_item['execution_time'] = time.time()
                 
                 # Small coordination delay
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.05)  # Reduced from 0.1 for faster processing
         
         self.buffer_stats['total_executed'] += len(results)
         self.logger.info(f"✅ Executed {len(results)} buffered inputs using regions")
@@ -392,7 +392,7 @@ class InputBufferSystem:
                 input_item['execution_time'] = time.time()
                 
                 # Small coordination delay
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.05)  # Reduced from 0.1 for faster processing
         
         self.buffer_stats['total_executed'] += len(results)
         self.logger.info(f"✅ Executed {len(results)} buffered inputs with line breaks using regions")
@@ -624,7 +624,7 @@ class RealAgentCommunicationSystem:
                         
                         if agent_info:
                             input_box = agent_info.get("input_box", {})
-                            starter_box = agent_info.get("starter_input_box", {})
+                            starter_box = agent_info.get("starter_location_box", {})  # Fixed: was "starter_input_box"
                             
                             self.agent_coordinates[agent_key] = {
                                 'input_x': input_box.get('x'),

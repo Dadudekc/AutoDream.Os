@@ -175,9 +175,10 @@ class AIDevWorkflow:
     def _execute_command(self, command: str, timeout: int) -> str:
         """Execute a shell command"""
         try:
+            # SECURITY: shell=False to prevent command injection
             result = subprocess.run(
-                command,
-                shell=True,
+                command.split() if isinstance(command, str) else command,
+                shell=False,
                 capture_output=True,
                 text=True,
                 timeout=timeout,

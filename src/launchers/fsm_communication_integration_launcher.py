@@ -151,7 +151,7 @@ class FSMCommunicationIntegrationLauncher:
             
             # Initialize workspace manager
             self.workspace_manager = WorkspaceManager(
-                workspace_path=self.config.get("workspace_path", "agent_workspaces")
+                base_path=self.config.get("workspace_path", "agent_workspaces")
             )
             self.services_status["workspace_manager"] = "initialized"
             
@@ -542,3 +542,4 @@ def main():
 
 if __name__ == "__main__":
     exit(main())
+

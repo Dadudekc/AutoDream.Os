@@ -1,0 +1,82 @@
+[
+  {
+    "timestamp": "2025-08-22T00:51:01.445007",
+    "message": {
+      "id": "c9e43016",
+      "sender_agent": "system",
+      "target_agent": "agent_1",
+      "content": "Urgent test",
+      "type": "text",
+      "priority": "high",
+      "timestamp": "2025-08-22T00:51:01.437999",
+      "metadata": {},
+      "retry_count": 0
+    },
+    "status": "high_priority_sent",
+    "priority": "high"
+  },
+  {
+    "timestamp": "2025-08-22T00:51:21.601780",
+    "message": {
+      "id": "a27e825c",
+      "sender_agent": "system",
+      "target_agent": "agent_1",
+      "content": "Urgent test",
+      "type": "text",
+      "priority": "high",
+      "timestamp": "2025-08-22T00:51:21.601780",
+      "metadata": {},
+      "retry_count": 0
+    },
+    "status": "high_priority_sent",
+    "priority": "high"
+  },
+  {
+    "timestamp": "2025-08-22T00:53:50.161972",
+    "message": {
+      "id": "adc975e8",
+      "sender_agent": "[SYSTEM]",
+      "target_agent": "agent_1",
+      "content": "[SYSTEM] Fallback message: Please check system_broadcast_message.txt file",
+      "type": "system_broadcast",
+      "priority": "high",
+      "timestamp": "2025-08-22T00:53:50.146957",
+      "metadata": {},
+      "retry_count": 0
+    },
+    "status": "high_priority_sent",
+    "priority": "high"
+  },
+  {
+    "timestamp": "2025-08-22T00:54:58.680666",
+    "message": {
+      "id": "7dbd909f",
+      "sender_agent": "[SYSTEM]",
+      "target_agent": "agent_1",
+      "content": "[SYSTEM] CLEAN TEST - Please confirm receipt",
+      "type": "text",
+      "priority": "high",
+      "timestamp": "2025-08-22T00:54:58.676678",
+      "metadata": {},
+      "retry_count": 0
+    },
+    "status": "high_priority_sent",
+    "priority": "high"
+  },
+  {
+    "timestamp": "2025-08-22T00:55:05.498244",
+    "message": {
+      "id": "637726e8",
+      "sender_agent": "[SYSTEM]",
+      "target_agent": "agent_3",
+      "content": "[SYSTEM] CLEAN TEST - Please confirm receipt",
+      "type": "text",
+      "priority": "high",
+      "timestamp": "2025-08-22T00:54:58.684672",
+      "metadata": {},
+      "retry_count": 0
+    },
+    "status": "high_priority_sent",
+    "priority": "high"
+  }
+]

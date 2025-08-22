@@ -293,7 +293,8 @@ class DecisionCoordinationSystem:
         total_count = len(inputs)
         
         confidence = majority_count / total_count
-        return {"decision": eval(majority_input[0]), "method": "majority", "confidence": confidence}
+        # SECURITY: Removed eval() - return raw input instead
+        return {"decision": majority_input[0], "method": "majority", "confidence": confidence}
     
     def _apply_expert_logic(self, inputs: List[Dict]) -> Dict:
         """Apply expert opinion-based decision logic"""

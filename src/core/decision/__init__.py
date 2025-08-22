@@ -16,7 +16,7 @@ from .decision_types import (
     DecisionContext
 )
 
-from .decision_core import DecisionMakingEngine
+from .decision_core import AutonomousDecisionEngine
 
 # Backward compatibility
 __all__ = [
@@ -26,5 +26,5 @@ __all__ = [
     'DecisionRequest',
     'DecisionResult',
     'DecisionContext',
-    'DecisionMakingEngine'
+    'AutonomousDecisionEngine'
 ]

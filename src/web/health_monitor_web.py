@@ -341,7 +341,7 @@ class HealthMonitorWebInterface:
                 logger.error(f"Error in update loop: {e}")
                 time.sleep(10)  # Wait before retrying
     
-    def run(self, host: str = '0.0.0.0', port: int = 5001, debug: bool = False):
+    def run(self, host: str = '127.0.0.1', port: int = 5001, debug: bool = False):  # SECURITY: Localhost only
         """Run the Flask application"""
         try:
             logger.info(f"Starting health monitor web interface on {host}:{port}")
@@ -386,7 +386,7 @@ def main():
     
     parser = argparse.ArgumentParser(description="Health Monitor Web Interface CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
-    parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
+    parser.add_argument("--host", default="127.0.0.1", help="Host to bind to (SECURITY: Localhost only)")
     parser.add_argument("--port", type=int, default=5001, help="Port to bind to")
     parser.add_argument("--debug", action="store_true", help="Enable debug mode")
     

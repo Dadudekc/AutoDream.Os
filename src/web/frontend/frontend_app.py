@@ -18,6 +18,7 @@ License: MIT
 import json
 import logging
 import asyncio
+import secrets
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, asdict
@@ -174,8 +175,8 @@ class FlaskFrontendApp:
     def __init__(self, config: Dict[str, Any] = None):
         self.config = config or {}
         self.app = Flask(__name__)
-        self.app.config['SECRET_KEY'] = self.config.get('secret_key', 'frontend-secret-key')
-        self.app.config['DEBUG'] = self.config.get('debug', True)
+        self.app.config['SECRET_KEY'] = self.config.get('secret_key', secrets.token_hex(32))  # SECURITY: Random secret key
+        self.app.config['DEBUG'] = self.config.get('debug', False)  # SECURITY: Debug disabled by default
         
         # Initialize extensions
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
@@ -313,7 +314,7 @@ class FlaskFrontendApp:
             component.state.update(event_data)
             component.updated_at = datetime.now()
     
-    def run(self, host: str = '0.0.0.0', port: int = 5000, debug: bool = True):
+    def run(self, host: str = '127.0.0.1', port: int = 5000, debug: bool = False):  # SECURITY: Localhost only
         """Run the Flask frontend application"""
         logger.info(f"Starting Flask frontend app on {host}:{port}")
         self.socketio.run(self.app, host=host, port=port, debug=debug)

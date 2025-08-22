@@ -360,43 +360,24 @@ class AuthService:
     
     def _fallback_authentication(self, username: str, password: str, source_ip: str, 
                                user_agent: str, start_time: float, security_events: List[str]) -> V2AuthResult:
-        """Fallback authentication for testing when core components unavailable"""
-        self.logger.warning("Using fallback authentication (testing mode)")
+        """Fallback authentication - DISABLED FOR SECURITY"""
+        self.logger.error("Fallback authentication DISABLED for security reasons")
+        security_events.append("Fallback authentication blocked - security risk")
         
-        # Simple test authentication
-        if username == "admin" and password == "secure_password_123":
-            self.successful_auths += 1
-            
-            session_data = self._create_enhanced_session(username, source_ip, user_agent)
-            permissions = self._determine_user_permissions(username)
-            
-            auth_duration = time.time() - start_time
-            security_events.append("Fallback authentication used")
-            
-            return V2AuthResult(
-                status=AuthStatus.SUCCESS,
-                user_id=username,
-                session_id=session_data["session_id"],
-                permissions=permissions,
-                expires_at=session_data["expires_at"],
-                metadata=session_data["metadata"],
-                performance_metrics={"auth_duration": auth_duration},
-                security_events=security_events
-            )
-        else:
-            self.failed_auths += 1
-            security_events.append("Fallback authentication failed")
-            
-            return V2AuthResult(
-                status=AuthStatus.FAILED,
-                user_id=None,
-                session_id=None,
-                permissions=[],
-                expires_at=None,
-                metadata={"error": "Invalid credentials"},
-                performance_metrics={"auth_duration": time.time() - start_time},
-                security_events=security_events
-            )
+        # Fallback authentication DISABLED for security
+        self.failed_auths += 1
+        security_events.append("Fallback authentication blocked - security risk")
+        
+        return V2AuthResult(
+            status=AuthStatus.SYSTEM_ERROR,
+            user_id=None,
+            session_id=None,
+            permissions=[],
+            expires_at=None,
+            metadata={"error": "Fallback authentication disabled for security"},
+            performance_metrics={"auth_duration": time.time() - start_time},
+            security_events=security_events
+        )
     
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get authentication performance metrics"""

@@ -26,9 +26,9 @@ class WorkflowExecutionEngine:
     def __init__(self):
         # Import consolidated workflow engine
         try:
-            from ..core.advanced_workflow_engine import AdvancedWorkflowEngine
+            from ..core.workflow import WorkflowOrchestrator
 
-            self.workflow_engine = AdvancedWorkflowEngine(None, None, None)
+            self.workflow_engine = WorkflowOrchestrator()
             self.definition_manager = self.workflow_engine.definition_manager
             self.active_workflows = self.workflow_engine.executions
             self.completed_workflows = self.workflow_engine.active_workflows

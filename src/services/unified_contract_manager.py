@@ -19,10 +19,10 @@ from typing import Dict, List, Optional, Any
 from pathlib import Path
 import logging
 
-# Import consolidated contract manager
+# Import contract management components
 try:
-    from ..core.contract_manager import (
-        ContractManager,
+    from ..core.assignment_engine import ContractManager
+    from ..core.contract_models import (
         ContractStatus,
         ContractType,
         ContractPriority,

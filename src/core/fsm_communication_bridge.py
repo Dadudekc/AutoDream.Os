@@ -25,8 +25,9 @@ from collections import defaultdict, deque
 from .fsm_core_v2 import FSMCoreV2
 from .agent_communication import (
     AgentCommunicationProtocol,
-    MessageType,
-    MessagePriority,
+)
+from .v2_comprehensive_messaging_system import (
+    V2MessageType, V2MessagePriority
 )
 from .inbox_manager import InboxManager
 

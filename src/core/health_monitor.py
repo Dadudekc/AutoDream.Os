@@ -18,7 +18,6 @@ from pathlib import Path
 
 from .status.status_core import LiveStatusSystem
 from .status.status_types import StatusEventType, StatusEvent
-from .monitor.monitor_alerts import AlertLevel
 from .health_models import (
     HealthStatus,
     HealthMetricType,
@@ -32,6 +31,14 @@ from .health_models import (
     HealthCheckResult,
 )
 
+# Define alert levels locally to avoid dependency on removed module
+class AlertLevel(Enum):
+    """Alert severity levels"""
+
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+    CRITICAL = "critical"
 
 # Health models now imported from unified health_models
 

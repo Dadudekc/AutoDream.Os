@@ -1,44 +1,41 @@
 #!/usr/bin/env python3
 """
-Workflow Package - V2 Core Workflow System
-=========================================
+Workflow Package - V2 Core Workflow Automation System
 
-Refactored workflow system following V2 coding standards.
-Split from monolithic advanced_workflow_engine.py into focused modules.
+This package provides modular workflow automation following V2 coding standards.
+Each module has ≤300 lines and follows single responsibility principle.
 
-Author: Agent-2 (Architecture & Design Specialist)
+Modules:
+- workflow_types: Data models and enums (≤100 lines)
+- workflow_orchestrator: Main orchestration logic (≤200 lines)  
+- workflow_executor: Task execution engine (≤200 lines)
+- workflow_planner: Execution planning and optimization (≤200 lines)
+- workflow_cli: CLI interface for testing (≤100 lines)
+
+Author: Agent-4 (Quality Assurance)
 License: MIT
 """
 
 from .workflow_types import (
-    WorkflowType, WorkflowPriority, OptimizationStrategy,
-    WorkflowStep, WorkflowExecution, WorkflowOptimization,
-    V2Workflow, AIResponse
+    WorkflowStatus, TaskStatus, TaskPriority, WorkflowType,
+    WorkflowTask, WorkflowCondition, WorkflowExecution,
+    AgentCapability, ResourceRequirement
 )
 
-from .workflow_core import (
-    WorkflowDefinitionManager, WorkflowStateManager, WorkflowOptimizationManager
-)
+from .workflow_orchestrator import WorkflowOrchestrator
+from .workflow_executor import WorkflowExecutor
+from .workflow_planner import WorkflowPlanner
+from .workflow_cli import WorkflowCLI
 
-from .workflow_execution import WorkflowExecutionEngine
-
-from .workflow_cli import WorkflowCLI, run_smoke_test
+__version__ = "2.0.0"
+__author__ = "Agent-4 (Quality Assurance)"
 
 __all__ = [
     # Types and enums
-    'WorkflowType', 'WorkflowPriority', 'OptimizationStrategy',
-    'WorkflowStep', 'WorkflowExecution', 'WorkflowOptimization',
-    'V2Workflow', 'AIResponse',
+    "WorkflowStatus", "TaskStatus", "TaskPriority", "WorkflowType",
+    "WorkflowTask", "WorkflowCondition", "WorkflowExecution",
+    "AgentCapability", "ResourceRequirement",
     
-    # Core management
-    'WorkflowDefinitionManager', 'WorkflowStateManager', 'WorkflowOptimizationManager',
-    
-    # Execution engine
-    'WorkflowExecutionEngine',
-    
-    # CLI interface
-    'WorkflowCLI', 'run_smoke_test'
+    # Core classes
+    "WorkflowOrchestrator", "WorkflowExecutor", "WorkflowPlanner", "WorkflowCLI"
 ]
-
-__version__ = "2.0.0"
-__author__ = "Agent-2 (Architecture & Design Specialist)"

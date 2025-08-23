@@ -8,7 +8,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union, Callable
 from pathlib import Path
 
 # Configure logging
@@ -92,7 +92,7 @@ class DashboardFrontend:
         """Generate complete HTML for the dashboard."""
         widgets_html = self._generate_widgets_html()
         css = self._generate_css()
-        javascript = self._generate_javascript()
+        javascript = self.generate_javascript()
 
         html_template = f"""<!DOCTYPE html>
 <html lang="en">
@@ -183,6 +183,31 @@ class DashboardFrontend:
                 <div class="widget-footer">
                     <span class="widget-status" id="status-{widget.widget_id}">Loading...</span>
                     <span class="widget-updated" id="updated-{widget.widget_id}">Never</span>
+                </div>
+            </div>
+            <div id="config-modal-{widget.widget_id}" class="config-modal hidden">
+                <div class="config-content">
+                    <h3>Configure {widget.title}</h3>
+                    <div class="config-group">
+                        <label>Title:</label>
+                        <input type="text" id="config-title-{widget.widget_id}" value="{widget.title}">
+                    </div>
+                    <div class="config-group">
+                        <label>Refresh Interval (seconds):</label>
+                        <input type="number" id="config-refresh-{widget.widget_id}" value="{widget.refresh_interval}" min="1" max="300">
+                    </div>
+                    <div class="config-group">
+                        <label>Width (columns):</label>
+                        <input type="number" id="config-width-{widget.widget_id}" value="{widget.width}" min="1" max="12">
+                    </div>
+                    <div class="config-group">
+                        <label>Height (rows):</label>
+                        <input type="number" id="config-height-{widget.widget_id}" value="{widget.height}" min="1" max="8">
+                    </div>
+                    <div class="config-buttons">
+                        <button onclick="saveWidgetConfig('{widget.widget_id}')">Save</button>
+                        <button onclick="closeWidgetConfig('{widget.widget_id}')">Cancel</button>
+                    </div>
                 </div>
             </div>
             """
@@ -547,6 +572,58 @@ class DashboardFrontend:
             font-style: italic;
         }}
 
+        .config-modal {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }}
+
+        .config-modal.hidden {{
+            display: none;
+        }}
+
+        .config-content {{
+            background-color: {colors['surface']};
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            min-width: 300px;
+        }}
+
+        .config-group {{
+            margin-bottom: 1rem;
+        }}
+
+        .config-group label {{
+            display: block;
+            margin-bottom: 0.5rem;
+        }}
+
+        .config-group input {{
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid {colors['border']};
+            border-radius: 4px;
+            background-color: {colors['bg']};
+            color: {colors['text']};
+        }}
+
+        .config-buttons {{
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }}
+
+        .config-buttons button {{
+            padding: 0.5rem 1rem;
+        }}
+
         @media (max-width: 768px) {{
             .dashboard-container {{
                 grid-template-columns: 1fr;
@@ -619,6 +696,11 @@ class DashboardFrontend:
 
             // Initialize charts
             initializeCharts();
+
+            // Apply saved widget configurations
+            DASHBOARD_CONFIG.widgets.forEach(widget => {{
+                applyWidgetConfig(widget.id);
+            }});
 
             // Start auto-refresh if enabled
             if (DASHBOARD_CONFIG.layout.auto_refresh) {{
@@ -983,9 +1065,65 @@ class DashboardFrontend:
         }}
 
         function configureWidget(widgetId) {{
-            console.log('Configure widget:', widgetId);
-            // TODO: Implement widget configuration
-            alert('Widget configuration not yet implemented');
+            const modal = document.getElementById(`config-modal-${{widgetId}}`);
+            loadWidgetConfig(widgetId);
+            if (modal) {{
+                modal.classList.remove('hidden');
+            }}
+        }}
+
+        function closeWidgetConfig(widgetId) {{
+            const modal = document.getElementById(`config-modal-${{widgetId}}`);
+            if (modal) {{
+                modal.classList.add('hidden');
+            }}
+        }}
+
+        function saveWidgetConfig(widgetId) {{
+            const title = document.getElementById(`config-title-${{widgetId}}`).value;
+            const refresh = document.getElementById(`config-refresh-${{widgetId}}`).value;
+            const width = document.getElementById(`config-width-${{widgetId}}`).value;
+            const height = document.getElementById(`config-height-${{widgetId}}`).value;
+            const config = {{ title, refresh, width, height }};
+            localStorage.setItem(`widget-config-${{widgetId}}`, JSON.stringify(config));
+            applyWidgetConfig(widgetId);
+            closeWidgetConfig(widgetId);
+            alert('Widget configuration saved');
+        }}
+
+        function loadWidgetConfig(widgetId) {{
+            const config = JSON.parse(localStorage.getItem(`widget-config-${{widgetId}}`) || '{{}}');
+            if (config.title) {{
+                document.getElementById(`config-title-${{widgetId}}`).value = config.title;
+            }}
+            if (config.refresh) {{
+                document.getElementById(`config-refresh-${{widgetId}}`).value = config.refresh;
+            }}
+            if (config.width) {{
+                document.getElementById(`config-width-${{widgetId}}`).value = config.width;
+            }}
+            if (config.height) {{
+                document.getElementById(`config-height-${{widgetId}}`).value = config.height;
+            }}
+        }}
+
+        function applyWidgetConfig(widgetId) {{
+            const config = JSON.parse(localStorage.getItem(`widget-config-${{widgetId}}`) || '{{}}');
+            const widget = document.getElementById(`widget-${{widgetId}}`);
+            if (!widget) return;
+            if (config.title) {{
+                const titleEl = widget.querySelector('.widget-title');
+                if (titleEl) titleEl.textContent = config.title;
+            }}
+            if (config.refresh) {{
+                widget.dataset.refreshInterval = config.refresh;
+            }}
+            if (config.width) {{
+                widget.style.gridColumn = `span ${{config.width}}`;
+            }}
+            if (config.height) {{
+                widget.style.gridRow = `span ${{config.height}}`;
+            }}
         }}
 
         function toggleSettings() {{

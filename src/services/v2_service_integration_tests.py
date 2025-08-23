@@ -41,7 +41,7 @@ try:
     from services.multi_agent_data_coordination import MultiAgentDataCoordination
     from services.data_synchronization import DataSynchronization
     from services.heartbeat_monitor import HeartbeatMonitor
-    from services.agent_cell_phone_service import AgentCellPhoneService
+    from services.agent_cell_phone import AgentCellPhone
     from services.coordination import Coordination
     from services.v1_compatibility_layer import V1CompatibilityLayer
     from services.message_handler_v2 import MessageHandlerV2
@@ -56,7 +56,6 @@ try:
     from services.python_analyzer import PythonAnalyzer
     from services.tree_sitter_analyzer import TreeSitterAnalyzer
     from services.sprint_workflow_service import SprintWorkflowService
-    from services.agent_cell_phone_refactored import AgentCellPhoneRefactored
 except ImportError as e:
     # Fallback imports for standalone execution
     print(f"Import warning: {e}")
@@ -77,7 +76,7 @@ except ImportError as e:
     MultiAgentDataCoordination = Mock
     DataSynchronization = Mock
     HeartbeatMonitor = Mock
-    AgentCellPhoneService = Mock
+    AgentCellPhone = Mock
     Coordination = Mock
     V1CompatibilityLayer = Mock
     MessageHandlerV2 = Mock
@@ -92,7 +91,6 @@ except ImportError as e:
     PythonAnalyzer = Mock
     TreeSitterAnalyzer = Mock
     SprintWorkflowService = Mock
-    AgentCellPhoneRefactored = Mock
 
 logger = logging.getLogger(__name__)
 
@@ -274,11 +272,6 @@ class V2ServiceIntegrationTests(unittest.TestCase):
 
         self.heartbeat_monitor = Mock()
         self.heartbeat_monitor.get_heartbeat = Mock(return_value={"status": "active"})
-
-        self.agent_cell_phone_refactored = Mock()
-        self.agent_cell_phone_refactored.get_status = Mock(
-            return_value={"status": "active"}
-        )
 
         self.v1_compatibility = Mock()
         self.v1_compatibility.convert_v1_to_v2 = Mock(
@@ -728,7 +721,7 @@ class V2ServiceIntegrationTests(unittest.TestCase):
             "processed": True,
             "message_id": "MSG-001",
         }
-        self.agent_cell_phone_refactored.handle_request.return_value = {
+        self.agent_cell_phone.handle_request.return_value = {
             "handled": True,
             "response": "success",
         }
@@ -740,9 +733,7 @@ class V2ServiceIntegrationTests(unittest.TestCase):
         # Test compatibility integration
         conversion = self.v1_compatibility.convert_v1_to_v2("v1_data")
         message_handling = self.message_handler.process_message("test_message")
-        request_handling = self.agent_cell_phone_refactored.handle_request(
-            "test_request"
-        )
+        request_handling = self.agent_cell_phone.handle_request("test_request")
         compatibility = self.v1_compatibility.get_compatibility_status()
 
         # Verify integration

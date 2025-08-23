@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 import threading
 import time
 
-from .agent_communication import AgentCommunicationProtocol
+from .communication_compatibility_layer import AgentCommunicationProtocol
 from .v2_comprehensive_messaging_system import (
     V2MessageType,
     V2MessagePriority,

@@ -23,13 +23,13 @@ from collections import defaultdict, deque
 
 # Import FSM and communication components
 from .fsm_core_v2 import FSMCoreV2
-from .agent_communication import (
+from .communication_compatibility_layer import (
     AgentCommunicationProtocol,
+    InboxManager
 )
 from .v2_comprehensive_messaging_system import (
     V2MessageType, V2MessagePriority
 )
-from .inbox_manager import InboxManager
 
 logger = logging.getLogger(__name__)
 

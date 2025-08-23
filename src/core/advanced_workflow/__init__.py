@@ -58,4 +58,4 @@ __all__ = [
 ]
 
 # Backward compatibility - expose main engine class directly
-from .workflow_execution import AdvancedWorkflowEngine as AdvancedWorkflowEngine
+from .workflow_execution import AdvancedWorkflowEngine

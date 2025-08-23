@@ -103,8 +103,8 @@ Comprehensive configuration for:
 ```python
 from src.core.fsm_communication_bridge import FSMCommunicationBridge
 from src.core.fsm_core_v2 import FSMCoreV2
-from src.core.agent_communication import AgentCommunicationProtocol
-from src.core.inbox_manager import InboxManager
+from src.core.communication_compatibility_layer import AgentCommunicationProtocol
+from src.core.communication_compatibility_layer import InboxManager
 
 # Initialize components
 workspace_manager = WorkspaceManager("agent_workspaces")

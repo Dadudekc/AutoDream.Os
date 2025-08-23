@@ -3,9 +3,9 @@
 Targeted Resume Demo - Send resume message to agents 5-8 only
 """
 
-from src.services.v1_v2_message_queue_system import (
-    MessageQueueManager,
-    MessageQueuePriority,
+from src.services.testing import (
+    UnifiedMessageQueue,
+    MessagePriority,
 )
 
 
@@ -15,7 +15,7 @@ def send_targeted_resume():
     print("=" * 60)
 
     # Create message queue manager
-    manager = MessageQueueManager()
+    manager = UnifiedMessageQueue()
 
     # Register the 8 agents
     agents = [

@@ -28,7 +28,7 @@ import concurrent.futures
 from .agent_manager import AgentManager, AgentStatus, AgentCapability, AgentInfo
 from .config_manager import ConfigManager
 from .contract_manager import ContractManager, ContractPriority, ContractStatus
-from .advanced_workflow_engine import (
+from .advanced_workflow import (
     AdvancedWorkflowEngine,
     WorkflowType,
     WorkflowPriority,

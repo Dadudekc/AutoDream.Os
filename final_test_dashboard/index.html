@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Cellphone V2 - Performance Dashboard</title>
+    <style>
+        /* Dashboard Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--header-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .widget {
+            background: var(--widget-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .widget:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .widget-content {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chart-placeholder {
+            text-align: center;
+            color: var(--muted-color);
+        }
+        
+        .chart-type {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .metric-name {
+            display: block;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary {
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
+        }
+        
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        /* Theme Variables */
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --header-bg: #2d2d2d;
+            --widget-bg: #333333;
+            --border-color: #444444;
+            --muted-color: #888888;
+            --btn-secondary-bg: #555555;
+            --btn-secondary-text: #ffffff;
+        }
+        
+        .theme-light {
+            --bg-color: #f5f5f5;
+            --text-color: #333333;
+            --header-bg: #ffffff;
+            --widget-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --muted-color: #666666;
+            --btn-secondary-bg: #e0e0e0;
+            --btn-secondary-text: #333333;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 10px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .widget {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .widget-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .widget {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .dashboard-header {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .refreshing {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        </style>
+</head>
+<body class="theme-dark">
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Agent Cellphone V2 - Performance Dashboard</h1>
+            <div class="header-controls">
+                <button onclick="toggleSettings()" class="btn btn-secondary">Settings</button>
+                <select id="theme-select" onchange="changeTheme()">
+                    <option value="dark" selected>Dark Theme</option>
+                    <option value="light" >Light Theme</option>
+                </select>
+            </div>
+        </header>
+        
+        <div class="dashboard-grid" style="grid-template-columns: repeat(12, 1fr);">
+            <div class="widget widget-gauge" 
+                         id="widget-cpu_usage" 
+                         style="grid-column: span 4; grid-row: span 3; grid-column-start: 1; grid-row-start: 1;"
+                         data-metric="cpu_percentage"
+                         data-refresh="5">
+            <div class="widget-header">
+                <h3>CPU Usage</h3>
+                <div class="widget-controls">
+                    <button onclick="refreshWidget('cpu_usage')" class="btn btn-small">Refresh</button>
+                    <button onclick="toggleWidget('cpu_usage')" class="btn btn-small">Toggle</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="chart-container" id="chart-cpu_usage">
+                    <div class="chart-placeholder">
+                        <span class="chart-type">Gauge Chart</span>
+                        <span class="metric-name">cpu_percentage</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-footer">
+                <span class="refresh-info">Refreshes every 5s</span>
+                <span class="last-update">Last update: <span id="last-update-cpu_usage">Never</span></span>
+            </div>
+        </div>
+<div class="widget widget-bar" 
+                         id="widget-memory_usage" 
+                         style="grid-column: span 4; grid-row: span 3; grid-column-start: 5; grid-row-start: 1;"
+                         data-metric="memory_percentage"
+                         data-refresh="5">
+            <div class="widget-header">
+                <h3>Memory Usage</h3>
+                <div class="widget-controls">
+                    <button onclick="refreshWidget('memory_usage')" class="btn btn-small">Refresh</button>
+                    <button onclick="toggleWidget('memory_usage')" class="btn btn-small">Toggle</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="chart-container" id="chart-memory_usage">
+                    <div class="chart-placeholder">
+                        <span class="chart-type">Bar Chart</span>
+                        <span class="metric-name">memory_percentage</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-footer">
+                <span class="refresh-info">Refreshes every 5s</span>
+                <span class="last-update">Last update: <span id="last-update-memory_usage">Never</span></span>
+            </div>
+        </div>
+<div class="widget widget-line" 
+                         id="widget-network_traffic" 
+                         style="grid-column: span 4; grid-row: span 3; grid-column-start: 9; grid-row-start: 1;"
+                         data-metric="network_bytes"
+                         data-refresh="10">
+            <div class="widget-header">
+                <h3>Network Traffic</h3>
+                <div class="widget-controls">
+                    <button onclick="refreshWidget('network_traffic')" class="btn btn-small">Refresh</button>
+                    <button onclick="toggleWidget('network_traffic')" class="btn btn-small">Toggle</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="chart-container" id="chart-network_traffic">
+                    <div class="chart-placeholder">
+                        <span class="chart-type">Line Chart</span>
+                        <span class="metric-name">network_bytes</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-footer">
+                <span class="refresh-info">Refreshes every 10s</span>
+                <span class="last-update">Last update: <span id="last-update-network_traffic">Never</span></span>
+            </div>
+        </div>
+<div class="widget widget-area" 
+                         id="widget-disk_io" 
+                         style="grid-column: span 6; grid-row: span 4; grid-column-start: 1; grid-row-start: 4;"
+                         data-metric="disk_operations"
+                         data-refresh="15">
+            <div class="widget-header">
+                <h3>Disk I/O</h3>
+                <div class="widget-controls">
+                    <button onclick="refreshWidget('disk_io')" class="btn btn-small">Refresh</button>
+                    <button onclick="toggleWidget('disk_io')" class="btn btn-small">Toggle</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="chart-container" id="chart-disk_io">
+                    <div class="chart-placeholder">
+                        <span class="chart-type">Area Chart</span>
+                        <span class="metric-name">disk_operations</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-footer">
+                <span class="refresh-info">Refreshes every 15s</span>
+                <span class="last-update">Last update: <span id="last-update-disk_io">Never</span></span>
+            </div>
+        </div>
+<div class="widget widget-table" 
+                         id="widget-system_health" 
+                         style="grid-column: span 6; grid-row: span 4; grid-column-start: 7; grid-row-start: 4;"
+                         data-metric="health_status"
+                         data-refresh="30">
+            <div class="widget-header">
+                <h3>System Health</h3>
+                <div class="widget-controls">
+                    <button onclick="refreshWidget('system_health')" class="btn btn-small">Refresh</button>
+                    <button onclick="toggleWidget('system_health')" class="btn btn-small">Toggle</button>
+                </div>
+            </div>
+            <div class="widget-content">
+                <div class="chart-container" id="chart-system_health">
+                    <div class="chart-placeholder">
+                        <span class="chart-type">Table Chart</span>
+                        <span class="metric-name">health_status</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-footer">
+                <span class="refresh-info">Refreshes every 30s</span>
+                <span class="last-update">Last update: <span id="last-update-system_health">Never</span></span>
+            </div>
+        </div>
+        </div>
+        
+        <div id="settings-panel" class="settings-panel">
+            <h3>Dashboard Settings</h3>
+            <div class="setting-group">
+                <label>
+                    <input type="checkbox" id="auto-refresh" checked onchange="toggleAutoRefresh()">
+                    Auto Refresh
+                </label>
+                <label>
+                    Refresh Interval (seconds):
+                    <input type="number" id="refresh-interval" value="5" min="1" max="300" onchange="updateRefreshInterval()">
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript functionality will be loaded from separate module
+        console.log('Dashboard HTML generated successfully');
+        </script>
+</body>
+</html>

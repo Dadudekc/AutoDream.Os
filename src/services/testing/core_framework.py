@@ -235,3 +235,4 @@ class TestFramework(ABC):
             "success_rate": (passed_tests / total_tests * 100) if total_tests > 0 else 0,
             "total_duration": sum(r.duration for r in self.results)
         }
+

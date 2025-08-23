@@ -498,3 +498,4 @@ class TestDataManager:
         status["retention_days"] = self.config.retention_days
         
         return status
+

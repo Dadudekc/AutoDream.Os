@@ -19,9 +19,9 @@ try:
     service = V2MessageDeliveryService()
 
     print("✅ Service initialized")
-    print(f"Initial delivery_status: {len(service.delivery_status)} entries")
+    print(f"Initial delivery_status: {len(service.status_tracker.get_all_status())} entries")
     print(
-        f"Agent-3 coordinates: {service.agent_coordinates.get('agent_3', 'NOT_FOUND')}"
+        f"Agent-3 coordinates: {service.coordinate_manager.get_agent_coordinates('agent_3') or 'NOT_FOUND'}"
     )
 
     # Test 1: Direct message delivery
@@ -42,9 +42,9 @@ try:
     print("\n📤 Calling _deliver_message directly...")
     service._deliver_message(message_data)
 
-    print(f"After delivery - delivery_status: {len(service.delivery_status)} entries")
-    if service.delivery_status:
-        print(f"agent_3 status: {service.delivery_status.get('agent_3', 'NOT_FOUND')}")
+    print(f"After delivery - delivery_status: {len(service.status_tracker.get_all_status())} entries")
+    if service.status_tracker.get_all_status():
+        print(f"agent_3 status: {service.status_tracker.get_agent_status('agent_3') or 'NOT_FOUND'}")
 
     # Test 2: Check raw status
     print("\n🧪 TEST 2: Raw Status Check")
@@ -72,7 +72,7 @@ try:
     print("\n🧪 TEST 4: Agent Coordinates")
     print("-" * 40)
 
-    agent_3_coords = service.agent_coordinates.get("agent_3")
+    agent_3_coords = service.coordinate_manager.get_agent_coordinates("agent_3")
     if agent_3_coords:
         print(
             f"Agent-3 coordinates: ({agent_3_coords['input_x']}, {agent_3_coords['input_y']})"
@@ -84,7 +84,7 @@ try:
 
     print("\n🔍 DEBUG SUMMARY")
     print("=" * 60)
-    print(f"Service delivery_status: {len(service.delivery_status)} entries")
+    print(f"Service delivery_status: {len(service.status_tracker.get_all_status())} entries")
     print(f"Get status delivery_status: {len(raw_status['delivery_status'])} entries")
     print(f"Message queue size: {raw_status['queue_size']}")
 

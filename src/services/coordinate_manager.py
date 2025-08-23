@@ -251,3 +251,4 @@ class CoordinateManager:
         """Check if an agent is active"""
         agent_info = self.agent_coordinates.get(agent_id)
         return agent_info is not None and agent_info.get("status") == "active"
+

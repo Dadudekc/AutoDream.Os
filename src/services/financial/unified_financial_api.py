@@ -40,7 +40,7 @@ try:
         OptionContract,
         OptionsChain,
     )
-    from .financial_analytics_service import (
+    from .analytics import (
         FinancialAnalyticsService,
         BacktestResult,
         PerformanceMetrics,
@@ -78,7 +78,7 @@ except ImportError:
         OptionContract,
         OptionsChain,
     )
-    from financial_analytics_service import (
+    from analytics import (
         FinancialAnalyticsService,
         BacktestResult,
         PerformanceMetrics,

@@ -58,6 +58,7 @@ class TaskMasterCoordinator:
     def __init__(self, file_path: Path = MASTER_LIST_PATH):
         self.file_path = file_path
         self.file_path.parent.mkdir(parents=True, exist_ok=True)
+        self.delivery_service = V2MessageDeliveryService()
 
     def load_tasks(self) -> List[Dict[str, Any]]:
         if not self.file_path.exists():
@@ -101,8 +102,6 @@ class TaskMasterCoordinator:
     def notify_captain(self) -> int:
         """Tell Agent-5 to curate and maintain the master task list."""
         try:
-            import subprocess
-
             message = (
                 "CAPTAIN: Maintain the master task list at "
                 f"{self.file_path}. Add high-leverage tasks, set priorities, and announce updates.\n"
@@ -111,26 +110,15 @@ class TaskMasterCoordinator:
                 "- Review progress and reprioritize\n"
                 "- Report status every 15 minutes"
             )
-            cmd = [
-                sys.executable,
-                str(Path(__file__).resolve().parent / "v2_message_delivery_service.py"),
-                "--send",
-                "agent_5",
-                "coordination",
-                message,
-            ]
-            res = subprocess.run(cmd, capture_output=True, text=True)
-            return res.returncode
+            success = self.delivery_service.send_message("agent_5", "coordination", message)
+            return 0 if success else 1
         except Exception:
             return 1
 
     def notify_agents_to_pick(self, agent_ids: Optional[List[str]] = None) -> int:
         """Tell all non-captain agents to pick tasks from the master list and execute."""
         try:
-            import subprocess
-
             agent_ids = agent_ids or [f"agent_{i}" for i in range(1, 9) if i != 5]
-            agents_arg = ",".join(agent_ids)
             message = (
                 f"PICK TASKS: Use master task list {self.file_path}. Choose top-priority tasks, execute, and report to Captain.\n"
                 "Workflow:\n"
@@ -140,15 +128,9 @@ class TaskMasterCoordinator:
                 "- Post update to Discord\n"
                 "- Mark status in master list (done/in_progress/blocked)"
             )
-            cmd = [
-                sys.executable,
-                str(Path(__file__).resolve().parent / "v2_message_delivery_service.py"),
-                "--coordinate",
-                agents_arg,
-                message,
-            ]
-            res = subprocess.run(cmd, capture_output=True, text=True)
-            return res.returncode
+            results = self.delivery_service.broadcast_message("coordination", message, agent_ids)
+            success_count = sum(1 for success in results.values() if success)
+            return 0 if success_count > 0 else 1
         except Exception:
             return 1
 
@@ -224,19 +206,9 @@ class TaskMasterCoordinator:
 
     def _send_resume_to_agent(self, agent_id: str, task_title: str) -> int:
         try:
-            import subprocess
-
             message = f"TASK COMPLETE: '{task_title}'. Resume normal operations and pick your next task from the master list."
-            cmd = [
-                sys.executable,
-                str(Path(__file__).resolve().parent / "v2_message_delivery_service.py"),
-                "--send",
-                agent_id,
-                "coordination",
-                message,
-            ]
-            res = subprocess.run(cmd, capture_output=True, text=True)
-            return res.returncode
+            success = self.delivery_service.send_message(agent_id, "coordination", message)
+            return 0 if success else 1
         except Exception:
             return 1
 

@@ -21,7 +21,7 @@ from unittest.mock import Mock, patch, AsyncMock
 from src.core.screen_region_manager import ScreenRegionManager, ScreenRegion
 from src.core.input_buffer_system import InputBufferSystem, BufferedInput
 from src.core.broadcast_system import BroadcastSystem, BroadcastMessage
-from src.core.agent_communication_system import AgentCommunicationSystem
+from src.core.communication_compatibility_layer import AgentCommunicationProtocol
 
 
 class TestScreenRegionManager:
@@ -360,7 +360,7 @@ class TestAgentCommunicationSystem:
     
     def setup_method(self):
         """Setup test fixtures"""
-        self.comm_system = AgentCommunicationSystem()
+        self.comm_system = AgentCommunicationProtocol()
     
     @pytest.mark.asyncio
     async def test_system_initialization(self):
@@ -375,7 +375,7 @@ class TestAgentCommunicationSystem:
         
         try:
             # Patch the coordinate file path
-            with patch('src.core.agent_communication_system.Path') as mock_path:
+            with patch('src.core.communication_compatibility_layer.Path') as mock_path:
                 mock_path.return_value = Path(coords_file)
                 
                 await self.comm_system.initialize_system()

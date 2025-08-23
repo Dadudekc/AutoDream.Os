@@ -22,16 +22,7 @@ from tests.utils.test_helpers import (
 )
 
 # Import core components for testing
-from src.core.shared_enums import (
-    MessagePriority,
-    MessageStatus,
-    MessageType,
-    TaskPriority,
-    TaskStatus,
-    WorkflowStatus,
-    AgentStatus,
-    AgentCapability,
-)
+from src.core.communication_compatibility_layer import MessagePriority, TaskPriority
 from src.services.cross_system_communication import (
     CrossSystemMessage,
     SystemEndpoint,
@@ -386,7 +377,7 @@ class TestSharedComponentDependencies:
     def test_shared_enum_dependencies(self):
         """Test shared enum dependencies across modules."""
         # Test enum import consistency
-        from src.core.shared_enums import MessagePriority, TaskPriority
+        from src.core.communication_compatibility_layer import MessagePriority, TaskPriority
 
         # Verify enum consistency
         assert MessagePriority.HIGH.value == "high"

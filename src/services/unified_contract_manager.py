@@ -78,8 +78,9 @@ class UnifiedContractManager:
             contracts_dir = Path(self.legacy_contracts_path)
             if not contracts_dir.exists():
                 self.logger.info(
-                    f"Legacy contracts directory not found: {contracts_dir}"
+                    f"Legacy contracts directory not found: {contracts_dir}. Creating."
                 )
+                contracts_dir.mkdir(parents=True, exist_ok=True)
                 return
 
             migrated_count = 0

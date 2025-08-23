@@ -16,7 +16,6 @@ from .storage_types import (
 )
 
 from .storage_core import PersistentDataStorage
-from .storage_backup import StorageBackupManager
 from .storage_integration import UnifiedStorageSystem
 
 # Backward compatibility - maintain original interface
@@ -29,7 +28,6 @@ __all__ = [
     "StorageConfig",
     # Core classes
     "PersistentDataStorage",
-    "StorageBackupManager",
     "UnifiedStorageSystem",
     # Legacy alias for backward compatibility
     "PersistentDataStorage as Storage",  # Maintains original import

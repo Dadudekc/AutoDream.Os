@@ -23,7 +23,7 @@ try:
 
     __all__ = ["AgentCellPhone"]
 
-except ImportError as e:
+except Exception as e:
     print(f"⚠️ Warning: Some services components not available: {e}")
     __all__ = []
 

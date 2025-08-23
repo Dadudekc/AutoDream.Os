@@ -12,11 +12,17 @@ import time
 import json
 import sys
 import os
+import logging
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from logging_config import configure_logging
+
+configure_logging()
+logger = logging.getLogger(__name__)
 
 # Import API V2 services for focused testing
 try:
@@ -27,7 +33,7 @@ try:
     from services.contract_validation_service import ContractValidationService
     from services.master_v2_integration import MasterV2Integration
 except ImportError as e:
-    print(f"Import warning: {e}")
+    logger.warning(f"Import warning: {e}")
     # Fallback mock services for API testing
     V2APIGateway = Mock
     V2ServiceDiscovery = Mock
@@ -285,7 +291,7 @@ class APIV2TestSuite(unittest.TestCase):
 
 def main():
     """Run API V2 test suite"""
-    print("🌐 Running API V2 Services Test Suite...")
+    logger.info("🌐 Running API V2 Services Test Suite...")
 
     # Create test suite
     suite = unittest.TestLoader().loadTestsFromTestCase(APIV2TestSuite)
@@ -325,12 +331,12 @@ def main():
     with open(report_file, "w") as f:
         json.dump(report, f, indent=2)
 
-    print(f"✅ API V2 Test Suite completed!")
-    print(f"Total Tests: {report['total_tests']}")
-    print(f"API Services Tested: {report['api_services_tested']}")
-    print(f"Success Rate: {report['success_rate']:.1f}%")
-    print(f"Enterprise Standards: PASSED")
-    print(f"Report saved to: api_v2_test_results/api_v2_test_report.json")
+    logger.info("✅ API V2 Test Suite completed!")
+    logger.info(f"Total Tests: {report['total_tests']}")
+    logger.info(f"API Services Tested: {report['api_services_tested']}")
+    logger.info(f"Success Rate: {report['success_rate']:.1f}%")
+    logger.info("Enterprise Standards: PASSED")
+    logger.info("Report saved to: api_v2_test_results/api_v2_test_report.json")
 
     return report
 

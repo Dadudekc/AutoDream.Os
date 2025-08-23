@@ -10,7 +10,7 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-from .task_manager import TaskManager
+from core.task_manager import DevelopmentTaskManager as TaskManager
 from .task_registry import TaskRegistry
 
 __all__ = [

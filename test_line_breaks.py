@@ -8,7 +8,8 @@ that respects Shift+Enter for line breaks within messages.
 """
 
 import asyncio
-from autonomous_development_system import RealAgentCommunicationSystem, TaskManager
+from autonomous_development_system import RealAgentCommunicationSystem
+from core.task_manager import DevelopmentTaskManager as TaskManager
 
 
 async def test_line_breaks():
@@ -18,7 +19,7 @@ async def test_line_breaks():
 
     # Initialize the system
     comm_system = RealAgentCommunicationSystem()
-    task_manager = TaskManager(comm_system)
+    task_manager = TaskManager()
 
     # Test message with multiple line breaks
     test_message = """🎯 TASK UPDATE: Repository Cleanup

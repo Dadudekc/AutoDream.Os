@@ -11,7 +11,8 @@ License: MIT
 """
 
 from .core import DevelopmentTask, TaskPriority, TaskComplexity, TaskStatus, AgentRole
-from .tasks import TaskManager, TaskRegistry
+from core.task_manager import DevelopmentTaskManager as TaskManager
+from .tasks import TaskRegistry
 from .agents import AgentCoordinator, AgentWorkflow
 from .workflow import WorkflowEngine, WorkflowMonitor
 from .communication import DevelopmentCommunication

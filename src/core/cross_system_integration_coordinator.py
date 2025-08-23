@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from core.performance_tracker import PerformanceTracker, MetricType
 from core.api_gateway import APIGateway
-from core.agent_communication import AgentCommunicationProtocol
+from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from core.health_monitor_core import HealthMonitorCore
 
 # Configure logging
@@ -75,7 +75,7 @@ class CrossSystemIntegrationCoordinator:
         # Initialize core systems
         self.performance_tracker = PerformanceTracker()
         self.api_gateway = APIGateway()
-        self.agent_communication = AgentCommunicationProtocol()
+        self.messaging_system = V2ComprehensiveMessagingSystem()
         self.health_monitor = HealthMonitorCore()
 
         # Agent registry

@@ -26,13 +26,12 @@ from src.core.v2_onboarding_sequence import (
     OnboardingSession,
     OnboardingMessage,
 )
-from src.core.agent_communication import (
-    AgentCommunicationProtocol,
-    MessageType,
-    MessagePriority,
+from src.core.v2_comprehensive_messaging_system import (
+    V2ComprehensiveMessagingSystem,
+    V2MessageType,
+    V2MessagePriority,
 )
 from src.core.fsm_core_v2 import FSMCoreV2
-from src.core.inbox_manager import InboxManager
 
 
 class TestV2OnboardingSequence(unittest.TestCase):
@@ -58,9 +57,8 @@ class TestV2OnboardingSequence(unittest.TestCase):
         self.inbox_path.mkdir(parents=True, exist_ok=True)
 
         # Mock components
-        self.mock_communication = Mock(spec=AgentCommunicationProtocol)
+        self.mock_communication = Mock(spec=V2ComprehensiveMessagingSystem)
         self.mock_fsm_core = Mock(spec=FSMCoreV2)
-        self.mock_inbox_manager = Mock(spec=InboxManager)
 
         # Initialize onboarding sequence
         self.onboarding = V2OnboardingSequence(self.test_config)
@@ -99,14 +97,12 @@ class TestV2OnboardingSequence(unittest.TestCase):
         # Mock component references
         self.onboarding.communication_protocol = self.mock_communication
         self.onboarding.fsm_core = self.mock_fsm_core
-        self.onboarding.inbox_manager = self.mock_inbox_manager
 
         # Start onboarding
         session_id = self.onboarding.start_onboarding(
             "Agent-1",
             self.mock_communication,
             self.mock_fsm_core,
-            self.mock_inbox_manager,
         )
 
         self.assertIsNotNone(session_id)

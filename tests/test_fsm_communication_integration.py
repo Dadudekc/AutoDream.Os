@@ -20,9 +20,8 @@ from unittest.mock import Mock, patch
 
 # Import components to test
 from src.core.workspace_manager import WorkspaceManager
-from src.core.inbox_manager import InboxManager
 from src.core.fsm_core_v2 import FSMCoreV2
-from src.core.agent_communication import AgentCommunicationProtocol
+from src.core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from src.core.fsm_communication_bridge import FSMCommunicationBridge
 
 
@@ -44,19 +43,16 @@ class TestFSMCommunicationIntegration(unittest.TestCase):
 
         # Initialize core components
         self.workspace_manager = WorkspaceManager(str(self.workspace_path))
-        self.inbox_manager = InboxManager(self.workspace_manager)
         self.fsm_core = FSMCoreV2(
             workspace_manager=self.workspace_manager,
-            inbox_manager=self.inbox_manager,
             fsm_data_path=str(self.fsm_data_path),
         )
-        self.communication_protocol = AgentCommunicationProtocol()
+        self.messaging_system = V2ComprehensiveMessagingSystem()
 
         # Initialize integration bridge
         self.fsm_bridge = FSMCommunicationBridge(
             fsm_core=self.fsm_core,
-            communication_protocol=self.communication_protocol,
-            inbox_manager=self.inbox_manager,
+            communication_protocol=self.messaging_system,
         )
 
     def tearDown(self):

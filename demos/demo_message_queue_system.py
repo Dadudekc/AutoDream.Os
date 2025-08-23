@@ -21,7 +21,7 @@ from src.services.cdp_message_delivery import (
     send_message_to_cursor,
     broadcast_message_to_cursor,
 )
-from src.core.shared_enums import AgentCapability
+from src.core.v2_comprehensive_messaging_system import V2AgentCapability
 
 
 def demo_agent_registration():
@@ -38,8 +38,8 @@ def demo_agent_registration():
             "id": "agent_1",
             "name": "Foundation & Testing Specialist",
             "capabilities": [
-                AgentCapability.TASK_EXECUTION,
-                AgentCapability.MONITORING,
+                V2AgentCapability.TASK_EXECUTION,
+                V2AgentCapability.MONITORING,
             ],
             "window_title": "Cursor - Agent_Cellphone_V2_Repository",
         },
@@ -47,8 +47,8 @@ def demo_agent_registration():
             "id": "agent_2",
             "name": "AI/ML Specialist",
             "capabilities": [
-                AgentCapability.DECISION_MAKING,
-                AgentCapability.DATA_PROCESSING,
+                V2AgentCapability.DECISION_MAKING,
+                V2AgentCapability.DATA_PROCESSING,
             ],
             "window_title": "Cursor - AI_ML_Project",
         },
@@ -56,8 +56,8 @@ def demo_agent_registration():
             "id": "agent_3",
             "name": "Web Development Specialist",
             "capabilities": [
-                AgentCapability.TASK_EXECUTION,
-                AgentCapability.COMMUNICATION,
+                V2AgentCapability.TASK_EXECUTION,
+                V2AgentCapability.COMMUNICATION,
             ],
             "window_title": "Cursor - Web_Development_Project",
         },
@@ -65,23 +65,23 @@ def demo_agent_registration():
             "id": "agent_4",
             "name": "Multimedia & Gaming Specialist",
             "capabilities": [
-                AgentCapability.DATA_PROCESSING,
-                AgentCapability.MONITORING,
+                V2AgentCapability.DATA_PROCESSING,
+                V2AgentCapability.MONITORING,
             ],
             "window_title": "Cursor - Multimedia_Gaming_Project",
         },
         {
             "id": "agent_5",
             "name": "Security & Compliance Specialist",
-            "capabilities": [AgentCapability.MONITORING, AgentCapability.REPORTING],
+            "capabilities": [V2AgentCapability.MONITORING, V2AgentCapability.REPORTING],
             "window_title": "Cursor - Security_Compliance_Project",
         },
         {
             "id": "agent_6",
             "name": "Data & Analytics Specialist",
             "capabilities": [
-                AgentCapability.DATA_PROCESSING,
-                AgentCapability.DECISION_MAKING,
+                V2AgentCapability.DATA_PROCESSING,
+                V2AgentCapability.DECISION_MAKING,
             ],
             "window_title": "Cursor - Data_Analytics_Project",
         },
@@ -89,8 +89,8 @@ def demo_agent_registration():
             "id": "agent_7",
             "name": "Infrastructure & DevOps Specialist",
             "capabilities": [
-                AgentCapability.TASK_EXECUTION,
-                AgentCapability.MONITORING,
+                V2AgentCapability.TASK_EXECUTION,
+                V2AgentCapability.MONITORING,
             ],
             "window_title": "Cursor - Infrastructure_DevOps_Project",
         },
@@ -98,8 +98,8 @@ def demo_agent_registration():
             "id": "agent_8",
             "name": "Business Logic & Workflows Specialist",
             "capabilities": [
-                AgentCapability.DECISION_MAKING,
-                AgentCapability.COMMUNICATION,
+                V2AgentCapability.DECISION_MAKING,
+                V2AgentCapability.COMMUNICATION,
             ],
             "window_title": "Cursor - Business_Logic_Project",
         },

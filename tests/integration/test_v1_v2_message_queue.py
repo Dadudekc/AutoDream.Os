@@ -27,7 +27,7 @@ from src.services.cdp_message_delivery import (
     send_message_to_cursor,
     broadcast_message_to_cursor,
 )
-from src.core.shared_enums import AgentStatus, AgentCapability, MessageStatus
+from src.core.v2_comprehensive_messaging_system import V2AgentStatus, V2AgentCapability, V2MessageStatus
 
 
 class TestV1V2MessageQueueSystem:
@@ -68,8 +68,8 @@ class TestV1V2MessageQueueSystem:
         agent_conn = AgentConnection(
             agent_id="test_agent_001",
             agent_name="Test Agent",
-            status=AgentStatus.ONLINE,
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            status=V2AgentStatus.ONLINE,
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
             delivery_methods=[MessageDeliveryMethod.PYAUTOGUI],
         )
 
@@ -91,8 +91,8 @@ class TestV1V2MessageQueueSystem:
         agent_conn = AgentConnection(
             agent_id="test_agent_001",
             agent_name="Test Agent",
-            status=AgentStatus.ONLINE,
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            status=V2AgentStatus.ONLINE,
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
             delivery_methods=[MessageDeliveryMethod.PYAUTOGUI],
         )
         self.queue_system.register_agent(agent_conn)
@@ -189,8 +189,8 @@ class TestV1V2MessageQueueSystem:
             self.queue_system.agent_connections["agent_2"] = AgentConnection(
                 agent_id="agent_2",
                 agent_name="Test Agent 2",
-                status=AgentStatus.ONLINE,
-                capabilities=[AgentCapability.TASK_EXECUTION],
+                status=V2AgentStatus.ONLINE,
+                capabilities=[V2AgentCapability.TASK_EXECUTION],
                 delivery_methods=[MessageDeliveryMethod.PYAUTOGUI],
                 window_title="Test Window",
             )
@@ -219,8 +219,8 @@ class TestV1V2MessageQueueSystem:
         self.queue_system.agent_connections["agent_2"] = AgentConnection(
             agent_id="agent_2",
             agent_name="Test Agent 2",
-            status=AgentStatus.ONLINE,
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            status=V2AgentStatus.ONLINE,
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
             delivery_methods=[MessageDeliveryMethod.HYBRID],
             window_title="Test Window",
         )
@@ -241,16 +241,16 @@ class TestV1V2MessageQueueSystem:
         agent_conn1 = AgentConnection(
             agent_id="agent_1",
             agent_name="Agent 1",
-            status=AgentStatus.ONLINE,
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            status=V2AgentStatus.ONLINE,
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
             delivery_methods=[MessageDeliveryMethod.PYAUTOGUI],
         )
 
         agent_conn2 = AgentConnection(
             agent_id="agent_2",
             agent_name="Agent 2",
-            status=AgentStatus.BUSY,
-            capabilities=[AgentCapability.MONITORING],
+            status=V2AgentStatus.BUSY,
+            capabilities=[V2AgentCapability.MONITORING],
             delivery_methods=[MessageDeliveryMethod.CDP_PROTOCOL],
         )
 
@@ -297,7 +297,7 @@ class TestMessageQueueManager:
         success = self.manager.register_agent(
             agent_id="test_agent",
             agent_name="Test Agent",
-            capabilities=[AgentCapability.TASK_EXECUTION, AgentCapability.MONITORING],
+            capabilities=[V2AgentCapability.TASK_EXECUTION, V2AgentCapability.MONITORING],
             window_title="Test Window",
         )
 
@@ -314,13 +314,13 @@ class TestMessageQueueManager:
         self.manager.register_agent(
             agent_id="source_agent",
             agent_name="Source Agent",
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
         )
 
         self.manager.register_agent(
             agent_id="target_agent",
             agent_name="Target Agent",
-            capabilities=[AgentCapability.MONITORING],
+            capabilities=[V2AgentCapability.MONITORING],
         )
 
         # Send message
@@ -342,19 +342,19 @@ class TestMessageQueueManager:
         self.manager.register_agent(
             agent_id="agent_1",
             agent_name="Agent 1",
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
         )
 
         self.manager.register_agent(
             agent_id="agent_2",
             agent_name="Agent 2",
-            capabilities=[AgentCapability.MONITORING],
+            capabilities=[V2AgentCapability.MONITORING],
         )
 
         self.manager.register_agent(
             agent_id="agent_3",
             agent_name="Agent 3",
-            capabilities=[AgentCapability.DECISION_MAKING],
+            capabilities=[V2AgentCapability.DECISION_MAKING],
         )
 
         # Broadcast message
@@ -375,14 +375,14 @@ class TestMessageQueueManager:
         self.manager.register_agent(
             agent_id="agent_1",
             agent_name="Agent 1",
-            capabilities=[AgentCapability.TASK_EXECUTION],
+            capabilities=[V2AgentCapability.TASK_EXECUTION],
             window_title="Window 1",
         )
 
         self.manager.register_agent(
             agent_id="agent_2",
             agent_name="Agent 2",
-            capabilities=[AgentCapability.MONITORING],
+            capabilities=[V2AgentCapability.MONITORING],
             window_title="Window 2",
         )
 
@@ -507,7 +507,7 @@ class TestMessageQueueIntegration:
         self.manager.register_agent(
             agent_id="foundation_agent",
             agent_name="Foundation & Testing Specialist",
-            capabilities=[AgentCapability.TASK_EXECUTION, AgentCapability.MONITORING],
+            capabilities=[V2AgentCapability.TASK_EXECUTION, V2AgentCapability.MONITORING],
             window_title="Cursor - Foundation Testing",
         )
 
@@ -515,8 +515,8 @@ class TestMessageQueueIntegration:
             agent_id="ai_ml_agent",
             agent_name="AI/ML Specialist",
             capabilities=[
-                AgentCapability.DECISION_MAKING,
-                AgentCapability.DATA_PROCESSING,
+                V2AgentCapability.DECISION_MAKING,
+                V2AgentCapability.DATA_PROCESSING,
             ],
             window_title="Cursor - AI ML Project",
         )
@@ -542,10 +542,10 @@ class TestMessageQueueIntegration:
         foundation_agent = status["agent_details"]["foundation_agent"]
         ai_ml_agent = status["agent_details"]["ai_ml_agent"]
 
-        assert AgentCapability.TASK_EXECUTION.value in foundation_agent["capabilities"]
-        assert AgentCapability.MONITORING.value in foundation_agent["capabilities"]
-        assert AgentCapability.DECISION_MAKING.value in ai_ml_agent["capabilities"]
-        assert AgentCapability.DATA_PROCESSING.value in ai_ml_agent["capabilities"]
+        assert V2AgentCapability.TASK_EXECUTION.value in foundation_agent["capabilities"]
+        assert V2AgentCapability.MONITORING.value in foundation_agent["capabilities"]
+        assert V2AgentCapability.DECISION_MAKING.value in ai_ml_agent["capabilities"]
+        assert V2AgentCapability.DATA_PROCESSING.value in ai_ml_agent["capabilities"]
 
     @pytest.mark.integration
     def test_high_priority_broadcast(self):
@@ -557,7 +557,7 @@ class TestMessageQueueIntegration:
             self.manager.register_agent(
                 agent_id=agent_id,
                 agent_name=f"Agent {i+1}",
-                capabilities=[AgentCapability.TASK_EXECUTION],
+                capabilities=[V2AgentCapability.TASK_EXECUTION],
                 window_title=f"Cursor - Project {i+1}",
             )
 
@@ -595,7 +595,7 @@ def test_message_queue_performance():
             manager.register_agent(
                 agent_id=f"perf_agent_{i}",
                 agent_name=f"Performance Agent {i}",
-                capabilities=[AgentCapability.TASK_EXECUTION],
+                capabilities=[V2AgentCapability.TASK_EXECUTION],
                 window_title=f"Cursor - Performance Test {i}",
             )
 

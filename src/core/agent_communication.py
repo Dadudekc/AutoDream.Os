@@ -22,40 +22,13 @@ from collections import defaultdict, deque
 import socket
 import pickle
 
+# Import V2 comprehensive messaging system
+from .v2_comprehensive_messaging_system import (
+    V2MessageType, V2MessagePriority, V2AgentStatus
+)
+
 # Configure logging
 logger = logging.getLogger(__name__)
-
-
-class MessageType(Enum):
-    """Message types for agent communication"""
-
-    TASK_ASSIGNMENT = "task_assignment"
-    STATUS_UPDATE = "status_update"
-    PERFORMANCE_METRIC = "performance_metric"
-    HEALTH_CHECK = "health_check"
-    COORDINATION = "coordination"
-    BROADCAST = "broadcast"
-    DIRECT = "direct"
-
-
-class MessagePriority(Enum):
-    """Message priority levels"""
-
-    LOW = "low"
-    NORMAL = "normal"
-    HIGH = "high"
-    URGENT = "urgent"
-
-
-class AgentStatus(Enum):
-    """Agent status values"""
-
-    ONLINE = "online"
-    OFFLINE = "offline"
-    BUSY = "busy"
-    IDLE = "idle"
-    ERROR = "error"
-    MAINTENANCE = "maintenance"
 
 
 @dataclass
@@ -65,7 +38,7 @@ class AgentInfo:
     agent_id: str
     name: str
     capabilities: List[str]
-    status: AgentStatus
+    status: V2AgentStatus
     last_seen: datetime
     endpoint: str
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -78,8 +51,8 @@ class Message:
     message_id: str
     sender_id: str
     recipient_id: str
-    message_type: MessageType
-    priority: MessagePriority
+    message_type: V2MessageType
+    priority: V2MessagePriority
     payload: Dict[str, Any]
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
@@ -141,7 +114,7 @@ class AgentCommunicationProtocol:
                 agent_id=agent_id,
                 name=name,
                 capabilities=capabilities,
-                status=AgentStatus.ONLINE,
+                status=V2AgentStatus.ONLINE,
                 last_seen=datetime.now(),
                 endpoint=endpoint,
                 metadata=metadata or {},
@@ -210,9 +183,9 @@ class AgentCommunicationProtocol:
         self,
         sender_id: str,
         recipient_id: str,
-        message_type: MessageType,
+        message_type: V2MessageType,
         payload: Dict[str, Any],
-        priority: MessagePriority = MessagePriority.NORMAL,
+        priority: V2MessagePriority = V2MessagePriority.NORMAL,
         metadata: Dict[str, Any] = None,
     ) -> str:
         """Send a message to another agent"""
@@ -256,9 +229,9 @@ class AgentCommunicationProtocol:
     def broadcast_message(
         self,
         sender_id: str,
-        message_type: MessageType,
+        message_type: V2MessageType,
         payload: Dict[str, Any],
-        priority: MessagePriority = MessagePriority.NORMAL,
+        priority: V2MessagePriority = V2MessagePriority.NORMAL,
         metadata: Dict[str, Any] = None,
     ) -> List[str]:
         """Broadcast a message to all registered agents"""
@@ -365,7 +338,7 @@ class AgentCommunicationProtocol:
 
                 # Check if recipient is available
                 recipient_info = self.registered_agents.get(message.recipient_id)
-                if not recipient_info or recipient_info.status == AgentStatus.OFFLINE:
+                if not recipient_info or recipient_info.status == V2AgentStatus.OFFLINE:
                     logger.warning(
                         f"Recipient {message.recipient_id} not available for message {message.message_id}"
                     )
@@ -408,7 +381,7 @@ class AgentCommunicationProtocol:
 
         with self.lock:
             for agent_id, agent_info in self.registered_agents.items():
-                if agent_info.status != AgentStatus.OFFLINE:
+                if agent_info.status != V2AgentStatus.OFFLINE:
                     # Check if heartbeat is needed
                     time_since_last = current_time - agent_info.last_seen
                     if time_since_last.total_seconds() > self.heartbeat_interval:
@@ -416,9 +389,9 @@ class AgentCommunicationProtocol:
                         self.send_message(
                             "system",
                             agent_id,
-                            MessageType.HEALTH_CHECK,
+                            V2MessageType.HEALTH_CHECK,
                             {"heartbeat": True, "timestamp": current_time.isoformat()},
-                            MessagePriority.LOW,
+                            V2MessagePriority.LOW,
                         )
 
     def _check_agent_health(self):
@@ -431,10 +404,10 @@ class AgentCommunicationProtocol:
 
                 # Mark agent as offline if no response for too long
                 if time_since_last.total_seconds() > self.message_timeout:
-                    if agent_info.status != AgentStatus.OFFLINE:
-                        agent_info.status = AgentStatus.OFFLINE
+                    if agent_info.status != V2AgentStatus.OFFLINE:
+                        agent_info.status = V2AgentStatus.OFFLINE
                         self._notify_agent_status_callbacks(
-                            agent_id, AgentStatus.OFFLINE
+                            agent_id, V2AgentStatus.OFFLINE
                         )
                         logger.warning(
                             f"Agent {agent_id} marked as offline due to timeout"
@@ -458,7 +431,7 @@ class AgentCommunicationProtocol:
             except Exception as e:
                 logger.error(f"Error in message callback: {e}")
 
-    def _notify_agent_status_callbacks(self, agent_id: str, status: AgentStatus):
+    def _notify_agent_status_callbacks(self, agent_id: str, status: V2AgentStatus):
         """Notify agent status change callbacks"""
         for callback in self.agent_status_callbacks:
             try:

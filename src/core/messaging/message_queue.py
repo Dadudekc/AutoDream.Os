@@ -18,7 +18,7 @@ from typing import Dict, List, Optional, Set, Any
 from queue import PriorityQueue
 from datetime import datetime
 
-from .message_types import Message, MessagePriority, MessageStatus
+from ..v2_comprehensive_messaging_system import V2Message, V2MessagePriority, V2MessageStatus
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +51,7 @@ class MessageQueue(ABC):
         }
 
     @abstractmethod
-    async def enqueue(self, message: Message) -> bool:
+    async def enqueue(self, message: V2Message) -> bool:
         """
         Add a message to the queue.
 
@@ -64,7 +64,7 @@ class MessageQueue(ABC):
         pass
 
     @abstractmethod
-    async def dequeue(self, agent_id: str) -> Optional[Message]:
+    async def dequeue(self, agent_id: str) -> Optional[V2Message]:
         """
         Get the next message for an agent.
 

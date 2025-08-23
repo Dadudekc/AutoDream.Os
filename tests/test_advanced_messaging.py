@@ -13,13 +13,13 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from core.messaging.message_types import (
-    Message,
-    MessagePriority,
-    MessageType,
-    MessageStatus,
+from core.v2_comprehensive_messaging_system import (
+    V2Message,
+    V2MessagePriority,
+    V2MessageType,
+    V2MessageStatus,
+    V2MessageQueue,
 )
-from core.messaging.message_queue import InMemoryMessageQueue, PersistentMessageQueue
 
 
 async def test_message_types():
@@ -27,12 +27,12 @@ async def test_message_types():
     print("🧪 Testing Message Types...")
 
     # Create a test message
-    message = Message(
-        type=MessageType.COORDINATION,
+    message = V2Message(
+        type=V2MessageType.COORDINATION,
         content="Test coordination message",
         from_agent="Agent-1",
         to_agent="Agent-2",
-        priority=MessagePriority.HIGH,
+        priority=V2MessagePriority.HIGH,
         tags=["test", "coordination"],
     )
 
@@ -66,32 +66,32 @@ async def test_in_memory_queue():
     print("\n🧪 Testing In-Memory Message Queue...")
 
     # Create queue
-    queue = InMemoryMessageQueue("test_queue", max_size=100)
-    print(f"✅ Created queue: {queue.name}")
+    queue = V2MessageQueue()
+    print(f"✅ Created V2 message queue")
 
     # Create test messages
-    msg1 = Message(
-        type=MessageType.TASK,
+    msg1 = V2Message(
+        type=V2MessageType.TASK,
         content="High priority task",
         from_agent="Agent-1",
         to_agent="Agent-2",
-        priority=MessagePriority.HIGH,
+        priority=V2MessagePriority.HIGH,
     )
 
-    msg2 = Message(
-        type=MessageType.TASK,
+    msg2 = V2Message(
+        type=V2MessageType.TASK,
         content="Low priority task",
         from_agent="Agent-1",
         to_agent="Agent-2",
-        priority=MessagePriority.LOW,
+        priority=V2MessagePriority.LOW,
     )
 
-    msg3 = Message(
-        type=MessageType.BROADCAST,
+    msg3 = V2Message(
+        type=V2MessageType.BROADCAST,
         content="Broadcast message",
         from_agent="Agent-1",
         to_agent="broadcast",
-        priority=MessagePriority.NORMAL,
+        priority=V2MessagePriority.NORMAL,
     )
 
     # Enqueue messages

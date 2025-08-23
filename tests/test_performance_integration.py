@@ -24,11 +24,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from core.performance_tracker import PerformanceTracker, MetricType
 from core.performance_profiler import PerformanceProfiler
 from core.performance_dashboard import PerformanceDashboard, DashboardView, AlertLevel
-from core.agent_communication import (
-    AgentCommunicationProtocol,
-    MessageType,
-    MessagePriority,
-    AgentStatus,
+from core.v2_comprehensive_messaging_system import (
+    V2ComprehensiveMessagingSystem,
+    V2MessageType,
+    V2MessagePriority,
+    V2AgentStatus,
 )
 from core.api_gateway import APIGateway, APIVersion, ServiceStatus
 
@@ -52,7 +52,7 @@ class TestPerformanceIntegration(unittest.TestCase):
         # Initialize components
         self.performance_tracker = PerformanceTracker(self.config)
         self.performance_profiler = PerformanceProfiler(self.config)
-        self.agent_communication = AgentCommunicationProtocol(self.config)
+        self.messaging_system = V2ComprehensiveMessagingSystem(self.config)
         self.api_gateway = APIGateway(self.config)
 
         # Initialize dashboard with components
@@ -64,12 +64,12 @@ class TestPerformanceIntegration(unittest.TestCase):
         )
 
         # Set up performance tracking integration
-        self.agent_communication.set_performance_tracker(self.performance_tracker)
+        # Note: V2 messaging system doesn't need performance tracker setup
         self.api_gateway.set_performance_tracker(self.performance_tracker)
 
         # Start services
         self.performance_dashboard.start()
-        self.agent_communication.start_communication()
+        # Note: V2 messaging system starts automatically
         self.api_gateway.start_gateway()
 
         # Wait for initialization
@@ -79,7 +79,7 @@ class TestPerformanceIntegration(unittest.TestCase):
         """Clean up test environment"""
         # Stop services
         self.performance_dashboard.cleanup()
-        self.agent_communication.cleanup()
+        # Note: V2 messaging system cleanup handled automatically
         self.api_gateway.cleanup()
         self.performance_tracker.cleanup()
         self.performance_profiler.cleanup()

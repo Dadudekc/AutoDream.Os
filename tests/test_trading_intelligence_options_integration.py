@@ -10,6 +10,7 @@ import pytest
 import json
 import tempfile
 import shutil
+import uuid
 from pathlib import Path
 from datetime import datetime, timedelta
 import pandas as pd
@@ -37,11 +38,11 @@ class TestTradingIntelligenceOptionsIntegration:
     @pytest.fixture(autouse=True)
     def setup_teardown(self):
         """Setup and teardown for each test"""
-        # Create temporary directories
-        self.temp_dir = tempfile.mkdtemp()
-        self.trading_dir = Path(self.temp_dir) / "trading_intelligence"
-        self.options_dir = Path(self.temp_dir) / "options_trading"
-        self.analytics_dir = Path(self.temp_dir) / "financial_analytics"
+        # Create temporary directories in organized structure
+        self.temp_dir = Path("data/test_outputs") / f"test_{uuid.uuid4().hex[:8]}"
+        self.trading_dir = self.temp_dir / "trading_intelligence"
+        self.options_dir = self.temp_dir / "options_trading"
+        self.analytics_dir = self.temp_dir / "financial_analytics"
 
         # Create directories
         self.trading_dir.mkdir(exist_ok=True)

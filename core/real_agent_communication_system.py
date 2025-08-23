@@ -142,7 +142,7 @@ class AgentRegistry:
 
     def load_agent_coordinates_fallback(self):
         """Fallback coordinate loading method for compatibility"""
-        config_path = Path("config/cursor_agent_coords.json")
+        config_path = Path("config/agents/coordinates.json")
         if not config_path.exists():
             self.logger.error("❌ cursor_agent_coords.json not found")
             return

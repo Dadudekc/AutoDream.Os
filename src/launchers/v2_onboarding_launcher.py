@@ -37,7 +37,7 @@ class V2OnboardingLauncher:
 
     def __init__(self, config_path: str = None):
         """Initialize the V2 onboarding launcher"""
-        self.config_path = config_path or "config/fsm_communication_config.json"
+        self.config_path = config_path or "config/agents/fsm_communication.json"
         self.config = self._load_config()
 
         # Core components

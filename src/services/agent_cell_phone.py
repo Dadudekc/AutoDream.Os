@@ -232,9 +232,9 @@ class AgentCellPhone:
             # Look up coordinates for target agent if available
             coords = None
             try:
-                config = self.config_manager.get_config("8_agent_config") or {}
+                config = self.config_manager.get_config("agent_config") or {}
                 coords = (
-                    config.get("8_agent_config", {})
+                    config.get("agent_config", {})
                     .get("agent_coordinates", {})
                     .get(agent)
                 )

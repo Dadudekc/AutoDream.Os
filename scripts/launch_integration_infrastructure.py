@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 class IntegrationInfrastructureLauncher:
     """Launcher for the integration infrastructure."""
 
-    def __init__(self, config_path: str = "config/integration_config.json"):
+    def __init__(self, config_path: str = "config/system/integration.json"):
         self.config_path = config_path
         self.config = self._load_config()
         self.coordinator: Optional[IntegrationCoordinator] = None
@@ -300,7 +300,7 @@ async def main():
     parser.add_argument(
         "--config",
         "-c",
-        default="config/integration_config.json",
+        default="config/system/integration.json",
         help="Path to configuration file",
     )
     parser.add_argument(

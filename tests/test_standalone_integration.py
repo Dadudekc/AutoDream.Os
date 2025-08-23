@@ -254,7 +254,7 @@ def test_configuration():
     print("=" * 30)
 
     try:
-        config_path = "config/integration_config.json"
+        config_path = "config/system/integration.json"
         if os.path.exists(config_path):
             with open(config_path, "r") as f:
                 config = json.load(f)

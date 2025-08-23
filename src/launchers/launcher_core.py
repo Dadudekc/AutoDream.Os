@@ -66,7 +66,7 @@ class LauncherCore:
                 print("❌ Coordinate configuration missing")
                 return False
 
-            mode_file = Path("runtime/config/modes_runtime.json")
+            mode_file = Path("runtime/config/agents/modes.json")
             if mode_file.exists():
                 print("✅ Mode configuration found")
             else:

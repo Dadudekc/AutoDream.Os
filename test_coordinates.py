@@ -16,7 +16,7 @@ def test_coordinate_loading():
     print("=" * 50)
 
     # Test loading the file directly
-    config_path = Path("config/cursor_agent_coords.json")
+    config_path = Path("config/agents/coordinates.json")
     if config_path.exists():
         print(f"✅ Found coordinate file: {config_path}")
 

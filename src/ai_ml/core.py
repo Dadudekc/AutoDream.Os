@@ -89,7 +89,7 @@ class AIManager:
         api_key_manager: Optional[APIKeyManager] = None,
     ):
         self.config_path = (
-            Path(config_path) if config_path else Path("config/ai_ml/ai_ml_config.json")
+            Path(config_path) if config_path else Path("config/ai_ml/ai_ml.json")
         )
         self.models: Dict[str, AIModel] = {}
         self.active_workflows: Dict[str, MLWorkflow] = {}

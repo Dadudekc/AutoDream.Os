@@ -45,7 +45,7 @@ class CrossSystemCommunicationLauncher:
     """Launcher for cross-system communication and integration testing."""
 
     def __init__(
-        self, config_path: str = "config/cross_system_communication_config.json"
+        self, config_path: str = "config/system/communication.json"
     ):
         self.config_path = config_path
         self.config = self._load_config()
@@ -381,7 +381,7 @@ async def main():
     parser.add_argument(
         "--config",
         "-c",
-        default="config/cross_system_communication_config.json",
+        default="config/system/communication.json",
         help="Configuration file path",
     )
 

@@ -73,10 +73,6 @@ from .testing import AITestRunner, ModelValidator, QualityAssurance
 from .api_key_manager import (
     APIKeyManager,
     get_api_key_manager,
-    get_openai_api_key,
-    get_anthropic_api_key,
-    get_openai_config,
-    get_anthropic_config,
 )
 
 __all__ = [
@@ -128,8 +124,4 @@ __all__ = [
     # API key management
     "APIKeyManager",
     "get_api_key_manager",
-    "get_openai_api_key",
-    "get_anthropic_api_key",
-    "get_openai_config",
-    "get_anthropic_config",
 ]

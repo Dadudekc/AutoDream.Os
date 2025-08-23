@@ -171,7 +171,7 @@ class TestPerpetualMotionEngine(unittest.TestCase):
             "src.core.fsm_cursor_integration.CursorResponseCapture"
         ) as mock_cursor_capture:
             with patch(
-                "src.core.fsm_cursor_integration.PerformanceProfiler"
+                "src.core.fsm_cursor_integration.PerformanceMonitor"
             ) as mock_performance_profiler:
                 with patch(
                     "src.core.fsm_cursor_integration.HealthMonitor"
@@ -523,7 +523,7 @@ class TestFSMIntegration(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures"""
         with patch("src.core.fsm_cursor_integration.CursorResponseCapture"):
-            with patch("src.core.fsm_cursor_integration.PerformanceProfiler"):
+            with patch("src.core.fsm_cursor_integration.PerformanceMonitor"):
                 with patch("src.core.fsm_cursor_integration.HealthMonitor"):
                     self.engine = PerpetualMotionEngine()
 

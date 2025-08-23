@@ -21,7 +21,7 @@ from pathlib import Path
 from websocket import create_connection, WebSocketConnectionClosedException
 from datetime import datetime
 
-from .performance_profiler import PerformanceProfiler
+from .performance_monitor import PerformanceMonitor
 from .health_monitor import HealthMonitor
 from .error_handler import ErrorHandler
 
@@ -331,7 +331,7 @@ class CursorResponseCapture:
         self.normalizer = CursorMessageNormalizer()
 
         # V2 integration
-        self.performance_profiler = PerformanceProfiler()
+        self.performance_profiler = PerformanceMonitor()
         self.health_monitor = HealthMonitor()
         self.error_handler = ErrorHandler()
 

@@ -8,7 +8,7 @@ all 8 agents receive messages quickly and efficiently.
 """
 
 import asyncio
-from real_agent_communication_system_v2 import RealAgentCommunicationSystem
+from core.real_agent_communication_system import RealAgentCommunicationSystem
 
 
 async def test_fast_8_agent():

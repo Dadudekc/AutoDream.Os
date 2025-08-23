@@ -33,10 +33,7 @@ from core.task_manager import DevelopmentTaskManager as TaskManager
 from autonomous_development.core import DevelopmentTask
 
 # Import our existing communication system
-from real_agent_communication_system_v2 import (
-    RealAgentCommunicationSystem,
-    ScreenRegionManager,
-)
+from core.real_agent_communication_system import RealAgentCommunicationSystem
 
 
 

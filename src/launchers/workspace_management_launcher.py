@@ -17,14 +17,12 @@ src_path = Path(__file__).parent.parent
 sys.path.insert(0, str(src_path))
 
 try:
-    from core.workspace_architecture_manager import (
-        WorkspaceArchitectureManager,
+    from core.workspace_manager import (
+        WorkspaceManager,
         WorkspaceType,
-    )
-    from core.workspace_security_manager import (
-        WorkspaceSecurityManager,
         SecurityLevel,
         Permission,
+        run_smoke_test,
     )
 
     IMPORT_SUCCESS = True
@@ -38,13 +36,11 @@ class WorkspaceManagementLauncher:
     """Unified launcher for workspace management system"""
 
     def __init__(self):
-        self.architecture_manager = None
-        self.security_manager = None
+        self.manager = None
 
         if IMPORT_SUCCESS:
             try:
-                self.architecture_manager = WorkspaceArchitectureManager()
-                self.security_manager = WorkspaceSecurityManager()
+                self.manager = WorkspaceManager()
                 print("✅ Workspace Management System initialized successfully")
             except Exception as e:
                 print(f"⚠️ Initialization warning: {e}")
@@ -54,16 +50,12 @@ class WorkspaceManagementLauncher:
 
     def get_system_status(self) -> dict:
         """Get comprehensive system status"""
-        if not IMPORT_SUCCESS:
+        if not IMPORT_SUCCESS or not self.manager:
             return {"error": "System not fully initialized due to import issues"}
 
         try:
-            # Get architecture status
-            arch_summary = self.architecture_manager.get_architecture_summary()
-
-            # Get security status
-            security_summary = self.security_manager.get_security_summary()
-
+            arch_summary = self.manager.get_architecture_summary()
+            security_summary = self.manager.get_security_summary()
             return {
                 "architecture": arch_summary,
                 "security": security_summary,
@@ -74,21 +66,17 @@ class WorkspaceManagementLauncher:
 
     def create_secure_workspace(self, name: str, agent_id: str) -> dict:
         """Create a secure workspace for an agent"""
-        if not IMPORT_SUCCESS:
+        if not IMPORT_SUCCESS or not self.manager:
             return {"error": "System not fully initialized"}
 
         try:
-            # Create workspace with private security level
-            success = self.architecture_manager.create_workspace(
+            success = self.manager.create_workspace(
                 name, WorkspaceType.AGENT, permissions=[agent_id]
             )
-
             if success:
-                # Create security policy
-                security_success = self.security_manager.create_security_policy(
-                    name, SecurityLevel.PRIVATE, allowed_agents=[agent_id]
+                security_success = self.manager.create_security_policy(
+                    name, SecurityLevel.PRIVATE, [agent_id]
                 )
-
                 if security_success:
                     return {
                         "success": True,
@@ -96,21 +84,18 @@ class WorkspaceManagementLauncher:
                         "security_level": "private",
                         "agent": agent_id,
                     }
-                else:
-                    return {"error": "Failed to create security policy"}
-            else:
-                return {"error": "Failed to create workspace"}
-
+                return {"error": "Failed to create security policy"}
+            return {"error": "Failed to create workspace"}
         except Exception as e:
             return {"error": f"Workspace creation failed: {e}"}
 
     def list_all_workspaces(self) -> dict:
         """List all workspaces with their security information"""
-        if not IMPORT_SUCCESS:
+        if not IMPORT_SUCCESS or not self.manager:
             return {"error": "System not fully initialized"}
 
         try:
-            workspaces = self.architecture_manager.list_workspaces()
+            workspaces = self.manager.list_workspaces()
             workspace_info = []
 
             for ws in workspaces:
@@ -123,8 +108,8 @@ class WorkspaceManagementLauncher:
                 }
 
                 # Add security info if available
-                if ws.name in self.security_manager.security_policies:
-                    policy = self.security_manager.security_policies[ws.name]
+                if ws.name in self.manager.security_manager.security_policies:
+                    policy = self.manager.security_manager.security_policies[ws.name]
                     ws_info["security_level"] = policy.security_level.value
                     ws_info["encryption_enabled"] = policy.encryption_enabled
 
@@ -137,55 +122,45 @@ class WorkspaceManagementLauncher:
 
     def run_system_test(self) -> dict:
         """Run comprehensive system test"""
-        if not IMPORT_SUCCESS:
+        if not IMPORT_SUCCESS or not self.manager:
             return {"error": "System not fully initialized"}
 
         try:
             test_results = {}
 
-            # Test architecture manager
             try:
-                arch_test = self.architecture_manager.run_smoke_test()
+                arch_test = run_smoke_test()
                 test_results["architecture"] = "PASSED" if arch_test else "FAILED"
             except Exception as e:
                 test_results["architecture"] = f"ERROR: {e}"
 
-            # Test security manager
             try:
-                security_test = self.security_manager.run_smoke_test()
+                security_test = self.manager.security_manager.run_smoke_test()
                 test_results["security"] = "PASSED" if security_test else "FAILED"
             except Exception as e:
                 test_results["security"] = f"ERROR: {e}"
 
-            # Test workspace creation
             try:
                 test_ws = "test_workspace_system_test"
-                ws_created = self.architecture_manager.create_workspace(
+                ws_created = self.manager.create_workspace(
                     test_ws, WorkspaceType.TEMPORARY
                 )
                 test_results["workspace_creation"] = (
                     "PASSED" if ws_created else "FAILED"
                 )
-
-                # Cleanup test workspace
                 if ws_created:
-                    test_path = (
-                        Path(self.architecture_manager.base_workspace_dir) / test_ws
-                    )
+                    test_path = Path(self.manager.base_workspace_dir) / test_ws
                     if test_path.exists():
                         import shutil
 
                         shutil.rmtree(test_path)
-
             except Exception as e:
                 test_results["workspace_creation"] = f"ERROR: {e}"
 
-            return {
-                "test_results": test_results,
-                "overall_status": "PASSED"
-                if all("PASSED" in str(v) for v in test_results.values())
-                else "FAILED",
-            }
+            overall = (
+                "PASSED" if all("PASSED" in str(v) for v in test_results.values()) else "FAILED"
+            )
+            return {"test_results": test_results, "overall_status": overall}
 
         except Exception as e:
             return {"error": f"System test failed: {e}"}

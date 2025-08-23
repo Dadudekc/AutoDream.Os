@@ -22,7 +22,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
     from services.testing import TestFramework as V2IntegrationTestingFramework
-from services.testing.core_framework import TestResult
+    from services.testing.core_framework import TestResult
 except ImportError:
     # Use new modular testing framework
     V2IntegrationTestingFramework = Mock

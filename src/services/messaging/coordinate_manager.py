@@ -51,7 +51,7 @@ class CoordinateManager(ICoordinateManager):
     - Coordinate mapping and calibration
     """
     
-    def __init__(self, coordinates_file: str = "config/cursor_agent_coords.json"):
+    def __init__(self, coordinates_file: str = "config/agents/coordinates.json"):
         """Initialize the coordinate manager with primary config location"""
         self.coordinates_file = Path(coordinates_file)
         # Fallback to runtime location if primary doesn't exist
@@ -260,7 +260,7 @@ class CoordinateManager(ICoordinateManager):
         
         # List of possible coordinate file locations
         possible_sources = [
-            Path("config/cursor_agent_coords.json"),
+            Path("config/agents/coordinates.json"),
             Path("runtime/agent_comms/cursor_agent_coords.json"),
             Path("src/services/cursor_agent_coords.json"),
             Path("cursor_agent_coords.json")

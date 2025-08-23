@@ -52,7 +52,7 @@ def test_pyautogui_direct_delivery(monkeypatch):
     # Provide coordinates for agent
     def fake_get_config(section, key=None, default=None):
         return {
-            "8_agent_config": {"agent_coordinates": {"agent_1": {"x": 10, "y": 20}}}
+            "agent_config": {"agent_coordinates": {"agent_1": {"x": 10, "y": 20}}}
         }
 
     monkeypatch.setattr(system.config_manager, "get_config", fake_get_config)

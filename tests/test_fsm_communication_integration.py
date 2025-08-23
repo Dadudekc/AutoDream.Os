@@ -32,8 +32,8 @@ class TestFSMCommunicationIntegration(unittest.TestCase):
         """Set up test environment."""
         # Create temporary directories
         self.test_dir = tempfile.mkdtemp()
-        self.workspace_path = Path(self.test_dir) / "agent_workspaces"
-        self.inbox_path = Path(self.test_dir) / "message_data"
+        self.workspace_path = Path(self.test_dir) / "workspaces"
+        self.inbox_path = Path(self.test_dir) / "communication"
         self.fsm_data_path = Path(self.test_dir) / "fsm_data"
 
         # Create directories
@@ -243,8 +243,8 @@ class TestIntegrationEndToEnd(unittest.TestCase):
     def setUp(self):
         """Set up end-to-end test environment."""
         self.test_dir = tempfile.mkdtemp()
-        self.workspace_path = Path(self.test_dir) / "agent_workspaces"
-        self.inbox_path = Path(self.test_dir) / "message_data"
+        self.workspace_path = Path(self.test_dir) / "workspaces"
+        self.inbox_path = Path(self.test_dir) / "communication"
         self.fsm_data_path = Path(self.test_dir) / "fsm_data"
 
         # Create directories

@@ -37,7 +37,7 @@ class PortalLauncher:
     """Portal launcher with configuration management"""
 
     def __init__(self, config_path: Optional[str] = None):
-        self.config_path = config_path or "config/portal_config.yaml"
+        self.config_path = config_path or "config/services/portal.yaml"
         self.config = self.load_config()
         self.portal = None
 

@@ -118,7 +118,7 @@ class MLRobotMaker:
     """Intelligent system for automatically creating and managing ML models"""
 
     def __init__(self, config_path: Optional[str] = None):
-        self.config = config_loader(config_path or "config/ai_ml/ai_ml_config.json")
+        self.config = config_loader(config_path or "config/ai_ml/ai_ml.json")
         self.logger = logger_setup(
             "ml_robot_maker",
             self.config.get("environment", {}).get("log_level", "INFO"),

@@ -530,7 +530,7 @@ def test_configuration_standalone():
     print("=" * 30)
 
     try:
-        config_file = "config/performance_monitoring_config.json"
+        config_file = "config/system/performance.json"
 
         if os.path.exists(config_file):
             with open(config_file, "r") as f:

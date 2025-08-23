@@ -16,7 +16,7 @@ from .environment_overrides import EnvironmentOverrides
 class ConfigUtilsCoordinator:
     """Coordinates all configuration utility modules"""
 
-    def __init__(self, config_path: str = "config/unified_config.yaml"):
+    def __init__(self, config_path: str = "config/services/unified.yaml"):
         self.config_loader = ConfigLoader(config_path)
         self.environment_overrides = EnvironmentOverrides()
 

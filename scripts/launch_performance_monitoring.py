@@ -59,7 +59,7 @@ logger = logging.getLogger(__name__)
 class PerformanceMonitoringLauncher:
     """Main launcher for the performance monitoring system."""
 
-    def __init__(self, config_file: str = "config/performance_monitoring_config.json"):
+    def __init__(self, config_file: str = "config/system/performance.json"):
         self.config_file = config_file
         self.config = {}
         self.performance_monitor: Optional[PerformanceMonitor] = None
@@ -610,8 +610,8 @@ async def main():
 
     parser.add_argument(
         "--config",
-        default="config/performance_monitoring_config.json",
-        help="Configuration file path (default: config/performance_monitoring_config.json)",
+        default="config/system/performance.json",
+        help="Configuration file path (default: config/system/performance.json)",
     )
 
     parser.add_argument(

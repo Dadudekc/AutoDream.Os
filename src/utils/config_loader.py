@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 class ConfigLoader:
     """Manages configuration file loading and parsing"""
 
-    def __init__(self, config_path: str = "config/unified_config.yaml"):
+    def __init__(self, config_path: str = "config/services/unified.yaml"):
         self.config_path = Path(config_path)
         self.config_data: Dict[str, Any] = {}
         self.loaded = False

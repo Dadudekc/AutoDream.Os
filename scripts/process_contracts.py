@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Process contract IDs listed in config/contract_input.txt.
+"""Process contract IDs listed in config/contracts/contract_input.txt.
 
 Reads the contract_input.txt file and iterates through every contract ID.
 This ensures consumers handle all entries rather than just a single line.
@@ -8,7 +8,7 @@ This ensures consumers handle all entries rather than just a single line.
 from pathlib import Path
 from typing import List
 
-CONTRACT_FILE = Path("config/contract_input.txt")
+CONTRACT_FILE = Path("config/contracts/contract_input.txt")
 
 
 def load_contract_ids(path: Path = CONTRACT_FILE) -> List[str]:

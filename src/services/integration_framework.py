@@ -42,7 +42,7 @@ class ServiceInfo:
 class V2IntegrationFramework:
     """Comprehensive integration framework for V2 system"""
 
-    def __init__(self, config_path: str = "config/integration_config.json"):
+    def __init__(self, config_path: str = "config/system/integration.json"):
         self.logger = logging.getLogger(f"{__name__}.V2IntegrationFramework")
         self.config_path = Path(config_path)
 

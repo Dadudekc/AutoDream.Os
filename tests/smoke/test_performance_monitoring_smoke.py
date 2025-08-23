@@ -389,7 +389,7 @@ def test_configuration_loading():
     print("=" * 35)
 
     try:
-        config_file = "config/performance_monitoring_config.json"
+        config_file = "config/system/performance.json"
         config_path = Path(config_file)
 
         if config_path.exists():

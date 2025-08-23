@@ -32,7 +32,7 @@ def config_loader(config_path: Optional[str] = None) -> Dict[str, Any]:
         Configuration dictionary
     """
     if config_path is None:
-        config_path = "config/ai_ml/ai_ml_config.json"
+        config_path = "config/ai_ml/ai_ml.json"
 
     config_file = Path(config_path)
 
@@ -299,7 +299,7 @@ def validate_environment() -> Dict[str, bool]:
         ).exists()
 
     # Check configuration files
-    config_files = ["config/ai_ml/ai_ml_config.json", ".env.template"]
+    config_files = ["config/ai_ml/ai_ml.json", ".env.template"]
 
     for config_file in config_files:
         validation_results[

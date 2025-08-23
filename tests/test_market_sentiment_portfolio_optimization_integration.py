@@ -10,6 +10,7 @@ import pytest
 import json
 import tempfile
 import shutil
+import uuid
 from pathlib import Path
 from datetime import datetime, timedelta
 import pandas as pd
@@ -40,10 +41,10 @@ class TestMarketSentimentPortfolioOptimizationIntegration:
     @pytest.fixture(autouse=True)
     def setup_teardown(self):
         """Setup and teardown for each test"""
-        # Create temporary directory
-        self.temp_dir = tempfile.mkdtemp()
-        self.sentiment_dir = Path(self.temp_dir) / "market_sentiment"
-        self.optimization_dir = Path(self.temp_dir) / "portfolio_optimization"
+        # Create temporary directory in organized structure
+        self.temp_dir = Path("data/test_outputs") / f"test_{uuid.uuid4().hex[:8]}"
+        self.sentiment_dir = self.temp_dir / "market_sentiment"
+        self.optimization_dir = self.temp_dir / "portfolio_optimization"
 
         # Create services
         self.market_sentiment_service = MarketSentimentService(

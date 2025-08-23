@@ -47,9 +47,9 @@ class TestV2OnboardingSequence(unittest.TestCase):
 
         # Create temporary directories
         self.test_dir = tempfile.mkdtemp()
-        self.workspace_path = Path(self.test_dir) / "agent_workspaces"
+        self.workspace_path = Path(self.test_dir) / "workspaces"
         self.fsm_data_path = Path(self.test_dir) / "fsm_data"
-        self.inbox_path = Path(self.test_dir) / "message_data"
+        self.inbox_path = Path(self.test_dir) / "communication"
 
         # Create directories
         self.workspace_path.mkdir(parents=True, exist_ok=True)
@@ -355,9 +355,9 @@ class TestV2OnboardingIntegration(unittest.TestCase):
 
         # Create temporary directories
         self.test_dir = tempfile.mkdtemp()
-        self.workspace_path = Path(self.test_dir) / "agent_workspaces"
+        self.workspace_path = Path(self.test_dir) / "workspaces"
         self.fsm_data_path = Path(self.test_dir) / "fsm_data"
-        self.inbox_path = Path(self.test_dir) / "message_data"
+        self.inbox_path = Path(self.test_dir) / "communication"
 
         # Create directories
         self.workspace_path.mkdir(parents=True, exist_ok=True)

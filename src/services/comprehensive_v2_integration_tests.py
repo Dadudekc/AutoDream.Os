@@ -54,7 +54,6 @@ try:
         V2IntegrationFramework as IntegrationFramework,
     )
     from services.heartbeat_monitor import HeartbeatMonitor
-    from services.agent_cell_phone_refactored import AgentCellPhoneRefactored
     from services.v1_compatibility_layer import V1CompatibilityLayer
     from services.message_handler_v2 import MessageHandlerV2
     from services.contract_lifecycle_service import ContractLifecycleService
@@ -62,7 +61,7 @@ try:
     from services.agent_onboarding_service import AgentOnboardingService
     from services.response_capture_service import ResponseCaptureService
     from services.coordination import Coordination
-    from services.agent_cell_phone_service import AgentCellPhoneService
+    from services.agent_cell_phone import AgentCellPhone
 except ImportError as e:
     # Fallback imports for standalone execution
     print(f"Import warning: {e}")
@@ -92,7 +91,6 @@ except ImportError as e:
     MasterDistributedDataSystem = Mock
     IntegrationFramework = Mock
     HeartbeatMonitor = Mock
-    AgentCellPhoneRefactored = Mock
     V1CompatibilityLayer = Mock
     MessageHandlerV2 = Mock
     ContractLifecycleService = Mock
@@ -100,7 +98,7 @@ except ImportError as e:
     AgentOnboardingService = Mock
     ResponseCaptureService = Mock
     Coordination = Mock
-    AgentCellPhoneService = Mock
+    AgentCellPhone = Mock
 
 logger = logging.getLogger(__name__)
 
@@ -273,10 +271,8 @@ class ComprehensiveV2IntegrationTests(unittest.TestCase):
             return_value={"status": "active"}
         )
 
-        self.mock_agent_cell_phone_refactored = Mock()
-        self.mock_agent_cell_phone_refactored.get_status = Mock(
-            return_value={"status": "active"}
-        )
+        self.mock_agent_cell_phone = Mock()
+        self.mock_agent_cell_phone.get_status = Mock(return_value={"status": "active"})
 
         self.mock_v1_compatibility = Mock()
         self.mock_v1_compatibility.check_compatibility = Mock(return_value=True)

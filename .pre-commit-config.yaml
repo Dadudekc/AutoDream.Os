@@ -6,13 +6,15 @@ repos:
         entry: python tests/v2_standards_checker_simple.py --all
         language: python
         types: [python]
+        pass_filenames: false
         stages: [commit]
-        
+
       - id: duplication-detector
         name: Duplication Detector
         entry: python tools/duplication_detector.py
         language: python
         types: [python]
+        pass_filenames: false
         stages: [commit]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks

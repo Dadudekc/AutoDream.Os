@@ -14,14 +14,16 @@ from typing import Dict, List, Optional, Any
 
 class UpdateFrequency(Enum):
     """Status update frequency options"""
-    REAL_TIME = "real_time"      # Every 1 second
-    HIGH_FREQUENCY = "high"      # Every 5 seconds
+
+    REAL_TIME = "real_time"  # Every 1 second
+    HIGH_FREQUENCY = "high"  # Every 5 seconds
     MEDIUM_FREQUENCY = "medium"  # Every 15 seconds
-    LOW_FREQUENCY = "low"        # Every 60 seconds
+    LOW_FREQUENCY = "low"  # Every 60 seconds
 
 
 class StatusEventType(Enum):
     """Types of status events"""
+
     AGENT_ONLINE = "agent_online"
     AGENT_OFFLINE = "agent_offline"
     STATUS_CHANGE = "status_change"
@@ -34,6 +36,7 @@ class StatusEventType(Enum):
 @dataclass
 class StatusEvent:
     """Status event data structure"""
+
     event_id: str
     event_type: StatusEventType
     agent_id: str
@@ -47,6 +50,7 @@ class StatusEvent:
 @dataclass
 class StatusMetrics:
     """Status performance metrics"""
+
     system_health: float
     online_ratio: float
     average_performance: float
@@ -58,6 +62,7 @@ class StatusMetrics:
 @dataclass
 class ActivitySummary:
     """Agent activity summary"""
+
     total_agents: int
     status_distribution: Dict[str, int]
     capability_summary: Dict[str, int]

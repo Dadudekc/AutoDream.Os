@@ -616,27 +616,27 @@
         align-items: flex-start;
         gap: 1rem;
     }
-    
+
     .dashboard-title h1 {
         font-size: 2rem;
     }
-    
+
     .status-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .agent-status-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .quick-actions-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .metrics-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .modal-content {
         width: 95%;
         margin: 10% auto;
@@ -647,12 +647,12 @@
     .metrics-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .dashboard-actions {
         flex-direction: column;
         width: 100%;
     }
-    
+
     .dashboard-actions .btn {
         width: 100%;
     }

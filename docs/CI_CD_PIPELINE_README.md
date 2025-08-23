@@ -394,6 +394,6 @@ By following this guide, you can effectively set up, configure, and maintain the
 
 ---
 
-**Foundation & Testing Specialist**  
-**TDD Integration Project**  
+**Foundation & Testing Specialist**
+**TDD Integration Project**
 **Agent_Cellphone_V2 Repository**

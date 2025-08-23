@@ -38,9 +38,9 @@ async def main():
     # Create and start the integration coordinator
     coordinator = IntegrationCoordinator("config")
     await coordinator.start()
-    
+
     # Your integration logic here
-    
+
     # Stop the coordinator
     await coordinator.stop()
 
@@ -110,7 +110,7 @@ The Middleware Orchestrator manages data flow through configurable middleware ch
 
 ```python
 from src.services.middleware_orchestrator import (
-    MiddlewareOrchestrator, 
+    MiddlewareOrchestrator,
     DataTransformationMiddleware,
     ValidationMiddleware
 )

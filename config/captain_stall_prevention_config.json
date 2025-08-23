@@ -23,7 +23,7 @@
     },
     "urgent": {
       "frequency_minutes": 3,
-      "priority": "urgent", 
+      "priority": "urgent",
       "description": "Urgent duty reminder when captain inactive"
     },
     "critical": {

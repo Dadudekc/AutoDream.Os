@@ -12,6 +12,7 @@ import subprocess
 import platform
 from pathlib import Path
 
+
 def print_banner():
     """Print the system banner."""
     print("=" * 80)
@@ -20,21 +21,23 @@ def print_banner():
     print("=" * 80)
     print()
 
+
 def check_python_version():
     """Check if Python version is compatible."""
     print("🐍 Checking Python version...")
-    
+
     if sys.version_info < (3, 8):
         print("❌ Python 3.8+ is required. Current version:", sys.version)
         return False
-    
+
     print(f"✅ Python {sys.version_info.major}.{sys.version_info.minor} detected")
     return True
+
 
 def check_platform():
     """Check if platform is supported."""
     print("💻 Checking platform...")
-    
+
     system = platform.system()
     if system == "Windows":
         print("✅ Windows detected - Full support")
@@ -49,58 +52,67 @@ def check_platform():
         print(f"⚠️  Unknown platform: {system} - Limited support")
         return False
 
+
 def install_requirements():
     """Install required packages."""
     print("📦 Installing required packages...")
-    
+
     requirements_file = "requirements_8_agents.txt"
     if not os.path.exists(requirements_file):
         print(f"❌ Requirements file not found: {requirements_file}")
         return False
-    
+
     try:
         # Install core requirements first
         print("   Installing core PyAutoGUI...")
-        subprocess.run([sys.executable, "-m", "pip", "install", "pyautogui", "pillow"], 
-                      check=True, capture_output=True)
-        
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "pyautogui", "pillow"],
+            check=True,
+            capture_output=True,
+        )
+
         # Install all requirements
         print("   Installing all requirements...")
-        subprocess.run([sys.executable, "-m", "pip", "install", "-r", requirements_file], 
-                      check=True, capture_output=True)
-        
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "-r", requirements_file],
+            check=True,
+            capture_output=True,
+        )
+
         print("✅ All packages installed successfully")
         return True
-        
+
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to install packages: {e}")
         return False
 
+
 def create_directories():
     """Create necessary directories for the project."""
     print("📁 Creating project directories...")
-    
+
     directories = [
         "ai_development",
-        "multimedia", 
+        "multimedia",
         "integration",
         "deployment",
         "tests",
         "logs",
         "reports",
-        "config"
+        "config",
     ]
-    
+
     for directory in directories:
         Path(directory).mkdir(exist_ok=True)
         print(f"   ✅ Created: {directory}/")
-    
+
     print("✅ All directories created")
+
 
 def create_config_files():
     """Create basic configuration files."""
     print("⚙️  Creating configuration files...")
-    
+
     # Create .env template
     env_content = """# Environment Configuration for 8-Agent System
 # Copy this file to .env and fill in your values
@@ -124,11 +136,11 @@ PYAUTOGUI_PAUSE=0.5
 AGENT_TIMEOUT_SECONDS=1800
 COORDINATION_INTERVAL_SECONDS=30
 """
-    
+
     with open(".env.template", "w") as f:
         f.write(env_content)
     print("   ✅ Created: .env.template")
-    
+
     # Create basic config
     config_content = """# 8-Agent Coordination Configuration
 coordination:
@@ -164,41 +176,44 @@ coordination:
     progress_report_interval_seconds: 300
     max_retry_attempts: 3
 """
-    
+
     with open("config/coordination_config.yaml", "w") as f:
         f.write(config_content)
     print("   ✅ Created: config/coordination_config.yaml")
-    
+
     print("✅ Configuration files created")
+
 
 def run_system_check():
     """Run a system compatibility check."""
     print("🔍 Running system compatibility check...")
-    
+
     try:
         import pyautogui
+
         print("   ✅ PyAutoGUI imported successfully")
-        
+
         # Test screen size
         screen_width, screen_height = pyautogui.size()
         print(f"   ✅ Screen resolution: {screen_width}x{screen_height}")
-        
+
         if screen_width < 3200 or screen_height < 1200:
             print("   ⚠️  Screen resolution may be too small for 8-agent layout")
             print("   💡 Recommended: 3200x1200 or higher")
-        
+
         # Test basic PyAutoGUI functionality
         pyautogui.FAILSAFE = True
         print("   ✅ PyAutoGUI safety features enabled")
-        
+
         return True
-        
+
     except ImportError:
         print("   ❌ PyAutoGUI not available")
         return False
     except Exception as e:
         print(f"   ❌ PyAutoGUI error: {e}")
         return False
+
 
 def display_next_steps():
     """Display next steps for the user."""
@@ -233,33 +248,37 @@ def display_next_steps():
     print("🎉 You're ready to transform Agent_Cellphone_V2_Repository!")
     print("=" * 80)
 
+
 def main():
     """Main quick start function."""
     print_banner()
-    
+
     # Check prerequisites
     if not check_python_version():
         sys.exit(1)
-    
+
     if not check_platform():
         print("⚠️  Continuing with limited support...")
-    
+
     # Install requirements
     if not install_requirements():
-        print("❌ Failed to install requirements. Please check your internet connection and try again.")
+        print(
+            "❌ Failed to install requirements. Please check your internet connection and try again."
+        )
         sys.exit(1)
-    
+
     # Create project structure
     create_directories()
     create_config_files()
-    
+
     # Run system check
     if not run_system_check():
         print("❌ System compatibility check failed. Please review the errors above.")
         sys.exit(1)
-    
+
     # Display next steps
     display_next_steps()
+
 
 if __name__ == "__main__":
     main()

@@ -15,7 +15,7 @@ from .agent_info import AgentInfoManager
 class MessageBuilder:
     """
     Builds onboarding messages for agents.
-    
+
     Responsibilities:
     - Create onboarding messages
     - Format messages with different styles
@@ -28,16 +28,16 @@ class MessageBuilder:
     def create_onboarding_message(self, agent_name: str, style: str = "full") -> str:
         """
         Create a comprehensive onboarding message for the specified agent
-        
+
         Args:
             agent_name: Name of the agent (e.g., "Agent-1")
             style: Message style - "full" (with emojis), "ascii" (ASCII only), "simple" (no emojis)
-            
+
         Returns:
             Formatted onboarding message
         """
         agent_info = self.agent_info_manager.get_agent_info(agent_name)
-        
+
         # Choose formatting based on style
         if style == "ascii":
             bullet = "* "
@@ -45,7 +45,7 @@ class MessageBuilder:
         else:
             bullet = "• "
             emoji = agent_info.emoji if style == "full" else ""
-        
+
         # Build the message header
         if style == "full":
             message = f"""{emoji} WELCOME TO DREAM.OS - COMPREHENSIVE ONBOARDING
@@ -65,11 +65,11 @@ YOUR ROLE: {agent_name} - {agent_info.role}
 
 YOUR KEY RESPONSIBILITIES:
 """
-        
+
         # Add responsibilities
         for resp in agent_info.key_responsibilities:
             message += f"{bullet}{resp}\n"
-        
+
         # Add system overview
         if style == "full":
             message += f"""
@@ -91,13 +91,13 @@ Dream.OS is an autonomous multi-agent system where agents work together to:
 📚 YOUR ONBOARDING MATERIALS (READ THESE IN ORDER):
 1. MAIN GUIDE: {agent_info.onboarding_path}
    - Complete system overview and getting started
-   
+
 2. YOUR ROLE: {agent_info.priority_docs[0]}
    - Detailed role-specific responsibilities and expectations
-   
+
 3. DEVELOPMENT STANDARDS: {agent_info.priority_docs[1]}
    - Code quality, testing, and development practices
-   
+
 4. ADDITIONAL RESOURCES: {agent_info.priority_docs[2]}
    - Tools, technologies, and best practices
 
@@ -158,7 +158,7 @@ GETTING STARTED:
 Welcome to the team! Your expertise in {agent_info.role.lower()} is crucial to our success.
 
 {agent_name} - Ready to contribute!"""
-        
+
         return message
 
     def create_simple_message(self, agent_name: str) -> str:
@@ -178,26 +178,26 @@ def run_smoke_test():
 
     try:
         builder = MessageBuilder()
-        
+
         # Test message creation
         message = builder.create_onboarding_message("Agent-1", "full")
         assert "Agent-1" in message
         assert "System Coordinator" in message
         assert "🎯" in message
-        
+
         # Test simple message
         simple = builder.create_simple_message("Agent-2")
         assert "Agent-2" in simple
         assert "Technical Architect" in simple
-        
+
         # Test role summary
         summary = builder.create_role_summary("Agent-3")
         assert "Agent-3" in summary
         assert "📊" in summary
-        
+
         print("✅ MessageBuilder Smoke Test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"❌ MessageBuilder Smoke Test FAILED: {e}")
         return False
@@ -206,22 +206,27 @@ def run_smoke_test():
 def main():
     """CLI interface for MessageBuilder testing"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Message Builder CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
     parser.add_argument("--agent", help="Create message for specific agent")
-    parser.add_argument("--style", choices=["full", "ascii", "simple"], default="full", help="Message style")
+    parser.add_argument(
+        "--style",
+        choices=["full", "ascii", "simple"],
+        default="full",
+        help="Message style",
+    )
     parser.add_argument("--simple", help="Create simple message for agent")
     parser.add_argument("--summary", help="Create role summary for agent")
-    
+
     args = parser.parse_args()
-    
+
     if args.test:
         run_smoke_test()
         return
-    
+
     builder = MessageBuilder()
-    
+
     if args.agent:
         message = builder.create_onboarding_message(args.agent, args.style)
         print(message)

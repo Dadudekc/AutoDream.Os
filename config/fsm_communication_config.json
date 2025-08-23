@@ -9,7 +9,7 @@
   "inbox_path": "message_data",
   "fsm_data_path": "fsm_data",
   "logs_path": "logs",
-  
+
   "communication": {
     "heartbeat_interval": 30,
     "message_timeout": 300,
@@ -20,7 +20,7 @@
     "private_messaging_enabled": true,
     "message_encryption": false
   },
-  
+
   "fsm": {
     "task_timeout": 3600,
     "max_concurrent_tasks": 100,
@@ -31,7 +31,7 @@
     "cleanup_interval": 86400,
     "max_task_history": 1000
   },
-  
+
   "bridge": {
     "event_processing_interval": 0.1,
     "coordination_check_interval": 60,
@@ -42,7 +42,7 @@
     "retry_failed_events": true,
     "max_retry_attempts": 3
   },
-  
+
   "agents": {
     "default_capabilities": [
       "task_execution",
@@ -63,7 +63,7 @@
       "Agent-8": ["gaming", "entertainment"]
     }
   },
-  
+
   "messaging": {
     "default_priority": "NORMAL",
     "urgent_timeout": 60,
@@ -76,7 +76,7 @@
     "batch_size": 100,
     "batch_timeout": 5
   },
-  
+
   "monitoring": {
     "health_check_interval": 30,
     "performance_metrics_enabled": true,
@@ -85,7 +85,7 @@
     "metrics_retention": 86400,
     "status_broadcast_interval": 60
   },
-  
+
   "security": {
     "authentication_required": false,
     "authorization_enabled": false,
@@ -94,7 +94,7 @@
     "rate_limiting": false,
     "max_messages_per_minute": 1000
   },
-  
+
   "integration": {
     "auto_discovery_enabled": true,
     "plugin_system_enabled": true,
@@ -106,7 +106,7 @@
       "messages": "/api/v1/messages"
     }
   },
-  
+
   "development": {
     "debug_mode": false,
     "verbose_logging": false,
@@ -119,4 +119,3 @@
     ]
   }
 }
-

@@ -28,5 +28,5 @@ INTEGRATION_TEST_CATEGORIES = {
     "database": "Database integration tests",
     "network": "Network service integration tests",
     "events": "Event system integration tests",
-    "fsm": "FSM system integration tests"
+    "fsm": "FSM system integration tests",
 }

@@ -1,14 +1,14 @@
 # 🛰️ Stall Detection Implementation Report
 
-**Project:** Agent Cellphone V2 - Stall Detection System  
-**Date:** 2025-08-20  
-**Status:** ✅ COMPLETE & TESTED  
+**Project:** Agent Cellphone V2 - Stall Detection System
+**Date:** 2025-08-20
+**Status:** ✅ COMPLETE & TESTED
 
 ## 🎯 Implementation Summary
 
 Successfully implemented a comprehensive stall detection system that monitors agents using three distinct signals:
 1. **Cursor Messages (SQLite)** - Real-time conversation activity
-2. **Hourly Report Files** - Scheduled progress updates  
+2. **Hourly Report Files** - Scheduled progress updates
 3. **Git Commits** - Code contribution activity
 
 ## 📁 Files Created
@@ -165,7 +165,7 @@ IDLE_SECS=900                          # Idle threshold (15m)
   "agents": [
     {
       "id": 1,
-      "name": "Agent-1", 
+      "name": "Agent-1",
       "thread_id": "thread_a1"
     }
   ]
@@ -181,7 +181,7 @@ IDLE_SECS=900                          # Idle threshold (15m)
 
 ### Escalation Levels
 - **Level 1:** Send reminder message
-- **Level 2:** Reassign top task  
+- **Level 2:** Reassign top task
 - **Level 3:** Open BLOCKER ticket
 - **Level 4:** Restart agent process
 

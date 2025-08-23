@@ -57,9 +57,13 @@ def main() -> int:
     p.add_argument("--from-json", help="Read event payload from JSON file")
     p.add_argument("--title", help="Task title")
     p.add_argument("--desc", default="", help="Task description")
-    p.add_argument("--priority", choices=["low", "normal", "high", "urgent"], default="normal")
+    p.add_argument(
+        "--priority", choices=["low", "normal", "high", "urgent"], default="normal"
+    )
     p.add_argument("--agent", help="Assignee agent id (e.g., agent_4)")
-    p.add_argument("--start", action="store_true", help="Mark started/in_progress for agent")
+    p.add_argument(
+        "--start", action="store_true", help="Mark started/in_progress for agent"
+    )
     args = p.parse_args()
 
     payload = load_payload(args)
@@ -68,7 +72,9 @@ def main() -> int:
     coord.init_list()
 
     # Add task
-    task = coord.add_task(payload["title"], payload["description"], payload["priority"], created_by="fsm")
+    task = coord.add_task(
+        payload["title"], payload["description"], payload["priority"], created_by="fsm"
+    )
 
     # Assign/start if requested
     agent = payload.get("agent")
@@ -83,5 +89,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-

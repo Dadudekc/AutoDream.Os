@@ -1,14 +1,14 @@
 /**
  * Responsive Framework JavaScript
  * Agent_Cellphone_V2_Repository TDD Integration Project
- * 
+ *
  * A comprehensive JavaScript framework for responsive design and UI interactions:
  * - Responsive breakpoint detection
  * - Component interaction handlers
  * - Mobile-first utilities
  * - Event management system
  * - Touch and gesture support
- * 
+ *
  * Author: Web Development & UI Framework Specialist
  * License: MIT
  */
@@ -62,7 +62,7 @@
         getCurrentBreakpoint: function() {
             const width = this.getViewportWidth();
             const breakpoints = ResponsiveFramework.breakpoints;
-            
+
             if (width >= breakpoints.xxl) return 'xxl';
             if (width >= breakpoints.xl) return 'xl';
             if (width >= breakpoints.lg) return 'lg';
@@ -121,7 +121,7 @@
             const rect = element.getBoundingClientRect();
             const viewportHeight = this.getViewportHeight();
             const viewportWidth = this.getViewportWidth();
-            
+
             return (
                 rect.top >= 0 &&
                 rect.left >= 0 &&
@@ -136,13 +136,13 @@
         getElementOffset: function(element) {
             let top = 0;
             let left = 0;
-            
+
             while (element) {
                 top += element.offsetTop;
                 left += element.offsetLeft;
                 element = element.offsetParent;
             }
-            
+
             return { top, left };
         },
 
@@ -152,7 +152,7 @@
         addClass: function(element, className, animationClass = null) {
             if (!element.classList.contains(className)) {
                 element.classList.add(className);
-                
+
                 if (animationClass && ResponsiveFramework.config.enableAnimations) {
                     element.classList.add(animationClass);
                     setTimeout(() => {
@@ -246,12 +246,12 @@
 
         setupMobileToggle: function() {
             const toggleButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
-            
+
             toggleButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
                     const target = document.querySelector(button.getAttribute('data-bs-target'));
-                    
+
                     if (target) {
                         ResponsiveFramework.utils.toggleClass(target, 'show', 'animate-slideInDown');
                         ResponsiveFramework.utils.toggleClass(button, 'collapsed');
@@ -262,17 +262,17 @@
 
         setupDropdowns: function() {
             const dropdowns = document.querySelectorAll('.dropdown');
-            
+
             dropdowns.forEach(dropdown => {
                 const toggle = dropdown.querySelector('.dropdown-toggle');
                 const menu = dropdown.querySelector('.dropdown-menu');
-                
+
                 if (toggle && menu) {
                     toggle.addEventListener('click', (e) => {
                         e.preventDefault();
                         this.toggleDropdown(dropdown);
                     });
-                    
+
                     // Close on outside click
                     document.addEventListener('click', (e) => {
                         if (!dropdown.contains(e.target)) {
@@ -297,21 +297,21 @@
 
         setupScrollSpy: function() {
             if (!ResponsiveFramework.config.enableScrollSpy) return;
-            
+
             const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
             const sections = Array.from(navLinks).map(link => {
                 const href = link.getAttribute('href');
                 return href !== '#' ? document.querySelector(href) : null;
             }).filter(section => section);
-            
+
             const handleScroll = ResponsiveFramework.utils.throttle(() => {
                 const scrollTop = window.pageYOffset;
-                
+
                 sections.forEach((section, index) => {
                     const offset = ResponsiveFramework.utils.getElementOffset(section);
                     const link = navLinks[index];
-                    
-                    if (scrollTop >= offset.top - 100 && 
+
+                    if (scrollTop >= offset.top - 100 &&
                         scrollTop < offset.top + section.offsetHeight - 100) {
                         link.classList.add('active');
                     } else {
@@ -319,7 +319,7 @@
                     }
                 });
             }, 100);
-            
+
             window.addEventListener('scroll', handleScroll);
         }
     };
@@ -335,18 +335,18 @@
 
         setupModalTriggers: function() {
             const modalTriggers = document.querySelectorAll('[data-bs-toggle="modal"]');
-            
+
             modalTriggers.forEach(trigger => {
                 trigger.addEventListener('click', (e) => {
                     e.preventDefault();
                     const target = document.querySelector(trigger.getAttribute('data-bs-target'));
-                    
+
                     if (target) {
                         this.showModal(target);
                     }
                 });
             });
-            
+
             // Close button handlers
             const closeButtons = document.querySelectorAll('[data-bs-dismiss="modal"]');
             closeButtons.forEach(button => {
@@ -358,7 +358,7 @@
                     }
                 });
             });
-            
+
             // Backdrop click handler
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains('modal')) {
@@ -373,35 +373,35 @@
             backdrop.className = 'modal-backdrop';
             backdrop.setAttribute('data-modal-id', modal.id);
             document.body.appendChild(backdrop);
-            
+
             // Show modal
             modal.style.display = 'block';
             document.body.classList.add('modal-open');
-            
+
             // Animate in
             setTimeout(() => {
                 modal.classList.add('show');
                 backdrop.classList.add('show');
             }, 10);
-            
+
             // Focus management
             const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             if (firstFocusable) {
                 firstFocusable.focus();
             }
-            
+
             ResponsiveFramework.events.trigger('modal.show', { modal });
         },
 
         hideModal: function(modal) {
             const backdrop = document.querySelector(`[data-modal-id="${modal.id}"]`);
-            
+
             // Animate out
             modal.classList.remove('show');
             if (backdrop) {
                 backdrop.classList.remove('show');
             }
-            
+
             setTimeout(() => {
                 modal.style.display = 'none';
                 if (backdrop) {
@@ -409,7 +409,7 @@
                 }
                 document.body.classList.remove('modal-open');
             }, 300);
-            
+
             ResponsiveFramework.events.trigger('modal.hide', { modal });
         },
 
@@ -431,7 +431,7 @@
     ResponsiveFramework.components.Accordion = {
         init: function() {
             const accordions = document.querySelectorAll('.accordion');
-            
+
             accordions.forEach(accordion => {
                 this.setupAccordion(accordion);
             });
@@ -439,11 +439,11 @@
 
         setupAccordion: function(accordion) {
             const items = accordion.querySelectorAll('.accordion-item');
-            
+
             items.forEach(item => {
                 const button = item.querySelector('.accordion-button');
                 const collapse = item.querySelector('.accordion-collapse');
-                
+
                 if (button && collapse) {
                     button.addEventListener('click', (e) => {
                         e.preventDefault();
@@ -457,7 +457,7 @@
             const button = item.querySelector('.accordion-button');
             const collapse = item.querySelector('.accordion-collapse');
             const isExpanded = collapse.classList.contains('show');
-            
+
             // Close other items if not multi-collapse
             if (!accordion.hasAttribute('data-bs-allow-multiple')) {
                 const openItems = accordion.querySelectorAll('.accordion-collapse.show');
@@ -467,7 +467,7 @@
                     }
                 });
             }
-            
+
             if (isExpanded) {
                 this.closeItem(item);
             } else {
@@ -478,7 +478,7 @@
         openItem: function(item) {
             const button = item.querySelector('.accordion-button');
             const collapse = item.querySelector('.accordion-collapse');
-            
+
             button.classList.remove('collapsed');
             button.setAttribute('aria-expanded', 'true');
             ResponsiveFramework.utils.addClass(collapse, 'show', 'animate-slideInDown');
@@ -487,7 +487,7 @@
         closeItem: function(item) {
             const button = item.querySelector('.accordion-button');
             const collapse = item.querySelector('.accordion-collapse');
-            
+
             button.classList.add('collapsed');
             button.setAttribute('aria-expanded', 'false');
             ResponsiveFramework.utils.removeClass(collapse, 'show');
@@ -500,14 +500,14 @@
     ResponsiveFramework.components.LazyLoading = {
         init: function() {
             if (!ResponsiveFramework.config.enableLazyLoading) return;
-            
+
             this.setupIntersectionObserver();
         },
 
         setupIntersectionObserver: function() {
             if ('IntersectionObserver' in window) {
                 const images = document.querySelectorAll('img[data-src]');
-                
+
                 const imageObserver = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -518,7 +518,7 @@
                         }
                     });
                 });
-                
+
                 images.forEach(img => imageObserver.observe(img));
             } else {
                 // Fallback for older browsers
@@ -528,7 +528,7 @@
 
         fallbackLazyLoading: function() {
             const images = document.querySelectorAll('img[data-src]');
-            
+
             const loadImages = ResponsiveFramework.utils.throttle(() => {
                 images.forEach(img => {
                     if (ResponsiveFramework.utils.isInViewport(img)) {
@@ -537,7 +537,7 @@
                     }
                 });
             }, 200);
-            
+
             window.addEventListener('scroll', loadImages);
             window.addEventListener('resize', loadImages);
             loadImages(); // Initial load
@@ -550,23 +550,23 @@
     ResponsiveFramework.components.TouchSupport = {
         init: function() {
             if (!ResponsiveFramework.config.enableTouchSupport) return;
-            
+
             this.setupSwipeDetection();
             this.setupTouchFeedback();
         },
 
         setupSwipeDetection: function() {
             let startX, startY, endX, endY;
-            
+
             document.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             });
-            
+
             document.addEventListener('touchend', (e) => {
                 endX = e.changedTouches[0].clientX;
                 endY = e.changedTouches[0].clientY;
-                
+
                 this.handleSwipe(startX, startY, endX, endY, e.target);
             });
         },
@@ -575,7 +575,7 @@
             const deltaX = endX - startX;
             const deltaY = endY - startY;
             const threshold = 50;
-            
+
             if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
                 // Horizontal swipe
                 const direction = deltaX > 0 ? 'right' : 'left';
@@ -599,12 +599,12 @@
 
         setupTouchFeedback: function() {
             const interactiveElements = document.querySelectorAll('button, .btn, a, [role="button"]');
-            
+
             interactiveElements.forEach(element => {
                 element.addEventListener('touchstart', () => {
                     element.classList.add('touch-active');
                 });
-                
+
                 element.addEventListener('touchend', () => {
                     setTimeout(() => {
                         element.classList.remove('touch-active');
@@ -619,7 +619,7 @@
      */
     ResponsiveFramework.components.BreakpointHandler = {
         currentBreakpoint: null,
-        
+
         init: function() {
             this.currentBreakpoint = ResponsiveFramework.utils.getCurrentBreakpoint();
             this.setupResizeHandler();
@@ -629,11 +629,11 @@
         setupResizeHandler: function() {
             const handleResize = ResponsiveFramework.utils.debounce(() => {
                 const newBreakpoint = ResponsiveFramework.utils.getCurrentBreakpoint();
-                
+
                 if (newBreakpoint !== this.currentBreakpoint) {
                     const oldBreakpoint = this.currentBreakpoint;
                     this.currentBreakpoint = newBreakpoint;
-                    
+
                     ResponsiveFramework.events.trigger('breakpoint.change', {
                         oldBreakpoint,
                         newBreakpoint,
@@ -644,7 +644,7 @@
                     });
                 }
             }, 250);
-            
+
             window.addEventListener('resize', handleResize);
         },
 
@@ -672,14 +672,14 @@
 
         setupValidation: function() {
             const forms = document.querySelectorAll('.needs-validation');
-            
+
             forms.forEach(form => {
                 form.addEventListener('submit', (e) => {
                     if (!form.checkValidity()) {
                         e.preventDefault();
                         e.stopPropagation();
                     }
-                    
+
                     form.classList.add('was-validated');
                 });
             });
@@ -687,7 +687,7 @@
 
         setupFloatingLabels: function() {
             const floatingInputs = document.querySelectorAll('.form-floating input, .form-floating textarea');
-            
+
             floatingInputs.forEach(input => {
                 const updateLabel = () => {
                     const label = input.nextElementSibling;
@@ -699,11 +699,11 @@
                         }
                     }
                 };
-                
+
                 input.addEventListener('focus', updateLabel);
                 input.addEventListener('blur', updateLabel);
                 input.addEventListener('input', updateLabel);
-                
+
                 // Initial state
                 updateLabel();
             });
@@ -711,12 +711,12 @@
 
         setupFileInputs: function() {
             const fileInputs = document.querySelectorAll('input[type="file"]');
-            
+
             fileInputs.forEach(input => {
                 input.addEventListener('change', (e) => {
                     const files = e.target.files;
                     const label = input.nextElementSibling;
-                    
+
                     if (files.length > 0) {
                         const fileName = files.length === 1 ? files[0].name : `${files.length} files selected`;
                         if (label) {
@@ -751,10 +751,10 @@
                     component.init();
                 }
             });
-            
+
             // Trigger framework ready event
             this.events.trigger('framework.ready');
-            
+
             console.log('ResponsiveFramework initialized successfully');
         } catch (error) {
             console.error('Error initializing ResponsiveFramework:', error);
@@ -769,12 +769,12 @@
             opacity: 0.8;
             transition: all 0.1s ease;
         }
-        
+
         .lazy {
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .lazy.loaded {
             opacity: 1;
         }

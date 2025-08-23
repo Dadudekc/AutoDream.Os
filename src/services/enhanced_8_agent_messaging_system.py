@@ -2,6 +2,7 @@
 import json
 import time
 from pathlib import Path
+
 print("Enhanced 8-Agent Messaging System - TEST_SYNC Ready")
 print("=" * 50)
 try:
@@ -19,7 +20,7 @@ try:
                 "agent_id": "agent_1",
                 "type": "test_sync",
                 "content": "This is a synchronous test message",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             print(json.dumps(test_message, indent=2))
             print("TEST_SYNC message format validated successfully!")

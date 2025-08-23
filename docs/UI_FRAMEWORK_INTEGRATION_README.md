@@ -199,7 +199,7 @@ router.add_route(custom_route)
 success = router.navigate_to("/products/123")
 if success:
     print("Navigation successful")
-    
+
 # Get current navigation state
 nav_state = router.get_navigation_state()
 print(f"Current route: {nav_state.current_route}")
@@ -304,11 +304,11 @@ def test_frontend_integration(flask_frontend_app, frontend_router):
     # Test integration between components
     app = flask_frontend_app
     router = frontend_router
-    
+
     # Test component registry
     registry = app.component_registry
     assert len(registry.list_components()) > 0
-    
+
     # Test routing
     assert len(router.routes) > 0
 ```
@@ -402,7 +402,7 @@ frontend_app = create_flask_frontend()
 def run_automation():
     data = request.get_json()
     url = data.get('url')
-    
+
     # Run automation
     result = automation_engine.navigate_to(url)
     return jsonify({'success': True, 'result': result})

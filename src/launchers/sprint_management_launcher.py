@@ -19,6 +19,7 @@ import sys
 @dataclass
 class SprintLaunchConfig:
     """Sprint launch configuration."""
+
     mode: str
     sprint_id: Optional[str] = None
     action: str = "status"
@@ -29,14 +30,14 @@ class SprintLaunchConfig:
 class SprintManagementLauncher:
     """
     Sprint Management Launcher - Single responsibility: Sprint system launch.
-    
+
     This launcher manages:
     - Sprint management service initialization
     - Sprint workflow service initialization
     - Command-line interface for sprint operations
     - Integration with V2 launcher system
     """
-    
+
     def __init__(self, config_path: str = "config"):
         """Initialize Sprint Management Launcher."""
         self.config_path = Path(config_path)
@@ -44,59 +45,63 @@ class SprintManagementLauncher:
         self.status = "initialized"
         self.sprint_manager = None
         self.workflow_service = None
-        
+
         # Initialize sprint services
         self._initialize_sprint_services()
-    
+
     def _setup_logging(self) -> logging.Logger:
         """Setup logging for the service."""
         logger = logging.getLogger("SprintManagementLauncher")
         logger.setLevel(logging.INFO)
-        
+
         if not logger.handlers:
             handler = logging.StreamHandler()
             formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
             )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
-        
+
         return logger
-    
+
     def _initialize_sprint_services(self):
         """Initialize sprint management services."""
         try:
             import sys
             from pathlib import Path
-            
+
             # Add src to path for imports
             src_path = Path(__file__).parent.parent
             if str(src_path) not in sys.path:
                 sys.path.insert(0, str(src_path))
-            
+
             from core.workspace_manager import WorkspaceManager
             from core.task_manager import TaskManager
             from services.sprint_management_service import SprintManagementService
             from services.sprint_workflow_service import SprintWorkflowService
-            
+
             # Initialize workspace and task managers
             workspace_manager = WorkspaceManager()
             task_manager = TaskManager(workspace_manager)
-            
+
             # Initialize sprint services
-            self.sprint_manager = SprintManagementService(workspace_manager, task_manager)
-            self.workflow_service = SprintWorkflowService(self.sprint_manager, task_manager)
-            
+            self.sprint_manager = SprintManagementService(
+                workspace_manager, task_manager
+            )
+            self.workflow_service = SprintWorkflowService(
+                self.sprint_manager, task_manager
+            )
+
             self.logger.info("Sprint services initialized successfully")
         except Exception as e:
             self.logger.error(f"Failed to initialize sprint services: {e}")
             raise
-    
+
     def launch(self, config: SprintLaunchConfig) -> bool:
         """Launch sprint management system with specified configuration."""
         try:
             self.logger.info(f"Launching sprint management system: {config.mode}")
-            
+
             if config.mode == "create":
                 return self._create_sprint(config)
             elif config.mode == "plan":
@@ -115,40 +120,44 @@ class SprintManagementLauncher:
         except Exception as e:
             self.logger.error(f"Failed to launch sprint management: {e}")
             return False
-    
+
     def _create_sprint(self, config: SprintLaunchConfig) -> bool:
         """Create a new sprint."""
         try:
             if not config.sprint_id:
                 config.sprint_id = "Sprint-" + datetime.now().strftime("%Y%m%d")
-            
+
             sprint = self.sprint_manager.create_sprint(
                 name=config.sprint_id,
                 description=f"Auto-generated sprint {config.sprint_id}",
-                duration_days=config.duration_days
+                duration_days=config.duration_days,
             )
-            
+
             self.logger.info(f"Created sprint: {sprint.name} (ID: {sprint.sprint_id})")
             return True
         except Exception as e:
             self.logger.error(f"Failed to create sprint: {e}")
             return False
-    
+
     def _plan_sprint(self, config: SprintLaunchConfig) -> bool:
         """Plan tasks for a sprint."""
         try:
             if not config.sprint_id or not config.task_ids:
                 self.logger.error("Sprint ID and task IDs required for planning")
                 return False
-            
+
             # Start planning workflow
             workflow = self.workflow_service.start_sprint_planning(config.sprint_id)
-            
+
             # Plan tasks
-            success = self.workflow_service.plan_sprint_tasks(config.sprint_id, config.task_ids)
-            
+            success = self.workflow_service.plan_sprint_tasks(
+                config.sprint_id, config.task_ids
+            )
+
             if success:
-                self.logger.info(f"Planned {len(config.task_ids)} tasks for sprint {config.sprint_id}")
+                self.logger.info(
+                    f"Planned {len(config.task_ids)} tasks for sprint {config.sprint_id}"
+                )
                 return True
             else:
                 self.logger.error("Failed to plan sprint tasks")
@@ -156,16 +165,16 @@ class SprintManagementLauncher:
         except Exception as e:
             self.logger.error(f"Failed to plan sprint: {e}")
             return False
-    
+
     def _start_sprint(self, config: SprintLaunchConfig) -> bool:
         """Start a sprint."""
         try:
             if not config.sprint_id:
                 self.logger.error("Sprint ID required to start sprint")
                 return False
-            
+
             success = self.workflow_service.start_sprint_execution(config.sprint_id)
-            
+
             if success:
                 self.logger.info(f"Started sprint: {config.sprint_id}")
                 return True
@@ -175,7 +184,7 @@ class SprintManagementLauncher:
         except Exception as e:
             self.logger.error(f"Failed to start sprint: {e}")
             return False
-    
+
     def _show_sprint_status(self, config: SprintLaunchConfig) -> bool:
         """Show sprint status."""
         try:
@@ -194,25 +203,31 @@ class SprintManagementLauncher:
             else:
                 # Show all sprints
                 for sprint in self.sprint_manager.sprints.values():
-                    self.logger.info(f"{sprint.name}: {sprint.status.value} ({len(sprint.tasks)} tasks)")
-            
+                    self.logger.info(
+                        f"{sprint.name}: {sprint.status.value} ({len(sprint.tasks)} tasks)"
+                    )
+
             return True
         except Exception as e:
             self.logger.error(f"Failed to show sprint status: {e}")
             return False
-    
+
     def _complete_sprint(self, config: SprintLaunchConfig) -> bool:
         """Complete a sprint."""
         try:
             if not config.sprint_id:
                 self.logger.error("Sprint ID required to complete sprint")
                 return False
-            
-            retrospective = self.workflow_service.complete_sprint_workflow(config.sprint_id)
-            
+
+            retrospective = self.workflow_service.complete_sprint_workflow(
+                config.sprint_id
+            )
+
             if retrospective:
                 self.logger.info(f"Completed sprint: {config.sprint_id}")
-                self.logger.info(f"Success rate: {retrospective.get('success_rate', 0)}%")
+                self.logger.info(
+                    f"Success rate: {retrospective.get('success_rate', 0)}%"
+                )
                 return True
             else:
                 self.logger.error("Failed to complete sprint")
@@ -220,20 +235,24 @@ class SprintManagementLauncher:
         except Exception as e:
             self.logger.error(f"Failed to complete sprint: {e}")
             return False
-    
+
     def _update_progress(self, config: SprintLaunchConfig) -> bool:
         """Update daily progress."""
         try:
             if not config.sprint_id:
                 self.logger.error("Sprint ID required to update progress")
                 return False
-            
+
             progress = self.workflow_service.update_daily_progress(config.sprint_id)
-            
+
             if progress:
                 self.logger.info(f"Progress update for {progress.get('sprint_name')}")
-                self.logger.info(f"Completed: {progress.get('completed_tasks')}/{progress.get('total_tasks')}")
-                self.logger.info(f"Completion: {progress.get('completion_percentage', 0):.1f}%")
+                self.logger.info(
+                    f"Completed: {progress.get('completed_tasks')}/{progress.get('total_tasks')}"
+                )
+                self.logger.info(
+                    f"Completion: {progress.get('completion_percentage', 0):.1f}%"
+                )
                 return True
             else:
                 self.logger.error("Failed to update progress")
@@ -246,23 +265,27 @@ class SprintManagementLauncher:
 def main():
     """Main entry point for sprint management launcher."""
     parser = argparse.ArgumentParser(description="Sprint Management Launcher V2")
-    parser.add_argument("mode", choices=["create", "plan", "start", "status", "complete", "progress"])
+    parser.add_argument(
+        "mode", choices=["create", "plan", "start", "status", "complete", "progress"]
+    )
     parser.add_argument("--sprint-id", help="Sprint ID")
     parser.add_argument("--task-ids", nargs="+", help="Task IDs for planning")
-    parser.add_argument("--duration", type=int, default=14, help="Sprint duration in days")
-    
+    parser.add_argument(
+        "--duration", type=int, default=14, help="Sprint duration in days"
+    )
+
     args = parser.parse_args()
-    
+
     config = SprintLaunchConfig(
         mode=args.mode,
         sprint_id=args.sprint_id,
         task_ids=args.task_ids,
-        duration_days=args.duration
+        duration_days=args.duration,
     )
-    
+
     launcher = SprintManagementLauncher()
     success = launcher.launch(config)
-    
+
     if success:
         print("Sprint management operation completed successfully")
     else:

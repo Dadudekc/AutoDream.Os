@@ -10,7 +10,7 @@ The Cross-System Communication and Integration Testing infrastructure provides a
 
 #### 1. Cross-System Communication Manager
 - **Purpose**: Central orchestrator for all cross-system communication
-- **Features**: 
+- **Features**:
   - Multi-protocol support (HTTP, HTTPS, WebSocket, TCP, UDP)
   - Connection pooling and management
   - Health monitoring and automatic failover
@@ -191,11 +191,11 @@ class CustomHandler(BaseCommunicationHandler):
     async def connect(self) -> bool:
         # Custom connection logic
         pass
-    
+
     async def send_message(self, message):
         # Custom message sending logic
         pass
-    
+
     async def receive_message(self):
         # Custom message receiving logic
         pass
@@ -210,15 +210,15 @@ class CustomTest(BaseIntegrationTest):
     async def setup(self) -> bool:
         # Test setup logic
         return True
-    
+
     async def execute(self) -> bool:
         # Test execution logic
         return True
-    
+
     async def cleanup(self) -> bool:
         # Test cleanup logic
         return True
-    
+
     async def validate(self) -> bool:
         # Test validation logic
         return True

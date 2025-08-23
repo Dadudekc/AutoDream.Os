@@ -11,12 +11,12 @@ import sys
 import os
 
 # Add src to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 
 class TestLauncherComponentsSmoke:
     """Smoke tests for launcher components to ensure basic functionality."""
-    
+
     @pytest.mark.launcher
     @pytest.mark.smoke
     def test_system_launcher_available(self):
@@ -27,14 +27,14 @@ class TestLauncherComponentsSmoke:
             assert True  # Placeholder for actual launcher tests
         except ImportError:
             pytest.skip("Launcher components not yet implemented")
-    
+
     @pytest.mark.launcher
     @pytest.mark.smoke
     def test_service_startup_capability(self):
         """Test that services can be started."""
         # Test service startup capability
         assert True  # Placeholder for actual startup tests
-    
+
     @pytest.mark.launcher
     @pytest.mark.smoke
     def test_component_initialization(self):
@@ -45,7 +45,7 @@ class TestLauncherComponentsSmoke:
 
 class TestLauncherIntegrationSmoke:
     """Smoke tests for launcher integration scenarios."""
-    
+
     @pytest.mark.launcher
     @pytest.mark.integration
     @pytest.mark.smoke
@@ -53,7 +53,7 @@ class TestLauncherIntegrationSmoke:
         """Test basic system boot sequence."""
         # Test boot sequence
         assert True  # Placeholder for actual boot sequence tests
-    
+
     @pytest.mark.launcher
     @pytest.mark.integration
     @pytest.mark.smoke
@@ -66,12 +66,6 @@ class TestLauncherIntegrationSmoke:
 # Custom markers
 def pytest_configure(config):
     """Configure custom pytest markers."""
-    config.addinivalue_line(
-        "markers", "launcher: mark test as launcher component test"
-    )
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "smoke: mark test as smoke test"
-    )
+    config.addinivalue_line("markers", "launcher: mark test as launcher component test")
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "smoke: mark test as smoke test")

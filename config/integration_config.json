@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Configuration for Agent_Cellphone_V2_Repository integration infrastructure",
     "last_updated": "2025-01-20",
-    
+
     "api_management": {
       "enabled": true,
       "host": "localhost",
@@ -36,7 +36,7 @@
         "log_request_body": false
       }
     },
-    
+
     "message_queue": {
       "enabled": true,
       "max_size": 10000,
@@ -58,7 +58,7 @@
         "backup_interval": 300
       }
     },
-    
+
     "caching": {
       "enabled": true,
       "max_size": 1000,
@@ -75,7 +75,7 @@
         "sync_interval": 60
       }
     },
-    
+
     "circuit_breaker": {
       "enabled": true,
       "failure_threshold": 5,
@@ -86,7 +86,7 @@
         "alerting": false
       }
     },
-    
+
     "retry_middleware": {
       "enabled": true,
       "max_retries": 3,
@@ -99,7 +99,7 @@
         "ServiceUnavailableError"
       ]
     },
-    
+
     "data_transformation": {
       "enabled": true,
       "supported_formats": [
@@ -116,7 +116,7 @@
         "custom_validators": {}
       }
     },
-    
+
     "service_registry": {
       "enabled": true,
       "auto_discovery": true,
@@ -128,7 +128,7 @@
         "health_check_weight": 0.3
       }
     },
-    
+
     "monitoring": {
       "enabled": true,
       "metrics_collection": true,
@@ -145,7 +145,7 @@
         "auto_refresh": 30
       }
     },
-    
+
     "security": {
       "enabled": true,
       "encryption": {
@@ -164,7 +164,7 @@
         "retention_days": 90
       }
     },
-    
+
     "performance": {
       "max_workers": 10,
       "connection_pool_size": 20,
@@ -180,7 +180,7 @@
         "pipelining": false
       }
     },
-    
+
     "deployment": {
       "environment": "development",
       "auto_restart": true,
@@ -189,7 +189,7 @@
       "readiness_probe": "/api/status",
       "liveness_probe": "/api/health"
     },
-    
+
     "integration_points": {
       "external_apis": {
         "enabled": false,
@@ -209,7 +209,7 @@
         "consumer_groups": []
       }
     },
-    
+
     "logging_config": {
       "level": "INFO",
       "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -227,7 +227,7 @@
         }
       }
     },
-    
+
     "testing": {
       "enabled": true,
       "test_coverage": {

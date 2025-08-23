@@ -16,6 +16,7 @@ from pathlib import Path
 
 class ConfigType(Enum):
     """Configuration file types"""
+
     JSON = "json"
     YAML = "yaml"
     INI = "ini"
@@ -24,6 +25,7 @@ class ConfigType(Enum):
 
 class ConfigValidationLevel(Enum):
     """Configuration validation levels"""
+
     BASIC = "basic"
     STANDARD = "standard"
     STRICT = "strict"
@@ -32,6 +34,7 @@ class ConfigValidationLevel(Enum):
 @dataclass
 class ConfigSection:
     """Unified configuration section definition"""
+
     name: str
     data: Dict[str, Any]
     required: bool = False
@@ -45,6 +48,7 @@ class ConfigSection:
 @dataclass
 class ConfigValidationResult:
     """Configuration validation result"""
+
     is_valid: bool
     errors: List[str] = field(default_factory=list)
     warnings: List[str] = field(default_factory=list)
@@ -54,20 +58,22 @@ class ConfigValidationResult:
 @dataclass
 class ConfigChangeEvent:
     """Configuration change event"""
+
     section_name: str
     change_type: str  # "added", "modified", "deleted"
     old_value: Optional[Any] = None
     new_value: Optional[Any] = None
-    timestamp: float = field(default_factory=lambda: __import__('time').time())
+    timestamp: float = field(default_factory=lambda: __import__("time").time())
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class ConfigMetadata:
     """Configuration metadata"""
+
     version: str = "1.0.0"
-    created_at: float = field(default_factory=lambda: __import__('time').time())
-    last_modified: float = field(default_factory=lambda: __import__('time').time())
+    created_at: float = field(default_factory=lambda: __import__("time").time())
+    last_modified: float = field(default_factory=lambda: __import__("time").time())
     author: str = ""
     description: str = ""
     tags: List[str] = field(default_factory=list)

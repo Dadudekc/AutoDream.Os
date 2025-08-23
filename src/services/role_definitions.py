@@ -17,6 +17,7 @@ from ..core.agent_models import AgentRole, AgentStatus, AgentCapability
 
 class PermissionLevel(Enum):
     """Permission levels for agent capabilities"""
+
     READ = "read"
     WRITE = "write"
     EXECUTE = "execute"
@@ -25,6 +26,7 @@ class PermissionLevel(Enum):
 
 class CapabilityType(Enum):
     """Types of agent capabilities"""
+
     SYSTEM = "system"
     COMMUNICATION = "communication"
     TASK = "task"
@@ -36,6 +38,7 @@ class CapabilityType(Enum):
 @dataclass
 class Capability:
     """Agent capability definition"""
+
     capability_id: str
     name: str
     description: str
@@ -51,6 +54,7 @@ class Capability:
 @dataclass
 class RoleAssignment:
     """Agent role assignment record"""
+
     agent_id: str
     role_id: str
     assigned_at: float
@@ -62,7 +66,7 @@ class RoleAssignment:
 class RoleDefinitionManager:
     """
     Manages role and capability definitions and templates.
-    
+
     Responsibilities:
     - Provide role and capability definitions
     - Manage role templates
@@ -84,7 +88,7 @@ class RoleDefinitionManager:
                 description="Basic system access and navigation",
                 capability_type=CapabilityType.SYSTEM,
                 permissions=[PermissionLevel.READ],
-                dependencies=[]
+                dependencies=[],
             ),
             "communication": Capability(
                 capability_id="communication",
@@ -92,7 +96,7 @@ class RoleDefinitionManager:
                 description="Send and receive messages",
                 capability_type=CapabilityType.COMMUNICATION,
                 permissions=[PermissionLevel.READ, PermissionLevel.WRITE],
-                dependencies=["system_access"]
+                dependencies=["system_access"],
             ),
             "task_execution": Capability(
                 capability_id="task_execution",
@@ -100,15 +104,19 @@ class RoleDefinitionManager:
                 description="Execute assigned tasks",
                 capability_type=CapabilityType.TASK,
                 permissions=[PermissionLevel.READ, PermissionLevel.EXECUTE],
-                dependencies=["system_access", "communication"]
+                dependencies=["system_access", "communication"],
             ),
             "coordination": Capability(
                 capability_id="coordination",
                 name="Coordination",
                 description="Coordinate with other agents",
                 capability_type=CapabilityType.COORDINATION,
-                permissions=[PermissionLevel.READ, PermissionLevel.WRITE, PermissionLevel.EXECUTE],
-                dependencies=["communication", "task_execution"]
+                permissions=[
+                    PermissionLevel.READ,
+                    PermissionLevel.WRITE,
+                    PermissionLevel.EXECUTE,
+                ],
+                dependencies=["communication", "task_execution"],
             ),
             "monitoring": Capability(
                 capability_id="monitoring",
@@ -116,7 +124,7 @@ class RoleDefinitionManager:
                 description="Monitor system status and health",
                 capability_type=CapabilityType.MONITORING,
                 permissions=[PermissionLevel.READ],
-                dependencies=["system_access"]
+                dependencies=["system_access"],
             ),
             "analysis": Capability(
                 capability_id="analysis",
@@ -124,8 +132,8 @@ class RoleDefinitionManager:
                 description="Analyze data and generate insights",
                 capability_type=CapabilityType.ANALYSIS,
                 permissions=[PermissionLevel.READ, PermissionLevel.WRITE],
-                dependencies=["system_access", "monitoring"]
-            )
+                dependencies=["system_access", "monitoring"],
+            ),
         }
 
     def _initialize_roles(self):
@@ -135,9 +143,18 @@ class RoleDefinitionManager:
                 role_id="coordinator",
                 name="System Coordinator",
                 description="Coordinates system operations and agent activities",
-                capabilities=["system_access", "communication", "coordination", "monitoring"],
+                capabilities=[
+                    "system_access",
+                    "communication",
+                    "coordination",
+                    "monitoring",
+                ],
                 required_training=["basic_orientation", "coordination_protocols"],
-                permissions=[PermissionLevel.READ, PermissionLevel.WRITE, PermissionLevel.EXECUTE]
+                permissions=[
+                    PermissionLevel.READ,
+                    PermissionLevel.WRITE,
+                    PermissionLevel.EXECUTE,
+                ],
             ),
             "worker": AgentRole(
                 role_id="worker",
@@ -145,7 +162,7 @@ class RoleDefinitionManager:
                 description="Executes assigned tasks and reports progress",
                 capabilities=["system_access", "communication", "task_execution"],
                 required_training=["basic_orientation", "task_management"],
-                permissions=[PermissionLevel.READ, PermissionLevel.EXECUTE]
+                permissions=[PermissionLevel.READ, PermissionLevel.EXECUTE],
             ),
             "monitor": AgentRole(
                 role_id="monitor",
@@ -153,7 +170,7 @@ class RoleDefinitionManager:
                 description="Monitors system health and performance",
                 capabilities=["system_access", "monitoring", "analysis"],
                 required_training=["basic_orientation", "monitoring_protocols"],
-                permissions=[PermissionLevel.READ, PermissionLevel.WRITE]
+                permissions=[PermissionLevel.READ, PermissionLevel.WRITE],
             ),
             "analyst": AgentRole(
                 role_id="analyst",
@@ -161,16 +178,27 @@ class RoleDefinitionManager:
                 description="Analyzes data and provides insights",
                 capabilities=["system_access", "monitoring", "analysis"],
                 required_training=["basic_orientation", "data_analysis"],
-                permissions=[PermissionLevel.READ, PermissionLevel.WRITE]
+                permissions=[PermissionLevel.READ, PermissionLevel.WRITE],
             ),
             "admin": AgentRole(
                 role_id="admin",
                 name="System Administrator",
                 description="Manages system configuration and permissions",
-                capabilities=["system_access", "communication", "coordination", "monitoring", "analysis"],
+                capabilities=[
+                    "system_access",
+                    "communication",
+                    "coordination",
+                    "monitoring",
+                    "analysis",
+                ],
                 required_training=["basic_orientation", "admin_protocols"],
-                permissions=[PermissionLevel.READ, PermissionLevel.WRITE, PermissionLevel.EXECUTE, PermissionLevel.ADMIN]
-            )
+                permissions=[
+                    PermissionLevel.READ,
+                    PermissionLevel.WRITE,
+                    PermissionLevel.EXECUTE,
+                    PermissionLevel.ADMIN,
+                ],
+            ),
         }
 
     def get_capability(self, capability_id: str) -> Optional[Capability]:
@@ -189,9 +217,15 @@ class RoleDefinitionManager:
         """Get all roles"""
         return list(self.roles.values())
 
-    def get_capabilities_by_type(self, capability_type: CapabilityType) -> List[Capability]:
+    def get_capabilities_by_type(
+        self, capability_type: CapabilityType
+    ) -> List[Capability]:
         """Get capabilities by type"""
-        return [cap for cap in self.capabilities.values() if cap.capability_type == capability_type]
+        return [
+            cap
+            for cap in self.capabilities.values()
+            if cap.capability_type == capability_type
+        ]
 
     def get_roles_by_permission(self, permission: PermissionLevel) -> List[AgentRole]:
         """Get roles that have a specific permission"""
@@ -202,11 +236,11 @@ class RoleDefinitionManager:
         role = self.get_role(role_id)
         if not role:
             return False
-        
+
         for capability_id in role.capabilities:
             if capability_id not in self.capabilities:
                 return False
-        
+
         return True
 
     def get_role_requirements(self, role_id: str) -> Dict[str, Any]:
@@ -214,14 +248,18 @@ class RoleDefinitionManager:
         role = self.get_role(role_id)
         if not role:
             return {}
-        
+
         return {
             "role_id": role_id,
             "name": role.name,
             "description": role.description,
-            "capabilities": [self.capabilities.get(cid) for cid in role.capabilities if cid in self.capabilities],
+            "capabilities": [
+                self.capabilities.get(cid)
+                for cid in role.capabilities
+                if cid in self.capabilities
+            ],
             "required_training": role.required_training,
-            "permissions": [p.value for p in role.permissions]
+            "permissions": [p.value for p in role.permissions],
         }
 
 
@@ -231,31 +269,31 @@ def run_smoke_test():
 
     try:
         manager = RoleDefinitionManager()
-        
+
         # Test capability retrieval
         system_access = manager.get_capability("system_access")
         assert system_access.name == "System Access"
         assert system_access.capability_type == CapabilityType.SYSTEM
-        
+
         # Test role retrieval
         coordinator = manager.get_role("coordinator")
         assert coordinator.name == "System Coordinator"
         assert "coordination" in coordinator.capabilities
-        
+
         # Test capability filtering
         system_caps = manager.get_capabilities_by_type(CapabilityType.SYSTEM)
         assert len(system_caps) == 1
-        
+
         # Test role validation
         assert manager.validate_role_capabilities("coordinator")
-        
+
         # Test role requirements
         requirements = manager.get_role_requirements("worker")
         assert requirements["name"] == "Task Worker"
-        
+
         print("✅ RoleDefinitionManager Smoke Test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"❌ RoleDefinitionManager Smoke Test FAILED: {e}")
         return False
@@ -264,23 +302,25 @@ def run_smoke_test():
 def main():
     """CLI interface for RoleDefinitionManager testing"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Role Definition Manager CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
-    parser.add_argument("--list-capabilities", action="store_true", help="List all capabilities")
+    parser.add_argument(
+        "--list-capabilities", action="store_true", help="List all capabilities"
+    )
     parser.add_argument("--list-roles", action="store_true", help="List all roles")
     parser.add_argument("--capability", help="Show capability details")
     parser.add_argument("--role", help="Show role details")
     parser.add_argument("--capability-type", help="Filter capabilities by type")
-    
+
     args = parser.parse_args()
-    
+
     if args.test:
         run_smoke_test()
         return
-    
+
     manager = RoleDefinitionManager()
-    
+
     if args.list_capabilities:
         capabilities = manager.get_all_capabilities()
         print("System Capabilities:")

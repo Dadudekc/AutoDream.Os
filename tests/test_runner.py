@@ -5,7 +5,7 @@ Foundation & Testing Specialist - Consolidated Test System
 
 This script replaces the previous 3 test runners:
 - run_tests.py (485 lines) - DEPRECATED
-- run_tdd_tests.py (456 lines) - DEPRECATED  
+- run_tdd_tests.py (456 lines) - DEPRECATED
 - run_all_tests.py (311 lines) - DEPRECATED
 
 Usage:

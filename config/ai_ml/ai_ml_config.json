@@ -3,7 +3,7 @@
   "description": "AI/ML Development Environment Configuration",
   "author": "AI & ML Integration Specialist - Agent-2",
   "last_updated": "2025-08-20",
-  
+
   "environment": {
     "python_version": "3.8+",
     "python_path": "./src",
@@ -12,7 +12,7 @@
     "enable_performance_monitoring": true,
     "performance_log_file": "logs/performance.log"
   },
-  
+
   "frameworks": {
     "pytorch": {
       "enabled": true,
@@ -43,7 +43,7 @@
       "precision": "float32"
     }
   },
-  
+
   "ai_services": {
     "openai": {
       "enabled": true,
@@ -62,7 +62,7 @@
       "timeout": 30
     }
   },
-  
+
   "testing": {
     "framework": "pytest",
     "pytest_addopts": "--verbose --tb=short --strict-markers",
@@ -71,7 +71,7 @@
     "test_timeout": 300,
     "parallel_tests": true
   },
-  
+
   "code_quality": {
     "linting": {
       "enabled": true,
@@ -99,7 +99,7 @@
       ]
     }
   },
-  
+
   "workflow_automation": {
     "enabled": true,
     "auto_test_generation": true,
@@ -122,21 +122,21 @@
     "default_learning_rate": 0.001,
     "default_batch_size": 32
   },
-  
+
   "model_management": {
     "auto_save_models": true,
     "model_versioning": true,
     "experiment_tracking": true,
     "model_registry": "models/registry.json"
   },
-  
+
   "security": {
     "api_key_validation": true,
     "rate_limiting": true,
     "input_sanitization": true,
     "secure_model_storage": true
   },
-  
+
   "monitoring": {
     "performance_metrics": ["cpu", "memory", "disk", "gpu"],
     "logging_levels": ["INFO", "WARNING", "ERROR", "CRITICAL"],

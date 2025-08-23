@@ -62,13 +62,13 @@ logger = logging.getLogger(__name__)
 
 class PyTorchFramework(MLFramework):
     """PyTorch ML framework implementation"""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("PyTorch", "2.0+")
         self.config = config or {}
         self.device = self._setup_device()
         self.model_cache = {}
-        
+
     def _setup_device(self) -> torch.device:
         """Setup PyTorch device (CPU/GPU)"""
         if torch.cuda.is_available():
@@ -80,43 +80,43 @@ class PyTorchFramework(MLFramework):
         else:
             device = torch.device("cpu")
             logger.info("Using CPU for PyTorch operations")
-        
+
         return device
-    
+
     def initialize(self) -> bool:
         """Initialize PyTorch framework"""
         try:
             if not PYTORCH_AVAILABLE:
                 raise ImportError("PyTorch not available")
-            
+
             # Set PyTorch configuration
             if self.config.get("num_threads"):
                 torch.set_num_threads(self.config["num_threads"])
-            
+
             if self.config.get("backend_mkl", True):
                 torch.backends.mkldnn.enabled = True
-            
+
             # Test basic operations
             test_tensor = torch.randn(2, 2).to(self.device)
             test_result = torch.mm(test_tensor, test_tensor)
-            
+
             self.is_initialized = True
             logger.info(f"PyTorch framework initialized on {self.device}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize PyTorch: {e}")
             return False
-    
+
     def create_model(self, model_config: Dict[str, Any]) -> nn.Module:
         """Create a PyTorch model based on configuration"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             model_type = model_config.get("type", "mlp")
             model_params = model_config.get("parameters", {})
-            
+
             if model_type == "mlp":
                 return self._create_mlp(model_params)
             elif model_type == "cnn":
@@ -127,17 +127,17 @@ class PyTorchFramework(MLFramework):
                 return self._create_transformer(model_params)
             else:
                 raise ValueError(f"Unknown model type: {model_type}")
-                
+
         except Exception as e:
             logger.error(f"Error creating PyTorch model: {e}")
             raise
-    
+
     def _create_mlp(self, params: Dict[str, Any]) -> nn.Module:
         """Create a Multi-Layer Perceptron"""
         layer_sizes = params.get("layer_sizes", [784, 128, 64, 10])
         activation = params.get("activation", "relu")
         dropout = params.get("dropout", 0.2)
-        
+
         layers = []
         for i in range(len(layer_sizes) - 1):
             layers.append(nn.Linear(layer_sizes[i], layer_sizes[i + 1]))
@@ -149,18 +149,18 @@ class PyTorchFramework(MLFramework):
                 elif activation == "sigmoid":
                     layers.append(nn.Sigmoid())
                 layers.append(nn.Dropout(dropout))
-        
+
         return nn.Sequential(*layers)
-    
+
     def _create_cnn(self, params: Dict[str, Any]) -> nn.Module:
         """Create a Convolutional Neural Network"""
         input_channels = params.get("input_channels", 3)
         num_classes = params.get("num_classes", 10)
         conv_layers = params.get("conv_layers", [32, 64, 128])
-        
+
         layers = []
         in_channels = input_channels
-        
+
         for out_channels in conv_layers:
             layers.extend([
                 nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
@@ -169,15 +169,15 @@ class PyTorchFramework(MLFramework):
                 nn.BatchNorm2d(out_channels)
             ])
             in_channels = out_channels
-        
+
         layers.extend([
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
             nn.Linear(in_channels, num_classes)
         ])
-        
+
         return nn.Sequential(*layers)
-    
+
     def _create_rnn(self, params: Dict[str, Any]) -> nn.Module:
         """Create a Recurrent Neural Network"""
         input_size = params.get("input_size", 10)
@@ -185,19 +185,19 @@ class PyTorchFramework(MLFramework):
         num_layers = params.get("num_layers", 2)
         num_classes = params.get("num_classes", 10)
         rnn_type = params.get("rnn_type", "lstm")
-        
+
         if rnn_type == "lstm":
             rnn_layer = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
         elif rnn_type == "gru":
             rnn_layer = nn.GRU(input_size, hidden_size, num_layers, batch_first=True)
         else:
             rnn_layer = nn.RNN(input_size, hidden_size, num_layers, batch_first=True)
-        
+
         return nn.Sequential(
             rnn_layer,
             nn.Linear(hidden_size, num_classes)
         )
-    
+
     def _create_transformer(self, params: Dict[str, Any]) -> nn.Module:
         """Create a Transformer model"""
         # Simplified transformer implementation
@@ -205,10 +205,10 @@ class PyTorchFramework(MLFramework):
         nhead = params.get("nhead", 8)
         num_layers = params.get("num_layers", 6)
         num_classes = params.get("num_classes", 10)
-        
+
         encoder_layer = nn.TransformerEncoderLayer(d_model, nhead)
         transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers)
-        
+
         return nn.Sequential(
             nn.Linear(784, d_model),  # Assuming 28x28 input
             transformer_encoder,
@@ -216,54 +216,54 @@ class PyTorchFramework(MLFramework):
             nn.Flatten(),
             nn.Linear(d_model, num_classes)
         )
-    
+
     def train_model(self, model: nn.Module, data: Any, **kwargs) -> Dict[str, Any]:
         """Train a PyTorch model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             epochs = kwargs.get("epochs", 100)
             learning_rate = kwargs.get("learning_rate", 0.001)
             batch_size = kwargs.get("batch_size", 32)
-            
+
             # Setup training components
             criterion = nn.CrossEntropyLoss()
             optimizer = optim.Adam(model.parameters(), lr=learning_rate)
             scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
-            
+
             # Training loop
             model.train()
             training_history = {"epochs": [], "losses": [], "accuracies": []}
-            
+
             for epoch in range(epochs):
                 # Training logic here
                 epoch_loss = 0.0
                 epoch_accuracy = 0.0
-                
+
                 # Update learning rate
                 scheduler.step()
-                
+
                 # Record metrics
                 training_history["epochs"].append(epoch)
                 training_history["losses"].append(epoch_loss)
                 training_history["accuracies"].append(epoch_accuracy)
-                
+
                 if epoch % 10 == 0:
                     logger.info(f"Epoch {epoch}: Loss = {epoch_loss:.4f}, Accuracy = {epoch_accuracy:.2f}%")
-            
+
             return training_history
-            
+
         except Exception as e:
             logger.error(f"Error training PyTorch model: {e}")
             raise
-    
+
     def evaluate_model(self, model: nn.Module, test_data: Any) -> Dict[str, float]:
         """Evaluate a PyTorch model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             model.eval()
             # Evaluation logic here
             results = {
@@ -273,22 +273,22 @@ class PyTorchFramework(MLFramework):
                 "recall": 0.0,
                 "f1_score": 0.0
             }
-            
+
             return results
-            
+
         except Exception as e:
             logger.error(f"Error evaluating PyTorch model: {e}")
             raise
-    
+
     def save_model(self, model: nn.Module, path: str) -> bool:
         """Save a PyTorch model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             save_path = Path(path)
             save_path.parent.mkdir(parents=True, exist_ok=True)
-            
+
             torch.save({
                 'model_state_dict': model.state_dict(),
                 'model_config': {
@@ -296,45 +296,45 @@ class PyTorchFramework(MLFramework):
                     'parameters': self._get_model_parameters(model)
                 }
             }, path)
-            
+
             logger.info(f"PyTorch model saved to: {path}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error saving PyTorch model: {e}")
             return False
-    
+
     def load_model(self, path: str, model_class: Optional[type] = None, **kwargs) -> nn.Module:
         """Load a PyTorch model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             checkpoint = torch.load(path, map_location=self.device)
             model_state_dict = checkpoint['model_state_dict']
             model_config = checkpoint.get('model_config', {})
-            
+
             if model_class is None:
                 # Try to recreate model from config
                 model = self.create_model(model_config)
             else:
                 model = model_class(**kwargs)
-            
+
             model.load_state_dict(model_state_dict)
             model.to(self.device)
-            
+
             logger.info(f"PyTorch model loaded from: {path}")
             return model
-            
+
         except Exception as e:
             logger.error(f"Error loading PyTorch model: {e}")
             raise
-    
+
     def _get_model_parameters(self, model: nn.Module) -> Dict[str, Any]:
         """Extract model parameters for saving"""
         total_params = sum(p.numel() for p in model.parameters())
         trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-        
+
         return {
             "total_parameters": total_params,
             "trainable_parameters": trainable_params,
@@ -343,21 +343,21 @@ class PyTorchFramework(MLFramework):
 
 class TensorFlowFramework(MLFramework):
     """TensorFlow ML framework implementation"""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("TensorFlow", "2.x")
         self.config = config or {}
         self.model_cache = {}
-        
+
     def initialize(self) -> bool:
         """Initialize TensorFlow framework"""
         try:
             if not TENSORFLOW_AVAILABLE:
                 raise ImportError("TensorFlow not available")
-            
+
             # Configure TensorFlow
             tf.config.set_soft_device_placement(True)
-            
+
             # GPU configuration
             gpus = tf.config.list_physical_devices('GPU')
             if gpus and self.config.get("gpu_support", True):
@@ -366,39 +366,39 @@ class TensorFlowFramework(MLFramework):
                 logger.info(f"GPU devices configured: {len(gpus)}")
             else:
                 logger.info("Using CPU for TensorFlow operations")
-            
+
             # Test basic operations
             test_tensor = tf.constant([[1, 2], [3, 4]])
             test_result = tf.matmul(test_tensor, test_tensor)
-            
+
             self.is_initialized = True
             logger.info("TensorFlow framework initialized")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize TensorFlow: {e}")
             return False
-    
+
     def create_model(self, model_config: Dict[str, Any]) -> \ keras.Model\:
         """Create a TensorFlow model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             model_type = model_config.get("type", "sequential")
             model_params = model_config.get("parameters", {})
-            
+
             if model_type == "sequential":
                 return self._create_sequential_model(model_params)
             elif model_type == "functional":
                 return self._create_functional_model(model_params)
             else:
                 raise ValueError(f"Unknown TensorFlow model type: {model_type}")
-                
+
         except Exception as e:
             logger.error(f"Error creating TensorFlow model: {e}")
             raise
-    
+
     def _create_sequential_model(self, params: Dict[str, Any]) -> \ keras.Model\:
         """Create a Sequential TensorFlow model"""
         layers = params.get("layers", [])
@@ -410,9 +410,9 @@ class TensorFlowFramework(MLFramework):
                 {"type": "dense", "units": 64, "activation": "relu"},
                 {"type": "dense", "units": 10, "activation": "softmax"}
             ]
-        
+
         model = keras.Sequential()
-        
+
         for layer_config in layers:
             layer_type = layer_config["type"]
             if layer_type == "dense":
@@ -428,40 +428,40 @@ class TensorFlowFramework(MLFramework):
                     kernel_size=layer_config.get("kernel_size", 3),
                     activation=layer_config.get("activation", "relu")
                 ))
-        
+
         return model
-    
+
     def _create_functional_model(self, params: Dict[str, Any]) -> \ keras.Model\:
         """Create a Functional TensorFlow model"""
         input_shape = params.get("input_shape", (784,))
         num_classes = params.get("num_classes", 10)
-        
+
         inputs = keras.Input(shape=input_shape)
         x = keras.layers.Dense(128, activation="relu")(inputs)
         x = keras.layers.Dropout(0.2)(x)
         x = keras.layers.Dense(64, activation="relu")(x)
         outputs = keras.layers.Dense(num_classes, activation="softmax")(x)
-        
+
         return keras.Model(inputs=inputs, outputs=outputs)
-    
+
     def train_model(self, model: \ keras.Model\, data: Any, **kwargs) -> Dict[str, Any]:
         """Train a TensorFlow model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # Training configuration
             epochs = kwargs.get("epochs", 100)
             batch_size = kwargs.get("batch_size", 32)
             validation_split = kwargs.get("validation_split", 0.2)
-            
+
             # Compile model
             model.compile(
                 optimizer=kwargs.get("optimizer", "adam"),
                 loss=kwargs.get("loss", "sparse_categorical_crossentropy"),
                 metrics=kwargs.get("metrics", ["accuracy"])
             )
-            
+
             # Training
             history = model.fit(
                 data["x_train"], data["y_train"],
@@ -470,103 +470,103 @@ class TensorFlowFramework(MLFramework):
                 validation_split=validation_split,
                 verbose=1
             )
-            
+
             return {
                 "history": history.history,
                 "epochs": epochs,
                 "final_accuracy": history.history["accuracy"][-1] if "accuracy" in history.history else 0.0
             }
-            
+
         except Exception as e:
             logger.error(f"Error training TensorFlow model: {e}")
             raise
-    
+
     def evaluate_model(self, model: \ keras.Model\, test_data: Any) -> Dict[str, float]:
         """Evaluate a TensorFlow model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # Evaluation
             results = model.evaluate(
-                test_data["x_test"], 
-                test_data["y_test"], 
+                test_data["x_test"],
+                test_data["y_test"],
                 verbose=0
             )
-            
+
             metrics = dict(zip(model.metrics_names, results))
             return metrics
-            
+
         except Exception as e:
             logger.error(f"Error evaluating TensorFlow model: {e}")
             raise
-    
+
     def save_model(self, model: \ keras.Model\, path: str) -> bool:
         """Save a TensorFlow model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             save_path = Path(path)
             save_path.parent.mkdir(parents=True, exist_ok=True)
-            
+
             model.save(path)
             logger.info(f"TensorFlow model saved to: {path}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error saving TensorFlow model: {e}")
             return False
-    
+
     def load_model(self, path: str, **kwargs) -> \ keras.Model\:
         """Load a TensorFlow model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             model = keras.models.load_model(path)
             logger.info(f"TensorFlow model loaded from: {path}")
             return model
-            
+
         except Exception as e:
             logger.error(f"Error loading TensorFlow model: {e}")
             raise
 
 class ScikitLearnFramework(MLFramework):
     """Scikit-learn ML framework implementation"""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("Scikit-learn", "1.1+")
         self.config = config or {}
         self.model_cache = {}
-        
+
     def initialize(self) -> bool:
         """Initialize Scikit-learn framework"""
         try:
             if not SCIKIT_LEARN_AVAILABLE:
                 raise ImportError("Scikit-learn not available")
-            
+
             # Test basic operations
             test_data = np.array([[1, 2], [3, 4]])
             test_result = np.mean(test_data)
-            
+
             self.is_initialized = True
             logger.info("Scikit-learn framework initialized")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize Scikit-learn: {e}")
             return False
-    
+
     def create_model(self, model_config: Dict[str, Any]) -> Any:
         """Create a Scikit-learn model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             model_type = model_config.get("type", "random_forest")
             model_params = model_config.get("parameters", {})
-            
+
             if model_type == "random_forest":
                 return ensemble.RandomForestClassifier(**model_params)
             elif model_type == "svm":
@@ -577,53 +577,53 @@ class ScikitLearnFramework(MLFramework):
                 return neural_network.MLPClassifier(**model_params)
             else:
                 raise ValueError(f"Unknown Scikit-learn model type: {model_type}")
-                
+
         except Exception as e:
             logger.error(f"Error creating Scikit-learn model: {e}")
             raise
-    
+
     def train_model(self, model: Any, data: Any, **kwargs) -> Dict[str, Any]:
         """Train a Scikit-learn model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # Training
             model.fit(data["x_train"], data["y_train"])
-            
+
             # Cross-validation if requested
             cv_scores = None
             if kwargs.get("cross_validate", False):
                 cv_scores = cross_val_score(
-                    model, data["x_train"], data["y_train"], 
+                    model, data["x_train"], data["y_train"],
                     cv=kwargs.get("cv_folds", 5)
                 )
-            
+
             return {
                 "model": model,
                 "cross_validation_scores": cv_scores,
                 "training_completed": True
             }
-            
+
         except Exception as e:
             logger.error(f"Error training Scikit-learn model: {e}")
             raise
-    
+
     def evaluate_model(self, model: Any, test_data: Any) -> Dict[str, float]:
         """Evaluate a Scikit-learn model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # Predictions
             y_pred = model.predict(test_data["x_test"])
             y_pred_proba = model.predict_proba(test_data["x_test"]) if hasattr(model, 'predict_proba') else None
-            
+
             # Metrics
             accuracy = accuracy_score(test_data["y_test"], y_pred)
             report = classification_report(test_data["y_test"], y_pred, output_dict=True)
             confusion = confusion_matrix(test_data["y_test"], y_pred)
-            
+
             return {
                 "accuracy": accuracy,
                 "classification_report": report,
@@ -631,20 +631,20 @@ class ScikitLearnFramework(MLFramework):
                 "predictions": y_pred.tolist(),
                 "prediction_probabilities": y_pred_proba.tolist() if y_pred_proba is not None else None
             }
-            
+
         except Exception as e:
             logger.error(f"Error evaluating Scikit-learn model: {e}")
             raise
-    
+
     def save_model(self, model: Any, path: str) -> bool:
         """Save a Scikit-learn model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             save_path = Path(path)
             save_path.parent.mkdir(parents=True, exist_ok=True)
-            
+
             # Use joblib for better compatibility
             try:
                 import joblib
@@ -654,20 +654,20 @@ class ScikitLearnFramework(MLFramework):
                 import pickle
                 with open(path, 'wb') as f:
                     pickle.dump(model, f)
-            
+
             logger.info(f"Scikit-learn model saved to: {path}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error saving Scikit-learn model: {e}")
             return False
-    
+
     def load_model(self, path: str, **kwargs) -> Any:
         """Load a Scikit-learn model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # Try joblib first
             try:
                 import joblib
@@ -677,63 +677,63 @@ class ScikitLearnFramework(MLFramework):
                 import pickle
                 with open(path, 'rb') as f:
                     model = pickle.load(f)
-            
+
             logger.info(f"Scikit-learn model loaded from: {path}")
             return model
-            
+
         except Exception as e:
             logger.error(f"Error loading Scikit-learn model: {e}")
             raise
 
 class JAXFramework(MLFramework):
     """JAX ML framework implementation"""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("JAX", "0.4+")
         self.config = config or {}
         self.model_cache = {}
-        
+
     def initialize(self) -> bool:
         """Initialize JAX framework"""
         try:
             if not JAX_AVAILABLE:
                 raise ImportError("JAX not available")
-            
+
             # Test basic operations
             test_array = jnp.array([[1, 2], [3, 4]])
             test_result = jnp.mean(test_array)
-            
+
             self.is_initialized = True
             logger.info("JAX framework initialized")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize JAX: {e}")
             return False
-    
+
     def create_model(self, model_config: Dict[str, Any]) -> Any:
         """Create a JAX model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # JAX models are typically function-based
             model_type = model_config.get("type", "mlp")
             model_params = model_config.get("parameters", {})
-            
+
             if model_type == "mlp":
                 return self._create_jax_mlp(model_params)
             else:
                 raise ValueError(f"Unknown JAX model type: {model_type}")
-                
+
         except Exception as e:
             logger.error(f"Error creating JAX model: {e}")
             raise
-    
+
     def _create_jax_mlp(self, params: Dict[str, Any]) -> callable:
         """Create a JAX MLP function"""
         layer_sizes = params.get("layer_sizes", [784, 128, 64, 10])
-        
+
         def init_mlp_params(key):
             """Initialize MLP parameters"""
             keys = jax.random.split(key, len(layer_sizes) - 1)
@@ -744,7 +744,7 @@ class JAXFramework(MLFramework):
                 b = jax.random.normal(b_key, (out_size,))
                 params.append((w, b))
             return params
-        
+
         def mlp_forward(params, inputs):
             """MLP forward pass"""
             x = inputs
@@ -753,108 +753,108 @@ class JAXFramework(MLFramework):
                 if i < len(params) - 1:  # Don't apply activation to last layer
                     x = jax.nn.relu(x)
             return x
-        
+
         return {
             "init_fn": init_mlp_params,
             "forward_fn": mlp_forward,
             "layer_sizes": layer_sizes
         }
-    
+
     def train_model(self, model: Any, data: Any, **kwargs) -> Dict[str, Any]:
         """Train a JAX model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # JAX training logic
             learning_rate = kwargs.get("learning_rate", 0.001)
             epochs = kwargs.get("epochs", 100)
-            
+
             # Initialize parameters
             key = jax.random.PRNGKey(0)
             params = model["init_fn"](key)
-            
+
             # Training loop
             for epoch in range(epochs):
                 # Training logic here
                 pass
-            
+
             return {
                 "params": params,
                 "training_completed": True,
                 "epochs": epochs
             }
-            
+
         except Exception as e:
             logger.error(f"Error training JAX model: {e}")
             raise
-    
+
     def evaluate_model(self, model: Any, test_data: Any) -> Dict[str, float]:
         """Evaluate a JAX model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             # JAX evaluation logic
             return {
                 "accuracy": 0.0,
                 "loss": 0.0
             }
-            
+
         except Exception as e:
             logger.error(f"Error evaluating JAX model: {e}")
             raise
-    
+
     def save_model(self, model: Any, path: str) -> bool:
         """Save a JAX model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             save_path = Path(path)
             save_path.parent.mkdir(parents=True, exist_ok=True)
-            
+
             # Save JAX model parameters
             import pickle
             with open(path, 'wb') as f:
                 pickle.dump(model, f)
-            
+
             logger.info(f"JAX model saved to: {path}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error saving JAX model: {e}")
             return False
-    
+
     def load_model(self, path: str, **kwargs) -> Any:
         """Load a JAX model"""
         try:
             if not self.is_initialized:
                 self.initialize()
-            
+
             import pickle
             with open(path, 'rb') as f:
                 model = pickle.load(f)
-            
+
             logger.info(f"JAX model loaded from: {path}")
             return model
-            
+
         except Exception as e:
             logger.error(f"Error loading JAX model: {e}")
             raise
 
 class MLFrameworkManager:
     """Manages multiple ML frameworks and provides unified interface"""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
         self.frameworks: Dict[str, MLFramework] = {}
         self._initialize_frameworks()
-    
+
     def _initialize_frameworks(self) -> None:
         """Initialize available ML frameworks"""
         framework_configs = self.config.get("frameworks", {})
-        
+
         # Initialize PyTorch
         if framework_configs.get("pytorch", {}).get("enabled", True):
             try:
@@ -864,7 +864,7 @@ class MLFrameworkManager:
                 logger.info("PyTorch framework registered")
             except Exception as e:
                 logger.warning(f"Failed to register PyTorch: {e}")
-        
+
         # Initialize TensorFlow
         if framework_configs.get("tensorflow", {}).get("enabled", False):
             try:
@@ -874,7 +874,7 @@ class MLFrameworkManager:
                 logger.info("TensorFlow framework registered")
             except Exception as e:
                 logger.warning(f"Failed to register TensorFlow: {e}")
-        
+
         # Initialize Scikit-learn
         if framework_configs.get("scikit_learn", {}).get("enabled", True):
             try:
@@ -884,7 +884,7 @@ class MLFrameworkManager:
                 logger.info("Scikit-learn framework registered")
             except Exception as e:
                 logger.warning(f"Failed to register Scikit-learn: {e}")
-        
+
         # Initialize JAX
         if framework_configs.get("jax", {}).get("enabled", False):
             try:
@@ -894,15 +894,15 @@ class MLFrameworkManager:
                 logger.info("JAX framework registered")
             except Exception as e:
                 logger.warning(f"Failed to register JAX: {e}")
-    
+
     def get_framework(self, framework_name: str) -> Optional[MLFramework]:
         """Get a specific ML framework"""
         return self.frameworks.get(framework_name.lower())
-    
+
     def list_frameworks(self) -> List[str]:
         """List all available frameworks"""
         return list(self.frameworks.keys())
-    
+
     def get_framework_status(self) -> Dict[str, Dict[str, Any]]:
         """Get status of all frameworks"""
         status = {}
@@ -914,7 +914,7 @@ class MLFrameworkManager:
                 "available": True
             }
         return status
-    
+
     def initialize_all_frameworks(self) -> Dict[str, bool]:
         """Initialize all registered frameworks"""
         results = {}

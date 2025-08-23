@@ -20,11 +20,11 @@ __version__ = "2.0.0"
 __author__ = "Agent Cellphone V2 Team"
 
 __all__ = [
-    "MessageQueue", 
+    "MessageQueue",
     "PersistentMessageQueue",
     "InMemoryMessageQueue",
     "Message",
     "MessagePriority",
     "MessageType",
-    "MessageStatus"
+    "MessageStatus",
 ]

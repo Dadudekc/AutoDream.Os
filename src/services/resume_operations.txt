@@ -101,4 +101,3 @@ DISCORD REPORTING (Enabled)
   - Status: ping_discord_status('Agent-N', 'Resuming ops', 'Working on assigned task')
   - Progress: ping_discord_progress('Agent-N', 'Task Title', 50, 'Midpoint complete')
   - Completion: ping_discord_completion('Agent-N', 'Task Title', '45m', 'Pushed to branch: agent')
-

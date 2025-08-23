@@ -14,6 +14,7 @@ from typing import Dict, Any, Optional
 
 class IntegrityCheckType(Enum):
     """Types of integrity checks"""
+
     CHECKSUM = "checksum"
     HASH_CHAIN = "hash_chain"
     TIMESTAMP = "timestamp"
@@ -23,6 +24,7 @@ class IntegrityCheckType(Enum):
 
 class RecoveryStrategy(Enum):
     """Data recovery strategies"""
+
     BACKUP_RESTORE = "backup_restore"
     CHECKSUM_MATCH = "checksum_match"
     TIMESTAMP_ROLLBACK = "timestamp_rollback"
@@ -32,14 +34,16 @@ class RecoveryStrategy(Enum):
 
 class IntegrityLevel(Enum):
     """Integrity verification levels"""
-    BASIC = "basic"           # Simple checksum
-    ADVANCED = "advanced"     # Hash + timestamp
-    CRITICAL = "critical"     # Full integrity chain
+
+    BASIC = "basic"  # Simple checksum
+    ADVANCED = "advanced"  # Hash + timestamp
+    CRITICAL = "critical"  # Full integrity chain
 
 
 @dataclass
 class IntegrityCheck:
     """Data integrity check result"""
+
     check_id: str
     data_id: str
     check_type: IntegrityCheckType
@@ -53,6 +57,7 @@ class IntegrityCheck:
 @dataclass
 class IntegrityViolation:
     """Data integrity violation details"""
+
     violation_id: str
     data_id: str
     violation_type: str
@@ -66,6 +71,7 @@ class IntegrityViolation:
 @dataclass
 class IntegrityConfig:
     """Integrity verification configuration"""
+
     check_interval: int
     recovery_enabled: bool
     alert_on_violation: bool

@@ -15,6 +15,7 @@ from enum import Enum
 
 class PerformanceLevel(Enum):
     """Performance level definitions"""
+
     EXCELLENT = "excellent"
     GOOD = "good"
     AVERAGE = "average"
@@ -24,6 +25,7 @@ class PerformanceLevel(Enum):
 
 class PerformanceMetricType(Enum):
     """Performance metric types"""
+
     MEMORY = "memory"
     CPU = "cpu"
     DISK = "disk"
@@ -36,6 +38,7 @@ class PerformanceMetricType(Enum):
 
 class OptimizationType(Enum):
     """Performance optimization types"""
+
     MEMORY_OPTIMIZATION = "memory_optimization"
     CPU_OPTIMIZATION = "cpu_optimization"
     DISK_OPTIMIZATION = "disk_optimization"
@@ -47,6 +50,7 @@ class OptimizationType(Enum):
 @dataclass
 class PerformanceMetric:
     """Unified performance metric definition"""
+
     metric_id: str
     metric_type: PerformanceMetricType
     name: str
@@ -59,6 +63,7 @@ class PerformanceMetric:
 @dataclass
 class PerformanceSnapshot:
     """Performance snapshot at a point in time"""
+
     snapshot_id: str
     timestamp: float
     metrics: Dict[str, PerformanceMetric]
@@ -69,6 +74,7 @@ class PerformanceSnapshot:
 @dataclass
 class PerformanceAnalysis:
     """Performance analysis result"""
+
     analysis_id: str
     timestamp: float
     metric_type: PerformanceMetricType
@@ -83,6 +89,7 @@ class PerformanceAnalysis:
 @dataclass
 class OptimizationSuggestion:
     """Performance optimization suggestion"""
+
     suggestion_id: str
     optimization_type: OptimizationType
     title: str
@@ -96,6 +103,7 @@ class OptimizationSuggestion:
 @dataclass
 class PerformanceThreshold:
     """Performance threshold definition"""
+
     metric_type: PerformanceMetricType
     warning_threshold: float
     critical_threshold: float
@@ -106,6 +114,7 @@ class PerformanceThreshold:
 @dataclass
 class PerformanceReport:
     """Comprehensive performance report"""
+
     report_id: str
     timestamp: float
     time_period: str

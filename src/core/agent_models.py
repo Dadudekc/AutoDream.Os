@@ -15,6 +15,7 @@ from enum import Enum
 
 class AgentRole(Enum):
     """Unified agent role definitions"""
+
     # System roles
     SYSTEM_COORDINATOR = "System Coordinator & Project Manager"
     TECHNICAL_ARCHITECT = "Technical Architect & Developer"
@@ -24,7 +25,7 @@ class AgentRole(Enum):
     FRONTEND_DEVELOPER = "Frontend Developer & UI/UX Specialist"
     BACKEND_DEVELOPER = "Backend Developer & API Specialist"
     QA_SPECIALIST = "Quality Assurance & Testing Specialist"
-    
+
     # Functional roles
     COORDINATOR = "coordinator"
     WORKER = "worker"
@@ -35,6 +36,7 @@ class AgentRole(Enum):
 
 class AgentStatus(Enum):
     """Agent status definitions"""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     BUSY = "busy"
@@ -45,6 +47,7 @@ class AgentStatus(Enum):
 
 class AgentCapability(Enum):
     """Agent capability types"""
+
     SYSTEM_ACCESS = "system_access"
     COMMUNICATION = "communication"
     TASK_EXECUTION = "task_execution"
@@ -59,6 +62,7 @@ class AgentCapability(Enum):
 @dataclass
 class AgentCapabilityDefinition:
     """Agent capability definition"""
+
     capability_id: str
     name: str
     description: str
@@ -71,6 +75,7 @@ class AgentCapabilityDefinition:
 @dataclass
 class AgentRoleDefinition:
     """Unified agent role definition"""
+
     role_id: str
     name: str
     description: str
@@ -83,6 +88,7 @@ class AgentRoleDefinition:
 @dataclass
 class AgentResponsibilities:
     """Agent responsibilities structure"""
+
     role: str
     emoji: str
     key_responsibilities: List[str]
@@ -94,6 +100,7 @@ class AgentResponsibilities:
 @dataclass
 class AgentInfo:
     """Comprehensive agent information"""
+
     agent_id: str
     name: str
     role: AgentRole
@@ -101,13 +108,14 @@ class AgentInfo:
     capabilities: List[AgentCapability]
     responsibilities: AgentResponsibilities
     metadata: Dict[str, Any] = field(default_factory=dict)
-    created_at: float = field(default_factory=lambda: __import__('time').time())
-    last_active: float = field(default_factory=lambda: __import__('time').time())
+    created_at: float = field(default_factory=lambda: __import__("time").time())
+    last_active: float = field(default_factory=lambda: __import__("time").time())
 
 
 @dataclass
 class RoleAssignment:
     """Agent role assignment record"""
+
     agent_id: str
     role_id: str
     assigned_at: float

@@ -164,18 +164,18 @@ from selenium.webdriver.common.by import By
 def test_web_automation():
     """Test web automation capabilities"""
     driver = webdriver.Chrome()
-    
+
     try:
         # Navigate to test page
         driver.get("http://localhost:5000/test")
-        
+
         # Find and interact with elements
         title = driver.find_element(By.TAG_NAME, "h1")
         assert "TDD Testing Environment" in title.text
-        
+
         # Take screenshot
         driver.save_screenshot("test_result.png")
-        
+
     finally:
         driver.quit()
 ```

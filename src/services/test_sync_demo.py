@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import time
+
 print("🧪 TEST_SYNC Demo for Enhanced 8-Agent Messaging System")
 print("=" * 60)
 print()
@@ -8,7 +9,7 @@ user_message = {
     "agent_id": "agent_1",
     "type": "test_sync",
     "content": "This is a synchronous test message",
-    "timestamp": 1755726240.2626011
+    "timestamp": 1755726240.2626011,
 }
 print("📤 Original TEST_SYNC message from user:")
 print(json.dumps(user_message, indent=2))

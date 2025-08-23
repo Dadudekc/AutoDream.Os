@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 class DataOperation(Enum):
     """Data operation types"""
+
     READ = "read"
     WRITE = "write"
     UPDATE = "update"
@@ -28,6 +29,7 @@ class DataOperation(Enum):
 @dataclass
 class DataRequest:
     """Data coordination request"""
+
     request_id: str
     agent_id: str
     operation: DataOperation
@@ -40,6 +42,7 @@ class DataRequest:
 @dataclass
 class DataResponse:
     """Data coordination response"""
+
     request_id: str
     success: bool
     data_value: Optional[Any] = None
@@ -49,7 +52,7 @@ class DataResponse:
 
 class MultiAgentDataCoordination:
     """Multi-agent data coordination system for agent swarms"""
-    
+
     def __init__(self, coordination_id: str = "default-coordination"):
         self.logger = logging.getLogger(f"{__name__}.MultiAgentDataCoordination")
         self.coordination_id = coordination_id
@@ -64,8 +67,10 @@ class MultiAgentDataCoordination:
         self._coordination_active = False
         self._coordination_thread: Optional[threading.Thread] = None
         self._stop_coordination = threading.Event()
-        self.logger.info(f"Multi-Agent Data Coordination '{coordination_id}' initialized")
-    
+        self.logger.info(
+            f"Multi-Agent Data Coordination '{coordination_id}' initialized"
+        )
+
     def register_agent(self, agent_id: str) -> bool:
         """Register an agent for data coordination"""
         if agent_id in self._registered_agents:
@@ -73,7 +78,7 @@ class MultiAgentDataCoordination:
         self._registered_agents.add(agent_id)
         self._agent_sessions[agent_id] = time.time()
         return True
-    
+
     def unregister_agent(self, agent_id: str) -> bool:
         """Unregister an agent from data coordination"""
         if agent_id not in self._registered_agents:
@@ -82,7 +87,7 @@ class MultiAgentDataCoordination:
         if agent_id in self._agent_sessions:
             del self._agent_sessions[agent_id]
         return True
-    
+
     def submit_data_request(self, request: DataRequest) -> str:
         """Submit a data coordination request"""
         if request.agent_id not in self._registered_agents:
@@ -91,7 +96,7 @@ class MultiAgentDataCoordination:
         self._pending_requests[request.request_id] = request
         self._request_queue.append(request)
         return request.request_id
-    
+
     def process_data_request(self, request: DataRequest) -> DataResponse:
         """Process a data coordination request"""
         try:
@@ -109,71 +114,119 @@ class MultiAgentDataCoordination:
                 elif request.operation == DataOperation.SYNC:
                     return self._handle_sync_request(request)
                 else:
-                    return DataResponse(request_id=request.request_id, success=False, 
-                                     error_message=f"Unknown operation: {request.operation.value}")
+                    return DataResponse(
+                        request_id=request.request_id,
+                        success=False,
+                        error_message=f"Unknown operation: {request.operation.value}",
+                    )
         except Exception as e:
-            return DataResponse(request_id=request.request_id, success=False, error_message=str(e))
-    
+            return DataResponse(
+                request_id=request.request_id, success=False, error_message=str(e)
+            )
+
     def _handle_read_request(self, request: DataRequest) -> DataResponse:
         """Handle read data request"""
         if request.data_key not in self._data_store:
-            return DataResponse(request_id=request.request_id, success=False, 
-                             error_message=f"Data key not found: {request.data_key}")
-        return DataResponse(request_id=request.request_id, success=True, 
-                          data_value=self._data_store[request.data_key], timestamp=time.time())
-    
+            return DataResponse(
+                request_id=request.request_id,
+                success=False,
+                error_message=f"Data key not found: {request.data_key}",
+            )
+        return DataResponse(
+            request_id=request.request_id,
+            success=True,
+            data_value=self._data_store[request.data_key],
+            timestamp=time.time(),
+        )
+
     def _handle_write_request(self, request: DataRequest) -> DataResponse:
         """Handle write data request"""
         if request.data_value is None:
-            return DataResponse(request_id=request.request_id, success=False, 
-                             error_message="Data value required for write operation")
+            return DataResponse(
+                request_id=request.request_id,
+                success=False,
+                error_message="Data value required for write operation",
+            )
         self._data_store[request.data_key] = request.data_value
-        self._data_versions[request.data_key] = self._data_versions.get(request.data_key, 0) + 1
-        return DataResponse(request_id=request.request_id, success=True, timestamp=time.time())
-    
+        self._data_versions[request.data_key] = (
+            self._data_versions.get(request.data_key, 0) + 1
+        )
+        return DataResponse(
+            request_id=request.request_id, success=True, timestamp=time.time()
+        )
+
     def _handle_update_request(self, request: DataRequest) -> DataResponse:
         """Handle update data request"""
         if request.data_key not in self._data_store:
-            return DataResponse(request_id=request.request_id, success=False, 
-                             error_message=f"Data key not found for update: {request.data_key}")
+            return DataResponse(
+                request_id=request.request_id,
+                success=False,
+                error_message=f"Data key not found for update: {request.data_key}",
+            )
         if request.data_value is None:
-            return DataResponse(request_id=request.request_id, success=False, 
-                             error_message="Data value required for update operation")
+            return DataResponse(
+                request_id=request.request_id,
+                success=False,
+                error_message="Data value required for update operation",
+            )
         self._data_store[request.data_key] = request.data_value
         self._data_versions[request.data_key] += 1
-        return DataResponse(request_id=request.request_id, success=True, timestamp=time.time())
-    
+        return DataResponse(
+            request_id=request.request_id, success=True, timestamp=time.time()
+        )
+
     def _handle_delete_request(self, request: DataRequest) -> DataResponse:
         """Handle delete data request"""
         if request.data_key not in self._data_store:
-            return DataResponse(request_id=request.request_id, success=False, 
-                             error_message=f"Data key not found for deletion: {request.data_key}")
+            return DataResponse(
+                request_id=request.request_id,
+                success=False,
+                error_message=f"Data key not found for deletion: {request.data_key}",
+            )
         del self._data_store[request.data_key]
         if request.data_key in self._data_versions:
             del self._data_versions[request.data_key]
-        return DataResponse(request_id=request.request_id, success=True, timestamp=time.time())
-    
+        return DataResponse(
+            request_id=request.request_id, success=True, timestamp=time.time()
+        )
+
     def _handle_sync_request(self, request: DataRequest) -> DataResponse:
         """Handle data synchronization request"""
-        sync_data = {"data_keys": list(self._data_store.keys()), "versions": self._data_versions.copy(), 
-                     "timestamp": time.time()}
-        return DataResponse(request_id=request.request_id, success=True, data_value=sync_data, timestamp=time.time())
-    
+        sync_data = {
+            "data_keys": list(self._data_store.keys()),
+            "versions": self._data_versions.copy(),
+            "timestamp": time.time(),
+        }
+        return DataResponse(
+            request_id=request.request_id,
+            success=True,
+            data_value=sync_data,
+            timestamp=time.time(),
+        )
+
     def get_coordination_status(self) -> Dict[str, Any]:
         """Get coordination system status"""
-        return {"coordination_id": self.coordination_id, "active_agents": len(self._registered_agents),
-                "pending_requests": len(self._pending_requests), "completed_requests": len(self._completed_requests),
-                "data_keys": len(self._data_store), "coordination_active": self._coordination_active, "timestamp": time.time()}
-    
+        return {
+            "coordination_id": self.coordination_id,
+            "active_agents": len(self._registered_agents),
+            "pending_requests": len(self._pending_requests),
+            "completed_requests": len(self._completed_requests),
+            "data_keys": len(self._data_store),
+            "coordination_active": self._coordination_active,
+            "timestamp": time.time(),
+        }
+
     def start_coordination(self):
         """Start the coordination system"""
         if self._coordination_active:
             return
         self._coordination_active = True
         self._stop_coordination.clear()
-        self._coordination_thread = threading.Thread(target=self._coordination_loop, daemon=True)
+        self._coordination_thread = threading.Thread(
+            target=self._coordination_loop, daemon=True
+        )
         self._coordination_thread.start()
-    
+
     def _coordination_loop(self):
         """Main coordination loop"""
         while not self._stop_coordination.is_set():
@@ -183,7 +236,7 @@ class MultiAgentDataCoordination:
             except Exception as e:
                 self.logger.error(f"Coordination error: {e}")
                 time.sleep(1)
-    
+
     def _process_pending_requests(self):
         """Process pending data requests"""
         if not self._request_queue:
@@ -195,7 +248,7 @@ class MultiAgentDataCoordination:
             self._completed_requests[request.request_id] = response
             if request.request_id in self._pending_requests:
                 del self._pending_requests[request.request_id]
-    
+
     def stop_coordination(self):
         """Stop the coordination system"""
         self._coordination_active = False
@@ -207,17 +260,20 @@ class MultiAgentDataCoordination:
 def main():
     """CLI interface for testing MultiAgentDataCoordination"""
     import argparse
+
     parser = argparse.ArgumentParser(description="Multi-Agent Data Coordination CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
     args = parser.parse_args()
-    
+
     if args.test:
         print("🧪 MultiAgentDataCoordination Smoke Test")
         print("=" * 50)
         coordination = MultiAgentDataCoordination("test-coordination")
         coordination.register_agent("agent-1")
         coordination.register_agent("agent-2")
-        write_request = DataRequest("req-1", "agent-1", DataOperation.WRITE, "test-key", "test-value")
+        write_request = DataRequest(
+            "req-1", "agent-1", DataOperation.WRITE, "test-key", "test-value"
+        )
         coordination.submit_data_request(write_request)
         read_request = DataRequest("req-2", "agent-2", DataOperation.READ, "test-key")
         coordination.submit_data_request(read_request)

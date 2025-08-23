@@ -287,7 +287,7 @@ Run multiple Cursor instances with different CDP ports:
 # Instance 1
 .\launch_cursor_with_cdp.ps1 -Port 9222
 
-# Instance 2  
+# Instance 2
 .\launch_cursor_with_cdp.ps1 -Port 9223
 
 # Send to specific instance

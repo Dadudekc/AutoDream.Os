@@ -12,7 +12,7 @@ from .storage_types import (
     DataIntegrityLevel,
     BackupStrategy,
     StorageMetadata,
-    StorageConfig
+    StorageConfig,
 )
 
 from .storage_core import PersistentDataStorage
@@ -22,19 +22,17 @@ from .storage_integration import UnifiedStorageSystem
 # Backward compatibility - maintain original interface
 __all__ = [
     # Types
-    'StorageType',
-    'DataIntegrityLevel', 
-    'BackupStrategy',
-    'StorageMetadata',
-    'StorageConfig',
-    
+    "StorageType",
+    "DataIntegrityLevel",
+    "BackupStrategy",
+    "StorageMetadata",
+    "StorageConfig",
     # Core classes
-    'PersistentDataStorage',
-    'StorageBackupManager',
-    'UnifiedStorageSystem',
-    
+    "PersistentDataStorage",
+    "StorageBackupManager",
+    "UnifiedStorageSystem",
     # Legacy alias for backward compatibility
-    'PersistentDataStorage as Storage'  # Maintains original import
+    "PersistentDataStorage as Storage",  # Maintains original import
 ]
 
 # Version information

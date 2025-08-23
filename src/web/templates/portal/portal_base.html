@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Agent_Cellphone_V2 Unified Portal{% endblock %}</title>
-    
+
     <!-- Portal-specific CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/portal/portal_framework.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/portal/portal_components.css') }}">
-    
+
     <!-- Base responsive framework -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_framework.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ui_components.css') }}">
-    
+
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Portal-specific meta tags -->
     <meta name="portal-version" content="1.0.0">
     <meta name="portal-theme" content="default">
-    
+
     {% block extra_head %}{% endblock %}
 </head>
 <body class="portal-body">
@@ -32,7 +32,7 @@
                     <h1>Agent_Cellphone_V2</h1>
                     <span class="portal-subtitle">Unified Portal</span>
                 </div>
-                
+
                 <nav class="portal-main-nav">
                     <ul class="portal-nav-list">
                         <li><a href="{{ url_for('portal_dashboard') }}" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
@@ -42,7 +42,7 @@
                         <li><a href="{{ url_for('portal_coordination') }}" class="nav-link"><i class="fas fa-network-wired"></i> Coordination</a></li>
                     </ul>
                 </nav>
-                
+
                 <div class="portal-user-menu">
                     <div class="user-info">
                         <i class="fas fa-user-circle"></i>
@@ -70,13 +70,13 @@
                         <li><a href="{{ url_for('portal_recent_activity') }}" class="nav-link"><i class="fas fa-clock"></i> Recent Activity</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="nav-section">
                     <h3 class="nav-section-title">Agent Systems</h3>
                     <ul class="nav-section-list">
                         {% for agent in portal_agents %}
                         <li>
-                            <a href="{{ url_for('portal_agent_details', agent_id=agent.agent_id) }}" 
+                            <a href="{{ url_for('portal_agent_details', agent_id=agent.agent_id) }}"
                                class="nav-link agent-link {{ 'offline' if agent.status == 'offline' else 'online' }}">
                                 <i class="fas fa-robot"></i>
                                 <span class="agent-name">{{ agent.name }}</span>
@@ -135,10 +135,10 @@
     <!-- Portal JavaScript -->
     <script src="{{ url_for('static', filename='js/portal/portal_framework.js') }}"></script>
     <script src="{{ url_for('static', filename='js/portal/portal_components.js') }}"></script>
-    
+
     <!-- Base responsive framework -->
     <script src="{{ url_for('static', filename='js/responsive_framework.js') }}"></script>
-    
+
     <!-- Portal-specific scripts -->
     <script>
         // Portal configuration
@@ -150,7 +150,7 @@
             sessionTimeout: {{ config.get("session_timeout", 3600) }},
             debugMode: {{ 'true' if config.get("debug_mode", False) else 'false' }}
         };
-        
+
         // Initialize portal
         document.addEventListener('DOMContentLoaded', function() {
             if (window.PortalFramework) {
@@ -158,7 +158,7 @@
             }
         });
     </script>
-    
+
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

@@ -24,11 +24,25 @@ class FileAnalysisUtils:
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
-                        imports.append({'type': 'import', 'module': alias.name, 'name': alias.asname or alias.name})
+                        imports.append(
+                            {
+                                "type": "import",
+                                "module": alias.name,
+                                "name": alias.asname or alias.name,
+                            }
+                        )
                 elif isinstance(node, ast.ImportFrom):
-                    module = node.module or ''
+                    module = node.module or ""
                     for alias in node.names:
-                        imports.append({'type': 'from_import', 'module': module, 'name': f"{module}.{alias.name}" if module else alias.name})
+                        imports.append(
+                            {
+                                "type": "from_import",
+                                "module": module,
+                                "name": f"{module}.{alias.name}"
+                                if module
+                                else alias.name,
+                            }
+                        )
         except Exception:
             pass
         return imports
@@ -37,12 +51,22 @@ class FileAnalysisUtils:
     def extract_work_items(content: str) -> List[Dict[str, Any]]:
         """Extract TODO, FIXME, BUG comments from code."""
         work_items = []
-        patterns = {'TODO': r'#\s*TODO:?\s*(.+)', 'FIXME': r'#\s*FIXME:?\s*(.+)', 'BUG': r'#\s*BUG:?\s*(.+)'}
+        patterns = {
+            "TODO": r"#\s*TODO:?\s*(.+)",
+            "FIXME": r"#\s*FIXME:?\s*(.+)",
+            "BUG": r"#\s*BUG:?\s*(.+)",
+        }
         for line_num, line in enumerate(content.splitlines(), 1):
             for item_type, pattern in patterns.items():
                 match = re.search(pattern, line, re.IGNORECASE)
                 if match:
-                    work_items.append({'type': item_type, 'line': line_num, 'description': match.group(1).strip()})
+                    work_items.append(
+                        {
+                            "type": item_type,
+                            "line": line_num,
+                            "description": match.group(1).strip(),
+                        }
+                    )
         return work_items
 
     @staticmethod
@@ -50,44 +74,52 @@ class FileAnalysisUtils:
         """Determine file type from extension."""
         suffix = file_path.suffix.lower()
         type_map = {
-            '.py': 'python', '.js': 'javascript', '.ts': 'typescript', '.rs': 'rust',
-            '.java': 'java', '.cpp': 'cpp', '.c': 'c', '.h': 'header'
+            ".py": "python",
+            ".js": "javascript",
+            ".ts": "typescript",
+            ".rs": "rust",
+            ".java": "java",
+            ".cpp": "cpp",
+            ".c": "c",
+            ".h": "header",
         }
-        return type_map.get(suffix, 'text')
+        return type_map.get(suffix, "text")
 
     @staticmethod
     def calculate_complexity_level(complexity_score: float) -> str:
         """Calculate complexity level from score."""
         if complexity_score <= 5:
-            return 'low'
+            return "low"
         elif complexity_score <= 10:
-            return 'medium'
+            return "medium"
         elif complexity_score <= 20:
-            return 'high'
+            return "high"
         else:
-            return 'very_high'
+            return "very_high"
 
     @staticmethod
     def get_file_stats_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Get comprehensive statistics for multiple files."""
         stats = {
-            'total_files': len(results),
-            'total_lines': 0,
-            'total_functions': 0,
-            'total_classes': 0,
-            'file_types': {},
-            'work_items_count': 0
+            "total_files": len(results),
+            "total_lines": 0,
+            "total_functions": 0,
+            "total_classes": 0,
+            "file_types": {},
+            "work_items_count": 0,
         }
-        
+
         for result in results:
-            if 'error' not in result:
-                stats['total_lines'] += result.get('lines_count', 0)
-                stats['total_functions'] += result.get('functions_count', 0)
-                stats['total_classes'] += result.get('classes_count', 0)
-                
-                file_type = result.get('file_type', 'unknown')
-                stats['file_types'][file_type] = stats['file_types'].get(file_type, 0) + 1
-                
-                stats['work_items_count'] += len(result.get('work_items', []))
-        
+            if "error" not in result:
+                stats["total_lines"] += result.get("lines_count", 0)
+                stats["total_functions"] += result.get("functions_count", 0)
+                stats["total_classes"] += result.get("classes_count", 0)
+
+                file_type = result.get("file_type", "unknown")
+                stats["file_types"][file_type] = (
+                    stats["file_types"].get(file_type, 0) + 1
+                )
+
+                stats["work_items_count"] += len(result.get("work_items", []))
+
         return stats

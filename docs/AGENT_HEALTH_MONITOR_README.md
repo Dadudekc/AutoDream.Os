@@ -188,7 +188,7 @@ if alerts:
 ```python
 def health_update_callback(health_data, alerts):
     print(f"Health update: {len(health_data)} agents, {len(alerts)} alerts")
-    
+
     # Process health data
     for agent_id, health in health_data.items():
         print(f"{agent_id}: {health.overall_status.value} (Score: {health.health_score})")
@@ -420,7 +420,7 @@ message_router = MessageRouter()
 # Monitor communication latency
 def on_message_sent(message):
     start_time = time.time()
-    
+
     def on_message_delivered(delivery_result):
         latency = (time.time() - start_time) * 1000  # Convert to ms
         health_monitor.record_health_metric(
@@ -429,7 +429,7 @@ def on_message_sent(message):
             latency,
             "ms"
         )
-    
+
     message_router.on_delivery(message.message_id, on_message_delivered)
 ```
 

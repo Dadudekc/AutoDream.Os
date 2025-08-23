@@ -1,8 +1,8 @@
 # 📚 V2 COORDINATION SYSTEM API DOCUMENTATION
 
-**Version**: 2.0  
-**Last Updated**: 2024-08-19  
-**Maintainer**: Captain-5  
+**Version**: 2.0
+**Last Updated**: 2024-08-19
+**Maintainer**: Captain-5
 
 ---
 

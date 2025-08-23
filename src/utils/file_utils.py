@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 class FileUtils:
     """File and directory utility functions"""
-    
+
     @staticmethod
     def ensure_directory(path: str) -> bool:
         """Ensure directory exists, create if not"""
@@ -35,61 +35,61 @@ class FileUtils:
         except Exception as e:
             logger.error(f"Failed to create directory {path}: {e}")
             return False
-    
+
     @staticmethod
     def read_json(file_path: str) -> Optional[Dict[str, Any]]:
         """Read JSON file and return data"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
         except Exception as e:
             logger.error(f"Failed to read JSON {file_path}: {e}")
             return None
-    
+
     @staticmethod
     def write_json(file_path: str, data: Dict[str, Any]) -> bool:
         """Write data to JSON file"""
         try:
             FileUtils.ensure_directory(os.path.dirname(file_path))
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
             return True
         except Exception as e:
             logger.error(f"Failed to write JSON {file_path}: {e}")
             return False
-    
+
     @staticmethod
     def read_yaml(file_path: str) -> Optional[Dict[str, Any]]:
         """Read YAML file and return data"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except Exception as e:
             logger.error(f"Failed to read YAML {file_path}: {e}")
             return None
-    
+
     @staticmethod
     def write_yaml(file_path: str, data: Dict[str, Any]) -> bool:
         """Write data to YAML file"""
         try:
             FileUtils.ensure_directory(os.path.dirname(file_path))
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 yaml.dump(data, f, default_flow_style=False, allow_unicode=True)
             return True
         except Exception as e:
             logger.error(f"Failed to write YAML {file_path}: {e}")
             return False
-    
+
     @staticmethod
     def get_file_hash(file_path: str) -> Optional[str]:
         """Get SHA256 hash of file"""
         try:
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 return hashlib.sha256(f.read()).hexdigest()
         except Exception as e:
             logger.error(f"Failed to get hash for {file_path}: {e}")
             return None
-    
+
     @staticmethod
     def list_files(directory: str, pattern: str = "*") -> List[str]:
         """List files in directory matching pattern"""
@@ -101,7 +101,7 @@ class FileUtils:
         except Exception as e:
             logger.error(f"Failed to list files in {directory}: {e}")
             return []
-    
+
     @staticmethod
     def file_exists(file_path: str) -> bool:
         """Check if file exists"""
@@ -109,7 +109,7 @@ class FileUtils:
             return Path(file_path).exists()
         except Exception:
             return False
-    
+
     @staticmethod
     def get_file_size(file_path: str) -> Optional[int]:
         """Get file size in bytes"""
@@ -118,12 +118,13 @@ class FileUtils:
         except Exception as e:
             logger.error(f"Failed to get file size for {file_path}: {e}")
             return None
-    
+
     @staticmethod
     def copy_file(source: str, destination: str) -> bool:
         """Copy file from source to destination"""
         try:
             import shutil
+
             FileUtils.ensure_directory(os.path.dirname(destination))
             shutil.copy2(source, destination)
             return True
@@ -135,7 +136,7 @@ class FileUtils:
 def main():
     """CLI interface for file utilities testing."""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="File Utils CLI")
     parser.add_argument("--read-json", help="Read JSON file")
     parser.add_argument("--read-yaml", help="Read YAML file")
@@ -145,9 +146,9 @@ def main():
     parser.add_argument("--list", help="List files in directory")
     parser.add_argument("--exists", help="Check if file exists")
     parser.add_argument("--size", help="Get file size")
-    
+
     args = parser.parse_args()
-    
+
     if args.read_json:
         data = FileUtils.read_json(args.read_json)
         print(f"JSON data: {data}")

@@ -1,5 +1,5 @@
 # 🔑 API Key Setup Guide
-**Agent-2: AI & ML Framework Integration**  
+**Agent-2: AI & ML Framework Integration**
 **TDD Integration Project - Agent_Cellphone_V2_Repository**
 
 This guide will walk you through setting up API keys and configuring your AI/ML development environment.

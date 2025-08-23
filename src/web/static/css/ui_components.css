@@ -475,7 +475,7 @@ License: MIT
   .navbar-nav {
     flex-direction: row;
   }
-  
+
   .navbar-nav .nav-link {
     padding-right: var(--spacing-md);
     padding-left: var(--spacing-md);
@@ -674,7 +674,7 @@ License: MIT
     max-width: 500px;
     margin: var(--spacing-xl) auto;
   }
-  
+
   .modal-sm {
     max-width: 300px;
   }

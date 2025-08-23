@@ -23,40 +23,41 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
+
 class WebDevelopmentSetup:
     """Web development environment setup manager"""
-    
+
     def __init__(self):
         self.project_root = Path(__file__).parent.parent
         self.requirements_file = self.project_root / "requirements_web_development.txt"
         self.venv_path = self.project_root / "venv_web_dev"
-        
+
         # Platform-specific configurations
         self.is_windows = platform.system() == "Windows"
         self.is_linux = platform.system() == "Linux"
         self.is_macos = platform.system() == "Darwin"
-        
+
         self.python_executable = self._get_python_executable()
         self.pip_executable = self._get_pip_executable()
-        
+
         print(f"🚀 Web Development Environment Setup")
         print(f"📍 Project Root: {self.project_root}")
         print(f"🐍 Python: {self.python_executable}")
         print(f"📦 Platform: {platform.system()} {platform.release()}")
         print()
-    
+
     def _get_python_executable(self) -> str:
         """Get the appropriate Python executable"""
         if self.is_windows:
             return "python"
         return "python3"
-    
+
     def _get_pip_executable(self) -> str:
         """Get the appropriate pip executable"""
         if self.is_windows:
             return "pip"
         return "pip3"
-    
+
     def run_command(self, command: List[str], cwd: Optional[Path] = None) -> bool:
         """Run a command and return success status"""
         try:
@@ -66,7 +67,7 @@ class WebDevelopmentSetup:
                 cwd=cwd or self.project_root,
                 check=True,
                 capture_output=True,
-                text=True
+                text=True,
             )
             if result.stdout:
                 print(f"✅ Output: {result.stdout.strip()}")
@@ -76,7 +77,7 @@ class WebDevelopmentSetup:
             if e.stderr:
                 print(f"Error details: {e.stderr}")
             return False
-    
+
     def check_python_version(self) -> bool:
         """Check if Python version is compatible"""
         try:
@@ -84,13 +85,19 @@ class WebDevelopmentSetup:
                 [self.python_executable, "--version"],
                 capture_output=True,
                 text=True,
-                check=True
+                check=True,
             )
             version = result.stdout.strip()
             print(f"🐍 Python Version: {version}")
-            
+
             # Check for Python 3.8+
-            if "3.8" in version or "3.9" in version or "3.10" in version or "3.11" in version or "3.12" in version:
+            if (
+                "3.8" in version
+                or "3.9" in version
+                or "3.10" in version
+                or "3.11" in version
+                or "3.12" in version
+            ):
                 return True
             else:
                 print("⚠️  Warning: Python 3.8+ recommended for optimal compatibility")
@@ -98,25 +105,25 @@ class WebDevelopmentSetup:
         except Exception as e:
             print(f"❌ Error checking Python version: {e}")
             return False
-    
+
     def create_virtual_environment(self) -> bool:
         """Create a virtual environment for web development"""
         if self.venv_path.exists():
             print(f"📁 Virtual environment already exists at: {self.venv_path}")
             return True
-        
+
         try:
             print(f"🔧 Creating virtual environment at: {self.venv_path}")
             command = [self.python_executable, "-m", "venv", str(self.venv_path)]
             if not self.run_command(command):
                 return False
-            
+
             print("✅ Virtual environment created successfully")
             return True
         except Exception as e:
             print(f"❌ Error creating virtual environment: {e}")
             return False
-    
+
     def activate_virtual_environment(self) -> bool:
         """Activate the virtual environment and update pip"""
         if self.is_windows:
@@ -125,67 +132,71 @@ class WebDevelopmentSetup:
         else:
             pip_path = self.venv_path / "bin" / "pip"
             python_path = self.venv_path / "bin" / "python"
-        
+
         if not pip_path.exists() or not python_path.exists():
             print("❌ Virtual environment not properly created")
             return False
-        
+
         # Update pip
         print("🔄 Updating pip...")
         if not self.run_command([str(pip_path), "install", "--upgrade", "pip"]):
             return False
-        
+
         return True
-    
+
     def install_dependencies(self) -> bool:
         """Install all web development dependencies"""
         if self.is_windows:
             pip_path = self.venv_path / "Scripts" / "pip.exe"
         else:
             pip_path = self.venv_path / "bin" / "pip"
-        
+
         if not pip_path.exists():
             print("❌ pip not found in virtual environment")
             return False
-        
+
         print("📦 Installing web development dependencies...")
-        
+
         # Install core dependencies first
         core_deps = [
             "flask>=2.3.0",
             "fastapi>=0.104.0",
             "selenium>=4.15.0",
-            "pytest>=7.4.0"
+            "pytest>=7.4.0",
         ]
-        
+
         for dep in core_deps:
             print(f"🔄 Installing {dep}...")
             if not self.run_command([str(pip_path), "install", dep]):
                 print(f"⚠️  Warning: Failed to install {dep}")
-        
+
         # Install from requirements file
         if self.requirements_file.exists():
             print("📋 Installing from requirements file...")
-            if not self.run_command([str(pip_path), "install", "-r", str(self.requirements_file)]):
+            if not self.run_command(
+                [str(pip_path), "install", "-r", str(self.requirements_file)]
+            ):
                 print("⚠️  Warning: Some dependencies may not have installed correctly")
         else:
             print("⚠️  Requirements file not found, installing core dependencies only")
-        
+
         return True
-    
+
     def setup_webdriver_managers(self) -> bool:
         """Set up webdriver managers for Selenium"""
         print("🌐 Setting up webdriver managers...")
-        
+
         if self.is_windows:
             python_path = self.venv_path / "Scripts" / "python.exe"
         else:
             python_path = self.venv_path / "bin" / "python"
-        
+
         # Install webdriver-manager
-        if not self.run_command([str(python_path), "-m", "pip", "install", "webdriver-manager"]):
+        if not self.run_command(
+            [str(python_path), "-m", "pip", "install", "webdriver-manager"]
+        ):
             return False
-        
+
         # Test webdriver setup
         test_script = """
 import sys
@@ -200,20 +211,20 @@ try:
 except Exception as e:
     print(f"❌ WebDriver setup failed: {e}")
 """
-        
+
         test_file = self.project_root / "test_webdriver_setup.py"
         with open(test_file, "w") as f:
             f.write(test_script)
-        
+
         success = self.run_command([str(python_path), str(test_file)])
         test_file.unlink()  # Clean up test file
-        
+
         return success
-    
+
     def create_web_development_structure(self) -> bool:
         """Create the web development directory structure"""
         print("📁 Creating web development directory structure...")
-        
+
         web_dirs = [
             "src/web/automation",
             "src/web/api",
@@ -225,20 +236,20 @@ except Exception as e:
             "tests/web/api",
             "tests/web/frontend",
             "web_config",
-            "web_logs"
+            "web_logs",
         ]
-        
+
         for dir_path in web_dirs:
             full_path = self.project_root / dir_path
             full_path.mkdir(parents=True, exist_ok=True)
             print(f"📂 Created: {dir_path}")
-        
+
         return True
-    
+
     def create_web_config_files(self) -> bool:
         """Create configuration files for web development"""
         print("⚙️  Creating web development configuration files...")
-        
+
         # Flask configuration
         flask_config = {
             "development": {
@@ -246,69 +257,62 @@ except Exception as e:
                 "TESTING": False,
                 "SECRET_KEY": "dev-secret-key-change-in-production",
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///web_dev.db",
-                "SQLALCHEMY_TRACK_MODIFICATIONS": False
+                "SQLALCHEMY_TRACK_MODIFICATIONS": False,
             },
             "testing": {
                 "DEBUG": False,
                 "TESTING": True,
                 "SECRET_KEY": "test-secret-key",
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///test.db",
-                "SQLALCHEMY_TRACK_MODIFICATIONS": False
+                "SQLALCHEMY_TRACK_MODIFICATIONS": False,
             },
             "production": {
                 "DEBUG": False,
                 "TESTING": False,
                 "SECRET_KEY": "production-secret-key-change-this",
                 "SQLALCHEMY_DATABASE_URI": "sqlite:///production.db",
-                "SQLALCHEMY_TRACK_MODIFICATIONS": False
-            }
+                "SQLALCHEMY_TRACK_MODIFICATIONS": False,
+            },
         }
-        
+
         config_file = self.project_root / "web_config" / "flask_config.json"
         config_file.parent.mkdir(exist_ok=True)
-        
+
         with open(config_file, "w") as f:
             json.dump(flask_config, f, indent=2)
-        
+
         print(f"✅ Created: {config_file}")
-        
+
         # Selenium configuration
         selenium_config = {
             "browsers": {
                 "chrome": {
                     "headless": False,
                     "window_size": "1920x1080",
-                    "implicit_wait": 10
+                    "implicit_wait": 10,
                 },
                 "firefox": {
                     "headless": False,
                     "window_size": "1920x1080",
-                    "implicit_wait": 10
-                }
+                    "implicit_wait": 10,
+                },
             },
-            "timeouts": {
-                "page_load": 30,
-                "script": 30,
-                "implicit": 10
-            },
-            "screenshots": {
-                "enabled": True,
-                "directory": "web_logs/screenshots"
-            }
+            "timeouts": {"page_load": 30, "script": 30, "implicit": 10},
+            "screenshots": {"enabled": True, "directory": "web_logs/screenshots"},
         }
-        
+
         selenium_config_file = self.project_root / "web_config" / "selenium_config.json"
         with open(selenium_config_file, "w") as f:
             json.dump(selenium_config, f, indent=2)
-        
+
         print(f"✅ Created: {selenium_config_file}")
-        
+
         return True
-    
+
     def create_sample_web_applications(self) -> bool:
         """Create sample web applications for testing"""
         print("🌐 Creating sample web applications...")
-        
+
         # Sample Flask app
         flask_app_content = '''"""
 Sample Flask Application for Testing
@@ -365,15 +369,15 @@ def automation_status():
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
 '''
-        
+
         flask_app_file = self.project_root / "src" / "web" / "sample_flask_app.py"
         flask_app_file.parent.mkdir(parents=True, exist_ok=True)
-        
+
         with open(flask_app_file, "w") as f:
             f.write(flask_app_content)
-        
+
         print(f"✅ Created: {flask_app_file}")
-        
+
         # Sample FastAPI app
         fastapi_app_content = '''"""
 Sample FastAPI Application for Testing
@@ -440,19 +444,19 @@ async def test():
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 '''
-        
+
         fastapi_app_file = self.project_root / "src" / "web" / "sample_fastapi_app.py"
         with open(fastapi_app_file, "w") as f:
             f.write(fastapi_app_content)
-        
+
         print(f"✅ Created: {fastapi_app_file}")
-        
+
         return True
-    
+
     def create_test_files(self) -> bool:
         """Create test files for web development"""
         print("🧪 Creating test files...")
-        
+
         # Flask tests
         flask_test_content = '''"""
 Test Flask Application
@@ -491,15 +495,15 @@ def test_test_endpoint(client):
     data = response.get_json()
     assert data['message'] == 'Test endpoint working'
 '''
-        
+
         flask_test_file = self.project_root / "tests" / "web" / "test_flask_app.py"
         flask_test_file.parent.mkdir(parents=True, exist_ok=True)
-        
+
         with open(flask_test_file, "w") as f:
             f.write(flask_test_content)
-        
+
         print(f"✅ Created: {flask_test_file}")
-        
+
         # Selenium tests
         selenium_test_content = '''"""
 Test Selenium Web Automation
@@ -520,13 +524,13 @@ def driver():
     chrome_options.add_argument("--headless")  # Run in headless mode for testing
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    
+
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.implicitly_wait(10)
-    
+
     yield driver
-    
+
     driver.quit()
 
 def test_selenium_setup(driver):
@@ -538,41 +542,41 @@ def test_webpage_navigation(driver):
     """Test webpage navigation"""
     # Navigate to a simple page
     driver.get("https://httpbin.org/html")
-    
+
     # Check if page loaded
     assert "Herman Melville" in driver.page_source
-    
+
     # Check title
     assert "Herman Melville" in driver.title
 
 def test_element_interaction(driver):
     """Test element interaction"""
     driver.get("https://httpbin.org/forms/post")
-    
+
     # Find form elements
     custname_input = driver.find_element("name", "custname")
     assert custname_input is not None
-    
+
     # Type in input field
     custname_input.send_keys("Test User")
     assert custname_input.get_attribute("value") == "Test User"
 '''
-        
+
         selenium_test_file = self.project_root / "tests" / "web" / "test_selenium.py"
         with open(selenium_test_file, "w") as f:
             f.write(selenium_test_content)
-        
+
         print(f"✅ Created: {selenium_test_file}")
-        
+
         return True
-    
+
     def create_launch_scripts(self) -> bool:
         """Create launch scripts for web applications"""
         print("🚀 Creating launch scripts...")
-        
+
         # Windows batch file
         if self.is_windows:
-            batch_content = '''@echo off
+            batch_content = """@echo off
 echo Starting Agent_Cellphone_V2 Web Development Environment...
 
 cd /d "%~dp0"
@@ -586,16 +590,16 @@ echo 4. Activate virtual environment: activate_venv.bat
 echo.
 
 pause
-'''
-            
+"""
+
             batch_file = self.project_root / "start_web_dev.bat"
             with open(batch_file, "w") as f:
                 f.write(batch_content)
-            
+
             print(f"✅ Created: {batch_file}")
-        
+
         # PowerShell script
-        powershell_content = '''# Agent_Cellphone_V2 Web Development Environment Launcher
+        powershell_content = """# Agent_Cellphone_V2 Web Development Environment Launcher
 # PowerShell Script
 
 Write-Host "🚀 Starting Agent_Cellphone_V2 Web Development Environment..." -ForegroundColor Green
@@ -613,14 +617,14 @@ Write-Host "4. Activate virtual environment: .\\activate_venv.ps1" -ForegroundCo
 Write-Host ""
 
 Read-Host "Press Enter to continue"
-'''
-        
+"""
+
         powershell_file = self.project_root / "start_web_dev.ps1"
         with open(powershell_file, "w") as f:
             f.write(powershell_content)
-        
+
         print(f"✅ Created: {powershell_file}")
-        
+
         # Flask launcher
         flask_launcher = '''#!/usr/bin/env python3
 """
@@ -637,7 +641,7 @@ sys.path.insert(0, str(project_root))
 
 try:
     from src.web.sample_flask_app import app
-    
+
     if __name__ == '__main__':
         print("🌐 Starting Flask application...")
         print("📍 URL: http://localhost:5000")
@@ -648,21 +652,21 @@ try:
         print("   - GET /api/automation/status - Automation status")
         print()
         print("Press Ctrl+C to stop")
-        
+
         app.run(debug=True, host='0.0.0.0', port=5000)
-        
+
 except ImportError as e:
     print(f"❌ Error importing Flask app: {e}")
     print("Make sure you have activated the virtual environment and installed dependencies")
     sys.exit(1)
 '''
-        
+
         flask_launcher_file = self.project_root / "start_flask.py"
         with open(flask_launcher_file, "w") as f:
             f.write(flask_launcher)
-        
+
         print(f"✅ Created: {flask_launcher_file}")
-        
+
         # FastAPI launcher
         fastapi_launcher = '''#!/usr/bin/env python3
 """
@@ -680,7 +684,7 @@ sys.path.insert(0, str(project_root))
 try:
     import uvicorn
     from src.web.sample_fastapi_app import app
-    
+
     if __name__ == '__main__':
         print("🚀 Starting FastAPI application...")
         print("📍 URL: http://localhost:8000")
@@ -691,34 +695,34 @@ try:
         print("   - GET /api/test - Test endpoint")
         print()
         print("Press Ctrl+C to stop")
-        
+
         uvicorn.run(app, host="0.0.0.0", port=8000)
-        
+
 except ImportError as e:
     print(f"❌ Error importing FastAPI app: {e}")
     print("Make sure you have activated the virtual environment and installed dependencies")
     sys.exit(1)
 '''
-        
+
         fastapi_launcher_file = self.project_root / "start_fastapi.py"
         with open(fastapi_launcher_file, "w") as f:
             f.write(fastapi_launcher)
-        
+
         print(f"✅ Created: {fastapi_launcher_file}")
-        
+
         return True
-    
+
     def run_verification_tests(self) -> bool:
         """Run verification tests to ensure setup is working"""
         print("🔍 Running verification tests...")
-        
+
         if self.is_windows:
             python_path = self.venv_path / "Scripts" / "python.exe"
         else:
             python_path = self.venv_path / "bin" / "python"
-        
+
         # Test basic imports
-        test_imports = '''
+        test_imports = """
 import sys
 from pathlib import Path
 
@@ -748,28 +752,28 @@ except ImportError as e:
     print(f"❌ Pytest import failed: {e}")
 
 print("\\n🎉 Web development environment verification complete!")
-'''
-        
+"""
+
         test_file = self.project_root / "test_web_imports.py"
         with open(test_file, "w") as f:
             f.write(test_imports)
-        
+
         success = self.run_command([str(python_path), str(test_file)])
         test_file.unlink()  # Clean up test file
-        
+
         return success
-    
+
     def create_setup_summary(self) -> bool:
         """Create a setup summary document"""
         print("📋 Creating setup summary...")
-        
+
         summary_content = f"""# Web Development Environment Setup Summary
 
 ## 🎯 Setup Completed Successfully
 
-**Date:** 2025-01-20  
-**Project:** Agent_Cellphone_V2_Repository  
-**Specialist:** Web Development & UI Framework Specialist  
+**Date:** 2025-01-20
+**Project:** Agent_Cellphone_V2_Repository
+**Specialist:** Web Development & UI Framework Specialist
 
 ## 🏗️ Environment Components
 
@@ -888,22 +892,22 @@ If you encounter issues:
 
 ---
 
-**Setup completed by:** Web Development & UI Framework Specialist  
+**Setup completed by:** Web Development & UI Framework Specialist
 **Status:** ✅ Ready for development
 """
-        
+
         summary_file = self.project_root / "WEB_DEVELOPMENT_SETUP_SUMMARY.md"
         with open(summary_file, "w") as f:
             f.write(summary_content)
-        
+
         print(f"✅ Created: {summary_file}")
         return True
-    
+
     def setup_complete(self) -> bool:
         """Complete the entire web development environment setup"""
         print("🚀 Starting comprehensive web development environment setup...")
         print()
-        
+
         steps = [
             ("Checking Python version", self.check_python_version),
             ("Creating virtual environment", self.create_virtual_environment),
@@ -916,9 +920,9 @@ If you encounter issues:
             ("Creating test files", self.create_test_files),
             ("Creating launch scripts", self.create_launch_scripts),
             ("Running verification tests", self.run_verification_tests),
-            ("Creating setup summary", self.create_setup_summary)
+            ("Creating setup summary", self.create_setup_summary),
         ]
-        
+
         for step_name, step_func in steps:
             print(f"🔄 {step_name}...")
             if not step_func():
@@ -926,7 +930,7 @@ If you encounter issues:
                 return False
             print(f"✅ {step_name} completed")
             print()
-        
+
         print("🎉 Web Development Environment Setup Complete!")
         print()
         print("📋 Next Steps:")
@@ -936,13 +940,14 @@ If you encounter issues:
         print("4. Begin developing your web applications")
         print()
         print(f"📚 See {self.project_root}/WEB_DEVELOPMENT_SETUP_SUMMARY.md for details")
-        
+
         return True
+
 
 def main():
     """Main setup function"""
     setup = WebDevelopmentSetup()
-    
+
     try:
         success = setup.setup_complete()
         if success:
@@ -954,6 +959,7 @@ def main():
     except Exception as e:
         print(f"💥 Unexpected error during setup: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

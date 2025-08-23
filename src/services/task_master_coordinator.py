@@ -43,6 +43,7 @@ class MasterTask:
 
     def to_dict(self) -> Dict[str, Any]:
         from uuid import uuid4
+
         data = asdict(self)
         now_iso = datetime.utcnow().isoformat()
         if not data["created_at"]:
@@ -67,15 +68,28 @@ class TaskMasterCoordinator:
             return []
 
     def save_tasks(self, tasks: List[Dict[str, Any]]) -> None:
-        self.file_path.write_text(json.dumps(tasks, indent=2, ensure_ascii=False), encoding="utf-8")
+        self.file_path.write_text(
+            json.dumps(tasks, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
 
     def init_list(self) -> None:
         if not self.file_path.exists():
             self.save_tasks([])
 
-    def add_task(self, title: str, description: str = "", priority: str = "normal", created_by: str = "system") -> Dict[str, Any]:
+    def add_task(
+        self,
+        title: str,
+        description: str = "",
+        priority: str = "normal",
+        created_by: str = "system",
+    ) -> Dict[str, Any]:
         tasks = self.load_tasks()
-        task = MasterTask(title=title, description=description, priority=priority, created_by=created_by)
+        task = MasterTask(
+            title=title,
+            description=description,
+            priority=priority,
+            created_by=created_by,
+        )
         tasks.append(task.to_dict())
         self.save_tasks(tasks)
         return task.to_dict()
@@ -142,7 +156,9 @@ class TaskMasterCoordinator:
     def _save(self, tasks: List[Dict[str, Any]]):
         self.save_tasks(tasks)
 
-    def _find_task(self, tasks: List[Dict[str, Any]], task_id_or_title: str) -> Optional[Dict[str, Any]]:
+    def _find_task(
+        self, tasks: List[Dict[str, Any]], task_id_or_title: str
+    ) -> Optional[Dict[str, Any]]:
         # Try by id exact
         for t in tasks:
             if t.get("id") == task_id_or_title:
@@ -154,7 +170,9 @@ class TaskMasterCoordinator:
                 return t
         return None
 
-    def assign_task(self, task_id_or_title: str, agent_id: str) -> Optional[Dict[str, Any]]:
+    def assign_task(
+        self, task_id_or_title: str, agent_id: str
+    ) -> Optional[Dict[str, Any]]:
         tasks = self.load_tasks()
         task = self._find_task(tasks, task_id_or_title)
         if not task:
@@ -168,7 +186,9 @@ class TaskMasterCoordinator:
         self._save(tasks)
         return task
 
-    def start_task(self, task_id_or_title: str, agent_id: str) -> Optional[Dict[str, Any]]:
+    def start_task(
+        self, task_id_or_title: str, agent_id: str
+    ) -> Optional[Dict[str, Any]]:
         tasks = self.load_tasks()
         task = self._find_task(tasks, task_id_or_title)
         if not task:
@@ -182,7 +202,9 @@ class TaskMasterCoordinator:
         self._save(tasks)
         return task
 
-    def complete_task(self, task_id_or_title: str, agent_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    def complete_task(
+        self, task_id_or_title: str, agent_id: Optional[str] = None
+    ) -> Optional[Dict[str, Any]]:
         tasks = self.load_tasks()
         task = self._find_task(tasks, task_id_or_title)
         if not task:
@@ -203,9 +225,8 @@ class TaskMasterCoordinator:
     def _send_resume_to_agent(self, agent_id: str, task_title: str) -> int:
         try:
             import subprocess
-            message = (
-                f"TASK COMPLETE: '{task_title}'. Resume normal operations and pick your next task from the master list."
-            )
+
+            message = f"TASK COMPLETE: '{task_title}'. Resume normal operations and pick your next task from the master list."
             cmd = [
                 sys.executable,
                 str(Path(__file__).resolve().parent / "v2_message_delivery_service.py"),
@@ -222,16 +243,32 @@ class TaskMasterCoordinator:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Task Master Coordinator")
-    parser.add_argument("--init", action="store_true", help="Initialize master task list file")
-    parser.add_argument("--add", metavar="TITLE", help="Add a task title to the master list")
-    parser.add_argument("--desc", metavar="DESC", default="", help="Optional task description")
-    parser.add_argument("--priority", choices=["low", "normal", "high", "urgent"], default="normal")
+    parser.add_argument(
+        "--init", action="store_true", help="Initialize master task list file"
+    )
+    parser.add_argument(
+        "--add", metavar="TITLE", help="Add a task title to the master list"
+    )
+    parser.add_argument(
+        "--desc", metavar="DESC", default="", help="Optional task description"
+    )
+    parser.add_argument(
+        "--priority", choices=["low", "normal", "high", "urgent"], default="normal"
+    )
     parser.add_argument("--list", action="store_true", help="List tasks")
-    parser.add_argument("--notify", action="store_true", help="Send notifications to captain and agents")
+    parser.add_argument(
+        "--notify", action="store_true", help="Send notifications to captain and agents"
+    )
     # Assignment lifecycle
-    parser.add_argument("--assign", metavar="TASK", help="Assign task (id or title substring) to agent")
-    parser.add_argument("--start", metavar="TASK", help="Mark task started/in_progress for agent")
-    parser.add_argument("--complete", metavar="TASK", help="Mark task complete and auto-notify assignee")
+    parser.add_argument(
+        "--assign", metavar="TASK", help="Assign task (id or title substring) to agent"
+    )
+    parser.add_argument(
+        "--start", metavar="TASK", help="Mark task started/in_progress for agent"
+    )
+    parser.add_argument(
+        "--complete", metavar="TASK", help="Mark task complete and auto-notify assignee"
+    )
     parser.add_argument("--agent", metavar="AGENT", help="Agent id (e.g., agent_1)")
     args = parser.parse_args()
 
@@ -244,13 +281,22 @@ def main() -> int:
 
     if args.add:
         coord.init_list()
-        task = coord.add_task(args.add, description=args.desc, priority=args.priority, created_by="coordinator")
+        task = coord.add_task(
+            args.add,
+            description=args.desc,
+            priority=args.priority,
+            created_by="coordinator",
+        )
         print("Added:", json.dumps(task, indent=2, ensure_ascii=False))
         return 0
 
     if args.list:
         tasks = coord.list_tasks()
-        print(json.dumps({"count": len(tasks), "tasks": tasks}, indent=2, ensure_ascii=False))
+        print(
+            json.dumps(
+                {"count": len(tasks), "tasks": tasks}, indent=2, ensure_ascii=False
+            )
+        )
         return 0
 
     if args.notify:
@@ -300,5 +346,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-

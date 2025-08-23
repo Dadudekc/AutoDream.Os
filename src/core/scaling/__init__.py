@@ -13,7 +13,7 @@ from .scaling_types import (
     LoadBalancerType,
     ScalingConfig,
     ScalingMetrics,
-    ScalingDecision
+    ScalingDecision,
 )
 
 from .scaling_core import HorizontalScalingEngine
@@ -22,13 +22,13 @@ from .scaling_monitoring import ScalingMonitor
 
 # Backward compatibility
 __all__ = [
-    'ScalingStrategy',
-    'ScalingStatus',
-    'LoadBalancerType',
-    'ScalingConfig',
-    'ScalingMetrics',
-    'ScalingDecision',
-    'HorizontalScalingEngine',
-    'LoadDistributor',
-    'ScalingMonitor'
+    "ScalingStrategy",
+    "ScalingStatus",
+    "LoadBalancerType",
+    "ScalingConfig",
+    "ScalingMetrics",
+    "ScalingDecision",
+    "HorizontalScalingEngine",
+    "LoadDistributor",
+    "ScalingMonitor",
 ]

@@ -11,12 +11,12 @@ from .content_management_service import ContentManagementService
 from .streaming_service import StreamingService
 
 __all__ = [
-    'MediaProcessorService',
-    'VideoCaptureService', 
-    'AudioProcessingService',
-    'ContentManagementService',
-    'StreamingService'
+    "MediaProcessorService",
+    "VideoCaptureService",
+    "AudioProcessingService",
+    "ContentManagementService",
+    "StreamingService",
 ]
 
-__version__ = '1.0.0'
-__author__ = 'Multimedia & Content Specialist - Agent-3'
+__version__ = "1.0.0"
+__author__ = "Multimedia & Content Specialist - Agent-3"

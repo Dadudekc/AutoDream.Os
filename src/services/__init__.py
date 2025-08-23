@@ -20,14 +20,13 @@ import sys
 # Services component imports
 try:
     from .agent_cell_phone import AgentCellPhone
-    
-    __all__ = [
-        'AgentCellPhone'
-    ]
-    
+
+    __all__ = ["AgentCellPhone"]
+
 except ImportError as e:
     print(f"⚠️ Warning: Some services components not available: {e}")
     __all__ = []
+
 
 def main():
     """CLI interface for services module"""
@@ -39,20 +38,20 @@ Examples:
     python -m src.services --test                    # Run services tests
     python -m src.services --status                 # Show services status
     python -m src.services --demo                   # Run services demo
-        """
+        """,
     )
-    
-    parser.add_argument("--test", action="store_true", 
-                       help="Run services module tests")
-    parser.add_argument("--status", action="store_true", 
-                       help="Show services module status")
-    parser.add_argument("--demo", action="store_true", 
-                       help="Run services module demo")
-    parser.add_argument("--list", action="store_true", 
-                       help="List available services components")
-    
+
+    parser.add_argument("--test", action="store_true", help="Run services module tests")
+    parser.add_argument(
+        "--status", action="store_true", help="Show services module status"
+    )
+    parser.add_argument("--demo", action="store_true", help="Run services module demo")
+    parser.add_argument(
+        "--list", action="store_true", help="List available services components"
+    )
+
     args = parser.parse_args()
-    
+
     if args.test:
         print("🧪 Running services module tests...")
         # Run tests for each component
@@ -60,7 +59,7 @@ Examples:
         for component in __all__:
             try:
                 component_class = globals()[component]
-                if hasattr(component_class, 'run_smoke_test'):
+                if hasattr(component_class, "run_smoke_test"):
                     print(f"  Testing {component}...")
                     success = component_class().run_smoke_test()
                     test_results[component] = success
@@ -71,12 +70,12 @@ Examples:
             except Exception as e:
                 print(f"  ❌ {component} test failed: {e}")
                 test_results[component] = False
-        
+
         passed = sum(test_results.values())
         total = len(test_results)
         print(f"\n📊 Test Results: {passed}/{total} passed")
         return 0 if passed == total else 1
-    
+
     elif args.status:
         print("📊 Services Module Status")
         print("=" * 28)
@@ -87,32 +86,33 @@ Examples:
         for component in __all__:
             print(f"  ✅ {component}")
         return 0
-    
+
     elif args.demo:
         print("🚀 Starting services module demo...")
         try:
             # Create instances and demonstrate functionality
-            if 'AgentCellPhone' in __all__:
+            if "AgentCellPhone" in __all__:
                 service = AgentCellPhone()
                 print("✅ AgentCellPhone service created")
-            
+
             print("🎯 Services module demo completed")
             return 0
         except Exception as e:
             print(f"❌ Demo failed: {e}")
             return 1
-    
+
     elif args.list:
         print("📋 Available Services Components:")
         for component in __all__:
             print(f"  🚀 {component}")
         return 0
-    
+
     else:
         parser.print_help()
         print(f"\n🚀 Services Module {__version__} - {__status__}")
         print("Use --help for more options!")
         return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

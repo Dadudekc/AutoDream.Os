@@ -25,8 +25,8 @@ __status__ = "ACTIVE"
 UNIT_TEST_CATEGORIES = {
     "core": "Core system component unit tests",
     "services": "Service layer component unit tests",
-    "launchers": "Launcher component unit tests", 
+    "launchers": "Launcher component unit tests",
     "utils": "Utility component unit tests",
     "models": "Data model unit tests",
-    "validators": "Validation logic unit tests"
+    "validators": "Validation logic unit tests",
 }

@@ -228,10 +228,34 @@ class AgentCellPhone:
 
         # Log the send operation
         self.logger.info(f"→ {agent}: {message[:80]}")
+        try:
+            # Look up coordinates for target agent if available
+            coords = None
+            try:
+                config = self.config_manager.get_config("8_agent_config") or {}
+                coords = (
+                    config.get("8_agent_config", {})
+                    .get("agent_coordinates", {})
+                    .get(agent)
+                )
+            except Exception:
+                coords = None
 
-        # For now, route through message system
-        # TODO: Implement full PyAutoGUI integration
-        self.send_message(self.agent_id, agent, message)
+            if coords and "x" in coords and "y" in coords:
+                pyautogui.click(coords["x"], coords["y"])
+
+            # Type message handling line breaks properly
+            lines = message.split("\n")
+            for i, line in enumerate(lines):
+                pyautogui.typewrite(line, interval=0.01)
+                if i < len(lines) - 1:
+                    pyautogui.hotkey("shift", "enter")
+            pyautogui.press("enter")
+        except Exception as e:
+            self.logger.error(
+                f"PyAutoGUI send failed: {e}, falling back to message router"
+            )
+            self.send_message(self.agent_id, agent, message)
 
     def broadcast(self, message: str, tag: MsgTag = MsgTag.NORMAL) -> None:
         """Send message to all agents (V1 compatibility)"""

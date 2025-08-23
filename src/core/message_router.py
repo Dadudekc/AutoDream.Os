@@ -28,6 +28,10 @@ from .v2_comprehensive_messaging_system import (
     V2MessageType,
 )
 
+# Backwards compatibility aliases for legacy imports
+MessagePriority = V2MessagePriority
+MessageType = V2MessageType
+
 
 @dataclass
 class Message:

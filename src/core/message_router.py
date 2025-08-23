@@ -8,30 +8,24 @@ Architecture: Single Responsibility Principle - message routing only
 LOC: Target 200 lines (under 200 limit)
 """
 
-import os
 import json
 import logging
 from typing import Dict, List, Optional, Any, Callable
 from pathlib import Path
 from dataclasses import dataclass, asdict
-from enum import Enum
 from datetime import datetime, timedelta
 import threading
 import time
 import queue
-from collections import defaultdict
 
 logger = logging.getLogger(__name__)
 
-# Re-export V2 messaging enums with simplified names for internal use.
-# The rest of this module references MessageType/Priority/Status without the
-# ``V2`` prefix. The original implementation forgot to import these symbols,
-# causing ``NameError`` during module import. Using aliases keeps the public API
-# clean while leveraging the comprehensive V2 enum definitions.
+# Use V2 messaging enums directly. Legacy enums were removed to reduce
+# confusion and ensure a single, maintained set of message semantics.
 from .v2_comprehensive_messaging_system import (
-    V2MessagePriority as MessagePriority,
-    V2MessageStatus as MessageStatus,
-    V2MessageType as MessageType,
+    V2MessagePriority,
+    V2MessageStatus,
+    V2MessageType,
 )
 
 
@@ -42,12 +36,12 @@ class Message:
     message_id: str
     sender_id: str
     recipient_id: str
-    message_type: MessageType
-    priority: MessagePriority
+    message_type: V2MessageType
+    priority: V2MessagePriority
     content: Dict[str, Any]
     timestamp: str
     expires_at: Optional[str]
-    status: MessageStatus = MessageStatus.PENDING
+    status: V2MessageStatus = V2MessageStatus.PENDING
     delivery_attempts: int = 0
     max_attempts: int = 3
 
@@ -56,8 +50,8 @@ class Message:
 class RoutingRule:
     """Routing rule for message delivery."""
 
-    message_type: MessageType
-    priority: MessagePriority
+    message_type: V2MessageType
+    priority: V2MessagePriority
     target_agents: List[str]
     delivery_strategy: str  # "broadcast", "round_robin", "specific"
     retry_policy: Dict[str, Any]
@@ -77,7 +71,7 @@ class MessageRouter:
     def __init__(self, messages_dir: str = "messages"):
         self.messages_dir = Path(messages_dir)
         self.message_queue: queue.PriorityQueue = queue.PriorityQueue()
-        self.routing_rules: Dict[MessageType, RoutingRule] = {}
+        self.routing_rules: Dict[V2MessageType, RoutingRule] = {}
         self.delivery_callbacks: Dict[str, Callable] = {}
         self.message_history: Dict[str, Message] = {}
         self.logger = logging.getLogger(f"{__name__}.MessageRouter")
@@ -96,44 +90,44 @@ class MessageRouter:
     def _initialize_default_routing_rules(self):
         """Initialize default routing rules for different message types"""
         self.routing_rules = {
-            MessageType.CONTRACT_ASSIGNMENT: RoutingRule(
-                message_type=MessageType.CONTRACT_ASSIGNMENT,
-                priority=MessagePriority.HIGH,
+            V2MessageType.CONTRACT_ASSIGNMENT: RoutingRule(
+                message_type=V2MessageType.CONTRACT_ASSIGNMENT,
+                priority=V2MessagePriority.HIGH,
                 target_agents=[],
                 delivery_strategy="specific",
                 retry_policy={"max_attempts": 3, "retry_delay": 5},
             ),
-            MessageType.STATUS_UPDATE: RoutingRule(
-                message_type=MessageType.STATUS_UPDATE,
-                priority=MessagePriority.NORMAL,
+            V2MessageType.STATUS_UPDATE: RoutingRule(
+                message_type=V2MessageType.STATUS_UPDATE,
+                priority=V2MessagePriority.NORMAL,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 1, "retry_delay": 0},
             ),
-            MessageType.COORDINATION: RoutingRule(
-                message_type=MessageType.COORDINATION,
-                priority=MessagePriority.NORMAL,
+            V2MessageType.COORDINATION: RoutingRule(
+                message_type=V2MessageType.COORDINATION,
+                priority=V2MessagePriority.NORMAL,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 2, "retry_delay": 10},
             ),
-            MessageType.EMERGENCY: RoutingRule(
-                message_type=MessageType.EMERGENCY,
-                priority=MessagePriority.URGENT,
+            V2MessageType.EMERGENCY: RoutingRule(
+                message_type=V2MessageType.EMERGENCY,
+                priority=V2MessagePriority.URGENT,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 5, "retry_delay": 1},
             ),
-            MessageType.HEARTBEAT: RoutingRule(
-                message_type=MessageType.HEARTBEAT,
-                priority=MessagePriority.LOW,
+            V2MessageType.HEARTBEAT: RoutingRule(
+                message_type=V2MessageType.HEARTBEAT,
+                priority=V2MessagePriority.LOW,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 1, "retry_delay": 0},
             ),
-            MessageType.SYSTEM_COMMAND: RoutingRule(
-                message_type=MessageType.SYSTEM_COMMAND,
-                priority=MessagePriority.HIGH,
+            V2MessageType.SYSTEM_COMMAND: RoutingRule(
+                message_type=V2MessageType.SYSTEM_COMMAND,
+                priority=V2MessagePriority.HIGH,
                 target_agents=[],
                 delivery_strategy="specific",
                 retry_policy={"max_attempts": 3, "retry_delay": 5},
@@ -144,9 +138,9 @@ class MessageRouter:
         self,
         sender_id: str,
         recipient_id: str,
-        message_type: MessageType,
+        message_type: V2MessageType,
         content: Dict[str, Any],
-        priority: MessagePriority = MessagePriority.NORMAL,
+        priority: V2MessagePriority = V2MessagePriority.NORMAL,
         expires_in: Optional[int] = None,
     ) -> str:
         """Send a message to a recipient"""
@@ -171,7 +165,7 @@ class MessageRouter:
                 content=content,
                 timestamp=datetime.now().isoformat(),
                 expires_at=expires_at,
-                status=MessageStatus.PENDING,
+                status=V2MessageStatus.PENDING,
             )
 
             # Add to queue with priority
@@ -194,9 +188,9 @@ class MessageRouter:
     def broadcast_message(
         self,
         sender_id: str,
-        message_type: MessageType,
+        message_type: V2MessageType,
         content: Dict[str, Any],
-        priority: MessagePriority = MessagePriority.NORMAL,
+        priority: V2MessagePriority = V2MessagePriority.NORMAL,
         target_agents: Optional[List[str]] = None,
     ) -> List[str]:
         """Broadcast a message to multiple agents"""
@@ -223,12 +217,14 @@ class MessageRouter:
             self.logger.error(f"Failed to broadcast message: {e}")
             return []
 
-    def register_delivery_callback(self, message_type: MessageType, callback: Callable):
+    def register_delivery_callback(
+        self, message_type: V2MessageType, callback: Callable
+    ):
         """Register a callback for message delivery"""
         self.delivery_callbacks[message_type.value] = callback
         self.logger.info(f"Registered delivery callback for {message_type.value}")
 
-    def get_message_status(self, message_id: str) -> Optional[MessageStatus]:
+    def get_message_status(self, message_id: str) -> Optional[V2MessageStatus]:
         """Get the delivery status of a message"""
         if message_id in self.message_history:
             return self.message_history[message_id].status
@@ -240,7 +236,7 @@ class MessageRouter:
         for message in self.message_history.values():
             if (
                 message.recipient_id == recipient_id
-                and message.status == MessageStatus.PENDING
+                and message.status == V2MessageStatus.PENDING
                 and not self._is_message_expired(message)
             ):
                 pending_messages.append(message)
@@ -266,7 +262,7 @@ class MessageRouter:
 
                     # Check if message is expired
                     if self._is_message_expired(message):
-                        message.status = MessageStatus.EXPIRED
+                        message.status = V2MessageStatus.EXPIRED
                         self._update_message_status(message)
                         continue
 
@@ -274,7 +270,7 @@ class MessageRouter:
                     success = self._attempt_delivery(message)
 
                     if success:
-                        message.status = MessageStatus.DELIVERED
+                        message.status = V2MessageStatus.DELIVERED
                         self._update_message_status(message)
                     else:
                         # Handle retry logic
@@ -289,7 +285,7 @@ class MessageRouter:
                                 f"Message {message.message_id} queued for retry"
                             )
                         else:
-                            message.status = MessageStatus.FAILED
+                            message.status = V2MessageStatus.FAILED
                             self._update_message_status(message)
                             self.logger.error(
                                 f"Message {message.message_id} delivery failed after {message.max_attempts} attempts"
@@ -344,13 +340,13 @@ class MessageRouter:
         except Exception:
             return False
 
-    def _get_priority_value(self, priority: MessagePriority) -> int:
+    def _get_priority_value(self, priority: V2MessagePriority) -> int:
         """Get numeric priority value for queue ordering"""
         priority_map = {
-            MessagePriority.LOW: 1000,
-            MessagePriority.NORMAL: 500,
-            MessagePriority.HIGH: 100,
-            MessagePriority.URGENT: 0,
+            V2MessagePriority.LOW: 1000,
+            V2MessagePriority.NORMAL: 500,
+            V2MessagePriority.HIGH: 100,
+            V2MessagePriority.URGENT: 0,
         }
         return priority_map.get(priority, 500)
 
@@ -387,21 +383,21 @@ class MessageRouter:
                 [
                     m
                     for m in self.message_history.values()
-                    if m.status == MessageStatus.PENDING
+                    if m.status == V2MessageStatus.PENDING
                 ]
             )
             delivered_messages = len(
                 [
                     m
                     for m in self.message_history.values()
-                    if m.status == MessageStatus.DELIVERED
+                    if m.status == V2MessageStatus.DELIVERED
                 ]
             )
             failed_messages = len(
                 [
                     m
                     for m in self.message_history.values()
-                    if m.status == MessageStatus.FAILED
+                    if m.status == V2MessageStatus.FAILED
                 ]
             )
 
@@ -424,9 +420,9 @@ class MessageRouter:
             message_id = self.send_message(
                 "Agent-1",
                 "Agent-2",
-                MessageType.STATUS_UPDATE,
+                V2MessageType.STATUS_UPDATE,
                 {"status": "online"},
-                MessagePriority.NORMAL,
+                V2MessagePriority.NORMAL,
             )
             if not message_id:
                 return False
@@ -434,16 +430,16 @@ class MessageRouter:
             # Test broadcast
             broadcast_ids = self.broadcast_message(
                 "Agent-1",
-                MessageType.COORDINATION,
+                V2MessageType.COORDINATION,
                 {"action": "sync"},
-                MessagePriority.NORMAL,
+                V2MessagePriority.NORMAL,
             )
             if len(broadcast_ids) == 0:
                 return False
 
             # Test message status
             status = self.get_message_status(message_id)
-            if status != MessageStatus.PENDING:
+            if status != V2MessageStatus.PENDING:
                 return False
 
             # Test pending messages
@@ -483,24 +479,24 @@ def run_smoke_test():
             message_id = router.send_message(
                 "Agent-1",
                 "Agent-2",
-                MessageType.STATUS_UPDATE,
+                V2MessageType.STATUS_UPDATE,
                 {"status": "online"},
-                MessagePriority.NORMAL,
+                V2MessagePriority.NORMAL,
             )
             assert message_id
 
             # Test broadcast
             broadcast_ids = router.broadcast_message(
                 "Agent-1",
-                MessageType.COORDINATION,
+                V2MessageType.COORDINATION,
                 {"action": "sync"},
-                MessagePriority.NORMAL,
+                V2MessagePriority.NORMAL,
             )
             assert len(broadcast_ids) > 0
 
             # Test message status
             status = router.get_message_status(message_id)
-            assert status == MessageStatus.PENDING
+            assert status == V2MessageStatus.PENDING
 
             # Test pending messages
             pending = router.get_pending_messages("Agent-2")
@@ -553,7 +549,7 @@ def main():
     if args.send:
         sender, recipient, msg_type, content = args.send
         try:
-            message_type = MessageType(msg_type)
+            message_type = V2MessageType(msg_type)
             message_id = router.send_message(
                 sender, recipient, message_type, {"data": content}
             )
@@ -562,11 +558,11 @@ def main():
                 print(f"Message ID: {message_id}")
         except ValueError:
             print(f"❌ Invalid message type: {msg_type}")
-            print(f"Valid types: {[t.value for t in MessageType]}")
+            print(f"Valid types: {[t.value for t in V2MessageType]}")
     elif args.broadcast:
         sender, msg_type, content = args.broadcast
         try:
-            message_type = MessageType(msg_type)
+            message_type = V2MessageType(msg_type)
             message_ids = router.broadcast_message(
                 sender, message_type, {"data": content}
             )
@@ -574,7 +570,7 @@ def main():
             print(f"Messages sent: {len(message_ids)}")
         except ValueError:
             print(f"❌ Invalid message type: {msg_type}")
-            print(f"Valid types: {[t.value for t in MessageType]}")
+            print(f"Valid types: {[t.value for t in V2MessageType]}")
     elif args.status:
         status = router.get_message_status(args.status)
         if status:

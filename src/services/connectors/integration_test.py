@@ -1,20 +1,43 @@
 #!/usr/bin/env python3
-print("=== INTEGRATION FRAMEWORK EXTENSION TEST ===")
-print("Testing all connectors in the integration framework...")
-import subprocess
+"""Integration test for connector modules using logging."""
 
-connectors = [
-    "simple_connector.py",
-    "rest_api_connector.py",
-    "discord_connector.py",
-    "file_system_connector.py",
-    "auth_connector.py",
-    "monitoring_connector.py",
+import logging
+import sys
+from importlib import import_module
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+CONNECTORS = [
+    "simple_connector",
+    "rest_api_connector",
+    "discord_connector",
+    "file_system_connector",
+    "auth_connector",
+    "monitoring_connector",
 ]
-for connector in connectors:
-    print(f"Testing {connector}...")
-    result = subprocess.run(["python", connector], capture_output=True, text=True)
-    if result.returncode == 0:
-        print(f"  ✅ {connector}: {result.stdout.strip()}")
-        print(f"  ❌ {connector}: Failed")
-print("\\n=== INTEGRATION TEST COMPLETE ===")
+
+
+def main() -> None:
+    """Run all connector modules and log their output."""
+    logging.basicConfig(level=logging.INFO)
+    connector_path = Path(__file__).resolve().parent
+    sys.path.append(str(connector_path))
+
+    logger.info("=== INTEGRATION FRAMEWORK EXTENSION TEST ===")
+    logger.info("Testing all connectors in the integration framework...")
+
+    for name in CONNECTORS:
+        logger.info("Testing %s...", name)
+        module = import_module(name)
+        try:
+            module.run()
+            logger.info("  ✅ %s: Success", name)
+        except Exception:  # pragma: no cover - error path logging
+            logger.exception("  ❌ %s: Failed", name)
+
+    logger.info("\n=== INTEGRATION TEST COMPLETE ===")
+
+
+if __name__ == "__main__":
+    main()

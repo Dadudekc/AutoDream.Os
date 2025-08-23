@@ -14,11 +14,7 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from services.response_capture_service import (
-    ResponseCaptureService,
-    ResponseData,
-    CaptureStrategy,
-)
+from services.response_capture_service import ResponseCaptureService
 from services.agent_cell_phone_service import AgentCellPhoneService
 
 

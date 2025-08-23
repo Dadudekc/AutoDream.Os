@@ -22,28 +22,7 @@ sys.path.insert(0, str(src_path / "services"))
 from sprint_management_service import SprintManagementService, Sprint, SprintStatus
 from sprint_workflow_service import SprintWorkflowService, WorkflowStage
 
-
-class MockWorkspaceManager:
-    """Mock workspace manager for testing."""
-
-    def __init__(self, base_path):
-        self.base_path = Path(base_path)
-        self.base_path.mkdir(parents=True, exist_ok=True)
-
-    def get_sprints_path(self):
-        sprints_path = self.base_path / "sprints"
-        sprints_path.mkdir(parents=True, exist_ok=True)
-        return sprints_path
-
-
-class MockTaskManager:
-    """Mock task manager for testing."""
-
-    def __init__(self):
-        self.tasks = {}
-
-    def get_task(self, task_id):
-        return self.tasks.get(task_id)
+from .utils.mock_managers import MockWorkspaceManager, MockTaskManager
 
 
 class TestSprintServicesSimple(unittest.TestCase):

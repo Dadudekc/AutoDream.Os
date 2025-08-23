@@ -52,7 +52,7 @@ def test_basic_imports():
 
         print("✅ Dashboard backend imported successfully")
 
-        from services.dashboard_frontend import (
+        from src.services.dashboard import (
             DashboardFrontend,
             DashboardWidget,
             ChartType,
@@ -247,7 +247,7 @@ def test_dashboard_frontend():
     print("=" * 30)
 
     try:
-        from services.dashboard_frontend import (
+        from src.services.dashboard import (
             DashboardFrontend,
             DashboardWidget,
             ChartType,

@@ -21,7 +21,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import Quality V2 services for focused testing
 try:
     from services.enterprise_quality_assurance import EnterpriseQualityAssurance
-    from services.integration_testing_framework import V2IntegrationTestingFramework
+    from services.testing import TestFramework as V2IntegrationTestingFramework
     from services.contract_validation_service import ContractValidationService
     from services.integration_monitoring import V2IntegrationMonitoring
     from services.core_coordinator_service import CoreCoordinatorService

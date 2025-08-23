@@ -29,7 +29,7 @@ try:
         CustomMetricsCollector,
     )
     from services.dashboard_backend import DashboardBackend
-    from services.dashboard_frontend import (
+    from src.services.dashboard import (
         DashboardFrontend,
         DashboardWidget,
         ChartType,

@@ -12,7 +12,7 @@ from pathlib import Path
 
 # Add src to path
 current_dir = Path(__file__).parent
-src_path = current_dir / "src"
+src_path = current_dir / ".." / "src"
 sys.path.insert(0, str(src_path))
 
 from services.communication import (
@@ -35,6 +35,18 @@ def test_live_agent_communication():
         coordinator = MessageCoordinator()
         channel_manager = ChannelManager()
         print("✅ Coordinator initialized successfully")
+
+        # Register test agents
+        print("🤖 Registering test agents...")
+        coordinator.register_agent("agent_1", ["coordination", "testing"], ["testing"])
+        coordinator.register_agent("agent_2", ["coordination", "testing"], ["testing"])
+        coordinator.register_agent("agent_3", ["multimedia", "testing"], ["multimedia"])
+        coordinator.register_agent("agent_4", ["coordination", "testing"], ["testing"])
+        coordinator.register_agent("agent_5", ["leadership", "testing"], ["leadership"])
+        coordinator.register_agent("agent_6", ["coordination", "testing"], ["testing"])
+        coordinator.register_agent("agent_7", ["coordination", "testing"], ["testing"])
+        coordinator.register_agent("agent_8", ["coordination", "testing"], ["testing"])
+        print("✅ All test agents registered")
 
         # Test 1: Presidential Decision Workflow
         print("\n🏛️ TEST 1: Presidential Decision Workflow")
@@ -103,14 +115,11 @@ def test_live_agent_communication():
         print("-" * 40)
 
         # Test high-priority broadcast
-        coordinator._broadcast_message(
-            "general",
-            {
-                "type": "emergency_broadcast",
-                "message": "EMERGENCY: System-wide coordination test in progress. All agents report status immediately.",
-                "priority": "critical",
-                "action_required": "Immediate status report required",
-            },
+        coordinator.send_message(
+            "agent_3",
+            ["agent_1", "agent_2", "agent_4", "agent_5", "agent_6", "agent_7", "agent_8"],
+            "emergency_broadcast",
+            "EMERGENCY: System-wide coordination test in progress. All agents report status immediately."
         )
 
         print("🚨 Emergency broadcast sent to all agents")
@@ -120,38 +129,27 @@ def test_live_agent_communication():
         print("\n📊 FINAL SYSTEM STATUS")
         print("-" * 40)
 
-        status = coordinator.get_communication_status()
-
-        print(f"Overall Status: {status['communication_status']['overall_status']}")
-        print(
-            f"Communication Mode: {status['communication_status']['communication_mode']}"
-        )
-        print(f"Current Captain: {status['communication_status']['current_captain']}")
-        print(f"Active Tasks: {status['active_tasks']}")
-        print(f"Active Sessions: {status['active_sessions']}")
-        print(f"Presidential Decisions: {status['presidential_decisions']}")
+        # Show system status using available methods
+        print(f"Active Tasks: {len(coordinator.tasks)}")
+        print(f"Active Sessions: {len(coordinator.sessions)}")
+        print(f"Registered Agents: {len(coordinator.agents)}")
 
         # Agent status summary
         print(f"\n🤖 AGENT STATUS SUMMARY")
         print("-" * 40)
         active_agents = 0
-        for agent_id, agent_info in status["agent_connections"].items():
-            if agent_info["status"] == "active":
+        for agent_id, agent in coordinator.agents.items():
+            if agent.availability:
                 active_agents += 1
-                print(f"✅ {agent_id}: {agent_info['role']} - {agent_info['status']}")
+                print(f"✅ {agent_id}: Available - {', '.join(agent.capabilities)}")
             else:
-                print(f"❌ {agent_id}: {agent_info['role']} - {agent_info['status']}")
+                print(f"❌ {agent_id}: Unavailable")
 
         print(f"\n📈 COMMUNICATION METRICS")
         print("-" * 40)
-        print(f"Active Agents: {active_agents}/8")
-        print(
-            f"Multimedia Services: {len([s for s in status['multimedia_services'].values() if s == 'healthy'])}/3 healthy"
-        )
-
-        # Message queue status
-        total_queued = sum(status["message_queues"].values())
-        print(f"Queued Messages: {total_queued}")
+        print(f"Active Agents: {active_agents}/{len(coordinator.agents)}")
+        print(f"Tasks Created: {len(coordinator.tasks)}")
+        print(f"Sessions Active: {len(coordinator.sessions)}")
 
         print("\n🎯 LIVE AGENT COMMUNICATION TEST RESULTS")
         print("=" * 50)

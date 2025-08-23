@@ -39,7 +39,7 @@ try:
         DashboardEndpoint,
         DashboardRoute,
     )
-    from src.services.dashboard_frontend import (
+    from src.services.dashboard import (
         DashboardFrontend,
         DashboardWidget,
         ChartType,

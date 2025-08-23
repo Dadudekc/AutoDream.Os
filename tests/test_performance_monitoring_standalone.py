@@ -286,7 +286,7 @@ def test_dashboard_frontend_standalone():
 
     try:
         # Load dashboard frontend module
-        frontend_path = "src/services/dashboard_frontend.py"
+        frontend_path = "src/services/dashboard"
         frontend_module = load_module_from_file("dashboard_frontend", frontend_path)
 
         DashboardFrontend = frontend_module.DashboardFrontend

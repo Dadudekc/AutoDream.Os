@@ -21,6 +21,7 @@ import time
 import logging
 import argparse
 import threading
+import asyncio
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime
@@ -477,6 +478,46 @@ class RealAgentCommunicationSystem:
             "total_messages": len(test_messages),
         }
         self.dev_log.save_log(test_data)
+
+    async def send_message_to_agent_with_line_breaks(
+        self, agent_id: str, message: str, target_area: str = "input_box"
+    ) -> bool:
+        """Send message to a specific agent while preserving line breaks."""
+        coordinates = self.agent_registry.get_agent_coordinates(agent_id)
+        if not coordinates:
+            self.logger.error(f"❌ Agent {agent_id} not found")
+            return False
+
+        loop = asyncio.get_event_loop()
+        result = await loop.run_in_executor(
+            None, lambda: self.message_delivery.send_message(agent_id, coordinates, message)
+        )
+        return bool(result)
+
+    async def send_message_to_all_agents(self, message: str, target_area: str = "input_box") -> bool:
+        """Broadcast a message to all agents."""
+        self.broadcast_system.broadcast_message(message)
+        return True
+
+    async def send_message_to_all_agents_with_line_breaks(
+        self, message: str, target_area: str = "input_box"
+    ) -> bool:
+        """Broadcast a multiline message to all agents."""
+        self.broadcast_system.broadcast_message(message)
+        return True
+
+    def get_agent_status(self) -> Dict[str, Dict[str, Any]]:
+        """Get basic status information for all agents."""
+        status: Dict[str, Dict[str, Any]] = {}
+        for agent_id in self.agent_registry.get_all_agents():
+            coords = self.agent_registry.get_agent_coordinates(agent_id)
+            status[agent_id] = {
+                "coordinates": {"x": coords[0], "y": coords[1]} if coords else None,
+                "status": "active",
+                "processing": False,
+                "last_message": None,
+            }
+        return status
 
     def run(self):
         """Main run method"""

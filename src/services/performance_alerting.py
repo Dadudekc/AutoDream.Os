@@ -541,7 +541,7 @@ class PagerDutyAlertChannel(AlertChannel):
         return severity_map.get(severity, "warning")
 
 
-class AlertManager:
+class PerformanceAlertManager:
     """Central manager for alert processing and routing."""
 
     def __init__(self):
@@ -610,7 +610,7 @@ class AlertingSystem:
     def __init__(self):
         self.alert_rules: List[AlertRule] = []
         self.alert_channels: List[AlertChannel] = []
-        self.alert_manager = AlertManager()
+        self.alert_manager = PerformanceAlertManager()
         self.active_alerts: Dict[str, PerformanceAlert] = {}
 
         logger.info("Alerting system initialized")
@@ -674,6 +674,6 @@ __all__ = [
     "WebhookAlertChannel",
     "DiscordAlertChannel",
     "PagerDutyAlertChannel",
-    "AlertManager",
+    "PerformanceAlertManager",
     "AlertingSystem",
 ]

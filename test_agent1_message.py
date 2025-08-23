@@ -19,6 +19,8 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
+from tests.utils.mock_managers import MockWorkspaceManager
+
 try:
     from core.v2_onboarding_sequence import V2OnboardingSequence
     from core.agent_communication import (
@@ -100,11 +102,7 @@ def send_test_message_to_agent1():
         comm_protocol = AgentCommunicationProtocol()
 
         # Create mock workspace manager for FSM core
-        class MockWorkspaceManager:
-            def __init__(self):
-                self.workspaces = {}
-
-        workspace_manager = MockWorkspaceManager()
+        workspace_manager = MockWorkspaceManager("/tmp/mock_workspace")
         fsm_core = FSMCoreV2(workspace_manager, inbox_manager)
 
         # Initialize onboarding sequence

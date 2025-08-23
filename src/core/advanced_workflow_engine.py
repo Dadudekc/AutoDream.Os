@@ -31,7 +31,8 @@ import concurrent.futures
 from .agent_manager import AgentManager, AgentInfo
 from .v2_comprehensive_messaging_system import V2AgentStatus, V2AgentCapability
 from .config_manager import ConfigManager
-from .contract_manager import ContractManager, ContractPriority, ContractStatus
+from .assignment_engine import ContractManager
+from .contract_models import ContractPriority, ContractStatus
 
 logger = logging.getLogger(__name__)
 

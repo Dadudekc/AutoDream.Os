@@ -29,7 +29,7 @@ from cdp_message_delivery import (
     send_message_to_cursor,
     broadcast_message_to_cursor,
 )
-from core.shared_enums import AgentCapability
+from core.v2_comprehensive_messaging_system import V2AgentCapability
 
 # Import Discord communication (if available)
 try:

@@ -28,7 +28,8 @@ from collections import defaultdict, deque
 import asyncio
 import concurrent.futures
 
-from .agent_manager import AgentManager, AgentStatus, AgentCapability, AgentInfo
+from .agent_manager import AgentManager, AgentInfo
+from .v2_comprehensive_messaging_system import V2AgentStatus, V2AgentCapability
 from .config_manager import ConfigManager
 from .contract_manager import ContractManager, ContractPriority, ContractStatus
 
@@ -54,7 +55,7 @@ class WorkflowType(Enum):
     COMPLETION = "completion"
 
 
-from .shared_enums import WorkflowStatus
+from .v2_comprehensive_messaging_system import V2WorkflowStatus
 
 
 class WorkflowPriority(Enum):
@@ -108,7 +109,7 @@ class WorkflowExecution:
 
     execution_id: str
     workflow_id: str
-    status: WorkflowStatus
+    status: V2WorkflowStatus
     current_step: str
     completed_steps: List[str]
     failed_steps: List[str]
@@ -146,7 +147,7 @@ class V2Workflow:
     description: str
     steps: List[WorkflowStep]
     created_at: str
-    status: WorkflowStatus
+    status: V2WorkflowStatus
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 

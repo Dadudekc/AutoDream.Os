@@ -20,7 +20,7 @@ from core.performance_tracker import PerformanceTracker, MetricType
 from core.performance_profiler import PerformanceProfiler
 from core.performance_dashboard import PerformanceDashboard
 from core.api_gateway import APIGateway
-from core.agent_communication import AgentCommunicationProtocol
+from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from core.health_monitor_core import HealthMonitorCore
 
 
@@ -36,7 +36,7 @@ class PerformanceInfrastructureDemo:
         self.performance_profiler = PerformanceProfiler()
         self.performance_dashboard = PerformanceDashboard()
         self.api_gateway = APIGateway()
-        self.agent_communication = AgentCommunicationProtocol()
+        self.messaging_system = V2ComprehensiveMessagingSystem()
         self.health_monitor = HealthMonitorCore()
 
         print("✅ All core systems initialized successfully")
@@ -92,26 +92,26 @@ class PerformanceInfrastructureDemo:
         """Demonstrate agent communication capabilities."""
         print("\n💬 Demonstrating Agent Communication...")
 
-        # Register demo agents
-        self.agent_communication.register_agent(
+        # Register demo agents with V2 messaging system
+        self.messaging_system.register_agent(
             "demo_agent",
             "Demo Agent",
             ["performance_monitoring", "data_processing"],
             "http://localhost:8002",
         )
 
-        self.agent_communication.register_agent(
+        self.messaging_system.register_agent(
             "monitor_agent",
             "Monitor Agent",
             ["health_monitoring", "alerting"],
             "http://localhost:8003",
         )
 
-        agents = list(self.agent_communication.registered_agents.keys())
-        print(f"✅ Agent Communication operational: {len(agents)} agents registered")
+        agents = list(self.messaging_system.registered_agents.keys())
+        print(f"✅ V2 Messaging System operational: {len(agents)} agents registered")
 
         for agent_id in agents:
-            agent_info = self.agent_communication.registered_agents[agent_id]
+            agent_info = self.messaging_system.registered_agents[agent_id]
             print(
                 f"   🤖 {agent_info.name} ({agent_id}) - {len(agent_info.capabilities)} capabilities"
             )

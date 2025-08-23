@@ -13,46 +13,13 @@ import uuid
 from datetime import datetime
 from dataclasses import dataclass, field, asdict
 from typing import Dict, Any, Optional, Generic, TypeVar
-from enum import Enum
+
+# Import V2 comprehensive messaging system
+from ..v2_comprehensive_messaging_system import (
+    V2MessagePriority, V2MessageType, V2MessageStatus
+)
 
 T = TypeVar("T")
-
-
-class MessagePriority(Enum):
-    """Message priority levels for routing and processing."""
-
-    LOW = 0
-    NORMAL = 1
-    HIGH = 2
-    URGENT = 3
-    CRITICAL = 4
-
-
-class MessageType(Enum):
-    """Types of messages supported by the system."""
-
-    COORDINATION = "coordination"
-    TASK = "task"
-    RESPONSE = "response"
-    STATUS = "status"
-    ALERT = "alert"
-    BROADCAST = "broadcast"
-    DIRECT = "direct"
-    SYSTEM = "system"
-    VALIDATION = "validation"
-    FEEDBACK = "feedback"
-
-
-class MessageStatus(Enum):
-    """Status of a message in the system."""
-
-    PENDING = "pending"
-    PROCESSING = "processing"
-    DELIVERED = "delivered"
-    ACKNOWLEDGED = "acknowledged"
-    FAILED = "failed"
-    EXPIRED = "expired"
-    CANCELLED = "cancelled"
 
 
 @dataclass
@@ -79,13 +46,13 @@ class Message(Generic[T]):
     """
 
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    type: MessageType = MessageType.COORDINATION
+    type: V2MessageType = V2MessageType.COORDINATION
     content: T = None
     from_agent: str = ""
     to_agent: str = ""
-    priority: MessagePriority = MessagePriority.NORMAL
+    priority: V2MessagePriority = V2MessagePriority.NORMAL
     timestamp: datetime = field(default_factory=datetime.now)
-    status: MessageStatus = MessageStatus.PENDING
+    status: V2MessageStatus = V2MessageStatus.PENDING
     metadata: Optional[Dict[str, Any]] = field(default_factory=dict)
     sequence_number: Optional[int] = None
     ttl: Optional[int] = None  # Time-to-live in seconds

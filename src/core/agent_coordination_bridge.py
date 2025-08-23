@@ -18,10 +18,10 @@ from typing import Dict, List, Any
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from core.agent_communication import (
-    AgentCommunicationProtocol,
-    MessageType,
-    MessagePriority,
+from core.v2_comprehensive_messaging_system import (
+    V2ComprehensiveMessagingSystem,
+    V2MessageType,
+    V2MessagePriority,
 )
 
 logger = logging.getLogger(__name__)
@@ -35,7 +35,7 @@ class AgentCoordinationBridge:
 
     def __init__(self):
         """Initialize the agent coordination bridge."""
-        self.agent_communication = AgentCommunicationProtocol()
+        self.messaging_system = V2ComprehensiveMessagingSystem()
         self.coordination_log = []
 
         # Register myself as the coordination bridge
@@ -73,7 +73,7 @@ class AgentCoordinationBridge:
         self,
         target_agent: str,
         message: str,
-        priority: MessagePriority = MessagePriority.HIGH,
+        priority: V2MessagePriority = V2MessagePriority.HIGH,
     ) -> bool:
         """Send a coordination request to another agent."""
         try:
@@ -91,10 +91,10 @@ class AgentCoordinationBridge:
                 ],
             }
 
-            message_id = self.agent_communication.send_message(
+            message_id = self.messaging_system.send_message(
                 sender_id=self.my_agent_id,
                 recipient_id=target_agent,
-                message_type=MessageType.COORDINATION,
+                message_type=V2MessageType.COORDINATION,
                 payload=payload,
                 priority=priority,
             )

@@ -34,7 +34,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-from .shared_enums import WorkflowStatus, TaskStatus, TaskPriority, WorkflowType
+from .v2_comprehensive_messaging_system import V2WorkflowStatus, V2TaskStatus, V2MessagePriority, V2WorkflowType
 
 
 @dataclass
@@ -45,10 +45,10 @@ class WorkflowTask:
     name: str
     description: str
     agent_id: Optional[str] = None
-    priority: TaskPriority = TaskPriority.MEDIUM
+    priority: V2MessagePriority = V2MessagePriority.NORMAL
     estimated_duration: int = 60  # seconds
     actual_duration: Optional[int] = None
-    status: TaskStatus = TaskStatus.PENDING
+    status: V2TaskStatus = V2TaskStatus.PENDING
     dependencies: List[str] = field(default_factory=list)
     required_resources: List[str] = field(default_factory=list)
     input_data: Dict[str, Any] = field(default_factory=dict)
@@ -86,7 +86,7 @@ class WorkflowExecution:
     execution_id: str
     workflow_id: str
     workflow_name: str
-    status: WorkflowStatus = WorkflowStatus.CREATED
+    status: V2WorkflowStatus = V2WorkflowStatus.CREATED
     tasks: List[WorkflowTask] = field(default_factory=list)
     conditions: List[WorkflowCondition] = field(default_factory=list)
     current_task_index: int = 0
@@ -123,7 +123,7 @@ class ResourceRequirement:
     resource_type: str  # "cpu", "memory", "storage", "network", "custom"
     required_amount: float
     unit: str
-    priority: TaskPriority = TaskPriority.MEDIUM
+    priority: V2MessagePriority = V2MessagePriority.NORMAL
     current_availability: float = 0.0
     metadata: Dict[str, Any] = field(default_factory=dict)
 

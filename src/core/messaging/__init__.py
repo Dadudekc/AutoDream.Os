@@ -13,18 +13,15 @@ This module integrates advanced messaging capabilities from the SWARM system
 to provide a unified, scalable messaging infrastructure.
 """
 
-from .message_queue import MessageQueue, PersistentMessageQueue, InMemoryMessageQueue
-from .message_types import Message, MessagePriority, MessageType, MessageStatus
+from ..v2_comprehensive_messaging_system import V2MessageQueue, V2Message, V2MessagePriority, V2MessageType, V2MessageStatus
 
 __version__ = "2.0.0"
 __author__ = "Agent Cellphone V2 Team"
 
 __all__ = [
-    "MessageQueue",
-    "PersistentMessageQueue",
-    "InMemoryMessageQueue",
-    "Message",
-    "MessagePriority",
-    "MessageType",
-    "MessageStatus",
+    "V2MessageQueue",
+    "V2Message",
+    "V2MessagePriority",
+    "V2MessageType",
+    "V2MessageStatus",
 ]

@@ -19,7 +19,7 @@ from core.performance_tracker import PerformanceTracker
 from core.performance_profiler import PerformanceProfiler
 from core.performance_dashboard import PerformanceDashboard
 from core.api_gateway import APIGateway
-from core.agent_communication import AgentCommunicationProtocol
+from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from core.health_monitor_core import HealthMonitorCore
 
 
@@ -64,12 +64,12 @@ class TestServiceComponentsSmoke:
 
     @pytest.mark.service
     @pytest.mark.smoke
-    def test_agent_communication_initialization(self):
-        """Test that AgentCommunicationProtocol initializes correctly."""
-        comm = AgentCommunicationProtocol()
-        assert comm is not None
-        assert hasattr(comm, "register_agent")
-        assert hasattr(comm, "send_message")
+    def test_v2_messaging_system_initialization(self):
+        """Test that V2ComprehensiveMessagingSystem initializes correctly."""
+        messaging = V2ComprehensiveMessagingSystem()
+        assert messaging is not None
+        assert hasattr(messaging, "register_agent")
+        assert hasattr(messaging, "send_message")
 
     @pytest.mark.service
     @pytest.mark.smoke

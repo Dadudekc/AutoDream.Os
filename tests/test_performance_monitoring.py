@@ -50,7 +50,7 @@ try:
         AlertingSystem,
         AlertRule,
         AlertChannel,
-        AlertManager,
+        PerformanceAlertManager,
         EmailAlertChannel,
         SlackAlertChannel,
         WebhookAlertChannel,

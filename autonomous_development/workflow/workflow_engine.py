@@ -16,7 +16,7 @@ from typing import Dict, List, Optional, Callable
 from datetime import datetime, timedelta
 from ..core.enums import WorkflowState, TaskStatus, TaskPriority
 from ..core.models import DevelopmentTask
-from ..tasks.task_manager import TaskManager
+from core.task_manager import DevelopmentTaskManager as TaskManager
 from ..agents.agent_coordinator import AgentCoordinator
 
 

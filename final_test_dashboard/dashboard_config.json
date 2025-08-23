@@ -1,0 +1,66 @@
+{
+  "layout": {
+    "columns": 12,
+    "rows": 8,
+    "theme": "dark",
+    "auto_refresh": true,
+    "refresh_interval": 5
+  },
+  "widgets": [
+    {
+      "id": "cpu_usage",
+      "title": "CPU Usage",
+      "chart_type": "gauge",
+      "metric": "cpu_percentage",
+      "refresh_interval": 5,
+      "width": 4,
+      "height": 3,
+      "position_x": 0,
+      "position_y": 0
+    },
+    {
+      "id": "memory_usage",
+      "title": "Memory Usage",
+      "chart_type": "bar",
+      "metric": "memory_percentage",
+      "refresh_interval": 5,
+      "width": 4,
+      "height": 3,
+      "position_x": 4,
+      "position_y": 0
+    },
+    {
+      "id": "network_traffic",
+      "title": "Network Traffic",
+      "chart_type": "line",
+      "metric": "network_bytes",
+      "refresh_interval": 10,
+      "width": 4,
+      "height": 3,
+      "position_x": 8,
+      "position_y": 0
+    },
+    {
+      "id": "disk_io",
+      "title": "Disk I/O",
+      "chart_type": "area",
+      "metric": "disk_operations",
+      "refresh_interval": 15,
+      "width": 6,
+      "height": 4,
+      "position_x": 0,
+      "position_y": 3
+    },
+    {
+      "id": "system_health",
+      "title": "System Health",
+      "chart_type": "table",
+      "metric": "health_status",
+      "refresh_interval": 30,
+      "width": 6,
+      "height": 4,
+      "position_x": 6,
+      "position_y": 3
+    }
+  ]
+}

@@ -21,9 +21,9 @@ from pathlib import Path
 # Add the src directory to the path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from services.v1_v2_message_queue_system import (
-    MessageQueueManager,
-    MessageQueuePriority,
+from services.testing import (
+    UnifiedMessageQueue,
+    MessagePriority,
 )
 from core.shared_enums import AgentCapability
 
@@ -38,7 +38,7 @@ def calibrate_agent_coordinates():
     print()
 
     # Create message queue manager
-    manager = MessageQueueManager()
+    manager = UnifiedMessageQueue()
 
     # Define the 8 agents
     agents = [
@@ -225,7 +225,7 @@ def calibrate_agent_coordinates():
             message_ids = manager.broadcast_message(
                 source_agent="agent_1",
                 content="🧪 TEST: This is a test broadcast message to verify coordinate calibration.",
-                priority=MessageQueuePriority.NORMAL,
+                priority=MessagePriority.NORMAL,
             )
 
             print(f"✅ Test broadcast completed!")

@@ -19,7 +19,7 @@ try:
     service = V2MessageDeliveryService()
 
     print("✅ Service initialized")
-    print(f"Initial delivery_status: {len(service.delivery_status)} entries")
+    print(f"Initial delivery_status: {len(service.status_tracker.get_all_status())} entries")
 
     # Test 1: Send message directly
     print("\n🧪 TEST 1: Direct message send")
@@ -31,9 +31,9 @@ try:
     # Wait for processing
     time.sleep(2)
 
-    print(f"After send - delivery_status: {len(service.delivery_status)} entries")
-    if service.delivery_status:
-        print(f"agent_1 status: {service.delivery_status.get('agent_1', 'NOT_FOUND')}")
+    print(f"After send - delivery_status: {len(service.status_tracker.get_all_status())} entries")
+    if service.status_tracker.get_all_status():
+        print(f"agent_1 status: {service.status_tracker.get_agent_status('agent_1') or 'NOT_FOUND'}")
 
     # Test 2: Check raw status
     print("\n🧪 TEST 2: Raw status check")
@@ -47,18 +47,10 @@ try:
     print("-" * 40)
 
     # Manually add some status data
-    service.delivery_status["agent_1"] = {
-        "delivery_count": 1,
-        "successful_deliveries": 1,
-        "failed_deliveries": 0,
-        "last_message_type": "debug_test",
-        "last_delivery_time": time.time(),
-        "last_success_time": time.time(),
-        "last_failure_time": None,
-    }
+    service.status_tracker.record_successful_delivery("agent_1", "debug_test")
 
     print(
-        f"After manual update - delivery_status: {len(service.delivery_status)} entries"
+        f"After manual update - delivery_status: {len(service.status_tracker.get_all_status())} entries"
     )
 
     # Test 4: Check status again
@@ -74,7 +66,7 @@ try:
 
     print("\n🔍 DEBUG SUMMARY")
     print("=" * 60)
-    print(f"Service delivery_status: {len(service.delivery_status)} entries")
+    print(f"Service delivery_status: {len(service.status_tracker.get_all_status())} entries")
     print(f"Get status delivery_status: {len(final_status['delivery_status'])} entries")
     print(f"Message queue size: {final_status['queue_size']}")
 

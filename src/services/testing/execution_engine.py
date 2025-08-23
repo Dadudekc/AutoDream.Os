@@ -427,3 +427,4 @@ class TestExecutor:
     def clear_queue(self):
         """Clear test queue."""
         self.orchestrator.scheduler.clear_queue()
+

@@ -18,12 +18,10 @@ from src.services.cross_system_communication import (
     MessageType,
     MessagePriority,
 )
-from src.services.integration_testing_framework import (
-    IntegrationTestRunner,
-    IntegrationTestSuite,
-    CrossSystemCommunicationTest,
-    APIIntegrationTest,
-    MiddlewareIntegrationTest,
+from src.services.testing import (
+    TestExecutor,
+    TestOrchestrator,
+    ServiceIntegrationTester,
     TestStatus,
     TestType,
     TestPriority,
@@ -226,7 +224,7 @@ class TestIntegrationTestingFrameworkSmoke:
     @pytest.mark.asyncio
     async def test_test_runner_initialization(self, temp_dir):
         """Test that test runner initializes correctly."""
-        runner = IntegrationTestRunner()
+        runner = TestExecutor()
 
         # Verify initial state
         assert len(runner.test_suites) == 0
@@ -375,8 +373,8 @@ class TestIntegrationTestClassesSmoke:
 
     @pytest.mark.asyncio
     async def test_cross_system_communication_test(self, temp_dir):
-        """Test CrossSystemCommunicationTest basic functionality."""
-        test = CrossSystemCommunicationTest("test_communication", TestPriority.HIGH)
+        """Test ServiceIntegrationTester basic functionality."""
+        test = ServiceIntegrationTester("test_communication", TestPriority.HIGH)
 
         # Verify test initialization
         assert test.test_name == "test_communication"
@@ -405,8 +403,8 @@ class TestIntegrationTestClassesSmoke:
 
     @pytest.mark.asyncio
     async def test_api_integration_test(self, temp_dir):
-        """Test APIIntegrationTest basic functionality."""
-        test = APIIntegrationTest("test_api", TestPriority.NORMAL)
+        """Test APIServiceIntegrationTester basic functionality."""
+        test = ServiceIntegrationTester("test_api", TestPriority.NORMAL)
 
         # Verify test initialization
         assert test.test_name == "test_api"
@@ -416,8 +414,8 @@ class TestIntegrationTestClassesSmoke:
 
     @pytest.mark.asyncio
     async def test_middleware_integration_test(self, temp_dir):
-        """Test MiddlewareIntegrationTest basic functionality."""
-        test = MiddlewareIntegrationTest("test_middleware", TestPriority.LOW)
+        """Test MiddlewareServiceIntegrationTester basic functionality."""
+        test = ServiceIntegrationTester("test_middleware", TestPriority.LOW)
 
         # Verify test initialization
         assert test.test_name == "test_middleware"
@@ -440,7 +438,7 @@ class TestEndToEndSmoke:
     async def test_full_integration_workflow(self, temp_dir):
         """Test a complete integration workflow."""
         # Create test runner
-        runner = IntegrationTestRunner()
+        runner = TestExecutor()
 
         # Create test suite
         suite = IntegrationTestSuite("Smoke Test Suite", "End-to-end smoke test suite")
@@ -481,7 +479,7 @@ class TestEndToEndSmoke:
         comm_manager = CrossSystemCommunicationManager()
 
         # Create test runner
-        test_runner = IntegrationTestRunner()
+        test_runner = TestExecutor()
 
         # Create test suite
         suite = IntegrationTestSuite(

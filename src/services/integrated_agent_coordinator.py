@@ -23,7 +23,7 @@ import os
 sys.path.append(str(Path(__file__).parent.parent))
 
 # Import V1-V2 message queue system
-from v1_v2_message_queue_system import MessageQueueManager, MessageQueuePriority
+from services.testing import UnifiedMessageQueue, MessagePriority
 from cdp_message_delivery import (
     CDPMessageDelivery,
     send_message_to_cursor,
@@ -77,7 +77,7 @@ class IntegratedAgentCoordinator:
         self.pyautogui_coordinator = Agent5PyAutoGUICoordinator(
             election_mode, round_robin
         )
-        self.message_queue_manager = MessageQueueManager()
+        self.message_queue_manager = UnifiedMessageQueue()
 
         # Integration state
         self.integration_mode = "hybrid"  # pyautogui, message_queue, hybrid
@@ -192,7 +192,7 @@ class IntegratedAgentCoordinator:
         self,
         agent_id: str,
         message: str,
-        priority: MessageQueuePriority = MessageQueuePriority.NORMAL,
+        priority: MessagePriority = MessagePriority.NORMAL,
         use_pyautogui: bool = True,
     ) -> bool:
         """Send message using hybrid approach - try message queue first, fallback to PyAutoGUI"""
@@ -263,7 +263,7 @@ class IntegratedAgentCoordinator:
     async def broadcast_message_hybrid(
         self,
         message: str,
-        priority: MessageQueuePriority = MessageQueuePriority.NORMAL,
+        priority: MessagePriority = MessagePriority.NORMAL,
         use_pyautogui: bool = True,
     ) -> Dict[str, bool]:
         """Broadcast message to all agents using hybrid approach"""
@@ -341,7 +341,7 @@ class IntegratedAgentCoordinator:
 
             # Send message using hybrid approach
             success = await self.send_message_hybrid(
-                agent_id, message, MessageQueuePriority.HIGH, use_pyautogui
+                agent_id, message, MessagePriority.HIGH, use_pyautogui
             )
 
             if success:

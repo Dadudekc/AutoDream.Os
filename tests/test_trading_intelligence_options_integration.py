@@ -19,13 +19,15 @@ import numpy as np
 from src.services.financial import (
     TradingIntelligenceService,
     OptionsTradingService,
-    FinancialAnalyticsService,
     StrategyType,
     SignalType,
     SignalStrength,
     OptionType,
     OptionStrategy,
     Greeks,
+)
+from src.services.financial.analytics import (
+    FinancialAnalyticsService,
 )
 
 

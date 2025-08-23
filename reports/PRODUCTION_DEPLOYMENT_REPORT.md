@@ -115,25 +115,25 @@ The V2 Enhanced Communication System has been successfully deployed to productio
 python src/services/v2_enhanced_communication_coordinator.py --status
 
 # Check message delivery status
-python src/services/v2_message_delivery_service.py --status
+python src/services/cli.py --status
 
 # List all available agents
-python src/services/v2_message_delivery_service.py --agents
+python src/services/cli.py --agents
 ```
 
 ### **Agent Communication Commands**
 ```bash
 # Send message to specific agent
-python src/services/v2_message_delivery_service.py --send-sync agent_1 test "Production message"
+python src/services/cli.py --send-sync agent_1 test "Production message"
 
 # Coordinate with multiple agents
-python src/services/v2_message_delivery_service.py --coordinate "agent_1,agent_3" "Production coordination message"
+python src/services/cli.py --coordinate "agent_1,agent_3" "Production coordination message"
 
 # Emergency broadcast to all agents
-python src/services/v2_message_delivery_service.py --emergency "Production emergency message"
+python src/services/cli.py --emergency "Production emergency message"
 
 # Ping all agents
-python src/services/v2_message_delivery_service.py --ping-all
+python src/services/cli.py --ping-all
 ```
 
 ### **Presidential Coordination Commands**

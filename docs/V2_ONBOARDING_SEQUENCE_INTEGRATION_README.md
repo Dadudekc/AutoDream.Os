@@ -170,9 +170,9 @@ The onboarding system uses the FSM communication configuration file:
 ### **🚀 Starting Individual Agent Onboarding**
 ```python
 from src.core.v2_onboarding_sequence import V2OnboardingSequence
-from src.core.agent_communication import AgentCommunicationProtocol
+from src.core.communication_compatibility_layer import AgentCommunicationProtocol
+from src.core.communication_compatibility_layer import InboxManager
 from src.core.fsm_core_v2 import FSMCoreV2
-from src.core.inbox_manager import InboxManager
 
 # Initialize components
 onboarding = V2OnboardingSequence()

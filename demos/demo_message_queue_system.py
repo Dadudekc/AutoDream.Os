@@ -12,9 +12,9 @@ import json
 from pathlib import Path
 
 # Import the message queue system
-from src.services.v1_v2_message_queue_system import (
-    MessageQueueManager,
-    MessageQueuePriority,
+from src.services.testing import (
+    UnifiedMessageQueue,
+    MessagePriority,
 )
 from src.services.cdp_message_delivery import (
     CDPMessageDelivery,
@@ -30,7 +30,7 @@ def demo_agent_registration():
     print("=" * 50)
 
     # Create message queue manager
-    manager = MessageQueueManager()
+    manager = UnifiedMessageQueue()
 
     # Register the 8 agents from the TDD integration project
     agents = [
@@ -134,7 +134,7 @@ def demo_direct_messaging(manager):
         source_agent="agent_1",
         target_agent="agent_2",
         content="Agent-2: begin integration tests for services_v2/auth. Report in 60m.",
-        priority=MessageQueuePriority.HIGH,
+        priority=MessagePriority.HIGH,
     )
 
     print(f"✅ Message sent successfully!")
@@ -150,7 +150,7 @@ def demo_direct_messaging(manager):
         source_agent="agent_1",
         target_agent="agent_3",
         content="Agent-3: begin integration tests for services_v2/web. Report in 60m.",
-        priority=MessageQueuePriority.NORMAL,
+        priority=MessagePriority.NORMAL,
     )
 
     print(f"✅ Message sent successfully!")
@@ -173,7 +173,7 @@ def demo_broadcast_messaging(manager):
     message_ids = manager.broadcast_message(
         source_agent="agent_1",
         content="ALL AGENTS: no acknowledgments—only diffs, commits, and checkmarks.",
-        priority=MessageQueuePriority.URGENT,
+        priority=MessagePriority.CRITICAL,
     )
 
     print(f"✅ Broadcast message sent successfully!")
@@ -302,7 +302,7 @@ def demo_performance_testing(manager):
             source_agent="agent_1",
             target_agent=f"agent_{(i % 8) + 1}",
             content=f"Performance test message {i+1}",
-            priority=MessageQueuePriority.NORMAL,
+            priority=MessagePriority.NORMAL,
         )
 
     end_time = time.time()

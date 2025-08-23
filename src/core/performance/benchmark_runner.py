@@ -168,3 +168,4 @@ class BenchmarkRunner:
             performance_level=PerformanceLevel.NOT_READY,
             optimization_recommendations=[f"Fix {benchmark_type.value} benchmark: {error}"]
         )
+

@@ -371,13 +371,13 @@ success = await manager.send_message(message)
 
 ### Running Integration Tests
 ```python
-from src.services.integration_testing_framework import IntegrationTestRunner
+from src.services.testing import TestExecutor
 
 # Create test runner
-runner = IntegrationTestRunner()
+runner = TestExecutor()
 
 # Add test suite
-suite = IntegrationTestSuite("My Test Suite", "Test description")
+suite = TestOrchestrator("My Test Suite", "Test description")
 runner.add_test_suite(suite)
 
 # Run all tests

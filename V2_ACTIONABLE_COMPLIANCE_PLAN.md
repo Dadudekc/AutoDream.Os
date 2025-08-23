@@ -8,7 +8,7 @@
 
 ---
 
-## 📋 **PHASE 1: CRITICAL VIOLATIONS (800+ LINES) - 19 CONTRACTS**
+## 📋 **PHASE 1: CRITICAL VIOLATIONS (800+ LINES) - 20 CONTRACTS**
 
 ### **CONTRACT #001: Advanced Workflow Automation** ✅ **COMPLETED**
 **Agent**: Agent-4 (Quality Assurance)  
@@ -123,7 +123,30 @@
 
 ---
 
-### **CONTRACT #008-019: Additional Critical Files (12 more contracts)**
+### **CONTRACT #008: Performance Validation System**
+**Agent Assignment**: Available for claiming  
+**Priority**: CRITICAL  
+**Estimated Duration**: 8 hours  
+
+**File**: `src/core/performance_validation_system.py` (898 lines)  
+**Target**: Split into 4 modules (≤250 lines each)  
+
+**Deliverables**:
+- `performance_types.py` (≤100 lines) - Performance data models and enums
+- `performance_benchmark.py` (≤250 lines) - Benchmark execution engine
+- `performance_validation.py` (≤250 lines) - Core validation logic
+- `performance_cli.py` (≤100 lines) - CLI interface with smoke tests
+
+**Acceptance Criteria**:
+- ✅ All modules ≤300 lines
+- ✅ Single responsibility per module
+- ✅ Smoke tests pass
+- ✅ No functionality loss
+- ✅ Clean OOP design
+
+---
+
+#### **CONTRACT #009-020: Additional Critical Files (12 more contracts)**
 **Files**: Various 800-1200 line files  
 **Target**: Each split into 4-5 focused modules  
 **Priority**: CRITICAL  
@@ -269,7 +292,7 @@
 ## 📊 **SUCCESS METRICS & TIMELINE**
 
 ### **Week 1 Target**: Complete Phase 1 (Critical Violations)
-- **19 contracts completed**
+- **20 contracts completed**
 - **Compliance**: 15.2% → 25%
 
 ### **Week 2 Target**: Complete Phase 2 (Major Violations)  

@@ -15,8 +15,12 @@ current_dir = Path(__file__).parent
 src_path = current_dir / "src"
 sys.path.insert(0, str(src_path))
 
-from services.v2_enhanced_communication_coordinator import (
-    V2EnhancedCommunicationCoordinator,
+from services.communication import (
+    MessageCoordinator,
+    ChannelManager,
+    CommunicationMode,
+    TaskPriority,
+    TaskStatus
 )
 
 
@@ -27,8 +31,9 @@ def test_live_agent_communication():
 
     try:
         # Initialize coordinator
-        print("🔧 Initializing V2 Enhanced Communication Coordinator...")
-        coordinator = V2EnhancedCommunicationCoordinator()
+        print("🔧 Initializing V2 Communication Coordinator...")
+        coordinator = MessageCoordinator()
+        channel_manager = ChannelManager()
         print("✅ Coordinator initialized successfully")
 
         # Test 1: Presidential Decision Workflow
@@ -36,24 +41,11 @@ def test_live_agent_communication():
         print("-" * 40)
 
         # Captain (Agent-5) proposes a decision
-        coordinator._send_private_message(
+        coordinator.send_message(
             "agent_5",
-            {
-                "type": "presidential_decision",
-                "decision_type": "system_wide",
-                "title": "Multimedia Integration Directive",
-                "description": "All agents must integrate multimedia capabilities within 24 hours",
-                "impact_scope": "all_agents",
-                "implementation_plan": [
-                    "Initialize multimedia services",
-                    "Test communication channels",
-                    "Validate coordination protocols",
-                ],
-                "success_metrics": [
-                    "100% agent integration",
-                    "Zero communication failures",
-                ],
-            },
+            ["agent_1", "agent_2", "agent_3", "agent_4", "agent_6", "agent_7", "agent_8"],
+            "presidential_decision",
+            "Multimedia Integration Directive: All agents must integrate multimedia capabilities within 24 hours"
         )
 
         print("📋 Presidential decision proposed by Captain (Agent-5)")
@@ -64,15 +56,12 @@ def test_live_agent_communication():
         print("-" * 40)
 
         # Agent-1 requests collaboration
-        coordinator._send_private_message(
-            "agent_1",
-            {
-                "type": "collaboration_request",
-                "session_type": "multimedia_integration",
-                "objective": "Coordinate multimedia services across all agents",
-                "participants": ["agent_1", "agent_3", "agent_5"],
-            },
+        session_id = coordinator.create_coordination_session(
+            CommunicationMode.COLLABORATIVE,
+            ["agent_1", "agent_3", "agent_5"],
+            ["Coordinate multimedia services across all agents"]
         )
+        print(f"🤝 Collaboration session created: {session_id}")
 
         print("🤝 Collaboration session requested by Agent-1")
         time.sleep(1)
@@ -82,16 +71,14 @@ def test_live_agent_communication():
         print("-" * 40)
 
         # Agent-3 (self) reports progress
-        coordinator._send_private_message(
-            "agent_3",
-            {
-                "type": "task_progress_update",
-                "task_title": "Multimedia Integration Test",
-                "old_progress": 75,
-                "new_progress": 100,
-                "status": "completed",
-            },
+        task_id = coordinator.create_task(
+            "Multimedia Integration Test",
+            "Test multimedia integration capabilities",
+            TaskPriority.HIGH,
+            ["agent_3"]
         )
+        coordinator.update_task_status(task_id, TaskStatus.COMPLETED, 100.0)
+        print(f"📈 Task created and completed: {task_id}")
 
         print("📈 Task progress updated by Agent-3 (Multimedia Specialist)")
         time.sleep(1)
@@ -101,19 +88,11 @@ def test_live_agent_communication():
         print("-" * 40)
 
         # Test multimedia update broadcast
-        coordinator._broadcast_message(
-            "multimedia",
-            {
-                "type": "multimedia_update",
-                "message": "All multimedia services are now operational. Begin integration testing.",
-                "services_available": [
-                    "video_capture",
-                    "audio_processing",
-                    "content_management",
-                    "streaming",
-                ],
-                "action_required": "Test multimedia capabilities and report status",
-            },
+        coordinator.send_message(
+            "agent_3",
+            ["agent_1", "agent_2", "agent_4", "agent_5", "agent_6", "agent_7", "agent_8"],
+            "multimedia_update",
+            "All multimedia services are now operational. Begin integration testing."
         )
 
         print("📢 Multimedia update broadcast to all agents")

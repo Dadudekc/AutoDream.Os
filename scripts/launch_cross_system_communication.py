@@ -22,12 +22,10 @@ from services.cross_system_communication import (
     SystemEndpoint,
     CommunicationProtocol,
 )
-from services.integration_testing_framework import (
-    IntegrationTestRunner,
-    IntegrationTestSuite,
-    CrossSystemCommunicationTest,
-    APIIntegrationTest,
-    MiddlewareIntegrationTest,
+from services.testing import (
+    TestExecutor,
+    TestOrchestrator,
+    ServiceIntegrationTester,
 )
 from services.integration_coordinator import IntegrationCoordinator
 
@@ -52,7 +50,7 @@ class CrossSystemCommunicationLauncher:
         self.config_path = config_path
         self.config = self._load_config()
         self.communication_manager: Optional[CrossSystemCommunicationManager] = None
-        self.test_runner: Optional[IntegrationTestRunner] = None
+        self.test_runner: Optional[TestExecutor] = None
         self.integration_coordinator: Optional[IntegrationCoordinator] = None
         self.running = False
 
@@ -106,7 +104,7 @@ class CrossSystemCommunicationLauncher:
             self.integration_coordinator = IntegrationCoordinator()
 
             # Initialize test runner
-            self.test_runner = IntegrationTestRunner()
+            self.test_runner = TestExecutor()
             await self._setup_test_suites()
 
             # Start communication manager
@@ -178,7 +176,7 @@ class CrossSystemCommunicationLauncher:
                 if not suite_config.get("enabled", True):
                     continue
 
-                suite = IntegrationTestSuite(
+                suite = TestOrchestrator(
                     name=suite_name,
                     description=suite_config.get(
                         "description", f"Test suite for {suite_name}"
@@ -199,24 +197,24 @@ class CrossSystemCommunicationLauncher:
                 # Add tests based on suite type
                 if suite_name == "cross_system_communication":
                     suite.add_test(
-                        CrossSystemCommunicationTest("test_system_connections")
+                        ServiceIntegrationTester("test_system_connections")
                     )
-                    suite.add_test(CrossSystemCommunicationTest("test_message_routing"))
+                    suite.add_test(ServiceIntegrationTester("test_message_routing"))
                     suite.add_test(
-                        CrossSystemCommunicationTest("test_protocol_handling")
+                        ServiceIntegrationTester("test_protocol_handling")
                     )
 
                 elif suite_name == "api_integration":
-                    suite.add_test(APIIntegrationTest("test_endpoint_registration"))
-                    suite.add_test(APIIntegrationTest("test_request_handling"))
-                    suite.add_test(APIIntegrationTest("test_response_validation"))
+                    suite.add_test(ServiceIntegrationTester("test_endpoint_registration"))
+                    suite.add_test(ServiceIntegrationTester("test_request_handling"))
+                    suite.add_test(ServiceIntegrationTester("test_response_validation"))
 
                 elif suite_name == "middleware_integration":
-                    suite.add_test(MiddlewareIntegrationTest("test_middleware_chains"))
+                    suite.add_test(ServiceIntegrationTester("test_middleware_chains"))
                     suite.add_test(
-                        MiddlewareIntegrationTest("test_data_transformation")
+                        ServiceIntegrationTester("test_data_transformation")
                     )
-                    suite.add_test(MiddlewareIntegrationTest("test_validation_rules"))
+                    suite.add_test(ServiceIntegrationTester("test_validation_rules"))
 
                 # Add suite to test runner
                 self.test_runner.add_test_suite(suite)

@@ -204,9 +204,9 @@ class CustomHandler(BaseCommunicationHandler):
 ### Custom Test Classes
 
 ```python
-from src.services.integration_testing_framework import BaseIntegrationTest
+from src.services.testing import TestFramework
 
-class CustomTest(BaseIntegrationTest):
+class CustomTest(TestFramework):
     async def setup(self) -> bool:
         # Test setup logic
         return True

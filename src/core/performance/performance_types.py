@@ -83,3 +83,4 @@ class PerformanceThresholds:
     production_ready: float = 0.85  # 85% of targets met
     development_ready: float = 0.70  # 70% of targets met
     not_ready: float = 0.0          # Below 70%
+

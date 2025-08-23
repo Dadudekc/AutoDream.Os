@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Simplified V2 Coding Standards Checker
-=======================================
+======================================
 
 This version doesn't depend on pytest or conftest.py
 """
@@ -33,21 +33,36 @@ class V2StandardsChecker:
             loc_count = len(lines)
             loc_compliant = loc_count <= self.max_loc_standard
             
-            # OOP check
+            # OOP check - improved version
             try:
                 tree = ast.parse(content)
                 has_classes = any(isinstance(node, ast.ClassDef) for node in ast.walk(tree))
                 has_functions_outside_classes = False
                 
+                # Track class context
+                class_stack = []
+                
                 for node in ast.walk(tree):
-                    if isinstance(node, ast.FunctionDef):
-                        # Check if function is inside a class
-                        parent = getattr(node, 'parent', None)
-                        if not parent or not isinstance(parent, ast.ClassDef):
+                    if isinstance(node, ast.ClassDef):
+                        class_stack.append(node)
+                    elif isinstance(node, ast.FunctionDef):
+                        # Check if this function is inside a class
+                        in_class = False
+                        for class_node in class_stack:
+                            if (hasattr(node, 'lineno') and hasattr(class_node, 'lineno') and
+                                hasattr(node, 'end_lineno') and hasattr(class_node, 'end_lineno')):
+                                if (node.lineno >= class_node.lineno and 
+                                    node.end_lineno <= class_node.end_lineno):
+                                    in_class = True
+                                    break
+                        
+                        if not in_class:
                             has_functions_outside_classes = True
                             break
                 
+                # If we have classes, functions should be inside them
                 oop_compliant = has_classes and not has_functions_outside_classes
+                
             except:
                 oop_compliant = False
                 
@@ -103,7 +118,7 @@ class V2StandardsChecker:
         non_compliant = [r for r in results if not r.get('overall_compliant', False)]
         
         if compliant:
-            report.append("✅ COMPLIANT FILES:")
+            report.append("COMPLIANT FILES:")
             for r in compliant[:10]:  # Show first 10
                 report.append(f"  {r['file_path']}")
             if len(compliant) > 10:
@@ -111,7 +126,7 @@ class V2StandardsChecker:
             report.append("")
             
         if non_compliant:
-            report.append("❌ NON-COMPLIANT FILES:")
+            report.append("NON-COMPLIANT FILES:")
             for r in non_compliant[:10]:  # Show first 10
                 report.append(f"  {r['file_path']}")
                 if 'error' in r:

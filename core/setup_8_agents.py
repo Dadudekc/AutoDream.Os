@@ -3,9 +3,9 @@
 8-Agent Setup Script - Configure and test all 8 agents
 """
 
-from src.services.v1_v2_message_queue_system import (
-    MessageQueueManager,
-    MessageQueuePriority,
+from src.services.testing import (
+    UnifiedMessageQueue,
+    MessagePriority,
 )
 import time
 
@@ -16,7 +16,7 @@ def setup_8_agents():
     print("=" * 60)
 
     # Create message queue manager with 8-agent config
-    manager = MessageQueueManager()
+    manager = UnifiedMessageQueue()
 
     # Define all 8 agents with their roles and capabilities
     agents = [

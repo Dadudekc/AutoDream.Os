@@ -96,7 +96,7 @@ class V2WorkflowEngine:
 
         # Import consolidated workflow engine
         try:
-            from ..core.advanced_workflow_engine import AdvancedWorkflowEngine
+            from ..core.advanced_workflow import AdvancedWorkflowEngine
 
             self.workflow_engine = AdvancedWorkflowEngine(
                 agent_manager, None, None, fsm_orchestrator, response_capture_service

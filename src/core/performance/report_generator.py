@@ -194,3 +194,4 @@ class ReportGenerator:
             if self.logger:
                 self.logger.error(f"Failed to format report: {e}")
             return f"Error formatting report: {e}"
+

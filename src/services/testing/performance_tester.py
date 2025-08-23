@@ -446,3 +446,4 @@ class PerformanceTester:
     def export_results(self, file_path: str) -> bool:
         """Export performance test results."""
         return self.metrics_collector.export_metrics(file_path)
+

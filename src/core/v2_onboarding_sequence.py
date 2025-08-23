@@ -22,13 +22,13 @@ from enum import Enum
 from pathlib import Path
 
 # Import V2 components
-from .agent_communication import (
+from .communication_compatibility_layer import (
     AgentCommunicationProtocol,
     MessageType,
     MessagePriority,
+    InboxManager
 )
 from .fsm_core_v2 import FSMCoreV2
-from .inbox_manager import InboxManager
 
 # Configure logging
 logger = logging.getLogger(__name__)

@@ -24,7 +24,37 @@ from collections import defaultdict
 logger = logging.getLogger(__name__)
 
 
-from .v2_comprehensive_messaging_system import V2MessagePriority, V2MessageStatus, V2MessageType
+from .v2_comprehensive_messaging_system import (
+    V2MessagePriority,
+    V2MessageStatus,
+    V2MessageType,
+)
+
+
+class MessagePriority(Enum):
+    """Legacy message priority enum for compatibility."""
+
+    LOW = "low"
+    NORMAL = "normal"
+    HIGH = "high"
+    URGENT = "urgent"
+
+
+class MessageType(Enum):
+    """Legacy message type enum for compatibility."""
+
+    SYSTEM_COMMAND = "system_command"
+    STATUS_UPDATE = "status_update"
+    COORDINATION = "coordination"
+
+
+class MessageStatus(Enum):
+    """Legacy message status enum for compatibility."""
+
+    PENDING = "pending"
+    DELIVERED = "delivered"
+    FAILED = "failed"
+    EXPIRED = "expired"
 
 
 @dataclass

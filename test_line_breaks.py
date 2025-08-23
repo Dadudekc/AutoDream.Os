@@ -8,7 +8,7 @@ that respects Shift+Enter for line breaks within messages.
 """
 
 import asyncio
-from autonomous_development_system import RealAgentCommunicationSystem
+from core.real_agent_communication_system import RealAgentCommunicationSystem
 from core.task_manager import DevelopmentTaskManager as TaskManager
 
 

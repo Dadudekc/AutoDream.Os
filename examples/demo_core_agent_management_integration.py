@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from core.agent_registration_manager import AgentRegistrationManager
 from core.status_manager import StatusManager
 from core.contract_manager import ContractManager, ContractPriority, ContractStatus
-from core.performance_tracker import PerformanceTracker
+from core.performance_monitor import PerformanceMonitor
 from core.agent_manager import AgentManager, AgentStatus, AgentCapability
 from core.config_manager import ConfigManager
 
@@ -57,7 +57,7 @@ class CoreAgentManagementIntegrationDemo:
         )
         self.status_manager = StatusManager(self.agent_manager, self.config_manager)
         self.contract_manager = ContractManager(self.agent_manager, self.config_manager)
-        self.performance_tracker = PerformanceTracker(
+        self.performance_tracker = PerformanceMonitor(
             self.agent_manager, self.config_manager
         )
 

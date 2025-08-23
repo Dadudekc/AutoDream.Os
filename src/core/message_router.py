@@ -24,7 +24,12 @@ from collections import defaultdict
 logger = logging.getLogger(__name__)
 
 
-from .v2_comprehensive_messaging_system import V2MessagePriority, V2MessageStatus, V2MessageType
+from .v2_comprehensive_messaging_system import (
+    V2MessagePriority,
+    V2MessageStatus,
+    V2MessageType,
+)
+from .shared_enums import MessagePriority, MessageStatus, MessageType
 
 
 @dataclass

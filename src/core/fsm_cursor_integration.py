@@ -16,7 +16,7 @@ from datetime import datetime
 import json
 
 from .cursor_response_capture import CursorResponseCapture, CursorMessage
-from .performance_profiler import PerformanceProfiler
+from .performance_monitor import PerformanceMonitor
 from .health_monitor import HealthMonitor
 
 
@@ -113,7 +113,7 @@ class PerpetualMotionEngine:
         self.agent_activations: Dict[str, Callable] = {}
 
         # Performance monitoring
-        self.performance_profiler = PerformanceProfiler()
+        self.performance_profiler = PerformanceMonitor()
         self.health_monitor = HealthMonitor()
 
         # Perpetual motion state

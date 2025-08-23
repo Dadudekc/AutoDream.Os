@@ -360,22 +360,22 @@ from src.services.metrics_collector import SystemMetricsCollector
 async def main():
     # Initialize performance monitor
     monitor = PerformanceMonitor()
-    
+
     # Add system metrics collector
     system_collector = SystemMetricsCollector(collection_interval=30)
     monitor.add_collector(system_collector)
-    
+
     # Start monitoring
     await monitor.start()
-    
+
     # Monitor will collect metrics automatically
     await asyncio.sleep(60)
-    
+
     # Get metrics
     cpu_series = monitor.get_metric_series("cpu_usage_percent")
     if cpu_series:
         print(f"Latest CPU usage: {cpu_series.data_points[-1].value}%")
-    
+
     # Stop monitoring
     await monitor.stop()
 
@@ -508,8 +508,8 @@ The system supports various aggregation functions:
 ```python
 # Get average CPU usage over last hour
 avg_cpu = monitor.aggregate_metrics(
-    "cpu_usage_percent", 
-    "avg", 
+    "cpu_usage_percent",
+    "avg",
     start_time=time.time() - 3600
 )
 
@@ -528,7 +528,7 @@ Implement custom metrics by extending the collector framework:
 class BusinessMetricsCollector(MetricsCollector):
     async def collect_metrics(self):
         metrics = []
-        
+
         # Revenue per minute
         revenue = calculate_current_revenue()
         metrics.append(MetricData(
@@ -538,7 +538,7 @@ class BusinessMetricsCollector(MetricsCollector):
             timestamp=time.time(),
             unit="dollars"
         ))
-        
+
         return metrics
 ```
 

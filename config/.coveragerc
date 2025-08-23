@@ -1,13 +1,13 @@
 [run]
 # Source code to measure coverage for
-source = 
+source =
     src
     tests
     scripts
     examples
 
 # Include patterns
-include = 
+include =
     *.py
     */src/*
     */tests/*
@@ -15,7 +15,7 @@ include =
     */examples/*
 
 # Exclude patterns
-omit = 
+omit =
     */__pycache__/*
     */.git/*
     */.pytest_cache/*
@@ -43,7 +43,7 @@ data_file = .coverage
 
 [report]
 # Exclude lines from coverage
-exclude_lines = 
+exclude_lines =
     # Standard exclusions
     pragma: no cover
     def __repr__
@@ -55,7 +55,7 @@ exclude_lines =
     if __name__ == .__main__.:
     class .*\bProtocol\):
     @(abc\.)?abstractmethod
-    
+
     # Agent_Cellphone_V2 specific exclusions
     # CLI interface boilerplate
     if __name__ == "__main__":
@@ -63,28 +63,28 @@ exclude_lines =
     parser = argparse\.ArgumentParser
     parser\.add_argument
     args = parser\.parse_args\(\)
-    
+
     # Test data and mock setup
     def setup_method
     def teardown_method
     @pytest\.fixture
     def mock_
     def test_
-    
+
     # Configuration and constants
-    DEFAULT_ = 
-    CONFIG_ = 
-    SETTING_ = 
-    
+    DEFAULT_ =
+    CONFIG_ =
+    SETTING_ =
+
     # Error handling boilerplate
     except Exception as e:
     except BaseException:
     finally:
-    
+
     # Logging statements
     logger\.(debug|info|warning|error|critical)
     print\(
-    
+
     # Type hints and annotations
     -> None:
     -> bool:
@@ -115,7 +115,7 @@ json_output = coverage.json
 # HTML report configuration
 directory = htmlcov
 title = Agent_Cellphone_V2 Coverage Report
-extra_css = 
+extra_css =
 show_contexts = True
 show_relative_annotations = True
 

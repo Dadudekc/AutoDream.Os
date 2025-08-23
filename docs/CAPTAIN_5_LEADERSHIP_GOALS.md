@@ -1,8 +1,8 @@
 # 🎖️ CAPTAIN-5 LEADERSHIP GOALS & CONTRACT STRATEGY
 
-**Term Start**: 2024-08-19  
-**Current Progress**: 2/50 contracts completed  
-**Target**: Lead the pack to 50 contracts and trigger next election  
+**Term Start**: 2024-08-19
+**Current Progress**: 2/50 contracts completed
+**Target**: Lead the pack to 50 contracts and trigger next election
 
 ---
 
@@ -30,7 +30,7 @@
 #### **CONTRACT-C5-001: V2 System Documentation**
 - **Title**: Complete V2 Coordination System Documentation
 - **Description**: Document all messaging systems, usage guides, and troubleshooting
-- **Deliverables**: 
+- **Deliverables**:
   - Updated README.md with coordination system guide
   - API documentation for all messaging services
   - Troubleshooting guide for common issues
@@ -70,7 +70,7 @@
 - **Timeline**: 2 hours
 
 #### **CONTRACT-T-002: Agent-2 - Code Quality Audit**
-- **Assignee**: Agent-2  
+- **Assignee**: Agent-2
 - **Title**: V2 Code Quality and Standards Audit
 - **Focus**: Review all V2 files for LOC compliance and quality
 - **Timeline**: 3 hours

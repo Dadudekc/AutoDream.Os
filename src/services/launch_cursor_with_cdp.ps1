@@ -76,43 +76,43 @@ try {
         "--disable-web-security",
         "--disable-features=VizDisplayCompositor"
     )
-    
+
     Write-Host "🚀 Starting Cursor with CDP..." -ForegroundColor Green
     $process = Start-Process -FilePath $cursorExe -ArgumentList $arguments -PassThru
-    
+
     if ($process) {
         Write-Host "✅ Cursor launched successfully (PID: $($process.Id))" -ForegroundColor Green
         Write-Host "🔌 CDP endpoint: http://127.0.0.1:$Port/json" -ForegroundColor Cyan
-        
+
         # Wait a moment for Cursor to start
         Start-Sleep -Seconds 3
-        
+
         # Test CDP connection
         try {
             $response = Invoke-RestMethod -Uri "http://127.0.0.1:$Port/json" -TimeoutSec 5
             Write-Host "✅ CDP connection successful!" -ForegroundColor Green
             Write-Host "📊 Found $($response.Count) targets" -ForegroundColor Cyan
-            
+
             # Show available targets
             foreach ($target in $response) {
                 if ($target.type -eq "page") {
                     Write-Host "   📄 $($target.title) ($($target.url))" -ForegroundColor White
                 }
             }
-            
+
         } catch {
             Write-Host "⚠️  CDP connection test failed" -ForegroundColor Yellow
             Write-Host "💡 Cursor may still be starting up" -ForegroundColor Cyan
         }
-        
+
         Write-Host "`n🎯 Ready for headless messaging!" -ForegroundColor Green
         Write-Host "💡 Test with: python cdp_send_message.py 'Hello Agent-3!' --target 'Agent-3'" -ForegroundColor Cyan
-        
+
     } else {
         Write-Host "❌ Failed to launch Cursor" -ForegroundColor Red
         exit 1
     }
-    
+
 } catch {
     Write-Host "❌ Error launching Cursor: $($_.Exception.Message)" -ForegroundColor Red
     exit 1

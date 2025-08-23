@@ -12,6 +12,7 @@ from enum import Enum
 
 class MessagePriority(Enum):
     """Message priority levels for routing and processing."""
+
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -20,6 +21,7 @@ class MessagePriority(Enum):
 
 class MessageStatus(Enum):
     """Message status states."""
+
     PENDING = "pending"
     READ = "read"
     PROCESSING = "processing"
@@ -29,6 +31,7 @@ class MessageStatus(Enum):
 
 class MessageType(Enum):
     """Types of messages supported by the system."""
+
     TEXT = "text"
     TASK = "task"
     NOTIFICATION = "notification"
@@ -45,6 +48,7 @@ class MessageType(Enum):
 
 class TaskPriority(Enum):
     """Task priority levels"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -53,6 +57,7 @@ class TaskPriority(Enum):
 
 class TaskStatus(Enum):
     """Individual task status"""
+
     PENDING = "pending"
     ASSIGNED = "assigned"
     RUNNING = "running"
@@ -65,6 +70,7 @@ class TaskStatus(Enum):
 
 class WorkflowStatus(Enum):
     """Workflow execution status"""
+
     CREATED = "created"
     PLANNING = "planning"
     READY = "ready"
@@ -87,16 +93,18 @@ class WorkflowStatus(Enum):
 
 class WorkflowType(Enum):
     """Workflow types"""
-    SEQUENTIAL = "sequential"          # Tasks execute in order
-    PARALLEL = "parallel"              # Tasks execute simultaneously
-    CONDITIONAL = "conditional"        # Tasks execute based on conditions
-    LOOP = "loop"                      # Tasks repeat based on conditions
+
+    SEQUENTIAL = "sequential"  # Tasks execute in order
+    PARALLEL = "parallel"  # Tasks execute simultaneously
+    CONDITIONAL = "conditional"  # Tasks execute based on conditions
+    LOOP = "loop"  # Tasks repeat based on conditions
     PARALLEL_BATCH = "parallel_batch"  # Tasks execute in parallel batches
-    PIPELINE = "pipeline"              # Tasks form a processing pipeline
+    PIPELINE = "pipeline"  # Tasks form a processing pipeline
 
 
 class AgentStatus(Enum):
     """Agent status states"""
+
     OFFLINE = "offline"
     ONLINE = "online"
     BUSY = "busy"
@@ -107,6 +115,7 @@ class AgentStatus(Enum):
 
 class AgentCapability(Enum):
     """Agent capability types"""
+
     TASK_EXECUTION = "task_execution"
     DECISION_MAKING = "decision_making"
     COMMUNICATION = "communication"

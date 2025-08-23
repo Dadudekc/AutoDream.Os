@@ -15,6 +15,7 @@ from enum import Enum
 
 class ContentType(Enum):
     """Training content types"""
+
     TEXT = "text"
     INTERACTIVE = "interactive"
     ASSESSMENT = "assessment"
@@ -24,6 +25,7 @@ class ContentType(Enum):
 
 class DifficultyLevel(Enum):
     """Content difficulty levels"""
+
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
@@ -32,6 +34,7 @@ class DifficultyLevel(Enum):
 @dataclass
 class TrainingContent:
     """Training content item"""
+
     content_id: str
     title: str
     content_type: ContentType
@@ -46,6 +49,7 @@ class TrainingContent:
 @dataclass
 class TrainingModule:
     """Complete training module"""
+
     module_id: str
     title: str
     description: str
@@ -57,7 +61,7 @@ class TrainingModule:
 class TrainingContentManager:
     """
     Manages training content definitions and templates.
-    
+
     Responsibilities:
     - Provide training content definitions
     - Manage training modules
@@ -98,8 +102,8 @@ class TrainingContentManager:
             learning_objectives=[
                 "Understand system architecture",
                 "Identify core components",
-                "Recognize key features"
-            ]
+                "Recognize key features",
+            ],
         )
 
         # Agent Roles Content
@@ -126,8 +130,8 @@ class TrainingContentManager:
             learning_objectives=[
                 "Understand agent roles",
                 "Identify responsibilities",
-                "Recognize leadership structure"
-            ]
+                "Recognize leadership structure",
+            ],
         )
 
         # Communication Protocols Content
@@ -156,8 +160,8 @@ class TrainingContentManager:
             learning_objectives=[
                 "Understand message types",
                 "Learn routing protocols",
-                "Master communication patterns"
-            ]
+                "Master communication patterns",
+            ],
         )
 
         # Development Standards Content
@@ -186,8 +190,8 @@ class TrainingContentManager:
             learning_objectives=[
                 "Learn coding standards",
                 "Understand testing requirements",
-                "Master quality practices"
-            ]
+                "Master quality practices",
+            ],
         )
 
         # Register content items
@@ -195,7 +199,7 @@ class TrainingContentManager:
             "sys_overview_1": system_overview,
             "agent_roles_1": agent_roles,
             "comm_protocols_1": communication_protocols,
-            "dev_standards_1": dev_standards
+            "dev_standards_1": dev_standards,
         }
 
         # Create training modules
@@ -208,10 +212,13 @@ class TrainingContentManager:
             assessment_questions=[
                 {
                     "question": "What are the core components of Agent Cellphone V2?",
-                    "options": ["Agent Manager, Message Router, Config Manager", "Database, Web Server, API"],
-                    "correct": 0
+                    "options": [
+                        "Agent Manager, Message Router, Config Manager",
+                        "Database, Web Server, API",
+                    ],
+                    "correct": 0,
                 }
-            ]
+            ],
         )
 
         advanced_module = TrainingModule(
@@ -224,14 +231,14 @@ class TrainingContentManager:
                 {
                     "question": "What message type is used for system-wide announcements?",
                     "options": ["Normal", "Broadcast", "Status"],
-                    "correct": 1
+                    "correct": 1,
                 }
-            ]
+            ],
         )
 
         self.training_modules = {
             "orientation_basic": orientation_module,
-            "advanced_training": advanced_module
+            "advanced_training": advanced_module,
         }
 
     def get_training_module(self, module_id: str) -> Optional[TrainingModule]:
@@ -251,17 +258,19 @@ class TrainingContentManager:
         module = self.get_training_module(module_id)
         return module.content_items if module else []
 
-    def validate_module_prerequisites(self, module_id: str, completed_content: List[str]) -> bool:
+    def validate_module_prerequisites(
+        self, module_id: str, completed_content: List[str]
+    ) -> bool:
         """Check if prerequisites are met for a module"""
         module = self.get_training_module(module_id)
         if not module:
             return False
-        
+
         for content_item in module.content_items:
             for prereq in content_item.prerequisites:
                 if prereq not in completed_content:
                     return False
-        
+
         return True
 
 
@@ -271,29 +280,29 @@ def run_smoke_test():
 
     try:
         manager = TrainingContentManager()
-        
+
         # Test module retrieval
         orientation = manager.get_training_module("orientation_basic")
         assert orientation.title == "Basic Orientation"
         assert len(orientation.content_items) == 2
-        
+
         # Test content retrieval
         sys_overview = manager.get_content_item("sys_overview_1")
         assert sys_overview.title == "System Architecture Introduction"
         assert sys_overview.difficulty == DifficultyLevel.BEGINNER
-        
+
         # Test available modules
         modules = manager.get_available_modules()
         assert "orientation_basic" in modules
         assert "advanced_training" in modules
-        
+
         # Test prerequisite validation
         assert manager.validate_module_prerequisites("orientation_basic", [])
         assert not manager.validate_module_prerequisites("advanced_training", [])
-        
+
         print("✅ TrainingContentManager Smoke Test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"❌ TrainingContentManager Smoke Test FAILED: {e}")
         return False
@@ -302,21 +311,23 @@ def run_smoke_test():
 def main():
     """CLI interface for TrainingContentManager testing"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Training Content Manager CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
-    parser.add_argument("--list-modules", action="store_true", help="List available modules")
+    parser.add_argument(
+        "--list-modules", action="store_true", help="List available modules"
+    )
     parser.add_argument("--module", help="Show module details")
     parser.add_argument("--content", help="Show content item details")
-    
+
     args = parser.parse_args()
-    
+
     if args.test:
         run_smoke_test()
         return
-    
+
     manager = TrainingContentManager()
-    
+
     if args.list_modules:
         modules = manager.get_available_modules()
         print("Available training modules:")

@@ -176,7 +176,7 @@ integration:
   enable_real_time_updates: true
   enable_status_monitoring: true
   enable_health_checks: true
-  
+
   # Communication backends
   redis:
     enabled: true
@@ -184,7 +184,7 @@ integration:
     port: 6379
     db: 0
     password: null
-  
+
   rabbitmq:
     enabled: true
     host: "localhost"
@@ -192,7 +192,7 @@ integration:
     username: "guest"
     password: "guest"
     vhost: "/"
-  
+
   # WebSocket settings
   websocket:
     enabled: true
@@ -220,14 +220,14 @@ ui:
   enable_animations: true
   enable_tooltips: true
   enable_keyboard_shortcuts: true
-  
+
   # Dashboard settings
   dashboard:
     default_layout: "grid"
     enable_customization: true
     max_widgets_per_row: 4
     enable_drag_and_drop: true
-  
+
   # Navigation settings
   navigation:
     enable_breadcrumbs: true
@@ -241,13 +241,13 @@ monitoring:
   enable_logging: true
   enable_alerts: true
   enable_performance_tracking: true
-  
+
   # Metrics collection
   metrics:
     collection_interval: 60
     retention_days: 30
     enable_export: true
-  
+
   # Logging
   logging:
     level: "INFO"
@@ -262,13 +262,13 @@ performance:
   enable_caching: true
   enable_compression: true
   enable_minification: true
-  
+
   # Cache settings
   cache:
     type: "redis"
     ttl: 300
     max_size: 1000
-  
+
   # Database settings (if applicable)
   database:
     connection_pool_size: 10
@@ -281,7 +281,7 @@ development:
   enable_hot_reload: true
   enable_error_details: false
   enable_profiling: false
-  
+
   # Testing
   testing:
     enable_mock_agents: true
@@ -294,13 +294,13 @@ deployment:
   enable_health_checks: true
   enable_graceful_shutdown: true
   enable_auto_restart: true
-  
+
   # Health check settings
   health_checks:
     interval: 30
     timeout: 10
     failure_threshold: 3
-  
+
   # Scaling
   scaling:
     enable_auto_scaling: false

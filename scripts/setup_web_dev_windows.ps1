@@ -41,11 +41,11 @@ function Install-PythonPackage($package) {
 # Function to create directory structure
 function New-DirectoryStructure {
     Write-Host "📁 Creating directory structure..." -ForegroundColor Yellow
-    
+
     $directories = @(
         "src\web\controllers",
         "src\web\models",
-        "src\web\services", 
+        "src\web\services",
         "src\web\utils",
         "src\web\middleware",
         "src\web\static\css",
@@ -63,7 +63,7 @@ function New-DirectoryStructure {
         "config",
         "test_results"
     )
-    
+
     foreach ($dir in $directories) {
         $fullPath = Join-Path $PSScriptRoot\.. $dir
         if (!(Test-Path $fullPath)) {
@@ -79,9 +79,9 @@ function Install-Dependencies {
         Write-Host "⏭️ Skipping dependency installation" -ForegroundColor Yellow
         return
     }
-    
+
     Write-Host "📦 Installing Web Development Dependencies..." -ForegroundColor Yellow
-    
+
     # Check if requirements file exists
     $requirementsFile = Join-Path $PSScriptRoot\.. "requirements_web_development.txt"
     if (Test-Path $requirementsFile) {
@@ -91,7 +91,7 @@ function Install-Dependencies {
     }
     else {
         Write-Host "⚠️ Requirements file not found, installing core packages..." -ForegroundColor Yellow
-        
+
         # Install core packages individually
         $corePackages = @(
             "Flask>=2.3.0",
@@ -104,12 +104,12 @@ function Install-Dependencies {
             "pytest-flask>=1.3.0",
             "pytest-fastapi>=0.1.0"
         )
-        
+
         foreach ($package in $corePackages) {
             Install-PythonPackage $package
         }
     }
-    
+
     # Install additional development tools
     $devTools = @("pip-tools", "pipdeptree", "safety")
     foreach ($tool in $devTools) {
@@ -120,11 +120,11 @@ function Install-Dependencies {
 # Function to setup Selenium WebDriver
 function Setup-SeleniumWebDriver {
     Write-Host "🌐 Setting up Selenium WebDriver..." -ForegroundColor Yellow
-    
+
     try {
         # Install webdriver-manager
         Install-PythonPackage "webdriver-manager"
-        
+
         # Create Selenium configuration
         $seleniumConfig = @{
             webdriver = @{
@@ -144,17 +144,17 @@ function Setup-SeleniumWebDriver {
             }
             retry_attempts = 3
         }
-        
+
         $configDir = Join-Path $PSScriptRoot\.. "config"
         $configFile = Join-Path $configDir "selenium_config.json"
-        
+
         if (!(Test-Path $configDir)) {
             New-Item -ItemType Directory -Path $configDir -Force | Out-Null
         }
-        
+
         $seleniumConfig | ConvertTo-Json -Depth 10 | Set-Content $configFile
         Write-Host "✅ Selenium WebDriver configured" -ForegroundColor Green
-        
+
     }
     catch {
         Write-Host "❌ Error setting up Selenium: $($_.Exception.Message)" -ForegroundColor Red
@@ -164,7 +164,7 @@ function Setup-SeleniumWebDriver {
 # Function to setup Flask environment
 function Setup-FlaskEnvironment {
     Write-Host "🔥 Setting up Flask Environment..." -ForegroundColor Yellow
-    
+
     try {
         $flaskConfig = @{
             development = @{
@@ -191,17 +191,17 @@ function Setup-FlaskEnvironment {
                 LOG_LEVEL = "WARNING"
             }
         }
-        
+
         $configDir = Join-Path $PSScriptRoot\.. "config"
         $configFile = Join-Path $configDir "flask_config.json"
-        
+
         if (!(Test-Path $configDir)) {
             New-Item -ItemType Directory -Path $configDir -Force | Out-Null
         }
-        
+
         $flaskConfig | ConvertTo-Json -Depth 10 | Set-Content $configFile
         Write-Host "✅ Flask environment configured" -ForegroundColor Green
-        
+
     }
     catch {
         Write-Host "❌ Error setting up Flask: $($_.Exception.Message)" -ForegroundColor Red
@@ -211,7 +211,7 @@ function Setup-FlaskEnvironment {
 # Function to setup FastAPI environment
 function Setup-FastAPIEnvironment {
     Write-Host "⚡ Setting up FastAPI Environment..." -ForegroundColor Yellow
-    
+
     try {
         $fastapiConfig = @{
             app = @{
@@ -236,17 +236,17 @@ function Setup-FastAPIEnvironment {
                 headers = @("*")
             }
         }
-        
+
         $configDir = Join-Path $PSScriptRoot\.. "config"
         $configFile = Join-Path $configDir "fastapi_config.json"
-        
+
         if (!(Test-Path $configDir)) {
             New-Item -ItemType Directory -Path $configDir -Force | Out-Null
         }
-        
+
         $fastapiConfig | ConvertTo-Json -Depth 10 | Set-Content $configFile
         Write-Host "✅ FastAPI environment configured" -ForegroundColor Green
-        
+
     }
     catch {
         Write-Host "❌ Error setting up FastAPI: $($_.Exception.Message)" -ForegroundColor Red
@@ -256,7 +256,7 @@ function Setup-FastAPIEnvironment {
 # Function to setup TDD infrastructure
 function Setup-TDDInfrastructure {
     Write-Host "🧪 Setting up TDD Testing Infrastructure..." -ForegroundColor Yellow
-    
+
     try {
         # Create pytest configuration
         $pytestConfig = @"
@@ -265,7 +265,7 @@ testpaths = tests
 python_files = test_*.py *_test.py
 python_classes = Test*
 python_functions = test_*
-addopts = 
+addopts =
     -v
     --tb=short
     --strict-markers
@@ -286,10 +286,10 @@ filterwarnings =
     ignore::DeprecationWarning
     ignore::PendingDeprecationWarning
 "@
-        
+
         $pytestFile = Join-Path $PSScriptRoot\.. "pytest.ini"
         $pytestConfig | Set-Content $pytestFile
-        
+
         # Create test configuration
         $testConfig = @{
             test_environment = @{
@@ -314,17 +314,17 @@ filterwarnings =
                 )
             }
         }
-        
+
         $configDir = Join-Path $PSScriptRoot\.. "config"
         $testConfigFile = Join-Path $configDir "test_config.json"
-        
+
         if (!(Test-Path $configDir)) {
             New-Item -ItemType Directory -Path $configDir -Force | Out-Null
         }
-        
+
         $testConfig | ConvertTo-Json -Depth 10 | Set-Content $testConfigFile
         Write-Host "✅ TDD infrastructure configured" -ForegroundColor Green
-        
+
     }
     catch {
         Write-Host "❌ Error setting up TDD infrastructure: $($_.Exception.Message)" -ForegroundColor Red
@@ -337,13 +337,13 @@ function Test-Environment {
         Write-Host "⏭️ Skipping environment verification" -ForegroundColor Yellow
         return
     }
-    
+
     Write-Host "🔍 Running Environment Verification Tests..." -ForegroundColor Yellow
-    
+
     try {
         # Test basic imports
         $testImports = @("flask", "fastapi", "selenium", "pytest")
-        
+
         foreach ($module in $testImports) {
             try {
                 python -c "import $module; print('✅ $module imported successfully')"
@@ -353,7 +353,7 @@ function Test-Environment {
                 return $false
             }
         }
-        
+
         # Test basic Flask app creation
         try {
             python -c "from flask import Flask; app = Flask(__name__); print('✅ Flask app creation successful')"
@@ -362,7 +362,7 @@ function Test-Environment {
             Write-Host "❌ Flask app creation failed" -ForegroundColor Red
             return $false
         }
-        
+
         # Test basic FastAPI app creation
         try {
             python -c "from fastapi import FastAPI; app = FastAPI(); print('✅ FastAPI app creation successful')"
@@ -371,10 +371,10 @@ function Test-Environment {
             Write-Host "❌ FastAPI app creation failed" -ForegroundColor Red
             return $false
         }
-        
+
         Write-Host "✅ All verification tests passed" -ForegroundColor Green
         return $true
-        
+
     }
     catch {
         Write-Host "❌ Error during verification: $($_.Exception.Message)" -ForegroundColor Red
@@ -385,29 +385,29 @@ function Test-Environment {
 # Main setup function
 function Start-WebDevelopmentSetup {
     Write-Host "🚀 Starting Web Development Environment Setup..." -ForegroundColor Green
-    
+
     try {
         # Create directory structure
         New-DirectoryStructure
-        
+
         # Install dependencies
         Install-Dependencies
-        
+
         # Setup Selenium WebDriver
         Setup-SeleniumWebDriver
-        
+
         # Setup Flask environment
         Setup-FlaskEnvironment
-        
+
         # Setup FastAPI environment
         Setup-FastAPIEnvironment
-        
+
         # Setup TDD infrastructure
         Setup-TDDInfrastructure
-        
+
         # Verify environment
         $verificationSuccess = Test-Environment
-        
+
         if ($verificationSuccess) {
             Write-Host "🎉 Web Development Environment Setup Complete!" -ForegroundColor Green
             Write-Host ""
@@ -426,7 +426,7 @@ function Start-WebDevelopmentSetup {
             Write-Host "⚠️ Setup completed with verification issues" -ForegroundColor Yellow
             Write-Host "Please review the errors above and run verification again" -ForegroundColor Yellow
         }
-        
+
     }
     catch {
         Write-Host "❌ Setup failed: $($_.Exception.Message)" -ForegroundColor Red

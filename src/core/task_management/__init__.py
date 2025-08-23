@@ -12,27 +12,33 @@ This module provides enterprise-grade task management capabilities including:
 """
 
 from .task_types import (
-    Task, TaskPriority, TaskStatus, TaskType, TaskCategory,
-    TaskDependency, TaskResource, TaskConstraint, TaskMetadata
+    Task,
+    TaskPriority,
+    TaskStatus,
+    TaskType,
+    TaskCategory,
+    TaskDependency,
+    TaskResource,
+    TaskConstraint,
+    TaskMetadata,
 )
 
 from .task_scheduler import TaskScheduler, SchedulingMetrics
 
 __all__ = [
     # Task types and enums
-    'Task',
-    'TaskPriority', 
-    'TaskStatus',
-    'TaskType',
-    'TaskCategory',
-    'TaskDependency',
-    'TaskResource',
-    'TaskConstraint',
-    'TaskMetadata',
-    
+    "Task",
+    "TaskPriority",
+    "TaskStatus",
+    "TaskType",
+    "TaskCategory",
+    "TaskDependency",
+    "TaskResource",
+    "TaskConstraint",
+    "TaskMetadata",
     # Scheduler
-    'TaskScheduler',
-    'SchedulingMetrics',
+    "TaskScheduler",
+    "SchedulingMetrics",
 ]
 
 __version__ = "1.0.0"

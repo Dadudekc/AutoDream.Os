@@ -2,6 +2,7 @@
 import json
 import pyautogui
 from pathlib import Path
+
 print("Scalable 8-Agent Messaging System - Full Version")
 print("=" * 50)
 try:

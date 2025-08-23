@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 class WorkflowStatus(Enum):
     """Workflow execution status"""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -26,6 +27,7 @@ class WorkflowStatus(Enum):
 
 class WorkflowStepType(Enum):
     """Workflow step types"""
+
     DATA_READ = "data_read"
     DATA_WRITE = "data_write"
     DATA_TRANSFORM = "data_transform"
@@ -34,6 +36,7 @@ class WorkflowStepType(Enum):
 @dataclass
 class WorkflowDefinition:
     """Workflow definition"""
+
     workflow_id: str
     name: str
     description: str
@@ -43,6 +46,7 @@ class WorkflowDefinition:
 @dataclass
 class WorkflowExecution:
     """Workflow execution instance"""
+
     execution_id: str
     workflow_id: str
     status: WorkflowStatus
@@ -55,7 +59,7 @@ class WorkflowExecution:
 
 class DistributedDataWorkflows:
     """Distributed data workflow management system"""
-    
+
     def __init__(self, system_id: str = "default-workflows"):
         self.logger = logging.getLogger(f"{__name__}.DistributedDataWorkflows")
         self.system_id = system_id
@@ -68,41 +72,49 @@ class DistributedDataWorkflows:
         self._successful_workflows = 0
         self._failed_workflows = 0
         self.logger.info(f"Distributed Data Workflows '{system_id}' initialized")
-    
+
     def register_workflow(self, workflow: WorkflowDefinition) -> bool:
         """Register a workflow definition"""
         if workflow.workflow_id in self._workflow_definitions:
             return False
         self._workflow_definitions[workflow.workflow_id] = workflow
-        self.logger.info(f"Workflow registered: {workflow.name} ({workflow.workflow_id})")
+        self.logger.info(
+            f"Workflow registered: {workflow.name} ({workflow.workflow_id})"
+        )
         return True
-    
-    def execute_workflow(self, workflow_id: str, parameters: Optional[Dict[str, Any]] = None) -> str:
+
+    def execute_workflow(
+        self, workflow_id: str, parameters: Optional[Dict[str, Any]] = None
+    ) -> str:
         """Execute a workflow"""
         if workflow_id not in self._workflow_definitions:
             raise ValueError(f"Workflow not found: {workflow_id}")
-        
+
         workflow = self._workflow_definitions[workflow_id]
         execution_id = f"exec_{workflow_id}_{int(time.time())}"
-        
+
         execution = WorkflowExecution(
             execution_id=execution_id,
             workflow_id=workflow_id,
             status=WorkflowStatus.PENDING,
             start_time=time.time(),
-            total_steps=len(workflow.steps)
+            total_steps=len(workflow.steps),
         )
-        
+
         self._workflow_executions[execution_id] = execution
         self._total_workflows += 1
-        
-        self.logger.info(f"Workflow execution started: {workflow.name} ({execution_id})")
+
+        self.logger.info(
+            f"Workflow execution started: {workflow.name} ({execution_id})"
+        )
         return execution_id
-    
-    def get_workflow_execution_status(self, execution_id: str) -> Optional[WorkflowExecution]:
+
+    def get_workflow_execution_status(
+        self, execution_id: str
+    ) -> Optional[WorkflowExecution]:
         """Get workflow execution status"""
         return self._workflow_executions.get(execution_id)
-    
+
     def get_workflow_statistics(self) -> Dict[str, Any]:
         """Get workflow system statistics"""
         return {
@@ -110,22 +122,31 @@ class DistributedDataWorkflows:
             "total_workflows": self._total_workflows,
             "successful_workflows": self._successful_workflows,
             "failed_workflows": self._failed_workflows,
-            "success_rate": (self._successful_workflows / max(1, self._total_workflows)) * 100,
-            "active_executions": len([e for e in self._workflow_executions.values() if e.status == WorkflowStatus.RUNNING]),
+            "success_rate": (self._successful_workflows / max(1, self._total_workflows))
+            * 100,
+            "active_executions": len(
+                [
+                    e
+                    for e in self._workflow_executions.values()
+                    if e.status == WorkflowStatus.RUNNING
+                ]
+            ),
             "engine_active": self._workflow_engine_active,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
-    
+
     def start_workflow_engine(self):
         """Start the workflow engine"""
         if self._workflow_engine_active:
             return
         self._workflow_engine_active = True
         self._stop_workflow.clear()
-        self._workflow_thread = threading.Thread(target=self._workflow_engine_loop, daemon=True)
+        self._workflow_thread = threading.Thread(
+            target=self._workflow_engine_loop, daemon=True
+        )
         self._workflow_thread.start()
         self.logger.info("Workflow engine started")
-    
+
     def _workflow_engine_loop(self):
         """Main workflow engine loop"""
         while not self._stop_workflow.is_set():
@@ -135,14 +156,18 @@ class DistributedDataWorkflows:
             except Exception as e:
                 self.logger.error(f"Workflow engine error: {e}")
                 time.sleep(1)
-    
+
     def _process_pending_workflows(self):
         """Process pending workflow executions"""
-        pending_executions = [e for e in self._workflow_executions.values() if e.status == WorkflowStatus.PENDING]
-        
+        pending_executions = [
+            e
+            for e in self._workflow_executions.values()
+            if e.status == WorkflowStatus.PENDING
+        ]
+
         for execution in pending_executions[:5]:
             self._execute_workflow(execution)
-    
+
     def _execute_workflow(self, execution: WorkflowExecution):
         """Execute a complete workflow"""
         workflow = self._workflow_definitions.get(execution.workflow_id)
@@ -150,25 +175,25 @@ class DistributedDataWorkflows:
             execution.status = WorkflowStatus.FAILED
             execution.error_message = "Workflow definition not found"
             return
-        
+
         execution.status = WorkflowStatus.RUNNING
-        
+
         try:
             for step_index, step in enumerate(workflow.steps):
                 execution.current_step = step_index + 1
                 time.sleep(0.1)  # Simulate step execution
-            
+
             execution.status = WorkflowStatus.COMPLETED
             execution.end_time = time.time()
             self._successful_workflows += 1
             self.logger.info(f"Workflow completed: {execution.execution_id}")
-            
+
         except Exception as e:
             execution.status = WorkflowStatus.FAILED
             execution.error_message = str(e)
             self._failed_workflows += 1
             self.logger.error(f"Workflow execution error: {e}")
-    
+
     def stop_workflow_engine(self):
         """Stop the workflow engine"""
         self._workflow_engine_active = False
@@ -181,20 +206,27 @@ class DistributedDataWorkflows:
 def main():
     """CLI interface for testing DistributedDataWorkflows"""
     import argparse
+
     parser = argparse.ArgumentParser(description="Distributed Data Workflows CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
     args = parser.parse_args()
-    
+
     if args.test:
         print("🧪 DistributedDataWorkflows Smoke Test")
         workflows = DistributedDataWorkflows("test-workflows")
         workflow = WorkflowDefinition(
-            "test-workflow", "Test Workflow", "Simple test workflow",
+            "test-workflow",
+            "Test Workflow",
+            "Simple test workflow",
             steps=[
                 {"type": "data_read", "name": "Read Data", "data_key": "test-data"},
-                {"type": "data_transform", "name": "Transform Data", "transform_type": "copy"},
-                {"type": "data_write", "name": "Write Data", "data_key": "output-data"}
-            ]
+                {
+                    "type": "data_transform",
+                    "name": "Transform Data",
+                    "transform_type": "copy",
+                },
+                {"type": "data_write", "name": "Write Data", "data_key": "output-data"},
+            ],
         )
         workflows.register_workflow(workflow)
         execution_id = workflows.execute_workflow("test-workflow")

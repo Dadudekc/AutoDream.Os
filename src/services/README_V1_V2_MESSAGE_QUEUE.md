@@ -72,7 +72,7 @@ mq_system = V1V2MessageQueueSystem(max_workers=4)
 # Queue a normal message
 msg_id = mq_system.queue_message(
     sender="Agent-1",
-    recipient="Agent-3", 
+    recipient="Agent-3",
     content="Hello Agent-3! How are you today?",
     priority=MessagePriority.NORMAL
 )

@@ -4,9 +4,10 @@ IMPROVED RESUME MESSAGE TEMPLATE
 Enhanced broadcast message for agent coordination and task execution
 """
 
+
 class ImprovedResumeMessageTemplate:
     """Enhanced resume message template with better structure and engagement"""
-    
+
     @staticmethod
     def get_standard_resume_message() -> str:
         """Get the standard improved resume message"""
@@ -21,7 +22,7 @@ class ImprovedResumeMessageTemplate:
 
 📋 AGENT STATUS CHECK:
 • Agent-1 (Foundation & Testing): ✅ ACTIVE
-• Agent-2 (AI/ML Specialist): ✅ ACTIVE  
+• Agent-2 (AI/ML Specialist): ✅ ACTIVE
 • Agent-3 (Web Development): ✅ ACTIVE
 • Agent-4 (Multimedia & Gaming): ✅ ACTIVE
 • Agent-5 (Security & Compliance): 👑 CAPTAIN
@@ -260,15 +261,16 @@ Priority: HIGH DEVELOPMENT
 Status: ACTIVE DEVELOPMENT
 Response: IMMEDIATE DEVELOPMENT ACTION"""
 
+
 if __name__ == "__main__":
     # Test the message templates
     template = ImprovedResumeMessageTemplate()
-    
+
     print("=== STANDARD RESUME MESSAGE ===")
     print(template.get_standard_resume_message())
-    
+
     print("\n=== EMERGENCY RESUME MESSAGE ===")
     print(template.get_emergency_resume_message())
-    
+
     print("\n=== DEVELOPMENT RESUME MESSAGE ===")
     print(template.get_development_resume_message())

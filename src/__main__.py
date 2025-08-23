@@ -4,8 +4,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PY = shutil.which("python") or sys.executable
 
+
 def _ok(ok: bool) -> str:
     return "✅" if ok else "❌"
+
 
 def status():
     info = {
@@ -18,6 +20,7 @@ def status():
     }
     print(json.dumps(info, indent=2))
     return True
+
 
 def demo():
     # Prefer an existing demo if present, else quick smoke
@@ -40,6 +43,7 @@ def demo():
     print("Demo OK.")
     return True
 
+
 def test():
     # Run pytest if available, else unittest discovery
     if shutil.which("pytest"):
@@ -48,6 +52,7 @@ def test():
         cmd = [PY, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py"]
     print("→ Running tests:", " ".join(cmd))
     return subprocess.call(cmd) == 0
+
 
 def validate():
     # Hook for code standards; run flake8/ruff if installed
@@ -62,12 +67,15 @@ def validate():
         print("No linter installed; skipped.")
     return True
 
+
 def main():
     ap = argparse.ArgumentParser(prog="autodream.os")
     ap.add_argument("--status", action="store_true", help="Show system status")
     ap.add_argument("--demo", action="store_true", help="Run a demo flow")
     ap.add_argument("--test", action="store_true", help="Run tests")
-    ap.add_argument("--validate", action="store_true", help="Run linters/validators if present")
+    ap.add_argument(
+        "--validate", action="store_true", help="Run linters/validators if present"
+    )
     args = ap.parse_args()
 
     ran = False
@@ -90,6 +98,7 @@ def main():
         sys.exit(0)
     print(f"\nOverall: {_ok(ok)}")
     sys.exit(0 if ok else 1)
+
 
 if __name__ == "__main__":
     main()

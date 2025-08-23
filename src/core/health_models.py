@@ -15,6 +15,7 @@ from enum import Enum
 
 class HealthStatus(Enum):
     """Health status definitions"""
+
     HEALTHY = "healthy"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -25,6 +26,7 @@ class HealthStatus(Enum):
 
 class HealthMetricType(Enum):
     """Health metric types"""
+
     SYSTEM_HEALTH = "system_health"
     AGENT_HEALTH = "agent_health"
     SERVICE_HEALTH = "service_health"
@@ -35,6 +37,7 @@ class HealthMetricType(Enum):
 
 class AlertSeverity(Enum):
     """Alert severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -45,6 +48,7 @@ class AlertSeverity(Enum):
 @dataclass
 class HealthMetric:
     """Unified health metric definition"""
+
     metric_id: str
     metric_type: HealthMetricType
     name: str
@@ -58,6 +62,7 @@ class HealthMetric:
 @dataclass
 class HealthSnapshot:
     """Health snapshot at a point in time"""
+
     snapshot_id: str
     timestamp: float
     overall_status: HealthStatus
@@ -69,6 +74,7 @@ class HealthSnapshot:
 @dataclass
 class HealthAlert:
     """Health alert definition"""
+
     alert_id: str
     severity: AlertSeverity
     title: str
@@ -85,6 +91,7 @@ class HealthAlert:
 @dataclass
 class HealthThreshold:
     """Health threshold definition"""
+
     metric_type: HealthMetricType
     warning_threshold: float
     critical_threshold: float
@@ -95,6 +102,7 @@ class HealthThreshold:
 @dataclass
 class HealthReport:
     """Comprehensive health report"""
+
     report_id: str
     timestamp: float
     time_period: str
@@ -109,6 +117,7 @@ class HealthReport:
 @dataclass
 class HealthCheck:
     """Health check definition"""
+
     check_id: str
     name: str
     description: str
@@ -121,6 +130,7 @@ class HealthCheck:
 @dataclass
 class HealthCheckResult:
     """Health check result"""
+
     check_id: str
     timestamp: float
     success: bool

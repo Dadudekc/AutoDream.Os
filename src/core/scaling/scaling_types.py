@@ -14,6 +14,7 @@ from typing import Dict, List, Optional, Any
 
 class ScalingStrategy(Enum):
     """Horizontal scaling strategies"""
+
     ROUND_ROBIN = "round_robin"
     LEAST_CONNECTIONS = "least_connections"
     WEIGHTED_ROUND_ROBIN = "weighted_round_robin"
@@ -24,6 +25,7 @@ class ScalingStrategy(Enum):
 
 class ScalingStatus(Enum):
     """Scaling operation status"""
+
     IDLE = "idle"
     SCALING_UP = "scaling_up"
     SCALING_DOWN = "scaling_down"
@@ -34,6 +36,7 @@ class ScalingStatus(Enum):
 
 class LoadBalancerType(Enum):
     """Load balancer types"""
+
     APPLICATION = "application"
     NETWORK = "network"
     TRANSPORT = "transport"
@@ -43,6 +46,7 @@ class LoadBalancerType(Enum):
 @dataclass
 class ScalingConfig:
     """Scaling configuration settings"""
+
     min_instances: int = 1
     max_instances: int = 10
     target_cpu_utilization: float = 70.0
@@ -54,6 +58,7 @@ class ScalingConfig:
 @dataclass
 class ScalingMetrics:
     """Scaling performance metrics"""
+
     current_instances: int
     target_instances: int
     cpu_utilization: float
@@ -67,6 +72,7 @@ class ScalingMetrics:
 @dataclass
 class ScalingDecision:
     """Scaling decision data"""
+
     decision_id: str
     action: str
     reason: str

@@ -7,46 +7,46 @@
     <meta name="description" content="{% block meta_description %}Agent_Cellphone_V2 TDD Integration - Responsive Web Development Framework{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}web development, responsive design, TDD, testing, automation{% endblock %}">
     <meta name="author" content="Web Development & UI Framework Specialist">
-    
+
     <!-- Title -->
     <title>{% block title %}Agent_Cellphone_V2 - TDD Integration{% endblock %}</title>
-    
+
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+
     <!-- CSS Framework -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_framework.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ui_components.css') }}">
-    
+
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-    
+
     <!-- Additional CSS -->
     {% block additional_css %}{% endblock %}
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    
+
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#3498db">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Agent_Cellphone_V2">
-    
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{% block og_title %}Agent_Cellphone_V2 - TDD Integration{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Comprehensive web development environment with responsive design and TDD integration{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:site_name" content="Agent_Cellphone_V2">
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}Agent_Cellphone_V2 - TDD Integration{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}Comprehensive web development environment with responsive design and TDD integration{% endblock %}">
-    
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -59,7 +59,7 @@
         "operatingSystem": "Web Browser"
     }
     </script>
-    
+
     {% block head_scripts %}{% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
@@ -67,7 +67,7 @@
     <a class="visually-hidden-focusable btn btn-primary position-absolute" href="#main-content" style="top: 1rem; left: 1rem; z-index: 1100;">
         Skip to main content
     </a>
-    
+
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="position-fixed top-0 start-0 w-100 h-100 bg-white d-flex align-items-center justify-content-center" style="z-index: 9999;">
         <div class="text-center">
@@ -75,7 +75,7 @@
             <p class="text-muted">Loading...</p>
         </div>
     </div>
-    
+
     <!-- Header/Navigation -->
     <header>
         {% block header %}
@@ -92,12 +92,12 @@
                     </div>
                     <span class="fw-bold">Agent_Cellphone_V2</span>
                 </a>
-                
+
                 <!-- Mobile Menu Toggle -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+
                 <!-- Navigation Links -->
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
@@ -123,7 +123,7 @@
                             <a class="nav-link" href="{{ url_for('health') if url_for else '/health' }}">Health</a>
                         </li>
                     </ul>
-                    
+
                     <!-- Right Side Navigation -->
                     <ul class="navbar-nav">
                         <!-- Breakpoint Indicator -->
@@ -132,7 +132,7 @@
                                 <small class="text-muted">Current: <span id="current-breakpoint">md</span></small>
                             </span>
                         </li>
-                        
+
                         <!-- Theme Toggle -->
                         <li class="nav-item">
                             <button class="btn btn-ghost nav-link" id="theme-toggle" aria-label="Toggle theme">
@@ -147,7 +147,7 @@
         </nav>
         {% endblock %}
     </header>
-    
+
     <!-- Main Content Area -->
     <main id="main-content" class="flex-grow-1">
         <!-- Page Title Section -->
@@ -167,7 +167,7 @@
         </section>
         {% endif %}
         {% endblock %}
-        
+
         <!-- Breadcrumb Navigation -->
         {% block breadcrumb %}
         {% if breadcrumbs %}
@@ -190,7 +190,7 @@
         </section>
         {% endif %}
         {% endblock %}
-        
+
         <!-- Flash Messages -->
         {% block flash_messages %}
         <div id="flash-messages">
@@ -208,7 +208,7 @@
             {% endwith %}
         </div>
         {% endblock %}
-        
+
         <!-- Main Page Content -->
         {% block content %}
         <div class="container my-4">
@@ -221,7 +221,7 @@
         </div>
         {% endblock %}
     </main>
-    
+
     <!-- Footer -->
     <footer class="bg-dark text-light py-4 mt-auto">
         {% block footer %}
@@ -257,13 +257,13 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <p class="small mb-0 text-muted">
-                        &copy; 2024 Agent_Cellphone_V2 TDD Integration Project. 
+                        &copy; 2024 Agent_Cellphone_V2 TDD Integration Project.
                         Built by Web Development & UI Framework Specialist.
                     </p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <p class="small mb-0 text-muted">
-                        Version 2.0.0 | 
+                        Version 2.0.0 |
                         <span id="current-time"></span>
                     </p>
                 </div>
@@ -271,23 +271,23 @@
         </div>
         {% endblock %}
     </footer>
-    
+
     <!-- Back to Top Button -->
     <button id="back-to-top" class="btn btn-primary position-fixed bottom-0 end-0 m-3 rounded-circle" style="width: 50px; height: 50px; display: none; z-index: 1000;" aria-label="Back to top">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
         </svg>
     </button>
-    
+
     <!-- Core JavaScript -->
     <script src="{{ url_for('static', filename='js/responsive_framework.js') }}"></script>
-    
+
     <!-- Additional JavaScript -->
     {% block additional_js %}{% endblock %}
-    
+
     <!-- Page-specific JavaScript -->
     {% block page_scripts %}{% endblock %}
-    
+
     <!-- Framework Enhancement Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -301,7 +301,7 @@
                     }, 300);
                 }
             }, 500);
-            
+
             // Update current time
             function updateTime() {
                 const timeElement = document.getElementById('current-time');
@@ -311,7 +311,7 @@
             }
             updateTime();
             setInterval(updateTime, 1000);
-            
+
             // Breakpoint indicator
             function updateBreakpointIndicator() {
                 const indicator = document.getElementById('current-breakpoint');
@@ -319,13 +319,13 @@
                     indicator.textContent = ResponsiveFramework.utils.getCurrentBreakpoint();
                 }
             }
-            
+
             // Listen for breakpoint changes
             if (window.ResponsiveFramework) {
                 ResponsiveFramework.events.on('breakpoint.change', updateBreakpointIndicator);
                 updateBreakpointIndicator();
             }
-            
+
             // Back to top button
             const backToTopBtn = document.getElementById('back-to-top');
             if (backToTopBtn) {
@@ -336,7 +336,7 @@
                         backToTopBtn.style.display = 'none';
                     }
                 });
-                
+
                 backToTopBtn.addEventListener('click', () => {
                     window.scrollTo({
                         top: 0,
@@ -344,25 +344,25 @@
                     });
                 });
             }
-            
+
             // Theme toggle functionality
             const themeToggle = document.getElementById('theme-toggle');
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
                     document.body.classList.toggle('dark-theme');
-                    
+
                     // Save preference
                     const isDark = document.body.classList.contains('dark-theme');
                     localStorage.setItem('theme', isDark ? 'dark' : 'light');
                 });
-                
+
                 // Load saved theme
                 const savedTheme = localStorage.getItem('theme');
                 if (savedTheme === 'dark') {
                     document.body.classList.add('dark-theme');
                 }
             }
-            
+
             // Enhanced form validation
             const forms = document.querySelectorAll('.needs-validation');
             forms.forEach(form => {
@@ -370,18 +370,18 @@
                     if (!form.checkValidity()) {
                         event.preventDefault();
                         event.stopPropagation();
-                        
+
                         // Focus first invalid field
                         const firstInvalid = form.querySelector(':invalid');
                         if (firstInvalid) {
                             firstInvalid.focus();
                         }
                     }
-                    
+
                     form.classList.add('was-validated');
                 });
             });
-            
+
             // Auto-hide flash messages
             const alerts = document.querySelectorAll('.alert:not(.alert-persistent)');
             alerts.forEach(alert => {
@@ -394,13 +394,13 @@
                     }
                 }, 5000);
             });
-            
+
             // Console log for development
             console.log('🚀 Agent_Cellphone_V2 TDD Integration Environment');
             console.log('📱 Responsive Framework Loaded');
             console.log('🧪 Testing Infrastructure Ready');
         });
-        
+
         // Performance monitoring
         window.addEventListener('load', () => {
             if ('performance' in window) {
@@ -408,7 +408,7 @@
                 console.log(`Page loaded in ${loadTime}ms`);
             }
         });
-        
+
         // Service Worker registration (if available)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -422,12 +422,12 @@
             });
         }
     </script>
-    
+
     <!-- Analytics and Monitoring -->
     {% block analytics %}
     <!-- Add your analytics code here -->
     {% endblock %}
-    
+
     <!-- Accessibility Enhancements -->
     <div class="visually-hidden" aria-live="polite" aria-atomic="true" id="screen-reader-announcements"></div>
 </body>

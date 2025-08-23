@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class WorkspaceType(Enum):
     """Types of agent workspaces"""
+
     AGENT = "agent"
     COORDINATION = "coordination"
     SHARED = "shared"
@@ -29,6 +30,7 @@ class WorkspaceType(Enum):
 
 class WorkspaceStatus(Enum):
     """Workspace status states"""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     MAINTENANCE = "maintenance"
@@ -39,6 +41,7 @@ class WorkspaceStatus(Enum):
 @dataclass
 class WorkspaceConfig:
     """Configuration for a workspace"""
+
     name: str
     workspace_type: WorkspaceType
     base_path: str
@@ -52,6 +55,7 @@ class WorkspaceConfig:
 @dataclass
 class WorkspaceInfo:
     """Information about a workspace"""
+
     name: str
     workspace_type: WorkspaceType
     status: WorkspaceStatus
@@ -65,11 +69,11 @@ class WorkspaceInfo:
 
 class WorkspaceConfigManager:
     """Manages workspace configuration operations"""
-    
+
     def __init__(self, base_workspace_dir: Path):
         self.base_workspace_dir = base_workspace_dir
         self.logger = logging.getLogger(f"{__name__}.WorkspaceConfigManager")
-    
+
     def save_workspace_config(self, name: str, config: WorkspaceConfig) -> bool:
         """Save workspace configuration to file"""
         try:
@@ -80,7 +84,7 @@ class WorkspaceConfigManager:
         except Exception as e:
             self.logger.error(f"Failed to save workspace config for {name}: {e}")
             return False
-    
+
     def load_workspace_config(self, name: str) -> Optional[WorkspaceConfig]:
         """Load workspace configuration from file"""
         try:
@@ -93,22 +97,23 @@ class WorkspaceConfigManager:
         except Exception as e:
             self.logger.error(f"Failed to load workspace config for {name}: {e}")
             return None
-    
+
     def get_current_timestamp(self) -> str:
         """Get current timestamp string"""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
 
 def run_smoke_test():
     """Run basic functionality test for WorkspaceConfig"""
     print("🧪 Running WorkspaceConfig Smoke Test...")
-    
+
     try:
         # Test enum values
         assert WorkspaceType.AGENT.value == "agent"
         assert WorkspaceStatus.ACTIVE.value == "active"
-        
+
         # Test dataclass creation
         config = WorkspaceConfig(
             name="test",
@@ -118,13 +123,13 @@ def run_smoke_test():
             isolation_level="standard",
             max_size_mb=100,
             auto_cleanup=True,
-            backup_enabled=True
+            backup_enabled=True,
         )
         assert config.name == "test"
-        
+
         print("✅ WorkspaceConfig Smoke Test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"❌ WorkspaceConfig Smoke Test FAILED: {e}")
         return False

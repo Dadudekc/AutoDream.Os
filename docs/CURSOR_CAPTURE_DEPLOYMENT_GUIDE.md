@@ -267,7 +267,7 @@ print(f"Error count: {sum(stats['error_counts'].values())}")
 ### 3. **Database Maintenance**
 ```sql
 -- Check database size
-SELECT page_count * page_size as size_bytes 
+SELECT page_count * page_size as size_bytes
 FROM pragma_page_count(), pragma_page_size();
 
 -- Analyze table performance

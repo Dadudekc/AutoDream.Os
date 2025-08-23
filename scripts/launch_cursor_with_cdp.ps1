@@ -42,7 +42,7 @@ function Test-CursorRunning {
 # Function to check if CDP port is available
 function Test-CDPPortAvailable {
     param([int]$Port)
-    
+
     try {
         $connection = New-Object System.Net.Sockets.TcpClient
         $connection.Connect("127.0.0.1", $Port)
@@ -62,13 +62,13 @@ function Find-CursorInstallation {
         "$Env:PROGRAMFILES(X86)\Cursor\Cursor.exe",
         "$Env:USERPROFILE\AppData\Local\Programs\Cursor\Cursor.exe"
     )
-    
+
     foreach ($path in $possiblePaths) {
         if (Test-Path $path) {
             return $path
         }
     }
-    
+
     return $null
 }
 
@@ -80,18 +80,18 @@ Write-Host ""
 # Check if Cursor is already running
 if (Test-CursorRunning) {
     Write-Host "Cursor is already running." -ForegroundColor Yellow
-    
+
     if (-not $Force) {
         Write-Host "Use -Force to launch another instance." -ForegroundColor Yellow
         Write-Host ""
-        
+
         $response = Read-Host "Do you want to launch another instance? (y/N)"
         if ($response -ne "y" -and $response -ne "Y") {
             Write-Host "Launch cancelled." -ForegroundColor Red
             exit 1
         }
     }
-    
+
     Write-Host "Launching additional Cursor instance..." -ForegroundColor Yellow
 }
 
@@ -100,7 +100,7 @@ if (-not (Test-CDPPortAvailable -Port $CDPPort)) {
     Write-Host "Warning: CDP port $CDPPort is already in use." -ForegroundColor Yellow
     Write-Host "This might cause conflicts with existing Cursor instances." -ForegroundColor Yellow
     Write-Host ""
-    
+
     $response = Read-Host "Do you want to continue? (y/N)"
     if ($response -ne "y" -and $response -ne "Y") {
         Write-Host "Launch cancelled." -ForegroundColor Red
@@ -112,7 +112,7 @@ if (-not (Test-CDPPortAvailable -Port $CDPPort)) {
 if (-not (Test-Path $CursorPath)) {
     Write-Host "Cursor path not found: $CursorPath" -ForegroundColor Yellow
     Write-Host "Searching for Cursor installation..." -ForegroundColor Yellow
-    
+
     $foundPath = Find-CursorInstallation
     if ($foundPath) {
         $CursorPath = $foundPath
@@ -148,7 +148,7 @@ Write-Host ""
 try {
     # Launch Cursor with CDP
     $process = Start-Process -FilePath $CursorPath -ArgumentList $arguments -PassThru
-    
+
     if ($process) {
         Write-Host "Cursor launched successfully!" -ForegroundColor Green
         Write-Host "Process ID: $($process.Id)" -ForegroundColor Cyan
@@ -180,10 +180,10 @@ Write-Host "Testing CDP connection..." -ForegroundColor Yellow
 try {
     $response = Invoke-WebRequest -Uri "http://127.0.0.1:$CDPPort/json" -TimeoutSec 5 -ErrorAction Stop
     $targets = $response.Content | ConvertFrom-Json
-    
+
     Write-Host "CDP connection successful!" -ForegroundColor Green
     Write-Host "Found $($targets.Count) targets:" -ForegroundColor Cyan
-    
+
     foreach ($target in $targets) {
         if ($target.type -eq "page") {
             Write-Host "  - $($target.title) ($($target.url))" -ForegroundColor White

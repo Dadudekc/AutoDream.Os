@@ -15,12 +15,7 @@ __author__ = "AI & ML Integration Specialist"
 __description__ = "AI & ML Integration for Agent_Cellphone_V2_Repository"
 
 # Core AI/ML components (existing comprehensive infrastructure)
-from .core import (
-    AIManager,
-    MLFramework,
-    ModelManager,
-    WorkflowAutomation
-)
+from .core import AIManager, MLFramework, ModelManager, WorkflowAutomation
 
 # ML Frameworks (existing comprehensive implementations)
 from .ml_frameworks import (
@@ -28,7 +23,7 @@ from .ml_frameworks import (
     PyTorchFramework,
     TensorFlowFramework,
     ScikitLearnFramework,
-    JAXFramework
+    JAXFramework,
 )
 
 # AI-powered development tools (existing implementations)
@@ -37,7 +32,7 @@ from .code_crafter import (
     CodeGenerationRequest,
     CodeGenerationResult,
     CodeAnalysis,
-    get_code_crafter
+    get_code_crafter,
 )
 
 from .dev_workflow import (
@@ -45,7 +40,7 @@ from .dev_workflow import (
     WorkflowStep,
     WorkflowResult,
     ProjectAnalysis,
-    get_ai_dev_workflow
+    get_ai_dev_workflow,
 )
 
 from .intelligent_reviewer import (
@@ -53,7 +48,7 @@ from .intelligent_reviewer import (
     ReviewIssue,
     CodeReview,
     SecurityVulnerability,
-    get_intelligent_reviewer
+    get_intelligent_reviewer,
 )
 
 # ML Robot Maker (existing implementation)
@@ -62,29 +57,17 @@ from .ml_robot_maker import (
     MLTask,
     MLModelBlueprint,
     MLExperiment,
-    get_ml_robot_maker
+    get_ml_robot_maker,
 )
 
 # API integrations (existing implementations)
-from .integrations import (
-    OpenAIIntegration,
-    AnthropicIntegration,
-    PyTorchIntegration
-)
+from .integrations import OpenAIIntegration, AnthropicIntegration, PyTorchIntegration
 
 # Utilities and helpers (existing implementations)
-from .utils import (
-    config_loader,
-    logger_setup,
-    performance_monitor
-)
+from .utils import config_loader, logger_setup, performance_monitor
 
 # Testing and validation (existing implementations)
-from .testing import (
-    AITestRunner,
-    ModelValidator,
-    QualityAssurance
-)
+from .testing import AITestRunner, ModelValidator, QualityAssurance
 
 # API key management (existing implementation)
 from .api_key_manager import (
@@ -93,23 +76,21 @@ from .api_key_manager import (
     get_openai_api_key,
     get_anthropic_api_key,
     get_openai_config,
-    get_anthropic_config
+    get_anthropic_config,
 )
 
 __all__ = [
     # Core components
     "AIManager",
-    "MLFramework", 
+    "MLFramework",
     "ModelManager",
     "WorkflowAutomation",
-    
     # ML Frameworks
     "MLFrameworkManager",
     "PyTorchFramework",
     "TensorFlowFramework",
     "ScikitLearnFramework",
     "JAXFramework",
-    
     # AI-powered development tools
     "CodeCrafter",
     "CodeGenerationRequest",
@@ -126,34 +107,29 @@ __all__ = [
     "CodeReview",
     "SecurityVulnerability",
     "get_intelligent_reviewer",
-    
     # ML Robot Maker
     "MLRobotMaker",
     "MLTask",
     "MLModelBlueprint",
     "MLExperiment",
     "get_ml_robot_maker",
-    
     # API integrations
     "OpenAIIntegration",
     "AnthropicIntegration",
     "PyTorchIntegration",
-    
     # Utilities
     "config_loader",
     "logger_setup",
     "performance_monitor",
-    
     # Testing
     "AITestRunner",
     "ModelValidator",
     "QualityAssurance",
-    
     # API key management
     "APIKeyManager",
     "get_api_key_manager",
     "get_openai_api_key",
     "get_anthropic_api_key",
     "get_openai_config",
-    "get_anthropic_config"
+    "get_anthropic_config",
 ]

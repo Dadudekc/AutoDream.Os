@@ -22,7 +22,7 @@
             this.config = config || {};
             this.agents = [];
             this.refreshInterval = null;
-            
+
             this.init();
         },
 
@@ -32,7 +32,7 @@
             this.config = config || {};
             this.metrics = {};
             this.refreshInterval = null;
-            
+
             this.init();
         },
 
@@ -42,7 +42,7 @@
             this.config = config || {};
             this.activities = [];
             this.refreshInterval = null;
-            
+
             this.init();
         },
 
@@ -51,7 +51,7 @@
             this.container = container;
             this.config = config || {};
             this.actions = [];
-            
+
             this.init();
         }
     };
@@ -103,7 +103,7 @@
 
         loadAgentStatus: function() {
             const url = this.config.apiEndpoint || '/api/agents';
-            
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -122,7 +122,7 @@
 
         renderAgentList: function() {
             const listContainer = this.container.querySelector('.agent-status-list');
-            
+
             if (!this.agents || this.agents.length === 0) {
                 listContainer.innerHTML = '<div class="no-data">No agents found</div>';
                 return;
@@ -219,7 +219,7 @@
 
         loadSystemHealth: function() {
             const url = this.config.apiEndpoint || '/api/portal/stats';
-            
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -238,7 +238,7 @@
 
         renderMetrics: function() {
             const metricsContainer = this.container.querySelector('.health-metrics');
-            
+
             if (!this.metrics) {
                 metricsContainer.innerHTML = '<div class="no-data">No metrics available</div>';
                 return;
@@ -332,7 +332,7 @@
 
         loadRecentActivity: function() {
             const url = this.config.apiEndpoint || '/api/portal/activity';
-            
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -351,7 +351,7 @@
 
         renderActivities: function() {
             const timelineContainer = this.container.querySelector('.activity-timeline');
-            
+
             if (!this.activities || this.activities.length === 0) {
                 timelineContainer.innerHTML = '<div class="no-data">No recent activity</div>';
                 return;
@@ -389,17 +389,17 @@
 
         formatTime: function(timestamp) {
             if (!timestamp) return 'Unknown';
-            
+
             try {
                 const date = new Date(timestamp);
                 const now = new Date();
                 const diff = now - date;
-                
+
                 const seconds = Math.floor(diff / 1000);
                 const minutes = Math.floor(seconds / 60);
                 const hours = Math.floor(minutes / 60);
                 const days = Math.floor(hours / 24);
-                
+
                 if (days > 0) {
                     return days === 1 ? '1 day ago' : `${days} days ago`;
                 } else if (hours > 0) {
@@ -573,11 +573,11 @@
         // Format file sizes
         formatFileSize: function(bytes) {
             if (bytes === 0) return '0 Bytes';
-            
+
             const k = 1024;
             const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
-            
+
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         },
 
@@ -628,11 +628,11 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Find all widget containers and initialize them
         const widgetContainers = document.querySelectorAll('[data-widget]');
-        
+
         widgetContainers.forEach(function(container) {
             const widgetType = container.getAttribute('data-widget');
             const configData = container.getAttribute('data-widget-config');
-            
+
             let config = {};
             if (configData) {
                 try {
@@ -641,7 +641,7 @@
                     console.error('Invalid widget config:', configData);
                 }
             }
-            
+
             PortalComponents.createWidget(widgetType, container, config);
         });
     });

@@ -4,7 +4,7 @@
 
 pipeline {
     agent any
-    
+
     environment {
         PYTHON_VERSION = '3.9'
         PIP_CACHE_DIR = "${WORKSPACE}/.pip-cache"
@@ -15,13 +15,13 @@ pipeline {
         TEST_RESULTS_DIR = "${WORKSPACE}/test-results"
         COVERAGE_DIR = "${WORKSPACE}/htmlcov"
         ARTIFACT_EXPIRATION = '7'
-        
+
         // Git configuration
         GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
         GIT_BRANCH = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
         BUILD_DATE = sh(script: 'date +"%Y-%m-%d %H:%M:%S"', returnStdout: true).trim()
     }
-    
+
     options {
         timeout(time: 2, unit: 'HOURS')
         timestamps()
@@ -29,12 +29,12 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         disableConcurrentBuilds()
     }
-    
+
     triggers {
         pollSCM('H/5 * * * *')  // Poll SCM every 5 minutes
         cron('0 2 * * 1')       // Weekly security scan on Monday at 2 AM
     }
-    
+
     stages {
         // 🔍 Code Quality & V2 Standards Validation
         stage('🔍 Code Quality & V2 Standards') {
@@ -44,11 +44,11 @@ pipeline {
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-            
+
             steps {
                 script {
                     echo "🔍 Starting Code Quality & V2 Standards validation..."
-                    
+
                     // Install dependencies
                     sh '''
                         python -m pip install --upgrade pip
@@ -56,17 +56,17 @@ pipeline {
                         pip install pre-commit
                         pre-commit install
                     '''
-                    
+
                     // Run pre-commit checks
                     sh 'pre-commit run --all-files'
-                    
+
                     // Validate V2 Standards compliance
                     sh '''
                         echo "📏 Validating V2 Standards compliance..."
                         python tests/v2_standards_checker.py --all-checks --strict
                         echo "V2 Standards compliance validated"
                     '''
-                    
+
                     // Generate V2 Standards report
                     sh '''
                         echo "📊 Generating V2 Standards report..."
@@ -75,27 +75,27 @@ pipeline {
                     '''
                 }
             }
-            
+
             post {
                 always {
                     // Archive V2 Standards report
                     archiveArtifacts artifacts: 'v2_standards_report.json', fingerprint: true
-                    
+
                     // Publish test results
                     publishTestResults testResultsPattern: 'v2_standards_report.json'
                 }
-                
+
                 success {
                     echo "✅ Code Quality & V2 Standards validation passed"
                 }
-                
+
                 failure {
                     echo "❌ Code Quality & V2 Standards validation failed"
                     currentBuild.result = 'FAILURE'
                 }
             }
         }
-        
+
         // 🧪 Testing & Coverage
         stage('🧪 Testing & Coverage') {
             parallel {
@@ -107,18 +107,18 @@ pipeline {
                             args '-v /var/run/docker.sock:/var/run/docker.sock'
                         }
                     }
-                    
+
                     steps {
                         script {
                             echo "🧪 Running smoke tests..."
-                            
+
                             // Install dependencies
                             sh '''
                                 python -m pip install --upgrade pip
                                 pip install -r requirements-testing.txt
                                 mkdir -p ${TEST_RESULTS_DIR}
                             '''
-                            
+
                             // Run smoke tests
                             sh '''
                                 python -m pytest tests/smoke/ \
@@ -135,27 +135,27 @@ pipeline {
                             '''
                         }
                     }
-                    
+
                     post {
                         always {
                             // Archive test results
                             archiveArtifacts artifacts: '${TEST_RESULTS_DIR}/, ${COVERAGE_DIR}/, coverage.xml', fingerprint: true
-                            
+
                             // Publish test results
                             publishTestResults testResultsPattern: '${TEST_RESULTS_DIR}/smoke-tests.xml'
                         }
-                        
+
                         success {
                             echo "✅ Smoke tests passed"
                         }
-                        
+
                         failure {
                             echo "❌ Smoke tests failed"
                             currentBuild.result = 'FAILURE'
                         }
                     }
                 }
-                
+
                 // Unit Tests
                 stage('🧪 Unit Tests') {
                     agent {
@@ -164,18 +164,18 @@ pipeline {
                             args '-v /var/run/docker.sock:/var/run/docker.sock'
                         }
                     }
-                    
+
                     steps {
                         script {
                             echo "🧪 Running unit tests..."
-                            
+
                             // Install dependencies
                             sh '''
                                 python -m pip install --upgrade pip
                                 pip install -r requirements-testing.txt
                                 mkdir -p ${TEST_RESULTS_DIR}
                             '''
-                            
+
                             // Run unit tests
                             sh '''
                                 python -m pytest tests/unit/ \
@@ -192,27 +192,27 @@ pipeline {
                             '''
                         }
                     }
-                    
+
                     post {
                         always {
                             // Archive test results
                             archiveArtifacts artifacts: '${TEST_RESULTS_DIR}/, ${COVERAGE_DIR}/, coverage.xml', fingerprint: true
-                            
+
                             // Publish test results
                             publishTestResults testResultsPattern: '${TEST_RESULTS_DIR}/unit-tests.xml'
                         }
-                        
+
                         success {
                             echo "✅ Unit tests passed"
                         }
-                        
+
                         failure {
                             echo "❌ Unit tests failed"
                             currentBuild.result = 'FAILURE'
                         }
                     }
                 }
-                
+
                 // Integration Tests
                 stage('🧪 Integration Tests') {
                     agent {
@@ -221,18 +221,18 @@ pipeline {
                             args '-v /var/run/docker.sock:/var/run/docker.sock'
                         }
                     }
-                    
+
                     steps {
                         script {
                             echo "🧪 Running integration tests..."
-                            
+
                             // Install dependencies
                             sh '''
                                 python -m pip install --upgrade pip
                                 pip install -r requirements-testing.txt
                                 mkdir -p ${TEST_RESULTS_DIR}
                             '''
-                            
+
                             // Run integration tests
                             sh '''
                                 python -m pytest tests/integration/ \
@@ -249,20 +249,20 @@ pipeline {
                             '''
                         }
                     }
-                    
+
                     post {
                         always {
                             // Archive test results
                             archiveArtifacts artifacts: '${TEST_RESULTS_DIR}/, ${COVERAGE_DIR}/, coverage.xml', fingerprint: true
-                            
+
                             // Publish test results
                             publishTestResults testResultsPattern: '${TEST_RESULTS_DIR}/integration-tests.xml'
                         }
-                        
+
                         success {
                             echo "✅ Integration tests passed"
                         }
-                        
+
                         failure {
                             echo "❌ Integration tests failed"
                             // Allow integration tests to fail without failing the build
@@ -272,7 +272,7 @@ pipeline {
                 }
             }
         }
-        
+
         // 🔒 Security Testing
         stage('🔒 Security Testing') {
             agent {
@@ -281,17 +281,17 @@ pipeline {
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-            
+
             steps {
                 script {
                     echo "🔒 Running security testing..."
-                    
+
                     // Install dependencies
                     sh '''
                         python -m pip install --upgrade pip
                         pip install -r requirements-testing.txt
                     '''
-                    
+
                     // Security vulnerability scan
                     sh '''
                         echo "🔒 Running security vulnerability scan..."
@@ -302,20 +302,20 @@ pipeline {
                     '''
                 }
             }
-            
+
             post {
                 always {
                     // Archive security reports
                     archiveArtifacts artifacts: 'security-scan.json, security-dependencies.json', fingerprint: true
-                    
+
                     // Publish test results
                     publishTestResults testResultsPattern: 'security-scan.json'
                 }
-                
+
                 success {
                     echo "✅ Security testing completed"
                 }
-                
+
                 failure {
                     echo "❌ Security testing failed"
                     // Allow security tests to fail without failing the build
@@ -323,7 +323,7 @@ pipeline {
                 }
             }
         }
-        
+
         // ⚡ Performance Testing
         stage('⚡ Performance Testing') {
             agent {
@@ -332,17 +332,17 @@ pipeline {
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-            
+
             steps {
                 script {
                     echo "⚡ Running performance testing..."
-                    
+
                     // Install dependencies
                     sh '''
                         python -m pip install --upgrade pip
                         pip install -r requirements-testing.txt
                     '''
-                    
+
                     // Performance benchmarking
                     sh '''
                         echo "⚡ Running performance benchmarks..."
@@ -351,17 +351,17 @@ pipeline {
                     '''
                 }
             }
-            
+
             post {
                 always {
                     // Archive performance results
                     archiveArtifacts artifacts: '.benchmarks/', fingerprint: true
                 }
-                
+
                 success {
                     echo "✅ Performance testing completed"
                 }
-                
+
                 failure {
                     echo "❌ Performance testing failed"
                     // Allow performance tests to fail without failing the build
@@ -369,7 +369,7 @@ pipeline {
                 }
             }
         }
-        
+
         // 📈 Coverage Analysis
         stage('📈 Coverage Analysis') {
             agent {
@@ -378,17 +378,17 @@ pipeline {
                     args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
-            
+
             steps {
                 script {
                     echo "📈 Starting coverage analysis..."
-                    
+
                     // Install dependencies
                     sh '''
                         python -m pip install --upgrade pip
                         pip install -r requirements-testing.txt
                     '''
-                    
+
                     // Combine coverage reports
                     sh '''
                         echo "📈 Combining coverage reports..."
@@ -400,27 +400,27 @@ pipeline {
                     '''
                 }
             }
-            
+
             post {
                 always {
                     // Archive coverage reports
                     archiveArtifacts artifacts: '${COVERAGE_DIR}/, coverage.xml', fingerprint: true
-                    
+
                     // Publish coverage report
                     publishCoverage adapters: [coberturaAdapter('coverage.xml')], sourceFileResolver: sourceFiles('NEVER_ARCHIVED')
                 }
-                
+
                 success {
                     echo "✅ Coverage analysis completed"
                 }
-                
+
                 failure {
                     echo "❌ Coverage analysis failed"
                     currentBuild.result = 'FAILURE'
                 }
             }
         }
-        
+
         // 🚀 Deployment (Conditional)
         stage('🚀 Deployment') {
             when {
@@ -429,7 +429,7 @@ pipeline {
                     branch 'master'
                 }
             }
-            
+
             parallel {
                 // Staging Deployment
                 stage('🚀 Deploy to Staging') {
@@ -439,17 +439,17 @@ pipeline {
                             args '-v /var/run/docker.sock:/var/run/docker.sock'
                         }
                     }
-                    
+
                     steps {
                         script {
                             echo "🚀 Starting staging deployment..."
-                            
+
                             // Install dependencies
                             sh '''
                                 python -m pip install --upgrade pip
                                 pip install -r requirements-testing.txt
                             '''
-                            
+
                             // V2 Standards validation
                             sh '''
                                 echo "🔍 V2 Standards validation..."
@@ -460,12 +460,12 @@ pipeline {
                             '''
                         }
                     }
-                    
+
                     post {
                         success {
                             echo "✅ Staging deployment successful"
                         }
-                        
+
                         failure {
                             echo "❌ Staging deployment failed"
                             // Allow staging deployment to fail without failing the build
@@ -473,7 +473,7 @@ pipeline {
                         }
                     }
                 }
-                
+
                 // Production Deployment
                 stage('🚀 Deploy to Production') {
                     agent {
@@ -482,17 +482,17 @@ pipeline {
                             args '-v /var/run/docker.sock:/var/run/docker.sock'
                         }
                     }
-                    
+
                     steps {
                         script {
                             echo "🚀 Starting production deployment..."
-                            
+
                             // Install dependencies
                             sh '''
                                 python -m pip install --upgrade pip
                                 pip install -r requirements-testing.txt
                             '''
-                            
+
                             // Final V2 Standards validation
                             sh '''
                                 echo "🔍 Final V2 Standards validation..."
@@ -508,12 +508,12 @@ pipeline {
                             '''
                         }
                     }
-                    
+
                     post {
                         success {
                             echo "✅ Production deployment successful"
                         }
-                        
+
                         failure {
                             echo "❌ Production deployment failed"
                             currentBuild.result = 'FAILURE'
@@ -523,7 +523,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             // Generate build summary
@@ -547,7 +547,7 @@ pipeline {
                 echo "- Review coverage reports"
                 echo "- Address any V2 standards violations"
                 echo "- Deploy to production (if main branch)"
-                
+
                 // Save summary to file
                 writeFile file: 'build-summary.txt', text: """
 📊 AGENT_CELLPHONE_V2 CI/CD PIPELINE SUMMARY
@@ -571,61 +571,61 @@ pipeline {
 - Deploy to production (if main branch)
 """
             }
-            
+
             // Archive build summary
             archiveArtifacts artifacts: 'build-summary.txt', fingerprint: true
         }
-        
+
         success {
             echo "🎉 Pipeline completed successfully!"
-            
+
             // Send success notification
             emailext (
                 subject: "✅ Agent_Cellphone_V2 CI/CD Pipeline SUCCESS - Build #${env.BUILD_NUMBER}",
                 body: """
                 🎉 Agent_Cellphone_V2 CI/CD Pipeline completed successfully!
-                
+
                 Build Details:
                 - Build Number: ${env.BUILD_NUMBER}
                 - Commit: ${env.GIT_COMMIT}
                 - Branch: ${env.GIT_BRANCH}
                 - Date: ${env.BUILD_DATE}
-                
+
                 All quality gates passed:
                 ✅ V2 Standards Compliance
                 ✅ Test Coverage (${env.COVERAGE_THRESHOLD}%+)
                 ✅ Code Quality
                 ✅ Security Scans
-                
+
                 View build results: ${env.BUILD_URL}
                 """,
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]
             )
         }
-        
+
         failure {
             echo "❌ Pipeline failed!"
-            
+
             // Send failure notification
             emailext (
                 subject: "❌ Agent_Cellphone_V2 CI/CD Pipeline FAILED - Build #${env.BUILD_NUMBER}",
                 body: """
                 ❌ Agent_Cellphone_V2 CI/CD Pipeline failed!
-                
+
                 Build Details:
                 - Build Number: ${env.BUILD_NUMBER}
                 - Commit: ${env.GIT_COMMIT}
                 - Branch: ${env.GIT_BRANCH}
                 - Date: ${env.BUILD_DATE}
-                
+
                 Please review the build logs and fix any issues.
-                
+
                 View build results: ${env.BUILD_URL}
                 """,
                 recipientProviders: [[$class: 'DevelopersRecipientProvider']]
             )
         }
-        
+
         cleanup {
             // Clean up workspace
             cleanWs()

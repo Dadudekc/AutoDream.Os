@@ -14,6 +14,7 @@ from typing import Dict, List, Optional, Any
 
 class DecisionType(Enum):
     """Types of decisions the system can make"""
+
     TASK_ASSIGNMENT = "task_assignment"
     RESOURCE_ALLOCATION = "resource_allocation"
     PRIORITY_DETERMINATION = "priority_determination"
@@ -24,6 +25,7 @@ class DecisionType(Enum):
 
 class DecisionStatus(Enum):
     """Decision processing status"""
+
     PENDING = "pending"
     ANALYZING = "analyzing"
     COLLABORATING = "collaborating"
@@ -34,6 +36,7 @@ class DecisionStatus(Enum):
 
 class DecisionPriority(Enum):
     """Decision priority levels"""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -44,6 +47,7 @@ class DecisionPriority(Enum):
 @dataclass
 class DecisionRequest:
     """Decision request data structure"""
+
     decision_id: str
     decision_type: DecisionType
     requester: str
@@ -57,6 +61,7 @@ class DecisionRequest:
 @dataclass
 class DecisionResult:
     """Decision result data structure"""
+
     decision_id: str
     decision_type: DecisionType
     timestamp: float
@@ -70,6 +75,7 @@ class DecisionResult:
 @dataclass
 class DecisionContext:
     """Context information for decision making"""
+
     available_resources: Dict[str, Any]
     agent_capabilities: Dict[str, List[str]]
     current_workload: Dict[str, float]

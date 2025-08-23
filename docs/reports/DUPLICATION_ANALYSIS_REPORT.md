@@ -19,7 +19,7 @@ The V2 repository contains **significant code duplication** across multiple arch
 **Severity:** HIGH
 **Files Affected:**
 - `src/core/config_manager.py` (575 lines)
-- `src/core/config_manager_coordinator.py` (200 lines) 
+- `src/core/config_manager_coordinator.py` (200 lines)
 - `src/core/config_core.py` (252 lines)
 - `src/core/config_handlers.py` (206 lines)
 
@@ -182,7 +182,7 @@ The V2 repository contains **significant code duplication** across multiple arch
 ## ESTIMATED EFFORT
 
 - **Phase 1:** 3-4 developer days
-- **Phase 2:** 2-3 developer days  
+- **Phase 2:** 2-3 developer days
 - **Phase 3:** 2-3 developer days
 - **Total:** 7-10 developer days
 

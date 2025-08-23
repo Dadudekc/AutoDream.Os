@@ -6,7 +6,7 @@
     "retention_period": 86400,
     "max_data_points": 10000,
     "cleanup_interval": 3600,
-    
+
     "collectors": {
       "system_metrics": {
         "enabled": true,
@@ -54,7 +54,7 @@
         }
       }
     },
-    
+
     "dashboard": {
       "enabled": true,
       "host": "0.0.0.0",
@@ -65,7 +65,7 @@
       "websocket_enabled": true,
       "max_websocket_connections": 100,
       "static_files_path": "static/dashboard",
-      
+
       "widgets": [
         {
           "id": "cpu_usage",
@@ -184,13 +184,13 @@
         }
       ]
     },
-    
+
     "alerting": {
       "enabled": true,
       "default_cooldown_period": 300,
       "max_alert_history": 1000,
       "deduplication_enabled": true,
-      
+
       "rules": [
         {
           "name": "High CPU Usage",
@@ -301,7 +301,7 @@
           "channels": ["email", "slack", "pagerduty"]
         }
       ],
-      
+
       "channels": {
         "email": {
           "type": "email",
@@ -359,7 +359,7 @@
         }
       }
     },
-    
+
     "security": {
       "authentication": {
         "enabled": false,
@@ -379,7 +379,7 @@
         "allowed_headers": ["Content-Type", "Authorization"]
       }
     },
-    
+
     "storage": {
       "type": "memory",
       "retention_policy": {
@@ -393,7 +393,7 @@
         "threshold_bytes": 1048576
       }
     },
-    
+
     "performance": {
       "collection_threads": 4,
       "max_concurrent_alerts": 50,
@@ -403,7 +403,7 @@
       "cache_metrics": true,
       "cache_ttl_seconds": 60
     },
-    
+
     "logging": {
       "level": "INFO",
       "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -412,7 +412,7 @@
       "backup_count": 5,
       "rotate_daily": true
     },
-    
+
     "integration": {
       "prometheus": {
         "enabled": false,
@@ -434,7 +434,7 @@
         "password": "${ELASTICSEARCH_PASSWORD}"
       }
     },
-    
+
     "development": {
       "debug_mode": false,
       "mock_data": false,

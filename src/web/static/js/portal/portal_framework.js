@@ -22,14 +22,14 @@
         mobileBreakpoint: 992,
         refreshInterval: 30000, // 30 seconds
         animationDuration: 300,
-        
+
         // API endpoints
         apiEndpoints: {
             agents: '/api/agents',
             status: '/api/portal/stats',
             activity: '/api/portal/activity'
         },
-        
+
         // WebSocket settings
         websocket: {
             enabled: true,
@@ -50,14 +50,14 @@
     // Event System
     PortalFramework.events = {
         listeners: {},
-        
+
         on: function(event, callback) {
             if (!this.listeners[event]) {
                 this.listeners[event] = [];
             }
             this.listeners[event].push(callback);
         },
-        
+
         emit: function(event, data) {
             if (this.listeners[event]) {
                 this.listeners[event].forEach(function(callback) {
@@ -69,7 +69,7 @@
                 });
             }
         },
-        
+
         off: function(event, callback) {
             if (this.listeners[event]) {
                 const index = this.listeners[event].indexOf(callback);
@@ -91,10 +91,10 @@
                     callback();
                 }
             },
-            
+
             createElement: function(tag, attributes, content) {
                 const element = document.createElement(tag);
-                
+
                 if (attributes) {
                     Object.keys(attributes).forEach(function(key) {
                         if (key === 'className') {
@@ -106,7 +106,7 @@
                         }
                     });
                 }
-                
+
                 if (content) {
                     if (typeof content === 'string') {
                         element.textContent = content;
@@ -118,10 +118,10 @@
                         });
                     }
                 }
-                
+
                 return element;
             },
-            
+
             addClass: function(element, className) {
                 if (element.classList) {
                     element.classList.add(className);
@@ -129,7 +129,7 @@
                     element.className += ' ' + className;
                 }
             },
-            
+
             removeClass: function(element, className) {
                 if (element.classList) {
                     element.classList.remove(className);
@@ -139,7 +139,7 @@
                     );
                 }
             },
-            
+
             hasClass: function(element, className) {
                 if (element.classList) {
                     return element.classList.contains(className);
@@ -147,7 +147,7 @@
                     return new RegExp('(^| )' + className + '( |$)', 'gi').test(element.className);
                 }
             },
-            
+
             toggleClass: function(element, className) {
                 if (this.hasClass(element, className)) {
                     this.removeClass(element, className);
@@ -156,7 +156,7 @@
                 }
             }
         },
-        
+
         // Storage utilities
         storage: {
             set: function(key, value) {
@@ -166,7 +166,7 @@
                     console.warn('Could not save to localStorage:', error);
                 }
             },
-            
+
             get: function(key, defaultValue) {
                 try {
                     const item = localStorage.getItem(key);
@@ -176,7 +176,7 @@
                     return defaultValue;
                 }
             },
-            
+
             remove: function(key) {
                 try {
                     localStorage.removeItem(key);
@@ -185,43 +185,43 @@
                 }
             }
         },
-        
+
         // HTTP utilities
         http: {
             get: function(url, options) {
                 return this.request('GET', url, options);
             },
-            
+
             post: function(url, data, options) {
                 return this.request('POST', url, { ...options, data });
             },
-            
+
             put: function(url, data, options) {
                 return this.request('PUT', url, { ...options, data });
             },
-            
+
             delete: function(url, options) {
                 return this.request('DELETE', url, options);
             },
-            
+
             request: function(method, url, options = {}) {
                 return new Promise(function(resolve, reject) {
                     const xhr = new XMLHttpRequest();
-                    
+
                     xhr.open(method, url);
-                    
+
                     // Set headers
                     if (options.headers) {
                         Object.keys(options.headers).forEach(function(key) {
                             xhr.setRequestHeader(key, options.headers[key]);
                         });
                     }
-                    
+
                     // Set response type
                     if (options.responseType) {
                         xhr.responseType = options.responseType;
                     }
-                    
+
                     // Handle response
                     xhr.onload = function() {
                         if (xhr.status >= 200 && xhr.status < 300) {
@@ -235,12 +235,12 @@
                             reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
                         }
                     };
-                    
+
                     // Handle errors
                     xhr.onerror = function() {
                         reject(new Error('Network error'));
                     };
-                    
+
                     // Handle timeout
                     if (options.timeout) {
                         xhr.timeout = options.timeout;
@@ -248,7 +248,7 @@
                             reject(new Error('Request timeout'));
                         };
                     }
-                    
+
                     // Send request
                     if (options.data && method !== 'GET') {
                         xhr.send(JSON.stringify(options.data));
@@ -258,19 +258,19 @@
                 });
             }
         },
-        
+
         // Time utilities
         time: {
             formatRelative: function(timestamp) {
                 const now = new Date();
                 const date = new Date(timestamp);
                 const diff = now - date;
-                
+
                 const seconds = Math.floor(diff / 1000);
                 const minutes = Math.floor(seconds / 60);
                 const hours = Math.floor(minutes / 60);
                 const days = Math.floor(hours / 24);
-                
+
                 if (days > 0) {
                     return days === 1 ? '1 day ago' : `${days} days ago`;
                 } else if (hours > 0) {
@@ -281,17 +281,17 @@
                     return 'Just now';
                 }
             },
-            
+
             formatDate: function(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
                 const date = new Date(timestamp);
-                
+
                 const year = date.getFullYear();
                 const month = String(date.getMonth() + 1).padStart(2, '0');
                 const day = String(date.getDate()).padStart(2, '0');
                 const hours = String(date.getHours()).padStart(2, '0');
                 const minutes = String(date.getMinutes()).padStart(2, '0');
                 const seconds = String(date.getSeconds()).padStart(2, '0');
-                
+
                 return format
                     .replace('YYYY', year)
                     .replace('MM', month)
@@ -301,14 +301,14 @@
                     .replace('ss', seconds);
             }
         },
-        
+
         // Validation utilities
         validation: {
             isEmail: function(email) {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return emailRegex.test(email);
             },
-            
+
             isUrl: function(url) {
                 try {
                     new URL(url);
@@ -317,15 +317,15 @@
                     return false;
                 }
             },
-            
+
             isRequired: function(value) {
                 return value !== null && value !== undefined && value !== '';
             },
-            
+
             minLength: function(value, min) {
                 return value && value.length >= min;
             },
-            
+
             maxLength: function(value, max) {
                 return value && value.length <= max;
             }
@@ -338,19 +338,19 @@
         if (config) {
             Object.assign(this.config, config);
         }
-        
+
         // Initialize components
         this.initComponents();
-        
+
         // Setup event listeners
         this.setupEventListeners();
-        
+
         // Start real-time updates
         this.startRealTimeUpdates();
-        
+
         // Emit ready event
         this.events.emit('portal:ready');
-        
+
         console.log('Portal Framework initialized successfully');
     };
 
@@ -358,16 +358,16 @@
     PortalFramework.initComponents = function() {
         // Initialize sidebar
         this.components.sidebar = new PortalSidebar();
-        
+
         // Initialize navigation
         this.components.navigation = new PortalNavigation();
-        
+
         // Initialize notifications
         this.components.notifications = new PortalNotifications();
-        
+
         // Initialize modals
         this.components.modals = new PortalModals();
-        
+
         // Initialize charts (if available)
         if (typeof Chart !== 'undefined') {
             this.components.charts = new PortalCharts();
@@ -380,7 +380,7 @@
         window.addEventListener('resize', this.utils.debounce(function() {
             PortalFramework.events.emit('portal:resize');
         }, 250));
-        
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(event) {
             // Ctrl/Cmd + K for search
@@ -388,13 +388,13 @@
                 event.preventDefault();
                 PortalFramework.events.emit('portal:search');
             }
-            
+
             // Escape key for closing modals
             if (event.key === 'Escape') {
                 PortalFramework.events.emit('portal:escape');
             }
         });
-        
+
         // Click outside to close modals
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('modal')) {
@@ -416,13 +416,13 @@
     PortalFramework.refreshData = function() {
         // Refresh agent status
         this.refreshAgentStatus();
-        
+
         // Refresh system metrics
         this.refreshSystemMetrics();
-        
+
         // Refresh recent activity
         this.refreshRecentActivity();
-        
+
         // Emit refresh event
         this.events.emit('portal:refresh');
     };
@@ -478,7 +478,7 @@
         this.element = document.querySelector('.portal-sidebar');
         this.toggleButton = document.querySelector('.portal-sidebar-toggle');
         this.isOpen = true;
-        
+
         this.init();
     }
 
@@ -493,11 +493,11 @@
         if (this.toggleButton) {
             this.toggleButton.addEventListener('click', this.toggle.bind(this));
         }
-        
+
         // Close sidebar on mobile when clicking outside
         document.addEventListener('click', function(event) {
             if (window.innerWidth <= PortalFramework.config.mobileBreakpoint) {
-                if (!event.target.closest('.portal-sidebar') && 
+                if (!event.target.closest('.portal-sidebar') &&
                     !event.target.closest('.portal-sidebar-toggle')) {
                     PortalFramework.components.sidebar.close();
                 }
@@ -554,7 +554,7 @@
             if (event.target.closest('.nav-link')) {
                 const link = event.target.closest('.nav-link');
                 const href = link.getAttribute('href');
-                
+
                 if (href && href !== '#' && !href.startsWith('http')) {
                     PortalFramework.events.emit('portal:navigation', { href: href, link: link });
                 }
@@ -564,7 +564,7 @@
 
     PortalNavigation.prototype.updateActiveNavigation = function() {
         const navLinks = document.querySelectorAll('.nav-link');
-        
+
         navLinks.forEach(function(link) {
             const href = link.getAttribute('href');
             if (href === PortalFramework.components.navigation.currentRoute) {
@@ -603,12 +603,12 @@
         const notification = this.createNotification(options);
         this.container.appendChild(notification);
         this.notifications.push(notification);
-        
+
         // Auto-remove after delay
         setTimeout(function() {
             this.remove(notification);
         }.bind(this), options.duration || 5000);
-        
+
         return notification;
     };
 
@@ -616,28 +616,28 @@
         const notification = PortalFramework.utils.createElement('div', {
             className: `portal-notification ${options.type || 'info'}`
         });
-        
+
         const icon = PortalFramework.utils.createElement('i', {
             className: `fas fa-${options.icon || 'info-circle'}`
         });
-        
+
         const message = PortalFramework.utils.createElement('span', {
             className: 'notification-message'
         }, options.message);
-        
+
         const closeButton = PortalFramework.utils.createElement('button', {
             className: 'notification-close',
             type: 'button'
         }, '×');
-        
+
         closeButton.addEventListener('click', function() {
             this.remove(notification);
         }.bind(this));
-        
+
         notification.appendChild(icon);
         notification.appendChild(message);
         notification.appendChild(closeButton);
-        
+
         return notification;
     };
 
@@ -646,7 +646,7 @@
         if (index > -1) {
             this.notifications.splice(index, 1);
         }
-        
+
         if (notification.parentNode) {
             notification.parentNode.removeChild(notification);
         }
@@ -708,12 +708,12 @@
 
     PortalCharts.prototype.initializeCharts = function() {
         const chartElements = document.querySelectorAll('[data-chart]');
-        
+
         chartElements.forEach(function(element) {
             const chartType = element.getAttribute('data-chart');
             const chartData = JSON.parse(element.getAttribute('data-chart-data') || '{}');
             const chartOptions = JSON.parse(element.getAttribute('data-chart-options') || '{}');
-            
+
             this.createChart(element, chartType, chartData, chartOptions);
         }.bind(this));
     };
@@ -729,7 +729,7 @@
                     ...options
                 }
             });
-            
+
             this.charts.set(element, chart);
         } catch (error) {
             console.error('Failed to create chart:', error);

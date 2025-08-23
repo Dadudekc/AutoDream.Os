@@ -20,6 +20,7 @@ from ..core.agent_models import AgentRole, AgentStatus, AgentCapability
 @dataclass
 class AgentResponsibilities:
     """Agent responsibilities structure"""
+
     role: str
     emoji: str
     key_responsibilities: List[str]
@@ -31,7 +32,7 @@ class AgentResponsibilities:
 class AgentInfoManager:
     """
     Manages agent information and role definitions.
-    
+
     Responsibilities:
     - Provide agent role information
     - Manage agent metadata
@@ -47,15 +48,15 @@ class AgentInfoManager:
                     "Project coordination and task assignment",
                     "Progress monitoring and bottleneck identification",
                     "Conflict resolution and team leadership",
-                    "Quality assurance and strategic planning"
+                    "Quality assurance and strategic planning",
                 ],
                 leadership="You are the team leader and coordinator.",
                 onboarding_path="D:/repos/Dadudekc/onboarding/README.md",
                 priority_docs=[
                     "D:/repos/Dadudekc/onboarding/training_documents/agent_roles_and_responsibilities.md",
                     "D:/repos/Dadudekc/onboarding/protocols/agent_protocols.md",
-                    "D:/repos/Dadudekc/onboarding/training_documents/onboarding_checklist.md"
-                ]
+                    "D:/repos/Dadudekc/onboarding/training_documents/onboarding_checklist.md",
+                ],
             ),
             "Agent-2": AgentResponsibilities(
                 role=AgentRole.TECHNICAL_ARCHITECT.value,
@@ -64,15 +65,15 @@ class AgentInfoManager:
                     "System architecture and technical design",
                     "Code development and implementation",
                     "Technical problem-solving and optimization",
-                    "Code review and quality assurance"
+                    "Code review and quality assurance",
                 ],
                 leadership="You are the technical lead and architect.",
                 onboarding_path="D:/repos/Dadudekc/onboarding/README.md",
                 priority_docs=[
                     "D:/repos/Dadudekc/onboarding/training_documents/agent_roles_and_responsibilities.md",
                     "D:/repos/Dadudekc/onboarding/training_documents/development_standards.md",
-                    "D:/repos/Dadudekc/onboarding/training_documents/tools_and_technologies.md"
-                ]
+                    "D:/repos/Dadudekc/onboarding/training_documents/tools_and_technologies.md",
+                ],
             ),
             "Agent-3": AgentResponsibilities(
                 role=AgentRole.DATA_ENGINEER.value,
@@ -81,15 +82,15 @@ class AgentInfoManager:
                     "Data pipeline development and maintenance",
                     "Data analysis and insights generation",
                     "Database design and optimization",
-                    "Data quality assurance and governance"
+                    "Data quality assurance and governance",
                 ],
                 leadership="You are the data and analytics expert.",
                 onboarding_path="D:/repos/Dadudekc/onboarding/README.md",
                 priority_docs=[
                     "D:/repos/Dadudekc/onboarding/training_documents/agent_roles_and_responsibilities.md",
                     "D:/repos/Dadudekc/onboarding/training_documents/development_standards.md",
-                    "D:/repos/Dadudekc/onboarding/protocols/workflow_protocols.md"
-                ]
+                    "D:/repos/Dadudekc/onboarding/protocols/workflow_protocols.md",
+                ],
             ),
             "Agent-4": AgentResponsibilities(
                 role=AgentRole.DEVOPS_ENGINEER.value,
@@ -98,15 +99,15 @@ class AgentInfoManager:
                     "Infrastructure automation and deployment",
                     "System monitoring and reliability",
                     "Security implementation and compliance",
-                    "Performance optimization and scaling"
+                    "Performance optimization and scaling",
                 ],
                 leadership="You are the infrastructure and operations expert.",
                 onboarding_path="D:/repos/Dadudekc/onboarding/README.md",
                 priority_docs=[
                     "D:/repos/Dadudekc/onboarding/training_documents/agent_roles_and_responsibilities.md",
                     "D:/repos/Dadudekc/onboarding/training_documents/tools_and_technologies.md",
-                    "D:/repos/Dadudekc/onboarding/protocols/command_reference.md"
-                ]
+                    "D:/repos/Dadudekc/onboarding/protocols/command_reference.md",
+                ],
             ),
             "Agent-5": AgentResponsibilities(
                 role=AgentRole.AI_ML_ENGINEER.value,
@@ -115,32 +116,35 @@ class AgentInfoManager:
                     "Machine learning model development",
                     "AI algorithm implementation and optimization",
                     "Data preprocessing and feature engineering",
-                    "Model evaluation and deployment"
+                    "Model evaluation and deployment",
                 ],
                 leadership="You are the AI and machine learning expert.",
                 onboarding_path="D:/repos/Dadudekc/onboarding/README.md",
                 priority_docs=[
                     "D:/repos/Dadudekc/onboarding/training_documents/agent_roles_and_responsibilities.md",
                     "D:/repos/Dadudekc/onboarding/training_documents/development_standards.md",
-                    "D:/repos/Dadudekc/onboarding/training_documents/best_practices.md"
-                ]
-            )
+                    "D:/repos/Dadudekc/onboarding/training_documents/best_practices.md",
+                ],
+            ),
         }
 
     def get_agent_info(self, agent_name: str) -> AgentResponsibilities:
         """Get agent information for the specified agent"""
-        return self.agent_info.get(agent_name, AgentResponsibilities(
-            role="Team Member",
-            emoji="👤",
-            key_responsibilities=["General team support and collaboration"],
-            leadership="You are a valuable team member.",
-            onboarding_path="agent_workspaces/onboarding/README.md",
-            priority_docs=[
-                "agent_workspaces/onboarding/training_documents/agent_roles_and_responsibilities.md",
-                "agent_workspaces/onboarding/training_documents/development_standards.md",
-                "agent_workspaces/onboarding/training_documents/best_practices.md"
-            ]
-        ))
+        return self.agent_info.get(
+            agent_name,
+            AgentResponsibilities(
+                role="Team Member",
+                emoji="👤",
+                key_responsibilities=["General team support and collaboration"],
+                leadership="You are a valuable team member.",
+                onboarding_path="agent_workspaces/onboarding/README.md",
+                priority_docs=[
+                    "agent_workspaces/onboarding/training_documents/agent_roles_and_responsibilities.md",
+                    "agent_workspaces/onboarding/training_documents/development_standards.md",
+                    "agent_workspaces/onboarding/training_documents/best_practices.md",
+                ],
+            ),
+        )
 
     def get_all_agents(self) -> Dict[str, AgentResponsibilities]:
         """Get all agent information"""
@@ -163,23 +167,23 @@ def run_smoke_test():
 
     try:
         manager = AgentInfoManager()
-        
+
         # Test getting agent info
         agent1 = manager.get_agent_info("Agent-1")
         assert agent1.role == "System Coordinator & Project Manager"
         assert agent1.emoji == "🎯"
-        
+
         # Test getting unknown agent
         unknown = manager.get_agent_info("Unknown")
         assert unknown.role == "Team Member"
-        
+
         # Test getting all agents
         all_agents = manager.get_all_agents()
         assert len(all_agents) == 5
-        
+
         print("✅ AgentInfoManager Smoke Test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"❌ AgentInfoManager Smoke Test FAILED: {e}")
         return False
@@ -188,20 +192,20 @@ def run_smoke_test():
 def main():
     """CLI interface for AgentInfoManager testing"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Agent Info Manager CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
     parser.add_argument("--agent", help="Get info for specific agent")
     parser.add_argument("--list", action="store_true", help="List all agents")
-    
+
     args = parser.parse_args()
-    
+
     if args.test:
         run_smoke_test()
         return
-    
+
     manager = AgentInfoManager()
-    
+
     if args.agent:
         agent_info = manager.get_agent_info(args.agent)
         print(f"Agent: {args.agent}")

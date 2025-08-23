@@ -47,7 +47,7 @@ The **Cursor Response Capture System** has been successfully implemented as a co
 🚀 CURSOR RESPONSE CAPTURE SYSTEM - COMPREHENSIVE TEST SUITE
 ======================================================================
 ✅ Database Manager: SQLite operations and message storage
-✅ Message Normalizer: Diverse format handling  
+✅ Message Normalizer: Diverse format handling
 ✅ CDP Bridge: Chrome DevTools Protocol communication
 ✅ Capture System: Complete message capture pipeline
 ✅ V2 Integration: Performance, health, and error handling
@@ -111,7 +111,7 @@ The system handles diverse message formats:
 # Standard format
 {"id": "msg_123", "thread_id": "thread_456", "role": "assistant", "content": "Hello"}
 
-# Nested content format  
+# Nested content format
 {"message_id": "msg_789", "conversation_id": "conv_101", "author": {"role": "user"}, "content": {"text": "Question"}}
 
 # Minimal format
@@ -145,7 +145,7 @@ The system handles diverse message formats:
 # Core requirements
 pip install websocket-client requests
 
-# Optional enhancements  
+# Optional enhancements
 pip install sqlite-utils better-profanity colorlog psutil watchdog zstandard
 ```
 

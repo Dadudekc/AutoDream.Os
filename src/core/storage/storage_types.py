@@ -14,6 +14,7 @@ from typing import Optional, Dict, Any
 
 class StorageType(Enum):
     """Types of persistent storage"""
+
     FILE_BASED = "file_based"
     DATABASE = "database"
     HYBRID = "hybrid"
@@ -21,13 +22,15 @@ class StorageType(Enum):
 
 class DataIntegrityLevel(Enum):
     """Data integrity verification levels"""
-    BASIC = "basic"           # Simple checksum
-    ADVANCED = "advanced"     # Hash + timestamp
-    CRITICAL = "critical"     # Full integrity chain
+
+    BASIC = "basic"  # Simple checksum
+    ADVANCED = "advanced"  # Hash + timestamp
+    CRITICAL = "critical"  # Full integrity chain
 
 
 class BackupStrategy(Enum):
     """Backup strategies for data protection"""
+
     INCREMENTAL = "incremental"
     FULL = "full"
     DIFFERENTIAL = "differential"
@@ -35,6 +38,7 @@ class BackupStrategy(Enum):
 
 class CompressionType(Enum):
     """Data compression types"""
+
     NONE = "none"
     GZIP = "gzip"
     LZMA = "lzma"
@@ -44,6 +48,7 @@ class CompressionType(Enum):
 @dataclass
 class StorageMetadata:
     """Storage metadata for data integrity"""
+
     data_id: str
     timestamp: float
     checksum: str
@@ -59,6 +64,7 @@ class StorageMetadata:
 @dataclass
 class StorageConfig:
     """Storage configuration parameters"""
+
     storage_type: StorageType
     base_path: str
     max_file_size: int
@@ -72,6 +78,7 @@ class StorageConfig:
 @dataclass
 class StorageStats:
     """Storage system statistics"""
+
     total_data_entries: int
     total_storage_size: int
     storage_type: StorageType

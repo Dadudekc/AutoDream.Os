@@ -13,18 +13,18 @@ from .decision_types import (
     DecisionPriority,
     DecisionRequest,
     DecisionResult,
-    DecisionContext
+    DecisionContext,
 )
 
 from .decision_core import AutonomousDecisionEngine
 
 # Backward compatibility
 __all__ = [
-    'DecisionType',
-    'DecisionStatus',
-    'DecisionPriority',
-    'DecisionRequest',
-    'DecisionResult',
-    'DecisionContext',
-    'AutonomousDecisionEngine'
+    "DecisionType",
+    "DecisionStatus",
+    "DecisionPriority",
+    "DecisionRequest",
+    "DecisionResult",
+    "DecisionContext",
+    "AutonomousDecisionEngine",
 ]

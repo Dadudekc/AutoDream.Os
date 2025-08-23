@@ -12,27 +12,66 @@ __author__ = "Business Intelligence Agent"
 __status__ = "ACTIVE"
 
 # Import services
-from .portfolio_management_service import PortfolioManager, PortfolioPosition, PortfolioMetrics
-from .risk_management_service import RiskManager, RiskMetric, RiskAlert, PortfolioRiskProfile, RiskLevel, RiskType
-from .market_data_service import MarketDataService, MarketData, HistoricalData, MarketSentiment
+from .portfolio_management_service import (
+    PortfolioManager,
+    PortfolioPosition,
+    PortfolioMetrics,
+)
+from .risk_management_service import (
+    RiskManager,
+    RiskMetric,
+    RiskAlert,
+    PortfolioRiskProfile,
+    RiskLevel,
+    RiskType,
+)
+from .market_data_service import (
+    MarketDataService,
+    MarketData,
+    HistoricalData,
+    MarketSentiment,
+)
 from .trading_intelligence_service import (
-    TradingIntelligenceService, TradingSignal, StrategyType, SignalType, SignalStrength,
-    StrategyPerformance, MarketCondition
+    TradingIntelligenceService,
+    TradingSignal,
+    StrategyType,
+    SignalType,
+    SignalStrength,
+    StrategyPerformance,
+    MarketCondition,
 )
 from .options_trading_service import (
-    OptionsTradingService, OptionContract, OptionsChain, OptionsStrategy,
-    OptionType, OptionStrategy, Greeks
+    OptionsTradingService,
+    OptionContract,
+    OptionsChain,
+    OptionsStrategy,
+    OptionType,
+    OptionStrategy,
+    Greeks,
 )
 from .financial_analytics_service import (
-    FinancialAnalyticsService, BacktestResult, PerformanceMetrics, RiskAnalysis
+    FinancialAnalyticsService,
+    BacktestResult,
+    PerformanceMetrics,
+    RiskAnalysis,
 )
 from .market_sentiment_service import (
-    MarketSentimentService, SentimentData, SentimentAggregate, NewsArticle, 
-    MarketPsychology, SentimentSource, SentimentType
+    MarketSentimentService,
+    SentimentData,
+    SentimentAggregate,
+    NewsArticle,
+    MarketPsychology,
+    SentimentSource,
+    SentimentType,
 )
 from .portfolio_optimization_service import (
-    PortfolioOptimizationService, OptimizationResult, RebalancingSignal, 
-    PortfolioAllocation, OptimizationMethod, RebalancingFrequency, OptimizationConstraint
+    PortfolioOptimizationService,
+    OptimizationResult,
+    RebalancingSignal,
+    PortfolioAllocation,
+    OptimizationMethod,
+    RebalancingFrequency,
+    OptimizationConstraint,
 )
 
 # Export main classes
@@ -41,7 +80,6 @@ __all__ = [
     "PortfolioManager",
     "PortfolioPosition",
     "PortfolioMetrics",
-
     # Risk Management
     "RiskManager",
     "RiskMetric",
@@ -49,13 +87,11 @@ __all__ = [
     "PortfolioRiskProfile",
     "RiskLevel",
     "RiskType",
-
     # Market Data
     "MarketDataService",
     "MarketData",
     "HistoricalData",
     "MarketSentiment",
-
     # Trading Intelligence
     "TradingIntelligenceService",
     "TradingSignal",
@@ -64,7 +100,6 @@ __all__ = [
     "SignalStrength",
     "StrategyPerformance",
     "MarketCondition",
-
     # Options Trading
     "OptionsTradingService",
     "OptionContract",
@@ -72,13 +107,11 @@ __all__ = [
     "OptionsStrategy",
     "OptionType",
     "Greeks",
-
     # Financial Analytics
     "FinancialAnalyticsService",
     "BacktestResult",
     "PerformanceMetrics",
     "RiskAnalysis",
-
     # Market Sentiment Analysis
     "MarketSentimentService",
     "SentimentData",
@@ -87,7 +120,6 @@ __all__ = [
     "MarketPsychology",
     "SentimentSource",
     "SentimentType",
-
     # Portfolio Optimization
     "PortfolioOptimizationService",
     "OptimizationResult",
@@ -95,7 +127,7 @@ __all__ = [
     "PortfolioAllocation",
     "OptimizationMethod",
     "RebalancingFrequency",
-    "OptimizationConstraint"
+    "OptimizationConstraint",
 ]
 
 # Version info

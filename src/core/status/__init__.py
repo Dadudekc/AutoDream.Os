@@ -12,17 +12,17 @@ from .status_types import (
     StatusEventType,
     StatusEvent,
     StatusMetrics,
-    ActivitySummary
+    ActivitySummary,
 )
 
 from .status_core import LiveStatusSystem
 
 # Backward compatibility
 __all__ = [
-    'UpdateFrequency',
-    'StatusEventType',
-    'StatusEvent',
-    'StatusMetrics',
-    'ActivitySummary',
-    'LiveStatusSystem'
+    "UpdateFrequency",
+    "StatusEventType",
+    "StatusEvent",
+    "StatusMetrics",
+    "ActivitySummary",
+    "LiveStatusSystem",
 ]

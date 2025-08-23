@@ -14,6 +14,7 @@ from typing import Dict, List, Optional, Any
 
 class AgentStatus(Enum):
     """Agent operational status"""
+
     ONLINE = "online"
     OFFLINE = "offline"
     BUSY = "busy"
@@ -26,6 +27,7 @@ class AgentStatus(Enum):
 
 class AgentCapability(Enum):
     """Agent capability types"""
+
     DECISION_MAKING = "decision_making"
     TASK_EXECUTION = "task_execution"
     RESOURCE_MANAGEMENT = "resource_management"
@@ -39,6 +41,7 @@ class AgentCapability(Enum):
 @dataclass
 class AgentInfo:
     """Agent information and status data"""
+
     agent_id: str
     name: str
     status: AgentStatus
@@ -54,6 +57,7 @@ class AgentInfo:
 @dataclass
 class MonitorConfig:
     """Monitor configuration settings"""
+
     update_interval: float = 5.0
     max_history_size: int = 1000
     health_check_timeout: float = 30.0

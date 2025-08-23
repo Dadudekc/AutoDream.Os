@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Health Monitor - Agent Cellphone V2</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Socket.IO -->
     <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
-    
+
     <style>
         :root {
             --primary-color: #0d6efd;
@@ -24,81 +24,81 @@
             --dark-color: #212529;
             --light-color: #f8f9fa;
         }
-        
+
         body {
             background-color: var(--light-color);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         .navbar-brand {
             font-weight: bold;
             font-size: 1.5rem;
         }
-        
+
         .health-card {
             border: none;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out;
         }
-        
+
         .health-card:hover {
             transform: translateY(-2px);
         }
-        
+
         .status-excellent { background: linear-gradient(135deg, #d4edda, #c3e6cb); }
         .status-good { background: linear-gradient(135deg, #d1ecf1, #bee5eb); }
         .status-warning { background: linear-gradient(135deg, #fff3cd, #ffeaa7); }
         .status-critical { background: linear-gradient(135deg, #f8d7da, #f5c6cb); }
         .status-offline { background: linear-gradient(135deg, #e2e3e5, #d6d8db); }
-        
+
         .metric-value {
             font-size: 2rem;
             font-weight: bold;
             margin: 0;
         }
-        
+
         .metric-unit {
             font-size: 0.9rem;
             color: #6c757d;
         }
-        
+
         .alert-card {
             border-left: 4px solid;
             border-radius: 8px;
             margin-bottom: 1rem;
         }
-        
+
         .alert-critical { border-left-color: var(--danger-color); }
         .alert-warning { border-left-color: var(--warning-color); }
         .alert-info { border-left-color: var(--info-color); }
-        
+
         .health-score {
             font-size: 3rem;
             font-weight: bold;
             text-align: center;
         }
-        
+
         .chart-container {
             position: relative;
             height: 300px;
             margin: 1rem 0;
         }
-        
+
         .refresh-indicator {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 1000;
         }
-        
+
         .connection-status {
             position: fixed;
             top: 20px;
             left: 20px;
             z-index: 1000;
         }
-        
+
         .loading-spinner {
             display: inline-block;
             width: 20px;
@@ -108,24 +108,24 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
         .metric-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1rem;
             margin: 1rem 0;
         }
-        
+
         .agent-list {
             max-height: 400px;
             overflow-y: auto;
         }
-        
+
         .agent-item {
             padding: 0.75rem;
             border-radius: 8px;
@@ -133,11 +133,11 @@
             cursor: pointer;
             transition: background-color 0.2s ease;
         }
-        
+
         .agent-item:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
-        
+
         .status-badge {
             font-size: 0.8rem;
             padding: 0.25rem 0.5rem;
@@ -328,7 +328,7 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Global variables
         let socket;
@@ -348,24 +348,24 @@
         // Initialize WebSocket connection
         function initializeSocket() {
             socket = io();
-            
+
             socket.on('connect', function() {
                 updateConnectionStatus('Connected', 'success');
                 socket.emit('subscribe_to_health_updates');
             });
-            
+
             socket.on('disconnect', function() {
                 updateConnectionStatus('Disconnected', 'danger');
             });
-            
+
             socket.on('health_update', function(data) {
                 updateDashboardData(data);
             });
-            
+
             socket.on('periodic_update', function(data) {
                 updateDashboardData(data);
             });
-            
+
             socket.on('error', function(data) {
                 console.error('Socket error:', data);
                 showNotification('Error: ' + data.message, 'danger');
@@ -461,19 +461,19 @@
             if (data.health_summary) {
                 updateSummaryCards(data.health_summary);
             }
-            
+
             if (data.agents) {
                 updateAgentHealth(data.agents);
             }
-            
+
             if (data.alerts) {
                 updateAlerts(data.alerts);
             }
-            
+
             if (data.status) {
                 updateStatusInfo(data.status);
             }
-            
+
             lastUpdateTime = new Date();
             updateLastUpdateTime();
         }
@@ -484,7 +484,7 @@
             document.getElementById('active-alerts').textContent = summary.active_alerts || 0;
             document.getElementById('avg-health-score').textContent = summary.average_health_score || 0;
             document.getElementById('monitoring-status').textContent = summary.monitoring_active ? 'Active' : 'Inactive';
-            
+
             // Update status distribution chart
             if (summary.status_distribution) {
                 const statusData = [
@@ -494,7 +494,7 @@
                     summary.status_distribution.critical || 0,
                     summary.status_distribution.offline || 0
                 ];
-                
+
                 statusDistributionChart.data.datasets[0].data = statusData;
                 statusDistributionChart.update();
             }
@@ -503,18 +503,18 @@
         // Update agent health display
         function updateAgentHealth(agents) {
             const container = document.getElementById('agent-health-container');
-            
+
             if (!agents || Object.keys(agents).length === 0) {
                 container.innerHTML = '<p class="text-muted text-center">No agents found</p>';
                 return;
             }
-            
+
             let html = '<div class="agent-list">';
-            
+
             Object.values(agents).forEach(agent => {
                 const statusClass = `status-${agent.overall_status}`;
                 const statusBadgeClass = getStatusBadgeClass(agent.overall_status);
-                
+
                 html += `
                     <div class="agent-item ${statusClass}">
                         <div class="d-flex justify-content-between align-items-center">
@@ -544,7 +544,7 @@
                     </div>
                 `;
             });
-            
+
             html += '</div>';
             container.innerHTML = html;
         }
@@ -553,20 +553,20 @@
         function updateAlerts(alerts) {
             const container = document.getElementById('alerts-container');
             const alertCount = document.getElementById('alert-count');
-            
+
             if (!alerts || alerts.length === 0) {
                 container.innerHTML = '<p class="text-muted text-center">No active alerts</p>';
                 alertCount.textContent = '0';
                 return;
             }
-            
+
             alertCount.textContent = alerts.length;
-            
+
             let html = '';
             alerts.forEach(alert => {
                 const alertClass = `alert-${alert.severity}`;
                 const severityIcon = getSeverityIcon(alert.severity);
-                
+
                 html += `
                     <div class="alert ${alertClass} alert-card">
                         <div class="d-flex justify-content-between align-items-start">
@@ -595,7 +595,7 @@
                     </div>
                 `;
             });
-            
+
             container.innerHTML = html;
         }
 
@@ -640,10 +640,10 @@
         function updateConnectionStatus(status, type) {
             const statusElement = document.getElementById('connection-status');
             const detailElement = document.getElementById('connection-detail');
-            
+
             statusElement.textContent = status;
             detailElement.textContent = status;
-            
+
             // Update connection status indicator
             const indicator = document.querySelector('.connection-status .alert');
             indicator.className = `alert alert-${type} alert-dismissible fade show`;
@@ -733,9 +733,9 @@
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" title="Close" aria-label="Close"></button>
             `;
-            
+
             document.body.appendChild(alertDiv);
-            
+
             // Auto-remove after 5 seconds
             setTimeout(() => {
                 if (alertDiv.parentNode) {

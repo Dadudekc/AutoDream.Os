@@ -62,7 +62,7 @@ tracker = PerformanceTracker({
 
 # Record metrics
 tracker.record_metric(
-    MetricType.RESPONSE_TIME, 0.5, 
+    MetricType.RESPONSE_TIME, 0.5,
     agent_id="agent_1",
     context={"operation": "data_processing"}
 )
@@ -135,8 +135,8 @@ dashboard.set_view(DashboardView.AGENT_PERFORMANCE)
 
 # Add alerts
 dashboard.add_alert(
-    AlertLevel.WARNING, 
-    "High CPU usage detected", 
+    AlertLevel.WARNING,
+    "High CPU usage detected",
     "system_monitor"
 )
 
@@ -166,8 +166,8 @@ comm = AgentCommunicationProtocol()
 
 # Register agent
 comm.register_agent(
-    "monitoring_agent", "System Monitor", 
-    ["monitoring", "alerting"], 
+    "monitoring_agent", "System Monitor",
+    ["monitoring", "alerting"],
     "http://localhost:8001"
 )
 
@@ -214,7 +214,7 @@ gateway.set_rate_limit("user_service", 100, 20)
 
 # Route request
 response = gateway.route_request(
-    "GET", "/v1/users", 
+    "GET", "/v1/users",
     {"Authorization": "Bearer token"},
     {"page": "1", "limit": "10"}
 )
@@ -493,6 +493,6 @@ For issues and questions:
 
 ---
 
-**Version**: 2.0  
-**Last Updated**: 2024  
+**Version**: 2.0
+**Last Updated**: 2024
 **Author**: Performance & Integration Specialist

@@ -2,8 +2,8 @@
 
 ## ⚠️ This Directory Has Been Deprecated
 
-**Date of Deprecation**: August 19, 2025  
-**Reason**: Migration to new repository structure  
+**Date of Deprecation**: August 19, 2025
+**Reason**: Migration to new repository structure
 **Status**: DEPRECATED - DO NOT USE
 
 ## 📁 Files Have Been Moved

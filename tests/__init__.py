@@ -28,7 +28,7 @@ __status__ = "ACTIVE"
 # Test categories for V2 standards compliance
 TEST_CATEGORIES = {
     "smoke": "Basic functionality validation tests",
-    "unit": "Individual component unit tests", 
+    "unit": "Individual component unit tests",
     "integration": "Component interaction tests",
     "performance": "Performance and benchmarking tests",
     "security": "Security vulnerability tests",
@@ -36,7 +36,7 @@ TEST_CATEGORIES = {
     "core": "Core system component tests",
     "services": "Service layer component tests",
     "launchers": "Launcher component tests",
-    "utils": "Utility component tests"
+    "utils": "Utility component tests",
 }
 
 # V2 Standards compliance requirements
@@ -47,5 +47,5 @@ V2_STANDARDS = {
     "smoke_tests_required": True,  # All components must have smoke tests
     "cli_interface_required": True,  # All components must have CLI interface
     "oop_design_required": True,  # All code must be OOP
-    "single_responsibility_required": True  # Single responsibility per class
+    "single_responsibility_required": True,  # Single responsibility per class
 }

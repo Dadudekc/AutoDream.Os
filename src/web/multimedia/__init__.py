@@ -22,8 +22,8 @@ from .obs_integration import OBSVirtualCameraIntegration
 
 __all__ = [
     "MultimediaCore",
-    "WebcamFilterSystem", 
+    "WebcamFilterSystem",
     "ContentManagementSystem",
     "StreamingService",
-    "OBSVirtualCameraIntegration"
+    "OBSVirtualCameraIntegration",
 ]

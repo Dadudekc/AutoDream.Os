@@ -34,27 +34,28 @@ try:
     from .config_utils_coordinator import ConfigUtilsCoordinator
     from .system_utils_coordinator import SystemUtilsCoordinator
     from .environment_overrides import EnvironmentOverrides
-    
+
     __all__ = [
-        'ConfigLoader',
-        'LoggingSetup',
-        'SystemInfo',
-        'PerformanceMonitor',
-        'DependencyChecker',
-        'CLIUtils',
-        'FileUtils',
-        'MessageBuilder',
-        'OnboardingUtils',
-        'OnboardingCoordinator',
-        'OnboardingOrchestrator',
-        'ConfigUtilsCoordinator',
-        'SystemUtilsCoordinator',
-        'EnvironmentOverrides'
+        "ConfigLoader",
+        "LoggingSetup",
+        "SystemInfo",
+        "PerformanceMonitor",
+        "DependencyChecker",
+        "CLIUtils",
+        "FileUtils",
+        "MessageBuilder",
+        "OnboardingUtils",
+        "OnboardingCoordinator",
+        "OnboardingOrchestrator",
+        "ConfigUtilsCoordinator",
+        "SystemUtilsCoordinator",
+        "EnvironmentOverrides",
     ]
-    
+
 except ImportError as e:
     print(f"⚠️ Warning: Some utils components not available: {e}")
     __all__ = []
+
 
 def main():
     """CLI interface for utils module"""
@@ -68,24 +69,26 @@ Examples:
     python -m src.utils --demo                   # Run utils demo
     python -m src.utils --check-deps             # Check dependencies
     python -m src.utils --system-info            # Show system information
-        """
+        """,
     )
-    
-    parser.add_argument("--test", action="store_true", 
-                       help="Run utils module tests")
-    parser.add_argument("--status", action="store_true", 
-                       help="Show utils module status")
-    parser.add_argument("--demo", action="store_true", 
-                       help="Run utils module demo")
-    parser.add_argument("--list", action="store_true", 
-                       help="List available utils components")
-    parser.add_argument("--check-deps", action="store_true", 
-                       help="Check system dependencies")
-    parser.add_argument("--system-info", action="store_true", 
-                       help="Show system information")
-    
+
+    parser.add_argument("--test", action="store_true", help="Run utils module tests")
+    parser.add_argument(
+        "--status", action="store_true", help="Show utils module status"
+    )
+    parser.add_argument("--demo", action="store_true", help="Run utils module demo")
+    parser.add_argument(
+        "--list", action="store_true", help="List available utils components"
+    )
+    parser.add_argument(
+        "--check-deps", action="store_true", help="Check system dependencies"
+    )
+    parser.add_argument(
+        "--system-info", action="store_true", help="Show system information"
+    )
+
     args = parser.parse_args()
-    
+
     if args.test:
         print("🧪 Running utils module tests...")
         # Run tests for each component
@@ -93,7 +96,7 @@ Examples:
         for component in __all__:
             try:
                 component_class = globals()[component]
-                if hasattr(component_class, 'run_smoke_test'):
+                if hasattr(component_class, "run_smoke_test"):
                     print(f"  Testing {component}...")
                     success = component_class().run_smoke_test()
                     test_results[component] = success
@@ -104,12 +107,12 @@ Examples:
             except Exception as e:
                 print(f"  ❌ {component} test failed: {e}")
                 test_results[component] = False
-        
+
         passed = sum(test_results.values())
         total = len(test_results)
         print(f"\n📊 Test Results: {passed}/{total} passed")
         return 0 if passed == total else 1
-    
+
     elif args.status:
         print("📊 Utils Module Status")
         print("=" * 25)
@@ -120,33 +123,33 @@ Examples:
         for component in __all__:
             print(f"  ✅ {component}")
         return 0
-    
+
     elif args.demo:
         print("🚀 Starting utils module demo...")
         try:
             # Create instances and demonstrate functionality
-            if 'SystemInfo' in __all__:
+            if "SystemInfo" in __all__:
                 info = SystemInfo()
                 print("✅ SystemInfo created")
-            
-            if 'PerformanceMonitor' in __all__:
+
+            if "PerformanceMonitor" in __all__:
                 monitor = PerformanceMonitor()
                 print("✅ PerformanceMonitor created")
-            
-            if 'DependencyChecker' in __all__:
+
+            if "DependencyChecker" in __all__:
                 checker = DependencyChecker()
                 print("✅ DependencyChecker created")
-            
+
             print("🎯 Utils module demo completed")
             return 0
         except Exception as e:
             print(f"❌ Demo failed: {e}")
             return 1
-    
+
     elif args.check_deps:
         print("🔍 Checking system dependencies...")
         try:
-            if 'DependencyChecker' in __all__:
+            if "DependencyChecker" in __all__:
                 checker = DependencyChecker()
                 results = checker.check_all_dependencies()
                 print("📋 Dependency Check Results:")
@@ -159,11 +162,11 @@ Examples:
         except Exception as e:
             print(f"❌ Dependency check failed: {e}")
             return 1
-    
+
     elif args.system_info:
         print("💻 System Information:")
         try:
-            if 'SystemInfo' in __all__:
+            if "SystemInfo" in __all__:
                 info = SystemInfo()
                 system_data = info.get_system_info()
                 for key, value in system_data.items():
@@ -175,18 +178,19 @@ Examples:
         except Exception as e:
             print(f"❌ System info failed: {e}")
             return 1
-    
+
     elif args.list:
         print("📋 Available Utils Components:")
         for component in __all__:
             print(f"  🔧 {component}")
         return 0
-    
+
     else:
         parser.print_help()
         print(f"\n🔧 Utils Module {__version__} - {__status__}")
         print("Use --help for more options!")
         return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

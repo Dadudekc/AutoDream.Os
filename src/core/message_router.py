@@ -23,33 +23,41 @@ from collections import defaultdict
 
 logger = logging.getLogger(__name__)
 
-
-from .v2_comprehensive_messaging_system import V2MessagePriority, V2MessageStatus, V2MessageType
+# Re-export V2 messaging enums with simplified names for internal use.
+# The rest of this module references MessageType/Priority/Status without the
+# ``V2`` prefix. The original implementation forgot to import these symbols,
+# causing ``NameError`` during module import. Using aliases keeps the public API
+# clean while leveraging the comprehensive V2 enum definitions.
+from .v2_comprehensive_messaging_system import (
+    V2MessagePriority as MessagePriority,
+    V2MessageStatus as MessageStatus,
+    V2MessageType as MessageType,
+)
 
 
 @dataclass
 class Message:
-    """Message structure for inter-agent communication"""
+    """Message structure for inter-agent communication."""
 
     message_id: str
     sender_id: str
     recipient_id: str
-    message_type: V2MessageType
-    priority: V2MessagePriority
+    message_type: MessageType
+    priority: MessagePriority
     content: Dict[str, Any]
     timestamp: str
     expires_at: Optional[str]
-    status: V2MessageStatus = V2MessageStatus.PENDING
+    status: MessageStatus = MessageStatus.PENDING
     delivery_attempts: int = 0
     max_attempts: int = 3
 
 
 @dataclass
 class RoutingRule:
-    """Routing rule for message delivery"""
+    """Routing rule for message delivery."""
 
-    message_type: V2MessageType
-    priority: V2MessagePriority
+    message_type: MessageType
+    priority: MessagePriority
     target_agents: List[str]
     delivery_strategy: str  # "broadcast", "round_robin", "specific"
     retry_policy: Dict[str, Any]
@@ -69,7 +77,7 @@ class MessageRouter:
     def __init__(self, messages_dir: str = "messages"):
         self.messages_dir = Path(messages_dir)
         self.message_queue: queue.PriorityQueue = queue.PriorityQueue()
-        self.routing_rules: Dict[V2MessageType, RoutingRule] = {}
+        self.routing_rules: Dict[MessageType, RoutingRule] = {}
         self.delivery_callbacks: Dict[str, Callable] = {}
         self.message_history: Dict[str, Message] = {}
         self.logger = logging.getLogger(f"{__name__}.MessageRouter")
@@ -88,37 +96,37 @@ class MessageRouter:
     def _initialize_default_routing_rules(self):
         """Initialize default routing rules for different message types"""
         self.routing_rules = {
-            V2MessageType.CONTRACT_ASSIGNMENT: RoutingRule(
-                message_type=V2MessageType.CONTRACT_ASSIGNMENT,
-                priority=V2MessagePriority.HIGH,
+            MessageType.CONTRACT_ASSIGNMENT: RoutingRule(
+                message_type=MessageType.CONTRACT_ASSIGNMENT,
+                priority=MessagePriority.HIGH,
                 target_agents=[],
                 delivery_strategy="specific",
                 retry_policy={"max_attempts": 3, "retry_delay": 5},
             ),
-            V2MessageType.STATUS_UPDATE: RoutingRule(
-                message_type=V2MessageType.STATUS_UPDATE,
-                priority=V2MessagePriority.NORMAL,
+            MessageType.STATUS_UPDATE: RoutingRule(
+                message_type=MessageType.STATUS_UPDATE,
+                priority=MessagePriority.NORMAL,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 1, "retry_delay": 0},
             ),
-            V2MessageType.COORDINATION: RoutingRule(
-                message_type=V2MessageType.COORDINATION,
-                priority=V2MessagePriority.NORMAL,
+            MessageType.COORDINATION: RoutingRule(
+                message_type=MessageType.COORDINATION,
+                priority=MessagePriority.NORMAL,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 2, "retry_delay": 10},
             ),
-            V2MessageType.EMERGENCY: RoutingRule(
-                message_type=V2MessageType.EMERGENCY,
-                priority=V2MessagePriority.URGENT,
+            MessageType.EMERGENCY: RoutingRule(
+                message_type=MessageType.EMERGENCY,
+                priority=MessagePriority.URGENT,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 5, "retry_delay": 1},
             ),
-            V2MessageType.HEARTBEAT: RoutingRule(
-                message_type=V2MessageType.HEARTBEAT,
-                priority=V2MessagePriority.LOW,
+            MessageType.HEARTBEAT: RoutingRule(
+                message_type=MessageType.HEARTBEAT,
+                priority=MessagePriority.LOW,
                 target_agents=[],
                 delivery_strategy="broadcast",
                 retry_policy={"max_attempts": 1, "retry_delay": 0},

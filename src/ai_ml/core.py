@@ -16,6 +16,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 import asyncio
 
+from .api_key_manager import APIKeyManager
+
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -81,13 +83,18 @@ class MLWorkflow:
 class AIManager:
     """Central AI management and coordination"""
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(
+        self,
+        config_path: Optional[str] = None,
+        api_key_manager: Optional[APIKeyManager] = None,
+    ):
         self.config_path = (
             Path(config_path) if config_path else Path("config/ai_ml/ai_ml_config.json")
         )
         self.models: Dict[str, AIModel] = {}
         self.active_workflows: Dict[str, MLWorkflow] = {}
         self.config = self._load_config()
+        self.api_keys = api_key_manager or APIKeyManager()
         self._setup_logging()
 
     def _load_config(self) -> Dict[str, Any]:
@@ -140,6 +147,10 @@ class AIManager:
     def list_workflows(self) -> List[str]:
         """List all active workflow names"""
         return list(self.active_workflows.keys())
+
+    def get_api_key(self, service: str) -> Optional[str]:
+        """Proxy API key retrieval to the API key manager"""
+        return self.api_keys.get_key(service)
 
     def execute_workflow(self, workflow_name: str) -> bool:
         """Execute a workflow"""
@@ -211,10 +222,15 @@ class MLFramework(ABC):
 class ModelManager:
     """Manages AI/ML models and their lifecycle"""
 
-    def __init__(self, storage_path: str = "models"):
+    def __init__(
+        self,
+        storage_path: str = "models",
+        api_key_manager: Optional[APIKeyManager] = None,
+    ):
         self.storage_path = Path(storage_path)
         self.storage_path.mkdir(parents=True, exist_ok=True)
         self.models: Dict[str, Dict[str, Any]] = {}
+        self.api_keys = api_key_manager or APIKeyManager()
         self._load_model_registry()
 
     def _load_model_registry(self) -> None:
@@ -282,6 +298,10 @@ class ModelManager:
             logger.info(f"Deleted model registration: {model_id}")
             return True
         return False
+
+    def get_api_key(self, service: str) -> Optional[str]:
+        """Proxy API key retrieval to the API key manager"""
+        return self.api_keys.get_key(service)
 
 
 class WorkflowAutomation:

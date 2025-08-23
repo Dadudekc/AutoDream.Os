@@ -24,7 +24,9 @@ import pickle
 
 # Import V2 comprehensive messaging system
 from .v2_comprehensive_messaging_system import (
-    V2MessageType, V2MessagePriority, V2AgentStatus
+    V2MessageType,
+    V2MessagePriority,
+    V2AgentStatus,
 )
 
 # Configure logging
@@ -158,7 +160,7 @@ class AgentCommunicationProtocol:
             return True
 
     def update_agent_status(
-        self, agent_id: str, status: AgentStatus, metadata: Dict[str, Any] = None
+        self, agent_id: str, status: V2AgentStatus, metadata: Dict[str, Any] = None
     ) -> bool:
         """Update agent status"""
         with self.lock:
@@ -268,7 +270,7 @@ class AgentCommunicationProtocol:
         with self.lock:
             return list(self.registered_agents.values())
 
-    def get_agent_status(self, agent_id: str) -> Optional[AgentStatus]:
+    def get_agent_status(self, agent_id: str) -> Optional[V2AgentStatus]:
         """Get current status of an agent"""
         agent_info = self.get_agent_info(agent_id)
         return agent_info.status if agent_info else None

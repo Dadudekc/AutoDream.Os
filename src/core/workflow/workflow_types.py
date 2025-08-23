@@ -1,86 +1,95 @@
 #!/usr/bin/env python3
 """
-Workflow Types Module - V2 Core Workflow System
-===============================================
+Workflow Types - V2 Core Workflow Data Models
 
-Contains all workflow type definitions, enums, and data structures.
-Follows V2 coding standards: ≤100 LOC, single responsibility, clean OOP design.
+This module contains all data structures and enums for workflow automation.
+Follows V2 standards: ≤100 lines, single responsibility, clean OOP design.
 
-Author: Agent-2 (Architecture & Design Specialist)
+Author: Agent-4 (Quality Assurance)
 License: MIT
 """
 
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from enum import Enum
+from typing import Dict, List, Optional, Any
 
-# ============================================================================
-# WORKFLOW ENUMS - Single Responsibility: Define workflow types and states
-# ============================================================================
+
+class WorkflowStatus(Enum):
+    """Workflow execution status"""
+    CREATED = "created"
+    PLANNING = "planning"
+    EXECUTING = "executing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
+    PAUSED = "paused"
+
+
+class TaskStatus(Enum):
+    """Individual task status"""
+    PENDING = "pending"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    CANCELLED = "cancelled"
+    RETRYING = "retrying"
+
+
+class TaskPriority(Enum):
+    """Task priority levels"""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
 
 class WorkflowType(Enum):
-    """Advanced workflow types for V2 system"""
+    """Workflow execution types"""
     SEQUENTIAL = "sequential"
     PARALLEL = "parallel"
     CONDITIONAL = "conditional"
     LOOP = "loop"
-    EVENT_DRIVEN = "event_driven"
-    ADAPTIVE = "adaptive"
-    # V2 specific types
-    INITIALIZATION = "initialization"
-    TRAINING = "training"
-    ROLE_ASSIGNMENT = "role_assignment"
-    CAPABILITY_GRANT = "capability_grant"
-    SYSTEM_INTEGRATION = "system_integration"
-    VALIDATION = "validation"
-    COMPLETION = "completion"
+    PIPELINE = "pipeline"
+    PARALLEL_BATCH = "parallel_batch"
 
-
-class WorkflowPriority(Enum):
-    """Workflow priority levels"""
-    LOW = "low"
-    NORMAL = "normal"
-    HIGH = "high"
-    CRITICAL = "critical"
-    EMERGENCY = "emergency"
-
-
-class OptimizationStrategy(Enum):
-    """Workflow optimization strategies"""
-    PERFORMANCE = "performance"
-    RESOURCE_EFFICIENCY = "resource_efficiency"
-    COST_OPTIMIZATION = "cost_optimization"
-    LATENCY_REDUCTION = "latency_reduction"
-    THROUGHPUT_MAXIMIZATION = "throughput_maximization"
-
-
-# ============================================================================
-# WORKFLOW DATA STRUCTURES - Single Responsibility: Define workflow components
-# ============================================================================
 
 @dataclass
-class WorkflowStep:
-    """Advanced workflow step definition"""
-    step_id: str
+class WorkflowTask:
+    """Individual workflow task"""
+    task_id: str
     name: str
-    step_type: str
-    description: str = ""
+    description: str
+    agent_id: Optional[str] = None
+    priority: TaskPriority = TaskPriority.MEDIUM
+    estimated_duration: int = 60  # seconds
+    actual_duration: Optional[int] = None
+    status: TaskStatus = TaskStatus.PENDING
     dependencies: List[str] = field(default_factory=list)
-    required_capabilities: List[str] = field(default_factory=list)
-    estimated_duration: float = 0.0
-    timeout: float = 300.0
-    retry_policy: Dict[str, Any] = field(default_factory=dict)
+    required_resources: List[str] = field(default_factory=list)
+    input_data: Dict[str, Any] = field(default_factory=dict)
+    output_data: Dict[str, Any] = field(default_factory=dict)
+    error_message: Optional[str] = None
+    retry_count: int = 0
+    max_retries: int = 3
+    created_at: datetime = field(default_factory=datetime.now)
+    started_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
-    # V2 specific fields
-    agent_target: str = ""
-    prompt_template: str = ""
-    expected_response_type: str = "text"
-    completion_criteria: Dict[str, Any] = field(default_factory=dict)
 
-    def is_ready(self, completed_steps: set) -> bool:
-        """Check if step dependencies are satisfied"""
-        return all(dep in completed_steps for dep in self.dependencies)
+
+@dataclass
+class WorkflowCondition:
+    """Conditional workflow logic"""
+    condition_id: str
+    name: str
+    condition_type: str  # "if", "while", "for", "switch"
+    condition_expression: str
+    true_branch: List[str]  # Task IDs to execute if true
+    false_branch: List[str] = field(default_factory=list)
+    loop_condition: Optional[str] = None  # For loop workflows
+    max_iterations: int = 100  # Prevent infinite loops
+    metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -88,96 +97,42 @@ class WorkflowExecution:
     """Workflow execution instance"""
     execution_id: str
     workflow_id: str
-    status: str
-    current_step: str
-    completed_steps: List[str]
-    failed_steps: List[str]
-    start_time: str
-    estimated_completion: str
-    actual_completion: Optional[str]
-    performance_metrics: Dict[str, float]
-    optimization_history: List[Dict[str, Any]]
-    agent_id: Optional[str] = None
-    step_results: Dict[str, Any] = field(default_factory=dict)
+    workflow_name: str
+    status: WorkflowStatus = WorkflowStatus.CREATED
+    tasks: List[WorkflowTask] = field(default_factory=list)
+    conditions: List[WorkflowCondition] = field(default_factory=list)
+    current_task_index: int = 0
+    completed_tasks: List[str] = field(default_factory=list)
+    failed_tasks: List[str] = field(default_factory=list)
+    execution_path: List[str] = field(default_factory=list)
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    total_duration: Optional[int] = None
+    error_count: int = 0
+    retry_count: int = 0
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
-class WorkflowOptimization:
-    """Workflow optimization result"""
-    optimization_id: str
-    workflow_id: str
-    strategy: OptimizationStrategy
-    before_metrics: Dict[str, float]
-    after_metrics: Dict[str, float]
-    improvement_percentage: float
-    optimization_timestamp: str
-    applied_changes: List[str]
-
-
-@dataclass
-class V2Workflow:
-    """V2 workflow definition"""
-    workflow_id: str
-    name: str
-    description: str
-    steps: List[WorkflowStep]
-    created_at: str
-    status: str
+class AgentCapability:
+    """Agent capability definition"""
+    agent_id: str
+    capabilities: List[str] = field(default_factory=list)
+    current_load: int = 0
+    max_concurrent_tasks: int = 5
+    performance_score: float = 1.0
+    availability: bool = True
+    last_heartbeat: datetime = field(default_factory=datetime.now)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
-class AIResponse:
-    """Captured AI response from V2 system"""
-    agent: str
-    text: str
-    timestamp: float
-    message_id: str
+class ResourceRequirement:
+    """Resource requirement definition"""
+    resource_id: str
+    resource_type: str  # "cpu", "memory", "storage", "network", "custom"
+    required_amount: float
+    unit: str
+    priority: TaskPriority = TaskPriority.MEDIUM
+    current_availability: float = 0.0
     metadata: Dict[str, Any] = field(default_factory=dict)
-
-
-# ============================================================================
-# CLI INTERFACE - Single Responsibility: Command-line testing
-# ============================================================================
-
-def run_smoke_test():
-    """Run basic functionality test for workflow types"""
-    try:
-        # Test enum creation
-        assert WorkflowType.SEQUENTIAL == "sequential"
-        assert WorkflowPriority.HIGH == "high"
-        assert OptimizationStrategy.PERFORMANCE == "performance"
-        
-        # Test data class creation
-        step = WorkflowStep(
-            step_id="test",
-            name="Test Step",
-            step_type="test",
-            description="Test description"
-        )
-        assert step.step_id == "test"
-        assert step.is_ready(set())
-        
-        # Test workflow creation
-        workflow = V2Workflow(
-            workflow_id="test_workflow",
-            name="Test Workflow",
-            description="Test workflow",
-            steps=[step],
-            created_at="2024-01-01",
-            status="active"
-        )
-        assert workflow.workflow_id == "test_workflow"
-        assert len(workflow.steps) == 1
-        
-        print("✅ WorkflowTypes smoke test passed!")
-        return True
-        
-    except Exception as e:
-        print(f"❌ WorkflowTypes smoke test failed: {e}")
-        return False
-
-
-if __name__ == "__main__":
-    run_smoke_test()

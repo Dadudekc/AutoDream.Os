@@ -21,12 +21,13 @@ from datetime import datetime
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from core.advanced_workflow_engine import (
-    AdvancedWorkflowEngine,
+from core.workflow import (
+    WorkflowOrchestrator,
     WorkflowType,
-    WorkflowPriority,
-    WorkflowStep,
-    OptimizationStrategy,
+    WorkflowStatus,
+    WorkflowTask,
+    WorkflowExecution,
+    TaskPriority,
 )
 from core.agent_manager import AgentManager, AgentStatus, AgentCapability
 from core.config_manager import ConfigManager
@@ -61,7 +62,7 @@ class AdvancedWorkflowIntegrationDemo:
         )
 
         # Initialize advanced workflow engine
-        self.workflow_engine = AdvancedWorkflowEngine(
+        self.workflow_engine = WorkflowOrchestrator(
             self.agent_manager, self.config_manager, self.contract_manager
         )
 
@@ -112,10 +113,10 @@ class AdvancedWorkflowIntegrationDemo:
 
         # Create a simple sequential workflow
         test_steps = [
-            WorkflowStep(
-                step_id="step1",
+            WorkflowTask(
+                task_id="step1",
                 name="Initialize System",
-                step_type="initialization",
+                task_type="initialization",
                 dependencies=[],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=1.0,
@@ -123,10 +124,10 @@ class AdvancedWorkflowIntegrationDemo:
                 retry_policy={"max_retries": 3, "success_rate": 0.9},
                 metadata={"priority": "high"},
             ),
-            WorkflowStep(
-                step_id="step2",
+            WorkflowTask(
+                task_id="step2",
                 name="Process Data",
-                step_type="processing",
+                task_type="processing",
                 dependencies=["step1"],
                 required_capabilities=[AgentCapability.INTEGRATION],
                 estimated_duration=2.0,
@@ -134,10 +135,10 @@ class AdvancedWorkflowIntegrationDemo:
                 retry_policy={"max_retries": 2, "success_rate": 0.8},
                 metadata={"priority": "medium"},
             ),
-            WorkflowStep(
-                step_id="step3",
+            WorkflowTask(
+                task_id="step3",
                 name="Generate Report",
-                step_type="reporting",
+                task_type="reporting",
                 dependencies=["step2"],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=1.5,
@@ -151,10 +152,10 @@ class AdvancedWorkflowIntegrationDemo:
         workflow_id = self.workflow_engine.create_dynamic_workflow(
             WorkflowType.SEQUENTIAL,
             test_steps,
-            WorkflowPriority.HIGH,
+            TaskPriority.HIGH,
             [
-                OptimizationStrategy.PERFORMANCE,
-                OptimizationStrategy.RESOURCE_EFFICIENCY,
+                # OptimizationStrategy.PERFORMANCE, # Removed as per new import
+                # OptimizationStrategy.RESOURCE_EFFICIENCY, # Removed as per new import
             ],
         )
 
@@ -188,10 +189,10 @@ class AdvancedWorkflowIntegrationDemo:
 
         # Test parallel workflow
         parallel_steps = [
-            WorkflowStep(
-                step_id="parallel1",
+            WorkflowTask(
+                task_id="parallel1",
                 name="Parallel Task 1",
-                step_type="parallel",
+                task_type="parallel",
                 dependencies=[],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=2.0,
@@ -199,10 +200,10 @@ class AdvancedWorkflowIntegrationDemo:
                 retry_policy={"max_retries": 2, "success_rate": 0.9},
                 metadata={},
             ),
-            WorkflowStep(
-                step_id="parallel2",
+            WorkflowTask(
+                task_id="parallel2",
                 name="Parallel Task 2",
-                step_type="parallel",
+                task_type="parallel",
                 dependencies=[],
                 required_capabilities=[AgentCapability.INTEGRATION],
                 estimated_duration=1.5,
@@ -213,7 +214,7 @@ class AdvancedWorkflowIntegrationDemo:
         ]
 
         parallel_workflow_id = self.workflow_engine.create_dynamic_workflow(
-            WorkflowType.PARALLEL, parallel_steps, WorkflowPriority.NORMAL
+            WorkflowType.PARALLEL, parallel_steps, TaskPriority.NORMAL
         )
 
         assert parallel_workflow_id, "Parallel workflow creation failed"
@@ -221,10 +222,10 @@ class AdvancedWorkflowIntegrationDemo:
 
         # Test conditional workflow
         conditional_steps = [
-            WorkflowStep(
-                step_id="condition",
+            WorkflowTask(
+                task_id="condition",
                 name="Check Condition",
-                step_type="conditional",
+                task_type="conditional",
                 dependencies=[],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=0.5,
@@ -232,10 +233,10 @@ class AdvancedWorkflowIntegrationDemo:
                 retry_policy={"max_retries": 1, "success_rate": 0.95},
                 metadata={"condition_type": "boolean"},
             ),
-            WorkflowStep(
-                step_id="branch_a",
+            WorkflowTask(
+                task_id="branch_a",
                 name="Branch A",
-                step_type="execution",
+                task_type="execution",
                 dependencies=["condition"],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=1.0,
@@ -246,7 +247,7 @@ class AdvancedWorkflowIntegrationDemo:
         ]
 
         conditional_workflow_id = self.workflow_engine.create_dynamic_workflow(
-            WorkflowType.CONDITIONAL, conditional_steps, WorkflowPriority.NORMAL
+            WorkflowType.CONDITIONAL, conditional_steps, TaskPriority.NORMAL
         )
 
         assert conditional_workflow_id, "Conditional workflow creation failed"
@@ -260,10 +261,10 @@ class AdvancedWorkflowIntegrationDemo:
 
         # Create workflow for optimization testing
         optimization_steps = [
-            WorkflowStep(
-                step_id="opt_step1",
+            WorkflowTask(
+                task_id="opt_step1",
                 name="Optimization Test Step 1",
-                step_type="test",
+                task_type="test",
                 dependencies=[],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=3.0,  # Longer duration to trigger optimization
@@ -271,10 +272,10 @@ class AdvancedWorkflowIntegrationDemo:
                 retry_policy={"max_retries": 3, "success_rate": 0.7},
                 metadata={"optimization_target": True},
             ),
-            WorkflowStep(
-                step_id="opt_step2",
+            WorkflowTask(
+                task_id="opt_step2",
                 name="Optimization Test Step 2",
-                step_type="test",
+                task_type="test",
                 dependencies=["opt_step1"],
                 required_capabilities=[AgentCapability.INTEGRATION],
                 estimated_duration=2.5,
@@ -287,10 +288,10 @@ class AdvancedWorkflowIntegrationDemo:
         optimization_workflow_id = self.workflow_engine.create_dynamic_workflow(
             WorkflowType.SEQUENTIAL,
             optimization_steps,
-            WorkflowPriority.HIGH,
+            TaskPriority.HIGH,
             [
-                OptimizationStrategy.PERFORMANCE,
-                OptimizationStrategy.THROUGHPUT_MAXIMIZATION,
+                # OptimizationStrategy.PERFORMANCE, # Removed as per new import
+                # OptimizationStrategy.THROUGHPUT_MAXIMIZATION, # Removed as per new import
             ],
         )
 
@@ -322,10 +323,10 @@ class AdvancedWorkflowIntegrationDemo:
 
         # Create workflow for performance testing
         performance_steps = [
-            WorkflowStep(
-                step_id="perf_step1",
+            WorkflowTask(
+                task_id="perf_step1",
                 name="Performance Test Step 1",
-                step_type="performance",
+                task_type="performance",
                 dependencies=[],
                 required_capabilities=[AgentCapability.TESTING],
                 estimated_duration=1.0,
@@ -336,7 +337,7 @@ class AdvancedWorkflowIntegrationDemo:
         ]
 
         performance_workflow_id = self.workflow_engine.create_dynamic_workflow(
-            WorkflowType.SEQUENTIAL, performance_steps, WorkflowPriority.NORMAL
+            WorkflowType.SEQUENTIAL, performance_steps, TaskPriority.NORMAL
         )
 
         assert performance_workflow_id, "Performance workflow creation failed"
@@ -369,10 +370,10 @@ class AdvancedWorkflowIntegrationDemo:
 
         # Create workflow that will be assigned to an agent
         contract_steps = [
-            WorkflowStep(
-                step_id="contract_step1",
+            WorkflowTask(
+                task_id="contract_step1",
                 name="Contract Integration Test",
-                step_type="integration",
+                task_type="integration",
                 dependencies=[],
                 required_capabilities=[AgentCapability.INTEGRATION],
                 estimated_duration=2.0,
@@ -383,7 +384,7 @@ class AdvancedWorkflowIntegrationDemo:
         ]
 
         contract_workflow_id = self.workflow_engine.create_dynamic_workflow(
-            WorkflowType.SEQUENTIAL, contract_steps, WorkflowPriority.HIGH
+            WorkflowType.SEQUENTIAL, contract_steps, TaskPriority.HIGH
         )
 
         assert contract_workflow_id, "Contract workflow creation failed"
@@ -421,10 +422,10 @@ class AdvancedWorkflowIntegrationDemo:
         workflow_ids = []
         for i in range(5):
             steps = [
-                WorkflowStep(
-                    step_id=f"load_step_{i+1}",
+                WorkflowTask(
+                    task_id=f"load_step_{i+1}",
                     name=f"Load Test Step {i+1}",
-                    step_type="load_test",
+                    task_type="load_test",
                     dependencies=[],
                     required_capabilities=[AgentCapability.TESTING],
                     estimated_duration=0.5,
@@ -435,7 +436,7 @@ class AdvancedWorkflowIntegrationDemo:
             ]
 
             workflow_id = self.workflow_engine.create_dynamic_workflow(
-                WorkflowType.SEQUENTIAL, steps, WorkflowPriority.LOW
+                WorkflowType.SEQUENTIAL, steps, TaskPriority.LOW
             )
 
             if workflow_id:
@@ -472,7 +473,7 @@ class AdvancedWorkflowIntegrationDemo:
 
         try:
             # Shutdown all managers
-            self.workflow_engine.shutdown()
+            # self.workflow_engine.shutdown() # Removed as per new import
             self.performance_tracker.shutdown()
             self.contract_manager.shutdown()
             self.agent_manager.shutdown()

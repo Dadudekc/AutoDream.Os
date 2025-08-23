@@ -15,6 +15,13 @@ src_path = Path(__file__).parent / "src"
 if str(src_path) not in sys.path:
     sys.path.insert(0, str(src_path))
 
+from ..utils.mock_managers import (
+    MockFSMOrchestrator,
+    MockAgentManager,
+    MockResponseCaptureService,
+    MockWorkflowEngine,
+)
+
 
 def test_v2_workflow_engine_import():
     """Test V2 workflow engine import."""
@@ -31,7 +38,7 @@ def test_v2_workflow_engine_import():
         print("✅ V2Workflow import successful")
         print("✅ V2WorkflowStep import successful")
         return True
-    except ImportError as e:
+    except Exception as e:
         print(f"❌ V2 workflow engine import failed: {e}")
         return False
 
@@ -51,7 +58,7 @@ def test_v2_ai_code_review_import():
         print("✅ CodeReviewTask import successful")
         print("✅ CodeReviewResult import successful")
         return True
-    except ImportError as e:
+    except Exception as e:
         print(f"❌ V2 AI code review service import failed: {e}")
         return False
 
@@ -63,21 +70,7 @@ def test_v2_workflow_engine_instantiation():
     try:
         from services.v2_workflow_engine import V2WorkflowEngine
 
-        # Create mock dependencies
-        class MockFSMOrchestrator:
-            def create_task(self, title, description, assigned_agent, priority):
-                return f"TASK-{hash(title)}"
-
-            def update_task_status(self, task_id, status):
-                return True
-
-        class MockAgentManager:
-            pass
-
-        class MockResponseCaptureService:
-            pass
-
-        # Test instantiation
+        # Test instantiation with shared mocks
         engine = V2WorkflowEngine(
             MockFSMOrchestrator(), MockAgentManager(), MockResponseCaptureService()
         )
@@ -98,20 +91,6 @@ def test_v2_workflow_creation():
 
     try:
         from services.v2_workflow_engine import V2WorkflowEngine
-
-        # Create mock dependencies
-        class MockFSMOrchestrator:
-            def create_task(self, title, description, assigned_agent, priority):
-                return f"TASK-{hash(title)}"
-
-            def update_task_status(self, task_id, status):
-                return True
-
-        class MockAgentManager:
-            pass
-
-        class MockResponseCaptureService:
-            pass
 
         engine = V2WorkflowEngine(
             MockFSMOrchestrator(), MockAgentManager(), MockResponseCaptureService()
@@ -172,14 +151,7 @@ def test_v2_ai_code_review_instantiation():
     try:
         from services.v2_ai_code_review import V2AICodeReviewService
 
-        # Create mock dependencies
-        class MockWorkflowEngine:
-            pass
-
-        class MockAgentManager:
-            pass
-
-        # Test instantiation
+        # Test instantiation with shared mocks
         service = V2AICodeReviewService(MockWorkflowEngine(), MockAgentManager())
 
         print("✅ V2AICodeReviewService instantiation successful")
@@ -198,20 +170,6 @@ def test_v2_workflow_system_summary():
 
     try:
         from services.v2_workflow_engine import V2WorkflowEngine
-
-        # Create mock dependencies
-        class MockFSMOrchestrator:
-            def create_task(self, title, description, assigned_agent, priority):
-                return f"TASK-{hash(title)}"
-
-            def update_task_status(self, task_id, status):
-                return True
-
-        class MockAgentManager:
-            pass
-
-        class MockResponseCaptureService:
-            pass
 
         engine = V2WorkflowEngine(
             MockFSMOrchestrator(), MockAgentManager(), MockResponseCaptureService()
@@ -241,13 +199,6 @@ def test_v2_ai_code_review_system_summary():
 
     try:
         from services.v2_ai_code_review import V2AICodeReviewService
-
-        # Create mock dependencies
-        class MockWorkflowEngine:
-            pass
-
-        class MockAgentManager:
-            pass
 
         service = V2AICodeReviewService(MockWorkflowEngine(), MockAgentManager())
 

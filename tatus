@@ -1,5 +1,0 @@
-[33me2fe5f9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32magent[m[33m, [m[1;31morigin/agent[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge remote changes and resolve README.md conflicts
-[33me3bc56a[m Add Improved Broadcast System
-[33mf6f8898[m Update agent communication system with FSM integration and Discord bridge
-[33m28222b2[m Merge branch 'agent' of https://github.com/Dadudekc/AutoDream.Os into agent  TASK UPDATE: Repository Cleanup
-[33m7cfa9e8[m 🚀 MAJOR UPDATE: Complete repository reorganization with state-of-the-art README and enhanced architecture - Added comprehensive documentation - Reorganized file structure for better maintainability - Enhanced core services and decision engines - Improved test coverage and organization - Added FSM communication bridge and knowledge database - Updated authentication and web services - Comprehensive project restructuring complete

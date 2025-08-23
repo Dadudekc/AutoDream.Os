@@ -19,6 +19,12 @@ from datetime import datetime, timedelta
 import threading
 import time
 
+from .agent_communication import AgentCommunicationProtocol
+from .v2_comprehensive_messaging_system import (
+    V2MessageType,
+    V2MessagePriority,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -83,7 +89,11 @@ class AgentManager:
     - Performance metrics and analytics
     """
 
-    def __init__(self, agents_dir: str = "agent_workspaces"):
+    def __init__(
+        self,
+        agents_dir: str = "agent_workspaces",
+        communication: Optional[AgentCommunicationProtocol] = None,
+    ):
         self.agents_dir = Path(agents_dir)
         self.agents: Dict[str, AgentInfo] = {}
         self.capabilities: Dict[AgentCapability, Set[str]] = {
@@ -94,6 +104,7 @@ class AgentManager:
         self.heartbeat_interval = 30  # seconds
         self.heartbeat_thread = None
         self.running = False
+        self.communication = communication or AgentCommunicationProtocol()
 
         # Ensure agents directory exists
         self.agents_dir.mkdir(exist_ok=True)
@@ -346,6 +357,36 @@ class AgentManager:
         except Exception as e:
             self.logger.error(f"Failed to get agent summary: {e}")
             return {"error": str(e)}
+
+    def send_coordination_request(
+        self,
+        target_agent: str,
+        message: str,
+        priority: V2MessagePriority = V2MessagePriority.HIGH,
+    ) -> bool:
+        """Send a coordination request to another agent."""
+        if not self.communication:
+            self.logger.error("Communication system not configured")
+            return False
+        try:
+            payload = {
+                "coordination_type": "agent_manager_request",
+                "message": message,
+                "timestamp": datetime.now().isoformat(),
+            }
+            self.communication.send_message(
+                sender_id="AgentManager",
+                recipient_id=target_agent,
+                message_type=V2MessageType.COORDINATION,
+                payload=payload,
+                priority=priority,
+            )
+            return True
+        except Exception as e:
+            self.logger.error(
+                f"Failed to send coordination request to {target_agent}: {e}"
+            )
+            return False
 
     def run_smoke_test(self) -> bool:
         """Run basic functionality test for this instance"""

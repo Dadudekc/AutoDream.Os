@@ -8,12 +8,10 @@ Follows Single Responsibility Principle with 100 LOC limit.
 """
 
 import logging
-from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 from .storage_types import StorageType, DataIntegrityLevel, StorageConfig
 from .storage_core import PersistentDataStorage
-from .storage_backup import StorageBackupManager
 
 
 class UnifiedStorageSystem:
@@ -46,9 +44,6 @@ class UnifiedStorageSystem:
 
         # Initialize storage components
         self.storage = PersistentDataStorage(config)
-        self.backup_manager = StorageBackupManager(
-            Path(base_path) / "backups", retention_days=config.backup_retention_days
-        )
 
         self.logger.info("Unified storage system initialized successfully")
 
@@ -60,27 +55,10 @@ class UnifiedStorageSystem:
         """Retrieve data using the unified interface"""
         return self.storage.retrieve_data(data_id, data_type)
 
-    def create_backup(self, backup_name: str = None) -> Optional[str]:
-        """Create a backup of all data"""
-        return self.backup_manager.create_backup(self.storage.data_path, backup_name)
-
-    def restore_backup(self, backup_name: str) -> bool:
-        """Restore data from a backup"""
-        return self.backup_manager.restore_backup(backup_name, self.storage.data_path)
-
-    def list_backups(self) -> List[Dict[str, Any]]:
-        """List all available backups"""
-        return self.backup_manager.list_backups()
-
     def get_storage_stats(self) -> Dict[str, Any]:
         """Get comprehensive storage statistics"""
         stats = self.storage.get_storage_stats()
-        stats["backups"] = len(self.backup_manager.list_backups())
         return stats
-
-    def cleanup_old_backups(self) -> int:
-        """Clean up old backups"""
-        return self.backup_manager.cleanup_old_backups()
 
     def get_data_metadata(self, data_id: str) -> Optional[Any]:
         """Get metadata for a specific data entry"""

@@ -11,7 +11,6 @@ from .monitor_types import AgentStatus, AgentCapability, AgentInfo, MonitorConfi
 
 from .monitor_core import AgentStatusMonitor
 from .monitor_health import HealthMonitor
-from .monitor_alerts import AlertManager, Alert, AlertLevel, AlertType
 from .monitor_reporting import MonitorReporter
 
 # Backward compatibility
@@ -22,9 +21,5 @@ __all__ = [
     "MonitorConfig",
     "AgentStatusMonitor",
     "HealthMonitor",
-    "AlertManager",
-    "Alert",
-    "AlertLevel",
-    "AlertType",
     "MonitorReporter",
 ]

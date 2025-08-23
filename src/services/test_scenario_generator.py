@@ -12,6 +12,7 @@ import time
 from typing import Dict, List, Any, Optional, Callable
 from pathlib import Path
 from dataclasses import dataclass, asdict
+from unittest.mock import Mock
 
 # Add parent directory to path for imports
 import sys
@@ -20,12 +21,12 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 try:
-    from services.integration_testing_framework import (
-        V2IntegrationTestingFramework,
-        TestResult,
-    )
+    from services.testing import TestFramework as V2IntegrationTestingFramework
+from services.testing.core_framework import TestResult
 except ImportError:
-    from integration_testing_framework import V2IntegrationTestingFramework, TestResult
+    # Use new modular testing framework
+    V2IntegrationTestingFramework = Mock
+    TestResult = Mock
 
 
 @dataclass

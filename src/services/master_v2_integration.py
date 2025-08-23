@@ -13,7 +13,7 @@ from dataclasses import dataclass
 
 from integration_framework import V2IntegrationFramework
 from api_gateway import V2APIGateway, RouteMethod, GatewayRequest
-from integration_testing_framework import V2IntegrationTestingFramework
+from services.testing import TestFramework as V2IntegrationTestingFramework
 from service_discovery import V2ServiceDiscovery
 from integration_monitoring import V2IntegrationMonitoring, AlertSeverity
 

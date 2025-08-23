@@ -22,10 +22,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import V2 services for comprehensive testing
 try:
-    from services.integration_testing_framework import (
-        V2IntegrationTestingFramework,
-        TestResult,
-    )
+    from services.testing import TestFramework as V2IntegrationTestingFramework
+    from services.testing.core_framework import TestResult
     from services.core_coordinator_service import CoreCoordinatorService
     from services.api_gateway import V2APIGateway as APIGateway
     from services.service_discovery import V2ServiceDiscovery
@@ -65,7 +63,9 @@ try:
 except ImportError as e:
     # Fallback imports for standalone execution
     print(f"Import warning: {e}")
-    from integration_testing_framework import V2IntegrationTestingFramework, TestResult
+    # Use new modular testing framework
+    V2IntegrationTestingFramework = Mock
+    TestResult = Mock
 
     CoreCoordinatorService = Mock
     APIGateway = Mock

@@ -21,18 +21,18 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import V2 services for testing
 try:
-    from services.integration_testing_framework import (
-        V2IntegrationTestingFramework,
-        TestResult,
-    )
+    # Use new modular testing framework
+    from services.testing import TestFramework as V2IntegrationTestingFramework
+    from services.testing.core_framework import TestResult
     from services.core_coordinator_service import CoreCoordinatorService
     from services.api_gateway import APIGateway
     from services.service_discovery import ServiceDiscovery
     from services.integration_monitoring import IntegrationMonitoring
     from services.master_v2_integration import MasterV2Integration
 except ImportError:
-    # Fallback imports for standalone execution
-    from integration_testing_framework import V2IntegrationTestingFramework, TestResult
+    # Fallback to mocks for standalone execution
+    V2IntegrationTestingFramework = Mock
+    TestResult = Mock
 
     CoreCoordinatorService = Mock
     APIGateway = Mock

@@ -88,6 +88,34 @@ class UnifiedTestRunner(BaseTestRunner):
                 "critical": False,
                 "directory": "api",
             },
+            "behavior": {
+                "description": "Behavior tree tests",
+                "marker": "behavior",
+                "timeout": 120,
+                "critical": False,
+                "directory": "behavior_trees",
+            },
+            "decision": {
+                "description": "Decision engine tests",
+                "marker": "decision",
+                "timeout": 120,
+                "critical": False,
+                "directory": "decision_engines",
+            },
+            "coordination": {
+                "description": "Multi-agent coordination tests",
+                "marker": "coordination",
+                "timeout": 180,
+                "critical": False,
+                "directory": "multi_agent",
+            },
+            "learning": {
+                "description": "Learning component tests",
+                "marker": "learning",
+                "timeout": 180,
+                "critical": False,
+                "directory": "learning",
+            },
         }
 
     def print_banner(self):
@@ -276,6 +304,10 @@ Examples:
             "performance",
             "security",
             "api",
+            "behavior",
+            "decision",
+            "coordination",
+            "learning",
             "files",
         ],
         default="all",

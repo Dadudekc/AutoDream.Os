@@ -8,7 +8,8 @@ Tests the workflow management functionality for autonomous development.
 
 import pytest
 import asyncio
-from unittest.mock import Mock, AsyncMock, patch
+import unittest
+from unittest.mock import Mock, AsyncMock, patch, call
 from datetime import datetime
 
 from src.autonomous_development.workflow.manager import AutonomousWorkflowManager
@@ -17,6 +18,17 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.autonomous_development.core import DevelopmentTask
     from src.core.task_manager import DevelopmentTaskManager
+
+from src.utils.stability_improvements import safe_import
+
+autonomous_dev_module = safe_import("src.core.autonomous_development")
+AutonomousDevelopmentEngine = getattr(
+    autonomous_dev_module, "AutonomousDevelopmentEngine", None
+)
+IntelligentPromptGenerator = getattr(
+    autonomous_dev_module, "IntelligentPromptGenerator", None
+)
+DevelopmentAction = getattr(autonomous_dev_module, "DevelopmentAction", None)
 
 
 class TestAutonomousWorkflowManager:
@@ -298,6 +310,204 @@ class TestAutonomousWorkflowManager:
         # Verify workflow failed gracefully
         assert result is False
         assert workflow_manager.workflow_active is False
+
+
+@unittest.skipUnless(
+    AutonomousDevelopmentEngine and DevelopmentAction and IntelligentPromptGenerator,
+    "Autonomous development engine not available",
+)
+class TestAutonomousDevelopmentEngine(unittest.TestCase):
+    """Tests for the AutonomousDevelopmentEngine workflow"""
+
+    def setUp(self):
+        """Set up test fixtures"""
+        self.pyautogui_patcher = patch("src.core.autonomous_development.pyautogui")
+        self.mock_pyautogui = self.pyautogui_patcher.start()
+
+        self.pyperclip_patcher = patch("src.core.autonomous_development.pyperclip")
+        self.mock_pyperclip = self.pyperclip_patcher.start()
+
+        self.mock_perpetual_motion = Mock()
+        self.mock_cursor_capture = Mock()
+
+        with patch("src.core.autonomous_development.PYAUTOGUI_AVAILABLE", True):
+            with patch(
+                "src.core.autonomous_development.PerpetualMotionEngine",
+                return_value=self.mock_perpetual_motion,
+            ):
+                with patch(
+                    "src.core.autonomous_development.CursorResponseCapture",
+                    return_value=self.mock_cursor_capture,
+                ):
+                    self.engine = AutonomousDevelopmentEngine()
+
+    def tearDown(self):
+        """Clean up after tests"""
+        self.pyautogui_patcher.stop()
+        self.pyperclip_patcher.stop()
+
+    def test_engine_initialization(self):
+        """Engine initializes correctly"""
+        self.assertIsNotNone(self.engine.prompt_generator)
+        self.assertIsInstance(self.engine.prompt_generator, IntelligentPromptGenerator)
+        self.assertEqual(len(self.engine.development_actions), 0)
+        self.assertEqual(self.engine.autonomous_cycle_count, 0)
+        self.assertFalse(self.engine.is_autonomous)
+
+    def test_pyautogui_setup(self):
+        """PyAutoGUI configured safely"""
+        self.mock_pyautogui.FAILSAFE.assert_called_with(True)
+        self.mock_pyautogui.PAUSE.assert_called_with(0.1)
+        self.mock_pyautogui.size.assert_called_once()
+
+    def test_autonomous_triggers_setup(self):
+        """Autonomous triggers properly configured"""
+        self.mock_perpetual_motion.add_trigger.assert_called()
+        self.mock_perpetual_motion.register_agent_activation.assert_called()
+
+        expected_calls = [
+            call("autonomous_code_review", self.engine.autonomous_code_review),
+            call("autonomous_documentation", self.engine.autonomous_documentation),
+            call("autonomous_testing", self.engine.autonomous_testing),
+            call("autonomous_optimization", self.engine.autonomous_optimization),
+        ]
+        self.mock_perpetual_motion.register_agent_activation.assert_has_calls(
+            expected_calls, any_order=True
+        )
+
+    def test_start_autonomous_development(self):
+        """Starting autonomous development mode"""
+        self.mock_perpetual_motion.start_perpetual_motion.return_value = None
+        result = self.engine.start_autonomous_development()
+
+        self.assertTrue(result)
+        self.assertTrue(self.engine.is_autonomous)
+        self.mock_perpetual_motion.start_perpetual_motion.assert_called_once()
+        self.assertTrue(hasattr(self.engine, "autonomous_thread"))
+        self.assertTrue(self.engine.autonomous_thread.is_alive())
+
+    def test_stop_autonomous_development(self):
+        """Stopping autonomous development mode"""
+        self.engine.is_autonomous = True
+        self.engine.start_autonomous_development()
+        self.engine.stop_autonomous_development()
+
+        self.assertFalse(self.engine.is_autonomous)
+        self.mock_perpetual_motion.stop_perpetual_motion.assert_called_once()
+
+    def test_message_improvement_analysis(self):
+        """Messages analyzed for improvement opportunities"""
+        test_message = {
+            "content": "This function needs optimization and better documentation",
+            "role": "assistant",
+            "thread_id": "test_thread_123",
+        }
+        self.mock_cursor_capture.get_recent_messages.return_value = [test_message]
+
+        self.engine._execute_autonomous_cycle()
+
+        self.assertGreater(len(self.engine.development_actions), 0)
+        for action in self.engine.development_actions:
+            self.assertEqual(action.target_element, "cursor_editor")
+            self.assertEqual(action.action_type, "code_generation")
+
+    def test_context_extraction(self):
+        """Development context properly extracted"""
+        test_message = {
+            "content": "This Python API endpoint function is too complex and needs refactoring",
+            "role": "assistant",
+            "thread_id": "test_thread_456",
+        }
+        self.mock_cursor_capture.get_recent_messages.return_value = [test_message]
+
+        self.engine._execute_autonomous_cycle()
+
+        self.assertGreater(len(self.engine.development_actions), 0)
+        action = self.engine.development_actions[0]
+        context = action.action_data.get("context")
+
+        self.assertIsNotNone(context)
+        self.assertEqual(context["language"], "python")
+        self.assertEqual(context["file_type"], "API endpoint")
+        self.assertEqual(context["complexity"], "high")
+
+    def test_action_priority_ordering(self):
+        """Actions executed in priority order"""
+        low_priority = DevelopmentAction(
+            action_id="low_priority",
+            action_type="code_generation",
+            target_element="cursor_editor",
+            action_data={},
+            priority=1,
+        )
+        high_priority = DevelopmentAction(
+            action_id="high_priority",
+            action_type="code_generation",
+            target_element="cursor_editor",
+            action_data={},
+            priority=10,
+        )
+        self.engine.development_actions.append(low_priority)
+        self.engine.development_actions.append(high_priority)
+
+        with patch.object(
+            self.engine, "_execute_intelligent_code_generation_action"
+        ) as mock_execute:
+            self.engine._execute_development_actions()
+            mock_execute.assert_called_once()
+            call_args = mock_execute.call_args[0][0]
+            self.assertEqual(call_args.action_id, "high_priority")
+
+    def test_autonomous_agent_activation(self):
+        """Autonomous agents activated correctly"""
+        test_message = {
+            "content": "This code needs security review",
+            "role": "assistant",
+            "thread_id": "test_thread_789",
+        }
+        self.mock_cursor_capture.get_recent_messages.return_value = [test_message]
+
+        self.engine._execute_autonomous_cycle()
+
+        self.assertGreater(len(self.engine.development_actions), 0)
+        action = self.engine.development_actions[0]
+        cursor_agent_prompt = action.action_data.get("cursor_agent_prompt")
+        self.assertEqual(cursor_agent_prompt.agent_type, "security_expert")
+
+    def test_conversation_generation(self):
+        """New intelligent conversations are generated"""
+        self.engine.autonomous_cycle_count = 10
+        self.engine.active_conversations = 2
+
+        with patch.object(
+            self.engine, "_generate_intelligent_conversation"
+        ) as mock_generate:
+            self.engine._execute_autonomous_cycle()
+            mock_generate.assert_called_once()
+
+    def test_error_handling(self):
+        """Errors handled gracefully"""
+        malformed_message = {"content": "", "role": "assistant"}
+        self.mock_cursor_capture.get_recent_messages.return_value = [malformed_message]
+
+        try:
+            self.engine._execute_autonomous_cycle()
+            self.assertTrue(True)
+        except Exception as e:  # pragma: no cover - safeguard
+            self.fail(f"Should handle malformed messages gracefully: {e}")
+
+    def test_performance_metrics(self):
+        """Performance metrics tracked correctly"""
+        self.engine.start_autonomous_development()
+
+        self.assertTrue(self.engine.is_autonomous)
+        stats = self.engine.get_autonomous_stats()
+        self.assertIn("autonomous_cycle_count", stats)
+        self.assertIn("pending_actions", stats)
+        self.assertIn("enhanced_prompts", stats)
+        self.assertIn("intelligent_agents", stats)
+
+        self.engine.stop_autonomous_development()
 
 
 if __name__ == "__main__":

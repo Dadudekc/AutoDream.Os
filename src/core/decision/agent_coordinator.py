@@ -28,6 +28,7 @@ from datetime import datetime
 
 from .decision_types import AgentCapability, DecisionType, DecisionContext
 from ..persistent_data_storage import PersistentDataStorage
+from ..persistent_storage_config import DataIntegrityLevel
 
 
 class AgentCoordinator:

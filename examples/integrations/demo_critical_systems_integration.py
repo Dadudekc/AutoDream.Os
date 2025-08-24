@@ -36,7 +36,8 @@ from core.decision import (
     LearningMode,
     IntelligenceLevel,
 )
-from core.persistent_data_storage import PersistentDataStorage, DataIntegrityLevel
+from core.persistent_data_storage import PersistentDataStorage
+from core.persistent_storage_config import DataIntegrityLevel
 
 
 def demo_internationalization_system():

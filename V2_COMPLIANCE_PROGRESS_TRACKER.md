@@ -169,23 +169,23 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Refactored from 722 to 55 lines by extracting manager, AI processor, coordinator, and config modules. New orchestrator coordinates components and maintains functionality.
 
-### MAJOR-002: Health Alerting Manager ✅
-- **File**: `src/core/health/alerting/manager.py`
+### MODERATE-014: FSM Cursor Integration Test Suite Refactor ✅
+- **File**: `tests/test_fsm_cursor_integration.py`
 - **Status**: Completed
-- **Assigned To**: Victor Dixon
+- **Assigned To**: Agent-5
 - **Completion Date**: 2025-08-24
-- **Summary**: Modularized alert management by creating core, notifier, configuration, and validator modules. Main manager now orchestrates these components with updated imports and passing tests.
+- **Summary**: Split monolithic integration tests into setup, execution, validation, and cleanup modules with an orchestrator to maintain coverage. All tests pass.
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 
 > **Note:** Remaining contract descriptions include current line counts for context only. There is no strict LOC target—deliver clean, production-ready, tested modules that honor SRP and SOLID principles.
 
 ### 🎉 **CRITICAL PRIORITY - COMPLETED! (0 files over 800 lines)**
-**All critical violations have been successfully resolved!**
+**All critical violations have been successfully resolved!** 
 
 **Previously resolved files:**
 1. **`src/services/financial/portfolio/tracking.py`** - ✅ **REFACTORED** (937 → 32 lines)
-2. **`src/core/health/alerting/manager.py`** - ✅ **REFACTORED** (910 → 233 lines)
+2. **`src/core/health/alerting/manager.py`** - ✅ **REFACTORED** (910 → 233 lines)  
 3. **`src/services/financial/unified_financial_api.py`** - ✅ **REFACTORED** (872 → 730 lines)
 4. **`src/services/integrated_agent_coordinator.py`** - ✅ **REFACTORED** (846 → 84 lines)
 5. **`src/core/health/metrics/collector.py`** - ✅ **CONSOLIDATED** (839 → consolidated)
@@ -493,9 +493,6 @@ Code quality, organization, and maintainability over strict line count limits
 16. ✅ **CRIT-017**: OSRS AI Agent Test Suite (900 → 160 lines)
     - Split monolithic tests into game setup, agent, scenario, and validation modules
     - Added orchestrator for targeted execution
-
-17. ✅ **MAJOR-006**: Workspace Manager Modularization
-    - Split monolithic workspace manager into creator, coordinator, validator, and config modules
 
 ### Impact:
 - **Total lines reduced**: 14,962 → 3,466 lines (76.8% reduction)

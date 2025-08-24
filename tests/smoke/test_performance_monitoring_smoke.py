@@ -508,7 +508,7 @@ def test_launcher_script():
     print("=" * 25)
 
     try:
-        launcher_path = Path("scripts/launch_performance_monitoring.py")
+        launcher_path = Path("scripts/launchers/launch_performance_monitoring.py")
 
         if launcher_path.exists():
             print("✅ Launcher script found")

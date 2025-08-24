@@ -169,12 +169,12 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Refactored from 722 to 55 lines by extracting manager, AI processor, coordinator, and config modules. New orchestrator coordinates components and maintains functionality.
 
-### MODERATE-016: V2 Onboarding Sequence Modularization ✅
-- **File**: `src/core/v2_onboarding_sequence.py`
+### MODERATE-012: Performance Monitoring Launcher Modularization ✅
+- **File**: `scripts/launchers/launch_performance_monitoring.py`
 - **Status**: Completed
-- **Assigned To**: Agent-5
+- **Assigned To**: Agent
 - **Completion Date**: 2025-08-24
-- **Summary**: Split monolithic onboarding sequence into core, validator, coordinator, and config modules with a lightweight orchestrator. Imports updated and tests verified.
+- **Summary**: Split monolithic launcher into core, config, setup, and validator modules with a lightweight orchestrator.
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 

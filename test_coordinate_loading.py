@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Test Coordinate Loading System
-==============================
+Test Coordinate Loading - System Communication Verification
+===========================================================
 
-This script tests the coordinate loading functionality for the agent system
-and verifies that screen region coordinates are properly calibrated.
+This script tests the coordinate loading system and verifies
+that all 8 agents are properly configured and communicating.
+It also validates that screen region coordinates are properly calibrated.
 """
 
 import sys

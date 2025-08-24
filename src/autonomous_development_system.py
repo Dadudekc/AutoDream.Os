@@ -33,19 +33,26 @@ import random
 
 # Use type hints with strings to avoid circular imports
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from src.core.task_manager import DevelopmentTaskManager as TaskManager
     from src.autonomous_development.core import DevelopmentTask
-    from src.services.messaging import UnifiedMessagingService as RealAgentCommunicationSystem
+    from src.services.messaging import (
+        UnifiedMessagingService as RealAgentCommunicationSystem,
+    )
 
 # Import our unified messaging system
-from src.services.messaging import UnifiedMessagingService as RealAgentCommunicationSystem  # Backward compatibility alias
+from src.services.messaging import (
+    UnifiedMessagingService as RealAgentCommunicationSystem,
+)  # Backward compatibility alias
 
 # Import extracted modules
-from autonomous_development.workflow.manager import AutonomousWorkflowManager
-from autonomous_development.agents.coordinator import AgentCoordinator
-from autonomous_development.tasks.handler import TaskHandler
-from autonomous_development.reporting.manager import ReportingManager
+from src.autonomous_development.workflow.manager import (
+    AutonomousWorkflowManager,
+)
+from src.autonomous_development.agents.coordinator import AgentCoordinator
+from src.autonomous_development.tasks.handler import TaskHandler
+from src.autonomous_development.reporting.manager import ReportingManager
 
 
 class AutonomousDevelopmentSystem:
@@ -55,8 +62,11 @@ class AutonomousDevelopmentSystem:
         self.comm_system = RealAgentCommunicationSystem()
         # Initialize task manager dynamically to avoid circular imports
         from src.core.task_manager import DevelopmentTaskManager as TaskManager
+
         self.task_manager = TaskManager()
-        self.workflow_manager = AutonomousWorkflowManager(self.comm_system, self.task_manager)
+        self.workflow_manager = AutonomousWorkflowManager(
+            self.comm_system, self.task_manager
+        )
         self.agent_coordinator = AgentCoordinator()
         self.task_handler = TaskHandler(self.task_manager)
         self.reporting_manager = ReportingManager(self.task_manager)

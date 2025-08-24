@@ -1,5 +1,4 @@
-"""
-Health Metrics Package
+"""Health metrics collection utilities.
 
 This package contains modules for health metrics collection and processing.
 """
@@ -12,9 +11,9 @@ from .collector_facade import CollectorFacade
 __all__ = [
     "MetricSourceAdapter",
     "SystemMetricsAdapter",
-    "Metric",
     "MetricAggregator",
     "AsyncScheduler",
     "CollectorFacade",
+    "Metric",
 ]
 

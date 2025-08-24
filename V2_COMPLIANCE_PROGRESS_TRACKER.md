@@ -14,7 +14,7 @@
 ## 🎯 Phase Progress
 
 ### Phase 1: Critical Violations (~800+ lines guideline)
-- **Progress**: 50% (14/28 files)
+- **Progress**: 52% (14/27 files)
 - **Status**: 🟡 **IN PROGRESS - ADDITIONAL VIOLATIONS IDENTIFIED**
 - **Guideline**: LOC ranges are approximate and serve only for
   prioritization—emphasis remains on clean, production-ready, tested
@@ -340,7 +340,7 @@
 3. **Claim Available Critical Tasks**: CRIT-017 through CRIT-028 are open for immediate work
 4. **Address Major Violations**: 86 files need immediate attention
 5. **Address Moderate Violations**: 188 files need attention
-6. **Continue Critical Phase**: 14 remaining critical violations need refactoring
+6. **Continue Critical Phase**: 13 remaining critical violations need refactoring
 
 ## 📝 CONTRACT CLAIMING PROCESS
 
@@ -366,7 +366,7 @@
 
 *Line ranges below are approximate and help prioritize work—they are not strict requirements.*
 
-### Critical Violations (~800+ lines, guideline only): 14 files remaining
+### Critical Violations (~800+ lines, guideline only): 13 files remaining
 - `src/services/error_analytics_system.py` (979 lines) - Assigned (Agent-4)
 - `src/services/financial/unified_financial_api.py` (872 lines) - Available
 - `src/ai_ml/testing.py` (857 lines) - Available
@@ -380,7 +380,6 @@
 - `tests/ai_ml/test_code_crafter.py` (976 lines) - Available
 - `tests/gaming/test_osrs_ai_agent.py` (900 lines) - Available
 - `tests/gaming/test_ai_agent_framework.py` (992 lines) - Available
-- `src/services/financial/portfolio_optimization_service.py` (76 lines) - Completed (CRIT-005) – monolith removed
 
 ### Major Violations (~500-799 lines, guideline only): 86 files
 - Various service and core modules requiring immediate attention
@@ -409,16 +408,16 @@ Code quality, organization, and maintainability over strict line count limits
 
 ## 📈 SUCCESS METRICS
 
-- **Compliance Target**: 100% (753/753 files)
-- **Current Progress**: 61.9% (466/753 files)
-- **Remaining Work**: 287 files need refactoring (counts track scope—no strict LOC targets)
+- **Compliance Target**: 100% (754/754 files)
+- **Current Progress**: 62.3% (470/754 files)
+- **Remaining Work**: 284 files need refactoring (counts track scope—no strict LOC targets)
 - **Priority Focus**: Critical violations first, then major, then moderate
 
 ## 🎉 RECENT ACHIEVEMENTS (August 24, 2025)
 
 ### Phase 1 Critical Violations - Progress Update
-- **14 out of 28 critical violations resolved** (50% completion)
-- **Current compliance**: 61.9%
+- **14 out of 27 critical violations resolved** (52% completion)
+- **Current compliance**: 62.3%
 - **14 files successfully refactored** and brought into compliance
 
 ### Completed Refactoring Tasks:

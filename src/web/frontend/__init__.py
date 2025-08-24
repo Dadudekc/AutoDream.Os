@@ -37,13 +37,9 @@ from .frontend_router import (
 )
 
 # Frontend testing infrastructure
-from .frontend_testing import (
-    FrontendTestRunner,
-    TestResult,
-    TestSuite,
-    TestUtilities,
-    MockDataGenerator,
-)
+from .frontend_testing import FrontendTestRunner
+from .testing_models import TestResult, TestSuite
+from .testing_utils import TestUtilities, MockDataGenerator
 
 # Version information
 __version__ = "2.0.0"

@@ -1,7 +1,10 @@
 import os
 from datetime import datetime, timedelta
 
-import jwt
+import pytest
+
+# Skip tests if PyJWT isn't available
+jwt = pytest.importorskip("jwt")
 
 from src.services.api_gateway import V2APIGateway, GatewayRequest, RouteMethod
 

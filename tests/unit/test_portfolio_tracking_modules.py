@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 
 import pytest
 
+# Skip these tests if pandas isn't installed since the underlying modules depend on it
+pytest.importorskip("pandas")
+
 from src.services.financial.portfolio.data_management import PerformanceDataManager
 from src.services.financial.portfolio.reporting import PerformanceReporter
 from src.services.financial.portfolio.tracking_logic import (

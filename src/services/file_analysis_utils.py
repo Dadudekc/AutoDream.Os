@@ -4,6 +4,7 @@ File Analysis Utilities - Agent Cellphone V2
 ============================================
 
 Utility functions for file analysis operations.
+Recognizes comment markers like TODO, FIXME, BUG, NOTE, HACK, and XXX.
 Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 """
 
@@ -51,12 +52,15 @@ class FileAnalysisUtils:
 
     @staticmethod
     def extract_work_items(content: str) -> List[Dict[str, Any]]:
-        """Extract TODO, FIXME, BUG comments from code."""
+        """Extract TODO, FIXME, BUG, NOTE, HACK and XXX comments from code."""
         work_items = []
         patterns = {
             "TODO": r"#\s*TODO:?\s*(.+)",
             "FIXME": r"#\s*FIXME:?\s*(.+)",
             "BUG": r"#\s*BUG:?\s*(.+)",
+            "NOTE": r"#\s*NOTE:?\s*(.+)",
+            "HACK": r"#\s*HACK:?\s*(.+)",
+            "XXX": r"#\s*XXX:?\s*(.+)",
         }
         for line_num, line in enumerate(content.splitlines(), 1):
             for item_type, pattern in patterns.items():

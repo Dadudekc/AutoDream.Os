@@ -15,8 +15,8 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 import json
 
-# Import will be created after tests pass (TDD RED phase)
-# from src.services.file_processor_service import FileProcessorService
+# Import service for testing
+from src.services.file_processor_service import FileProcessorService
 
 
 class TestFileProcessorService:
@@ -260,21 +260,23 @@ import json as js
         assert "os" in [imp["module"] for imp in result["imports"]]
         assert "pathlib.Path" in [imp["name"] for imp in result["imports"]]
 
-    def test_detect_todo_fixme_comments(self):
-        """Test detection of TODO and FIXME comments."""
+    def test_detect_work_item_comments(self):
+        """Test detection of TODO, FIXME, BUG, NOTE and HACK comments."""
         processor = FileProcessorService()
 
-        # Create file with TODO/FIXME comments
+        # Create file with various work item comments
         todo_file = self.test_dir / "todo.py"
         todo_file.write_text(
             """
 def function():
     # TODO: Implement this function
+    # NOTE: Important note here
     pass
 
 def another_function():
     # FIXME: This has a bug
     # BUG: Another issue here
+    # HACK: Temporary workaround
     return None
 """
         )
@@ -282,11 +284,8 @@ def another_function():
         result = processor.process_file(todo_file)
 
         assert "work_items" in result
-        assert len(result["work_items"]) >= 3
-        todo_types = [item["type"] for item in result["work_items"]]
-        assert "TODO" in todo_types
-        assert "FIXME" in todo_types
-        assert "BUG" in todo_types
+        types = [item["type"] for item in result["work_items"]]
+        assert {"TODO", "FIXME", "BUG", "NOTE", "HACK"}.issubset(set(types))
 
     def test_process_file_with_encoding_issues(self):
         """Test processing files with encoding issues."""

@@ -1,19 +1,26 @@
-from .models import (
+"""Trading intelligence modules providing data processing, strategy
+analysis, execution, and reporting capabilities."""
+
+from .data_processing import prepare_market_data
+from .strategy_analysis import (
     StrategyType,
     SignalType,
     SignalStrength,
     TradingSignal,
-    StrategyPerformance,
-    MarketCondition,
+    momentum_strategy,
+    mean_reversion_strategy,
 )
-from .service import TradingIntelligenceService
+from .execution import StrategyExecutor
+from .reporting import log_signal
 
 __all__ = [
-    "TradingIntelligenceService",
+    "prepare_market_data",
     "StrategyType",
     "SignalType",
     "SignalStrength",
     "TradingSignal",
-    "StrategyPerformance",
-    "MarketCondition",
+    "momentum_strategy",
+    "mean_reversion_strategy",
+    "StrategyExecutor",
+    "log_signal",
 ]

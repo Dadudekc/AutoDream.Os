@@ -1,0 +1,28 @@
+{
+  "validation_summary": {
+    "total_tests": 3,
+    "passed_tests": 0,
+    "failed_tests": 3,
+    "success_rate": 0.0,
+    "duration_seconds": 0.02131
+  },
+  "tdd_phase_status": "RED",
+  "test_details": [
+    {
+      "component": "MessageQueue",
+      "status": "FAILED",
+      "error": "Message.__init__() got an unexpected keyword argument 'id'"
+    },
+    {
+      "component": "DecisionEngine",
+      "status": "FAILED",
+      "error": "DecisionRequest.__init__() got an unexpected keyword argument 'id'"
+    },
+    {
+      "component": "Integration",
+      "status": "FAILED",
+      "error": "Message.__init__() got an unexpected keyword argument 'id'"
+    }
+  ],
+  "validation_timestamp": "2025-08-22T05:00:13.984900"
+}

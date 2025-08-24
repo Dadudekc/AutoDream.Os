@@ -12,8 +12,11 @@ from unittest.mock import Mock, AsyncMock, patch
 from datetime import datetime
 
 from src.autonomous_development.workflow.manager import AutonomousWorkflowManager
-from autonomous_development.core import DevelopmentTask
-from core.task_manager import DevelopmentTaskManager
+# Use type hints with strings to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.autonomous_development.core import DevelopmentTask
+    from src.core.task_manager import DevelopmentTaskManager
 
 
 class TestAutonomousWorkflowManager:

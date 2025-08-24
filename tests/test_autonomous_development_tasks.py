@@ -11,7 +11,10 @@ from unittest.mock import Mock, patch
 from datetime import datetime
 
 from src.autonomous_development.tasks.handler import TaskHandler
-from autonomous_development.core import DevelopmentTask
+# Use type hints with strings to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.autonomous_development.core import DevelopmentTask
 
 
 class TestTaskHandler:

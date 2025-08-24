@@ -217,13 +217,13 @@ class PerformanceValidationSystem:
         
         for benchmark in benchmarks:
             if benchmark.performance_level in [PerformanceLevel.NOT_READY, PerformanceLevel.CRITICAL_ISSUES]:
-                if BenchmarkType.RESPONSE_TIME in benchmark.benchmark_type:
+                if benchmark.benchmark_type == BenchmarkType.RESPONSE_TIME:
                     opportunities.add(OptimizationTarget.RESPONSE_TIME_IMPROVEMENT)
-                if BenchmarkType.THROUGHPUT in benchmark.benchmark_type:
+                elif benchmark.benchmark_type == BenchmarkType.THROUGHPUT:
                     opportunities.add(OptimizationTarget.THROUGHPUT_INCREASE)
-                if BenchmarkType.SCALABILITY in benchmark.benchmark_type:
+                elif benchmark.benchmark_type == BenchmarkType.SCALABILITY:
                     opportunities.add(OptimizationTarget.SCALABILITY_ENHANCEMENT)
-                if BenchmarkType.RELIABILITY in benchmark.benchmark_type:
+                elif benchmark.benchmark_type == BenchmarkType.RELIABILITY:
                     opportunities.add(OptimizationTarget.RELIABILITY_IMPROVEMENT)
         
         return list(opportunities)

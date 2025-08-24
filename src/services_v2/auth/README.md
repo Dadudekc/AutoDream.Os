@@ -15,7 +15,11 @@ services_v2/auth/
 ├── auth_integration_tester_validation.py # Environment validation helpers
 ├── auth_integration_tester_reporting.py  # Reporting utilities
 ├── auth_integration_tester_config.py     # Configuration dataclass
-├── auth_performance_monitor.py          # Real-time performance monitoring
+├── auth_performance_monitor.py          # Orchestrator for performance monitor
+├── auth_performance_monitor_core.py - core monitoring logic
+├── auth_performance_metrics.py - metrics collection and analysis
+├── auth_performance_reporting.py - report generation
+├── auth_performance_config.py - configuration helpers
 ├── run_integration_tests.py             # Main test runner script
 └── README.md                           # This documentation
 ```
@@ -52,7 +56,13 @@ Lightweight orchestrator coordinating modular test components:
 The orchestrator loads configuration, validates the environment, runs core
 tests, and saves a structured report for further analysis.
 
-### 3. AuthPerformanceMonitor (`auth_performance_monitor.py`)
+### 3. AuthPerformanceMonitor (`auth_performance_monitor.py` orchestrator)
+
+This component orchestrates modular performance monitoring pieces:
+- `auth_performance_monitor_core.py` - core monitoring logic
+- `auth_performance_metrics.py` - metrics collection and analysis
+- `auth_performance_reporting.py` - report generation
+- `auth_performance_config.py` - configuration helpers
 
 Real-time performance monitoring and analysis:
 

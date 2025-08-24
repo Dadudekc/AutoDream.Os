@@ -134,11 +134,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\api_gateway.py"
       ],
       [
-        "src\\core\\config_manager.py",
-        682,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\core\\config_manager.py"
-      ],
-      [
         "src\\core\\decision_coordination_system.py",
         543,
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\decision_coordination_system.py"
@@ -2503,11 +2498,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\widget_factory.py"
       ],
       [
-        "src\\services\\dashboard\\config_manager.py",
-        155,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\config_manager.py"
-      ],
-      [
         "src\\services\\dashboard\\file_generator.py",
         168,
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\file_generator.py"
@@ -3420,10 +3410,10 @@
           "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\alerting\\manager.py"
         ],
         [
-        "src\\core\\health\\reporting\\generator.py",
-        1313,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
-      ],
+          "src\\core\\health\\reporting\\generator.py",
+          1313,
+          "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
+        ],
         [
           "src\\services\\integrated_agent_coordinator.py",
           846,
@@ -3535,11 +3525,6 @@
           "src\\core\\api_gateway.py",
           628,
           "D:\\Agent_Cellphone_V2_Repository\\src\\core\\api_gateway.py"
-        ],
-        [
-          "src\\core\\config_manager.py",
-          682,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\core\\config_manager.py"
         ],
         [
           "src\\core\\decision_coordination_system.py",
@@ -5904,11 +5889,6 @@
           "src\\services\\dashboard\\widget_factory.py",
           166,
           "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\widget_factory.py"
-        ],
-        [
-          "src\\services\\dashboard\\config_manager.py",
-          155,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\config_manager.py"
         ],
         [
           "src\\services\\dashboard\\file_generator.py",

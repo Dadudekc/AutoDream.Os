@@ -47,11 +47,7 @@ try:
         BacktestResult,
         PerformanceMetrics,
     )
-    from .market_sentiment_service import (
-        MarketSentimentService,
-        SentimentData,
-        SentimentAggregate,
-    )
+    from .market_sentiment_service import MarketSentimentService
     from .portfolio_optimization_service import (
         PortfolioOptimizationService,
         OptimizationResult,
@@ -85,15 +81,16 @@ except ImportError:
         BacktestResult,
         PerformanceMetrics,
     )
-    from market_sentiment_service import (
-        MarketSentimentService,
-        SentimentData,
-        SentimentAggregate,
-    )
+    from market_sentiment_service import MarketSentimentService
     from portfolio_optimization_service import (
         PortfolioOptimizationService,
         OptimizationResult,
     )
+
+from .api_authentication import APIAuthenticator
+from .api_router import RequestRouter
+from .api_data_aggregator import DataAggregator
+from .api_error_handler import APIErrorHandler
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -173,7 +170,14 @@ class SystemHealthMetrics:
 class UnifiedFinancialAPI:
     """Unified API for all financial services with cross-agent coordination"""
 
-    def __init__(self, data_dir: str = "unified_financial_api"):
+    def __init__(
+        self,
+        data_dir: str = "unified_financial_api",
+        authenticator: Optional[APIAuthenticator] = None,
+        router: Optional[RequestRouter] = None,
+        aggregator: Optional[DataAggregator] = None,
+        error_handler: Optional[APIErrorHandler] = None,
+    ):
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(exist_ok=True)
 
@@ -186,6 +190,21 @@ class UnifiedFinancialAPI:
         self.financial_analytics = FinancialAnalyticsService()
         self.market_sentiment = MarketSentimentService()
         self.portfolio_optimization = PortfolioOptimizationService()
+
+        # Service interfaces
+        self.authenticator = authenticator or APIAuthenticator()
+        self.request_router = router or RequestRouter(
+            self.portfolio_manager,
+            self.risk_manager,
+            self.market_data_service,
+            self.trading_intelligence,
+            self.options_trading,
+            self.financial_analytics,
+            self.market_sentiment,
+            self.portfolio_optimization,
+        )
+        self.data_aggregator = aggregator or DataAggregator()
+        self.error_handler = error_handler or APIErrorHandler()
 
         # Cross-agent coordination systems
         self.registered_agents: Dict[str, AgentRegistration] = {}
@@ -381,18 +400,10 @@ class UnifiedFinancialAPI:
     ) -> str:
         """Request a financial service through the unified API"""
         try:
-            # Validate source agent
-            if source_agent not in self.registered_agents:
-                raise ValueError(f"Agent {source_agent} not registered")
-
-            # Validate target service
-            if (
-                target_service
-                not in self.registered_agents[source_agent].required_services
-            ):
-                raise ValueError(
-                    f"Service {target_service} not available for agent {source_agent}"
-                )
+            # Authorization handled by authenticator
+            self.authenticator.authorize(
+                source_agent, target_service, self.registered_agents
+            )
 
             # Create request
             request_id = str(uuid.uuid4())
@@ -432,8 +443,8 @@ class UnifiedFinancialAPI:
 
             start_time = time.time()
 
-            # Execute the requested service
-            response_data = self._execute_service(
+            # Execute the requested service via router
+            response_data = self.request_router.route(
                 request.target_service, request.request_type, request.request_data
             )
 
@@ -475,272 +486,22 @@ class UnifiedFinancialAPI:
 
         except Exception as e:
             logger.error(f"Error executing service request {request_id}: {e}")
-
-            # Update request status
-            if request_id in self.active_requests:
-                self.active_requests[request_id].status = "ERROR"
-
-            # Update performance metrics
-            if request_id in self.active_requests:
-                source_agent = self.active_requests[request_id].source_agent
-                if source_agent in self.performance_metrics:
-                    self.performance_metrics[source_agent]["failed_requests"] += 1
-                    self.performance_metrics[source_agent][
-                        "last_updated"
-                    ] = datetime.now().isoformat()
-
-            # Return error response
-            return CrossAgentResponse(
-                request_id=request_id,
-                response_data=None,
-                response_time=0.0,
-                status="ERROR",
-                error_message=str(e),
+            return self.error_handler.handle(
+                request_id,
+                e,
+                request,
+                self.performance_metrics,
+                CrossAgentResponse,
             )
-
-    def _execute_service(
-        self, target_service: str, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute the actual financial service"""
-        try:
-            if target_service == "portfolio_management":
-                return self._execute_portfolio_service(request_type, request_data)
-            elif target_service == "risk_management":
-                return self._execute_risk_service(request_type, request_data)
-            elif target_service == "market_data":
-                return self._execute_market_data_service(request_type, request_data)
-            elif target_service == "trading_intelligence":
-                return self._execute_trading_intelligence_service(
-                    request_type, request_data
-                )
-            elif target_service == "options_trading":
-                return self._execute_options_trading_service(request_type, request_data)
-            elif target_service == "financial_analytics":
-                return self._execute_financial_analytics_service(
-                    request_type, request_data
-                )
-            elif target_service == "market_sentiment":
-                return self._execute_market_sentiment_service(
-                    request_type, request_data
-                )
-            elif target_service == "portfolio_optimization":
-                return self._execute_portfolio_optimization_service(
-                    request_type, request_data
-                )
-            else:
-                raise ValueError(f"Unknown service: {target_service}")
-        except Exception as e:
-            logger.error(f"Error executing service {target_service}: {e}")
-            raise
-
-    def _execute_portfolio_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute portfolio management service"""
-        try:
-            if request_type == "get_portfolio":
-                return self.portfolio_manager.get_portfolio()
-            elif request_type == "add_position":
-                return self.portfolio_manager.add_position(**request_data)
-            elif request_type == "update_position":
-                return self.portfolio_manager.update_position(**request_data)
-            elif request_type == "remove_position":
-                return self.portfolio_manager.remove_position(**request_data)
-            elif request_type == "get_portfolio_metrics":
-                return self.portfolio_manager.get_portfolio_metrics()
-            else:
-                raise ValueError(f"Unknown portfolio request type: {request_type}")
-        except Exception as e:
-            logger.error(f"Error executing portfolio service: {e}")
-            raise
-
-    def _execute_risk_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute risk management service"""
-        try:
-            if request_type == "calculate_portfolio_risk":
-                return self.risk_manager.calculate_portfolio_risk(**request_data)
-            elif request_type == "get_risk_metrics":
-                return self.risk_manager.get_risk_metrics()
-            elif request_type == "add_risk_alert":
-                return self.risk_manager.add_risk_alert(**request_data)
-            else:
-                raise ValueError(f"Unknown risk request type: {request_type}")
-        except Exception as e:
-            logger.error(f"Error executing risk service: {e}")
-            raise
-
-    def _execute_market_data_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute market data service"""
-        try:
-            if request_type == "get_real_time_data":
-                symbols = request_data.get("symbols", [])
-                return self.market_data_service.get_real_time_data(symbols)
-            elif request_type == "get_historical_data":
-                symbol = request_data.get("symbol")
-                period = request_data.get("period", "1y")
-                interval = request_data.get("interval", "1d")
-                return self.market_data_service.get_historical_data(
-                    symbol, period, interval
-                )
-            else:
-                raise ValueError(f"Unknown market data request type: {request_type}")
-        except Exception as e:
-            logger.error(f"Error executing market data service: {e}")
-            raise
-
-    def _execute_trading_intelligence_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute trading intelligence service"""
-        try:
-            if request_type == "generate_signals":
-                symbols = request_data.get("symbols", [])
-                return self.trading_intelligence.generate_trading_signals(symbols)
-            elif request_type == "analyze_market_conditions":
-                return self.trading_intelligence.analyze_market_conditions()
-            else:
-                raise ValueError(
-                    f"Unknown trading intelligence request type: {request_type}"
-                )
-        except Exception as e:
-            logger.error(f"Error executing trading intelligence service: {e}")
-            raise
-
-    def _execute_options_trading_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute options trading service"""
-        try:
-            if request_type == "get_options_chain":
-                symbol = request_data.get("symbol")
-                expiration = request_data.get("expiration", "30d")  # Default to 30 days
-                return self.options_trading.analyze_options_chain(symbol, expiration)
-            elif request_type == "calculate_option_price":
-                # Use the correct method for option pricing
-                return self.options_trading.calculate_black_scholes(**request_data)
-            else:
-                raise ValueError(
-                    f"Unknown options trading request type: {request_type}"
-                )
-        except Exception as e:
-            logger.error(f"Error executing options trading service: {e}")
-            raise
-
-    def _execute_financial_analytics_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute financial analytics service"""
-        try:
-            if request_type == "run_backtest":
-                return self.financial_analytics.run_backtest(**request_data)
-            elif request_type == "calculate_performance_metrics":
-                return self.financial_analytics.calculate_performance_metrics(
-                    **request_data
-                )
-            else:
-                raise ValueError(
-                    f"Unknown financial analytics request type: {request_type}"
-                )
-        except Exception as e:
-            logger.error(f"Error executing financial analytics service: {e}")
-            raise
-
-    def _execute_market_sentiment_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute market sentiment service"""
-        try:
-            if request_type == "analyze_text_sentiment":
-                text = request_data.get("text", "")
-                return self.market_sentiment.analyze_text_sentiment(text)
-            elif request_type == "get_sentiment_signals":
-                symbol = request_data.get("symbol")
-                return self.market_sentiment.get_sentiment_signals(symbol)
-            elif request_type == "calculate_market_psychology":
-                symbols = request_data.get("symbols", [])
-                return self.market_sentiment.calculate_market_psychology(symbols)
-            else:
-                raise ValueError(
-                    f"Unknown market sentiment request type: {request_type}"
-                )
-        except Exception as e:
-            logger.error(f"Error executing market sentiment service: {e}")
-            raise
-
-    def _execute_portfolio_optimization_service(
-        self, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute portfolio optimization service"""
-        try:
-            if request_type == "optimize_portfolio_sharpe":
-                symbols = request_data.get("symbols", [])
-                current_weights = request_data.get("current_weights")
-                constraints = request_data.get("constraints")
-                return self.portfolio_optimization.optimize_portfolio_sharpe(
-                    symbols, current_weights, constraints
-                )
-            elif request_type == "generate_rebalancing_signals":
-                current_portfolio = request_data.get("current_portfolio", {})
-                target_weights = request_data.get("target_weights", {})
-                return self.portfolio_optimization.generate_rebalancing_signals(
-                    current_portfolio, target_weights
-                )
-            else:
-                raise ValueError(
-                    f"Unknown portfolio optimization request type: {request_type}"
-                )
-        except Exception as e:
-            logger.error(f"Error executing portfolio optimization service: {e}")
-            raise
 
     def get_system_health_metrics(self) -> SystemHealthMetrics:
         """Get overall system health metrics"""
         try:
-            total_agents = len(self.registered_agents)
-            active_agents = sum(
-                1
-                for agent in self.registered_agents.values()
-                if agent.status == "ACTIVE"
+            metrics = self.data_aggregator.aggregate_system_health(
+                self.registered_agents, self.performance_metrics
             )
-
-            total_requests = sum(
-                metrics["total_requests"]
-                for metrics in self.performance_metrics.values()
-            )
-            successful_requests = sum(
-                metrics["successful_requests"]
-                for metrics in self.performance_metrics.values()
-            )
-            failed_requests = sum(
-                metrics["failed_requests"]
-                for metrics in self.performance_metrics.values()
-            )
-
-            # Calculate average response time
-            response_times = [
-                metrics["average_response_time"]
-                for metrics in self.performance_metrics.values()
-                if metrics["average_response_time"] > 0
-            ]
-            average_response_time = (
-                sum(response_times) / len(response_times) if response_times else 0.0
-            )
-
-            # Calculate system uptime (simplified)
-            system_uptime = 99.9  # Placeholder - would calculate from actual start time
-
             return SystemHealthMetrics(
-                total_agents=total_agents,
-                active_agents=active_agents,
-                total_requests=total_requests,
-                successful_requests=successful_requests,
-                failed_requests=failed_requests,
-                average_response_time=average_response_time,
-                system_uptime=system_uptime,
+                **metrics,
                 last_updated=datetime.now(),
             )
         except Exception as e:

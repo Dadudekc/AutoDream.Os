@@ -12,6 +12,8 @@ import os
 import time
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from pathlib import Path
 

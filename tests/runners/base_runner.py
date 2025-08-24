@@ -9,6 +9,8 @@ across the previous 3 separate test runners.
 import subprocess
 import time
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from datetime import datetime

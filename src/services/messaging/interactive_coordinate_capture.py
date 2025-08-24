@@ -8,6 +8,8 @@ Follows V2 coding standards with SRP, clean interfaces, and modularity.
 
 import json
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Tuple, Optional, List
 from abc import ABC, abstractmethod

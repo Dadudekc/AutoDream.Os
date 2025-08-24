@@ -18,6 +18,9 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
+# Stability improvements are available but not auto-imported to avoid circular imports
+# from src.utils.stability_improvements import stability_manager, safe_import
+
 # Utils component imports
 try:
     from .config_loader import ConfigLoader

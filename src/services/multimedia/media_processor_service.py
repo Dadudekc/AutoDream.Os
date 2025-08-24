@@ -7,6 +7,8 @@ Central coordinator for all multimedia operations and real-time processing
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, Callable, List
 from pathlib import Path
 import json

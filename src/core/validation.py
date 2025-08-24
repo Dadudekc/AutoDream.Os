@@ -2,6 +2,8 @@
 """Contract validation utilities."""
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Any, Dict, List
 
 from .contract_models import ContractPriority

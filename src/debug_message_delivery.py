@@ -7,10 +7,12 @@ import sys
 import time
 import json
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 sys.path.append("src")
 
 try:
-    from services.v2_message_delivery_service import V2MessageDeliveryService
+    from services.messaging import UnifiedMessagingService as V2MessageDeliveryService  # Backward compatibility alias
 
     print("🐛 DEBUGGING MESSAGE DELIVERY PROCESS")
     print("=" * 60)

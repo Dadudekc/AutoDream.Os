@@ -9,6 +9,8 @@ in a headless environment without requiring GUI dependencies.
 
 import sys
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add the src directory to the path

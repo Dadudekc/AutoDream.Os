@@ -10,6 +10,8 @@ This creates a perpetual motion system where the Captain is prompted to create n
 import json
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Any

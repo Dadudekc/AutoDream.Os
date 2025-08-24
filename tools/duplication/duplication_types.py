@@ -67,3 +67,4 @@ class DuplicationReport:
     issues_by_severity: dict
     summary: str
     recommendations: List[str] = field(default_factory=list)
+

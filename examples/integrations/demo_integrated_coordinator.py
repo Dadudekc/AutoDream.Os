@@ -9,6 +9,8 @@ Shows how Agent-5 can coordinate other agents using both systems.
 
 import asyncio
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Import the integrated coordinator

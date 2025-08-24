@@ -8,6 +8,8 @@ Follows V2 standards with ≤200 LOC and single responsibility for metrics calcu
 import logging
 import numpy as np
 import pandas as pd
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Tuple
 
 logger = logging.getLogger(__name__)

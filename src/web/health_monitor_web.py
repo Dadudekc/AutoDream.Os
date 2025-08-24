@@ -12,6 +12,8 @@ import json
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 from flask import Flask, render_template, jsonify, request, redirect, url_for

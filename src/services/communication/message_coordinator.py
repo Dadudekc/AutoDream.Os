@@ -10,6 +10,8 @@ import json
 import time
 import asyncio
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List, Callable, Union
 from pathlib import Path
 from datetime import datetime, timedelta

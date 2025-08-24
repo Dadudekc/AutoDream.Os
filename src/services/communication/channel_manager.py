@@ -9,6 +9,8 @@ import logging
 import json
 import asyncio
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime
 import uuid

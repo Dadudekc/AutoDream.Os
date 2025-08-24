@@ -9,6 +9,8 @@ Test the new clipboard-based message delivery system for faster message sending.
 from v1_v2_message_queue_system import V1V2MessageQueueSystem
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def test_clipboard_delivery():
     print("🚀 Testing Clipboard-Based Message Delivery...")

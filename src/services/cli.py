@@ -7,6 +7,8 @@ Replaces the old monolith file CLI functionality
 import sys
 import os
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Add the services directory to the path
 sys.path.insert(0, os.path.dirname(__file__))
 

@@ -20,6 +20,8 @@ Follows V2 coding standards: ≤300 LOC, OOP design, SRP.
 import json
 import time
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional
 from dataclasses import asdict
 from datetime import datetime

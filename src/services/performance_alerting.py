@@ -8,6 +8,8 @@ import json
 import logging
 import smtplib
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from email.mime.text import MIMEText

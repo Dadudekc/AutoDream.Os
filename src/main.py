@@ -18,6 +18,8 @@ Usage:
 import sys
 import os
 import argparse
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional
 import logging

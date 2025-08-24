@@ -10,6 +10,8 @@ License: MIT
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room, leave_room
@@ -196,3 +198,4 @@ class FlaskPortalApp:
     def get_socketio(self) -> Optional[SocketIO]:
         """Get the SocketIO instance if available"""
         return self.socketio
+

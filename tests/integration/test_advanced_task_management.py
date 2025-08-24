@@ -14,6 +14,8 @@ import asyncio
 import time
 import logging
 import pytest
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 
 # Configure logging

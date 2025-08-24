@@ -12,6 +12,8 @@ import time
 import json
 import sys
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -22,7 +24,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 try:
     from services.core_coordinator_service import CoreCoordinatorService
     from services.api_gateway import V2APIGateway
-    from services.service_discovery import V2ServiceDiscovery
+    from services.service_registry import ServiceRegistry as V2ServiceDiscovery
     from services.integration_monitoring import V2IntegrationMonitoring
     from services.workflow_service import WorkflowService
     from services.contract_validation_service import ContractValidationService

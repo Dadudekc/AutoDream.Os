@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import json
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 print("Enhanced 8-Agent Messaging System - TEST_SYNC Ready")

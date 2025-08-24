@@ -10,6 +10,8 @@ import os
 import sys
 import tempfile
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import importlib.util
 

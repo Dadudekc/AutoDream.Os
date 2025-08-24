@@ -9,6 +9,8 @@ Comprehensive testing for intelligent repository scanner functionality.
 import pytest
 import tempfile
 import shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 from typing import Dict, Any, List

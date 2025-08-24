@@ -8,6 +8,8 @@ License: MIT
 """
 
 import pytest
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

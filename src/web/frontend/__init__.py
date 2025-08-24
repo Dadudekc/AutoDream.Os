@@ -103,6 +103,8 @@ def run_frontend_tests():
 # Package initialization logging
 import logging
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 logger = logging.getLogger(__name__)
 logger.info(f"Frontend package initialized - version {__version__}")
 logger.info("Available classes: %s", ", ".join(__all__))

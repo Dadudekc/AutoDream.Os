@@ -13,6 +13,8 @@ import json
 import sys
 import os
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -27,7 +29,7 @@ logger = logging.getLogger(__name__)
 # Import API V2 services for focused testing
 try:
     from services.api_gateway import V2APIGateway
-    from services.service_discovery import V2ServiceDiscovery
+    from services.service_registry import ServiceRegistry as V2ServiceDiscovery
     from services.integration_monitoring import V2IntegrationMonitoring
     from services.workflow_service import WorkflowService
     from services.contract_validation_service import ContractValidationService

@@ -13,6 +13,8 @@ import time
 import json
 import logging
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Set
 from dataclasses import dataclass, field

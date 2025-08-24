@@ -13,6 +13,8 @@ import json
 import yaml
 import argparse
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Any, Optional
 

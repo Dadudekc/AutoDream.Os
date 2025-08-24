@@ -5,6 +5,8 @@ Fix missing Enum imports across the codebase
 
 import os
 import re
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 

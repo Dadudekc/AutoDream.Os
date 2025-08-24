@@ -109,7 +109,23 @@ class MockTaskStatus:
     BLOCKED = "blocked"
     CANCELLED = "cancelled"
 
-class MockTaskPriority:
+class MockTaskPriorityMeta(type):
+    """Metaclass to make MockTaskPriority subscriptable."""
+    def __getitem__(cls, key):
+        if key == 'MINIMAL':
+            return cls.MINIMAL
+        elif key == 'LOW':
+            return cls.LOW
+        elif key == 'MEDIUM':
+            return cls.MEDIUM
+        elif key == 'HIGH':
+            return cls.HIGH
+        elif key == 'CRITICAL':
+            return cls.CRITICAL
+        else:
+            raise KeyError(f"'{key}' is not a valid MockTaskPriority key")
+
+class MockTaskPriority(metaclass=MockTaskPriorityMeta):
     """Mock TaskPriority enum to avoid circular imports."""
     MINIMAL = type('MockPriority', (), {'value': 1})()
     LOW = type('MockPriority', (), {'value': 2})()
@@ -131,21 +147,6 @@ class MockTaskPriority:
             return cls.CRITICAL
         else:
             raise ValueError(f"'{value}' is not a valid MockTaskPriority")
-    
-    def __getitem__(cls, key):
-        """Make the class subscriptable to simulate enum behavior."""
-        if key == 'MINIMAL':
-            return cls.MINIMAL
-        elif key == 'LOW':
-            return cls.LOW
-        elif key == 'MEDIUM':
-            return cls.MEDIUM
-        elif key == 'HIGH':
-            return cls.HIGH
-        elif key == 'CRITICAL':
-            return cls.CRITICAL
-        else:
-            raise KeyError(f"'{key}' is not a valid MockTaskPriority key")
 
 class MockTaskComplexity:
     """Mock TaskComplexity enum to avoid circular imports."""

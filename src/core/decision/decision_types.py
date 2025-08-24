@@ -21,6 +21,40 @@ class DecisionType(Enum):
     CONFLICT_RESOLUTION = "conflict_resolution"
     WORKFLOW_OPTIMIZATION = "workflow_optimization"
     AGENT_COORDINATION = "agent_coordination"
+    LEARNING_ADAPTATION = "learning_adaptation"
+    STRATEGIC_PLANNING = "strategic_planning"
+
+
+class DecisionConfidence(Enum):
+    """Confidence levels for autonomous decisions"""
+    LOW = "low"      # 0-33% confidence (requires human review)
+    MEDIUM = "medium"  # 34-66% confidence (can proceed with monitoring)
+    HIGH = "high"    # 67-100% confidence (fully autonomous execution)
+
+
+class LearningMode(Enum):
+    """Learning modes for the autonomous system"""
+    SUPERVISED = "supervised"
+    UNSUPERVISED = "unsupervised"
+    REINFORCEMENT = "reinforcement"
+    TRANSFER = "transfer"
+    ACTIVE = "adaptive"
+
+
+class IntelligenceLevel(Enum):
+    """Intelligence levels for decision making"""
+    BASIC = "basic"           # Rule-based decisions
+    INTERMEDIATE = "intermediate"  # Pattern recognition
+    ADVANCED = "advanced"     # Predictive modeling
+    EXPERT = "expert"         # Deep learning
+    AUTONOMOUS = "autonomous" # Self-improving
+
+
+class DataIntegrityLevel(Enum):
+    """Data integrity verification levels"""
+    BASIC = "basic"  # Simple checksum
+    ADVANCED = "advanced"  # Hash + timestamp
+    CRITICAL = "critical"  # Full integrity chain
 
 
 class DecisionStatus(Enum):
@@ -81,3 +115,26 @@ class DecisionContext:
     current_workload: Dict[str, float]
     system_constraints: Dict[str, Any]
     historical_data: Dict[str, Any]
+
+
+@dataclass
+class LearningData:
+    """Data for learning and adaptation"""
+    input_features: List[float]
+    output_target: Any
+    context: str
+    timestamp: str
+    performance_metric: float
+    feedback_score: float
+
+
+@dataclass
+class AgentCapability:
+    """Agent capability information"""
+    agent_id: str
+    skills: List[str]
+    experience_level: float
+    performance_history: List[float]
+    learning_rate: float
+    specialization: str
+    availability: bool

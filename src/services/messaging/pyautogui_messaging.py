@@ -15,6 +15,8 @@ import time
 import logging
 import pyautogui
 import pyperclip
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Optional
 
 from .interfaces import IMessageSender, IBulkMessaging

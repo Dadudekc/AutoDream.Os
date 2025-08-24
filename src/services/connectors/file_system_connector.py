@@ -3,6 +3,8 @@
 
 import logging
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 logger = logging.getLogger(__name__)
 
 

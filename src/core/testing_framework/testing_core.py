@@ -13,6 +13,8 @@ License: MIT
 import asyncio
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Optional, Union
 from unittest.mock import Mock, AsyncMock

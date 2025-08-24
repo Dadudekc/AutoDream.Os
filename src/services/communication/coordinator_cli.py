@@ -8,6 +8,8 @@ Follows V2 coding standards: ≤100 LOC, CLI interface with smoke tests
 import argparse
 import logging
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import List
 
 try:

@@ -13,6 +13,8 @@ Smoke tests for core system components ensuring V2 coding standards compliance:
 import pytest
 import subprocess
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import List, Dict, Any
 

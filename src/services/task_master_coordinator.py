@@ -18,6 +18,8 @@ import json
 import os
 import sys
 import argparse
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from pathlib import Path

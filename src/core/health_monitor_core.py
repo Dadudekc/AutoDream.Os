@@ -12,6 +12,8 @@ License: MIT
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, Any, Set, Callable
 from concurrent.futures import ThreadPoolExecutor

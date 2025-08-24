@@ -14,9 +14,16 @@ from .decision_types import (
     DecisionRequest,
     DecisionResult,
     DecisionContext,
+    DecisionConfidence,
+    LearningMode,
+    IntelligenceLevel,
+    LearningData,
+    AgentCapability,
+    DataIntegrityLevel,
 )
 
-from .decision_core import AutonomousDecisionEngine
+from .decision_core import DecisionMakingEngine as AutonomousDecisionEngine  # Backward compatibility alias
+from .learning_engine import LearningEngine
 
 # Backward compatibility
 __all__ = [
@@ -26,5 +33,12 @@ __all__ = [
     "DecisionRequest",
     "DecisionResult",
     "DecisionContext",
+    "DecisionConfidence",
+    "LearningMode",
+    "IntelligenceLevel",
+    "LearningData",
+    "AgentCapability",
+    "DataIntegrityLevel",
     "AutonomousDecisionEngine",
+    "LearningEngine",
 ]

@@ -12,6 +12,8 @@ from pathlib import Path
 import json
 import sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Add project root to path
 project_root = Path(__file__).parent.parent
 sys.path.append(str(project_root))

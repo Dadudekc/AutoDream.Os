@@ -12,6 +12,8 @@ import time
 import threading
 import logging
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from pathlib import Path
 

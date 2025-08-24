@@ -11,6 +11,8 @@ License: MIT
 """
 
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 from enum import Enum

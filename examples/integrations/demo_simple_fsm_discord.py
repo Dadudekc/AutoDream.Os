@@ -14,6 +14,8 @@ Tests core functionality without complex dependencies.
 import sys
 import json
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

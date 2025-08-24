@@ -13,6 +13,8 @@ import json
 import sys
 import os
 import subprocess
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch
 

@@ -11,6 +11,8 @@ from v1_v2_message_queue_system import V1V2MessageQueueSystem
 import time
 import os
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def send_system_broadcast(
     message_file: str,

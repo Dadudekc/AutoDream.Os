@@ -8,6 +8,8 @@ import cv2
 import threading
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Optional, Callable, Dict, Any
 from pathlib import Path
 import numpy as np

@@ -14,6 +14,8 @@ LOC: 150 lines (under 200 limit)
 
 import re
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List, Optional, Union
 import logging
 

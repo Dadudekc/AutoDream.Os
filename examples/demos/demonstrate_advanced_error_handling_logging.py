@@ -11,6 +11,8 @@ import time
 import threading
 import random
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 sys.path.append(os.path.join(os.path.dirname(__file__), "src", "services"))
 
 from advanced_error_handler import (

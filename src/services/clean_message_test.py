@@ -9,6 +9,8 @@ Clean test to see exactly what's happening with message delivery to all agents.
 from v1_v2_message_queue_system import V1V2MessageQueueSystem
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def clean_message_test():
     print("🧹 CLEAN MESSAGE DELIVERY TEST")

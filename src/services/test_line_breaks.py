@@ -6,6 +6,8 @@ Test script to verify Shift+Enter line break functionality
 from v1_v2_message_queue_system import V1V2MessageQueueSystem
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 def test_line_breaks():
     print("🚀 Testing Shift+Enter line break functionality...")
 

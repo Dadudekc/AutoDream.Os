@@ -11,6 +11,8 @@ import json
 import time
 import logging
 import requests
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Union, Callable
 from dataclasses import dataclass, asdict
 from enum import Enum

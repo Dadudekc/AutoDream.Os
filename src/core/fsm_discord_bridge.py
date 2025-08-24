@@ -22,6 +22,8 @@ import json
 import time
 import asyncio
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Callable
 from pathlib import Path

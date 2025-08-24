@@ -107,6 +107,8 @@ def setup_fastapi_agent_api(communicator, app=None):
 
 import logging
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 logger = logging.getLogger(__name__)
 logger.info(f"Cross-Agent Integration package initialized - version {__version__}")
 logger.info("Available classes: %s", ", ".join(__all__))

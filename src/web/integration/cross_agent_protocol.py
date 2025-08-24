@@ -12,6 +12,8 @@ import logging
 import asyncio
 import time
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable, Union
 from dataclasses import dataclass, asdict

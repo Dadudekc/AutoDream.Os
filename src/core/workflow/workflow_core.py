@@ -12,6 +12,8 @@ License: MIT
 
 import logging
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 from pathlib import Path

@@ -12,18 +12,21 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from autonomous_development.core import DevelopmentTask
-from core.task_manager import DevelopmentTaskManager as TaskManager
+# Use type hints with strings to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.autonomous_development.core import DevelopmentTask
+    from src.core.task_manager import DevelopmentTaskManager as TaskManager
 
 
 class ReportingManager:
     """Manages reporting and status formatting for autonomous development"""
 
-    def __init__(self, task_manager: TaskManager):
+    def __init__(self, task_manager: "TaskManager"):
         self.task_manager = task_manager
         self.logger = logging.getLogger(__name__)
 
-    def format_task_list_for_agents(self, tasks: List[DevelopmentTask]) -> str:
+    def format_task_list_for_agents(self, tasks: List["DevelopmentTask"]) -> str:
         """Format task list for agent review with proper formatting"""
         if not tasks:
             return "No tasks available for claiming."
@@ -144,7 +147,7 @@ Start by reviewing the current task list and identifying areas for improvement!"
 
 Stay ready for new development opportunities! 🚀"""
 
-    def format_task_claimed_message(self, task: DevelopmentTask) -> str:
+    def format_task_claimed_message(self, task: "DevelopmentTask") -> str:
         """Format message when a task is claimed"""
         return f"""🎯 TASK CLAIMED: {task.title}
 
@@ -160,7 +163,7 @@ Stay ready for new development opportunities! 🚀"""
 
 Good luck with your autonomous development! 🚀"""
 
-    def format_progress_update_message(self, task: DevelopmentTask, new_progress: float, blockers: List[str] = None) -> str:
+    def format_progress_update_message(self, task: "DevelopmentTask", new_progress: float, blockers: List[str] = None) -> str:
         """Format progress update message for an agent"""
         if blockers:
             return f"""⚠️ PROGRESS UPDATE - BLOCKERS DETECTED

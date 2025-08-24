@@ -19,6 +19,8 @@ import sys
 import subprocess
 import platform
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import List, Dict, Any
 

@@ -14,6 +14,8 @@ LOC: 180 lines (under 200 limit)
 import argparse
 import time
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add project root to path for imports

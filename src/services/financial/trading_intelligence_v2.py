@@ -8,6 +8,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, CLI interface.
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import List
 from dataclasses import dataclass

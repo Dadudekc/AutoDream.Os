@@ -9,6 +9,8 @@ Follows 100 LOC limit and single responsibility principle.
 import logging
 import time
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable
 
 from .message_handler_v2 import MessageHandlerV2, MsgTag, AgentMessage

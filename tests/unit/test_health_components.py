@@ -13,6 +13,8 @@ License: MIT
 
 import pytest
 import asyncio
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from unittest.mock import Mock, patch
 from pathlib import Path

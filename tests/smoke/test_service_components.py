@@ -8,6 +8,8 @@ and integration between performance monitoring, API gateway, and agent communica
 
 import pytest
 import asyncio
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, AsyncMock
 import sys
 import os

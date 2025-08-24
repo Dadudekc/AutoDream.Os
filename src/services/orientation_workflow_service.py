@@ -11,6 +11,8 @@ LOC: 180 lines (under 200 limit)
 import argparse
 import time
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable
 import logging
 

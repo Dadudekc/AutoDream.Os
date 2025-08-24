@@ -9,6 +9,8 @@ with cursor database monitoring and workflow integration
 import sys
 import time
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

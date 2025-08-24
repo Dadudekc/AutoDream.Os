@@ -14,6 +14,8 @@ Provides core gaming systems:
 import time
 import logging
 import numpy as np
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from enum import Enum
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Tuple

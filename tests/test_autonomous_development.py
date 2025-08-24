@@ -18,6 +18,8 @@ intelligent, context-aware development prompts.
 import unittest
 import time
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, MagicMock, call
 from typing import Dict, List, Any
 

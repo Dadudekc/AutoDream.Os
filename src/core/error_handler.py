@@ -10,6 +10,8 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 import time
 import threading
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable, TypeVar, Generic
 from dataclasses import dataclass
 from enum import Enum

@@ -45,3 +45,4 @@ class AgentDashboard(Enum):
     DEPLOYMENT = "deployment"
     MONITORING = "monitoring"
     SECURITY = "security"
+

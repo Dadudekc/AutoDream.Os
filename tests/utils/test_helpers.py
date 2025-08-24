@@ -7,6 +7,8 @@ Common helper functions used across all test files, eliminating duplication.
 
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List
 from unittest.mock import Mock, MagicMock
 from datetime import datetime, timedelta

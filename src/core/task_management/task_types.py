@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import json
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from dataclasses import dataclass, field, asdict
 from typing import Dict, Any, Optional, Generic, TypeVar, List, Set

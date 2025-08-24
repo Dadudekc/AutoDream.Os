@@ -9,6 +9,8 @@ Max 200 LOC, OOP design, SRP.
 
 import logging
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 from .fsm_task_v2 import FSMTask, FSMUpdate, TaskState, TaskPriority, TaskValidator

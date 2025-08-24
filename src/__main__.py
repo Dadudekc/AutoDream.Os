@@ -1,4 +1,6 @@
 import argparse, os, sys, platform, subprocess, json, shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent

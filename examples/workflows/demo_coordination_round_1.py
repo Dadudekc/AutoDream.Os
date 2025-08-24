@@ -10,6 +10,8 @@ This is COORDINATION ROUND 1 of 6 - Decision-Making Algorithms focus.
 import time
 import sys
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

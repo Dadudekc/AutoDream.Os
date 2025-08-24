@@ -13,6 +13,8 @@ LOC: 150 lines (under 200 limit)
 
 import argparse
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Any
 

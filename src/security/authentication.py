@@ -16,6 +16,8 @@ import hmac
 import secrets
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from dataclasses import dataclass
 from typing import Optional, Dict, Any
 from datetime import datetime

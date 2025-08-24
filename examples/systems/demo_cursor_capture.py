@@ -9,6 +9,8 @@ This script simulates the capture process and displays the results.
 
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from pathlib import Path
 

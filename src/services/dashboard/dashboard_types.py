@@ -66,3 +66,4 @@ class DashboardConfig:
     enable_animations: bool = True
 
 
+

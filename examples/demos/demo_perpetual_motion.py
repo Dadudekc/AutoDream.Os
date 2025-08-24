@@ -10,6 +10,8 @@ This creates a self-sustaining ecosystem powered by cursor responses.
 import time
 import threading
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from pathlib import Path
 

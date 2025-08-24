@@ -13,6 +13,8 @@ License: MIT
 
 import argparse
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any
 
 from .interfaces import MessagingMode, MessageType

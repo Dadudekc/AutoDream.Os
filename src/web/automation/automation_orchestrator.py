@@ -6,6 +6,8 @@ Coordinates web automation, website generation, and testing operations
 import asyncio
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Union, Callable
 from dataclasses import dataclass, asdict

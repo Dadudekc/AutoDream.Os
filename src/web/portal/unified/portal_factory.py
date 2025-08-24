@@ -10,6 +10,8 @@ License: MIT
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Optional, Literal
 from enum import Enum
 
@@ -161,3 +163,4 @@ class PortalFactory:
         except Exception as e:
             self.logger.error(f"Failed to get portal info: {e}")
             return {'error': str(e)}
+

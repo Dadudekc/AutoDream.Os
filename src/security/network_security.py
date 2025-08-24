@@ -12,6 +12,8 @@ import subprocess
 import platform
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, as_completed

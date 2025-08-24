@@ -10,6 +10,8 @@ LOC: 195 lines (under 200 limit)
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass
 from enum import Enum

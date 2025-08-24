@@ -11,6 +11,8 @@ LOC: Target 200 lines (under 200 limit)
 import os
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Set
 from pathlib import Path
 from dataclasses import dataclass, asdict

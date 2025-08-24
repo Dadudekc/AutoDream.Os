@@ -10,17 +10,20 @@
 
 ## 📋 **EXECUTIVE SUMMARY**
 
-This document consolidates all V2 coding standards into one comprehensive, easily accessible reference. The V2 workspace enforces **strict coding standards** to ensure code quality, maintainability, and agent usability.
+This document consolidates all V2 coding standards into one comprehensive, easily accessible reference. The V2 workspace enforces **coding standards focused on clean OOP design, maintainability, and code quality** rather than strict line count limits.
+
+**NEW APPROACH (2024)**: The emphasis is on clean, organized, production-ready code that follows OOP principles, reduces duplication, and leverages existing systems. Line counts are guidelines, not strict rules.
 
 ---
 
 ## 🏗️ **CORE CODING STANDARDS**
 
-### **1. 📏 LINE COUNT LIMITS**
-- **Standard Files**: **300 LOC** (Lines of Code)
-- **GUI Components**: **500 LOC** (250 logic + 250 GUI)
-- **Target**: Keep files under limits for optimal maintainability
-- **Enforcement**: **MODERATE** - Refactor if significantly exceeded
+### **1. 📏 LINE COUNT GUIDELINES**
+- **Standard Files**: **300 LOC** (Lines of Code) - *Guideline, not strict rule*
+- **GUI Components**: **500 LOC** (250 logic + 250 GUI) - *Guideline, not strict rule*
+- **Target**: Use as a general guideline for maintainability
+- **Enforcement**: **FLEXIBLE** - Refactor based on code quality, not just line count
+- **Real Priority**: Clean OOP design, SRP compliance, and maintainability over arbitrary limits
 
 ### **2. 🎯 OBJECT-ORIENTED DESIGN (OOP)**
 - **All code must be properly OOP** ✅
@@ -56,6 +59,20 @@ This document consolidates all V2 coding standards into one comprehensive, easil
 - **Comprehensive help systems** ✅
 - **Simple testing commands** ✅
 - **No complex setup required for testing**
+
+### **7. 🧪 TEST-DRIVEN DEVELOPMENT (TDD)**
+- **Every component must have tests or be developed with TDD** ✅
+- **Tests ensure code quality and reliability** ✅
+- **Prevents regression issues** ✅
+- **Improves design through test-first approach** ✅
+- **Makes refactoring safer and more confident**
+
+### **8. 🔄 CODE REUSE AND DUPLICATION REDUCTION**
+- **Leverage existing systems before creating new ones** ✅
+- **Reduce duplication on sight** ✅
+- **Design for reuse and composability** ✅
+- **Maintain single source of truth for common functionality** ✅
+- **Always check for existing solutions first**
 
 ---
 
@@ -154,6 +171,14 @@ Agent_Cellphone_V2/
 
 ## 🛠️ **REFACTORING GUIDELINES**
 
+### **When to Refactor (NEW APPROACH):**
+1. **SRP Violations**: Multiple responsibilities in one class
+2. **High Cognitive Complexity**: Code becomes difficult to understand
+3. **Testing Difficulties**: Mixed concerns make testing complex
+4. **Code Duplication**: Same logic appears in multiple places
+5. **Poor Organization**: Code structure affects maintainability
+6. **Line Count**: Only as a secondary consideration, not primary driver
+
 ### **Breaking Down Large Files (>200 LOC):**
 1. **Identify distinct responsibilities** within the file
 2. **Create separate classes** for each responsibility
@@ -161,6 +186,8 @@ Agent_Cellphone_V2/
 4. **Add CLI interfaces** to each new class
 5. **Create smoke tests** for each new class
 6. **Update imports** and dependencies
+7. **Leverage existing systems** to avoid duplication
+8. **Implement TDD approach** for new modules
 
 ### **Example Refactoring:**
 ```python
@@ -354,15 +381,39 @@ class FSMCoreV2:
 
 ---
 
+## 🆕 **UPDATED PHILOSOPHY (2024)**
+
+### **New Approach - Quality Over Quantity:**
+The V2 coding standards have evolved to focus on **code quality, maintainability, and clean OOP design** rather than strict line count limits.
+
+### **Real Priorities (In Order):**
+1. **Clean OOP Design** - Proper class structure and inheritance
+2. **Single Responsibility Principle** - One class, one purpose
+3. **Test-Driven Development** - Every component must have tests or be developed with TDD
+4. **Code Reuse** - Leverage existing systems and reduce duplication
+5. **Maintainability** - Clean, organized, readable code
+6. **Line Count** - 300 LOC as a helpful guideline, not a strict rule
+
+### **When to Refactor (Primary Triggers):**
+- **SRP violations** (multiple responsibilities in one class)
+- **High cognitive complexity** affecting maintainability
+- **Testing difficulties** due to mixed concerns
+- **Code duplication** that could leverage existing systems
+- **Poor organization** affecting readability
+
+---
+
 ## 📋 **QUICK REFERENCE**
 
 ### **Essential Standards (Must Follow):**
-1. **≤300 LOC per file (≤500 for GUI)** - No exceptions
+1. **≤300 LOC per file (≤500 for GUI)** - *Guideline, not strict rule*
 2. **OOP design** - All code in classes
 3. **Single responsibility** - One purpose per class
 4. **CLI interface** - Required for all components
 5. **Smoke tests** - Required for all components
 6. **Agent usability** - Easy to test and use
+7. **TDD approach** - Tests for all components
+8. **Code reuse** - Leverage existing systems
 
 ### **File Structure:**
 - **src/core/**: Core system components
@@ -380,8 +431,9 @@ class FSMCoreV2:
 
 ---
 
-**V2 CODING STANDARDS: UPDATED AND ACTIVE**
-**NEW LIMITS: 300 LOC (Standard), 500 LOC (GUI)**
+**V2 CODING STANDARDS: UPDATED AND ACTIVE (2024)**
+**NEW APPROACH: Quality over quantity, clean OOP design over strict line limits**
+**GUIDELINES: 300 LOC (Standard), 500 LOC (GUI) - Flexible enforcement**
 **COMPLIANCE REQUIRED FOR ALL DEVELOPMENT**
 **STANDARDS ENFORCEMENT: AGENT-4 (QUALITY ASSURANCE)**
 **DEVELOPMENT GUIDANCE: AGENT-3 (DEVELOPMENT LEAD)**

@@ -8,6 +8,8 @@ Follows 100 LOC limit and single responsibility principle.
 
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 from enum import Enum

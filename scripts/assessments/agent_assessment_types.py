@@ -117,3 +117,4 @@ class AssessmentConfiguration:
     generate_reports: bool
     output_format: str = "json"
     log_level: str = "INFO"
+

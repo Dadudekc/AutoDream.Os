@@ -12,6 +12,8 @@ License: MIT
 
 import re
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Any
 from dataclasses import dataclass, field

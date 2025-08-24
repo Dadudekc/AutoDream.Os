@@ -13,6 +13,8 @@ License: MIT
 import logging
 import uuid
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Set
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor, as_completed

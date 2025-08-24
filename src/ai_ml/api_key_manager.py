@@ -11,6 +11,8 @@ This module provides secure API key management for:
 
 import os
 import re
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Optional, Dict, Any
 from pathlib import Path
 import logging

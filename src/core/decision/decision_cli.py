@@ -20,6 +20,8 @@ Follows V2 coding standards: ≤100 LOC, OOP design, SRP.
 import argparse
 import json
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any
 from datetime import datetime
 

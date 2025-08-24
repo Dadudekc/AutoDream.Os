@@ -9,6 +9,8 @@ for testing and development purposes. No user interaction required.
 
 import sys
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add the src directory to the path

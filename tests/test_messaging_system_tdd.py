@@ -15,6 +15,8 @@ import tempfile
 import json
 import os
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, MagicMock
 from pathlib import Path
 

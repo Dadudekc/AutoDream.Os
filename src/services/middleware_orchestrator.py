@@ -6,6 +6,8 @@ Manages data flow through middleware components and provides advanced routing ca
 import asyncio
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum

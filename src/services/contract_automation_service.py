@@ -13,6 +13,8 @@ Automated contract assignment system that creates perpetual motion:
 import json
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional, Any

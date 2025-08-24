@@ -9,6 +9,8 @@ Simple test of sprint services without complex imports.
 import unittest
 import tempfile
 import shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import sys
 import os

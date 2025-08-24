@@ -6,6 +6,8 @@ Handles message delivery status tracking and statistics
 
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional
 from datetime import datetime
 

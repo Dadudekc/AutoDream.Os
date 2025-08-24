@@ -15,6 +15,8 @@ import argparse
 import time
 import json
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 import logging

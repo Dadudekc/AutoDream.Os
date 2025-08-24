@@ -132,3 +132,4 @@ class SystemPerformanceReport:
                 ])
         
         return priority_targets[:5]  # Return top 5 priorities
+

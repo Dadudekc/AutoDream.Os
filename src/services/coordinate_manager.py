@@ -8,6 +8,8 @@ import logging
 import json
 import os
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, Tuple
 from pathlib import Path
 

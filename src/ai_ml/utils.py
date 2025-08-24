@@ -11,6 +11,8 @@ import json
 import logging
 import time
 import functools
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Union, Callable
 from pathlib import Path
 from datetime import datetime

@@ -13,6 +13,8 @@ License: MIT
 import ast
 import hashlib
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import List, Set
 from .duplication_types import CodeBlock, BlockType
@@ -155,3 +157,4 @@ class CodeAnalyzer:
         import re
         tokens = re.findall(r'\b\w+\b', content.lower())
         return set(tokens)
+

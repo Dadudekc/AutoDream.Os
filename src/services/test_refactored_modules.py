@@ -8,6 +8,8 @@ import sys
 import os
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Add the services directory to the path
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -98,7 +100,7 @@ def test_main_service():
     print("🧪 Testing Main Service Integration...")
     
     try:
-        from v2_message_delivery_service import V2MessageDeliveryService
+        from messaging import UnifiedMessagingService as V2MessageDeliveryService  # Backward compatibility alias
         
         service = V2MessageDeliveryService()
         

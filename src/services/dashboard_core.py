@@ -8,6 +8,8 @@ Follows V2 coding standards: ≤300 LOC, OOP design, SRP
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional

@@ -15,6 +15,8 @@ import logging
 import threading
 import queue
 import hashlib
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable, Tuple
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -302,9 +304,123 @@ class UnifiedMessageQueue:
             return ""
     
     def _generate_message_id(self) -> str:
+        """Generate unique message ID with fallback for thread ID."""
         timestamp = str(int(time.time() * 1000))
-        random_part = str(hash(str(threading.current_thread().ident))[-6:]
+        try:
+            thread_id = threading.current_thread().ident
+            if thread_id is not None:
+                random_part = str(hash(str(thread_id))[-6:]
+            else:
+                random_part = str(hash(str(time.time()))[-6:]
+        except Exception:
+            random_part = str(hash(str(time.time()))[-6:]
         return f"msg_{timestamp}_{random_part}"
+    
+    def cleanup_expired_messages(self, max_age_hours: int = 24) -> int:
+        """Clean up expired messages to prevent memory bloat."""
+        try:
+            cutoff_time = time.time() - (max_age_hours * 3600)
+            expired_messages = []
+            
+            with self._lock:
+                for message in self.message_history:
+                    if message.timestamp < cutoff_time:
+                        expired_messages.append(message)
+                
+                # Remove expired messages
+                for message in expired_messages:
+                    self.message_history.remove(message)
+                
+                logger.info(f"🧹 Cleaned up {len(expired_messages)} expired messages")
+                return len(expired_messages)
+                
+        except Exception as e:
+            logger.error(f"❌ Failed to cleanup expired messages: {e}")
+            return 0
+    
+    def cleanup_completed_messages(self, max_completed_age_hours: int = 1) -> int:
+        """Clean up completed messages to prevent history bloat."""
+        try:
+            cutoff_time = time.time() - (max_completed_age_hours * 3600)
+            completed_messages = []
+            
+            with self._lock:
+                for message in self.message_history:
+                    if (message.status in [MessageStatus.COMPLETED, MessageStatus.FAILED] and 
+                        message.timestamp < cutoff_time):
+                        completed_messages.append(message)
+                
+                # Remove completed messages
+                for message in completed_messages:
+                    self.message_history.remove(message)
+                
+                logger.info(f"🧹 Cleaned up {len(completed_messages)} completed messages")
+                return len(completed_messages)
+                
+        except Exception as e:
+            logger.error(f"❌ Failed to cleanup completed messages: {e}")
+            return 0
+    
+    def deduplicate_messages(self) -> int:
+        """Remove duplicate messages based on content and sender/recipient."""
+        try:
+            seen_messages = {}
+            duplicates = []
+            
+            with self._lock:
+                for message in self.message_history:
+                    # Create key based on content, sender, recipient, and type
+                    key = (message.content, message.sender_agent, 
+                           message.target_agent, message.message_type)
+                    
+                    if key in seen_messages:
+                        # Keep the newer message, mark older as duplicate
+                        if message.timestamp > seen_messages[key].timestamp:
+                            duplicates.append(seen_messages[key])
+                            seen_messages[key] = message
+                        else:
+                            duplicates.append(message)
+                    else:
+                        seen_messages[key] = message
+                
+                # Remove duplicates
+                for duplicate in duplicates:
+                    self.message_history.remove(duplicate)
+                
+                logger.info(f"🧹 Removed {len(duplicates)} duplicate messages")
+                return len(duplicates)
+                
+        except Exception as e:
+            logger.error(f"❌ Failed to deduplicate messages: {e}")
+            return 0
+    
+    def start_cleanup_scheduler(self):
+        """Start background cleanup scheduler."""
+        if hasattr(self, '_cleanup_thread') and self._cleanup_thread and self._cleanup_thread.is_alive():
+            return  # Already running
+        
+        self._cleanup_thread = threading.Thread(target=self._cleanup_loop, daemon=True)
+        self._cleanup_thread.start()
+        logger.info("🧹 Cleanup scheduler started")
+    
+    def _cleanup_loop(self):
+        """Background cleanup loop."""
+        while self.is_running:
+            try:
+                # Run cleanup every 5 minutes
+                time.sleep(300)
+                
+                if not self.is_running:
+                    break
+                
+                # Cleanup operations
+                self.cleanup_expired_messages()
+                self.cleanup_completed_messages()
+                self.deduplicate_messages()
+                
+            except Exception as e:
+                logger.error(f"❌ Cleanup loop error: {e}")
+                time.sleep(60)  # Wait before retrying
     
     def _process_messages(self):
         """Process messages in background thread."""

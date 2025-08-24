@@ -6,6 +6,8 @@ Follows V2 standards with ≤200 LOC and single responsibility for data structur
 """
 
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass, asdict, field
 from datetime import datetime

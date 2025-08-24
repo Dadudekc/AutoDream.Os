@@ -8,6 +8,8 @@ import json
 import os
 import sys
 import argparse
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, asdict

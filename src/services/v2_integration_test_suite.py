@@ -12,6 +12,8 @@ import json
 import logging
 import sys
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from unittest.mock import Mock, patch, MagicMock

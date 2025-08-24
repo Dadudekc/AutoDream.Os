@@ -8,6 +8,8 @@ import json
 import logging
 import pickle
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 from dataclasses import dataclass, field

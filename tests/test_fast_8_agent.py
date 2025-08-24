@@ -8,7 +8,9 @@ all 8 agents receive messages quickly and efficiently.
 """
 
 import asyncio
-from core.real_agent_communication_system import RealAgentCommunicationSystem
+
+from src.utils.stability_improvements import stability_manager, safe_import
+from services.messaging import UnifiedMessagingService as RealAgentCommunicationSystem  # Backward compatibility alias
 
 
 async def test_fast_8_agent():

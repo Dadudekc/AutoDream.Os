@@ -17,9 +17,11 @@ Features:
 import time
 import schedule
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from pathlib import Path
-from src.services.v2_message_delivery_service import V2MessageDeliveryService
+from services.messaging import UnifiedMessagingService as V2MessageDeliveryService  # Backward compatibility alias
 
 
 class AutomatedAgentCoordinator:

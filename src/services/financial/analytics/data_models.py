@@ -10,6 +10,8 @@ from typing import Dict, List, Any
 from dataclasses import dataclass
 import pandas as pd
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 @dataclass
 class BacktestResult:

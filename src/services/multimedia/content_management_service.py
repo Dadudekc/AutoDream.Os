@@ -8,6 +8,8 @@ import logging
 import time
 import json
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List, Callable
 from pathlib import Path
 import hashlib

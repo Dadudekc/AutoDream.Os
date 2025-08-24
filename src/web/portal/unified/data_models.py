@@ -134,3 +134,4 @@ class PortalNavigation:
             'breadcrumbs': self.breadcrumbs,
             'navigation_tree': self.navigation_tree
         }
+

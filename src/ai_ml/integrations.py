@@ -9,6 +9,8 @@ Provides integrations with OpenAI, Anthropic, and PyTorch APIs
 import os
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Union
 from pathlib import Path
 from datetime import datetime

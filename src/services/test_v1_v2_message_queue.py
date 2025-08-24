@@ -8,6 +8,8 @@ Simple test to verify the integrated message queue system works correctly.
 
 import time
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add parent directories to path for imports

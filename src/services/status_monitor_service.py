@@ -9,6 +9,8 @@ Follows V2 standards: ≤ 200 LOC, SRP, OOP design, CLI interface.
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional

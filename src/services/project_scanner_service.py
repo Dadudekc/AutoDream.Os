@@ -9,6 +9,8 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 
 import os
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List, Optional, Set
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed

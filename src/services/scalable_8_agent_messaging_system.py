@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import json
 import pyautogui
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 print("Scalable 8-Agent Messaging System - Full Version")

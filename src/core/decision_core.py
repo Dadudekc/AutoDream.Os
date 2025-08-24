@@ -10,6 +10,8 @@ Follows V2 standards: ≤200 LOC, single responsibility, OOP design.
 import threading
 import time
 import random
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from collections import defaultdict
 from typing import Dict, List, Any, Optional
 from datetime import datetime

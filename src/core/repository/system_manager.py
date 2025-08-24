@@ -11,6 +11,8 @@ License: MIT
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any
 from datetime import datetime
 

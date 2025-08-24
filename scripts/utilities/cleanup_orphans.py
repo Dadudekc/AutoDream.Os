@@ -9,6 +9,8 @@ Only removes files that are confirmed to have no references in the codebase.
 
 import os
 import shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import List, Dict
 

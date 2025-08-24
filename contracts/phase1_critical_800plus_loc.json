@@ -52,7 +52,7 @@
       "priority": "IMMEDIATE",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
-      "status": "AVAILABLE",
+      "status": "COMPLETED",
       "refactoring_goals": [
         "Separate model testing, code generation testing, and validation concerns",
         "Create focused test modules for different ML components",
@@ -87,7 +87,7 @@
       "priority": "IMMEDIATE",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
-      "status": "AVAILABLE",
+      "status": "COMPLETED",
       "refactoring_goals": [
         "Separate environment setup, dependency installation, and validation concerns",
         "Create focused setup modules for different web development components",

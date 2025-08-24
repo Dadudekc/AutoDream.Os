@@ -18,7 +18,11 @@ The `scripts` directory contains organized utility scripts, launchers, and tools
 - **`agent_integration_assessment.py`** - Agent integration assessment
 
 ### **`setup/`** - Environment & System Setup
-- **`setup_web_development.py`** - Web development environment setup
+- **`setup_web_development.py`** - Orchestrates the complete web setup flow
+- **`setup_web_environment.py`** - Virtual environment preparation utilities
+- **`setup_web_dependencies.py`** - Web dependency installation helpers
+- **`setup_web_configuration.py`** - Project structure and config generation
+- **`setup_web_validation.py`** - Setup validation tests
 - **`setup_web_development_env.py`** - Web development environment configuration
 - **`setup_web_dev_windows.ps1`** - Windows web development setup (PowerShell)
 

@@ -22,11 +22,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
       ],
       [
-        "src\\services\\error_analytics_system.py",
-        935,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\error_analytics_system.py"
-      ],
-      [
         "src\\services\\integrated_agent_coordinator.py",
         846,
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\integrated_agent_coordinator.py"
@@ -3397,17 +3392,17 @@
   "report": {
     "summary": {
       "total_python_files": 676,
-      "compliant_files": 395,
-      "non_compliant_files": 281,
-      "compliance_percentage": 58.4
+      "compliant_files": 396,
+      "non_compliant_files": 280,
+      "compliance_percentage": 58.6
     },
     "violations": {
-      "critical": 23,
+      "critical": 22,
       "major": 87,
       "moderate": 171
     },
     "contracts_needed": {
-      "phase_1": 23,
+      "phase_1": 22,
       "phase_2": 87,
       "phase_3": 171,
       "phase_4": 10
@@ -3430,15 +3425,10 @@
           "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\alerting\\manager.py"
         ],
         [
-          "src\\core\\health\\reporting\\generator.py",
-          1313,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
-        ],
-        [
-          "src\\services\\error_analytics_system.py",
-          935,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\services\\error_analytics_system.py"
-        ],
+        "src\\core\\health\\reporting\\generator.py",
+        1313,
+        "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
+      ],
         [
           "src\\services\\integrated_agent_coordinator.py",
           846,

@@ -1,0 +1,377 @@
+{
+  "phase": "Phase 2 - Major Violations (600+ LOC)",
+  "description": "High priority refactoring contracts for files exceeding 600 lines",
+  "total_files": 20,
+  "estimated_effort": "2-3 days per file",
+  "priority": "HIGH",
+  "standards": {
+    "target_loc": "400 LOC (standard), 600 LOC (GUI)",
+    "focus": "SRP compliance, modular architecture, production-ready code"
+  },
+  "contracts": [
+    {
+      "contract_id": "MAJOR-001",
+      "file_path": "tests/test_performance_monitoring_standalone.py",
+      "current_lines": 815,
+      "target_lines": 400,
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate monitoring setup, test execution, result analysis, and cleanup concerns",
+        "Create focused test modules for different performance monitoring components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create test_performance_setup.py (≤150 LOC)",
+        "3. Create test_performance_execution.py (≤150 LOC)",
+        "4. Create test_performance_analysis.py (≤150 LOC)",
+        "5. Create test_performance_cleanup.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_performance_setup.py",
+        "test_performance_execution.py",
+        "test_performance_analysis.py",
+        "test_performance_cleanup.py",
+        "test_performance_monitoring_standalone.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-002",
+      "file_path": "src/web/multimedia/webcam_filters.py",
+      "current_lines": 793,
+      "target_lines": 600,
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate filter processing, video handling, and UI concerns",
+        "Create focused modules for different multimedia components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct multimedia responsibilities",
+        "2. Create webcam_filter_processor.py (≤200 LOC)",
+        "3. Create webcam_video_handler.py (≤200 LOC)",
+        "4. Create webcam_ui_components.py (≤200 LOC)",
+        "5. Create webcam_configuration.py (≤100 LOC)",
+        "6. Refactor main file to orchestrate modules (≤200 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test webcam functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "webcam_filter_processor.py",
+        "webcam_video_handler.py",
+        "webcam_ui_components.py",
+        "webcam_configuration.py",
+        "webcam_filters.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-003",
+      "file_path": "src/ai_ml/intelligent_reviewer.py",
+      "current_lines": 789,
+      "target_lines": 400,
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate review logic, AI analysis, and reporting concerns",
+        "Create focused modules for different AI review components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct AI review responsibilities",
+        "2. Create intelligent_review_core.py (≤200 LOC)",
+        "3. Create intelligent_review_ai_analysis.py (≤200 LOC)",
+        "4. Create intelligent_review_reporting.py (≤150 LOC)",
+        "5. Create intelligent_review_config.py (≤100 LOC)",
+        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test AI review functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "intelligent_review_core.py",
+        "intelligent_review_ai_analysis.py",
+        "intelligent_review_reporting.py",
+        "intelligent_review_config.py",
+        "intelligent_reviewer.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-004",
+      "file_path": "src/security/network_security.py",
+      "current_lines": 780,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate security policies, network monitoring, and threat detection concerns",
+        "Create focused modules for different security components",
+        "Maintain comprehensive security functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct security responsibilities",
+        "2. Create network_security_policies.py (≤200 LOC)",
+        "3. Create network_security_monitoring.py (≤200 LOC)",
+        "4. Create network_security_threats.py (≤150 LOC)",
+        "5. Create network_security_config.py (≤100 LOC)",
+        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test security functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "network_security_policies.py",
+        "network_security_monitoring.py",
+        "network_security_threats.py",
+        "network_security_config.py",
+        "network_security.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-005",
+      "file_path": "tests/test_autonomous_development.py",
+      "current_lines": 756,
+      "target_lines": 400,
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate development testing, workflow testing, and validation concerns",
+        "Create focused test modules for different autonomous development components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create test_autonomous_development_core.py (≤150 LOC)",
+        "3. Create test_autonomous_development_workflow.py (≤150 LOC)",
+        "4. Create test_autonomous_development_validation.py (≤150 LOC)",
+        "5. Create test_autonomous_development_integration.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_autonomous_development_core.py",
+        "test_autonomous_development_workflow.py",
+        "test_autonomous_development_validation.py",
+        "test_autonomous_development_integration.py",
+        "test_autonomous_development.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-006",
+      "file_path": "src/core/workspace_manager.py",
+      "current_lines": 742,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate workspace creation, management, and coordination concerns",
+        "Create focused modules for different workspace components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct workspace responsibilities",
+        "2. Create workspace_creator.py (≤200 LOC)",
+        "3. Create workspace_coordinator.py (≤200 LOC)",
+        "4. Create workspace_validator.py (≤150 LOC)",
+        "5. Create workspace_config.py (≤100 LOC)",
+        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test workspace functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "workspace_creator.py",
+        "workspace_coordinator.py",
+        "workspace_validator.py",
+        "workspace_config.py",
+        "workspace_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-007",
+      "file_path": "src/services_v2/auth/run_integration_tests.py",
+      "current_lines": 731,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate test setup, execution, validation, and reporting concerns",
+        "Create focused test modules for different auth integration components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create auth_integration_test_setup.py (≤150 LOC)",
+        "3. Create auth_integration_test_execution.py (≤150 LOC)",
+        "4. Create auth_integration_test_validation.py (≤150 LOC)",
+        "5. Create auth_integration_test_reporting.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "auth_integration_test_setup.py",
+        "auth_integration_test_execution.py",
+        "auth_integration_test_validation.py",
+        "auth_integration_test_reporting.py",
+        "run_integration_tests.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-008",
+      "file_path": "src/services/financial/unified_financial_api.py",
+      "current_lines": 730,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate API routing, data processing, and response handling concerns",
+        "Create focused modules for different financial API components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct API responsibilities",
+        "2. Create unified_financial_api_router.py (≤200 LOC)",
+        "3. Create unified_financial_api_processor.py (≤200 LOC)",
+        "4. Create unified_financial_api_responses.py (≤150 LOC)",
+        "5. Create unified_financial_api_config.py (≤100 LOC)",
+        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test API functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "unified_financial_api_router.py",
+        "unified_financial_api_processor.py",
+        "unified_financial_api_responses.py",
+        "unified_financial_api_config.py",
+        "unified_financial_api.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-009",
+      "file_path": "tests/test_integration_infrastructure.py",
+      "current_lines": 729,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate infrastructure setup, testing, and validation concerns",
+        "Create focused test modules for different infrastructure components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create test_infrastructure_setup.py (≤150 LOC)",
+        "3. Create test_infrastructure_testing.py (≤150 LOC)",
+        "4. Create test_infrastructure_validation.py (≤150 LOC)",
+        "5. Create test_infrastructure_integration.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_infrastructure_setup.py",
+        "test_infrastructure_testing.py",
+        "test_infrastructure_validation.py",
+        "test_infrastructure_integration.py",
+        "test_integration_infrastructure.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-010",
+      "file_path": "src/services_v2/auth/auth_performance_monitor.py",
+      "current_lines": 724,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate performance monitoring, metrics collection, and reporting concerns",
+        "Create focused modules for different auth performance components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct monitoring responsibilities",
+        "2. Create auth_performance_monitor_core.py (≤200 LOC)",
+        "3. Create auth_performance_metrics.py (≤200 LOC)",
+        "4. Create auth_performance_reporting.py (≤150 LOC)",
+        "5. Create auth_performance_config.py (≤100 LOC)",
+        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test monitoring functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "auth_performance_monitor_core.py",
+        "auth_performance_metrics.py",
+        "auth_performance_reporting.py",
+        "auth_performance_config.py",
+        "auth_performance_monitor.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "All files reduced to ≤400 LOC (standard) or ≤600 LOC (GUI)",
+    "SRP compliance achieved",
+    "All tests pass",
+    "Original monolithic files deleted",
+    "Compliance tracker updated",
+    "Modular architecture established"
+  ],
+  "success_metrics": {
+    "target_compliance": "100% for Phase 2",
+    "lines_reduced": "Target: 60%+ reduction",
+    "modules_created": "4-5 focused modules per file",
+    "maintainability": "High (≤400 LOC per module)"
+  }
+}

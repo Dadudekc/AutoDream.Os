@@ -1,0 +1,245 @@
+{
+  "phase": "Phase 1 - Critical Violations (800+ LOC)",
+  "description": "Highest priority refactoring contracts for files exceeding 800 lines",
+  "total_files": 4,
+  "estimated_effort": "2-3 days per file",
+  "priority": "CRITICAL",
+  "standards": {
+    "target_loc": "400 LOC (standard), 600 LOC (GUI)",
+    "focus": "SRP compliance, modular architecture, production-ready code"
+  },
+  "contracts": [
+    {
+      "contract_id": "CRIT-001",
+      "file_path": "tests/gaming/test_ai_agent_framework.py",
+      "current_lines": 992,
+      "target_lines": 400,
+      "priority": "IMMEDIATE",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate test setup, execution, validation, and cleanup concerns",
+        "Create focused test modules for different AI agent scenarios",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create test_ai_agent_framework_setup.py (≤150 LOC)",
+        "3. Create test_ai_agent_framework_execution.py (≤150 LOC)", 
+        "4. Create test_ai_agent_framework_validation.py (≤150 LOC)",
+        "5. Create test_ai_agent_framework_cleanup.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_ai_agent_framework_setup.py",
+        "test_ai_agent_framework_execution.py", 
+        "test_ai_agent_framework_validation.py",
+        "test_ai_agent_framework_cleanup.py",
+        "test_ai_agent_framework.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "CRIT-002", 
+      "file_path": "tests/ai_ml/test_code_crafter.py",
+      "current_lines": 976,
+      "target_lines": 400,
+      "priority": "IMMEDIATE",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate model testing, code generation testing, and validation concerns",
+        "Create focused test modules for different ML components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create test_code_crafter_models.py (≤150 LOC)",
+        "3. Create test_code_crafter_generation.py (≤150 LOC)",
+        "4. Create test_code_crafter_validation.py (≤150 LOC)",
+        "5. Create test_code_crafter_integration.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_code_crafter_models.py",
+        "test_code_crafter_generation.py",
+        "test_code_crafter_validation.py", 
+        "test_code_crafter_integration.py",
+        "test_code_crafter.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "CRIT-003",
+      "file_path": "scripts/setup/setup_web_development.py",
+      "current_lines": 967,
+      "target_lines": 400,
+      "priority": "IMMEDIATE", 
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate environment setup, dependency installation, and validation concerns",
+        "Create focused setup modules for different web development components",
+        "Maintain comprehensive setup functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct setup responsibilities",
+        "2. Create setup_web_environment.py (≤150 LOC)",
+        "3. Create setup_web_dependencies.py (≤150 LOC)",
+        "4. Create setup_web_validation.py (≤150 LOC)",
+        "5. Create setup_web_configuration.py (≤100 LOC)",
+        "6. Refactor main setup file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test setup functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "setup_web_environment.py",
+        "setup_web_dependencies.py",
+        "setup_web_validation.py",
+        "setup_web_configuration.py", 
+        "setup_web_development.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "CRIT-004",
+      "file_path": "tests/gaming/test_osrs_ai_agent.py",
+      "current_lines": 900,
+      "target_lines": 400,
+      "priority": "IMMEDIATE",
+      "estimated_effort": "3 days", 
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate game testing, AI agent testing, and scenario validation concerns",
+        "Create focused test modules for different gaming components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct test responsibilities",
+        "2. Create test_osrs_game_setup.py (≤150 LOC)",
+        "3. Create test_osrs_ai_agent.py (≤150 LOC)",
+        "4. Create test_osrs_scenarios.py (≤150 LOC)",
+        "5. Create test_osrs_validation.py (≤100 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_osrs_game_setup.py",
+        "test_osrs_ai_agent.py",
+        "test_osrs_scenarios.py",
+        "test_osrs_validation.py",
+        "test_osrs_ai_agent.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "CRIT-005",
+      "file_path": "PLACEHOLDER_1",
+      "current_lines": 0,
+      "target_lines": 0,
+      "priority": "RESERVED",
+      "estimated_effort": "0 days",
+      "assigned_to": "RESERVED",
+      "status": "RESERVED",
+      "refactoring_goals": ["Reserved for future critical files"],
+      "workflow": ["Reserved"],
+      "deliverables": ["Reserved"]
+    },
+    {
+      "contract_id": "CRIT-006",
+      "file_path": "PLACEHOLDER_2", 
+      "current_lines": 0,
+      "target_lines": 0,
+      "priority": "RESERVED",
+      "estimated_effort": "0 days",
+      "assigned_to": "RESERVED",
+      "status": "RESERVED",
+      "refactoring_goals": ["Reserved for future critical files"],
+      "workflow": ["Reserved"],
+      "deliverables": ["Reserved"]
+    },
+    {
+      "contract_id": "CRIT-007",
+      "file_path": "PLACEHOLDER_3",
+      "current_lines": 0,
+      "target_lines": 0,
+      "priority": "RESERVED", 
+      "estimated_effort": "0 days",
+      "assigned_to": "RESERVED",
+      "status": "RESERVED",
+      "refactoring_goals": ["Reserved for future critical files"],
+      "workflow": ["Reserved"],
+      "deliverables": ["Reserved"]
+    },
+    {
+      "contract_id": "CRIT-008",
+      "file_path": "PLACEHOLDER_4",
+      "current_lines": 0,
+      "target_lines": 0,
+      "priority": "RESERVED",
+      "estimated_effort": "0 days",
+      "assigned_to": "RESERVED", 
+      "status": "RESERVED",
+      "refactoring_goals": ["Reserved for future critical files"],
+      "workflow": ["Reserved"],
+      "deliverables": ["Reserved"]
+    },
+    {
+      "contract_id": "CRIT-009",
+      "file_path": "PLACEHOLDER_5",
+      "current_lines": 0,
+      "target_lines": 0,
+      "priority": "RESERVED",
+      "estimated_effort": "0 days",
+      "assigned_to": "RESERVED",
+      "status": "RESERVED",
+      "refactoring_goals": ["Reserved for future critical files"],
+      "workflow": ["Reserved"],
+      "deliverables": ["Reserved"]
+    },
+    {
+      "contract_id": "CRIT-010",
+      "file_path": "PLACEHOLDER_6",
+      "current_lines": 0,
+      "target_lines": 0,
+      "priority": "RESERVED",
+      "estimated_effort": "0 days",
+      "assigned_to": "RESERVED",
+      "status": "RESERVED",
+      "refactoring_goals": ["Reserved for future critical files"],
+      "workflow": ["Reserved"],
+      "deliverables": ["Reserved"]
+    }
+  ],
+  "completion_criteria": [
+    "All files reduced to ≤400 LOC",
+    "SRP compliance achieved",
+    "All tests pass",
+    "Original monolithic files deleted",
+    "Compliance tracker updated",
+    "Modular architecture established"
+  ],
+  "success_metrics": {
+    "target_compliance": "100% for Phase 1",
+    "lines_reduced": "Target: 70%+ reduction",
+    "modules_created": "4-5 focused modules per file",
+    "maintainability": "High (≤400 LOC per module)"
+  }
+}

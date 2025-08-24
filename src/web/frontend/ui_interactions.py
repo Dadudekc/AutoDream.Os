@@ -3,7 +3,7 @@
 from datetime import datetime
 
 from .frontend_app import UIComponent, create_component
-from .frontend_router import RouteConfig, NavigationState
+from .frontend_router_config import RouteConfig, NavigationState
 
 
 def create_mock_component(component_type: str = "TestComponent") -> UIComponent:

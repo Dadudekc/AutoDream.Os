@@ -11,7 +11,6 @@ from .monitoring_new.core import (
     HealthMetricType,
     HealthMetric,
     HealthSnapshot,
-    HealthAlert,
     HealthThreshold,
 )
 
@@ -25,12 +24,15 @@ from .metrics import (
 )
 
 from .alerting import (
-    HealthAlertingManager,
+    generate_alert,
+    send_alert_notifications,
+    check_escalations,
     AlertSeverity,
     AlertStatus,
     NotificationChannel,
     EscalationLevel,
     AlertRule,
+    HealthAlert,
     NotificationConfig,
     EscalationPolicy,
 )
@@ -65,12 +67,15 @@ __all__ = [
     "MetricCollectionResult",
 
     # Alerting
-    "HealthAlertingManager",
+    "generate_alert",
+    "send_alert_notifications",
+    "check_escalations",
     "AlertSeverity",
     "AlertStatus",
     "NotificationChannel",
     "EscalationLevel",
     "AlertRule",
+    "HealthAlert",
     "NotificationConfig",
     "EscalationPolicy",
 

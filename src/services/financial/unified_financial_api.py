@@ -13,10 +13,21 @@ import logging
 from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any, Union
-from dataclasses import dataclass, asdict
+from dataclasses import asdict
 from pathlib import Path
 import uuid
 import time
+
+from .models import (
+    AgentRegistration,
+    CrossAgentRequest,
+    CrossAgentResponse,
+    SystemHealthMetrics,
+)
+from .request_router import RequestRouter
+from .authentication_service import AuthenticationService
+from .data_aggregation_service import DataAggregator
+from .error_handling_service import ErrorHandler
 
 # Import all financial services
 try:
@@ -47,11 +58,7 @@ try:
         BacktestResult,
         PerformanceMetrics,
     )
-    from .market_sentiment_service import (
-        MarketSentimentService,
-        SentimentData,
-        SentimentAggregate,
-    )
+    from .market_sentiment_service import MarketSentimentService
     from .portfolio_optimization_service import (
         PortfolioOptimizationService,
         OptimizationResult,
@@ -85,11 +92,7 @@ except ImportError:
         BacktestResult,
         PerformanceMetrics,
     )
-    from market_sentiment_service import (
-        MarketSentimentService,
-        SentimentData,
-        SentimentAggregate,
-    )
+    from market_sentiment_service import MarketSentimentService
     from portfolio_optimization_service import (
         PortfolioOptimizationService,
         OptimizationResult,
@@ -98,76 +101,6 @@ except ImportError:
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class AgentRegistration:
-    """Agent registration information"""
-
-    agent_id: str
-    agent_name: str
-    agent_type: str
-    required_services: List[str]
-    registration_time: datetime
-    last_heartbeat: datetime
-    status: str  # ACTIVE, INACTIVE, ERROR
-    performance_metrics: Dict[str, Any] = None
-
-    def __post_init__(self):
-        if self.performance_metrics is None:
-            self.performance_metrics = {}
-
-
-@dataclass
-class CrossAgentRequest:
-    """Cross-agent service request"""
-
-    request_id: str
-    source_agent: str
-    target_service: str
-    request_type: str
-    request_data: Dict[str, Any]
-    timestamp: datetime
-    priority: str  # HIGH, MEDIUM, LOW
-    status: str  # PENDING, PROCESSING, COMPLETED, ERROR
-
-    def __post_init__(self):
-        if self.timestamp is None:
-            self.timestamp = datetime.now()
-
-
-@dataclass
-class CrossAgentResponse:
-    """Cross-agent service response"""
-
-    request_id: str
-    response_data: Any
-    response_time: float
-    status: str
-    error_message: str = None
-    metadata: Dict[str, Any] = None
-
-    def __post_init__(self):
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class SystemHealthMetrics:
-    """Overall system health metrics"""
-
-    total_agents: int
-    active_agents: int
-    total_requests: int
-    successful_requests: int
-    failed_requests: int
-    average_response_time: float
-    system_uptime: float
-    last_updated: datetime
-
-    def __post_init__(self):
-        if self.last_updated is None:
-            self.last_updated = datetime.now()
 
 
 class UnifiedFinancialAPI:
@@ -192,6 +125,22 @@ class UnifiedFinancialAPI:
         self.active_requests: Dict[str, CrossAgentRequest] = {}
         self.request_history: List[CrossAgentRequest] = []
         self.performance_metrics: Dict[str, Dict[str, Any]] = {}
+
+        # Core services
+        self.auth_service = AuthenticationService()
+        service_map = {
+            "portfolio_management": self._execute_portfolio_service,
+            "risk_management": self._execute_risk_service,
+            "market_data": self._execute_market_data_service,
+            "trading_intelligence": self._execute_trading_intelligence_service,
+            "options_trading": self._execute_options_trading_service,
+            "financial_analytics": self._execute_financial_analytics_service,
+            "market_sentiment": self._execute_market_sentiment_service,
+            "portfolio_optimization": self._execute_portfolio_optimization_service,
+        }
+        self.router = RequestRouter(service_map)
+        self.data_aggregator = DataAggregator()
+        self.error_handler = ErrorHandler()
 
         # Data files
         self.agents_file = self.data_dir / "registered_agents.json"
@@ -278,6 +227,7 @@ class UnifiedFinancialAPI:
         agent_name: str,
         agent_type: str,
         required_services: List[str],
+        api_token: str,
     ) -> bool:
         """Register a new agent with the unified API"""
         try:
@@ -310,6 +260,7 @@ class UnifiedFinancialAPI:
             )
 
             self.registered_agents[agent_id] = agent_reg
+            self.auth_service.register_agent(agent_id, api_token)
 
             # Initialize performance metrics for agent
             self.performance_metrics[agent_id] = {
@@ -378,12 +329,16 @@ class UnifiedFinancialAPI:
         request_type: str,
         request_data: Dict[str, Any],
         priority: str = "MEDIUM",
+        api_token: str = "",
     ) -> str:
         """Request a financial service through the unified API"""
         try:
             # Validate source agent
             if source_agent not in self.registered_agents:
                 raise ValueError(f"Agent {source_agent} not registered")
+
+            if not self.auth_service.authenticate(source_agent, api_token):
+                raise PermissionError("Authentication failed")
 
             # Validate target service
             if (
@@ -423,34 +378,25 @@ class UnifiedFinancialAPI:
 
     def execute_service_request(self, request_id: str) -> CrossAgentResponse:
         """Execute a service request and return response"""
+        if request_id not in self.active_requests:
+            raise ValueError(f"Request {request_id} not found")
+
+        request = self.active_requests[request_id]
+        request.status = "PROCESSING"
+        start_time = time.time()
+
         try:
-            if request_id not in self.active_requests:
-                raise ValueError(f"Request {request_id} not found")
-
-            request = self.active_requests[request_id]
-            request.status = "PROCESSING"
-
-            start_time = time.time()
-
-            # Execute the requested service
-            response_data = self._execute_service(
+            response_data = self.router.route(
                 request.target_service, request.request_type, request.request_data
             )
-
             response_time = time.time() - start_time
-
-            # Create response
             response = CrossAgentResponse(
                 request_id=request_id,
                 response_data=response_data,
                 response_time=response_time,
                 status="SUCCESS",
             )
-
-            # Update request status
             request.status = "COMPLETED"
-
-            # Update performance metrics
             source_agent = request.source_agent
             if source_agent in self.performance_metrics:
                 self.performance_metrics[source_agent]["successful_requests"] += 1
@@ -469,69 +415,18 @@ class UnifiedFinancialAPI:
                 self.performance_metrics[source_agent][
                     "last_updated"
                 ] = datetime.now().isoformat()
-
             logger.info(f"Service request {request_id} executed successfully")
             return response
-
         except Exception as e:
-            logger.error(f"Error executing service request {request_id}: {e}")
-
-            # Update request status
-            if request_id in self.active_requests:
-                self.active_requests[request_id].status = "ERROR"
-
-            # Update performance metrics
-            if request_id in self.active_requests:
-                source_agent = self.active_requests[request_id].source_agent
-                if source_agent in self.performance_metrics:
-                    self.performance_metrics[source_agent]["failed_requests"] += 1
-                    self.performance_metrics[source_agent][
-                        "last_updated"
-                    ] = datetime.now().isoformat()
-
-            # Return error response
-            return CrossAgentResponse(
-                request_id=request_id,
-                response_data=None,
-                response_time=0.0,
-                status="ERROR",
-                error_message=str(e),
-            )
-
-    def _execute_service(
-        self, target_service: str, request_type: str, request_data: Dict[str, Any]
-    ) -> Any:
-        """Execute the actual financial service"""
-        try:
-            if target_service == "portfolio_management":
-                return self._execute_portfolio_service(request_type, request_data)
-            elif target_service == "risk_management":
-                return self._execute_risk_service(request_type, request_data)
-            elif target_service == "market_data":
-                return self._execute_market_data_service(request_type, request_data)
-            elif target_service == "trading_intelligence":
-                return self._execute_trading_intelligence_service(
-                    request_type, request_data
-                )
-            elif target_service == "options_trading":
-                return self._execute_options_trading_service(request_type, request_data)
-            elif target_service == "financial_analytics":
-                return self._execute_financial_analytics_service(
-                    request_type, request_data
-                )
-            elif target_service == "market_sentiment":
-                return self._execute_market_sentiment_service(
-                    request_type, request_data
-                )
-            elif target_service == "portfolio_optimization":
-                return self._execute_portfolio_optimization_service(
-                    request_type, request_data
-                )
-            else:
-                raise ValueError(f"Unknown service: {target_service}")
-        except Exception as e:
-            logger.error(f"Error executing service {target_service}: {e}")
-            raise
+            response_time = time.time() - start_time
+            request.status = "ERROR"
+            source_agent = request.source_agent
+            if source_agent in self.performance_metrics:
+                self.performance_metrics[source_agent]["failed_requests"] += 1
+                self.performance_metrics[source_agent][
+                    "last_updated"
+                ] = datetime.now().isoformat()
+            return self.error_handler.handle(e, request, response_time)
 
     def _execute_portfolio_service(
         self, request_type: str, request_data: Dict[str, Any]
@@ -700,49 +595,10 @@ class UnifiedFinancialAPI:
     def get_system_health_metrics(self) -> SystemHealthMetrics:
         """Get overall system health metrics"""
         try:
-            total_agents = len(self.registered_agents)
-            active_agents = sum(
-                1
-                for agent in self.registered_agents.values()
-                if agent.status == "ACTIVE"
+            data = self.data_aggregator.aggregate(
+                self.registered_agents, self.performance_metrics
             )
-
-            total_requests = sum(
-                metrics["total_requests"]
-                for metrics in self.performance_metrics.values()
-            )
-            successful_requests = sum(
-                metrics["successful_requests"]
-                for metrics in self.performance_metrics.values()
-            )
-            failed_requests = sum(
-                metrics["failed_requests"]
-                for metrics in self.performance_metrics.values()
-            )
-
-            # Calculate average response time
-            response_times = [
-                metrics["average_response_time"]
-                for metrics in self.performance_metrics.values()
-                if metrics["average_response_time"] > 0
-            ]
-            average_response_time = (
-                sum(response_times) / len(response_times) if response_times else 0.0
-            )
-
-            # Calculate system uptime (simplified)
-            system_uptime = 99.9  # Placeholder - would calculate from actual start time
-
-            return SystemHealthMetrics(
-                total_agents=total_agents,
-                active_agents=active_agents,
-                total_requests=total_requests,
-                successful_requests=successful_requests,
-                failed_requests=failed_requests,
-                average_response_time=average_response_time,
-                system_uptime=system_uptime,
-                last_updated=datetime.now(),
-            )
+            return SystemHealthMetrics(**data)
         except Exception as e:
             logger.error(f"Error getting system health metrics: {e}")
             return SystemHealthMetrics(
@@ -850,6 +706,7 @@ if __name__ == "__main__":
         agent_name="Test Agent 1",
         agent_type="TESTING",
         required_services=["portfolio_management", "risk_management"],
+        api_token="secret",
     )
 
     print(f"Agent registration: {'SUCCESS' if success else 'FAILED'}")
@@ -861,6 +718,7 @@ if __name__ == "__main__":
             target_service="portfolio_management",
             request_type="get_portfolio",
             request_data={},
+            api_token="secret",
         )
 
         print(f"Service request created: {request_id}")

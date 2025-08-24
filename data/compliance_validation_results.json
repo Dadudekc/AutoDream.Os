@@ -92,11 +92,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\tests\\ai_ml\\test_code_crafter.py"
       ],
       [
-        "tests\\gaming\\test_ai_agent_framework.py",
-        992,
-        "D:\\Agent_Cellphone_V2_Repository\\tests\\gaming\\test_ai_agent_framework.py"
-      ],
-      [
         "tests\\gaming\\test_osrs_ai_agent.py",
         900,
         "D:\\Agent_Cellphone_V2_Repository\\tests\\gaming\\test_osrs_ai_agent.py"
@@ -3420,10 +3415,10 @@
           "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\alerting\\manager.py"
         ],
         [
-        "src\\core\\health\\reporting\\generator.py",
-        1313,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
-      ],
+          "src\\core\\health\\reporting\\generator.py",
+          1313,
+          "D:\\Agent_Cellphone_V2_Repository\\src\\core\\health\\reporting\\generator.py"
+        ],
         [
           "src\\services\\integrated_agent_coordinator.py",
           846,

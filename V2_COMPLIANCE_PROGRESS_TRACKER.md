@@ -169,12 +169,12 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Refactored from 722 to 55 lines by extracting manager, AI processor, coordinator, and config modules. New orchestrator coordinates components and maintains functionality.
 
-### MODERATE-015: Task Scheduler Modularization ✅
-- **File**: `src/core/task_management/task_scheduler.py`
+### MAJOR-005: Health Metrics Collector ✅
+- **File**: `src/core/health/metrics/collector.py`
 - **Status**: Completed
-- **Assigned To**: Agent-1
+- **Assigned To**: Victor Dixon
 - **Completion Date**: 2025-08-24
-- **Summary**: Split monolithic scheduler into core, manager, coordinator, and config modules with an orchestrator coordinating them. Imports updated and tests validate functionality.
+- **Summary**: Consolidated metrics collection into other health monitoring modules, eliminating the monolithic collector file.
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 

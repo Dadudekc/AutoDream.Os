@@ -20,7 +20,22 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 from pathlib import Path
-from websocket import create_connection, WebSocketConnectionClosedException
+# ``websocket`` is an optional dependency.  Many tests only need to import this
+# module and do not actually establish a websocket connection.  Importing the
+# real client would raise a ``ModuleNotFoundError`` in environments where the
+# third‑party package is not installed.  We attempt to import it and provide
+# light‑weight fallbacks when unavailable so that the rest of the codebase can be
+# imported without errors.
+try:  # pragma: no cover - best effort to import optional dependency
+    from websocket import create_connection, WebSocketConnectionClosedException
+except Exception:  # pragma: no cover - dependency not installed
+    def create_connection(*args, **kwargs):  # type: ignore[override]
+        raise RuntimeError("websocket-client package is not installed")
+
+    class WebSocketConnectionClosedException(Exception):
+        """Fallback exception used when ``websocket-client`` is missing."""
+
+        pass
 from datetime import datetime
 
 from .performance_monitor import PerformanceMonitor

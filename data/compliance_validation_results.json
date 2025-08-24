@@ -129,11 +129,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\api_gateway.py"
       ],
       [
-        "src\\core\\config_manager.py",
-        682,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\core\\config_manager.py"
-      ],
-      [
         "src\\core\\decision_coordination_system.py",
         543,
         "D:\\Agent_Cellphone_V2_Repository\\src\\core\\decision_coordination_system.py"
@@ -2498,11 +2493,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\widget_factory.py"
       ],
       [
-        "src\\services\\dashboard\\config_manager.py",
-        155,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\config_manager.py"
-      ],
-      [
         "src\\services\\dashboard\\file_generator.py",
         168,
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\file_generator.py"
@@ -3530,11 +3520,6 @@
           "src\\core\\api_gateway.py",
           628,
           "D:\\Agent_Cellphone_V2_Repository\\src\\core\\api_gateway.py"
-        ],
-        [
-          "src\\core\\config_manager.py",
-          682,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\core\\config_manager.py"
         ],
         [
           "src\\core\\decision_coordination_system.py",
@@ -5899,11 +5884,6 @@
           "src\\services\\dashboard\\widget_factory.py",
           166,
           "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\widget_factory.py"
-        ],
-        [
-          "src\\services\\dashboard\\config_manager.py",
-          155,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard\\config_manager.py"
         ],
         [
           "src\\services\\dashboard\\file_generator.py",

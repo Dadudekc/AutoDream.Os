@@ -19,10 +19,10 @@ from typing import Dict, List, Optional, Any
 from pathlib import Path
 import logging
 
-# Import consolidated contract manager
+# Import contract management components
 try:
-    from ..core.contract_manager import (
-        ContractManager,
+    from ..core.assignment_engine import ContractManager
+    from ..core.contract_models import (
         ContractStatus,
         ContractType,
         ContractPriority,
@@ -57,7 +57,7 @@ class UnifiedContractManager:
 
         self.services_available = True
         # Use consolidated contract manager instead of separate services
-        self.contract_manager = ContractManager(None, None, legacy_contracts_path)
+        self.contract_manager = ContractManager(None, None)
 
         self.legacy_contracts_path = (
             legacy_contracts_path or "Agent_Cellphone/CONTRACTS"

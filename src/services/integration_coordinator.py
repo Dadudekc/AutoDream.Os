@@ -501,8 +501,30 @@ class IntegrationCoordinator:
         """Find services matching criteria."""
         return self.service_registry.find_services(**kwargs)
 
-    # Configuration methods removed - use config_manager directly
-    # get_config_value and set_config_value are available on config_manager
+    # Configuration helpers -------------------------------------------------
+
+    def set_config_value(self, key: str, value: Any) -> None:
+        """Set a configuration value via the underlying ConfigManager.
+
+        The ``key`` may include a section name separated by a dot. When no
+        section is provided the value is stored in the ``default`` section.
+        """
+
+        section, _, subkey = key.partition(".")
+        if not subkey:
+            section, subkey = "default", key
+        self.config_manager.set_config_value(section, subkey, value)
+
+    def get_config_value(self, key: str, default: Any | None = None) -> Any:
+        """Retrieve a value from the underlying ConfigManager.
+
+        Mirrors :meth:`set_config_value` in how the section is resolved.
+        """
+
+        section, _, subkey = key.partition(".")
+        if not subkey:
+            section, subkey = "default", key
+        return self.config_manager.get_config_value(section, subkey, default)
 
     def get_system_health(self) -> Dict[str, Any]:
         """Get system health status."""

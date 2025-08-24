@@ -1,6 +1,4 @@
-"""Compatibility wrapper for trading intelligence service"""
-from .trading_intelligence import (
-    TradingIntelligenceService,
+from .models import (
     StrategyType,
     SignalType,
     SignalStrength,
@@ -8,6 +6,7 @@ from .trading_intelligence import (
     StrategyPerformance,
     MarketCondition,
 )
+from .service import TradingIntelligenceService
 
 __all__ = [
     "TradingIntelligenceService",

@@ -148,17 +148,16 @@
 
 > **Note:** Remaining contract descriptions include current line counts for context only. There is no strict LOC target—deliver clean, production-ready, tested modules that honor SRP and SOLID principles.
 
-### 🚨 **CRITICAL PRIORITY - Files Over 800 Lines (8 files)**
+### 🚨 **CRITICAL PRIORITY - Files Over 800 Lines (7 files)**
 These files need immediate attention and should be refactored first:
 
 1. **`src/services/financial/portfolio/tracking.py`** - 937 lines
-2. **`src/core/health/alerting/manager.py`** - 910 lines  
+2. **`src/core/health/alerting/manager.py`** - 910 lines
 3. **`src/services/financial/unified_financial_api.py`** - 872 lines
-4. **`src/ai_ml/testing.py`** - 857 lines
-5. **`src/services/integrated_agent_coordinator.py`** - 846 lines
-6. **`src/core/health/metrics/collector.py`** - 839 lines
-7. **`src/web/frontend/frontend_testing.py`** - 816 lines
-8. **`src/autonomous_development/testing/orchestrator.py`** - 808 lines
+4. **`src/services/integrated_agent_coordinator.py`** - 846 lines
+5. **`src/core/health/metrics/collector.py`** - 839 lines
+6. **`src/web/frontend/frontend_testing.py`** - 816 lines
+7. **`src/autonomous_development/testing/orchestrator.py`** - 808 lines
 
 ### ⚠️ **HIGH PRIORITY - Files Over 500 Lines (78 files)**
 These files need attention after the critical ones are addressed.
@@ -208,12 +207,9 @@ These files can be addressed in parallel with higher priority items.
   - Create production-ready modules with proper error handling
   - Reduce cognitive complexity of individual modules
 
-### CRIT-018: AI Testing Suite
-- **File**: `src/ai_ml/testing.py`
-- **Current Lines**: 857
-- **Priority**: Immediate
-- **Estimated Effort**: 2-3 days
-- **Status**: Available
+### CRIT-018: AI Testing Suite ✅
+- **File**: `src/ai_ml/testing/`
+- **Status**: Completed (refactored into modular package)
 - **Assigned To**: Unassigned
 - **Refactoring Goals**:
   - Apply SRP - Separate dataset preparation, model evaluation, reporting, and cleanup concerns
@@ -403,11 +399,10 @@ These files can be addressed in parallel with higher priority items.
 
 *Line ranges below are approximate and help prioritize work—they are not strict requirements.*
 
-### Critical Violations (~800+ lines, guideline only): 8 files remaining
+### Critical Violations (~800+ lines, guideline only): 7 files remaining
 - `src/services/financial/portfolio/tracking.py` (937 lines) - Available
-- `src/core/health/alerting/manager.py` (910 lines) - Available  
+- `src/core/health/alerting/manager.py` (910 lines) - Available
 - `src/services/financial/unified_financial_api.py` (872 lines) - Available
-- `src/ai_ml/testing.py` (857 lines) - Available
 - `src/services/integrated_agent_coordinator.py` (846 lines) - Available
 - `src/core/health/metrics/collector.py` (839 lines) - Available
 - `src/web/frontend/frontend_testing.py` (816 lines) - Available

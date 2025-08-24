@@ -14,8 +14,11 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from services.response_capture_service import ResponseCaptureService
-from services.agent_cell_phone_service import AgentCellPhoneService
+from services.response_capture_service import (
+    ResponseCaptureService,
+    ResponseData,
+    CaptureStrategy,
+)
 
 
 def demo_response_capture_system():
@@ -27,17 +30,6 @@ def demo_response_capture_system():
         # Initialize response capture service
         capture_service = ResponseCaptureService()
         print("✅ Response Capture Service initialized")
-
-        # Initialize agent cell phone service
-        agent_service = AgentCellPhoneService()
-        print("✅ Agent Cell Phone Service initialized")
-
-        # Initialize some agents
-        if agent_service.coordinates and "5-agent" in agent_service.coordinates:
-            agent_service.initialize_agent("Agent-1", "5-agent")
-            agent_service.initialize_agent("Agent-2", "5-agent")
-            agent_service.initialize_agent("Agent-3", "5-agent")
-            print("✅ Agents initialized for testing")
 
         # Add response callback
         def on_response_captured(response):
@@ -133,54 +125,25 @@ def demo_integration_workflow():
     print("=" * 50)
 
     try:
-        # Initialize services
+        # Initialize service
         capture_service = ResponseCaptureService()
-        agent_service = AgentCellPhoneService()
 
         # Start capture
         capture_service.start_capture()
 
-        # Simulate workflow
-        print("📤 Agent-1 sending message to Agent-2...")
-        if agent_service.coordinates and "5-agent" in agent_service.coordinates:
-            agent_service.initialize_agent("Agent-1", "5-agent")
-            agent_service.initialize_agent("Agent-2", "5-agent")
+        # Simulate workflow (simplified)
+        print("📤 Capturing message from Agent-1 to Agent-2...")
+        capture_service.capture_response(
+            "Agent-2",
+            "Analysis complete! The response capture system is:\n\n✅ Fully functional\n✅ Following coding standards\n✅ Ready for production use",
+            "cursor_db",
+        )
 
-            # Send message
-            success = agent_service.send_message(
-                "Agent-1",
-                "Agent-2",
-                "Please analyze the response capture system",
-                "TASK",
-            )
-            if success:
-                print("✅ Message sent successfully")
-
-                # Simulate Agent-2 response
-                print("📱 Agent-2 analyzing and responding...")
-                capture_service.capture_response(
-                    "Agent-2",
-                    "Analysis complete! The response capture system is:\n\n✅ Fully functional\n✅ Following coding standards\n✅ Integrated with agent services\n✅ Ready for production use",
-                    "cursor_db",
-                )
-
-                # Show integration results
-                print("\n📊 **INTEGRATION RESULTS**")
-                print("=" * 30)
-
-                agent_status = agent_service.get_all_agents_status()
-                print(f"Active agents: {len(agent_status)}")
-
-                responses = capture_service.get_responses()
-                print(f"Captured responses: {len(responses)}")
-
-                print("\n🎯 **SYSTEM READY FOR PRODUCTION**")
-                print("The V2 system now has:")
-                print("  ✅ Response capture functionality")
-                print("  ✅ Agent coordination services")
-                print("  ✅ CLI interfaces for testing")
-                print("  ✅ Smoke tests for validation")
-                print("  ✅ Strict coding standards enforced")
+        # Show integration results
+        print("\n📊 **INTEGRATION RESULTS**")
+        print("=" * 30)
+        responses = capture_service.get_responses()
+        print(f"Captured responses: {len(responses)}")
 
         capture_service.stop_capture()
         return True

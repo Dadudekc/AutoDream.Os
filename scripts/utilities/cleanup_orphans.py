@@ -26,7 +26,6 @@ class OrphanCleanup:
             "test_perpetual_motion.py",
             "standalone_test.py",
             # Services directory orphans
-            "src/services/agent_cell_phone_refactored.py",
             "src/services/heartbeat_monitor.py",
             "src/services/service_discovery.py",
         ]

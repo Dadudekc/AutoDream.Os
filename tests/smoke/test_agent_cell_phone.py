@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Smoke test for AgentCellPhone ensuring proper cleanup."""
+"""Smoke Test - AgentCellPhone
+===============================
+Basic smoke test for the canonical AgentCellPhone service to ensure it
+initializes correctly and exposes system status and conversation history.
+"""
 
 import os
 import sys
@@ -25,3 +29,10 @@ def test_agent_cell_phone_cleanup():
     # Ensure background threads have stopped
     assert system._hb_thread is None or not system._hb_thread.is_alive()
     assert system._listener_thread is None or not system._listener_thread.is_alive()
+
+
+def test_history_accessible():
+    """AgentCellPhone should expose conversation history list."""
+    system = AgentCellPhone(test=True)
+    history = system.get_conversation_history()
+    assert isinstance(history, list)

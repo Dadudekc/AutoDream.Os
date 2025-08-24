@@ -271,6 +271,12 @@ class ComprehensiveV2IntegrationTests(unittest.TestCase):
             return_value={"status": "active"}
         )
 
+<<<<<<< HEAD
+=======
+        self.mock_agent_cell_phone = Mock()
+        self.mock_agent_cell_phone.get_status = Mock(return_value={"status": "active"})
+
+>>>>>>> origin/codex/refactor-service-modules-for-overlaps
         self.mock_v1_compatibility = Mock()
         self.mock_v1_compatibility.check_compatibility = Mock(return_value=True)
 

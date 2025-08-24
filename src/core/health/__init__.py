@@ -18,9 +18,8 @@ from .monitoring_new.core import (
 from .metrics import (
     HealthMetricsCollector,
     MetricSource,
-    MetricCollectionMethod,
-    MetricCollectionConfig,
-    CollectedMetric,
+    MetricSink,
+    MetricSourceType,
     MetricCollectionResult,
 )
 
@@ -59,9 +58,8 @@ __all__ = [
     # Metrics Collection
     "HealthMetricsCollector",
     "MetricSource",
-    "MetricCollectionMethod",
-    "MetricCollectionConfig",
-    "CollectedMetric",
+    "MetricSink",
+    "MetricSourceType",
     "MetricCollectionResult",
 
     # Alerting

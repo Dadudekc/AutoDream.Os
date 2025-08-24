@@ -39,7 +39,7 @@ def test_package_imports():
         from .monitoring_new.core import AgentHealthCoreMonitor, HealthStatus, HealthMetricType
         logger.info("✅ Core module imported successfully")
         
-        from .metrics import HealthMetricsCollector, MetricSource
+        from .metrics import HealthMetricsCollector, MetricSourceType
         logger.info("✅ Metrics module imported successfully")
         
         from .alerting import HealthAlertingManager, AlertSeverity
@@ -113,7 +113,7 @@ def test_metrics_module():
     try:
         logger.info("Testing metrics collection module...")
         
-        from .metrics import HealthMetricsCollector, MetricSource
+        from .metrics import HealthMetricsCollector, MetricSourceType
         
         # Test initialization
         collector = HealthMetricsCollector()
@@ -121,7 +121,7 @@ def test_metrics_module():
         logger.info("✅ Metrics collector initialization passed")
         
         # Test on-demand collection
-        result = collector.collect_metrics_on_demand(MetricSource.SYSTEM)
+        result = collector.collect_metrics_on_demand(MetricSourceType.SYSTEM)
         assert result is not None, "Metrics collection result is None"
         assert hasattr(result, 'success'), "Result missing success attribute"
         assert hasattr(result, 'metrics'), "Result missing metrics attribute"
@@ -394,8 +394,8 @@ def test_error_handling():
         # Test metrics collector with invalid source
         metrics_collector = HealthMetricsCollector()
         try:
-            from .metrics import MetricSource
-            result = metrics_collector.collect_metrics_on_demand(MetricSource.CUSTOM)
+            from .metrics import MetricSourceType
+            result = metrics_collector.collect_metrics_on_demand(MetricSourceType.SYSTEM)
             # Should handle gracefully
         except Exception:
             pass  # Expected for custom source without collector

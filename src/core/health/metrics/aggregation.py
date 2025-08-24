@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Dict, Iterable, List
 import threading
 
-from .adapters import Metric
+from .interfaces import Metric
 
 
 class MetricAggregator:

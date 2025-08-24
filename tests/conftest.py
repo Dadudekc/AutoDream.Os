@@ -419,6 +419,10 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "v2_standards: V2 coding standards compliance tests"
     )
+    config.addinivalue_line("markers", "behavior: Behavior tree tests")
+    config.addinivalue_line("markers", "decision: Decision engine tests")
+    config.addinivalue_line("markers", "coordination: Multi-agent coordination tests")
+    config.addinivalue_line("markers", "learning: Learning component tests")
 
 
 def pytest_collection_modifyitems(config, items):
@@ -436,3 +440,11 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(pytest.mark.launchers)
         elif "test_utils" in str(item.fspath):
             item.add_marker(pytest.mark.utils)
+        elif "behavior_trees" in str(item.fspath):
+            item.add_marker(pytest.mark.behavior)
+        elif "decision_engines" in str(item.fspath):
+            item.add_marker(pytest.mark.decision)
+        elif "multi_agent" in str(item.fspath):
+            item.add_marker(pytest.mark.coordination)
+        elif "learning" in str(item.fspath):
+            item.add_marker(pytest.mark.learning)

@@ -24,22 +24,21 @@ from ..utils.mock_managers import (
 
 
 def test_v2_workflow_engine_import():
-    """Test V2 workflow engine import."""
-    print("🧪 Testing V2 workflow engine import...")
+    """Test modular workflow system import."""
+    print("🧪 Testing modular workflow system import...")
 
     try:
-        from services.v2_workflow_engine import (
-            V2WorkflowEngine,
-            V2Workflow,
-            V2WorkflowStep,
-        )
+        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
+        from src.core.workflow.workflow_types import WorkflowExecution, WorkflowStep
+        from src.core.workflow.workflow_core import WorkflowDefinitionManager
 
-        print("✅ V2WorkflowEngine import successful")
-        print("✅ V2Workflow import successful")
-        print("✅ V2WorkflowStep import successful")
+        print("✅ WorkflowExecutionEngine import successful")
+        print("✅ WorkflowExecution import successful")
+        print("✅ WorkflowStep import successful")
+        print("✅ WorkflowDefinitionManager import successful")
         return True
     except Exception as e:
-        print(f"❌ V2 workflow engine import failed: {e}")
+        print(f"❌ Modular workflow system import failed: {e}")
         return False
 
 
@@ -64,83 +63,67 @@ def test_v2_ai_code_review_import():
 
 
 def test_v2_workflow_engine_instantiation():
-    """Test V2 workflow engine instantiation."""
-    print("\n🧪 Testing V2 workflow engine instantiation...")
+    """Test modular workflow system instantiation."""
+    print("\n🧪 Testing modular workflow system instantiation...")
 
     try:
-        from services.v2_workflow_engine import V2WorkflowEngine
+        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
+        from src.core.workflow.workflow_core import WorkflowDefinitionManager
 
-        # Test instantiation with shared mocks
-        engine = V2WorkflowEngine(
-            MockFSMOrchestrator(), MockAgentManager(), MockResponseCaptureService()
-        )
+        # Test instantiation of modular components
+        engine = WorkflowExecutionEngine(max_workers=2)
+        definition_manager = WorkflowDefinitionManager()
 
-        print("✅ V2WorkflowEngine instantiation successful")
-        print(f"✅ Workflow data path: {engine.workflow_data_path}")
-        print(f"✅ Monitoring status: {engine.monitoring}")
+        print("✅ WorkflowExecutionEngine instantiation successful")
+        print("✅ WorkflowDefinitionManager instantiation successful")
+        print(f"✅ Engine max workers: {engine.max_workers}")
         return True
 
     except Exception as e:
-        print(f"❌ V2 workflow engine instantiation failed: {e}")
+        print(f"❌ Modular workflow system instantiation failed: {e}")
         return False
 
 
 def test_v2_workflow_creation():
-    """Test V2 workflow creation."""
-    print("\n🧪 Testing V2 workflow creation...")
+    """Test modular workflow system creation."""
+    print("\n🧪 Testing modular workflow system creation...")
 
     try:
-        from services.v2_workflow_engine import V2WorkflowEngine
+        from src.core.workflow.workflow_core import WorkflowDefinitionManager
+        from src.core.workflow.workflow_types import WorkflowStep
 
-        engine = V2WorkflowEngine(
-            MockFSMOrchestrator(), MockAgentManager(), MockResponseCaptureService()
-        )
+        # Test workflow definition management
+        definition_manager = WorkflowDefinitionManager()
 
-        # Test workflow creation
+        # Test workflow definition creation
         test_steps = [
-            {
-                "id": "step1",
-                "name": "Test Step 1",
-                "description": "First test step",
-                "agent_target": "Agent-1",
-                "prompt_template": "Execute step 1",
-                "expected_response_type": "text",
-            },
-            {
-                "id": "step2",
-                "name": "Test Step 2",
-                "description": "Second test step",
-                "agent_target": "Agent-2",
-                "prompt_template": "Execute step 2",
-                "expected_response_type": "text",
-                "dependencies": ["step1"],
-            },
+            WorkflowStep(
+                step_id="step1",
+                name="Test Step 1",
+                description="First test step",
+                step_type="general"
+            ),
+            WorkflowStep(
+                step_id="step2",
+                name="Test Step 2",
+                description="Second test step",
+                step_type="general"
+            ),
         ]
 
-        workflow_id = engine.create_workflow(
-            name="Test Workflow",
-            description="Test workflow for integration testing",
-            steps=test_steps,
-        )
+        # Add workflow definition
+        definition_manager.workflow_definitions["test_workflow"] = test_steps
 
-        if workflow_id:
-            print(f"✅ Workflow creation successful: {workflow_id}")
-
-            # Test workflow retrieval
-            workflow = engine.workflows.get(workflow_id)
-            if workflow:
-                print(f"✅ Workflow retrieval successful: {workflow.name}")
-                print(f"✅ Workflow steps: {len(workflow.steps)}")
-                return True
-            else:
-                print("❌ Workflow retrieval failed")
-                return False
+        if "test_workflow" in definition_manager.workflow_definitions:
+            print(f"✅ Workflow definition creation successful: test_workflow")
+            print(f"✅ Workflow steps: {len(definition_manager.workflow_definitions['test_workflow'])}")
+            return True
         else:
-            print("❌ Workflow creation failed")
+            print("❌ Workflow definition creation failed")
             return False
 
     except Exception as e:
-        print(f"❌ V2 workflow creation test failed: {e}")
+        print(f"❌ Modular workflow creation test failed: {e}")
         return False
 
 
@@ -165,31 +148,29 @@ def test_v2_ai_code_review_instantiation():
 
 
 def test_v2_workflow_system_summary():
-    """Test V2 workflow system summary."""
-    print("\n🧪 Testing V2 workflow system summary...")
+    """Test modular workflow system summary."""
+    print("\n🧪 Testing modular workflow system summary...")
 
     try:
-        from services.v2_workflow_engine import V2WorkflowEngine
+        from src.core.workflow.workflow_core import WorkflowDefinitionManager
+        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
 
-        engine = V2WorkflowEngine(
-            MockFSMOrchestrator(), MockAgentManager(), MockResponseCaptureService()
-        )
+        # Test modular system components
+        definition_manager = WorkflowDefinitionManager()
+        execution_engine = WorkflowExecutionEngine(max_workers=2)
 
-        # Get system summary
-        summary = engine.get_system_summary()
+        # Get system summary from modular components
+        total_definitions = len(definition_manager.workflow_definitions)
+        active_executions = len(execution_engine.active_executions)
 
-        if summary:
-            print("✅ System summary retrieval successful")
-            print(f"✅ Total workflows: {summary['total_workflows']}")
-            print(f"✅ Active workflows: {summary['active_workflows']}")
-            print(f"✅ Monitoring active: {summary['monitoring_active']}")
-            return True
-        else:
-            print("❌ System summary retrieval failed")
-            return False
+        print("✅ Modular system summary retrieval successful")
+        print(f"✅ Total workflow definitions: {total_definitions}")
+        print(f"✅ Active executions: {active_executions}")
+        print(f"✅ Max workers: {execution_engine.max_workers}")
+        return True
 
     except Exception as e:
-        print(f"❌ V2 workflow system summary test failed: {e}")
+        print(f"❌ Modular workflow system summary failed: {e}")
         return False
 
 

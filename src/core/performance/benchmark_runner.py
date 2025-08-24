@@ -169,3 +169,4 @@ class BenchmarkRunner:
             optimization_recommendations=[f"Fix {benchmark_type.value} benchmark: {error}"]
         )
 
+

@@ -25,7 +25,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 try:
-    from security.security_monitoring import AuthenticationSystem, AuthenticationResult
+    from security.authentication import AuthenticationSystem, AuthenticationResult
     from security.network_security import NetworkScanner
     from security.compliance_audit import ComplianceAuditor
 

@@ -38,7 +38,8 @@ try:
     from services.perpetual_motion_contract_service import (
         PerpetualMotionContractService,
     )
-    from services.v2_workflow_engine import V2WorkflowEngine
+    # Use modular workflow system instead of V2WorkflowEngine
+    from src.core.workflow.workflow_execution import WorkflowExecutionEngine
     from services.v2_api_integration_framework import V2APIIntegrationFramework
     from services.v2_ai_code_review import V2AICodeReview
     from services.data_synchronization import DataSynchronization
@@ -64,7 +65,7 @@ except ImportError as e:
     ContractLifecycleService = Mock
     ContractAutomationService = Mock
     PerpetualMotionContractService = Mock
-    V2WorkflowEngine = Mock
+    WorkflowExecutionEngine = Mock
     V2APIIntegrationFramework = Mock
     V2AICodeReview = Mock
     DataSynchronization = Mock
@@ -96,7 +97,7 @@ class ComprehensiveV2TestSuite(unittest.TestCase):
             "contract_lifecycle": ContractLifecycleService(),
             "contract_automation": ContractAutomationService(),
             "perpetual_motion_contract": PerpetualMotionContractService(),
-            "v2_workflow_engine": V2WorkflowEngine(),
+            "workflow_execution_engine": WorkflowExecutionEngine(max_workers=2),
             "v2_api_integration": V2APIIntegrationFramework(),
             "v2_ai_code_review": V2AICodeReview(),
             "data_synchronization": DataSynchronization(),

@@ -1,0 +1,158 @@
+{
+  "workflow_id": "v2_workflow_engine",
+  "workflow_name": "V2 Workflow Engine",
+  "workflow_version": "2.0.0",
+  "workflow_type": "system_engine",
+  "description": "Core workflow execution engine for Agent Cellphone V2 system",
+  "status": "active",
+  "priority": "critical",
+  "workflow_structure": {
+    "engine_config": {
+      "max_concurrent_workflows": 100,
+      "max_workflow_duration_hours": 168,
+      "auto_cleanup_enabled": true,
+      "cleanup_interval_hours": 24,
+      "performance_monitoring": true,
+      "error_handling": "graceful_degradation"
+    },
+    "execution_modes": [
+      "synchronous",
+      "asynchronous",
+      "parallel",
+      "sequential",
+      "conditional"
+    ],
+    "state_management": {
+      "persistence": "database",
+      "checkpointing": true,
+      "checkpoint_interval_minutes": 5,
+      "recovery_enabled": true,
+      "rollback_support": true
+    }
+  },
+  "workflow_states": [
+    {
+      "state_id": "initialized",
+      "state_name": "Initialized",
+      "state_type": "start",
+      "allowed_transitions": ["active", "cancelled"],
+      "actions": ["validate_inputs", "allocate_resources", "initialize_agents"]
+    },
+    {
+      "state_id": "active",
+      "state_name": "Active",
+      "state_type": "processing",
+      "allowed_transitions": ["paused", "completed", "failed", "cancelled"],
+      "actions": ["execute_tasks", "monitor_progress", "handle_events"]
+    },
+    {
+      "state_id": "paused",
+      "state_name": "Paused",
+      "state_type": "waiting",
+      "allowed_transitions": ["active", "cancelled"],
+      "actions": ["save_state", "notify_stakeholders", "wait_for_resume"]
+    },
+    {
+      "state_id": "completed",
+      "state_name": "Completed",
+      "state_type": "final",
+      "allowed_transitions": [],
+      "actions": ["generate_report", "cleanup_resources", "notify_completion"]
+    },
+    {
+      "state_id": "failed",
+      "state_name": "Failed",
+      "state_type": "final",
+      "allowed_transitions": ["retry", "cancelled"],
+      "actions": ["log_error", "notify_failure", "initiate_recovery"]
+    },
+    {
+      "state_id": "cancelled",
+      "state_name": "Cancelled",
+      "state_type": "final",
+      "allowed_transitions": [],
+      "actions": ["cleanup_resources", "notify_cancellation", "log_reason"]
+    }
+  ],
+  "workflow_components": [
+    {
+      "component_id": "workflow_scheduler",
+      "component_name": "Workflow Scheduler",
+      "component_type": "scheduler",
+      "responsibilities": [
+        "workflow_prioritization",
+        "resource_allocation",
+        "execution_timing",
+        "load_balancing"
+      ],
+      "dependencies": ["task_manager", "resource_monitor"]
+    },
+    {
+      "component_id": "workflow_executor",
+      "component_name": "Workflow Executor",
+      "component_type": "executor",
+      "responsibilities": [
+        "task_execution",
+        "state_transitions",
+        "error_handling",
+        "performance_monitoring"
+      ],
+      "dependencies": ["agent_coordinator", "messaging_system"]
+    },
+    {
+      "component_id": "workflow_monitor",
+      "component_name": "Workflow Monitor",
+      "component_type": "monitor",
+      "responsibilities": [
+        "progress_tracking",
+        "performance_metrics",
+        "alert_generation",
+        "health_monitoring"
+      ],
+      "dependencies": ["performance_monitor", "alert_system"]
+    },
+    {
+      "component_id": "workflow_persister",
+      "component_name": "Workflow Persister",
+      "component_type": "persistence",
+      "responsibilities": [
+        "state_persistence",
+        "checkpoint_management",
+        "recovery_support",
+        "audit_logging"
+      ],
+      "dependencies": ["database_system", "logging_system"]
+    }
+  ],
+  "integration_points": {
+    "messaging_system": "v2_message_queue",
+    "task_manager": "v2_task_manager",
+    "agent_coordinator": "v2_agent_coordinator",
+    "performance_monitor": "v2_performance_monitor",
+    "database_system": "v2_database",
+    "logging_system": "v2_logging",
+    "alert_system": "v2_alert_manager"
+  },
+  "performance_requirements": {
+    "max_workflow_startup_time_ms": 1000,
+    "max_state_transition_time_ms": 500,
+    "max_task_execution_time_ms": 30000,
+    "throughput_workflows_per_minute": 60,
+    "availability_percentage": 99.9,
+    "error_rate_threshold": 0.01
+  },
+  "security_settings": {
+    "authentication_required": true,
+    "authorization_enabled": true,
+    "audit_logging": true,
+    "encryption_level": "standard",
+    "access_control": "role_based"
+  },
+  "metadata": {
+    "created_by": "V2_SYSTEM",
+    "created_date": "2025-08-23T19:30:00Z",
+    "last_modified": "2025-08-23T19:30:00Z",
+    "workflow_category": "system_engine",
+    "compatibility": ["v2_agent_system", "v2_messaging", "v2_monitoring"]
+  }
+}

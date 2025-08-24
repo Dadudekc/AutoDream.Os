@@ -192,3 +192,4 @@ function refreshDashboard() {
         refreshWidget(widget.id);
     });
 }"""
+

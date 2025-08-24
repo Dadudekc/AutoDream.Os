@@ -183,3 +183,4 @@ class RealTimeUpdater:
             self.logger.error(f"Health check failed: {e}")
             return False
 
+

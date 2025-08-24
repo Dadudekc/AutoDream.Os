@@ -9,12 +9,16 @@ Follows 200 LOC limit and single responsibility principle.
 import logging
 import time
 import json
+import os
 
+from config.config_loader import get_service_config
 from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+
+import jwt
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +76,12 @@ class V2APIGateway:
         # Security and rate limiting
         self._rate_limit_store: Dict[str, List[float]] = {}
         self._auth_tokens: Dict[str, Dict[str, Any]] = {}
+
+        jwt_config = get_service_config("api_gateway").get("jwt", {})
+        secret_env = jwt_config.get("secret_env", "JWT_SECRET")
+        self._jwt_secret = os.getenv(secret_env, "")
+        self._jwt_algorithm = jwt_config.get("algorithm", "HS256")
+        self._jwt_audience = jwt_config.get("audience")
 
         self.logger.info(f"V2 API Gateway '{gateway_name}' initialized")
 
@@ -150,14 +160,29 @@ class V2APIGateway:
             return self._create_error_response(f"Internal error: {str(e)}", 500)
 
     def _validate_auth(self, request: GatewayRequest) -> bool:
-        """Validate authentication for protected routes"""
+        """Validate authentication for protected routes using JWT"""
         auth_header = request.headers.get("Authorization")
-        if not auth_header:
+        if not auth_header or not auth_header.startswith("Bearer "):
             return False
 
-        # Simple token validation (in production, use proper JWT validation)
-        token = auth_header.replace("Bearer ", "")
-        return token in self._auth_tokens
+        token = auth_header.split(" ", 1)[1]
+
+        try:
+            jwt.decode(
+                token,
+                self._jwt_secret,
+                algorithms=[self._jwt_algorithm],
+                audience=self._jwt_audience,
+            )
+            return True
+        except jwt.ExpiredSignatureError:
+            self.logger.warning("JWT token expired")
+        except jwt.InvalidAudienceError:
+            self.logger.warning("JWT audience mismatch")
+        except jwt.InvalidTokenError as e:
+            self.logger.warning(f"JWT validation error: {e}")
+
+        return False
 
     def _check_rate_limit(
         self, request: GatewayRequest, route: RouteDefinition

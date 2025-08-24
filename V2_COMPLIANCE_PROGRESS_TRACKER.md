@@ -162,12 +162,12 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Brought down from 892 to 148 lines by modularizing handshake, routing, authentication, and logging utilities. Protocol file now orchestrates these modules.
 
-### CRIT-017: Code Crafter Test Suite ✅
-- **File**: `tests/ai_ml/test_code_crafter.py`
+### MOD-017: Auth Integration Tester Refactor ✅
+- **File**: `src/services_v2/auth/auth_integration_tester.py`
 - **Status**: Completed
-- **Assigned To**: Victor Dixon
+- **Assigned To**: Automated Refactor Bot
 - **Completion Date**: 2025-08-24
-- **Summary**: Refactored monolithic 976-line test file into modular models, generation, validation, and integration suites with a lightweight orchestrator.
+- **Summary**: Extracted core logic, validation, reporting and config into dedicated modules. Main file now orchestrates these components in under 50 lines, enhancing modularity and testability.
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 
@@ -303,16 +303,18 @@ These files can be addressed in parallel with higher priority items.
   - Reduce cognitive complexity of individual modules
 
 ### CRIT-023: Web Development Setup Script
-- **Files**: `scripts/setup/setup_web_development.py`, `scripts/setup/setup_web_environment.py`,
-  `scripts/setup/setup_web_dependencies.py`, `scripts/setup/setup_web_configuration.py`,
-  `scripts/setup/setup_web_validation.py`
-- **Current Lines**: ≤150 per file
-- **Status**: Completed
-- **Assigned To**: Modularization complete
-- **Refactoring Outcome**:
-  - Environment, dependency, configuration, and validation logic extracted into modules
-  - Main orchestrator coordinates modules with clear execution order
-  - Each module adheres to V2 line limits and SRP principles
+- **File**: `scripts/setup/setup_web_development.py`
+- **Current Lines**: 967
+- **Priority**: Immediate
+- **Estimated Effort**: 2-3 days
+- **Status**: Available
+- **Assigned To**: Unassigned
+- **Refactoring Goals**:
+  - Apply SRP - Separate environment configuration, dependency installation, validation, and logging concerns
+  - Improve maintainability through better code organization
+  - Enhance testability by isolating different responsibilities
+  - Create production-ready modules with proper error handling
+  - Reduce cognitive complexity of individual modules
 
 ### CRIT-024: Modular Testing Framework Suite
 - **File**: `tests/test_testing_framework_modular.py`
@@ -371,14 +373,50 @@ These files can be addressed in parallel with higher priority items.
   - Reduce cognitive complexity of individual modules
 
 ### CRIT-028: AI Agent Framework Test Suite
-- **Files**:
-  - `tests/gaming/test_ai_agent_framework_setup.py`
-  - `tests/gaming/test_ai_agent_framework_execution.py`
-  - `tests/gaming/test_ai_agent_framework_validation.py`
-  - `tests/gaming/test_ai_agent_framework_cleanup.py`
-  - `tests/gaming/test_ai_agent_framework.py` (orchestrator)
-- **Status**: Completed
-- **Notes**: Split monolithic test suite into focused modules for setup, execution, validation, and cleanup.
+- **File**: `tests/gaming/test_ai_agent_framework.py`
+- **Current Lines**: 992
+- **Priority**: Immediate
+- **Estimated Effort**: 2-3 days
+- **Status**: Available
+- **Assigned To**: Unassigned
+- **Refactoring Goals**:
+  - Apply SRP - Separate framework setup, scenario execution, validation, and cleanup concerns
+  - Improve maintainability through better code organization
+  - Enhance testability by isolating different responsibilities
+  - Create production-ready modules with proper error handling
+  - Reduce cognitive complexity of individual modules
+
+## 🚨 IMMEDIATE ACTIONS REQUIRED
+
+1. **Address MODERATE-002**: Autonomous Development Orchestrator cleanup (In Progress - Agent-5)
+2. **Claim Available Critical Tasks**: CRIT-017 through CRIT-028 are open for immediate work
+3. **Continue Critical Phase**: 8 remaining critical violations need refactoring
+4. **Address Major Violations**: 78 files need immediate attention
+5. **Address Moderate Violations**: 136 files need attention
+
+## 📝 CONTRACT CLAIMING PROCESS
+
+1. **Review Available Contracts**: Check the list above for unassigned tasks
+2. **Claim Contract**: Update `assigned_to` field with your agent ID
+3. **Update Status**: Change status to "assigned"
+4. **Begin Work**: Start extraction and refactoring process
+5. **Follow SRP Principles**: Ensure each module has single responsibility
+6. **Validate**: Run tests and compliance checks
+7. **Mark Complete**: Update status to "completed"
+
+## 🔍 VALIDATION CHECKLIST
+
+- [ ] All extracted modules follow SRP principles
+- [ ] Main file reduced to a maintainable size (around 300 lines as a flexible guideline)
+- [ ] All imports work correctly
+- [ ] Functionality preserved
+- [ ] Tests pass
+- [ ] No new violations introduced
+- [ ] Production-ready code quality (error handling, logging)
+
+## 📊 DETAILED VIOLATION ANALYSIS
+
+*Line ranges below are approximate and help prioritize work—they are not strict requirements.*
 
 ### Critical Violations (~800+ lines, guideline only): 7 files remaining
 - `src/services/financial/portfolio/tracking.py` (937 lines) - Available

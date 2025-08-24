@@ -460,33 +460,29 @@ def run_comprehensive_integration_suite(logger: logging.Logger) -> dict:
         # Initialize integration tester
         integration_tester = AuthIntegrationTester()
 
-        # Run comprehensive tests
+        # Run tests via new orchestrator
         start_time = time.time()
-        report = integration_tester.run_comprehensive_integration_tests()
+        report = integration_tester.run()
         total_time = time.time() - start_time
 
-        # Process results
         test_results = {
-            "tests_run": report.total_tests,
-            "tests_passed": report.passed_tests,
-            "tests_failed": report.failed_tests,
-            "tests_error": report.error_tests,
+            "tests_run": report.summary["total"],
+            "tests_passed": report.summary["passed"],
+            "tests_failed": report.summary["failed"],
+            "tests_error": 0,
             "total_time": total_time,
-            "integration_status": report.integration_status,
-            "performance_metrics": report.performance_metrics,
+            "integration_status": {},
+            "performance_metrics": {},
             "test_details": [
                 {
-                    "test": result.test_name,
-                    "status": result.status,
-                    "duration": result.duration,
-                    "details": result.details,
+                    "test": r.name,
+                    "status": "PASS" if r.passed else "FAIL",
+                    "duration": r.duration,
+                    "details": r.details,
                 }
-                for result in report.test_results
+                for r in report.results
             ],
         }
-
-        # Cleanup
-        integration_tester.cleanup()
 
         return test_results
 

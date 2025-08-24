@@ -10,8 +10,17 @@ Provides enterprise-grade security with integration testing capabilities.
 from .auth_service import AuthService
 from .auth_integration_tester import AuthIntegrationTester
 from .auth_performance_monitor import AuthPerformanceMonitor
+from .auth_integration_tester_config import AuthTesterConfig
+from .auth_integration_tester_reporting import IntegrationReport, TestResult
 
-__all__ = ["AuthService", "AuthIntegrationTester", "AuthPerformanceMonitor"]
+__all__ = [
+    "AuthService",
+    "AuthIntegrationTester",
+    "AuthPerformanceMonitor",
+    "AuthTesterConfig",
+    "IntegrationReport",
+    "TestResult",
+]
 
 __version__ = "2.0.0"
 __author__ = "Agent-2 (AI & ML Integration Specialist)"

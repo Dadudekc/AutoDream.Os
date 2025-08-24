@@ -41,9 +41,19 @@ from .frontend_testing import (
     FrontendTestRunner,
     TestResult,
     TestSuite,
-    TestUtilities,
     MockDataGenerator,
 )
+from .ui_interactions import (
+    create_mock_component,
+    create_mock_route,
+    create_mock_navigation_state,
+)
+from .assertion_helpers import (
+    assert_component_props,
+    assert_route_config,
+    assert_navigation_state,
+)
+from .reporting import generate_summary_report
 
 # Version information
 __version__ = "2.0.0"
@@ -73,8 +83,14 @@ __all__ = [
     "FrontendTestRunner",
     "TestResult",
     "TestSuite",
-    "TestUtilities",
     "MockDataGenerator",
+    "create_mock_component",
+    "create_mock_route",
+    "create_mock_navigation_state",
+    "assert_component_props",
+    "assert_route_config",
+    "assert_navigation_state",
+    "generate_summary_report",
 ]
 
 

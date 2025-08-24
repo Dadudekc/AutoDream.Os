@@ -7,6 +7,8 @@ from error analytics data. Follows V2 standards with advanced
 trend detection and forecasting capabilities.
 """
 
+from __future__ import annotations
+
 import logging
 import statistics
 from typing import Dict, List, Optional, Any
@@ -32,7 +34,7 @@ class ErrorTrend:
     time_period: str
     error_count: int
     severity_distribution: Dict[ErrorSeverity, int]
-    category_distribution: Dict[ErrorCategory, int]
+    category_distribution: Dict[str, int]
     recovery_success_rate: float
     average_resolution_time: float
     trend_direction: str  # "increasing", "decreasing", "stable"
@@ -55,8 +57,8 @@ class TrendAnalysisResult:
 
 class ErrorTrendAnalyzer:
     """Advanced error trend analysis and forecasting"""
-    
-    def __init__(self, error_handler: AdvancedErrorHandler, config: Optional[Dict[str, Any]] = None):
+
+    def __init__(self, error_handler: ErrorHandler, config: Optional[Dict[str, Any]] = None):
         self.error_handler = error_handler
         self.config = config or {}
         self.trends: List[ErrorTrend] = []

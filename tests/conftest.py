@@ -24,6 +24,7 @@ import coverage
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
+from utils.stability_improvements import StabilityManager
 
 # Testing configuration
 TEST_TIMEOUT = 30  # seconds
@@ -181,6 +182,12 @@ def mock_environment() -> Generator[Dict[str, str], None, None]:
     # Restore original environment
     os.environ.clear()
     os.environ.update(original_env)
+
+
+@pytest.fixture(scope="function")
+def stability_manager() -> StabilityManager:
+    """Provide a StabilityManager instance for tests."""
+    return StabilityManager()
 
 
 # V2 Standards Compliance Fixtures

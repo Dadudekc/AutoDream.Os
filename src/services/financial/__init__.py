@@ -10,9 +10,13 @@ __version__ = "1.0.0"
 __author__ = "Business Intelligence Agent"
 __status__ = "ACTIVE"
 
-# Intentionally leave __all__ empty to prevent eager imports that may rely on
-# unavailable external packages. Consumers can import the required services
-# explicitly, e.g. ``from src.services.financial.trading_intelligence_v2 import
-# TradingIntelligenceService``.
-__all__: list[str] = []
+# Intentionally avoid eager imports that may rely on optional third-party
+# packages. The orchestrator is exposed lazily so that basic package imports
+# remain lightweight during tests.
+try:  # pragma: no cover - optional dependencies may not be present
+    from .orchestrator import FinancialServicesOrchestrator
+
+    __all__ = ["FinancialServicesOrchestrator"]
+except Exception:  # pragma: no cover
+    __all__: list[str] = []
 

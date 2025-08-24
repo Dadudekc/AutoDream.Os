@@ -162,13 +162,6 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Brought down from 892 to 148 lines by modularizing handshake, routing, authentication, and logging utilities. Protocol file now orchestrates these modules.
 
-### MAJOR-004: Network Security Modules ✅
-- **File**: `src/security/network_security.py`
-- **Status**: Completed
-- **Assigned To**: Victor Dixon
-- **Completion Date**: 2025-08-24
-- **Summary**: Refactored 780-line monolithic file into modular policies, monitoring, threats, and configuration modules. Orchestrator now coordinates components while tests pass.
-
 ### MODERATE-001: AI Development Workflow Refactor ✅
 - **File**: `src/ai_ml/dev_workflow.py`
 - **Status**: Completed
@@ -176,12 +169,12 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Refactored from 722 to 55 lines by extracting manager, AI processor, coordinator, and config modules. New orchestrator coordinates components and maintains functionality.
 
-### MODERATE-003: ML Robot Maker Modularization ✅
-- **File**: `src/ai_ml/ml_robot_maker.py`
+### MODERATE-016: V2 Onboarding Sequence Modularization ✅
+- **File**: `src/core/v2_onboarding_sequence.py`
 - **Status**: Completed
-- **Assigned To**: Agent-2
+- **Assigned To**: Agent-5
 - **Completion Date**: 2025-08-24
-- **Summary**: Split the monolithic ML Robot Maker into dedicated creator, processor, config, and validator modules. The new `ml_robot_maker.py` orchestrates these components. Imports updated and tests verified.
+- **Summary**: Split monolithic onboarding sequence into core, validator, coordinator, and config modules with a lightweight orchestrator. Imports updated and tests verified.
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 

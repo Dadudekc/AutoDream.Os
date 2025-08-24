@@ -1,0 +1,44 @@
+{
+  "template_id": "agent-1_response_template",
+  "template_name": "Agent-1 Response Template",
+  "template_version": "2.0.0",
+  "response_structure": {
+    "response_id": "{{response_id}}",
+    "task_id": "{{task_id}}",
+    "agent_id": "Agent-1",
+    "response_timestamp": "{{timestamp}}",
+    "response_type": "{{response_type}}",
+    "status": "{{status}}",
+    "content": {
+      "message": "{{message}}",
+      "data": "{{data}}",
+      "metadata": "{{metadata}}"
+    },
+    "performance_metrics": {
+      "processing_time_ms": "{{processing_time}}",
+      "memory_usage_mb": "{{memory_usage}}",
+      "cpu_usage_percent": "{{cpu_usage}}"
+    }
+  },
+  "response_types": [
+    "task_completion",
+    "status_update",
+    "error_report"
+  ],
+  "status_values": [
+    "success",
+    "partial_success",
+    "failure",
+    "pending"
+  ],
+  "quality_standards": {
+    "response_time_threshold_ms": 5000,
+    "accuracy_threshold": 0.95,
+    "completeness_threshold": 0.9
+  },
+  "metadata": {
+    "created_by": "V2_SYSTEM",
+    "created_date": "2025-08-23T19:30:00Z",
+    "template_category": "agent-1_agent"
+  }
+}

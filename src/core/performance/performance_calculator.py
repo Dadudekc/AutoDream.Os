@@ -172,3 +172,4 @@ class PerformanceCalculator:
         # Weighted score
         return (target_achievement * 0.7) + (consistency * 0.3)
 
+

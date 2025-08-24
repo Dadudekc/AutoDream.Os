@@ -615,9 +615,11 @@ class UnifiedFinancialAPI:
         try:
             if request_type == "get_options_chain":
                 symbol = request_data.get("symbol")
-                return self.options_trading.get_options_chain(symbol)
+                expiration = request_data.get("expiration", "30d")  # Default to 30 days
+                return self.options_trading.analyze_options_chain(symbol, expiration)
             elif request_type == "calculate_option_price":
-                return self.options_trading.calculate_option_price(**request_data)
+                # Use the correct method for option pricing
+                return self.options_trading.calculate_black_scholes(**request_data)
             else:
                 raise ValueError(
                     f"Unknown options trading request type: {request_type}"

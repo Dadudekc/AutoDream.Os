@@ -1,0 +1,54 @@
+{
+  "agent_id": "Agent-3",
+  "agent_name": "Development Agent",
+  "agent_type": "development",
+  "capabilities": [
+    "code_generation",
+    "debugging",
+    "optimization"
+  ],
+  "specializations": [
+    "development_operations",
+    "system_integration"
+  ],
+  "performance_metrics": {
+    "task_completion_rate": 0.95,
+    "response_time_ms": 180,
+    "accuracy_score": 0.92,
+    "efficiency_rating": 0.88
+  },
+  "workflow_preferences": {
+    "max_concurrent_tasks": 3,
+    "preferred_task_types": [
+      "development",
+      "basic_processing"
+    ],
+    "task_priority_strategy": "fifo_with_priority"
+  },
+  "communication_settings": {
+    "protocol": "v2_messaging",
+    "message_format": "json",
+    "response_timeout_ms": 5000,
+    "retry_attempts": 3
+  },
+  "resource_limits": {
+    "max_memory_mb": 512,
+    "max_cpu_percent": 25,
+    "max_disk_mb": 100,
+    "max_network_mb": 50
+  },
+  "integration_config": {
+    "messaging_system": "v2_message_queue",
+    "task_manager": "v2_task_manager",
+    "monitoring": "v2_performance_monitor",
+    "logging": "v2_logging_system"
+  },
+  "security_settings": {
+    "authentication_required": true,
+    "encryption_level": "standard",
+    "access_control": "role_based",
+    "audit_logging": true
+  },
+  "last_updated": "2025-08-23T19:30:00Z",
+  "version": "2.0.0"
+}

@@ -20,7 +20,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import advanced V2 services for specialized testing
 try:
-    from services.v2_workflow_engine import V2WorkflowEngine
+    # Use modular workflow system instead of V2WorkflowEngine
+    from src.core.workflow.workflow_execution import WorkflowExecutionEngine
+    from src.core.workflow.workflow_core import WorkflowDefinitionManager
+    
     from services.v2_api_integration_framework import V2APIIntegrationFramework
     from services.v2_ai_code_review import V2AICodeReview
     from services.v2_quality_assurance_framework import V2QualityAssuranceFramework
@@ -43,7 +46,8 @@ try:
 except ImportError as e:
     print(f"Import warning: {e}")
     # Fallback mock services for advanced testing
-    V2WorkflowEngine = Mock
+    WorkflowExecutionEngine = Mock
+    WorkflowDefinitionManager = Mock
     V2APIIntegrationFramework = Mock
     V2AICodeReview = Mock
     V2QualityAssuranceFramework = Mock
@@ -68,7 +72,8 @@ class AdvancedV2TestSuite(unittest.TestCase):
         """Set up advanced test environment"""
         # Initialize advanced V2 services
         self.advanced_services = {
-            "v2_workflow_engine": V2WorkflowEngine(),
+            "workflow_execution_engine": WorkflowExecutionEngine(max_workers=2),
+            "workflow_definition_manager": WorkflowDefinitionManager(),
             "v2_api_integration": V2APIIntegrationFramework(),
             "v2_ai_code_review": V2AICodeReview(),
             "v2_quality_assurance": V2QualityAssuranceFramework(),

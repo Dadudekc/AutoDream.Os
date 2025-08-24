@@ -160,3 +160,4 @@ class WidgetFactory:
             
         except Exception:
             return False
+

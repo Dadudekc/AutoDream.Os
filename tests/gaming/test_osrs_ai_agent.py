@@ -27,7 +27,7 @@ from datetime import datetime
 # Add the parent directory to the path to import gaming modules
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from gaming_systems.osrs_ai_agent import (
+from gaming_systems.osrs import (
     OSRSSkill,
     OSRSLocation,
     OSRSGameState,
@@ -39,9 +39,8 @@ from gaming_systems.osrs_ai_agent import (
     OSRSWoodcuttingTrainer,
     OSRSFishingTrainer,
     OSRSCombatTrainer,
-    OSRSGrandExchangeBot,
-    OSRSAntiDetection,
-    OSRSAIAgent,
+    OSRSMarketSystem,
+    OSRSDecisionEngine,
     create_osrs_ai_agent,
 )
 

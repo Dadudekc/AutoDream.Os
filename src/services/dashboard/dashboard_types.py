@@ -65,3 +65,4 @@ class DashboardConfig:
     enable_notifications: bool = True
     enable_animations: bool = True
 
+

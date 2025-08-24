@@ -15,17 +15,21 @@ from .network_security import (
     SecurityEvent,
 )
 
+# Import authentication components
+from .authentication import (
+    AuthenticationSystem,
+    AuthenticationResult,
+    UserSession,
+    SessionManager,
+    RoleBasedAccessControl,
+)
+
 # Import security monitoring components
 from .security_monitoring import (
     SecurityMonitor,
     AlertSystem,
-    AuthenticationSystem,
-    RoleBasedAccessControl,
-    SessionManager,
     SecurityLogEntry,
     SecurityAlert,
-    UserSession,
-    AuthenticationResult,
 )
 
 # Import compliance and audit components
@@ -55,16 +59,17 @@ __all__ = [
     "IncidentResponse",
     "NetworkDevice",
     "SecurityEvent",
+    # Authentication
+    "AuthenticationSystem",
+    "AuthenticationResult",
+    "UserSession",
+    "SessionManager",
+    "RoleBasedAccessControl",
     # Security Monitoring
     "SecurityMonitor",
     "AlertSystem",
-    "AuthenticationSystem",
-    "RoleBasedAccessControl",
-    "SessionManager",
     "SecurityLogEntry",
     "SecurityAlert",
-    "UserSession",
-    "AuthenticationResult",
     # Compliance and Audit
     "SecurityPolicyValidator",
     "AuditLogger",

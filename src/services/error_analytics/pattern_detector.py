@@ -7,6 +7,8 @@ from error analytics data. Follows V2 standards with advanced
 pattern recognition capabilities.
 """
 
+from __future__ import annotations
+
 import logging
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
@@ -33,7 +35,7 @@ class PatternAnalysisResult:
     first_seen: datetime
     last_seen: datetime
     severity_distribution: Dict[ErrorSeverity, int]
-    category_distribution: Dict[ErrorCategory, int]
+    category_distribution: Dict[str, int]
     frequency_score: float
     impact_score: float
     confidence_level: float
@@ -86,7 +88,7 @@ class ErrorPatternDetector:
             log.error(f"Error analyzing pattern severity: {e}")
             return {}
     
-    def analyze_pattern_categories(self, pattern: ErrorPattern) -> Dict[ErrorCategory, int]:
+    def analyze_pattern_categories(self, pattern: ErrorPattern) -> Dict[str, int]:
         """Analyze category distribution for a specific pattern"""
         try:
             category_counts = {}

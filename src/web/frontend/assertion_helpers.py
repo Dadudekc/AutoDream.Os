@@ -3,7 +3,7 @@
 from typing import Dict, Any
 
 from .frontend_app import UIComponent
-from .frontend_router import RouteConfig, NavigationState
+from .frontend_router_config import RouteConfig, NavigationState
 
 
 def assert_component_props(component: UIComponent, expected_props: Dict[str, Any]) -> None:

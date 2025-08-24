@@ -16,6 +16,11 @@ from pathlib import Path
 import time
 import uuid
 
+# Service discovery
+try:
+    from .service_registry import ServiceRegistry
+except Exception:  # pragma: no cover
+    from service_registry import ServiceRegistry
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -291,13 +296,12 @@ class APIManager:
         ]
 
 
-# Service discovery and registration - Using advanced ServiceRegistry from service_registry.py
-# from .service_registry import ServiceRegistry
+# Service discovery and registration
 
 
 # Global instances
 api_manager = APIManager()
-# service_registry = ServiceRegistry()  # Using advanced ServiceRegistry from service_registry.py
+service_registry = ServiceRegistry()
 
 
 # Example usage and testing
@@ -312,8 +316,22 @@ async def example_handler(
     }
 
 
-def setup_example_endpoints():
-    """Setup example endpoints for testing."""
+def setup_example_endpoints(
+    registry: Optional[ServiceRegistry] = None,
+) -> ServiceRegistry:
+    """Setup example endpoints for testing.
+
+    Args:
+        registry: Optional ``ServiceRegistry`` instance to use. If not provided,
+            the module-level ``service_registry`` will be used. A new instance
+            will be created if both are ``None``.
+
+    Returns:
+        The ``ServiceRegistry`` instance used for endpoint setup.
+    """
+
+    reg = registry or service_registry or ServiceRegistry()
+
     # Register example endpoint
     example_endpoint = APIEndpoint(
         path="/api/hello",
@@ -321,25 +339,40 @@ def setup_example_endpoints():
         handler=example_handler,
         description="Example hello endpoint",
         requires_auth=False,
+        rate_limit=100,
         tags=["example", "hello"],
     )
 
     api_manager.register_endpoint(example_endpoint)
 
     # Register health check endpoint
+    async def health_handler(
+        request: Dict[str, Any], context: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        services_info: List[Dict[str, str]] = []
+        if reg:
+            try:
+                healthy = reg.get_healthy_services()
+                services_info = [
+                    {"name": svc.name, "status": svc.status.value} for svc in healthy
+                ]
+            except Exception as e:  # pragma: no cover
+                logger.error(f"Error accessing ServiceRegistry: {e}")
+        return {"status": "healthy", "services": services_info}
+
     health_endpoint = APIEndpoint(
         path="/api/health",
         method=APIMethod.GET,
-        handler=lambda req, ctx: {
-            "status": "healthy",
-            "services": [],  # TODO: Integrate with advanced ServiceRegistry
-        },
+        handler=health_handler,
         description="System health check",
         requires_auth=False,
+        rate_limit=100,
         tags=["health", "monitoring"],
     )
 
     api_manager.register_endpoint(health_endpoint)
+
+    return reg
 
 
 if __name__ == "__main__":

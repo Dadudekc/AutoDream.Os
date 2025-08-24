@@ -7,6 +7,8 @@ from error analytics data. Follows V2 standards with advanced
 correlation detection and analysis capabilities.
 """
 
+from __future__ import annotations
+
 import logging
 import statistics
 from typing import Dict, List, Optional, Any, Tuple
@@ -53,8 +55,8 @@ class CorrelationAnalysisResult:
 
 class ErrorCorrelationAnalyzer:
     """Advanced error correlation analysis and detection"""
-    
-    def __init__(self, error_handler: AdvancedErrorHandler, config: Optional[Dict[str, Any]] = None):
+
+    def __init__(self, error_handler: ErrorHandler, config: Optional[Dict[str, Any]] = None):
         self.error_handler = error_handler
         self.config = config or {}
         self.correlations: List[ErrorCorrelation] = []

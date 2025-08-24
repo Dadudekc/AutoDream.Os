@@ -17,15 +17,11 @@ License: MIT
 
 import json
 import logging
-import pytest
-import asyncio
-
 from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable, Union
 from dataclasses import dataclass, asdict
 from datetime import datetime
-from unittest.mock import Mock, MagicMock, patch, AsyncMock
 import tempfile
 import shutil
 
@@ -48,6 +44,7 @@ from .frontend_router import (
     create_router_with_default_routes,
     RouteBuilder,
 )
+from .reporting import generate_summary_report
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -96,7 +93,6 @@ class FrontendTestRunner:
         self.test_suites: Dict[str, TestSuite] = {}
         self.current_suite: Optional[TestSuite] = None
         self.mock_data_generator = MockDataGenerator()
-        self.test_utilities = TestUtilities()
 
         logger.info("Frontend test runner initialized")
 
@@ -182,7 +178,6 @@ class FrontendTestRunner:
             name=suite_name,
             description="Integration testing suite",
             tests=[],
-            tests=[],
             total_tests=0,
             passed_tests=0,
             failed_tests=0,
@@ -229,7 +224,7 @@ class FrontendTestRunner:
             }
 
             # Generate summary report
-            self._generate_summary_report(all_suites)
+            generate_summary_report(all_suites)
 
             logger.info("All frontend tests completed")
             return all_suites
@@ -409,111 +404,6 @@ class FrontendTestRunner:
         suite.skipped_tests = len([t for t in suite.tests if t.status == "skipped"])
         suite.total_duration = sum(t.duration for t in suite.tests)
 
-    def _generate_summary_report(self, suites: Dict[str, TestSuite]):
-        """Generate a summary report of all test suites"""
-        total_tests = sum(s.total_tests for s in suites.values())
-        total_passed = sum(s.passed_tests for s in suites.values())
-        total_failed = sum(s.failed_tests for s in suites.values())
-        total_skipped = sum(s.skipped_tests for s in suites.values())
-        total_duration = sum(s.total_duration for s in suites.values())
-
-        logger.info("=" * 60)
-        logger.info("FRONTEND TESTING SUMMARY REPORT")
-        logger.info("=" * 60)
-        logger.info(f"Total Tests: {total_tests}")
-        logger.info(f"Passed: {total_passed}")
-        logger.info(f"Failed: {total_failed}")
-        logger.info(f"Skipped: {total_skipped}")
-        logger.info(f"Total Duration: {total_duration:.2f}s")
-        logger.info("=" * 60)
-
-        for suite_name, suite in suites.items():
-            logger.info(
-                f"{suite_name.upper()}: {suite.passed_tests}/{suite.total_tests} passed"
-            )
-
-        logger.info("=" * 60)
-
-
-# ============================================================================
-# TEST UTILITIES
-# ============================================================================
-
-
-class TestUtilities:
-    """Utility functions for testing"""
-
-    def create_mock_component(
-        self, component_type: str = "TestComponent"
-    ) -> UIComponent:
-        """Create a mock component for testing"""
-        return create_component(
-            component_type,
-            {
-                "id": "test-id",
-                "className": "test-class",
-                "data-testid": "test-component",
-            },
-        )
-
-    def create_mock_route(self, path: str = "/test") -> RouteConfig:
-        """Create a mock route for testing"""
-        return RouteConfig(
-            path=path,
-            name="test-route",
-            component="TestComponent",
-            props={"title": "Test Page"},
-            meta={"requiresAuth": False},
-            children=[],
-            guards=[],
-            middleware=[],
-            lazy_load=False,
-            cache=True,
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
-        )
-
-    def create_mock_navigation_state(self) -> NavigationState:
-        """Create a mock navigation state for testing"""
-        return NavigationState(
-            current_route="/test",
-            previous_route="/",
-            route_params={"id": "123"},
-            query_params={"page": "1"},
-            navigation_history=["/", "/test"],
-            breadcrumbs=[
-                {"path": "/", "name": "Home"},
-                {"path": "/test", "name": "Test"},
-            ],
-            timestamp=datetime.now(),
-        )
-
-    def assert_component_props(
-        self, component: UIComponent, expected_props: Dict[str, Any]
-    ):
-        """Assert component has expected properties"""
-        for key, value in expected_props.items():
-            assert (
-                component.props[key] == value
-            ), f"Expected {key}={value}, got {component.props.get(key)}"
-
-    def assert_route_config(
-        self, route: RouteConfig, expected_path: str, expected_component: str
-    ):
-        """Assert route has expected configuration"""
-        assert (
-            route.path == expected_path
-        ), f"Expected path {expected_path}, got {route.path}"
-        assert (
-            route.component == expected_component
-        ), f"Expected component {expected_component}, got {route.component}"
-
-    def assert_navigation_state(self, state: NavigationState, expected_route: str):
-        """Assert navigation state has expected route"""
-        assert (
-            state.current_route == expected_route
-        ), f"Expected route {expected_route}, got {state.current_route}"
-
 
 class MockDataGenerator:
     """Generates mock data for testing"""
@@ -579,217 +469,7 @@ class MockDataGenerator:
         ]
 
 
-# ============================================================================
-# PYTEST FIXTURES
-# ============================================================================
-
-
-@pytest.fixture
-def frontend_test_runner():
-    """Fixture for frontend test runner"""
-    return FrontendTestRunner()
-
-
-@pytest.fixture
-def test_utilities():
-    """Fixture for test utilities"""
-    return TestUtilities()
-
-
-@pytest.fixture
-def mock_data_generator():
-    """Fixture for mock data generator"""
-    return MockDataGenerator()
-
-
-@pytest.fixture
-def flask_frontend_app():
-    """Fixture for Flask frontend app"""
-    return FrontendAppFactory.create_flask_app()
-
-
-@pytest.fixture
-def fastapi_frontend_app():
-    """Fixture for FastAPI frontend app"""
-    return FrontendAppFactory.create_fastapi_app()
-
-
-@pytest.fixture
-def frontend_router():
-    """Fixture for frontend router"""
-    return create_router_with_default_routes()
-
-
-@pytest.fixture
-def mock_component():
-    """Fixture for mock component"""
-    return TestUtilities().create_mock_component()
-
-
-@pytest.fixture
-def mock_route():
-    """Fixture for mock route"""
-    return TestUtilities().create_mock_route()
-
-
-@pytest.fixture
-def mock_navigation_state():
-    """Fixture for mock navigation state"""
-    return TestUtilities().create_mock_navigation_state()
-
-
-# ============================================================================
-# PYTEST TEST FUNCTIONS
-# ============================================================================
-
-
-def test_component_creation(test_utilities):
-    """Test component creation"""
-    component = test_utilities.create_mock_component("TestButton")
-
-    assert component.type == "TestButton"
-    assert component.id is not None
-    assert component.props["data-testid"] == "test-component"
-    assert component.created_at is not None
-    assert component.updated_at is not None
-
-
-def test_route_configuration(test_utilities):
-    """Test route configuration"""
-    route = test_utilities.create_mock_route("/test-page")
-
-    test_utilities.assert_route_config(route, "/test-page", "TestComponent")
-    assert route.name == "test-route"
-    assert route.props["title"] == "Test Page"
-    assert route.meta["requiresAuth"] is False
-
-
-def test_navigation_state(test_utilities):
-    """Test navigation state"""
-    state = test_utilities.create_mock_navigation_state()
-
-    test_utilities.assert_navigation_state(state, "/test")
-    assert state.previous_route == "/"
-    assert state.route_params["id"] == "123"
-    assert len(state.breadcrumbs) == 2
-
-
-def test_flask_frontend_app(flask_frontend_app):
-    """Test Flask frontend app creation"""
-    assert flask_frontend_app is not None
-    assert hasattr(flask_frontend_app, "app")
-    assert hasattr(flask_frontend_app, "component_registry")
-    assert hasattr(flask_frontend_app, "state_manager")
-
-    # Test component registry
-    registry = flask_frontend_app.component_registry
-    assert "Button" in registry.list_components()
-    assert "Card" in registry.list_components()
-
-
-def test_fastapi_frontend_app(fastapi_frontend_app):
-    """Test FastAPI frontend app creation"""
-    assert fastapi_frontend_app is not None
-    assert hasattr(fastapi_frontend_app, "app")
-    assert hasattr(fastapi_frontend_app, "component_registry")
-    assert hasattr(fastapi_frontend_app, "state_manager")
-
-    # Test component registry
-    registry = fastapi_frontend_app.component_registry
-    assert "Button" in registry.list_components()
-    assert "Card" in registry.list_components()
-
-
-def test_frontend_router(frontend_router):
-    """Test frontend router functionality"""
-    assert frontend_router is not None
-    assert len(frontend_router.routes) > 0
-
-    # Test route matching
-    home_match = frontend_router.match_url("/")
-    assert home_match is not None
-    assert home_match["matched"] is True
-
-    # Test navigation
-    success = frontend_router.navigate_to("/dashboard")
-    assert success is True
-
-    # Test breadcrumbs
-    breadcrumbs = frontend_router.get_breadcrumbs()
-    assert len(breadcrumbs) > 0
-
-
-def test_component_registry_integration(flask_frontend_app):
-    """Test component registry integration"""
-    registry = flask_frontend_app.component_registry
-
-    # Test component registration
-    registry.register_component(
-        "CustomComponent", lambda x: x, "template", "style", "script"
-    )
-    assert "CustomComponent" in registry.list_components()
-
-    # Test component retrieval
-    component_func = registry.get_component("CustomComponent")
-    assert component_func is not None
-
-
-def test_state_manager_integration(flask_frontend_app):
-    """Test state manager integration"""
-    state_manager = flask_frontend_app.state_manager
-
-    # Test initial state
-    initial_state = state_manager.get_state()
-    assert initial_state.app_name == "Agent_Cellphone_V2 Frontend"
-    assert initial_state.theme == "light"
-
-    # Test state update
-    state_manager.update_state({"theme": "dark"})
-    updated_state = state_manager.get_state()
-    assert updated_state.theme == "dark"
-
-
-# ============================================================================
-# ASYNC TEST FUNCTIONS
-# ============================================================================
-
-
-@pytest.mark.asyncio
-async def test_fastapi_websocket_async(fastapi_frontend_app):
-    """Test FastAPI WebSocket functionality (async)"""
-    # This would typically test actual WebSocket connections
-    # For now, we'll test the app structure
-    assert fastapi_frontend_app is not None
-    assert hasattr(fastapi_frontend_app, "app")
-
-
-# ============================================================================
-# INTEGRATION TEST FUNCTIONS
-# ============================================================================
-
-
-def test_full_frontend_integration(flask_frontend_app, frontend_router):
-    """Test full frontend integration"""
-    # Test that all components work together
-    app = flask_frontend_app
-    router = frontend_router
-
-    # Test component registry
-    registry = app.component_registry
-    assert len(registry.list_components()) > 0
-
-    # Test routing
-    assert len(router.routes) > 0
-
-    # Test state management
-    state_manager = app.state_manager
-    initial_state = state_manager.get_state()
-    assert initial_state is not None
-
-    # Test navigation
-    success = router.navigate_to("/dashboard")
-    assert success is True
-
+# (pytest test functions removed; see tests package)
 
 # ============================================================================
 # MAIN EXECUTION

@@ -55,14 +55,12 @@ from .intelligent_reviewer import (
     get_intelligent_reviewer,
 )
 
-# ML Robot Maker (existing implementation)
-from .ml_robot_maker import (
-    MLRobotMaker,
-    MLTask,
-    MLModelBlueprint,
-    MLExperiment,
-    get_ml_robot_maker,
-)
+# ML Robot system (modular implementation)
+from .ml_robot_config import MLTask, MLModelBlueprint, MLExperiment
+from .ml_robot_creator import MLRobotCreator
+from .ml_robot_processor import MLRobotProcessor
+from .ml_robot_validator import validate_blueprint_config
+from .ml_robot_maker import MLRobotMaker, get_ml_robot_maker
 
 # API integrations (existing implementations)
 from .integrations import OpenAIIntegration, AnthropicIntegration, PyTorchIntegration
@@ -112,6 +110,9 @@ __all__ = [
     "SecurityVulnerability",
     "get_intelligent_reviewer",
     # ML Robot Maker
+    "MLRobotCreator",
+    "MLRobotProcessor",
+    "validate_blueprint_config",
     "MLRobotMaker",
     "MLTask",
     "MLModelBlueprint",

@@ -30,8 +30,8 @@ def test_package_imports():
         from . import (
             AgentHealthCoreMonitor,
             HealthMetricsCollector,
-            HealthAlertingManager,
-            HealthReportingGenerator
+            HealthReportingGenerator,
+            generate_alert,
         )
         logger.info("✅ Main health package imported successfully")
         
@@ -42,9 +42,9 @@ def test_package_imports():
         from .metrics import HealthMetricsCollector, MetricSource
         logger.info("✅ Metrics module imported successfully")
         
-        from .alerting import HealthAlertingManager, AlertSeverity
+        from .alerting import generate_alert, AlertSeverity
         logger.info("✅ Alerting module imported successfully")
-        
+
         from .reporting import HealthReportingGenerator, ReportType
         logger.info("✅ Reporting module imported successfully")
         
@@ -52,8 +52,8 @@ def test_package_imports():
         from . import (
             AgentHealthCoreMonitor,
             HealthMetricsCollector,
-            HealthAlertingManager,
-            HealthReportingGenerator
+            HealthReportingGenerator,
+            generate_alert,
         )
         logger.info("✅ All main classes imported successfully")
         
@@ -151,61 +151,67 @@ def test_metrics_module():
 
 
 def test_alerting_module():
-    """Test the alerting manager module"""
+    """Test alert generation, dispatch and escalation utilities"""
     try:
-        logger.info("Testing alerting manager module...")
-        
-        from .alerting import HealthAlertingManager, AlertSeverity, AlertStatus
-        
-        # Test initialization
-        manager = HealthAlertingManager()
-        assert manager is not None, "Alerting manager initialization failed"
-        logger.info("✅ Alerting manager initialization passed")
-        
-        # Test alert creation
-        alert_id = manager.create_alert(
+        logger.info("Testing alerting utilities...")
+
+        from dataclasses import asdict
+        from .alerting import (
+            generate_alert,
+            send_alert_notifications,
+            check_escalations,
+            AlertSeverity,
+            NotificationChannel,
+            AlertRule,
+            NotificationConfig,
+            EscalationPolicy,
+            EscalationLevel,
+        )
+
+        # Generate and dispatch an alert
+        alert = generate_alert(
             "test_agent",
             AlertSeverity.WARNING,
             "Test alert message",
             "cpu_usage",
             90.0,
-            85.0
+            85.0,
         )
-        assert alert_id != "", "Alert creation failed"
-        assert alert_id in manager.alerts, "Alert not stored"
-        logger.info("✅ Alert creation passed")
-        
-        # Test alert retrieval
-        alert = manager.get_alert(alert_id)
-        assert alert is not None, "Alert retrieval failed"
-        assert alert.agent_id == "test_agent", "Alert agent ID mismatch"
-        assert alert.severity == AlertSeverity.WARNING, "Alert severity mismatch"
-        logger.info("✅ Alert retrieval passed")
-        
-        # Test alert acknowledgment
-        success = manager.acknowledge_alert(alert_id, "test_user")
-        assert success, "Alert acknowledgment failed"
-        assert manager.alerts[alert_id].status == AlertStatus.ACKNOWLEDGED, "Alert status not updated"
-        logger.info("✅ Alert acknowledgment passed")
-        
-        # Test alerts summary
-        summary = manager.get_alerts_summary()
-        assert "total_alerts" in summary, "Alerts summary missing total_alerts"
-        assert "active_alerts" in summary, "Alerts summary missing active_alerts"
-        logger.info("✅ Alerts summary passed")
-        
-        # Test smoke test
-        success = manager.run_smoke_test()
-        assert success, "Alerting manager smoke test failed"
-        logger.info("✅ Alerting manager smoke test passed")
-        
-        # Cleanup
-        manager.shutdown()
-        
+        rule = AlertRule(
+            rule_id="high_cpu_usage",
+            name="High CPU Usage",
+            description="Alert when CPU usage exceeds threshold",
+            severity=AlertSeverity.WARNING,
+            conditions={"metric": "cpu_usage", "operator": ">", "threshold": 85.0},
+            notification_channels=[NotificationChannel.CONSOLE],
+        )
+        notif_config = NotificationConfig(
+            channel=NotificationChannel.CONSOLE,
+            template="{severity}: {message}",
+        )
+        send_alert_notifications(alert, rule, {NotificationChannel.CONSOLE: notif_config})
+        assert alert.notification_sent, "Alert notification not sent"
+        logger.info("✅ Alert generation and dispatch passed")
+
+        # Escalation check
+        policy = EscalationPolicy(
+            level=EscalationLevel.LEVEL_1,
+            delay_minutes=0,
+            contacts=[],
+            notification_channels=[],
+        )
+        check_escalations({alert.alert_id: alert}, {EscalationLevel.LEVEL_1: policy}, {})
+        assert alert.escalation_level == EscalationLevel.LEVEL_2, "Escalation failed"
+        logger.info("✅ Alert escalation passed")
+
+        # Prepare data for report generator style structure (ensures asdict works)
+        alerts_data = {"alerts": [asdict(alert)]}
+        assert alerts_data["alerts"], "Alerts data not prepared"
+
         return True
-        
+
     except Exception as e:
-        logger.error(f"❌ Alerting module test failed: {e}")
+        logger.error(f"❌ Alerting utilities test failed: {e}")
         import traceback
         logger.error(f"Traceback: {traceback.format_exc()}")
         return False
@@ -302,17 +308,22 @@ def test_integration():
         from . import (
             AgentHealthCoreMonitor,
             HealthMetricsCollector,
-            HealthAlertingManager,
-            HealthReportingGenerator
+            HealthReportingGenerator,
         )
         from .monitoring_new.core import HealthMetricType
-        from .alerting import AlertSeverity
+        from .alerting import (
+            generate_alert,
+            send_alert_notifications,
+            AlertSeverity,
+            AlertRule,
+            NotificationChannel,
+            NotificationConfig,
+        )
         from .reporting import ReportType, ReportFormat, ReportConfig
-        
+
         # Initialize all components
         core_monitor = AgentHealthCoreMonitor()
         metrics_collector = HealthMetricsCollector()
-        alerting_manager = HealthAlertingManager()
         reporting_generator = HealthReportingGenerator()
         
         logger.info("✅ All components initialized")
@@ -324,18 +335,31 @@ def test_integration():
         core_monitor.record_health_metric("test_agent", HealthMetricType.MEMORY_USAGE, 88.0, "%")
         
         # 2. Create alerts based on metrics
-        alert_id = alerting_manager.create_alert(
+        alert = generate_alert(
             "test_agent",
             AlertSeverity.WARNING,
             "High CPU usage detected",
             "cpu_usage",
             95.0,
-            85.0
+            85.0,
         )
-        
+        rule = AlertRule(
+            rule_id="high_cpu_usage",
+            name="High CPU Usage",
+            description="Alert when CPU usage exceeds threshold",
+            severity=AlertSeverity.WARNING,
+            conditions={"metric": "cpu_usage", "operator": ">", "threshold": 85.0},
+            notification_channels=[NotificationChannel.CONSOLE],
+        )
+        config = NotificationConfig(
+            channel=NotificationChannel.CONSOLE,
+            template="{severity}: {message}",
+        )
+        send_alert_notifications(alert, rule, {NotificationChannel.CONSOLE: config})
+
         # 3. Generate report using data from both
         health_data = {"agents": core_monitor.get_all_agent_health()}
-        alerts_data = {"alerts": alerting_manager.get_alerts()}
+        alerts_data = {"alerts": [{"severity": alert.severity.value, "message": alert.message}]}
         
         config = ReportConfig(
             report_type=ReportType.DAILY_SUMMARY,
@@ -358,7 +382,6 @@ def test_integration():
         # Cleanup
         core_monitor.shutdown()
         metrics_collector.shutdown()
-        alerting_manager.shutdown()
         reporting_generator.shutdown()
         
         return True
@@ -377,7 +400,7 @@ def test_error_handling():
         
         from .monitoring_new.core import AgentHealthCoreMonitor
         from .metrics import HealthMetricsCollector
-        from .alerting import HealthAlertingManager
+        from .alerting import generate_alert, AlertSeverity
         from .reporting import HealthReportingGenerator
         
         # Test with invalid data
@@ -400,11 +423,9 @@ def test_error_handling():
         except Exception:
             pass  # Expected for custom source without collector
         
-        # Test alerting manager with invalid data
-        alerting_manager = HealthAlertingManager()
+        # Test alert generation with invalid data
         try:
-            alert_id = alerting_manager.create_alert("", "", "", "", 0, 0)
-            # Should handle gracefully
+            generate_alert("", AlertSeverity.INFO, "", "", 0, 0)
         except Exception:
             pass  # Expected for invalid data
         
@@ -429,7 +450,6 @@ def test_error_handling():
         # Cleanup
         core_monitor.shutdown()
         metrics_collector.shutdown()
-        alerting_manager.shutdown()
         reporting_generator.shutdown()
         
         logger.info("✅ Error handling tests passed")
@@ -480,7 +500,7 @@ def main():
         print("\n✅ MAJOR-001 (Agent Health Monitor) refactoring completed successfully!")
         print("   - Core monitoring module extracted and tested")
         print("   - Metrics collection module extracted and tested")
-        print("   - Alerting manager module extracted and tested")
+        print("   - Alerting utilities extracted and tested")
         print("   - Reporting generator module extracted and tested")
         print("   - All modules follow SRP and V2 coding standards")
         print("   - Package structure properly organized")

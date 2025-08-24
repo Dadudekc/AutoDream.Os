@@ -36,12 +36,14 @@ from .frontend_app import (
 )
 from .frontend_router import (
     FrontendRouter,
+    create_router_with_default_routes,
+    RouteBuilder,
+)
+from .frontend_router_config import (
     RouteConfig,
     NavigationState,
     RouteGuard,
     RouteMiddleware,
-    create_router_with_default_routes,
-    RouteBuilder,
 )
 from .reporting import generate_summary_report
 

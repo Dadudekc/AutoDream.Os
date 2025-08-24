@@ -31,9 +31,8 @@ from core.workflow import (
 )
 from core.agent_manager import AgentManager, AgentStatus, AgentCapability
 from core.config_manager import ConfigManager
-from core.assignment_engine import ContractManager
-from core.contract_models import ContractPriority
-from core.performance_tracker import PerformanceTracker
+from core.contract_manager import ContractManager, ContractPriority
+from core.performance_monitor import PerformanceMonitor
 
 # Configure logging
 logging.basicConfig(
@@ -58,7 +57,7 @@ class AdvancedWorkflowIntegrationDemo:
         self.config_manager = ConfigManager(self.config_dir)
         self.agent_manager = AgentManager(self.agent_dir)
         self.contract_manager = ContractManager(self.agent_manager, self.config_manager)
-        self.performance_tracker = PerformanceTracker(
+        self.performance_tracker = PerformanceMonitor(
             self.agent_manager, self.config_manager
         )
 

@@ -27,8 +27,8 @@ from src.core.health_monitor import (
     HealthMetric,
     HealthAlert,
 )
-from src.core.performance_profiler import (
-    PerformanceProfiler,
+from src.core.performance_monitor import (
+    PerformanceMonitor,
     PerformanceLevel,
     PerformanceMetric,
     PerformanceSnapshot,
@@ -196,12 +196,12 @@ class TestHealthMonitor(unittest.TestCase):
         self.assertEqual(AlertLevel.CRITICAL.value, "critical")
 
 
-class TestPerformanceProfiler(unittest.TestCase):
-    """Test suite for the PerformanceProfiler class"""
+class TestPerformanceMonitor(unittest.TestCase):
+    """Test suite for the PerformanceMonitor class"""
 
     def setUp(self):
         """Set up test fixtures"""
-        self.profiler = PerformanceProfiler()
+        self.profiler = PerformanceMonitor()
 
     def test_profiler_initialization(self):
         """Test that performance profiler initializes correctly"""
@@ -607,7 +607,7 @@ def run_core_infrastructure_tests():
 
     # Add test classes
     test_suite.addTest(unittest.makeSuite(TestHealthMonitor))
-    test_suite.addTest(unittest.makeSuite(TestPerformanceProfiler))
+    test_suite.addTest(unittest.makeSuite(TestPerformanceMonitor))
     test_suite.addTest(unittest.makeSuite(TestErrorHandler))
     test_suite.addTest(unittest.makeSuite(TestConnectionPoolManager))
 

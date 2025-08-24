@@ -24,7 +24,7 @@ from pathlib import Path
 # Core systems
 from .fsm_cursor_integration import PerpetualMotionEngine, FSMStateMachine, FSMTrigger
 from .cursor_response_capture import CursorResponseCapture
-from .performance_profiler import PerformanceProfiler
+from .performance_monitor import PerformanceMonitor
 from .health_monitor import HealthMonitor
 
 # PyAutoGUI for autonomous interaction

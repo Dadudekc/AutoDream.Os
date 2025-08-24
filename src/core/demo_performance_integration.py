@@ -21,8 +21,7 @@ from datetime import datetime, timedelta
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from core.performance_tracker import PerformanceTracker, MetricType
-from core.performance_profiler import PerformanceProfiler
+from core.performance_monitor import PerformanceMonitor, MetricType
 from core.performance_dashboard import PerformanceDashboard, DashboardView, AlertLevel
 from core.v2_comprehensive_messaging_system import (
     V2ComprehensiveMessagingSystem,
@@ -49,8 +48,8 @@ class PerformanceIntegrationDemo:
         }
 
         # Initialize core systems
-        self.performance_tracker = PerformanceTracker(self.config)
-        self.performance_profiler = PerformanceProfiler(self.config)
+        self.performance_tracker = PerformanceMonitor(self.config)
+        self.performance_profiler = PerformanceMonitor(self.config)
         self.messaging_system = V2ComprehensiveMessagingSystem(self.config)
         self.api_gateway = APIGateway(self.config)
 

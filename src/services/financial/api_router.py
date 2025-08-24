@@ -60,16 +60,11 @@ class RequestRouter:
     ) -> Any:
         try:
             if request_type == "get_portfolio":
-                return self.portfolio_manager.get_portfolio(
-                    request_data.get("agent_id"), request_data.get("from_date")
-                )
+                return self.portfolio_manager.get_portfolio()
             if request_type == "add_position":
-                position = PortfolioPosition(**request_data)
-                return self.portfolio_manager.add_position(position)
+                return self.portfolio_manager.add_position(**request_data)
             if request_type == "get_metrics":
-                return self.portfolio_manager.calculate_portfolio_metrics(
-                    request_data.get("portfolio_id"), request_data.get("start_date"), request_data.get("end_date")
-                )
+                return self.portfolio_manager.get_portfolio_metrics()
             raise ValueError(
                 f"Unknown portfolio management request type: {request_type}"
             )

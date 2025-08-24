@@ -31,7 +31,8 @@ from core.workflow import (
 )
 from core.agent_manager import AgentManager, AgentStatus, AgentCapability
 from core.config_manager import ConfigManager
-from core.contract_manager import ContractManager, ContractPriority
+from core.assignment_engine import ContractManager
+from core.contract_models import ContractPriority
 from core.performance_tracker import PerformanceTracker
 
 # Configure logging

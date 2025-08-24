@@ -52,6 +52,14 @@ from .intelligent_reviewer import (
     SecurityVulnerability,
     get_intelligent_reviewer,
 )
+from .intelligent_review_core import ReviewCore
+from .intelligent_review_ai_analysis import AIAnalyzer
+from .intelligent_review_reporting import (
+    generate_recommendations,
+    calculate_overall_score,
+    generate_review_report,
+)
+from .intelligent_review_config import SECURITY_PATTERNS, QUALITY_PATTERNS
 
 # ML Robot system (modular implementation)
 from .ml_robot_config import MLTask, MLModelBlueprint, MLExperiment
@@ -112,6 +120,13 @@ __all__ = [
     "CodeReview",
     "SecurityVulnerability",
     "get_intelligent_reviewer",
+    "ReviewCore",
+    "AIAnalyzer",
+    "generate_recommendations",
+    "calculate_overall_score",
+    "generate_review_report",
+    "SECURITY_PATTERNS",
+    "QUALITY_PATTERNS",
     # ML Robot Maker
     "MLRobotCreator",
     "MLRobotProcessor",

@@ -11,6 +11,15 @@ from __future__ import annotations
 from .config_manager_core import ConfigManagerCore
 from .config_manager_loader import ConfigLoader
 from .config_manager_validator import ConfigValidator
+from .config_manager_config import ConfigEntry, ConfigMetadata
+
+__all__ = [
+    "ConfigManager",
+    "ConfigLoader",
+    "ConfigValidator",
+    "ConfigEntry",
+    "ConfigMetadata",
+]
 
 
 class ConfigManager(ConfigManagerCore):

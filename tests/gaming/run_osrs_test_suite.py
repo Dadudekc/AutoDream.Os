@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 def run_osrs_test_suite() -> unittest.result.TestResult:
     """Collect and run OSRS-related test modules"""
-    from tests.gaming import (
+    from tests.gaming.osrs import (
         test_osrs_game_setup,
         test_osrs_ai_agent,
         test_osrs_scenarios,

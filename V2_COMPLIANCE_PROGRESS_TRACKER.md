@@ -373,7 +373,7 @@
 - `tests/ai_ml/test_code_crafter.py` (976 lines) - Available
 - `tests/gaming/test_osrs_ai_agent.py` (900 lines) - Available
 - `tests/gaming/test_ai_agent_framework.py` (992 lines) - Available
-- `src/services/financial/portfolio_optimization_service.py` (991 lines) - Completed (CRIT-005) – monolith pending removal
+- `src/services/financial/portfolio_optimization_service.py` (76 lines) - Completed (CRIT-005) – monolith removed
 
 ### Major Violations (~500-799 lines, guideline only): 86 files
 - Various service and core modules requiring immediate attention

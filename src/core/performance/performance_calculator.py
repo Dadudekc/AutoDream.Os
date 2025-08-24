@@ -7,6 +7,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 """
 
 import statistics
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import List, Dict, Any
 from .performance_types import (
     PerformanceBenchmark, PerformanceLevel, OptimizationTarget,
@@ -171,5 +173,6 @@ class PerformanceCalculator:
         
         # Weighted score
         return (target_achievement * 0.7) + (consistency * 0.3)
+
 
 

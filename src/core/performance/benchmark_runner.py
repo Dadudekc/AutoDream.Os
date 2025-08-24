@@ -9,6 +9,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 import logging
 import time
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -168,5 +170,6 @@ class BenchmarkRunner:
             performance_level=PerformanceLevel.NOT_READY,
             optimization_recommendations=[f"Fix {benchmark_type.value} benchmark: {error}"]
         )
+
 
 

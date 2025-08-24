@@ -1,41 +1,38 @@
-#!/usr/bin/env python3
 """
-Autonomous Development Module - Agent Cellphone V2
-=================================================
+Autonomous Development Package
 
-Autonomous agent development and coordination system.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
+This package provides autonomous development capabilities including:
+- Workflow management and orchestration
+- Task scheduling and execution
+- Code generation and analysis
+- Testing orchestration and reporting
 
-Author: V2 SWARM CAPTAIN
-License: MIT
+Extracted from src/core/autonomous_development.py to follow SRP.
 """
 
-from .core import DevelopmentTask, TaskPriority, TaskComplexity, TaskStatus, AgentRole
-from ..core.task_manager import DevelopmentTaskManager as TaskManager
-from .tasks import TaskRegistry
-from .agents import AgentCoordinator, AgentWorkflow
-from .workflow import WorkflowEngine, WorkflowMonitor
-from .communication import DevelopmentCommunication
-
-# Import messaging system integration
-from ..core.messaging import V2MessageQueue, V2Message, V2MessagePriority, V2MessageType, V2MessageStatus
+# Import the extracted modules
+from .workflow.engine import WorkflowEngine
+from .tasks.manager import TaskManager, Task, TaskStatus, TaskPriority
+from .code.generator import CodeGenerator, CodeImprovement, CursorAgentPrompt
+from .testing.orchestrator import TestingOrchestrator, TestResult, TestSuite
 
 __all__ = [
-    # Core data models
-    'DevelopmentTask', 'TaskPriority', 'TaskComplexity', 'TaskStatus', 'AgentRole',
+    # Workflow management
+    'WorkflowEngine',
     
     # Task management
-    'TaskManager', 'TaskRegistry',
+    'TaskManager',
+    'Task',
+    'TaskStatus', 
+    'TaskPriority',
     
-    # Agent coordination
-    'AgentCoordinator', 'AgentWorkflow',
+    # Code generation and analysis
+    'CodeGenerator',
+    'CodeImprovement',
+    'CursorAgentPrompt',
     
-    # Workflow systems
-    'WorkflowEngine', 'WorkflowMonitor',
-    
-    # Communication
-    'DevelopmentCommunication',
-    
-    # Messaging system integration
-    'V2MessageQueue', 'V2Message', 'V2MessagePriority', 'V2MessageType', 'V2MessageStatus'
+    # Testing orchestration
+    'TestingOrchestrator',
+    'TestResult',
+    'TestSuite'
 ]

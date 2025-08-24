@@ -8,6 +8,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 
 import logging
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
@@ -167,5 +169,6 @@ class PerformanceValidationSystem:
         except Exception as e:
             self.logger.error(f"Failed to export report: {e}")
             raise
+
 
 

@@ -1,19 +1,12 @@
-#!/usr/bin/env python3
 """
-Autonomous Development Workflow - Agent Cellphone V2
-==================================================
+Autonomous Development Workflow Module
+=====================================
 
-Workflow engine and monitoring systems.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
-
-Author: V2 SWARM CAPTAIN
-License: MIT
+This module handles the core workflow management for autonomous development.
 """
 
-from .workflow_engine import WorkflowEngine
-from .workflow_monitor import WorkflowMonitor
+from .manager import AutonomousWorkflowManager
 
-__all__ = [
-    'WorkflowEngine',
-    'WorkflowMonitor'
-]
+__all__ = ["AutonomousWorkflowManager"]
+__version__ = "1.0.0"
+__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"

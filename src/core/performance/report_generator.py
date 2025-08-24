@@ -7,6 +7,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 """
 
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import List, Dict, Any
 from .performance_types import (
@@ -194,5 +196,6 @@ class ReportGenerator:
             if self.logger:
                 self.logger.error(f"Failed to format report: {e}")
             return f"Error formatting report: {e}"
+
 
 

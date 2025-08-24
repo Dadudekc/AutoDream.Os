@@ -11,6 +11,8 @@ License: MIT
 """
 
 import unittest
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from dataclasses import asdict
 from ..core.enums import TaskPriority, TaskComplexity, TaskStatus, AgentRole
@@ -212,3 +214,4 @@ class TestDevelopmentTask(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -1,32 +1,19 @@
 #!/usr/bin/env python3
 """
 Performance Module - V2 Core Performance System
+===============================================
 
-This package provides comprehensive performance validation and optimization.
+Modular performance validation system following SRP principles.
 """
 
-from .performance_types import (
-    BenchmarkType, PerformanceLevel, OptimizationTarget,
-    PerformanceBenchmark, SystemPerformanceReport,
-    BenchmarkTargets, PerformanceThresholds
-)
-from .benchmark_runner import BenchmarkRunner
-from .performance_calculator import PerformanceCalculator
-from .report_generator import ReportGenerator
-from .performance_validation_system import PerformanceValidationSystem
+from .metrics.collector import MetricsCollector
+from .validation.rules import ValidationRules
+from .reporting.generator import ReportGenerator
+from .alerts.manager import AlertManager
 
 __all__ = [
-    'BenchmarkType',
-    'PerformanceLevel', 
-    'OptimizationTarget',
-    'PerformanceBenchmark',
-    'SystemPerformanceReport',
-    'BenchmarkTargets',
-    'PerformanceThresholds',
-    'BenchmarkRunner',
-    'PerformanceCalculator',
-    'ReportGenerator',
-    'PerformanceValidationSystem'
+    "MetricsCollector",
+    "ValidationRules", 
+    "ReportGenerator",
+    "AlertManager"
 ]
-
-

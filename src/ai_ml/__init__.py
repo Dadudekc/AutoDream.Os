@@ -34,6 +34,10 @@ from .code_crafter import (
     CodeAnalysis,
     get_code_crafter,
 )
+from .template_generation import TemplateGenerator
+from .code_synthesis import CodeSynthesizer
+from .validation import CodeValidator
+from .deployment import CodeDeployer
 
 from .dev_workflow import (
     AIDevWorkflow,
@@ -93,6 +97,10 @@ __all__ = [
     "CodeGenerationResult",
     "CodeAnalysis",
     "get_code_crafter",
+    "TemplateGenerator",
+    "CodeSynthesizer",
+    "CodeValidator",
+    "CodeDeployer",
     "AIDevWorkflow",
     "WorkflowStep",
     "WorkflowResult",

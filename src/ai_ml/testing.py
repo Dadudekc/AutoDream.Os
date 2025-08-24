@@ -11,6 +11,8 @@ import json
 import logging
 import time
 import subprocess
+import random
+from dataclasses import dataclass
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Union, Callable
@@ -37,6 +39,91 @@ except ImportError:
     logging.warning("coverage package not available")
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class DatasetConfig:
+    """Configuration for dataset loading."""
+
+    seed: int = 0
+    data: Optional[List[Any]] = None
+
+
+class DatasetHandler:
+    """Handle dataset loading in a reproducible way."""
+
+    def __init__(self, config: DatasetConfig):
+        self.config = config
+
+    def load(self) -> List[Any]:
+        """Load dataset using configuration; falls back to generated data."""
+        if self.config.data is not None:
+            return list(self.config.data)
+
+        random.seed(self.config.seed)
+        dataset = []
+        for _ in range(5):
+            x = random.randint(0, 10)
+            dataset.append((x, x * 2))
+        return dataset
+
+
+class ModelEvaluator:
+    """Evaluate a model on a given dataset."""
+
+    def __init__(self, model: Callable[[Any], Any]):
+        self.model = model
+
+    def evaluate(self, dataset: List[Any]) -> Dict[str, float]:
+        """Evaluate model predictions with simple accuracy metric."""
+        if not dataset:
+            return {"accuracy": 0.0}
+
+        correct = 0
+        for item in dataset:
+            x, expected = item
+            prediction = self.model(x)
+            if prediction == expected:
+                correct += 1
+
+        accuracy = correct / len(dataset)
+        return {"accuracy": accuracy}
+
+
+class ResultReporter:
+    """Report results in a standardised format."""
+
+    def report(self, metrics: Dict[str, float]) -> str:
+        report = {
+            "metrics": metrics,
+            "timestamp": datetime.now().isoformat(),
+        }
+        return json.dumps(report, sort_keys=True)
+
+
+@dataclass
+class TestRunConfig:
+    """Configuration-driven setup for test runner."""
+
+    dataset: DatasetConfig
+    model: Callable[[Any], Any]
+    __test__ = False  # Prevent pytest from collecting this dataclass
+
+
+class ConfigurableTestRunner:
+    """Run tests using configuration for dataset, model, and reporting."""
+
+    def __init__(self, config: TestRunConfig):
+        self.config = config
+        self.dataset_handler = DatasetHandler(config.dataset)
+        self.evaluator = ModelEvaluator(config.model)
+        self.reporter = ResultReporter()
+
+    def run(self) -> Dict[str, Any]:
+        dataset = self.dataset_handler.load()
+        metrics = self.evaluator.evaluate(dataset)
+        report = self.reporter.report(metrics)
+        return {"dataset": dataset, "metrics": metrics, "report": report}
 
 
 class AITestRunner:

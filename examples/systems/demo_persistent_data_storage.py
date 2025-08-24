@@ -17,11 +17,8 @@ from pathlib import Path
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.persistent_data_storage import (
-    PersistentDataStorage,
-    StorageType,
-    DataIntegrityLevel,
-)
+from core.persistent_data_storage import PersistentDataStorage
+from core.persistent_storage_config import StorageType, DataIntegrityLevel
 from core.data_integrity_manager import DataIntegrityManager, IntegrityCheckType
 
 

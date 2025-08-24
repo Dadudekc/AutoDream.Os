@@ -4,7 +4,12 @@ from dataclasses import asdict
 from datetime import datetime
 from typing import Any, Dict, List
 
-from .models import TradingSignal, StrategyType
+from .models import (
+    TradingSignal,
+    StrategyType,
+    VolatilityRegime,
+    TrendDirection,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -24,19 +29,19 @@ def get_strategy_recommendations(self, symbol: str) -> Dict[str, Any]:
         for strategy_type, performance in self.performance_metrics.items():
             recommendations["strategy_performance"][strategy_type.value] = asdict(performance)
         if self.market_conditions:
-            if self.market_conditions.volatility_regime == "HIGH":
+            if self.market_conditions.volatility_regime == VolatilityRegime.HIGH:
                 recommendations["recommendations"].append(
                     "Consider mean reversion strategies in high volatility"
                 )
-            elif self.market_conditions.volatility_regime == "LOW":
+            elif self.market_conditions.volatility_regime == VolatilityRegime.LOW:
                 recommendations["recommendations"].append(
                     "Consider momentum strategies in low volatility"
                 )
-            if self.market_conditions.trend_direction == "BULLISH":
+            if self.market_conditions.trend_direction == TrendDirection.BULLISH:
                 recommendations["recommendations"].append(
                     "Favorable conditions for trend-following strategies"
                 )
-            elif self.market_conditions.trend_direction == "BEARISH":
+            elif self.market_conditions.trend_direction == TrendDirection.BEARISH:
                 recommendations["recommendations"].append(
                     "Consider defensive strategies and risk management"
                 )

@@ -3,14 +3,6 @@ Agent Health Monitoring Package
 
 This package contains modules for comprehensive agent health monitoring,
 including core monitoring, metrics collection, alerting, and reporting.
-
-Modules:
-- core: Core health monitoring orchestration and coordination
-- metrics: Health metrics collection and processing
-- alerting: Health alerting and notification management
-- reporting: Health reporting and analytics generation
-
-Follows V2 coding standards: Clean OOP design, SRP compliance, TDD approach.
 """
 
 from .monitoring_new.core import (
@@ -20,7 +12,7 @@ from .monitoring_new.core import (
     HealthMetric,
     HealthSnapshot,
     HealthAlert,
-    HealthThreshold
+    HealthThreshold,
 )
 
 from .metrics import (
@@ -29,7 +21,7 @@ from .metrics import (
     MetricCollectionMethod,
     MetricCollectionConfig,
     CollectedMetric,
-    MetricCollectionResult
+    MetricCollectionResult,
 )
 
 from .alerting import (
@@ -40,17 +32,18 @@ from .alerting import (
     EscalationLevel,
     AlertRule,
     NotificationConfig,
-    EscalationPolicy
+    EscalationPolicy,
 )
 
 from .reporting import (
     HealthReportingGenerator,
     ReportType,
     ReportFormat,
-    ChartType,
     ReportConfig,
     HealthReport,
-    ChartData
+    ReportGenerator,
+    ReportFormatter,
+    ReportDelivery,
 )
 
 __all__ = [
@@ -85,10 +78,11 @@ __all__ = [
     "HealthReportingGenerator",
     "ReportType",
     "ReportFormat",
-    "ChartType",
     "ReportConfig",
     "HealthReport",
-    "ChartData"
+    "ReportGenerator",
+    "ReportFormatter",
+    "ReportDelivery",
 ]
 
 __version__ = "1.0.0"

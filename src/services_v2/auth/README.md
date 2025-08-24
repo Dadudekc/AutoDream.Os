@@ -8,12 +8,16 @@ The V2 Authentication Module provides enterprise-grade authentication and author
 
 ```
 services_v2/auth/
-├── __init__.py                 # Module initialization and exports
-├── auth_service.py             # Core V2 authentication service
-├── auth_integration_tester.py  # Comprehensive integration testing
-├── auth_performance_monitor.py # Real-time performance monitoring
-├── run_integration_tests.py    # Main test runner script
-└── README.md                   # This documentation
+├── __init__.py                         # Module initialization and exports
+├── auth_service.py                     # Core V2 authentication service
+├── auth_integration_tester.py          # Orchestrator for integration tests
+├── auth_integration_tester_core.py     # Core test routines
+├── auth_integration_tester_validation.py # Environment validation helpers
+├── auth_integration_tester_reporting.py  # Reporting utilities
+├── auth_integration_tester_config.py     # Configuration dataclass
+├── auth_performance_monitor.py          # Real-time performance monitoring
+├── run_integration_tests.py             # Main test runner script
+└── README.md                           # This documentation
 ```
 
 ## Components
@@ -38,22 +42,15 @@ The core V2 authentication service that provides:
 
 ### 2. AuthIntegrationTester (`auth_integration_tester.py`)
 
-Comprehensive integration testing framework that tests:
+Lightweight orchestrator coordinating modular test components:
 
-- **Core Authentication**: Basic functionality and edge cases
-- **Security Features**: Rate limiting, session management, permissions
-- **Performance**: Response times, throughput, stress testing
-- **Integration**: Message queue, agent coordinator integration
-- **Error Handling**: Graceful failure handling under load
-- **Compliance**: Security and audit requirements
+- **Core**: `auth_integration_tester_core.py` executes authentication checks
+- **Validation**: `auth_integration_tester_validation.py` ensures prerequisites
+- **Reporting**: `auth_integration_tester_reporting.py` formats results
+- **Config**: `auth_integration_tester_config.py` holds settings
 
-**Test Categories:**
-- Core Authentication Tests
-- Security Feature Tests
-- Performance Tests
-- Integration Tests
-- Stress Testing
-- Error Handling Tests
+The orchestrator loads configuration, validates the environment, runs core
+tests, and saves a structured report for further analysis.
 
 ### 3. AuthPerformanceMonitor (`auth_performance_monitor.py`)
 

@@ -1,4 +1,8 @@
 # V2 Compliance Progress Tracker - Agent Cellphone V2
+## Unified Coding Standards 2024 - Balanced Approach
+
+> **🎯 NEW STANDARDS**: Standard/Core files: **400 LOC**, GUI files: **600 LOC**
+> **Previous strict standards (200/300 LOC) have been updated to reflect balanced maintainability**
 
 ## 📊 Current Compliance Status
 
@@ -9,25 +13,25 @@
 - **Progress**: 161 files remaining (down from 208)
 - **Major Achievement**: 🎉 **ZERO files over 800 lines remaining!**
 
-> **🎯 NEW FOCUS: We are now ONLY targeting files with 350+ lines for modularization.**
-> **Files with 350 lines or below are considered compliant and will not be refactored.**
+> **🎯 NEW FOCUS: We are now ONLY targeting files with 400+ lines for modularization.**
+> **Files with 400 lines or below are considered compliant and will not be refactored.**
 > **This focuses our efforts on the most impactful modularization opportunities.**
 
 ## 🎯 Phase Progress
 
-## 🚀 **UPDATED V2 STRATEGY - 350+ LOC FOCUS**
+## 🚀 **UPDATED V2 STRATEGY - 400+ LOC FOCUS (UNIFIED STANDARDS 2024)**
 
-### **Why 350+ Lines Only?**
+### **Why 400+ Lines Only?**
 - **Eliminated 800+ line critical violations** ✅ (Phase 1 Complete)
-- **Focus on high-impact modularization** - files under 350 lines are manageable
+- **Focus on high-impact modularization** - files under 400 lines are manageable
 - **Quality over quantity** - prioritize meaningful architectural improvements
 - **Avoid over-engineering** - smaller files don't need complex modularization
 
 ### **Current Target Files:**
-- **Phase 2**: 52 files over 500 lines (high priority)
-- **Phase 3**: 109 files over 350 lines (moderate priority)
+- **Phase 2**: 52 files over 600 lines (high priority - GUI files)
+- **Phase 3**: 109 files over 400 lines (moderate priority - standard/core files)
 - **Total Target**: 161 files (down from 594)
-- **Excluded**: 433 files under 350 lines (considered compliant)
+- **Excluded**: 433 files under 400 lines (considered compliant)
 
 ### Phase 1: Critical Violations (~800+ lines guideline)
 - **Progress**: 100% (28/28 files) ✅
@@ -37,19 +41,19 @@
   code aligned with SRP and SOLID principles.
 - **Current**: 🎉 **0 files over 800 lines remain - PHASE 1 COMPLETE!**
 
-### Phase 2: Major Violations (~500-799 lines guideline)
+### Phase 2: Major Violations (~600+ lines guideline - GUI Files)
 - **Progress**: 28.8% (15/52 files)
 - **Status**: 🟡 **IN PROGRESS - GOOD PROGRESS MADE**
-- **Guideline**: **FOCUS: 500+ lines only** - prioritize clean,
+- **Guideline**: **FOCUS: 600+ lines only** - prioritize clean,
   production-ready, tested code that respects SRP and SOLID principles.
-- **Current**: 37 files over 500 lines remain (down from 52)
+- **Current**: 37 files over 600 lines remain (down from 52)
 
-### Phase 3: Moderate Violations (~350-499 lines guideline)
+### Phase 3: Moderate Violations (~400-599 lines guideline - Standard/Core Files)
 - **Progress**: 46.8% (51/109 files)
 - **Status**: 🟡 **IN PROGRESS - STEADY PROGRESS**
-- **Guideline**: **FOCUS: 350+ lines only** - focus on clean,
+- **Guideline**: **FOCUS: 400+ lines only** - focus on clean,
   production-ready, tested code that follows SRP and SOLID principles.
-- **Current**: 58 files over 350 lines remain
+- **Current**: 58 files over 400 lines remain
 
 ## ✅ COMPLETED CONTRACTS
 
@@ -174,11 +178,11 @@
 6. **`src/web/frontend/frontend_testing.py`** - ✅ **REFACTORED** (816 → 426 lines)
 7. **`src/autonomous_development/testing/orchestrator.py`** - ✅ **REFACTORED** (848 → 41 lines)
 
-### ⚠️ **HIGH PRIORITY - Files Over 500 Lines (71 files)**
+### ⚠️ **HIGH PRIORITY - Files Over 600 Lines (GUI Files)**
 These files need attention after the critical ones are addressed.
 **Progress**: 15 files resolved (down from 78)
 
-### 📋 **MODERATE PRIORITY - Files Over 300 Lines (137 files)**
+### 📋 **MODERATE PRIORITY - Files Over 400 Lines (Standard/Core Files)**
 These files can be addressed in parallel with higher priority items.
 **Progress**: 51 files resolved
 

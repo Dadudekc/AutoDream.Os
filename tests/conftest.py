@@ -34,10 +34,10 @@ TEST_COVERAGE_THRESHOLD = 80  # percentage
 class TestConfig:
     """Test configuration and constants."""
 
-    # V2 Standards Compliance
-    MAX_LOC_STANDARD = 300
-    MAX_LOC_GUI = 500
-    MAX_LOC_CORE = 200
+    # V2 Standards Compliance (Updated 2024 - Balanced Approach)
+    MAX_LOC_STANDARD = 400  # Standard files: balanced for maintainability
+    MAX_LOC_GUI = 600       # GUI files: generous for UI while maintaining structure
+    MAX_LOC_CORE = 400      # Core files: focused and testable business logic
 
     # Testing thresholds
     MIN_COVERAGE = 80

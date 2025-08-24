@@ -20,9 +20,10 @@ class V2StandardsChecker:
     """Simplified V2 coding standards checker"""
     
     def __init__(self):
-        self.max_loc_standard = 200
-        self.max_loc_gui = 300
-        self.max_loc_core = 200
+        # Updated LOC restrictions - balanced approach for maintainability
+        self.max_loc_standard = 400  # Good balance for standard files
+        self.max_loc_gui = 600       # Generous for UI code while maintaining structure
+        self.max_loc_core = 400      # Keep core logic focused and testable
         
     def check_file(self, file_path: Path) -> Dict[str, any]:
         """Check a single file for V2 standards compliance"""

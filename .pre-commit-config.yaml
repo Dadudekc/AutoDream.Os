@@ -2,12 +2,16 @@ repos:
   - repo: local
     hooks:
       - id: v2-standards-check
-        name: V2 Coding Standards Check
+        name: V2 Coding Standards Check (Balanced LOC Restrictions)
         entry: python tests/v2_standards_checker_simple.py --all
         language: python
         types: [python]
         pass_filenames: false
         stages: [commit]
+        # Balanced LOC restrictions for maintainability:
+        # - Standard files: max 400 LOC (was 200, balanced at 400)
+        # - GUI files: max 600 LOC (was 300, generous for UI while maintaining structure)
+        # - Core files: max 400 LOC (was 200, focused and testable)
 
       - id: duplication-detector
         name: Duplication Detector

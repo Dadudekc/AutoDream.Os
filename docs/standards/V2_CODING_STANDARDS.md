@@ -18,11 +18,12 @@ This document consolidates all V2 coding standards into one comprehensive, easil
 
 ## 🏗️ **CORE CODING STANDARDS**
 
-### **1. 📏 LINE COUNT GUIDELINES**
-- **Standard Files**: **300 LOC** (Lines of Code) - *Guideline, not strict rule*
-- **GUI Components**: **500 LOC** (250 logic + 250 GUI) - *Guideline, not strict rule*
-- **Target**: Use as a general guideline for maintainability
-- **Enforcement**: **FLEXIBLE** - Refactor based on code quality, not just line count
+### **1. 📏 LINE COUNT GUIDELINES (UPDATED 2024)**
+- **Standard Files**: **400 LOC** (Lines of Code) - *Balanced guideline for maintainability*
+- **GUI Components**: **600 LOC** (300 logic + 300 GUI) - *Generous for UI while maintaining structure*
+- **Core Files**: **400 LOC** - *Focused and testable business logic*
+- **Target**: Balance between flexibility and maintainability
+- **Enforcement**: **BALANCED** - Refactor based on code quality and maintainability
 - **Real Priority**: Clean OOP design, SRP compliance, and maintainability over arbitrary limits
 
 ### **2. 🎯 OBJECT-ORIENTED DESIGN (OOP)**
@@ -85,16 +86,16 @@ Agent_Cellphone_V2/
 │   ├── __init__.py          # Main package with CLI interface ✅
 │   ├── core/
 │   │   ├── __init__.py      # Core module with CLI interface ✅
-│   │   └── *.py            # Core components (≤200 LOC each)
+│   │   └── *.py            # Core components (≤400 LOC each)
 │   ├── services/
 │   │   ├── __init__.py      # Services module with CLI interface ✅
-│   │   └── *.py            # Service components (≤200 LOC each)
+│   │   └── *.py            # Service components (≤400 LOC each)
 │   ├── launchers/
 │   │   ├── __init__.py      # Launchers module with CLI interface ✅
-│   │   └── *.py            # Launcher components (≤200 LOC each)
+│   │   └── *.py            # Launcher components (≤400 LOC each)
 │   └── utils/
 │       ├── __init__.py      # Utils module with CLI interface ✅
-│       └── *.py            # Utility components (≤200 LOC each)
+│       └── *.py            # Utility components (≤400 LOC each)
 ├── tests/
 │   ├── smoke/               # Smoke tests for each component
 │   ├── unit/                # Unit tests

@@ -6,11 +6,12 @@
 
 ## 🔥 **CORE RULES - NO EXCEPTIONS**
 
-### **1. 📏 LINE COUNT: ≤300 LOC per file (≤500 for GUI)**
-- **Standard Files**: 300 lines of code per file
-- **GUI Components**: 500 lines of code per file
-- **Target**: Keep under limits for maintainability
-- **Enforcement**: MODERATE - Refactor if significantly exceeded
+### **1. 📏 LINE COUNT: ≤400 LOC per file (≤600 for GUI)**
+- **Standard Files**: 400 lines of code per file
+- **GUI Components**: 600 lines of code per file
+- **Core Files**: 400 lines of code per file
+- **Target**: Balance between flexibility and maintainability
+- **Enforcement**: BALANCED - Refactor based on code quality and maintainability
 
 ### **2. 🎯 OOP DESIGN: All code in classes**
 - **Structure**: Proper class-based architecture
@@ -59,7 +60,7 @@ Agent_Cellphone_V2/
 ## ✅ **COMPLIANCE CHECKLIST**
 
 ### **For New Components:**
-- [ ] **Line Count**: ≤300 LOC (standard), ≤500 LOC (GUI)
+- [ ] **Line Count**: ≤400 LOC (standard), ≤600 LOC (GUI)
 - [ ] **OOP Design**: Proper class structure
 - [ ] **Single Responsibility**: One purpose per class
 - [ ] **CLI Interface**: Comprehensive CLI with help
@@ -67,7 +68,7 @@ Agent_Cellphone_V2/
 - [ ] **Agent Usability**: Easy to test and use
 
 ### **For Existing Components:**
-- [ ] **Refactor if >300 LOC**: Break into smaller modules
+- [ ] **Refactor if >400 LOC**: Break into smaller modules
 - [ ] **OOP Compliance**: Ensure class structure
 - [ ] **SRP Compliance**: Single responsibility
 - [ ] **CLI Addition**: Add if missing
@@ -77,7 +78,7 @@ Agent_Cellphone_V2/
 
 ## 🚨 **IMMEDIATE ACTIONS REQUIRED**
 
-1. **Any file >300 LOC (standard) or >500 LOC (GUI)**: Must refactor immediately
+1. **Any file >400 LOC (standard) or >600 LOC (GUI)**: Must refactor immediately
 2. **Missing CLI interface**: Must add before deployment
 3. **Missing smoke tests**: Must create before deployment
 4. **Non-OOP code**: Must refactor to OOP structure
@@ -95,11 +96,11 @@ class LargeManager:
     def manage_database(self): pass
     def manage_network(self): pass
 
-# AFTER: Focused classes (each ≤300 LOC) - COMPLIANT
-class UserManager:      # ≤300 LOC + CLI + Tests
-class FileManager:      # ≤300 LOC + CLI + Tests
-class DatabaseManager:  # ≤300 LOC + CLI + Tests
-class NetworkManager:   # ≤300 LOC + Tests
+# AFTER: Focused classes (each ≤400 LOC) - COMPLIANT
+class UserManager:      # ≤400 LOC + CLI + Tests
+class FileManager:      # ≤400 LOC + CLI + Tests
+class DatabaseManager:  # ≤400 LOC + CLI + Tests
+class NetworkManager:   # ≤400 LOC + Tests
 ```
 
 ---

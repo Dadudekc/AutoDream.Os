@@ -77,7 +77,7 @@ class ContractManager:
             if all(r["passed"] for r in results):
                 contract.status = ContractStatus.APPROVED
         self.contracts[contract_id] = contract
-        self.logger.info("Created contract %s", contract_id)
+        self.logger.info(f"Created contract {contract_id}")
         return contract_id
 
     # ------------------------------------------------------------------
@@ -113,7 +113,7 @@ class ContractManager:
         )
         self.assignments[assignment_id] = result
         self.logger.info(
-            "Assigned contract %s to agent %s", contract_id, agent_id
+            f"Assigned contract {contract_id} to agent {agent_id}"
         )
         return True
 
@@ -128,8 +128,11 @@ class ContractManager:
         return contract.status if contract else None
 
     def get_pending_contracts(self) -> List[Contract]:
+        """Return a list of pending contracts."""
         return [
-            c for c in self.contracts.values() if c.status == ContractStatus.PENDING
+            contract
+            for contract in self.contracts.values()
+            if contract.status == ContractStatus.PENDING
         ]
 
     def get_contract_summary(self) -> Dict[str, Any]:

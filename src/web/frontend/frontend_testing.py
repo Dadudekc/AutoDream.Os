@@ -16,10 +16,13 @@ License: MIT
 """
 
 import logging
-
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
+from src.utils.stability_improvements import stability_manager, safe_import
+from pathlib import Path
+from typing import Dict, List, Any, Optional, Callable, Union
+from dataclasses import dataclass, asdict
 from datetime import datetime
+import tempfile
+import shutil
 
 # Frontend imports
 from .frontend_app import (
@@ -40,6 +43,7 @@ from .frontend_router import (
     create_router_with_default_routes,
     RouteBuilder,
 )
+from .reporting import generate_summary_report
 
 from .testing.reporting import TestReportGenerator
 
@@ -89,7 +93,7 @@ class FrontendTestRunner:
         self.test_results: List[TestResult] = []
         self.test_suites: Dict[str, TestSuite] = {}
         self.current_suite: Optional[TestSuite] = None
-        self.reporter = TestReportGenerator(logger)
+        self.mock_data_generator = MockDataGenerator()
 
         logger.info("Frontend test runner initialized")
 
@@ -221,7 +225,7 @@ class FrontendTestRunner:
             }
 
             # Generate summary report
-            self.reporter.generate_summary(all_suites)
+            generate_summary_report(all_suites)
 
             logger.info("All frontend tests completed")
             return all_suites
@@ -400,3 +404,94 @@ class FrontendTestRunner:
         suite.failed_tests = len([t for t in suite.tests if t.status == "failed"])
         suite.skipped_tests = len([t for t in suite.tests if t.status == "skipped"])
         suite.total_duration = sum(t.duration for t in suite.tests)
+
+
+class MockDataGenerator:
+    """Generates mock data for testing"""
+
+    def generate_mock_user(self) -> Dict[str, Any]:
+        """Generate mock user data"""
+        return {
+            "id": "user-123",
+            "username": "testuser",
+            "email": "test@example.com",
+            "role": "user",
+            "created_at": datetime.now().isoformat(),
+            "last_login": datetime.now().isoformat(),
+        }
+
+    def generate_mock_component_data(self, component_type: str) -> Dict[str, Any]:
+        """Generate mock component data"""
+        base_data = {
+            "id": f"{component_type.lower()}-123",
+            "className": f"{component_type.lower()}-component",
+            "data-testid": f"test-{component_type.lower()}",
+        }
+
+        if component_type == "Button":
+            base_data.update(
+                {"text": "Test Button", "type": "button", "disabled": False}
+            )
+        elif component_type == "Card":
+            base_data.update(
+                {
+                    "title": "Test Card",
+                    "content": "This is a test card component",
+                    "footer": "Card Footer",
+                }
+            )
+
+        return base_data
+
+    def generate_mock_route_data(self) -> List[Dict[str, Any]]:
+        """Generate mock route data"""
+        return [
+            {
+                "path": "/",
+                "name": "home",
+                "component": "HomePage",
+                "props": {"title": "Home"},
+                "meta": {"requiresAuth": False},
+            },
+            {
+                "path": "/dashboard",
+                "name": "dashboard",
+                "component": "DashboardPage",
+                "props": {"title": "Dashboard"},
+                "meta": {"requiresAuth": True},
+            },
+            {
+                "path": "/settings",
+                "name": "settings",
+                "component": "SettingsPage",
+                "props": {"title": "Settings"},
+                "meta": {"requiresAuth": True},
+            },
+        ]
+
+
+# (pytest test functions removed; see tests package)
+
+# ============================================================================
+# MAIN EXECUTION
+# ============================================================================
+
+if __name__ == "__main__":
+    # Run tests directly if script is executed
+    print("Running frontend tests...")
+
+    test_runner = FrontendTestRunner()
+
+    try:
+        # Run all test suites
+        results = test_runner.run_all_tests()
+
+        print("\nTest execution completed successfully!")
+        print(f"Total test suites: {len(results)}")
+
+        for suite_name, suite in results.items():
+            print(f"{suite_name}: {suite.passed_tests}/{suite.total_tests} passed")
+
+    except Exception as e:
+        print(f"Test execution failed: {e}")
+        raise

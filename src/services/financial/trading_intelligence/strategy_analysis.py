@@ -16,14 +16,24 @@ logger = logging.getLogger(__name__)
 def momentum_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optional[TradingSignal]:
     """Momentum-based trading strategy"""
     try:
-        if len(historical_data) < 30:
+        params = self.strategy_params.get(StrategyType.MOMENTUM, {})
+        lookback_period = params.get("lookback_period", 20)
+        momentum_threshold = params.get("momentum_threshold", 0.02)
+        volume_threshold = params.get("volume_threshold", 1.5)
+        strong_momentum = params.get("strong_momentum", 0.05)
+        strong_volume = params.get("strong_volume", 2.0)
+        rsi_upper = params.get("rsi_upper", 70)
+        rsi_lower = params.get("rsi_lower", 30)
+        min_history = params.get("min_history", lookback_period + 10)
+
+        if len(historical_data) < min_history:
             return None
 
         close_prices = historical_data["Close"]
         volume = historical_data["Volume"]
 
-        price_momentum = (close_prices.iloc[-1] - close_prices.iloc[-20]) / close_prices.iloc[-20]
-        avg_volume = volume.iloc[-20:].mean()
+        price_momentum = (close_prices.iloc[-1] - close_prices.iloc[-lookback_period]) / close_prices.iloc[-lookback_period]
+        avg_volume = volume.iloc[-lookback_period:].mean()
         current_volume = volume.iloc[-1]
         volume_ratio = current_volume / avg_volume
         rsi = self.calculate_rsi(close_prices, 14)
@@ -33,24 +43,24 @@ def momentum_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optio
         strength = SignalStrength.WEAK
         confidence = 0.0
 
-        if price_momentum > 0.02 and volume_ratio > 1.5 and current_rsi < 70:
+        if price_momentum > momentum_threshold and volume_ratio > volume_threshold and current_rsi < rsi_upper:
             signal_type = SignalType.BUY
-            if price_momentum > 0.05 and volume_ratio > 2.0:
+            if price_momentum > strong_momentum and volume_ratio > strong_volume:
                 signal_type = SignalType.STRONG_BUY
                 strength = SignalStrength.STRONG
-                confidence = 0.8
+                confidence = params.get("strong_confidence", 0.8)
             else:
                 strength = SignalStrength.MODERATE
-                confidence = 0.6
-        elif price_momentum < -0.02 and volume_ratio > 1.5 and current_rsi > 30:
+                confidence = params.get("base_confidence", 0.6)
+        elif price_momentum < -momentum_threshold and volume_ratio > volume_threshold and current_rsi > rsi_lower:
             signal_type = SignalType.SELL
-            if price_momentum < -0.05 and volume_ratio > 2.0:
+            if price_momentum < -strong_momentum and volume_ratio > strong_volume:
                 signal_type = SignalType.STRONG_SELL
                 strength = SignalStrength.STRONG
-                confidence = 0.8
+                confidence = params.get("strong_confidence", 0.8)
             else:
                 strength = SignalStrength.MODERATE
-                confidence = 0.6
+                confidence = params.get("base_confidence", 0.6)
 
         if signal_type != SignalType.HOLD:
             current_price = close_prices.iloc[-1]
@@ -77,14 +87,21 @@ def momentum_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optio
 def mean_reversion_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optional[TradingSignal]:
     """Mean reversion trading strategy"""
     try:
-        if len(historical_data) < 60:
+        params = self.strategy_params.get(StrategyType.MEAN_REVERSION, {})
+        lookback_period = params.get("lookback_period", 50)
+        std_threshold = params.get("std_dev_threshold", 2.0)
+        strong_threshold = params.get("strong_threshold", 3.0)
+        reversion_strength = params.get("reversion_strength", 0.1)
+        min_history = params.get("min_history", lookback_period + 10)
+
+        if len(historical_data) < min_history:
             return None
 
         close_prices = historical_data["Close"]
-        sma = close_prices.rolling(window=20).mean()
-        std = close_prices.rolling(window=20).std()
-        upper_band = sma + (std * 2)
-        lower_band = sma - (std * 2)
+        sma = close_prices.rolling(window=lookback_period).mean()
+        std = close_prices.rolling(window=lookback_period).std()
+        upper_band = sma + (std * std_threshold)
+        lower_band = sma - (std * std_threshold)
 
         current_price = close_prices.iloc[-1]
         current_sma = sma.iloc[-1]
@@ -96,28 +113,28 @@ def mean_reversion_strategy(self, symbol: str, historical_data: pd.DataFrame) ->
         strength = SignalStrength.WEAK
         confidence = 0.0
 
-        if z_score > 2.0:
+        if z_score > std_threshold:
             signal_type = SignalType.SELL
-            if z_score > 3.0:
+            if z_score > strong_threshold:
                 signal_type = SignalType.STRONG_SELL
                 strength = SignalStrength.STRONG
-                confidence = 0.8
+                confidence = params.get("strong_confidence", 0.8)
             else:
                 strength = SignalStrength.MODERATE
-                confidence = 0.6
-        elif z_score < -2.0:
+                confidence = params.get("base_confidence", 0.6)
+        elif z_score < -std_threshold:
             signal_type = SignalType.BUY
-            if z_score < -3.0:
+            if z_score < -strong_threshold:
                 signal_type = SignalType.STRONG_BUY
                 strength = SignalStrength.STRONG
-                confidence = 0.8
+                confidence = params.get("strong_confidence", 0.8)
             else:
                 strength = SignalStrength.MODERATE
-                confidence = 0.6
+                confidence = params.get("base_confidence", 0.6)
 
         if signal_type != SignalType.HOLD:
             target_price = current_sma
-            stop_loss = current_price * (1 + abs(z_score) * 0.1)
+            stop_loss = current_price * (1 + abs(z_score) * reversion_strength)
             reasoning = f"Z-Score: {z_score:.2f}, SMA: ${current_sma:.2f}, Bands: ${current_lower:.2f}-${current_upper:.2f}"
             return TradingSignal(
                 symbol=symbol,
@@ -139,22 +156,29 @@ def mean_reversion_strategy(self, symbol: str, historical_data: pd.DataFrame) ->
 def breakout_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optional[TradingSignal]:
     """Breakout trading strategy"""
     try:
-        if len(historical_data) < 30:
+        params = self.strategy_params.get(StrategyType.BREAKOUT, {})
+        breakout_period = params.get("breakout_period", 20)
+        volume_multiplier = params.get("volume_multiplier", 1.5)
+        breakout_buffer = params.get("breakout_buffer", 0.01)
+        target_multiplier = params.get("target_multiplier", 0.05)
+        min_history = params.get("min_history", breakout_period + 10)
+
+        if len(historical_data) < min_history:
             return None
 
         close_prices = historical_data["Close"]
         volume = historical_data["Volume"]
-        high_20 = close_prices.rolling(window=20).max()
-        low_20 = close_prices.rolling(window=20).min()
+        high_n = close_prices.rolling(window=breakout_period).max()
+        low_n = close_prices.rolling(window=breakout_period).min()
 
         current_price = close_prices.iloc[-1]
-        resistance = high_20.iloc[-2]
-        support = low_20.iloc[-2]
-        avg_volume = volume.iloc[-20:].mean()
+        resistance = high_n.iloc[-2]
+        support = low_n.iloc[-2]
+        avg_volume = volume.iloc[-breakout_period:].mean()
         current_volume = volume.iloc[-1]
-        volume_confirmation = current_volume > avg_volume * 1.5
-        breakout_up = current_price > resistance * 1.01
-        breakout_down = current_price < support * 0.99
+        volume_confirmation = current_volume > avg_volume * volume_multiplier
+        breakout_up = current_price > resistance * (1 + breakout_buffer)
+        breakout_down = current_price < support * (1 - breakout_buffer)
 
         signal_type = SignalType.HOLD
         strength = SignalStrength.WEAK
@@ -162,14 +186,14 @@ def breakout_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optio
         if breakout_up and volume_confirmation:
             signal_type = SignalType.BUY
             strength = SignalStrength.MODERATE
-            confidence = 0.7
-            target_price = current_price * 1.05
+            confidence = params.get("base_confidence", 0.7)
+            target_price = current_price * (1 + target_multiplier)
             stop_loss = resistance
         elif breakout_down and volume_confirmation:
             signal_type = SignalType.SELL
             strength = SignalStrength.MODERATE
-            confidence = 0.7
-            target_price = current_price * 0.95
+            confidence = params.get("base_confidence", 0.7)
+            target_price = current_price * (1 - target_multiplier)
             stop_loss = support
 
         if signal_type != SignalType.HOLD:
@@ -197,7 +221,16 @@ def breakout_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optio
 def scalping_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optional[TradingSignal]:
     """Scalping trading strategy"""
     try:
-        if len(historical_data) < 10:
+        params = self.strategy_params.get(StrategyType.SCALPING, {})
+        sma_short = params.get("sma_short", 5)
+        sma_long = params.get("sma_long", 10)
+        min_spread = params.get("min_spread", 0.001)
+        profit_target = params.get("profit_target", 0.002)
+        volatility_threshold = params.get("volatility_threshold", 0.01)
+        stop_loss_pct = params.get("stop_loss_pct", 0.001)
+        min_history = params.get("min_history", max(sma_long, 10))
+
+        if len(historical_data) < min_history:
             return None
 
         close_prices = historical_data["Close"]
@@ -205,33 +238,36 @@ def scalping_strategy(self, symbol: str, historical_data: pd.DataFrame) -> Optio
         low_prices = historical_data["Low"]
         current_price = close_prices.iloc[-1]
 
-        sma_5 = close_prices.rolling(window=5).mean()
-        sma_10 = close_prices.rolling(window=10).mean()
-        price_vs_sma5 = (current_price - sma_5.iloc[-1]) / sma_5.iloc[-1]
-        price_vs_sma10 = (current_price - sma_10.iloc[-1]) / sma_10.iloc[-1]
-        recent_high = high_prices.iloc[-5:].max()
-        recent_low = low_prices.iloc[-5:].min()
+        sma_short_series = close_prices.rolling(window=sma_short).mean()
+        sma_long_series = close_prices.rolling(window=sma_long).mean()
+        price_vs_sma_short = (current_price - sma_short_series.iloc[-1]) / sma_short_series.iloc[-1]
+        price_vs_sma_long = (current_price - sma_long_series.iloc[-1]) / sma_long_series.iloc[-1]
+        recent_high = high_prices.iloc[-sma_short:].max()
+        recent_low = low_prices.iloc[-sma_short:].min()
         volatility = (recent_high - recent_low) / current_price
 
         signal_type = SignalType.HOLD
         strength = SignalStrength.WEAK
         confidence = 0.0
 
-        if price_vs_sma5 > 0.001 and price_vs_sma10 > 0.002 and volatility > 0.01:
+        if price_vs_sma_short > min_spread and price_vs_sma_long > min_spread * 2 and volatility > volatility_threshold:
             signal_type = SignalType.BUY
             strength = SignalStrength.MODERATE
-            confidence = 0.6
-            target_price = current_price * 1.002
-            stop_loss = current_price * 0.999
-        elif price_vs_sma5 < -0.001 and price_vs_sma10 < -0.002 and volatility > 0.01:
+            confidence = params.get("base_confidence", 0.6)
+            target_price = current_price * (1 + profit_target)
+            stop_loss = current_price * (1 - stop_loss_pct)
+        elif price_vs_sma_short < -min_spread and price_vs_sma_long < -min_spread * 2 and volatility > volatility_threshold:
             signal_type = SignalType.SELL
             strength = SignalStrength.MODERATE
-            confidence = 0.6
-            target_price = current_price * 0.998
-            stop_loss = current_price * 1.001
+            confidence = params.get("base_confidence", 0.6)
+            target_price = current_price * (1 - profit_target)
+            stop_loss = current_price * (1 + stop_loss_pct)
 
         if signal_type != SignalType.HOLD:
-            reasoning = f"Scalping: SMA5: {price_vs_sma5:.3%}, SMA10: {price_vs_sma10:.3%}, Vol: {volatility:.3%}"
+            reasoning = (
+                f"Scalping: SMA{sma_short}: {price_vs_sma_short:.3%}, "
+                f"SMA{sma_long}: {price_vs_sma_long:.3%}, Vol: {volatility:.3%}"
+            )
             return TradingSignal(
                 symbol=symbol,
                 signal_type=signal_type,
@@ -258,7 +294,12 @@ def pairs_trading_strategy(
 ) -> Optional[TradingSignal]:
     """Pairs trading strategy"""
     try:
-        if len(historical_data1) < 50 or len(historical_data2) < 50:
+        params = self.strategy_params.get(StrategyType.PAIRS_TRADING, {})
+        min_history = params.get("min_history", 50)
+        correlation_threshold = params.get("correlation_threshold", 0.7)
+        z_score_threshold = params.get("z_score_threshold", 2.0)
+
+        if len(historical_data1) < min_history or len(historical_data2) < min_history:
             return None
 
         returns1 = historical_data1["Close"].pct_change().dropna()
@@ -267,7 +308,7 @@ def pairs_trading_strategy(
         returns1 = returns1.iloc[-min_length:]
         returns2 = returns2.iloc[-min_length:]
         correlation = returns1.corr(returns2)
-        if abs(correlation) < 0.7:
+        if abs(correlation) < correlation_threshold:
             return None
 
         spread = returns1 - returns2
@@ -280,17 +321,17 @@ def pairs_trading_strategy(
         strength = SignalStrength.WEAK
         confidence = 0.0
 
-        if z_score > 2.0:
+        if z_score > z_score_threshold:
             signal_type = SignalType.SELL
             strength = SignalStrength.MODERATE
-            confidence = 0.7
+            confidence = params.get("base_confidence", 0.7)
             current_price = historical_data1["Close"].iloc[-1]
             target_price = current_price * (1 - abs(z_score) * 0.01)
             stop_loss = current_price * (1 + abs(z_score) * 0.01)
-        elif z_score < -2.0:
+        elif z_score < -z_score_threshold:
             signal_type = SignalType.BUY
             strength = SignalStrength.MODERATE
-            confidence = 0.7
+            confidence = params.get("base_confidence", 0.7)
             current_price = historical_data1["Close"].iloc[-1]
             target_price = current_price * (1 + abs(z_score) * 0.01)
             stop_loss = current_price * (1 - abs(z_score) * 0.01)
@@ -298,7 +339,7 @@ def pairs_trading_strategy(
         if signal_type != SignalType.HOLD:
             reasoning = f"Pairs Trading: Z-Score: {z_score:.2f}, Correlation: {correlation:.2f}"
             return TradingSignal(
-                symbol=symbol1,
+                symbol=f"{symbol1}/{symbol2}",
                 signal_type=signal_type,
                 strength=strength,
                 confidence=confidence,
@@ -317,11 +358,16 @@ def pairs_trading_strategy(
 def grid_trading_strategy(self, symbol: str, historical_data: pd.DataFrame, grid_levels: int = 5) -> List[TradingSignal]:
     """Grid trading strategy"""
     try:
-        if len(historical_data) < 20:
+        params = self.strategy_params.get(StrategyType.GRID_TRADING, {})
+        grid_levels = params.get("grid_levels", grid_levels)
+        price_range_pct = params.get("price_range_pct", 0.1)
+        min_history = params.get("min_history", 20)
+
+        if len(historical_data) < min_history:
             return []
 
         current_price = historical_data["Close"].iloc[-1]
-        price_range = current_price * 0.1
+        price_range = current_price * price_range_pct
         grid_step = price_range / grid_levels
         signals = []
 

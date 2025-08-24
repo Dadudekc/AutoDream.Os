@@ -1,6 +1,11 @@
 import json
 from pathlib import Path
 
+import pytest
+
+# Skip these tests if psutil isn't available since health metrics rely on it
+pytest.importorskip("psutil")
+
 from core.health.reporting import (
     ReportType,
     ReportFormat,

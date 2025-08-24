@@ -74,3 +74,4 @@ __all__ = [
 __version__ = "1.0.0"
 __author__ = "Agent-5 (Business Intelligence & Trading Specialist)"
 __description__ = "Portfolio optimization and management system"
+

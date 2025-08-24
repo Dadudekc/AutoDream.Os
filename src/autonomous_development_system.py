@@ -64,12 +64,16 @@ class AutonomousDevelopmentSystem:
         from src.core.task_manager import DevelopmentTaskManager as TaskManager
 
         self.task_manager = TaskManager()
-        self.workflow_manager = AutonomousWorkflowManager(
-            self.comm_system, self.task_manager
-        )
         self.agent_coordinator = AgentCoordinator()
         self.task_handler = TaskHandler(self.task_manager)
         self.reporting_manager = ReportingManager(self.task_manager)
+        self.workflow_manager = AutonomousWorkflowManager(
+            self.comm_system,
+            self.task_manager,
+            self.agent_coordinator,
+            self.task_handler,
+            self.reporting_manager,
+        )
         self.logger = logging.getLogger(__name__)
 
     async def start_overnight_workflow(self) -> bool:

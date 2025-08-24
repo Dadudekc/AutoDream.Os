@@ -26,7 +26,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 try:
     from auth_service import AuthService, AuthStatus, PermissionLevel
     from services.v1_v2_message_queue_system import V1V2MessageQueueSystem
-    from services.integrated_agent_coordinator import IntegratedAgentCoordinator
+    from services.integration_coordinator import IntegrationCoordinator
 
     INTEGRATION_AVAILABLE = True
 except ImportError as e:
@@ -132,12 +132,14 @@ class AuthIntegrationTester:
                     self.logger.warning(f"⚠️ Message queue system not available: {e}")
                     self.message_queue = None
 
-                # Initialize agent coordinator
+                # Initialize integration coordinator
                 try:
-                    self.agent_coordinator = IntegratedAgentCoordinator()
-                    self.logger.info("✅ Agent coordinator initialized")
+                    self.agent_coordinator = IntegrationCoordinator()
+                    self.logger.info("✅ Integration coordinator initialized")
                 except Exception as e:
-                    self.logger.warning(f"⚠️ Agent coordinator not available: {e}")
+                    self.logger.warning(
+                        f"⚠️ Integration coordinator not available: {e}"
+                    )
                     self.agent_coordinator = None
             else:
                 self.logger.warning("⚠️ Integration components not available")
@@ -445,7 +447,7 @@ class AuthIntegrationTester:
 
         # Test agent coordinator integration
         if self.agent_coordinator:
-            self._test_agent_coordinator_integration()
+            self._test_integration_coordinator()
 
     def _test_message_queue_integration(self):
         """Test integration with message queue system"""
@@ -485,18 +487,17 @@ class AuthIntegrationTester:
                 "Message Queue Integration", "ERROR", duration, {"error": str(e)}
             )
 
-    def _test_agent_coordinator_integration(self):
-        """Test integration with agent coordinator"""
+    def _test_integration_coordinator(self):
+        """Test integration with the integration coordinator"""
         start_time = time.time()
 
         try:
-            # Test basic coordinator functionality
-            if hasattr(self.agent_coordinator, "get_system_status"):
-                status = self.agent_coordinator.get_system_status()
+            if hasattr(self.agent_coordinator, "get_system_health"):
+                status = self.agent_coordinator.get_system_health()
                 duration = time.time() - start_time
 
                 self._add_test_result(
-                    "Agent Coordinator Integration",
+                    "Integration Coordinator Integration",
                     "PASS",
                     duration,
                     {
@@ -505,12 +506,15 @@ class AuthIntegrationTester:
                     },
                 )
             else:
-                raise Exception("Agent coordinator missing required methods")
+                raise Exception("Integration coordinator missing required methods")
 
         except Exception as e:
             duration = time.time() - start_time
             self._add_test_result(
-                "Agent Coordinator Integration", "ERROR", duration, {"error": str(e)}
+                "Integration Coordinator Integration",
+                "ERROR",
+                duration,
+                {"error": str(e)},
             )
 
     def _test_stress_scenarios(self):

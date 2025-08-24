@@ -169,12 +169,13 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Refactored from 722 to 55 lines by extracting manager, AI processor, coordinator, and config modules. New orchestrator coordinates components and maintains functionality.
 
-### MODERATE-014: FSM Cursor Integration Test Suite Refactor ✅
-- **File**: `tests/test_fsm_cursor_integration.py`
+### MODERATE-013: New Health Monitoring Core Refactor ✅
+- **File**: `src/core/health/monitoring_new/core.py`
 - **Status**: Completed
-- **Assigned To**: Agent-5
+- **Assigned To**: Victor Dixon
 - **Completion Date**: 2025-08-24
-- **Summary**: Split monolithic integration tests into setup, execution, validation, and cleanup modules with an orchestrator to maintain coverage. All tests pass.
+- **Summary**: Refactored from 680 to 200 lines by extracting core, collector, analyzer, and config modules. Main orchestrator now imports these modules while preserving functionality.
+
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 

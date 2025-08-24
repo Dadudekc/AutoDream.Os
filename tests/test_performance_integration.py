@@ -5,6 +5,8 @@ import sys
 import unittest
 from importlib import import_module
 
+__all__ = ["load_suite", "run"]
+
 MODULES = [
     "tests.test_performance_integration_setup",
     "tests.test_performance_integration_execution",

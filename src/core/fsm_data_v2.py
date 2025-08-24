@@ -9,6 +9,8 @@ Max 200 LOC, OOP design, SRP.
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional
 from .fsm_task_v2 import FSMTask, FSMUpdate

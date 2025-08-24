@@ -10,6 +10,8 @@ This tool validates all components meet V2 standards requirements.
 import argparse
 import sys
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Tuple, Optional
 import ast

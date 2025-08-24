@@ -7,6 +7,8 @@ Agent-6 Gaming Environment Setup
 import pygame
 import sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def test_basic_pygame():
     """Test basic pygame functionality"""

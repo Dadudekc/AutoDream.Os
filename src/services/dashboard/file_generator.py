@@ -7,6 +7,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List
 from .dashboard_types import DashboardWidget, DashboardLayout

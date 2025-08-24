@@ -7,6 +7,8 @@ These tests verify that the basic testing infrastructure is working correctly.
 
 import pytest
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch
 

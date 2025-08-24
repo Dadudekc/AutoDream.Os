@@ -58,3 +58,4 @@ class OptimizationTarget(Enum):
     CACHE_OPTIMIZATION = "cache_optimization"
     ALGORITHM_OPTIMIZATION = "algorithm_optimization"
     CONFIGURATION_OPTIMIZATION = "configuration_optimization"
+

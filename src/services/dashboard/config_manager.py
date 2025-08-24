@@ -7,6 +7,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List
 from .dashboard_types import DashboardConfig, DashboardLayout, ChartType
 from .widget_factory import WidgetFactory
@@ -149,4 +151,5 @@ class ConfigManager:
             return False
         
         return True
+
 

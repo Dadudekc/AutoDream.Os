@@ -9,6 +9,8 @@ Follows V2 coding standards: 300 target, 350 max LOC.
 import json
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable, Union
 from dataclasses import dataclass, asdict
 from pathlib import Path

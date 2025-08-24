@@ -24,6 +24,8 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import secrets

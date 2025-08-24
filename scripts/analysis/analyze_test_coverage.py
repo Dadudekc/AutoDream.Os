@@ -8,6 +8,8 @@ Analyzes test coverage for the repository and identifies components that need te
 
 import os
 import ast
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 from collections import defaultdict

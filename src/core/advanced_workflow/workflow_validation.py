@@ -6,6 +6,8 @@ Follows V2 standards with ≤200 LOC and single responsibility for validation.
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime
 

@@ -11,6 +11,8 @@ License: MIT
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import List, Dict
 from collections import defaultdict
@@ -175,3 +177,4 @@ class DuplicationDetector:
         normalized = re.sub(r'\s+', ' ', content.strip())
         normalized = re.sub(r'\b\w+\b', 'VAR', normalized)
         return normalized[:100]  # First 100 chars as pattern key
+

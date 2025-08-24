@@ -14,6 +14,8 @@ import pytest
 import asyncio
 import json
 import tempfile
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch, AsyncMock
 

@@ -10,6 +10,8 @@ Follows Single Responsibility Principle with 200 LOC limit.
 import time
 import json
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from enum import Enum

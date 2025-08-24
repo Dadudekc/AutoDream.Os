@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import sys, json, urllib.request
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from urllib.error import URLError
 
 CDP_PORT = 9222

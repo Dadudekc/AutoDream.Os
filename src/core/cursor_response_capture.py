@@ -15,6 +15,8 @@ import sqlite3
 import requests
 import logging
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
 from pathlib import Path

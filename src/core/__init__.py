@@ -17,6 +17,9 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
+# Stability improvements are available but not auto-imported to avoid circular imports
+# from src.utils.stability_improvements import stability_manager, safe_import
+
 # Core component imports
 try:
     from .performance_monitor import PerformanceMonitor

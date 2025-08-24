@@ -15,6 +15,8 @@ import argparse
 import time
 import threading
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from enum import Enum

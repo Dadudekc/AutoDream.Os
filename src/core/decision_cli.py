@@ -4,6 +4,8 @@
 import argparse
 import json
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 
 from .decision_types import (

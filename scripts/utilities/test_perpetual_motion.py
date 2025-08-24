@@ -9,6 +9,8 @@ Tests the system without complex import dependencies.
 import sys
 import os
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 sys.path.insert(0, "src")
 
 from services.perpetual_motion_contract_service import PerpetualMotionContractService

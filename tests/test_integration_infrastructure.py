@@ -7,6 +7,8 @@ import pytest
 import asyncio
 import json
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, AsyncMock
 from pathlib import Path
 import tempfile

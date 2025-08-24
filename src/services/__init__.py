@@ -17,6 +17,8 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Services component imports
 try:
     from .agent_cell_phone import AgentCellPhone

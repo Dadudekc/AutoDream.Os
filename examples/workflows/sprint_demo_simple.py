@@ -7,6 +7,8 @@ Simple demonstration of the sprint system without complex imports.
 """
 
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import tempfile
 import shutil

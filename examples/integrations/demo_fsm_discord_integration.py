@@ -18,6 +18,8 @@ import sys
 import time
 import json
 import asyncio
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

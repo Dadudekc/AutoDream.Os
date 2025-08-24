@@ -16,6 +16,8 @@ import pytest
 import json
 import tempfile
 import shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List, Any

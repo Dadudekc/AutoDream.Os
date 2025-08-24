@@ -11,6 +11,8 @@ LOC: 180 lines (under 200 limit)
 
 import sys
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass

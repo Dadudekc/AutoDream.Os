@@ -13,6 +13,8 @@ import time
 import threading
 import random
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 
 

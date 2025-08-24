@@ -13,6 +13,8 @@ import asyncio
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Set, Any, Callable
 from queue import PriorityQueue

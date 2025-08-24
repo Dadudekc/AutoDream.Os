@@ -15,6 +15,8 @@ import threading
 import time
 import json
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional, Callable
 from dataclasses import dataclass, field

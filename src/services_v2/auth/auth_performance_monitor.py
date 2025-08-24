@@ -13,6 +13,8 @@ import time
 import logging
 import threading
 import statistics
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass

@@ -10,6 +10,8 @@ LOC: 150 lines (under 200 limit)
 
 import subprocess
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import List, Optional
 from pathlib import Path
 

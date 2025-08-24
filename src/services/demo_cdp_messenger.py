@@ -8,6 +8,8 @@ Demonstrates how to use the CDP messenger system to send messages to Cursor agen
 
 import sys
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add parent directories to path for imports

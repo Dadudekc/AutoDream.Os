@@ -13,6 +13,8 @@ This script:
 import subprocess
 import sys
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import json
 import time

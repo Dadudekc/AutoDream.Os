@@ -12,6 +12,8 @@ Provides all functionality in a single, maintainable system.
 
 import argparse
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 

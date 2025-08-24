@@ -9,6 +9,8 @@ Follows V2 standards: Test-First Development, 90% coverage minimum.
 
 import pytest
 import tempfile
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch
 import json

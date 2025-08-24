@@ -11,6 +11,8 @@ License: MIT
 
 import logging
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 
@@ -222,3 +224,4 @@ class UnifiedPortal:
             'dashboard_distribution': dashboard_counts,
             'capacity_utilization': (total_agents / self.config.max_agents) * 100
         }
+

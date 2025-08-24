@@ -14,6 +14,8 @@ LOC: 150 lines (under 200 limit)
 import sys
 import os
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Optional, Any
 

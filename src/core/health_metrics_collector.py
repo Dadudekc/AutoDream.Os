@@ -10,6 +10,8 @@ License: MIT
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from dataclasses import dataclass, field
 from typing import Dict, Optional

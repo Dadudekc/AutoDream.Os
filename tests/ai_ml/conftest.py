@@ -9,6 +9,8 @@ import os
 import sys
 import tempfile
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Any, Generator, Optional
 from unittest.mock import Mock, MagicMock, patch

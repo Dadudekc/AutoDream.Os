@@ -3,6 +3,8 @@ Configuration Loader - Unified Configuration Management
 """
 import json
 import yaml
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Any, Dict, Union
 

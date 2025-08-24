@@ -7,6 +7,8 @@ Showcases webcam filters, multimedia pipelines, and content generation
 import time
 import logging
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import sys
 import os

@@ -1,0 +1,14 @@
+{
+  "agent_id": "reliability_agent_39",
+  "name": "Reliability Agent 39",
+  "status": "busy",
+  "capabilities": [
+    "testing"
+  ],
+  "current_contract": null,
+  "last_heartbeat": "2025-08-23T22:49:51.038120",
+  "performance_score": 0.0,
+  "contracts_completed": 0,
+  "total_uptime": 0.0,
+  "resource_usage": {}
+}

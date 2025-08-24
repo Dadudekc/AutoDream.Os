@@ -9,6 +9,8 @@ Shows agent coordination, messaging, and system integration.
 
 import sys
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add V2 src to path

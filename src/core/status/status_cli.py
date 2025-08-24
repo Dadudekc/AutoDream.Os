@@ -9,6 +9,8 @@ Follows V2 standards: ≤100 LOC, SRP, OOP principles.
 
 import time
 import argparse
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from .status_types import UpdateFrequency
 from .status_core import LiveStatusSystem
 

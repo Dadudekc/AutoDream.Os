@@ -3,6 +3,8 @@
 
 import logging
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
@@ -110,13 +112,9 @@ class ContractManager:
             metadata={},
         )
         self.assignments[assignment_id] = result
-<<<<<<< HEAD
-        self.logger.info("Assigned contract %s to agent %s", contract_id, agent_id)
-=======
         self.logger.info(
             "Assigned contract %s to agent %s", contract_id, agent_id
         )
->>>>>>> origin/codex/split-contract_manager.py-into-modules
         return True
 
     # ------------------------------------------------------------------
@@ -130,13 +128,9 @@ class ContractManager:
         return contract.status if contract else None
 
     def get_pending_contracts(self) -> List[Contract]:
-<<<<<<< HEAD
         return [
             c for c in self.contracts.values() if c.status == ContractStatus.PENDING
         ]
-=======
-        return [c for c in self.contracts.values() if c.status == ContractStatus.PENDING]
->>>>>>> origin/codex/split-contract_manager.py-into-modules
 
     def get_contract_summary(self) -> Dict[str, Any]:
         total = len(self.contracts)

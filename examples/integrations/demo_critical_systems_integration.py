@@ -7,6 +7,9 @@ Demonstrates Internationalization, Horizontal Scaling, and Autonomous Decision-M
 import sys
 import time
 import json
+
+# Stability improvements are available but not auto-imported to avoid circular imports
+# from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from datetime import datetime
 
@@ -26,7 +29,7 @@ from core.horizontal_scaling_engine import (
     AgentStatus,
     DeploymentType,
 )
-from core.autonomous_decision_engine import (
+from core.decision import (
     AutonomousDecisionEngine,
     DecisionType,
     DecisionConfidence,
@@ -169,7 +172,7 @@ def demo_autonomous_decision_system():
 
     # Test agent capability updates
     print("\n👥 Agent Capability Test:")
-    from core.autonomous_decision_engine import AgentCapability
+    from core.decision import AgentCapability
 
     test_capability = AgentCapability(
         agent_id="demo_agent_001",
@@ -186,7 +189,7 @@ def demo_autonomous_decision_system():
 
     # Test autonomous decision making
     print("\n🤖 Autonomous Decision Test:")
-    from core.autonomous_decision_engine import DecisionContext
+    from core.decision import DecisionContext
 
     # Test task assignment decision
     task_context = DecisionContext(
@@ -241,7 +244,7 @@ def demo_autonomous_decision_system():
 
     # Test learning data addition
     print("\n📚 Learning Data Test:")
-    from core.autonomous_decision_engine import LearningData
+    from core.decision import LearningData
 
     learning_data = LearningData(
         input_features=[0.9, 0.8, 0.95, 0.7],
@@ -305,7 +308,7 @@ def demo_system_integration():
         scaling_engine.update_node_metrics(test_node.node_id, 60.0, 0.4)
 
         # Make autonomous decision about scaling
-        from core.autonomous_decision_engine import DecisionContext
+        from core.decision import DecisionContext
 
         scaling_context = DecisionContext(
             decision_id="scaling_decision_001",

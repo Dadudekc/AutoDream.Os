@@ -6,6 +6,8 @@ Handles API endpoints, middleware, and service discovery for integration infrast
 import asyncio
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
@@ -289,67 +291,13 @@ class APIManager:
         ]
 
 
-# Service discovery and registration
-class ServiceRegistry:
-    """Manages service discovery and registration."""
-
-    def __init__(self):
-        self.services: Dict[str, Dict[str, Any]] = {}
-        self.health_checks: Dict[str, Callable] = {}
-
-    def register_service(self, name: str, config: Dict[str, Any]):
-        """Register a new service."""
-        self.services[name] = {
-            "config": config,
-            "registered_at": time.time(),
-            "last_health_check": time.time(),
-            "status": "healthy",
-        }
-        logger.info(f"Registered service: {name}")
-
-    def unregister_service(self, name: str):
-        """Unregister a service."""
-        if name in self.services:
-            del self.services[name]
-            logger.info(f"Unregistered service: {name}")
-
-    def get_service(self, name: str) -> Optional[Dict[str, Any]]:
-        """Get service configuration."""
-        return self.services.get(name)
-
-    def list_services(self) -> List[str]:
-        """List all registered services."""
-        return list(self.services.keys())
-
-    def set_health_check(self, name: str, health_check: Callable):
-        """Set health check function for a service."""
-        self.health_checks[name] = health_check
-
-    async def check_service_health(self, name: str) -> bool:
-        """Check health of a specific service."""
-        if name not in self.health_checks:
-            return True
-
-        try:
-            health_check = self.health_checks[name]
-            if asyncio.iscoroutinefunction(health_check):
-                result = await health_check()
-            else:
-                result = health_check()
-
-            self.services[name]["last_health_check"] = time.time()
-            self.services[name]["status"] = "healthy" if result else "unhealthy"
-
-            return result
-        except Exception as e:
-            logger.error(f"Health check failed for {name}: {str(e)}")
-            self.services[name]["status"] = "error"
-            return False
+# Service discovery and registration - Using advanced ServiceRegistry from service_registry.py
+# from .service_registry import ServiceRegistry
 
 
 # Global instances
 api_manager = APIManager()
-service_registry = ServiceRegistry()
+# service_registry = ServiceRegistry()  # Using advanced ServiceRegistry from service_registry.py
 
 
 # Example usage and testing
@@ -384,7 +332,7 @@ def setup_example_endpoints():
         method=APIMethod.GET,
         handler=lambda req, ctx: {
             "status": "healthy",
-            "services": service_registry.list_services(),
+            "services": [],  # TODO: Integrate with advanced ServiceRegistry
         },
         description="System health check",
         requires_auth=False,

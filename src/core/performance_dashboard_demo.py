@@ -11,6 +11,8 @@ import sys
 import os
 import time
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 
 # Add src to path for imports

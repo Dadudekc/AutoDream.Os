@@ -9,6 +9,8 @@ Provides algorithmic trading strategies, market analysis, and automated decision
 import asyncio
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any, Callable
 from dataclasses import dataclass, asdict

@@ -5,6 +5,8 @@ Quick Agent Integration Assessment
 
 import json
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from datetime import datetime
 

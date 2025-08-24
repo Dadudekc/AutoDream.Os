@@ -7,6 +7,8 @@ Comprehensive testing of agent coordination and multimedia integration
 import pytest
 import json
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, MagicMock
 from pathlib import Path
 import sys

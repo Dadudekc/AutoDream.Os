@@ -1,5 +1,7 @@
 import pytest
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 @pytest.fixture
 def set_api_keys(monkeypatch):

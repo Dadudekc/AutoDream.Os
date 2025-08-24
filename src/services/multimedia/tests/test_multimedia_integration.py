@@ -8,6 +8,8 @@ import pytest
 import numpy as np
 import time
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, MagicMock
 from pathlib import Path
 import sys

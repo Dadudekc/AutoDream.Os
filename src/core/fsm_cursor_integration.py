@@ -10,6 +10,8 @@ to FSM state machines, enabling agents to never stop working.
 import time
 import threading
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 from datetime import datetime

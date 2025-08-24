@@ -10,6 +10,8 @@ LOC: 100 lines (under 200 limit)
 
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List, Optional
 from .system_info import SystemInfo
 

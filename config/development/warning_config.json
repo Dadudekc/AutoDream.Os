@@ -1,0 +1,55 @@
+{
+  "warning_management": {
+    "suppressed_warnings": [
+      {
+        "category": "DeprecationWarning",
+        "patterns": [
+          ".*unclosed file.*",
+          ".*inspect\\.getargspec.*"
+        ],
+        "reason": "Known issues that are handled by the system"
+      },
+      {
+        "category": "UserWarning",
+        "patterns": [
+          "matplotlib.*"
+        ],
+        "reason": "Matplotlib display warnings in headless environments"
+      },
+      {
+        "category": "PendingDeprecationWarning",
+        "patterns": [
+          ".*"
+        ],
+        "reason": "Temporary suppression during transition period"
+      }
+    ],
+    "warning_thresholds": {
+      "max_warnings_per_category": 10,
+      "max_warnings_per_module": 5,
+      "stability_alert_threshold": 20
+    }
+  },
+  "stability_improvements": {
+    "retry_mechanisms": {
+      "max_retries": 3,
+      "retry_delay": 1.0,
+      "exponential_backoff": true
+    },
+    "import_validation": {
+      "validate_on_startup": true,
+      "check_optional_modules": true,
+      "fallback_gracefully": true
+    },
+    "error_handling": {
+      "log_all_errors": true,
+      "suppress_known_errors": false,
+      "max_error_log_size": 1000
+    }
+  },
+  "logging": {
+    "warning_level": "WARNING",
+    "log_warning_counts": true,
+    "stability_reporting": true
+  }
+}

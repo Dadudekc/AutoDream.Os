@@ -16,6 +16,8 @@ This test suite validates:
 import pytest
 import os
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 from typing import Dict, Any, Optional

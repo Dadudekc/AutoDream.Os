@@ -6,6 +6,8 @@ Provides comprehensive testing for web automation scenarios using TDD principles
 import pytest
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable
 from unittest.mock import Mock, patch, MagicMock

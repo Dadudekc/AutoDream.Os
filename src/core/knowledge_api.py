@@ -11,6 +11,8 @@ Follows V2 coding standards: ≤300 LOC, OOP design, SRP
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime
 import hashlib

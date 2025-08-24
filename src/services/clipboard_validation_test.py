@@ -12,6 +12,8 @@ import pyautogui
 import pyperclip
 import sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def test_basic_clipboard():
     """Test basic clipboard functionality"""

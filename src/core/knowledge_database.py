@@ -16,6 +16,8 @@ Follows V2 coding standards: ≤300 LOC, OOP design, SRP
 import sqlite3
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass, asdict

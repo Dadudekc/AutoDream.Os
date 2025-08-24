@@ -7,6 +7,8 @@ Sets up the coordinate system for all 8 agents in 8-agent mode
 import pyautogui
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Configure PyAutoGUI safety
 pyautogui.FAILSAFE = True
 pyautogui.PAUSE = 1.0

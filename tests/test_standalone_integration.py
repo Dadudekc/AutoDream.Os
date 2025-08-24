@@ -11,6 +11,8 @@ import sys
 import os
 import importlib.util
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def load_module_from_file(module_name, file_path):
     """Load a module from a file path."""

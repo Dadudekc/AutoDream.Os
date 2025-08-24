@@ -36,9 +36,18 @@
         "success_criteria": ["role_competencies_achieved", "task_execution_verified", "quality_standards_understood"]
       },
       {
+        "phase_id": "ssot_training",
+        "phase_name": "Single Source of Truth Training",
+        "phase_order": 4,
+        "estimated_duration_minutes": 45,
+        "required_agents": ["ssot_trainer", "quality_assurance_agent"],
+        "deliverables": ["ssot_understanding", "compliance_workflow_skills", "validation_tool_proficiency"],
+        "success_criteria": ["ssot_principles_understood", "validation_workflow_demonstrated", "troubleshooting_skills_verified"]
+      },
+      {
         "phase_id": "integration",
         "phase_name": "System Integration",
-        "phase_order": 4,
+        "phase_order": 5,
         "estimated_duration_minutes": 90,
         "required_agents": ["integration_specialist", "workflow_coordinator"],
         "deliverables": ["workflow_integration", "communication_setup", "monitoring_configuration"],
@@ -47,7 +56,7 @@
       {
         "phase_id": "validation",
         "phase_name": "Performance Validation",
-        "phase_order": 5,
+        "phase_order": 6,
         "estimated_duration_minutes": 60,
         "required_agents": ["quality_assessor", "performance_analyst"],
         "deliverables": ["performance_assessment", "quality_validation", "readiness_certification"],
@@ -90,6 +99,19 @@
         ],
         "approval_required": true,
         "approver_role": "role_trainer"
+      },
+      {
+        "checkpoint_id": "cp_ssot_training",
+        "checkpoint_name": "SSOT Training Complete",
+        "phase_id": "ssot_training",
+        "required_verifications": [
+          "ssot_principles_understood",
+          "validation_workflow_demonstrated",
+          "troubleshooting_skills_verified",
+          "ssot_assessment_passed"
+        ],
+        "approval_required": true,
+        "approver_role": "quality_assurance_agent"
       },
       {
         "checkpoint_id": "cp_integration",
@@ -170,6 +192,32 @@
         "assessment_required": true
       }
     ],
+    "ssot_training": [
+      {
+        "material_id": "ssot_fundamentals",
+        "material_name": "Single Source of Truth Fundamentals",
+        "material_type": "interactive_presentation",
+        "duration_minutes": 15,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "ssot_workflow",
+        "material_name": "SSOT Compliance Workflow",
+        "material_type": "hands_on_tutorial",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "validation_tools",
+        "material_name": "Validation Tools and Scripts",
+        "material_type": "practical_exercises",
+        "duration_minutes": 10,
+        "required": true,
+        "assessment_required": true
+      }
+    ],
     "integration": [
       {
         "material_id": "workflow_integration",
@@ -228,6 +276,8 @@
       "orientation_specialist",
       "role_trainer",
       "subject_matter_expert",
+      "ssot_trainer",
+      "quality_assurance_agent",
       "integration_specialist",
       "workflow_coordinator",
       "quality_assessor",
@@ -255,7 +305,7 @@
       "measurement": "percentage_of_agents_completing_onboarding"
     },
     "time_to_completion": {
-      "target": 360,
+      "target": 405,
       "measurement": "average_minutes_to_complete_onboarding"
     },
     "quality_score": {
@@ -275,3 +325,4 @@
     "compatibility": ["v2_agent_system", "v2_workflow_engine", "v2_monitoring_system"]
   }
 }
+

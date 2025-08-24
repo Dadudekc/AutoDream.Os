@@ -12,6 +12,8 @@ License: MIT
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import List, Dict
 from datetime import datetime
@@ -202,3 +204,4 @@ class DuplicationReporter:
             DuplicationSeverity.LOW: "ℹ️"
         }
         return icons.get(severity, "❓")
+

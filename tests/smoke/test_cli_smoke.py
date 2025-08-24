@@ -1,5 +1,7 @@
 import subprocess, sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def run(args):
     return subprocess.run(

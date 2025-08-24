@@ -9,6 +9,8 @@ previous ``PerformanceMonitor`` and ``PerformanceMonitor`` components.
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from collections import defaultdict
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -20,7 +22,18 @@ from typing import Any, Callable, Dict, List, Optional
 import json
 import psutil
 
-from .performance_models import PerformanceLevel  # type: ignore
+# Try to import performance models, with fallback
+try:
+    from .performance_models import PerformanceLevel
+except ImportError:
+    # Fallback if performance models not available
+    class PerformanceLevel(Enum):
+        """Fallback performance level enum"""
+        LOW = "low"
+        MEDIUM = "medium"
+        HIGH = "high"
+        CRITICAL = "critical"
+    logging.warning("Performance models not available, using fallback PerformanceLevel")
 
 logger = logging.getLogger(__name__)
 

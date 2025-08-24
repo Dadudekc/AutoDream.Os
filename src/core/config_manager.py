@@ -17,6 +17,8 @@ LOC: Consolidated from 1,233 lines to ~600 lines (50% reduction)
 import os
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable, Union
 from pathlib import Path
 from dataclasses import dataclass, asdict

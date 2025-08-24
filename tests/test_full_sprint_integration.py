@@ -9,6 +9,8 @@ End-to-end test of the sprint integration system.
 import unittest
 import tempfile
 import shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import sys
 import os

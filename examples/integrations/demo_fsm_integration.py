@@ -9,6 +9,8 @@ Shows FSM orchestrator, unified launcher, and agent coordination.
 
 import sys
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

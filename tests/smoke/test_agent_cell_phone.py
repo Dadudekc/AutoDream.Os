@@ -7,6 +7,8 @@ initializes correctly and exposes system status and conversation history.
 
 import os
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

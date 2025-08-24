@@ -27,6 +27,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Any, Dict
 

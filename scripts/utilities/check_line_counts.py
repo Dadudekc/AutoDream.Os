@@ -3,6 +3,8 @@
 
 import os
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 files = [
     'src/core/workflow/workflow_types.py',
     'src/core/workflow/workflow_core.py', 

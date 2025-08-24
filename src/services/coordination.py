@@ -14,6 +14,8 @@ LOC: 160 lines (under 200 limit)
 import argparse
 import time
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Set
 from dataclasses import dataclass
 from enum import Enum

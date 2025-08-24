@@ -15,6 +15,8 @@ import hashlib
 import secrets
 import hmac
 import sqlite3
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass

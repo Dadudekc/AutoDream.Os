@@ -8,6 +8,8 @@ import json
 import time
 import tempfile
 import shutil
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Import the components we're testing

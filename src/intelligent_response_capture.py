@@ -14,6 +14,8 @@ This system captures agent responses, builds a database, and uses it for:
 import time
 import json
 import sqlite3
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import sys
 from datetime import datetime

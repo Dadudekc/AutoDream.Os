@@ -5,6 +5,8 @@ Agent-6 Gaming Environment Setup
 """
 
 import unittest
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch
 
 

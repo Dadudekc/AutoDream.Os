@@ -7,6 +7,8 @@ Follows V2 standards with ≤200 LOC and single responsibility for data manageme
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any

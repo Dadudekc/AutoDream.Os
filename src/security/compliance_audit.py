@@ -9,6 +9,8 @@ import json
 import logging
 import hashlib
 import sqlite3
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta

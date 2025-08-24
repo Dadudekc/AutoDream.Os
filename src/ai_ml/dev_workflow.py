@@ -11,6 +11,8 @@ import json
 import logging
 import subprocess
 import asyncio
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Union, Tuple
 from dataclasses import dataclass, field

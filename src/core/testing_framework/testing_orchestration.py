@@ -13,6 +13,8 @@ License: MIT
 import asyncio
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List, Optional, Union
 from dataclasses import dataclass, field
 from unittest.mock import Mock, AsyncMock

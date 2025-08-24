@@ -10,6 +10,8 @@ import pytest
 import time
 import psutil
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, MagicMock
 from typing import Dict, Any, List
 import asyncio

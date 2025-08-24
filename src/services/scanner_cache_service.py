@@ -10,6 +10,8 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 import json
 import time
 import hashlib
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from datetime import datetime, timedelta

@@ -14,6 +14,8 @@ import asyncio
 import json
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 from pathlib import Path

@@ -11,6 +11,8 @@ import time
 import json
 import hashlib
 import threading
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable
 import logging
 from pathlib import Path

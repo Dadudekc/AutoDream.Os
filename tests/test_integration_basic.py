@@ -10,6 +10,8 @@ import time
 import sys
 import os
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 

@@ -9,6 +9,8 @@ import time
 import logging
 import wave
 import numpy as np
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Optional, Callable, Dict, Any, List
 from pathlib import Path
 import queue

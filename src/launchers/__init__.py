@@ -17,6 +17,8 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Launcher component imports
 try:
     from .unified_launcher_v2 import UnifiedLauncherV2

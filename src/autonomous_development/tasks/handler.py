@@ -13,14 +13,17 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from autonomous_development.core import DevelopmentTask
-from core.task_manager import DevelopmentTaskManager as TaskManager
+# Use type hints with strings to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.autonomous_development.core import DevelopmentTask
+    from src.core.task_manager import DevelopmentTaskManager as TaskManager
 
 
 class TaskHandler:
     """Handles task management and execution for autonomous development"""
 
-    def __init__(self, task_manager: TaskManager):
+    def __init__(self, task_manager: "TaskManager"):
         self.task_manager = task_manager
         self.logger = logging.getLogger(__name__)
 
@@ -195,7 +198,7 @@ class TaskHandler:
             self.logger.error(f"Failed to get task status for {task_id}: {e}")
             return None
 
-    def get_tasks_by_status(self, status: str) -> List[DevelopmentTask]:
+    def get_tasks_by_status(self, status: str) -> List["DevelopmentTask"]:
         """Get all tasks with a specific status"""
         try:
             return [
@@ -206,7 +209,7 @@ class TaskHandler:
             self.logger.error(f"Failed to get tasks by status {status}: {e}")
             return []
 
-    def get_tasks_by_agent(self, agent_id: str) -> List[DevelopmentTask]:
+    def get_tasks_by_agent(self, agent_id: str) -> List["DevelopmentTask"]:
         """Get all tasks claimed by a specific agent"""
         try:
             return [
@@ -217,7 +220,7 @@ class TaskHandler:
             self.logger.error(f"Failed to get tasks by agent {agent_id}: {e}")
             return []
 
-    def get_blocked_tasks(self) -> List[DevelopmentTask]:
+    def get_blocked_tasks(self) -> List["DevelopmentTask"]:
         """Get all blocked tasks"""
         return self.get_tasks_by_status("blocked")
 

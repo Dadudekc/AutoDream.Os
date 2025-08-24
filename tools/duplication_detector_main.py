@@ -13,6 +13,8 @@ License: MIT
 import argparse
 import logging
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 from duplication.duplication_detector import DuplicationDetector
@@ -140,3 +142,4 @@ class DuplicationDetectorMain:
 if __name__ == "__main__":
     main_app = DuplicationDetectorMain()
     main_app.main()
+

@@ -8,7 +8,9 @@ import logging
 import time
 import psutil
 import platform
-from typing import List, Dict, Any, Callable, Optional
+
+from src.utils.stability_improvements import stability_manager, safe_import
+from typing import List, Dict, Any, Callable, Optional, Union
 from abc import ABC, abstractmethod
 
 # Import from our performance monitor

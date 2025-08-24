@@ -8,8 +8,10 @@ import argparse
 import json
 import time
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List
-from v2_message_delivery_service import V2MessageDeliveryService
+from messaging import UnifiedMessagingService as V2MessageDeliveryService  # Backward compatibility alias
 
 logger = logging.getLogger(__name__)
 

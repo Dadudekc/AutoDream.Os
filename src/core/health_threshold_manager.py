@@ -10,6 +10,8 @@ License: MIT
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from dataclasses import dataclass
 from typing import Dict, Optional
 from enum import Enum

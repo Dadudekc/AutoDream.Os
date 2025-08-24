@@ -17,6 +17,8 @@ import os
 import json
 import time
 import urllib.request
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from urllib.error import URLError
 import argparse
 from pathlib import Path

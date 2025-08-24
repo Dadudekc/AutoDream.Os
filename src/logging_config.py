@@ -6,6 +6,8 @@ application. Log level can be controlled with environment variables
 """
 
 import os
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from utils.logging_setup import LoggingSetup
 
 

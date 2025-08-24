@@ -137,6 +137,8 @@ def setup_portal_integration(portal, agent_systems: dict):
 
 import logging
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 logger = logging.getLogger(__name__)
 logger.info(f"Unified Web Portal package initialized - version {__version__}")
 logger.info("Available classes: %s", ", ".join(__all__))

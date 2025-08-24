@@ -9,6 +9,8 @@ Follows Single Responsibility Principle with 200 LOC limit.
 
 import time
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any
 import logging
 from .validation_rules import (

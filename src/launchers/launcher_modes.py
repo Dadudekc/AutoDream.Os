@@ -13,6 +13,8 @@ LOC: 180 lines (under 200 limit)
 """
 
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List
 
 

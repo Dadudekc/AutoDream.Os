@@ -10,6 +10,8 @@ import ast
 import inspect
 import os
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple, Union
 from unittest.mock import Mock, patch, MagicMock

@@ -9,6 +9,8 @@ Simple test to verify message content is being sent correctly to agents.
 from v1_v2_message_queue_system import V1V2MessageQueueSystem
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def debug_message_test():
     print("🔍 Debug Message Test - Verifying message content delivery...")

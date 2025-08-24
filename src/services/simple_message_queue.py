@@ -7,6 +7,8 @@ import time
 import json
 import threading
 import queue
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from typing import Dict, List, Optional

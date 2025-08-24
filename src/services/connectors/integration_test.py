@@ -3,6 +3,8 @@
 
 import logging
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from importlib import import_module
 from pathlib import Path
 

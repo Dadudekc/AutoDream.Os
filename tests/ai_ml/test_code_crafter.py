@@ -9,6 +9,8 @@ import os
 import json
 import tempfile
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Optional, Any, List
 from dataclasses import dataclass

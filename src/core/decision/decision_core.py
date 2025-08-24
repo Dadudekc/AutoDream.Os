@@ -10,6 +10,8 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 import time
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Callable
 

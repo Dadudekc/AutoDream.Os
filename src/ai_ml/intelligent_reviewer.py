@@ -12,6 +12,8 @@ import logging
 import ast
 import re
 import hashlib
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Union, Tuple
 from dataclasses import dataclass, field

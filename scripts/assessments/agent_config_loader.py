@@ -12,6 +12,8 @@ License: MIT
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from .agent_assessment_types import AgentConfiguration
@@ -162,3 +164,4 @@ class AgentConfigurationLoader:
         except Exception as e:
             self.logger.error(f"Error saving agent configurations: {e}")
             return False
+

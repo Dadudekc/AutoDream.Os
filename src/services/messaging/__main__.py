@@ -12,6 +12,8 @@ License: MIT
 """
 
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from .cli_interface import MessagingCLI
 
 

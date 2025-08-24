@@ -11,6 +11,8 @@ License: MIT
 
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Dict, List, Optional

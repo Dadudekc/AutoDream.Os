@@ -13,7 +13,10 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from autonomous_development.core import DevelopmentTask
+# Use type hints with strings to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.autonomous_development.core import DevelopmentTask
 
 
 class AgentCoordinator:
@@ -70,8 +73,8 @@ class AgentCoordinator:
         return random.sample(all_skills, num_skills)
 
     def find_best_task_for_agent(
-        self, agent_id: str, available_tasks: List[DevelopmentTask]
-    ) -> Optional[DevelopmentTask]:
+        self, agent_id: str, available_tasks: List["DevelopmentTask"]
+    ) -> Optional["DevelopmentTask"]:
         """Find the best matching task for an agent based on skills and preferences"""
         if agent_id not in self.agent_skills:
             self.logger.warning(f"Agent {agent_id} not found in skills registry")
@@ -177,7 +180,7 @@ class AgentCoordinator:
         return agents_with_skill
 
     def get_agent_task_compatibility_score(
-        self, agent_id: str, task: DevelopmentTask
+        self, agent_id: str, task: "DevelopmentTask"
     ) -> float:
         """Calculate compatibility score between agent and task (0.0 to 1.0)"""
         if agent_id not in self.agent_skills:
@@ -195,7 +198,7 @@ class AgentCoordinator:
         return skill_match / total_required if total_required > 0 else 0.0
 
     def get_optimal_task_assignment(
-        self, available_tasks: List[DevelopmentTask]
+        self, available_tasks: List["DevelopmentTask"]
     ) -> Dict[str, str]:
         """Get optimal task assignment for all available agents"""
         assignments = {}

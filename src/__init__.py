@@ -21,6 +21,9 @@ __status__ = "ACTIVE - V2 STANDARDS COMPLIANT"
 
 import argparse
 import sys
+
+# Stability improvements are available but not auto-imported to avoid circular imports
+# from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add src to path for imports

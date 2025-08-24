@@ -8,6 +8,8 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 

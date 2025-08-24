@@ -11,6 +11,8 @@ LOC: 190 lines (under 200 limit)
 import json
 import os
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Union
 from pathlib import Path
 import logging

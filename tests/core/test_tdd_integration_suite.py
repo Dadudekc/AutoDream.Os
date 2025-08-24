@@ -16,6 +16,8 @@ TDD Status: RED - Integration tests first, system integration follows
 import pytest
 import asyncio
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from unittest.mock import Mock, patch
 from datetime import datetime, timedelta

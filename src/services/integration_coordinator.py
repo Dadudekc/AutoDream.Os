@@ -7,6 +7,8 @@ import asyncio
 import json
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union, Callable

@@ -13,17 +13,19 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 
 from src.utils.stability_improvements import stability_manager, safe_import
-# from core.task_manager import DevelopmentTaskManager as TaskManager
-# TODO: Fix circular import - use dependency injection instead
-from autonomous_development.core import DevelopmentTask
-from services.messaging import UnifiedMessagingService as RealAgentCommunicationSystem
+# Use type hints with strings to avoid circular imports
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.core.task_manager import DevelopmentTaskManager as TaskManager
+    from src.autonomous_development.core import DevelopmentTask
+    from src.services.messaging import UnifiedMessagingService as RealAgentCommunicationSystem
 
 
 class AutonomousWorkflowManager:
     """Manages autonomous overnight development workflow"""
 
     def __init__(
-        self, comm_system: RealAgentCommunicationSystem, task_manager: TaskManager
+        self, comm_system: "RealAgentCommunicationSystem", task_manager: "TaskManager"
     ):
         self.comm_system = comm_system
         self.task_manager = task_manager
@@ -192,7 +194,7 @@ Start by reviewing the current task list and identifying areas for improvement!"
             cycle_message, "workspace_box"
         )
 
-    def _format_task_list_for_agents(self, tasks: List[DevelopmentTask]) -> str:
+    def _format_task_list_for_agents(self, tasks: List["DevelopmentTask"]) -> str:
         """Format task list for agent review"""
         if not tasks:
             return "No tasks available for claiming."
@@ -222,7 +224,7 @@ Start by reviewing the current task list and identifying areas for improvement!"
         return "\n".join(task_lines)
 
     async def _simulate_autonomous_task_claiming(
-        self, available_tasks: List[DevelopmentTask]
+        self, available_tasks: List["DevelopmentTask"]
     ):
         """Simulate agents autonomously claiming tasks"""
         self.logger.info("🎯 Simulating autonomous task claiming...")
@@ -270,14 +272,14 @@ Good luck with your autonomous development! 🚀"""
             )
 
     def _find_best_task_for_agent(
-        self, agent_id: str, available_tasks: List[DevelopmentTask]
-    ) -> Optional[DevelopmentTask]:
+        self, agent_id: str, available_tasks: List["DevelopmentTask"]
+    ) -> Optional["DevelopmentTask"]:
         """Find the best matching task for an agent based on skills and preferences"""
         # This method will be implemented by the agent coordinator
         # For now, return None to maintain compatibility
         return None
 
-    async def _simulate_work_progress(self, active_tasks: List[DevelopmentTask]):
+    async def _simulate_work_progress(self, active_tasks: List["DevelopmentTask"]):
         """Simulate agents working on claimed tasks"""
         self.logger.info("🚀 Simulating work progress...")
 

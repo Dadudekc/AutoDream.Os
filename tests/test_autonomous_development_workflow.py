@@ -1,0 +1,301 @@
+#!/usr/bin/env python3
+"""
+Tests for Autonomous Development Workflow Module
+===============================================
+
+Tests the workflow management functionality for autonomous development.
+"""
+
+import pytest
+import asyncio
+from unittest.mock import Mock, AsyncMock, patch
+from datetime import datetime
+
+from src.autonomous_development.workflow.manager import AutonomousWorkflowManager
+from autonomous_development.core import DevelopmentTask
+from core.task_manager import DevelopmentTaskManager
+
+
+class TestAutonomousWorkflowManager:
+    """Test cases for AutonomousWorkflowManager"""
+
+    @pytest.fixture
+    def mock_comm_system(self):
+        """Create a mock communication system"""
+        mock_system = Mock()
+        mock_system.send_message_to_all_agents_with_line_breaks = AsyncMock()
+        mock_system.send_message_to_agent_with_line_breaks = AsyncMock()
+        mock_system.send_message_to_agent = AsyncMock()
+        return mock_system
+
+    @pytest.fixture
+    def mock_task_manager(self):
+        """Create a mock task manager"""
+        mock_manager = Mock()
+        mock_manager.workflow_stats = {
+            "overnight_cycles": 0,
+            "autonomous_hours": 0,
+            "total_tasks_completed": 0
+        }
+        mock_manager.get_available_tasks.return_value = []
+        mock_manager.get_task_summary.return_value = {
+            "total_tasks": 0,
+            "available_tasks": 0,
+            "claimed_tasks": 0,
+            "in_progress_tasks": 0,
+            "completed_tasks": 0,
+            "completion_rate": 0.0,
+            "workflow_stats": {
+                "overnight_cycles": 0,
+                "autonomous_hours": 0,
+                "total_tasks_completed": 0
+            }
+        }
+        return mock_manager
+
+    @pytest.fixture
+    def workflow_manager(self, mock_comm_system, mock_task_manager):
+        """Create a workflow manager instance for testing"""
+        return AutonomousWorkflowManager(mock_comm_system, mock_task_manager)
+
+    def test_init(self, workflow_manager):
+        """Test workflow manager initialization"""
+        assert workflow_manager.comm_system is not None
+        assert workflow_manager.task_manager is not None
+        assert workflow_manager.workflow_active is False
+        assert workflow_manager.cycle_duration == 3600
+
+    @pytest.mark.asyncio
+    async def test_broadcast_workflow_start(self, workflow_manager, mock_comm_system):
+        """Test workflow start broadcast"""
+        await workflow_manager._broadcast_workflow_start()
+        
+        # Verify messages were sent
+        assert mock_comm_system.send_message_to_all_agents_with_line_breaks.called
+        assert mock_comm_system.send_message_to_agent_with_line_breaks.called
+
+    @pytest.mark.asyncio
+    async def test_execute_workflow_cycle(self, workflow_manager, mock_task_manager):
+        """Test workflow cycle execution"""
+        # Mock the phase methods
+        workflow_manager._task_review_and_claiming_phase = AsyncMock()
+        workflow_manager._work_execution_phase = AsyncMock()
+        workflow_manager._progress_reporting_phase = AsyncMock()
+        workflow_manager._cycle_summary_phase = AsyncMock()
+
+        await workflow_manager._execute_workflow_cycle()
+
+        # Verify all phases were called
+        workflow_manager._task_review_and_claiming_phase.assert_called_once()
+        workflow_manager._work_execution_phase.assert_called_once()
+        workflow_manager._progress_reporting_phase.assert_called_once()
+        workflow_manager._cycle_summary_phase.assert_called_once()
+
+        # Verify workflow stats were updated
+        assert mock_task_manager.workflow_stats["overnight_cycles"] == 1
+        assert mock_task_manager.workflow_stats["autonomous_hours"] == 1
+
+    @pytest.mark.asyncio
+    async def test_task_review_and_claiming_phase_no_tasks(self, workflow_manager, mock_task_manager):
+        """Test task review phase when no tasks are available"""
+        mock_task_manager.get_available_tasks.return_value = []
+        
+        # Mock the broadcast method
+        workflow_manager._broadcast_no_tasks_available = AsyncMock()
+        
+        await workflow_manager._task_review_and_claiming_phase()
+        
+        # Verify no tasks message was broadcast
+        workflow_manager._broadcast_no_tasks_available.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_task_review_and_claiming_phase_with_tasks(self, workflow_manager, mock_task_manager, mock_comm_system):
+        """Test task review phase when tasks are available"""
+        # Create mock tasks
+        mock_tasks = [
+            Mock(spec=DevelopmentTask, priority=8, complexity="high", estimated_hours=4.0, required_skills=["python"]),
+            Mock(spec=DevelopmentTask, priority=5, complexity="medium", estimated_hours=2.0, required_skills=["git"])
+        ]
+        mock_task_manager.get_available_tasks.return_value = mock_tasks
+        
+        # Mock the simulation method
+        workflow_manager._simulate_autonomous_task_claiming = AsyncMock()
+        
+        await workflow_manager._task_review_and_claiming_phase()
+        
+        # Verify tasks were broadcast
+        assert mock_comm_system.send_message_to_all_agents_with_line_breaks.called
+        workflow_manager._simulate_autonomous_task_claiming.assert_called_once_with(mock_tasks)
+
+    def test_format_task_list_for_agents(self, workflow_manager):
+        """Test task list formatting for agents"""
+        # Create mock tasks
+        mock_tasks = [
+            Mock(spec=DevelopmentTask, 
+                 priority=8, 
+                 complexity="high", 
+                 estimated_hours=4.0, 
+                 required_skills=["python", "testing"],
+                 title="Test Task 1",
+                 description="A test task",
+                 task_id="TASK-001"),
+            Mock(spec=DevelopmentTask, 
+                 priority=5, 
+                 complexity="medium", 
+                 estimated_hours=2.0, 
+                 required_skills=["git"],
+                 title="Test Task 2",
+                 description="Another test task",
+                 task_id="TASK-002")
+        ]
+
+        formatted = workflow_manager._format_task_list_for_agents(mock_tasks)
+        
+        # Verify formatting
+        assert "Test Task 1" in formatted
+        assert "Test Task 2" in formatted
+        assert "Priority: 8" in formatted
+        assert "Priority: 5" in formatted
+        assert "Complexity: High" in formatted
+        assert "Complexity: Medium" in formatted
+
+    def test_format_task_list_for_agents_empty(self, workflow_manager):
+        """Test task list formatting with empty task list"""
+        formatted = workflow_manager._format_task_list_for_agents([])
+        assert formatted == "No tasks available for claiming."
+
+    @pytest.mark.asyncio
+    async def test_work_execution_phase_no_active_tasks(self, workflow_manager, mock_task_manager, mock_comm_system):
+        """Test work execution phase when no active tasks"""
+        mock_task_manager.tasks = {}
+        
+        await workflow_manager._work_execution_phase()
+        
+        # Verify no active tasks message was sent
+        assert mock_comm_system.send_message_to_all_agents_with_line_breaks.called
+
+    @pytest.mark.asyncio
+    async def test_work_execution_phase_with_active_tasks(self, workflow_manager, mock_task_manager):
+        """Test work execution phase with active tasks"""
+        # Create mock active tasks
+        mock_tasks = [
+            Mock(spec=DevelopmentTask, status="claimed", progress_percentage=0.0),
+            Mock(spec=DevelopmentTask, status="in_progress", progress_percentage=50.0)
+        ]
+        mock_task_manager.tasks = {"task1": mock_tasks[0], "task2": mock_tasks[1]}
+        
+        # Mock the simulation method
+        workflow_manager._simulate_work_progress = AsyncMock()
+        
+        await workflow_manager._work_execution_phase()
+        
+        # Verify work progress simulation was called
+        workflow_manager._simulate_work_progress.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_progress_reporting_phase(self, workflow_manager, mock_task_manager, mock_comm_system):
+        """Test progress reporting phase"""
+        await workflow_manager._progress_reporting_phase()
+        
+        # Verify progress summary was sent
+        assert mock_comm_system.send_message_to_all_agents_with_line_breaks.called
+
+    @pytest.mark.asyncio
+    async def test_cycle_summary_phase(self, workflow_manager, mock_task_manager, mock_comm_system):
+        """Test cycle summary phase"""
+        await workflow_manager._cycle_summary_phase()
+        
+        # Verify cycle summary was sent
+        assert mock_comm_system.send_message_to_cycles.called
+
+    def test_format_progress_summary(self, workflow_manager, mock_task_manager):
+        """Test progress summary formatting"""
+        # Create mock active tasks
+        mock_tasks = [
+            Mock(spec=DevelopmentTask, 
+                 status="claimed", 
+                 title="Task 1", 
+                 claimed_by="Agent-2", 
+                 progress_percentage=0.0, 
+                 blockers=[]),
+            Mock(spec=DevelopmentTask, 
+                 status="in_progress", 
+                 title="Task 2", 
+                 claimed_by="Agent-3", 
+                 progress_percentage=75.0, 
+                 blockers=["Waiting for review"])
+        ]
+        mock_task_manager.tasks = {"task1": mock_tasks[0], "task2": mock_tasks[1]}
+
+        formatted = workflow_manager._format_progress_summary()
+        
+        # Verify formatting
+        assert "Task 1" in formatted
+        assert "Task 2" in formatted
+        assert "Agent: Agent-2" in formatted
+        assert "Agent: Agent-3" in formatted
+        assert "Progress: 0.0%" in formatted
+        assert "Progress: 75.0%" in formatted
+
+    def test_format_progress_summary_no_active_tasks(self, workflow_manager, mock_task_manager):
+        """Test progress summary formatting with no active tasks"""
+        mock_task_manager.tasks = {}
+        
+        formatted = workflow_manager._format_progress_summary()
+        assert formatted == "No active tasks to report progress on."
+
+    @pytest.mark.asyncio
+    async def test_broadcast_no_tasks_available(self, workflow_manager, mock_comm_system):
+        """Test broadcasting when no tasks are available"""
+        await workflow_manager._broadcast_no_tasks_available()
+        
+        # Verify no tasks message was sent
+        assert mock_comm_system.send_message_to_all_agents_with_line_breaks.called
+
+    @pytest.mark.asyncio
+    async def test_stop_overnight_workflow(self, workflow_manager, mock_comm_system):
+        """Test stopping the overnight workflow"""
+        workflow_manager.workflow_active = True
+        
+        await workflow_manager.stop_overnight_workflow()
+        
+        # Verify workflow was stopped
+        assert workflow_manager.workflow_active is False
+        
+        # Verify final message was sent
+        assert mock_comm_system.send_message_to_all_agents_with_line_breaks.called
+
+    @pytest.mark.asyncio
+    async def test_start_overnight_workflow_success(self, workflow_manager):
+        """Test successful workflow start"""
+        # Mock the workflow cycle to run once then stop
+        original_cycle = workflow_manager._execute_workflow_cycle
+        workflow_manager._execute_workflow_cycle = AsyncMock()
+        workflow_manager.cycle_duration = 0.1  # Very short for testing
+        
+        # Start workflow
+        workflow_manager.workflow_active = True
+        result = await workflow_manager.start_overnight_workflow()
+        
+        # Verify workflow started successfully
+        assert result is True
+        assert workflow_manager._execute_workflow_cycle.called
+
+    @pytest.mark.asyncio
+    async def test_start_overnight_workflow_error(self, workflow_manager):
+        """Test workflow start with error handling"""
+        # Mock the workflow cycle to raise an exception
+        workflow_manager._execute_workflow_cycle = AsyncMock(side_effect=Exception("Test error"))
+        workflow_manager.cycle_duration = 0.1  # Very short for testing
+        
+        # Start workflow
+        workflow_manager.workflow_active = True
+        result = await workflow_manager.start_overnight_workflow()
+        
+        # Verify workflow failed gracefully
+        assert result is False
+        assert workflow_manager.workflow_active is False
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

@@ -2,6 +2,8 @@
 """Smoke test verifying direct PyAutoGUI delivery when available."""
 
 import sys
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 import types
 

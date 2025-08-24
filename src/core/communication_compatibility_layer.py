@@ -13,6 +13,8 @@ from enum import Enum
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 
 from .v2_comprehensive_messaging_system import (

@@ -7,6 +7,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 """
 
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import List, Dict, Any
 from .dashboard_types import DashboardWidget, ChartType
 
@@ -160,4 +162,5 @@ class WidgetFactory:
             
         except Exception:
             return False
+
 

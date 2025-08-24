@@ -13,6 +13,8 @@ import asyncio
 import logging
 import time
 import uuid
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Optional, Any, Set
 from concurrent.futures import ThreadPoolExecutor, as_completed

@@ -6,8 +6,13 @@ Handles actual message delivery using PyAutoGUI or simulation
 
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional
 from datetime import datetime
+
+# Set up logger first
+logger = logging.getLogger(__name__)
 
 # Import PyAutoGUI for actual message delivery
 try:
@@ -21,12 +26,15 @@ except ImportError:
 
 # Optional clipboard library for paste-based delivery
 try:
-    import pyperclip  # type: ignore
+    import pyperclip
     PYPERCLIP_AVAILABLE = True
-except Exception:
+    logger.info("✅ PyPerclip available for clipboard operations")
+except ImportError:
     PYPERCLIP_AVAILABLE = False
-
-logger = logging.getLogger(__name__)
+    logger.info("ℹ️ PyPerclip not available - clipboard operations disabled")
+except Exception as e:
+    PYPERCLIP_AVAILABLE = False
+    logger.warning(f"⚠️ PyPerclip import error: {e} - clipboard operations disabled")
 
 
 class MessageDeliveryCore:

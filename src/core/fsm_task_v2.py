@@ -8,6 +8,8 @@ Max 200 LOC, OOP design, SRP.
 """
 
 import json
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from dataclasses import dataclass, asdict
 from enum import Enum

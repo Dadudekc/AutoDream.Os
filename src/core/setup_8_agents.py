@@ -9,6 +9,8 @@ from src.services.testing import (
 )
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def setup_8_agents():
     """Set up and test all 8 agents with proper configuration."""

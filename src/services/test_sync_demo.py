@@ -2,6 +2,8 @@
 import json
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 print("🧪 TEST_SYNC Demo for Enhanced 8-Agent Messaging System")
 print("=" * 60)
 print()

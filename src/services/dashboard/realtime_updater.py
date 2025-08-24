@@ -9,6 +9,8 @@ Follows V2 coding standards: ≤200 LOC, OOP design, SRP
 import json
 import logging
 import asyncio
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List, Callable, Optional
 
 
@@ -182,5 +184,6 @@ class RealTimeUpdater:
         except Exception as e:
             self.logger.error(f"Health check failed: {e}")
             return False
+
 
 

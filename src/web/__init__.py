@@ -17,6 +17,8 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 # Web component imports
 try:
     from .health_monitor_web import HealthMonitorWeb

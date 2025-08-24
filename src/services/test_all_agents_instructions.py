@@ -6,6 +6,8 @@ Test script to send instructions to ALL 8 agents on how to reply back
 from v1_v2_message_queue_system import V1V2MessageQueueSystem
 import time
 
+from src.utils.stability_improvements import stability_manager, safe_import
+
 
 def test_all_agents_instructions():
     print("🚀 Testing message instructions to ALL 8 agents...")

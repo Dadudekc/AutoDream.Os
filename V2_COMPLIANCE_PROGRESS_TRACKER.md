@@ -169,12 +169,12 @@
 - **Completion Date**: 2025-08-24
 - **Summary**: Refactored from 722 to 55 lines by extracting manager, AI processor, coordinator, and config modules. New orchestrator coordinates components and maintains functionality.
 
-### MODERATE-005: Frontend Router Modularization ✅
-- **File**: `src/web/frontend/frontend_router.py`
+### MODERATE-011: Health Monitoring Core Split ✅
+- **File**: `src/core/health/monitoring/core.py`
 - **Status**: Completed
 - **Assigned To**: Victor Dixon
 - **Completion Date**: 2025-08-24
-- **Summary**: Refactored from 693 to 31 lines by extracting core, middleware, handler, and config modules. Router now orchestrates these components and tests confirm routing functionality.
+- **Summary**: Split monolithic core into dedicated core, metrics, alerts, and config modules. New orchestrator imports these components to coordinate health monitoring.
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 

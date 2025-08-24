@@ -36,7 +36,7 @@ def test_package_imports():
         logger.info("✅ Main health package imported successfully")
         
         # Test importing specific modules
-        from .monitoring_new.core import AgentHealthCoreMonitor, HealthStatus, HealthMetricType
+        from .monitoring.core import AgentHealthCoreMonitor, HealthStatus, HealthMetricType
         logger.info("✅ Core module imported successfully")
         
         from .metrics import HealthMetricsCollector, MetricSource
@@ -71,7 +71,7 @@ def test_core_module():
     try:
         logger.info("Testing core monitoring module...")
         
-        from .monitoring_new.core import AgentHealthCoreMonitor, HealthStatus, HealthMetricType
+        from .monitoring.core import AgentHealthCoreMonitor, HealthStatus, HealthMetricType
         
         # Test initialization
         monitor = AgentHealthCoreMonitor()

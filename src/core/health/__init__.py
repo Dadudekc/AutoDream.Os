@@ -5,7 +5,7 @@ This package contains modules for comprehensive agent health monitoring,
 including core monitoring, metrics collection, alerting, and reporting.
 """
 
-from .monitoring_new.core import (
+from .monitoring.core import (
     AgentHealthCoreMonitor,
     HealthStatus,
     HealthMetricType,

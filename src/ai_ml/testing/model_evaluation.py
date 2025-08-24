@@ -1,11 +1,18 @@
-import logging
 import subprocess
 import sys
+import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, Optional, Any
 
 logger = logging.getLogger(__name__)
+
+try:
+    import coverage  # type: ignore
+    COVERAGE_AVAILABLE = True
+except ImportError:  # pragma: no cover - optional dependency
+    COVERAGE_AVAILABLE = False
+    logger.warning("coverage package not available")
 
 
 class ModelEvaluator:
@@ -34,6 +41,57 @@ class ModelEvaluator:
         }
         output.update(self._parse_pytest_output(result.stdout))
         return output
+
+    def run_coverage_analysis(self, source_dir: str = "src") -> Dict[str, Any]:
+        """Run coverage analysis for the test suite."""
+        if not COVERAGE_AVAILABLE:
+            logger.error("coverage package not available")
+            return {"error": "coverage package not available"}
+
+        cmd = [
+            sys.executable,
+            "-m",
+            "coverage",
+            "run",
+            "--source",
+            source_dir,
+            "-m",
+            "pytest",
+            str(self.test_dir),
+        ]
+        logger.info("Running coverage analysis: %s", " ".join(cmd))
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, cwd=self.project_path
+        )
+
+        report_cmd = [sys.executable, "-m", "coverage", "report"]
+        report_result = subprocess.run(
+            report_cmd, capture_output=True, text=True, cwd=self.project_path
+        )
+
+        html_cmd = [sys.executable, "-m", "coverage", "html"]
+        html_result = subprocess.run(
+            html_cmd, capture_output=True, text=True, cwd=self.project_path
+        )
+
+        return {
+            "coverage_run": {
+                "return_code": result.returncode,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+            },
+            "coverage_report": {
+                "return_code": report_result.returncode,
+                "stdout": report_result.stdout,
+                "stderr": report_result.stderr,
+            },
+            "html_report": {
+                "return_code": html_result.returncode,
+                "stdout": html_result.stdout,
+                "stderr": html_result.stderr,
+            },
+            "timestamp": datetime.now().isoformat(),
+        }
 
     def _parse_pytest_output(self, output: str) -> Dict[str, int]:
         """Parse pytest output to extract statistics."""

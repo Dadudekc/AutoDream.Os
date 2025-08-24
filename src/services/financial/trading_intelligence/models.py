@@ -1,8 +1,8 @@
 import logging
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Optional
+from typing import Optional, List
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +38,37 @@ class SignalStrength(Enum):
     VERY_STRONG = "VERY_STRONG"
 
 
+class VolatilityRegime(Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    EXTREME = "EXTREME"
+
+
+class TrendDirection(Enum):
+    BULLISH = "BULLISH"
+    BEARISH = "BEARISH"
+    SIDEWAYS = "SIDEWAYS"
+
+
+class MarketSentiment(Enum):
+    OPTIMISTIC = "OPTIMISTIC"
+    NEUTRAL = "NEUTRAL"
+    PESSIMISTIC = "PESSIMISTIC"
+
+
+class LiquidityCondition(Enum):
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+    LOW = "LOW"
+
+
+class CorrelationRegime(Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+
+
 @dataclass
 class TradingSignal:
     """Trading signal data"""
@@ -51,12 +82,10 @@ class TradingSignal:
     stop_loss: float
     strategy: StrategyType
     reasoning: str
-    timestamp: datetime
+    timestamp: datetime = field(default_factory=datetime.now)
     expiration: Optional[datetime] = None
 
     def __post_init__(self):
-        if self.timestamp is None:
-            self.timestamp = datetime.now()
         if self.expiration is None:
             self.expiration = self.timestamp + timedelta(hours=24)
 
@@ -73,24 +102,17 @@ class StrategyPerformance:
     max_drawdown: float
     sharpe_ratio: float
     total_pnl: float
-    last_updated: Optional[datetime] = None
-
-    def __post_init__(self):
-        if self.last_updated is None:
-            self.last_updated = datetime.now()
+    returns: List[float] = field(default_factory=list)
+    last_updated: datetime = field(default_factory=datetime.now)
 
 
 @dataclass
 class MarketCondition:
     """Market condition analysis"""
 
-    volatility_regime: str  # LOW, MEDIUM, HIGH, EXTREME
-    trend_direction: str  # BULLISH, BEARISH, SIDEWAYS
-    market_sentiment: str  # OPTIMISTIC, NEUTRAL, PESSIMISTIC
-    liquidity_condition: str  # HIGH, MEDIUM, LOW
-    correlation_regime: str  # LOW, MEDIUM, HIGH
-    timestamp: Optional[datetime] = None
-
-    def __post_init__(self):
-        if self.timestamp is None:
-            self.timestamp = datetime.now()
+    volatility_regime: VolatilityRegime
+    trend_direction: TrendDirection
+    market_sentiment: MarketSentiment
+    liquidity_condition: LiquidityCondition
+    correlation_regime: CorrelationRegime
+    timestamp: datetime = field(default_factory=datetime.now)

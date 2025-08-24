@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 from .data_management import PerformanceDataManager
-from .tracking_logic import PerformanceReport, PerformanceSnapshot
+from .models import PerformanceReport, PerformanceSnapshot
 
 logger = logging.getLogger(__name__)
 

@@ -13,34 +13,46 @@ Modules:
 Follows V2 coding standards: Clean OOP design, SRP compliance, TDD approach.
 """
 
-from .algorithms import (
-    PortfolioOptimizationAlgorithms,
-    OptimizationMethod,
-    OptimizationConstraint,
-    OptimizationResult
-)
+try:  # Optional heavy dependencies
+    from .algorithms import (
+        PortfolioOptimizationAlgorithms,
+        OptimizationMethod,
+        OptimizationConstraint,
+        OptimizationResult,
+    )
+except Exception:  # pragma: no cover - optional dependency
+    PortfolioOptimizationAlgorithms = None
+    OptimizationMethod = OptimizationConstraint = OptimizationResult = None
 
-from .risk_models import (
-    PortfolioRiskModels,
-    RiskModelType,
-    RiskMetrics,
-    StressTestScenario
-)
+try:
+    from .risk_models import (
+        PortfolioRiskModels,
+        RiskModelType,
+        RiskMetrics,
+        StressTestScenario,
+    )
+except Exception:  # pragma: no cover - optional dependency
+    PortfolioRiskModels = None
+    RiskModelType = RiskMetrics = StressTestScenario = None
 
-from .rebalancing import (
-    PortfolioRebalancing,
-    RebalancingFrequency,
-    RebalancingTrigger,
-    RebalancingSignal,
-    RebalancingPlan
-)
+try:
+    from .rebalancing import (
+        PortfolioRebalancing,
+        RebalancingFrequency,
+        RebalancingTrigger,
+        RebalancingSignal,
+        RebalancingPlan,
+    )
+except Exception:  # pragma: no cover - optional dependency
+    PortfolioRebalancing = None
+    RebalancingFrequency = RebalancingTrigger = RebalancingSignal = RebalancingPlan = None
 
-from .tracking import (
-    PortfolioPerformanceTracker,
+from .tracking import PortfolioPerformanceTracker
+from .models import (
     PerformanceMetric,
     PortfolioAllocation,
     PerformanceSnapshot,
-    PerformanceReport
+    PerformanceReport,
 )
 
 __all__ = [

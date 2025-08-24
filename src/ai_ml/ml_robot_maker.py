@@ -15,6 +15,7 @@ from .utils import config_loader, logger_setup, performance_monitor
 from .ml_robot_config import MLTask, MLModelBlueprint, MLExperiment
 from .ml_robot_creator import MLRobotCreator
 from .ml_robot_processor import MLRobotProcessor
+from .ml_robot_validator import validate_blueprint_config
 
 
 class MLRobotMaker:
@@ -32,6 +33,7 @@ class MLRobotMaker:
         self.creator = MLRobotCreator(self.config, self.framework_manager)
         self.processor = MLRobotProcessor(self.framework_manager, self.model_manager)
         self.performance_monitor = performance_monitor
+        self.validator = validate_blueprint_config
 
     # Task and blueprint operations -------------------------------------------------
     def create_task(
@@ -47,7 +49,10 @@ class MLRobotMaker:
         )
 
     def generate_model_blueprint(self, task: MLTask) -> MLModelBlueprint:
-        return self.creator.generate_model_blueprint(task)
+        blueprint = self.creator.generate_model_blueprint(task)
+        # Validate blueprint against supported frameworks
+        self.validator(blueprint.to_dict(), self.framework_manager.list_frameworks())
+        return blueprint
 
     # Experiment operations --------------------------------------------------------
     def execute_experiment(self, task: MLTask, blueprint: MLModelBlueprint) -> MLExperiment:

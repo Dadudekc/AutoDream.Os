@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from core.performance_tracker import PerformanceTracker, MetricType
+from core.performance_monitor import PerformanceMonitor, MetricType
 from core.api_gateway import APIGateway
 from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from core.health_monitor_core import HealthMonitorCore
@@ -73,7 +73,7 @@ class CrossSystemIntegrationCoordinator:
         logger.info("🔗 Initializing Cross-System Integration Coordinator...")
 
         # Initialize core systems
-        self.performance_tracker = PerformanceTracker()
+        self.performance_tracker = PerformanceMonitor()
         self.api_gateway = APIGateway()
         self.messaging_system = V2ComprehensiveMessagingSystem()
         self.health_monitor = HealthMonitorCore()

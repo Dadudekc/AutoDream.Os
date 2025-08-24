@@ -16,8 +16,7 @@ from datetime import datetime
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from core.performance_tracker import PerformanceTracker, MetricType
-from core.performance_profiler import PerformanceProfiler
+from core.performance_monitor import PerformanceMonitor, MetricType
 from core.performance_dashboard import PerformanceDashboard
 from core.api_gateway import APIGateway
 from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
@@ -32,8 +31,8 @@ class PerformanceInfrastructureDemo:
         print("🚀 Initializing Performance Infrastructure Demo...")
 
         # Initialize core systems
-        self.performance_tracker = PerformanceTracker()
-        self.performance_profiler = PerformanceProfiler()
+        self.performance_tracker = PerformanceMonitor()
+        self.performance_profiler = PerformanceMonitor()
         self.performance_dashboard = PerformanceDashboard()
         self.api_gateway = APIGateway()
         self.messaging_system = V2ComprehensiveMessagingSystem()

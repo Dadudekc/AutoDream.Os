@@ -19,7 +19,7 @@ import sys
 
 # Core component imports
 try:
-    from .performance_tracker import PerformanceTracker
+    from .performance_monitor import PerformanceMonitor
     from .health_score_calculator import HealthScoreCalculator
 
     # Decision system components
@@ -30,7 +30,7 @@ try:
     from .fsm_discord_bridge import FSMDiscordBridge
 
     __all__ = [
-        "PerformanceTracker",
+        "PerformanceMonitor",
         "HealthScoreCalculator",
         "AutonomousDecisionEngine",
         "LearningEngine",
@@ -103,9 +103,9 @@ Examples:
         print("🚀 Starting core module demo...")
         try:
             # Create instances and demonstrate functionality
-            if "PerformanceTracker" in __all__:
-                tracker = PerformanceTracker()
-                print("✅ PerformanceTracker created")
+            if "PerformanceMonitor" in __all__:
+                tracker = PerformanceMonitor()
+                print("✅ PerformanceMonitor created")
 
             if "HealthScoreCalculator" in __all__:
                 calculator = HealthScoreCalculator()

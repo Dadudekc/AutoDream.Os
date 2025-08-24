@@ -22,7 +22,7 @@ from typing import Dict, Any
 from src.core.connection_pool_manager import ConnectionPoolManager, ConnectionPool
 from src.core.health_monitor import HealthMonitor
 from src.core.error_handler import ErrorHandler, CircuitBreaker, RetryStrategy
-from src.core.performance_profiler import PerformanceProfiler
+from src.core.performance_monitor import PerformanceMonitor
 
 # Configure logging
 logging.basicConfig(
@@ -307,7 +307,7 @@ def test_performance_profiling():
     print("=" * 50)
 
     # Create performance profiler
-    profiler = PerformanceProfiler(
+    profiler = PerformanceMonitor(
         history_size=500,
         alert_threshold=800.0,  # 800ms
         bottleneck_threshold=400.0,  # 400ms
@@ -406,7 +406,7 @@ def test_integration():
     pool_manager = ConnectionPoolManager()
     health_monitor = HealthMonitor()
     error_handler = ErrorHandler()
-    profiler = PerformanceProfiler()
+    profiler = PerformanceMonitor()
 
     # Start all systems
     health_monitor.start_monitoring()

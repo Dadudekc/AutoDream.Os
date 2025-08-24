@@ -333,9 +333,9 @@ class PerformanceDashboard:
             if self.performance_tracker:
                 # Get latest system metrics from profiler if available
                 try:
-                    from .performance_profiler import PerformanceProfiler
+                    from .performance_monitor import PerformanceMonitor
 
-                    profiler = PerformanceProfiler()
+                    profiler = PerformanceMonitor()
                     self.system_metrics.update(profiler.get_system_metrics())
                 except ImportError:
                     # Fallback to basic system metrics

@@ -15,8 +15,7 @@ import os
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from core.performance_tracker import PerformanceTracker
-from core.performance_profiler import PerformanceProfiler
+from core.performance_monitor import PerformanceMonitor, MetricType
 from core.performance_dashboard import PerformanceDashboard
 from core.api_gateway import APIGateway
 from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
@@ -29,8 +28,8 @@ class TestServiceComponentsSmoke:
     @pytest.mark.service
     @pytest.mark.smoke
     def test_performance_tracker_initialization(self):
-        """Test that PerformanceTracker initializes correctly."""
-        tracker = PerformanceTracker()
+        """Test that PerformanceMonitor initializes correctly."""
+        tracker = PerformanceMonitor()
         assert tracker is not None
         assert hasattr(tracker, "record_metric")
         assert hasattr(tracker, "get_agent_performance_summary")
@@ -38,8 +37,8 @@ class TestServiceComponentsSmoke:
     @pytest.mark.service
     @pytest.mark.smoke
     def test_performance_profiler_initialization(self):
-        """Test that PerformanceProfiler initializes correctly."""
-        profiler = PerformanceProfiler()
+        """Test that PerformanceMonitor initializes correctly."""
+        profiler = PerformanceMonitor()
         assert profiler is not None
         assert hasattr(profiler, "profile_function")
         assert hasattr(profiler, "profile")
@@ -89,16 +88,14 @@ class TestServiceIntegrationSmoke:
     @pytest.mark.smoke
     def test_performance_tracking_integration(self):
         """Test basic performance tracking integration."""
-        tracker = PerformanceTracker()
-        profiler = PerformanceProfiler()
+        tracker = PerformanceMonitor()
+        profiler = PerformanceMonitor()
 
         # Test that they can work together
         assert tracker is not None
         assert profiler is not None
 
         # Basic functionality test
-        from core.performance_tracker import MetricType
-
         tracker.record_metric(MetricType.RESPONSE_TIME, 0.5, agent_id="test_agent")
         summary = tracker.get_agent_performance_summary("test_agent")
         assert "response_time" in summary
@@ -149,8 +146,8 @@ class TestServiceHealthSmoke:
     def test_all_services_healthy(self):
         """Test that all core services are healthy."""
         services = [
-            PerformanceTracker(),
-            PerformanceProfiler(),
+            PerformanceMonitor(),
+            PerformanceMonitor(),
             PerformanceDashboard(),
             APIGateway(),
             AgentCommunicationProtocol(),
@@ -166,13 +163,13 @@ class TestServiceHealthSmoke:
     @pytest.mark.smoke
     def test_service_methods_accessible(self):
         """Test that all service methods are accessible."""
-        tracker = PerformanceTracker()
+        tracker = PerformanceMonitor()
 
         # Test method accessibility
         assert callable(tracker.record_metric)
         assert callable(tracker.get_agent_performance_summary)
 
-        profiler = PerformanceProfiler()
+        profiler = PerformanceMonitor()
         assert callable(profiler.profile_function)
         assert callable(profiler.profile)
 

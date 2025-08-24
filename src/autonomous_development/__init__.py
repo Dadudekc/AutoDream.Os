@@ -14,7 +14,9 @@ Extracted from src/core/autonomous_development.py to follow SRP.
 from .workflow.engine import WorkflowEngine
 from .tasks.manager import TaskManager, Task, TaskStatus, TaskPriority
 from .code.generator import CodeGenerator, CodeImprovement, CursorAgentPrompt
-from .testing.orchestrator import TestingOrchestrator, TestResult, TestSuite
+# Lightweight testing orchestrator components
+from .testing.orchestrator import TestingOrchestrator
+from .testing.result_collation import TestResult, TestSummary
 
 __all__ = [
     # Workflow management
@@ -34,5 +36,5 @@ __all__ = [
     # Testing orchestration
     'TestingOrchestrator',
     'TestResult',
-    'TestSuite'
+    'TestSummary'
 ]

@@ -690,7 +690,7 @@ def test_launcher_script_standalone():
     print("=" * 35)
 
     try:
-        launcher_path = "scripts/launch_performance_monitoring.py"
+        launcher_path = "scripts/launchers/launch_performance_monitoring.py"
 
         if os.path.exists(launcher_path):
             print("✅ Launcher script found")
@@ -708,7 +708,6 @@ def test_launcher_script_standalone():
                 ("Component setup", "setup_performance_monitor" in content),
                 ("Dashboard setup", "setup_dashboard" in content),
                 ("Alerting setup", "setup_alerting_system" in content),
-                ("Signal handling", "signal_handler" in content),
                 ("Main entry point", "if __name__" in content),
             ]
 

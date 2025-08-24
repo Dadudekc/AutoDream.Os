@@ -1,27 +1,24 @@
 """
-Advanced Messaging System - Agent Cellphone V2
-==============================================
+Messaging Module - Extracted from v2_comprehensive_messaging_system.py
 
-Enterprise-grade messaging system with advanced features:
-- Persistent message queues with priority-based routing
-- Message pipeline processing with multi-stage workflows
-- Response collection and validation with automated quality checks
-- Message history and analytics with persistent storage
-- Advanced routing with pattern matching and filtering
+This module contains the extracted messaging functionality organized into focused components:
+- router: Message routing logic
+- validator: Message validation
+- formatter: Message formatting
+- storage: Message persistence
 
-This module integrates advanced messaging capabilities from the SWARM system
-to provide a unified, scalable messaging infrastructure.
+Original file: src/core/v2_comprehensive_messaging_system.py
+Extraction date: 2024-12-19
 """
 
-from ..v2_comprehensive_messaging_system import V2MessageQueue, V2Message, V2MessagePriority, V2MessageType, V2MessageStatus
-
-__version__ = "2.0.0"
-__author__ = "Agent Cellphone V2 Team"
+from .router import V2MessageRouter
+from .validator import V2MessageValidator
+from .formatter import V2MessageFormatter
+from .storage import V2MessageStorage
 
 __all__ = [
-    "V2MessageQueue",
-    "V2Message",
-    "V2MessagePriority",
-    "V2MessageType",
-    "V2MessageStatus",
+    'V2MessageRouter',
+    'V2MessageValidator', 
+    'V2MessageFormatter',
+    'V2MessageStorage'
 ]

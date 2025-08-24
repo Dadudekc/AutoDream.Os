@@ -1,19 +1,12 @@
-#!/usr/bin/env python3
 """
-Autonomous Development Agents - Agent Cellphone V2
-================================================
+Autonomous Development Agents Module
+===================================
 
-Agent coordination and workflow systems.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
-
-Author: V2 SWARM CAPTAIN
-License: MIT
+This module handles agent coordination and management for autonomous development.
 """
 
-from .agent_coordinator import AgentCoordinator
-from .agent_workflow import AgentWorkflow
+from .coordinator import AgentCoordinator
 
-__all__ = [
-    'AgentCoordinator',
-    'AgentWorkflow'
-]
+__all__ = ["AgentCoordinator"]
+__version__ = "1.0.0"
+__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"

@@ -1,19 +1,12 @@
-#!/usr/bin/env python3
 """
-Autonomous Development Tasks - Agent Cellphone V2
-===============================================
+Autonomous Development Tasks Module
+==================================
 
-Task management and registry systems.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
-
-Author: V2 SWARM CAPTAIN
-License: MIT
+This module handles task management and execution for autonomous development.
 """
 
-from core.task_manager import DevelopmentTaskManager as TaskManager
-from .task_registry import TaskRegistry
+from .handler import TaskHandler
 
-__all__ = [
-    'TaskManager',
-    'TaskRegistry'
-]
+__all__ = ["TaskHandler"]
+__version__ = "1.0.0"
+__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"

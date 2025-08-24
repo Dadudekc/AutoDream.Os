@@ -9,6 +9,8 @@ Provides advanced portfolio optimization, rebalancing, and risk-adjusted returns
 import asyncio
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict

@@ -12,6 +12,8 @@ License: MIT
 
 import json
 import logging
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional
 from pathlib import Path
 from ..core.models import DevelopmentTask

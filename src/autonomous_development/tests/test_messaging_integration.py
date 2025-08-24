@@ -13,6 +13,8 @@ License: MIT
 import unittest
 import json
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
 from unittest.mock import Mock, patch, MagicMock
 from ..communication.development_communication import DevelopmentCommunication
@@ -312,3 +314,4 @@ class TestMessagingIntegration(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

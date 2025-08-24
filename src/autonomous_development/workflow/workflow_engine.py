@@ -12,6 +12,8 @@ License: MIT
 
 import logging
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Callable
 from datetime import datetime, timedelta
 from ..core.enums import WorkflowState, TaskStatus, TaskPriority

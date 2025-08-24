@@ -16,6 +16,8 @@ import json
 import logging
 import threading
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, Optional, Protocol, Any

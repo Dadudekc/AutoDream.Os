@@ -1,0 +1,96 @@
+"""
+Agent Health Monitoring Package
+
+This package contains modules for comprehensive agent health monitoring,
+including core monitoring, metrics collection, alerting, and reporting.
+
+Modules:
+- core: Core health monitoring orchestration and coordination
+- metrics: Health metrics collection and processing
+- alerting: Health alerting and notification management
+- reporting: Health reporting and analytics generation
+
+Follows V2 coding standards: Clean OOP design, SRP compliance, TDD approach.
+"""
+
+from .monitoring_new.core import (
+    AgentHealthCoreMonitor,
+    HealthStatus,
+    HealthMetricType,
+    HealthMetric,
+    HealthSnapshot,
+    HealthAlert,
+    HealthThreshold
+)
+
+from .metrics import (
+    HealthMetricsCollector,
+    MetricSource,
+    MetricCollectionMethod,
+    MetricCollectionConfig,
+    CollectedMetric,
+    MetricCollectionResult
+)
+
+from .alerting import (
+    HealthAlertingManager,
+    AlertSeverity,
+    AlertStatus,
+    NotificationChannel,
+    EscalationLevel,
+    AlertRule,
+    NotificationConfig,
+    EscalationPolicy
+)
+
+from .reporting import (
+    HealthReportingGenerator,
+    ReportType,
+    ReportFormat,
+    ChartType,
+    ReportConfig,
+    HealthReport,
+    ChartData
+)
+
+__all__ = [
+    # Core Monitoring
+    "AgentHealthCoreMonitor",
+    "HealthStatus",
+    "HealthMetricType",
+    "HealthMetric",
+    "HealthSnapshot",
+    "HealthAlert",
+    "HealthThreshold",
+
+    # Metrics Collection
+    "HealthMetricsCollector",
+    "MetricSource",
+    "MetricCollectionMethod",
+    "MetricCollectionConfig",
+    "CollectedMetric",
+    "MetricCollectionResult",
+
+    # Alerting
+    "HealthAlertingManager",
+    "AlertSeverity",
+    "AlertStatus",
+    "NotificationChannel",
+    "EscalationLevel",
+    "AlertRule",
+    "NotificationConfig",
+    "EscalationPolicy",
+
+    # Reporting
+    "HealthReportingGenerator",
+    "ReportType",
+    "ReportFormat",
+    "ChartType",
+    "ReportConfig",
+    "HealthReport",
+    "ChartData"
+]
+
+__version__ = "1.0.0"
+__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"
+__description__ = "Comprehensive agent health monitoring system"

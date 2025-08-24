@@ -14,6 +14,8 @@ import unittest
 import sys
 import os
 import time
+
+from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 
 # Add the project root to the Python path
@@ -249,3 +251,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

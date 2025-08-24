@@ -1,6 +1,11 @@
-"""Orchestrator facade for the persistent storage subsystem."""
+"""Orchestrator facade for the persistent storage subsystem.
 
-from pathlib import Path
+This module exposes a simplified façade while importing and re-exporting the
+internal components that handle configuration, persistence, management and
+validation. It keeps the public API stable for legacy callers while enabling a
+more modular architecture under the hood.
+"""
+
 from typing import Any, Dict
 
 from .persistent_storage_config import (
@@ -9,6 +14,8 @@ from .persistent_storage_config import (
     StoragePaths,
 )
 from .persistent_storage_manager import PersistentStorageManager
+from .persistent_storage_persistence import PersistentStoragePersistence
+from .persistent_storage_validator import PersistentStorageValidator
 
 
 class PersistentDataStorage:
@@ -41,4 +48,12 @@ class PersistentDataStorage:
         return self.manager.status()
 
 
-__all__ = ["PersistentDataStorage", "StorageType", "DataIntegrityLevel"]
+__all__ = [
+    "PersistentDataStorage",
+    "PersistentStorageManager",
+    "PersistentStoragePersistence",
+    "PersistentStorageValidator",
+    "StoragePaths",
+    "StorageType",
+    "DataIntegrityLevel",
+]

@@ -21,6 +21,13 @@ from contextlib import contextmanager
 from functools import wraps
 import json
 
+# ``PerformanceLevel`` is defined in ``performance_models`` and is used by a
+# number of tests.  The original module forgot to re-export it which resulted in
+# ``ImportError`` when tests tried ``from performance_profiler import
+# PerformanceLevel``.  Importing it here keeps the public API stable while
+# avoiding a heavy dependency chain.
+from .performance_models import PerformanceLevel
+
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -48,6 +55,10 @@ class ProfilerSnapshot:
     network_metrics: Dict[str, float] = field(default_factory=dict)
     custom_metrics: Dict[str, float] = field(default_factory=dict)
 
+
+# Backwards compatibility aliases expected by some tests
+PerformanceMetric = ProfilerMetric
+PerformanceSnapshot = ProfilerSnapshot
 
 class PerformanceProfiler:
     """

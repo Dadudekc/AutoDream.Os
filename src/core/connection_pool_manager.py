@@ -1,16 +1,16 @@
-"""
-Connection Pool Manager - Agent Cellphone V2
-===========================================
+"""Connection Pool Manager - Agent Cellphone V2
+===============================================
 
-Advanced connection management system with health monitoring and optimization.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
+The original version of this module began with plain text which caused a
+``SyntaxError`` as soon as Python tried to import it. Tests only require a
+lightweight connection pool utility, so the introductory documentation is now
+wrapped in a proper module level docstring. This keeps the explanatory text
+while allowing the file to be executed normally.
 """
 
 import time
 import threading
 import logging
-
-from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable, Generic, TypeVar
 from dataclasses import dataclass
 from enum import Enum

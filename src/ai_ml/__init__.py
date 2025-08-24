@@ -66,8 +66,8 @@ from .integrations import OpenAIIntegration, AnthropicIntegration, PyTorchIntegr
 # Utilities and helpers (existing implementations)
 from .utils import config_loader, logger_setup, performance_monitor
 
-# Testing and validation (existing implementations)
-from .testing import AITestRunner, ModelValidator, QualityAssurance
+# Testing and validation
+from .testing import DatasetPreparer, ModelEvaluator, TestReporter, CleanupManager
 
 # API key management (existing implementation)
 from .api_key_manager import (
@@ -118,9 +118,10 @@ __all__ = [
     "logger_setup",
     "performance_monitor",
     # Testing
-    "AITestRunner",
-    "ModelValidator",
-    "QualityAssurance",
+    "DatasetPreparer",
+    "ModelEvaluator",
+    "TestReporter",
+    "CleanupManager",
     # API key management
     "APIKeyManager",
     "get_api_key_manager",

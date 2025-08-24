@@ -425,3 +425,4 @@ class OptionsMarketDataManager:
         except Exception as e:
             self.logger.error(f"Error generating data summary: {e}")
             return {}
+

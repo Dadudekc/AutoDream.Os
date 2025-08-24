@@ -226,3 +226,4 @@ class DataAnalyzer:
             "sentiment_thresholds": self.sentiment_thresholds,
             "analysis_methods": ["rating_based", "volume_based", "activity_based"]
         }
+

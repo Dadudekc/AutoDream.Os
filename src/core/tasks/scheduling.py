@@ -286,3 +286,4 @@ class TaskScheduler:
         except Exception as e:
             self.logger.error(f"Failed to get system status: {e}")
             return {"status": "error", "error": str(e)}
+

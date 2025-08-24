@@ -16,3 +16,4 @@ __all__ = [
     "SentimentAggregator",
     "SentimentDataManager"
 ]
+

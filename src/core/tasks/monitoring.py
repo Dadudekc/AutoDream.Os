@@ -254,3 +254,4 @@ class TaskMonitor:
     def get_task(self, task_id: str) -> Optional[Task]:
         """Get a specific task by ID."""
         return self.tasks.get(task_id)
+

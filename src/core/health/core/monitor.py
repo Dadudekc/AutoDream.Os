@@ -132,3 +132,4 @@ class HealthMonitor:
     def resolve_alert(self, alert_id: str):
         """Mark an alert as resolved"""
         self.health_reporter.resolve_alert(alert_id)
+

@@ -6,13 +6,13 @@ system. All core functionality has been extracted into focused modules
 following SRP principles.
 
 The refactored system includes:
-- Core monitoring orchestration (monitoring_new.core)
+- Core monitoring orchestration (monitoring.core)
 - Health metrics collection (metrics.collector)
 - Alerting utilities (alerting.*)
 - Reporting and analytics (reporting.generator)
 """
 
-from .health.monitoring_new.core import AgentHealthCoreMonitor
+from .health.monitoring.core import AgentHealthCoreMonitor
 from .health.metrics.collector import HealthMetricsCollector
 from .health.alerting import (
     generate_alert,

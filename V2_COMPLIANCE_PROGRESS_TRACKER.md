@@ -76,6 +76,18 @@ See `docs/reports/CONTRACT-T-004_COMPLETION_REPORT.md` for full details.
 **Validation**: Unit tests pass, modules under 200 lines
 
 ---
+### **CONTRACT #021: Contract Manager** ✅ **COMPLETED**
+**Agent**: Agent-3 (Infrastructure & DevOps)
+**Completion Date**: 2025-08-23
+**Files**: `src/core/contract_manager.py` split into focused modules
+**Deliverables**:
+- ✅ `contract_models.py` (99 lines)
+- ✅ `assignment_engine.py` (161 lines)
+- ✅ `validation.py` (75 lines)
+
+**Validation**: Unit tests pass, modules under 200 lines
+
+---
 
 ## 🚧 **CONTRACTS IN PROGRESS**
 
@@ -129,7 +141,10 @@ See `docs/reports/CONTRACT-T-004_COMPLETION_REPORT.md` for full details.
 **Target**: 4 modules (≤250 lines each)
 **Priority**: HIGH
 **Estimated Duration**: 6 hours
+<<<<<<< HEAD
 **Completion Report**: [CONTRACT-020_COMPLETION_REPORT](docs/reports/CONTRACT-020_COMPLETION_REPORT.md)
+=======
+>>>>>>> origin/codex/split-contract_manager.py-into-modules
 
 #### **CONTRACT #022-084: Remaining Major Violations (63 more)**
 **Files**: Various 500-800 line files

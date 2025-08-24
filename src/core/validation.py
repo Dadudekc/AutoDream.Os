@@ -54,9 +54,7 @@ class ContractValidator:
                         }
                     )
 
-            if not any(
-                r["severity"] == "critical" and not r["passed"] for r in results
-            ):
+            if not any(r["severity"] == "critical" and not r["passed"] for r in results):
                 results.append(
                     {
                         "field": "overall",

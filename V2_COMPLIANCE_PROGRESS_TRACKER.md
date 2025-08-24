@@ -17,9 +17,10 @@
 - **Progress**: 0% (0/86 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
 
-### Phase 3: Moderate Violations (300-499 lines)
+### Phase 3: Moderate Violations (general LOC guidance ~300 lines)
 - **Progress**: 0% (0/187 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
+- **Guideline**: LOC counts are flexible—focus on clean, production-ready, tested code that follows SRP and SOLID principles.
 
 ## ✅ COMPLETED CONTRACTS
 
@@ -126,7 +127,7 @@
 ### CRIT-007: Autonomous Development Orchestrator
 - **File**: `src/autonomous_development_system.py`
 - **Current Lines**: 333
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: In Progress
@@ -141,7 +142,7 @@
 ### CRIT-008: Error Analytics System
 - **File**: `src/services/error_analytics_system.py`
  - **Current Lines**: 979
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Assigned
@@ -156,7 +157,7 @@
 ### CRIT-017: Unified Financial API
 - **File**: `src/services/financial/unified_financial_api.py`
 - **Current Lines**: 872
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -171,7 +172,7 @@
 ### CRIT-018: AI Testing Suite
 - **File**: `src/ai_ml/testing.py`
 - **Current Lines**: 857
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -186,7 +187,7 @@
 ### CRIT-019: Integrated Agent Coordinator
 - **File**: `src/services/integrated_agent_coordinator.py`
 - **Current Lines**: 846
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -201,7 +202,7 @@
 ### CRIT-020: Health Metrics Collector
 - **File**: `src/core/health/metrics/collector.py`
 - **Current Lines**: 839
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -216,7 +217,7 @@
 ### CRIT-021: Front-End Testing Framework
 - **File**: `src/web/frontend/frontend_testing.py`
 - **Current Lines**: 816
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -231,7 +232,7 @@
 ### CRIT-022: Autonomous Test Orchestrator
 - **File**: `src/autonomous_development/testing/orchestrator.py`
 - **Current Lines**: 808
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -246,7 +247,7 @@
 ### CRIT-023: Web Development Setup Script
 - **File**: `scripts/setup/setup_web_development.py`
 - **Current Lines**: 967
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -261,7 +262,7 @@
 ### CRIT-024: Modular Testing Framework Suite
 - **File**: `tests/test_testing_framework_modular.py`
 - **Current Lines**: 974
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -276,7 +277,7 @@
 ### CRIT-025: Performance Monitoring Standalone Tests
 - **File**: `tests/test_performance_monitoring_standalone.py`
 - **Current Lines**: 815
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -291,7 +292,7 @@
 ### CRIT-026: Code Crafter Test Suite
 - **File**: `tests/ai_ml/test_code_crafter.py`
 - **Current Lines**: 976
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -306,7 +307,7 @@
 ### CRIT-027: OSRS AI Agent Test Suite
 - **File**: `tests/gaming/test_osrs_ai_agent.py`
 - **Current Lines**: 900
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -321,7 +322,7 @@
 ### CRIT-028: AI Agent Framework Test Suite
 - **File**: `tests/gaming/test_ai_agent_framework.py`
 - **Current Lines**: 992
-- **Target Lines**: 300
+- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -355,7 +356,7 @@
 ## 🔍 VALIDATION CHECKLIST
 
 - [ ] All extracted modules follow SRP principles
-- [ ] Main file reduced to target line count
+- [ ] Main file reduced to a maintainable size (~300 LOC guideline)
 - [ ] All imports work correctly
 - [ ] Functionality preserved
 - [ ] Tests pass

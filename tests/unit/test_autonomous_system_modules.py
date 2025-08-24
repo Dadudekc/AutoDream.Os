@@ -124,7 +124,13 @@ def test_workflow_manager_cycle_updates_stats():
         send_message_to_all_agents_with_line_breaks=AsyncMock(),
         send_message_to_agent_with_line_breaks=AsyncMock(),
     )
-    manager = AutonomousWorkflowManager(comm, tm)
+    manager = AutonomousWorkflowManager(
+        comm,
+        tm,
+        AgentCoordinator(),
+        TaskHandler(tm),
+        ReportingManager(tm),
+    )
     manager._task_review_and_claiming_phase = AsyncMock()
     manager._work_execution_phase = AsyncMock()
     manager._progress_reporting_phase = AsyncMock()

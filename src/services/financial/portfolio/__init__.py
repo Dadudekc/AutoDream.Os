@@ -8,7 +8,9 @@ Modules:
 - algorithms: Portfolio optimization algorithms (Sharpe ratio, minimum variance, etc.)
 - risk_models: Risk modeling and risk metrics calculations
 - rebalancing: Portfolio rebalancing logic and signal generation
-- tracking: Portfolio performance tracking and analytics
+- tracking_logic: Portfolio performance tracking core logic
+- data_management: Persistence utilities for performance data
+- reporting: Performance report generation
 
 Follows V2 coding standards: Clean OOP design, SRP compliance, TDD approach.
 """
@@ -35,13 +37,15 @@ from .rebalancing import (
     RebalancingPlan
 )
 
-from .tracking import (
+from .tracking_logic import (
     PortfolioPerformanceTracker,
     PerformanceMetric,
     PortfolioAllocation,
     PerformanceSnapshot,
-    PerformanceReport
+    PerformanceReport,
 )
+from .data_management import PerformanceDataManager
+from .reporting import PerformanceReporter
 
 __all__ = [
     # Algorithms
@@ -68,7 +72,9 @@ __all__ = [
     "PerformanceMetric",
     "PortfolioAllocation",
     "PerformanceSnapshot",
-    "PerformanceReport"
+    "PerformanceReport",
+    "PerformanceDataManager",
+    "PerformanceReporter"
 ]
 
 __version__ = "1.0.0"

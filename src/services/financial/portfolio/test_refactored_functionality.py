@@ -20,10 +20,11 @@ from portfolio import (
     PortfolioRiskModels,
     PortfolioRebalancing,
     PortfolioPerformanceTracker,
+    PerformanceDataManager,
     OptimizationMethod,
     OptimizationConstraint,
     RebalancingFrequency,
-    PerformanceMetric
+    PerformanceMetric,
 )
 
 def test_algorithms_module():
@@ -155,35 +156,30 @@ def test_tracking_module():
     
     try:
         # Initialize tracking
-        tracker = PortfolioPerformanceTracker()
+        manager = PerformanceDataManager()
+        tracker = PortfolioPerformanceTracker(manager)
         print("✅ Performance tracking initialization successful")
-        
+
         # Test portfolio performance tracking
-        portfolio_value = 1000000
+        portfolio_value = 1_000_000
         weights = {"AAPL": 0.4, "MSFT": 0.3, "GOOGL": 0.3}
-        prices = {"AAPL": 150.0, "MSFT": 300.0, "GOOGL": 2800.0}
-        
-        snapshot = tracker.track_portfolio_performance(portfolio_value, weights, prices)
+
+        snapshot = tracker.track_portfolio_performance(portfolio_value, weights)
         if snapshot:
-            print(f"✅ Performance snapshot created - Value: ${snapshot.total_value:,.0f}")
+            print(
+                f"✅ Performance snapshot created - Value: ${snapshot.total_value:,.0f}"
+            )
             print(f"   Total return: {snapshot.total_return:.4f}")
             print(f"   Daily return: {snapshot.daily_return:.4f}")
         else:
             print("⚠️ Performance snapshot creation failed")
-        
-        # Test portfolio allocation analysis
-        allocations = tracker.analyze_portfolio_allocations(weights)
-        print(f"✅ Portfolio allocations analyzed - {len(allocations)} positions")
-        
-        for allocation in allocations:
-            print(f"   {allocation.symbol}: {allocation.sector} sector, {allocation.market_cap} cap")
-        
+
         # Test performance report generation
         from datetime import datetime, timedelta
         start_date = datetime.now() - timedelta(days=30)
         end_date = datetime.now()
-        
-        report = tracker.generate_performance_report(start_date, end_date)
+
+        report = tracker.generate_report(start_date, end_date)
         if report:
             print(f"✅ Performance report generated - ID: {report.report_id}")
             print(f"   Period: {report.start_date.date()} to {report.end_date.date()}")
@@ -207,7 +203,8 @@ def test_package_imports():
         from portfolio.algorithms import PortfolioOptimizationAlgorithms
         from portfolio.risk_models import PortfolioRiskModels
         from portfolio.rebalancing import PortfolioRebalancing
-        from portfolio.tracking import PortfolioPerformanceTracker
+        from portfolio.tracking_logic import PortfolioPerformanceTracker
+        from portfolio.data_management import PerformanceDataManager
         
         print("✅ All individual module imports successful")
         
@@ -216,7 +213,8 @@ def test_package_imports():
             PortfolioOptimizationAlgorithms,
             PortfolioRiskModels,
             PortfolioRebalancing,
-            PortfolioPerformanceTracker
+            PortfolioPerformanceTracker,
+            PerformanceDataManager,
         )
         
         print("✅ Package-level imports successful")

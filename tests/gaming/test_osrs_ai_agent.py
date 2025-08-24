@@ -1,51 +1,39 @@
-import time
+"""Orchestrator for OSRS test modules.
+
+This module aggregates OSRS-related tests to allow running them as a single
+suite. It imports individual test modules located in ``tests.gaming.osrs`` and
+combines them using Python's ``unittest`` framework.
+"""
+
+import sys
 import unittest
+from pathlib import Path
 
-from gaming_systems.osrs import (
-    OSRSLocation,
-    OSRSGameState,
-    OSRSPlayerStats,
-    create_osrs_ai_agent,
+# Ensure project root is on the path when executed directly
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
+from tests.gaming.osrs import (
+    test_osrs_game_setup,
+    test_osrs_ai_agent,
+    test_osrs_scenarios,
+    test_osrs_validation,
 )
-from gaming_systems.osrs.ai.decision_engine import (
-    OSRSDecisionEngine,
-    DecisionContext,
-)
 
 
-class TestOSRSDecisionEngine(unittest.TestCase):
-    """Agent-focused tests for the decision engine"""
-
-    def setUp(self):
-        self.engine = OSRSDecisionEngine()
-        self.stats = OSRSPlayerStats(player_id="p1", username="tester")
-
-    def test_analyze_situation_returns_decision(self):
-        context = DecisionContext(
-            player_stats=self.stats,
-            current_location=OSRSLocation.LUMBRIDGE,
-            game_state=OSRSGameState.IDLE,
-            available_resources=[],
-            current_goals=[],
-            time_of_day=time.time(),
-            energy_level=100,
-        )
-
-        decision = self.engine.analyze_situation(context)
-        self.assertIsNotNone(decision)
-        self.assertTrue(hasattr(decision, "action_description"))
-
-
-class TestCreateOSRSAIAgent(unittest.TestCase):
-    """Tests for the create_osrs_ai_agent factory"""
-
-    def test_factory_returns_components(self):
-        agent = create_osrs_ai_agent()
-        self.assertIn("decision_engine", agent)
-        self.assertIn("skill_trainer", agent)
-        self.assertIn("combat_system", agent)
-        self.assertIn("market_system", agent)
+def load_tests() -> unittest.TestSuite:  # type: ignore[override]
+    """Build a test suite containing all OSRS modules."""
+    loader = unittest.defaultTestLoader
+    suite = unittest.TestSuite()
+    for module in (
+        test_osrs_game_setup,
+        test_osrs_ai_agent,
+        test_osrs_scenarios,
+        test_osrs_validation,
+    ):
+        suite.addTests(loader.loadTestsFromModule(module))
+    return suite
 
 
 if __name__ == "__main__":
-    unittest.main()
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(load_tests())

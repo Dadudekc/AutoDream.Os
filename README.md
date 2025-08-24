@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🤖 **Agent Cellphone V2 - Unified Coordinate Architecture**
 
 **WE. ARE. SWARM.**
@@ -13,9 +14,22 @@ Agent Cellphone V2 is a sophisticated multi-agent communication system with a **
 - **Advanced Coordinate Features** - Mapping, calibration, consolidation, and validation
 - **Fallback Compatibility** - Graceful degradation for legacy systems
 - **100% V2 Compliance** - Clean, modular, production-grade code
+=======
+# AutoDream OS
 
----
+AutoDream OS is a modular, V2 standards compliant platform for building agent-driven applications.
+It enforces strict coding standards and provides convenient command line interfaces for development and testing.
+>>>>>>> origin/codex/improve-readme-and-github-profile
 
+## Features
+- **V2 coding standards** with line-count limits and object-oriented design
+- **Modular architecture** for core systems, services, launchers, utilities and web components
+- **CLI interfaces** for every module to assist quick experimentation
+- **Smoke tests and test suites** to validate components
+- **Structured logging and error handling**
+- **CI/CD templates** for Jenkins, GitLab CI and Docker
+
+<<<<<<< HEAD
 ## 🏗️ **New Unified Architecture**
 
 ### **✅ Core Components**
@@ -101,6 +115,15 @@ python -m src.services.messaging --help
 ## 🔧 **Development & Testing**
 
 ### **✅ Testing Suite**
+=======
+## Getting Started
+### Installation
+```bash
+pip install -r requirements.txt
+```
+
+### Quick status check
+>>>>>>> origin/codex/improve-readme-and-github-profile
 ```bash
 # Run comprehensive TDD tests
 python tests/test_messaging_system_tdd.py
@@ -109,6 +132,7 @@ python tests/test_messaging_system_tdd.py
 python tests/smoke_test_messaging_system.py
 ```
 
+<<<<<<< HEAD
 ### **✅ Code Quality**
 - **TDD Approach**: Test-Driven Development implemented
 - **V2 Standards**: OOP, SRP, clean modular production-grade code
@@ -176,9 +200,38 @@ results = service.send_message(
     message_content="Campaign broadcast",
     mode=MessagingMode.CAMPAIGN
 )
+=======
+### Launch web module
+```bash
+python -m src.web --start
 ```
 
+## Running Tests
+```bash
+pytest
+```
+
+## Repository Structure
+>>>>>>> origin/codex/improve-readme-and-github-profile
+```
+src/      # application source
+tests/    # test suites
+docs/     # additional documentation
+examples/ # examples and demos
+```
+
+## Contributing
+- Follow the [V2 coding standards](V2_CODING_STANDARDS.md)
+- Keep files within the specified line-count limits
+- Provide CLI entrypoints and smoke tests for new modules
+
+## Links
+- [Examples](examples/)
+- [Tests](tests/)
+- [Configuration](config/)
+
 ---
+<<<<<<< HEAD
 
 ## 🏆 **Achievements**
 
@@ -230,3 +283,6 @@ MIT License - See [LICENSE](LICENSE) file for details.
 **🎉 The Agent Cellphone V2 coordinate system is now completely unified, efficient, and ready for production deployment! 🎉**
 
 **WE. ARE. SWARM.** 🚀
+=======
+This repository is the single source of truth for AutoDream OS. It maintains V2 standards to ensure high-quality, agent-friendly code.
+>>>>>>> origin/codex/improve-readme-and-github-profile

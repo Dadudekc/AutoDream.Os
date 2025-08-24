@@ -6,20 +6,20 @@ All core functionality has been extracted into focused modules following SRP pri
 
 The refactored system includes:
 - Core monitoring orchestration (monitoring_new.core)
-- Health metrics collection (metrics.collector)
+- Health metrics collection (metrics package)
 - Alerting and notifications (alerting.manager)
 - Reporting and analytics (reporting.generator)
 """
 
 from .health.monitoring_new.core import AgentHealthCoreMonitor
-from .health.metrics.collector import HealthMetricsCollector
+from .health.metrics import CollectorFacade, SystemMetricsAdapter
 from .health.alerting.manager import HealthAlertingManager
 from .health.reporting.generator import HealthReportingGenerator
 
 # Re-export main classes for backward compatibility
 __all__ = [
     'AgentHealthCoreMonitor',
-    'HealthMetricsCollector', 
+    'CollectorFacade',
     'HealthAlertingManager',
     'HealthReportingGenerator'
 ]
@@ -36,8 +36,8 @@ def create_health_monitor(config=None):
         tuple: (core_monitor, metrics_collector, alerting_manager, reporting_generator)
     """
     core_monitor = AgentHealthCoreMonitor()
-    metrics_collector = HealthMetricsCollector()
+    metrics_collector = CollectorFacade({"system": SystemMetricsAdapter()})
     alerting_manager = HealthAlertingManager()
     reporting_generator = HealthReportingGenerator()
-    
+
     return core_monitor, metrics_collector, alerting_manager, reporting_generator

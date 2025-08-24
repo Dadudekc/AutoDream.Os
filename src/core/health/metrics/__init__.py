@@ -10,8 +10,12 @@ from .collector import (
     MetricCollectionMethod,
     MetricCollectionConfig,
     CollectedMetric,
-    MetricCollectionResult
+    MetricCollectionResult,
 )
+from .adapters import MetricSourceAdapter, SystemMetricsAdapter, Metric
+from .aggregation import MetricAggregator
+from .scheduler import AsyncScheduler
+from .collector_facade import CollectorFacade
 
 __all__ = [
     "HealthMetricsCollector",
@@ -19,5 +23,11 @@ __all__ = [
     "MetricCollectionMethod",
     "MetricCollectionConfig",
     "CollectedMetric",
-    "MetricCollectionResult"
+    "MetricCollectionResult",
+    "MetricSourceAdapter",
+    "SystemMetricsAdapter",
+    "Metric",
+    "MetricAggregator",
+    "AsyncScheduler",
+    "CollectorFacade",
 ]

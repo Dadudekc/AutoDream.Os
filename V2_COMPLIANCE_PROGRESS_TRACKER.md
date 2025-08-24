@@ -7,17 +7,21 @@
 - **Status**: 🚨 **CRITICAL - IMMEDIATE ACTION REQUIRED**
 - **Last Updated**: 2025-08-24
 
+> **Note:** Line counts are rough guides for prioritization. There is no strict LOC requirement; focus on clean, production-ready, tested code that follows SRP and SOLID principles.
+
 ## 🎯 Phase Progress
 
-### Phase 1: Critical Violations (800+ lines)
+### Phase 1: Critical Violations (~800+ lines guideline)
 - **Progress**: 50% (14/28 files)
 - **Status**: 🟡 **IN PROGRESS - ADDITIONAL VIOLATIONS IDENTIFIED**
+- **Guideline**: LOC ranges are approximate and serve only for prioritization—emphasis remains on clean, production-ready, tested code aligned with SRP and SOLID principles.
 
-### Phase 2: Major Violations (500-799 lines)
+### Phase 2: Major Violations (~500-799 lines guideline)
 - **Progress**: 0% (0/86 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
+- **Guideline**: LOC ranges are rough guidance; prioritize clean, production-ready, tested code that respects SRP and SOLID principles over strict line counts.
 
-### Phase 3: Moderate Violations (general LOC guidance ~300 lines)
+### Phase 3: Moderate Violations (~300 lines general guidance)
 - **Progress**: 0% (0/187 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
 - **Guideline**: LOC counts are flexible—focus on clean, production-ready, tested code that follows SRP and SOLID principles.
@@ -124,10 +128,11 @@
 
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 
+> **Note:** Remaining contract descriptions include current line counts for context only. There is no strict LOC target—deliver clean, production-ready, tested modules that honor SRP and SOLID principles.
+
 ### CRIT-007: Autonomous Development Orchestrator
 - **File**: `src/autonomous_development_system.py`
 - **Current Lines**: 333
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: In Progress
@@ -141,8 +146,7 @@
 
 ### CRIT-008: Error Analytics System
 - **File**: `src/services/error_analytics_system.py`
- - **Current Lines**: 979
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
+- **Current Lines**: 979
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Assigned
@@ -157,7 +161,6 @@
 ### CRIT-017: Unified Financial API
 - **File**: `src/services/financial/unified_financial_api.py`
 - **Current Lines**: 872
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -172,7 +175,6 @@
 ### CRIT-018: AI Testing Suite
 - **File**: `src/ai_ml/testing.py`
 - **Current Lines**: 857
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -187,7 +189,6 @@
 ### CRIT-019: Integrated Agent Coordinator
 - **File**: `src/services/integrated_agent_coordinator.py`
 - **Current Lines**: 846
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -202,7 +203,6 @@
 ### CRIT-020: Health Metrics Collector
 - **File**: `src/core/health/metrics/collector.py`
 - **Current Lines**: 839
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -217,7 +217,6 @@
 ### CRIT-021: Front-End Testing Framework
 - **File**: `src/web/frontend/frontend_testing.py`
 - **Current Lines**: 816
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -232,7 +231,6 @@
 ### CRIT-022: Autonomous Test Orchestrator
 - **File**: `src/autonomous_development/testing/orchestrator.py`
 - **Current Lines**: 808
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -247,7 +245,6 @@
 ### CRIT-023: Web Development Setup Script
 - **File**: `scripts/setup/setup_web_development.py`
 - **Current Lines**: 967
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -262,7 +259,6 @@
 ### CRIT-024: Modular Testing Framework Suite
 - **File**: `tests/test_testing_framework_modular.py`
 - **Current Lines**: 974
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -277,7 +273,6 @@
 ### CRIT-025: Performance Monitoring Standalone Tests
 - **File**: `tests/test_performance_monitoring_standalone.py`
 - **Current Lines**: 815
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -292,7 +287,6 @@
 ### CRIT-026: Code Crafter Test Suite
 - **File**: `tests/ai_ml/test_code_crafter.py`
 - **Current Lines**: 976
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -307,7 +301,6 @@
 ### CRIT-027: OSRS AI Agent Test Suite
 - **File**: `tests/gaming/test_osrs_ai_agent.py`
 - **Current Lines**: 900
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -322,7 +315,6 @@
 ### CRIT-028: AI Agent Framework Test Suite
 - **File**: `tests/gaming/test_ai_agent_framework.py`
 - **Current Lines**: 992
-- **LOC Guideline**: ~300 (flexible; focus on clean, tested, production-ready code following SRP and SOLID)
 - **Priority**: Immediate
 - **Estimated Effort**: 2-3 days
 - **Status**: Available
@@ -356,7 +348,7 @@
 ## 🔍 VALIDATION CHECKLIST
 
 - [ ] All extracted modules follow SRP principles
-- [ ] Main file reduced to a maintainable size (~300 LOC guideline)
+- [ ] Main file reduced to a maintainable size (around 300 lines as a flexible guideline)
 - [ ] All imports work correctly
 - [ ] Functionality preserved
 - [ ] Tests pass
@@ -365,7 +357,9 @@
 
 ## 📊 DETAILED VIOLATION ANALYSIS
 
-### Critical Violations (800+ lines): 14 files remaining
+*Line ranges below are approximate and help prioritize work—they are not strict requirements.*
+
+### Critical Violations (~800+ lines, guideline only): 14 files remaining
 - `src/services/error_analytics_system.py` (979 lines) - Assigned (Agent-4)
 - `src/services/financial/unified_financial_api.py` (872 lines) - Available
 - `src/ai_ml/testing.py` (857 lines) - Available
@@ -381,10 +375,10 @@
 - `tests/gaming/test_ai_agent_framework.py` (992 lines) - Available
 - `src/services/financial/portfolio_optimization_service.py` (991 lines) - Completed (CRIT-005) – monolith pending removal
 
-### Major Violations (500-799 lines): 86 files
+### Major Violations (~500-799 lines, guideline only): 86 files
 - Various service and core modules requiring immediate attention
 
-### Moderate Violations (300-499 lines): 187 files
+### Moderate Violations (~300-499 lines, guideline only): 187 files
 - Includes `src/autonomous_development_system.py` (333 lines) awaiting final cleanup
 - Additional files requiring refactoring but lower priority
 
@@ -410,7 +404,7 @@ Code quality, organization, and maintainability over strict line count limits
 
 - **Compliance Target**: 100% (753/753 files)
 - **Current Progress**: 61.9% (466/753 files)
-- **Remaining Work**: 287 files need refactoring
+- **Remaining Work**: 287 files need refactoring (counts track scope—no strict LOC targets)
 - **Priority Focus**: Critical violations first, then major, then moderate
 
 ## 🎉 RECENT ACHIEVEMENTS (August 24, 2025)

@@ -7,6 +7,7 @@ autonomous development processes.
 """
 
 from .orchestrator import TestingOrchestrator
+from .test_execution import TestResult
+from .result_collation import TestSuite
 
-__all__ = ["TestingOrchestrator"]
-
+__all__ = ["TestingOrchestrator", "TestResult", "TestSuite"]

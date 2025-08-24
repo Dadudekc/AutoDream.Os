@@ -35,6 +35,17 @@ The `scripts` directory contains organized utility scripts, launchers, and tools
 - **`cleanup_orphans.py`** - Orphan file cleanup
 - **`test_perpetual_motion.py`** - Perpetual motion testing
 
+### **Refactoring Tools**
+- **`refactoring_executor.py`** – Creates module templates during large-file refactors. The executor's `create_extraction_template` function accepts lists of required imports, class definitions, and helper functions. These items are injected directly into the generated module so it compiles immediately.
+- **Updating Original Files** – After generating a module, replace old member definitions with imports from the new module:
+  ```python
+  # before
+  from old_module import ExtractedClass
+
+  # after extraction
+  from new_module import ExtractedClass
+  ```
+
 ## 🚀 **Quick Start**
 
 ### **1. Run Agent Assessment**

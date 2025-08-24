@@ -1,33 +1,24 @@
-"""
-Health Metrics Package
+"""Health metrics collection utilities."""
 
-This package contains modules for health metrics collection and processing.
-"""
-
-from .collector import (
-    HealthMetricsCollector,
-    MetricSource,
-    MetricCollectionMethod,
-    MetricCollectionConfig,
-    CollectedMetric,
-    MetricCollectionResult,
-)
-from .adapters import MetricSourceAdapter, SystemMetricsAdapter, Metric
+from .interfaces import Metric, MetricSink, MetricSource
+from .adapters import MetricSourceAdapter, SystemMetricsAdapter
 from .aggregation import MetricAggregator
+from .collector import HealthMetricsCollector, MetricCollectionResult, MetricSourceType
+from .sinks import InMemoryMetricSink
 from .scheduler import AsyncScheduler
 from .collector_facade import CollectorFacade
 
 __all__ = [
-    "HealthMetricsCollector",
+    "Metric",
     "MetricSource",
-    "MetricCollectionMethod",
-    "MetricCollectionConfig",
-    "CollectedMetric",
-    "MetricCollectionResult",
+    "MetricSink",
     "MetricSourceAdapter",
     "SystemMetricsAdapter",
-    "Metric",
     "MetricAggregator",
+    "MetricSourceType",
+    "MetricCollectionResult",
+    "HealthMetricsCollector",
+    "InMemoryMetricSink",
     "AsyncScheduler",
     "CollectorFacade",
 ]

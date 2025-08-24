@@ -27,13 +27,15 @@ from .frontend_app import (
 # Frontend routing system
 from .frontend_router import (
     FrontendRouter,
+    RouteBuilder,
+    create_router_with_default_routes,
+    route,
+)
+from .frontend_router_config import (
     RouteConfig,
     NavigationState,
     RouteGuard,
     RouteMiddleware,
-    RouteBuilder,
-    create_router_with_default_routes,
-    route,
 )
 
 # Frontend testing infrastructure

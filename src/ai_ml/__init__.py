@@ -39,13 +39,11 @@ from .code_synthesis import CodeSynthesizer
 from .validation import CodeValidator
 from .deployment import CodeDeployer
 
-from .dev_workflow import (
-    AIDevWorkflow,
-    WorkflowStep,
-    WorkflowResult,
-    ProjectAnalysis,
-    get_ai_dev_workflow,
-)
+from .dev_workflow_manager import DevWorkflowManager, WorkflowStep, WorkflowResult
+from .dev_workflow_ai_processor import AIProcessor, ProjectAnalysis
+from .dev_workflow_coordinator import WorkflowCoordinator
+from .dev_workflow_config import WorkflowConfig, load_workflow_config
+from .dev_workflow import AIDevWorkflow, get_ai_dev_workflow
 
 from .intelligent_reviewer import (
     IntelligentReviewer,
@@ -99,6 +97,11 @@ __all__ = [
     "CodeSynthesizer",
     "CodeValidator",
     "CodeDeployer",
+    "DevWorkflowManager",
+    "AIProcessor",
+    "WorkflowCoordinator",
+    "WorkflowConfig",
+    "load_workflow_config",
     "AIDevWorkflow",
     "WorkflowStep",
     "WorkflowResult",

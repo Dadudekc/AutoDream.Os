@@ -22,6 +22,10 @@ from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 from typing import Dict, Any, Optional
 
+from src.ai_debugger_assistant import AIDebuggerAssistant
+from src.smart_organizer import SmartOrganizer
+from src.autonomous_decision_engine import AutonomousDecisionEngine
+
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
@@ -173,15 +177,17 @@ class TestAIDebuggerAssistant:
 
     def test_debug_assistance(self):
         """Test AI debugger assistance capabilities"""
-        # TODO: Implement after creating AIDebuggerAssistant
-        # This test will be implemented when AIDebuggerAssistant is created
-        assert True  # Placeholder test
+        assistant = AIDebuggerAssistant()
+        suggestions = assistant.suggest_fixes(
+            "NameError: name 'variable' is not defined"
+        )
+        assert any("variable" in s.lower() for s in suggestions)
 
     def test_error_pattern_recognition(self):
         """Test AI error pattern recognition"""
-        # TODO: Implement after creating AIDebuggerAssistant
-        # This test will be implemented when AIDebuggerAssistant is created
-        assert True  # Placeholder test
+        assistant = AIDebuggerAssistant()
+        pattern = assistant.analyze_error("TypeError: unsupported operand type")
+        assert pattern == "type_mismatch"
 
 
 class TestSmartOrganizer:
@@ -189,15 +195,15 @@ class TestSmartOrganizer:
 
     def test_pattern_detection(self):
         """Test AI work pattern detection capabilities"""
-        # TODO: Implement after creating SmartOrganizer
-        # This test will be implemented when SmartOrganizer is created
-        assert True  # Placeholder test
+        organizer = SmartOrganizer()
+        pattern = organizer.detect_pattern(["task", "task", "task"])
+        assert pattern == "repetition"
 
     def test_workflow_optimization(self):
         """Test AI workflow optimization suggestions"""
-        # TODO: Implement after creating SmartOrganizer
-        # This test will be implemented when SmartOrganizer is created
-        assert True  # Placeholder test
+        organizer = SmartOrganizer()
+        suggestion = organizer.suggest_optimization(["email", "email", "meeting"])
+        assert "group" in suggestion.lower()
 
 
 class TestAutonomousDecisionEngine:
@@ -205,15 +211,16 @@ class TestAutonomousDecisionEngine:
 
     def test_decision_making(self):
         """Test autonomous decision making capabilities"""
-        # TODO: Implement after creating AutonomousDecisionEngine
-        # This test will be implemented when AutonomousDecisionEngine is created
-        assert True  # Placeholder test
+        engine = AutonomousDecisionEngine()
+        result = engine.process({"action": "deploy"})
+        assert result == "execute:deploy"
 
     def test_learning_adaptation(self):
         """Test autonomous learning and adaptation"""
-        # TODO: Implement after creating AutonomousDecisionEngine
-        # This test will be implemented when AutonomousDecisionEngine is created
-        assert True  # Placeholder test
+        engine = AutonomousDecisionEngine()
+        engine.adapt({"deploy": -1})
+        result = engine.process({"action": "deploy"})
+        assert result == "reject:deploy"
 
 
 # Test configuration and fixtures

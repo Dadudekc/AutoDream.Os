@@ -22,10 +22,58 @@ import hashlib
 from typing import Dict, List, Any, Optional, Callable, Tuple
 from pathlib import Path
 from datetime import datetime, timedelta
-import pyautogui
-import keyboard
-import pynput
-from pynput import keyboard as pynput_keyboard
+
+# Optional GUI/keyboard libraries. Fall back to lightweight stubs when the
+# packages are not available so the module remains importable in minimal
+# environments.
+try:  # pragma: no cover
+    import pyautogui  # type: ignore
+except Exception:  # pragma: no cover
+    class _PyAutoGUIStub:
+        FAILSAFE = False
+        PAUSE = 0.0
+
+        def __getattr__(self, name):
+            raise RuntimeError("pyautogui is not available")
+
+    pyautogui = _PyAutoGUIStub()  # type: ignore
+
+try:  # pragma: no cover
+    import keyboard  # type: ignore
+except Exception:  # pragma: no cover
+    keyboard = None  # type: ignore
+
+try:  # pragma: no cover
+    import pynput  # type: ignore
+    from pynput import keyboard as pynput_keyboard  # type: ignore
+except Exception:  # pragma: no cover
+    pynput = None  # type: ignore
+
+    class _KeyboardStub:
+        def __getattr__(self, name):
+            raise RuntimeError("pynput is not available")
+
+    pynput_keyboard = _KeyboardStub()  # type: ignore
+
+# Basic message enums re-exported for compatibility with tests
+try:  # pragma: no cover
+    from core.shared_enums import MessagePriority, MessageType, MessageStatus
+except Exception:  # pragma: no cover
+    from enum import Enum
+
+    class MessagePriority(Enum):
+        LOW = "low"
+        NORMAL = "normal"
+        HIGH = "high"
+        URGENT = "urgent"
+
+    class MessageType(Enum):
+        TEXT = "text"
+        SYSTEM_COMMAND = "system_command"
+
+    class MessageStatus(Enum):
+        PENDING = "pending"
+        DELIVERED = "delivered"
 
 # Configure PyAutoGUI safety
 pyautogui.FAILSAFE = True

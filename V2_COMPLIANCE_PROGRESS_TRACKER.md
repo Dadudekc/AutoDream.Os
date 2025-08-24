@@ -7,24 +7,31 @@
 - **Status**: 🚨 **CRITICAL - IMMEDIATE ACTION REQUIRED**
 - **Last Updated**: 2025-08-24
 
-> **Note:** Line counts are rough guides for prioritization. There is no strict LOC requirement; focus on clean, production-ready, tested code that follows SRP and SOLID principles.
+> **Note:** Line counts are rough guides for prioritization. There is no
+> strict LOC requirement; focus on clean, production-ready, tested code
+> that follows SRP and SOLID principles.
 
 ## 🎯 Phase Progress
 
 ### Phase 1: Critical Violations (~800+ lines guideline)
 - **Progress**: 50% (14/28 files)
 - **Status**: 🟡 **IN PROGRESS - ADDITIONAL VIOLATIONS IDENTIFIED**
-- **Guideline**: LOC ranges are approximate and serve only for prioritization—emphasis remains on clean, production-ready, tested code aligned with SRP and SOLID principles.
+- **Guideline**: LOC ranges are approximate and serve only for
+  prioritization—emphasis remains on clean, production-ready, tested
+  code aligned with SRP and SOLID principles.
 
 ### Phase 2: Major Violations (~500-799 lines guideline)
 - **Progress**: 0% (0/86 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
-- **Guideline**: LOC ranges are rough guidance; prioritize clean, production-ready, tested code that respects SRP and SOLID principles over strict line counts.
+- **Guideline**: LOC ranges are rough guidance; prioritize clean,
+  production-ready, tested code that respects SRP and SOLID principles
+  over strict line counts.
 
 ### Phase 3: Moderate Violations (~300 lines general guidance)
 - **Progress**: 0% (0/187 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
-- **Guideline**: LOC counts are flexible—focus on clean, production-ready, tested code that follows SRP and SOLID principles.
+- **Guideline**: LOC counts are flexible—focus on clean,
+  production-ready, tested code that follows SRP and SOLID principles.
 
 ## ✅ COMPLETED CONTRACTS
 

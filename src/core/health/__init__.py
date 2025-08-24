@@ -16,12 +16,12 @@ from .monitoring_new.core import (
 )
 
 from .metrics import (
-    HealthMetricsCollector,
-    MetricSource,
-    MetricCollectionMethod,
-    MetricCollectionConfig,
-    CollectedMetric,
-    MetricCollectionResult,
+    MetricSourceAdapter,
+    SystemMetricsAdapter,
+    MetricAggregator,
+    AsyncScheduler,
+    CollectorFacade,
+    Metric,
 )
 
 from .alerting import (
@@ -57,12 +57,12 @@ __all__ = [
     "HealthThreshold",
 
     # Metrics Collection
-    "HealthMetricsCollector",
-    "MetricSource",
-    "MetricCollectionMethod",
-    "MetricCollectionConfig",
-    "CollectedMetric",
-    "MetricCollectionResult",
+    "MetricSourceAdapter",
+    "SystemMetricsAdapter",
+    "MetricAggregator",
+    "AsyncScheduler",
+    "CollectorFacade",
+    "Metric",
 
     # Alerting
     "HealthAlertingManager",

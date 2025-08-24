@@ -6,6 +6,8 @@ Performance & Health Systems Division
 Provides real-time market data, historical data analysis, and market intelligence.
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -15,9 +17,10 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict
 from pathlib import Path
-import pandas as pd
-import numpy as np
-import yfinance as yf
+
+pd = safe_import("pandas")
+np = safe_import("numpy")
+yf = safe_import("yfinance")
 from concurrent.futures import ThreadPoolExecutor
 import time
 

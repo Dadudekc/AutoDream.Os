@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import List
 
-from .tracking_logic import PerformanceReport, PerformanceSnapshot
+from .models import PerformanceReport, PerformanceSnapshot
 
 logger = logging.getLogger(__name__)
 

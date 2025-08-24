@@ -12,6 +12,11 @@ from .frontend_router_handlers import (
     create_default_routes,
     route,
 )
+from .frontend_router_middleware import (
+    parse_query_string,
+    run_route_guards,
+    run_hooks,
+)
 
 __all__ = [
     "FrontendRouter",
@@ -24,6 +29,9 @@ __all__ = [
     "create_router_with_default_routes",
     "create_default_routes",
     "route",
+    "parse_query_string",
+    "run_route_guards",
+    "run_hooks",
 ]
 
 

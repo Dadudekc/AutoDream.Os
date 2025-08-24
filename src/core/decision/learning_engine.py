@@ -26,8 +26,9 @@ from typing import Dict, List, Any, Optional
 from dataclasses import asdict
 from datetime import datetime
 
-from .decision_types import LearningData, LearningMode, DataIntegrityLevel
+from .decision_types import LearningData, LearningMode
 from ..persistent_data_storage import PersistentDataStorage
+from ..persistent_storage_config import DataIntegrityLevel
 
 
 class LearningEngine:

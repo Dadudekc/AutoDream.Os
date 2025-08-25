@@ -39,13 +39,13 @@ def test_basic_functionality():
         print("\n3. Testing Middleware Tools Import...")
         from services.middleware_tools import (
             MessageQueue,
-            CacheManager,
             DataTransformer,
             CircuitBreaker,
             RetryMiddleware,
             MessagePriority,
             Message,
         )
+        from core.cache.cache_manager import CacheManager
 
         print("✅ Middleware Tools imported successfully")
 

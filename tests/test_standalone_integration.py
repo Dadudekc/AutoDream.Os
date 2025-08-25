@@ -88,7 +88,7 @@ def test_middleware_tools_standalone():
 
         # Test class creation
         MessageQueue = middleware_module.MessageQueue
-        CacheManager = middleware_module.CacheManager
+        from core.cache.cache_manager import CacheManager
         DataTransformer = middleware_module.DataTransformer
         CircuitBreaker = middleware_module.CircuitBreaker
         MessagePriority = middleware_module.MessagePriority

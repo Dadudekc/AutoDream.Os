@@ -22,7 +22,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from services.integration_coordinator import IntegrationCoordinator
 from services.api_manager import APIManager
-from services.middleware_tools import MessageQueue, CacheManager
+from services.middleware_tools import MessageQueue
+from core.cache.cache_manager import CacheManager
 
 # Configure logging
 logging.basicConfig(

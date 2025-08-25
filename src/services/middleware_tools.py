@@ -19,6 +19,7 @@ from pathlib import Path
 import hashlib
 import threading
 import weakref
+from core.cache.cache_manager import CacheManager
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -133,89 +134,6 @@ class MessageQueue:
             logger.info("Message queue cleared")
 
 
-class CacheManager:
-    """Advanced caching system with TTL and eviction policies."""
-
-    def __init__(self, max_size: int = 1000, default_ttl: int = 3600):
-        self.max_size = max_size
-        self.default_ttl = default_ttl
-        self.cache: Dict[str, Dict[str, Any]] = {}
-        self.access_times: Dict[str, float] = {}
-        self.lock = threading.RLock()
-
-    def get(self, key: str) -> Optional[Any]:
-        """Get a value from cache."""
-        with self.lock:
-            if key not in self.cache:
-                return None
-
-            cache_entry = self.cache[key]
-            if self._is_expired(cache_entry):
-                self._remove(key)
-                return None
-
-            # Update access time for LRU
-            self.access_times[key] = time.time()
-            return cache_entry["value"]
-
-    def set(self, key: str, value: Any, ttl: Optional[int] = None) -> bool:
-        """Set a value in cache."""
-        with self.lock:
-            if len(self.cache) >= self.max_size:
-                self._evict_oldest()
-
-            ttl = ttl if ttl is not None else self.default_ttl
-            self.cache[key] = {"value": value, "expires_at": time.time() + ttl}
-            self.access_times[key] = time.time()
-            return True
-
-    def delete(self, key: str) -> bool:
-        """Delete a key from cache."""
-        with self.lock:
-            return self._remove(key)
-
-    def _is_expired(self, cache_entry: Dict[str, Any]) -> bool:
-        """Check if a cache entry is expired."""
-        return time.time() > cache_entry["expires_at"]
-
-    def _remove(self, key: str) -> bool:
-        """Remove a key from cache."""
-        if key in self.cache:
-            del self.cache[key]
-            del self.access_times[key]
-            return True
-        return False
-
-    def _evict_oldest(self):
-        """Evict the oldest accessed item (LRU policy)."""
-        if not self.access_times:
-            return
-
-        oldest_key = min(self.access_times.keys(), key=lambda k: self.access_times[k])
-        self._remove(oldest_key)
-
-    def clear_expired(self):
-        """Clear all expired entries."""
-        with self.lock:
-            expired_keys = [
-                key for key, entry in self.cache.items() if self._is_expired(entry)
-            ]
-            for key in expired_keys:
-                self._remove(key)
-
-    def get_stats(self) -> Dict[str, Any]:
-        """Get cache statistics."""
-        with self.lock:
-            return {
-                "total_entries": len(self.cache),
-                "max_size": self.max_size,
-                "hit_rate": self._calculate_hit_rate(),
-            }
-
-    def _calculate_hit_rate(self) -> float:
-        """Calculate cache hit rate (placeholder implementation)."""
-        # This would need to track hits/misses in a real implementation
-        return 0.85  # Placeholder
 
 
 class DataTransformer:

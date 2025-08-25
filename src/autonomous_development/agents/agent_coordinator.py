@@ -64,41 +64,41 @@ class AgentCoordinator:
         self.phase3_assignments: Dict[str, List[str]] = {}
     
     def _initialize_sample_agents(self):
-        """Initialize with sample development agents"""
+        """Initialize with sample development agents - ALL can take command"""
         sample_agents = [
             {
                 "agent_id": "agent_1",
-                "name": "Agent-1 (Coordinator)",
+                "name": "Agent-1 (Swarm Captain)",
                 "role": AgentRole.COORDINATOR,
-                "skills": ["coordination", "planning", "monitoring"],
+                "skills": ["coordination", "planning", "monitoring", "swarm_command"],
                 "max_concurrent_tasks": 1
             },
             {
                 "agent_id": "agent_2",
-                "name": "Agent-2 (Worker)",
-                "role": AgentRole.WORKER,
-                "skills": ["git", "code_analysis", "optimization", "testing"],
+                "name": "Agent-2 (Swarm Commander)",
+                "role": AgentRole.COORDINATOR,
+                "skills": ["git", "code_analysis", "optimization", "testing", "swarm_command"],
                 "max_concurrent_tasks": 3
             },
             {
                 "agent_id": "agent_3",
-                "name": "Agent-3 (Worker)",
-                "role": AgentRole.WORKER,
-                "skills": ["documentation", "markdown", "api_design", "security"],
+                "name": "Agent-3 (Swarm Leader)",
+                "role": AgentRole.COORDINATOR,
+                "skills": ["documentation", "markdown", "api_design", "security", "swarm_command"],
                 "max_concurrent_tasks": 2
             },
             {
                 "agent_id": "agent_4",
-                "name": "Agent-4 (Monitor)",
-                "role": AgentRole.MONITOR,
-                "skills": ["monitoring", "reporting", "quality_assurance"],
+                "name": "Agent-4 (Swarm Director)",
+                "role": AgentRole.COORDINATOR,
+                "skills": ["monitoring", "reporting", "quality_assurance", "swarm_command"],
                 "max_concurrent_tasks": 1
             },
             {
                 "agent_id": "agent_5",
-                "name": "Agent-5 (Validator)",
+                "name": "Agent-5 (Swarm Validator)",
                 "role": AgentRole.VALIDATOR,
-                "skills": ["code_review", "testing", "validation"],
+                "skills": ["code_review", "testing", "validation", "swarm_command"],
                 "max_concurrent_tasks": 2
             }
         ]
@@ -601,3 +601,89 @@ class AgentCoordinator:
         ])
         
         return "\n".join(message_lines)
+    
+    # Swarm Command Methods - Any Agent Can Take Command
+    
+    def take_command(self, agent_id: str) -> bool:
+        """Allow any agent to take command of the swarm"""
+        if agent_id not in self.agents:
+            self.logger.error(f"Agent {agent_id} not found - cannot take command")
+            return False
+        
+        agent = self.agents[agent_id]
+        if "swarm_command" not in agent.skills:
+            self.logger.warning(f"Agent {agent_id} lacks swarm_command skill")
+            return False
+        
+        # Update agent role to COORDINATOR if not already
+        if agent.role != AgentRole.COORDINATOR:
+            old_role = agent.role
+            agent.role = AgentRole.COORDINATOR
+            self.logger.info(f"Agent {agent_id} promoted from {old_role.value} to COORDINATOR")
+        
+        self.logger.info(f"🎖️  Agent {agent_id} ({agent.name}) has taken command of the swarm!")
+        return True
+    
+    def get_command_capable_agents(self) -> List[AgentInfo]:
+        """Get all agents capable of taking command"""
+        return [agent for agent in self.agents.values() if "swarm_command" in agent.skills]
+    
+    def execute_swarm_command(self, commander_id: str, command: str, target_agents: List[str] = None) -> bool:
+        """Execute a swarm command from any capable agent"""
+        if not self.take_command(commander_id):
+            return False
+        
+        commander = self.agents[commander_id]
+        self.logger.info(f"🎖️  Commander {commander_id} executing: {command}")
+        
+        if target_agents:
+            for target_id in target_agents:
+                if target_id in self.agents:
+                    target = self.agents[target_id]
+                    self.logger.info(f"📡 Command transmitted to {target_id}: {command}")
+                else:
+                    self.logger.warning(f"Target agent {target_id} not found")
+        else:
+            # Broadcast to all agents
+            for agent_id in self.agents:
+                if agent_id != commander_id:
+                    self.logger.info(f"📡 Command broadcast to {agent_id}: {command}")
+        
+        return True
+    
+    def show_swarm_status(self, viewer_id: str = None) -> str:
+        """Show current swarm status - any agent can view"""
+        status_lines = [
+            "🤖 **SWARM STATUS REPORT**",
+            f"Total Agents: {len(self.agents)}",
+            f"Active Agents: {len([a for a in self.agents.values() if a.is_active])}",
+            f"Command Capable: {len(self.get_command_capable_agents())}",
+            "",
+            "**AGENT STATUS:**"
+        ]
+        
+        for agent_id, agent in self.agents.items():
+            role_icon = "🎖️" if agent.role == AgentRole.COORDINATOR else "🤖"
+            status_icon = "🟢" if agent.is_active else "🔴"
+            command_icon = "⚡" if "swarm_command" in agent.skills else "  "
+            
+            status_lines.append(
+                f"{role_icon} {command_icon} **{agent_id}** ({agent.name})"
+            )
+            status_lines.append(
+                f"   Role: {agent.role.value} | Status: {status_icon} {'Active' if agent.is_active else 'Inactive'}"
+            )
+            status_lines.append(
+                f"   Skills: {', '.join(agent.skills)}"
+            )
+            status_lines.append(
+                f"   Tasks: {len(agent.current_tasks)}/{agent.max_concurrent_tasks}"
+            )
+            status_lines.append("")
+        
+        if viewer_id:
+            viewer = self.agents.get(viewer_id)
+            if viewer:
+                status_lines.append(f"👁️  Report generated by: {viewer_id} ({viewer.name})")
+        
+        return "\n".join(status_lines)

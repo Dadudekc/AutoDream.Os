@@ -483,3 +483,121 @@ class AgentCoordinator:
                     file_path = contract.get("file_path", "Unknown")
                     print(f"     • {contract_id}: {file_path}")
             print()
+    
+    def send_phase3_assignments_to_agents(self, message_coordinator=None) -> bool:
+        """Send Phase 3 contract assignments to agents using existing messaging system"""
+        if not self.phase3_assignments:
+            self.logger.warning("No Phase 3 assignments to send")
+            return False
+        
+        success_count = 0
+        total_assignments = 0
+        
+        for agent_id, contracts in self.phase3_assignments.items():
+            if not contracts:
+                continue
+            
+            total_assignments += 1
+            message = self._format_phase3_assignment_message(agent_id, contracts)
+            
+            try:
+                if message_coordinator:
+                    # Use existing MessageCoordinator if available
+                    task_id = message_coordinator.create_task(
+                        title=f"Phase 3 Contract Assignment - {agent_id}",
+                        description=message,
+                        priority="HIGH",
+                        assigned_agents=[agent_id],
+                        estimated_hours=sum(
+                            self.phase3_contracts.get(c, {}).get("estimated_hours", 0.0) 
+                            for c in contracts
+                        )
+                    )
+                    self.logger.info(f"Created task {task_id} for {agent_id}")
+                    success_count += 1
+                else:
+                    # Fallback to direct logging
+                    self.logger.info(f"Phase 3 assignment for {agent_id}: {message}")
+                    success_count += 1
+                    
+            except Exception as e:
+                self.logger.error(f"Error sending Phase 3 assignment to {agent_id}: {e}")
+        
+        self.logger.info(f"Sent {success_count}/{total_assignments} Phase 3 assignments")
+        return success_count == total_assignments
+    
+    def _format_phase3_assignment_message(self, agent_id: str, contracts: List[str]) -> str:
+        """Format Phase 3 assignment message for an agent"""
+        agent = self.agents.get(agent_id)
+        agent_name = agent.name if agent else agent_id
+        
+        message_lines = [
+            f"🎯 **PHASE 3 CONTRACT ASSIGNMENTS - CAPTAIN'S ORDERS**",
+            f"Agent: {agent_id} ({agent_name})",
+            f"Total Contracts: {len(contracts)}",
+            f"Priority: CRITICAL - Phase 3 Modularization",
+            "",
+            "**MISSION BRIEFING:**",
+            "You have been assigned Phase 3 modularization contracts.",
+            "These are critical for achieving V2 compliance standards.",
+            "Execute with precision and report progress immediately.",
+            "",
+            "**ASSIGNED CONTRACTS:**"
+        ]
+        
+        total_effort = 0.0
+        for contract_id in contracts:
+            contract = self.phase3_contracts.get(contract_id, {})
+            if contract:
+                effort = contract.get("estimated_hours", 0.0)
+                total_effort += effort
+                
+                message_lines.extend([
+                    f"",
+                    f"📋 **{contract_id}**",
+                    f"File: {contract.get('file_path', 'Unknown')}",
+                    f"Current: {contract.get('current_lines', 0)} lines → Target: {contract.get('target_lines', 0)} lines",
+                    f"Priority: {contract.get('priority', 'MEDIUM')}",
+                    f"Effort: {effort:.1f} hours",
+                    f"Category: {contract.get('category', 'Unknown')}",
+                    "",
+                    "**Refactoring Plan:**"
+                ])
+                
+                refactoring_plan = contract.get("refactoring_plan", {})
+                if isinstance(refactoring_plan, dict) and "extract_modules" in refactoring_plan:
+                    for module in refactoring_plan["extract_modules"]:
+                        message_lines.append(f"• Extract: {module}")
+                else:
+                    message_lines.append("• Modularize according to V2 standards")
+                
+                message_lines.extend([
+                    "",
+                    "**Success Criteria:**"
+                ])
+                
+                success_criteria = contract.get("success_criteria", [])
+                for criterion in success_criteria:
+                    message_lines.append(f"✅ {criterion}")
+        
+        message_lines.extend([
+            "",
+            "**EXECUTION ORDERS:**",
+            "1. Begin with highest priority contract",
+            "2. Follow V2 modularization standards",
+            "3. Maintain single responsibility principle",
+            "4. Report progress every 2 hours",
+            "5. Flag any blockers immediately",
+            "",
+            "**CAPTAIN'S EXPECTATIONS:**",
+            f"Total Effort: {total_effort:.1f} hours",
+            "Timeline: Execute with urgency",
+            "Quality: Maintain V2 standards",
+            "Communication: Keep team informed",
+            "",
+            "🚀 **READY TO EXECUTE - MAKE US PROUD!** 🚀",
+            "",
+            "Captain Agent-1 out. Over and out."
+        ])
+        
+        return "\n".join(message_lines)

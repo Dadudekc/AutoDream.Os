@@ -17,6 +17,7 @@ from .health_monitoring_config import (
     HealthThreshold,
     initialize_default_thresholds,
 )
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -24,26 +25,32 @@ logger = logging.getLogger(__name__)
 class AgentHealthCoreMonitor:
     """
     Core agent health monitoring orchestration
-    
+
     Single Responsibility: Coordinate health monitoring activities and manage
     the main monitoring loop. Delegates specific responsibilities to other modules.
     """
-    
+
     def __init__(self, config: Dict[str, Any] = None):
         """Initialize the core health monitor"""
         self.config = config or {}
         self.monitoring_active = False
         self.health_data: Dict[str, HealthSnapshot] = {}
         self.alerts: Dict[str, HealthAlert] = {}
-        self.thresholds: Dict[HealthMetricType, HealthThreshold] = initialize_default_thresholds()
+        self.thresholds: Dict[
+            HealthMetricType, HealthThreshold
+        ] = initialize_default_thresholds()
         self.health_callbacks: Set[Callable] = set()
         self.monitor_thread: Optional[threading.Thread] = None
         self.executor = ThreadPoolExecutor(max_workers=4)
 
         # Health monitoring intervals
         self.metrics_interval = self.config.get("metrics_interval", 30)  # seconds
-        self.health_check_interval = self.config.get("health_check_interval", 60)  # seconds
-        self.alert_check_interval = self.config.get("alert_check_interval", 15)  # seconds
+        self.health_check_interval = self.config.get(
+            "health_check_interval", 60
+        )  # seconds
+        self.alert_check_interval = self.config.get(
+            "alert_check_interval", 15
+        )  # seconds
 
         logger.info("AgentHealthCoreMonitor initialized with default thresholds")
 
@@ -223,6 +230,9 @@ class AgentHealthCoreMonitor:
 
                 total_score += score
                 metric_count += 1
+
+        if metric_count == 0:
+            return 100.0
 
         # Penalize for active alerts
         active_alerts = [alert for alert in snapshot.alerts if not alert.resolved]
@@ -511,6 +521,7 @@ class AgentHealthCoreMonitor:
         except Exception as e:
             logger.error(f"❌ AgentHealthCoreMonitor smoke test FAILED: {e}")
             import traceback
+
             logger.error(f"Traceback: {traceback.format_exc()}")
             return False
 
@@ -540,4 +551,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

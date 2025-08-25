@@ -375,16 +375,571 @@
         "Metrics processing accuracy maintained"
       ],
       "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-011",
+      "file_path": "src/core/logging/system_logger.py",
+      "current_lines": 462,
+      "target_lines": 200,
+      "reduction_target": "57%",
+      "priority": "HIGH",
+      "category": "Logging",
+      "violations": [
+        "Logging configuration and writing mixed",
+        "Rotation and monitoring in same class",
+        "Complex log formatting logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "log_config_manager.py",
+          "log_writer.py",
+          "log_rotator.py",
+          "log_monitor.py",
+          "log_formatter.py"
+        ],
+        "main_class": "SystemLoggerOrchestrator",
+        "responsibilities": "Coordinate logging workflow"
+      },
+      "dependencies": [
+        "src/utils/config",
+        "src/core/monitoring"
+      ],
+      "testing_strategy": "Logging output tests + rotation reliability tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Separate logging concerns",
+        "Rotation and monitoring working",
+        "All tests pass"
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "contract_id": "CORE-012",
+      "file_path": "src/core/config/configuration_manager.py",
+      "current_lines": 470,
+      "target_lines": 200,
+      "reduction_target": "57%",
+      "priority": "HIGH",
+      "category": "Configuration Management",
+      "violations": [
+        "Loading and validation mixed",
+        "Environment handling combined",
+        "Complex config parsing logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "config_loader.py",
+          "config_validator.py",
+          "environment_resolver.py",
+          "config_parser.py",
+          "config_cache_manager.py"
+        ],
+        "main_class": "ConfigurationManagerOrchestrator",
+        "responsibilities": "Coordinate configuration workflow"
+      },
+      "dependencies": [
+        "src/core/env",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Config loading tests + environment resolution tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Config loading reliability maintained",
+        "Validation accuracy preserved",
+        "Environment handling robust"
+      ],
+      "estimated_hours": 9
+    },
+    {
+      "contract_id": "CORE-013",
+      "file_path": "src/core/cache/cache_engine.py",
+      "current_lines": 455,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "HIGH",
+      "category": "Caching",
+      "violations": [
+        "Cache storage and retrieval mixed",
+        "Eviction and metrics combined",
+        "Complex cache invalidation logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "cache_storage.py",
+          "cache_retriever.py",
+          "cache_eviction_policy.py",
+          "cache_metrics_collector.py",
+          "cache_invalidator.py"
+        ],
+        "main_class": "CacheEngineOrchestrator",
+        "responsibilities": "Coordinate caching workflow"
+      },
+      "dependencies": [
+        "src/utils/caching",
+        "src/core/performance/metrics"
+      ],
+      "testing_strategy": "Cache hit/miss tests + eviction policy tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Cache performance maintained",
+        "Eviction policy accuracy preserved",
+        "Metrics collection operational"
+      ],
+      "estimated_hours": 9
+    },
+    {
+      "contract_id": "CORE-014",
+      "file_path": "src/core/serialization/data_serializer.py",
+      "current_lines": 448,
+      "target_lines": 200,
+      "reduction_target": "55%",
+      "priority": "MEDIUM",
+      "category": "Data Serialization",
+      "violations": [
+        "Serialization and deserialization mixed",
+        "Format handling combined",
+        "Complex data transformation logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "serializer.py",
+          "deserializer.py",
+          "format_handler.py",
+          "transformation_manager.py",
+          "serialization_validator.py"
+        ],
+        "main_class": "DataSerializationOrchestrator",
+        "responsibilities": "Coordinate serialization workflow"
+      },
+      "dependencies": [
+        "src/core/data",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Serialization round-trip tests + format handling tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Serialization performance maintained",
+        "Format handling accuracy preserved",
+        "Data integrity ensured"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-015",
+      "file_path": "src/core/security/authentication_service.py",
+      "current_lines": 480,
+      "target_lines": 200,
+      "reduction_target": "58%",
+      "priority": "CRITICAL",
+      "category": "Authentication",
+      "violations": [
+        "User management and auth logic mixed",
+        "Token creation and validation combined",
+        "Complex session handling"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "credential_validator.py",
+          "token_service.py",
+          "session_manager.py",
+          "user_repository.py",
+          "auth_logging.py"
+        ],
+        "main_class": "AuthenticationServiceOrchestrator",
+        "responsibilities": "Coordinate authentication workflow"
+      },
+      "dependencies": [
+        "src/core/security/crypto",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Credential validation tests + session handling tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Authentication reliability maintained",
+        "Session handling secure",
+        "All security tests pass"
+      ],
+      "estimated_hours": 12
+    },
+    {
+      "contract_id": "CORE-016",
+      "file_path": "src/core/security/authorization_manager.py",
+      "current_lines": 470,
+      "target_lines": 200,
+      "reduction_target": "57%",
+      "priority": "CRITICAL",
+      "category": "Authorization",
+      "violations": [
+        "Role management and policy enforcement mixed",
+        "Permission checks scattered",
+        "Complex access rule processing"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "role_manager.py",
+          "policy_enforcer.py",
+          "permission_checker.py",
+          "access_rule_parser.py",
+          "authorization_auditor.py"
+        ],
+        "main_class": "AuthorizationManagerOrchestrator",
+        "responsibilities": "Coordinate authorization workflow"
+      },
+      "dependencies": [
+        "src/core/security/authentication_service.py",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Role assignment tests + permission enforcement tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Authorization accuracy maintained",
+        "Policy enforcement reliable",
+        "Security compliance ensured"
+      ],
+      "estimated_hours": 12
+    },
+    {
+      "contract_id": "CORE-017",
+      "file_path": "src/core/events/event_bus.py",
+      "current_lines": 465,
+      "target_lines": 200,
+      "reduction_target": "57%",
+      "priority": "HIGH",
+      "category": "Event Bus",
+      "violations": [
+        "Event dispatching and subscription mixed",
+        "Multiple event types handled together",
+        "Complex listener management"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "event_dispatcher.py",
+          "event_subscription_manager.py",
+          "event_queue.py",
+          "listener_registry.py",
+          "event_serializer.py"
+        ],
+        "main_class": "EventBusOrchestrator",
+        "responsibilities": "Coordinate event workflow"
+      },
+      "dependencies": [
+        "src/core/messaging",
+        "src/utils/queue"
+      ],
+      "testing_strategy": "Event dispatch tests + listener management tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Event dispatch performance maintained",
+        "Listener management reliable",
+        "Event serialization accurate"
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "contract_id": "CORE-018",
+      "file_path": "src/core/plugins/plugin_manager.py",
+      "current_lines": 458,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "HIGH",
+      "category": "Plugin Management",
+      "violations": [
+        "Plugin loading and lifecycle mixed",
+        "Dependency resolution embedded",
+        "Complex plugin discovery logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "plugin_loader.py",
+          "plugin_lifecycle_manager.py",
+          "dependency_resolver.py",
+          "plugin_discovery.py",
+          "plugin_registry.py"
+        ],
+        "main_class": "PluginManagerOrchestrator",
+        "responsibilities": "Coordinate plugin workflow"
+      },
+      "dependencies": [
+        "src/core/config",
+        "src/utils/reflection"
+      ],
+      "testing_strategy": "Plugin loading tests + dependency resolution tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Plugin lifecycle stability maintained",
+        "Dependencies resolved correctly",
+        "Discovery performance preserved"
+      ],
+      "estimated_hours": 9
+    },
+    {
+      "contract_id": "CORE-019",
+      "file_path": "src/core/monitoring/monitoring_aggregator.py",
+      "current_lines": 452,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "MEDIUM",
+      "category": "Monitoring",
+      "violations": [
+        "Aggregation and analysis mixed",
+        "Multiple metric sources combined",
+        "Complex alert generation logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "metric_collector.py",
+          "metric_aggregator.py",
+          "metric_analyzer.py",
+          "alert_generator.py",
+          "monitoring_storage.py"
+        ],
+        "main_class": "MonitoringAggregatorOrchestrator",
+        "responsibilities": "Coordinate monitoring aggregation"
+      },
+      "dependencies": [
+        "src/core/performance/metrics",
+        "src/utils/storage"
+      ],
+      "testing_strategy": "Metric aggregation tests + alert generation tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Aggregation performance maintained",
+        "Alert accuracy preserved",
+        "Storage integration reliable"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-020",
+      "file_path": "src/core/reporting/reporting_engine.py",
+      "current_lines": 449,
+      "target_lines": 200,
+      "reduction_target": "55%",
+      "priority": "MEDIUM",
+      "category": "Reporting",
+      "violations": [
+        "Report generation and delivery mixed",
+        "Formatting and aggregation combined",
+        "Complex template handling"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "report_generator.py",
+          "report_formatter.py",
+          "report_delivery_service.py",
+          "template_manager.py",
+          "report_aggregator.py"
+        ],
+        "main_class": "ReportingEngineOrchestrator",
+        "responsibilities": "Coordinate reporting workflow"
+      },
+      "dependencies": [
+        "src/core/data",
+        "src/utils/notification"
+      ],
+      "testing_strategy": "Report generation tests + template handling tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Report formatting quality maintained",
+        "Delivery reliability preserved",
+        "Aggregation accuracy ensured"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-021",
+      "file_path": "src/core/resources/resource_allocation_manager.py",
+      "current_lines": 451,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "MEDIUM",
+      "category": "Resource Allocation",
+      "violations": [
+        "Allocation logic and tracking mixed",
+        "Multiple resource types combined",
+        "Complex allocation strategy handling"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "resource_allocator.py",
+          "resource_tracker.py",
+          "allocation_strategy_factory.py",
+          "resource_validator.py",
+          "resource_metrics_collector.py"
+        ],
+        "main_class": "ResourceAllocationOrchestrator",
+        "responsibilities": "Coordinate resource allocation workflow"
+      },
+      "dependencies": [
+        "src/core/metrics",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Allocation strategy tests + resource tracking tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Allocation accuracy maintained",
+        "Tracking reliability preserved",
+        "Strategy flexibility ensured"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-022",
+      "file_path": "src/core/scheduling/scheduling_service.py",
+      "current_lines": 457,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "MEDIUM",
+      "category": "Scheduling",
+      "violations": [
+        "Task scheduling and execution mixed",
+        "Time management and retries combined",
+        "Complex scheduler state logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "task_scheduler.py",
+          "execution_manager.py",
+          "time_manager.py",
+          "retry_handler.py",
+          "scheduler_state_manager.py"
+        ],
+        "main_class": "SchedulingServiceOrchestrator",
+        "responsibilities": "Coordinate scheduling workflow"
+      },
+      "dependencies": [
+        "src/core/tasks",
+        "src/utils/time"
+      ],
+      "testing_strategy": "Scheduling accuracy tests + retry handling tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Scheduling accuracy maintained",
+        "Retry logic reliable",
+        "State management stable"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-023",
+      "file_path": "src/core/settings/settings_persistence.py",
+      "current_lines": 445,
+      "target_lines": 200,
+      "reduction_target": "55%",
+      "priority": "MEDIUM",
+      "category": "Settings",
+      "violations": [
+        "Persistence and retrieval mixed",
+        "Format handling combined",
+        "Complex migration logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "settings_loader.py",
+          "settings_saver.py",
+          "format_handler.py",
+          "migration_manager.py",
+          "settings_cache.py"
+        ],
+        "main_class": "SettingsPersistenceOrchestrator",
+        "responsibilities": "Coordinate settings persistence workflow"
+      },
+      "dependencies": [
+        "src/core/config",
+        "src/utils/storage"
+      ],
+      "testing_strategy": "Settings load/save tests + migration tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Settings persistence reliability maintained",
+        "Migration logic accurate",
+        "Cache consistency ensured"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "CORE-024",
+      "file_path": "src/core/telemetry/telemetry_collector.py",
+      "current_lines": 453,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "MEDIUM",
+      "category": "Telemetry",
+      "violations": [
+        "Collection and transmission mixed",
+        "Multiple telemetry formats combined",
+        "Complex batching logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "telemetry_collector_core.py",
+          "telemetry_transmitter.py",
+          "telemetry_formatter.py",
+          "batch_manager.py",
+          "telemetry_storage.py"
+        ],
+        "main_class": "TelemetryCollectorOrchestrator",
+        "responsibilities": "Coordinate telemetry collection workflow"
+      },
+      "dependencies": [
+        "src/utils/networking",
+        "src/core/monitoring"
+      ],
+      "testing_strategy": "Telemetry collection tests + transmission reliability tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Telemetry transmission reliable",
+        "Batching logic efficient",
+        "Storage integration correct"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-025",
+      "file_path": "src/core/errors/error_handling_framework.py",
+      "current_lines": 447,
+      "target_lines": 200,
+      "reduction_target": "55%",
+      "priority": "MEDIUM",
+      "category": "Error Handling",
+      "violations": [
+        "Exception catching and reporting mixed",
+        "Recovery and logging combined",
+        "Complex error classification logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "exception_handler.py",
+          "error_reporter.py",
+          "recovery_manager.py",
+          "error_classifier.py",
+          "error_logger.py"
+        ],
+        "main_class": "ErrorHandlingOrchestrator",
+        "responsibilities": "Coordinate error handling workflow"
+      },
+      "dependencies": [
+        "src/core/logging",
+        "src/utils/monitoring"
+      ],
+      "testing_strategy": "Exception handling tests + recovery verification",
+      "success_criteria": [
+        "File under 200 lines",
+        "Error reporting accuracy maintained",
+        "Recovery logic reliable",
+        "Logging integration maintained"
+      ],
+      "estimated_hours": 8
     }
   ],
   "summary": {
-    "total_estimated_hours": 94,
+    "total_estimated_hours": 227,
     "expected_compliance_improvement": "2.0%",
-    "files_to_refactor": 10,
+    "files_to_refactor": 25,
     "priority_distribution": {
-      "CRITICAL": 3,
-      "HIGH": 4,
-      "MEDIUM": 3
+      "CRITICAL": 5,
+      "HIGH": 8,
+      "MEDIUM": 12
     },
     "risk_level": "MEDIUM",
     "success_probability": "HIGH"

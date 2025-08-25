@@ -83,25 +83,35 @@ class AgentHealthCoreMonitor:
 
     def _monitor_loop(self):
         """Main monitoring loop"""
+
+        # Track last execution times for periodic tasks
+        last_metrics_time = time.time()
+        last_health_check_time = time.time()
+        last_alert_check_time = time.time()
+
         while self.monitoring_active:
             try:
-                with self._lock:
-                    # Collect health metrics
+                now = time.time()
+
+                # Collect health metrics only when interval has elapsed
+                if now - last_metrics_time >= self.metrics_interval:
                     self._collect_health_metrics()
+                    last_metrics_time = now
 
-                    # Perform health checks
+                # Perform health checks and related updates on their own interval
+                if now - last_health_check_time >= self.health_check_interval:
                     self._perform_health_checks()
-
-                    # Check for alerts
-                    self._check_alerts()
-
-                    # Update health scores
                     self._update_health_scores()
+                    self._notify_health_updates()
+                    last_health_check_time = now
 
-                # Notify subscribers
-                self._notify_health_updates()
+                # Check for alerts only when interval has elapsed
+                if now - last_alert_check_time >= self.alert_check_interval:
+                    self._check_alerts()
+                    last_alert_check_time = now
 
-                time.sleep(self.health_check_interval)
+                # Short sleep to prevent tight loop
+                time.sleep(1)
 
             except Exception as e:
                 logger.error(f"Error in health monitoring loop: {e}")
@@ -517,6 +527,7 @@ class AgentHealthCoreMonitor:
             # Start monitoring with shorter intervals for testing
             self.health_check_interval = 1
             self.alert_check_interval = 1
+            self.metrics_interval = 1
             self.start()
             time.sleep(2)  # Allow monitoring to process
 

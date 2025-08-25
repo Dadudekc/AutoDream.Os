@@ -19,7 +19,7 @@ def create_env():
     """Create core components for tests."""
     tracker = PerformanceMonitor(CONFIG)
     profiler = PerformanceMonitor(CONFIG)
-    messaging = V2ComprehensiveMessagingSystem(CONFIG)
+    messaging = V2ComprehensiveMessagingSystem()
     gateway = APIGateway(CONFIG)
     dashboard = PerformanceDashboard(
         agent_manager=None,

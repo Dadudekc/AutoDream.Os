@@ -27,7 +27,7 @@ from core.health_metrics_collector import HealthMetricsCollector
 from core.health_threshold_manager import HealthThresholdManager
 from core.health_alert_manager import HealthAlertManager
 from core.health_score_calculator import HealthScoreCalculator
-from core.health_monitor_core import HealthMonitorCore
+from core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitorCore
 
 
 class TestHealthMetricsCollector:

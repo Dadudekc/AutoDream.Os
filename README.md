@@ -41,6 +41,14 @@ pytest
 ### Project Overview
 Agent Cellphone V2 is a sophisticated multi-agent communication system with a **unified coordinate architecture** that eliminates duplicate code and provides a single source of truth for all agent operations.
 
+### 🎯 **Coding Standards & Compliance**
+- **Unified Standards**: See `UNIFIED_CODING_STANDARDS_AND_COMPLIANCE_2024.md` for complete coding standards and compliance requirements
+- **Agent Workflow**: See `AGENT_WORKFLOW_CHECKLIST.md` for automated development guidelines
+- **Agent Onboarding**: See `src/launchers/unified_onboarding_launcher.py` for unified onboarding system
+- **Captain Coordination Training**: See `docs/onboarding/CAPTAIN_COORDINATION_TRAINING.md` for coordination training
+- **Current Compliance**: 93.0% (targeting 97.2% by end of Phase 3)
+- **Architecture**: FSM-driven development with contract system for task management
+
 ### Key Features
 - **Unified Coordinate Management** - Single source of truth for all agent coordinates
 - **Modular Messaging System** - Clean, V2-compliant architecture following OOP and SRP principles

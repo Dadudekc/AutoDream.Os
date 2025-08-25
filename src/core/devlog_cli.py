@@ -40,13 +40,39 @@ except ImportError as e:
     print(f"⚠️ Some systems not available: {e} - using placeholder classes")
     
     # Placeholder classes
+    class KnowledgeEntry:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+    
     class KnowledgeDatabase:
         def __init__(self, db_path: str = "devlog_knowledge.db"):
-            pass
-        def add_entry(self, entry: Any) -> bool:
-            return True
-        def search_entries(self, query: str, category: str = None) -> List[Any]:
-            return []
+            self.db_path = db_path
+            self.entries = []
+            self.entry_id = 0
+        
+        def store_knowledge(self, entry: KnowledgeEntry) -> bool:
+            """Store a knowledge entry"""
+            try:
+                entry.id = f"devlog_{self.entry_id}"
+                self.entry_id += 1
+                self.entries.append(entry)
+                return True
+            except Exception:
+                return False
+        
+        def search_knowledge(self, query: str, limit: int = 10) -> List[tuple]:
+            """Search knowledge entries"""
+            try:
+                results = []
+                for entry in self.entries:
+                    if query.lower() in entry.title.lower() or query.lower() in entry.content.lower():
+                        relevance = 0.8  # Simple relevance scoring
+                        results.append((entry, relevance))
+                
+                return results[:limit]
+            except Exception:
+                return []
     
     class DiscordIntegrationService:
         def __init__(self):
@@ -266,8 +292,8 @@ Examples:
                 entry, relevance = entry_tuple
                 print(f"🆔 {entry.id}")
                 print(f"📝 {entry.title}")
-                print(f"🏷️  {entry.category}")
-                print(f"🤖 {entry.agent_id}")
+                print(f"🏷️  Category: {entry.category}")
+                print(f"🤖 Agent: {entry.agent_id}")
                 print(f"📅 {datetime.fromtimestamp(entry.created_at).strftime('%Y-%m-%d %H:%M:%S')}")
                 print(f"📋 {entry.content[:100]}{'...' if len(entry.content) > 100 else ''}")
                 print(f"📊 Relevance: {relevance:.2f}")
@@ -315,11 +341,11 @@ Examples:
             return False
     
     def _post_entry_to_discord(self, entry: KnowledgeEntry, channel: str = None) -> bool:
-        """Post a devlog entry to Discord"""
+        """Post a devlog entry to Discord with enhanced formatting"""
         try:
             channel = channel or self.devlog_config["default_channel"]
             
-            # Format Discord message
+            # Enhanced Discord message formatting for rich embeds
             discord_content = f"""📝 **DEVLOG ENTRY: {entry.title}**
 🏷️ **Category**: {entry.category}
 🤖 **Agent**: {entry.agent_id}
@@ -327,7 +353,7 @@ Examples:
 📊 **Priority**: {entry.metadata.get('priority', 'normal')}
 
 📋 **Content**:
-{entry.content}
+{self._format_content_for_discord(entry.content)}
 
 🏷️ **Tags**: {', '.join(entry.tags) if entry.tags else 'None'}
 🆔 **Entry ID**: {entry.id}"""
@@ -335,7 +361,7 @@ Examples:
             # Send via Discord service
             success = self.discord_service.send_message(
                 sender=f"Agent-{entry.agent_id}",
-                message_type="devlog",
+                message_type="devlog",  # This triggers rich embed
                 content=discord_content,
                 channel=channel
             )
@@ -345,6 +371,36 @@ Examples:
         except Exception as e:
             self.logger.error(f"Failed to post entry to Discord: {e}")
             return False
+
+    def _format_content_for_discord(self, content: str) -> str:
+        """Format content to look better in Discord embeds"""
+        try:
+            # Clean up the content for better Discord display
+            formatted = content.strip()
+            
+            # Add some visual enhancements
+            # Replace common patterns with emojis
+            formatted = formatted.replace("✅", "✅")
+            formatted = formatted.replace("❌", "❌")
+            formatted = formatted.replace("⚠️", "⚠️")
+            formatted = formatted.replace("🚀", "🚀")
+            formatted = formatted.replace("🎯", "🎯")
+            formatted = formatted.replace("🔧", "🔧")
+            formatted = formatted.replace("📊", "📊")
+            formatted = formatted.replace("💡", "💡")
+            
+            # Add line breaks for better readability
+            formatted = formatted.replace(". ", ".\n")
+            formatted = formatted.replace("! ", "!\n")
+            
+            # Limit length for Discord embed (max 1000 chars)
+            if len(formatted) > 1000:
+                formatted = formatted[:997] + "..."
+            
+            return formatted
+            
+        except Exception:
+            return content[:1000] + ("..." if len(content) > 1000 else "")
     
     def _show_status(self, args: argparse.Namespace) -> bool:
         """Show devlog system status"""
@@ -363,6 +419,12 @@ Examples:
             print(f"   Bridge: {'✅ Available' if SYSTEMS_AVAILABLE else '⚠️  Limited'}")
             print(f"   Auto-posting: {'✅ Enabled' if self.devlog_config['auto_discord'] else '❌ Disabled'}")
             print(f"   Default Channel: {self.devlog_config['default_channel']}")
+            
+            # Check Discord webhook status
+            if hasattr(self.discord_service, 'webhook_url') and self.discord_service.webhook_url:
+                print(f"   Webhook: ✅ Configured ({self.discord_service.webhook_url[:50]}...)")
+            else:
+                print("   Webhook: ❌ Not configured (set DISCORD_WEBHOOK_URL environment variable)")
             
             # Configuration
             print("\n⚙️  Configuration:")

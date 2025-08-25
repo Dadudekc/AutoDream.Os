@@ -10,7 +10,7 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 from .monitor_types import AgentStatus, AgentCapability, AgentInfo, MonitorConfig
 
 from .monitor_core import AgentStatusMonitor
-from .monitor_health import HealthMonitor
+from ..health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitor
 from .monitor_reporting import MonitorReporter
 
 # Backward compatibility

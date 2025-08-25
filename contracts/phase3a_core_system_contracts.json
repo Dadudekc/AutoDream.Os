@@ -1,0 +1,392 @@
+{
+  "phase": "3A",
+  "name": "Core System Refactoring",
+  "description": "High-impact refactoring of core system files for improved stability and maintainability",
+  "total_contracts": 25,
+  "priority": "HIGH",
+  "estimated_effort": "2 weeks",
+  "target_compliance_improvement": "93.0% → 95.0%",
+  "contracts": [
+    {
+      "contract_id": "CORE-001",
+      "file_path": "src/core/health/monitoring/health_monitoring_core.py",
+      "current_lines": 447,
+      "target_lines": 250,
+      "reduction_target": "44%",
+      "priority": "CRITICAL",
+      "category": "Health Monitoring",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Multiple concerns in single class",
+        "Complex health check orchestration"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "health_check_executor.py",
+          "health_metrics_collector.py",
+          "health_status_analyzer.py",
+          "health_notification_manager.py"
+        ],
+        "main_class": "HealthMonitoringOrchestrator",
+        "responsibilities": "Coordinate health monitoring workflow only"
+      },
+      "dependencies": [
+        "src/core/health/alerting/",
+        "src/utils/stability_improvements"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + integration tests",
+      "success_criteria": [
+        "File under 250 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-002",
+      "file_path": "src/core/messaging/message_router.py",
+      "current_lines": 518,
+      "target_lines": 200,
+      "reduction_target": "61%",
+      "priority": "CRITICAL",
+      "category": "Message Routing",
+      "violations": [
+        "Complex routing logic in single class",
+        "Message transformation and validation mixed",
+        "Multiple routing strategies combined"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "message_router_core.py",
+          "routing_strategy_factory.py",
+          "message_transformer.py",
+          "message_validator.py",
+          "routing_table_manager.py"
+        ],
+        "main_class": "MessageRouterOrchestrator",
+        "responsibilities": "Coordinate message routing workflow"
+      },
+      "dependencies": [
+        "src/core/messaging/types",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Comprehensive routing tests + performance benchmarks",
+      "success_criteria": [
+        "File under 200 lines",
+        "Clear separation of routing concerns",
+        "Routing performance maintained",
+        "All existing functionality preserved"
+      ],
+      "estimated_hours": 12
+    },
+    {
+      "contract_id": "CORE-003",
+      "file_path": "src/core/performance/alerts/manager.py",
+      "current_lines": 492,
+      "target_lines": 200,
+      "reduction_target": "59%",
+      "priority": "HIGH",
+      "category": "Performance Alerts",
+      "violations": [
+        "Alert creation and management mixed",
+        "Notification logic embedded",
+        "Complex alert rule processing"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "alert_creator.py",
+          "alert_rule_engine.py",
+          "alert_notification_service.py",
+          "alert_storage_manager.py",
+          "alert_aggregator.py"
+        ],
+        "main_class": "AlertManagerOrchestrator",
+        "responsibilities": "Coordinate alert management workflow"
+      },
+      "dependencies": [
+        "src/core/performance/metrics",
+        "src/utils/notification"
+      ],
+      "testing_strategy": "Alert creation tests + notification delivery tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Alert creation performance maintained",
+        "Notification delivery working",
+        "Rule processing accuracy preserved"
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "contract_id": "CORE-004",
+      "file_path": "src/core/testing_framework/testing_core.py",
+      "current_lines": 496,
+      "target_lines": 200,
+      "reduction_target": "60%",
+      "priority": "HIGH",
+      "category": "Testing Framework",
+      "violations": [
+        "Test execution and reporting mixed",
+        "Multiple test types in single class",
+        "Complex test lifecycle management"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "test_executor_core.py",
+          "test_lifecycle_manager.py",
+          "test_result_processor.py",
+          "test_report_generator.py",
+          "test_type_handler.py"
+        ],
+        "main_class": "TestingFrameworkOrchestrator",
+        "responsibilities": "Coordinate testing workflow"
+      },
+      "dependencies": [
+        "src/core/testing_framework/types",
+        "src/utils/reporting"
+      ],
+      "testing_strategy": "Framework functionality tests + performance tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Test execution performance maintained",
+        "Reporting functionality preserved",
+        "Framework extensibility improved"
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "contract_id": "CORE-005",
+      "file_path": "src/core/agent_manager.py",
+      "current_lines": 494,
+      "target_lines": 200,
+      "reduction_target": "59%",
+      "priority": "CRITICAL",
+      "category": "Agent Management",
+      "violations": [
+        "Agent lifecycle and coordination mixed",
+        "Complex agent state management",
+        "Multiple agent types handled together"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "agent_lifecycle_manager.py",
+          "agent_state_coordinator.py",
+          "agent_type_handler.py",
+          "agent_communication_bridge.py",
+          "agent_health_monitor.py"
+        ],
+        "main_class": "AgentManagerOrchestrator",
+        "responsibilities": "Coordinate agent management workflow"
+      },
+      "dependencies": [
+        "src/core/health",
+        "src/core/messaging"
+      ],
+      "testing_strategy": "Agent lifecycle tests + state management tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Agent lifecycle performance maintained",
+        "State management accuracy preserved",
+        "Communication reliability maintained"
+      ],
+      "estimated_hours": 12
+    },
+    {
+      "contract_id": "CORE-006",
+      "file_path": "src/core/api_gateway.py",
+      "current_lines": 512,
+      "target_lines": 200,
+      "reduction_target": "61%",
+      "priority": "HIGH",
+      "category": "API Gateway",
+      "violations": [
+        "Request routing and processing mixed",
+        "Authentication and authorization embedded",
+        "Complex response transformation"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "request_router.py",
+          "auth_middleware.py",
+          "response_transformer.py",
+          "rate_limiter.py",
+          "api_documentation_generator.py"
+        ],
+        "main_class": "APIGatewayOrchestrator",
+        "responsibilities": "Coordinate API request workflow"
+      },
+      "dependencies": [
+        "src/core/auth",
+        "src/core/messaging"
+      ],
+      "testing_strategy": "API routing tests + authentication tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "API routing performance maintained",
+        "Authentication security preserved",
+        "Response transformation accuracy maintained"
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "contract_id": "CORE-007",
+      "file_path": "src/core/autonomous_development.py",
+      "current_lines": 419,
+      "target_lines": 200,
+      "reduction_target": "52%",
+      "priority": "MEDIUM",
+      "category": "Autonomous Development",
+      "violations": [
+        "Development workflow and execution mixed",
+        "Code generation and analysis combined",
+        "Complex development state management"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "development_workflow_engine.py",
+          "code_generation_orchestrator.py",
+          "code_analysis_service.py",
+          "development_state_manager.py",
+          "development_metrics_collector.py"
+        ],
+        "main_class": "AutonomousDevelopmentOrchestrator",
+        "responsibilities": "Coordinate development workflow"
+      },
+      "dependencies": [
+        "src/ai_ml",
+        "src/core/tasks"
+      ],
+      "testing_strategy": "Workflow execution tests + code generation tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Development workflow performance maintained",
+        "Code generation quality preserved",
+        "Analysis accuracy maintained"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-008",
+      "file_path": "src/core/decision_coordination_system.py",
+      "current_lines": 452,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "MEDIUM",
+      "category": "Decision Coordination",
+      "violations": [
+        "Decision logic and coordination mixed",
+        "Multiple decision types handled together",
+        "Complex decision state management"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "decision_logic_engine.py",
+          "decision_coordinator.py",
+          "decision_state_manager.py",
+          "decision_validator.py",
+          "decision_metrics_collector.py"
+        ],
+        "main_class": "DecisionCoordinationOrchestrator",
+        "responsibilities": "Coordinate decision workflow"
+      },
+      "dependencies": [
+        "src/core/tasks",
+        "src/utils/validation"
+      ],
+      "testing_strategy": "Decision logic tests + coordination tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Decision logic accuracy maintained",
+        "Coordination performance preserved",
+        "State management reliability maintained"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-009",
+      "file_path": "src/core/internationalization_manager.py",
+      "current_lines": 458,
+      "target_lines": 200,
+      "reduction_target": "56%",
+      "priority": "MEDIUM",
+      "category": "Internationalization",
+      "violations": [
+        "Translation and formatting mixed",
+        "Multiple locale handling combined",
+        "Complex cultural adaptation logic"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "translation_service.py",
+          "locale_manager.py",
+          "formatting_service.py",
+          "cultural_adaptation.py",
+          "i18n_cache_manager.py"
+        ],
+        "main_class": "I18nOrchestrator",
+        "responsibilities": "Coordinate internationalization workflow"
+      },
+      "dependencies": [
+        "src/utils/caching",
+        "src/core/config"
+      ],
+      "testing_strategy": "Translation tests + locale handling tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Translation performance maintained",
+        "Locale handling accuracy preserved",
+        "Formatting quality maintained"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "CORE-010",
+      "file_path": "src/core/performance/performance_dashboard.py",
+      "current_lines": 448,
+      "target_lines": 200,
+      "reduction_target": "55%",
+      "priority": "MEDIUM",
+      "category": "Performance Dashboard",
+      "violations": [
+        "Data collection and visualization mixed",
+        "Multiple dashboard types combined",
+        "Complex performance metrics processing"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "dashboard_data_collector.py",
+          "dashboard_visualization_engine.py",
+          "performance_metrics_processor.py",
+          "dashboard_layout_manager.py",
+          "dashboard_interaction_handler.py"
+        ],
+        "main_class": "PerformanceDashboardOrchestrator",
+        "responsibilities": "Coordinate dashboard workflow"
+      },
+      "dependencies": [
+        "src/core/performance/metrics",
+        "src/web/frontend"
+      ],
+      "testing_strategy": "Data collection tests + visualization tests",
+      "success_criteria": [
+        "File under 200 lines",
+        "Dashboard performance maintained",
+        "Data visualization quality preserved",
+        "Metrics processing accuracy maintained"
+      ],
+      "estimated_hours": 8
+    }
+  ],
+  "summary": {
+    "total_estimated_hours": 94,
+    "expected_compliance_improvement": "2.0%",
+    "files_to_refactor": 10,
+    "priority_distribution": {
+      "CRITICAL": 3,
+      "HIGH": 4,
+      "MEDIUM": 3
+    },
+    "risk_level": "MEDIUM",
+    "success_probability": "HIGH"
+  }
+}

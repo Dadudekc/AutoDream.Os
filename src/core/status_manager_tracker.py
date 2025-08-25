@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 
 from .agent_manager import AgentStatus
-from .health.core import AlertLevel
+from .health.health_monitor_alerts import AlertLevel
 from .status_manager_config import Alert, StatusEvent, StatusTransition
 
 

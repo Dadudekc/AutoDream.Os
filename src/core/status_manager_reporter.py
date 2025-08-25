@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from .agent_manager import AgentInfo, AgentStatus
-from .health.core import AlertLevel
+from .health.health_monitor_alerts import AlertLevel
 from .health_models import HealthStatus
 from .status_manager_config import Alert, HealthCheck
 

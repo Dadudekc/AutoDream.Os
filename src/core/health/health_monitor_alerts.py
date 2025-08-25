@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Health Checker Core - Agent Cellphone V2
-========================================
+Health Monitor Alerts - Agent Cellphone V2
+=========================================
 
-Health checking and alert functionality for the health monitoring system.
+Alert management and health checking utilities for the health monitoring system.
 Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 """
 
@@ -12,9 +12,9 @@ import logging
 from typing import Dict, List, Optional, Any, Callable
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from ...status.status_core import LiveStatusSystem
-from ...status.status_types import StatusEventType, StatusEvent
-from ...health_models import (
+from ..status.status_core import LiveStatusSystem
+from ..status.status_types import StatusEventType, StatusEvent
+from ..health_models import (
     HealthStatus,
     HealthMetricType,
     AlertSeverity,

@@ -19,7 +19,7 @@ import json
 
 from .cursor_response_capture import CursorResponseCapture, CursorMessage
 from .performance_monitor import PerformanceMonitor
-from .health_monitor import HealthMonitor
+from .health.health_monitor import HealthMonitor
 
 
 @dataclass

@@ -26,7 +26,7 @@ from pathlib import Path
 from .fsm_cursor_integration import PerpetualMotionEngine, FSMStateMachine, FSMTrigger
 from .cursor_response_capture import CursorResponseCapture
 from .performance_monitor import PerformanceMonitor
-from .health_monitor import HealthMonitor
+from .health.health_monitor import HealthMonitor
 
 # Extracted autonomous development modules
 from ..autonomous_development.workflow.engine import WorkflowEngine

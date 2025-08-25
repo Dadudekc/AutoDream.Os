@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Health Reporter Core - Agent Cellphone V2
-========================================
+Health Monitor Reports - Agent Cellphone V2
+==========================================
 
-Health reporting and history functionality for the health monitoring system.
+Reporting and history utilities for the health monitoring system.
 Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 """
 
@@ -12,7 +12,7 @@ import logging
 from typing import Dict, List, Optional, Any, Callable
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from ...health_models import (
+from ..health_models import (
     HealthStatus,
     HealthMetricType,
     AlertSeverity,

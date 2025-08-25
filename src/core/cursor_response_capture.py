@@ -39,7 +39,7 @@ except Exception:  # pragma: no cover - dependency not installed
 from datetime import datetime
 
 from .performance_monitor import PerformanceMonitor
-from .health_monitor import HealthMonitor
+from .health.health_monitor import HealthMonitor
 from .error_handler import ErrorHandler
 
 

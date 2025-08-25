@@ -13,17 +13,17 @@ import logging
 from typing import Dict, List, Optional, Any, Callable
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from .checker import HealthChecker
-from .reporter import HealthReporter
+from .health_monitor_alerts import HealthChecker
+from .health_monitor_reports import HealthReporter
 
 
-class HealthMonitor:
+class HealthMonitorCore:
     """
     Core health monitoring system for connectors and services
     """
 
     def __init__(self, update_interval: float = 10.0):
-        self.logger = logging.getLogger(f"{__name__}.HealthMonitor")
+        self.logger = logging.getLogger(f"{__name__}.HealthMonitorCore")
         self.update_interval = update_interval
         self.is_active = False
 

@@ -11,7 +11,7 @@ from typing import Any, Dict
 
 from .agent_manager import AgentStatus
 from .health_models import HealthStatus
-from .health.core import AlertLevel
+from .health.health_monitor_alerts import AlertLevel
 
 
 class StatusTransition(Enum):

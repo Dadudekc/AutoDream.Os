@@ -7,34 +7,16 @@ Real-time connector health monitoring system with proactive alerts.
 Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 """
 
-import time
-import json
-import threading
 import logging
-
-from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-from pathlib import Path
 
-from .status.status_core import LiveStatusSystem
-from .status.status_types import StatusEventType, StatusEvent
-from .health_models import (
-    HealthStatus,
-    HealthMetricType,
-    AlertSeverity,
-    HealthMetric,
-    HealthSnapshot,
-    HealthAlert,
-    HealthThreshold,
-    HealthReport,
-    HealthCheck,
-    HealthCheckResult,
-)
+from ..status.status_core import LiveStatusSystem
+from ..health_models import HealthAlert
 
-# Import the new modular components
-from .health.core import HealthMonitor as CoreHealthMonitor, HealthChecker, HealthReporter, AlertLevel
+# Import the modular components
+from .health_monitor_core import HealthMonitorCore
+from .health_monitor_alerts import HealthChecker, AlertLevel
+from .health_monitor_reports import HealthReporter
 
 
 class HealthMonitor:
@@ -47,8 +29,8 @@ class HealthMonitor:
         self.logger = logging.getLogger(f"{__name__}.HealthMonitor")
         self.update_interval = update_interval
         
-        # Use the new modular components
-        self.core_monitor = CoreHealthMonitor(update_interval)
+        # Use the modular components
+        self.core_monitor = HealthMonitorCore(update_interval)
         self.health_checker = HealthChecker()
         self.health_reporter = HealthReporter()
         

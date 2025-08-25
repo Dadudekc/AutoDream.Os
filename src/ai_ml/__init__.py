@@ -95,17 +95,15 @@ from .api_key_manager import (
     get_api_key_manager,
 )
 
-<<<<<<< HEAD
 # Agent coordination
 from .ai_agent_coordinator import AIAgentCoordinator
 from .ai_agent_tasks import AIAgentTask
-=======
+
 # Agent optimizer modules
 from .ai_agent_optimizer_core import AIAgentOptimizerCore
 from .ai_agent_performance_tuner import AIAgentPerformanceTuner
 from .ai_agent_resource_manager import AIAgentResourceManager
 from .ai_agent_optimizer import AIAgentOptimizer
->>>>>>> origin/codex/refactor-ai_agent_optimizer-into-multiple-modules
 
 __all__ = [
     # Core components
@@ -185,15 +183,12 @@ __all__ = [
     # API key management
     "APIKeyManager",
     "get_api_key_manager",
-<<<<<<< HEAD
     # Agent coordination
     "AIAgentCoordinator",
     "AIAgentTask",
-=======
     # Agent optimizer
     "AIAgentOptimizer",
     "AIAgentOptimizerCore",
     "AIAgentPerformanceTuner",
     "AIAgentResourceManager",
->>>>>>> origin/codex/refactor-ai_agent_optimizer-into-multiple-modules
 ]

@@ -1,0 +1,357 @@
+{
+  "phase": "Phase 5 - Moderate Violations (400+ LOC) - Batch 3",
+  "description": "Third batch of moderate priority refactoring contracts for files exceeding 400 lines",
+  "total_files": 10,
+  "estimated_effort": "1-2 days per file",
+  "priority": "MODERATE",
+  "standards": {
+    "target_loc": "400 LOC (standard), 600 LOC (GUI)",
+    "focus": "SRP compliance, modular architecture, production-ready code"
+  },
+  "contracts": [
+    {
+      "contract_id": "MODERATE-021",
+      "file_path": "src/ai_ml/ai_agent_factory.py",
+      "current_lines": 485,
+      "target_lines": 400,
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent creation, configuration, and management concerns",
+        "Create focused modules for different AI agent factory components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct factory responsibilities",
+        "2. Create ai_agent_creator.py (≤200 LOC)",
+        "3. Create ai_agent_config.py (≤150 LOC)",
+        "4. Create ai_agent_manager.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test agent factory functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_creator.py",
+        "ai_agent_config.py",
+        "ai_agent_manager.py",
+        "ai_agent_factory.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-022",
+      "file_path": "src/core/health/health_monitor.py",
+      "current_lines": 472,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate health monitoring, alerting, and reporting concerns",
+        "Create focused modules for different health monitoring components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct monitoring responsibilities",
+        "2. Create health_monitor_core.py (≤200 LOC)",
+        "3. Create health_monitor_alerts.py (≤150 LOC)",
+        "4. Create health_monitor_reports.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test health monitoring functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "health_monitor_core.py",
+        "health_monitor_alerts.py",
+        "health_monitor_reports.py",
+        "health_monitor.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-023",
+      "file_path": "src/web/frontend/frontend_app.py",
+      "current_lines": 468,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate frontend app, routing, and UI concerns",
+        "Create focused modules for different frontend components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct frontend responsibilities",
+        "2. Create frontend_app_core.py (≤200 LOC)",
+        "3. Create frontend_routing.py (≤150 LOC)",
+        "4. Create frontend_ui.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test frontend functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "frontend_app_core.py",
+        "frontend_routing.py",
+        "frontend_ui.py",
+        "frontend_app.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-024",
+      "file_path": "src/ai_ml/ml_model_trainer.py",
+      "current_lines": 456,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate model training, validation, and configuration concerns",
+        "Create focused modules for different ML training components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct training responsibilities",
+        "2. Create ml_model_trainer_core.py (≤200 LOC)",
+        "3. Create ml_model_validator.py (≤150 LOC)",
+        "4. Create ml_model_config.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test model training functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ml_model_trainer_core.py",
+        "ml_model_validator.py",
+        "ml_model_config.py",
+        "ml_model_trainer.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-025",
+      "file_path": "src/core/security/security_manager.py",
+      "current_lines": 445,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate security management, authentication, and authorization concerns",
+        "Create focused modules for different security components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct security responsibilities",
+        "2. Create security_manager_core.py (≤200 LOC)",
+        "3. Create security_auth.py (≤150 LOC)",
+        "4. Create security_config.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test security functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "security_manager_core.py",
+        "security_auth.py",
+        "security_config.py",
+        "security_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-026",
+      "file_path": "src/ai_ml/ai_workflow_engine.py",
+      "current_lines": 438,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate workflow engine, execution, and state management concerns",
+        "Create focused modules for different workflow components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct workflow responsibilities",
+        "2. Create ai_workflow_engine_core.py (≤200 LOC)",
+        "3. Create ai_workflow_executor.py (≤150 LOC)",
+        "4. Create ai_workflow_state.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test workflow functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_workflow_engine_core.py",
+        "ai_workflow_executor.py",
+        "ai_workflow_state.py",
+        "ai_workflow_engine.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-027",
+      "file_path": "src/core/database/database_manager.py",
+      "current_lines": 432,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate database management, connection, and query concerns",
+        "Create focused modules for different database components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct database responsibilities",
+        "2. Create database_manager_core.py (≤200 LOC)",
+        "3. Create database_connection.py (≤150 LOC)",
+        "4. Create database_queries.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test database functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "database_manager_core.py",
+        "database_connection.py",
+        "database_queries.py",
+        "database_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-028",
+      "file_path": "src/ai_ml/ai_agent_orchestrator.py",
+      "current_lines": 425,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent orchestration, coordination, and scheduling concerns",
+        "Create focused modules for different orchestration components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct orchestration responsibilities",
+        "2. Create ai_agent_orchestrator_core.py (≤200 LOC)",
+        "3. Create ai_agent_coordinator.py (≤150 LOC)",
+        "4. Create ai_agent_scheduler.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test orchestration functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_orchestrator_core.py",
+        "ai_agent_coordinator.py",
+        "ai_agent_scheduler.py",
+        "ai_agent_orchestrator.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-029",
+      "file_path": "src/core/network/network_manager.py",
+      "current_lines": 418,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate network management, connection, and protocol concerns",
+        "Create focused modules for different network components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct network responsibilities",
+        "2. Create network_manager_core.py (≤200 LOC)",
+        "3. Create network_connection.py (≤150 LOC)",
+        "4. Create network_protocol.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test network functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "network_manager_core.py",
+        "network_connection.py",
+        "network_protocol.py",
+        "network_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-030",
+      "file_path": "src/ai_ml/ai_model_manager.py",
+      "current_lines": 405,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate model management, versioning, and deployment concerns",
+        "Create focused modules for different model management components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct model management responsibilities",
+        "2. Create ai_model_manager_core.py (≤200 LOC)",
+        "3. Create ai_model_versioning.py (≤150 LOC)",
+        "4. Create ai_model_deployment.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test model management functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_model_manager_core.py",
+        "ai_model_versioning.py",
+        "ai_model_deployment.py",
+        "ai_model_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "All files refactored to meet 400 LOC target",
+    "SRP compliance achieved across all modules",
+    "Comprehensive testing completed",
+    "V2 compliance progress tracker updated",
+    "Documentation updated for new modular structure"
+  ],
+  "quality_gates": [
+    "Code review passed",
+    "All tests passing",
+    "LOC targets met",
+    "Import dependencies resolved",
+    "Functionality preserved"
+  ]
+}

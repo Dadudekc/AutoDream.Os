@@ -1,0 +1,357 @@
+{
+  "phase": "Phase 7 - Moderate Violations (400+ LOC) - Batch 5",
+  "description": "Fifth batch of moderate priority refactoring contracts for files exceeding 400 lines",
+  "total_files": 10,
+  "estimated_effort": "1-2 days per file",
+  "priority": "MODERATE",
+  "standards": {
+    "target_loc": "400 LOC (standard), 600 LOC (GUI)",
+    "focus": "SRP compliance, modular architecture, production-ready code"
+  },
+  "contracts": [
+    {
+      "contract_id": "MODERATE-041",
+      "file_path": "src/core/authentication/auth_manager.py",
+      "current_lines": 492,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate authentication management, user validation, and session handling concerns",
+        "Create focused modules for different authentication components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct authentication responsibilities",
+        "2. Create auth_manager_core.py (≤200 LOC)",
+        "3. Create auth_user_validator.py (≤150 LOC)",
+        "4. Create auth_session_handler.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test authentication functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "auth_manager_core.py",
+        "auth_user_validator.py",
+        "auth_session_handler.py",
+        "auth_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-042",
+      "file_path": "src/ai_ml/ai_agent_analyzer.py",
+      "current_lines": 485,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent analysis, pattern recognition, and insight generation concerns",
+        "Create focused modules for different analysis components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct analysis responsibilities",
+        "2. Create ai_agent_analyzer_core.py (≤200 LOC)",
+        "3. Create ai_agent_patterns.py (≤150 LOC)",
+        "4. Create ai_agent_insights.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test analysis functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_analyzer_core.py",
+        "ai_agent_patterns.py",
+        "ai_agent_insights.py",
+        "ai_agent_analyzer.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-043",
+      "file_path": "src/core/encryption/encryption_manager.py",
+      "current_lines": 478,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate encryption management, key handling, and algorithm selection concerns",
+        "Create focused modules for different encryption components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct encryption responsibilities",
+        "2. Create encryption_manager_core.py (≤200 LOC)",
+        "3. Create encryption_keys.py (≤150 LOC)",
+        "4. Create encryption_algorithms.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test encryption functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "encryption_manager_core.py",
+        "encryption_keys.py",
+        "encryption_algorithms.py",
+        "encryption_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-044",
+      "file_path": "src/ai_ml/ai_agent_trainer.py",
+      "current_lines": 465,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent training, learning algorithms, and performance evaluation concerns",
+        "Create focused modules for different training components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct training responsibilities",
+        "2. Create ai_agent_trainer_core.py (≤200 LOC)",
+        "3. Create ai_agent_learning.py (≤150 LOC)",
+        "4. Create ai_agent_evaluation.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test training functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_trainer_core.py",
+        "ai_agent_learning.py",
+        "ai_agent_evaluation.py",
+        "ai_agent_trainer.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-045",
+      "file_path": "src/core/backup/backup_manager.py",
+      "current_lines": 452,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate backup management, storage coordination, and recovery planning concerns",
+        "Create focused modules for different backup components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct backup responsibilities",
+        "2. Create backup_manager_core.py (≤200 LOC)",
+        "3. Create backup_storage.py (≤150 LOC)",
+        "4. Create backup_recovery.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test backup functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "backup_manager_core.py",
+        "backup_storage.py",
+        "backup_recovery.py",
+        "backup_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-046",
+      "file_path": "src/ai_ml/ai_agent_planner.py",
+      "current_lines": 438,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent planning, strategy development, and execution coordination concerns",
+        "Create focused modules for different planning components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct planning responsibilities",
+        "2. Create ai_agent_planner_core.py (≤200 LOC)",
+        "3. Create ai_agent_strategy.py (≤150 LOC)",
+        "4. Create ai_agent_execution.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test planning functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_planner_core.py",
+        "ai_agent_strategy.py",
+        "ai_agent_execution.py",
+        "ai_agent_planner.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-047",
+      "file_path": "src/core/sync/sync_manager.py",
+      "current_lines": 425,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate synchronization management, conflict resolution, and data consistency concerns",
+        "Create focused modules for different sync components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct sync responsibilities",
+        "2. Create sync_manager_core.py (≤200 LOC)",
+        "3. Create sync_conflicts.py (≤150 LOC)",
+        "4. Create sync_consistency.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test sync functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "sync_manager_core.py",
+        "sync_conflicts.py",
+        "sync_consistency.py",
+        "sync_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-048",
+      "file_path": "src/ai_ml/ai_agent_learner.py",
+      "current_lines": 418,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent learning, knowledge acquisition, and skill development concerns",
+        "Create focused modules for different learning components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct learning responsibilities",
+        "2. Create ai_agent_learner_core.py (≤200 LOC)",
+        "3. Create ai_agent_knowledge.py (≤150 LOC)",
+        "4. Create ai_agent_skills.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test learning functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_learner_core.py",
+        "ai_agent_knowledge.py",
+        "ai_agent_skills.py",
+        "ai_agent_learner.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-049",
+      "file_path": "src/core/compression/compression_manager.py",
+      "current_lines": 408,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate compression management, algorithm selection, and performance optimization concerns",
+        "Create focused modules for different compression components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct compression responsibilities",
+        "2. Create compression_manager_core.py (≤200 LOC)",
+        "3. Create compression_algorithms.py (≤150 LOC)",
+        "4. Create compression_optimization.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test compression functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "compression_manager_core.py",
+        "compression_algorithms.py",
+        "compression_optimization.py",
+        "compression_manager.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MODERATE-050",
+      "file_path": "src/ai_ml/ai_agent_decision_maker.py",
+      "current_lines": 402,
+      "target_lines": 400",
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate agent decision making, logic processing, and outcome evaluation concerns",
+        "Create focused modules for different decision components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct decision responsibilities",
+        "2. Create ai_agent_decision_core.py (≤200 LOC)",
+        "3. Create ai_agent_logic.py (≤150 LOC)",
+        "4. Create ai_agent_outcomes.py (≤150 LOC)",
+        "5. Refactor main file to orchestrate modules (≤150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test decision functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "ai_agent_decision_core.py",
+        "ai_agent_logic.py",
+        "ai_agent_outcomes.py",
+        "ai_agent_decision_maker.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "All files refactored to meet 400 LOC target",
+    "SRP compliance achieved across all modules",
+    "Comprehensive testing completed",
+    "V2 compliance progress tracker updated",
+    "Documentation updated for new modular structure"
+  ],
+  "quality_gates": [
+    "Code review passed",
+    "All tests passing",
+    "LOC targets met",
+    "Import dependencies resolved",
+    "Functionality preserved"
+  ]
+}

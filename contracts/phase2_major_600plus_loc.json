@@ -1,7 +1,7 @@
 {
-  "phase": "Phase 2 - Major Violations (500+ LOC)",
-  "description": "High priority refactoring contracts for files exceeding 500 lines",
-  "total_files": 56,
+  "phase": "Phase 2 - Major Violations (600+ LOC)",
+  "description": "High priority refactoring contracts for files exceeding 600 lines - Focus on high-impact modularization",
+  "total_files": 37,
   "estimated_effort": "2-3 days per file",
   "priority": "HIGH",
   "standards": {
@@ -11,251 +11,181 @@
   "contracts": [
     {
       "contract_id": "MAJOR-001",
-      "file_path": "src/services/financial/portfolio/tracking.py",
-      "current_lines": 937,
+      "file_path": "tests/gaming/test_ai_agent_framework.py",
+      "current_lines": 992,
       "target_lines": 400,
       "priority": "HIGH",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate portfolio tracking, data management, and reporting concerns",
-        "Create focused modules for different portfolio tracking components",
-        "Maintain comprehensive functionality while improving maintainability"
+        "Separate AI agent framework testing, scenario execution, and validation concerns",
+        "Create focused test modules for different AI agent framework components",
+        "Maintain comprehensive test coverage while improving maintainability"
       ],
       "workflow": [
-        "1. Analyze file structure and identify distinct tracking responsibilities",
-        "2. Create portfolio_tracking_core.py (≤200 LOC)",
-        "3. Create portfolio_data_manager.py (≤200 LOC)",
-        "4. Create portfolio_reporter.py (≤150 LOC)",
-        "5. Create portfolio_config.py (≤100 LOC)",
-        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "1. Analyze file structure and identify distinct testing responsibilities",
+        "2. Create test_ai_agent_framework_core.py (≤200 LOC)",
+        "3. Create test_ai_agent_framework_scenarios.py (≤200 LOC)",
+        "4. Create test_ai_agent_framework_validation.py (≤200 LOC)",
+        "5. Create test_ai_agent_framework_utils.py (≤150 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
-        "8. Test tracking functionality to ensure it works correctly",
+        "8. Run all tests to ensure functionality preserved",
         "9. Delete original monolithic file",
         "10. Update V2 compliance progress tracker"
       ],
       "deliverables": [
-        "portfolio_tracking_core.py",
-        "portfolio_data_manager.py",
-        "portfolio_reporter.py",
-        "portfolio_config.py",
-        "tracking.py (orchestrator)",
+        "test_ai_agent_framework_core.py",
+        "test_ai_agent_framework_scenarios.py",
+        "test_ai_agent_framework_validation.py",
+        "test_ai_agent_framework_utils.py",
+        "test_ai_agent_framework.py (orchestrator)",
         "Updated compliance tracker"
       ]
     },
     {
       "contract_id": "MAJOR-002",
-      "file_path": "src/core/health/alerting/manager.py",
-      "current_lines": 910,
-      "target_lines": 400,
+      "file_path": "tests/ai_ml/test_code_crafter.py",
+      "current_lines": 976,
+      "target_lines": 400",
       "priority": "HIGH",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate alert management, notification, and configuration concerns",
-        "Create focused modules for different alert management components",
-        "Maintain comprehensive functionality while improving maintainability"
+        "Separate code crafter testing, model evaluation, and reporting concerns",
+        "Create focused test modules for different code crafter components",
+        "Maintain comprehensive test coverage while improving maintainability"
       ],
       "workflow": [
-        "1. Analyze file structure and identify distinct alert responsibilities",
-        "2. Create alert_manager_core.py (≤200 LOC)",
-        "3. Create alert_notifier.py (≤200 LOC)",
-        "4. Create alert_config.py (≤150 LOC)",
-        "5. Create alert_validator.py (≤100 LOC)",
-        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "1. Analyze file structure and identify distinct testing responsibilities",
+        "2. Create test_code_crafter_core.py (≤200 LOC)",
+        "3. Create test_code_crafter_evaluation.py (≤200 LOC)",
+        "4. Create test_code_crafter_reporting.py (≤200 LOC)",
+        "5. Create test_code_crafter_utils.py (≤150 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
-        "8. Test alert functionality to ensure it works correctly",
+        "8. Run all tests to ensure functionality preserved",
         "9. Delete original monolithic file",
         "10. Update V2 compliance progress tracker"
       ],
       "deliverables": [
-        "alert_manager_core.py",
-        "alert_notifier.py",
-        "alert_config.py",
-        "alert_validator.py",
-        "manager.py (orchestrator)",
+        "test_code_crafter_core.py",
+        "test_code_crafter_evaluation.py",
+        "test_code_crafter_reporting.py",
+        "test_code_crafter_utils.py",
+        "test_code_crafter.py (orchestrator)",
         "Updated compliance tracker"
       ]
     },
     {
       "contract_id": "MAJOR-003",
-      "file_path": "src/services/financial/unified_financial_api.py",
-      "current_lines": 872,
-      "target_lines": 400,
+      "file_path": "scripts/setup/setup_web_development.py",
+      "current_lines": 967,
+      "target_lines": 400",
       "priority": "HIGH",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate API routing, data processing, and response handling concerns",
-        "Create focused modules for different financial API components",
+        "Separate web development setup, environment configuration, and dependency management concerns",
+        "Create focused modules for different setup components",
         "Maintain comprehensive functionality while improving maintainability"
       ],
       "workflow": [
-        "1. Analyze file structure and identify distinct API responsibilities",
-        "2. Create unified_financial_api_router.py (≤200 LOC)",
-        "3. Create unified_financial_api_processor.py (≤200 LOC)",
-        "4. Create unified_financial_api_responses.py (≤150 LOC)",
-        "5. Create unified_financial_api_config.py (≤100 LOC)",
+        "1. Analyze file structure and identify distinct setup responsibilities",
+        "2. Create setup_web_development_core.py (≤200 LOC)",
+        "3. Create setup_web_development_env.py (≤200 LOC)",
+        "4. Create setup_web_development_deps.py (≤200 LOC)",
+        "5. Create setup_web_development_utils.py (≤150 LOC)",
         "6. Refactor main file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
-        "8. Test API functionality to ensure it works correctly",
+        "8. Test setup functionality to ensure it works correctly",
         "9. Delete original monolithic file",
         "10. Update V2 compliance progress tracker"
       ],
       "deliverables": [
-        "unified_financial_api_router.py",
-        "unified_financial_api_processor.py",
-        "unified_financial_api_responses.py",
-        "unified_financial_api_config.py",
-        "unified_financial_api.py (orchestrator)",
+        "setup_web_development_core.py",
+        "setup_web_development_env.py",
+        "setup_web_development_deps.py",
+        "setup_web_development_utils.py",
+        "setup_web_development.py (orchestrator)",
         "Updated compliance tracker"
       ]
     },
     {
       "contract_id": "MAJOR-004",
-      "file_path": "src/services/integrated_agent_coordinator.py",
-      "current_lines": 846,
-      "target_lines": 400,
+      "file_path": "tests/gaming/test_osrs_ai_agent.py",
+      "current_lines": 900,
+      "target_lines": 400",
       "priority": "HIGH",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate agent coordination, communication, and task management concerns",
-        "Create focused modules for different coordination components",
-        "Maintain comprehensive functionality while improving maintainability"
+        "Separate OSRS AI agent testing, game scenario execution, and validation concerns",
+        "Create focused test modules for different OSRS AI agent components",
+        "Maintain comprehensive test coverage while improving maintainability"
       ],
       "workflow": [
-        "1. Analyze file structure and identify distinct coordination responsibilities",
-        "2. Create agent_coordinator_core.py (≤200 LOC)",
-        "3. Create agent_communicator.py (≤200 LOC)",
-        "4. Create task_manager.py (≤150 LOC)",
-        "5. Create coordinator_config.py (≤100 LOC)",
-        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "1. Analyze file structure and identify distinct testing responsibilities",
+        "2. Create test_osrs_ai_agent_core.py (≤200 LOC)",
+        "3. Create test_osrs_ai_agent_scenarios.py (≤200 LOC)",
+        "4. Create test_osrs_ai_agent_validation.py (≤200 LOC)",
+        "5. Create test_osrs_ai_agent_utils.py (≤150 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
-        "8. Test coordination functionality to ensure it works correctly",
+        "8. Run all tests to ensure functionality preserved",
         "9. Delete original monolithic file",
         "10. Update V2 compliance progress tracker"
       ],
       "deliverables": [
-        "agent_coordinator_core.py",
-        "agent_communicator.py",
-        "task_manager.py",
-        "coordinator_config.py",
-        "integrated_agent_coordinator.py (orchestrator)",
+        "test_osrs_ai_agent_core.py",
+        "test_osrs_ai_agent_scenarios.py",
+        "test_osrs_ai_agent_validation.py",
+        "test_osrs_ai_agent_utils.py",
+        "test_osrs_ai_agent.py (orchestrator)",
         "Updated compliance tracker"
       ]
     },
     {
       "contract_id": "MAJOR-005",
-      "file_path": "src/core/health/metrics/collector.py",
-      "current_lines": 839,
-      "target_lines": 400,
+      "file_path": "tests/test_performance_monitoring_standalone.py",
+      "current_lines": 815,
+      "target_lines": 400",
       "priority": "HIGH",
       "estimated_effort": "3 days",
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate metrics collection, processing, and storage concerns",
-        "Create focused modules for different metrics collection components",
-        "Maintain comprehensive functionality while improving maintainability"
+        "Separate performance monitoring testing, setup, execution, and analysis concerns",
+        "Create focused test modules for different performance monitoring components",
+        "Maintain comprehensive test coverage while improving maintainability"
       ],
       "workflow": [
-        "1. Analyze file structure and identify distinct metrics responsibilities",
-        "2. Create metrics_collector_core.py (≤200 LOC)",
-        "3. Create metrics_processor.py (≤200 LOC)",
-        "4. Create metrics_storage.py (≤150 LOC)",
-        "5. Create metrics_config.py (≤100 LOC)",
-        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "1. Analyze file structure and identify distinct testing responsibilities",
+        "2. Create test_performance_monitoring_setup.py (≤200 LOC)",
+        "3. Create test_performance_monitoring_execution.py (≤200 LOC)",
+        "4. Create test_performance_monitoring_analysis.py (≤200 LOC)",
+        "5. Create test_performance_monitoring_utils.py (≤150 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
-        "8. Test metrics functionality to ensure it works correctly",
+        "8. Run all tests to ensure functionality preserved",
         "9. Delete original monolithic file",
         "10. Update V2 compliance progress tracker"
       ],
       "deliverables": [
-        "metrics_collector_core.py",
-        "metrics_processor.py",
-        "metrics_storage.py",
-        "metrics_config.py",
-        "collector.py (orchestrator)",
+        "test_performance_monitoring_setup.py",
+        "test_performance_monitoring_execution.py",
+        "test_performance_monitoring_analysis.py",
+        "test_performance_monitoring_utils.py",
+        "test_performance_monitoring_standalone.py (orchestrator)",
         "Updated compliance tracker"
       ]
     },
     {
       "contract_id": "MAJOR-006",
-      "file_path": "src/web/frontend/frontend_testing.py",
-      "current_lines": 816,
-      "target_lines": 400,
-      "priority": "HIGH",
-      "estimated_effort": "3 days",
-      "assigned_to": "UNASSIGNED",
-      "status": "AVAILABLE",
-      "refactoring_goals": [
-        "Separate frontend testing, UI validation, and reporting concerns",
-        "Create focused modules for different frontend testing components",
-        "Maintain comprehensive functionality while improving maintainability"
-      ],
-      "workflow": [
-        "1. Analyze file structure and identify distinct testing responsibilities",
-        "2. Create frontend_testing_core.py (≤200 LOC)",
-        "3. Create ui_validator.py (≤200 LOC)",
-        "4. Create test_reporter.py (≤150 LOC)",
-        "5. Create testing_config.py (≤100 LOC)",
-        "6. Refactor main file to orchestrate modules (≤150 LOC)",
-        "7. Update imports and dependencies",
-        "8. Test frontend testing functionality to ensure it works correctly",
-        "9. Delete original monolithic file",
-        "10. Update V2 compliance progress tracker"
-      ],
-      "deliverables": [
-        "frontend_testing_core.py",
-        "ui_validator.py",
-        "test_reporter.py",
-        "testing_config.py",
-        "frontend_testing.py (orchestrator)",
-        "Updated compliance tracker"
-      ]
-    },
-    {
-      "contract_id": "MAJOR-007",
-      "file_path": "src/autonomous_development/testing/orchestrator.py",
-      "current_lines": 808,
-      "target_lines": 400,
-      "priority": "HIGH",
-      "estimated_effort": "3 days",
-      "assigned_to": "UNASSIGNED",
-      "status": "AVAILABLE",
-      "refactoring_goals": [
-        "Separate testing orchestration, execution, and reporting concerns",
-        "Create focused modules for different testing orchestration components",
-        "Maintain comprehensive functionality while improving maintainability"
-      ],
-      "workflow": [
-        "1. Analyze file structure and identify distinct orchestration responsibilities",
-        "2. Create testing_orchestrator_core.py (≤200 LOC)",
-        "3. Create test_executor.py (≤200 LOC)",
-        "4. Create test_reporter.py (≤150 LOC)",
-        "5. Create orchestrator_config.py (≤100 LOC)",
-        "6. Refactor main file to orchestrate modules (≤150 LOC)",
-        "7. Update imports and dependencies",
-        "8. Test orchestration functionality to ensure it works correctly",
-        "9. Delete original monolithic file",
-        "10. Update V2 compliance progress tracker"
-      ],
-      "deliverables": [
-        "testing_orchestrator_core.py",
-        "test_executor.py",
-        "test_reporter.py",
-        "orchestrator_config.py",
-        "orchestrator.py (orchestrator)",
-        "Updated compliance tracker"
-      ]
-    },
-    {
-      "contract_id": "MAJOR-008",
       "file_path": "src/web/multimedia/webcam_filters.py",
       "current_lines": 793,
       "target_lines": 600",
@@ -264,7 +194,7 @@
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate filter processing, video handling, and UI concerns",
+        "Separate webcam filter processing, video handling, and UI concerns",
         "Create focused modules for different multimedia components",
         "Maintain comprehensive functionality while improving maintainability"
       ],
@@ -273,7 +203,7 @@
         "2. Create webcam_filter_processor.py (≤200 LOC)",
         "3. Create webcam_video_handler.py (≤200 LOC)",
         "4. Create webcam_ui_components.py (≤200 LOC)",
-        "5. Create webcam_configuration.py (≤100 LOC)",
+        "5. Create webcam_configuration.py (≤150 LOC)",
         "6. Refactor main file to orchestrate modules (≤200 LOC)",
         "7. Update imports and dependencies",
         "8. Test webcam functionality to ensure it works correctly",
@@ -290,7 +220,7 @@
       ]
     },
     {
-      "contract_id": "MAJOR-009",
+      "contract_id": "MAJOR-007",
       "file_path": "src/ai_ml/intelligent_reviewer.py",
       "current_lines": 789,
       "target_lines": 400",
@@ -299,7 +229,7 @@
       "assigned_to": "UNASSIGNED",
       "status": "AVAILABLE",
       "refactoring_goals": [
-        "Separate review logic, AI analysis, and reporting concerns",
+        "Separate intelligent review logic, AI analysis, and reporting concerns",
         "Create focused modules for different AI review components",
         "Maintain comprehensive functionality while improving maintainability"
       ],
@@ -307,8 +237,8 @@
         "1. Analyze file structure and identify distinct AI review responsibilities",
         "2. Create intelligent_review_core.py (≤200 LOC)",
         "3. Create intelligent_review_ai_analysis.py (≤200 LOC)",
-        "4. Create intelligent_review_reporting.py (≤150 LOC)",
-        "5. Create intelligent_review_config.py (≤100 LOC)",
+        "4. Create intelligent_review_reporting.py (≤200 LOC)",
+        "5. Create intelligent_review_config.py (≤150 LOC)",
         "6. Refactor main file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
         "8. Test AI review functionality to ensure it works correctly",
@@ -325,7 +255,7 @@
       ]
     },
     {
-      "contract_id": "MAJOR-010",
+      "contract_id": "MAJOR-008",
       "file_path": "src/security/network_security.py",
       "current_lines": 780,
       "target_lines": 400",
@@ -342,8 +272,8 @@
         "1. Analyze file structure and identify distinct security responsibilities",
         "2. Create network_security_policies.py (≤200 LOC)",
         "3. Create network_security_monitoring.py (≤200 LOC)",
-        "4. Create network_security_threats.py (≤150 LOC)",
-        "5. Create network_security_config.py (≤100 LOC)",
+        "4. Create network_security_threats.py (≤200 LOC)",
+        "5. Create network_security_config.py (≤150 LOC)",
         "6. Refactor main file to orchestrate modules (≤150 LOC)",
         "7. Update imports and dependencies",
         "8. Test security functionality to ensure it works correctly",
@@ -356,6 +286,76 @@
         "network_security_threats.py",
         "network_security_config.py",
         "network_security.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-009",
+      "file_path": "tests/test_autonomous_development.py",
+      "current_lines": 756,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate autonomous development testing, workflow testing, and validation concerns",
+        "Create focused test modules for different autonomous development components",
+        "Maintain comprehensive test coverage while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct testing responsibilities",
+        "2. Create test_autonomous_development_core.py (≤200 LOC)",
+        "3. Create test_autonomous_development_workflow.py (≤200 LOC)",
+        "4. Create test_autonomous_development_validation.py (≤200 LOC)",
+        "5. Create test_autonomous_development_utils.py (≤150 LOC)",
+        "6. Refactor main test file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Run all tests to ensure functionality preserved",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_autonomous_development_core.py",
+        "test_autonomous_development_workflow.py",
+        "test_autonomous_development_validation.py",
+        "test_autonomous_development_utils.py",
+        "test_autonomous_development.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    },
+    {
+      "contract_id": "MAJOR-010",
+      "file_path": "src/core/workspace_manager.py",
+      "current_lines": 742,
+      "target_lines": 400",
+      "priority": "HIGH",
+      "estimated_effort": "3 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate workspace creation, management, and coordination concerns",
+        "Create focused modules for different workspace components",
+        "Maintain comprehensive functionality while improving maintainability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct workspace responsibilities",
+        "2. Create workspace_creator.py (≤200 LOC)",
+        "3. Create workspace_coordinator.py (≤200 LOC)",
+        "4. Create workspace_validator.py (≤200 LOC)",
+        "5. Create workspace_config.py (≤150 LOC)",
+        "6. Refactor main file to orchestrate modules (≤150 LOC)",
+        "7. Update imports and dependencies",
+        "8. Test workspace functionality to ensure it works correctly",
+        "9. Delete original monolithic file",
+        "10. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "workspace_creator.py",
+        "workspace_coordinator.py",
+        "workspace_validator.py",
+        "workspace_config.py",
+        "workspace_manager.py (orchestrator)",
         "Updated compliance tracker"
       ]
     }
@@ -373,5 +373,7 @@
     "lines_reduced": "Target: 60%+ reduction",
     "modules_created": "4-5 focused modules per file",
     "maintainability": "High (≤400 LOC per module)"
-  }
+  },
+  "priority_focus": "High-impact modularization for files over 600 lines",
+  "estimated_impact": "Significant improvement in code maintainability and SRP compliance"
 }

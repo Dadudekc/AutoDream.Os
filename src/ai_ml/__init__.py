@@ -68,6 +68,18 @@ from .ml_robot_processor import MLRobotProcessor
 from .ml_robot_validator import validate_blueprint_config
 from .ml_robot_maker import MLRobotMaker, get_ml_robot_maker
 
+# AI Agent learner (modular implementation)
+from .ai_agent_learner import (
+    AIAgentLearner,
+    LearnerCore,
+    LearningGoal,
+    LearningProgress,
+    KnowledgeBase,
+    KnowledgeItem,
+    Skill,
+    SkillManager,
+)
+
 # API integrations (existing implementations)
 from .integrations import OpenAIIntegration, AnthropicIntegration, PyTorchIntegration
 
@@ -136,6 +148,15 @@ __all__ = [
     "MLModelBlueprint",
     "MLExperiment",
     "get_ml_robot_maker",
+    # AI Agent learner
+    "AIAgentLearner",
+    "LearnerCore",
+    "LearningGoal",
+    "LearningProgress",
+    "KnowledgeBase",
+    "KnowledgeItem",
+    "Skill",
+    "SkillManager",
     # API integrations
     "OpenAIIntegration",
     "AnthropicIntegration",

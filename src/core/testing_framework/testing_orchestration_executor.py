@@ -19,12 +19,26 @@ from src.utils.stability_improvements import stability_manager, safe_import
 
 # Import our types and core classes
 try:
-    from .testing_types import TestStatus, TestType, TestPriority, TestResult, TestScenario, TestEnvironment
-    from .testing_core import BaseIntegrationTest
+    from .testing_types import (
+        TestStatus,
+        TestType,
+        TestPriority,
+        TestResult,
+        TestScenario,
+        TestEnvironment,
+    )
+    from .base_test import BaseIntegrationTest
     from .testing_orchestration_core import IntegrationTestSuite
 except ImportError:
-    from testing_types import TestStatus, TestType, TestPriority, TestResult, TestScenario, TestEnvironment
-    from testing_core import BaseIntegrationTest
+    from testing_types import (
+        TestStatus,
+        TestType,
+        TestPriority,
+        TestResult,
+        TestScenario,
+        TestEnvironment,
+    )
+    from base_test import BaseIntegrationTest
     from testing_orchestration_core import IntegrationTestSuite
 
 

@@ -23,12 +23,19 @@ logger = logging.getLogger(__name__)
 
 class AgentHealthCoreMonitor:
     """
-    Core agent health monitoring orchestration
-    
+    Core agent health monitoring orchestration.
+
     Single Responsibility: Coordinate health monitoring activities and manage
     the main monitoring loop. Delegates specific responsibilities to other modules.
+
+    Concurrency Model:
+        A re-entrant lock (``self._lock``) protects access to shared mutable
+        state: ``health_data``, ``alerts``, and ``health_callbacks``. All reads
+        and writes to these structures occur while holding this lock. The
+        monitoring loop performs updates within the lock, while callbacks are
+        invoked outside the lock to avoid blocking other threads.
     """
-    
+
     def __init__(self, config: Dict[str, Any] = None):
         """Initialize the core health monitor"""
         self.config = config or {}
@@ -39,6 +46,7 @@ class AgentHealthCoreMonitor:
         self.health_callbacks: Set[Callable] = set()
         self.monitor_thread: Optional[threading.Thread] = None
         self.executor = ThreadPoolExecutor(max_workers=4)
+        self._lock = threading.RLock()
 
         # Health monitoring intervals
         self.metrics_interval = self.config.get("metrics_interval", 30)  # seconds
@@ -70,17 +78,18 @@ class AgentHealthCoreMonitor:
         """Main monitoring loop"""
         while self.monitoring_active:
             try:
-                # Collect health metrics
-                self._collect_health_metrics()
+                with self._lock:
+                    # Collect health metrics
+                    self._collect_health_metrics()
 
-                # Perform health checks
-                self._perform_health_checks()
+                    # Perform health checks
+                    self._perform_health_checks()
 
-                # Check for alerts
-                self._check_alerts()
+                    # Check for alerts
+                    self._check_alerts()
 
-                # Update health scores
-                self._update_health_scores()
+                    # Update health scores
+                    self._update_health_scores()
 
                 # Notify subscribers
                 self._notify_health_updates()
@@ -99,19 +108,20 @@ class AgentHealthCoreMonitor:
 
     def _perform_health_checks(self):
         """Perform comprehensive health checks"""
-        for agent_id, snapshot in self.health_data.items():
-            try:
-                # Check each metric against thresholds
-                for metric_type, metric in snapshot.metrics.items():
-                    if metric_type in self.thresholds:
-                        threshold = self.thresholds[metric_type]
-                        self._evaluate_metric(agent_id, metric, threshold)
+        with self._lock:
+            for agent_id, snapshot in self.health_data.items():
+                try:
+                    # Check each metric against thresholds
+                    for metric_type, metric in snapshot.metrics.items():
+                        if metric_type in self.thresholds:
+                            threshold = self.thresholds[metric_type]
+                            self._evaluate_metric(agent_id, metric, threshold)
 
-                # Update overall health status
-                self._update_agent_health_status(agent_id)
+                    # Update overall health status
+                    self._update_agent_health_status(agent_id)
 
-            except Exception as e:
-                logger.error(f"Error checking health for agent {agent_id}: {e}")
+                except Exception as e:
+                    logger.error(f"Error checking health for agent {agent_id}: {e}")
 
     def _evaluate_metric(
         self, agent_id: str, metric: HealthMetric, threshold: HealthThreshold
@@ -151,43 +161,46 @@ class AgentHealthCoreMonitor:
             timestamp=datetime.now(),
         )
 
-        self.alerts[alert_id] = alert
+        with self._lock:
+            self.alerts[alert_id] = alert
         logger.warning(f"Health alert created: {alert.message}")
 
     def _update_agent_health_status(self, agent_id: str):
         """Update overall health status for an agent"""
-        if agent_id not in self.health_data:
-            return
+        with self._lock:
+            if agent_id not in self.health_data:
+                return
 
-        snapshot = self.health_data[agent_id]
-        active_alerts = [alert for alert in snapshot.alerts if not alert.resolved]
+            snapshot = self.health_data[agent_id]
+            active_alerts = [alert for alert in snapshot.alerts if not alert.resolved]
 
-        # Determine overall status based on alerts
-        if any(alert.severity == AlertSeverity.CRITICAL for alert in active_alerts):
-            snapshot.overall_status = HealthStatus.CRITICAL
-        elif any(alert.severity == AlertSeverity.WARNING for alert in active_alerts):
-            snapshot.overall_status = HealthStatus.WARNING
-        elif snapshot.health_score >= 90:
-            snapshot.overall_status = HealthStatus.EXCELLENT
-        elif snapshot.health_score >= 75:
-            snapshot.overall_status = HealthStatus.GOOD
-        else:
-            snapshot.overall_status = HealthStatus.WARNING
+            # Determine overall status based on alerts
+            if any(alert.severity == AlertSeverity.CRITICAL for alert in active_alerts):
+                snapshot.overall_status = HealthStatus.CRITICAL
+            elif any(alert.severity == AlertSeverity.WARNING for alert in active_alerts):
+                snapshot.overall_status = HealthStatus.WARNING
+            elif snapshot.health_score >= 90:
+                snapshot.overall_status = HealthStatus.EXCELLENT
+            elif snapshot.health_score >= 75:
+                snapshot.overall_status = HealthStatus.GOOD
+            else:
+                snapshot.overall_status = HealthStatus.WARNING
 
     def _update_health_scores(self):
         """Update health scores for all agents"""
-        for agent_id, snapshot in self.health_data.items():
-            try:
-                # Calculate health score based on metrics and alerts
-                score = self._calculate_health_score(snapshot)
-                snapshot.health_score = score
+        with self._lock:
+            for agent_id, snapshot in self.health_data.items():
+                try:
+                    # Calculate health score based on metrics and alerts
+                    score = self._calculate_health_score(snapshot)
+                    snapshot.health_score = score
 
-                # Generate recommendations
-                recommendations = self._generate_health_recommendations(snapshot)
-                snapshot.recommendations = recommendations
+                    # Generate recommendations
+                    recommendations = self._generate_health_recommendations(snapshot)
+                    snapshot.recommendations = recommendations
 
-            except Exception as e:
-                logger.error(f"Error updating health score for agent {agent_id}: {e}")
+                except Exception as e:
+                    logger.error(f"Error updating health score for agent {agent_id}: {e}")
 
     def _calculate_health_score(self, snapshot: HealthSnapshot) -> float:
         """Calculate health score (0-100) for an agent"""
@@ -277,41 +290,48 @@ class AgentHealthCoreMonitor:
         """Check and manage health alerts"""
         current_time = datetime.now()
 
-        # Check for expired alerts
-        expired_alerts = []
-        for alert_id, alert in self.alerts.items():
-            # Mark alerts as resolved if conditions improve
-            if self._is_alert_resolved(alert):
-                alert.resolved = True
-                logger.info(f"Alert {alert_id} automatically resolved")
+        with self._lock:
+            # Check for expired alerts
+            expired_alerts = []
+            for alert_id, alert in self.alerts.items():
+                # Mark alerts as resolved if conditions improve
+                if self._is_alert_resolved(alert):
+                    alert.resolved = True
+                    logger.info(f"Alert {alert_id} automatically resolved")
 
-            # Remove very old alerts
-            if (current_time - alert.timestamp).days > 7:
-                expired_alerts.append(alert_id)
+                # Remove very old alerts
+                if (current_time - alert.timestamp).days > 7:
+                    expired_alerts.append(alert_id)
 
-        # Remove expired alerts
-        for alert_id in expired_alerts:
-            del self.alerts[alert_id]
+            # Remove expired alerts
+            for alert_id in expired_alerts:
+                del self.alerts[alert_id]
 
     def _is_alert_resolved(self, alert: HealthAlert) -> bool:
         """Check if an alert should be automatically resolved"""
         if alert.resolved:
             return True
 
-        # Check if the current metric value is below threshold
-        if alert.agent_id in self.health_data:
-            snapshot = self.health_data[alert.agent_id]
-            if alert.metric_type in snapshot.metrics:
-                current_value = snapshot.metrics[alert.metric_type].value
-                return current_value < alert.threshold
+        with self._lock:
+            # Check if the current metric value is below threshold
+            if alert.agent_id in self.health_data:
+                snapshot = self.health_data[alert.agent_id]
+                if alert.metric_type in snapshot.metrics:
+                    current_value = snapshot.metrics[alert.metric_type].value
+                    return current_value < alert.threshold
 
         return False
 
     def _notify_health_updates(self):
         """Notify subscribers of health updates"""
-        for callback in self.health_callbacks:
+        with self._lock:
+            callbacks = list(self.health_callbacks)
+            health_data = self.health_data.copy()
+            alerts = self.alerts.copy()
+
+        for callback in callbacks:
             try:
-                callback(self.health_data, self.alerts)
+                callback(health_data, alerts)
             except Exception as e:
                 logger.error(f"Error in health update callback: {e}")
 
@@ -325,30 +345,31 @@ class AgentHealthCoreMonitor:
     ):
         """Record a health metric for an agent"""
         try:
-            # Create or update health snapshot
-            if agent_id not in self.health_data:
-                self.health_data[agent_id] = HealthSnapshot(
+            with self._lock:
+                # Create or update health snapshot
+                if agent_id not in self.health_data:
+                    self.health_data[agent_id] = HealthSnapshot(
+                        agent_id=agent_id,
+                        timestamp=datetime.now(),
+                        overall_status=HealthStatus.GOOD,
+                        health_score=100.0,
+                    )
+
+                snapshot = self.health_data[agent_id]
+
+                # Create metric
+                metric = HealthMetric(
                     agent_id=agent_id,
+                    metric_type=metric_type,
+                    value=value,
+                    unit=unit,
                     timestamp=datetime.now(),
-                    overall_status=HealthStatus.GOOD,
-                    health_score=100.0,
+                    threshold=threshold,
                 )
 
-            snapshot = self.health_data[agent_id]
-
-            # Create metric
-            metric = HealthMetric(
-                agent_id=agent_id,
-                metric_type=metric_type,
-                value=value,
-                unit=unit,
-                timestamp=datetime.now(),
-                threshold=threshold,
-            )
-
-            # Update snapshot
-            snapshot.metrics[metric_type] = metric
-            snapshot.timestamp = datetime.now()
+                # Update snapshot
+                snapshot.metrics[metric_type] = metric
+                snapshot.timestamp = datetime.now()
 
             logger.debug(
                 f"Health metric recorded: {agent_id} - {metric_type.value}: {value}{unit}"
@@ -359,17 +380,20 @@ class AgentHealthCoreMonitor:
 
     def get_agent_health(self, agent_id: str) -> Optional[HealthSnapshot]:
         """Get health snapshot for a specific agent"""
-        return self.health_data.get(agent_id)
+        with self._lock:
+            return self.health_data.get(agent_id)
 
     def get_all_agent_health(self) -> Dict[str, HealthSnapshot]:
         """Get health snapshots for all agents"""
-        return self.health_data.copy()
+        with self._lock:
+            return self.health_data.copy()
 
     def get_health_alerts(
         self, severity: Optional[AlertSeverity] = None, agent_id: Optional[str] = None
     ) -> List[HealthAlert]:
         """Get health alerts with optional filtering"""
-        alerts = list(self.alerts.values())
+        with self._lock:
+            alerts = list(self.alerts.values())
 
         if severity:
             alerts = [alert for alert in alerts if alert.severity == severity]
@@ -381,23 +405,27 @@ class AgentHealthCoreMonitor:
 
     def acknowledge_alert(self, alert_id: str):
         """Acknowledge a health alert"""
-        if alert_id in self.alerts:
-            self.alerts[alert_id].acknowledged = True
-            logger.info(f"Alert {alert_id} acknowledged")
+        with self._lock:
+            if alert_id in self.alerts:
+                self.alerts[alert_id].acknowledged = True
+                logger.info(f"Alert {alert_id} acknowledged")
 
     def resolve_alert(self, alert_id: str):
         """Manually resolve a health alert"""
-        if alert_id in self.alerts:
-            self.alerts[alert_id].resolved = True
-            logger.info(f"Alert {alert_id} manually resolved")
+        with self._lock:
+            if alert_id in self.alerts:
+                self.alerts[alert_id].resolved = True
+                logger.info(f"Alert {alert_id} manually resolved")
 
     def subscribe_to_health_updates(self, callback: Callable):
         """Subscribe to health update notifications"""
-        self.health_callbacks.add(callback)
+        with self._lock:
+            self.health_callbacks.add(callback)
 
     def unsubscribe_from_health_updates(self, callback: Callable):
         """Unsubscribe from health update notifications"""
-        self.health_callbacks.discard(callback)
+        with self._lock:
+            self.health_callbacks.discard(callback)
 
     def set_health_threshold(
         self,
@@ -421,21 +449,22 @@ class AgentHealthCoreMonitor:
 
     def get_health_summary(self) -> Dict[str, Any]:
         """Get comprehensive health summary"""
-        total_agents = len(self.health_data)
-        active_alerts = len(
-            [alert for alert in self.alerts.values() if not alert.resolved]
-        )
-
-        status_counts = {
-            status.value: len(
-                [s for s in self.health_data.values() if s.overall_status == status]
+        with self._lock:
+            total_agents = len(self.health_data)
+            active_alerts = len(
+                [alert for alert in self.alerts.values() if not alert.resolved]
             )
-            for status in HealthStatus
-        }
 
-        avg_health_score = sum(s.health_score for s in self.health_data.values()) / max(
-            total_agents, 1
-        )
+            status_counts = {
+                status.value: len(
+                    [s for s in self.health_data.values() if s.overall_status == status]
+                )
+                for status in HealthStatus
+            }
+
+            avg_health_score = sum(
+                s.health_score for s in self.health_data.values()
+            ) / max(total_agents, 1)
 
         return {
             "total_agents": total_agents,
@@ -462,7 +491,8 @@ class AgentHealthCoreMonitor:
             self.record_health_metric(
                 "test_agent", HealthMetricType.RESPONSE_TIME, 500.0, "ms"
             )
-            assert "test_agent" in self.health_data
+            with self._lock:
+                assert "test_agent" in self.health_data
             logger.info("Metric recording passed")
 
             # Test health snapshot retrieval
@@ -502,8 +532,9 @@ class AgentHealthCoreMonitor:
 
             # Cleanup
             logger.info("Cleaning up...")
-            if "test_agent" in self.health_data:
-                del self.health_data["test_agent"]
+            with self._lock:
+                if "test_agent" in self.health_data:
+                    del self.health_data["test_agent"]
 
             logger.info("✅ AgentHealthCoreMonitor smoke test PASSED")
             return True

@@ -1,7 +1,7 @@
 """Assertion helpers for frontend tests."""
 from typing import Dict, Any
 
-from ..frontend_app import UIComponent
+from ..frontend_app_core import UIComponent
 from ..frontend_router_config import RouteConfig, NavigationState
 
 

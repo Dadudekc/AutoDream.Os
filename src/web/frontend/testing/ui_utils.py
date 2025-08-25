@@ -1,7 +1,8 @@
 """Utilities for simulating frontend UI interactions in tests."""
 from datetime import datetime
 
-from ..frontend_app import UIComponent, create_component
+from ..frontend_app_core import UIComponent
+from ..frontend_ui import create_component
 from ..frontend_router_config import RouteConfig, NavigationState
 
 

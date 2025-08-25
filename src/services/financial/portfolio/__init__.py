@@ -1,89 +1,33 @@
 """
-Portfolio Optimization Package
+Portfolio Management Package
 
-This package contains modules for portfolio optimization, risk management,
-rebalancing, and performance tracking.
-
-Modules:
-- algorithms: Portfolio optimization algorithms (Sharpe ratio, minimum variance, etc.)
-- risk_models: Risk modeling and risk metrics calculations
-- rebalancing: Portfolio rebalancing logic and signal generation
-- tracking: Portfolio performance tracking and analytics
-
-Follows V2 coding standards: Clean OOP design, SRP compliance, TDD approach.
+This package provides portfolio rebalancing functionality with a modular architecture
+following Single Responsibility Principle and V2 coding standards.
 """
 
-try:  # Optional heavy dependencies
-    from .algorithms import (
-        PortfolioOptimizationAlgorithms,
-        OptimizationMethod,
-        OptimizationConstraint,
-        OptimizationResult,
-    )
-except Exception:  # pragma: no cover - optional dependency
-    PortfolioOptimizationAlgorithms = None
-    OptimizationMethod = OptimizationConstraint = OptimizationResult = None
-
-try:
-    from .risk_models import (
-        PortfolioRiskModels,
-        RiskModelType,
-        RiskMetrics,
-        StressTestScenario,
-    )
-except Exception:  # pragma: no cover - optional dependency
-    PortfolioRiskModels = None
-    RiskModelType = RiskMetrics = StressTestScenario = None
-
-try:
-    from .rebalancing import (
-        PortfolioRebalancing,
-        RebalancingFrequency,
-        RebalancingTrigger,
-        RebalancingSignal,
-        RebalancingPlan,
-    )
-except Exception:  # pragma: no cover - optional dependency
-    PortfolioRebalancing = None
-    RebalancingFrequency = RebalancingTrigger = RebalancingSignal = RebalancingPlan = None
-
-from .tracking import PortfolioPerformanceTracker
-from .models import (
-    PerformanceMetric,
-    PortfolioAllocation,
-    PerformanceSnapshot,
-    PerformanceReport,
+from .rebalancing_core import (
+    RebalancingCore,
+    RebalancingPlan,
+    RebalancingSignal,
+    RebalancingFrequency,
+    RebalancingTrigger
 )
+from .portfolio_analysis import PortfolioAnalyzer
+from .rebalancing_executor import RebalancingExecutor
+from .rebalancing import PortfolioRebalancing
 
 __all__ = [
-    # Algorithms
-    "PortfolioOptimizationAlgorithms",
-    "OptimizationMethod",
-    "OptimizationConstraint",
-    "OptimizationResult",
-    
-    # Risk Models
-    "PortfolioRiskModels",
-    "RiskModelType",
-    "RiskMetrics",
-    "StressTestScenario",
-    
-    # Rebalancing
-    "PortfolioRebalancing",
-    "RebalancingFrequency",
-    "RebalancingTrigger",
-    "RebalancingSignal",
-    "RebalancingPlan",
-    
-    # Tracking
-    "PortfolioPerformanceTracker",
-    "PerformanceMetric",
-    "PortfolioAllocation",
-    "PerformanceSnapshot",
-    "PerformanceReport"
+    'RebalancingCore',
+    'RebalancingPlan', 
+    'RebalancingSignal',
+    'RebalancingFrequency',
+    'RebalancingTrigger',
+    'PortfolioAnalyzer',
+    'RebalancingExecutor',
+    'PortfolioRebalancing'
 ]
 
-__version__ = "1.0.0"
-__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"
-__description__ = "Portfolio optimization and management system"
+__version__ = "2.0.0"
+__author__ = "Agent Cellphone V2 Team"
+__description__ = "Modular portfolio rebalancing system following SRP principles"
 

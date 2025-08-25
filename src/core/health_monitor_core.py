@@ -16,7 +16,6 @@ import time
 from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, Any, Set, Callable
-from concurrent.futures import ThreadPoolExecutor
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -34,7 +33,6 @@ class HealthMonitorCore:
         self.config = config or {}
         self.monitoring_active = False
         self.monitor_thread: threading.Thread = None
-        self.executor = ThreadPoolExecutor(max_workers=4)
         self.health_callbacks: Set[Callable] = set()
 
         # Monitoring intervals
@@ -64,7 +62,6 @@ class HealthMonitorCore:
         self.monitoring_active = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=5)
-        self.executor.shutdown(wait=True)
         logger.info("Health monitoring stopped")
 
     def _monitor_loop(self):
@@ -160,7 +157,6 @@ class HealthMonitorCore:
             if self.monitor_thread
             else False,
             "subscriber_count": len(self.health_callbacks),
-            "executor_active": not self.executor._shutdown,
         }
 
     def run_smoke_test(self) -> bool:

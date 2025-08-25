@@ -18,15 +18,29 @@ from src.utils.stability_improvements import stability_manager, safe_import
 
 # Import our modular components
 try:
-    from .testing_types import TestStatus, TestType, TestPriority, TestResult, TestScenario, TestEnvironment
-    from .testing_core import BaseIntegrationTest
+    from .testing_types import (
+        TestStatus,
+        TestType,
+        TestPriority,
+        TestResult,
+        TestScenario,
+        TestEnvironment,
+    )
+    from .base_test import BaseIntegrationTest
     from .testing_orchestration_core import IntegrationTestSuite, TestSuiteResult
     from .testing_orchestration_runner import IntegrationTestRunner
     from .testing_orchestration_executor import TestExecutor, ExecutionConfig
     from .testing_orchestration_orchestrator import TestOrchestrator
 except ImportError:
-    from testing_types import TestStatus, TestType, TestPriority, TestResult, TestScenario, TestEnvironment
-    from testing_core import BaseIntegrationTest
+    from testing_types import (
+        TestStatus,
+        TestType,
+        TestPriority,
+        TestResult,
+        TestScenario,
+        TestEnvironment,
+    )
+    from base_test import BaseIntegrationTest
     from testing_orchestration_core import IntegrationTestSuite, TestSuiteResult
     from testing_orchestration_runner import IntegrationTestRunner
     from testing_orchestration_executor import TestExecutor, ExecutionConfig

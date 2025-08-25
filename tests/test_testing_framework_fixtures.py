@@ -8,18 +8,20 @@ Tests for fixture-based integration test classes and suites.
 
 import pytest
 
-from src.core.testing_framework import (
+from src.core.testing_framework.testing_types import (
     TestStatus,
     TestType,
     TestPriority,
     TestResult,
-    BaseIntegrationTest,
+    TestEnvironment,
+)
+from src.core.testing_framework.base_test import BaseIntegrationTest
+from src.core.testing_framework.integration_tests import (
     CrossSystemCommunicationTest,
     ServiceIntegrationTest,
     DatabaseIntegrationTest,
-    IntegrationTestSuite,
-    TestEnvironment,
 )
+from src.core.testing_framework.testing_orchestration_core import IntegrationTestSuite
 
 
 @pytest.fixture

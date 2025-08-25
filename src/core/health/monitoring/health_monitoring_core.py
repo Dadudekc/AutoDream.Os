@@ -1,168 +1,57 @@
 import logging
-import time
 import threading
+import time
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional, Set
-from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Dict, Optional
 
 from ..alerting.models import AlertSeverity
-from .health_monitoring_metrics import (
-    HealthStatus,
-    HealthMetricType,
-    HealthMetric,
-    HealthSnapshot,
-)
-from .health_monitoring_alerts import HealthAlert
 from .health_monitoring_config import (
     HealthThreshold,
     initialize_default_thresholds,
 )
 
-logging.basicConfig(level=logging.INFO)
+from .health_monitoring_metrics import HealthMetricType, HealthSnapshot, HealthStatus
+from .health_check_executor import HealthCheckExecutor
+from .health_metrics_collector import HealthMetricsCollector
+from .health_notification_manager import HealthNotificationManager
+from .health_status_analyzer import HealthStatusAnalyzer
+
 logger = logging.getLogger(__name__)
 
 
-class AgentHealthCoreMonitor:
-    """
-    Core agent health monitoring orchestration.
+class HealthMonitoringOrchestrator:
+    """Coordinates health monitoring activities."""
 
-    Single Responsibility: Coordinate health monitoring activities and manage
-    the main monitoring loop. Delegates specific responsibilities to other modules.
-
-    Concurrency Model:
-        A re-entrant lock (``self._lock``) protects access to shared mutable
-        state: ``health_data``, ``alerts``, and ``health_callbacks``. All reads
-        and writes to these structures occur while holding this lock. The
-        monitoring loop performs updates within the lock, while callbacks are
-        invoked outside the lock to avoid blocking other threads.
-    """
-
-    def __init__(self, config: Dict[str, Any] = None):
-        """Initialize the core health monitor"""
+    def __init__(self, config: Optional[Dict[str, Any]] = None) -> None:
         self.config = config or {}
         self.monitoring_active = False
         self.health_data: Dict[str, HealthSnapshot] = {}
-        self.alerts: Dict[str, HealthAlert] = {}
         self.thresholds: Dict[
             HealthMetricType, HealthThreshold
         ] = initialize_default_thresholds()
-        self.health_callbacks: Set[Callable] = set()
+
+        self.notification_manager = HealthNotificationManager()
+        self.metrics_collector = HealthMetricsCollector(self.health_data)
+        self.check_executor = HealthCheckExecutor(
+            self.notification_manager, self.thresholds
+        )
+        self.status_analyzer = HealthStatusAnalyzer()
+
+        self.health_check_interval = self.config.get("health_check_interval", 60)
         self.monitor_thread: Optional[threading.Thread] = None
-        self.executor = ThreadPoolExecutor(max_workers=4)
-        self._lock = threading.RLock()
 
-        # Health monitoring intervals
-        self.metrics_interval = self.config.get("metrics_interval", 30)  # seconds
-        self.health_check_interval = self.config.get(
-            "health_check_interval", 60
-        )  # seconds
-        self.alert_check_interval = self.config.get(
-            "alert_check_interval", 15
-        )  # seconds
-
-        logger.info("AgentHealthCoreMonitor initialized with default thresholds")
-
-    def start(self):
-        """Start health monitoring"""
+    def start(self) -> None:
         if self.monitoring_active:
             logger.warning("Health monitoring already active")
             return
-
         self.monitoring_active = True
-        self.monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)
+        self.monitor_thread = threading.Thread(target=self._loop, daemon=True)
         self.monitor_thread.start()
-        logger.info("Agent health monitoring started")
 
-    def stop(self):
-        """Stop health monitoring"""
+    def stop(self) -> None:
         self.monitoring_active = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=5)
-        self.executor.shutdown(wait=True)
-        logger.info("Agent health monitoring stopped")
-
-    def _monitor_loop(self):
-        """Main monitoring loop"""
-
-        # Track last execution times for periodic tasks
-        last_metrics_time = time.time()
-        last_health_check_time = time.time()
-        last_alert_check_time = time.time()
-
-        while self.monitoring_active:
-            try:
-                now = time.time()
-
-                # Collect health metrics only when interval has elapsed
-                if now - last_metrics_time >= self.metrics_interval:
-                    self._collect_health_metrics()
-                    last_metrics_time = now
-
-                # Perform health checks and related updates on their own interval
-                if now - last_health_check_time >= self.health_check_interval:
-                    self._perform_health_checks()
-                    self._update_health_scores()
-                    self._notify_health_updates()
-                    last_health_check_time = now
-
-                # Check for alerts only when interval has elapsed
-                if now - last_alert_check_time >= self.alert_check_interval:
-                    self._check_alerts()
-                    last_alert_check_time = now
-
-                # Short sleep to prevent tight loop
-                time.sleep(1)
-
-            except Exception as e:
-                logger.error(f"Error in health monitoring loop: {e}")
-                time.sleep(10)  # Wait before retrying
-
-    def _collect_health_metrics(self):
-        """Collect health metrics from all agents"""
-        # This would integrate with the actual agent management system
-        # For now, we'll simulate metric collection
-        pass
-
-    def _perform_health_checks(self):
-        """Perform comprehensive health checks"""
-        with self._lock:
-            for agent_id, snapshot in self.health_data.items():
-                try:
-                    # Check each metric against thresholds
-                    for metric_type, metric in snapshot.metrics.items():
-                        if metric_type in self.thresholds:
-                            threshold = self.thresholds[metric_type]
-                            self._evaluate_metric(agent_id, metric, threshold)
-
-                    # Update overall health status
-                    self._update_agent_health_status(agent_id)
-
-                except Exception as e:
-                    logger.error(f"Error checking health for agent {agent_id}: {e}")
-
-    def _evaluate_metric(
-        self, agent_id: str, metric: HealthMetric, threshold: HealthThreshold
-    ):
-        """Evaluate a metric against its threshold"""
-        current_value = metric.value
-
-        # Check for critical threshold
-        if current_value >= threshold.critical_threshold:
-            self._create_alert(agent_id, AlertSeverity.CRITICAL, metric, threshold)
-        # Check for warning threshold
-        elif current_value >= threshold.warning_threshold:
-            self._create_alert(agent_id, AlertSeverity.WARNING, metric, threshold)
-
-    def _create_alert(
-        self,
-        agent_id: str,
-        severity: AlertSeverity,
-        metric: HealthMetric,
-        threshold: HealthThreshold,
-    ):
-        """Create a health alert"""
-        alert_id = (
-            f"health_alert_{agent_id}_{metric.metric_type.value}_{int(time.time())}"
         )
 
         alert = HealthAlert(
@@ -355,6 +244,28 @@ class AgentHealthCoreMonitor:
             except Exception as e:
                 logger.error(f"Error in health update callback: {e}")
 
+=======
+    # Core loop -------------------------------------------------------------
+    def _loop(self) -> None:
+        while self.monitoring_active:
+            try:
+                self.metrics_collector.collect_metrics()
+                self.check_executor.execute(self.health_data)
+                self.notification_manager.check_alerts(self.health_data)
+                self.status_analyzer.update_health_scores(
+                    self.health_data, self.thresholds, self.notification_manager.alerts
+                )
+                self.status_analyzer.update_agent_statuses(
+                    self.health_data, self.notification_manager.alerts
+                )
+                self.notification_manager.notify_health_updates(self.health_data)
+                time.sleep(self.health_check_interval)
+            except Exception as exc:  # pragma: no cover
+                logger.error("Error in health monitoring loop: %s", exc)
+                time.sleep(10)
+
+    # Delegated operations --------------------------------------------------
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules
     def record_health_metric(
         self,
         agent_id: str,
@@ -362,6 +273,7 @@ class AgentHealthCoreMonitor:
         value: float,
         unit: str,
         threshold: Optional[float] = None,
+<<<<<<< HEAD
     ):
         """Record a health metric for an agent"""
         try:
@@ -414,15 +326,34 @@ class AgentHealthCoreMonitor:
         """Get health alerts with optional filtering"""
         with self._lock:
             alerts = list(self.alerts.values())
+=======
+    ) -> None:
+        self.metrics_collector.record_metric(
+            agent_id, metric_type, value, unit, threshold
+        )
 
-        if severity:
-            alerts = [alert for alert in alerts if alert.severity == severity]
+    def get_agent_health(self, agent_id: str) -> Optional[HealthSnapshot]:
+        return self.metrics_collector.get_agent_health(agent_id)
 
-        if agent_id:
-            alerts = [alert for alert in alerts if alert.agent_id == agent_id]
+    def get_all_agent_health(self) -> Dict[str, HealthSnapshot]:
+        return self.metrics_collector.get_all_health()
 
-        return alerts
+    def get_health_alerts(
+        self, severity: Optional[AlertSeverity] = None, agent_id: Optional[str] = None
+    ) -> list:
+        return self.notification_manager.get_alerts(severity, agent_id)
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules
 
+    def acknowledge_alert(self, alert_id: str) -> None:
+        self.notification_manager.acknowledge(alert_id)
+
+    def resolve_alert(self, alert_id: str) -> None:
+        self.notification_manager.resolve(alert_id)
+
+    def subscribe_to_health_updates(self, callback) -> None:
+        self.notification_manager.subscribe(callback)
+
+<<<<<<< HEAD
     def acknowledge_alert(self, alert_id: str):
         """Acknowledge a health alert"""
         with self._lock:
@@ -446,6 +377,10 @@ class AgentHealthCoreMonitor:
         """Unsubscribe from health update notifications"""
         with self._lock:
             self.health_callbacks.discard(callback)
+=======
+    def unsubscribe_from_health_updates(self, callback) -> None:
+        self.notification_manager.unsubscribe(callback)
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules
 
     def set_health_threshold(
         self,
@@ -454,8 +389,7 @@ class AgentHealthCoreMonitor:
         critical_threshold: float,
         unit: str,
         description: str,
-    ):
-        """Set custom health threshold for a metric type"""
+    ) -> None:
         threshold = HealthThreshold(
             metric_type=metric_type,
             warning_threshold=warning_threshold,
@@ -463,11 +397,11 @@ class AgentHealthCoreMonitor:
             unit=unit,
             description=description,
         )
-
         self.thresholds[metric_type] = threshold
-        logger.info(f"Health threshold updated for {metric_type.value}")
+        self.check_executor.thresholds = self.thresholds
 
     def get_health_summary(self) -> Dict[str, Any]:
+<<<<<<< HEAD
         """Get comprehensive health summary"""
         with self._lock:
             total_agents = len(self.health_data)
@@ -486,31 +420,41 @@ class AgentHealthCoreMonitor:
                 s.health_score for s in self.health_data.values()
             ) / max(total_agents, 1)
 
+=======
+        total_agents = len(self.health_data)
+        active_alerts = len(
+            [
+                alert
+                for alert in self.notification_manager.alerts.values()
+                if not alert.resolved
+            ]
+        )
+        status_counts = {
+            status.value: len(
+                [s for s in self.health_data.values() if s.overall_status == status]
+            )
+            for status in HealthStatus
+        }
+        avg_score = sum(s.health_score for s in self.health_data.values()) / max(
+            total_agents, 1
+        )
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules
         return {
             "total_agents": total_agents,
             "active_alerts": active_alerts,
             "status_distribution": status_counts,
-            "average_health_score": round(avg_health_score, 2),
+            "average_health_score": round(avg_score, 2),
             "monitoring_active": self.monitoring_active,
             "last_update": datetime.now().isoformat(),
         }
 
+    # Convenience -----------------------------------------------------------
     def run_smoke_test(self) -> bool:
-        """Run smoke test to verify basic functionality"""
         try:
-            logger.info("Running AgentHealthCoreMonitor smoke test...")
-
-            # Test basic initialization
-            logger.info("Testing basic initialization...")
-            assert self.monitoring_active is False
-            assert len(self.thresholds) > 0
-            logger.info("Basic initialization passed")
-
-            # Test metric recording
-            logger.info("Testing metric recording...")
             self.record_health_metric(
                 "test_agent", HealthMetricType.RESPONSE_TIME, 500.0, "ms"
             )
+<<<<<<< HEAD
             with self._lock:
                 assert "test_agent" in self.health_data
             logger.info("Metric recording passed")
@@ -528,21 +472,17 @@ class AgentHealthCoreMonitor:
             self.health_check_interval = 1
             self.alert_check_interval = 1
             self.metrics_interval = 1
+=======
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules
             self.start()
-            time.sleep(2)  # Allow monitoring to process
-
-            # Record a critical metric that should trigger an alert
+            time.sleep(1)
             self.record_health_metric(
                 "test_agent", HealthMetricType.RESPONSE_TIME, 6000.0, "ms"
             )
-            time.sleep(2)  # Allow alert processing
-
+            time.sleep(1)
             alerts = self.get_health_alerts()
-            assert len(alerts) > 0, f"Expected alerts but got {len(alerts)}"
-            logger.info("Alert creation passed")
-
-            # Stop monitoring
             self.stop()
+<<<<<<< HEAD
 
             # Test health summary
             logger.info("Testing health summary...")
@@ -565,14 +505,18 @@ class AgentHealthCoreMonitor:
             import traceback
 
             logger.error(f"Traceback: {traceback.format_exc()}")
+=======
+            return bool(alerts)
+        except Exception as exc:  # pragma: no cover
+            logger.error("Smoke test failed: %s", exc)
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules
             return False
 
-    def shutdown(self):
-        """Shutdown the health monitor"""
+    def shutdown(self) -> None:
         self.stop()
-        logger.info("AgentHealthCoreMonitor shutdown complete")
 
 
+<<<<<<< HEAD
 def main():
     """CLI testing function"""
     import argparse
@@ -593,3 +537,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+=======
+__all__ = ["HealthMonitoringOrchestrator"]
+>>>>>>> origin/codex/refactor-health-check-and-metrics-modules

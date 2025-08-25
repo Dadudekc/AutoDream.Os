@@ -3,7 +3,6 @@
 import logging
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, Optional, Set, Callable
 
 from .health_monitoring_new_config import (
@@ -44,7 +43,6 @@ class AgentHealthCoreMonitor:
         )
         self.health_callbacks: Set[Callable] = set()
         self.monitor_thread: Optional[threading.Thread] = None
-        self.executor = ThreadPoolExecutor(max_workers=4)
         self.metrics_interval = self.config.get("metrics_interval", 30)
         self.health_check_interval = self.config.get("health_check_interval", 60)
         self.alert_check_interval = self.config.get("alert_check_interval", 15)
@@ -63,7 +61,6 @@ class AgentHealthCoreMonitor:
         self.monitoring_active = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=5)
-        self.executor.shutdown(wait=True)
         logger.info("Agent health monitoring stopped")
 
     def _monitor_loop(self) -> None:

@@ -9,7 +9,6 @@ Author: Agent-4 (Quality Assurance)
 License: MIT
 """
 
-import asyncio
 import logging
 import time
 import uuid
@@ -17,7 +16,6 @@ import uuid
 from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Optional, Any, Set
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 try:
     from .workflow_types import (
@@ -48,7 +46,6 @@ class WorkflowExecutor:
     def __init__(self, max_workers: int = 4):
         """Initialize the workflow executor"""
         self.max_workers = max_workers
-        self.executor = ThreadPoolExecutor(max_workers=max_workers)
         self.running_tasks: Set[str] = set()
         logger.info(f"Workflow Executor initialized with {max_workers} workers")
 
@@ -280,5 +277,4 @@ class WorkflowExecutor:
 
     def shutdown(self):
         """Shutdown the workflow executor"""
-        self.executor.shutdown(wait=True)
         logger.info("Workflow Executor shutdown complete")

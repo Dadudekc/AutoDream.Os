@@ -17,7 +17,6 @@ import time
 from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, List, Optional, Any, Set
 from datetime import datetime, timedelta
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Import workflow types
 try:
@@ -40,7 +39,6 @@ class WorkflowExecutionEngine:
     
     def __init__(self, max_workers: int = 4):
         self.max_workers = max_workers
-        self.executor = ThreadPoolExecutor(max_workers=max_workers)
         self.active_executions: Dict[str, WorkflowExecution] = {}
         self.completed_executions: Dict[str, WorkflowExecution] = {}
         self.logger = logging.getLogger(f"{__name__}.WorkflowExecutionEngine")
@@ -235,7 +233,6 @@ class WorkflowExecutionEngine:
 
     def cleanup(self):
         """Cleanup resources"""
-        self.executor.shutdown(wait=True)
         self.logger.info("Workflow execution engine cleaned up")
 
 

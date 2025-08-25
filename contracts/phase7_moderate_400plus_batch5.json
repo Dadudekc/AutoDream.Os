@@ -1,14 +1,48 @@
 {
   "phase": "Phase 7 - Moderate Violations (400+ LOC) - Batch 5",
   "description": "Fifth batch of moderate priority refactoring contracts for files exceeding 400 lines",
-  "total_files": 0,
+  "total_files": 1,
   "estimated_effort": "1-2 days per file",
   "priority": "MODERATE",
   "standards": {
     "target_loc": "400 LOC (standard), 600 LOC (GUI)",
     "focus": "SRP compliance, modular architecture, production-ready code"
   },
-  "contracts": [],
+  "contracts": [
+    {
+      "contract_id": "MODERATE-041",
+      "file_path": "src/web/automation/automation_test_suite.py",
+      "current_lines": 530,
+      "target_lines": 400,
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate test orchestration, execution, and reporting concerns",
+        "Create focused modules for running and reporting automation tests",
+        "Ensure maintainable and modular test suite"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct testing responsibilities",
+        "2. Create test_suite_core.py (\u2264200 LOC)",
+        "3. Create test_suite_runner.py (\u2264150 LOC)",
+        "4. Create test_suite_reporter.py (\u2264150 LOC)",
+        "5. Refactor main file to orchestrate modules (\u2264150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test automation test suite functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "test_suite_core.py",
+        "test_suite_runner.py",
+        "test_suite_reporter.py",
+        "automation_test_suite.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    }
+  ],
   "completion_criteria": [
     "All files refactored to meet 400 LOC target",
     "SRP compliance achieved across all modules",

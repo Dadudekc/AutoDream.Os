@@ -83,6 +83,12 @@ from .api_key_manager import (
     get_api_key_manager,
 )
 
+# Agent optimizer modules
+from .ai_agent_optimizer_core import AIAgentOptimizerCore
+from .ai_agent_performance_tuner import AIAgentPerformanceTuner
+from .ai_agent_resource_manager import AIAgentResourceManager
+from .ai_agent_optimizer import AIAgentOptimizer
+
 __all__ = [
     # Core components
     "AIManager",
@@ -152,4 +158,9 @@ __all__ = [
     # API key management
     "APIKeyManager",
     "get_api_key_manager",
+    # Agent optimizer
+    "AIAgentOptimizer",
+    "AIAgentOptimizerCore",
+    "AIAgentPerformanceTuner",
+    "AIAgentResourceManager",
 ]

@@ -21,12 +21,34 @@ from typing import Dict, Any, List, Optional
 
 # Import our components
 try:
-    from .testing_types import TestStatus, TestType, TestPriority, TestResult, TestScenario, TestEnvironment
-    from .testing_core import CrossSystemCommunicationTest, ServiceIntegrationTest, DatabaseIntegrationTest
+    from .testing_types import (
+        TestStatus,
+        TestType,
+        TestPriority,
+        TestResult,
+        TestScenario,
+        TestEnvironment,
+    )
+    from .integration_tests import (
+        CrossSystemCommunicationTest,
+        ServiceIntegrationTest,
+        DatabaseIntegrationTest,
+    )
     from .testing_orchestration import IntegrationTestSuite, IntegrationTestRunner, TestOrchestrator
 except ImportError:
-    from testing_types import TestStatus, TestType, TestPriority, TestResult, TestScenario, TestEnvironment
-    from testing_core import CrossSystemCommunicationTest, ServiceIntegrationTest, DatabaseIntegrationTest
+    from testing_types import (
+        TestStatus,
+        TestType,
+        TestPriority,
+        TestResult,
+        TestScenario,
+        TestEnvironment,
+    )
+    from integration_tests import (
+        CrossSystemCommunicationTest,
+        ServiceIntegrationTest,
+        DatabaseIntegrationTest,
+    )
     from testing_orchestration import IntegrationTestSuite, IntegrationTestRunner, TestOrchestrator
 
 

@@ -14,16 +14,24 @@ License: MIT
 """
 
 from .testing_types import (
-    TestStatus, TestType, TestPriority,
-    TestResult, TestScenario, TestEnvironment
+    TestStatus,
+    TestType,
+    TestPriority,
+    TestResult,
+    TestScenario,
+    TestEnvironment,
 )
-from .testing_core import (
-    BaseIntegrationTest, CrossSystemCommunicationTest,
-    ServiceIntegrationTest, DatabaseIntegrationTest
+from .base_test import BaseIntegrationTest
+from .integration_tests import (
+    CrossSystemCommunicationTest,
+    ServiceIntegrationTest,
+    DatabaseIntegrationTest,
 )
 from .testing_orchestration import (
-    IntegrationTestSuite, IntegrationTestRunner,
-    TestExecutor, TestOrchestrator
+    IntegrationTestSuite,
+    IntegrationTestRunner,
+    TestExecutor,
+    TestOrchestrator,
 )
 from .testing_cli import TestingFrameworkCLI, run_smoke_test
 

@@ -11,17 +11,16 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from src.core.testing_framework import (
-    TestStatus,
-    TestPriority,
+from src.core.testing_framework.testing_types import TestStatus, TestPriority
+from src.core.testing_framework.integration_tests import (
     CrossSystemCommunicationTest,
     ServiceIntegrationTest,
-    IntegrationTestSuite,
-    IntegrationTestRunner,
-    TestExecutor,
-    TestOrchestrator,
-    TestingFrameworkCLI,
 )
+from src.core.testing_framework.testing_orchestration_core import IntegrationTestSuite
+from src.core.testing_framework.testing_orchestration_runner import IntegrationTestRunner
+from src.core.testing_framework.testing_orchestration_executor import TestExecutor
+from src.core.testing_framework.testing_orchestration_orchestrator import TestOrchestrator
+from src.core.testing_framework.testing_cli import TestingFrameworkCLI
 
 
 @pytest.fixture

@@ -13,11 +13,11 @@
 - **Progress**: 0% (0/18 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
 
-### Phase 2: Major Violations (500-799 lines)
+### Phase 2: Major Violations (600+ lines)
 - **Progress**: 0% (0/84 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
 
-### Phase 3: Moderate Violations (300-499 lines)
+### Phase 3: Moderate Violations (400+ lines)
 - **Progress**: 0% (0/169 files)
 - **Status**: 🔴 **BLOCKED - IMMEDIATE ACTION REQUIRED**
 
@@ -139,10 +139,10 @@
 - `src/services/financial/portfolio/optimization.py` (1020 lines)
 - Additional 15 files...
 
-### Major Violations (500-799 lines): 84 files
+### Major Violations (600+ lines): 84 files
 - Various service and core modules requiring immediate attention
 
-### Moderate Violations (300-499 lines): 169 files
+### Moderate Violations (400+ lines): 169 files
 - Files that need refactoring but are lower priority
 
 ## 🎯 REFACTORING APPROACH

@@ -17,7 +17,7 @@ from .health_monitoring_config import (
     HealthThreshold,
     initialize_default_thresholds,
 )
-logging.basicConfig(level=logging.INFO)
+
 logger = logging.getLogger(__name__)
 
 
@@ -523,11 +523,15 @@ class AgentHealthCoreMonitor:
 def main():
     """CLI testing function"""
     import argparse
+    import logging
 
     parser = argparse.ArgumentParser(description="Agent Health Core Monitor CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")
 
     args = parser.parse_args()
+
+    # Configure basic logging if not already configured
+    logging.basicConfig(level=logging.INFO)
 
     if args.test:
         monitor = AgentHealthCoreMonitor()

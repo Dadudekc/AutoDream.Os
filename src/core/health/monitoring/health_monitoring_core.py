@@ -3,7 +3,6 @@ import time
 import threading
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, Set
-from concurrent.futures import ThreadPoolExecutor
 
 from ..alerting.models import AlertSeverity
 from .health_monitoring_metrics import (
@@ -38,7 +37,6 @@ class AgentHealthCoreMonitor:
         self.thresholds: Dict[HealthMetricType, HealthThreshold] = initialize_default_thresholds()
         self.health_callbacks: Set[Callable] = set()
         self.monitor_thread: Optional[threading.Thread] = None
-        self.executor = ThreadPoolExecutor(max_workers=4)
 
         # Health monitoring intervals
         self.metrics_interval = self.config.get("metrics_interval", 30)  # seconds
@@ -63,7 +61,6 @@ class AgentHealthCoreMonitor:
         self.monitoring_active = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=5)
-        self.executor.shutdown(wait=True)
         logger.info("Agent health monitoring stopped")
 
     def _monitor_loop(self):

@@ -196,6 +196,13 @@
 - **Summary**: Refactored from 680 to 200 lines by extracting core, collector, analyzer, and config modules. Main orchestrator now imports these modules while preserving functionality.
 
 
+### MODERATE-039: Queue Manager Refactor ✅
+- **File**: `src/core/queue/queue_manager.py`
+- **Status**: Completed
+- **Assigned To**: Victor Dixon
+- **Completion Date**: 2025-08-24
+- **Summary**: Split queue manager into core storage, processing, and priority modules. Orchestrator now coordinates these components while maintaining functionality.
+
 ## 📋 AVAILABLE CONTRACTS FOR CLAIMING
 
 > **Note:** Remaining contract descriptions include current line counts for context only. There is no strict LOC target—deliver clean, production-ready, tested modules that honor SRP and SOLID principles.

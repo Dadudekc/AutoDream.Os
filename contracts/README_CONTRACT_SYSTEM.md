@@ -15,17 +15,17 @@ This contract system provides **16 phases** with **142 contracts** to refactor t
 - **Priority**: COMPLETED
 - **Status**: 🎉 **ALL CRITICAL VIOLATIONS RESOLVED!**
 
-### **Phase 2: Major Violations (500+ LOC)**
-- **File**: `contracts/phase2_major_500plus_loc.json`
+### **Phase 2: Major Violations (600+ LOC)**
+- **File**: `contracts/phase2_major_600plus_loc.json`
 - **Files**: 56 high-priority files (15 already resolved, 41 remaining)
 - **Priority**: HIGH
 - **Effort**: 2-3 days per file
 
-### **Phase 3: Moderate Violations (300+ LOC) - 14 Batches**
+### **Phase 3: Moderate Violations (400+ LOC) - 14 Batches**
 - **Files**: 86 files in 14 batches of 6-10 files each
 - **Priority**: MODERATE
 - **Effort**: 1-2 days per file
-- **Batches**: `phase3_moderate_300plus_loc.json` through `phase16_moderate_300plus_batch14.json`
+- **Batches**: `phase3_moderate_400plus_loc.json` through `phase16_moderate_400plus_batch14.json`
 
 ## 🔧 **HOW TO USE CONTRACTS**
 
@@ -35,7 +35,7 @@ This contract system provides **16 phases** with **142 contracts** to refactor t
 cat contracts/MASTER_CONTRACT_INDEX.json
 
 # Review specific phase
-cat contracts/phase2_major_500plus_loc.json
+cat contracts/phase2_major_600plus_loc.json
 ```
 
 ### **2. Claim a Contract**
@@ -104,11 +104,11 @@ contracts/
 ├── MASTER_CONTRACT_INDEX.json          # Master index
 ├── README_CONTRACT_SYSTEM.md          # This file
 ├── phase1_critical_800plus_loc.json   # Phase 1: Critical (COMPLETED)
-├── phase2_major_500plus_loc.json      # Phase 2: Major (500+ LOC)
-├── phase3_moderate_300plus_loc.json   # Phase 3: Batch 1 (300+ LOC)
-├── phase4_moderate_300plus_batch2.json # Phase 3: Batch 2 (300+ LOC)
+├── phase2_major_600plus_loc.json      # Phase 2: Major (600+ LOC)
+├── phase3_moderate_400plus_loc.json   # Phase 3: Batch 1 (400+ LOC)
+├── phase4_moderate_400plus_batch2.json # Phase 3: Batch 2 (400+ LOC)
 ├── ...                                # Additional batches
-└── phase16_moderate_300plus_batch14.json # Phase 3: Final batch (300+ LOC)
+└── phase16_moderate_400plus_batch14.json # Phase 3: Final batch (400+ LOC)
 ```
 
 ### **Target Files by Category:**

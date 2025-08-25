@@ -1,53 +1,15 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
-from enum import Enum
+from dataclasses import asdict
 import json
 import logging
 import secrets
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from .workspace_config import WorkspaceConfigManager
-
-
-class SecurityLevel(Enum):
-    PUBLIC = "public"
-    RESTRICTED = "restricted"
-    PRIVATE = "private"
-    ISOLATED = "isolated"
-    SECURE = "secure"
-
-
-class Permission(Enum):
-    READ = "read"
-    WRITE = "write"
-    EXECUTE = "execute"
-    ADMIN = "admin"
-    SHARE = "share"
-
-
-@dataclass
-class SecurityPolicy:
-    workspace_name: str
-    security_level: SecurityLevel
-    allowed_agents: List[str]
-    permissions: Dict[str, List[Permission]]
-    isolation_rules: List[str]
-    encryption_enabled: bool
-    audit_logging: bool
-    max_access_attempts: int
-
-
-@dataclass
-class AccessLog:
-    timestamp: str
-    agent_id: str
-    action: str
-    resource: str
-    success: bool
-    ip_address: str = "unknown"
-
+from ..workspace_config import WorkspaceConfigManager
+from .security_auth import SecurityLevel, Permission, SecurityPolicy, AccessLog
+from .security_config import get_default_isolation_rules
 
 class WorkspaceSecurityManager:
     """Handles security policy enforcement and access control."""
@@ -120,7 +82,7 @@ class WorkspaceSecurityManager:
                 security_level=security_level,
                 allowed_agents=allowed_agents or [],
                 permissions=permissions,
-                isolation_rules=self._get_default_isolation_rules(security_level),
+                isolation_rules=get_default_isolation_rules(security_level),
                 encryption_enabled=security_level
                 in [SecurityLevel.ISOLATED, SecurityLevel.SECURE],
                 audit_logging=True,
@@ -140,28 +102,6 @@ class WorkspaceSecurityManager:
             return False
 
     # -- helpers -----------------------------------------------------------
-    def _get_default_isolation_rules(self, level: SecurityLevel) -> List[str]:
-        if level == SecurityLevel.PUBLIC:
-            return ["allow_all_agents"]
-        if level == SecurityLevel.RESTRICTED:
-            return ["allow_authenticated_agents", "log_all_access"]
-        if level == SecurityLevel.PRIVATE:
-            return ["allow_owner_only", "encrypt_data", "log_all_access"]
-        if level == SecurityLevel.ISOLATED:
-            return [
-                "strict_isolation",
-                "encrypt_all_data",
-                "audit_everything",
-                "no_shared_resources",
-            ]
-        if level == SecurityLevel.SECURE:
-            return [
-                "maximum_isolation",
-                "encrypt_everything",
-                "full_audit_trail",
-                "no_external_access",
-            ]
-        return ["default_isolation"]
 
     def _create_isolated_structure(self, workspace_name: str) -> None:
         try:
@@ -278,10 +218,4 @@ class WorkspaceSecurityManager:
             return False
 
 
-__all__ = [
-    "SecurityLevel",
-    "Permission",
-    "SecurityPolicy",
-    "AccessLog",
-    "WorkspaceSecurityManager",
-]
+__all__ = ["WorkspaceSecurityManager"]

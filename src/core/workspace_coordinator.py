@@ -12,7 +12,7 @@ from .workspace_config import (
     WorkspaceConfigManager,
 )
 from .workspace_creator import WorkspaceStructureManager
-from .workspace_validator import (
+from .security.security_manager import (
     SecurityLevel,
     Permission,
     WorkspaceSecurityManager,

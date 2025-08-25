@@ -83,6 +83,10 @@ from .api_key_manager import (
     get_api_key_manager,
 )
 
+# Agent coordination
+from .ai_agent_coordinator import AIAgentCoordinator
+from .ai_agent_tasks import AIAgentTask
+
 __all__ = [
     # Core components
     "AIManager",
@@ -152,4 +156,7 @@ __all__ = [
     # API key management
     "APIKeyManager",
     "get_api_key_manager",
+    # Agent coordination
+    "AIAgentCoordinator",
+    "AIAgentTask",
 ]

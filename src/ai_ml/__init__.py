@@ -83,6 +83,12 @@ from .api_key_manager import (
     get_api_key_manager,
 )
 
+# AI agent planning components
+from .ai_agent_planner_core import Plan, PlannerCore
+from .ai_agent_strategy import Strategy, StrategyBuilder
+from .ai_agent_execution import ExecutionCoordinator, ExecutionResult
+from .ai_agent_planner import AIAgentPlanner
+
 __all__ = [
     # Core components
     "AIManager",
@@ -152,4 +158,12 @@ __all__ = [
     # API key management
     "APIKeyManager",
     "get_api_key_manager",
+    # AI agent planning
+    "Plan",
+    "PlannerCore",
+    "Strategy",
+    "StrategyBuilder",
+    "ExecutionCoordinator",
+    "ExecutionResult",
+    "AIAgentPlanner",
 ]

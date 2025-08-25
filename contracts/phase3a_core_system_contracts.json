@@ -2,10 +2,10 @@
   "phase": "3A",
   "name": "Core System Refactoring",
   "description": "High-impact refactoring of core system files for improved stability and maintainability",
-  "total_contracts": 25,
+  "total_contracts": 10,
   "priority": "HIGH",
   "estimated_effort": "2 weeks",
-  "target_compliance_improvement": "93.0% → 95.0%",
+  "target_compliance_improvement": "92.6% \u2192 94.6%",
   "contracts": [
     {
       "contract_id": "CORE-001",

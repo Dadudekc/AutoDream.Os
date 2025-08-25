@@ -28,7 +28,7 @@ try:
     
     # Import existing systems
     from services.messaging.coordinate_manager import CoordinateManager
-    from services.messaging.pyautogui_messaging import PyAutoGUIMessaging
+    from services.messaging import UnifiedPyAutoGUIMessaging
     from autonomous_development.agents.agent_coordinator import AgentCoordinator
     
     print("✅ Successfully imported existing architecture")

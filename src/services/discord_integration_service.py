@@ -22,6 +22,8 @@ import json
 import time
 import asyncio
 import logging
+import requests
+import os
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
@@ -74,12 +76,17 @@ class DiscordIntegrationService:
         self.bot_token = None
         self.webhook_url = None
         self.guild_id = None
+        
+        # Try to load webhook URL from environment
+        self.webhook_url = os.getenv('DISCORD_WEBHOOK_URL')
 
         # FSM integration
         self.fsm_enabled = FSM_AVAILABLE and fsm_core is not None
         self.decision_enabled = decision_engine is not None
 
         print("🚀 Enhanced Discord Integration Service initialized")
+        if self.webhook_url:
+            print(f"✅ Discord webhook configured from environment")
         if self.fsm_enabled:
             print("✅ FSM integration enabled")
         if self.decision_enabled:
@@ -90,13 +97,14 @@ class DiscordIntegrationService:
     ):
         """Configure Discord bot settings"""
         self.bot_token = bot_token
-        self.webhook_url = webhook_url
+        if webhook_url:
+            self.webhook_url = webhook_url
         self.guild_id = guild_id
 
         if bot_token:
             self.logger.info("Discord bot token configured")
-        if webhook_url:
-            self.logger.info("Discord webhook configured")
+        if self.webhook_url:
+            self.logger.info(f"Discord webhook configured: {self.webhook_url[:50]}...")
         if guild_id:
             self.logger.info("Discord guild ID configured")
 
@@ -116,7 +124,11 @@ class DiscordIntegrationService:
 
             # Send to Discord if configured
             if self.webhook_url:
-                self._send_discord_webhook(message)
+                success = self._send_discord_webhook(message)
+                if success:
+                    self.logger.info(f"Message sent to Discord: {sender} - {message_type}")
+                else:
+                    self.logger.warning(f"Failed to send message to Discord: {sender} - {message_type}")
 
             # Integrate with FSM if available
             if self.fsm_enabled and message_type in [
@@ -133,7 +145,7 @@ class DiscordIntegrationService:
             ]:
                 self._process_decision_message(message)
 
-            self.logger.info(f"Message sent: {sender} - {message_type}: {content}")
+            self.logger.info(f"Message processed: {sender} - {message_type}: {content}")
             return True
 
         except Exception as e:
@@ -203,124 +215,256 @@ class DiscordIntegrationService:
             return False
 
     def create_discord_task(
-        self,
-        title: str,
-        description: str,
-        assigned_agent: str,
-        priority: str = "normal",
-        channel: str = "tasks",
-    ) -> str:
-        """Create a task via Discord and integrate with FSM"""
+        self, title: str, description: str, assigned_agent: str, priority: str = "normal"
+    ) -> bool:
+        """Create a Discord task notification"""
         try:
-            # Create FSM task if available
-            if self.fsm_enabled:
-                task_id = self.fsm_core.create_task(
-                    title=title,
-                    description=description,
-                    assigned_agent=assigned_agent,
-                    priority=self._convert_priority(priority),
-                )
+            task_message = f"""📋 **NEW TASK CREATED**
+🎯 **Title**: {title}
+📝 **Description**: {description}
+🤖 **Assigned To**: {assigned_agent}
+📊 **Priority**: {priority}
+⏰ **Created**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
 
-                if task_id:
-                    # Send Discord notification
-                    self.send_message(
-                        "system",
-                        "task_creation",
-                        f"Task created: {title} assigned to {assigned_agent}",
-                        channel,
-                    )
-
-                    self.logger.info(
-                        f"Discord task created with FSM integration: {task_id}"
-                    )
-                    return task_id
-
-            # Fallback: just send Discord message
-            self.send_message(
+            success = self.send_message(
                 "system",
                 "task_creation",
-                f"Task: {title} assigned to {assigned_agent}",
-                channel,
+                task_message,
+                "tasks"
             )
 
-            return "discord_only"
+            if success:
+                print(f"✅ Discord task notification created: {title}")
+            return success
 
         except Exception as e:
             self.logger.error(f"Failed to create Discord task: {e}")
-            return ""
+            return False
 
-    def request_decision(
-        self,
-        context: str,
-        options: List[str],
-        requester: str,
-        channel: str = "decisions",
-    ) -> str:
-        """Request a decision via Discord and integrate with decision engine"""
-        try:
-            if not self.decision_enabled:
-                # Fallback: just send Discord message
-                self.send_message(
-                    requester,
-                    "decision_request",
-                    f"Decision needed: {context} - Options: {options}",
-                    channel,
-                )
-                return "discord_only"
-
-            # Create decision context
-            decision_context = {
-                "decision_id": f"discord_{int(time.time())}",
-                "decision_type": "discord_coordination",
-                "timestamp": datetime.now().isoformat(),
-                "agent_id": requester,
-                "context_data": {
-                    "context": context,
-                    "options": options,
-                    "channel": channel,
-                },
-                "constraints": ["discord_integration"],
-                "objectives": ["coordinate_agents"],
-                "risk_factors": ["communication_delay"],
-            }
-
-            # Make decision
-            result = self.decision_engine.make_autonomous_decision(
-                "agent_coordination", decision_context
-            )
-
-            # Send Discord notification
-            self.send_message(
-                "decision_engine",
-                "decision_result",
-                f"Decision made: {result.selected_option} - Reasoning: {result.reasoning}",
-                channel,
-            )
-
-            return result.selected_option
-
-        except Exception as e:
-            self.logger.error(f"Failed to request decision: {e}")
-            return "error"
-
-    def get_status(self) -> Dict[str, Any]:
-        """Get comprehensive service status"""
+    def get_system_status(self) -> Dict[str, Any]:
+        """Get comprehensive system status"""
         return {
-            "messages_sent": len(self.messages),
+            "messages_processed": len(self.messages),
             "agents_registered": len(self.agents),
             "fsm_integration": self.fsm_enabled,
             "decision_integration": self.decision_enabled,
             "discord_configured": bool(self.webhook_url or self.bot_token),
+            "webhook_available": bool(self.webhook_url),
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _send_discord_webhook(self, message: Dict[str, Any]):
-        """Send message to Discord webhook"""
-        # This would integrate with actual Discord webhook API
-        # For now, simulate the integration
-        self.logger.info(
-            f"📱 Discord webhook: {message['channel']} - {message['content']}"
-        )
+    def _send_discord_webhook(self, message: Dict[str, Any]) -> bool:
+        """Send message to Discord webhook with rich embeds"""
+        try:
+            if not self.webhook_url:
+                self.logger.warning("No Discord webhook configured")
+                return False
+
+            # Determine if this is a devlog message
+            is_devlog = message.get('type') == 'devlog'
+            
+            if is_devlog:
+                # Use rich embed for devlog messages
+                success = self._send_devlog_embed(message)
+            else:
+                # Use regular webhook for other messages
+                success = self._send_regular_webhook(message)
+            
+            return success
+                
+        except Exception as e:
+            self.logger.error(f"❌ Error posting to Discord: {e}")
+            return False
+
+    def _send_devlog_embed(self, message: Dict[str, Any]) -> bool:
+        """Send devlog message as rich Discord embed"""
+        try:
+            # Parse devlog content to extract information
+            content = message['content']
+            
+            # Extract title from content (first line after "DEVLOG ENTRY:")
+            lines = content.split('\n')
+            title = "Devlog Update"
+            category = "project_update"
+            agent_id = "unknown"
+            priority = "normal"
+            
+            for line in lines:
+                if "**DEVLOG ENTRY:" in line:
+                    title = line.split("**DEVLOG ENTRY:")[1].strip().replace("**", "")
+                elif "**Category**: " in line:
+                    category = line.split("**Category**: ")[1].strip()
+                elif "**Agent**: " in line:
+                    agent_id = line.split("**Agent**: ")[1].strip()
+                elif "**Priority**: " in line:
+                    priority = line.split("**Priority**: ")[1].strip()
+            
+            # Create rich Discord embed
+            embed = {
+                "title": f"📝 {title}",
+                "description": self._extract_devlog_content(content),
+                "color": self._get_category_color(category),
+                "fields": [
+                    {
+                        "name": "🏷️ Category",
+                        "value": f"`{category.replace('_', ' ').title()}`",
+                        "inline": True
+                    },
+                    {
+                        "name": "🤖 Agent",
+                        "value": f"`{agent_id}`",
+                        "inline": True
+                    },
+                    {
+                        "name": "📊 Priority",
+                        "value": f"`{priority.title()}`",
+                        "inline": True
+                    },
+                    {
+                        "name": "📅 Timestamp",
+                        "value": f"<t:{int(datetime.now().timestamp())}:F>",
+                        "inline": False
+                    }
+                ],
+                "footer": {
+                    "text": f"Devlog Entry • {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                },
+                "thumbnail": {
+                    "url": self._get_agent_avatar(agent_id)
+                }
+            }
+            
+            # Add tags if available
+            tags = self._extract_tags(content)
+            if tags:
+                embed["fields"].append({
+                    "name": "🏷️ Tags",
+                    "value": " ".join([f"`{tag}`" for tag in tags]),
+                    "inline": False
+                })
+            
+            # Add category-specific emoji and styling
+            embed["title"] = f"{self._get_category_emoji(category)} {title}"
+            
+            # Discord webhook payload with embed
+            payload = {
+                "username": f"Agent-{agent_id}",
+                "avatar_url": self._get_agent_avatar(agent_id),
+                "embeds": [embed]
+            }
+
+            # Send POST request to Discord webhook
+            response = requests.post(self.webhook_url, json=payload, timeout=10)
+            
+            if response.status_code == 204:
+                self.logger.info(f"✅ Rich Discord embed sent: {title[:50]}...")
+                return True
+            else:
+                self.logger.error(f"❌ Failed to post embed to Discord. Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"❌ Error sending devlog embed: {e}")
+            return False
+
+    def _send_regular_webhook(self, message: Dict[str, Any]) -> bool:
+        """Send regular message as simple webhook"""
+        try:
+            # Format Discord message
+            username = f"Agent-{message['sender']}" if message['sender'] != 'system' else 'System'
+            
+            # Discord webhook payload
+            payload = {
+                "content": message['content'],
+                "username": username,
+                "avatar_url": "https://cdn.discordapp.com/emojis/🤖.png" if message['sender'] != 'system' else "https://cdn.discordapp.com/emojis/⚙️.png",
+                "tts": False
+            }
+
+            # Send POST request to Discord webhook
+            response = requests.post(self.webhook_url, json=payload, timeout=10)
+            
+            if response.status_code == 204:
+                self.logger.info(f"✅ Discord webhook: {message['channel']} - {message['content'][:50]}...")
+                return True
+            else:
+                self.logger.error(f"❌ Failed to post to Discord. Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"❌ Network error posting to Discord: {e}")
+            return False
+        except Exception as e:
+            self.logger.error(f"❌ Error posting to Discord: {e}")
+            return False
+
+    def _extract_devlog_content(self, content: str) -> str:
+        """Extract the main content from devlog message"""
+        try:
+            # Find the content section
+            if "📋 **Content**:\n" in content:
+                content_start = content.find("📋 **Content**:\n") + len("📋 **Content**:\n")
+                # Find where content ends (before tags or entry ID)
+                content_end = content.find("🏷️ **Tags**:")
+                if content_end == -1:
+                    content_end = content.find("🆔 **Entry ID**:")
+                if content_end == -1:
+                    content_end = len(content)
+                
+                extracted = content[content_start:content_end].strip()
+                # Limit length for Discord embed
+                if len(extracted) > 1000:
+                    extracted = extracted[:997] + "..."
+                return extracted
+            else:
+                # Fallback: return first 200 characters
+                return content[:200] + ("..." if len(content) > 200 else "")
+        except Exception:
+            return content[:200] + ("..." if len(content) > 200 else "")
+
+    def _extract_tags(self, content: str) -> List[str]:
+        """Extract tags from devlog content"""
+        try:
+            if "🏷️ **Tags**: " in content:
+                tags_line = content.split("🏷️ **Tags**: ")[1].split('\n')[0]
+                if tags_line != "None":
+                    return [tag.strip() for tag in tags_line.split(',')]
+            return []
+        except Exception:
+            return []
+
+    def _get_category_color(self, category: str) -> int:
+        """Get Discord embed color based on category"""
+        colors = {
+            "milestone": 0x00FF00,      # Green
+            "project_update": 0x0099FF,  # Blue
+            "issue": 0xFF0000,          # Red
+            "idea": 0xFF9900,           # Orange
+            "review": 0x9932CC,         # Purple
+        }
+        return colors.get(category, 0x0099FF)  # Default blue
+
+    def _get_category_emoji(self, category: str) -> str:
+        """Get emoji for category"""
+        emojis = {
+            "milestone": "🎯",
+            "project_update": "📝",
+            "issue": "🚨",
+            "idea": "💡",
+            "review": "🔍",
+        }
+        return emojis.get(category, "📝")
+
+    def _get_agent_avatar(self, agent_id: str) -> str:
+        """Get avatar URL for agent"""
+        avatars = {
+            "agent-1": "https://cdn.discordapp.com/emojis/🎖️.png",  # Captain
+            "agent-2": "https://cdn.discordapp.com/emojis/🏗️.png",  # Architecture
+            "agent-3": "https://cdn.discordapp.com/emojis/💻.png",  # Development
+            "agent-4": "https://cdn.discordapp.com/emojis/🧪.png",  # Testing
+            "agent-5": "https://cdn.discordapp.com/emojis/⚡.png",  # Performance
+        }
+        return avatars.get(agent_id, "https://cdn.discordapp.com/emojis/🤖.png")
 
     def _process_fsm_message(self, message: Dict[str, Any]):
         """Process message for FSM integration"""
@@ -408,20 +552,10 @@ def main():
             "Test Task", "Integration testing", "agent-1", "high"
         )
 
-        # Test decision request
-        service.request_decision("Test decision", ["option1", "option2"], "agent-1")
-
-        # Show status
-        status = service.get_status()
-        print(f"\n📊 Status: {json.dumps(status, indent=2)}")
         print("✅ Test completed successfully!")
 
-        return
-
-    print("Use --test to run test mode")
-    print("Use --fsm to test FSM integration")
-    print("Use --decision to test decision engine integration")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    exit(main())

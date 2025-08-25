@@ -84,7 +84,7 @@ def test_pyautogui_messaging():
     print("🧪 Testing PyAutoGUI Messaging...")
     
     try:
-        from services.messaging.pyautogui_messaging import PyAutoGUIMessaging
+        from services.messaging import UnifiedPyAutoGUIMessaging
         from services.messaging.coordinate_manager import CoordinateManager
         
         # Create temporary coordinate file
@@ -107,7 +107,7 @@ def test_pyautogui_messaging():
         
         # Test initialization
         coord_manager = CoordinateManager(str(coord_file))
-        pyautogui_messaging = PyAutoGUIMessaging(coord_manager)
+        pyautogui_messaging = UnifiedPyAutoGUIMessaging(coord_manager)
         
         # Test message sending (mocked)
         # Note: We don't actually send messages in smoke tests
@@ -132,7 +132,7 @@ def test_campaign_messaging():
     try:
         from services.messaging.campaign_messaging import CampaignMessaging
         from services.messaging.coordinate_manager import CoordinateManager
-        from services.messaging.pyautogui_messaging import PyAutoGUIMessaging
+        from services.messaging import UnifiedPyAutoGUIMessaging
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -154,7 +154,7 @@ def test_campaign_messaging():
         
         # Test initialization
         coord_manager = CoordinateManager(str(coord_file))
-        pyautogui_messaging = PyAutoGUIMessaging(coord_manager)
+        pyautogui_messaging = UnifiedPyAutoGUIMessaging(coord_manager)
         campaign_messaging = CampaignMessaging(coord_manager, pyautogui_messaging)
         
         # Test dependency injection
@@ -180,7 +180,7 @@ def test_yolo_messaging():
     try:
         from services.messaging.yolo_messaging import YOLOMessaging
         from services.messaging.coordinate_manager import CoordinateManager
-        from services.messaging.pyautogui_messaging import PyAutoGUIMessaging
+        from services.messaging import UnifiedPyAutoGUIMessaging
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -202,7 +202,7 @@ def test_yolo_messaging():
         
         # Test initialization
         coord_manager = CoordinateManager(str(coord_file))
-        pyautogui_messaging = PyAutoGUIMessaging(coord_manager)
+        pyautogui_messaging = UnifiedPyAutoGUIMessaging(coord_manager)
         yolo_messaging = YOLOMessaging(coord_manager, pyautogui_messaging)
         
         # Test dependency injection

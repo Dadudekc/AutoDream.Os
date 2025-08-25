@@ -21,7 +21,7 @@ from .interfaces import (
     ICampaignMessaging, IYOLOMessaging, ICoordinateManager
 )
 from .coordinate_manager import CoordinateManager
-from .pyautogui_messaging import PyAutoGUIMessaging
+from .unified_pyautogui_messaging import UnifiedPyAutoGUIMessaging
 from .campaign_messaging import CampaignMessaging
 from .yolo_messaging import YOLOMessaging
 
@@ -42,7 +42,7 @@ class UnifiedMessagingService:
         """Initialize the unified messaging service with all modules"""
         # Initialize core modules
         self.coordinate_manager = CoordinateManager(coordinates_file)
-        self.pyautogui_messaging = PyAutoGUIMessaging(self.coordinate_manager)
+        self.pyautogui_messaging = UnifiedPyAutoGUIMessaging(self.coordinate_manager)
         self.campaign_messaging = CampaignMessaging(self.coordinate_manager, self.pyautogui_messaging)
         self.yolo_messaging = YOLOMessaging(self.coordinate_manager, self.pyautogui_messaging)
         

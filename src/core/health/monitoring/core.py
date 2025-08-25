@@ -1,6 +1,6 @@
 """Backward-compatible imports for health monitoring components."""
 
-from .health_monitoring_core import HealthMonitoringOrchestrator
+from ..monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitoringOrchestrator
 
 # Backward compatibility alias
 AgentHealthCoreMonitor = HealthMonitoringOrchestrator

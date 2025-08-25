@@ -33,6 +33,7 @@ class OnboardingPhase(Enum):
 
     SYSTEM_OVERVIEW = "system_overview"
     ROLE_ASSIGNMENT = "role_assignment"
+    CAPTAIN_COORDINATION = "captain_coordination"
     CAPABILITY_TRAINING = "capability_training"
     INTEGRATION_TESTING = "integration_testing"
     PERFORMANCE_VALIDATION = "performance_validation"
@@ -122,6 +123,25 @@ class V2OnboardingSequenceCore:
                 validation_criteria={
                     "role_acceptance": True,
                     "capability_confirmation": True,
+                },
+            )
+
+        if phase == OnboardingPhase.CAPTAIN_COORDINATION:
+            return OnboardingMessage(
+                message_id=str(uuid.uuid4()),
+                phase=phase,
+                content=(
+                    "🤝 Captain Agent Coordination Training: You will now learn how to work "
+                    "effectively in a coordinated swarm. This includes FSM integration, "
+                    "agent collaboration, and conflict resolution. The captain agent serves "
+                    "as an orchestrator, not a commander. Are you ready to learn coordination?"
+                ),
+                role_specific=False,
+                requires_response=True,
+                validation_criteria={
+                    "coordination_understanding": True,
+                    "fsm_integration_skills": True,
+                    "collaboration_workflow": True,
                 },
             )
 

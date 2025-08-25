@@ -19,7 +19,7 @@ from typing import Dict
 
 from .interfaces import IYOLOMessaging
 from .coordinate_manager import CoordinateManager
-from .pyautogui_messaging import PyAutoGUIMessaging
+from .unified_pyautogui_messaging import UnifiedPyAutoGUIMessaging
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class YOLOMessaging(IYOLOMessaging):
     - FSM integration preparation
     """
     
-    def __init__(self, coordinate_manager: CoordinateManager, pyautogui_messaging: PyAutoGUIMessaging):
+    def __init__(self, coordinate_manager: CoordinateManager, pyautogui_messaging: UnifiedPyAutoGUIMessaging):
         """Initialize YOLO messaging with dependencies"""
         self.coordinate_manager = coordinate_manager
         self.pyautogui_messaging = pyautogui_messaging

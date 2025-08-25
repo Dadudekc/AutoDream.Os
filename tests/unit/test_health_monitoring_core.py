@@ -8,7 +8,7 @@ import sys
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from core.health.monitoring.health_monitoring_core import AgentHealthCoreMonitor
+from core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor
 from core.health.monitoring.health_monitoring_metrics import (
     HealthMetric,
     HealthMetricType,

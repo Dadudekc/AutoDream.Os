@@ -1,0 +1,259 @@
+{
+  "consolidated_contract_id": "CONSOLIDATED-PERFORMANCE-001",
+  "name": "Performance Validation System Unification",
+  "description": "Consolidate all performance validation files into unified, modular system",
+  "status": "READY_FOR_EXECUTION",
+  "priority": "CRITICAL",
+  "estimated_effort": "2-3 days",
+  "target_compliance_improvement": "8 files → 1 unified system",
+  
+  "consolidation_pattern": {
+    "pattern_name": "Performance Validation Duplication",
+    "affected_files_count": 8,
+    "original_contracts_count": 8,
+    "duplication_level": "CRITICAL",
+    "similarity_percentage": 90
+  },
+  
+  "affected_files": [
+    {
+      "file_path": "src/core/performance_validation_system.py",
+      "current_lines": 394,
+      "violations": ["Single Responsibility Principle violation", "Multiple concerns in single class"],
+      "refactoring_priority": "CRITICAL"
+    },
+    {
+      "file_path": "src/core/performance_validation_system_refactored.py",
+      "current_lines": 148,
+      "violations": ["Duplicate functionality", "Incomplete refactoring"],
+      "refactoring_priority": "HIGH"
+    },
+    {
+      "file_path": "src/core/performance_validation_system_backup.py",
+      "current_lines": 148,
+      "violations": ["Backup file should be removed", "Duplicate functionality"],
+      "refactoring_priority": "MEDIUM"
+    },
+    {
+      "file_path": "src/core/performance_validation_core.py",
+      "current_lines": 148,
+      "violations": ["Incomplete core functionality", "Missing integration"],
+      "refactoring_priority": "HIGH"
+    },
+    {
+      "file_path": "src/core/performance_validation_reporter.py",
+      "current_lines": 46,
+      "violations": ["Too small to be standalone", "Should be integrated"],
+      "refactoring_priority": "MEDIUM"
+    },
+    {
+      "file_path": "src/core/performance_validation_config.py",
+      "current_lines": 16,
+      "violations": ["Too small to be standalone", "Should be integrated"],
+      "refactoring_priority": "MEDIUM"
+    },
+    {
+      "file_path": "src/core/performance_validation_cli.py",
+      "current_lines": 218,
+      "violations": ["CLI mixed with validation logic", "Should be separated"],
+      "refactoring_priority": "HIGH"
+    },
+    {
+      "file_path": "src/core/performance_validation_tester.py",
+      "current_lines": 317,
+      "violations": ["Testing logic mixed with validation", "Should be separated"],
+      "refactoring_priority": "HIGH"
+    }
+  ],
+  
+  "unified_extraction_modules": [
+    {
+      "module_name": "performance_core.py",
+      "target_lines": 150,
+      "responsibilities": [
+        "Core performance validation logic",
+        "Validation rule engine",
+        "Performance metrics calculation",
+        "Validation result processing"
+      ],
+      "dependencies": ["src/utils/validation", "src/core/metrics"],
+      "estimated_effort": "8 hours"
+    },
+    {
+      "module_name": "performance_reporter.py",
+      "target_lines": 100,
+      "responsibilities": [
+        "Performance report generation",
+        "Report formatting and output",
+        "Historical data analysis",
+        "Trend identification"
+      ],
+      "dependencies": ["src/utils/reporting", "src/core/storage"],
+      "estimated_effort": "6 hours"
+    },
+    {
+      "module_name": "performance_config.py",
+      "target_lines": 100,
+      "responsibilities": [
+        "Performance validation configuration",
+        "Threshold management",
+        "Rule configuration",
+        "Environment-specific settings"
+      ],
+      "dependencies": ["src/core/config", "src/utils/validation"],
+      "estimated_effort": "4 hours"
+    },
+    {
+      "module_name": "performance_cli.py",
+      "target_lines": 100,
+      "responsibilities": [
+        "Command-line interface",
+        "User input handling",
+        "CLI-specific validation",
+        "User feedback and output"
+      ],
+      "dependencies": ["src/utils/cli", "performance_core"],
+      "estimated_effort": "4 hours"
+    },
+    {
+      "module_name": "performance_orchestrator.py",
+      "target_lines": 100,
+      "responsibilities": [
+        "Main performance validation coordinator",
+        "Module orchestration",
+        "Workflow management",
+        "Error handling and recovery"
+      ],
+      "dependencies": ["performance_core", "performance_reporter", "performance_config"],
+      "estimated_effort": "6 hours"
+    }
+  ],
+  
+  "consolidation_workflow": [
+    {
+      "step": 1,
+      "action": "Analyze all performance validation files for common patterns and functionality",
+      "deliverable": "Performance validation pattern analysis report",
+      "estimated_hours": 4
+    },
+    {
+      "step": 2,
+      "action": "Create unified base classes and interfaces for performance validation",
+      "deliverable": "Performance validation base classes and interfaces",
+      "estimated_hours": 6
+    },
+    {
+      "step": 3,
+      "action": "Extract common functionality into shared modules (core, reporter, config)",
+      "deliverable": "Shared performance validation modules",
+      "estimated_hours": 12
+    },
+    {
+      "step": 4,
+      "action": "Refactor existing files to use unified patterns and remove duplicates",
+      "deliverable": "Refactored performance validation files",
+      "estimated_hours": 8
+    },
+    {
+      "step": 5,
+      "action": "Update all contracts and dependencies to reference unified system",
+      "deliverable": "Updated contracts and references",
+      "estimated_hours": 4
+    },
+    {
+      "step": 6,
+      "action": "Validate consolidated functionality and performance",
+      "deliverable": "Validation test results and performance benchmarks",
+      "estimated_hours": 6
+    }
+  ],
+  
+  "success_criteria": [
+    "All 8 performance validation files refactored to use unified patterns",
+    "Original 8 contracts consolidated into single contract",
+    "No functionality regression in performance validation",
+    "Improved code consistency and maintainability",
+    "Reduced total contract count by 7",
+    "Performance validation system follows SRP and is under 600 LOC total"
+  ],
+  
+  "testing_strategy": [
+    "Unit tests for each extracted module (core, reporter, config, CLI, orchestrator)",
+    "Integration tests for unified performance validation system",
+    "Performance benchmarks to ensure no regression",
+    "Regression testing for all existing performance validation functionality",
+    "CLI functionality tests",
+    "Configuration management tests"
+  ],
+  
+  "dependencies": [
+    "src/utils/validation",
+    "src/utils/reporting", 
+    "src/utils/cli",
+    "src/core/config",
+    "src/core/metrics",
+    "src/core/storage"
+  ],
+  
+  "risk_mitigation": [
+    {
+      "risk": "Performance regression during consolidation",
+      "mitigation": "Comprehensive performance testing and benchmarking"
+    },
+    {
+      "risk": "Breaking changes to existing performance validation",
+      "mitigation": "Gradual migration with backward compatibility layer"
+    },
+    {
+      "risk": "Loss of CLI functionality",
+      "mitigation": "Preserve all existing CLI commands and add new ones"
+    }
+  ],
+  
+  "deliverables": [
+    "performance_core.py (≤150 LOC)",
+    "performance_reporter.py (≤100 LOC)", 
+    "performance_config.py (≤100 LOC)",
+    "performance_cli.py (≤100 LOC)",
+    "performance_orchestrator.py (≤100 LOC)",
+    "Updated performance validation contracts",
+    "Validation test results",
+    "Performance benchmarks",
+    "Consolidation documentation"
+  ],
+  
+  "swarm_agent_requirements": {
+    "analysis_agents": 1,
+    "development_agents": 2,
+    "testing_agents": 1,
+    "total_agents": 4
+  },
+  
+  "estimated_timeline": {
+    "phase1_analysis": "1 day",
+    "phase2_development": "1 day", 
+    "phase3_consolidation": "1 day",
+    "total_duration": "2-3 days"
+  },
+  
+  "compliance_impact": {
+    "files_affected": 8,
+    "lines_reduced": "1,200+ → 550 (54% reduction)",
+    "contracts_consolidated": "8 → 1 (87.5% reduction)",
+    "compliance_improvement": "Multiple violations → Single unified system"
+  },
+  
+  "files_to_remove": [
+    "src/core/performance_validation_system_backup.py",
+    "src/core/performance_validation_system_refactored.py"
+  ],
+  
+  "files_to_refactor": [
+    "src/core/performance_validation_system.py → performance_orchestrator.py",
+    "src/core/performance_validation_core.py → performance_core.py",
+    "src/core/performance_validation_reporter.py → performance_reporter.py",
+    "src/core/performance_validation_config.py → performance_config.py",
+    "src/core/performance_validation_cli.py → performance_cli.py",
+    "src/core/performance_validation_tester.py → testing module integration"
+  ]
+}

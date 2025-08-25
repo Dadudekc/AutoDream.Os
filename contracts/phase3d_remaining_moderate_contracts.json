@@ -1,0 +1,213 @@
+{
+  "phase": "3D",
+  "name": "Remaining Moderate Violations Refactoring",
+  "description": "Final phase refactoring of remaining moderate priority files (400+ LOC) focusing on coding standards compliance, SRP, and architectural quality",
+  "total_contracts": 58,
+  "priority": "LOW",
+  "estimated_effort": "8 weeks",
+  "target_compliance_improvement": "95.0% → 100.0%",
+  "focus": "Coding Standards & Architectural Quality",
+  "contracts": [
+    {
+      "contract_id": "MODERATE-016",
+      "file_path": "src/services/contract_template_system.py",
+      "current_lines": 499,
+      "target_lines": 400,
+      "reduction_target": "20%",
+      "priority": "MEDIUM",
+      "category": "Contract Templates",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Template logic mixed with system logic",
+        "Multiple contract concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "template_core.py",
+          "template_manager.py",
+          "template_coordinator.py"
+        ],
+        "main_class": "ContractTemplateSystemOrchestrator",
+        "responsibilities": "Coordinate contract template workflow only"
+      },
+      "dependencies": [
+        "src/services/",
+        "src/utils/template_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + template integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-017",
+      "file_path": "src/core/fsm_communication_bridge.py",
+      "current_lines": 499,
+      "target_lines": 400,
+      "reduction_target": "20%",
+      "priority": "MEDIUM",
+      "category": "FSM Communication",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "FSM logic mixed with communication logic",
+        "Multiple bridge concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "fsm_core.py",
+          "communication_bridge.py",
+          "bridge_coordinator.py"
+        ],
+        "main_class": "FSMCommunicationBridgeOrchestrator",
+        "responsibilities": "Coordinate FSM communication workflow only"
+      },
+      "dependencies": [
+        "src/core/",
+        "src/utils/fsm_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + FSM integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-018",
+      "file_path": "src/core/knowledge_database.py",
+      "current_lines": 499,
+      "target_lines": 400,
+      "reduction_target": "20%",
+      "priority": "MEDIUM",
+      "category": "Knowledge Database",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Database logic mixed with knowledge logic",
+        "Multiple knowledge concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "knowledge_core.py",
+          "database_manager.py",
+          "knowledge_coordinator.py"
+        ],
+        "main_class": "KnowledgeDatabaseOrchestrator",
+        "responsibilities": "Coordinate knowledge database workflow only"
+      },
+      "dependencies": [
+        "src/core/",
+        "src/utils/database_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + database integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-019",
+      "file_path": "src/core/agent_manager.py",
+      "current_lines": 494,
+      "target_lines": 400,
+      "reduction_target": "19%",
+      "priority": "HIGH",
+      "category": "Agent Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Agent logic mixed with management logic",
+        "Multiple agent concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "agent_core.py",
+          "management_engine.py",
+          "agent_coordinator.py"
+        ],
+        "main_class": "AgentManagerOrchestrator",
+        "responsibilities": "Coordinate agent management workflow only"
+      },
+      "dependencies": [
+        "src/core/",
+        "src/utils/agent_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + agent integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-020",
+      "file_path": "src/core/performance/alerts/manager.py",
+      "current_lines": 492,
+      "target_lines": 400,
+      "reduction_target": "19%",
+      "priority": "HIGH",
+      "category": "Performance Alerts",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Alert logic mixed with performance logic",
+        "Multiple alert concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "alert_core.py",
+          "performance_monitor.py",
+          "alert_coordinator.py"
+        ],
+        "main_class": "PerformanceAlertsManagerOrchestrator",
+        "responsibilities": "Coordinate performance alerts workflow only"
+      },
+      "dependencies": [
+        "src/core/performance/",
+        "src/utils/alert_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + alert integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    }
+  ],
+  "summary": {
+    "total_estimated_hours": 464,
+    "expected_compliance_improvement": "5.0%",
+    "files_to_refactor": 58,
+    "priority_distribution": {
+      "HIGH": 15,
+      "MEDIUM": 25,
+      "LOW": 18
+    },
+    "risk_level": "LOW",
+    "success_probability": "HIGH",
+    "focus_areas": [
+      "Single Responsibility Principle compliance",
+      "Clean architecture and separation of concerns",
+      "Modular design and maintainability",
+      "Production-ready code quality",
+      "Comprehensive test coverage",
+      "Code organization and readability",
+      "Dependency management and coupling reduction"
+    ],
+    "batch_processing": {
+      "batch_size": 10,
+      "batches": 6,
+      "estimated_weeks_per_batch": 1.3
+    }
+  }
+}

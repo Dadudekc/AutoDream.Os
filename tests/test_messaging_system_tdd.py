@@ -29,7 +29,7 @@ from services.messaging.interfaces import (
     ICampaignMessaging, IYOLOMessaging, ICoordinateManager
 )
 from services.messaging.coordinate_manager import CoordinateManager, AgentCoordinates
-from services.messaging.pyautogui_messaging import PyAutoGUIMessaging
+from services.messaging import UnifiedPyAutoGUIMessaging
 from services.messaging.campaign_messaging import CampaignMessaging
 from services.messaging.yolo_messaging import YOLOMessaging
 from services.messaging.unified_messaging_service import UnifiedMessagingService

@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Callable, Dict, List
 
 from .agent_manager import AgentManager
-from .config_manager import ConfigManager
+from .config.config_manager import ConfigManager
 from .status_manager_config import Alert, HealthCheck, StatusEvent
 from .status_manager_tracker import StatusTrackerMixin
 from .status_manager_reporter import StatusReporterMixin

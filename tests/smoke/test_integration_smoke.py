@@ -22,7 +22,7 @@ from src.services.service_registry import (
     ServiceMetadata,
     ServiceEndpoint,
 )
-from src.core.config_manager import ConfigManager
+from src.core.config.config_manager import ConfigManager
 from src.services.integration_coordinator import IntegrationCoordinator
 
 

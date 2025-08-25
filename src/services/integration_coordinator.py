@@ -30,16 +30,18 @@ try:
         ServiceType,
         ServiceStatus,
     )
-    from ..core.config_manager import ConfigManager
+    from ..core.config.config_manager import ConfigManager
 except ImportError:
     # Fallback for standalone usage
     import sys
     import os
 
-    # Add current directory to path for standalone imports
+    # Add paths for standalone imports
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    if current_dir not in sys.path:
-        sys.path.insert(0, current_dir)
+    parent_dir = os.path.dirname(current_dir)
+    for path in (current_dir, parent_dir):
+        if path not in sys.path:
+            sys.path.insert(0, path)
 
     from api_manager import APIManager, APIEndpoint, APIMethod
     from middleware_orchestrator import (
@@ -53,7 +55,7 @@ except ImportError:
         ServiceType,
         ServiceStatus,
     )
-    from config_manager import ConfigManager
+    from core.config.config_manager import ConfigManager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

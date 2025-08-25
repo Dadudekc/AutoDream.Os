@@ -1,11 +1,11 @@
-"""Simple configuration loader used by the ConfigManager.
+"""Simple configuration parser used by the ConfigManager.
 
-The loader discovers JSON or YAML files in a directory and returns a
+The parser discovers JSON or YAML files in a directory and returns a
 mapping of section names to data as well as a mapping of section names to
 validator callables. Validation here is intentionally lightweight – each
-loaded section receives a validator that always returns ``True``.  This
+loaded section receives a validator that always returns ``True``. This
 provides a predictable structure for the validator component while
-keeping the loader focused solely on I/O concerns.
+keeping the parser focused solely on I/O concerns.
 """
 
 from __future__ import annotations
@@ -16,8 +16,8 @@ import json
 import yaml
 
 
-class ConfigLoader:
-    """Load configuration files from a directory."""
+class ConfigParser:
+    """Parse configuration files from a directory."""
 
     def __init__(self, config_dir: str):
         self.config_dir = Path(config_dir)

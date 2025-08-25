@@ -38,7 +38,7 @@ if str(src_path) not in sys.path:
 
 from core.agent_manager import AgentManager, AgentStatus
 from core.message_router import MessageRouter, MessageType, MessagePriority
-from core.config_manager import ConfigManager
+from core.config.config_manager import ConfigManager
 
 # Try to import PyAutoGUI for screen control
 try:

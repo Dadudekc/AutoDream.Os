@@ -39,7 +39,7 @@ def test_core_imports():
         return False
 
     try:
-        from core.config_manager import ConfigManager
+        from core.config.config_manager import ConfigManager
 
         print("✅ ConfigManager import successful")
     except ImportError as e:

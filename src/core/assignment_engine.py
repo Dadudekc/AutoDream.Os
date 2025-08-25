@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any
 
 from .agent_manager import AgentManager
-from .config_manager import ConfigManager
+from .config.config_manager import ConfigManager
 from .contract_models import (
     AssignmentResult,
     AssignmentStrategy,

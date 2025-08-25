@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from .agent_manager import AgentManager
-from .config_manager import ConfigManager
+from .config.config_manager import ConfigManager
 from .assignment_engine import ContractManager
 from .workflow import (
     WorkflowOrchestrator as AdvancedWorkflowEngine,

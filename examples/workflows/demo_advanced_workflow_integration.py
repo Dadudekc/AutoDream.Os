@@ -32,7 +32,7 @@ from core.workflow import (
     TaskPriority,
 )
 from core.agent_manager import AgentManager, AgentStatus, AgentCapability
-from core.config_manager import ConfigManager
+from core.config.config_manager import ConfigManager
 from core.contract_manager import ContractManager, ContractPriority
 from core.performance_monitor import PerformanceMonitor
 

@@ -28,7 +28,7 @@ from core.status_manager import StatusManager
 from core.contract_manager import ContractManager, ContractPriority, ContractStatus
 from core.performance_monitor import PerformanceMonitor
 from core.agent_manager import AgentStatus, AgentCapability
-from core.config_manager import ConfigManager
+from core.config.config_manager import ConfigManager
 
 # Configure logging
 logging.basicConfig(

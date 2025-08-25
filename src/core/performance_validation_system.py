@@ -16,7 +16,7 @@ from typing import Dict, List, Optional, Any
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from .agent_manager import AgentManager, AgentStatus, AgentCapability, AgentInfo
-from .config_manager import ConfigManager
+from .config.config_manager import ConfigManager
 from .assignment_engine import ContractManager
 from .contract_models import ContractPriority, ContractStatus
 from .workflow import (

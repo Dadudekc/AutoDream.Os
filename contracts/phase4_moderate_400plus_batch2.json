@@ -1,14 +1,48 @@
 {
   "phase": "Phase 3 - Moderate Violations (400+ LOC) - Batch 2",
   "description": "Second batch of moderate priority refactoring contracts for files exceeding 400 lines",
-  "total_files": 0,
+  "total_files": 1,
   "estimated_effort": "1-2 days per file",
   "priority": "MODERATE",
   "standards": {
     "target_loc": "400 LOC (standard), 600 LOC (GUI)",
     "focus": "SRP compliance, modular architecture, production-ready code"
   },
-  "contracts": [],
+  "contracts": [
+    {
+      "contract_id": "MODERATE-011",
+      "file_path": "src/core/health/monitoring/health_monitoring_core.py",
+      "current_lines": 543,
+      "target_lines": 400,
+      "priority": "MODERATE",
+      "estimated_effort": "1-2 days",
+      "assigned_to": "UNASSIGNED",
+      "status": "AVAILABLE",
+      "refactoring_goals": [
+        "Separate data collection, metrics analysis, and reporting logic",
+        "Create focused modules for each health monitoring concern",
+        "Improve maintainability and testability"
+      ],
+      "workflow": [
+        "1. Analyze file structure and identify distinct monitoring responsibilities",
+        "2. Create health_data_collector.py (\u2264200 LOC)",
+        "3. Create health_metrics_analyzer.py (\u2264150 LOC)",
+        "4. Create health_report_generator.py (\u2264150 LOC)",
+        "5. Refactor main file to orchestrate modules (\u2264150 LOC)",
+        "6. Update imports and dependencies",
+        "7. Test health monitoring functionality",
+        "8. Delete original monolithic file",
+        "9. Update V2 compliance progress tracker"
+      ],
+      "deliverables": [
+        "health_data_collector.py",
+        "health_metrics_analyzer.py",
+        "health_report_generator.py",
+        "health_monitoring_core.py (orchestrator)",
+        "Updated compliance tracker"
+      ]
+    }
+  ],
   "completion_criteria": [
     "All files reduced to \u2264400 LOC (standard) or \u2264600 LOC (GUI)",
     "SRP compliance achieved",

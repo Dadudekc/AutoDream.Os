@@ -1,0 +1,26 @@
+{
+  "phase": "Phase 11 - Moderate Violations (400+ LOC) - Batch 9",
+  "description": "Ninth batch of moderate priority refactoring contracts for files exceeding 400 lines",
+  "total_files": 0,
+  "estimated_effort": "1-2 days per file",
+  "priority": "MODERATE",
+  "standards": {
+    "target_loc": "400 LOC (standard), 600 LOC (GUI)",
+    "focus": "SRP compliance, modular architecture, production-ready code"
+  },
+  "contracts": [],
+  "completion_criteria": [
+    "All files refactored to meet 400 LOC target",
+    "SRP compliance achieved across all modules",
+    "Comprehensive testing completed",
+    "V2 compliance progress tracker updated",
+    "Documentation updated for new modular structure"
+  ],
+  "quality_gates": [
+    "Code review passed",
+    "All tests passing",
+    "LOC targets met",
+    "Import dependencies resolved",
+    "Functionality preserved"
+  ]
+}

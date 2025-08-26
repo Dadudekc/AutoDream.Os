@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Performance Module - Agent Cellphone V2
-======================================
+Performance Package - Unified Performance Management System
 
-Modular performance system with monitoring, validation, benchmarking, and reporting.
-Follows V2 standards: SRP, OOP design, modular architecture.
+This package provides modular performance management functionality
+extracted from the massive unified_performance_system.py file to
+achieve V2 compliance standards.
 
-Author: Agent-1 (Phase 3 Modularization)
+Author: Agent-8 (Technical Debt Specialist)
 License: MIT
 """
 
@@ -46,45 +46,27 @@ def create_performance_config_manager() -> PerformanceConfigManager:
 
 # Export all components
 __all__ = [
-    # Core system
-    "PerformanceCore",
-    "PerformanceCoreConfig",
-    "UnifiedPerformanceOrchestrator",
-    "UnifiedPerformanceSystem",
+    # Core classes
+    'PerformanceLevel',
+    'ValidationSeverity',
+    'BenchmarkType',
+    'MetricType',
+    'PerformanceMetric',
+    'ValidationRule',
+    'ValidationThreshold',
+    'PerformanceBenchmark',
+    'PerformanceResult',
+    'UnifiedPerformanceSystem',
     
-    # Specialized components
-    "PerformanceMonitoringManager",
-    "PerformanceValidationManager",
-    "PerformanceBenchmarkingManager",
-    "PerformanceReportingManager",
-    
-    # Models and types
-    "PerformanceMetric",
-    "ValidationRule",
-    "ValidationThreshold",
-    "ConnectionPool",
-    "BenchmarkResult",
-    "SystemPerformanceReport",
-    "PerformanceConfig",
-    "PerformanceLevel",
-    "ValidationSeverity",
-    "BenchmarkType",
-    "MetricType",
-    "PerformanceAlert",
-    "PerformanceOptimization",
-    "PerformanceTrend",
-    "ResourceUtilization",
-    "PerformanceBaseline",
+    # Management classes
+    'PerformanceValidator',
+    'PerformanceReporter',
+    'PerformanceConfig',
+    'PerformanceConfigManager',
     
     # Factory functions
-    "create_performance_core",
-    "create_performance_monitoring_manager",
-    "create_performance_validation_manager",
-    "create_performance_benchmarking_manager",
-    "create_performance_reporting_manager",
-    "create_unified_performance_orchestrator",
-    
-    # Backward compatibility
-    "UnifiedPerformanceSystemV2",
-    "PerformanceSystem"
+    'create_performance_system',
+    'create_performance_validator',
+    'create_performance_reporter',
+    'create_performance_config_manager'
 ]

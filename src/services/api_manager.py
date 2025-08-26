@@ -5,9 +5,9 @@ Handles API endpoints, middleware, and service discovery for integration infrast
 
 import asyncio
 import json
-import logging
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.unified_logging_manager import get_logger
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
@@ -22,8 +22,7 @@ try:
 except Exception:  # pragma: no cover
     from service_registry import ServiceRegistry
 # Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class APIMethod(Enum):

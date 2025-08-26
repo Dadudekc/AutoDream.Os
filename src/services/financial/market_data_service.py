@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.unified_logging_manager import get_logger
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict
@@ -25,8 +25,7 @@ from concurrent.futures import ThreadPoolExecutor
 import time
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 @dataclass

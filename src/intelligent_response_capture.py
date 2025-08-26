@@ -33,7 +33,8 @@ if __name__ == "__main__":
     capture = ResponseCapture(db, analytics)
 
     if args.command == "capture":
-        capture.capture_response(args.agent_id, args.response_file)
+        if not capture.capture_response(args.agent_id, args.response_file):
+            print("Error: Failed to capture response.")
     elif args.command == "summary":
         summary = analytics.get_agent_progress_summary()
         for agent_stat in summary["agent_stats"]:

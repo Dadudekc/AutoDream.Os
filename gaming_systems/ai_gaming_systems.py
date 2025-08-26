@@ -162,13 +162,32 @@ class GameStateAnalyzer(ABC):
     def analyze_game_state(
         self, screen_data: np.ndarray, game_context: Dict[str, Any]
     ) -> GameAnalysisResult:
-        """Analyze current game state from screen data"""
-        pass
+        """Analyze current game state from screen data.
+
+        Args:
+            screen_data (np.ndarray): Raw screen capture.
+            game_context (Dict[str, Any]): Additional context information.
+
+        Returns:
+            GameAnalysisResult: Analysis results for the current frame.
+        """
+        raise NotImplementedError(
+            "analyze_game_state must be implemented by subclasses"
+        )
 
     @abstractmethod
     def determine_game_state(self, screen_data: np.ndarray) -> GameState:
-        """Determine current game state from screen data"""
-        pass
+        """Determine current game state from screen data.
+
+        Args:
+            screen_data (np.ndarray): Raw screen capture.
+
+        Returns:
+            GameState: The detected game state.
+        """
+        raise NotImplementedError(
+            "determine_game_state must be implemented by subclasses"
+        )
 
 
 class BasicGameStateAnalyzer(GameStateAnalyzer):

@@ -15,6 +15,7 @@ from datetime import datetime
 
 class ValidationSeverity(Enum):
     """Validation severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -23,6 +24,7 @@ class ValidationSeverity(Enum):
 
 class ValidationStatus(Enum):
     """Validation result status"""
+
     PASSED = "passed"
     FAILED = "failed"
     WARNING = "warning"
@@ -32,6 +34,7 @@ class ValidationStatus(Enum):
 @dataclass
 class ValidationRule:
     """Configurable validation rule"""
+
     rule_id: str
     rule_name: str
     rule_type: str
@@ -45,6 +48,7 @@ class ValidationRule:
 @dataclass
 class ValidationResult:
     """Standardized validation result"""
+
     rule_id: str
     rule_name: str
     status: ValidationStatus
@@ -59,7 +63,7 @@ class ValidationResult:
 
 class BaseValidator(ABC):
     """Abstract base class for all validators in the unified framework"""
-    
+
     def __init__(self, validator_name: str):
         """Initialize base validator"""
         self.validator_name = validator_name
@@ -67,17 +71,27 @@ class BaseValidator(ABC):
         self.validation_rules: Dict[str, ValidationRule] = {}
         self.validation_history: List[ValidationResult] = []
         self._setup_default_rules()
-    
+
     @abstractmethod
     def _setup_default_rules(self) -> None:
-        """Setup default validation rules for this validator type"""
-        pass
-    
+        """Set up default validation rules for this validator type."""
+        raise NotImplementedError(
+            "_setup_default_rules must be implemented by subclasses"
+        )
+
     @abstractmethod
     def validate(self, data: Any, **kwargs) -> List[ValidationResult]:
-        """Main validation method - must be implemented by subclasses"""
-        pass
-    
+        """Validate the given data.
+
+        Args:
+            data (Any): Data to validate.
+            **kwargs: Additional validation parameters.
+
+        Returns:
+            List[ValidationResult]: Collection of validation results.
+        """
+        raise NotImplementedError("validate must be implemented by subclasses")
+
     def add_validation_rule(self, rule: ValidationRule) -> bool:
         """Add a new validation rule"""
         try:
@@ -87,7 +101,7 @@ class BaseValidator(ABC):
         except Exception as e:
             self.logger.error(f"Failed to add validation rule: {e}")
             return False
-    
+
     def remove_validation_rule(self, rule_id: str) -> bool:
         """Remove a validation rule"""
         try:
@@ -99,20 +113,24 @@ class BaseValidator(ABC):
         except Exception as e:
             self.logger.error(f"Failed to remove validation rule: {e}")
             return False
-    
+
     def get_validation_rules(self) -> Dict[str, ValidationRule]:
         """Get all validation rules"""
         return self.validation_rules.copy()
-    
+
     def get_validation_history(self, limit: int = 100) -> List[ValidationResult]:
         """Get validation history with optional limit"""
-        return self.validation_history[-limit:] if limit > 0 else self.validation_history.copy()
-    
+        return (
+            self.validation_history[-limit:]
+            if limit > 0
+            else self.validation_history.copy()
+        )
+
     def clear_validation_history(self) -> None:
         """Clear validation history"""
         self.validation_history.clear()
         self.logger.info("Validation history cleared")
-    
+
     def _create_result(
         self,
         rule_id: str,
@@ -120,7 +138,7 @@ class BaseValidator(ABC):
         status: ValidationStatus,
         severity: ValidationSeverity,
         message: str,
-        **kwargs
+        **kwargs,
     ) -> ValidationResult:
         """Create a standardized validation result"""
         result = ValidationResult(
@@ -129,26 +147,24 @@ class BaseValidator(ABC):
             status=status,
             severity=severity,
             message=message,
-            **kwargs
+            **kwargs,
         )
-        
+
         # Store in history
         self.validation_history.append(result)
-        
+
         # Keep history manageable
         if len(self.validation_history) > 1000:
             self.validation_history = self.validation_history[-1000:]
-        
+
         return result
-    
+
     def _validate_required_fields(
-        self, 
-        data: Dict[str, Any], 
-        required_fields: List[str]
+        self, data: Dict[str, Any], required_fields: List[str]
     ) -> List[ValidationResult]:
         """Validate that required fields are present and non-empty"""
         results = []
-        
+
         for field_name in required_fields:
             if field_name not in data or not data[field_name]:
                 result = self._create_result(
@@ -159,18 +175,18 @@ class BaseValidator(ABC):
                     message=f"Required field '{field_name}' is missing or empty",
                     field_path=field_name,
                     actual_value=data.get(field_name),
-                    expected_value="non-empty value"
+                    expected_value="non-empty value",
                 )
                 results.append(result)
-        
+
         return results
-    
+
     def _validate_field_type(
         self,
         field_name: str,
         field_value: Any,
         expected_type: type,
-        rule_id: str = None
+        rule_id: str = None,
     ) -> Optional[ValidationResult]:
         """Validate field type"""
         if not isinstance(field_value, expected_type):
@@ -182,17 +198,17 @@ class BaseValidator(ABC):
                 message=f"Field '{field_name}' must be of type {expected_type.__name__}",
                 field_path=field_name,
                 actual_value=type(field_value).__name__,
-                expected_value=expected_type.__name__
+                expected_value=expected_type.__name__,
             )
         return None
-    
+
     def _validate_field_range(
         self,
         field_name: str,
         field_value: float,
         min_value: Optional[float] = None,
         max_value: Optional[float] = None,
-        rule_id: str = None
+        rule_id: str = None,
     ) -> Optional[ValidationResult]:
         """Validate numeric field range"""
         if min_value is not None and field_value < min_value:
@@ -204,9 +220,9 @@ class BaseValidator(ABC):
                 message=f"Field '{field_name}' must be >= {min_value}",
                 field_path=field_name,
                 actual_value=field_value,
-                expected_value=f">= {min_value}"
+                expected_value=f">= {min_value}",
             )
-        
+
         if max_value is not None and field_value > max_value:
             return self._create_result(
                 rule_id=rule_id or f"range_check_{field_name}",
@@ -216,11 +232,11 @@ class BaseValidator(ABC):
                 message=f"Field '{field_name}' must be <= {max_value}",
                 field_path=field_name,
                 actual_value=field_value,
-                expected_value=f"<= {max_value}"
+                expected_value=f"<= {max_value}",
             )
-        
+
         return None
-    
+
     def get_validation_summary(self) -> Dict[str, Any]:
         """Get validation summary statistics"""
         if not self.validation_history:
@@ -229,18 +245,24 @@ class BaseValidator(ABC):
                 "passed": 0,
                 "failed": 0,
                 "warnings": 0,
-                "success_rate": 0.0
+                "success_rate": 0.0,
             }
-        
+
         total = len(self.validation_history)
-        passed = sum(1 for r in self.validation_history if r.status == ValidationStatus.PASSED)
-        failed = sum(1 for r in self.validation_history if r.status == ValidationStatus.FAILED)
-        warnings = sum(1 for r in self.validation_history if r.status == ValidationStatus.WARNING)
-        
+        passed = sum(
+            1 for r in self.validation_history if r.status == ValidationStatus.PASSED
+        )
+        failed = sum(
+            1 for r in self.validation_history if r.status == ValidationStatus.FAILED
+        )
+        warnings = sum(
+            1 for r in self.validation_history if r.status == ValidationStatus.WARNING
+        )
+
         return {
             "total_validations": total,
             "passed": passed,
             "failed": failed,
             "warnings": warnings,
-            "success_rate": (passed / total) * 100 if total > 0 else 0.0
+            "success_rate": (passed / total) * 100 if total > 0 else 0.0,
         }

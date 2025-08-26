@@ -16,6 +16,7 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, Any, List
 from unittest.mock import Mock
+from src.ai_ml.evaluation import evaluate_model as shared_evaluate_model
 
 try:
     from .robot_types import ModelConfig, TrainingConfig, DatasetConfig, ModelResult
@@ -31,8 +32,20 @@ class MLRobotMaker:
 
     def __init__(self):
         self.supported_models = {
-            "classification": ["random_forest", "svm", "neural_network", "xgboost", "lightgbm"],
-            "regression": ["linear_regression", "ridge", "lasso", "neural_network", "random_forest"],
+            "classification": [
+                "random_forest",
+                "svm",
+                "neural_network",
+                "xgboost",
+                "lightgbm",
+            ],
+            "regression": [
+                "linear_regression",
+                "ridge",
+                "lasso",
+                "neural_network",
+                "random_forest",
+            ],
             "clustering": ["kmeans", "dbscan", "hierarchical", "gaussian_mixture"],
             "nlp": ["transformer", "lstm", "cnn", "bert", "gpt"],
         }
@@ -46,14 +59,21 @@ class MLRobotMaker:
         }
 
         self.auto_hyperparameter_ranges = {
-            "random_forest": {"n_estimators": [50, 100, 200], "max_depth": [3, 5, 10, None]},
+            "random_forest": {
+                "n_estimators": [50, 100, 200],
+                "max_depth": [3, 5, 10, None],
+            },
             "neural_network": {"layers": [1, 2, 3], "neurons": [32, 64, 128, 256]},
             "svm": {"C": [0.1, 1.0, 10.0], "kernel": ["rbf", "linear", "poly"]},
         }
 
-    def create_model(self, model_config: ModelConfig, training_config: TrainingConfig) -> ModelResult:
+    def create_model(
+        self, model_config: ModelConfig, training_config: TrainingConfig
+    ) -> ModelResult:
         """Create and train an ML model automatically"""
-        logger.info(f"Creating {model_config.algorithm} model for {model_config.model_type}")
+        logger.info(
+            f"Creating {model_config.algorithm} model for {model_config.model_type}"
+        )
 
         try:
             self._validate_model_config(model_config)
@@ -85,7 +105,9 @@ class MLRobotMaker:
             logger.error(f"Model creation failed: {e}")
             raise
 
-    def auto_create_model(self, dataset_config: DatasetConfig, target_metric: str = "accuracy") -> ModelResult:
+    def auto_create_model(
+        self, dataset_config: DatasetConfig, target_metric: str = "accuracy"
+    ) -> ModelResult:
         """Automatically create the best model for a dataset"""
         logger.info(f"Auto-creating best model for dataset: {dataset_config.data_path}")
 
@@ -115,12 +137,17 @@ class MLRobotMaker:
             raise ValueError(f"Unsupported model type: {config.model_type}")
 
         if config.algorithm not in self.supported_models[config.model_type]:
-            raise ValueError(f"Unsupported algorithm {config.algorithm} for model type {config.model_type}")
+            raise ValueError(
+                f"Unsupported algorithm {config.algorithm} for model type {config.model_type}"
+            )
 
         if config.input_features <= 0:
             raise ValueError("Input features must be positive")
 
-        if config.model_type in ["classification", "clustering"] and config.output_classes <= 1:
+        if (
+            config.model_type in ["classification", "clustering"]
+            and config.output_classes <= 1
+        ):
             raise ValueError(f"Output classes must be > 1 for {config.model_type}")
 
     def _validate_training_config(self, config: TrainingConfig) -> None:
@@ -137,7 +164,9 @@ class MLRobotMaker:
         if not 0 < config.validation_split < 1:
             raise ValueError("Validation split must be between 0 and 1")
 
-    def _auto_tune_hyperparameters(self, algorithm: str, model_type: str) -> Dict[str, Any]:
+    def _auto_tune_hyperparameters(
+        self, algorithm: str, model_type: str
+    ) -> Dict[str, Any]:
         """Auto-tune hyperparameters for an algorithm"""
         if algorithm in self.auto_hyperparameter_ranges:
             params = {}
@@ -173,13 +202,21 @@ class MLRobotMaker:
     def _select_best_algorithm(self, model_type: str, analysis: Dict[str, Any]) -> str:
         """Select best algorithm for model type"""
         if model_type == "classification":
-            return "random_forest" if analysis["feature_count"] < 50 else "neural_network"
+            return (
+                "random_forest" if analysis["feature_count"] < 50 else "neural_network"
+            )
         elif model_type == "regression":
-            return "linear_regression" if analysis["feature_count"] < 20 else "random_forest"
+            return (
+                "linear_regression"
+                if analysis["feature_count"] < 20
+                else "random_forest"
+            )
         else:
             return "kmeans"
 
-    def _create_optimal_training_config(self, analysis: Dict[str, Any]) -> TrainingConfig:
+    def _create_optimal_training_config(
+        self, analysis: Dict[str, Any]
+    ) -> TrainingConfig:
         """Create optimal training configuration"""
         if analysis["sample_count"] < 1000:
             epochs, batch_size = 50, 16
@@ -259,27 +296,19 @@ class MLRobotMaker:
             "epochs_completed": config.epochs,
         }
 
-    def _evaluate_model(self, model: Any, training_result: Dict[str, Any]) -> Dict[str, float]:
-        """Evaluate model performance"""
-        history = training_result.get("history", {})
-        final_loss = history.get("loss", [1.0])[-1] if history.get("loss") else 1.0
-        final_accuracy = history.get("accuracy", [0.5])[-1] if history.get("accuracy") else 0.5
-        final_val_loss = history.get("val_loss", [1.0])[-1] if history.get("val_loss") else 1.0
-        final_val_accuracy = history.get("val_accuracy", [0.5])[-1] if history.get("val_accuracy") else 0.5
-
-        return {
-            "loss": final_loss,
-            "accuracy": final_accuracy,
-            "val_loss": final_val_loss,
-            "val_accuracy": final_val_accuracy,
-            "overfitting_score": final_loss - final_val_loss,
-        }
+    def _evaluate_model(
+        self, model: Any, training_result: Dict[str, Any]
+    ) -> Dict[str, float]:
+        """Evaluate model performance using shared evaluator"""
+        return shared_evaluate_model(model, training_result=training_result)
 
     def _save_model(self, model: Any, config: ModelConfig) -> str:
         """Save the trained model"""
         model_dir = Path("models")
         model_dir.mkdir(exist_ok=True)
-        model_filename = f"{config.algorithm}_{config.model_type}_{hash(str(config))}.pkl"
+        model_filename = (
+            f"{config.algorithm}_{config.model_type}_{hash(str(config))}.pkl"
+        )
         model_path = model_dir / model_filename
 
         with open(model_path, "w") as f:
@@ -295,7 +324,7 @@ class MLRobotMaker:
 def run_smoke_test():
     """Run smoke test for robot core module"""
     print("🧪 Testing ML Robot Core Module...")
-    
+
     try:
         maker = MLRobotMaker()
         assert "classification" in maker.supported_models
@@ -303,17 +332,17 @@ def run_smoke_test():
         print("✅ MLRobotMaker initialization smoke test passed")
 
         from robot_types import ModelConfig, TrainingConfig
-        
+
         model_config = ModelConfig(
             model_type="classification",
             algorithm="neural_network",
             hyperparameters={"layers": 2, "neurons": 64},
             input_features=10,
-            output_classes=2
+            output_classes=2,
         )
-        
+
         training_config = TrainingConfig(epochs=50, batch_size=32)
-        
+
         result = maker.create_model(model_config, training_config)
         assert result.model_id is not None
         assert result.model_path is not None

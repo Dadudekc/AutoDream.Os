@@ -16,6 +16,8 @@ from pathlib import Path
 from datetime import datetime
 import asyncio
 
+from .evaluation import evaluate_model as shared_evaluate_model
+
 # Try to import optional dependencies
 try:
     import openai
@@ -524,40 +526,20 @@ class PyTorchIntegration:
             raise
 
     def evaluate_model(self, model: nn.Module, test_loader: Any) -> Dict[str, float]:
-        """Evaluate a trained PyTorch model"""
+        """Evaluate a trained model using the shared evaluator"""
         try:
             if not self.is_initialized:
                 self.initialize()
 
-            model.eval()
-            correct = 0
-            total = 0
-            running_loss = 0.0
-            criterion = nn.CrossEntropyLoss()
-
-            with torch.no_grad():
-                for data, targets in test_loader:
-                    data, targets = data.to(self.device), targets.to(self.device)
-                    outputs = model(data)
-                    loss = criterion(outputs, targets)
-
-                    running_loss += loss.item()
-                    _, predicted = torch.max(outputs.data, 1)
-                    total += targets.size(0)
-                    correct += (predicted == targets).sum().item()
-
-            accuracy = 100 * correct / total
-            avg_loss = running_loss / len(test_loader)
-
-            results = {
-                "accuracy": accuracy,
-                "loss": avg_loss,
-                "correct_predictions": correct,
-                "total_samples": total,
-            }
-
+            results = shared_evaluate_model(
+                model,
+                test_loader,
+                device=self.device,
+            )
             logger.info(
-                f"Model evaluation completed: Accuracy = {accuracy:.2f}%, Loss = {avg_loss:.4f}"
+                "Model evaluation completed: Accuracy = %.2f%%, Loss = %.4f",
+                results.get("accuracy", 0.0),
+                results.get("loss", 0.0),
             )
             return results
 

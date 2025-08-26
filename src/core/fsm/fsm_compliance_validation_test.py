@@ -23,9 +23,15 @@ from fsm_compliance_integration import (
 )
 
 # Import FSM system for testing
-from fsm_core_v2 import (
-    StateDefinition, TransitionDefinition, WorkflowInstance,
-    StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
+from fsm_core import (
+    StateDefinition,
+    TransitionDefinition,
+    WorkflowInstance,
+    StateStatus,
+    TransitionType,
+    WorkflowPriority,
+    StateHandler,
+    TransitionHandler,
 )
 
 

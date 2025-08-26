@@ -22,7 +22,7 @@ from unittest.mock import Mock, patch
 
 # Import components to test
 from src.core.workspace_manager import WorkspaceManager
-from src.core.fsm_core_v2 import FSMCoreV2
+from src.core.fsm import FSMCore as FSMCoreV2
 from src.core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from src.core.fsm_communication_bridge import FSMCommunicationBridge
 

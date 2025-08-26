@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 def test_fsm_import():
     """Test that FSM system can be imported."""
     try:
-        from fsm_core_v2 import FSMCoreV2, StateDefinition, TransitionDefinition
+        from fsm_core import FSMCore as FSMCoreV2, StateDefinition, TransitionDefinition
         print("✅ FSM system imports successfully")
         return True
     except ImportError as e:
@@ -28,7 +28,7 @@ def test_fsm_import():
 def test_fsm_creation():
     """Test FSM system creation."""
     try:
-        from fsm_core_v2 import FSMCoreV2
+        from fsm_core import FSMCore as FSMCoreV2
         fsm = FSMCoreV2()
         print("✅ FSM system created successfully")
         return fsm
@@ -71,7 +71,7 @@ def test_basic_functionality():
             return False
         
         # Create a simple state
-        from fsm_core_v2 import StateDefinition
+        from fsm_core import StateDefinition
         test_state = StateDefinition(
             name="test_state",
             description="Test state for verification",

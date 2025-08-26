@@ -37,15 +37,15 @@ class UnifiedPerformanceOrchestrator(OrchestratorCompatibilityMixin):
         """
         self.logger = logging.getLogger(f"{__name__}.UnifiedPerformanceOrchestrator")
 
-        core_defaults = {
+        core_config = {
             "manager_id": "unified_performance_orchestrator",
             "name": "Unified Performance Orchestrator",
             "description": "Coordinates all performance system components",
         }
-        core_defaults.update(core_kwargs)
+        core_config.update(core_kwargs)
 
         # Initialize performance core with forwarded parameters
-        self.performance_core = PerformanceCore(**core_defaults)
+        self.performance_core = PerformanceCore(**core_config)
 
         # Combined statistics
         self.orchestrator_stats = {

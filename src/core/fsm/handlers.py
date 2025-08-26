@@ -17,12 +17,14 @@ class ConcreteStateHandler(StateHandler):
 
     def execute(self, context: Dict[str, Any]) -> StateExecutionResult:
         """Execute the configured action then validate state."""
+        start_time = time.monotonic()
         self._action(context)
         success = self._check(context)
+        execution_time = time.monotonic() - start_time
         status = StateStatus.COMPLETED if success else StateStatus.FAILED
         return StateExecutionResult(
             state_name=context.get("current_state", "unknown"),
-            execution_time=0.0,
+            execution_time=execution_time,
             status=status,
             output=context.copy(),
             error_message=None if success else "state check failed",

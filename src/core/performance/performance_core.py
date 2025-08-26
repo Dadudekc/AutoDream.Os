@@ -302,7 +302,7 @@ class UnifiedPerformanceSystem:
                     enabled=bench_def.get("enabled", True),
                 )
                 self.benchmarks[benchmark.benchmark_id] = benchmark
-            except Exception as e:
+            except (KeyError, ValueError) as e:
                 self.logger.error(
                     f"Failed to setup benchmark {bench_def}: {e}"
                 )

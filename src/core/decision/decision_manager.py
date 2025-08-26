@@ -129,6 +129,33 @@ class DecisionManager(BaseManager):
             
         except Exception as e:
             self.logger.error(f"Error during Decision Manager heartbeat: {e}")
+
+    def _on_initialize_resources(self) -> bool:
+        """Initialize decision manager resources"""
+        try:
+            self.integration_status["last_health_check"] = datetime.now().isoformat()
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to initialize resources: {e}")
+            return False
+
+    def _on_cleanup_resources(self):
+        """Cleanup decision manager resources"""
+        try:
+            self.decision_core.stop()
+            self.integration_status["integration_active"] = False
+        except Exception as e:
+            self.logger.error(f"Failed to cleanup resources: {e}")
+
+    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
+        """Attempt to recover from an error"""
+        try:
+            self.logger.warning(f"Recovery attempt for {context}: {error}")
+            self.integration_status["last_error"] = str(error)
+            return True
+        except Exception as e:
+            self.logger.error(f"Recovery failed: {e}")
+            return False
     
     def make_decision(
         self,

@@ -129,6 +129,36 @@ class DecisionCore(BaseManager):
             
         except Exception as e:
             self.logger.error(f"Error during Decision Core heartbeat: {e}")
+
+    def _on_initialize_resources(self) -> bool:
+        """Initialize decision core resources"""
+        try:
+            # Resources are initialized in __init__
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to initialize resources: {e}")
+            return False
+
+    def _on_cleanup_resources(self):
+        """Cleanup decision core resources"""
+        try:
+            self.active_decisions.clear()
+            self.decision_history.clear()
+            self.pending_decisions.clear()
+        except Exception as e:
+            self.logger.error(f"Failed to cleanup resources: {e}")
+
+    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
+        """Attempt to recover from an error"""
+        try:
+            self.logger.warning(f"Recovery attempt for {context}: {error}")
+            # Basic reset of tracking structures
+            self.active_decisions.clear()
+            self.pending_decisions.clear()
+            return True
+        except Exception as e:
+            self.logger.error(f"Recovery failed: {e}")
+            return False
     
     def make_decision(
         self,

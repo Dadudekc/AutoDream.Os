@@ -53,15 +53,14 @@ class APIManager(BaseManager):
         self.api_configs: Dict[str, APIConfig] = {}
         self.http_session: Optional[aiohttp.ClientSession] = None
         self.request_metrics: Dict[str, Dict[str, Any]] = {}
-        
+
         # API settings
         self.default_timeout = CommunicationConfig.DEFAULT_TIMEOUT
         self.default_retry_count = CommunicationConfig.DEFAULT_RETRY_COUNT
         self.max_concurrent_requests = CommunicationConfig.MAX_CONCURRENT_CONNECTIONS
-        
+
         # Initialize API system
         self._load_manager_config()
-        self._setup_default_api_configs()
     
     def _load_manager_config(self):
         """Load manager-specific configuration"""
@@ -80,35 +79,11 @@ class APIManager(BaseManager):
         except Exception as e:
             logger.error(f"Failed to load API config: {e}")
     
-    def _setup_default_api_configs(self):
-        """Setup default API configurations"""
-        # Default HTTP API config
-        default_http_config = APIConfig(
-            base_url="http://localhost:8000",
-            headers={"Content-Type": "application/json"},
-            timeout=self.default_timeout,
-            retry_count=self.default_retry_count,
-            rate_limit=None,
-            authentication={}
-        )
-        self.api_configs["default_http"] = default_http_config
-        
-        # Default HTTPS API config
-        default_https_config = APIConfig(
-            base_url="https://localhost:8443",
-            headers={"Content-Type": "application/json"},
-            timeout=self.default_timeout,
-            retry_count=self.default_retry_count,
-            rate_limit=None,
-            authentication={}
-        )
-        self.api_configs["default_https"] = default_https_config
-    
-    def configure_api(self, api_name: str, base_url: str, 
+    def configure_api(self, api_name: str, base_url: str,
                      headers: Optional[Dict[str, str]] = None,
-                     timeout: Optional[float] = None, 
+                     timeout: Optional[float] = None,
                      retry_count: Optional[int] = None,
-                     rate_limit: Optional[int] = None, 
+                     rate_limit: Optional[int] = None,
                      authentication: Optional[Dict[str, Any]] = None):
         """Configure API settings"""
         try:

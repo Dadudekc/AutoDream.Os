@@ -71,7 +71,8 @@ class HealthMonitor:
         for name, check in self.health_checks.items():
             try:
                 results[name] = check()
-            except Exception:
+            except Exception as e:
+                logger.error(f"Health check '{name}' failed: {e}")
                 results[name] = HealthStatus.UNKNOWN
         return results
 

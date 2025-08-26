@@ -17,96 +17,24 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Callable, Set
-from dataclasses import dataclass, asdict
-from enum import Enum
+from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime, timedelta
 from threading import Lock, Thread, Event
 from queue import PriorityQueue, Queue
 import asyncio
 
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
+from .task_models import (
+    Task,
+    TaskPriority,
+    TaskStatus,
+    TaskType,
+    Workflow,
+    TaskResult,
+)
+from .task_persistence import TaskStatePersister, TaskStorageInterface
 
 logger = logging.getLogger(__name__)
-
-
-class TaskStatus(Enum):
-    """Task status states"""
-    PENDING = "pending"
-    RUNNING = "running"
-    COMPLETED = "completed"
-    FAILED = "failed"
-    CANCELLED = "cancelled"
-    PAUSED = "paused"
-
-
-class TaskPriority(Enum):
-    """Task priority levels"""
-    LOW = 1
-    NORMAL = 2
-    HIGH = 3
-    CRITICAL = 4
-    URGENT = 5
-
-
-class TaskType(Enum):
-    """Task types"""
-    COMPUTATION = "computation"
-    I_O = "io"
-    NETWORK = "network"
-    DATABASE = "database"
-    FILE_OPERATION = "file_operation"
-    SYSTEM = "system"
-    CUSTOM = "custom"
-
-
-@dataclass
-class Task:
-    """Task definition"""
-    id: str
-    name: str
-    description: str
-    task_type: TaskType
-    priority: TaskPriority
-    status: TaskStatus
-    created_at: str
-    started_at: Optional[str]
-    completed_at: Optional[str]
-    duration: Optional[float]
-    result: Optional[Any]
-    error: Optional[str]
-    metadata: Dict[str, Any]
-    dependencies: List[str]
-    retry_count: int
-    max_retries: int
-    timeout: Optional[float]
-    tags: List[str]
-
-
-@dataclass
-class Workflow:
-    """Workflow definition"""
-    id: str
-    name: str
-    description: str
-    tasks: List[str]
-    dependencies: Dict[str, List[str]]
-    status: TaskStatus
-    created_at: str
-    started_at: Optional[str]
-    completed_at: Optional[str]
-    metadata: Dict[str, Any]
-
-
-@dataclass
-class TaskResult:
-    """Task execution result"""
-    task_id: str
-    success: bool
-    result: Any
-    error: Optional[str]
-    execution_time: float
-    metadata: Dict[str, Any]
 
 
 class TaskManager(BaseManager):
@@ -122,7 +50,8 @@ class TaskManager(BaseManager):
     Total consolidation: 4 files → 1 file (80% duplication eliminated)
     """
 
-    def __init__(self, config_path: str = "config/task_manager.json"):
+    def __init__(self, config_path: str = "config/task_manager.json",
+                 storage: Optional[TaskStorageInterface] = None):
         """Initialize task manager"""
         super().__init__(
             manager_name="TaskManager",
@@ -140,6 +69,7 @@ class TaskManager(BaseManager):
         self.task_lock = Lock()
         self.workflow_lock = Lock()
         self.shutdown_event = Event()
+        self._persistence = TaskStatePersister(storage)
         
         # Task execution settings
         self.max_concurrent_tasks = 10
@@ -214,8 +144,9 @@ class TaskManager(BaseManager):
                 "priority": priority.value,
                 "type": task_type.value
             })
-            
+
             logger.info(f"Task created: {name} (ID: {task_id})")
+            self._persistence.persist(self.tasks, self.task_queue)
             return task_id
             
         except Exception as e:
@@ -258,8 +189,9 @@ class TaskManager(BaseManager):
                     "task_id": task_id,
                     "started_at": task.started_at
                 })
-                
+
                 logger.info(f"Task {task_id} started execution")
+                self._persistence.persist(self.tasks, self.task_queue)
                 return True
                 
         except Exception as e:
@@ -325,12 +257,13 @@ class TaskManager(BaseManager):
                 "execution_time": execution_time,
                 "success": True
             })
-            
+
             logger.info(f"Task {task_id} completed successfully in {execution_time:.2f}s")
-            
+
             # Check for dependent tasks that can now run
             self._check_dependent_tasks(task_id)
-            
+            self._persistence.persist(self.tasks, self.task_queue)
+
         except Exception as e:
             execution_time = time.time() - start_time
             error_msg = str(e)
@@ -343,9 +276,10 @@ class TaskManager(BaseManager):
                 
                 # Re-add to queue with delay
                 Timer(self.retry_delay, self._requeue_task, args=[task_id]).start()
-                
+
                 logger.info(f"Task {task_id} scheduled for retry {task.retry_count}/{task.max_retries}")
-                
+                self._persistence.persist(self.tasks, self.task_queue)
+
             else:
                 # Task failed permanently
                 with self.task_lock:
@@ -363,8 +297,9 @@ class TaskManager(BaseManager):
                     "error": error_msg,
                     "retry_count": task.retry_count
                 })
-                
+
                 logger.error(f"Task {task_id} failed permanently after {task.max_retries} retries")
+                self._persistence.persist(self.tasks, self.task_queue)
 
     def _requeue_task(self, task_id: str):
         """Re-queue a task for retry"""
@@ -374,6 +309,7 @@ class TaskManager(BaseManager):
                     task = self.tasks[task_id]
                     self.task_queue.put((task.priority.value, task_id))
                     logger.debug(f"Task {task_id} re-queued for retry")
+                    self._persistence.persist(self.tasks, self.task_queue)
         except Exception as e:
             logger.error(f"Failed to re-queue task {task_id}: {e}")
 
@@ -388,7 +324,8 @@ class TaskManager(BaseManager):
                         if self._check_dependencies(task_id):
                             # Re-queue with current priority
                             self.task_queue.put((task.priority.value, task_id))
-                            
+                            self._persistence.persist(self.tasks, self.task_queue)
+
         except Exception as e:
             logger.error(f"Failed to check dependent tasks: {e}")
 
@@ -440,6 +377,7 @@ class TaskManager(BaseManager):
                     
                     self._emit_event("task_cancelled", {"task_id": task_id})
                     logger.info(f"Task {task_id} cancelled")
+                    self._persistence.persist(self.tasks, self.task_queue)
                     return True
                 
                 else:

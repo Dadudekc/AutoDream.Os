@@ -22,8 +22,17 @@ from src.utils.stability_improvements import stability_manager, safe_import
 # Services component imports
 try:
     from .agent_cell_phone import AgentCellPhone
+    from .sprint_management_service import SprintManagementService, Sprint, SprintStatus
+    from .sprint_workflow_service import SprintWorkflowService, WorkflowStage
 
-    __all__ = ["AgentCellPhone"]
+    __all__ = [
+        "AgentCellPhone",
+        "SprintManagementService",
+        "SprintWorkflowService",
+        "Sprint",
+        "SprintStatus",
+        "WorkflowStage",
+    ]
 
 except Exception as e:
     print(f"⚠️ Warning: Some services components not available: {e}")

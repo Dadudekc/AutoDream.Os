@@ -20,6 +20,7 @@ typer>=0.7.0
 
 # Utilities
 pathlib2>=2.3.0
+# Sprint workflow service uses only standard library modules
 
 # Security
 PyJWT>=2.9.0

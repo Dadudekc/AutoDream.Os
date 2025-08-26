@@ -16,7 +16,9 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from core.workspace_manager import WorkspaceManager, WorkspaceConfig
+from core.unified_workspace_system import UnifiedWorkspaceSystem, WorkspaceConfig
+
+WorkspaceManager = UnifiedWorkspaceSystem
 
 
 def test_manager_creation():
@@ -67,9 +69,7 @@ def test_workspace_creation():
         print("✅ Workspace info retrieval successful")
 
         # Test workspace exists
-        assert Path(
-            workspace_info.workspace_path
-        ).exists(), "Workspace directory should exist"
+        assert Path(workspace_info.path).exists(), "Workspace directory should exist"
         assert Path(workspace_info.inbox_path).exists(), "Inbox directory should exist"
         assert Path(workspace_info.tasks_path).exists(), "Tasks directory should exist"
         assert Path(
@@ -103,9 +103,7 @@ def test_workspace_discovery():
         # Test workspace structure
         for workspace in workspaces:
             assert hasattr(workspace, "agent_id"), "Workspace should have agent_id"
-            assert hasattr(
-                workspace, "workspace_path"
-            ), "Workspace should have workspace_path"
+            assert hasattr(workspace, "path"), "Workspace should have path"
             assert hasattr(workspace, "inbox_path"), "Workspace should have inbox_path"
             assert hasattr(workspace, "tasks_path"), "Workspace should have tasks_path"
             assert hasattr(

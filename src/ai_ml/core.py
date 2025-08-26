@@ -438,13 +438,55 @@ class AIManager(BaseManager):
     # ============================================================================
     
     def _save_ai_management_data(self):
-        """Save AI management data (placeholder for future persistence)"""
+        """Save AI management data to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("AI management data saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/ai_ml_core")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence
+            ai_data = {
+                "models": {k: v.__dict__ for k, v in self.models.items()},
+                "active_workflows": self.active_workflows,
+                "model_registrations": self.model_registrations,
+                "workflow_executions": self.workflow_executions,
+                "api_key_requests": self.api_key_requests,
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"ai_ml_core_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(ai_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "ai_ml_core_data_*.json", 5)
+            
+            self.logger.info(f"AI management data saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save AI management data: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
+    
+    def _cleanup_old_backups(self, directory: Path, pattern: str, keep_count: int):
+        """Clean up old backup files, keeping only the specified number"""
+        try:
+            files = list(directory.glob(pattern))
+            if len(files) > keep_count:
+                # Sort by modification time (oldest first)
+                files.sort(key=lambda x: x.stat().st_mtime)
+                # Remove oldest files
+                for old_file in files[:-keep_count]:
+                    old_file.unlink()
+                    self.logger.debug(f"Removed old backup: {old_file}")
+        except Exception as e:
+            self.logger.warning(f"Failed to cleanup old backups: {e}")
     
     def _check_ai_management_health(self):
         """Check AI management health status"""
@@ -860,13 +902,40 @@ class ModelManager(BaseManager):
     # ============================================================================
     
     def _save_model_management_data(self):
-        """Save model management data (placeholder for future persistence)"""
+        """Save model management data to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("Model management data saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/ai_ml_models")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence
+            model_data = {
+                "models": {k: v.__dict__ for k, v in self.models.items()},
+                "model_operations": self.model_operations,
+                "storage_operations": self.storage_operations,
+                "api_key_operations": self.api_key_operations,
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"ai_ml_models_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(model_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "ai_ml_models_data_*.json", 5)
+            
+            self.logger.info(f"Model management data saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save model management data: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
     
     def _check_model_management_health(self):
         """Check model management health status"""

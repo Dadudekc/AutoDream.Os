@@ -383,13 +383,55 @@ class CoreManager(BaseManager):
     # ============================================================================
     
     def _save_core_management_data(self):
-        """Save core management data (placeholder for future persistence)"""
+        """Save core management data to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("Core management data saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/core_management")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence
+            core_data = {
+                "components": self.components,
+                "component_registrations": self.component_registrations,
+                "configuration_operations": self.configuration_operations,
+                "system_operations": self.system_operations,
+                "config": self.config,
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"core_management_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(core_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "core_management_data_*.json", 5)
+            
+            self.logger.info(f"Core management data saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save core management data: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
+    
+    def _cleanup_old_backups(self, directory: Path, pattern: str, keep_count: int):
+        """Clean up old backup files, keeping only the specified number"""
+        try:
+            files = list(directory.glob(pattern))
+            if len(files) > keep_count:
+                # Sort by modification time (oldest first)
+                files.sort(key=lambda x: x.stat().st_mtime)
+                # Remove oldest files
+                for old_file in files[:-keep_count]:
+                    old_file.unlink()
+                    self.logger.debug(f"Removed old backup: {old_file}")
+        except Exception as e:
+            self.logger.warning(f"Failed to cleanup old backups: {e}")
     
     def _check_core_management_health(self):
         """Check core management health status"""

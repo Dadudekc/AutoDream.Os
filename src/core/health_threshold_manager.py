@@ -15,6 +15,8 @@ from typing import Dict, Optional, List, Any
 from dataclasses import dataclass
 from enum import Enum
 from datetime import datetime
+from pathlib import Path
+import json
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from .base_manager import BaseManager, ManagerStatus, ManagerPriority
@@ -550,13 +552,54 @@ class HealthThresholdManager(BaseManager):
     # ============================================================================
     
     def _save_health_threshold_management_data(self):
-        """Save health threshold management data (placeholder for future persistence)"""
+        """Save health threshold management data to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("Health threshold management data saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/health_thresholds")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence
+            threshold_data = {
+                "thresholds": {k: v.__dict__ for k, v in self.thresholds.items()},
+                "threshold_operations": self.threshold_operations,
+                "validation_operations": self.validation_operations,
+                "configuration_changes": self.configuration_changes,
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"health_thresholds_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(threshold_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "health_thresholds_data_*.json", 5)
+            
+            self.logger.info(f"Health threshold management data saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save health threshold management data: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
+    
+    def _cleanup_old_backups(self, directory: Path, pattern: str, keep_count: int):
+        """Clean up old backup files, keeping only the specified number"""
+        try:
+            files = list(directory.glob(pattern))
+            if len(files) > keep_count:
+                # Sort by modification time (oldest first)
+                files.sort(key=lambda x: x.stat().st_mtime)
+                # Remove oldest files
+                for old_file in files[:-keep_count]:
+                    old_file.unlink()
+                    self.logger.debug(f"Removed old backup: {old_file}")
+        except Exception as e:
+            self.logger.warning(f"Failed to cleanup old backups: {e}")
     
     def _check_health_threshold_management_health(self):
         """Check health threshold management health status"""

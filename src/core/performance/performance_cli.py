@@ -86,6 +86,42 @@ class PerformanceValidationCLI(PerformanceCLIOrchestrator):
     pass
 
 
+# Backward compatibility wrapper functions (V1 command names)
+def run_performance_cli(args: Optional[list] = None) -> int:
+    """Run the performance CLI using legacy function name."""
+    return PerformanceCLIOrchestrator().run(args)
+
+
+def run_performance_validation_cli(args: Optional[list] = None) -> int:
+    """Legacy entry point retained for V1 compatibility."""
+    return run_performance_cli(args)
+
+
+def execute_performance_cli_command(command: str, **kwargs) -> int:
+    """Execute a CLI command using legacy function name."""
+    return PerformanceCLIOrchestrator().execute_command(command, **kwargs)
+
+
+def get_performance_cli_help() -> str:
+    """Get CLI help text using legacy function name."""
+    return PerformanceCLIOrchestrator().get_help()
+
+
+def validate_performance_cli_args(args: list) -> bool:
+    """Validate CLI arguments using legacy function name."""
+    return PerformanceCLIOrchestrator().validate_args(args)
+
+
+def get_performance_cli_available_commands() -> list:
+    """Get available commands using legacy function name."""
+    return PerformanceCLIOrchestrator().get_available_commands()
+
+
+def get_performance_cli_command_help(command: str) -> str:
+    """Get command help using legacy function name."""
+    return PerformanceCLIOrchestrator().get_command_help(command)
+
+
 def main():
     """Main entry point for the CLI."""
     cli = PerformanceCLIOrchestrator()

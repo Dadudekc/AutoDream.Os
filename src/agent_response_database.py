@@ -149,27 +149,26 @@ class AgentResponseDatabase:
 
     def fetch_agent_progress_summary(self) -> dict:
         """Get comprehensive progress summary for all agents."""
-        conn = self.connect()
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            SELECT agent_id, COUNT(*) as response_count,
-                   SUM(file_size) as total_size,
-                   MAX(timestamp) as last_response
-            FROM agent_responses
-            GROUP BY agent_id
-            """
-        )
-        agent_stats = cursor.fetchall()
-        cursor.execute(
-            """
-            SELECT COUNT(*) as total_tasks,
-                   COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_tasks
-            FROM generated_tasks
-            """
-        )
-        task_stats = cursor.fetchone()
-        conn.close()
+        with self.connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                SELECT agent_id, COUNT(*) as response_count,
+                       SUM(file_size) as total_size,
+                       MAX(timestamp) as last_response
+                FROM agent_responses
+                GROUP BY agent_id
+                """
+            )
+            agent_stats = cursor.fetchall()
+            cursor.execute(
+                """
+                SELECT COUNT(*) as total_tasks,
+                       COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_tasks
+                FROM generated_tasks
+                """
+            )
+            task_stats = cursor.fetchone()
         return {
             "agent_stats": agent_stats,
             "task_stats": task_stats,

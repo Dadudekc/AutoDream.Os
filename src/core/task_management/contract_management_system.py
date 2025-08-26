@@ -170,13 +170,13 @@ class ContractManager:
                         required=True
                     ),
                     ContractRequirement(
-                        requirement_id="devlog_entry",
-                        description="Create devlog entry documenting completion",
+                        requirement_id="progress_documentation",
+                        description="Document current progress and completion",
                         required=True
                     ),
                     ContractRequirement(
-                        requirement_id="architecture_compliance",
-                        description="Ensure V2 standards compliance",
+                        requirement_id="integration_verification",
+                        description="Verify system integration",
                         required=True
                     )
                 ]
@@ -191,8 +191,13 @@ class ContractManager:
                     required=True
                 ),
                 ContractRequirement(
-                    requirement_id="devlog_entry",
-                    description="Create devlog entry documenting completion",
+                    requirement_id="progress_documentation",
+                    description="Document current progress and completion",
+                        required=True
+                ),
+                ContractRequirement(
+                    requirement_id="integration_verification",
+                    description="Verify system integration",
                     required=True
                 )
             ]

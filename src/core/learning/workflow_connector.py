@@ -15,8 +15,8 @@ from typing import Dict, List, Any, Optional, Callable
 from datetime import datetime
 import uuid
 
-from .unified_learning_engine import UnifiedLearningEngine, LearningEngineConfig
-from .learning_models import LearningSession, LearningGoal, LearningStatus
+from .unified_learning_engine import UnifiedLearningEngine
+from .models import LearningSession, LearningGoal, LearningStatus, LearningEngineConfig
 from .decision_models import DecisionRequest, DecisionResult, DecisionType, DecisionPriority
 from ..workflow.core.workflow_engine import WorkflowEngine, EngineConfig
 from ..workflow.types.workflow_enums import WorkflowStatus, TaskStatus, WorkflowType

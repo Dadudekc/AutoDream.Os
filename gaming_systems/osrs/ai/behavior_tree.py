@@ -108,7 +108,8 @@ class OSRSDecoratorNode(OSRSBehaviorNode):
         result = self.children[0].execute(player, game_state)
         try:
             return bool(self.decorator(result))
-        except Exception:  # pragma: no cover - defensive
+        except Exception as e:  # pragma: no cover - defensive
+            logging.error(f"Exception in decorator node '{self.name}': {e}", exc_info=True)
             return False
 
 

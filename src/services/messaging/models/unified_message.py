@@ -38,17 +38,28 @@ class UnifiedMessageType(Enum):
     STATUS = "status"
     RESULT = "result"
     ERROR = "error"
-    
+
     # Agent types
     AGENT = "agent"
     BROADCAST = "broadcast"
     DIRECT = "direct"
-    
+
     # System types
     SYSTEM = "system"
     ONBOARDING = "onboarding"
     WORKFLOW = "workflow"
-    
+
+    # V2 specialized types
+    TASK_ASSIGNMENT = "task_assignment"
+    TASK_UPDATE = "task_update"
+    DECISION_MAKING = "decision_making"
+    ALERT = "alert"
+    ONBOARDING_PHASE = "onboarding_phase"
+    STATUS_UPDATE = "status_update"
+    WORKFLOW_UPDATE = "workflow_update"
+    CONTRACT_ASSIGNMENT = "contract_assignment"
+    VALIDATION = "validation"
+
     # Legacy V1 types
     NORMAL = "normal"
     COORDINATE = "coordinate"
@@ -59,6 +70,7 @@ class UnifiedMessagePriority(Enum):
     """Unified message priority - consolidated from all systems"""
     LOW = "low"
     NORMAL = "normal"
+    MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
     URGENT = "urgent"
@@ -70,6 +82,7 @@ class UnifiedMessageStatus(Enum):
     QUEUED = "queued"
     DELIVERING = "delivering"
     DELIVERED = "delivered"
+    PROCESSED = "processed"
     ACKNOWLEDGED = "acknowledged"
     READ = "read"
     FAILED = "failed"

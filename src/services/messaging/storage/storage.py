@@ -27,8 +27,12 @@ from abc import ABC, abstractmethod
 logger = logging.getLogger(__name__)
 
 # Import enums and data structures from consolidated modules
-from ..types.v2_message_enums import V2MessageType, V2MessagePriority, V2MessageStatus
-from ..models.v2_message import V2Message
+from ..models.unified_message import (
+    UnifiedMessage,
+    UnifiedMessageType,
+    UnifiedMessagePriority,
+    UnifiedMessageStatus,
+)
 
 # Define missing classes and interfaces for compatibility
 from abc import ABC, abstractmethod
@@ -47,12 +51,12 @@ class IMessageStorage(ABC):
     """Interface for message storage"""
 
     @abstractmethod
-    def store_message(self, message: V2Message) -> bool:
+    def store_message(self, message: UnifiedMessage) -> bool:
         """Store a message"""
         raise NotImplementedError("store_message must be implemented")
 
     @abstractmethod
-    def get_message(self, message_id: str) -> Optional[V2Message]:
+    def get_message(self, message_id: str) -> Optional[UnifiedMessage]:
         """Get a message by ID"""
         raise NotImplementedError("get_message must be implemented")
 
@@ -66,10 +70,10 @@ class V2MessageStorage(IMessageStorage):
         Args:
             db_path: Optional path to SQLite database for persistence.
         """
-        self.messages: Dict[str, V2Message] = {}
+        self.messages: Dict[str, UnifiedMessage] = {}
         self.agent_messages: Dict[str, List[str]] = defaultdict(list)
-        self.type_messages: Dict[V2MessageType, List[str]] = defaultdict(list)
-        self.status_messages: Dict[V2MessageStatus, List[str]] = defaultdict(list)
+        self.type_messages: Dict[UnifiedMessageType, List[str]] = defaultdict(list)
+        self.status_messages: Dict[UnifiedMessageStatus, List[str]] = defaultdict(list)
         self.timestamp_index: List[tuple] = []  # (timestamp, message_id) pairs
         self.lock = threading.RLock()
         self.storage_stats = {
@@ -93,7 +97,7 @@ class V2MessageStorage(IMessageStorage):
         cursor = self.conn.execute("SELECT message_data FROM messages")
         for (message_data,) in cursor:
             data = json.loads(message_data)
-            message = V2Message.from_dict(data)
+            message = UnifiedMessage.from_dict(data)
             self.messages[message.message_id] = message
             self._update_indexes(message, "add")
             self.storage_stats["total_messages"] += 1
@@ -102,7 +106,7 @@ class V2MessageStorage(IMessageStorage):
             if message.recipient_id and message.recipient_id != "broadcast":
                 self.storage_stats["messages_by_agent"][message.recipient_id] += 1
 
-    def store_message(self, message: V2Message) -> bool:
+    def store_message(self, message: UnifiedMessage) -> bool:
         """Store a message with indexing"""
         try:
             with self.lock:
@@ -138,7 +142,7 @@ class V2MessageStorage(IMessageStorage):
             logger.error(f"Failed to store message: {e}")
             return False
 
-    def get_message(self, message_id: str) -> Optional[V2Message]:
+    def get_message(self, message_id: str) -> Optional[UnifiedMessage]:
         """Retrieve a message by ID"""
         try:
             with self.lock:
@@ -153,7 +157,7 @@ class V2MessageStorage(IMessageStorage):
                     row = cursor.fetchone()
                     if row:
                         data = json.loads(row[0])
-                        message = V2Message.from_dict(data)
+                        message = UnifiedMessage.from_dict(data)
                         self.messages[message_id] = message
                         self._update_indexes(message, "add")
                         return message
@@ -165,10 +169,10 @@ class V2MessageStorage(IMessageStorage):
     def get_messages_for_agent(
         self,
         agent_id: str,
-        message_type: Optional[V2MessageType] = None,
-        status: Optional[V2MessageStatus] = None,
+        message_type: Optional[UnifiedMessageType] = None,
+        status: Optional[UnifiedMessageStatus] = None,
         limit: Optional[int] = None,
-    ) -> List[V2Message]:
+    ) -> List[UnifiedMessage]:
         """Get messages for an agent with optional filtering"""
         try:
             messages = []
@@ -201,8 +205,8 @@ class V2MessageStorage(IMessageStorage):
             return []
 
     def get_messages_by_type(
-        self, message_type: V2MessageType, limit: Optional[int] = None
-    ) -> List[V2Message]:
+        self, message_type: UnifiedMessageType, limit: Optional[int] = None
+    ) -> List[UnifiedMessage]:
         """Get messages by type"""
         try:
             messages = []
@@ -225,8 +229,8 @@ class V2MessageStorage(IMessageStorage):
             return []
 
     def get_messages_by_status(
-        self, status: V2MessageStatus, limit: Optional[int] = None
-    ) -> List[V2Message]:
+        self, status: UnifiedMessageStatus, limit: Optional[int] = None
+    ) -> List[UnifiedMessage]:
         """Get messages by status"""
         try:
             messages = []
@@ -248,7 +252,7 @@ class V2MessageStorage(IMessageStorage):
             logger.error(f"Failed to get messages by status {status}: {e}")
             return []
 
-    def update_message_status(self, message_id: str, status: V2MessageStatus) -> bool:
+    def update_message_status(self, message_id: str, status: UnifiedMessageStatus) -> bool:
         """Update message status"""
         try:
             with self.lock:
@@ -326,7 +330,7 @@ class V2MessageStorage(IMessageStorage):
             logger.error(f"Failed to delete message: {e}")
             return False
 
-    def _update_indexes(self, message: V2Message, operation: str):
+    def _update_indexes(self, message: UnifiedMessage, operation: str):
         """Update all indexes for a message"""
         try:
             if operation == "add":

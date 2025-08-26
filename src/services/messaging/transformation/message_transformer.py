@@ -5,7 +5,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Dict, Any
 
-from ..models.v2_message import V2Message as Message
+from ..models.unified_message import UnifiedMessage as Message
 
 
 class MessageTransformer:

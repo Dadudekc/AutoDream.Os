@@ -25,8 +25,11 @@ from queue import PriorityQueue
 from datetime import datetime
 from dataclasses import dataclass
 
-from ..models.v2_message import V2Message
-from ..types.v2_message_enums import V2MessagePriority, V2MessageStatus
+from ..models.unified_message import (
+    UnifiedMessage,
+    UnifiedMessagePriority,
+    UnifiedMessageStatus,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -40,11 +43,11 @@ class MessageQueueInterface(Protocol):
     All implementations must satisfy these test contracts.
     """
     
-    def enqueue(self, message: V2Message) -> bool:
+    def enqueue(self, message: UnifiedMessage) -> bool:
         """Enqueue message. Return True if successful."""
         ...
     
-    def dequeue(self) -> Optional[V2Message]:
+    def dequeue(self) -> Optional[UnifiedMessage]:
         """Dequeue highest priority message. Return None if empty."""
         ...
     
@@ -76,11 +79,11 @@ class MessageStorageInterface(Protocol):
     Defines storage operations that TDD tests verify.
     """
     
-    def save_message(self, message: V2Message) -> bool:
+    def save_message(self, message: UnifiedMessage) -> bool:
         """Persist message to storage."""
         ...
     
-    def load_messages(self) -> List[V2Message]:
+    def load_messages(self) -> List[UnifiedMessage]:
         """Load all messages from storage."""
         ...
     
@@ -156,9 +159,9 @@ class FileMessageStorage:
         """Save message to file storage."""
         try:
             with self._lock:
-                file_path = self.storage_dir / f"{message.id}.json"
+                file_path = self.storage_dir / f"{message.message_id}.json"
                 message_data = {
-                    'id': message.id,
+                    'id': message.message_id,
                     'content': message.content,
                     'priority': message.priority.value,
                     'sender': message.sender,
@@ -173,7 +176,7 @@ class FileMessageStorage:
                 
                 return True
         except Exception as e:
-            logger.error(f"Failed to save message {message.id}: {e}")
+            logger.error(f"Failed to save message {message.message_id}: {e}")
             return False
     
     def load_messages(self) -> List[Message]:
@@ -185,13 +188,13 @@ class FileMessageStorage:
                     try:
                         with open(file_path, 'r', encoding='utf-8') as f:
                             data = json.load(f)
-                            message = V2Message(
+                            message = UnifiedMessage(
                                 message_id=data['id'],
                                 content=data['content'],
-                                priority=V2MessagePriority(data['priority']),
+                                priority=UnifiedMessagePriority(data['priority']),
                                 sender_id=data['sender'],
                                 recipient_id=data['recipient'],
-                                status=V2MessageStatus(data['status']),
+                                status=UnifiedMessageStatus(data['status']),
                                 timestamp=datetime.fromisoformat(data['timestamp']),
                                 payload=data.get('metadata', {})
                             )
@@ -259,7 +262,7 @@ class TDDMessageQueue:
         self.max_size = max_size
         self._storage = storage
         self._queue: PriorityQueue = PriorityQueue()
-        self._messages: Dict[str, V2Message] = {}
+        self._messages: Dict[str, UnifiedMessage] = {}
         self._metrics = QueueMetrics(queue_name=name)
         self._lock = threading.RLock()
         
@@ -267,7 +270,7 @@ class TDDMessageQueue:
         if self._storage:
             self._load_persisted_messages()
     
-    def enqueue(self, message: V2Message) -> bool:
+    def enqueue(self, message: UnifiedMessage) -> bool:
         """
         TDD Contract: Enqueue message with priority ordering.
         
@@ -297,7 +300,7 @@ class TDDMessageQueue:
             self._metrics.increment_error()
             return False
     
-    def dequeue(self) -> Optional[V2Message]:
+    def dequeue(self) -> Optional[UnifiedMessage]:
         """
         TDD Contract: Dequeue highest priority message.
         
@@ -310,7 +313,7 @@ class TDDMessageQueue:
                     return None
                 
                 priority_value, timestamp, message = self._queue.get()
-                message.status = V2MessageStatus.DELIVERED
+                message.status = UnifiedMessageStatus.DELIVERED
                 self._metrics.increment_dequeue()
                 
                 return message
@@ -331,7 +334,7 @@ class TDDMessageQueue:
             with self._lock:
                 if message_id in self._messages:
                     message = self._messages[message_id]
-                    message.status = V2MessageStatus.PROCESSED
+                    message.status = UnifiedMessageStatus.PROCESSED
                     self._metrics.increment_ack()
                     
                     # Remove from storage if available
@@ -365,20 +368,22 @@ class TDDMessageQueue:
         """TDD Contract: Return comprehensive metrics."""
         return self._metrics.to_dict()
     
-    def get_message_by_id(self, message_id: str) -> Optional[V2Message]:
+    def get_message_by_id(self, message_id: str) -> Optional[UnifiedMessage]:
         """TDD Contract: Retrieve message by ID."""
         return self._messages.get(message_id)
     
     # Private helper methods
-    def _get_priority_value(self, priority: V2MessagePriority) -> int:
+    def _get_priority_value(self, priority: UnifiedMessagePriority) -> int:
         """Convert priority enum to queue ordering value."""
         priority_map = {
-            V2MessagePriority.CRITICAL: 1,
-            V2MessagePriority.HIGH: 2,
-            V2MessagePriority.NORMAL: 3,
-            V2MessagePriority.LOW: 4
+            UnifiedMessagePriority.CRITICAL: 1,
+            UnifiedMessagePriority.URGENT: 2,
+            UnifiedMessagePriority.HIGH: 3,
+            UnifiedMessagePriority.MEDIUM: 4,
+            UnifiedMessagePriority.NORMAL: 5,
+            UnifiedMessagePriority.LOW: 6,
         }
-        return priority_map.get(priority, 3)
+        return priority_map.get(priority, 7)
     
     def _load_persisted_messages(self) -> None:
         """Load messages from storage on initialization."""
@@ -388,10 +393,10 @@ class TDDMessageQueue:
                 
             messages = self._storage.load_messages()
             for message in messages:
-                if message.status != MessageStatus.PROCESSED:
+                if message.status != UnifiedMessageStatus.PROCESSED:
                     priority_value = self._get_priority_value(message.priority)
                     self._queue.put((priority_value, time.time(), message))
-                    self._messages[message.id] = message
+                    self._messages[message.message_id] = message
                     self._metrics.current_size += 1
                     
         except Exception as e:

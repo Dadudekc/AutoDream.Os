@@ -21,8 +21,12 @@ from dataclasses import dataclass
 logger = logging.getLogger(__name__)
 
 # Import enums and data structures from consolidated modules
-from ..types.v2_message_enums import V2MessageType, V2MessagePriority, V2MessageStatus
-from ..models.v2_message import V2Message
+from ..models.unified_message import (
+    UnifiedMessage,
+    UnifiedMessageType,
+    UnifiedMessagePriority,
+    UnifiedMessageStatus,
+)
 
 # Define missing classes for compatibility
 @dataclass
@@ -34,10 +38,10 @@ class V2AgentInfo:
 
 class V2MessageValidator:
     """Message validation implementation - SRP: Validate message content and format"""
-    
+
     def __init__(self):
-        self.validation_rules: Dict[V2MessageType, List[callable]] = {}
-        self.required_fields: Dict[V2MessageType, List[str]] = {}
+        self.validation_rules: Dict[UnifiedMessageType, List[callable]] = {}
+        self.required_fields: Dict[UnifiedMessageType, List[str]] = {}
         self.field_validators: Dict[str, callable] = {}
         self._setup_default_validators()
         
@@ -45,13 +49,13 @@ class V2MessageValidator:
         """Setup default validation rules and field validators"""
         # Required fields for different message types
         self.required_fields = {
-            V2MessageType.TASK_ASSIGNMENT: ['sender_id', 'recipient_id', 'subject', 'content', 'task_id'],
-            V2MessageType.STATUS_UPDATE: ['sender_id', 'recipient_id', 'subject', 'content'],
-            V2MessageType.COORDINATION: ['sender_id', 'recipient_id', 'subject', 'content'],
-            V2MessageType.BROADCAST: ['sender_id', 'subject', 'content'],
-            V2MessageType.SYSTEM: ['sender_id', 'subject', 'content'],
-            V2MessageType.ALERT: ['sender_id', 'subject', 'content', 'priority'],
-            V2MessageType.WORKFLOW_UPDATE: ['sender_id', 'recipient_id', 'subject', 'content', 'workflow_id']
+            UnifiedMessageType.TASK_ASSIGNMENT: ['sender_id', 'recipient_id', 'subject', 'content', 'task_id'],
+            UnifiedMessageType.STATUS_UPDATE: ['sender_id', 'recipient_id', 'subject', 'content'],
+            UnifiedMessageType.COORDINATION: ['sender_id', 'recipient_id', 'subject', 'content'],
+            UnifiedMessageType.BROADCAST: ['sender_id', 'subject', 'content'],
+            UnifiedMessageType.SYSTEM: ['sender_id', 'subject', 'content'],
+            UnifiedMessageType.ALERT: ['sender_id', 'subject', 'content', 'priority'],
+            UnifiedMessageType.WORKFLOW_UPDATE: ['sender_id', 'recipient_id', 'subject', 'content', 'workflow_id']
         }
         
         # Field validators
@@ -67,7 +71,7 @@ class V2MessageValidator:
             'workflow_id': self._validate_uuid
         }
         
-    def validate_message(self, message: V2Message) -> Tuple[bool, List[str]]:
+    def validate_message(self, message: UnifiedMessage) -> Tuple[bool, List[str]]:
         """Validate a message and return validation result with error messages"""
         errors = []
         
@@ -129,31 +133,30 @@ class V2MessageValidator:
     
     def _validate_priority(self, value) -> bool:
         """Validate priority value"""
-        from ..v2_comprehensive_messaging_system import V2MessagePriority
-        return isinstance(value, V2MessagePriority)
+        return isinstance(value, UnifiedMessagePriority)
     
     def _validate_timestamp(self, value) -> bool:
         """Validate timestamp value"""
         return isinstance(value, datetime)
     
-    def _validate_message_type_rules(self, message: V2Message) -> List[str]:
+    def _validate_message_type_rules(self, message: UnifiedMessage) -> List[str]:
         """Validate message type specific rules"""
         errors = []
         
         try:
-            if message.message_type == V2MessageType.TASK_ASSIGNMENT:
+            if message.message_type == UnifiedMessageType.TASK_ASSIGNMENT:
                 if not message.task_id:
                     errors.append("Task assignment messages must include task_id")
                     
-            elif message.message_type == V2MessageType.WORKFLOW_UPDATE:
+            elif message.message_type == UnifiedMessageType.WORKFLOW_UPDATE:
                 if not message.workflow_id:
                     errors.append("Workflow update messages must include workflow_id")
                     
-            elif message.message_type == V2MessageType.ONBOARDING_PHASE:
+            elif message.message_type == UnifiedMessageType.ONBOARDING_PHASE:
                 if message.phase_number is None:
                     errors.append("Onboarding phase messages must include phase_number")
                     
-            elif message.message_type == V2MessageType.BROADCAST:
+            elif message.message_type == UnifiedMessageType.BROADCAST:
                 if message.recipient_id and message.recipient_id != "broadcast":
                     errors.append("Broadcast messages should not have specific recipient_id")
                     
@@ -163,7 +166,7 @@ class V2MessageValidator:
             
         return errors
     
-    def _validate_business_rules(self, message: V2Message) -> List[str]:
+    def _validate_business_rules(self, message: UnifiedMessage) -> List[str]:
         """Validate business logic rules"""
         errors = []
         
@@ -195,7 +198,7 @@ class V2MessageValidator:
             
         return errors
     
-    def add_validation_rule(self, message_type: V2MessageType, validator_func: callable) -> None:
+    def add_validation_rule(self, message_type: UnifiedMessageType, validator_func: callable) -> None:
         """Add custom validation rule for message type"""
         if message_type not in self.validation_rules:
             self.validation_rules[message_type] = []

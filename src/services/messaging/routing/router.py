@@ -25,8 +25,12 @@ from abc import ABC, abstractmethod
 logger = logging.getLogger(__name__)
 
 # Import enums and data structures from consolidated modules
-from ..types.v2_message_enums import V2MessageType, V2MessagePriority, V2MessageStatus
-from ..models.v2_message import V2Message
+from ..models.unified_message import (
+    UnifiedMessage,
+    UnifiedMessageType,
+    UnifiedMessagePriority,
+    UnifiedMessageStatus,
+)
 
 # Define missing enums and classes for compatibility
 from enum import Enum
@@ -81,15 +85,15 @@ class V2WorkflowInfo:
 
 class V2MessageRouter:
     """Message routing implementation - SRP: Route messages to appropriate agents"""
-    
+
     def __init__(self):
-        self.routing_rules: Dict[V2MessageType, List[str]] = defaultdict(list)
+        self.routing_rules: Dict[UnifiedMessageType, List[str]] = defaultdict(list)
         self.agent_capabilities: Dict[str, Set[V2AgentCapability]] = defaultdict(set)
         self.workflow_routes: Dict[str, List[str]] = defaultdict(list)
         self.task_routes: Dict[str, List[str]] = defaultdict(list)
         self.lock = threading.RLock()
         
-    def add_routing_rule(self, message_type: V2MessageType, agent_ids: List[str]) -> None:
+    def add_routing_rule(self, message_type: UnifiedMessageType, agent_ids: List[str]) -> None:
         """Add routing rule for message type"""
         with self.lock:
             self.routing_rules[message_type].extend(agent_ids)
@@ -109,7 +113,7 @@ class V2MessageRouter:
         with self.lock:
             self.task_routes[task_id] = agent_ids.copy()
             
-    def route_message(self, message: V2Message, available_agents: List[V2AgentInfo]) -> Optional[str]:
+    def route_message(self, message: UnifiedMessage, available_agents: List[V2AgentInfo]) -> Optional[str]:
         """Route message to appropriate agent based on type and priority"""
         try:
             with self.lock:
@@ -138,7 +142,7 @@ class V2MessageRouter:
             logger.error(f"Failed to route message {message.message_id}: {e}")
             return None
             
-    def _route_by_capabilities(self, message: V2Message, available_agents: List[V2AgentInfo]) -> Optional[str]:
+    def _route_by_capabilities(self, message: UnifiedMessage, available_agents: List[V2AgentInfo]) -> Optional[str]:
         """Route message based on agent capabilities and availability"""
         try:
             # Filter agents by status (only online and idle agents)
@@ -156,13 +160,13 @@ class V2MessageRouter:
                 score = 0
                 
                 # Base score for capability match
-                if message.message_type == V2MessageType.TASK_ASSIGNMENT:
+                if message.message_type == UnifiedMessageType.TASK_ASSIGNMENT:
                     if V2AgentCapability.TASK_EXECUTION in self.agent_capabilities[agent.agent_id]:
                         score += 10
-                elif message.message_type == V2MessageType.DECISION_MAKING:
+                elif message.message_type == UnifiedMessageType.DECISION_MAKING:
                     if V2AgentCapability.DECISION_MAKING in self.agent_capabilities[agent.agent_id]:
                         score += 10
-                elif message.message_type == V2MessageType.COORDINATION:
+                elif message.message_type == UnifiedMessageType.COORDINATION:
                     if V2AgentCapability.COMMUNICATION in self.agent_capabilities[agent.agent_id]:
                         score += 10
                         

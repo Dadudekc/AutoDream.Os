@@ -78,11 +78,20 @@ class CaptainTaskDistributor:
 
     def get_distribution_summary(self) -> dict:
         """Return simple distribution stats."""
-        total_tasks = 13
+        # Count distributed tasks by finding contract files on disk
+        distributed_files = list(self.output_dir.glob("contracts_*/*.md"))
+        tasks_distributed = len(distributed_files)
+
+        # Dynamically determine the total number of tasks
+        total_tasks = len(self.create_all_contracts())
+
+        # Calculate distribution rate, handling division by zero
+        distribution_rate = (tasks_distributed / total_tasks) * 100 if total_tasks > 0 else 0.0
+
         return {
             "total_tasks": total_tasks,
-            "tasks_distributed": self.tasks_distributed,
-            "distribution_rate": f"{(self.tasks_distributed / total_tasks) * 100:.1f}%",
+            "tasks_distributed": tasks_distributed,
+            "distribution_rate": f"{distribution_rate:.1f}%",
             "agents_covered": ["Agent-1", "Agent-2", "Agent-3", "Agent-4"],
             "output_directory": str(self.output_dir),
         }

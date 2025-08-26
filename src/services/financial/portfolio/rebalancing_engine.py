@@ -51,11 +51,11 @@ class RebalancingEngine:
         return logger
 
     # ------------------------------------------------------------------
-    def update_weights(self, weights: Dict[str, float]) -> None:
+    def update_weights(self, weights: Dict[str, float], timestamp: Optional[datetime] = None) -> None:
         """Update current asset weights and record a snapshot."""
         self.current_weights = weights.copy()
         snapshot = WeightSnapshot(
-            timestamp=datetime.now(), weights=self.current_weights.copy()
+            timestamp=timestamp or datetime.now(), weights=self.current_weights.copy()
         )
         self.weight_history.append(snapshot)
         if len(self.weight_history) > self.max_history:

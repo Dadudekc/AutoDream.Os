@@ -10,25 +10,27 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-from ..managers.status_manager import (
-    StatusManager,
+from ..managers.status_manager import StatusManager, run_smoke_test, main
+from ..managers.status_registry import StatusRegistry
+from ..managers.status_types import (
     StatusLevel,
     HealthStatus,
     UpdateFrequency,
     StatusEventType,
+)
+from ..managers.status_entities import (
     StatusItem,
     HealthMetric,
     ComponentHealth,
     StatusEvent,
     StatusMetrics,
     ActivitySummary,
-    run_smoke_test,
-    main
 )
 
 # Backward compatibility
 __all__ = [
     "StatusManager",
+    "StatusRegistry",
     "StatusLevel",
     "HealthStatus",
     "UpdateFrequency",
@@ -40,5 +42,5 @@ __all__ = [
     "StatusMetrics",
     "ActivitySummary",
     "run_smoke_test",
-    "main"
+    "main",
 ]

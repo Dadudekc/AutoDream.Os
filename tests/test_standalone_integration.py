@@ -91,7 +91,7 @@ def test_middleware_tools_standalone():
         CacheManager = middleware_module.CacheManager
         DataTransformer = middleware_module.DataTransformer
         CircuitBreaker = middleware_module.CircuitBreaker
-        MessagePriority = middleware_module.MessagePriority
+        UnifiedMessagePriority = middleware_module.UnifiedMessagePriority
         Message = middleware_module.Message
 
         # Test Message Queue
@@ -100,7 +100,7 @@ def test_middleware_tools_standalone():
         message = Message(
             id="test_1",
             content="Hello World",
-            priority=MessagePriority.HIGH,
+            priority=UnifiedMessagePriority.HIGH,
             timestamp=time.time(),
             source="test",
             destination="test",
@@ -209,7 +209,7 @@ async def test_async_coordinator_standalone():
         middleware_module = load_module_from_file("middleware_tools", middleware_path)
 
         IntegrationCoordinator = coordinator_module.IntegrationCoordinator
-        MessagePriority = middleware_module.MessagePriority
+        UnifiedMessagePriority = middleware_module.UnifiedMessagePriority
 
         # Create coordinator (uses default config)
         coordinator = IntegrationCoordinator()

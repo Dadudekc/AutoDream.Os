@@ -25,7 +25,7 @@ from datetime import datetime, timedelta
 # Import TDD components (will fail initially - RED phase)
 try:
     from src.core.messaging.message_queue import PersistentMessageQueue
-    from src.core.messaging.message_types import Message, MessagePriority, MessageStatus
+    from src.core.messaging.message_types import Message, UnifiedMessagePriority, MessageStatus
     from src.core.decision import DecisionManager as DecisionMakingEngine
     from src.core.decision.decision_types import DecisionRequest, DecisionType
     from src.core.swarm_coordination_system import SwarmCoordinationSystem
@@ -76,7 +76,7 @@ class TestTDDSystemIntegration:
                 "decision_type": "TASK_ASSIGNMENT",
                 "context": {"agent_id": "agent_1", "task": "coordination"}
             }),
-            priority=MessagePriority.HIGH,
+            priority=UnifiedMessagePriority.HIGH,
             sender="coordinator_agent",
             recipient="decision_engine"
         )
@@ -168,7 +168,7 @@ class TestTDDSystemIntegration:
                 queued_messages.append(msg)
             
             assert len(queued_messages) == len(agents)
-            assert all(msg.priority == MessagePriority.HIGH for msg in queued_messages)
+            assert all(msg.priority == UnifiedMessagePriority.HIGH for msg in queued_messages)
     
     def test_complete_tdd_system_workflow_tdd(self, tdd_system_setup):
         """RED: Test complete integrated TDD system workflow"""
@@ -188,7 +188,7 @@ class TestTDDSystemIntegration:
                 "task_type": "collaborative_problem_solving",
                 "deadline": (datetime.now() + timedelta(hours=1)).isoformat()
             }),
-            priority=MessagePriority.CRITICAL,
+            priority=UnifiedMessagePriority.CRITICAL,
             sender="external_system",
             recipient="coordination_system"
         )
@@ -216,7 +216,7 @@ class TestTDDSystemIntegration:
                     "execution_time": coordination_result['duration'],
                     "success": coordination_result['success']
                 }),
-                priority=MessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL,
                 sender="coordination_system",
                 recipient="external_system"
             )
@@ -246,7 +246,7 @@ class TestTDDSystemIntegration:
                     "original_request_id": initial_request.id,
                     "fallback_reason": "SWARM_UNAVAILABLE"
                 }),
-                priority=MessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL,
                 sender="coordination_system",
                 recipient="external_system"
             )
@@ -291,7 +291,7 @@ class TestTDDPerformanceIntegration:
             Message(
                 id=f"perf_msg_{i}",
                 content=json.dumps({"type": "performance_test", "sequence": i}),
-                priority=MessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL,
                 sender=f"agent_{i % 10}",
                 recipient="performance_processor"
             )
@@ -355,7 +355,7 @@ class TestTDDPerformanceIntegration:
                     msg = Message(
                         id=f"concurrent_msg_{worker_id}_{i}",
                         content=json.dumps({"worker": worker_id, "sequence": i}),
-                        priority=MessagePriority.NORMAL,
+                        priority=UnifiedMessagePriority.NORMAL,
                         sender=f"worker_{worker_id}",
                         recipient="concurrent_processor"
                     )

@@ -32,7 +32,7 @@ class CommunicationTypes:
         CLOSED = "closed"
         MAINTENANCE = "maintenance"
     
-    class MessagePriority(Enum):
+    class UnifiedMessagePriority(Enum):
         """Message priority enumeration"""
         LOW = "low"
         NORMAL = "normal"

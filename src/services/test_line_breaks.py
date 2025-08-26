@@ -3,7 +3,7 @@
 Test script to verify Shift+Enter line break functionality
 """
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -12,7 +12,7 @@ def test_line_breaks():
     print("🚀 Testing Shift+Enter line break functionality...")
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print("✅ System initialized")
 
     # Start the system

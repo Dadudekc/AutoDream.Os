@@ -13,7 +13,7 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from services.simple_message_queue import SimpleMessageQueueSystem, MessagePriority
+from services.simple_message_queue import SimpleMessageQueueSystem, UnifiedMessagePriority
 
 
 def main():

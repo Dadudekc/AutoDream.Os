@@ -206,23 +206,23 @@ def demo_integration_with_queue():
     try:
         # Try to import the message queue system
         try:
-            from v1_v2_message_queue_system import (
-                V1V2MessageQueueSystem,
-                MessagePriority,
+            from src.services.messaging import (
+                UnifiedMessagingService,
+                UnifiedMessagePriority,
             )
 
             print("✅ V1-V2 Message Queue System imported successfully")
 
             # Create a simple demo
             print("📤 Creating message queue system...")
-            mq_system = V1V2MessageQueueSystem(max_workers=1)
+            mq_system = UnifiedMessagingService(max_workers=1)
 
             print("📨 Queuing test message...")
             msg_id = mq_system.queue_message(
                 "Agent-5",
                 "Agent-3",
                 "🧪 Queue Integration Demo: Message from V1-V2 Queue System",
-                priority=MessagePriority.HIGH,
+                priority=UnifiedMessagePriority.HIGH,
             )
 
             print(f"✅ Message queued with ID: {msg_id}")

@@ -6,7 +6,7 @@ Debug Message Test
 Simple test to verify message content is being sent correctly to agents.
 """
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -16,7 +16,7 @@ def debug_message_test():
     print("🔍 Debug Message Test - Verifying message content delivery...")
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print("✅ System initialized")
 
     # Start the system

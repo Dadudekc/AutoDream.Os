@@ -16,7 +16,7 @@ from pathlib import Path
 # Import the message queue system
 from src.services.testing import (
     UnifiedMessageQueue,
-    MessagePriority,
+    UnifiedMessagePriority,
 )
 from src.services.cdp_message_delivery import (
     CDPMessageDelivery,
@@ -136,7 +136,7 @@ def demo_direct_messaging(manager):
         source_agent="agent_1",
         target_agent="agent_2",
         content="Agent-2: begin integration tests for services_v2/auth. Report in 60m.",
-        priority=MessagePriority.HIGH,
+        priority=UnifiedMessagePriority.HIGH,
     )
 
     print(f"✅ Message sent successfully!")
@@ -152,7 +152,7 @@ def demo_direct_messaging(manager):
         source_agent="agent_1",
         target_agent="agent_3",
         content="Agent-3: begin integration tests for services_v2/web. Report in 60m.",
-        priority=MessagePriority.NORMAL,
+        priority=UnifiedMessagePriority.NORMAL,
     )
 
     print(f"✅ Message sent successfully!")
@@ -175,7 +175,7 @@ def demo_broadcast_messaging(manager):
     message_ids = manager.broadcast_message(
         source_agent="agent_1",
         content="ALL AGENTS: no acknowledgments—only diffs, commits, and checkmarks.",
-        priority=MessagePriority.CRITICAL,
+        priority=UnifiedMessagePriority.CRITICAL,
     )
 
     print(f"✅ Broadcast message sent successfully!")
@@ -304,7 +304,7 @@ def demo_performance_testing(manager):
             source_agent="agent_1",
             target_agent=f"agent_{(i % 8) + 1}",
             content=f"Performance test message {i+1}",
-            priority=MessagePriority.NORMAL,
+            priority=UnifiedMessagePriority.NORMAL,
         )
 
     end_time = time.time()

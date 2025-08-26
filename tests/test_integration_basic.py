@@ -43,7 +43,7 @@ def test_basic_functionality():
             DataTransformer,
             CircuitBreaker,
             RetryMiddleware,
-            MessagePriority,
+            UnifiedMessagePriority,
             Message,
         )
 
@@ -63,7 +63,7 @@ def test_basic_functionality():
         message = Message(
             id="test_1",
             content="Hello World",
-            priority=MessagePriority.HIGH,
+            priority=UnifiedMessagePriority.HIGH,
             timestamp=time.time(),
             source="test",
             destination="test",
@@ -156,7 +156,7 @@ async def test_async_functionality():
             IntegrationCoordinator,
             IntegrationConfig,
         )
-        from services.middleware_tools import MessagePriority
+        from services.middleware_tools import UnifiedMessagePriority
 
         # Create coordinator
         config = IntegrationConfig(
@@ -175,7 +175,7 @@ async def test_async_functionality():
         message_sent = await coordinator.send_message(
             content="Async test message",
             destination="test_queue",
-            priority=MessagePriority.HIGH,
+            priority=UnifiedMessagePriority.HIGH,
         )
         print(f"✅ Message sent: {message_sent}")
 

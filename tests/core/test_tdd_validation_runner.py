@@ -67,7 +67,7 @@ class TDDValidationRunner:
             from core.messaging.message_queue_tdd_refactored import (
                 TDDMessageQueue, TDDMessageQueueFactory, QueueMetrics
             )
-            from core.messaging.message_types import Message, MessagePriority, MessageStatus
+            from core.messaging.message_types import Message, UnifiedMessagePriority, MessageStatus
             
             # Test 1: TDD Contract - Queue Initialization
             queue = TDDMessageQueueFactory.create_memory_queue("test_queue", max_size=100)
@@ -81,7 +81,7 @@ class TDDValidationRunner:
             message = Message(
                 id="test_msg_001",
                 content="Test message content",
-                priority=MessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL,
                 sender="test_sender",
                 recipient="test_recipient"
             )
@@ -97,9 +97,9 @@ class TDDValidationRunner:
             logger.info("✅ Message enqueue/dequeue - PASSED")
             
             # Test 3: TDD Contract - Priority Ordering
-            high_msg = Message("high", "High priority", MessagePriority.HIGH, "sender", "recipient")
-            normal_msg = Message("normal", "Normal priority", MessagePriority.NORMAL, "sender", "recipient")
-            critical_msg = Message("critical", "Critical priority", MessagePriority.CRITICAL, "sender", "recipient")
+            high_msg = Message("high", "High priority", UnifiedMessagePriority.HIGH, "sender", "recipient")
+            normal_msg = Message("normal", "Normal priority", UnifiedMessagePriority.NORMAL, "sender", "recipient")
+            critical_msg = Message("critical", "Critical priority", UnifiedMessagePriority.CRITICAL, "sender", "recipient")
             
             # Enqueue in mixed order
             queue.enqueue(normal_msg)
@@ -111,9 +111,9 @@ class TDDValidationRunner:
             second = queue.dequeue()
             third = queue.dequeue()
             
-            assert first.priority == MessagePriority.CRITICAL
-            assert second.priority == MessagePriority.HIGH
-            assert third.priority == MessagePriority.NORMAL
+            assert first.priority == UnifiedMessagePriority.CRITICAL
+            assert second.priority == UnifiedMessagePriority.HIGH
+            assert third.priority == UnifiedMessagePriority.NORMAL
             logger.info("✅ Priority ordering - PASSED")
             
             # Test 4: TDD Contract - Metrics Tracking
@@ -226,7 +226,7 @@ class TDDValidationRunner:
         try:
             # Import modular components
             from core.decision import AutonomousDecisionEngine
-            from core.messaging.message_types import Message, MessagePriority
+            from core.messaging.message_types import Message, UnifiedMessagePriority
             from core.decision.decision_types import DecisionRequest, DecisionType
             
             # Test 1: Integration - Message Queue + Decision Engine
@@ -241,7 +241,7 @@ class TDDValidationRunner:
                     "decision_type": "TASK_ASSIGNMENT",
                     "context": {"agent_id": "integration_agent", "task": "test_task"}
                 }),
-                priority=MessagePriority.HIGH,
+                priority=UnifiedMessagePriority.HIGH,
                 sender="integration_sender",
                 recipient="decision_engine"
             )

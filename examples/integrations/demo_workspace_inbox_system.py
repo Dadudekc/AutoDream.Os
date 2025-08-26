@@ -17,7 +17,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from core.workspace_manager import WorkspaceManager
-from core.inbox_manager import InboxManager, MessagePriority, MessageStatus
+from core.inbox_manager import InboxManager, UnifiedMessagePriority, MessageStatus
 from core.task_manager import TaskManager, TaskPriority, TaskStatus
 
 
@@ -83,7 +83,7 @@ def demo_inbox_system():
             "Agent-2",
             "Urgent Task",
             "Please complete the critical analysis immediately",
-            MessagePriority.HIGH,
+            UnifiedMessagePriority.HIGH,
         )
         print(f"✅ High priority message sent: {message1_id}")
 
@@ -93,7 +93,7 @@ def demo_inbox_system():
             "Agent-1",
             "Status Update",
             "Core implementation is progressing well",
-            MessagePriority.NORMAL,
+            UnifiedMessagePriority.NORMAL,
         )
         print(f"✅ Normal priority message sent: {message2_id}")
 
@@ -103,7 +103,7 @@ def demo_inbox_system():
             "Agent-4",
             "Documentation",
             "Please review the updated documentation",
-            MessagePriority.LOW,
+            UnifiedMessagePriority.LOW,
         )
         print(f"✅ Low priority message sent: {message3_id}")
 
@@ -268,7 +268,7 @@ def demo_integration():
             "WorkflowAgent",
             "Welcome Task",
             "Welcome to the system! Please complete your onboarding.",
-            MessagePriority.HIGH,
+            UnifiedMessagePriority.HIGH,
         )
         print("✅ 2. Welcome message sent")
 

@@ -21,15 +21,15 @@ def test_basic_functionality():
     print("🧪 Testing basic functionality...")
 
     try:
-        from v1_v2_message_queue_system import V1V2MessageQueueSystem, MessagePriority
+        from src.services.messaging import UnifiedMessagingService, UnifiedMessagePriority
 
         # Create system
-        mq_system = V1V2MessageQueueSystem(max_workers=1)
+        mq_system = UnifiedMessagingService(max_workers=1)
         print("✅ Message queue system created")
 
         # Test message queuing
         msg_id = mq_system.queue_message(
-            "Agent-1", "Agent-3", "Test message", priority=MessagePriority.NORMAL
+            "Agent-1", "Agent-3", "Test message", priority=UnifiedMessagePriority.NORMAL
         )
         print(f"✅ Message queued: {msg_id}")
 
@@ -61,19 +61,19 @@ def test_priority_system():
     print("\n🧪 Testing priority system...")
 
     try:
-        from v1_v2_message_queue_system import V1V2MessageQueueSystem, MessagePriority
+        from src.services.messaging import UnifiedMessagingService, UnifiedMessagePriority
 
         # Create system
-        mq_system = V1V2MessageQueueSystem(max_workers=2)
+        mq_system = UnifiedMessagingService(max_workers=2)
         print("✅ Message queue system created")
 
         # Queue messages with different priorities
         priorities = [
-            MessagePriority.LOW,
-            MessagePriority.NORMAL,
-            MessagePriority.HIGH,
-            MessagePriority.URGENT,
-            MessagePriority.CRITICAL,
+            UnifiedMessagePriority.LOW,
+            UnifiedMessagePriority.NORMAL,
+            UnifiedMessagePriority.HIGH,
+            UnifiedMessagePriority.URGENT,
+            UnifiedMessagePriority.CRITICAL,
         ]
 
         for priority in priorities:
@@ -113,13 +113,13 @@ def test_high_priority_flag():
     print("\n🧪 Testing high-priority flag system...")
 
     try:
-        from v1_v2_message_queue_system import (
-            V1V2MessageQueueSystem,
+        from src.services.messaging import (
+            UnifiedMessagingService,
             send_high_priority_message,
         )
 
         # Create system
-        mq_system = V1V2MessageQueueSystem(max_workers=1)
+        mq_system = UnifiedMessagingService(max_workers=1)
         print("✅ Message queue system created")
 
         # Test high-priority message

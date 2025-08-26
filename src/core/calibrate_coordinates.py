@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from services.testing import (
     UnifiedMessageQueue,
-    MessagePriority,
+    UnifiedMessagePriority,
 )
 from core.shared_enums import AgentCapability
 
@@ -227,7 +227,7 @@ def calibrate_agent_coordinates():
             message_ids = manager.broadcast_message(
                 source_agent="agent_1",
                 content="🧪 TEST: This is a test broadcast message to verify coordinate calibration.",
-                priority=MessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL,
             )
 
             print(f"✅ Test broadcast completed!")

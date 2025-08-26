@@ -6,7 +6,7 @@ Test Clipboard Message Delivery
 Test the new clipboard-based message delivery system for faster message sending.
 """
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -16,7 +16,7 @@ def test_clipboard_delivery():
     print("🚀 Testing Clipboard-Based Message Delivery...")
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print("✅ System initialized")
 
     # Start the system

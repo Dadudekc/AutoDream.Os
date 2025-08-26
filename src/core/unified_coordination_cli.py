@@ -22,7 +22,7 @@ from .unified_coordination_system import (
     UnifiedCoordinationSystem,
     CoordinationMode,
     MessageType,
-    MessagePriority
+    UnifiedMessagePriority
 )
 
 
@@ -166,7 +166,7 @@ Examples:
             return
 
         message_type = MessageType(args.type)
-        priority = MessagePriority(args.priority)
+        priority = UnifiedMessagePriority(args.priority)
 
         message_id = self.coordinator.send_message(
             sender_id=args.sender,
@@ -191,7 +191,7 @@ Examples:
             return
 
         message_type = MessageType(args.type)
-        priority = MessagePriority(args.priority)
+        priority = UnifiedMessagePriority(args.priority)
         target_agents = None
         if args.targets:
             target_agents = [agent.strip() for agent in args.targets.split(',')]

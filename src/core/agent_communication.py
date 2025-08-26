@@ -7,13 +7,13 @@ This module re-exports communication primitives so legacy imports
 from .communication_compatibility_layer import (
     AgentCommunicationProtocol,
     MessageType,
-    MessagePriority,
+    UnifiedMessagePriority,
     InboxManager,
 )
 
 __all__ = [
     "AgentCommunicationProtocol",
     "MessageType",
-    "MessagePriority",
+    "UnifiedMessagePriority",
     "InboxManager",
 ]

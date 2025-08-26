@@ -5,7 +5,7 @@ Targeted Resume Demo - Send resume message to agents 5-8 only
 
 from src.services.testing import (
     UnifiedMessageQueue,
-    MessagePriority,
+    UnifiedMessagePriority,
 )
 
 

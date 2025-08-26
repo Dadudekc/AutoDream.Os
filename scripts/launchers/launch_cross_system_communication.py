@@ -338,7 +338,7 @@ class CrossSystemCommunicationLauncher:
             from services.cross_system_communication import (
                 CrossSystemMessage,
                 MessageType,
-                MessagePriority,
+                UnifiedMessagePriority,
             )
 
             test_message = CrossSystemMessage(
@@ -346,7 +346,7 @@ class CrossSystemCommunicationLauncher:
                 source_system="launcher",
                 target_system=target_system,
                 message_type=MessageType(message_type),
-                priority=MessagePriority.NORMAL,
+                priority=UnifiedMessagePriority.NORMAL,
                 timestamp=time.time(),
                 payload={"test": True, "timestamp": time.time(), "source": "launcher"},
             )

@@ -104,7 +104,7 @@ class OSRSDecoratorNode(OSRSBehaviorNode):
 
     def execute(self, player: Any, game_state: Any) -> bool:
         if not self.children:
-            return True
+            return False
         result = self.children[0].execute(player, game_state)
         try:
             return bool(self.decorator(result))

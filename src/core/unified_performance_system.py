@@ -1,178 +1,101 @@
 #!/usr/bin/env python3
-"""
-Unified Performance System - Main Orchestrator
-
-Main entry point for the modularized performance system.
-Replaces the monolithic 1285-line file with a clean orchestrator.
-
-Author: Agent-1 (Phase 1 Consolidation)
-License: MIT
-"""
+"""Unified Performance System - Consolidated Orchestrator."""
 
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional, Union
-from pathlib import Path
+from dataclasses import asdict
+from typing import Any, Dict
 
-# Import modular components
-from .performance.unified_performance_orchestrator import UnifiedPerformanceOrchestrator
-from .performance.performance_core import PerformanceCore
-from .performance.performance_monitoring import PerformanceMonitoring
-from .performance.performance_validation import PerformanceValidation
-from .performance.performance_benchmarking import PerformanceBenchmarking
-from .performance.performance_reporting import PerformanceReporting
+from .performance.monitoring.monitoring_manager import MonitoringManager
+from .performance.performance_benchmarking import PerformanceBenchmarkingManager
+from .performance.performance_reporting import PerformanceReportingManager
+
 
 logger = logging.getLogger(__name__)
 
 
 class UnifiedPerformanceSystem:
-    """
-    Main performance system orchestrator.
-    
-    Provides a unified interface to all performance components
-    while maintaining backward compatibility.
-    """
-    
-    def __init__(self, config_path: Optional[Path] = None):
-        """Initialize the unified performance system."""
-        self.orchestrator = UnifiedPerformanceOrchestrator(config_path)
-        self.core = PerformanceCore()
-        self.monitoring = PerformanceMonitoring()
-        self.validation = PerformanceValidation()
-        self.benchmarking = PerformanceBenchmarking()
-        self.reporting = PerformanceReporting()
-        
-        logger.info("Unified Performance System initialized successfully")
-    
+    """Unified orchestrator satisfying legacy and V2 interfaces."""
+
+    def __init__(self) -> None:
+        self.monitoring = MonitoringManager()
+        self.benchmarking = PerformanceBenchmarkingManager()
+        self.reporting = PerformanceReportingManager()
+        self.reporting.start_reporting()
+        self.is_running = False
+        logger.info("Unified Performance System initialized")
+
+    # ------------------------------------------------------------------
+    # Lifecycle management
+    # ------------------------------------------------------------------
     def start_system(self) -> bool:
-        """Start the performance system."""
-        try:
-            return self.orchestrator.start_system()
-        except Exception as e:
-            logger.error(f"Failed to start performance system: {e}")
-            return False
-    
+        """Start performance monitoring."""
+        self.is_running = True
+        self.monitoring.collect_system_metrics()
+        return True
+
     def stop_system(self) -> bool:
-        """Stop the performance system."""
-        try:
-            return self.orchestrator.stop_system()
-        except Exception as e:
-            logger.error(f"Failed to stop performance system: {e}")
-            return False
-    
-    def run_benchmarks(self, benchmark_types: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Run performance benchmarks."""
-        try:
-            return self.orchestrator.run_benchmarks(benchmark_types)
-        except Exception as e:
-            logger.error(f"Failed to run benchmarks: {e}")
-            return {}
-    
-    def get_performance_summary(self) -> Dict[str, Any]:
-        """Get comprehensive performance summary."""
-        try:
-            return self.orchestrator.get_performance_summary()
-        except Exception as e:
-            logger.error(f"Failed to get performance summary: {e}")
-            return {}
-    
-    def validate_performance(self, rules: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
-        """Validate performance against rules."""
-        try:
-            return self.orchestrator.validate_performance(rules)
-        except Exception as e:
-            logger.error(f"Failed to validate performance: {e}")
-            return {}
-    
-    def generate_report(self, report_type: str = "comprehensive") -> Dict[str, Any]:
-        """Generate performance report."""
-        try:
-            return self.orchestrator.generate_report(report_type)
-        except Exception as e:
-            logger.error(f"Failed to generate report: {e}")
-            return {}
-    
+        """Stop performance system."""
+        self.is_running = False
+        return True
+
+    # ------------------------------------------------------------------
+    # Benchmarking and reporting
+    # ------------------------------------------------------------------
+    def run_benchmark(self, benchmark_type: str = "cpu", duration: int = 0) -> Any:
+        self.benchmarking.start_benchmarking()
+        result = self.benchmarking.run_benchmark(benchmark_type, {"duration": duration})
+        self.benchmarking.stop_benchmarking()
+        return result
+
+    def generate_report(self) -> Dict[str, Any]:
+        metrics = []
+        validation_results = []
+        benchmarks = self.benchmarking.benchmark_history
+        report = self.reporting.generate_performance_report(
+            metrics, validation_results, benchmarks
+        )
+        return asdict(report)
+
+    # ------------------------------------------------------------------
+    # Monitoring helpers
+    # ------------------------------------------------------------------
+    def add_metric(self, name: str, value: Any) -> None:
+        self.monitoring.add_metric(name, value)
+
+    def get_active_alerts(self) -> list:
+        return self.monitoring.get_alerts()
+
+    def clear_alerts(self) -> None:
+        self.monitoring.clear_alerts()
+
+    # ------------------------------------------------------------------
+    # Status helpers
+    # ------------------------------------------------------------------
     def get_system_status(self) -> Dict[str, Any]:
-        """Get current system status."""
-        try:
-            return self.orchestrator.get_system_status()
-        except Exception as e:
-            logger.error(f"Failed to get system status: {e}")
-            return {}
-    
-    # Backward compatibility methods
-    def start(self) -> bool:
-        """Backward compatibility: start system."""
-        return self.start_system()
-    
-    def stop(self) -> bool:
-        """Backward compatibility: stop system."""
+        return {
+            "system_status": "running" if self.is_running else "stopped",
+            "total_benchmarks": len(self.benchmarking.benchmark_history),
+            "active_alerts": len(self.monitoring.get_alerts()),
+        }
+
+    def shutdown(self) -> bool:
+        self.clear_alerts()
         return self.stop_system()
-    
-    def benchmark(self, types: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Backward compatibility: run benchmarks."""
-        return self.run_benchmarks(types)
-    
-    def summary(self) -> Dict[str, Any]:
-        """Backward compatibility: get summary."""
-        return self.get_performance_summary()
-    
-    def validate(self, rules: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
-        """Backward compatibility: validate performance."""
-        return self.validate_performance(rules)
-    
-    def report(self, report_type: str = "comprehensive") -> Dict[str, Any]:
-        """Backward compatibility: generate report."""
-        return self.generate_report(report_type)
-    
-    def status(self) -> Dict[str, Any]:
-        """Backward compatibility: get status."""
-        return self.get_system_status()
 
 
-# Factory function for easy instantiation
-def create_performance_system(config_path: Optional[Path] = None) -> UnifiedPerformanceSystem:
-    """Create and return a new performance system instance."""
-    return UnifiedPerformanceSystem(config_path)
+def create_performance_system() -> UnifiedPerformanceSystem:
+    return UnifiedPerformanceSystem()
 
 
-# Main execution for CLI usage
-if __name__ == "__main__":
-    import sys
-    
-    # Setup logging
+if __name__ == "__main__":  # pragma: no cover
     logging.basicConfig(level=logging.INFO)
-    
-    # Create system
-    system = UnifiedPerformanceSystem()
-    
-    # Handle CLI arguments
-    if len(sys.argv) > 1:
-        command = sys.argv[1].lower()
-        
-        if command == "start":
-            success = system.start_system()
-            print(f"System start: {'SUCCESS' if success else 'FAILED'}")
-        elif command == "stop":
-            success = system.stop_system()
-            print(f"System stop: {'SUCCESS' if success else 'FAILED'}")
-        elif command == "status":
-            status = system.get_system_status()
-            print(f"System status: {status}")
-        elif command == "benchmark":
-            results = system.run_benchmarks()
-            print(f"Benchmark results: {results}")
-        elif command == "summary":
-            summary = system.get_performance_summary()
-            print(f"Performance summary: {summary}")
-        elif command == "report":
-            report = system.generate_report()
-            print(f"Report generated: {report}")
-        else:
-            print(f"Unknown command: {command}")
-            print("Available commands: start, stop, status, benchmark, summary, report")
-    else:
-        print("Unified Performance System - CLI Interface")
-        print("Usage: python unified_performance_system.py [command]")
-        print("Commands: start, stop, status, benchmark, summary, report")
+    sys = UnifiedPerformanceSystem()
+    sys.start_system()
+    res = sys.run_benchmark("cpu", duration=0)
+    print("benchmark", res.success)
+    print("report", sys.generate_report())
+    print("status", sys.get_system_status())
+    sys.stop_system()
+

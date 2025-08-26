@@ -3,14 +3,16 @@
 Simple test for performance system
 """
 
-from src.core.performance import UnifiedPerformanceSystem
+from src.core.unified_performance_system import UnifiedPerformanceSystem
 
 print("✅ Import successful!")
 
 # Try to create instance
 try:
     system = UnifiedPerformanceSystem()
-    print("✅ Instance created successfully!")
+    started = system.start_system()
+    system.stop_system()
+    print(f"✅ Orchestrator functional: start -> {started}")
 except Exception as e:
     print(f"❌ Error creating instance: {e}")
     import traceback

@@ -12,7 +12,8 @@ License: MIT
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, List, Optional, Union
+import warnings
+from typing import Any, Dict, List, Optional
 from pathlib import Path
 
 # Import modular components
@@ -34,9 +35,16 @@ class UnifiedPerformanceSystem:
     while maintaining backward compatibility.
     """
     
-    def __init__(self, config_path: Optional[Path] = None):
-        """Initialize the unified performance system."""
-        self.orchestrator = UnifiedPerformanceOrchestrator(config_path)
+    def __init__(self, config_path: Optional[Path] = None, **orchestrator_kwargs: Any):
+        """Initialize the unified performance system.
+
+        Any additional keyword arguments are forwarded to
+        :class:`UnifiedPerformanceOrchestrator` for configurability.
+        """
+        if config_path is not None:
+            orchestrator_kwargs.setdefault("config_path", config_path)
+
+        self.orchestrator = UnifiedPerformanceOrchestrator(**orchestrator_kwargs)
         self.core = PerformanceCore()
         self.monitoring = PerformanceMonitoring()
         self.validation = PerformanceValidation()
@@ -104,37 +112,44 @@ class UnifiedPerformanceSystem:
     # Backward compatibility methods
     def start(self) -> bool:
         """Backward compatibility: start system."""
+        warnings.warn("start() is deprecated; use start_system()", DeprecationWarning, stacklevel=2)
         return self.start_system()
     
     def stop(self) -> bool:
         """Backward compatibility: stop system."""
+        warnings.warn("stop() is deprecated; use stop_system()", DeprecationWarning, stacklevel=2)
         return self.stop_system()
     
     def benchmark(self, types: Optional[List[str]] = None) -> Dict[str, Any]:
         """Backward compatibility: run benchmarks."""
+        warnings.warn("benchmark() is deprecated; use run_benchmarks()", DeprecationWarning, stacklevel=2)
         return self.run_benchmarks(types)
     
     def summary(self) -> Dict[str, Any]:
         """Backward compatibility: get summary."""
+        warnings.warn("summary() is deprecated; use get_performance_summary()", DeprecationWarning, stacklevel=2)
         return self.get_performance_summary()
     
     def validate(self, rules: Optional[List[Dict[str, Any]]] = None) -> Dict[str, Any]:
         """Backward compatibility: validate performance."""
+        warnings.warn("validate() is deprecated; use validate_performance()", DeprecationWarning, stacklevel=2)
         return self.validate_performance(rules)
     
     def report(self, report_type: str = "comprehensive") -> Dict[str, Any]:
         """Backward compatibility: generate report."""
+        warnings.warn("report() is deprecated; use generate_report()", DeprecationWarning, stacklevel=2)
         return self.generate_report(report_type)
     
     def status(self) -> Dict[str, Any]:
         """Backward compatibility: get status."""
+        warnings.warn("status() is deprecated; use get_system_status()", DeprecationWarning, stacklevel=2)
         return self.get_system_status()
 
 
 # Factory function for easy instantiation
 def create_performance_system(config_path: Optional[Path] = None) -> UnifiedPerformanceSystem:
     """Create and return a new performance system instance."""
-    return UnifiedPerformanceSystem(config_path)
+    return UnifiedPerformanceSystem(config_path=config_path)
 
 
 # Main execution for CLI usage

@@ -37,7 +37,7 @@ class PerformanceReporter:
         
         # Reporting components
         self.report_templates: Dict[str, Dict[str, Any]] = {}
-        self.report_history: List[Dict[str, Any]] = {}
+        self.report_history: List[Dict[str, Any]] = []
         
         # Analytics
         self.performance_trends: Dict[str, List[float]] = {}

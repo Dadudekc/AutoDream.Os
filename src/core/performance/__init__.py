@@ -1,112 +1,105 @@
 #!/usr/bin/env python3
 """
-Performance Package - V2 Modular Architecture
-============================================
+Performance Module - Agent Cellphone V2
+======================================
 
-Unified performance management system with modular components.
-Follows V2 standards: OOP design, SRP, no strict LOC limits.
+Modular performance system with monitoring, validation, benchmarking, and reporting.
+Follows V2 standards: SRP, OOP design, modular architecture.
 
-Author: V2 SWARM CAPTAIN
+Author: Agent-1 (Phase 3 Modularization)
 License: MIT
 """
 
-# Main unified system
-from .unified_performance_system import UnifiedPerformanceSystem
+# Core performance system
+from .performance_core import PerformanceCore, PerformanceCoreConfig
 
-# Configuration management
-from .config.config_manager import PerformanceConfigManager
-from .config.validation_config import ValidationThreshold, ValidationConfig
-from .config.benchmark_config import BenchmarkConfig, BenchmarkExecutionConfig
-from .config.system_config import SystemConfig, PerformanceTargets, Environment, LogLevel
-from .config.alert_config import AlertConfig, AlertChannel, AlertSeverity, AlertChannelType
+# Specialized components
+from .performance_monitoring import PerformanceMonitoringManager
+from .performance_validation import PerformanceValidationManager
+from .performance_benchmarking import PerformanceBenchmarkingManager
+from .performance_reporting import PerformanceReportingManager
 
-# Performance monitoring
-from .monitoring.monitoring_manager import MonitoringManager
-from .monitoring.monitoring_types import MetricData, MetricType, MonitoringConfig, CollectionResult
+# Main orchestrator (replaces large unified system)
+from .unified_performance_orchestrator import UnifiedPerformanceOrchestrator, UnifiedPerformanceSystem
 
-# Performance validation
-from .validation.validation_engine import ValidationEngine
-from .validation.validation_types import ValidationStatus, ValidationSeverity, ValidationContext, ValidationResult, ValidationSummary
+# Models and types
+from .performance_models import (
+    PerformanceMetric, ValidationRule, ValidationThreshold, ConnectionPool,
+    BenchmarkResult, SystemPerformanceReport, PerformanceConfig, PerformanceLevel,
+    ValidationSeverity, BenchmarkType, MetricType, PerformanceAlert,
+    PerformanceOptimization, PerformanceTrend, ResourceUtilization, PerformanceBaseline
+)
 
-# Performance benchmarking
-from .benchmarking.benchmark_runner import BenchmarkRunner
-from .benchmarking.benchmark_types import BenchmarkType, BenchmarkStatus, BenchmarkPhase, BenchmarkMetrics, BenchmarkResult, BenchmarkConfig
+# Factory functions for easy component creation
+def create_performance_core(manager_id: str, name: str = "Performance Core", description: str = "") -> PerformanceCore:
+    """Create a new performance core instance."""
+    return PerformanceCore(manager_id, name, description)
 
-# Performance reporting
-from .reporting.report_generator import PerformanceReportGenerator
-from .reporting.report_types import PerformanceReport, ReportSection, ReportMetric, ReportFormat, ReportStatus, MetricType
+def create_performance_monitoring_manager() -> PerformanceMonitoringManager:
+    """Create a new performance monitoring manager instance."""
+    return PerformanceMonitoringManager()
 
-# Performance analysis
-from .analysis.performance_analyzer import PerformanceAnalyzer, PerformanceLevel
+def create_performance_validation_manager() -> PerformanceValidationManager:
+    """Create a new performance validation manager instance."""
+    return PerformanceValidationManager()
 
-# Connection management
-from .connection.connection_pool_manager import ConnectionPoolManager
+def create_performance_benchmarking_manager() -> PerformanceBenchmarkingManager:
+    """Create a new performance benchmarking manager instance."""
+    return PerformanceBenchmarkingManager()
 
-# Backwards compatibility aliases
-PerformanceValidationOrchestrator = UnifiedPerformanceSystem
-PerformanceValidationCore = UnifiedPerformanceSystem
-PerformanceReporter = UnifiedPerformanceSystem
-PerformanceConfigManager = UnifiedPerformanceSystem
+def create_performance_reporting_manager() -> PerformanceReportingManager:
+    """Create a new performance reporting manager instance."""
+    return PerformanceReportingManager()
 
+def create_unified_performance_orchestrator() -> UnifiedPerformanceOrchestrator:
+    """Create a new unified performance orchestrator instance."""
+    return UnifiedPerformanceOrchestrator()
+
+# Backward compatibility aliases
+UnifiedPerformanceSystemV2 = UnifiedPerformanceOrchestrator
+PerformanceSystem = UnifiedPerformanceOrchestrator
+
+# Export all components
 __all__ = [
-    # Main system
+    # Core system
+    "PerformanceCore",
+    "PerformanceCoreConfig",
+    "UnifiedPerformanceOrchestrator",
     "UnifiedPerformanceSystem",
     
-    # Configuration
-    "PerformanceConfigManager",
+    # Specialized components
+    "PerformanceMonitoringManager",
+    "PerformanceValidationManager",
+    "PerformanceBenchmarkingManager",
+    "PerformanceReportingManager",
+    
+    # Models and types
+    "PerformanceMetric",
+    "ValidationRule",
     "ValidationThreshold",
-    "ValidationConfig", 
-    "BenchmarkConfig",
-    "BenchmarkExecutionConfig",
-    "SystemConfig",
-    "PerformanceTargets",
-    "Environment",
-    "LogLevel",
-    "AlertConfig",
-    "AlertChannel",
-    "AlertSeverity",
-    "AlertChannelType",
-    
-    # Monitoring
-    "MonitoringManager",
-    "MetricData",
-    "MetricType",
-    "MonitoringConfig",
-    "CollectionResult",
-    
-    # Validation
-    "ValidationEngine",
-    "ValidationStatus",
-    "ValidationSeverity",
-    "ValidationContext",
-    "ValidationResult",
-    "ValidationSummary",
-    
-    # Benchmarking
-    "BenchmarkRunner",
-    "BenchmarkType",
-    "BenchmarkStatus",
-    "BenchmarkPhase",
-    "BenchmarkMetrics",
+    "ConnectionPool",
     "BenchmarkResult",
-    
-    # Reporting
-    "PerformanceReportGenerator",
-    "PerformanceReport",
-    "ReportSection",
-    "ReportMetric",
-    "ReportFormat",
-    "ReportStatus",
-    
-    # Analysis
-    "PerformanceAnalyzer",
+    "SystemPerformanceReport",
+    "PerformanceConfig",
     "PerformanceLevel",
+    "ValidationSeverity",
+    "BenchmarkType",
+    "MetricType",
+    "PerformanceAlert",
+    "PerformanceOptimization",
+    "PerformanceTrend",
+    "ResourceUtilization",
+    "PerformanceBaseline",
     
-    # Connection management
-    "ConnectionPoolManager",
+    # Factory functions
+    "create_performance_core",
+    "create_performance_monitoring_manager",
+    "create_performance_validation_manager",
+    "create_performance_benchmarking_manager",
+    "create_performance_reporting_manager",
+    "create_unified_performance_orchestrator",
     
-    # Backwards compatibility
-    "PerformanceValidationOrchestrator",
-    "PerformanceValidationCore",
-    "PerformanceReporter",
+    # Backward compatibility
+    "UnifiedPerformanceSystemV2",
+    "PerformanceSystem"
 ]

@@ -1,6 +1,6 @@
 {
   "template_id": "agent-2_task_template",
-  "template_name": "Agent-2 Task Template",
+  "template_name": "Agent-2 Manager Specialization Task Template",
   "template_version": "2.0.0",
   "task_structure": {
     "task_id": "{{task_id}}",
@@ -18,10 +18,13 @@
     "tags": "{{tags}}"
   },
   "task_types": [
-    "communication",
-    "processing",
-    "validation",
-    "integration"
+    "project_management",
+    "team_coordination",
+    "workflow_optimization",
+    "resource_allocation",
+    "performance_monitoring",
+    "planning",
+    "coordination"
   ],
   "priority_levels": [
     "critical",
@@ -36,13 +39,13 @@
   ],
   "processing_rules": {
     "max_retry_attempts": 3,
-    "timeout_minutes": 30,
-    "escalation_threshold": 15,
+    "timeout_minutes": 45,
+    "escalation_threshold": 20,
     "auto_escalation": true
   },
   "metadata": {
     "created_by": "V2_SYSTEM",
     "created_date": "2025-08-23T19:30:00Z",
-    "template_category": "agent-2_agent"
+    "template_category": "agent-2_manager_specialization"
   }
 }

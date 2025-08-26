@@ -15,6 +15,8 @@ import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
+import json
 
 # Core infrastructure imports
 from ..core.performance.alerts import AlertSeverity, AlertType
@@ -534,13 +536,53 @@ class GamingAlertManager(BaseManager):
             self.logger.error(f"Failed to load default thresholds: {e}")
     
     def _save_alert_history(self):
-        """Save alert history (placeholder for future persistence)"""
+        """Save alert history to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("Alert history saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/gaming_alerts")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence
+            alert_data = {
+                "active_alerts": {k: v.__dict__ for k, v in self.active_alerts.items()},
+                "alert_history": [alert.__dict__ for alert in self.alert_history],
+                "alert_thresholds": self.alert_thresholds,
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"gaming_alerts_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(alert_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "gaming_alerts_data_*.json", 5)
+            
+            self.logger.info(f"Alert history saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save alert history: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
+    
+    def _cleanup_old_backups(self, directory: Path, pattern: str, keep_count: int):
+        """Clean up old backup files, keeping only the specified number"""
+        try:
+            files = list(directory.glob(pattern))
+            if len(files) > keep_count:
+                # Sort by modification time (oldest first)
+                files.sort(key=lambda x: x.stat().st_mtime)
+                # Remove oldest files
+                for old_file in files[:-keep_count]:
+                    old_file.unlink()
+                    self.logger.debug(f"Removed old backup: {old_file}")
+        except Exception as e:
+            self.logger.warning(f"Failed to cleanup old backups: {e}")
     
     def _check_stale_alerts(self):
         """Check for stale alerts that need attention"""

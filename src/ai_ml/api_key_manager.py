@@ -14,6 +14,7 @@ import re
 from typing import Optional, Dict, Any, List
 from pathlib import Path
 from datetime import datetime
+import json
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority
@@ -377,13 +378,54 @@ class APIKeyManager(BaseManager):
     # ============================================================================
     
     def _save_api_key_management_data(self):
-        """Save API key management data (placeholder for future persistence)"""
+        """Save API key management data to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("API key management data saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/api_keys")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence (excluding actual API keys for security)
+            api_data = {
+                "key_operations": self.key_operations,
+                "validation_attempts": self.validation_attempts,
+                "security_checks": self.security_checks,
+                "services_configured": list(self._keys.keys()),
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"api_key_management_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(api_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "api_key_management_data_*.json", 5)
+            
+            self.logger.info(f"API key management data saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save API key management data: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
+    
+    def _cleanup_old_backups(self, directory: Path, pattern: str, keep_count: int):
+        """Clean up old backup files, keeping only the specified number"""
+        try:
+            files = list(directory.glob(pattern))
+            if len(files) > keep_count:
+                # Sort by modification time (oldest first)
+                files.sort(key=lambda x: x.stat().st_mtime)
+                # Remove oldest files
+                for old_file in files[:-keep_count]:
+                    old_file.unlink()
+                    self.logger.debug(f"Removed old backup: {old_file}")
+        except Exception as e:
+            self.logger.warning(f"Failed to cleanup old backups: {e}")
     
     def _check_api_key_management_health(self):
         """Check API key management health status"""

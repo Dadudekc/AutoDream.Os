@@ -5,7 +5,7 @@ Base Workflow Engine - Unified Workflow System
 Unified base workflow engine for all workflow types following V2 standards.
 NO duplicate implementations - unified architecture only.
 
-Author: Agent-3 (Integration & Testing)
+Author: Agent-1 (Finalization & Completion)
 License: MIT
 """
 
@@ -15,8 +15,6 @@ from typing import Dict, List, Optional, Any, Union
 from datetime import datetime
 
 from .core.workflow_engine import WorkflowEngine
-# from .core.workflow_executor import WorkflowExecutor  # REMOVED - module deleted
-# from .core.workflow_planner import WorkflowPlanner    # REMOVED - module deleted
 from .core.workflow_monitor import WorkflowMonitor
 from .managers.workflow_manager import WorkflowManager
 from .managers.task_manager import TaskManager
@@ -50,20 +48,6 @@ class BaseWorkflowEngine:
             self.logger.warning(f"⚠️ WorkflowEngine initialization failed: {e}")
             self.workflow_engine = None
         
-        # try:
-        #     self.workflow_executor = WorkflowExecutor()  # REMOVED - module deleted
-        #     self.logger.info("✅ WorkflowExecutor initialized")
-        # except Exception as e:
-        #     self.logger.warning(f"⚠️ WorkflowExecutor initialization failed: {e}")
-        #     self.workflow_executor = None
-        
-        # try:
-        #     self.workflow_planner = WorkflowPlanner()  # REMOVED - module deleted
-        #     self.logger.info("✅ WorkflowPlanner initialized")
-        # except Exception as e:
-        #     self.logger.warning(f"⚠️ WorkflowPlanner initialization failed: {e}")
-        #     self.workflow_planner = None
-        
         try:
             self.workflow_monitor = WorkflowMonitor()
             self.logger.info("✅ WorkflowMonitor initialized")
@@ -93,9 +77,17 @@ class BaseWorkflowEngine:
             self.logger.warning(f"⚠️ ResourceManager initialization failed: {e}")
             self.resource_manager = None
         
-        # Workflow registry
+        # Workflow registry and state
         self.workflow_registry: Dict[str, Dict[str, Any]] = {}
         self.active_workflows: Dict[str, WorkflowExecution] = {}
+        self.workflow_history: List[Dict[str, Any]] = []
+        
+        # Performance tracking
+        self.total_workflows_created = 0
+        self.total_workflows_executed = 0
+        self.total_workflows_completed = 0
+        self.total_workflows_failed = 0
+        self.startup_time = datetime.now()
         
         # Check if core components are available
         if self.workflow_manager and self.task_manager and self.resource_manager:
@@ -134,9 +126,11 @@ class BaseWorkflowEngine:
                 "type": workflow_type,
                 "definition": workflow_def,
                 "created_at": datetime.now().isoformat(),
-                "status": WorkflowStatus.CREATED
+                "status": WorkflowStatus.CREATED,
+                "metadata": definition.get("metadata", {})
             }
             
+            self.total_workflows_created += 1
             self.logger.info(f"✅ Created {workflow_type.value} workflow: {workflow_id}")
             return workflow_id
             
@@ -172,7 +166,9 @@ class BaseWorkflowEngine:
             
             # Update registry status
             self.workflow_registry[workflow_id]["status"] = WorkflowStatus.RUNNING
+            self.workflow_registry[workflow_id]["last_executed"] = datetime.now().isoformat()
             
+            self.total_workflows_executed += 1
             self.logger.info(f"🚀 Executing workflow {workflow_id} -> {execution_id}")
             return execution_id
             
@@ -205,18 +201,26 @@ class BaseWorkflowEngine:
             
             # Get monitoring data if available
             monitoring_data = {}
-            if active_executions:
+            if active_executions and self.workflow_monitor:
                 latest_execution = self.active_workflows[active_executions[-1]]
                 monitoring_data = self.workflow_monitor.monitor_workflow(latest_execution)
+            
+            # Get task status if available
+            task_status = {}
+            if self.task_manager:
+                task_status = self.task_manager.get_workflow_task_status(workflow_id)
             
             return {
                 "workflow_id": workflow_id,
                 "type": registry_info["type"].value,
                 "status": workflow_status.value if workflow_status else "unknown",
                 "created_at": registry_info["created_at"],
+                "last_executed": registry_info.get("last_executed"),
                 "active_executions": len(active_executions),
                 "execution_ids": active_executions,
-                "monitoring_data": monitoring_data
+                "monitoring_data": monitoring_data,
+                "task_status": task_status,
+                "metadata": registry_info.get("metadata", {})
             }
             
         except Exception as e:
@@ -268,18 +272,129 @@ class BaseWorkflowEngine:
             
             # Stop all executions
             for exec_id in executions_to_stop:
-                self.workflow_manager.stop_workflow(exec_id)
+                if self.workflow_manager:
+                    self.workflow_manager.stop_workflow(exec_id)
                 del self.active_workflows[exec_id]
             
             # Update registry status
             if workflow_id in self.workflow_registry:
                 self.workflow_registry[workflow_id]["status"] = WorkflowStatus.STOPPED
+                self.workflow_registry[workflow_id]["stopped_at"] = datetime.now().isoformat()
             
             self.logger.info(f"⏹️ Stopped workflow {workflow_id} ({len(executions_to_stop)} executions)")
             return True
             
         except Exception as e:
             self.logger.error(f"❌ Failed to stop workflow {workflow_id}: {e}")
+            return False
+    
+    def pause_workflow(self, workflow_id: str) -> bool:
+        """
+        Pause workflow execution.
+        
+        Args:
+            workflow_id: ID of workflow to pause
+            
+        Returns:
+            True if paused successfully
+        """
+        try:
+            if workflow_id not in self.workflow_registry:
+                return False
+            
+            # Find active executions
+            active_executions = [
+                exec_id for exec_id, execution in self.active_workflows.items()
+                if execution.workflow_id == workflow_id
+            ]
+            
+            # Pause all executions
+            for exec_id in active_executions:
+                if self.workflow_manager:
+                    self.workflow_manager.pause_workflow(exec_id)
+            
+            # Update registry status
+            self.workflow_registry[workflow_id]["status"] = WorkflowStatus.PAUSED
+            self.workflow_registry[workflow_id]["paused_at"] = datetime.now().isoformat()
+            
+            self.logger.info(f"⏸️ Paused workflow {workflow_id}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to pause workflow {workflow_id}: {e}")
+            return False
+    
+    def resume_workflow(self, workflow_id: str) -> bool:
+        """
+        Resume paused workflow execution.
+        
+        Args:
+            workflow_id: ID of workflow to resume
+            
+        Returns:
+            True if resumed successfully
+        """
+        try:
+            if workflow_id not in self.workflow_registry:
+                return False
+            
+            if self.workflow_registry[workflow_id]["status"] != WorkflowStatus.PAUSED:
+                return False
+            
+            # Resume all paused executions
+            active_executions = [
+                exec_id for exec_id, execution in self.active_workflows.items()
+                if execution.workflow_id == workflow_id
+            ]
+            
+            for exec_id in active_executions:
+                if self.workflow_manager:
+                    self.workflow_manager.resume_workflow(exec_id)
+            
+            # Update registry status
+            self.workflow_registry[workflow_id]["status"] = WorkflowStatus.RUNNING
+            self.workflow_registry[workflow_id]["resumed_at"] = datetime.now().isoformat()
+            
+            self.logger.info(f"▶️ Resumed workflow {workflow_id}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to resume workflow {workflow_id}: {e}")
+            return False
+    
+    def delete_workflow(self, workflow_id: str) -> bool:
+        """
+        Delete workflow and all associated data.
+        
+        Args:
+            workflow_id: ID of workflow to delete
+            
+        Returns:
+            True if deleted successfully
+        """
+        try:
+            if workflow_id not in self.workflow_registry:
+                return False
+            
+            # Stop any active executions
+            self.stop_workflow(workflow_id)
+            
+            # Remove from registry
+            workflow_info = self.workflow_registry.pop(workflow_id)
+            
+            # Add to history
+            workflow_info["deleted_at"] = datetime.now().isoformat()
+            self.workflow_history.append(workflow_info)
+            
+            # Clean up from workflow manager
+            if self.workflow_manager:
+                self.workflow_manager.delete_workflow(workflow_id)
+            
+            self.logger.info(f"🗑️ Deleted workflow {workflow_id}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to delete workflow {workflow_id}: {e}")
             return False
     
     def get_system_health(self) -> Dict[str, Any]:
@@ -306,6 +421,12 @@ class BaseWorkflowEngine:
                 ready_tasks = len(self.task_manager.get_ready_tasks())
                 blocked_tasks = len(self.task_manager.get_blocked_tasks())
             
+            # Calculate success rate
+            total_executions = self.total_workflows_executed
+            success_rate = 0.0
+            if total_executions > 0:
+                success_rate = (self.total_workflows_completed / total_executions) * 100.0
+            
             return {
                 "system_status": "healthy" if total_workflows > 0 else "initializing",
                 "total_workflows": total_workflows,
@@ -313,12 +434,57 @@ class BaseWorkflowEngine:
                 "ready_tasks": ready_tasks,
                 "blocked_tasks": blocked_tasks,
                 "resource_utilization": resource_utilization,
+                "total_executions": total_executions,
+                "success_rate": success_rate,
+                "uptime_seconds": (datetime.now() - self.startup_time).total_seconds(),
                 "last_updated": datetime.now().isoformat()
             }
             
         except Exception as e:
             self.logger.error(f"❌ Failed to get system health: {e}")
             return {"error": str(e), "system_status": "error"}
+    
+    def get_workflow_metrics(self, workflow_id: str) -> Dict[str, Any]:
+        """
+        Get detailed metrics for a specific workflow.
+        
+        Args:
+            workflow_id: ID of workflow
+            
+        Returns:
+            Workflow metrics dictionary
+        """
+        try:
+            if workflow_id not in self.workflow_registry:
+                return {"error": "Workflow not found"}
+            
+            registry_info = self.workflow_registry[workflow_id]
+            
+            # Get execution history
+            executions = [
+                exec_id for exec_id, execution in self.active_workflows.items()
+                if execution.workflow_id == workflow_id
+            ]
+            
+            # Get task metrics if available
+            task_metrics = {}
+            if self.task_manager:
+                task_metrics = self.task_manager.get_workflow_task_metrics(workflow_id)
+            
+            return {
+                "workflow_id": workflow_id,
+                "type": registry_info["type"].value,
+                "status": registry_info["status"].value,
+                "created_at": registry_info["created_at"],
+                "total_executions": len(executions),
+                "active_executions": len([e for e in executions if e in self.active_workflows]),
+                "task_metrics": task_metrics,
+                "metadata": registry_info.get("metadata", {})
+            }
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to get metrics for workflow {workflow_id}: {e}")
+            return {"error": str(e)}
     
     def _create_workflow_definition(self, workflow_type: WorkflowType, 
                                    definition: Dict[str, Any]) -> WorkflowDefinition:
@@ -372,12 +538,51 @@ class BaseWorkflowEngine:
             workflow_id = self.create_workflow(WorkflowType.SEQUENTIAL, test_definition)
             
             if workflow_id and workflow_id in self.workflow_registry:
-                self.logger.info("✅ Base workflow engine smoke test passed")
-                return True
+                # Test workflow execution
+                execution_id = self.execute_workflow(workflow_id)
+                
+                if execution_id:
+                    # Test workflow status
+                    status = self.get_workflow_status(workflow_id)
+                    
+                    # Clean up test workflow
+                    self.delete_workflow(workflow_id)
+                    
+                    self.logger.info("✅ Base workflow engine smoke test passed")
+                    return True
+                else:
+                    self.logger.error("❌ Base workflow engine smoke test failed - execution failed")
+                    return False
             else:
-                self.logger.error("❌ Base workflow engine smoke test failed")
+                self.logger.error("❌ Base workflow engine smoke test failed - creation failed")
                 return False
                 
         except Exception as e:
             self.logger.error(f"❌ Base workflow engine smoke test failed: {e}")
             return False
+    
+    def get_engine_status(self) -> Dict[str, Any]:
+        """Get comprehensive engine status and performance metrics."""
+        uptime = (datetime.now() - self.startup_time).total_seconds()
+        
+        return {
+            "engine_type": "BaseWorkflowEngine",
+            "status": "active",
+            "uptime_seconds": uptime,
+            "total_workflows_created": self.total_workflows_created,
+            "total_workflows_executed": self.total_workflows_executed,
+            "total_workflows_completed": self.total_workflows_completed,
+            "total_workflows_failed": self.total_workflows_failed,
+            "active_workflows": len(self.active_workflows),
+            "total_workflows": len(self.workflow_registry),
+            "workflow_history": len(self.workflow_history),
+            "components_available": {
+                "workflow_engine": self.workflow_engine is not None,
+                "workflow_monitor": self.workflow_monitor is not None,
+                "workflow_manager": self.workflow_manager is not None,
+                "task_manager": self.task_manager is not None,
+                "resource_manager": self.resource_manager is not None
+            },
+            "startup_time": self.startup_time.isoformat(),
+            "last_updated": datetime.now().isoformat()
+        }

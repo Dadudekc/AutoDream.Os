@@ -5,6 +5,8 @@ import importlib
 import logging
 from typing import Dict, Iterable, List, Optional, Any
 from datetime import datetime
+from pathlib import Path
+import json
 
 from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority
 
@@ -292,13 +294,53 @@ class DependencyManager(BaseManager):
             self.logger.error(f"Failed to record dependency check: {e}")
     
     def _save_dependency_history(self):
-        """Save dependency history (placeholder for future persistence)"""
+        """Save dependency history to persistent storage"""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("Dependency history saved")
+            # Create persistence directory if it doesn't exist
+            persistence_dir = Path("data/persistent/dependencies")
+            persistence_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Prepare data for persistence
+            dependency_data = {
+                "dependency_cache": self.dependency_cache,
+                "dependency_history": self.dependency_history,
+                "critical_dependencies": ["logging", "typing", "datetime", "importlib"],
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+                "version": "2.0.0"
+            }
+            
+            # Save to JSON file with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"dependency_data_{timestamp}.json"
+            filepath = persistence_dir / filename
+            
+            with open(filepath, 'w') as f:
+                json.dump(dependency_data, f, indent=2, default=str)
+            
+            # Keep only the latest 5 backup files
+            self._cleanup_old_backups(persistence_dir, "dependency_data_*.json", 5)
+            
+            self.logger.info(f"Dependency history saved to {filepath}")
             
         except Exception as e:
             self.logger.error(f"Failed to save dependency history: {e}")
+            # Fallback to basic logging if persistence fails
+            self.logger.warning("Persistence failed, data only logged in memory")
+    
+    def _cleanup_old_backups(self, directory: Path, pattern: str, keep_count: int):
+        """Clean up old backup files, keeping only the specified number"""
+        try:
+            files = list(directory.glob(pattern))
+            if len(files) > keep_count:
+                # Sort by modification time (oldest first)
+                files.sort(key=lambda x: x.stat().st_mtime)
+                # Remove oldest files
+                for old_file in files[:-keep_count]:
+                    old_file.unlink()
+                    self.logger.debug(f"Removed old backup: {old_file}")
+        except Exception as e:
+            self.logger.warning(f"Failed to cleanup old backups: {e}")
     
     def _check_critical_dependencies(self):
         """Check critical system dependencies"""

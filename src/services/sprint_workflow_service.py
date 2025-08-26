@@ -78,18 +78,17 @@ class SprintWorkflowService:
             return False
 
         workflow = self.workflows[sprint_id]
-        success = True
-
         for task_id in task_ids:
             if not self.sprint_manager.add_task_to_sprint(sprint_id, task_id):
-                success = False
+                self.logger.error(
+                    f"Failed to add task {task_id} to sprint {sprint_id}. Planning failed."
+                )
+                return False
 
-        if success:
-            workflow.planned_tasks.extend(task_ids)
-            workflow.stage = WorkflowStage.TASK_ESTIMATION
-            self.logger.info(f"Planned tasks for sprint {sprint_id}")
-
-        return success
+        workflow.planned_tasks.extend(task_ids)
+        workflow.stage = WorkflowStage.TASK_ESTIMATION
+        self.logger.info(f"Planned tasks for sprint {sprint_id}")
+        return True
 
     def get_workflow(self, sprint_id: str) -> Optional[SprintWorkflow]:
         """Retrieve workflow for a sprint."""

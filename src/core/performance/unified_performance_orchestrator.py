@@ -345,13 +345,13 @@ class UnifiedPerformanceSystem(UnifiedPerformanceOrchestrator):
     :class:`UnifiedPerformanceOrchestrator` directly instead.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, **kwargs: Any):
         warnings.warn(
             "UnifiedPerformanceSystem is deprecated; use UnifiedPerformanceOrchestrator",
             DeprecationWarning,
             stacklevel=2,
         )
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
 
 def main():

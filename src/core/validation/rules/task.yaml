@@ -1,0 +1,21 @@
+rules:
+  - rule_id: task_structure
+    rule_name: Task Structure
+    rule_type: task
+    description: Validate task data structure and format
+    severity: ERROR
+  - rule_id: task_assignment_validation
+    rule_name: Task Assignment Validation
+    rule_type: task
+    description: Validate task assignment and ownership
+    severity: ERROR
+  - rule_id: task_dependencies_validation
+    rule_name: Task Dependencies Validation
+    rule_type: task
+    description: Validate task dependencies and relationships
+    severity: WARNING
+  - rule_id: task_progress_validation
+    rule_name: Task Progress Validation
+    rule_type: task
+    description: Validate task progress and timeline
+    severity: WARNING

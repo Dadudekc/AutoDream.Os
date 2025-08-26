@@ -8,7 +8,6 @@ and following the unified validation framework patterns.
 from typing import Dict, List, Any, Optional
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -38,42 +37,6 @@ class OnboardingValidator(BaseValidator):
             "social",
             "manual",
         ]
-
-    def _setup_default_rules(self) -> None:
-        """Setup default onboarding validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="onboarding_structure",
-                rule_name="Onboarding Structure",
-                rule_type="onboarding",
-                description="Validate onboarding data structure and format",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="onboarding_flow_validation",
-                rule_name="Onboarding Flow Validation",
-                rule_type="onboarding",
-                description="Validate onboarding flow and progression",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="verification_validation",
-                rule_name="Verification Validation",
-                rule_type="onboarding",
-                description="Validate verification methods and status",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="compliance_check",
-                rule_name="Compliance Check",
-                rule_type="onboarding",
-                description="Check onboarding compliance requirements",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, onboarding_data: Dict[str, Any], **kwargs

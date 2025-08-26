@@ -9,7 +9,6 @@ import re
 from typing import Dict, List, Any, Optional
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -22,14 +21,7 @@ class SecurityValidator(BaseValidator):
     def __init__(self):
         """Initialize security validator"""
         super().__init__("SecurityValidator")
-        self.security_patterns = {
-            "api_key": r"^[a-zA-Z0-9]{32,64}$",
-            "jwt_token": r"^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$",
-            "uuid": r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
-            "email": r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-            "ip_address": r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
-        }
-
+        self.security_patterns = self._config.get("patterns", {})
         self.sensitive_fields = [
             "password",
             "secret",
@@ -42,42 +34,6 @@ class SecurityValidator(BaseValidator):
             "confidential",
             "secure",
         ]
-
-    def _setup_default_rules(self) -> None:
-        """Setup default security validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="security_structure",
-                rule_name="Security Structure",
-                rule_type="security",
-                description="Validate security data structure and format",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="authentication_validation",
-                rule_name="Authentication Validation",
-                rule_type="security",
-                description="Validate authentication mechanisms and credentials",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="authorization_check",
-                rule_name="Authorization Check",
-                rule_type="security",
-                description="Validate authorization rules and permissions",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="data_encryption_validation",
-                rule_name="Data Encryption Validation",
-                rule_type="security",
-                description="Validate encryption methods and key management",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, security_data: Dict[str, Any], **kwargs

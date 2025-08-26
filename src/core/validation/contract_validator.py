@@ -8,7 +8,6 @@ and following the unified validation framework patterns.
 from typing import Dict, List, Any
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -21,42 +20,6 @@ class ContractValidator(BaseValidator):
     def __init__(self):
         """Initialize contract validator"""
         super().__init__("ContractValidator")
-
-    def _setup_default_rules(self) -> None:
-        """Setup default contract validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="required_fields",
-                rule_name="Required Fields Check",
-                rule_type="contract",
-                description="Ensure all required contract fields are present",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="priority_validation",
-                rule_name="Priority Validation",
-                rule_type="contract",
-                description="Validate contract priority values",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="capabilities_validation",
-                rule_name="Capabilities Validation",
-                rule_type="contract",
-                description="Validate required capabilities format",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="deadline_validation",
-                rule_name="Deadline Validation",
-                rule_type="contract",
-                description="Validate contract deadline format and logic",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, contract_data: Dict[str, Any], **kwargs

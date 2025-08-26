@@ -47,6 +47,9 @@ class WorkflowExecutor:
         # Configuration
         self.config = config or FSMConfig()
 
+        # Lock for thread-safe access to shared state
+        self.lock = threading.Lock()
+
         # Workflow execution state
         self.active_workflows: Set[str] = set()
         # Store queued workflows with their execution context

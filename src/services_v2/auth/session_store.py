@@ -26,7 +26,10 @@ class SessionStore:
         self.logger = logger or logging.getLogger(__name__)
         if backend == "sqlite":
             self.backend: SessionBackend = SQLiteSessionBackend(db_path, self.logger)
+        elif backend == "memory":
+            self.backend = MemorySessionBackend()
         else:
+            self.logger.warning("Unknown session backend '%s', defaulting to 'memory'.", backend)
             self.backend = MemorySessionBackend()
 
     def store(self, session_data: Dict[str, object]) -> None:

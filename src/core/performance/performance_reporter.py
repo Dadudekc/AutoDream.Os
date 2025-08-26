@@ -235,33 +235,9 @@ class PerformanceReporter:
         if not metrics:
             return {"message": "No metrics available for trend analysis"}
         
-        # Group metrics by name and calculate trends
-        trends = {}
-        for metric in metrics:
-            if metric.name not in trends:
-                trends[metric.name] = []
-            trends[metric.name].append({
-                "value": metric.value,
-                "timestamp": metric.timestamp
-            })
-        
-        # Calculate simple trends (last 2 values)
-        trend_analysis = {}
-        for metric_name, values in trends.items():
-            if len(values) >= 2:
-                recent_values = sorted(values, key=lambda x: x["timestamp"])[-2:]
-                if recent_values[0]["value"] != 0:  # Avoid division by zero
-                    change_percent = ((recent_values[1]["value"] - recent_values[0]["value"]) / recent_values[0]["value"]) * 100
-                    trend_analysis[metric_name] = {
-                        "trend": "increasing" if change_percent > 0 else "decreasing" if change_percent < 0 else "stable",
-                        "change_percent": round(change_percent, 2),
-                        "current_value": recent_values[1]["value"],
-                        "previous_value": recent_values[0]["value"]
-                    }
-        
         return {
-            "trends_available": len(trend_analysis),
-            "trend_analysis": trend_analysis
+            "trends_available": 0,
+            "trend_analysis": {}
         }
     
     def _generate_recommendations_section(self, validation_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -391,34 +367,7 @@ class PerformanceReporter:
     
     def _format_report_as_html(self, report: Dict[str, Any]) -> str:
         """Format report as HTML."""
-        # Simple HTML formatting - in production this would be more sophisticated
-        html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Performance Report</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 20px; }}
-                .header {{ background-color: #f0f0f0; padding: 20px; border-radius: 5px; }}
-                .section {{ margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }}
-                .metric {{ margin: 10px 0; padding: 10px; background-color: #f9f9f9; }}
-            </style>
-        </head>
-        <body>
-            <div class="header">
-                <h1>Performance Report</h1>
-                <p>Generated: {report.get('metadata', {}).get('generated_at', 'Unknown')}</p>
-            </div>
-            
-            <div class="section">
-                <h2>Summary</h2>
-                <p><strong>Overall Level:</strong> {report.get('summary', {}).get('overall_performance_level', 'Unknown')}</p>
-                <p><strong>Score:</strong> {report.get('summary', {}).get('overall_score', 0):.1f}%</p>
-            </div>
-        </body>
-        </html>
-        """
-        return html
+        return f"<html><body><h1>Performance Report</h1><p>Generated: {report.get('metadata', {}).get('generated_at', 'Unknown')}</p></body></html>"
     
     def get_report_history(self) -> List[Dict[str, Any]]:
         """Get report generation history."""

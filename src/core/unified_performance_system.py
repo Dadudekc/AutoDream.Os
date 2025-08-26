@@ -42,7 +42,7 @@ class UnifiedPerformanceSystem:
         :class:`UnifiedPerformanceOrchestrator` for configurability.
         """
         if config_path is not None:
-            orchestrator_kwargs.setdefault("config_path", config_path)
+            orchestrator_kwargs["config_path"] = config_path
 
         self.orchestrator = UnifiedPerformanceOrchestrator(**orchestrator_kwargs)
         self.core = PerformanceCore()

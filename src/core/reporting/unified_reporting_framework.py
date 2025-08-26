@@ -275,6 +275,206 @@ class HealthReportGenerator(ReportGenerator):
         )
 
 
+class SecurityReportGenerator(ReportGenerator):
+    """Generates security reports"""
+
+    def generate_report(self, data: Dict[str, Any], **kwargs) -> UnifiedReport:
+        """Generate a security report"""
+        vulnerabilities = data.get("vulnerabilities", [])
+        severity_counts: Dict[str, int] = {}
+        for vuln in vulnerabilities:
+            severity = vuln.get("severity", "unknown")
+            severity_counts[severity] = severity_counts.get(severity, 0) + 1
+
+        content = {
+            "vulnerability_summary": {
+                "total_vulnerabilities": len(vulnerabilities),
+                "severity_counts": severity_counts,
+            },
+            "vulnerabilities": vulnerabilities,
+        }
+
+        summary = f"Security Report: {len(vulnerabilities)} vulnerabilities detected"
+
+        metadata = ReportMetadata(
+            report_id=str(uuid.uuid4()),
+            timestamp=datetime.now(),
+            report_type=ReportType.SECURITY,
+            format=self.config.format,
+            priority=self.config.priority,
+            source_system="unified_security_system",
+        )
+
+        return UnifiedReport(metadata=metadata, content=content, summary=summary)
+
+
+class ComplianceReportGenerator(ReportGenerator):
+    """Generates compliance reports"""
+
+    def generate_report(self, data: Dict[str, Any], **kwargs) -> UnifiedReport:
+        """Generate a compliance report"""
+        issues = data.get("issues", [])
+        compliance_score = data.get("compliance_score", 0)
+
+        content = {
+            "compliance_summary": {
+                "total_issues": len(issues),
+                "compliance_score": compliance_score,
+            },
+            "issues": issues,
+        }
+
+        summary = (
+            f"Compliance Report: {len(issues)} issues found (Score: {compliance_score})"
+        )
+
+        recommendations = []
+        if compliance_score < 100 and issues:
+            recommendations.append(
+                "Compliance issues detected - review required policies"
+            )
+
+        metadata = ReportMetadata(
+            report_id=str(uuid.uuid4()),
+            timestamp=datetime.now(),
+            report_type=ReportType.COMPLIANCE,
+            format=self.config.format,
+            priority=self.config.priority,
+            source_system="unified_compliance_system",
+        )
+
+        return UnifiedReport(
+            metadata=metadata,
+            content=content,
+            summary=summary,
+            recommendations=recommendations,
+        )
+
+
+class QualityReportGenerator(ReportGenerator):
+    """Generates quality reports"""
+
+    def generate_report(self, data: Dict[str, Any], **kwargs) -> UnifiedReport:
+        """Generate a quality report"""
+        metrics = data.get("quality_metrics", {})
+        issues = data.get("issues", [])
+        score = metrics.get("score", 0)
+
+        content = {
+            "quality_summary": {
+                "issue_count": len(issues),
+                "quality_score": score,
+            },
+            "quality_metrics": metrics,
+            "issues": issues,
+        }
+
+        summary = f"Quality Report: score {score} with {len(issues)} issues"
+
+        recommendations = []
+        if score < 80:
+            recommendations.append("Quality score below 80 - improvements recommended")
+
+        metadata = ReportMetadata(
+            report_id=str(uuid.uuid4()),
+            timestamp=datetime.now(),
+            report_type=ReportType.QUALITY,
+            format=self.config.format,
+            priority=self.config.priority,
+            source_system="unified_quality_system",
+        )
+
+        return UnifiedReport(
+            metadata=metadata,
+            content=content,
+            summary=summary,
+            recommendations=recommendations,
+        )
+
+
+class AnalyticsReportGenerator(ReportGenerator):
+    """Generates analytics reports"""
+
+    def generate_report(self, data: Dict[str, Any], **kwargs) -> UnifiedReport:
+        """Generate an analytics report"""
+        metrics = data.get("metrics", {})
+        insights = data.get("insights", [])
+
+        content = {
+            "analytics_summary": {
+                "metric_count": len(metrics),
+                "insight_count": len(insights),
+            },
+            "metrics": metrics,
+            "insights": insights,
+        }
+
+        summary = f"Analytics Report: {len(insights)} insights derived"
+
+        metadata = ReportMetadata(
+            report_id=str(uuid.uuid4()),
+            timestamp=datetime.now(),
+            report_type=ReportType.ANALYTICS,
+            format=self.config.format,
+            priority=self.config.priority,
+            source_system="unified_analytics_system",
+        )
+
+        return UnifiedReport(metadata=metadata, content=content, summary=summary)
+
+
+class FinancialReportGenerator(ReportGenerator):
+    """Generates financial reports"""
+
+    def generate_report(self, data: Dict[str, Any], **kwargs) -> UnifiedReport:
+        """Generate a financial report"""
+        transactions = data.get("transactions", [])
+        total_amount = sum(t.get("amount", 0) for t in transactions)
+
+        content = {
+            "financial_summary": {
+                "total_transactions": len(transactions),
+                "total_amount": total_amount,
+            },
+            "transactions": transactions,
+        }
+
+        summary = (
+            f"Financial Report: {len(transactions)} transactions totaling {total_amount:.2f}"
+        )
+
+        metadata = ReportMetadata(
+            report_id=str(uuid.uuid4()),
+            timestamp=datetime.now(),
+            report_type=ReportType.FINANCIAL,
+            format=self.config.format,
+            priority=self.config.priority,
+            source_system="unified_financial_system",
+        )
+
+        return UnifiedReport(metadata=metadata, content=content, summary=summary)
+
+
+class CustomReportGenerator(ReportGenerator):
+    """Generates custom reports"""
+
+    def generate_report(self, data: Dict[str, Any], **kwargs) -> UnifiedReport:
+        """Generate a custom report"""
+        content = data.get("content", data)
+        summary = data.get("summary", "Custom report generated")
+
+        metadata = ReportMetadata(
+            report_id=str(uuid.uuid4()),
+            timestamp=datetime.now(),
+            report_type=ReportType.CUSTOM,
+            format=self.config.format,
+            priority=self.config.priority,
+            source_system="unified_custom_system",
+        )
+
+        return UnifiedReport(metadata=metadata, content=content, summary=summary)
+
+
 class ReportFormatter:
     """Formats reports in various output formats"""
     
@@ -421,15 +621,26 @@ class UnifiedReportingFramework(BaseManager):
                 format=ReportFormat.JSON,
                 output_directory=f"reports/{report_type.value}"
             )
-            
+
             if report_type == ReportType.TESTING:
                 self.report_generators[report_type] = TestingReportGenerator(config)
             elif report_type == ReportType.PERFORMANCE:
                 self.report_generators[report_type] = PerformanceReportGenerator(config)
             elif report_type == ReportType.HEALTH:
                 self.report_generators[report_type] = HealthReportGenerator(config)
+            elif report_type == ReportType.SECURITY:
+                self.report_generators[report_type] = SecurityReportGenerator(config)
+            elif report_type == ReportType.COMPLIANCE:
+                self.report_generators[report_type] = ComplianceReportGenerator(config)
+            elif report_type == ReportType.QUALITY:
+                self.report_generators[report_type] = QualityReportGenerator(config)
+            elif report_type == ReportType.ANALYTICS:
+                self.report_generators[report_type] = AnalyticsReportGenerator(config)
+            elif report_type == ReportType.FINANCIAL:
+                self.report_generators[report_type] = FinancialReportGenerator(config)
+            elif report_type == ReportType.CUSTOM:
+                self.report_generators[report_type] = CustomReportGenerator(config)
             else:
-                # Use base generator for other types
                 self.report_generators[report_type] = ReportGenerator(config)
     
     def generate_report(self, report_type: ReportType, data: Dict[str, Any], 
@@ -475,10 +686,13 @@ class UnifiedReportingFramework(BaseManager):
             self.logger.error(f"Failed to format report: {e}")
             return f"Error formatting report: {str(e)}"
     
-    def save_report(self, report: UnifiedReport, format_type: ReportFormat, 
+    def save_report(self, report: UnifiedReport, format_type: Optional[ReportFormat] = None,
                    filename: Optional[str] = None) -> str:
         """Save a report to file"""
         try:
+            if format_type is None:
+                format_type = report.metadata.format
+
             # Generate filename if not provided
             if not filename:
                 timestamp = report.metadata.timestamp.strftime("%Y%m%d_%H%M%S")

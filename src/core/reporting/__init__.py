@@ -19,12 +19,19 @@ from .unified_reporting_framework import (
     UnifiedReport
 )
 
-from .reporting_system_consolidator import (
-    ReportingSystemConsolidator,
-    ConsolidationTarget,
-    ConsolidationPlan,
-    ConsolidationResult
-)
+# Consolidator module is optional in some installations
+try:
+    from .reporting_system_consolidator import (
+        ReportingSystemConsolidator,
+        ConsolidationTarget,
+        ConsolidationPlan,
+        ConsolidationResult,
+    )
+except ModuleNotFoundError:  # pragma: no cover - fallback when module missing
+    ReportingSystemConsolidator = None
+    ConsolidationTarget = None
+    ConsolidationPlan = None
+    ConsolidationResult = None
 
 from .reporting_system_eliminator import (
     ReportingSystemEliminator,

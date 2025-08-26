@@ -15,7 +15,7 @@ This document describes the built-in metric collectors and the units they produc
   * `event_loop_tasks` – count
 
 ## NetworkMetricsCollector
-* **Requirements:** `psutil`
+* **Requirements:** [`psutil`](https://pypi.org/project/psutil/)
 * **Metrics:**
   * `network_bytes_sent` – bytes
   * `network_bytes_recv` – bytes

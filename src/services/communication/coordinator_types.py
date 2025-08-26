@@ -92,7 +92,7 @@ class CoordinationMessage:
     content: str
     timestamp: datetime
     priority: TaskPriority
-    metadata: Dict
+    metadata: Dict[str, Any]
 
 
 @dataclass

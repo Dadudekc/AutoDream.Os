@@ -13,12 +13,13 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Union
 import time
 import threading
 import statistics
@@ -142,12 +143,24 @@ class UnifiedPerformanceSystem:
     def __init__(self):
         """Initialize the unified performance system."""
         self.logger = logging.getLogger(__name__)
-        
+
         # Core components
         self.metrics: Dict[str, PerformanceMetric] = {}
         self.validation_rules: Dict[str, ValidationRule] = {}
         self.benchmarks: Dict[str, PerformanceBenchmark] = {}
         self.results: Dict[str, PerformanceResult] = {}
+
+        # Configuration
+        self.config_path = Path(
+            os.getenv("UNIFIED_PERFORMANCE_CONFIG_PATH", "config/system/performance.json")
+        )
+        self.config: Dict[str, Any] = {}
+
+        # Extension hooks
+        self.extension_hooks: Dict[str, List[Callable]] = {
+            "validation_rules": [],
+            "benchmarks": [],
+        }
         
         # System state
         self.is_initialized = False
@@ -179,18 +192,143 @@ class UnifiedPerformanceSystem:
     
     def _load_configuration(self):
         """Load performance system configuration."""
-        # Configuration loading logic would go here
-        pass
-    
+        default_config = {
+            "validation_rules": [],
+            "benchmarks": [],
+        }
+
+        env_config = os.getenv("UNIFIED_PERFORMANCE_CONFIG")
+
+        try:
+            if env_config:
+                self.config = json.loads(env_config)
+            elif self.config_path.exists():
+                with open(self.config_path, "r", encoding="utf-8") as f:
+                    self.config = json.load(f)
+            else:
+                self.config = default_config
+        except (json.JSONDecodeError, OSError) as e:
+            self.logger.error(f"Failed to load configuration: {e}")
+            self.config = default_config
+
+        return self.config
+
     def _setup_default_validation_rules(self):
         """Setup default performance validation rules."""
-        # Default validation rules setup would go here
-        pass
-    
+        rules_config = self.config.get("validation_rules")
+        if not rules_config:
+            rules_config = [
+                {
+                    "rule_name": "cpu_usage_limit",
+                    "metric_name": "cpu_usage_percent",
+                    "threshold": 80.0,
+                    "operator": "lt",
+                    "severity": "warning",
+                    "description": "CPU usage should remain below 80%",
+                },
+                {
+                    "rule_name": "memory_usage_limit",
+                    "metric_name": "memory_usage_percent",
+                    "threshold": 80.0,
+                    "operator": "lt",
+                    "severity": "warning",
+                    "description": "Memory usage should remain below 80%",
+                },
+                {
+                    "rule_name": "response_time_limit",
+                    "metric_name": "response_time_ms",
+                    "threshold": 500.0,
+                    "operator": "lt",
+                    "severity": "critical",
+                    "description": "Response time should be under 500ms",
+                },
+            ]
+
+        for rule_def in rules_config:
+            try:
+                rule = ValidationRule(
+                    rule_name=rule_def["rule_name"],
+                    metric_name=rule_def["metric_name"],
+                    threshold=float(rule_def.get("threshold", 0)),
+                    operator=rule_def.get("operator", "lt"),
+                    severity=ValidationSeverity(rule_def.get("severity", "warning")),
+                    description=rule_def.get("description", ""),
+                    enabled=rule_def.get("enabled", True),
+                )
+                self.validation_rules[rule.rule_name] = rule
+            except (KeyError, ValueError) as e:
+                self.logger.error(f"Failed to setup validation rule {rule_def}: {e}")
+
+        self.logger.info(
+            f"Setup {len(self.validation_rules)} validation rules"
+        )
+        self._run_extension_hooks("validation_rules")
+
     def _setup_default_benchmarks(self):
         """Setup default performance benchmarks."""
-        # Default benchmarks setup would go here
-        pass
+        benchmarks_config = self.config.get("benchmarks")
+        if not benchmarks_config:
+            benchmarks_config = [
+                {
+                    "benchmark_id": "baseline_throughput",
+                    "name": "Baseline Throughput",
+                    "description": "Basic throughput benchmark",
+                    "benchmark_type": "throughput",
+                    "metrics": ["operations_per_second"],
+                    "duration": 60,
+                    "iterations": 1,
+                },
+                {
+                    "benchmark_id": "baseline_latency",
+                    "name": "Baseline Latency",
+                    "description": "Basic response time benchmark",
+                    "benchmark_type": "response_time",
+                    "metrics": ["response_time_ms"],
+                    "duration": 60,
+                    "iterations": 1,
+                },
+            ]
+
+        for bench_def in benchmarks_config:
+            try:
+                benchmark = PerformanceBenchmark(
+                    benchmark_id=bench_def.get("benchmark_id", str(uuid.uuid4())),
+                    name=bench_def["name"],
+                    description=bench_def.get("description", ""),
+                    benchmark_type=BenchmarkType(bench_def.get("benchmark_type", "cpu")),
+                    metrics=list(bench_def.get("metrics", [])),
+                    duration=int(bench_def.get("duration", 60)),
+                    iterations=int(bench_def.get("iterations", 1)),
+                    enabled=bench_def.get("enabled", True),
+                )
+                self.benchmarks[benchmark.benchmark_id] = benchmark
+            except (KeyError, ValueError) as e:
+                self.logger.error(
+                    f"Failed to setup benchmark {bench_def}: {e}"
+                )
+
+        self.logger.info(
+            f"Setup {len(self.benchmarks)} benchmarks"
+        )
+        self._run_extension_hooks("benchmarks")
+
+    # Extension hooks -----------------------------------------------------
+    def register_extension_hook(self, hook_type: str, handler: Callable[["UnifiedPerformanceSystem"], None]):
+        """Register a custom extension hook."""
+        if hook_type not in self.extension_hooks:
+            self.logger.warning(f"Unknown hook type: '{hook_type}'. Valid types: {list(self.extension_hooks.keys())}")
+            return
+        self.extension_hooks[hook_type].append(handler)
+
+    def _run_extension_hooks(self, hook_type: str) -> None:
+        """Execute registered extension hooks."""
+        for handler in self.extension_hooks.get(hook_type, []):
+            try:
+                handler(self)
+            except Exception as e:
+                self.logger.error(
+                    f"Extension hook '{hook_type}' failed: {e}"
+                )
     
     def get_metric(self, metric_name: str) -> Optional[PerformanceMetric]:
         """Get a performance metric by name."""

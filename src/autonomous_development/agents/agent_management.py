@@ -10,10 +10,11 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+import json
 import logging
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass, asdict
 
 from src.core.enums import AgentRole
 from src.core.models import DevelopmentTask
@@ -46,14 +47,23 @@ class AgentManager(BaseManager):
     Now inherits from BaseManager for unified functionality
     """
     
-    def __init__(self):
-        """Initialize agent manager with BaseManager"""
+    def __init__(self, data_handler: Optional[Callable[[str], None]] = None):
+        """Initialize agent manager with BaseManager
+
+        Args:
+            data_handler: Optional callable or object with a ``write`` method
+                used to persist serialized agent data. If ``None`` persistence
+                will be skipped.
+        """
         super().__init__(
             manager_id="agent_manager",
             name="Agent Manager",
             description="Manages agent registration, unregistration, and basic operations"
         )
         
+        # Injected persistence handler (e.g., database or file writer)
+        self.data_handler = data_handler
+
         # Agent storage
         self.agents: Dict[str, AgentInfo] = {}
         
@@ -528,15 +538,31 @@ class AgentManager(BaseManager):
     # ============================================================================
     # Private Helper Methods
     # ============================================================================
-    
+
     def _save_agent_data(self):
-        """Save agent data (placeholder for future persistence)"""
+        """Serialize agent data and persist using the injected handler"""
+        if not self.data_handler:
+            self.logger.debug("No data handler configured; skipping save")
+            return
         try:
-            # TODO: Implement persistence to database/file
+            data = {}
+            for agent_id, agent in self.agents.items():
+                info = asdict(agent)
+                info["role"] = agent.role.value if isinstance(agent.role, AgentRole) else agent.role
+                info["last_heartbeat"] = agent.last_heartbeat.isoformat() if agent.last_heartbeat else None
+                data[agent_id] = info
+            serialized = json.dumps(data)
+            if hasattr(self.data_handler, "write"):
+                self.data_handler.write(serialized)
+            elif callable(self.data_handler):
+                self.data_handler(serialized)
+            else:
+                raise TypeError("data_handler must be callable or have write() method")
             self.logger.debug("Agent data saved")
-            
         except Exception as e:
-            self.logger.error(f"Failed to save agent data: {e}")
+            context = {"agents": len(self.agents)}
+            self.logger.error(f"Failed to save agent data: {e} | context: {context}")
+            raise
     
     def _check_agent_health(self):
         """Check agent health status"""

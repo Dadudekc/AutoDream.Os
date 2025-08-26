@@ -39,7 +39,7 @@ class ResponseCapture:
                 return False
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read()
-            content_hash = hashlib.md5(content.encode()).hexdigest()
+            content_hash = hashlib.sha256(content.encode()).hexdigest()
             response_type = self.classify_response(file_path, content)
             response_id = self.db.insert_response(
                 agent_id,

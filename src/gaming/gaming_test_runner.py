@@ -18,8 +18,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 # Core infrastructure imports
-from ..core.testing.test_categories import TestCategories
-from ..core.testing.output_formatter import OutputFormatter
+from src.core.testing.test_categories import TestCategories
+from src.core.testing.output_formatter import OutputFormatter
 
 
 @dataclass

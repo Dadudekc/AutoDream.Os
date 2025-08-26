@@ -19,8 +19,8 @@ from pathlib import Path
 import json
 
 # Core infrastructure imports
-from ..core.performance.alerts import AlertSeverity, AlertType
-from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority
+from src.core.performance.alerts import AlertSeverity, AlertType
+from src.core.base_manager import BaseManager, ManagerStatus, ManagerPriority
 
 
 @dataclass

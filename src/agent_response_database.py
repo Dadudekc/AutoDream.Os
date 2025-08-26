@@ -133,25 +133,23 @@ class AgentResponseDatabase:
 
     def insert_task(self, response_id: int, task: dict) -> None:
         """Store a generated task linked to a response."""
-        conn = self.connect()
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            INSERT INTO generated_tasks
-            (source_response_id, task_title, task_description, assigned_agent, priority, dependencies)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (
-                response_id,
-                task["title"],
-                task["description"],
-                task["agent"],
-                task["priority"],
-                json.dumps(task["dependencies"]),
-            ),
-        )
-        conn.commit()
-        conn.close()
+        with self.connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO generated_tasks
+                (source_response_id, task_title, task_description, assigned_agent, priority, dependencies)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    response_id,
+                    task["title"],
+                    task["description"],
+                    task["agent"],
+                    task["priority"],
+                    json.dumps(task["dependencies"]),
+                ),
+            )
 
     def fetch_agent_progress_summary(self) -> dict:
         """Get comprehensive progress summary for all agents."""

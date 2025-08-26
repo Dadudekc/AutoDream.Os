@@ -84,6 +84,8 @@ class HealthMonitor:
     def _periodic_run(self):
         try:
             self.run_checks()
+        except Exception as e:
+            logger.error(f"Periodic health check run failed: {e}")
         finally:
             self.start()
 

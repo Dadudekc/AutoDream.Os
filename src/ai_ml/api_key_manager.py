@@ -17,12 +17,11 @@ from datetime import datetime
 import json
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.unified_logging_manager import get_logger
 from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority
 
 # Configure logging
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class APIKeyManager(BaseManager):

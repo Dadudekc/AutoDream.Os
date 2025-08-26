@@ -282,3 +282,15 @@ MIT License - See [LICENSE](LICENSE) file for details.
 ---
 
 This repository is the single source of truth for AutoDream OS. It maintains V2 standards to ensure high-quality, agent-friendly code.
+
+## Logging
+
+Use the unified logging manager to configure loggers:
+
+```python
+from src.utils.unified_logging_manager import get_logger
+
+logger = get_logger(__name__)
+```
+
+This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.

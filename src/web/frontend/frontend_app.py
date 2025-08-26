@@ -16,11 +16,11 @@ License: MIT
 """
 
 import json
-import logging
 import asyncio
 import secrets
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.unified_logging_manager import get_logger
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, asdict
@@ -38,8 +38,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # ============================================================================
 # FRONTEND MODELS & DATA STRUCTURES

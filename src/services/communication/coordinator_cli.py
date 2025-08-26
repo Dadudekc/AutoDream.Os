@@ -6,10 +6,10 @@ Follows V2 coding standards: ≤100 LOC, CLI interface with smoke tests
 """
 
 import argparse
-import logging
 import sys
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.unified_logging_manager import get_logger
 from typing import List
 
 try:
@@ -35,14 +35,7 @@ class CoordinatorCLI:
     def __init__(self):
         self.coordinator = MessageCoordinator()
         self.channel_manager = ChannelManager()
-        self.setup_logging()
-
-    def setup_logging(self):
-        """Setup logging configuration"""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
+        self.logger = get_logger(__name__)
 
     def run_smoke_test(self) -> bool:
         """Run smoke tests for the communication coordinator"""

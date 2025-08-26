@@ -23,6 +23,7 @@ from typing import Any, Callable, Dict, List, Optional, Union
 import time
 import threading
 import statistics
+from src.services.config_utils import ConfigLoader
 
 
 # ============================================================================
@@ -172,10 +173,11 @@ class UnifiedPerformanceSystem:
         """Initialize the performance system."""
         try:
             self.logger.info("Initializing Unified Performance System...")
-            
+
             # Load configuration
-            self._load_configuration()
-            
+            default_config = {"validation_rules": [], "benchmarks": []}
+            self.config = ConfigLoader.load(self.config_path, default_config)
+
             # Setup validation rules
             self._setup_default_validation_rules()
             
@@ -190,28 +192,6 @@ class UnifiedPerformanceSystem:
             self.logger.error(f"Failed to initialize performance system: {e}")
             return False
     
-    def _load_configuration(self):
-        """Load performance system configuration."""
-        default_config = {
-            "validation_rules": [],
-            "benchmarks": [],
-        }
-
-        env_config = os.getenv("UNIFIED_PERFORMANCE_CONFIG")
-
-        try:
-            if env_config:
-                self.config = json.loads(env_config)
-            elif self.config_path.exists():
-                with open(self.config_path, "r", encoding="utf-8") as f:
-                    self.config = json.load(f)
-            else:
-                self.config = default_config
-        except (json.JSONDecodeError, OSError) as e:
-            self.logger.error(f"Failed to load configuration: {e}")
-            self.config = default_config
-
-        return self.config
 
     def _setup_default_validation_rules(self):
         """Setup default performance validation rules."""

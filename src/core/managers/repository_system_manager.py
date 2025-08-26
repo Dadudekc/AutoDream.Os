@@ -23,6 +23,7 @@ import threading
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Callable, Union
 from dataclasses import dataclass, asdict
+from src.utils.serializable import SerializableMixin
 from datetime import datetime, timedelta
 from enum import Enum
 from collections import defaultdict
@@ -51,7 +52,7 @@ class TechnologyType(Enum):
 
 
 @dataclass
-class RepositoryMetadata:
+class RepositoryMetadata(SerializableMixin):
     """Repository metadata information."""
     repo_id: str
     name: str
@@ -71,9 +72,6 @@ class RepositoryMetadata:
         if self.metadata is None:
             self.metadata = {}
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary."""
-        return asdict(self)
 
 
 @dataclass

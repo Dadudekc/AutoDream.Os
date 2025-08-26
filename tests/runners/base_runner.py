@@ -250,5 +250,12 @@ class BaseTestRunner(ABC):
 
     @abstractmethod
     def run(self, **kwargs) -> Dict[str, Any]:
-        """Abstract method for running tests."""
-        pass
+        """Run the test suite.
+
+        Args:
+            **kwargs: Implementation-specific parameters.
+
+        Returns:
+            Dict[str, Any]: A summary of test results.
+        """
+        raise NotImplementedError("run must be implemented by subclasses")

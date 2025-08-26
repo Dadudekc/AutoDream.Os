@@ -72,8 +72,16 @@ class BaseMiddleware(ABC):
     async def process(
         self, request: Dict[str, Any], context: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """Process the request through this middleware."""
-        pass
+        """Process the request through this middleware.
+
+        Args:
+            request (Dict[str, Any]): Incoming request data.
+            context (Dict[str, Any]): Additional processing context.
+
+        Returns:
+            Dict[str, Any]: Potentially modified request.
+        """
+        raise NotImplementedError("process must be implemented by subclasses")
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(enabled={self.enabled})"

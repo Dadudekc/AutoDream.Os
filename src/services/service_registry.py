@@ -106,8 +106,15 @@ class HealthCheckStrategy(ABC):
 
     @abstractmethod
     async def check_health(self, service: ServiceInfo) -> ServiceStatus:
-        """Check the health of a service."""
-        pass
+        """Check the health of a service.
+
+        Args:
+            service (ServiceInfo): The service to evaluate.
+
+        Returns:
+            ServiceStatus: The determined health status.
+        """
+        raise NotImplementedError("check_health must be implemented by subclasses")
 
 
 class HTTPHealthCheck(HealthCheckStrategy):

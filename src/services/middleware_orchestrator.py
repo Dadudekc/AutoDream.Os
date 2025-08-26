@@ -90,8 +90,16 @@ class BaseMiddlewareComponent(ABC):
     async def process(
         self, data_packet: DataPacket, context: Dict[str, Any]
     ) -> DataPacket:
-        """Process the data packet and return modified packet."""
-        pass
+        """Process the incoming data packet.
+
+        Args:
+            data_packet (DataPacket): The packet to process.
+            context (Dict[str, Any]): Additional processing context.
+
+        Returns:
+            DataPacket: The modified packet to pass to the next middleware.
+        """
+        raise NotImplementedError("process must be implemented by subclasses")
 
     def should_process(self, data_packet: DataPacket, context: Dict[str, Any]) -> bool:
         """Determine if this middleware should process the given packet."""

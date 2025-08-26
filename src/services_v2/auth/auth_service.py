@@ -8,17 +8,16 @@ Provides enterprise-grade security, performance monitoring, and integration test
 """
 
 import sys
-import os
 import time
 import logging
 import hashlib
 import secrets
 import hmac
-import sqlite3
+from services_v2.auth.session_store import SessionStore
+from services_v2.auth.session_manager import SessionManager
 
-from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -81,6 +80,18 @@ class AuthService:
         self.logger = self._setup_logging()
         self.config = config or self._default_config()
 
+        # Session backend setup
+        self.session_store = SessionStore(
+            backend=self.config.get("session_backend", "memory"),
+            db_path=self.config.get("session_db_path", "auth_sessions.db"),
+            logger=self.logger,
+        )
+        self.session_manager = SessionManager(
+            self.session_store,
+            self.config["session_timeout"],
+            self.config["security_level"],
+        )
+
         # Initialize core components
         self._init_core_components()
 
@@ -117,6 +128,8 @@ class AuthService:
             "enable_audit_logging": True,
             "enable_performance_monitoring": True,
             "security_level": "enterprise",
+            "session_backend": "memory",  # or 'sqlite'
+            "session_db_path": "auth_sessions.db",
         }
 
     def _init_core_components(self):
@@ -189,7 +202,7 @@ class AuthService:
                     self.successful_auths += 1
 
                     # Enhanced session management
-                    session_data = self._create_enhanced_session(
+                    session_data = self.session_manager.create_session(
                         username, source_ip, user_agent
                     )
 
@@ -324,38 +337,6 @@ class AuthService:
             "reset_time": time.time() + self.config["lockout_duration"],
         }
 
-    def _create_enhanced_session(
-        self, username: str, source_ip: str, user_agent: str
-    ) -> Dict[str, Any]:
-        """Create enhanced session with V2 features"""
-        session_id = secrets.token_urlsafe(32)
-        current_time = time.time()
-        expires_at = current_time + self.config["session_timeout"]
-
-        session_data = {
-            "session_id": session_id,
-            "user_id": username,
-            "source_ip": source_ip,
-            "user_agent": user_agent,
-            "created_at": current_time,
-            "expires_at": datetime.fromtimestamp(expires_at),
-            "metadata": {
-                "v2_features": True,
-                "security_level": self.config["security_level"],
-                "session_type": "enhanced",
-            },
-        }
-
-        # Store session (in production, use Redis/database)
-        self._store_session(session_data)
-
-        return session_data
-
-    def _store_session(self, session_data: Dict[str, Any]):
-        """Store session data"""
-        # Simple implementation - in production, use Redis/database
-        pass
-
     def _determine_user_permissions(self, username: str) -> List[PermissionLevel]:
         """Determine user permissions based on username"""
         if username == "admin":
@@ -451,7 +432,17 @@ class AuthService:
         metrics = self.get_performance_metrics()
         self.logger.info(f"Final metrics: {metrics}")
 
-        # Cleanup resources
-        if hasattr(self, "auth_system") and self.auth_system:
-            # Cleanup auth system if needed
-            pass
+        # Flush session data
+        self.session_manager.flush()
+
+        # Cleanup external components
+        for comp_name in ["auth_system", "network_scanner", "compliance_auditor"]:
+            component = getattr(self, comp_name, None)
+            if component:
+                try:
+                    if hasattr(component, "shutdown"):
+                        component.shutdown()
+                    elif hasattr(component, "close"):
+                        component.close()
+                except Exception as e:
+                    self.logger.warning(f"Error shutting down {comp_name}: {e}")

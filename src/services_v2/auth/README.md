@@ -10,6 +10,9 @@ The V2 Authentication Module provides enterprise-grade authentication and author
 services_v2/auth/
 ├── __init__.py                         # Module initialization and exports
 ├── auth_service.py                     # Core V2 authentication service
+├── session_manager.py               # Session creation and management
+├── session_store.py                 # Backend-agnostic session storage
+├── session_backend.py               # Session storage backends
 ├── auth_integration_tester.py          # Orchestrator for integration tests
 ├── auth_integration_tester_core.py     # Core test routines
 ├── auth_integration_tester_validation.py # Environment validation helpers
@@ -32,6 +35,7 @@ The core V2 authentication service that provides:
 
 - **Enhanced Authentication**: V2 authentication with comprehensive security checks
 - **Session Management**: Advanced session handling with V2 features
+- **Configurable Session Backends**: In-memory or SQLite storage via SessionManager
 - **Permission System**: Role-based access control with multiple permission levels
 - **Security Context**: Context-aware authentication with threat detection
 - **Fallback Support**: Graceful degradation when core components unavailable
@@ -165,7 +169,9 @@ config = {
     "enable_mfa": True,                # Enable multi-factor auth
     "enable_audit_logging": True,      # Enable compliance logging
     "enable_performance_monitoring": True,  # Enable performance tracking
-    "security_level": "enterprise"     # Security level
+    "security_level": "enterprise",    # Security level
+    "session_backend": "memory",       # or 'sqlite'
+    "session_db_path": "auth_sessions.db"  # Path when using sqlite backend
 }
 
 auth_service = AuthService(config)

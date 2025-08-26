@@ -27,7 +27,9 @@ from core.health_metrics_collector import HealthMetricsCollector
 from core.health_threshold_manager import HealthThresholdManager
 from core.managers.health_manager import HealthManager
 from core.health_score_calculator import HealthScoreCalculator
-from core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitorCore
+from core.health.monitoring_new.health_monitoring_new_core import (
+    AgentHealthCoreMonitor as HealthMonitorCore,
+)
 
 
 class TestHealthMetricsCollector:
@@ -308,20 +310,48 @@ class TestHealthMonitorCore:
 class TestCLIInterface:
     """Test CLI interface functionality"""
 
-    def test_cli_help(self):
-        """Test CLI help command"""
-        # This will be tested when we implement the CLI
-        pass
+    def test_cli_help(self, monkeypatch, capsys):
+        """CLI should display help information and exit cleanly."""
+        from core import health_score_calculator as cli
 
-    def test_cli_test_mode(self):
-        """Test CLI test mode"""
-        # This will be tested when we implement the CLI
-        pass
+        monkeypatch.setattr(
+            sys, "argv", ["health_score_calculator", "--help"], raising=False
+        )
 
-    def test_cli_demo_mode(self):
-        """Test CLI demo mode"""
-        # This will be tested when we implement the CLI
-        pass
+        with pytest.raises(SystemExit) as exc:
+            cli.main()
+
+        assert exc.value.code == 0
+        out = capsys.readouterr().out
+        assert "Health Score Calculator CLI" in out
+
+    def test_cli_test_mode(self, monkeypatch):
+        """`--test` should invoke the smoke test and exit with success."""
+        from core import health_score_calculator as cli
+
+        monkeypatch.setattr(
+            cli.HealthScoreCalculator, "run_smoke_test", lambda self: True
+        )
+        monkeypatch.setattr(
+            sys, "argv", ["health_score_calculator", "--test"], raising=False
+        )
+
+        with pytest.raises(SystemExit) as exc:
+            cli.main()
+
+        assert exc.value.code == 0
+
+    def test_cli_demo_mode(self, monkeypatch, capsys):
+        """`--demo` should run without error and show demo output."""
+        from core import health_score_calculator as cli
+
+        monkeypatch.setattr(
+            sys, "argv", ["health_score_calculator", "--demo"], raising=False
+        )
+        cli.main()
+        out = capsys.readouterr().out
+        assert "Starting Health Score Calculator Demo" in out
+        assert "Demo completed" in out
 
 
 if __name__ == "__main__":

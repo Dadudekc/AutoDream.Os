@@ -8,7 +8,7 @@ from datetime import datetime
 from pathlib import Path
 import json
 
-from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority
+from src.core.base_manager import BaseManager, ManagerStatus, ManagerPriority
 
 
 class DependencyManager(BaseManager):

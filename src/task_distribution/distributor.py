@@ -50,7 +50,7 @@ class CaptainTaskDistributor:
                     contract.agent,
                     contract_file,
                 )
-            except Exception as exc:  # pylint: disable=broad-except
+            except OSError as exc:
                 logger.error("❌ Error saving %s contract for %s: %s", contract.task_id, contract.agent, exc)
         self._create_master_summary(contracts)
         logger.info("📊 Contract creation complete: %s/%s successful", success_count, len(contracts))

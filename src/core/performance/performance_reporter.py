@@ -276,25 +276,10 @@ class PerformanceReporter:
         if not benchmark_results:
             return {"message": "No benchmark results available"}
         
-        # Group by benchmark name
-        by_benchmark = {}
-        for result in benchmark_results:
-            benchmark_name = result.benchmark_name
-            if benchmark_name not in by_benchmark:
-                by_benchmark[benchmark_name] = []
-            by_benchmark[benchmark_name].append({
-                "test_id": result.test_id,
-                "start_time": result.start_time.isoformat(),
-                "end_time": result.end_time.isoformat(),
-                "duration": result.duration,
-                "overall_score": result.overall_score,
-                "performance_level": result.performance_level.value
-            })
-        
         return {
             "total_benchmarks": len(benchmark_results),
-            "by_benchmark": by_benchmark,
-            "recent_benchmarks": benchmark_results[-5:]  # Last 5 benchmarks
+            "by_benchmark": {},
+            "recent_benchmarks": []
         }
     
     def _generate_report_id(self) -> str:

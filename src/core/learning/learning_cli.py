@@ -19,9 +19,9 @@ from datetime import datetime
 
 from .learning_manager import LearningManager
 from .decision_manager import DecisionManager
-from .unified_learning_engine import UnifiedLearningEngine, LearningEngineConfig
-from .learning_models import (
-    LearningMode, IntelligenceLevel, LearningStatus
+from .unified_learning_engine import UnifiedLearningEngine
+from .models import (
+    LearningMode, IntelligenceLevel, LearningStatus, LearningEngineConfig
 )
 from .decision_models import (
     DecisionType, DecisionPriority, DecisionStatus, DecisionConfidence

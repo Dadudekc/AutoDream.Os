@@ -94,26 +94,24 @@ class AgentResponseDatabase:
         file_size: int,
     ) -> int:
         """Store an agent response and return its database ID."""
-        conn = self.connect()
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            INSERT OR IGNORE INTO agent_responses
-            (agent_id, response_file, response_content, response_hash, response_type, file_size)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (
-                agent_id,
-                response_file,
-                response_content,
-                response_hash,
-                response_type,
-                file_size,
-            ),
-        )
-        response_id = cursor.lastrowid
-        conn.commit()
-        conn.close()
+        with self.connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT OR IGNORE INTO agent_responses
+                (agent_id, response_file, response_content, response_hash, response_type, file_size)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    agent_id,
+                    response_file,
+                    response_content,
+                    response_hash,
+                    response_type,
+                    file_size,
+                ),
+            )
+            response_id = cursor.lastrowid
         return response_id
 
     def insert_analysis(self, response_id: int, analysis_result: dict) -> None:

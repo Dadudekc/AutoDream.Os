@@ -59,9 +59,9 @@ def demo_simple_integration():
         print("\n🔗 Test 2: FSM-Discord Bridge")
         print("-" * 40)
 
-        from core.fsm_discord_bridge import FSMDiscordBridge
+        from core.fsm import FSMSystemManager
 
-        bridge = FSMDiscordBridge()
+        fsm_manager = FSMSystemManager()
 
         # Test command processing
         test_commands = [

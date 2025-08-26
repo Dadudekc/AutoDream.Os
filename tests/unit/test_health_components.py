@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from core.health_metrics_collector import HealthMetricsCollector
 from core.health_threshold_manager import HealthThresholdManager
-from core.health_alert_manager import HealthAlertManager
+from core.managers.health_manager import HealthManager
 from core.health_score_calculator import HealthScoreCalculator
 from core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitorCore
 
@@ -127,18 +127,18 @@ class TestHealthThresholdManager:
         assert "response_time" in all_thresholds
 
 
-class TestHealthAlertManager:
-    """Test HealthAlertManager component"""
+class TestHealthManager:
+    """Test HealthManager component"""
 
     def test_initialization(self):
         """Test component initialization"""
-        manager = HealthAlertManager()
+        manager = HealthManager()
         assert manager is not None
-        assert manager.alerts == {}
+        assert manager.health_alerts == {}
 
     def test_create_alert(self):
         """Test creating health alerts"""
-        manager = HealthAlertManager()
+        manager = HealthManager()
 
         # Create an alert
         alert = manager.create_alert(
@@ -157,7 +157,7 @@ class TestHealthAlertManager:
 
     def test_get_alerts(self):
         """Test retrieving alerts"""
-        manager = HealthAlertManager()
+        manager = HealthManager()
 
         # Create some alerts
         manager.create_alert("agent_1", "warning", "Alert 1", "metric_1", 100.0, 50.0)
@@ -169,7 +169,7 @@ class TestHealthAlertManager:
 
     def test_filter_alerts(self):
         """Test filtering alerts by severity and agent"""
-        manager = HealthAlertManager()
+        manager = HealthManager()
 
         # Create alerts with different severities
         manager.create_alert(
@@ -192,7 +192,7 @@ class TestHealthAlertManager:
 
     def test_acknowledge_alert(self):
         """Test acknowledging alerts"""
-        manager = HealthAlertManager()
+        manager = HealthManager()
 
         # Create and acknowledge an alert
         alert = manager.create_alert(
@@ -206,7 +206,7 @@ class TestHealthAlertManager:
 
     def test_resolve_alert(self):
         """Test resolving alerts"""
-        manager = HealthAlertManager()
+        manager = HealthManager()
 
         # Create and resolve an alert
         alert = manager.create_alert(

@@ -3,26 +3,42 @@
 Status Package - Agent Cellphone V2
 ===================================
 
-Refactored live status system.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
+CONSOLIDATED status system - single StatusManager replaces 7 separate files.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
+
+Author: V2 SWARM CAPTAIN
+License: MIT
 """
 
-from .status_types import (
+from ..managers.status_manager import (
+    StatusManager,
+    StatusLevel,
+    HealthStatus,
     UpdateFrequency,
     StatusEventType,
+    StatusItem,
+    HealthMetric,
+    ComponentHealth,
     StatusEvent,
     StatusMetrics,
     ActivitySummary,
+    run_smoke_test,
+    main
 )
-
-from .status_core import LiveStatusSystem
 
 # Backward compatibility
 __all__ = [
+    "StatusManager",
+    "StatusLevel",
+    "HealthStatus",
     "UpdateFrequency",
     "StatusEventType",
+    "StatusItem",
+    "HealthMetric",
+    "ComponentHealth",
     "StatusEvent",
     "StatusMetrics",
     "ActivitySummary",
-    "LiveStatusSystem",
+    "run_smoke_test",
+    "main"
 ]

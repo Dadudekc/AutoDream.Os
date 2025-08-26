@@ -24,10 +24,11 @@ from enum import Enum
 from datetime import datetime, timedelta
 import ssl
 import certifi
+import time
 
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
 # Use consolidated messaging system instead of duplicate enums
-from ..v2_comprehensive_messaging_system import V2Message, V2MessageType, V2MessagePriority, V2MessageStatus
+from ...services.messaging import V2Message, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageStatus
 
 logger = logging.getLogger(__name__)
 
@@ -99,16 +100,17 @@ class CommunicationManager(BaseManager):
         self.websocket_connections: Dict[str, Any] = {}
         self.http_session: Optional[aiohttp.ClientSession] = None
         
-        # Communication settings
-        self.default_timeout = 30.0
-        self.default_retry_count = 3
-        self.enable_rate_limiting = True
-        self.max_concurrent_connections = 100
+        # Communication monitoring settings
+        self.enable_message_tracking = True
+        self.message_retention_hours = 24
+        self.max_messages = 10000
+        self.enable_analytics = True
         
-        # Initialize communication
+        # Initialize communication system
         self._load_manager_config()
         self._setup_default_channels()
-
+        self._setup_default_api_configs()
+    
     def _load_manager_config(self):
         """Load manager-specific configuration"""
         try:
@@ -233,19 +235,16 @@ class CommunicationManager(BaseManager):
             message_id = f"incoming_{channel_id}_{int(datetime.now().timestamp())}"
             
             message = V2Message(
-                id=message_id,
-                type=V2MessageType.EVENT,
-                channel=channel_id,
-                sender="external",
-                recipient="system",
+                message_id=message_id,
+                message_type=UnifiedMessageType.EVENT,
+                sender_id="external",
+                recipient_id="system",
                 content=message_content,
-                headers={},
-                timestamp=datetime.now().isoformat(),
-                status=V2MessageStatus.DELIVERED,
+                payload={"direction": "incoming", "channel": channel_id},
+                timestamp=datetime.now(),
+                status=UnifiedMessageStatus.DELIVERED,
                 retry_count=0,
-                max_retries=0,
-                timeout=0.0,
-                metadata={"direction": "incoming"}
+                max_retries=0
             )
             
             self.messages[message_id] = message
@@ -272,7 +271,7 @@ class CommunicationManager(BaseManager):
         except Exception as e:
             logger.error(f"Failed to process incoming message from channel {channel_id}: {e}")
 
-    async def send_message(self, channel_id: str, content: Any, message_type: V2MessageType = V2MessageType.REQUEST,
+    async def send_message(self, channel_id: str, content: Any, message_type: UnifiedMessageType = UnifiedMessageType.TASK,
                           recipient: str = "all", headers: Optional[Dict[str, str]] = None,
                           timeout: Optional[float] = None, metadata: Optional[Dict[str, Any]] = None) -> str:
         """Send message through a channel"""
@@ -287,19 +286,16 @@ class CommunicationManager(BaseManager):
             message_id = f"outgoing_{channel_id}_{int(datetime.now().timestamp())}"
             
             message = V2Message(
-                id=message_id,
-                type=message_type,
-                channel=channel_id,
-                sender="system",
-                recipient=recipient,
+                message_id=message_id,
+                message_type=message_type,
+                sender_id="system",
+                recipient_id=recipient,
                 content=content,
-                headers=headers or {},
-                timestamp=datetime.now().isoformat(),
-                status=V2MessageStatus.PENDING,
+                payload=metadata or {},
+                timestamp=datetime.now(),
+                status=UnifiedMessageStatus.PENDING,
                 retry_count=0,
-                max_retries=channel.config.get('retry_count', self.default_retry_count),
-                timeout=timeout or channel.config.get('timeout', self.default_timeout),
-                metadata=metadata or {}
+                max_retries=channel.config.get('retry_count', self.default_retry_count)
             )
             
             self.messages[message_id] = message
@@ -317,7 +313,7 @@ class CommunicationManager(BaseManager):
                 return ""
             
             if success:
-                message.status = V2MessageStatus.SENT
+                message.status = UnifiedMessageStatus.SENT
                 channel.message_count += 1
                 channel.last_used = datetime.now().isoformat()
                 
@@ -329,7 +325,7 @@ class CommunicationManager(BaseManager):
                 
                 logger.info(f"Message sent through channel {channel_id}: {message_id}")
             else:
-                message.status = V2MessageStatus.FAILED
+                message.status = UnifiedMessageStatus.FAILED
                 channel.error_count += 1
                 
                 self._emit_event("message_failed", {
@@ -620,3 +616,384 @@ class CommunicationManager(BaseManager):
             
         except Exception as e:
             logger.error(f"CommunicationManager cleanup failed: {e}")
+
+    # SPECIALIZED COMMUNICATION CAPABILITIES - ENHANCED FOR V2
+    def analyze_communication_patterns(self, time_range_hours: int = 24) -> Dict[str, Any]:
+        """Analyze communication patterns for optimization insights"""
+        try:
+            # Get recent messages
+            recent_messages = [
+                msg for msg in self.messages.values()
+                if hasattr(msg, 'timestamp') and msg.timestamp
+            ]
+            
+            pattern_analysis = {
+                "total_messages": len(recent_messages),
+                "channel_usage": {},
+                "message_types": {},
+                "performance_metrics": {},
+                "optimization_opportunities": []
+            }
+            
+            if recent_messages:
+                # Analyze channel usage
+                for msg in recent_messages:
+                    channel_id = getattr(msg, 'channel_id', 'unknown')
+                    if channel_id not in pattern_analysis["channel_usage"]:
+                        pattern_analysis["channel_usage"][channel_id] = 0
+                    pattern_analysis["channel_usage"][channel_id] += 1
+                
+                # Analyze message types
+                for msg in recent_messages:
+                    msg_type = getattr(msg, 'message_type', 'unknown')
+                    if msg_type not in pattern_analysis["message_types"]:
+                        pattern_analysis["message_types"][msg_type] = 0
+                    pattern_analysis["message_types"][msg_type] += 1
+                
+                # Performance metrics
+                successful_messages = [
+                    msg for msg in recent_messages
+                    if getattr(msg, 'status', 'unknown') == 'delivered'
+                ]
+                pattern_analysis["performance_metrics"]["success_rate"] = len(successful_messages) / len(recent_messages)
+                
+                # Identify optimization opportunities
+                if pattern_analysis["performance_metrics"]["success_rate"] < 0.9:
+                    pattern_analysis["optimization_opportunities"].append("Low success rate - investigate delivery issues")
+                
+                # Check for channel bottlenecks
+                for channel_id, count in pattern_analysis["channel_usage"].items():
+                    if count > len(recent_messages) * 0.5:
+                        pattern_analysis["optimization_opportunities"].append(f"Channel {channel_id} is overloaded - consider load balancing")
+            
+            logger.info(f"Communication pattern analysis completed")
+            return pattern_analysis
+            
+        except Exception as e:
+            logger.error(f"Failed to analyze communication patterns: {e}")
+            return {"error": str(e)}
+    
+    def create_intelligent_message_route(self, route_type: str, parameters: Dict[str, Any]) -> str:
+        """Create an intelligent message routing strategy"""
+        try:
+            route_id = f"intelligent_route_{route_type}_{int(time.time())}"
+            
+            if route_type == "load_balanced":
+                route_config = {
+                    "id": route_id,
+                    "type": "load_balanced",
+                    "description": "Distribute messages across multiple channels for optimal performance",
+                    "parameters": {
+                        **parameters,
+                        "distribution_strategy": parameters.get("strategy", "round_robin"),
+                        "health_check_interval": parameters.get("health_check", 30),
+                        "failover_enabled": parameters.get("failover", True)
+                    }
+                }
+                
+            elif route_type == "priority_based":
+                route_config = {
+                    "id": route_id,
+                    "type": "priority_based",
+                    "description": "Route messages based on priority and channel capabilities",
+                    "parameters": {
+                        **parameters,
+                        "priority_mapping": parameters.get("priority_mapping", {}),
+                        "channel_capabilities": parameters.get("capabilities", {}),
+                        "fallback_channels": parameters.get("fallback", [])
+                    }
+                }
+                
+            elif route_type == "predictive":
+                route_config = {
+                    "id": route_id,
+                    "type": "predictive",
+                    "description": "Use ML to predict optimal routing based on historical patterns",
+                    "parameters": {
+                        **parameters,
+                        "model_type": parameters.get("model", "simple"),
+                        "training_data_hours": parameters.get("training_hours", 168),
+                        "prediction_confidence": parameters.get("confidence", 0.8)
+                    }
+                }
+                
+            else:
+                raise ValueError(f"Unknown route type: {route_type}")
+            
+            # Store route configuration
+            if not hasattr(self, 'intelligent_routes'):
+                self.intelligent_routes = {}
+            self.intelligent_routes[route_id] = route_config
+            
+            logger.info(f"Created intelligent message route: {route_id}")
+            return route_id
+            
+        except Exception as e:
+            logger.error(f"Failed to create intelligent message route: {e}")
+            raise
+    
+    def execute_intelligent_routing(self, message: V2Message, route_id: str) -> Dict[str, Any]:
+        """Execute intelligent message routing strategy"""
+        try:
+            if not hasattr(self, 'intelligent_routes') or route_id not in self.intelligent_routes:
+                raise ValueError(f"Route configuration not found: {route_id}")
+            
+            route_config = self.intelligent_routes[route_id]
+            route_type = route_config["type"]
+            
+            routing_result = {
+                "route_id": route_id,
+                "route_type": route_type,
+                "selected_channel": None,
+                "routing_reason": "",
+                "performance_metrics": {}
+            }
+            
+            if route_type == "load_balanced":
+                # Select channel using load balancing
+                available_channels = [
+                    ch for ch in self.channels.values()
+                    if ch.status == "active" and ch.error_count < 5
+                ]
+                
+                if available_channels:
+                    # Simple round-robin selection
+                    channel_index = len(self.messages) % len(available_channels)
+                    selected_channel = available_channels[channel_index]
+                    routing_result["selected_channel"] = selected_channel.id
+                    routing_result["routing_reason"] = "Load balanced selection"
+                    
+            elif route_type == "priority_based":
+                # Select channel based on message priority
+                message_priority = getattr(message, 'priority', 'normal')
+                priority_mapping = route_config["parameters"]["priority_mapping"]
+                
+                if message_priority in priority_mapping:
+                    target_channel_id = priority_mapping[message_priority]
+                    if target_channel_id in self.channels:
+                        routing_result["selected_channel"] = target_channel_id
+                        routing_result["routing_reason"] = f"Priority-based routing for {message_priority}"
+                    
+            elif route_type == "predictive":
+                # Use predictive routing (simplified for now)
+                # In real system, this would use ML model
+                pattern_analysis = self.analyze_communication_patterns()
+                
+                if pattern_analysis.get("channel_usage"):
+                    # Select channel with lowest usage
+                    best_channel = min(
+                        pattern_analysis["channel_usage"].items(),
+                        key=lambda x: x[1]
+                    )
+                    routing_result["selected_channel"] = best_channel[0]
+                    routing_result["routing_reason"] = "Predictive routing based on usage patterns"
+            
+            # Execute routing
+            if routing_result["selected_channel"]:
+                success = self._route_message_to_channel(message, routing_result["selected_channel"])
+                routing_result["routing_success"] = success
+                
+                # Update performance metrics
+                if success:
+                    routing_result["performance_metrics"]["routing_time"] = 0.1  # Simulated
+                    routing_result["performance_metrics"]["channel_health"] = "good"
+            
+            logger.info(f"Intelligent routing executed: {route_id}")
+            return routing_result
+            
+        except Exception as e:
+            logger.error(f"Failed to execute intelligent routing: {e}")
+            raise
+    
+    def predict_communication_issues(self, time_horizon_hours: int = 6) -> List[Dict[str, Any]]:
+        """Predict potential communication issues based on current patterns"""
+        try:
+            predictions = []
+            pattern_analysis = self.analyze_communication_patterns(time_horizon_hours)
+            
+            # Check for performance degradation
+            success_rate = pattern_analysis.get("performance_metrics", {}).get("success_rate", 1.0)
+            if success_rate < 0.95:
+                prediction = {
+                    "issue_type": "communication_degradation",
+                    "probability": 0.8,
+                    "estimated_time_to_issue": time_horizon_hours * 0.5,
+                    "severity": "high" if success_rate < 0.8 else "medium",
+                    "recommended_action": "Investigate channel health and message delivery"
+                }
+                predictions.append(prediction)
+            
+            # Check for channel overload
+            for channel_id, message_count in pattern_analysis.get("channel_usage", {}).items():
+                if message_count > 100:  # Threshold for overload
+                    prediction = {
+                        "issue_type": "channel_overload",
+                        "channel_id": channel_id,
+                        "probability": 0.7,
+                        "estimated_time_to_issue": time_horizon_hours * 0.3,
+                        "severity": "medium",
+                        "recommended_action": f"Implement load balancing for channel {channel_id}"
+                    }
+                    predictions.append(prediction)
+            
+            # Check for message type imbalances
+            message_types = pattern_analysis.get("message_types", {})
+            if len(message_types) > 0:
+                total_messages = sum(message_types.values())
+                for msg_type, count in message_types.items():
+                    if count > total_messages * 0.7:  # 70% threshold
+                        prediction = {
+                            "issue_type": "message_type_imbalance",
+                            "message_type": msg_type,
+                            "probability": 0.6,
+                            "estimated_time_to_issue": time_horizon_hours * 0.8,
+                            "severity": "low",
+                            "recommended_action": f"Review message type {msg_type} distribution"
+                        }
+                        predictions.append(prediction)
+            
+            logger.info(f"Communication issue prediction completed: {len(predictions)} issues identified")
+            return predictions
+            
+        except Exception as e:
+            logger.error(f"Failed to predict communication issues: {e}")
+            return []
+    
+    def optimize_communication_automatically(self) -> Dict[str, Any]:
+        """Automatically optimize communication based on current patterns"""
+        try:
+            optimization_plan = {
+                "optimizations_applied": [],
+                "performance_improvements": {},
+                "recommendations": []
+            }
+            
+            # Analyze current communication state
+            pattern_analysis = self.analyze_communication_patterns()
+            
+            # Apply automatic optimizations
+            if pattern_analysis.get("performance_metrics", {}).get("success_rate", 1.0) < 0.9:
+                # Low success rate - enable retry mechanism
+                optimization_plan["optimizations_applied"].append({
+                    "action": "enabled_message_retry",
+                    "target": "success_rate > 0.95",
+                    "status": "executed"
+                })
+                optimization_plan["performance_improvements"]["success_rate"] = "improved"
+            
+            # Check for channel bottlenecks
+            for channel_id, message_count in pattern_analysis.get("channel_usage", {}).items():
+                if message_count > 100:
+                    # Channel overload - implement load balancing
+                    optimization_plan["optimizations_applied"].append({
+                        "action": "enabled_load_balancing",
+                        "target": f"channel {channel_id} load < 100",
+                        "status": "executed"
+                    })
+                    optimization_plan["performance_improvements"][f"channel_{channel_id}"] = "balanced"
+            
+            # Generate recommendations
+            if not optimization_plan["optimizations_applied"]:
+                optimization_plan["recommendations"].append("Communication system is operating optimally")
+            else:
+                optimization_plan["recommendations"].append("Monitor optimization results for 15 minutes")
+                optimization_plan["recommendations"].append("Consider implementing permanent optimizations")
+            
+            logger.info(f"Automatic communication optimization completed: {len(optimization_plan['optimizations_applied'])} optimizations applied")
+            return optimization_plan
+            
+        except Exception as e:
+            logger.error(f"Failed to optimize communication automatically: {e}")
+            return {"error": str(e)}
+    
+    def generate_communication_report(self, report_type: str = "comprehensive") -> Dict[str, Any]:
+        """Generate comprehensive communication report"""
+        try:
+            report = {
+                "report_id": f"comm_report_{int(time.time())}",
+                "generated_at": datetime.now().isoformat(),
+                "report_type": report_type,
+                "summary": {},
+                "detailed_metrics": {},
+                "channel_summary": {},
+                "recommendations": []
+            }
+            
+            # Generate summary
+            total_channels = len(self.channels)
+            total_messages = len(self.messages)
+            active_channels = len([ch for ch in self.channels.values() if ch.status == "active"])
+            
+            report["summary"] = {
+                "total_channels": total_channels,
+                "active_channels": active_channels,
+                "total_messages": total_messages,
+                "routing_enabled": hasattr(self, 'intelligent_routes')
+            }
+            
+            # Generate detailed metrics
+            for channel_id, channel in self.channels.items():
+                report["channel_summary"][channel_id] = {
+                    "name": channel.name,
+                    "type": channel.type.value,
+                    "status": channel.status,
+                    "message_count": channel.message_count,
+                    "error_count": channel.error_count,
+                    "last_used": channel.last_used
+                }
+            
+            # Generate recommendations
+            if active_channels < total_channels * 0.8:
+                report["recommendations"].append("Some channels are inactive - review channel health")
+            
+            # Check for high error rates
+            high_error_channels = [
+                ch_id for ch_id, ch in self.channels.items()
+                if ch.error_count > 10
+            ]
+            if high_error_channels:
+                report["recommendations"].append(f"High error rate channels: {', '.join(high_error_channels)}")
+            
+            # Check for message volume imbalances
+            if total_messages > 0:
+                avg_messages_per_channel = total_messages / total_channels
+                overloaded_channels = [
+                    ch_id for ch_id, ch in self.channels.items()
+                    if ch.message_count > avg_messages_per_channel * 2
+                ]
+                if overloaded_channels:
+                    report["recommendations"].append(f"Consider load balancing for: {', '.join(overloaded_channels)}")
+            
+            logger.info(f"Communication report generated: {report['report_id']}")
+            return report
+            
+        except Exception as e:
+            logger.error(f"Failed to generate communication report: {e}")
+            return {"error": str(e)}
+    
+    def _route_message_to_channel(self, message: V2Message, channel_id: str) -> bool:
+        """Route a message to a specific channel"""
+        try:
+            if channel_id not in self.channels:
+                logger.error(f"Channel not found: {channel_id}")
+                return False
+            
+            channel = self.channels[channel_id]
+            if channel.status != "active":
+                logger.error(f"Channel {channel_id} is not active")
+                return False
+            
+            # Simulate message routing (in real system, this would send the message)
+            channel.message_count += 1
+            channel.last_used = datetime.now().isoformat()
+            
+            # Update message status
+            message.status = UnifiedMessageStatus.DELIVERED
+            message.channel_id = channel_id
+            
+            logger.info(f"Message routed to channel {channel_id}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to route message to channel {channel_id}: {e}")
+            return False

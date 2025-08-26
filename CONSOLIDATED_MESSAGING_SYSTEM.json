@@ -1,0 +1,171 @@
+{
+  "consolidation_id": "messaging-system-consolidation-001",
+  "pattern_name": "Messaging System Duplication",
+  "priority": "CRITICAL",
+  "similarity_score": 85,
+  "estimated_effort": "High",
+  "estimated_savings": "60-70%",
+  
+  "duplication_analysis": {
+    "total_files_affected": 25,
+    "duplication_patterns": [
+      "Multiple Message Classes (9+ implementations)",
+      "Multiple MessagePriority Enums (6+ implementations)", 
+      "Multiple MessageStatus Enums (6+ implementations)",
+      "Multiple MessageQueue Systems (6+ implementations)",
+      "Multiple Communication Managers (5+ implementations)"
+    ],
+    "similarity_score": 85,
+    "estimated_file_reduction": "70%"
+  },
+  
+  "consolidation_strategy": {
+    "base_system": "src/core/v2_comprehensive_messaging_system.py",
+    "consolidation_approach": "Base System Consolidation",
+    "extraction_modules": [
+      "MessageCore (unified Message class)",
+      "MessageEnums (unified Priority/Status/Type)",
+      "MessageQueue (unified queue system)",
+      "CommunicationManager (unified manager)",
+      "MessageRouter (unified routing)"
+    ],
+    "specialized_implementations": [
+      "TaskMessage (task-specific)",
+      "SystemMessage (system-specific)",
+      "AgentMessage (agent-specific)",
+      "WorkflowMessage (workflow-specific)"
+    ]
+  },
+  
+  "consolidation_workflow": [
+    {
+      "step": 1,
+      "action": "Audit all messaging systems",
+      "description": "Identify all duplicate Message classes, enums, and systems",
+      "deliverable": "Complete duplication audit report",
+      "estimated_time": "2 hours"
+    },
+    {
+      "step": 2,
+      "action": "Choose base implementation",
+      "description": "Select V2ComprehensiveMessagingSystem as the base",
+      "deliverable": "Base system identified and documented",
+      "estimated_time": "1 hour"
+    },
+    {
+      "step": 3,
+      "action": "Extract common functionality",
+      "description": "Create unified MessageCore, MessageEnums, MessageQueue modules",
+      "deliverable": "Extracted modules with clean interfaces",
+      "estimated_time": "4 hours"
+    },
+    {
+      "step": 4,
+      "action": "Remove duplicate implementations",
+      "description": "Delete ALL duplicate Message classes and enums from other files",
+      "deliverable": "Duplicate code removed",
+      "estimated_time": "3 hours"
+    },
+    {
+      "step": 5,
+      "action": "Update all imports",
+      "description": "Change ALL imports to use the consolidated system",
+      "deliverable": "All imports updated",
+      "estimated_time": "2 hours"
+    },
+    {
+      "step": 6,
+      "action": "Create unified CLI",
+      "description": "Build ONE CLI for the ONE messaging system",
+      "deliverable": "Unified messaging CLI",
+      "estimated_time": "2 hours"
+    },
+    {
+      "step": 7,
+      "action": "Test consolidation",
+      "description": "Verify all functionality works with consolidated system",
+      "deliverable": "Consolidation tested and verified",
+      "estimated_time": "2 hours"
+    },
+    {
+      "step": 8,
+      "action": "Document changes",
+      "description": "Update documentation to reflect consolidated system",
+      "deliverable": "Updated documentation",
+      "estimated_time": "1 hour"
+    }
+  ],
+  
+  "files_to_consolidate": [
+    "src/services/simple_message_queue.py",
+    "src/core/messaging/formatter.py", 
+    "src/core/communication_compatibility_layer.py",
+    "src/services/middleware_tools.py",
+    "src/services/message_handler_v2.py",
+    "src/core/routing_models.py",
+    "src/services/agent_cell_phone.py",
+    "src/core/managers/communication_manager.py",
+    "src/web/integration/cross_agent_protocol.py",
+    "src/services/messaging/interfaces.py"
+  ],
+  
+  "files_to_remove": [
+    "src/services/simple_message_queue.py",
+    "src/core/messaging/formatter.py",
+    "src/core/communication_compatibility_layer.py",
+    "src/services/middleware_tools.py"
+  ],
+  
+  "dependencies": [
+    "src/core/v2_comprehensive_messaging_system.py",
+    "src/core/shared_enums.py",
+    "src/utils/stability_improvements.py"
+  ],
+  
+  "testing_strategy": {
+    "unit_tests": "Test each extracted module independently",
+    "integration_tests": "Test consolidated system end-to-end",
+    "migration_tests": "Verify all existing functionality still works",
+    "performance_tests": "Ensure no performance regression"
+  },
+  
+  "success_criteria": [
+    "ALL duplicate Message classes removed",
+    "ALL duplicate enums consolidated",
+    "ALL imports updated to use consolidated system",
+    "ONE unified messaging CLI created",
+    "All existing functionality preserved",
+    "No new duplication introduced"
+  ],
+  
+  "risk_mitigation": {
+    "risks": [
+      "Breaking existing functionality during consolidation",
+      "Missing edge cases in duplicate implementations",
+      "Import conflicts during migration"
+    ],
+    "mitigation": [
+      "Comprehensive testing before and after",
+      "Gradual migration with rollback capability",
+      "Thorough code review of all changes"
+    ]
+  },
+  
+  "deliverables": [
+    "Consolidated messaging system (V2ComprehensiveMessagingSystem enhanced)",
+    "Unified MessageCore module",
+    "Unified MessageEnums module", 
+    "Unified MessageQueue module",
+    "Unified CommunicationManager module",
+    "Unified messaging CLI",
+    "Updated import statements across codebase",
+    "Removed duplicate implementations",
+    "Consolidation testing report"
+  ],
+  
+  "estimated_timeline": "1-2 days",
+  "agent_requirements": "1-2 agents with messaging system expertise",
+  "priority_level": "CRITICAL",
+  "impact": "HIGH - Eliminates major duplication and improves maintainability"
+}
+

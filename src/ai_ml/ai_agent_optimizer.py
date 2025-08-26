@@ -1,9 +1,7 @@
-"""High level orchestrator for AI agent optimization.
+"""High level orchestrator for AI agent optimization - MIGRATED TO UNIFIED LEARNING ENGINE.
 
-This module wires together the core optimizer, performance tuner and
-resource manager.  It exposes a simple ``optimize`` method that can be
-used by other components without needing to know about the underlying
-modules.
+This module wires together the unified learning engine optimization capabilities.
+It exposes a simple ``optimize`` method that can be used by other components.
 """
 
 from __future__ import annotations
@@ -11,7 +9,8 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict
 
-from .ai_agent_optimizer_core import AIAgentOptimizerCore
+# MIGRATED: Using unified learning engine instead of local implementation
+from ..core.learning import UnifiedLearningEngine, LearningManager
 from .ai_agent_performance_tuner import AIAgentPerformanceTuner
 from .ai_agent_resource_manager import AIAgentResourceManager
 
@@ -19,17 +18,19 @@ logger = logging.getLogger(__name__)
 
 
 class AIAgentOptimizer:
-    """Coordinate optimization, tuning and resource management."""
+    """Coordinate optimization using unified learning engine - MIGRATED TO UNIFIED ENGINE."""
 
     def __init__(self) -> None:
-        self.core = AIAgentOptimizerCore()
+        # MIGRATED: Using unified learning engine instead of local AIAgentOptimizerCore
+        self.learning_engine = UnifiedLearningEngine()
+        self.learning_manager = LearningManager()
         self.tuner = AIAgentPerformanceTuner()
         self.resources = AIAgentResourceManager()
 
     def optimize(self, state: Dict[str, Any], metrics: Dict[str, float]) -> Dict[str, Any]:
-        """Optimize an agent state based on current metrics.
+        """Optimize an agent state based on current metrics - MIGRATED TO UNIFIED ENGINE.
 
-        The method allocates minimal resources, applies registered
+        The method allocates minimal resources, applies unified learning engine
         optimization strategies and optionally performs performance tuning
         if metrics indicate sub‑optimal behaviour.  Resources are released
         after processing regardless of success.
@@ -37,7 +38,8 @@ class AIAgentOptimizer:
 
         self.resources.allocate({"cpu": 1})
         try:
-            optimized = self.core.optimize(state)
+            # MIGRATED: Using unified learning engine optimization
+            optimized = self.learning_engine.optimize_agent_state(state, metrics)
             if self.tuner.assess(metrics):
                 optimized = self.tuner.tune(optimized)
             return optimized

@@ -18,7 +18,7 @@ from typing import Dict, Any, List, Optional
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from ..core.unified_onboarding_system import UnifiedOnboardingSystem, create_onboarding_system
-from ..core.fsm_core_v2 import FSMCoreV2
+from ..core.fsm import FSMSystemManager
 from ..core.workspace_manager import WorkspaceManager
 
 # Configure logging
@@ -40,7 +40,7 @@ class UnifiedOnboardingLauncher:
         
         # Core components
         self.onboarding_system: Optional[UnifiedOnboardingSystem] = None
-        self.fsm_core: Optional[FSMCoreV2] = None
+        self.fsm_system_manager: Optional[FSMSystemManager] = None
         self.workspace_manager: Optional[WorkspaceManager] = None
         
         # Onboarding state
@@ -91,7 +91,7 @@ class UnifiedOnboardingLauncher:
             
             # Initialize FSM core
             fsm_data_path = self.config.get("fsm_data_path", "fsm_data")
-            self.fsm_core = FSMCoreV2(workspace_path, fsm_data_path)
+            self.fsm_system_manager = FSMSystemManager()
             logger.info("FSM core initialized")
             
             # Initialize unified onboarding system

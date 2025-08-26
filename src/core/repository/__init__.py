@@ -1,46 +1,35 @@
 #!/usr/bin/env python3
 """
-Repository Scanner Package
-==========================
+Repository System Package - V2 Unified Architecture
+==================================================
 
-A comprehensive repository scanning and analysis system with:
-- Repository discovery
-- Technology stack detection
-- Architecture analysis
-- Security assessment
-- Performance metrics
-- Report generation
+CONSOLIDATED repository system - single RepositorySystemManager replaces 16 separate files.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
 
-Author: Agent-1 (Performance & Health Systems)
+Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-from .discovery_engine import RepositoryDiscoveryEngine, DiscoveryConfig
-from .technology_detector import TechnologyDetector, TechnologyStack
-from .analysis_engine import RepositoryAnalysisEngine, AnalysisResult
-from .report_generator import RepositoryReportGenerator
-from .repository_metadata import RepositoryMetadata, RepositoryMetadataManager
-from .report_export import ReportExportManager
-from .technology_database import TechnologyDatabase
-from .version_detector import VersionDetector
-from .repository_scanner import RepositoryScanner
+from ..managers.repository_system_manager import (
+    RepositorySystemManager,
+    RepositoryMetadata,
+    TechnologyStack,
+    AnalysisResult,
+    DiscoveryConfig,
+    DiscoveryStatus,
+    TechnologyType
+)
 
 __version__ = "2.0.0"
-__author__ = "Agent-1 (Performance & Health Systems)"
+__author__ = "V2 SWARM CAPTAIN"
 __license__ = "MIT"
 
 __all__ = [
-    "RepositoryDiscoveryEngine",
-    "DiscoveryConfig",
-    "TechnologyDetector",
+    "RepositorySystemManager",
+    "RepositoryMetadata", 
     "TechnologyStack",
-    "RepositoryAnalysisEngine",
     "AnalysisResult",
-    "RepositoryReportGenerator",
-    "RepositoryMetadata",
-    "RepositoryMetadataManager",
-    "ReportExportManager",
-    "TechnologyDatabase",
-    "VersionDetector",
-    "RepositoryScanner",
+    "DiscoveryConfig",
+    "DiscoveryStatus",
+    "TechnologyType"
 ]

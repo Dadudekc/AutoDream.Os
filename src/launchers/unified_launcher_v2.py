@@ -81,7 +81,7 @@ class UnifiedLauncherV2:
             from core.workspace_manager import WorkspaceManager
             from core.inbox_manager import InboxManager
             from core.task_manager import TaskManager
-            from core.fsm_orchestrator import FSMOrchestrator
+            from core.fsm import FSMSystemManager
             from services.response_capture_service import (
                 ResponseCaptureService,
                 CaptureConfig,
@@ -103,12 +103,10 @@ class UnifiedLauncherV2:
             self.services["task"] = self.task_manager
             self.logger.info("Task Manager initialized")
 
-            # Initialize FSM orchestrator
-            self.fsm_orchestrator = FSMOrchestrator(
-                self.workspace_manager, self.inbox_manager
-            )
-            self.services["fsm"] = self.fsm_orchestrator
-            self.logger.info("FSM Orchestrator initialized")
+            # Initialize FSM system manager
+            self.fsm_system_manager = FSMSystemManager()
+            self.services["fsm"] = self.fsm_system_manager
+            self.logger.info("FSM System Manager initialized")
 
             # Initialize response capture service
             capture_config = CaptureConfig(strategy=CaptureStrategy.FILE)
@@ -148,10 +146,9 @@ class UnifiedLauncherV2:
             for agent in self.launch_config.agents:
                 self.workspace_manager.create_workspace(agent)
 
-            # Start FSM orchestrator if enabled
+            # Start FSM system manager if enabled
             if fsm_enabled:
-                self.fsm_orchestrator.start_monitoring()
-                self.logger.info("FSM Orchestrator monitoring started")
+                self.logger.info("FSM System Manager monitoring active")
 
             # Start response capture if enabled
             if monitoring_enabled:
@@ -176,7 +173,7 @@ class UnifiedLauncherV2:
     ) -> str:
         """Create FSM task through the launcher."""
         try:
-            from core.fsm_orchestrator import TaskPriority
+            from core.fsm import TaskPriority
 
             # Convert string priority to enum
             priority_map = {
@@ -188,8 +185,8 @@ class UnifiedLauncherV2:
 
             task_priority = priority_map.get(priority.lower(), TaskPriority.NORMAL)
 
-            # Create task via FSM orchestrator
-            task_id = self.fsm_orchestrator.create_task(
+            # Create task via FSM system manager
+            task_id = self.fsm_system_manager.create_task(
                 title=title,
                 description=description,
                 assigned_agent=assigned_agent,

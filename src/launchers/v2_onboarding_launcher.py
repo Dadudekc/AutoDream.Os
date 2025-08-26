@@ -22,7 +22,7 @@ from pathlib import Path
 # Import V2 components
 from ..core.v2_onboarding_sequence import V2OnboardingSequence
 from ..core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
-from ..core.fsm_core_v2 import FSMCoreV2
+from ..core.fsm import FSMSystemManager
 from ..core.workspace_manager import WorkspaceManager
 
 # Configure logging
@@ -45,7 +45,7 @@ class V2OnboardingLauncher:
         # Core components
         self.onboarding_sequence: Optional[V2OnboardingSequence] = None
         self.messaging_system: Optional[V2ComprehensiveMessagingSystem] = None
-        self.fsm_core: Optional[FSMCoreV2] = None
+        self.fsm_system_manager: Optional[FSMSystemManager] = None
         self.workspace_manager: Optional[WorkspaceManager] = None
 
         # Onboarding state
@@ -80,7 +80,7 @@ class V2OnboardingLauncher:
 
             # Initialize FSM core
             fsm_data_path = self.config.get("fsm_data_path", "fsm_data")
-            self.fsm_core = FSMCoreV2(fsm_data_path)
+            self.fsm_system_manager = FSMSystemManager()
             logger.info("FSM core initialized")
 
             # Initialize messaging system

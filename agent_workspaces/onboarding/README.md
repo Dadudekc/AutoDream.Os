@@ -37,14 +37,16 @@ This workspace contains onboarding system artifacts and configurations, includin
 ### **For New Agents**
 1. Complete foundation training modules
 2. **Complete SSOT training and certification** 🆕
-3. Pass all assessments (85% minimum)
-4. Receive role-specific assignments
+3. **Run role validation script** 🆕 - `python scripts/onboarding/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
+4. Pass all assessments (85% minimum)
+5. Receive role-specific assignments
 
 ### **For Existing Agents**
 1. **Complete SSOT training immediately** 🆕
-2. Review agent-specific responsibilities
-3. Practice with troubleshooting guide
-4. Get certified in SSOT procedures
+2. **Run role validation script** 🆕 - `python scripts/onboarding/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
+3. Review agent-specific responsibilities
+4. Practice with troubleshooting guide
+5. Get certified in SSOT procedures
 
 ## Training Materials
 
@@ -57,6 +59,9 @@ This workspace contains onboarding system artifacts and configurations, includin
 - **`ssot_practical_exercises.md`** 🆕 - **Hands-on exercises**
 - **`ssot_troubleshooting_guide.md`** 🆕 - **SSOT issue resolution**
 - **`ssot_agent_responsibilities_matrix.md`** 🆕 - **Role-specific duties**
+
+### **Scripts**: `scripts/`
+- **`validate_phase2_roles.py`** 🆕 - **Role validation and correction script**
 
 ### **Protocols**: `protocols/`
 - `v2_onboarding_protocol.json` - Updated with SSOT training phase
@@ -74,9 +79,10 @@ This workspace contains onboarding system artifacts and configurations, includin
 
 ### **All Agents Must Complete**
 1. ✅ **SSOT Compliance Training** - Complete within 24 hours
-2. ✅ **Practical Exercises** - Demonstrate proficiency
-3. ✅ **Certification Assessment** - Pass with 85% minimum
-4. ✅ **Role Responsibilities Review** - Understand specific duties
+2. ✅ **Role Validation** 🆕 - Run validation script to confirm correct Phase 2 role
+3. ✅ **Practical Exercises** - Demonstrate proficiency
+4. ✅ **Certification Assessment** - Pass with 85% minimum
+5. ✅ **Role Responsibilities Review** - Understand specific duties
 
 ### **Agent-4 (Quality Assurance)**
 - **Primary SSOT Guardian** - Special responsibilities

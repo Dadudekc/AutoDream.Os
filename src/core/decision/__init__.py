@@ -1,44 +1,102 @@
 #!/usr/bin/env python3
 """
-Decision Package - Agent Cellphone V2
-=====================================
+Decision System - Agent Cellphone V2
+====================================
 
-Refactored decision-making engine system.
-Follows V2 standards: ≤200 LOC, SRP, OOP principles.
+Modular decision-making system with algorithms, workflows, and rules.
+Follows V2 standards: SRP, OOP design, modular architecture.
+
+Author: Agent-1 (Integration & Core Systems)
+License: MIT
 """
 
-from .decision_types import (
-    DecisionType,
-    DecisionStatus,
-    DecisionPriority,
-    DecisionRequest,
-    DecisionResult,
-    DecisionContext,
-    DecisionConfidence,
-    LearningMode,
-    IntelligenceLevel,
-    LearningData,
-    AgentCapability,
-    DataIntegrityLevel,
+# Core decision system
+from .decision_core import DecisionCore, DecisionCoreConfig
+
+# Specialized components
+from .decision_algorithms import DecisionAlgorithmExecutor, AlgorithmPerformance
+from .decision_workflows import DecisionWorkflowExecutor, WorkflowStep, WorkflowExecution
+from .decision_rules import DecisionRuleEngine, RuleEvaluationResult, RulePerformance
+
+# Main decision manager (orchestrates all components)
+from .decision_manager import DecisionManager, DecisionManagerConfig
+
+# Models and types
+from .decision_models import (
+    DecisionRequest, DecisionResult, DecisionContext, DecisionType,
+    DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
+    DecisionRule, DecisionMetrics, DecisionWorkflow, DecisionCollaboration
 )
 
-from .decision_core import DecisionMakingEngine as AutonomousDecisionEngine  # Backward compatibility alias
-from .learning_engine import LearningEngine
+# Factory functions for easy component creation
+def create_decision_core(manager_id: str, name: str = "Decision Core", description: str = "") -> DecisionCore:
+    """Create a new decision core instance."""
+    return DecisionCore(manager_id, name, description)
 
-# Backward compatibility
+def create_decision_manager(manager_id: str, name: str = "Decision Manager", description: str = "") -> DecisionManager:
+    """Create a new decision manager instance."""
+    return DecisionManager(manager_id, name, description)
+
+def create_algorithm_executor() -> DecisionAlgorithmExecutor:
+    """Create a new algorithm executor instance."""
+    return DecisionAlgorithmExecutor()
+
+def create_workflow_executor() -> DecisionWorkflowExecutor:
+    """Create a new workflow executor instance."""
+    return DecisionWorkflowExecutor()
+
+def create_rule_engine() -> DecisionRuleEngine:
+    """Create a new rule engine instance."""
+    return DecisionRuleEngine()
+
+# Backward compatibility aliases
+DecisionCoreV2 = DecisionCore
+DecisionAlgorithmManager = DecisionAlgorithmExecutor
+DecisionWorkflowManager = DecisionWorkflowExecutor
+DecisionRuleManager = DecisionRuleEngine
+
+# Export all components
 __all__ = [
-    "DecisionType",
-    "DecisionStatus",
-    "DecisionPriority",
+    # Core system
+    "DecisionCore",
+    "DecisionCoreConfig",
+    "DecisionManager",
+    "DecisionManagerConfig",
+    
+    # Specialized components
+    "DecisionAlgorithmExecutor",
+    "DecisionWorkflowExecutor",
+    "DecisionRuleEngine",
+    "AlgorithmPerformance",
+    "WorkflowStep",
+    "WorkflowExecution",
+    "RuleEvaluationResult",
+    "RulePerformance",
+    
+    # Models and types
     "DecisionRequest",
     "DecisionResult",
     "DecisionContext",
+    "DecisionType",
+    "DecisionPriority",
+    "DecisionStatus",
     "DecisionConfidence",
-    "LearningMode",
-    "IntelligenceLevel",
-    "LearningData",
-    "AgentCapability",
-    "DataIntegrityLevel",
-    "AutonomousDecisionEngine",
-    "LearningEngine",
+    "DecisionAlgorithm",
+    "DecisionRule",
+    "DecisionMetrics",
+    "DecisionWorkflow",
+    "DecisionCollaboration",
+    
+    # Factory functions
+    "create_decision_core",
+    "create_decision_manager",
+    "create_algorithm_executor",
+    "create_workflow_executor",
+    "create_rule_engine",
+    
+    # Backward compatibility
+    "DecisionCoreV2",
+    "DecisionAlgorithmManager",
+    "DecisionWorkflowManager",
+    "DecisionRuleManager"
 ]

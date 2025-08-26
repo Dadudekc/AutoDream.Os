@@ -1,0 +1,335 @@
+{
+  "contract_id": "MC-001",
+  "contract_type": "Manager Class Proliferation Consolidation",
+  "priority": "CRITICAL",
+  "estimated_hours": 40,
+  "status": "IN_PROGRESS",
+  "assigned_agent": "V2_SWARM_CAPTAIN",
+  
+  "description": "Consolidate 42 duplicate manager files into 8 specialized managers inheriting from BaseManager, eliminating 80% code duplication and improving maintainability by 50-60%.",
+  
+  "problem_statement": {
+    "issue": "Manager Class Proliferation - 42 manager files with 80% similarity",
+    "impact": "Severe code duplication, maintenance overhead, inconsistent interfaces",
+    "scope": "Entire codebase affected - every system uses managers",
+    "duplication_rate": "80% similarity across all manager files"
+  },
+  
+  "consolidation_strategy": {
+    "approach": "BaseManager + Specialized Managers + Orchestrator",
+    "files_before": 42,
+    "files_after": 10,
+    "reduction_percentage": 76,
+    "duplication_eliminated": "80%",
+    "maintenance_effort_reduction": "50-60%"
+  },
+  
+  "new_architecture": {
+    "base_manager": {
+      "file": "src/core/base_manager.py",
+      "responsibility": "Common manager functionality (CRUD, events, config, status, lifecycle, error handling, metrics)",
+      "lines_of_code": 400,
+      "features": [
+        "CRUD operations (Create, Read, Update, Delete)",
+        "Event handling and callbacks",
+        "Configuration management",
+        "Status tracking and monitoring",
+        "Lifecycle management",
+        "Error handling and logging",
+        "Metrics collection and reporting",
+        "Threading and persistence"
+      ]
+    },
+    
+    "specialized_managers": [
+      {
+        "name": "SystemManager",
+        "file": "src/core/managers/system_manager.py",
+        "responsibility": "Core system operations, agent management, workspace management",
+        "replaces_files": [
+          "src/core/agent_manager.py",
+          "src/core/core_manager.py",
+          "src/core/repository/system_manager.py",
+          "src/core/workspace_manager.py",
+          "src/core/persistent_storage_manager.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "ConfigManager",
+        "file": "src/core/managers/config_manager.py",
+        "responsibility": "Configuration management, validation, loading, saving",
+        "replaces_files": [
+          "src/core/config_manager.py",
+          "src/core/config_manager_core.py",
+          "src/core/config_manager_loader.py",
+          "src/core/config_manager_validator.py",
+          "src/core/config_manager_config.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "StatusManager",
+        "file": "src/core/managers/status_manager.py",
+        "responsibility": "Status tracking, reporting, monitoring, health checks",
+        "replaces_files": [
+          "src/core/status_manager.py",
+          "src/core/status_manager_core.py",
+          "src/core/status_manager_tracker.py",
+          "src/core/status_manager_reporter.py",
+          "src/core/status_manager_config.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "TaskManager",
+        "file": "src/core/managers/task_manager.py",
+        "responsibility": "Task management, scheduling, workflow coordination",
+        "replaces_files": [
+          "src/core/task_manager.py",
+          "src/autonomous_development/tasks/manager.py",
+          "src/core/task_management/task_scheduler_manager.py",
+          "src/autonomous_development/workflow/manager.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "DataManager",
+        "file": "src/core/managers/data_manager.py",
+        "responsibility": "Data management, storage, analytics, financial data",
+        "replaces_files": [
+          "src/services/testing/data_manager.py",
+          "src/services/financial/sentiment/data_manager.py",
+          "src/services/financial/analytics/data_manager.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "CommunicationManager",
+        "file": "src/core/managers/communication_manager.py",
+        "responsibility": "Communication channels, API management, messaging coordination",
+        "replaces_files": [
+          "src/services/communication/channel_manager.py",
+          "src/services/communication_manager.py",
+          "src/services/api_manager.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "HealthManager",
+        "file": "src/core/managers/health_manager.py",
+        "responsibility": "Health monitoring, alerts, thresholds, notifications",
+        "replaces_files": [
+          "src/core/health_alert_manager.py",
+          "src/core/health_threshold_manager.py",
+          "src/core/health/monitoring/health_notification_manager.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      },
+      {
+        "name": "PerformanceManager",
+        "file": "src/core/managers/performance_manager.py",
+        "responsibility": "Performance monitoring, alerts, benchmarks, connection pools",
+        "replaces_files": [
+          "src/core/performance/alerts/manager.py",
+          "src/core/connection_pool_manager.py"
+        ],
+        "lines_of_code": 200,
+        "inherits_from": "BaseManager"
+      }
+    ],
+    
+    "orchestrator": {
+      "name": "ManagerOrchestrator",
+      "file": "src/core/manager_orchestrator.py",
+      "responsibility": "Coordinate all managers, handle dependencies, health monitoring, auto-recovery",
+      "lines_of_code": 400,
+      "features": [
+        "Manager registration and lifecycle",
+        "Dependency management",
+        "Startup ordering",
+        "Health monitoring",
+        "Auto-recovery",
+        "Performance metrics",
+        "Unified interface"
+      ]
+    }
+  },
+  
+  "files_to_remove": [
+    "src/core/agent_manager.py",
+    "src/core/core_manager.py",
+    "src/core/repository/system_manager.py",
+    "src/core/workspace_manager.py",
+    "src/core/persistent_storage_manager.py",
+    "src/core/config_manager.py",
+    "src/core/config_manager_core.py",
+    "src/core/config_manager_loader.py",
+    "src/core/config_manager_validator.py",
+    "src/core/config_manager_config.py",
+    "src/core/status_manager.py",
+    "src/core/status_manager_core.py",
+    "src/core/status_manager_tracker.py",
+    "src/core/status_manager_reporter.py",
+    "src/core/status_manager_config.py",
+    "src/core/task_manager.py",
+    "src/autonomous_development/tasks/manager.py",
+    "src/core/task_management/task_scheduler_manager.py",
+    "src/autonomous_development/workflow/manager.py",
+    "src/services/testing/data_manager.py",
+    "src/services/financial/sentiment/data_manager.py",
+    "src/services/financial/analytics/data_manager.py",
+    "src/services/communication/channel_manager.py",
+    "src/services/communication_manager.py",
+    "src/services/api_manager.py",
+    "src/core/health_alert_manager.py",
+    "src/core/health_threshold_manager.py",
+    "src/core/health/monitoring/health_notification_manager.py",
+    "src/core/performance/alerts/manager.py",
+    "src/core/connection_pool_manager.py",
+    "src/core/swarm_integration_manager.py",
+    "src/core/screen_region_manager.py",
+    "src/core/task_management/task_scheduler_manager.py",
+    "src/core/status_manager_tracker.py",
+    "src/core/status_manager_reporter.py",
+    "src/core/status_manager_core.py",
+    "src/ai_ml/dev_workflow_manager.py",
+    "src/ai_ml/api_key_manager.py",
+    "src/ai_ml/ai_agent_resource_manager.py",
+    "src/testing/dependency_manager.py",
+    "src/core/recovery_manager.py"
+  ],
+  
+  "files_to_create": [
+    "src/core/base_manager.py",
+    "src/core/manager_orchestrator.py",
+    "src/core/managers/system_manager.py",
+    "src/core/managers/config_manager.py",
+    "src/core/managers/status_manager.py",
+    "src/core/managers/task_manager.py",
+    "src/core/managers/data_manager.py",
+    "src/core/managers/communication_manager.py",
+    "src/core/managers/health_manager.py",
+    "src/core/managers/performance_manager.py"
+  ],
+  
+  "migration_steps": [
+    {
+      "step": 1,
+      "description": "Create BaseManager with common functionality",
+      "status": "COMPLETED",
+      "files": ["src/core/base_manager.py"]
+    },
+    {
+      "step": 2,
+      "description": "Create ManagerOrchestrator for coordination",
+      "status": "COMPLETED",
+      "files": ["src/core/manager_orchestrator.py"]
+    },
+    {
+      "step": 3,
+      "description": "Create specialized managers inheriting from BaseManager",
+      "status": "PENDING",
+      "files": [
+        "src/core/managers/system_manager.py",
+        "src/core/managers/config_manager.py",
+        "src/core/managers/status_manager.py",
+        "src/core/managers/task_manager.py",
+        "src/core/managers/data_manager.py",
+        "src/core/managers/communication_manager.py",
+        "src/core/managers/health_manager.py",
+        "src/core/managers/performance_manager.py"
+      ]
+    },
+    {
+      "step": 4,
+      "description": "Update imports in all files to use new manager system",
+      "status": "PENDING",
+      "files": "ALL_FILES_THAT_IMPORT_MANAGERS"
+    },
+    {
+      "step": 5,
+      "description": "Remove old manager files",
+      "status": "PENDING",
+      "files": "42_FILES_LISTED_ABOVE"
+    },
+    {
+      "step": 6,
+      "description": "Test new manager system",
+      "status": "PENDING",
+      "files": "ALL_NEW_MANAGER_FILES"
+    }
+  ],
+  
+  "success_criteria": [
+    "All 42 duplicate manager files removed",
+    "8 specialized managers created and functional",
+    "BaseManager provides 80% of common functionality",
+    "ManagerOrchestrator coordinates all managers",
+    "All imports updated to use new system",
+    "No broken references or import errors",
+    "All tests pass with new manager system",
+    "Performance maintained or improved",
+    "Maintenance effort reduced by 50-60%"
+  ],
+  
+  "testing_requirements": [
+    "Unit tests for BaseManager functionality",
+    "Unit tests for each specialized manager",
+    "Integration tests for ManagerOrchestrator",
+    "Migration tests to ensure no functionality lost",
+    "Performance tests to ensure no regression",
+    "Import tests to ensure all references updated"
+  ],
+  
+  "rollback_plan": {
+    "description": "If issues arise, restore original manager files and revert imports",
+    "backup_location": "backup/original_managers/",
+    "rollback_commands": [
+      "git checkout HEAD~1 -- src/core/*manager*.py",
+      "git checkout HEAD~1 -- src/services/*manager*.py",
+      "git checkout HEAD~1 -- src/autonomous_development/*/manager.py",
+      "git checkout HEAD~1 -- src/ai_ml/*manager*.py"
+    ]
+  },
+  
+  "estimated_impact": {
+    "code_reduction": "~4,000 lines → ~1,200 lines (70% reduction)",
+    "file_reduction": "42 files → 10 files (76% reduction)",
+    "duplication_elimination": "80% of duplicate code removed",
+    "maintenance_improvement": "50-60% reduction in maintenance effort",
+    "consistency_improvement": "100% consistent manager interfaces",
+    "performance_improvement": "Expected 10-20% improvement due to reduced overhead"
+  },
+  
+  "dependencies": [
+    "src/utils/stability_improvements.py",
+    "Python standard library modules",
+    "No external dependencies required"
+  ],
+  
+  "completion_criteria": [
+    "All 42 duplicate files removed",
+    "All 10 new files created and functional",
+    "All imports updated successfully",
+    "All tests passing",
+    "No broken references",
+    "Performance maintained or improved",
+    "Documentation updated"
+  ],
+  
+  "created_by": "V2_SWARM_CAPTAIN",
+  "created_date": "2024-12-19",
+  "target_completion_date": "2024-12-26",
+  "priority": "CRITICAL",
+  "effort_estimate": "40 hours",
+  "complexity": "HIGH",
+  "risk_level": "MEDIUM"
+}

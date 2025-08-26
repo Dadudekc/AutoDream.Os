@@ -1,0 +1,13 @@
+{
+  "name": "test_workspace_3ba5e9d4",
+  "workspace_type": "WorkspaceType.TEMPORARY",
+  "base_path": "agent_workspaces\\test_workspace_3ba5e9d4",
+  "permissions": [
+    "read",
+    "write"
+  ],
+  "isolation_level": "standard",
+  "max_size_mb": 1000,
+  "auto_cleanup": true,
+  "backup_enabled": true
+}

@@ -15,15 +15,21 @@ import logging
 import re
 from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime
+from dataclasses import dataclass
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Import enums and data structures from main file
-from ..v2_comprehensive_messaging_system import (
-    V2MessageType, V2MessagePriority, V2MessageStatus,
-    V2Message, V2AgentInfo
-)
+# Import enums and data structures from consolidated modules
+from ..types.v2_message_enums import V2MessageType, V2MessagePriority, V2MessageStatus
+from ..models.v2_message import V2Message
+
+# Define missing classes for compatibility
+@dataclass
+class V2AgentInfo:
+    """Agent information for validation"""
+    agent_id: str
+    status: str
 
 
 class V2MessageValidator:

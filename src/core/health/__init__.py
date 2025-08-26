@@ -1,95 +1,62 @@
+#!/usr/bin/env python3
 """
-Agent Health Monitoring Package
+Health Package - V2 Modular Architecture
+=======================================
 
-This package contains modules for comprehensive agent health monitoring,
-including core monitoring, metrics collection, alerting, and reporting.
+Unified health management system with modular components.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
+
+Author: V2 SWARM CAPTAIN
+License: MIT
 """
 
-from .monitoring.core import (
-    AgentHealthCoreMonitor,
-    HealthStatus,
-    HealthMetricType,
-    HealthMetric,
-    HealthSnapshot,
-    HealthThreshold,
+# Main unified system
+from .unified_health_manager import UnifiedHealthManager
+
+# Core types
+from .types.health_types import (
+    HealthLevel, AlertType, NotificationChannel, HealthMetric, 
+    HealthAlert, NotificationConfig, HealthThreshold, HealthTrend, RecoveryAction
 )
 
-from .metrics import (
-    MetricSourceAdapter,
-    SystemMetricsAdapter,
-    MetricAggregator,
-    AsyncScheduler,
-    CollectorFacade,
-    Metric,
-)
+# Modular components
+from .monitoring.health_monitoring_manager import HealthMonitoringManager
+from .alerting.health_alert_manager import HealthAlertManager
+from .analysis.health_analysis_manager import HealthAnalysisManager
+from .notifications.health_notification_manager import HealthNotificationManager
+from .recovery.health_recovery_manager import HealthRecoveryManager
 
-from .alerting import (
-    generate_alert,
-    send_alert_notifications,
-    check_escalations,
-    AlertSeverity,
-    AlertStatus,
-    NotificationChannel,
-    EscalationLevel,
-    AlertRule,
-    HealthAlert,
-    NotificationConfig,
-    EscalationPolicy,
-)
-
-from .reporting import (
-    HealthReportingGenerator,
-    ReportType,
-    ReportFormat,
-    ReportConfig,
-    HealthReport,
-    ReportGenerator,
-    ReportFormatter,
-    ReportDelivery,
-)
+# Backwards compatibility aliases
+HealthManager = UnifiedHealthManager
+HealthAlertManager = UnifiedHealthManager
+HealthThresholdManager = UnifiedHealthManager
+HealthNotificationManager = UnifiedHealthManager
 
 __all__ = [
-    # Core Monitoring
-    "AgentHealthCoreMonitor",
-    "HealthStatus",
-    "HealthMetricType",
-    "HealthMetric",
-    "HealthSnapshot",
-    "HealthAlert",
-    "HealthThreshold",
-
-    # Metrics Collection
-    "MetricSourceAdapter",
-    "SystemMetricsAdapter",
-    "MetricAggregator",
-    "AsyncScheduler",
-    "CollectorFacade",
-    "Metric",
-
-    # Alerting
-    "generate_alert",
-    "send_alert_notifications",
-    "check_escalations",
-    "AlertSeverity",
-    "AlertStatus",
+    # Main system
+    "UnifiedHealthManager",
+    
+    # Core types
+    "HealthLevel",
+    "AlertType", 
     "NotificationChannel",
-    "EscalationLevel",
-    "AlertRule",
+    "HealthMetric",
     "HealthAlert",
     "NotificationConfig",
-    "EscalationPolicy",
-
-    # Reporting
-    "HealthReportingGenerator",
-    "ReportType",
-    "ReportFormat",
-    "ReportConfig",
-    "HealthReport",
-    "ReportGenerator",
-    "ReportFormatter",
-    "ReportDelivery",
+    "HealthThreshold",
+    "HealthTrend",
+    "RecoveryAction",
+    
+    # Modular components
+    "HealthMonitoringManager",
+    "HealthAlertManager",
+    "HealthAnalysisManager",
+    "HealthNotificationManager",
+    "HealthRecoveryManager",
+    
+    # Backwards compatibility
+    "HealthManager",
+    "HealthAlertManager",
+    "HealthThresholdManager",
+    "HealthNotificationManager",
 ]
-
-__version__ = "1.0.0"
-__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"
-__description__ = "Comprehensive agent health monitoring system"

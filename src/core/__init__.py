@@ -29,16 +29,18 @@ try:
     from .decision import AutonomousDecisionEngine, LearningEngine
 
     # FSM system components
-    from .fsm_core_v2 import FSMCoreV2
-    from .fsm_discord_bridge import FSMDiscordBridge
+    from .fsm import FSMSystemManager
+
+    # Status system components
+    from .status import StatusManager
 
     __all__ = [
         "PerformanceMonitor",
         "HealthScoreCalculator",
         "AutonomousDecisionEngine",
         "LearningEngine",
-        "FSMCoreV2",
-        "FSMDiscordBridge",
+        "FSMSystemManager",
+        "StatusManager",
     ]
 except ImportError as e:
     print(f"⚠️ Warning: Some core components not available: {e}")

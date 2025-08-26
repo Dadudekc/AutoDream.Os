@@ -1,29 +1,58 @@
-"""Backward-compatible imports for health monitoring components."""
+"""Unified Health Monitoring Core - Consolidated from monitoring/ and monitoring_new/"""
 
-from ..monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitoringOrchestrator
+# Import unified monitoring functionality from consolidated core
+from .health_core import (
+    AgentHealthCoreMonitor,
+    HealthMonitoringOrchestrator,
+)
 
-# Backward compatibility alias
-AgentHealthCoreMonitor = HealthMonitoringOrchestrator
-from .health_metrics_collector import HealthMetricsCollector
-from .health_check_executor import HealthCheckExecutor
-from .health_status_analyzer import HealthStatusAnalyzer
-from .health_notification_manager import HealthNotificationManager
-from .health_monitoring_metrics import (
+# Import monitoring functions from monitoring_new (preserved functionality)
+from ..monitoring_new.health_monitoring_new_collector import (
+    collect_health_metrics,
+    record_health_metric,
+)
+from ..monitoring_new.health_monitoring_new_analyzer import (
+    perform_health_checks,
+    update_health_scores,
+    check_alerts,
+    notify_health_updates,
+    get_agent_health,
+    get_all_agent_health,
+    get_health_alerts,
+    acknowledge_alert,
+    update_threshold,
+    get_health_summary,
+)
+from ..monitoring_new.health_monitoring_new_config import (
     HealthStatus,
     HealthMetricType,
     HealthMetric,
     HealthSnapshot,
+    HealthAlert,
+    HealthThreshold,
+    initialize_default_thresholds,
 )
-from .health_monitoring_alerts import HealthAlert
-from .health_monitoring_config import HealthThreshold, initialize_default_thresholds
 
 __all__ = [
-    "HealthMonitoringOrchestrator",
+    # Core monitoring functionality
     "AgentHealthCoreMonitor",
-    "HealthMetricsCollector",
-    "HealthCheckExecutor",
-    "HealthStatusAnalyzer",
-    "HealthNotificationManager",
+    "HealthMonitoringOrchestrator",
+    
+    # Monitoring functions
+    "collect_health_metrics",
+    "record_health_metric",
+    "perform_health_checks",
+    "update_health_scores",
+    "check_alerts",
+    "notify_health_updates",
+    "get_agent_health",
+    "get_all_agent_health",
+    "get_health_alerts",
+    "acknowledge_alert",
+    "update_threshold",
+    "get_health_summary",
+    
+    # Data models
     "HealthStatus",
     "HealthMetricType",
     "HealthMetric",

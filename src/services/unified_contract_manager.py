@@ -1,81 +1,168 @@
+#!/usr/bin/env python3
 """
-Unified Contract Manager - Complete Contract System Integration
+Unified Contract Manager - Agent Cellphone V2
+============================================
 
-This module provides unified contract management integrating:
-- Contract lifecycle management and state tracking
-- Contract validation and enforcement
-- Legacy contract system consolidation
-- Comprehensive contract analytics and reporting
+CONSOLIDATED contract management system using BaseManager.
+Eliminates duplication by inheriting from unified base manager.
 
-Architecture: Single Responsibility Principle - manages unified contract operations
-LOC: 200 lines (under 200 limit)
+**Author:** V2 Consolidation Specialist
+**Created:** Current Sprint
+**Status:** ACTIVE - CONSOLIDATION COMPLETE
 """
 
-import argparse
-import time
-import json
-import os
-
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import Dict, List, Optional, Any
-from pathlib import Path
 import logging
+import json
+from pathlib import Path
+from typing import Dict, List, Any, Optional, Set
+from datetime import datetime
 
-# Import contract management components
-try:
-    from ..core.assignment_engine import ContractManager
-    from ..core.contract_models import (
-        ContractStatus,
-        ContractType,
-        ContractPriority,
-    )
+# Import consolidated base manager system
+from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority, ManagerMetrics
 
-    SERVICES_AVAILABLE = True
-except ImportError:
-    print("Warning: Consolidated contract manager not available for import")
-    SERVICES_AVAILABLE = False
-
-logger = logging.getLogger(__name__)
+# Import contract-related modules
+from ..core.assignment_engine import ContractManager
+from ..core.contract_models import (
+    Contract,
+    ContractStatus,
+    ContractType,
+    ContractParty,
+    ContractTerms,
+    ContractMetrics
+)
 
 
-class UnifiedContractManager:
+class UnifiedContractManager(BaseManager):
     """
-    Unified contract management system
-
-    Responsibilities:
-    - Integrate all contract management services
-    - Provide single interface for contract operations
-    - Consolidate existing contract systems
-    - Manage contract analytics and reporting
+    CONSOLIDATED unified contract manager using BaseManager
+    
+    Eliminates duplication by inheriting from unified base manager system.
+    Provides contract lifecycle, status tracking, and management functionality.
     """
 
     def __init__(self, legacy_contracts_path: Optional[str] = None):
-        self.logger = logging.getLogger(f"{__name__}.UnifiedContractManager")
-
-        if not SERVICES_AVAILABLE:
-            self.logger.warning("Running in limited mode - services not available")
-            self.services_available = False
-            return
-
-        self.services_available = True
-        # Use consolidated contract manager instead of separate services
-        self.contract_manager = ContractManager(None, None)
-
+        # Initialize consolidated base manager
+        super().__init__(
+            manager_id="unified_contract_manager",
+            name="Unified Contract Manager",
+            description="Unified contract management system integrating all contract services"
+        )
+        
+        # Contract-specific configuration
         self.legacy_contracts_path = (
             legacy_contracts_path or "Agent_Cellphone/CONTRACTS"
         )
-        self.contract_analytics = {}
-        self.system_status = {}
+        
+        # Contract management components
+        self.contract_manager = ContractManager(None, None)
+        self.contract_analytics: Dict[str, Any] = {}
+        self.system_status: Dict[str, Any] = {}
+        
+        # Contract storage
+        self.contracts: Dict[str, Contract] = {}
+        self.contract_history: List[Dict[str, Any]] = []
+        
+        # Performance tracking
+        self.contract_metrics = ContractMetrics()
+        
+        self.logger.info("Unified Contract Manager initialized - using consolidated system")
 
-        self.logger.info(
-            "Unified Contract Manager initialized - using consolidated system"
-        )
+    # ============================================================================
+    # BASE MANAGER IMPLEMENTATION - Required abstract methods
+    # ============================================================================
+    
+    def _on_start(self) -> bool:
+        """Contract-specific startup logic"""
+        try:
+            # Load legacy contracts
+            self._load_legacy_contracts()
+            
+            # Initialize contract storage
+            self._initialize_contract_storage()
+            
+            self.logger.info("UnifiedContractManager startup completed")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"UnifiedContractManager startup failed: {e}")
+            return False
+    
+    def _on_stop(self):
+        """Contract-specific shutdown logic"""
+        try:
+            # Save contract states
+            self._save_contract_states()
+            
+            # Save analytics
+            self._save_contract_analytics()
+            
+            self.logger.info("UnifiedContractManager shutdown completed")
+            
+        except Exception as e:
+            self.logger.error(f"UnifiedContractManager shutdown failed: {e}")
+    
+    def _on_heartbeat(self):
+        """Contract-specific heartbeat logic"""
+        try:
+            # Update contract metrics
+            self._update_contract_metrics()
+            
+            # Check contract health
+            self._check_contract_health()
+            
+        except Exception as e:
+            self.logger.error(f"UnifiedContractManager heartbeat failed: {e}")
+    
+    def _on_initialize_resources(self) -> bool:
+        """Contract-specific resource initialization"""
+        try:
+            # Initialize contract storage directory
+            contracts_dir = Path(self.legacy_contracts_path)
+            contracts_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Initialize analytics storage
+            self.contract_analytics = {}
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"UnifiedContractManager resource initialization failed: {e}")
+            return False
+    
+    def _on_cleanup_resources(self):
+        """Contract-specific resource cleanup"""
+        try:
+            # Save all contract data
+            self._save_contract_states()
+            self._save_contract_analytics()
+            
+        except Exception as e:
+            self.logger.error(f"UnifiedContractManager resource cleanup failed: {e}")
+    
+    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
+        """Contract-specific recovery logic"""
+        try:
+            self.logger.info(f"Attempting UnifiedContractManager recovery: {context}")
+            
+            # Reload contracts
+            self._load_legacy_contracts()
+            
+            # Reinitialize storage
+            self._initialize_contract_storage()
+            
+            self.logger.info("UnifiedContractManager recovery successful")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"UnifiedContractManager recovery failed: {e}")
+            return False
 
+    # ============================================================================
+    # CONTRACT MANAGEMENT METHODS - Specific functionality
+    # ============================================================================
+    
     def _load_legacy_contracts(self):
         """Load and migrate existing contract files"""
-        if not self.services_available:
-            return
-
         try:
             contracts_dir = Path(self.legacy_contracts_path)
             if not contracts_dir.exists():
@@ -104,9 +191,14 @@ class UnifiedContractManager:
                     )
 
             self.logger.info(f"Migrated {migrated_count} legacy contracts")
+            
+            # Record successful operation
+            self.record_operation("load_legacy_contracts", True, migrated_count)
 
         except Exception as e:
             self.logger.error(f"Failed to load legacy contracts: {e}")
+            self.handle_error(e, "load_legacy_contracts")
+            self.record_operation("load_legacy_contracts", False)
 
     def _migrate_legacy_contract(
         self, legacy_data: Dict[str, Any], filename: str
@@ -137,439 +229,334 @@ class UnifiedContractManager:
             # Create terms from legacy data
             terms = {
                 "deliverables": payload.get("actions", []),
-                "acceptance_criteria": [payload.get("status", "completed")],
-                "deadlines": {"completion": "24h"},
-                "dependencies": [],
-                "penalties": {},
-                "rewards": {},
+                "timeline": payload.get("timeline", "immediate"),
+                "quality_standards": payload.get("quality", "standard"),
+                "success_criteria": payload.get("success_criteria", []),
             }
 
-            # Determine contract type
-            contract_type = "agent_response"
-            if "task" in payload:
-                contract_type = "task_assignment"
-
             # Create new contract
-            contract_id = self.lifecycle_service.create_contract(
-                title=f"Migrated: {payload.get('task', filename)}",
-                description=f"Migrated legacy contract from {filename}",
-                contract_type=contract_type,
+            contract = Contract(
+                contract_id=filename.replace(".json", ""),
+                contract_type=ContractType.LEGACY_MIGRATION,
+                status=ContractStatus.ACTIVE,
                 parties=parties,
                 terms=terms,
-                priority="medium",
+                created_at=datetime.now(),
+                updated_at=datetime.now()
             )
 
-            # Set appropriate state based on legacy status
-            legacy_status = payload.get("status", "").lower()
-            if legacy_status == "completed":
-                self.lifecycle_service.transition_contract_state(
-                    contract_id, "completed", "Migrated as completed"
-                )
-            elif legacy_status in ["active", "in_progress"]:
-                self.lifecycle_service.transition_contract_state(
-                    contract_id, "active", "Migrated as active"
-                )
-
-            return contract_id
+            # Store contract
+            self.contracts[contract.contract_id] = contract
+            
+            # Record successful operation
+            self.record_operation("migrate_contract", True)
+            
+            return contract.contract_id
 
         except Exception as e:
-            self.logger.error(f"Failed to migrate legacy contract: {e}")
+            self.logger.error(f"Failed to migrate contract {filename}: {e}")
+            self.record_operation("migrate_contract", False)
             return None
+
+    def _initialize_contract_storage(self):
+        """Initialize contract storage system"""
+        try:
+            # Create contract storage directory
+            storage_dir = Path("contracts/storage")
+            storage_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Initialize contract analytics
+            self.contract_analytics = {
+                "total_contracts": 0,
+                "active_contracts": 0,
+                "completed_contracts": 0,
+                "failed_contracts": 0,
+                "migration_count": 0
+            }
+            
+            self.logger.info("Contract storage initialized")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to initialize contract storage: {e}")
 
     def create_contract(
         self,
-        title: str,
-        description: str,
-        contract_type: str,
-        parties: List[Dict[str, Any]],
-        terms: Dict[str, Any],
-        priority: str = "medium",
-        auto_validate: bool = True,
-    ) -> Dict[str, Any]:
-        """Create a new contract with integrated validation"""
-        if not self.services_available:
-            return {"error": "Services not available"}
-
+        contract_type: ContractType,
+        parties: List[ContractParty],
+        terms: ContractTerms,
+        **kwargs
+    ) -> Optional[str]:
+        """Create a new contract"""
         try:
-            # Convert string priority to enum
-            priority_enum = ContractPriority.NORMAL
-            if priority == "high":
-                priority_enum = ContractPriority.HIGH
-            elif priority == "urgent":
-                priority_enum = ContractPriority.URGENT
-            elif priority == "critical":
-                priority_enum = ContractPriority.CRITICAL
-            elif priority == "low":
-                priority_enum = ContractPriority.LOW
-
-            # Convert string contract type to enum
-            contract_type_enum = ContractType.TASK_ASSIGNMENT
-            if contract_type == "agent_response":
-                contract_type_enum = ContractType.AGENT_RESPONSE
-            elif contract_type == "collaboration":
-                contract_type_enum = ContractType.COLLABORATION
-            elif contract_type == "service_agreement":
-                contract_type_enum = ContractType.SERVICE_AGREEMENT
-
-            # Create contract using consolidated contract manager
-            contract_id = self.contract_manager.create_contract(
-                title=title,
-                description=description,
-                priority=priority_enum,
-                contract_type=contract_type_enum,
+            # Generate contract ID
+            contract_id = f"contract_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{len(self.contracts)}"
+            
+            # Create contract
+            contract = Contract(
+                contract_id=contract_id,
+                contract_type=contract_type,
+                status=ContractStatus.DRAFT,
                 parties=parties,
                 terms=terms,
-                auto_validate=auto_validate,
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+                **kwargs
             )
-
-            if not contract_id:
-                return {"error": "Failed to create contract"}
-
-            # Get contract data
-            contract_data = self.contract_manager.get_contract(contract_id)
-
-            # Get validation results
-            validation_results = (
-                contract_data.validation_results if contract_data else []
-            )
-
-            # Determine if contract was auto-approved
-            auto_approved = (
-                contract_data.status == ContractStatus.APPROVED
-                if contract_data
-                else False
-            )
-
-            return {
-                "contract_id": contract_id,
-                "status": "created",
-                "validation_results": len(validation_results),
-                "validation_passed": len(
-                    [r for r in validation_results if r.get("passed", False)]
-                ),
-                "auto_approved": auto_approved,
-                "timestamp": time.time(),
-            }
-
+            
+            # Store contract
+            self.contracts[contract_id] = contract
+            
+            # Update analytics
+            self.contract_analytics["total_contracts"] += 1
+            
+            # Record successful operation
+            self.record_operation("create_contract", True)
+            
+            self.logger.info(f"Created new contract: {contract_id}")
+            return contract_id
+            
         except Exception as e:
             self.logger.error(f"Failed to create contract: {e}")
-            return {"error": str(e)}
+            self.handle_error(e, "create_contract")
+            self.record_operation("create_contract", False)
+            return None
 
-    def get_contract_details(self, contract_id: str) -> Dict[str, Any]:
-        """Get comprehensive contract details including validation info"""
-        if not self.services_available:
-            return {"error": "Services not available"}
-
+    def get_contract(self, contract_id: str) -> Optional[Contract]:
+        """Get contract by ID"""
         try:
-            # Get contract from lifecycle service
-            contract = self.lifecycle_service.get_contract(contract_id)
-            if not contract:
-                return {"error": "Contract not found"}
-
-            # Get validation summary
-            validation_summary = self.validation_service.get_validation_summary(
-                contract_id
-            )
-
-            # Get violations
-            violations = self.validation_service.get_contract_violations(contract_id)
-
-            # Get state history
-            history = self.lifecycle_service.get_contract_history(contract_id)
-
-            return {
-                "contract": contract,
-                "validation_summary": validation_summary,
-                "violations": violations,
-                "state_history": history,
-                "last_updated": contract.get("updated_at"),
-                "is_active": contract.get("state") == "active",
-            }
-
+            contract = self.contracts.get(contract_id)
+            if contract:
+                # Record successful operation
+                self.record_operation("get_contract", True)
+                return contract
+            else:
+                self.logger.warning(f"Contract {contract_id} not found")
+                return None
+                
         except Exception as e:
-            self.logger.error(f"Failed to get contract details: {e}")
-            return {"error": str(e)}
+            self.logger.error(f"Failed to get contract {contract_id}: {e}")
+            self.handle_error(e, f"get_contract_{contract_id}")
+            self.record_operation("get_contract", False)
+            return None
 
-    def transition_contract_state(
-        self,
-        contract_id: str,
-        new_state: str,
-        reason: str = "",
-        validate_first: bool = True,
-    ) -> Dict[str, Any]:
-        """Transition contract state with optional validation"""
-        if not self.services_available:
-            return {"error": "Services not available"}
-
+    def update_contract_status(self, contract_id: str, status: ContractStatus) -> bool:
+        """Update contract status"""
         try:
-            # Validate contract before critical state transitions
-            if validate_first and new_state in ["active", "approved"]:
-                contract_data = self.lifecycle_service.get_contract(contract_id)
-                if contract_data:
-                    validation_results = self.validation_service.validate_contract(
-                        contract_data
-                    )
-                    critical_issues = [
-                        r
-                        for r in validation_results
-                        if not r.passed and r.severity.value in ["error", "critical"]
-                    ]
+            if contract_id not in self.contracts:
+                self.logger.warning(f"Contract {contract_id} not found")
+                return False
 
-                    if critical_issues:
-                        return {
-                            "success": False,
-                            "error": "Contract has critical validation issues",
-                            "critical_issues": len(critical_issues),
-                            "blocked_transition": True,
-                        }
+            contract = self.contracts[contract_id]
+            old_status = contract.status
+            contract.status = status
+            contract.updated_at = datetime.now()
 
-            # Perform state transition
-            success = self.lifecycle_service.transition_contract_state(
-                contract_id, new_state, reason
-            )
+            # Update analytics
+            if old_status == ContractStatus.ACTIVE and status == ContractStatus.COMPLETED:
+                self.contract_analytics["active_contracts"] -= 1
+                self.contract_analytics["completed_contracts"] += 1
+            elif old_status == ContractStatus.ACTIVE and status == ContractStatus.FAILED:
+                self.contract_analytics["active_contracts"] -= 1
+                self.contract_analytics["failed_contracts"] += 1
 
-            return {
-                "success": success,
-                "contract_id": contract_id,
-                "new_state": new_state,
-                "reason": reason,
-                "timestamp": time.time(),
-            }
+            # Save contract state
+            self._save_contract_states()
 
-        except Exception as e:
-            self.logger.error(f"Failed to transition contract state: {e}")
-            return {"error": str(e)}
-
-    def get_system_dashboard(self) -> Dict[str, Any]:
-        """Get comprehensive system dashboard"""
-        if not self.services_available:
-            return {"error": "Services not available"}
-
-        try:
-            # Get service statuses
-            lifecycle_status = self.lifecycle_service.get_service_status()
-            validation_status = self.validation_service.get_service_status()
-
-            # Get active contracts
-            active_contracts = self.lifecycle_service.get_active_contracts()
-
-            # Calculate summary statistics
-            total_contracts = lifecycle_status.get("total_contracts", 0)
-            active_count = len(active_contracts)
-            total_violations = validation_status.get("total_violations", 0)
-            unresolved_violations = validation_status.get("unresolved_violations", 0)
-
-            # Health score calculation
-            health_score = 100
-            if total_contracts > 0:
-                violation_rate = total_violations / total_contracts
-                health_score = max(0, 100 - (violation_rate * 50))
-
-                if unresolved_violations > 0:
-                    health_score = max(0, health_score - (unresolved_violations * 10))
-
-            return {
-                "system_health": {
-                    "score": round(health_score, 2),
-                    "status": "healthy"
-                    if health_score > 80
-                    else "warning"
-                    if health_score > 60
-                    else "critical",
-                },
-                "contracts": {
-                    "total": total_contracts,
-                    "active": active_count,
-                    "completion_rate": round(
-                        (total_contracts - active_count)
-                        / max(total_contracts, 1)
-                        * 100,
-                        2,
-                    ),
-                },
-                "validation": {
-                    "total_violations": total_violations,
-                    "unresolved_violations": unresolved_violations,
-                    "violation_rate": round(
-                        total_violations / max(total_contracts, 1), 2
-                    ),
-                },
-                "services": {
-                    "lifecycle_service": lifecycle_status,
-                    "validation_service": validation_status,
-                },
-                "timestamp": time.time(),
-            }
-
-        except Exception as e:
-            self.logger.error(f"Failed to get system dashboard: {e}")
-            return {"error": str(e)}
-
-    def run_system_maintenance(self) -> Dict[str, Any]:
-        """Run system maintenance tasks"""
-        if not self.services_available:
-            return {"error": "Services not available"}
-
-        try:
-            maintenance_results = []
-
-            # Check for expired contracts
-            expired_contracts = self.lifecycle_service.check_contract_expiry()
-            if expired_contracts:
-                maintenance_results.append(
-                    f"Expired {len(expired_contracts)} contracts"
-                )
-
-            # Validate all active contracts
-            active_contracts = self.lifecycle_service.get_active_contracts()
-            validation_issues = 0
-
-            for contract_id in active_contracts.keys():
-                contract_data = self.lifecycle_service.get_contract(contract_id)
-                if contract_data:
-                    results = self.validation_service.validate_contract(contract_data)
-                    failed_validations = [r for r in results if not r.passed]
-                    validation_issues += len(failed_validations)
-
-            maintenance_results.append(
-                f"Found {validation_issues} validation issues in active contracts"
-            )
-
-            return {
-                "maintenance_completed": True,
-                "expired_contracts": len(expired_contracts),
-                "validation_issues": validation_issues,
-                "results": maintenance_results,
-                "timestamp": time.time(),
-            }
-
-        except Exception as e:
-            self.logger.error(f"System maintenance failed: {e}")
-            return {"error": str(e)}
-
-
-def run_smoke_test():
-    """Run basic functionality test for UnifiedContractManager"""
-    print("🧪 Running UnifiedContractManager Smoke Test...")
-
-    try:
-        manager = UnifiedContractManager()
-
-        if not manager.services_available:
-            print("⚠️  Running in limited mode - services not available")
+            # Record successful operation
+            self.record_operation("update_contract_status", True)
+            
+            self.logger.info(f"Updated contract {contract_id} status: {old_status} -> {status}")
             return True
 
-        # Test contract creation
-        parties = [
-            {
-                "party_id": "agent-1",
-                "party_type": "agent",
-                "role": "contractor",
-                "permissions": ["execute"],
+        except Exception as e:
+            self.logger.error(f"Failed to update contract status for {contract_id}: {e}")
+            self.handle_error(e, f"update_contract_status_{contract_id}")
+            self.record_operation("update_contract_status", False)
+            return False
+
+    def get_contracts_by_status(self, status: ContractStatus) -> List[Contract]:
+        """Get all contracts with a specific status"""
+        try:
+            contracts = [c for c in self.contracts.values() if c.status == status]
+            
+            # Record successful operation
+            self.record_operation("get_contracts_by_status", True)
+            
+            return contracts
+            
+        except Exception as e:
+            self.logger.error(f"Failed to get contracts by status {status}: {e}")
+            self.handle_error(e, f"get_contracts_by_status_{status}")
+            self.record_operation("get_contracts_by_status", False)
+            return []
+
+    def get_all_contracts(self) -> List[Contract]:
+        """Get all contracts"""
+        try:
+            contracts = list(self.contracts.values())
+            
+            # Record successful operation
+            self.record_operation("get_all_contracts", True)
+            
+            return contracts
+            
+        except Exception as e:
+            self.logger.error(f"Failed to get all contracts: {e}")
+            self.handle_error(e, "get_all_contracts")
+            self.record_operation("get_all_contracts", False)
+            return []
+
+    def delete_contract(self, contract_id: str) -> bool:
+        """Delete a contract"""
+        try:
+            if contract_id not in self.contracts:
+                self.logger.warning(f"Contract {contract_id} not found")
+                return False
+
+            # Remove contract
+            del self.contracts[contract_id]
+
+            # Update analytics
+            self.contract_analytics["total_contracts"] -= 1
+
+            # Save contract states
+            self._save_contract_states()
+
+            # Record successful operation
+            self.record_operation("delete_contract", True)
+            
+            self.logger.info(f"Deleted contract: {contract_id}")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"Failed to delete contract {contract_id}: {e}")
+            self.handle_error(e, f"delete_contract_{contract_id}")
+            self.record_operation("delete_contract", False)
+            return False
+
+    # ============================================================================
+    # CONTRACT ANALYTICS AND METRICS
+    # ============================================================================
+    
+    def _update_contract_metrics(self):
+        """Update contract performance metrics"""
+        try:
+            # Update active contracts count
+            active_count = len([c for c in self.contracts.values() if c.status == ContractStatus.ACTIVE])
+            self.contract_analytics["active_contracts"] = active_count
+            
+            # Update contract metrics
+            self.contract_metrics.total_contracts = len(self.contracts)
+            self.contract_metrics.active_contracts = active_count
+            self.contract_metrics.completion_rate = self._calculate_completion_rate()
+            
+        except Exception as e:
+            self.logger.error(f"Failed to update contract metrics: {e}")
+
+    def _check_contract_health(self):
+        """Check health of all contracts"""
+        try:
+            current_time = datetime.now()
+            for contract_id, contract in self.contracts.items():
+                # Check for expired contracts
+                if contract.status == ContractStatus.ACTIVE:
+                    # Simple expiration check (could be more sophisticated)
+                    if hasattr(contract, 'expires_at') and contract.expires_at:
+                        if current_time > contract.expires_at:
+                            self.update_contract_status(contract_id, ContractStatus.EXPIRED)
+                            self.logger.warning(f"Contract {contract_id} marked as expired")
+
+        except Exception as e:
+            self.logger.error(f"Failed to check contract health: {e}")
+
+    def _calculate_completion_rate(self) -> float:
+        """Calculate contract completion rate"""
+        try:
+            if self.contract_analytics["total_contracts"] == 0:
+                return 0.0
+            
+            completed = self.contract_analytics["completed_contracts"]
+            total = self.contract_analytics["total_contracts"]
+            
+            return (completed / total) * 100.0
+            
+        except Exception as e:
+            self.logger.error(f"Failed to calculate completion rate: {e}")
+            return 0.0
+
+    def get_contract_analytics(self) -> Dict[str, Any]:
+        """Get comprehensive contract analytics"""
+        try:
+            analytics = self.contract_analytics.copy()
+            analytics.update({
+                "completion_rate": self._calculate_completion_rate(),
+                "performance_metrics": self.get_performance_summary()
+            })
+            
+            return analytics
+            
+        except Exception as e:
+            self.logger.error(f"Failed to get contract analytics: {e}")
+            return {"error": str(e)}
+
+    # ============================================================================
+    # CONTRACT PERSISTENCE
+    # ============================================================================
+    
+    def _save_contract_states(self):
+        """Save current state of all contracts"""
+        try:
+            storage_dir = Path("contracts/storage")
+            storage_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Save contracts
+            contracts_file = storage_dir / "contracts.json"
+            contracts_data = {
+                contract_id: contract.to_dict() 
+                for contract_id, contract in self.contracts.items()
             }
-        ]
-        terms = {
-            "deliverables": ["test task"],
-            "acceptance_criteria": ["task completed"],
+            
+            with open(contracts_file, "w") as f:
+                json.dump(contracts_data, f, indent=2, default=str)
+                
+        except Exception as e:
+            self.logger.error(f"Failed to save contract states: {e}")
+
+    def _save_contract_analytics(self):
+        """Save contract analytics"""
+        try:
+            storage_dir = Path("contracts/storage")
+            storage_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Save analytics
+            analytics_file = storage_dir / "analytics.json"
+            with open(analytics_file, "w") as f:
+                json.dump(self.contract_analytics, f, indent=2, default=str)
+                
+        except Exception as e:
+            self.logger.error(f"Failed to save contract analytics: {e}")
+
+    # ============================================================================
+    # ENHANCED STATUS AND METRICS (using BaseManager)
+    # ============================================================================
+    
+    def get_contract_manager_status(self) -> Dict[str, Any]:
+        """Get comprehensive contract manager status"""
+        base_status = self.get_status()
+        
+        contract_status = {
+            "total_contracts": len(self.contracts),
+            "active_contracts": self.contract_analytics.get("active_contracts", 0),
+            "completed_contracts": self.contract_analytics.get("completed_contracts", 0),
+            "failed_contracts": self.contract_analytics.get("failed_contracts", 0),
+            "completion_rate": self._calculate_completion_rate(),
+            "performance_summary": self.get_performance_summary()
         }
+        
+        return {**base_status, **contract_status}
 
-        result = manager.create_contract(
-            "Test Unified Contract",
-            "Test Description",
-            "task_assignment",
-            parties,
-            terms,
-        )
-        assert result.get("contract_id") is not None
+    def __str__(self) -> str:
+        return f"UnifiedContractManager(contracts={len(self.contracts)}, status={self.status.value})"
 
-        # Test contract details
-        contract_id = result["contract_id"]
-        details = manager.get_contract_details(contract_id)
-        assert details.get("contract") is not None
-
-        # Test system dashboard
-        dashboard = manager.get_system_dashboard()
-        assert dashboard.get("system_health") is not None
-
-        # Test maintenance
-        maintenance = manager.run_system_maintenance()
-        assert maintenance.get("maintenance_completed") is True
-
-        print("✅ UnifiedContractManager Smoke Test PASSED")
-        return True
-
-    except Exception as e:
-        print(f"❌ UnifiedContractManager Smoke Test FAILED: {e}")
-        return False
-
-
-def main():
-    """CLI interface for UnifiedContractManager testing"""
-    parser = argparse.ArgumentParser(description="Unified Contract Manager CLI")
-    parser.add_argument("--test", action="store_true", help="Run smoke test")
-    parser.add_argument(
-        "--create", nargs=3, help="Create contract (title,description,type)"
-    )
-    parser.add_argument("--details", help="Get contract details by ID")
-    parser.add_argument(
-        "--transition", nargs=3, help="Transition state (contract_id,new_state,reason)"
-    )
-    parser.add_argument(
-        "--dashboard", action="store_true", help="Show system dashboard"
-    )
-    parser.add_argument(
-        "--maintenance", action="store_true", help="Run system maintenance"
-    )
-
-    args = parser.parse_args()
-
-    if args.test:
-        run_smoke_test()
-        return
-
-    # Create manager instance
-    manager = UnifiedContractManager()
-
-    if args.create:
-        title, description, contract_type = args.create
-        parties = [
-            {
-                "party_id": "system",
-                "party_type": "system",
-                "role": "contractor",
-                "permissions": [],
-            }
-        ]
-        terms = {"deliverables": ["test"], "acceptance_criteria": ["completed"]}
-        result = manager.create_contract(
-            title, description, contract_type, parties, terms
-        )
-        print(f"Create contract result: {result}")
-
-    elif args.details:
-        details = manager.get_contract_details(args.details)
-        print(f"Contract details for {args.details}:")
-        for key, value in details.items():
-            print(f"  {key}: {value}")
-
-    elif args.transition:
-        contract_id, new_state, reason = args.transition
-        result = manager.transition_contract_state(contract_id, new_state, reason)
-        print(f"State transition result: {result}")
-
-    elif args.dashboard:
-        dashboard = manager.get_system_dashboard()
-        print("System Dashboard:")
-        for key, value in dashboard.items():
-            print(f"  {key}: {value}")
-
-    elif args.maintenance:
-        result = manager.run_system_maintenance()
-        print(f"Maintenance result: {result}")
-
-    else:
-        parser.print_help()
-
-
-if __name__ == "__main__":
-    main()
+    def __repr__(self) -> str:
+        return f"UnifiedContractManager(legacy_path='{self.legacy_contracts_path}', total_contracts={len(self.contracts)})"

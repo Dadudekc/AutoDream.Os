@@ -18,7 +18,7 @@ from pathlib import Path
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.decision import DecisionMakingEngine, DecisionType
+from core.decision import DecisionManager as DecisionMakingEngine, DecisionType
 from core.decision_coordination_system import (
     DecisionCoordinationSystem,
     CoordinationMode,

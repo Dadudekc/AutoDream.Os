@@ -19,26 +19,59 @@
       },
       {
         "phase_id": "orientation",
-        "phase_name": "System Orientation",
+        "phase_name": "System Orientation & Universal Development Principles",
         "phase_order": 2,
-        "estimated_duration_minutes": 60,
-        "required_agents": ["training_agent", "orientation_specialist"],
-        "deliverables": ["system_overview", "basic_workflow_understanding", "interface_familiarity"],
-        "success_criteria": ["orientation_completed", "basic_workflows_understood", "interface_navigation_verified"]
+        "estimated_duration_minutes": 90,
+        "required_agents": ["training_agent", "orientation_specialist", "development_standards_expert"],
+        "deliverables": ["system_overview", "basic_workflow_understanding", "interface_familiarity", "universal_development_principles", "technical_debt_prevention", "architecture_design_patterns"],
+        "success_criteria": ["orientation_completed", "basic_workflows_understood", "interface_navigation_verified", "universal_principles_understood", "technical_debt_prevention_skills_acquired", "architecture_patterns_mastered"]
+      },
+      {
+        "phase_id": "captain_coordination",
+        "phase_name": "Captain Agent Coordination Training",
+        "phase_order": 3,
+        "estimated_duration_minutes": 45,
+        "required_agents": ["captain_agent", "coordination_specialist"],
+        "deliverables": ["coordination_understanding", "fsm_integration_skills", "collaboration_workflow"],
+        "success_criteria": ["coordination_principles_understood", "fsm_usage_demonstrated", "collaboration_workflow_verified"]
       },
       {
         "phase_id": "training",
-        "phase_name": "Role-Specific Training",
-        "phase_order": 3,
-        "estimated_duration_minutes": 120,
-        "required_agents": ["role_trainer", "subject_matter_expert"],
-        "deliverables": ["role_competencies", "task_execution_skills", "quality_standards"],
-        "success_criteria": ["role_competencies_achieved", "task_execution_verified", "quality_standards_understood"]
+        "phase_name": "Phase 2 Role-Specific Training & Universal Standards",
+        "phase_order": 4,
+        "estimated_duration_minutes": 150,
+        "required_agents": ["role_trainer", "subject_matter_expert", "v2_standards_expert"],
+        "deliverables": ["phase2_role_competencies", "task_execution_skills", "quality_standards", "v2_coding_standards", "code_quality_practices", "testing_and_validation_skills"],
+        "success_criteria": ["phase2_role_competencies_achieved", "task_execution_verified", "quality_standards_understood", "v2_standards_mastered", "code_quality_practices_implemented", "testing_validation_skills_verified"],
+        "phase2_agent_roles": {
+          "Agent-1": "Integration & Core Systems",
+          "Agent-2": "Manager Specialization", 
+          "Agent-3": "Integration & Testing",
+          "Agent-4": "Coordination & Phase 3 Preparation"
+        }
+      },
+      {
+        "phase_id": "universal_workflow",
+        "phase_name": "Universal Development Workflow Training",
+        "phase_order": 5,
+        "estimated_duration_minutes": 75,
+        "required_agents": ["workflow_specialist", "development_standards_expert", "technical_debt_prevention_expert"],
+        "deliverables": ["universal_workflow_understanding", "technical_debt_prevention_skills", "architecture_design_principles", "consolidation_strategies", "code_reuse_patterns"],
+        "success_criteria": ["universal_workflow_mastered", "technical_debt_prevention_demonstrated", "architecture_design_skills_verified", "consolidation_strategies_understood", "code_reuse_patterns_implemented"]
+      },
+      {
+        "phase_id": "communication_protocol",
+        "phase_name": "Agent Communication Protocol Training",
+        "phase_order": 6,
+        "estimated_duration_minutes": 45,
+        "required_agents": ["communication_specialist", "coordination_specialist"],
+        "deliverables": ["communication_protocol_understanding", "pyautogui_messaging_skills", "coordinate_system_mastery", "response_workflow_skills"],
+        "success_criteria": ["communication_protocol_mastered", "pyautogui_messaging_demonstrated", "coordinate_system_verified", "response_workflow_skills_verified"]
       },
       {
         "phase_id": "ssot_training",
         "phase_name": "Single Source of Truth Training",
-        "phase_order": 4,
+        "phase_order": 7,
         "estimated_duration_minutes": 45,
         "required_agents": ["ssot_trainer", "quality_assurance_agent"],
         "deliverables": ["ssot_understanding", "compliance_workflow_skills", "validation_tool_proficiency"],
@@ -47,7 +80,7 @@
       {
         "phase_id": "integration",
         "phase_name": "System Integration",
-        "phase_order": 5,
+        "phase_order": 8,
         "estimated_duration_minutes": 90,
         "required_agents": ["integration_specialist", "workflow_coordinator"],
         "deliverables": ["workflow_integration", "communication_setup", "monitoring_configuration"],
@@ -56,7 +89,7 @@
       {
         "phase_id": "validation",
         "phase_name": "Performance Validation",
-        "phase_order": 6,
+        "phase_order": 9,
         "estimated_duration_minutes": 60,
         "required_agents": ["quality_assessor", "performance_analyst"],
         "deliverables": ["performance_assessment", "quality_validation", "readiness_certification"],
@@ -89,16 +122,58 @@
         "approver_role": "training_coordinator"
       },
       {
+        "checkpoint_id": "cp_captain_coordination",
+        "checkpoint_name": "Captain Coordination Complete",
+        "phase_id": "captain_coordination",
+        "required_verifications": [
+          "coordination_principles_understood",
+          "fsm_integration_demonstrated",
+          "collaboration_workflow_verified"
+        ],
+        "approval_required": true,
+        "approver_role": "captain_agent"
+      },
+      {
         "checkpoint_id": "cp_training",
         "checkpoint_name": "Training Complete",
         "phase_id": "training",
         "required_verifications": [
           "role_competencies_assessed",
           "task_execution_demonstrated",
-          "quality_standards_understood"
+          "quality_standards_understood",
+          "v2_standards_mastered",
+          "code_quality_practices_implemented",
+          "testing_validation_skills_verified"
         ],
         "approval_required": true,
         "approver_role": "role_trainer"
+      },
+      {
+        "checkpoint_id": "cp_universal_workflow",
+        "checkpoint_name": "Universal Workflow Training Complete",
+        "phase_id": "universal_workflow",
+        "required_verifications": [
+          "universal_workflow_mastered",
+          "technical_debt_prevention_demonstrated",
+          "architecture_design_skills_verified",
+          "consolidation_strategies_understood",
+          "code_reuse_patterns_implemented"
+        ],
+        "approval_required": true,
+        "approver_role": "development_standards_expert"
+      },
+      {
+        "checkpoint_id": "cp_communication_protocol",
+        "checkpoint_name": "Communication Protocol Training Complete",
+        "phase_id": "communication_protocol",
+        "required_verifications": [
+          "communication_protocol_understood",
+          "pyautogui_messaging_demonstrated",
+          "coordinate_system_verified",
+          "response_workflow_skills_verified"
+        ],
+        "approval_required": true,
+        "approver_role": "communication_specialist"
       },
       {
         "checkpoint_id": "cp_ssot_training",
@@ -164,6 +239,82 @@
         "duration_minutes": 10,
         "required": true,
         "assessment_required": false
+      },
+      {
+        "material_id": "universal_dev_principles",
+        "material_name": "Universal Development Principles",
+        "material_type": "interactive_presentation",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "technical_debt_prevention",
+        "material_name": "Technical Debt Prevention Strategies",
+        "material_type": "hands_on_tutorial",
+        "duration_minutes": 25,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "architecture_design_patterns",
+        "material_name": "Architecture Design Patterns",
+        "material_type": "practical_exercises",
+        "duration_minutes": 15,
+        "required": true,
+        "assessment_required": true
+      }
+    ],
+    "communication_protocol": [
+      {
+        "material_id": "agent_communication_protocol",
+        "material_name": "Agent Communication Protocol Standards",
+        "material_type": "comprehensive_guide",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "pyautogui_messaging_system",
+        "material_name": "PyAutoGUI Messaging System Training",
+        "material_type": "hands_on_tutorial",
+        "duration_minutes": 15,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "coordinate_system_mastery",
+        "material_name": "Coordinate System and Agent Positioning",
+        "material_type": "practical_exercises",
+        "duration_minutes": 10,
+        "required": true,
+        "assessment_required": true
+      }
+    ],
+    "captain_coordination": [
+      {
+        "material_id": "coordination_principles",
+        "material_name": "Captain Agent Coordination Principles",
+        "material_type": "interactive_presentation",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "fsm_integration",
+        "material_name": "FSM Integration and State Tracking",
+        "material_type": "hands_on_tutorial",
+        "duration_minutes": 15,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "collaboration_workflow",
+        "material_name": "Agent Collaboration Workflow",
+        "material_type": "practical_exercises",
+        "duration_minutes": 10,
+        "required": true,
+        "assessment_required": true
       }
     ],
     "role_specific": [
@@ -188,6 +339,64 @@
         "material_name": "Quality Standards and Compliance",
         "material_type": "standards_documentation",
         "duration_minutes": 15,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "v2_coding_standards",
+        "material_name": "V2 Coding Standards Mastery",
+        "material_type": "comprehensive_guide",
+        "duration_minutes": 30,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "code_quality_practices",
+        "material_name": "Code Quality Best Practices",
+        "material_type": "practical_exercises",
+        "duration_minutes": 25,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "testing_validation",
+        "material_name": "Testing and Validation Skills",
+        "material_type": "hands_on_tutorial",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      }
+    ],
+    "universal_workflow": [
+      {
+        "material_id": "universal_workflow_fundamentals",
+        "material_name": "Universal Development Workflow Fundamentals",
+        "material_type": "interactive_presentation",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "technical_debt_prevention_advanced",
+        "material_name": "Advanced Technical Debt Prevention",
+        "material_type": "hands_on_tutorial",
+        "duration_minutes": 25,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "consolidation_strategies",
+        "material_name": "Code Consolidation and Deduplication Strategies",
+        "material_type": "practical_exercises",
+        "duration_minutes": 20,
+        "required": true,
+        "assessment_required": true
+      },
+      {
+        "material_id": "code_reuse_patterns",
+        "material_name": "Code Reuse and Inheritance Patterns",
+        "material_type": "comprehensive_guide",
+        "duration_minutes": 10,
         "required": true,
         "assessment_required": true
       }

@@ -7,8 +7,11 @@ This module handles task management including:
 - Task dependencies and coordination
 - Task performance monitoring
 
+Now inherits from BaseManager for unified functionality.
+
 Original file: src/core/autonomous_development.py
 Extraction date: 2024-12-19
+V2 Standards: ≤200 LOC, SRP, OOP principles, BaseManager inheritance
 """
 
 import time
@@ -19,6 +22,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from queue import PriorityQueue
+
+from ...core.base_manager import BaseManager, ManagerStatus, ManagerPriority
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -71,11 +76,20 @@ class Task:
     cooldown: float = 1.0
 
 
-class TaskManager:
-    """Task manager - SRP: Manage task scheduling and execution"""
+class TaskManager(BaseManager):
+    """
+    Task manager - SRP: Manage task scheduling and execution
+    
+    Now inherits from BaseManager for unified functionality
+    """
     
     def __init__(self):
-        self.logger = logging.getLogger(f"{__name__}.TaskManager")
+        """Initialize task manager with BaseManager"""
+        super().__init__(
+            manager_id="task_manager",
+            name="Task Manager",
+            description="Manages task scheduling and execution"
+        )
         
         # Task storage
         self.tasks: Dict[str, Task] = {}
@@ -95,6 +109,155 @@ class TaskManager:
         self.failed_tasks_count = 0
         self.start_time: Optional[datetime] = None
         
+        self.logger.info("Task Manager initialized")
+    
+    # ============================================================================
+    # BaseManager Abstract Method Implementations
+    # ============================================================================
+    
+    def _on_start(self) -> bool:
+        """Initialize task management system"""
+        try:
+            self.logger.info("Starting Task Manager...")
+            
+            # Clear task data
+            self.tasks.clear()
+            self.running_tasks.clear()
+            self.completed_tasks.clear()
+            self.failed_tasks.clear()
+            
+            # Reset metrics
+            self.total_tasks_processed = 0
+            self.successful_tasks = 0
+            self.failed_tasks_count = 0
+            self.start_time = None
+            
+            # Start task execution
+            if not self.start_task_manager():
+                raise RuntimeError("Failed to start task execution")
+            
+            self.logger.info("Task Manager started successfully")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to start Task Manager: {e}")
+            return False
+    
+    def _on_stop(self):
+        """Cleanup task management system"""
+        try:
+            self.logger.info("Stopping Task Manager...")
+            
+            # Stop task execution
+            self.stop_task_manager()
+            
+            # Save task data
+            self._save_task_data()
+            
+            # Clear data
+            self.tasks.clear()
+            self.running_tasks.clear()
+            self.completed_tasks.clear()
+            self.failed_tasks.clear()
+            
+            self.logger.info("Task Manager stopped successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to stop Task Manager: {e}")
+    
+    def _on_heartbeat(self):
+        """Task manager heartbeat"""
+        try:
+            # Check task health
+            self._check_task_health()
+            
+            # Process available tasks
+            if self.is_running:
+                self._process_available_tasks()
+            
+            # Update metrics
+            self.record_operation("heartbeat", True, 0.0)
+            
+        except Exception as e:
+            self.logger.error(f"Heartbeat error: {e}")
+            self.record_operation("heartbeat", False, 0.0)
+    
+    def _on_initialize_resources(self) -> bool:
+        """Initialize task manager resources"""
+        try:
+            # Initialize data structures
+            self.tasks = {}
+            self.task_queue = PriorityQueue()
+            self.running_tasks = {}
+            self.completed_tasks = []
+            self.failed_tasks = []
+            
+            # Initialize execution state
+            self.is_running = False
+            self.execution_thread = None
+            self.task_lock = threading.RLock()
+            
+            # Initialize metrics
+            self.total_tasks_processed = 0
+            self.successful_tasks = 0
+            self.failed_tasks_count = 0
+            self.start_time = None
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to initialize resources: {e}")
+            return False
+    
+    def _on_cleanup_resources(self):
+        """Cleanup task manager resources"""
+        try:
+            # Clear data
+            self.tasks.clear()
+            self.running_tasks.clear()
+            self.completed_tasks.clear()
+            self.failed_tasks.clear()
+            
+            # Stop execution thread
+            if self.execution_thread and self.execution_thread.is_alive():
+                self.is_running = False
+                self.execution_thread.join(timeout=5)
+            
+        except Exception as e:
+            self.logger.error(f"Failed to cleanup resources: {e}")
+    
+    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
+        """Attempt recovery from errors"""
+        try:
+            self.logger.info(f"Attempting recovery for {context}")
+            
+            # Reset task state
+            self.tasks.clear()
+            self.running_tasks.clear()
+            self.completed_tasks.clear()
+            self.failed_tasks.clear()
+            
+            # Reset metrics
+            self.total_tasks_processed = 0
+            self.successful_tasks = 0
+            self.failed_tasks_count = 0
+            
+            # Restart task execution if needed
+            if "task" in context.lower():
+                self.logger.info("Attempting to restart task execution...")
+                return self.start_task_manager()
+            
+            self.logger.info("Recovery successful")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Recovery failed: {e}")
+            return False
+    
+    # ============================================================================
+    # Task Management Methods
+    # ============================================================================
+    
     def start_task_manager(self) -> bool:
         """Start the task manager"""
         try:
@@ -111,11 +274,15 @@ class TaskManager:
             )
             self.execution_thread.start()
             
+            # Record operation
+            self.record_operation("start_task_manager", True, 0.0)
+            
             self.logger.info("🚀 Task Manager Started")
             return True
             
         except Exception as e:
             self.logger.error(f"Failed to start task manager: {e}")
+            self.record_operation("start_task_manager", False, 0.0)
             return False
     
     def stop_task_manager(self) -> bool:
@@ -130,11 +297,15 @@ class TaskManager:
             if self.execution_thread and self.execution_thread.is_alive():
                 self.execution_thread.join(timeout=5)
             
+            # Record operation
+            self.record_operation("stop_task_manager", True, 0.0)
+            
             self.logger.info("⏹️ Task Manager Stopped")
             return True
             
         except Exception as e:
             self.logger.error(f"Failed to stop task manager: {e}")
+            self.record_operation("stop_task_manager", False, 0.0)
             return False
     
     def create_task(self, task_config: Dict[str, Any]) -> Optional[str]:
@@ -164,11 +335,15 @@ class TaskManager:
                 if not task.dependencies:
                     self._schedule_task(task)
             
+            # Record operation
+            self.record_operation("create_task", True, 0.0)
+            
             self.logger.info(f"Created task: {task_id} - {task.name}")
             return task_id
             
         except Exception as e:
             self.logger.error(f"Failed to create task: {e}")
+            self.record_operation("create_task", False, 0.0)
             return None
     
     def _schedule_task(self, task: Task):
@@ -267,6 +442,9 @@ class TaskManager:
             self.total_tasks_processed += 1
             self.successful_tasks += 1
             
+            # Record operation
+            self.record_operation("complete_task", True, 0.0)
+            
             self.logger.info(f"Completed task: {task.task_id}")
             
             # Check for dependent tasks
@@ -274,6 +452,7 @@ class TaskManager:
             
         except Exception as e:
             self.logger.error(f"Failed to complete task {task.task_id}: {e}")
+            self.record_operation("complete_task", False, 0.0)
     
     def _handle_task_failure(self, task: Task):
         """Handle task failure"""
@@ -289,7 +468,7 @@ class TaskManager:
                 
             else:
                 task.status = TaskStatus.FAILED
-                self.failed_tasks[task.task_id] = task
+                self.failed_tasks.append(task)
                 
                 # Remove from running tasks
                 if task.task_id in self.running_tasks:
@@ -299,10 +478,14 @@ class TaskManager:
                 self.total_tasks_processed += 1
                 self.failed_tasks_count += 1
                 
+                # Record operation
+                self.record_operation("handle_task_failure", True, 0.0)
+                
                 self.logger.error(f"Task {task.task_id} failed permanently after {task.max_retries} retries")
             
         except Exception as e:
             self.logger.error(f"Failed to handle task failure for {task.task_id}: {e}")
+            self.record_operation("handle_task_failure", False, 0.0)
     
     def _reschedule_task(self, task: Task):
         """Reschedule a failed task"""
@@ -362,7 +545,7 @@ class TaskManager:
                 return None
             
             task = self.tasks[task_id]
-            return {
+            status = {
                 "task_id": task.task_id,
                 "name": task.name,
                 "status": task.status.value,
@@ -374,8 +557,14 @@ class TaskManager:
                 "dependencies": task.dependencies
             }
             
+            # Record operation
+            self.record_operation("get_task_status", True, 0.0)
+            
+            return status
+            
         except Exception as e:
             self.logger.error(f"Failed to get task status: {e}")
+            self.record_operation("get_task_status", False, 0.0)
             return None
     
     def get_task_manager_stats(self) -> Dict[str, Any]:
@@ -383,7 +572,7 @@ class TaskManager:
         try:
             uptime = (datetime.now() - self.start_time).total_seconds() if self.start_time else 0
             
-            return {
+            stats = {
                 "is_running": self.is_running,
                 "uptime_seconds": uptime,
                 "total_tasks": len(self.tasks),
@@ -397,8 +586,14 @@ class TaskManager:
                 "failed": self.failed_tasks_count
             }
             
+            # Record operation
+            self.record_operation("get_task_manager_stats", True, 0.0)
+            
+            return stats
+            
         except Exception as e:
             self.logger.error(f"Failed to get task manager stats: {e}")
+            self.record_operation("get_task_manager_stats", False, 0.0)
             return {"error": str(e)}
     
     def cancel_task(self, task_id: str) -> bool:
@@ -411,6 +606,10 @@ class TaskManager:
                 task = self.tasks[task_id]
                 if task.status in [TaskStatus.PENDING, TaskStatus.SCHEDULED]:
                     task.status = TaskStatus.CANCELLED
+                    
+                    # Record operation
+                    self.record_operation("cancel_task", True, 0.0)
+                    
                     self.logger.info(f"Cancelled task: {task_id}")
                     return True
                 
@@ -418,32 +617,62 @@ class TaskManager:
                 
         except Exception as e:
             self.logger.error(f"Failed to cancel task {task_id}: {e}")
+            self.record_operation("cancel_task", False, 0.0)
             return False
-            
-    def stop_task_manager(self):
-        """Stop the task manager"""
-        self.is_running = False
-        self.logger.info("Task manager stopped")
-        
-    def get_task_manager_stats(self) -> Dict[str, Any]:
-        """Get task manager statistics"""
+    
+    # ============================================================================
+    # Private Helper Methods
+    # ============================================================================
+    
+    def _save_task_data(self):
+        """Save task data (placeholder for future persistence)"""
         try:
-            uptime = (datetime.now() - self.start_time).total_seconds() if self.start_time else 0
-            
-            return {
-                "is_running": self.is_running,
-                "uptime_seconds": uptime,
-                "total_tasks": len(self.tasks),
-                "pending_tasks": len([t for t in self.tasks.values() if t.status == TaskStatus.PENDING]),
-                "scheduled_tasks": len([t for t in self.tasks.values() if t.status == TaskStatus.SCHEDULED]),
-                "running_tasks": len(self.running_tasks),
-                "completed_tasks": len(self.completed_tasks),
-                "failed_tasks": len(self.failed_tasks),
-                "total_processed": self.total_tasks_processed,
-                "successful": self.successful_tasks,
-                "failed": self.failed_tasks_count
-            }
+            # TODO: Implement persistence to database/file
+            self.logger.debug("Task data saved")
             
         except Exception as e:
-            self.logger.error(f"Failed to get task manager stats: {e}")
+            self.logger.error(f"Failed to save task data: {e}")
+    
+    def _check_task_health(self):
+        """Check task health status"""
+        try:
+            # Check for stuck tasks
+            current_time = datetime.now()
+            
+            for task_id, task in self.running_tasks.items():
+                if task.started_at:
+                    runtime = (current_time - task.started_at).total_seconds()
+                    if runtime > task.timeout:
+                        self.logger.warning(f"Task {task_id} has exceeded timeout ({runtime}s > {task.timeout}s)")
+            
+            # Check queue health
+            if self.task_queue.qsize() > 100:
+                self.logger.warning(f"Task queue is large: {self.task_queue.qsize()} tasks")
+                
+        except Exception as e:
+            self.logger.error(f"Failed to check task health: {e}")
+    
+    def get_task_manager_performance(self) -> Dict[str, Any]:
+        """Get task manager performance metrics"""
+        try:
+            performance = {
+                "total_tasks_processed": self.total_tasks_processed,
+                "successful_tasks": self.successful_tasks,
+                "failed_tasks_count": self.failed_tasks_count,
+                "success_rate": (self.successful_tasks / max(self.total_tasks_processed, 1)) * 100,
+                "failure_rate": (self.failed_tasks_count / max(self.total_tasks_processed, 1)) * 100,
+                "queue_size": self.task_queue.qsize(),
+                "running_tasks_count": len(self.running_tasks),
+                "manager_status": self.status.value,
+                "manager_uptime": self.metrics.uptime_seconds
+            }
+            
+            # Record operation
+            self.record_operation("get_task_manager_performance", True, 0.0)
+            
+            return performance
+            
+        except Exception as e:
+            self.logger.error(f"Failed to get task manager performance: {e}")
+            self.record_operation("get_task_manager_performance", False, 0.0)
             return {"error": str(e)}

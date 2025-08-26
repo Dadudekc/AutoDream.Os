@@ -30,7 +30,7 @@ try:
         MessageType,
         MessagePriority,
     )
-    from core.fsm_core_v2 import FSMCoreV2
+    from core.fsm import FSMSystemManager
     from core.inbox_manager import InboxManager
 
     print("✅ All V2 components imported successfully")

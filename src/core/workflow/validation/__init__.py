@@ -12,10 +12,16 @@ Components:
 """
 
 from .workflow_validator import WorkflowValidator
+from .structure_validator import WorkflowStructureValidator
+from .execution_validator import WorkflowExecutionValidator
+from .performance_validator import WorkflowPerformanceValidator
 from .workflow_validation_manager import WorkflowValidationManager
 
 __all__ = [
     'WorkflowValidator',
+    'WorkflowStructureValidator',
+    'WorkflowExecutionValidator',
+    'WorkflowPerformanceValidator',
     'WorkflowValidationManager'
 ]
 

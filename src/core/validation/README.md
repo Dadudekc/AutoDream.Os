@@ -101,7 +101,8 @@ from src.core.validation import ValidationSeverity
 
 ## 📊 Validation Results
 
-Each validation returns a `ValidationResult` object with:
+All validator `validate` methods return a list of `ValidationResult` objects.
+Each `ValidationResult` includes:
 
 - **Status**: PASSED, FAILED, or WARNING
 - **Rule Name**: Name of the validation rule
@@ -185,7 +186,7 @@ class CustomValidator(BaseValidator):
     def __init__(self):
         super().__init__("custom")
         self.add_rule("custom_rule", self.validate_custom_rule)
-    
+
     def validate_custom_rule(self, data):
         # Custom validation logic
         if some_condition:

@@ -7,12 +7,18 @@ and following the unified validation framework patterns.
 
 import re
 from typing import Dict, List, Any, Optional
-from .base_validator import BaseValidator, ValidationRule, ValidationSeverity, ValidationStatus, ValidationResult
+from .base_validator import (
+    BaseValidator,
+    ValidationRule,
+    ValidationSeverity,
+    ValidationStatus,
+    ValidationResult,
+)
 
 
 class SecurityValidator(BaseValidator):
     """Validates security-related data and configurations using unified validation framework"""
-    
+
     def __init__(self):
         """Initialize security validator"""
         super().__init__("SecurityValidator")
@@ -21,14 +27,22 @@ class SecurityValidator(BaseValidator):
             "jwt_token": r"^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$",
             "uuid": r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
             "email": r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-            "ip_address": r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+            "ip_address": r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
         }
-        
+
         self.sensitive_fields = [
-            "password", "secret", "key", "token", "credential", "auth",
-            "private", "sensitive", "confidential", "secure"
+            "password",
+            "secret",
+            "key",
+            "token",
+            "credential",
+            "auth",
+            "private",
+            "sensitive",
+            "confidential",
+            "secure",
         ]
-    
+
     def _setup_default_rules(self) -> None:
         """Setup default security validation rules"""
         default_rules = [
@@ -37,73 +51,90 @@ class SecurityValidator(BaseValidator):
                 rule_name="Security Structure",
                 rule_type="security",
                 description="Validate security data structure and format",
-                severity=ValidationSeverity.ERROR
+                severity=ValidationSeverity.ERROR,
             ),
             ValidationRule(
                 rule_id="authentication_validation",
                 rule_name="Authentication Validation",
                 rule_type="security",
                 description="Validate authentication mechanisms and credentials",
-                severity=ValidationSeverity.ERROR
+                severity=ValidationSeverity.ERROR,
             ),
             ValidationRule(
                 rule_id="authorization_check",
                 rule_name="Authorization Check",
                 rule_type="security",
                 description="Validate authorization rules and permissions",
-                severity=ValidationSeverity.ERROR
+                severity=ValidationSeverity.ERROR,
             ),
             ValidationRule(
                 rule_id="data_encryption_validation",
                 rule_name="Data Encryption Validation",
                 rule_type="security",
                 description="Validate encryption methods and key management",
-                severity=ValidationSeverity.WARNING
-            )
+                severity=ValidationSeverity.WARNING,
+            ),
         ]
-        
+
         for rule in default_rules:
             self.add_validation_rule(rule)
-    
-    def validate(self, security_data: Dict[str, Any], **kwargs) -> List[ValidationResult]:
-        """Validate security data and return validation results"""
+
+    def validate(
+        self, security_data: Dict[str, Any], **kwargs
+    ) -> List[ValidationResult]:
+        """Validate security data and return validation results.
+
+        Returns:
+            List[ValidationResult]: Validation results produced during security
+            validation.
+        """
         results = []
-        
+
         try:
             # Validate security data structure
             structure_results = self._validate_security_structure(security_data)
             results.extend(structure_results)
-            
+
             # Validate required fields
             required_fields = ["security_level", "authentication_method", "timestamp"]
-            field_results = self._validate_required_fields(security_data, required_fields)
+            field_results = self._validate_required_fields(
+                security_data, required_fields
+            )
             results.extend(field_results)
-            
+
             # Validate security level if present
             if "security_level" in security_data:
-                level_result = self._validate_security_level(security_data["security_level"])
+                level_result = self._validate_security_level(
+                    security_data["security_level"]
+                )
                 if level_result:
                     results.append(level_result)
-            
+
             # Validate authentication if present
             if "authentication" in security_data:
-                auth_results = self._validate_authentication(security_data["authentication"])
+                auth_results = self._validate_authentication(
+                    security_data["authentication"]
+                )
                 results.extend(auth_results)
-            
+
             # Validate authorization if present
             if "authorization" in security_data:
-                authz_results = self._validate_authorization(security_data["authorization"])
+                authz_results = self._validate_authorization(
+                    security_data["authorization"]
+                )
                 results.extend(authz_results)
-            
+
             # Validate encryption if present
             if "encryption" in security_data:
-                encryption_results = self._validate_encryption(security_data["encryption"])
+                encryption_results = self._validate_encryption(
+                    security_data["encryption"]
+                )
                 results.extend(encryption_results)
-            
+
             # Check for sensitive data exposure
             exposure_results = self._check_sensitive_data_exposure(security_data)
             results.extend(exposure_results)
-            
+
             # Add overall success result if no critical errors
             if not any(r.severity == ValidationSeverity.ERROR for r in results):
                 success_result = self._create_result(
@@ -112,10 +143,10 @@ class SecurityValidator(BaseValidator):
                     status=ValidationStatus.PASSED,
                     severity=ValidationSeverity.INFO,
                     message="Security validation passed successfully",
-                    details={"total_checks": len(results)}
+                    details={"total_checks": len(results)},
                 )
                 results.append(success_result)
-            
+
         except Exception as e:
             error_result = self._create_result(
                 rule_id="security_validation_error",
@@ -123,16 +154,18 @@ class SecurityValidator(BaseValidator):
                 status=ValidationStatus.FAILED,
                 severity=ValidationSeverity.CRITICAL,
                 message=f"Security validation error: {str(e)}",
-                details={"error_type": type(e).__name__}
+                details={"error_type": type(e).__name__},
             )
             results.append(error_result)
-        
+
         return results
-    
-    def _validate_security_structure(self, security_data: Dict[str, Any]) -> List[ValidationResult]:
+
+    def _validate_security_structure(
+        self, security_data: Dict[str, Any]
+    ) -> List[ValidationResult]:
         """Validate security data structure and format"""
         results = []
-        
+
         if not isinstance(security_data, dict):
             result = self._create_result(
                 rule_id="security_type",
@@ -141,11 +174,11 @@ class SecurityValidator(BaseValidator):
                 severity=ValidationSeverity.ERROR,
                 message="Security data must be a dictionary",
                 actual_value=type(security_data).__name__,
-                expected_value="dict"
+                expected_value="dict",
             )
             results.append(result)
             return results
-        
+
         if len(security_data) == 0:
             result = self._create_result(
                 rule_id="security_empty",
@@ -154,16 +187,18 @@ class SecurityValidator(BaseValidator):
                 severity=ValidationSeverity.WARNING,
                 message="Security data is empty",
                 actual_value=security_data,
-                expected_value="non-empty security data"
+                expected_value="non-empty security data",
             )
             results.append(result)
-        
+
         return results
-    
-    def _validate_security_level(self, security_level: Any) -> Optional[ValidationResult]:
+
+    def _validate_security_level(
+        self, security_level: Any
+    ) -> Optional[ValidationResult]:
         """Validate security level value"""
         valid_levels = ["low", "medium", "high", "critical"]
-        
+
         if not isinstance(security_level, str):
             return self._create_result(
                 rule_id="security_level_type",
@@ -173,9 +208,9 @@ class SecurityValidator(BaseValidator):
                 message="Security level must be a string",
                 field_path="security_level",
                 actual_value=type(security_level).__name__,
-                expected_value="str"
+                expected_value="str",
             )
-        
+
         if security_level.lower() not in valid_levels:
             return self._create_result(
                 rule_id="security_level_value",
@@ -185,15 +220,15 @@ class SecurityValidator(BaseValidator):
                 message=f"Invalid security level: {security_level}",
                 field_path="security_level",
                 actual_value=security_level,
-                expected_value=f"one of {valid_levels}"
+                expected_value=f"one of {valid_levels}",
             )
-        
+
         return None
-    
+
     def _validate_authentication(self, authentication: Any) -> List[ValidationResult]:
         """Validate authentication data"""
         results = []
-        
+
         if not isinstance(authentication, dict):
             result = self._create_result(
                 rule_id="authentication_type",
@@ -203,16 +238,24 @@ class SecurityValidator(BaseValidator):
                 message="Authentication data must be a dictionary",
                 field_path="authentication",
                 actual_value=type(authentication).__name__,
-                expected_value="dict"
+                expected_value="dict",
             )
             results.append(result)
             return results
-        
+
         # Validate authentication method
         if "method" in authentication:
             method = authentication["method"]
-            valid_methods = ["password", "token", "oauth", "saml", "ldap", "mfa", "biometric"]
-            
+            valid_methods = [
+                "password",
+                "token",
+                "oauth",
+                "saml",
+                "ldap",
+                "mfa",
+                "biometric",
+            ]
+
             if not isinstance(method, str):
                 result = self._create_result(
                     rule_id="auth_method_type",
@@ -222,7 +265,7 @@ class SecurityValidator(BaseValidator):
                     message="Authentication method must be a string",
                     field_path="authentication.method",
                     actual_value=type(method).__name__,
-                    expected_value="str"
+                    expected_value="str",
                 )
                 results.append(result)
             elif method.lower() not in valid_methods:
@@ -234,24 +277,26 @@ class SecurityValidator(BaseValidator):
                     message=f"Invalid authentication method: {method}",
                     field_path="authentication.method",
                     actual_value=method,
-                    expected_value=f"one of {valid_methods}"
+                    expected_value=f"one of {valid_methods}",
                 )
                 results.append(result)
-        
+
         # Validate credentials if present
         if "credentials" in authentication:
             creds = authentication["credentials"]
             cred_results = self._validate_credentials(creds)
             for cred_result in cred_results:
-                cred_result.field_path = f"authentication.credentials.{cred_result.field_path}"
+                cred_result.field_path = (
+                    f"authentication.credentials.{cred_result.field_path}"
+                )
             results.extend(cred_results)
-        
+
         return results
-    
+
     def _validate_credentials(self, credentials: Any) -> List[ValidationResult]:
         """Validate credential data"""
         results = []
-        
+
         if not isinstance(credentials, dict):
             result = self._create_result(
                 rule_id="credentials_type",
@@ -261,11 +306,11 @@ class SecurityValidator(BaseValidator):
                 message="Credentials must be a dictionary",
                 field_path="credentials",
                 actual_value=type(credentials).__name__,
-                expected_value="dict"
+                expected_value="dict",
             )
             results.append(result)
             return results
-        
+
         # Check for password strength if present
         if "password" in credentials:
             password = credentials["password"]
@@ -274,7 +319,7 @@ class SecurityValidator(BaseValidator):
                 if strength_result:
                     strength_result.field_path = "password"
                     results.append(strength_result)
-        
+
         # Check for API key format if present
         if "api_key" in credentials:
             api_key = credentials["api_key"]
@@ -288,12 +333,12 @@ class SecurityValidator(BaseValidator):
                         message="Invalid API key format",
                         field_path="api_key",
                         actual_value=api_key,
-                        expected_value="32-64 character alphanumeric string"
+                        expected_value="32-64 character alphanumeric string",
                     )
                     results.append(result)
-        
+
         return results
-    
+
     def _validate_password_strength(self, password: str) -> Optional[ValidationResult]:
         """Validate password strength"""
         if len(password) < 8:
@@ -305,15 +350,15 @@ class SecurityValidator(BaseValidator):
                 message="Password must be at least 8 characters long",
                 field_path="password",
                 actual_value=len(password),
-                expected_value=">= 8"
+                expected_value=">= 8",
             )
-        
+
         # Check for complexity requirements
         has_upper = any(c.isupper() for c in password)
         has_lower = any(c.islower() for c in password)
         has_digit = any(c.isdigit() for c in password)
         has_special = any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?" for c in password)
-        
+
         if not (has_upper and has_lower and has_digit and has_special):
             return self._create_result(
                 rule_id="password_complexity",
@@ -323,15 +368,15 @@ class SecurityValidator(BaseValidator):
                 message="Password must contain uppercase, lowercase, digit, and special character",
                 field_path="password",
                 actual_value="insufficient complexity",
-                expected_value="mixed case, digits, and special characters"
+                expected_value="mixed case, digits, and special characters",
             )
-        
+
         return None
-    
+
     def _validate_authorization(self, authorization: Any) -> List[ValidationResult]:
         """Validate authorization data"""
         results = []
-        
+
         if not isinstance(authorization, dict):
             result = self._create_result(
                 rule_id="authorization_type",
@@ -341,11 +386,11 @@ class SecurityValidator(BaseValidator):
                 message="Authorization data must be a dictionary",
                 field_path="authorization",
                 actual_value=type(authorization).__name__,
-                expected_value="dict"
+                expected_value="dict",
             )
             results.append(result)
             return results
-        
+
         # Validate roles if present
         if "roles" in authorization:
             roles = authorization["roles"]
@@ -359,7 +404,7 @@ class SecurityValidator(BaseValidator):
                         message="No roles defined for authorization",
                         field_path="authorization.roles",
                         actual_value=roles,
-                        expected_value="non-empty list of roles"
+                        expected_value="non-empty list of roles",
                     )
                     results.append(result)
                 else:
@@ -374,10 +419,10 @@ class SecurityValidator(BaseValidator):
                                 message=f"Role {i} must be a string",
                                 field_path=f"authorization.roles[{i}]",
                                 actual_value=type(role).__name__,
-                                expected_value="str"
+                                expected_value="str",
                             )
                             results.append(result)
-        
+
         # Validate permissions if present
         if "permissions" in authorization:
             permissions = authorization["permissions"]
@@ -391,16 +436,16 @@ class SecurityValidator(BaseValidator):
                         message="No permissions defined for authorization",
                         field_path="authorization.permissions",
                         actual_value=permissions,
-                        expected_value="non-empty list of permissions"
+                        expected_value="non-empty list of permissions",
                     )
                     results.append(result)
-        
+
         return results
-    
+
     def _validate_encryption(self, encryption: Any) -> List[ValidationResult]:
         """Validate encryption data"""
         results = []
-        
+
         if not isinstance(encryption, dict):
             result = self._create_result(
                 rule_id="encryption_type",
@@ -410,16 +455,23 @@ class SecurityValidator(BaseValidator):
                 message="Encryption data must be a dictionary",
                 field_path="encryption",
                 actual_value=type(encryption).__name__,
-                expected_value="dict"
+                expected_value="dict",
             )
             results.append(result)
             return results
-        
+
         # Validate encryption algorithm if present
         if "algorithm" in encryption:
             algorithm = encryption["algorithm"]
-            valid_algorithms = ["AES", "RSA", "ChaCha20", "Ed25519", "SHA-256", "SHA-512"]
-            
+            valid_algorithms = [
+                "AES",
+                "RSA",
+                "ChaCha20",
+                "Ed25519",
+                "SHA-256",
+                "SHA-512",
+            ]
+
             if not isinstance(algorithm, str):
                 result = self._create_result(
                     rule_id="encryption_algorithm_type",
@@ -429,7 +481,7 @@ class SecurityValidator(BaseValidator):
                     message="Encryption algorithm must be a string",
                     field_path="encryption.algorithm",
                     actual_value=type(algorithm).__name__,
-                    expected_value="str"
+                    expected_value="str",
                 )
                 results.append(result)
             elif algorithm not in valid_algorithms:
@@ -441,10 +493,10 @@ class SecurityValidator(BaseValidator):
                     message=f"Unrecognized encryption algorithm: {algorithm}",
                     field_path="encryption.algorithm",
                     actual_value=algorithm,
-                    expected_value=f"one of {valid_algorithms}"
+                    expected_value=f"one of {valid_algorithms}",
                 )
                 results.append(result)
-        
+
         # Validate key size if present
         if "key_size" in encryption:
             key_size = encryption["key_size"]
@@ -458,16 +510,16 @@ class SecurityValidator(BaseValidator):
                         message=f"Encryption key size too small: {key_size} bits",
                         field_path="encryption.key_size",
                         actual_value=f"{key_size} bits",
-                        expected_value=">= 128 bits"
+                        expected_value=">= 128 bits",
                     )
                     results.append(result)
-        
+
         return results
-    
+
     def _check_sensitive_data_exposure(self, data: Any) -> List[ValidationResult]:
         """Check for potential sensitive data exposure"""
         results = []
-        
+
         if isinstance(data, dict):
             for key, value in data.items():
                 # Check if field name suggests sensitive data
@@ -484,17 +536,17 @@ class SecurityValidator(BaseValidator):
                                 message=f"Potential sensitive data exposure in field '{key}'",
                                 field_path=key,
                                 actual_value="sensitive data detected",
-                                expected_value="masked or encrypted value"
+                                expected_value="masked or encrypted value",
                             )
                             results.append(result)
-                
+
                 # Recursively check nested structures
                 if isinstance(value, (dict, list)):
                     nested_results = self._check_sensitive_data_exposure(value)
                     for nested_result in nested_results:
                         nested_result.field_path = f"{key}.{nested_result.field_path}"
                     results.extend(nested_results)
-        
+
         elif isinstance(data, list):
             for i, item in enumerate(data):
                 if isinstance(item, (dict, list)):
@@ -502,9 +554,9 @@ class SecurityValidator(BaseValidator):
                     for nested_result in nested_results:
                         nested_result.field_path = f"[{i}].{nested_result.field_path}"
                     results.extend(nested_results)
-        
+
         return results
-    
+
     def _looks_like_sensitive_data(self, value: str) -> bool:
         """Check if a string value looks like sensitive data"""
         # Check for common patterns
@@ -516,13 +568,13 @@ class SecurityValidator(BaseValidator):
             return True
         if re.match(self.security_patterns["email"], value):
             return True
-        
+
         # Check for long random-looking strings
         if len(value) > 20 and value.isalnum():
             return True
-        
+
         return False
-    
+
     def add_security_pattern(self, pattern_name: str, pattern: str) -> bool:
         """Add a custom security pattern"""
         try:
@@ -532,7 +584,7 @@ class SecurityValidator(BaseValidator):
         except Exception as e:
             self.logger.error(f"Failed to add security pattern: {e}")
             return False
-    
+
     def add_sensitive_field(self, field_name: str) -> bool:
         """Add a field name to the sensitive fields list"""
         try:
@@ -543,7 +595,7 @@ class SecurityValidator(BaseValidator):
         except Exception as e:
             self.logger.error(f"Failed to add sensitive field: {e}")
             return False
-    
+
     # Security Policy Validation functionality integration (from duplicate policy_validator.py)
     def validate_security_policy_legacy(self, policy: Dict[str, Any]) -> Dict[str, Any]:
         """Legacy security policy validation method (from duplicate policy_validator.py)"""
@@ -553,30 +605,48 @@ class SecurityValidator(BaseValidator):
             compliance_score = 100.0
 
             # Validate password policy
-            password_score, pw_warnings, pw_errors = self._validate_password_policy_legacy(policy)
+            (
+                password_score,
+                pw_warnings,
+                pw_errors,
+            ) = self._validate_password_policy_legacy(policy)
             warnings.extend(pw_warnings)
             errors.extend(pw_errors)
             compliance_score -= (100 - password_score) * 0.3
 
             # Validate authentication policy
-            auth_score, auth_warnings, auth_errors = self._validate_authentication_policy_legacy(policy)
+            (
+                auth_score,
+                auth_warnings,
+                auth_errors,
+            ) = self._validate_authentication_policy_legacy(policy)
             warnings.extend(auth_warnings)
             errors.extend(auth_errors)
             compliance_score -= (100 - auth_score) * 0.25
 
             # Validate session policy
-            sess_score, sess_warnings, sess_errors = self._validate_session_policy_legacy(policy)
+            (
+                sess_score,
+                sess_warnings,
+                sess_errors,
+            ) = self._validate_session_policy_legacy(policy)
             warnings.extend(sess_warnings)
             errors.extend(sess_errors)
             compliance_score -= (100 - sess_score) * 0.2
 
             # Validate security controls
-            ctrl_score, ctrl_warnings, ctrl_errors = self._validate_security_controls_legacy(policy)
+            (
+                ctrl_score,
+                ctrl_warnings,
+                ctrl_errors,
+            ) = self._validate_security_controls_legacy(policy)
             warnings.extend(ctrl_warnings)
             errors.extend(ctrl_errors)
             compliance_score -= (100 - ctrl_score) * 0.25
 
-            recommendations = self._generate_recommendations_legacy(warnings, errors, compliance_score)
+            recommendations = self._generate_recommendations_legacy(
+                warnings, errors, compliance_score
+            )
             is_valid = len(errors) == 0 and compliance_score >= 80.0
 
             return {
@@ -586,7 +656,7 @@ class SecurityValidator(BaseValidator):
                 "compliance_score": max(0.0, compliance_score),
                 "recommendations": recommendations,
             }
-            
+
         except Exception as e:
             self.logger.error(f"Security policy validation failed: {e}")
             return {
@@ -596,7 +666,7 @@ class SecurityValidator(BaseValidator):
                 "compliance_score": 0.0,
                 "recommendations": ["Fix validation system errors"],
             }
-    
+
     def _validate_password_policy_legacy(self, policy: Dict[str, Any]) -> tuple:
         """Validate password policy (from duplicate policy_validator.py)"""
         score = 100.0
@@ -608,7 +678,9 @@ class SecurityValidator(BaseValidator):
             errors.append("Password minimum length must be at least 8 characters")
             score -= 30
         elif min_length < 12:
-            warnings.append("Consider increasing password minimum length to 12+ characters")
+            warnings.append(
+                "Consider increasing password minimum length to 12+ characters"
+            )
             score -= 10
 
         if not policy.get("require_special_chars", False):
@@ -630,7 +702,7 @@ class SecurityValidator(BaseValidator):
             score -= 10
 
         return max(0.0, score), warnings, errors
-    
+
     def _validate_authentication_policy_legacy(self, policy: Dict[str, Any]) -> tuple:
         """Validate authentication policy (from duplicate policy_validator.py)"""
         score = 100.0
@@ -650,7 +722,7 @@ class SecurityValidator(BaseValidator):
             score -= 30
 
         return max(0.0, score), warnings, errors
-    
+
     def _validate_session_policy_legacy(self, policy: Dict[str, Any]) -> tuple:
         """Validate session policy (from duplicate policy_validator.py)"""
         score = 100.0
@@ -666,7 +738,7 @@ class SecurityValidator(BaseValidator):
             score -= 20
 
         return max(0.0, score), warnings, errors
-    
+
     def _validate_security_controls_legacy(self, policy: Dict[str, Any]) -> tuple:
         """Validate security controls (from duplicate policy_validator.py)"""
         score = 100.0
@@ -681,8 +753,10 @@ class SecurityValidator(BaseValidator):
             score -= 30
 
         return max(0.0, score), warnings, errors
-    
-    def _generate_recommendations_legacy(self, warnings: List[str], errors: List[str], compliance_score: float) -> List[str]:
+
+    def _generate_recommendations_legacy(
+        self, warnings: List[str], errors: List[str], compliance_score: float
+    ) -> List[str]:
         """Generate recommendations (from duplicate policy_validator.py)"""
         recommendations: List[str] = []
         for error in errors:
@@ -690,45 +764,58 @@ class SecurityValidator(BaseValidator):
         for warning in warnings:
             recommendations.append(f"IMPROVE: {warning}")
         if compliance_score < 70:
-            recommendations.extend([
-                "Conduct comprehensive security review",
-                "Implement security awareness training",
-            ])
+            recommendations.extend(
+                [
+                    "Conduct comprehensive security review",
+                    "Implement security awareness training",
+                ]
+            )
         elif compliance_score < 85:
-            recommendations.extend([
-                "Review and update security policies",
-                "Conduct security assessment",
-            ])
+            recommendations.extend(
+                [
+                    "Review and update security policies",
+                    "Conduct security assessment",
+                ]
+            )
         else:
-            recommendations.extend([
-                "Maintain current security posture",
-                "Schedule regular security reviews",
-            ])
+            recommendations.extend(
+                [
+                    "Maintain current security posture",
+                    "Schedule regular security reviews",
+                ]
+            )
         return recommendations
-    
+
     def get_security_policy_summary(self, policy: Dict[str, Any]) -> Dict[str, Any]:
         """Get security policy validation summary"""
         try:
             # Use both validation methods
             unified_results = self.validate(policy)
             legacy_results = self.validate_security_policy_legacy(policy)
-            
+
             return {
                 "unified_validation": {
                     "total": len(unified_results),
-                    "passed": len([r for r in unified_results if r.status.value == "passed"]),
-                    "failed": len([r for r in unified_results if r.status.value == "failed"]),
-                    "warnings": len([r for r in unified_results if r.severity.value == "warning"])
+                    "passed": len(
+                        [r for r in unified_results if r.status.value == "passed"]
+                    ),
+                    "failed": len(
+                        [r for r in unified_results if r.status.value == "failed"]
+                    ),
+                    "warnings": len(
+                        [r for r in unified_results if r.severity.value == "warning"]
+                    ),
                 },
                 "legacy_validation": legacy_results,
-                "timestamp": self._get_current_timestamp()
+                "timestamp": self._get_current_timestamp(),
             }
-            
+
         except Exception as e:
             self.logger.error(f"Failed to get security policy summary: {e}")
             return {"error": str(e)}
-    
+
     def _get_current_timestamp(self) -> str:
         """Get current timestamp in ISO format"""
         from datetime import datetime
+
         return datetime.now().isoformat()

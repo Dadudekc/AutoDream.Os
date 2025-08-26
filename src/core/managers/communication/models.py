@@ -12,35 +12,9 @@ License: MIT
 """
 
 from dataclasses import dataclass
-from enum import Enum
 from typing import Dict, Any, Optional
 
-
-class ChannelType(Enum):
-    """Communication channel types"""
-    HTTP = "http"
-    HTTPS = "https"
-    WEBSOCKET = "websocket"
-    TCP = "tcp"
-    UDP = "udp"
-    SERIAL = "serial"
-    MQTT = "mqtt"
-    REDIS = "redis"
-
-
-@dataclass
-class Channel:
-    """Communication channel definition"""
-    id: str
-    name: str
-    type: ChannelType
-    url: str
-    config: Dict[str, Any]
-    status: str
-    created_at: str
-    last_used: str
-    message_count: int
-    error_count: int
+from ...communication.channels import Channel, ChannelType
 
 
 @dataclass

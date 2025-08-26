@@ -64,7 +64,7 @@ def test_fsm_system_integration():
         print("\n🧪 Testing FSM System Integration...")
         
         # Test FSM system import
-        from fsm_core_v2 import FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowPriority, TransitionType
+        from fsm_core import FSMCore as FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowPriority, TransitionType
         print("✅ FSM Core V2 imported successfully")
         
         # Test FSM system creation

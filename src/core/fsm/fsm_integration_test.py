@@ -16,9 +16,17 @@ from unittest.mock import Mock, patch
 from datetime import datetime
 
 # Import FSM system
-from fsm_core_v2 import (
-    FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowInstance,
-    StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
+from fsm_core import (
+    FSMCore as FSMCoreV2,
+    StateDefinition,
+    TransitionDefinition,
+    WorkflowInstance,
+    StateStatus,
+    TransitionType,
+    WorkflowPriority,
+    StateHandler,
+    TransitionHandler,
+    StateExecutionResult,
 )
 
 
@@ -30,8 +38,6 @@ class MockStateHandler(StateHandler):
         self.execution_time = execution_time
     
     def execute(self, context):
-        from fsm_core_v2 import StateExecutionResult
-        
         time.sleep(self.execution_time)
         
         if self.should_succeed:

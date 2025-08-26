@@ -22,6 +22,8 @@ from datetime import datetime, timedelta
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from services.quality.models import QualityAlert
+
 # Import quality gates and V2 services
 try:
     from services.automated_quality_gates import AutomatedQualityGates
@@ -33,20 +35,6 @@ except ImportError as e:
     AutomatedQualityGates = None
     EnterpriseQualityAssurance = None
     V2IntegrationMonitoring = None
-
-
-@dataclass
-class QualityAlert:
-    """Quality alert notification"""
-
-    alert_id: str
-    severity: str  # LOW, MEDIUM, HIGH, CRITICAL
-    message: str
-    file_path: str
-    quality_score: float
-    threshold: float
-    timestamp: float
-    recommendations: List[str]
 
 
 @dataclass

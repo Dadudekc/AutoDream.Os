@@ -7,7 +7,6 @@ AI/ML specific test fixtures, mock data, and configuration
 
 import os
 import sys
-import tempfile
 import json
 
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -68,16 +67,6 @@ MOCK_ML_WORKFLOWS = {
     }
 }
 
-MOCK_CODE_GENERATION_REQUESTS = {
-    "simple_function": {
-        "description": "Create a function to calculate fibonacci numbers",
-        "language": "python",
-        "framework": None,
-        "requirements": ["recursive", "memoization"],
-        "include_tests": True,
-        "include_docs": True,
-    }
-}
 
 
 @pytest.fixture(scope="session")
@@ -98,25 +87,6 @@ def mock_ml_workflows() -> Dict[str, Any]:
     return MOCK_ML_WORKFLOWS.copy()
 
 
-@pytest.fixture(scope="session")
-def mock_code_requests() -> Dict[str, Any]:
-    """Provide mock code generation requests."""
-    return MOCK_CODE_GENERATION_REQUESTS.copy()
-
-
-@pytest.fixture(scope="function")
-def temp_ai_ml_dir() -> Generator[Path, None, None]:
-    """Create temporary directory for AI/ML tests."""
-    temp_dir = Path(tempfile.mkdtemp(prefix="ai_ml_test_"))
-    yield temp_dir
-    # Cleanup
-    if temp_dir.exists():
-        import shutil
-
-        shutil.rmtree(temp_dir)
-
-
-@pytest.fixture(scope="function")
 def mock_openai_client() -> Generator[Mock, None, None]:
     """Provide mock OpenAI client."""
     with patch("openai.OpenAI") as mock_client:
@@ -168,22 +138,3 @@ def mock_ml_framework() -> Generator[Mock, None, None]:
         yield mock_torch
 
 
-@pytest.fixture(scope="function")
-def sample_code_file(temp_ai_ml_dir: Path) -> Generator[Path, None, None]:
-    """Create a sample code file for testing."""
-    code_file = temp_ai_ml_dir / "sample_function.py"
-    sample_code = '''
-def fibonacci(n: int) -> int:
-    """Calculate fibonacci number recursively."""
-    if n <= 1:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
-
-def test_fibonacci():
-    """Test fibonacci function."""
-    assert fibonacci(0) == 0
-    assert fibonacci(1) == 1
-    assert fibonacci(5) == 5
-'''
-    code_file.write_text(sample_code)
-    yield code_file

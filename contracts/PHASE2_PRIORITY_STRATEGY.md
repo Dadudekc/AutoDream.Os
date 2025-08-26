@@ -24,7 +24,7 @@
 
 ### **Test Files (High Priority - 5 files):**
 1. **`tests/gaming/test_ai_agent_framework.py`** (992 LOC) → Target: 400 LOC
-2. **`tests/ai_ml/test_code_crafter.py`** (976 LOC) → Target: 400 LOC
+2. **`tests/code_generation/test_code_crafter.py`** (976 LOC) → Target: 400 LOC
 3. **`tests/gaming/test_osrs_ai_agent.py`** (900 LOC) → Target: 400 LOC
 4. **`tests/test_performance_monitoring_standalone.py`** (815 LOC) → Target: 400 LOC
 5. **`tests/test_autonomous_development.py`** (756 LOC) → Target: 400 LOC

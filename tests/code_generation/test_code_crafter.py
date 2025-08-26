@@ -1,7 +1,7 @@
 """Orchestrator for the modular CodeCrafter test suite.
 
 This file re-exports the main test classes so legacy imports of
-``tests.ai_ml.test_code_crafter`` continue to function. Each test class
+``tests.code_generation.test_code_crafter`` continue to function. Each test class
 is defined in its own module focusing on a single concern:
 
 * ``test_code_crafter_models`` – dataclass validations

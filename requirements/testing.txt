@@ -27,6 +27,7 @@ factory-boy>=3.2.0
 faker>=18.0.0
 responses>=0.23.0
 freezegun>=1.2.0
+psutil>=5.9.0
 
 # Performance Testing
 pytest-benchmark>=4.0.0

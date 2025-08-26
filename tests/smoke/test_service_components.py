@@ -21,7 +21,7 @@ from core.performance_monitor import PerformanceMonitor, MetricType
 from core.performance_dashboard import PerformanceDashboard
 from core.api_gateway import APIGateway
 from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
-from core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitorCore
+from core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 
 
 class TestServiceComponentsSmoke:

@@ -6,12 +6,12 @@ from .health_core import (
     HealthMonitoringOrchestrator,
 )
 
-# Import monitoring functions from monitoring_new (preserved functionality)
-from ..monitoring_new.health_monitoring_new_collector import (
+# Import monitoring functions from shared helpers
+from .health_collector import (
     collect_health_metrics,
     record_health_metric,
 )
-from ..monitoring_new.health_monitoring_new_analyzer import (
+from .health_analyzer import (
     perform_health_checks,
     update_health_scores,
     check_alerts,
@@ -23,7 +23,7 @@ from ..monitoring_new.health_monitoring_new_analyzer import (
     update_threshold,
     get_health_summary,
 )
-from ..monitoring_new.health_monitoring_new_config import (
+from .health_config import (
     HealthStatus,
     HealthMetricType,
     HealthMetric,

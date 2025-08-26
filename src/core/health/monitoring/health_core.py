@@ -5,7 +5,7 @@ import threading
 import time
 from typing import Any, Dict, Optional, Set, Callable
 
-from ..monitoring_new.health_monitoring_new_config import (
+from .health_config import (
     HealthAlert,
     HealthMetricType,
     HealthSnapshot,
@@ -13,8 +13,8 @@ from ..monitoring_new.health_monitoring_new_config import (
     HealthThreshold,
     initialize_default_thresholds,
 )
-from ..monitoring_new.health_monitoring_new_collector import collect_health_metrics, record_health_metric
-from ..monitoring_new.health_monitoring_new_analyzer import (
+from .health_collector import collect_health_metrics, record_health_metric
+from .health_analyzer import (
     acknowledge_alert,
     check_alerts,
     get_agent_health,

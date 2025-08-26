@@ -1,9 +1,9 @@
 import time
 
-from src.core.health.monitoring_new.health_monitoring_new_core import (
+from src.core.health.monitoring.health_core import (
     HealthMonitoringOrchestrator,
 )
-from src.core.health.monitoring.health_monitoring_metrics import (
+from src.core.health.monitoring.health_config import (
     HealthMetricType,
     HealthStatus,
 )

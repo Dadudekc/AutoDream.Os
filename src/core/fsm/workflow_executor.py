@@ -298,7 +298,7 @@ class WorkflowExecutor:
                 threading.Timer(
                     state_def.retry_delay,
                     lambda: self._execute_state(
-                        workflow_id, workflow, state_name, {}, {}, {}
+                        workflow_id, workflow, state_name, states, transitions, state_handlers
                     ),
                 ).start()
             else:

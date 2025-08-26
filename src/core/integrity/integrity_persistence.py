@@ -47,7 +47,9 @@ class IntegrityDataPersistence:
 
             os.replace(tmp_path, final_path)
             return True
-        except Exception:
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).error(f"Failed to save integrity data: {e}", exc_info=True)
             return False
 
 

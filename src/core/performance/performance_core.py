@@ -315,7 +315,10 @@ class UnifiedPerformanceSystem:
     # Extension hooks -----------------------------------------------------
     def register_extension_hook(self, hook_type: str, handler: Callable[["UnifiedPerformanceSystem"], None]):
         """Register a custom extension hook."""
-        self.extension_hooks.setdefault(hook_type, []).append(handler)
+        if hook_type not in self.extension_hooks:
+            self.logger.warning(f"Unknown hook type: '{hook_type}'. Valid types: {list(self.extension_hooks.keys())}")
+            return
+        self.extension_hooks[hook_type].append(handler)
 
     def _run_extension_hooks(self, hook_type: str) -> None:
         """Execute registered extension hooks."""

@@ -9,6 +9,7 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **Smoke tests and test suites** to validate components
 - **Structured logging and error handling**
 - **CI/CD templates** for Jenkins, GitLab CI and Docker
+- **Unified workspace management** via `UnifiedWorkspaceSystem`
 
 ## Getting Started
 ### Installation

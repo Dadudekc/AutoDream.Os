@@ -131,6 +131,9 @@ class V2MessageStorage(IMessageStorage):
                 logger.debug(f"Stored message {message.message_id}")
                 return True
 
+        except sqlite3.Error as e:
+            logger.error(f"Failed to store message in database: {e}")
+            return False
         except Exception as e:
             logger.error(f"Failed to store message: {e}")
             return False

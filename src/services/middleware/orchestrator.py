@@ -251,8 +251,8 @@ async def run_demo() -> None:
     packet = DataPacket(
         id="demo",
         data='{"message": "Hello"}',
-        metadata={"priority": "medium", "source": "agent"},
-        tags={"standard"},
+        metadata={"priority": 5, "source": "agent"},
+        tags={"standard", "json"},
     )
     result = await orchestrator.process_data_packet(packet)
     print(json.dumps(result.metadata, indent=2))

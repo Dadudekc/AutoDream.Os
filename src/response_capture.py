@@ -59,5 +59,5 @@ class ResponseCapture:
                 return True
             return False
         except Exception as e:
-            print(f"❌ Error capturing response: {e}")
+            print(f"❌ Error capturing response: {e}", file=sys.stderr)
             return False

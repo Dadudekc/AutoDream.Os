@@ -10,6 +10,8 @@ portal:
   enable_agent_integration: true
   max_agents: 8
   session_timeout: 3600
+  session_backend: "memory"  # Options: memory, sqlite
+  session_database: "auth_sessions.db"  # Used when session_backend=sqlite
   debug_mode: false
 
 flask:

@@ -12,11 +12,12 @@ import time
 import json
 import hashlib
 import threading
-from typing import Dict, List, Optional, Any, Callable
 import logging
 from pathlib import Path
 import sqlite3
 from datetime import datetime
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import asdict
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
@@ -29,6 +30,7 @@ from .integrity_types import (
     IntegrityViolation,
     IntegrityConfig,
 )
+from .integrity_persistence import IntegrityDataPersistence
 
 
 class DataIntegrityManager(BaseManager):
@@ -64,6 +66,11 @@ class DataIntegrityManager(BaseManager):
         self.integrity_operations: List[Dict[str, Any]] = []
         self.recovery_operations: List[Dict[str, Any]] = []
         self.verification_operations: List[Dict[str, Any]] = []
+
+        # Persistence handler
+        self.persistence = IntegrityDataPersistence(
+            base_path=str(self.storage_path / "integrity_management")
+        )
 
         # Background integrity monitoring
         self.monitoring_active = False
@@ -487,13 +494,26 @@ class DataIntegrityManager(BaseManager):
     # ============================================================================
     
     def _save_data_integrity_management_data(self):
-        """Save data integrity management data (placeholder for future persistence)"""
+        """Serialize and persist current integrity management state."""
         try:
-            # TODO: Implement persistence to database/file
-            self.logger.debug("Data integrity management data saved")
-            
+            state = {
+                "active_checks": {k: asdict(v) for k, v in self.active_checks.items()},
+                "check_history": [asdict(c) for c in self.check_history],
+                "integrity_operations": self.integrity_operations,
+                "recovery_operations": self.recovery_operations,
+                "verification_operations": self.verification_operations,
+                "timestamp": datetime.now().isoformat(),
+                "manager_id": self.manager_id,
+            }
+
+            if not self.persistence.save(state):
+                self.logger.warning("Persistence failed, data only logged in memory")
+            else:
+                self.logger.debug("Data integrity management data saved")
+
         except Exception as e:
             self.logger.error(f"Failed to save data integrity management data: {e}")
+            self.logger.warning("Persistence failed, data only logged in memory")
     
     def _check_data_integrity_management_health(self):
         """Check data integrity management health status"""

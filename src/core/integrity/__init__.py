@@ -17,6 +17,7 @@ from .integrity_types import (
 )
 
 from .integrity_core import DataIntegrityManager
+from .integrity_persistence import IntegrityDataPersistence
 
 # Backward compatibility - maintain original interface
 __all__ = [
@@ -29,6 +30,7 @@ __all__ = [
     "IntegrityConfig",
     # Core classes
     "DataIntegrityManager",
+    "IntegrityDataPersistence",
     # Legacy alias for backward compatibility
     "DataIntegrityManager as IntegrityManager",  # Maintains original import
 ]

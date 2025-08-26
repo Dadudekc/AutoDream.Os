@@ -41,7 +41,7 @@ class StatusRegistry:
     ) -> str:
         """Add a new status item and emit corresponding event."""
         with self.status_lock:
-            status_id = f"{component}_{int(time.time())}_{len(self.status_items)}"
+            status_id = str(uuid.uuid4())
             item = StatusItem(
                 id=status_id,
                 component=component,

@@ -20,15 +20,29 @@ from pathlib import Path
 
 # Import FSM system
 try:
-    from fsm_core_v2 import (
-        FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowInstance,
-        StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
+    from fsm_core import (
+        FSMCore as FSMCoreV2,
+        StateDefinition,
+        TransitionDefinition,
+        WorkflowInstance,
+        StateStatus,
+        TransitionType,
+        WorkflowPriority,
+        StateHandler,
+        TransitionHandler,
     )
 except ImportError:
     # Fallback for direct execution
-    from .fsm_core_v2 import (
-        FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowInstance,
-        StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
+    from .fsm_core import (
+        FSMCore as FSMCoreV2,
+        StateDefinition,
+        TransitionDefinition,
+        WorkflowInstance,
+        StateStatus,
+        TransitionType,
+        WorkflowPriority,
+        StateHandler,
+        TransitionHandler,
     )
 
 # Import compliance monitoring system

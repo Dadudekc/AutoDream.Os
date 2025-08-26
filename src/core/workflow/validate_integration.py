@@ -41,10 +41,10 @@ def validate_imports():
     
     try:
         # Test FSM system import
-        from ..fsm.fsm_core_v2 import FSMCoreV2
-        print("✅ FSM Core V2 imported successfully")
+        from ..fsm.fsm_core import FSMCore
+        print("✅ FSM Core imported successfully")
     except ImportError as e:
-        print(f"❌ FSM Core V2 import failed: {e}")
+        print(f"❌ FSM Core import failed: {e}")
         return False
     
     return True

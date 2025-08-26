@@ -12,7 +12,7 @@ License: MIT
 """
 
 # Core FSM components
-from .fsm_core import FSMCore
+from .fsm_core import FSMCore, FSMCoreV2
 from .workflow_executor import WorkflowExecutor
 from .task_manager import TaskManager
 from .communication_bridge import CommunicationBridge
@@ -41,5 +41,6 @@ __all__ = [
 
     # Types
     'FSMConfig',
-    'FSMStrategy'
+    'FSMStrategy',
+    'FSMCoreV2'
 ]

@@ -10,7 +10,8 @@ Follows V2 coding standards: ≤300 lines per module.
 import json
 import time
 from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
+from src.utils.serializable import SerializableMixin
 from enum import Enum
 from pathlib import Path
 import logging
@@ -37,7 +38,7 @@ class TestType(Enum):
 
 
 @dataclass
-class QualityMetric:
+class QualityMetric(SerializableMixin):
     """Quality metric data structure"""
     metric_name: str
     value: Union[float, int, str, bool]
@@ -47,9 +48,6 @@ class QualityMetric:
     service_id: str
     description: str
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary representation"""
-        return asdict(self)
 
     def meets_threshold(self) -> bool:
         """Check if metric meets quality threshold"""
@@ -65,7 +63,7 @@ class QualityMetric:
 
 
 @dataclass
-class TestResult:
+class TestResult(SerializableMixin):
     """Test result data structure"""
     test_id: str
     test_name: str
@@ -79,7 +77,7 @@ class TestResult:
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation"""
-        result = asdict(self)
+        result = super().to_dict()
         result['test_type'] = self.test_type.value
         return result
 
@@ -93,7 +91,7 @@ class TestResult:
 
 
 @dataclass
-class QualityReport:
+class QualityReport(SerializableMixin):
     """Quality report data structure"""
     report_id: str
     timestamp: float
@@ -106,9 +104,6 @@ class QualityReport:
     test_results: List[TestResult]
     recommendations: List[str]
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary representation"""
-        return asdict(self)
 
     def get_pass_rate(self) -> float:
         """Calculate test pass rate"""

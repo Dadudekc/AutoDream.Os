@@ -13,37 +13,19 @@ Follows V2 standards: 400 LOC, OOP design, SRP.
 
 import logging
 import uuid
-from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Set, Callable
-from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional, Set
 
-from .learning_models import (
+from .models import (
     LearningData, LearningGoal, LearningProgress, LearningMode,
     IntelligenceLevel, LearningStatus, LearningPattern, LearningStrategy,
-    LearningMetrics, LearningSession, LearningConfiguration
+    LearningMetrics, LearningSession, LearningConfiguration, LearningEngineConfig
 )
 from .decision_models import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
     DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
     DecisionRule, DecisionMetrics, DecisionWorkflow, DecisionCollaboration
 )
-
-
-@dataclass
-class LearningEngineConfig:
-    """Configuration for the unified learning engine"""
-    engine_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    max_concurrent_sessions: int = 10
-    session_timeout_minutes: int = 60
-    learning_rate: float = 0.1
-    batch_size: int = 32
-    max_iterations: int = 1000
-    convergence_threshold: float = 0.001
-    enable_adaptive_learning: bool = True
-    enable_collaborative_learning: bool = True
-    log_level: str = "INFO"
-    created_at: datetime = field(default_factory=datetime.now)
 
 
 class UnifiedLearningEngine:

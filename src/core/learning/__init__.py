@@ -14,12 +14,14 @@ Follows V2 standards: 400 LOC, OOP design, SRP.
 from .unified_learning_engine import UnifiedLearningEngine
 from .learning_manager import LearningManager
 # ARCHITECTURE CORRECTED: Decision manager moved to decision module
-from .learning_models import (
+from .models import (
     LearningData,
     LearningGoal,
     LearningProgress,
     LearningMode,
-    IntelligenceLevel
+    IntelligenceLevel,
+    LearningManagerConfig,
+    LearningEngineConfig,
 )
 
 __all__ = [
@@ -31,10 +33,12 @@ __all__ = [
     
     # Learning Models
     "LearningData",
-    "LearningGoal", 
+    "LearningGoal",
     "LearningProgress",
     "LearningMode",
     "IntelligenceLevel",
+    "LearningManagerConfig",
+    "LearningEngineConfig",
 ]
 
 # Version information

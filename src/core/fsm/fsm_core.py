@@ -1,64 +1,204 @@
 #!/usr/bin/env python3
 """
-FSM Core - V2 Modular Architecture
-==================================
+FSM Core V2 - Finite State Machine System for Phase 2 Workflow Management
+=======================================================================
 
-Core FSM functionality for state and transition management.
-Follows V2 standards: OOP design, SRP, no strict LOC limits.
+Implements a robust finite state machine system for managing complex workflows
+and state transitions in the Agent Cellphone V2 system.
 
-Author: Agent-4 (Captain)
-Task: TASK 4I - FSM System Modularization
+Follows V2 standards: ≤400 LOC, SRP, OOP principles, existing architecture integration.
+
+Author: Agent-1 (Integration & Core Systems)
 License: MIT
 """
 
 import logging
 import json
 import time
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Set
-from collections import defaultdict
+import threading
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, asdict
+from datetime import datetime
+from enum import Enum
+from typing import Dict, List, Optional, Any, Callable, Union, Set
+from collections import defaultdict, deque
 
-from .models import (
-    StateDefinition, TransitionDefinition, WorkflowInstance,
-    StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
-)
+# Local helpers
+from .helpers import load_fsm_config
 from .types import FSMConfig
 
 
-logger = logging.getLogger(__name__)
+# ============================================================================
+# ENUMS AND DATA MODELS
+# ============================================================================
 
+class StateStatus(Enum):
+    """State execution status."""
+    PENDING = "pending"
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    SKIPPED = "skipped"
+    TIMEOUT = "timeout"
+
+
+class TransitionType(Enum):
+    """Types of state transitions."""
+    AUTOMATIC = "automatic"
+    MANUAL = "manual"
+    CONDITIONAL = "conditional"
+    TIMEOUT = "timeout"
+    ERROR = "error"
+
+
+class WorkflowPriority(Enum):
+    """Workflow priority levels."""
+    LOW = "low"
+    NORMAL = "normal"
+    HIGH = "high"
+    CRITICAL = "critical"
+    EMERGENCY = "emergency"
+
+
+@dataclass
+class StateDefinition:
+    """State definition structure."""
+    name: str
+    description: str
+    entry_actions: List[str]
+    exit_actions: List[str]
+    timeout_seconds: Optional[float]
+    retry_count: int
+    retry_delay: float
+    required_resources: List[str]
+    dependencies: List[str]
+    metadata: Dict[str, Any]
+
+
+@dataclass
+class TransitionDefinition:
+    """Transition definition structure."""
+    from_state: str
+    to_state: str
+    transition_type: TransitionType
+    condition: Optional[str]
+    priority: int
+    timeout_seconds: Optional[float]
+    actions: List[str]
+    metadata: Dict[str, Any]
+
+
+@dataclass
+class WorkflowInstance:
+    """Workflow instance tracking."""
+    workflow_id: str
+    workflow_name: str
+    current_state: str
+    state_history: List[Dict[str, Any]]
+    start_time: datetime
+    last_update: datetime
+    status: StateStatus
+    priority: WorkflowPriority
+    metadata: Dict[str, Any]
+    error_count: int
+    retry_count: int
+
+
+@dataclass
+class StateExecutionResult:
+    """Result of state execution."""
+    state_name: str
+    execution_time: float
+    status: StateStatus
+    output: Dict[str, Any]
+    error_message: Optional[str]
+    metadata: Dict[str, Any]
+    timestamp: datetime
+
+
+# ============================================================================
+# ABSTRACT BASE CLASSES
+# ============================================================================
+
+class StateHandler(ABC):
+    """Abstract base class for state handlers."""
+    
+    @abstractmethod
+    def execute(self, context: Dict[str, Any]) -> StateExecutionResult:
+        """Execute the state logic."""
+        pass
+    
+    @abstractmethod
+    def can_transition(self, context: Dict[str, Any]) -> bool:
+        """Check if transition to this state is allowed."""
+        pass
+
+
+class TransitionHandler(ABC):
+    """Abstract base class for transition handlers."""
+    
+    @abstractmethod
+    def evaluate(self, context: Dict[str, Any]) -> bool:
+        """Evaluate transition condition."""
+        pass
+    
+    @abstractmethod
+    def execute(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute transition actions."""
+        pass
+
+
+# ============================================================================
+# FSM CORE SYSTEM
+# ============================================================================
 
 class FSMCore:
     """
-    FSM Core - State and Transition Management
-    
-    Single responsibility: Manage workflow state transitions and execution
-    following V2 architecture standards.
+    FSM Core - Finite State Machine System
+
+    Manages workflow state transitions and execution following V2 architecture
+    standards.
     """
-    
-    def __init__(self, config: Optional[FSMConfig] = None):
+
+    def __init__(
+        self,
+        config: Optional[FSMConfig] = None,
+        config_file: Optional[str] = None,
+    ) -> None:
         """Initialize FSM core system."""
         self.logger = logging.getLogger(f"{__name__}.FSMCore")
-        
+
         # Core data structures
         self.states: Dict[str, StateDefinition] = {}
         self.transitions: Dict[str, List[TransitionDefinition]] = defaultdict(list)
         self.workflows: Dict[str, WorkflowInstance] = {}
         self.state_handlers: Dict[str, StateHandler] = {}
         self.transition_handlers: Dict[str, TransitionHandler] = {}
-        
+
         # System state
         self.is_running = False
-        
+        self.active_workflows: Set[str] = set()
+        self.workflow_queue: deque = deque()
+
         # Configuration
-        self.config = config or FSMConfig()
-        
+        if config is not None:
+            self.config = asdict(config)
+        else:
+            self.config = load_fsm_config(config_file)
+        self.max_concurrent_workflows = self.config.get("max_concurrent_workflows", 10)
+        self.default_timeout = self.config.get("default_timeout", 300.0)
+        self.enable_logging = self.config.get("enable_logging", True)
+
+        # Monitoring
+        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_active = False
+
         # Statistics
         self.total_workflows_executed = 0
         self.successful_workflows = 0
         self.failed_workflows = 0
         self.total_state_transitions = 0
-        
+
         self.logger.info("✅ FSM Core initialized successfully")
     
     # ============================================================================
@@ -231,8 +371,8 @@ class FSMCore:
                 workflow_name=workflow_name,
                 current_state=initial_state,
                 state_history=[],
-                start_time=time.time(),
-                last_update=time.time(),
+                start_time=datetime.now(),
+                last_update=datetime.now(),
                 status=StateStatus.PENDING,
                 priority=priority,
                 metadata=metadata or {},
@@ -243,12 +383,73 @@ class FSMCore:
             # Store workflow
             self.workflows[workflow_id] = workflow
             
+            # Add to queue
+            self.workflow_queue.append(workflow_id)
+            
             self.logger.info(f"✅ Created workflow: {workflow_id} starting at {initial_state}")
             return workflow_id
             
         except Exception as e:
             self.logger.error(f"Failed to create workflow: {e}")
             return None
+    
+    def start_workflow(self, workflow_id: str) -> bool:
+        """Start a workflow execution."""
+        try:
+            if workflow_id not in self.workflows:
+                self.logger.error(f"Workflow {workflow_id} not found")
+                return False
+            
+            workflow = self.workflows[workflow_id]
+            
+            if workflow.status != StateStatus.PENDING:
+                self.logger.warning(f"Workflow {workflow_id} is not in pending state")
+                return False
+            
+            # Check concurrent workflow limit
+            if len(self.active_workflows) >= self.max_concurrent_workflows:
+                self.logger.warning(f"Maximum concurrent workflows reached, queuing {workflow_id}")
+                return False
+            
+            # Start workflow
+            workflow.status = StateStatus.ACTIVE
+            workflow.last_update = datetime.now()
+            self.active_workflows.add(workflow_id)
+            
+            # Execute initial state
+            self._execute_state(workflow_id, workflow.current_state)
+            
+            self.logger.info(f"✅ Started workflow: {workflow_id}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to start workflow {workflow_id}: {e}")
+            return False
+    
+    def stop_workflow(self, workflow_id: str) -> bool:
+        """Stop a workflow execution."""
+        try:
+            if workflow_id not in self.workflows:
+                return False
+            
+            workflow = self.workflows[workflow_id]
+            
+            if workflow.status not in [StateStatus.ACTIVE, StateStatus.PENDING]:
+                return False
+            
+            # Stop workflow
+            workflow.status = StateStatus.FAILED
+            workflow.last_update = datetime.now()
+            
+            if workflow_id in self.active_workflows:
+                self.active_workflows.remove(workflow_id)
+            
+            self.logger.info(f"✅ Stopped workflow: {workflow_id}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to stop workflow {workflow_id}: {e}")
+            return False
     
     def get_workflow(self, workflow_id: str) -> Optional[WorkflowInstance]:
         """Get workflow instance by ID."""
@@ -262,33 +463,177 @@ class FSMCore:
         return [w for w in self.workflows.values() if w.status == status]
     
     # ============================================================================
-    # HANDLER MANAGEMENT
+    # STATE EXECUTION
     # ============================================================================
     
-    def register_state_handler(self, state_name: str, handler: StateHandler) -> bool:
-        """Register a state handler."""
+    def _execute_state(self, workflow_id: str, state_name: str) -> bool:
+        """Execute a specific state in a workflow."""
         try:
-            if state_name not in self.states:
+            workflow = self.workflows[workflow_id]
+            state_def = self.states[state_name]
+            
+            if not state_def:
                 self.logger.error(f"State {state_name} not found")
                 return False
             
-            self.state_handlers[state_name] = handler
-            self.logger.info(f"✅ Registered state handler for: {state_name}")
+            # Update workflow state
+            workflow.current_state = state_name
+            workflow.last_update = datetime.now()
+            
+            # Execute entry actions
+            self._execute_actions(workflow_id, state_def.entry_actions, "entry")
+            
+            # Execute state logic if handler exists
+            if state_name in self.state_handlers:
+                handler = self.state_handlers[state_name]
+                context = self._build_context(workflow)
+                
+                start_time = time.time()
+                result = handler.execute(context)
+                execution_time = time.time() - start_time
+                
+                # Update state history
+                workflow.state_history.append({
+                    "state": state_name,
+                    "execution_time": execution_time,
+                    "status": result.status.value,
+                    "output": result.output,
+                    "error_message": result.error_message,
+                    "timestamp": result.timestamp.isoformat()
+                })
+                
+                # Handle execution result
+                if result.status == StateStatus.COMPLETED:
+                    self._handle_state_completion(workflow_id, state_name, result)
+                elif result.status == StateStatus.FAILED:
+                    self._handle_state_failure(workflow_id, state_name, result)
+                elif result.status == StateStatus.TIMEOUT:
+                    self._handle_state_timeout(workflow_id, state_name, result)
+                
+            else:
+                # No handler, mark as completed
+                self._handle_state_completion(workflow_id, state_name, None)
+            
             return True
             
         except Exception as e:
-            self.logger.error(f"Failed to register state handler: {e}")
+            self.logger.error(f"Failed to execute state {state_name} in workflow {workflow_id}: {e}")
             return False
     
-    def register_transition_handler(self, transition_id: str, handler: TransitionHandler) -> bool:
-        """Register a transition handler."""
+    def _execute_actions(self, workflow_id: str, actions: List[str], action_type: str) -> None:
+        """Execute a list of actions."""
+        for action in actions:
+            try:
+                self.logger.debug(f"Executing {action_type} action: {action} for workflow {workflow_id}")
+                # Action execution logic can be extended here
+                
+            except Exception as e:
+                self.logger.error(f"Failed to execute {action_type} action {action}: {e}")
+    
+    def _build_context(self, workflow: WorkflowInstance) -> Dict[str, Any]:
+        """Build execution context for state handlers."""
+        return {
+            "workflow_id": workflow.workflow_id,
+            "workflow_name": workflow.workflow_name,
+            "current_state": workflow.current_state,
+            "state_history": workflow.state_history,
+            "metadata": workflow.metadata,
+            "start_time": workflow.start_time.isoformat(),
+            "priority": workflow.priority.value
+        }
+    
+    def _handle_state_completion(self, workflow_id: str, state_name: str, result: Optional[StateExecutionResult]) -> None:
+        """Handle successful state completion."""
         try:
-            self.transition_handlers[transition_id] = handler
-            self.logger.info(f"✅ Registered transition handler: {transition_id}")
+            workflow = self.workflows[workflow_id]
+            
+            # Find available transitions
+            available_transitions = self.get_available_transitions(state_name, self._build_context(workflow))
+            
+            if available_transitions:
+                # Execute automatic transition
+                next_transition = available_transitions[0]  # Highest priority
+                self._execute_transition(workflow_id, next_transition)
+            else:
+                # No transitions available, workflow completed
+                workflow.status = StateStatus.COMPLETED
+                workflow.last_update = datetime.now()
+                self.active_workflows.discard(workflow_id)
+                
+                self.successful_workflows += 1
+                self.logger.info(f"✅ Workflow {workflow_id} completed successfully")
+                
+        except Exception as e:
+            self.logger.error(f"Failed to handle state completion: {e}")
+    
+    def _handle_state_failure(self, workflow_id: str, state_name: str, result: StateExecutionResult) -> None:
+        """Handle state execution failure."""
+        try:
+            workflow = self.workflows[workflow_id]
+            workflow.error_count += 1
+            
+            # Check retry policy
+            state_def = self.states[state_name]
+            if workflow.retry_count < state_def.retry_count:
+                workflow.retry_count += 1
+                self.logger.info(f"Retrying state {state_name} in workflow {workflow_id} (attempt {workflow.retry_count})")
+                
+                # Schedule retry
+                threading.Timer(state_def.retry_delay, 
+                              lambda: self._execute_state(workflow_id, state_name)).start()
+            else:
+                # Max retries exceeded
+                workflow.status = StateStatus.FAILED
+                workflow.last_update = datetime.now()
+                self.active_workflows.discard(workflow_id)
+                
+                self.failed_workflows += 1
+                self.logger.error(f"❌ Workflow {workflow_id} failed after {workflow.retry_count} retries")
+                
+        except Exception as e:
+            self.logger.error(f"Failed to handle state failure: {e}")
+    
+    def _handle_state_timeout(self, workflow_id: str, state_name: str, result: StateExecutionResult) -> None:
+        """Handle state execution timeout."""
+        try:
+            workflow = self.workflows[workflow_id]
+            workflow.status = StateStatus.TIMEOUT
+            workflow.last_update = datetime.now()
+            self.active_workflows.discard(workflow_id)
+            
+            self.failed_workflows += 1
+            self.logger.error(f"⏰ Workflow {workflow_id} timed out in state {state_name}")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to handle state timeout: {e}")
+    
+    def _execute_transition(self, workflow_id: str, transition: TransitionDefinition) -> bool:
+        """Execute a state transition."""
+        try:
+            workflow = self.workflows[workflow_id]
+            
+            # Execute transition actions
+            self._execute_actions(workflow_id, transition.actions, "transition")
+            
+            # Update workflow state
+            old_state = workflow.current_state
+            workflow.current_state = transition.to_state
+            workflow.last_update = datetime.now()
+            
+            # Execute exit actions for old state
+            old_state_def = self.states.get(old_state)
+            if old_state_def:
+                self._execute_actions(workflow_id, old_state_def.exit_actions, "exit")
+            
+            # Execute new state
+            self._execute_state(workflow_id, transition.to_state)
+            
+            self.total_state_transitions += 1
+            self.logger.info(f"✅ Transition: {old_state} -> {transition.to_state} in workflow {workflow_id}")
             return True
             
         except Exception as e:
-            self.logger.error(f"Failed to register transition handler: {e}")
+            self.logger.error(f"Failed to execute transition: {e}")
             return False
     
     # ============================================================================
@@ -303,6 +648,11 @@ class FSMCore:
                 return True
             
             self.is_running = True
+            
+            # Start monitoring
+            if self.config.get("monitoring", {}).get("enabled", True):
+                self._start_monitoring()
+            
             self.logger.info("✅ FSM system started successfully")
             return True
             
@@ -318,12 +668,75 @@ class FSMCore:
                 return True
             
             self.is_running = False
+            
+            # Stop monitoring
+            self._stop_monitoring()
+            
+            # Stop all active workflows
+            for workflow_id in list(self.active_workflows):
+                self.stop_workflow(workflow_id)
+            
             self.logger.info("✅ FSM system stopped successfully")
             return True
             
         except Exception as e:
             self.logger.error(f"Failed to stop FSM system: {e}")
             return False
+    
+    def _start_monitoring(self) -> None:
+        """Start FSM monitoring thread."""
+        if self.monitoring_active:
+            return
+        
+        self.monitoring_active = True
+        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self.monitoring_thread.start()
+        self.logger.info("✅ FSM monitoring started")
+    
+    def _stop_monitoring(self) -> None:
+        """Stop FSM monitoring thread."""
+        self.monitoring_active = False
+        if self.monitoring_thread:
+            self.monitoring_thread.join(timeout=5.0)
+        self.logger.info("✅ FSM monitoring stopped")
+    
+    def _monitoring_loop(self) -> None:
+        """Main monitoring loop."""
+        while self.monitoring_active and self.is_running:
+            try:
+                # Process workflow queue
+                self._process_workflow_queue()
+                
+                # Check for timeouts
+                self._check_timeouts()
+                
+                # Sleep for monitoring interval
+                interval = self.config.get("monitoring", {}).get("interval", 1.0)
+                time.sleep(interval)
+                
+            except Exception as e:
+                self.logger.error(f"Monitoring loop error: {e}")
+                time.sleep(1.0)
+    
+    def _process_workflow_queue(self) -> None:
+        """Process pending workflows in queue."""
+        while self.workflow_queue and len(self.active_workflows) < self.max_concurrent_workflows:
+            workflow_id = self.workflow_queue.popleft()
+            self.start_workflow(workflow_id)
+    
+    def _check_timeouts(self) -> None:
+        """Check for workflow timeouts."""
+        current_time = datetime.now()
+        
+        for workflow_id in list(self.active_workflows):
+            workflow = self.workflows[workflow_id]
+            state_def = self.states.get(workflow.current_state)
+            
+            if state_def and state_def.timeout_seconds:
+                elapsed = (current_time - workflow.last_update).total_seconds()
+                if elapsed > state_def.timeout_seconds:
+                    self.logger.warning(f"Workflow {workflow_id} timed out in state {workflow.current_state}")
+                    self._handle_state_timeout(workflow_id, workflow.current_state, None)
     
     # ============================================================================
     # STATISTICS AND REPORTING
@@ -333,14 +746,15 @@ class FSMCore:
         """Get FSM system statistics."""
         return {
             "total_workflows": len(self.workflows),
-            "total_states": len(self.states),
-            "total_transitions": sum(len(transitions) for transitions in self.transitions.values()),
+            "active_workflows": len(self.active_workflows),
+            "queued_workflows": len(self.workflow_queue),
             "total_workflows_executed": self.total_workflows_executed,
             "successful_workflows": self.successful_workflows,
             "failed_workflows": self.failed_workflows,
             "total_state_transitions": self.total_state_transitions,
             "system_status": "running" if self.is_running else "stopped",
-            "last_updated": time.time()
+            "monitoring_active": self.monitoring_active,
+            "last_updated": datetime.now().isoformat()
         }
     
     def export_workflow_report(self, workflow_id: str, format: str = "json") -> Optional[str]:
@@ -351,7 +765,7 @@ class FSMCore:
                 return None
             
             if format.lower() == "json":
-                return json.dumps(workflow.__dict__, indent=2, default=str)
+                return json.dumps(asdict(workflow), indent=2, default=str)
             else:
                 return f"Report format '{format}' not supported"
                 
@@ -362,9 +776,50 @@ class FSMCore:
     def clear_history(self) -> None:
         """Clear workflow history."""
         self.workflows.clear()
+        self.active_workflows.clear()
+        self.workflow_queue.clear()
         self.total_workflows_executed = 0
         self.successful_workflows = 0
         self.failed_workflows = 0
         self.total_state_transitions = 0
         self.logger.info("✅ FSM history cleared")
 
+
+# ============================================================================
+# BACKWARDS COMPATIBILITY ALIASES
+# ============================================================================
+
+# Maintain backwards compatibility with existing code
+FSMCoreV2 = FSMCore
+FiniteStateMachine = FSMCore
+WorkflowEngine = FSMCore
+
+# Export all components
+__all__ = [
+    "FSMCore",
+    "FSMCoreV2",
+    "FiniteStateMachine",
+    "WorkflowEngine",
+    "StateHandler",
+    "TransitionHandler",
+    "StateStatus",
+    "TransitionType",
+    "WorkflowPriority",
+    "StateDefinition",
+    "TransitionDefinition",
+    "WorkflowInstance",
+    "StateExecutionResult",
+]
+
+
+if __name__ == "__main__":
+    # Initialize FSM system
+    fsm = FSMCore()
+    
+    # Start system
+    if fsm.start_system():
+        print("✅ FSM Core system ready for workflow management!")
+        print("🚀 System ready for Phase 2 workflow operations!")
+    else:
+        print("❌ FSM Core system failed to start!")
+        print("⚠️ System not ready for production deployment!")

@@ -30,15 +30,29 @@ except ImportError:
 
 # Import FSM system
 try:
-    from ..fsm.fsm_core_v2 import (
-        FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowInstance,
-        StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
+    from ..fsm.fsm_core import (
+        FSMCore as FSMCoreV2,
+        StateDefinition,
+        TransitionDefinition,
+        WorkflowInstance,
+        StateStatus,
+        TransitionType,
+        WorkflowPriority,
+        StateHandler,
+        TransitionHandler,
     )
 except ImportError:
     # Fallback for direct execution
-    from fsm.fsm_core_v2 import (
-        FSMCoreV2, StateDefinition, TransitionDefinition, WorkflowInstance,
-        StateStatus, TransitionType, WorkflowPriority, StateHandler, TransitionHandler
+    from fsm.fsm_core import (
+        FSMCore as FSMCoreV2,
+        StateDefinition,
+        TransitionDefinition,
+        WorkflowInstance,
+        StateStatus,
+        TransitionType,
+        WorkflowPriority,
+        StateHandler,
+        TransitionHandler,
     )
 
 

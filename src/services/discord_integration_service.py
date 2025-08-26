@@ -32,7 +32,7 @@ from pathlib import Path
 
 # Import FSM and decision components
 try:
-    from ..core.fsm_core_v2 import FSMCoreV2
+    from ..core.fsm import FSMCore as FSMCoreV2
     from ..core.decision import AutonomousDecisionEngine
 
     FSM_AVAILABLE = True

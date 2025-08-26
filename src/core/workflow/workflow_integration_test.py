@@ -21,8 +21,10 @@ from .workflow_engine_integration import (
 )
 
 # Import FSM system for testing
-from ..fsm.fsm_core_v2 import (
-    StateDefinition, TransitionDefinition, WorkflowPriority
+from ..fsm.fsm_core import (
+    StateDefinition,
+    TransitionDefinition,
+    WorkflowPriority,
 )
 
 # Import workflow types for testing

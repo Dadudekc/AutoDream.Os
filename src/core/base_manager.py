@@ -528,32 +528,32 @@ class BaseManager(ABC):
     @abstractmethod
     def _on_start(self) -> bool:
         """Subclass-specific startup logic"""
-        pass
+        raise NotImplementedError
     
     @abstractmethod
     def _on_stop(self):
         """Subclass-specific shutdown logic"""
-        pass
+        raise NotImplementedError
     
     @abstractmethod
     def _on_heartbeat(self):
         """Subclass-specific heartbeat logic"""
-        pass
+        raise NotImplementedError
     
     @abstractmethod
     def _on_initialize_resources(self) -> bool:
         """Subclass-specific resource initialization"""
-        pass
+        raise NotImplementedError
     
     @abstractmethod
     def _on_cleanup_resources(self):
         """Subclass-specific resource cleanup"""
-        pass
+        raise NotImplementedError
     
     @abstractmethod
     def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
         """Subclass-specific recovery logic"""
-        pass
+        raise NotImplementedError
     
     # ============================================================================
     # UTILITY METHODS - Previously duplicated across all managers

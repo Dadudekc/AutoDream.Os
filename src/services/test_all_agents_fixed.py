@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Test script to send messages to all 8 agents using fixed routing"""
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 
 
 def test_all_agents():
     print("Testing fixed message routing to all 8 agents...")
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print("System initialized")
 
     # Start system

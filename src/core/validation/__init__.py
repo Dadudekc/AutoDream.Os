@@ -14,7 +14,7 @@ Components:
 from .base_validator import BaseValidator, ValidationResult, ValidationRule, ValidationSeverity, ValidationStatus
 from .contract_validator import ContractValidator
 from .config_validator import ConfigValidator
-from .workflow_validator import WorkflowValidator
+# WorkflowValidator removed during workflow unification cleanup
 from .message_validator import MessageValidator
 from .quality_validator import QualityValidator
 from .security_validator import SecurityValidator
@@ -32,7 +32,7 @@ __all__ = [
     'ValidationStatus',
     'ContractValidator',
     'ConfigValidator',
-    'WorkflowValidator',
+    # 'WorkflowValidator',  # Removed during workflow unification cleanup
     'MessageValidator',
     'QualityValidator',
     'SecurityValidator',

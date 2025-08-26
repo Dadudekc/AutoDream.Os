@@ -26,7 +26,7 @@ try:
     from .launcher_modes import LauncherModes
     from .workspace_management_launcher import WorkspaceManagementLauncher
     from .contract_management_launcher import ContractManagementLauncher
-    from .onboarding_system_launcher import OnboardingSystemLauncher
+    from .unified_onboarding_launcher import UnifiedOnboardingLauncher
     from .sprint_management_launcher import SprintManagementLauncher
 
     __all__ = [
@@ -35,7 +35,7 @@ try:
         "LauncherModes",
         "WorkspaceManagementLauncher",
         "ContractManagementLauncher",
-        "OnboardingSystemLauncher",
+        "UnifiedOnboardingLauncher",
         "SprintManagementLauncher",
     ]
 
@@ -148,10 +148,10 @@ Examples:
                 launcher = ContractManagementLauncher()
                 launcher.start()
                 print("✅ Contract management launched successfully")
-            elif args.launch == "onboarding" and "OnboardingSystemLauncher" in __all__:
-                launcher = OnboardingSystemLauncher()
+            elif args.launch == "onboarding" and "UnifiedOnboardingLauncher" in __all__:
+                launcher = UnifiedOnboardingLauncher()
                 launcher.start()
-                print("✅ Onboarding system launched successfully")
+                print("✅ Unified onboarding system launched successfully")
             elif args.launch == "sprint" and "SprintManagementLauncher" in __all__:
                 launcher = SprintManagementLauncher()
                 launcher.start()

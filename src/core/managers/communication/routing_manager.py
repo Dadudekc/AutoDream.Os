@@ -185,7 +185,7 @@ class RoutingManager(BaseManager):
                     
             elif route_type == CommunicationTypes.RoutingStrategy.PRIORITY_BASED.value:
                 # Select channel based on message priority
-                message_priority = getattr(message, 'priority', CommunicationTypes.MessagePriority.NORMAL.value)
+                message_priority = getattr(message, 'priority', CommunicationTypes.UnifiedMessagePriority.NORMAL.value)
                 priority_mapping = route_config["parameters"]["priority_mapping"]
                 
                 if message_priority in priority_mapping:

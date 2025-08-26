@@ -28,7 +28,7 @@ try:
     from core.agent_communication import (
         AgentCommunicationProtocol,
         MessageType,
-        MessagePriority,
+        UnifiedMessagePriority,
     )
     from core.fsm import FSMSystemManager
     from core.inbox_manager import InboxManager

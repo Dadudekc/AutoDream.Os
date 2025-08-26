@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Callable
 
-from .shared_enums import MessagePriority, MessageStatus, MessageType
+from .shared_enums import UnifiedMessagePriority, MessageStatus, MessageType
 from .routing_models import Message
 from .routing_table import RoutingTable
 from .strategy_factory import StrategyFactory
@@ -42,7 +42,7 @@ class RoutingCore:
         recipient_id: str,
         message_type: MessageType,
         content: Dict[str, Any],
-        priority: MessagePriority = MessagePriority.NORMAL,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL,
         expires_in: Optional[int] = None,
     ) -> str:
         """Queue a message for delivery."""
@@ -82,7 +82,7 @@ class RoutingCore:
         sender_id: str,
         message_type: MessageType,
         content: Dict[str, Any],
-        priority: MessagePriority = MessagePriority.NORMAL,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL,
         target_agents: Optional[List[str]] = None,
     ) -> List[str]:
         """Broadcast a message to multiple agents."""

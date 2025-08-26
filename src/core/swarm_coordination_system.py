@@ -25,7 +25,7 @@ if swarm_path.exists():
 
 try:
     from dreamos.core.messaging.unified_message_system import UnifiedMessageSystem
-    from dreamos.core.messaging.enums import MessageMode, MessagePriority
+    from dreamos.core.messaging.enums import MessageMode, UnifiedMessagePriority
     from dreamos.core.task_manager import TaskManager as SwarmTaskManager
     from dreamos.core.agent_interface import AgentInterface
 
@@ -34,7 +34,7 @@ except ImportError:
     SWARM_AVAILABLE = False
     UnifiedMessageSystem = None
     MessageMode = None
-    MessagePriority = None
+    UnifiedMessagePriority = None
     SwarmTaskManager = None
     AgentInterface = None
 

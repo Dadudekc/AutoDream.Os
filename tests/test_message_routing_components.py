@@ -12,7 +12,7 @@ if str(src_path) not in sys.path:
 from core.message_router import (
     MessageRouter,
     MessageType,
-    MessagePriority,
+    UnifiedMessagePriority,
     MessageStatus,
 )
 

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Test script to verify fixed message routing"""
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 
 
 def test_fixed_routing():
     print("Testing fixed message routing...")
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print("System initialized")
 
     # Start system

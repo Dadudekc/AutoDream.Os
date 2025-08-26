@@ -5,7 +5,7 @@
 
 from src.services.testing import (
     UnifiedMessageQueue,
-    MessagePriority,
+    UnifiedMessagePriority,
 )
 import time
 

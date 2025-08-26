@@ -153,7 +153,7 @@ class TestV2OnboardingSequence(unittest.TestCase):
         call_args = self.mock_communication.send_message.call_args
         self.assertEqual(call_args[1]["recipient_id"], "Agent-1")
         self.assertEqual(call_args[1]["message_type"], MessageType.COORDINATION)
-        self.assertEqual(call_args[1]["priority"], MessagePriority.HIGH)
+        self.assertEqual(call_args[1]["priority"], UnifiedMessagePriority.HIGH)
 
     def test_phase_message_generation(self):
         """Test phase-specific message generation"""

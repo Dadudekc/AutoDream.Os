@@ -7,7 +7,7 @@ Utility for sending system broadcasts to all agents from text files.
 Perfect for [SYSTEM] messages, announcements, and instructions.
 """
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 import time
 import os
 
@@ -56,10 +56,10 @@ def send_system_broadcast(
                 "agent_8": {"x": -303, "y": 1005},
             },
         }
-        mq = V1V2MessageQueueSystem(config)
+        mq = UnifiedMessagingService(config)
     else:
         # Default 5-agent configuration (more reliable)
-        mq = V1V2MessageQueueSystem()
+        mq = UnifiedMessagingService()
 
     print("✅ System initialized")
 

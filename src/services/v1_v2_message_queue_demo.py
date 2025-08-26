@@ -20,9 +20,9 @@ import sys
 # Add parent directories to path for imports
 sys.path.append(str(Path(__file__).parent))
 
-from v1_v2_message_queue_system import (
-    V1V2MessageQueueSystem,
-    MessagePriority,
+from src.services.messaging import (
+    UnifiedMessagingService,
+    UnifiedMessagePriority,
     send_high_priority_message,
     send_normal_message,
 )
@@ -34,7 +34,7 @@ def demo_basic_messaging():
     print("=" * 50)
 
     # Create message queue system
-    mq_system = V1V2MessageQueueSystem(max_workers=2)
+    mq_system = UnifiedMessagingService(max_workers=2)
 
     try:
         # Queue several messages
@@ -71,7 +71,7 @@ def demo_priority_messaging():
     print("\n🎯 Demo 2: Priority-Based Message Delivery")
     print("=" * 50)
 
-    mq_system = V1V2MessageQueueSystem(max_workers=3)
+    mq_system = UnifiedMessagingService(max_workers=3)
 
     try:
         # Queue messages with different priorities
@@ -82,7 +82,7 @@ def demo_priority_messaging():
             "Agent-1",
             "Agent-3",
             "This is a low priority message for later review.",
-            priority=MessagePriority.LOW,
+            priority=UnifiedMessagePriority.LOW,
         )
         print(f"   🔵 LOW: {msg_id1}")
 
@@ -100,7 +100,7 @@ def demo_priority_messaging():
             "Agent-5",
             "Agent-1",
             "This is a high priority message that needs attention soon.",
-            priority=MessagePriority.HIGH,
+            priority=UnifiedMessagePriority.HIGH,
         )
         print(f"   🟡 HIGH: {msg_id3}")
 
@@ -109,7 +109,7 @@ def demo_priority_messaging():
             "Agent-3",
             "Agent-2",
             "This is an urgent message that requires immediate action!",
-            priority=MessagePriority.URGENT,
+            priority=UnifiedMessagePriority.URGENT,
         )
         print(f"   🟠 URGENT: {msg_id4}")
 
@@ -118,7 +118,7 @@ def demo_priority_messaging():
             "Agent-4",
             "Agent-5",
             "CRITICAL: System failure detected! Immediate intervention required!",
-            priority=MessagePriority.CRITICAL,
+            priority=UnifiedMessagePriority.CRITICAL,
         )
         print(f"   🔴 CRITICAL: {msg_id5}")
 
@@ -141,7 +141,7 @@ def demo_high_priority_flags():
     print("\n🎯 Demo 3: High-Priority Flag System (Ctrl+Enter x2)")
     print("=" * 50)
 
-    mq_system = V1V2MessageQueueSystem(max_workers=2)
+    mq_system = UnifiedMessagingService(max_workers=2)
 
     try:
         print("🚨 Testing high-priority flag system...")
@@ -192,7 +192,7 @@ def demo_multi_agent_coordination():
     print("\n🎯 Demo 4: Multi-Agent Coordination")
     print("=" * 50)
 
-    mq_system = V1V2MessageQueueSystem(max_workers=4)
+    mq_system = UnifiedMessagingService(max_workers=4)
 
     try:
         print("🤝 Coordinating multiple agents...")
@@ -235,7 +235,7 @@ def demo_multi_agent_coordination():
         # Queue all workflow messages
         for sender, recipient, content in workflow_messages:
             msg_id = mq_system.queue_message(
-                sender, recipient, content, priority=MessagePriority.NORMAL
+                sender, recipient, content, priority=UnifiedMessagePriority.NORMAL
             )
             print(f"   ✅ {sender} → {recipient}: {msg_id}")
 
@@ -268,7 +268,7 @@ def demo_error_handling_and_retries():
     print("\n🎯 Demo 5: Error Handling and Retry Mechanisms")
     print("=" * 50)
 
-    mq_system = V1V2MessageQueueSystem(max_workers=2)
+    mq_system = UnifiedMessagingService(max_workers=2)
 
     try:
         print("🔄 Testing error handling and retry logic...")
@@ -283,7 +283,7 @@ def demo_error_handling_and_retries():
 
         for sender, recipient, content in test_messages:
             msg_id = mq_system.queue_message(
-                sender, recipient, content, priority=MessagePriority.NORMAL
+                sender, recipient, content, priority=UnifiedMessagePriority.NORMAL
             )
             print(f"   📨 {sender} → {recipient}: {msg_id}")
 

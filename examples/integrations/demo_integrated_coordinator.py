@@ -16,7 +16,7 @@ from pathlib import Path
 # Import the integrated coordinator
 from src.services.integrated_agent_coordinator import (
     IntegratedAgentCoordinator,
-    MessagePriority,
+    UnifiedMessagePriority,
 )
 
 
@@ -51,7 +51,7 @@ async def demo_hybrid_message_sending(coordinator):
     success = await coordinator.send_message_hybrid(
         agent_id="agent_1",
         message="Agent-1: Testing integrated coordination system. Report status.",
-        priority=MessagePriority.HIGH,
+        priority=UnifiedMessagePriority.HIGH,
     )
 
     if success:
@@ -68,7 +68,7 @@ async def demo_hybrid_message_sending(coordinator):
     success2 = await coordinator.send_message_hybrid(
         agent_id="agent_2",
         message="Agent-2: Begin AI/ML integration testing. Report progress.",
-        priority=MessagePriority.NORMAL,
+        priority=UnifiedMessagePriority.NORMAL,
     )
 
     if success2:
@@ -89,7 +89,7 @@ async def demo_hybrid_broadcast(coordinator):
 
     results = await coordinator.broadcast_message_hybrid(
         message="ALL AGENTS: Integrated coordination system is now active. Report your status.",
-        priority=MessagePriority.URGENT,
+        priority=UnifiedMessagePriority.URGENT,
     )
 
     print(f"✅ Broadcast completed!")

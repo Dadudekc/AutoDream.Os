@@ -6,7 +6,7 @@ Clean Message Delivery Test
 Clean test to see exactly what's happening with message delivery to all agents.
 """
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -17,7 +17,7 @@ def clean_message_test():
     print("=" * 50)
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print(f"✅ System initialized with {len(mq.agent_registry)} agents")
 
     # Show agent registry

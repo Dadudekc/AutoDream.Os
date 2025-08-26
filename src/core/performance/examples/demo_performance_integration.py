@@ -183,7 +183,7 @@ class PerformanceIntegrationDemo:
             "monitoring_agent",
             MessageType.TASK_ASSIGNMENT,
             {"task": "monitor_system_health", "priority": "high"},
-            MessagePriority.HIGH,
+            UnifiedMessagePriority.HIGH,
         )
         print(f"    📨 Sent task assignment message: {message_id}")
 
@@ -380,7 +380,7 @@ class PerformanceIntegrationDemo:
                 recipient,
                 MessageType.STATUS_UPDATE,
                 {"status": "active", "iteration": iteration, "demo": True},
-                MessagePriority.NORMAL,
+                UnifiedMessagePriority.NORMAL,
             )
 
     def _show_demo_status(self, iteration):

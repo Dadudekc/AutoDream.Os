@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Test script to verify real coordinates are loaded"""
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 
 
 def test_coordinates():
     print("Testing real coordinates loading...")
 
     # Initialize system
-    mq = V1V2MessageQueueSystem()
+    mq = UnifiedMessagingService()
     print("System initialized")
 
     # Check coordinates

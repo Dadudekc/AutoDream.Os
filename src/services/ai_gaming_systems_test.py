@@ -8,7 +8,7 @@ Tests message queue, agent coordination, and system reliability before
 integrating Dadudekc combat, economy, and NPC systems.
 """
 
-from v1_v2_message_queue_system import V1V2MessageQueueSystem
+from src.services.messaging import UnifiedMessagingService
 import time
 import threading
 import random
@@ -31,7 +31,7 @@ class AIGamingSystemsTest:
         print("🚀 Initializing AI Gaming Systems Test Framework...")
 
         try:
-            self.mq = V1V2MessageQueueSystem()
+            self.mq = UnifiedMessagingService()
             self.mq.start_system()
             print("✅ Message queue system initialized and started")
             return True

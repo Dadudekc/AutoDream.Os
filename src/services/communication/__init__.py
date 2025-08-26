@@ -12,32 +12,44 @@ from .coordinator_types import (
     CoordinationTask,
     CoordinationMessage,
     AgentCapability,
-    CoordinationSession
+    CoordinationSession,
+    MessageType,
 )
 
 from .message_coordinator import MessageCoordinator
-from .channel_manager import ChannelManager, CommunicationChannel, ProtocolHandler
+from .channel_manager import (
+    ChannelManager,
+    CommunicationChannel,
+    ProtocolHandler,
+    HTTPChannel,
+    HTTPSChannel,
+    TCPChannel,
+    WebSocketChannel,
+)
 from .coordinator_cli import CoordinatorCLI
 
 __all__ = [
     # Types and enums
-    'CommunicationMode',
-    'TaskPriority',
-    'TaskStatus',
-    'CaptaincyTerm',
-    'CoordinationTask',
-    'CoordinationMessage',
-    'AgentCapability',
-    'CoordinationSession',
-    
+    "CommunicationMode",
+    "TaskPriority",
+    "TaskStatus",
+    "CaptaincyTerm",
+    "CoordinationTask",
+    "CoordinationMessage",
+    "AgentCapability",
+    "CoordinationSession",
+    "MessageType",
     # Core classes
-    'MessageCoordinator',
-    'ChannelManager',
-    'CommunicationChannel',
-    'ProtocolHandler',
-    
+    "MessageCoordinator",
+    "ChannelManager",
+    "CommunicationChannel",
+    "ProtocolHandler",
+    "HTTPChannel",
+    "HTTPSChannel",
+    "TCPChannel",
+    "WebSocketChannel",
     # CLI interface
-    'CoordinatorCLI'
+    "CoordinatorCLI",
 ]
 
 __version__ = "2.0.0"

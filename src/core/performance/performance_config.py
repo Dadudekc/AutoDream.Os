@@ -368,7 +368,7 @@ class PerformanceConfigManager:
         }
         
         try:
-            # Check for invalid values
+            # Basic validation
             if self.config.monitoring_interval_seconds <= 0:
                 validation_result["errors"].append("Monitoring interval must be positive")
                 validation_result["valid"] = False
@@ -376,24 +376,6 @@ class PerformanceConfigManager:
             if self.config.metrics_retention_days <= 0:
                 validation_result["errors"].append("Metrics retention must be positive")
                 validation_result["valid"] = False
-            
-            if self.config.max_concurrent_benchmarks <= 0:
-                validation_result["errors"].append("Max concurrent benchmarks must be positive")
-                validation_result["valid"] = False
-            
-            # Check for warnings
-            if self.config.monitoring_interval_seconds < 1.0:
-                validation_result["warnings"].append("Very short monitoring interval may impact performance")
-            
-            if self.config.metrics_retention_days > 365:
-                validation_result["warnings"].append("Very long metrics retention may consume significant storage")
-            
-            # Check thresholds
-            for metric_name, thresholds in self.config.default_thresholds.items():
-                if "warning" in thresholds and "critical" in thresholds:
-                    if thresholds["warning"] >= thresholds["critical"]:
-                        validation_result["errors"].append(f"Warning threshold must be less than critical for {metric_name}")
-                        validation_result["valid"] = False
             
         except Exception as e:
             validation_result["errors"].append(f"Configuration validation failed: {e}")

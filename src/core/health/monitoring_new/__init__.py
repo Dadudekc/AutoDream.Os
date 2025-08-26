@@ -1,25 +1,4 @@
-"""
-Health Monitoring Package
+"""Compatibility wrapper package for unified health monitoring."""
 
-This package contains modules for core health monitoring orchestration.
-"""
+from ..monitoring.core import *  # noqa: F401,F403
 
-from .core import (
-    AgentHealthCoreMonitor,
-    HealthStatus,
-    HealthMetricType,
-    HealthMetric,
-    HealthSnapshot,
-    HealthAlert,
-    HealthThreshold
-)
-
-__all__ = [
-    "AgentHealthCoreMonitor",
-    "HealthStatus",
-    "HealthMetricType",
-    "HealthMetric",
-    "HealthSnapshot",
-    "HealthAlert",
-    "HealthThreshold"
-]

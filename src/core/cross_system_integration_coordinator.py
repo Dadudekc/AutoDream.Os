@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from core.performance_monitor import PerformanceMonitor, MetricType
 from core.api_gateway import APIGateway
 from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
-from core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as HealthMonitorCore
+from core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

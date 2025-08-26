@@ -135,7 +135,7 @@ class AgentHealthMonitorDemo:
 
         try:
             # Import and initialize health monitor
-            from src.core.health.monitoring_new.health_monitoring_new_core import AgentHealthCoreMonitor as AgentHealthMonitor
+            from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as AgentHealthMonitor
 
             self.health_monitor = AgentHealthMonitor()
 
@@ -420,7 +420,7 @@ class AgentHealthMonitorDemo:
 
         try:
             # Test threshold management
-            from src.core.health.monitoring_new.health_monitoring_new_config import HealthMetricType
+            from src.core.health.monitoring.health_config import HealthMetricType
 
             # Set custom threshold
             self.health_monitor.set_health_threshold(

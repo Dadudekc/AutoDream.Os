@@ -310,7 +310,7 @@ def test_integration():
             HealthMetricsCollector,
             HealthReportingGenerator,
         )
-        from .monitoring_new.core import HealthMetricType
+        from .monitoring.core import HealthMetricType
         from .alerting import (
             generate_alert,
             send_alert_notifications,
@@ -398,7 +398,7 @@ def test_error_handling():
     try:
         logger.info("Testing error handling...")
         
-        from .monitoring_new.core import AgentHealthCoreMonitor
+        from .monitoring.core import AgentHealthCoreMonitor
         from .metrics import HealthMetricsCollector
         from .alerting import generate_alert, AlertSeverity
         from .reporting import HealthReportingGenerator

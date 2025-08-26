@@ -49,10 +49,11 @@ class ChannelManager(BaseManager):
         
         self.channels: Dict[str, Channel] = {}
         self.channel_stats: Dict[str, Dict[str, Any]] = {}
-        
+        self.default_timeout = CommunicationConfig.DEFAULT_TIMEOUT
+        self.default_retry_count = CommunicationConfig.DEFAULT_RETRY_COUNT
+
         # Initialize channel system
         self._load_manager_config()
-        self._setup_default_channels()
     
     def _load_manager_config(self):
         """Load manager-specific configuration"""
@@ -67,34 +68,6 @@ class ChannelManager(BaseManager):
         except Exception as e:
             logger.error(f"Failed to load channel config: {e}")
 
-    def _setup_default_channels(self):
-        """Setup default communication channels"""
-        # HTTP channel
-        http_channel = Channel(
-            id="http_default",
-            name="Default HTTP",
-            type=ChannelType.HTTP,
-            url="http://localhost:8000",
-            config={"timeout": self.default_timeout, "retry_count": self.default_retry_count},
-            status=CommunicationTypes.ChannelStatus.ACTIVE.value,
-            created_at=datetime.now().isoformat(),
-            last_used=datetime.now().isoformat(),
-            message_count=0,
-            error_count=0
-        )
-        self.channels["http_default"] = http_channel
-        
-        # Initialize stats
-        self.channel_stats["http_default"] = {
-            "total_messages": 0,
-            "successful_messages": 0,
-            "failed_messages": 0,
-            "last_activity": datetime.now().isoformat(),
-            "uptime_percentage": 100.0,
-            "average_response_time": 0.0,
-            "error_rate": 0.0
-        }
-    
     async def create_channel(self, name: str, channel_type: ChannelType, url: str,
                            config: Optional[Dict[str, Any]] = None) -> str:
         """Create a new communication channel"""

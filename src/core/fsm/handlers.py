@@ -53,4 +53,4 @@ class ConditionalTransitionHandler(TransitionHandler):
         allowed = self.evaluate(context)
         if allowed:
             context["current_state"] = self._target_state
-        return {"allowed": allowed, "current_state": context.get("current_state")}
+        return {"allowed": allowed, "state": context.get("current_state")}

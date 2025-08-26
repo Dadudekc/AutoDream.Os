@@ -256,7 +256,7 @@ class UnifiedPerformanceSystem:
                     enabled=rule_def.get("enabled", True),
                 )
                 self.validation_rules[rule.rule_name] = rule
-            except Exception as e:
+            except (KeyError, ValueError) as e:
                 self.logger.error(f"Failed to setup validation rule {rule_def}: {e}")
 
         self.logger.info(

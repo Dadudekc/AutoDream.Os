@@ -1,0 +1,21 @@
+rules:
+  - rule_id: config_structure
+    rule_name: Configuration Structure
+    rule_type: config
+    description: Validate configuration structure and format
+    severity: ERROR
+  - rule_id: required_sections
+    rule_name: Required Sections
+    rule_type: config
+    description: Ensure all required configuration sections are present
+    severity: ERROR
+  - rule_id: section_validators
+    rule_name: Section Validators
+    rule_type: config
+    description: Run section-specific validation functions
+    severity: ERROR
+  - rule_id: config_consistency
+    rule_name: Configuration Consistency
+    rule_type: config
+    description: Check for configuration consistency across sections
+    severity: WARNING

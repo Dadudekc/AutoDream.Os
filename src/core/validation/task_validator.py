@@ -8,7 +8,6 @@ and following the unified validation framework patterns.
 from typing import Dict, List, Any, Optional
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -43,42 +42,6 @@ class TaskValidator(BaseValidator):
             "refactoring",
             "review",
         ]
-
-    def _setup_default_rules(self) -> None:
-        """Setup default task validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="task_structure",
-                rule_name="Task Structure",
-                rule_type="task",
-                description="Validate task data structure and format",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="task_assignment_validation",
-                rule_name="Task Assignment Validation",
-                rule_type="task",
-                description="Validate task assignment and ownership",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="task_dependencies_validation",
-                rule_name="Task Dependencies Validation",
-                rule_type="task",
-                description="Validate task dependencies and relationships",
-                severity=ValidationSeverity.WARNING,
-            ),
-            ValidationRule(
-                rule_id="task_progress_validation",
-                rule_name="Task Progress Validation",
-                rule_type="task",
-                description="Validate task progress and timeline",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(self, task_data: Dict[str, Any], **kwargs) -> List[ValidationResult]:
         """Validate task data and return validation results.

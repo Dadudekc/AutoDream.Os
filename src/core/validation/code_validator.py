@@ -10,7 +10,6 @@ import re
 from typing import Dict, List, Any, Optional
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -67,42 +66,6 @@ class CodeValidator(BaseValidator):
             "with",
             "yield",
         ]
-
-    def _setup_default_rules(self) -> None:
-        """Setup default code validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="code_structure",
-                rule_name="Code Structure",
-                rule_type="code",
-                description="Validate code structure and syntax",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="code_quality_validation",
-                rule_name="Code Quality Validation",
-                rule_type="code",
-                description="Validate code quality and standards",
-                severity=ValidationSeverity.WARNING,
-            ),
-            ValidationRule(
-                rule_id="naming_convention_validation",
-                rule_name="Naming Convention Validation",
-                rule_type="code",
-                description="Validate naming conventions and standards",
-                severity=ValidationSeverity.WARNING,
-            ),
-            ValidationRule(
-                rule_id="complexity_validation",
-                rule_name="Complexity Validation",
-                rule_type="code",
-                description="Validate code complexity and maintainability",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(self, code_data: Dict[str, Any], **kwargs) -> List[ValidationResult]:
         """Validate code data and return validation results.

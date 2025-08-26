@@ -1,13 +1,17 @@
-"""
-Base Validator - Unified Validation Framework
+"""Base Validator - Unified Validation Framework.
 
-This module provides the abstract base class and common structures for all validators
-in the unified validation system. Follows V2 coding standards and SRP principles.
+This module provides the abstract base class and common structures for all
+validators in the unified validation system. Rule definitions are now loaded
+from external YAML configuration files located in ``rules/``.
 """
 
 import logging
+import re
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import yaml
 
 from .models import (
     ValidationRule,
@@ -26,12 +30,37 @@ class BaseValidator(ABC):
         self.logger = logging.getLogger(f"{__name__}.{validator_name}")
         self.validation_rules: Dict[str, ValidationRule] = {}
         self.validation_history: List[ValidationResult] = []
-        self._setup_default_rules()
+        self._config: Dict[str, Any] = self._load_rules_from_file()
 
-    @abstractmethod
-    def _setup_default_rules(self) -> None:
-        """Setup default validation rules for this validator type."""
-        raise NotImplementedError("Subclasses must implement _setup_default_rules")
+    def _load_rules_from_file(self) -> Dict[str, Any]:
+        """Load validator rules from external YAML configuration."""
+        try:
+            base_name = re.sub(r"Validator$", "", self.validator_name)
+            file_name = re.sub(r"(?<!^)(?=[A-Z])", "_", base_name).lower() + ".yaml"
+            config_path = Path(__file__).resolve().parent / "rules" / file_name
+            if not config_path.exists():
+                return {}
+            with config_path.open("r", encoding="utf-8") as f:
+                data: Dict[str, Any] = yaml.safe_load(f) or {}
+            for rule in data.get("rules", []):
+                severity_str = rule.get("severity", "ERROR").upper()
+                try:
+                    severity = ValidationSeverity[severity_str]
+                except KeyError:
+                    severity = ValidationSeverity.ERROR
+                self.add_validation_rule(
+                    ValidationRule(
+                        rule_id=rule["rule_id"],
+                        rule_name=rule["rule_name"],
+                        rule_type=rule.get("rule_type", base_name.lower()),
+                        description=rule.get("description", ""),
+                        severity=severity,
+                    )
+                )
+            return data
+        except Exception as e:  # pragma: no cover - defensive
+            self.logger.error(f"Failed to load rules: {e}")
+            return {}
 
     @abstractmethod
     def validate(self, data: Any, **kwargs) -> List[ValidationResult]:

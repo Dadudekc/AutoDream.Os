@@ -5,7 +5,6 @@ from typing import List
 from src.core.validation import (
     BaseValidator,
     ValidationResult,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
 )
@@ -18,17 +17,6 @@ class WorkflowExecutionValidator(BaseValidator):
 
     def __init__(self) -> None:
         super().__init__("WorkflowExecutionValidator")
-
-    def _setup_default_rules(self) -> None:  # pragma: no cover - simple rule setup
-        self.add_validation_rule(
-            ValidationRule(
-                rule_id="workflow_execution",
-                rule_name="Workflow Execution Validation",
-                rule_type="workflow",
-                description="Validate workflow execution state and transitions",
-                severity=ValidationSeverity.ERROR,
-            )
-        )
 
     def validate(self, execution: WorkflowExecution, **_) -> List[ValidationResult]:
         results: List[ValidationResult] = []
@@ -83,7 +71,9 @@ class WorkflowExecutionValidator(BaseValidator):
 
         return results
 
-    def _validate_step_execution_states(self, steps: List[WorkflowStep]) -> List[ValidationResult]:
+    def _validate_step_execution_states(
+        self, steps: List[WorkflowStep]
+    ) -> List[ValidationResult]:
         results: List[ValidationResult] = []
 
         for i, step in enumerate(steps):
@@ -122,7 +112,9 @@ class WorkflowExecutionValidator(BaseValidator):
 
         return results
 
-    def _validate_execution_timing(self, execution: WorkflowExecution) -> List[ValidationResult]:
+    def _validate_execution_timing(
+        self, execution: WorkflowExecution
+    ) -> List[ValidationResult]:
         results: List[ValidationResult] = []
 
         if execution.start_time > execution.end_time:

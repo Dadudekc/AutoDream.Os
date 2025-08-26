@@ -104,7 +104,7 @@ def update_health_scores(
     for agent_id, snapshot in health_data.items():
         score = calculate_health_score(snapshot, thresholds)
         snapshot.health_score = score
-        snapshot.recommendations = generate_health_recommendations(snapshot)
+        snapshot.recommendations = generate_health_recommendations(snapshot, thresholds)
 
 
 def calculate_health_score(

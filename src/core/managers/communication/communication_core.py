@@ -90,13 +90,54 @@ class CommunicationManager(BaseManager):
     
     def _setup_default_channels(self):
         """Setup default communication channels"""
-        # This is now handled by ChannelManager
-        pass
-    
+        if not self.channel_manager.get_channel_info("http_default"):
+            default_timeout = getattr(
+                self.channel_manager,
+                "default_timeout",
+                CommunicationConfig.DEFAULT_TIMEOUT,
+            )
+            default_retry = getattr(
+                self.channel_manager,
+                "default_retry_count",
+                CommunicationConfig.DEFAULT_RETRY_COUNT,
+            )
+
+            channel = Channel(
+                id="http_default",
+                name="Default HTTP",
+                type=ChannelType.HTTP,
+                url="http://localhost:8000",
+                config={"timeout": default_timeout, "retry_count": default_retry},
+                status=CommunicationTypes.ChannelStatus.ACTIVE.value,
+                created_at=datetime.now().isoformat(),
+                last_used=datetime.now().isoformat(),
+                message_count=0,
+                error_count=0,
+            )
+            self.channel_manager.channels["http_default"] = channel
+            self.channel_manager.channel_stats["http_default"] = {
+                "total_messages": 0,
+                "successful_messages": 0,
+                "failed_messages": 0,
+                "last_activity": datetime.now().isoformat(),
+                "uptime_percentage": 100.0,
+                "average_response_time": 0.0,
+                "error_rate": 0.0,
+            }
+
     def _setup_default_api_configs(self):
         """Setup default API configurations"""
-        # This is now handled by APIManager
-        pass
+        defaults = {
+            "default_http": "http://localhost:8000",
+            "default_https": "https://localhost:8443",
+        }
+        for name, base_url in defaults.items():
+            if name not in self.api_manager.api_configs:
+                self.api_manager.configure_api(
+                    name,
+                    base_url,
+                    headers={"Content-Type": "application/json"},
+                )
     
     async def create_channel(self, name: str, channel_type: ChannelType, url: str,
                            config: Optional[Dict[str, Any]] = None) -> str:

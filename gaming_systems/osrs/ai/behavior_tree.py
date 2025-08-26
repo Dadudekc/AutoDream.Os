@@ -49,7 +49,8 @@ class OSRSActionNode(OSRSBehaviorNode):
             return True
         try:
             return bool(self.action_func(player, game_state))
-        except Exception:  # pragma: no cover - defensive
+        except Exception as e:  # pragma: no cover - defensive
+            logging.error(f"Exception in action node '{self.name}': {e}", exc_info=True)
             return False
 
 

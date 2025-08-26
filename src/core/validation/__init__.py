@@ -11,7 +11,13 @@ Components:
 - Specialized validators for different domains
 """
 
-from .base_validator import BaseValidator, ValidationResult, ValidationRule, ValidationSeverity, ValidationStatus
+from .base_validator import BaseValidator
+from .models import (
+    ValidationResult,
+    ValidationRule,
+    ValidationSeverity,
+    ValidationStatus,
+)
 from .contract_validator import ContractValidator
 from .config_validator import ConfigValidator
 # WorkflowValidator removed during workflow unification cleanup

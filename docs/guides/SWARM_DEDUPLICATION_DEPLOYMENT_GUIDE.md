@@ -99,13 +99,13 @@ This guide provides a **complete execution strategy** for deploying the swarm to
 - [ ] Create `performance_metrics.py` (180 lines)
 - [ ] Create `performance_alerts.py` (160 lines)
 - [ ] Create `performance_dashboard.py` (150 lines)
-- [ ] Create `PerformanceValidationOrchestrator`
+- [ ] Create `PerformanceCLIOrchestrator`
 - [ ] Remove 8 duplicate performance files
 - [ ] Update all import statements
 
 **Deliverables:**
 - 4 new performance modules
-- PerformanceValidationOrchestrator
+- PerformanceCLIOrchestrator
 - All duplicate files removed
 - Import statements updated
 

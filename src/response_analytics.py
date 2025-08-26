@@ -17,10 +17,10 @@ class ResponseAnalytics:
             "type": response_type,
             "length": len(content),
             "contains_code": "def " in content or "class " in content,
-            "contains_errors": "error" in content.lower() or "exception" in content.lower(),
-            "contains_todos": "todo" in content.lower() or "fixme" in content.lower(),
-            "contains_issues": "issue" in content.lower() or "bug" in content.lower(),
-            "contains_recommendations": "recommend" in content.lower() or "should" in content.lower(),
+            "contains_errors": bool(re.search(r'\b(error|exception)\b', content, re.IGNORECASE)),
+            "contains_todos": bool(re.search(r'\b(todo|fixme)\b', content, re.IGNORECASE)),
+            "contains_issues": bool(re.search(r'\b(issue|bug)\b', content, re.IGNORECASE)),
+            "contains_recommendations": bool(re.search(r'\b(recommend|should)\b', content, re.IGNORECASE)),
             "completion_status": self.assess_completion_status(content, response_type),
         }
         return analysis

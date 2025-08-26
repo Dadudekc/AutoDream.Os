@@ -64,7 +64,8 @@ class OSRSConditionNode(OSRSBehaviorNode):
     def execute(self, player: Any, game_state: Any) -> bool:
         try:
             return bool(self.condition_func(player, game_state))
-        except Exception:  # pragma: no cover - defensive
+        except Exception as e:  # pragma: no cover - defensive
+            logging.error(f"Exception in condition node '{self.name}': {e}", exc_info=True)
             return False
 
 

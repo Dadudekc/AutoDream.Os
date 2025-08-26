@@ -321,6 +321,11 @@ class UnifiedWorkspaceSystem:
             if name in self.workspaces:
                 self.logger.warning(f"Workspace {name} already exists")
                 return False
+            if ".." in name or "/" in name or "\\" in name:
+                self.logger.error(
+                    f"Invalid workspace name '{name}'. It cannot contain path traversal characters."
+                )
+                return False
 
             workspace_path = self.base_workspace_dir / name
             workspace_path.mkdir(exist_ok=True)

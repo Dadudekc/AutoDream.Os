@@ -43,7 +43,8 @@ class DataTransformationMiddleware(BaseMiddlewareComponent):
 
         except Exception as exc:  # noqa: BLE001
             success = False
-            data_packet.metadata["error"] = str(exc)
+            logger.exception("Error in %s for packet %s", self.name, data_packet.id)
+            data_packet.metadata["error"] = f"{type(exc).__name__} in {self.name}"
 
         processing_time = time.time() - start_time
         self.update_metrics(processing_time, success)

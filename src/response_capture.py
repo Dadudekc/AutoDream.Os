@@ -24,11 +24,11 @@ class ResponseCapture:
                 return response_type
         if "def " in content or "class " in content:
             return "code_file"
-        if "error" in content.lower() or "exception" in content.lower():
+        elif re.search(r'\b(error|exception)\b', content, re.IGNORECASE):
             return "error_report"
-        if "analysis" in content.lower() or "report" in content.lower():
+        elif re.search(r'\b(analysis|report)\b', content, re.IGNORECASE):
             return "analysis_report"
-        if "task" in content.lower() or "todo" in content.lower():
+        elif re.search(r'\b(task|todo)\b', content, re.IGNORECASE):
             return "task_update"
         return "unknown"
 

@@ -60,7 +60,10 @@ Examples:
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
         
         # Test command
-        test_parser = subparsers.add_parser("test", help="Run performance validation tests")
+        # "validate" kept for backward compatibility with V1 command name
+        test_parser = subparsers.add_parser(
+            "test", aliases=["validate"], help="Run performance validation tests"
+        )
         test_parser.add_argument(
             "--smoke",
             action="store_true",

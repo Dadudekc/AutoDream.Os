@@ -207,7 +207,7 @@ class UnifiedPerformanceSystem:
                     self.config = json.load(f)
             else:
                 self.config = default_config
-        except Exception as e:
+        except (json.JSONDecodeError, OSError) as e:
             self.logger.error(f"Failed to load configuration: {e}")
             self.config = default_config
 

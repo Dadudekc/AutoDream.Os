@@ -364,7 +364,7 @@ class WorkflowExecutor:
 
             # Execute new state
             self._execute_state(
-                workflow_id, workflow, transition.to_state, states, transitions, {}
+                workflow_id, workflow, transition.to_state, states, transitions, state_handlers
             )
 
             self.total_state_transitions += 1

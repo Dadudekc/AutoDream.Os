@@ -1,65 +1,51 @@
 #!/usr/bin/env python3
 """
-Message Handler V2 Service
-==========================
-Handles message processing, routing, and V1 compatibility for the agent system.
-Follows 100 LOC limit and single responsibility principle.
+Message Handler V2 - Agent Cellphone V2
+======================================
+
+Handles message processing using unified messaging system.
+Eliminates duplicate AgentMessage class - uses unified system.
+
+Author: V2 SWARM CAPTAIN
+License: MIT
 """
 
 import logging
-import time
+from typing import Any, Callable, Dict, List, Optional
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import Dict, List, Any, Optional, Callable
-from dataclasses import dataclass
-from enum import Enum
-
-from ..core.message_router import MessageRouter, MessageType, MessagePriority
+from ..models.unified_message import (
+    UnifiedMessage,
+    UnifiedMessageType,
+    UnifiedMessagePriority,
+    UnifiedMessageStatus,
+    UnifiedMessageTag,
+)
 
 logger = logging.getLogger(__name__)
 
 
-class MsgTag(Enum):
-    """Message tags for system communication (V1 compatible)"""
+# ============================================================================
+# MESSAGE TAGS (Legacy V1 compatibility)
+# ============================================================================
 
-    NORMAL = ""
-    RESUME = "[RESUME]"
-    SYNC = "[SYNC]"
-    VERIFY = "[VERIFY]"
-    REPAIR = "[REPAIR]"
-    BACKUP = "[BACKUP]"
-    RESTORE = "[RESTORE]"
-    CLEANUP = "[CLEANUP]"
-    CAPTAIN = "[CAPTAIN]"
-    TASK = "[TASK]"
-    INTEGRATE = "[INTEGRATE]"
-    REPLY = "[REPLY]"
+class MsgTag:
+    """Legacy V1 message tags for compatibility"""
+    NORMAL = "[NORMAL]"
     COORDINATE = "[COORDINATE]"
-    ONBOARDING = "[ONBOARDING]"
     RESCUE = "[RESCUE]"
 
 
-@dataclass
-class AgentMessage:
-    """Structure for agent messages (V1 compatible)"""
-
-    from_agent: str
-    to_agent: str
-    content: str
-    tag: MsgTag = MsgTag.NORMAL
-    timestamp: Optional[float] = None
-
-    def __str__(self) -> str:
-        return f"{self.from_agent} → {self.to_agent}: {self.tag.value} {self.content}"
-
+# ============================================================================
+# MESSAGE HANDLER (Using Unified Message System)
+# ============================================================================
 
 class MessageHandlerV2:
-    """Handles message processing and V1 compatibility"""
+    """Handles message processing using unified messaging system"""
 
-    def __init__(self, message_router: MessageRouter):
+    def __init__(self, message_router):
         self.message_router = message_router
-        self._conversation_history: List[AgentMessage] = []
-        self._message_handlers: Dict[str, Callable[[AgentMessage], None]] = {}
+        self._conversation_history: List[UnifiedMessage] = []
+        self._message_handlers: Dict[str, Callable[[UnifiedMessage], None]] = {}
         self.logger = logging.getLogger(f"{__name__}.MessageHandlerV2")
 
     def send_message(
@@ -67,14 +53,24 @@ class MessageHandlerV2:
         sender: str,
         recipient: str,
         content: Any,
-        msg_tag: MsgTag = MsgTag.COORDINATE,
+        msg_tag: str = MsgTag.COORDINATE,
     ) -> bool:
-        """Send a message between agents"""
+        """Send a message between agents using unified system"""
         try:
+            # Create unified message
+            message = UnifiedMessage(
+                sender_id=sender,
+                recipient_id=recipient,
+                content=str(content),
+                tag=UnifiedMessageTag(msg_tag.replace("[", "").replace("]", "")),
+                message_type=UnifiedMessageType.AGENT,
+                priority=UnifiedMessagePriority.NORMAL,
+            )
+            
+            # Send via router
             success = self.message_router.send_message(sender, recipient, content)
             if success:
-                msg = AgentMessage(sender, recipient, str(content), msg_tag)
-                self._conversation_history.append(msg)
+                self._conversation_history.append(message)
                 self.logger.info(f"→ {recipient}: {str(content)[:80]}")
             return success
         except Exception as e:
@@ -82,7 +78,7 @@ class MessageHandlerV2:
             return False
 
     def broadcast_message(
-        self, sender: str, message: str, tag: MsgTag = MsgTag.NORMAL
+        self, sender: str, message: str, tag: str = MsgTag.NORMAL
     ) -> None:
         """Send message to all agents (V1 compatibility)"""
         # Get all agents from message router (simplified)
@@ -90,12 +86,12 @@ class MessageHandlerV2:
         self.send_message(sender, "broadcast", message, tag)
 
     def register_handler(
-        self, message_type: str, handler: Callable[[AgentMessage], None]
+        self, message_type: str, handler: Callable[[UnifiedMessage], None]
     ) -> None:
         """Register message handler (V1 compatibility)"""
         self._message_handlers[message_type] = handler
 
-    def get_conversation_history(self) -> List[AgentMessage]:
+    def get_conversation_history(self) -> List[UnifiedMessage]:
         """Get conversation history (V1 compatibility)"""
         return self._conversation_history.copy()
 
@@ -103,6 +99,22 @@ class MessageHandlerV2:
         """Clear conversation history"""
         self._conversation_history.clear()
 
+
+# ============================================================================
+# MOCK MESSAGE ROUTER (For testing)
+# ============================================================================
+
+class MockMessageRouter:
+    """Mock message router for testing"""
+    
+    def send_message(self, sender, recipient, content):
+        """Mock send message implementation"""
+        return True
+
+
+# ============================================================================
+# MAIN CLI INTERFACE
+# ============================================================================
 
 def main():
     """CLI interface for testing MessageHandlerV2"""
@@ -121,10 +133,6 @@ def main():
         print("=" * 40)
 
         # Mock message router for testing
-        class MockMessageRouter:
-            def send_message(self, sender, recipient, content):
-                return True
-
         router = MockMessageRouter()
         handler = MessageHandlerV2(router)
 
@@ -136,10 +144,17 @@ def main():
         history = handler.get_conversation_history()
         print(f"✅ History count: {len(history)}")
 
-        print("🎉 MessageHandlerV2 smoke test PASSED!")
+        # Test unified message creation
+        if history:
+            unified_msg = history[0]
+            print(f"✅ Unified message created: {unified_msg.message_id}")
+            print(f"✅ Message type: {unified_msg.message_type.value}")
+            print(f"✅ Message status: {unified_msg.status.value}")
+
+        print("🎯 MessageHandlerV2 smoke test PASSED!")
+
     else:
-        print("MessageHandlerV2 ready")
-        print("Use --test to run smoke test")
+        print("Usage: python message_handler.py --test")
 
 
 if __name__ == "__main__":

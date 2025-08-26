@@ -3,8 +3,14 @@
 Decision Types - Agent Cellphone V2
 ===================================
 
-Defines decision-related enums and dataclasses.
-Follows V2 standards: ≤50 LOC, SRP, OOP principles.
+CONSOLIDATED decision-related enums and dataclasses.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
+
+CONSOLIDATION STATUS:
+- ✅ Core decision types maintained
+- ❌ REMOVED: LearningMode (unified with src/core/learning/)
+- ❌ REMOVED: DataIntegrityLevel (not decision-specific)
+- ✅ Clean decision type definitions
 """
 
 from enum import Enum
@@ -21,7 +27,6 @@ class DecisionType(Enum):
     CONFLICT_RESOLUTION = "conflict_resolution"
     WORKFLOW_OPTIMIZATION = "workflow_optimization"
     AGENT_COORDINATION = "agent_coordination"
-    LEARNING_ADAPTATION = "learning_adaptation"
     STRATEGIC_PLANNING = "strategic_planning"
 
 
@@ -32,15 +37,6 @@ class DecisionConfidence(Enum):
     HIGH = "high"    # 67-100% confidence (fully autonomous execution)
 
 
-class LearningMode(Enum):
-    """Learning modes for the autonomous system"""
-    SUPERVISED = "supervised"
-    UNSUPERVISED = "unsupervised"
-    REINFORCEMENT = "reinforcement"
-    TRANSFER = "transfer"
-    ACTIVE = "adaptive"
-
-
 class IntelligenceLevel(Enum):
     """Intelligence levels for decision making"""
     BASIC = "basic"           # Rule-based decisions
@@ -48,13 +44,6 @@ class IntelligenceLevel(Enum):
     ADVANCED = "advanced"     # Predictive modeling
     EXPERT = "expert"         # Deep learning
     AUTONOMOUS = "autonomous" # Self-improving
-
-
-class DataIntegrityLevel(Enum):
-    """Data integrity verification levels"""
-    BASIC = "basic"  # Simple checksum
-    ADVANCED = "advanced"  # Hash + timestamp
-    CRITICAL = "critical"  # Full integrity chain
 
 
 class DecisionStatus(Enum):

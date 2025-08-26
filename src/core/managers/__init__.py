@@ -17,7 +17,10 @@ from .task_manager import TaskManager
 from .data_manager import DataManager
 from .communication_manager import CommunicationManager
 from .health_manager import HealthManager
-from .performance_manager import PerformanceManager
+from .unified_manager_system import UnifiedManagerSystem
+
+# Performance manager will be created as part of TASK 3B
+# from .performance_manager import PerformanceManager
 
 __all__ = [
     'SystemManager',
@@ -27,7 +30,8 @@ __all__ = [
     'DataManager',
     'CommunicationManager',
     'HealthManager',
-    'PerformanceManager'
+    'UnifiedManagerSystem',
+    # 'PerformanceManager'  # Will be added when TASK 3B is complete
 ]
 
 # Version information

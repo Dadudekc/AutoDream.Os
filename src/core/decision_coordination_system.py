@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from .decision import DecisionMakingEngine, DecisionType, DecisionRequest
+from .decision import DecisionManager as DecisionMakingEngine, DecisionType, DecisionRequest
 from .coordination_status import CoordinationMode, CoordinationStatus
 from .coordination_results import (
     gather_agent_inputs,

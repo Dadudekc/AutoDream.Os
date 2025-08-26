@@ -11,15 +11,17 @@ from datetime import datetime
 from .decision_types import (
     DecisionType, create_decision_context, create_learning_data, create_agent_capability
 )
-from .decision_core import DecisionCore
-from .learning_engine import LearningEngine
+# ARCHITECTURE CORRECTED: Using decision manager from decision module
+from .decision import DecisionManager
+# ARCHITECTURE CORRECTED: Using unified learning engine from learning module
+from .learning import UnifiedLearningEngine as LearningEngine
 from .persistent_data_storage import PersistentDataStorage
 
 
 class DecisionCLI:
     def __init__(self):
         self.storage = PersistentDataStorage()
-        self.decision_core = DecisionCore(self.storage)
+        self.decision_core = DecisionManager(self.storage)
         self.learning_engine = LearningEngine(self.storage)
         self.parser = self._setup_argument_parser()
     

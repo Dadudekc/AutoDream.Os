@@ -3,31 +3,13 @@ This package provides the infrastructure for cross-agent communication,
 coordination, and integration across all agent systems.
 """
 
-# Core communication classes
-from .cross_agent_protocol import (
-    CrossAgentCommunicator,
-    AgentMessage,
-    AgentResponse,
-    MessagePriority,
-    PROTOCOL_VERSION,
-    MESSAGE_TYPES,
-    COMMAND_CATEGORIES,
-)
-
+# Core communication classes - only import what exists
 from .authentication import AuthenticationManager
-from .routing import MessageRouter, MessageValidator
 from .handshake import HandshakeNegotiator
+from .logging_utils import get_logger
 
 __all__ = [
-    "CrossAgentCommunicator",
-    "AgentMessage",
-    "AgentResponse",
-    "MessagePriority",
     "AuthenticationManager",
-    "MessageRouter",
-    "MessageValidator",
     "HandshakeNegotiator",
-    "PROTOCOL_VERSION",
-    "MESSAGE_TYPES",
-    "COMMAND_CATEGORIES",
+    "get_logger",
 ]

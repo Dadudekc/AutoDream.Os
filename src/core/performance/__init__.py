@@ -1,134 +1,112 @@
 #!/usr/bin/env python3
 """
-Performance Validation System - Unified Module Package
-=====================================================
+Performance Package - V2 Modular Architecture
+============================================
 
-This package contains the consolidated performance validation system modules
-that have been extracted and unified from multiple scattered files.
+Unified performance management system with modular components.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
 
-Author: Performance Validation Consolidation Team
+Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-# Import the main classes for easy access
-from .performance_core import (
-    PerformanceValidationCore,
-    BenchmarkResult,
-    ValidationRule
-)
+# Main unified system
+from .unified_performance_system import UnifiedPerformanceSystem
 
-from .performance_reporter import (
-    PerformanceReporter,
-    SystemPerformanceReport
-)
+# Configuration management
+from .config.config_manager import PerformanceConfigManager
+from .config.validation_config import ValidationThreshold, ValidationConfig
+from .config.benchmark_config import BenchmarkConfig, BenchmarkExecutionConfig
+from .config.system_config import SystemConfig, PerformanceTargets, Environment, LogLevel
+from .config.alert_config import AlertConfig, AlertChannel, AlertSeverity, AlertChannelType
 
-from .performance_config import (
-    PerformanceConfigManager,
-    PerformanceValidationConfig,
-    ValidationThreshold,
-    BenchmarkConfig
-)
+# Performance monitoring
+from .monitoring.monitoring_manager import MonitoringManager
+from .monitoring.monitoring_types import MetricData, MetricType, MonitoringConfig, CollectionResult
 
-from .performance_cli import PerformanceValidationCLI
+# Performance validation
+from .validation.validation_engine import ValidationEngine
+from .validation.validation_types import ValidationStatus, ValidationSeverity, ValidationContext, ValidationResult, ValidationSummary
 
-from .performance_orchestrator import PerformanceValidationOrchestrator
+# Performance benchmarking
+from .benchmarking.benchmark_runner import BenchmarkRunner
+from .benchmarking.benchmark_types import BenchmarkType, BenchmarkStatus, BenchmarkPhase, BenchmarkMetrics, BenchmarkResult, BenchmarkConfig
 
-# Import consolidated modules from deduplication effort
-from .validation.validation_core import ValidationCore
-from .models.data_models import PerformanceDataModel
-from .types.enums import PerformanceMetricType, ValidationStatus
-from .monitoring.performance_monitor import PerformanceMonitor
-from .dashboard.performance_dashboard import PerformanceDashboard
-from .models.performance_models import PerformanceModel
+# Performance reporting
+from .reporting.report_generator import PerformanceReportGenerator
+from .reporting.report_types import PerformanceReport, ReportSection, ReportMetric, ReportFormat, ReportStatus, MetricType
 
-# Version information
-__version__ = "2.0.0"
-__author__ = "Performance Validation Consolidation Team"
-__license__ = "MIT"
+# Performance analysis
+from .analysis.performance_analyzer import PerformanceAnalyzer, PerformanceLevel
 
-# Package metadata
+# Connection management
+from .connection.connection_pool_manager import ConnectionPoolManager
+
+# Backwards compatibility aliases
+PerformanceValidationOrchestrator = UnifiedPerformanceSystem
+PerformanceValidationCore = UnifiedPerformanceSystem
+PerformanceReporter = UnifiedPerformanceSystem
+PerformanceConfigManager = UnifiedPerformanceSystem
+
 __all__ = [
-    # Core functionality
-    "PerformanceValidationCore",
-    "BenchmarkResult", 
-    "ValidationRule",
-    
-    # Reporting
-    "PerformanceReporter",
-    "SystemPerformanceReport",
+    # Main system
+    "UnifiedPerformanceSystem",
     
     # Configuration
     "PerformanceConfigManager",
-    "PerformanceValidationConfig",
     "ValidationThreshold",
+    "ValidationConfig", 
     "BenchmarkConfig",
+    "BenchmarkExecutionConfig",
+    "SystemConfig",
+    "PerformanceTargets",
+    "Environment",
+    "LogLevel",
+    "AlertConfig",
+    "AlertChannel",
+    "AlertSeverity",
+    "AlertChannelType",
     
-    # CLI interface
-    "PerformanceValidationCLI",
+    # Monitoring
+    "MonitoringManager",
+    "MetricData",
+    "MetricType",
+    "MonitoringConfig",
+    "CollectionResult",
     
-    # Main orchestrator
-    "PerformanceValidationOrchestrator",
-    
-    # Consolidated modules from deduplication
-    "ValidationCore",
-    "PerformanceDataModel", 
-    "PerformanceMetricType",
+    # Validation
+    "ValidationEngine",
     "ValidationStatus",
-    "PerformanceMonitor",
-    "PerformanceDashboard",
-    "PerformanceModel",
+    "ValidationSeverity",
+    "ValidationContext",
+    "ValidationResult",
+    "ValidationSummary",
     
-    # Version info
-    "__version__",
-    "__author__",
-    "__license__"
+    # Benchmarking
+    "BenchmarkRunner",
+    "BenchmarkType",
+    "BenchmarkStatus",
+    "BenchmarkPhase",
+    "BenchmarkMetrics",
+    "BenchmarkResult",
+    
+    # Reporting
+    "PerformanceReportGenerator",
+    "PerformanceReport",
+    "ReportSection",
+    "ReportMetric",
+    "ReportFormat",
+    "ReportStatus",
+    
+    # Analysis
+    "PerformanceAnalyzer",
+    "PerformanceLevel",
+    
+    # Connection management
+    "ConnectionPoolManager",
+    
+    # Backwards compatibility
+    "PerformanceValidationOrchestrator",
+    "PerformanceValidationCore",
+    "PerformanceReporter",
 ]
-
-# Convenience function to create a complete system
-def create_performance_system(config_file: str = None):
-    """
-    Create a complete performance validation system with all components.
-    
-    Args:
-        config_file: Optional path to configuration file
-        
-    Returns:
-        PerformanceValidationOrchestrator instance
-    """
-    return PerformanceValidationOrchestrator(config_file)
-
-# Quick access to main functionality
-def run_smoke_test():
-    """Run a quick smoke test to verify the system is working."""
-    orchestrator = PerformanceValidationOrchestrator()
-    return orchestrator.run_smoke_test()
-
-def run_benchmark(benchmark_type: str = None):
-    """
-    Run a performance benchmark.
-    
-    Args:
-        benchmark_type: Specific benchmark type or None for all
-        
-    Returns:
-        Benchmark ID if successful
-    """
-    orchestrator = PerformanceValidationOrchestrator()
-    if not orchestrator.start_system():
-        return None
-    
-    try:
-        if benchmark_type:
-            # Run specific benchmark
-            result = orchestrator._run_single_benchmark(benchmark_type)
-            return result.benchmark_id if result else None
-        else:
-            # Run comprehensive benchmark
-            return orchestrator.run_comprehensive_benchmark()
-    finally:
-        orchestrator.stop_system()
-
-def get_system_status():
-    """Get the current status of a performance validation system."""
-    orchestrator = PerformanceValidationOrchestrator()
-    return orchestrator.get_system_status()

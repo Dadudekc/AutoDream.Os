@@ -33,7 +33,7 @@ from src.core.v2_comprehensive_messaging_system import (
     V2MessageType,
     V2MessagePriority,
 )
-from src.core.fsm_core_v2 import FSMCoreV2
+from src.core.fsm import FSMSystemManager
 
 
 class TestV2OnboardingSequence(unittest.TestCase):
@@ -60,7 +60,7 @@ class TestV2OnboardingSequence(unittest.TestCase):
 
         # Mock components
         self.mock_communication = Mock(spec=V2ComprehensiveMessagingSystem)
-        self.mock_fsm_core = Mock(spec=FSMCoreV2)
+        self.mock_fsm_system_manager = Mock(spec=FSMSystemManager)
 
         # Initialize onboarding sequence
         self.onboarding = V2OnboardingSequence(self.test_config)
@@ -371,7 +371,7 @@ class TestV2OnboardingIntegration(unittest.TestCase):
         shutil.rmtree(self.test_dir)
 
     @patch("src.core.agent_communication.AgentCommunicationProtocol")
-    @patch("src.core.fsm_core_v2.FSMCoreV2")
+    @patch("src.core.fsm.FSMSystemManager")
     @patch("src.core.inbox_manager.InboxManager")
     def test_full_onboarding_workflow(self, mock_inbox, mock_fsm, mock_comm):
         """Test complete onboarding workflow integration"""

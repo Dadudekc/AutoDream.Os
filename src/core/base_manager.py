@@ -1,760 +1,591 @@
 #!/usr/bin/env python3
 """
-Base Manager - V2 Core Manager Consolidation System
-==================================================
+Base Manager System - Agent Cellphone V2
+========================================
 
-Single source of truth for all manager functionality.
-Consolidates 80% duplication across 42 manager files.
-Follows V2 standards: 400 LOC, OOP design, SRP.
+CONSOLIDATED base manager system to eliminate duplication across all manager classes.
+This provides common functionality that was previously duplicated in 15+ manager files.
 
-Author: V2 SWARM CAPTAIN
-License: MIT
+**Author:** V2 Consolidation Specialist
+**Created:** Current Sprint
+**Status:** ACTIVE - CONSOLIDATION IN PROGRESS
 """
 
 import logging
-import json
-import time
-import threading
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Callable, Union
-from dataclasses import dataclass, asdict
-from enum import Enum
-from datetime import datetime, timedelta
+import uuid
 from abc import ABC, abstractmethod
-
-from src.utils.stability_improvements import stability_manager, safe_import
-
-logger = logging.getLogger(__name__)
+from datetime import datetime, timedelta
+from dataclasses import dataclass, field
+from enum import Enum
+from pathlib import Path
+from typing import Dict, List, Any, Optional, Set, Callable
+import json
+import threading
+import time
 
 
 class ManagerStatus(Enum):
-    """Standard manager status states"""
-    ACTIVE = "active"
-    INACTIVE = "inactive"
+    """Unified manager status states"""
+    OFFLINE = "offline"
+    ONLINE = "online"
+    BUSY = "busy"
+    IDLE = "idle"
     ERROR = "error"
+    RECOVERING = "recovering"
     MAINTENANCE = "maintenance"
     INITIALIZING = "initializing"
-    SHUTDOWN = "shutdown"
+    SHUTTING_DOWN = "shutting_down"
 
 
 class ManagerPriority(Enum):
-    """Standard manager priority levels"""
-    CRITICAL = "critical"
-    HIGH = "high"
-    MEDIUM = "medium"
-    LOW = "low"
-    INFO = "info"
+    """Unified manager priority levels"""
+    LOW = 1
+    NORMAL = 2
+    HIGH = 3
+    URGENT = 4
+    CRITICAL = 5
 
 
 @dataclass
 class ManagerMetrics:
-    """Standard manager performance metrics"""
-    total_operations: int
-    successful_operations: int
-    failed_operations: int
-    average_response_time: float
-    last_activity: datetime
-    uptime: float
-    error_count: int
-    warning_count: int
+    """Unified manager performance metrics"""
+    manager_id: str
+    uptime_seconds: float = 0.0
+    operations_processed: int = 0
+    errors_count: int = 0
+    last_operation: Optional[datetime] = None
+    performance_score: float = 0.0
+    resource_usage: Dict[str, Any] = field(default_factory=dict)
+    created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
 
 
 @dataclass
-class ManagerEvent:
-    """Standard manager event structure"""
-    event_id: str
-    event_type: str
-    timestamp: datetime
-    source: str
-    data: Dict[str, Any]
-    priority: ManagerPriority
-    is_handled: bool = False
+class ManagerConfig:
+    """Unified manager configuration"""
+    manager_id: str
+    name: str
+    description: str
+    enabled: bool = True
+    auto_start: bool = True
+    heartbeat_interval: int = 30
+    max_retries: int = 3
+    timeout_seconds: int = 60
+    log_level: str = "INFO"
+    config_file: Optional[str] = None
+    created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
 
 
 class BaseManager(ABC):
     """
-    Base Manager - Single responsibility: Common manager functionality
+    CONSOLIDATED base manager class that eliminates duplication
     
-    This class consolidates 80% of duplicate code across 42 manager files:
-    - CRUD operations (Create, Read, Update, Delete)
-    - Event handling and callbacks
-    - Configuration management
+    Common functionality previously duplicated across 15+ manager classes:
+    - Lifecycle management (start/stop/restart)
     - Status tracking and monitoring
-    - Lifecycle management
-    - Error handling and logging
-    - Metrics collection and reporting
+    - Configuration management
+    - Performance metrics collection
+    - Heartbeat monitoring
+    - Error handling and recovery
+    - Logging and debugging
+    - Resource management
     """
-
-    def __init__(
-        self,
-        manager_name: str,
-        config_path: Optional[str] = None,
-        enable_metrics: bool = True,
-        enable_events: bool = True,
-        enable_persistence: bool = True
-    ):
-        """Initialize base manager with common functionality"""
-        self.manager_name = manager_name
-        self.config_path = Path(config_path) if config_path else None
-        self.enable_metrics = enable_metrics
-        self.enable_events = enable_events
-        self.enable_persistence = enable_persistence
+    
+    def __init__(self, manager_id: str, name: str, description: str = ""):
+        # Core identification
+        self.manager_id = manager_id
+        self.name = name
+        self.description = description
         
-        # Core state
-        self.status = ManagerStatus.INITIALIZING
-        self.start_time = datetime.now()
-        self.last_activity = datetime.now()
+        # Status and lifecycle
+        self.status = ManagerStatus.OFFLINE
+        self.priority = ManagerPriority.NORMAL
+        self.running = False
+        self.startup_time: Optional[datetime] = None
+        self.shutdown_time: Optional[datetime] = None
         
         # Configuration
-        self.config = {}
-        self._load_config()
-        
-        # Metrics
-        if self.enable_metrics:
-            self.metrics = ManagerMetrics(
-                total_operations=0,
-                successful_operations=0,
-                failed_operations=0,
-                average_response_time=0.0,
-                last_activity=self.start_time,
-                uptime=0.0,
-                error_count=0,
-                warning_count=0
-            )
-        
-        # Events
-        if self.enable_events:
-            self.event_handlers: Dict[str, List[Callable]] = {}
-            self.event_history: List[ManagerEvent] = []
-            self.max_event_history = 1000
-        
-        # Persistence
-        if self.enable_persistence:
-            self.data_storage: Dict[str, Any] = {}
-            self._load_persistent_data()
-        
-        # Threading
-        self._lock = threading.RLock()
-        self._shutdown_event = threading.Event()
-        
-        # Initialize manager
-        self._initialize_manager()
-        self.status = ManagerStatus.ACTIVE
-        
-        logger.info(f"BaseManager '{manager_name}' initialized successfully")
-
-    def _load_config(self) -> None:
-        """Load manager configuration"""
-        if not self.config_path or not self.config_path.exists():
-            self.config = self._get_default_config()
-            return
-        
-        try:
-            with open(self.config_path, 'r') as f:
-                self.config = json.load(f)
-            logger.info(f"Configuration loaded from {self.config_path}")
-        except Exception as e:
-            logger.error(f"Failed to load config from {self.config_path}: {e}")
-            self.config = self._get_default_config()
-
-    def _get_default_config(self) -> Dict[str, Any]:
-        """Get default configuration for manager"""
-        return {
-            "max_retries": 3,
-            "retry_delay": 1.0,
-            "timeout": 30.0,
-            "enable_logging": True,
-            "log_level": "INFO",
-            "max_history_size": 1000,
-            "cleanup_interval": 3600,  # 1 hour
-            "health_check_interval": 300,  # 5 minutes
-        }
-
-    def _load_persistent_data(self) -> None:
-        """Load persistent data storage"""
-        if not self.enable_persistence:
-            return
-        
-        try:
-            data_file = Path(f"runtime/{self.manager_name}_data.json")
-            if data_file.exists():
-                with open(data_file, 'r') as f:
-                    self.data_storage = json.load(f)
-                logger.info(f"Persistent data loaded from {data_file}")
-        except Exception as e:
-            logger.error(f"Failed to load persistent data: {e}")
-            self.data_storage = {}
-
-    def _save_persistent_data(self) -> None:
-        """Save persistent data storage"""
-        if not self.enable_persistence:
-            return
-        
-        try:
-            data_file = Path(f"runtime/{self.manager_name}_data.json")
-            data_file.parent.mkdir(parents=True, exist_ok=True)
-            
-            with open(data_file, 'w') as f:
-                json.dump(self.data_storage, f, indent=2, default=str)
-            
-            logger.debug(f"Persistent data saved to {data_file}")
-        except Exception as e:
-            logger.error(f"Failed to save persistent data: {e}")
-
-    def _initialize_manager(self) -> None:
-        """Initialize manager-specific functionality"""
-        # Override in subclasses
-        pass
-
-    # ========================================
-    # CRUD OPERATIONS (Create, Read, Update, Delete)
-    # ========================================
-
-    def create(self, key: str, data: Any, **kwargs) -> bool:
-        """Create new item in manager"""
-        with self._lock:
-            try:
-                start_time = time.time()
-                
-                # Validate data
-                if not self._validate_data(data):
-                    logger.error(f"Invalid data for key {key}")
-                    return False
-                
-                # Check if key exists
-                if key in self.data_storage:
-                    logger.warning(f"Key {key} already exists, overwriting")
-                
-                # Store data
-                self.data_storage[key] = data
-                
-                # Update metrics
-                if self.enable_metrics:
-                    self._update_metrics(True, time.time() - start_time)
-                
-                # Trigger event
-                if self.enable_events:
-                    self._trigger_event("item_created", {"key": key, "data": data})
-                
-                # Save persistence
-                if self.enable_persistence:
-                    self._save_persistent_data()
-                
-                logger.info(f"Created item with key: {key}")
-                return True
-                
-            except Exception as e:
-                logger.error(f"Failed to create item {key}: {e}")
-                if self.enable_metrics:
-                    self._update_metrics(False, 0)
-                return False
-
-    def read(self, key: str, default: Any = None) -> Any:
-        """Read item from manager"""
-        with self._lock:
-            try:
-                start_time = time.time()
-                
-                # Get data
-                data = self.data_storage.get(key, default)
-                
-                # Update metrics
-                if self.enable_metrics:
-                    self._update_metrics(True, time.time() - start_time)
-                
-                # Trigger event
-                if self.enable_events:
-                    self._trigger_event("item_read", {"key": key, "found": key in self.data_storage})
-                
-                return data
-                
-            except Exception as e:
-                logger.error(f"Failed to read item {key}: {e}")
-                if self.enable_metrics:
-                    self._update_metrics(False, 0)
-                return default
-
-    def update(self, key: str, data: Any, **kwargs) -> bool:
-        """Update existing item in manager"""
-        with self._lock:
-            try:
-                start_time = time.time()
-                
-                # Check if key exists
-                if key not in self.data_storage:
-                    logger.error(f"Key {key} not found for update")
-                    return False
-                
-                # Validate data
-                if not self._validate_data(data):
-                    logger.error(f"Invalid data for key {key}")
-                    return False
-                
-                # Update data
-                self.data_storage[key] = data
-                
-                # Update metrics
-                if self.enable_metrics:
-                    self._update_metrics(True, time.time() - start_time)
-                
-                # Trigger event
-                if self.enable_events:
-                    self._trigger_event("item_updated", {"key": key, "data": data})
-                
-                # Save persistence
-                if self.enable_persistence:
-                    self._save_persistent_data()
-                
-                logger.info(f"Updated item with key: {key}")
-                return True
-                
-            except Exception as e:
-                logger.error(f"Failed to update item {key}: {e}")
-                if self.enable_metrics:
-                    self._update_metrics(False, 0)
-                return False
-
-    def delete(self, key: str, **kwargs) -> bool:
-        """Delete item from manager"""
-        with self._lock:
-            try:
-                start_time = time.time()
-                
-                # Check if key exists
-                if key not in self.data_storage:
-                    logger.warning(f"Key {key} not found for deletion")
-                    return False
-                
-                # Get data before deletion for event
-                data = self.data_storage[key]
-                
-                # Delete data
-                del self.data_storage[key]
-                
-                # Update metrics
-                if self.enable_metrics:
-                    self._update_metrics(True, time.time() - start_time)
-                
-                # Trigger event
-                if self.enable_events:
-                    self._trigger_event("item_deleted", {"key": key, "data": data})
-                
-                # Save persistence
-                if self.enable_persistence:
-                    self._save_persistent_data()
-                
-                logger.info(f"Deleted item with key: {key}")
-                return True
-                
-            except Exception as e:
-                logger.error(f"Failed to delete item {key}: {e}")
-                if self.enable_metrics:
-                    self._update_metrics(False, 0)
-                return False
-
-    def exists(self, key: str) -> bool:
-        """Check if item exists in manager"""
-        return key in self.data_storage
-
-    def count(self) -> int:
-        """Get total count of items"""
-        return len(self.data_storage)
-
-    def keys(self) -> List[str]:
-        """Get all keys in manager"""
-        return list(self.data_storage.keys())
-
-    def values(self) -> List[Any]:
-        """Get all values in manager"""
-        return list(self.data_storage.values())
-
-    def items(self) -> List[tuple]:
-        """Get all key-value pairs in manager"""
-        return list(self.data_storage.items())
-
-    def clear(self) -> None:
-        """Clear all data from manager"""
-        with self._lock:
-            self.data_storage.clear()
-            if self.enable_persistence:
-                self._save_persistent_data()
-            logger.info("All data cleared from manager")
-
-    # ========================================
-    # EVENT HANDLING AND CALLBACKS
-    # ========================================
-
-    def register_event_handler(self, event_type: str, handler: Callable) -> None:
-        """Register event handler for specific event type"""
-        if not self.enable_events:
-            logger.warning("Events not enabled for this manager")
-            return
-        
-        if event_type not in self.event_handlers:
-            self.event_handlers[event_type] = []
-        
-        self.event_handlers[event_type].append(handler)
-        logger.debug(f"Registered event handler for {event_type}")
-
-    def unregister_event_handler(self, event_type: str, handler: Callable) -> None:
-        """Unregister event handler"""
-        if event_type in self.event_handlers and handler in self.event_handlers[event_type]:
-            self.event_handlers[event_type].remove(handler)
-            logger.debug(f"Unregistered event handler for {event_type}")
-
-    def _trigger_event(self, event_type: str, data: Dict[str, Any]) -> None:
-        """Trigger event and notify handlers"""
-        if not self.enable_events:
-            return
-        
-        # Create event
-        event = ManagerEvent(
-            event_id=f"{self.manager_name}_{event_type}_{int(time.time())}",
-            event_type=event_type,
-            timestamp=datetime.now(),
-            source=self.manager_name,
-            data=data,
-            priority=ManagerPriority.INFO
+        self.config = ManagerConfig(
+            manager_id=manager_id,
+            name=name,
+            description=description
         )
         
-        # Add to history
-        self.event_history.append(event)
-        if len(self.event_history) > self.max_event_history:
-            self.event_history.pop(0)
+        # Performance tracking
+        self.metrics = ManagerMetrics(manager_id=manager_id)
+        self.operations_history: List[Dict[str, Any]] = []
         
-        # Notify handlers
+        # Heartbeat monitoring
+        self.heartbeat_thread: Optional[threading.Thread] = None
+        self.heartbeat_interval = self.config.heartbeat_interval
+        self.last_heartbeat = datetime.now()
+        
+        # Error handling
+        self.error_count = 0
+        self.last_error: Optional[str] = None
+        self.recovery_attempts = 0
+        
+        # Logging
+        self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
+        
+        # Event handlers
+        self.event_handlers: Dict[str, List[Callable]] = {}
+        
+        # Resource management
+        self.resources: Dict[str, Any] = {}
+        self.resource_locks: Dict[str, threading.Lock] = {}
+        
+        self.logger.info(f"BaseManager initialized: {manager_id} ({name})")
+    
+    # ============================================================================
+    # LIFECYCLE MANAGEMENT - Previously duplicated across all managers
+    # ============================================================================
+    
+    def start(self) -> bool:
+        """Start the manager - common lifecycle method"""
+        try:
+            if self.running:
+                self.logger.warning(f"Manager {self.manager_id} is already running")
+                return True
+            
+            self.logger.info(f"Starting manager: {self.manager_id}")
+            self.status = ManagerStatus.INITIALIZING
+            
+            # Initialize resources
+            if not self._initialize_resources():
+                raise RuntimeError("Failed to initialize resources")
+            
+            # Start heartbeat monitoring
+            self._start_heartbeat_monitoring()
+            
+            # Call subclass-specific startup
+            if not self._on_start():
+                raise RuntimeError("Subclass startup failed")
+            
+            self.running = True
+            self.status = ManagerStatus.ONLINE
+            self.startup_time = datetime.now()
+            self.metrics.uptime_seconds = 0.0
+            
+            self.logger.info(f"Manager {self.manager_id} started successfully")
+            self._emit_event("manager_started", {"manager_id": self.manager_id})
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to start manager {self.manager_id}: {e}")
+            self.status = ManagerStatus.ERROR
+            self.last_error = str(e)
+            self.error_count += 1
+            return False
+    
+    def stop(self) -> bool:
+        """Stop the manager - common lifecycle method"""
+        try:
+            if not self.running:
+                self.logger.warning(f"Manager {self.manager_id} is not running")
+                return True
+            
+            self.logger.info(f"Stopping manager: {self.manager_id}")
+            self.status = ManagerStatus.SHUTTING_DOWN
+            
+            # Stop heartbeat monitoring
+            self._stop_heartbeat_monitoring()
+            
+            # Call subclass-specific shutdown
+            self._on_stop()
+            
+            # Cleanup resources
+            self._cleanup_resources()
+            
+            self.running = False
+            self.status = ManagerStatus.OFFLINE
+            self.shutdown_time = datetime.now()
+            
+            self.logger.info(f"Manager {self.manager_id} stopped successfully")
+            self._emit_event("manager_stopped", {"manager_id": self.manager_id})
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to stop manager {self.manager_id}: {e}")
+            self.status = ManagerStatus.ERROR
+            self.last_error = str(e)
+            self.error_count += 1
+            return False
+    
+    def restart(self) -> bool:
+        """Restart the manager - common lifecycle method"""
+        try:
+            self.logger.info(f"Restarting manager: {self.manager_id}")
+            
+            if not self.stop():
+                return False
+            
+            # Wait a moment for cleanup
+            time.sleep(1)
+            
+            if not self.start():
+                return False
+            
+            self.logger.info(f"Manager {self.manager_id} restarted successfully")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to restart manager {self.manager_id}: {e}")
+            return False
+    
+    # ============================================================================
+    # STATUS AND MONITORING - Previously duplicated across all managers
+    # ============================================================================
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get comprehensive manager status - common monitoring method"""
+        return {
+            "manager_id": self.manager_id,
+            "name": self.name,
+            "status": self.status.value,
+            "priority": self.priority.value,
+            "running": self.running,
+            "startup_time": self.startup_time.isoformat() if self.startup_time else None,
+            "shutdown_time": self.shutdown_time.isoformat() if self.shutdown_time else None,
+            "uptime_seconds": self.metrics.uptime_seconds,
+            "operations_processed": self.metrics.operations_processed,
+            "errors_count": self.metrics.errors_count,
+            "last_operation": self.metrics.last_operation.isoformat() if self.metrics.last_operation else None,
+            "performance_score": self.metrics.performance_score,
+            "last_heartbeat": self.last_heartbeat.isoformat(),
+            "recovery_attempts": self.recovery_attempts,
+            "last_error": self.last_error
+        }
+    
+    def is_healthy(self) -> bool:
+        """Check if manager is healthy - common health check method"""
+        if not self.running:
+            return False
+        
+        # Check heartbeat
+        if (datetime.now() - self.last_heartbeat).total_seconds() > self.heartbeat_interval * 2:
+            return False
+        
+        # Check error threshold
+        if self.error_count > self.config.max_retries:
+            return False
+        
+        return True
+    
+    # ============================================================================
+    # CONFIGURATION MANAGEMENT - Previously duplicated across all managers
+    # ============================================================================
+    
+    def update_config(self, **kwargs) -> bool:
+        """Update manager configuration - common config method"""
+        try:
+            for key, value in kwargs.items():
+                if hasattr(self.config, key):
+                    setattr(self.config, key, value)
+                    self.logger.info(f"Updated config {key}: {value}")
+                else:
+                    self.logger.warning(f"Unknown config key: {key}")
+            
+            self.config.updated_at = datetime.now()
+            self._emit_event("config_updated", {"manager_id": self.manager_id, "changes": kwargs})
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to update config: {e}")
+            return False
+    
+    def load_config_from_file(self, config_file: str) -> bool:
+        """Load configuration from file - common config method"""
+        try:
+            if not Path(config_file).exists():
+                self.logger.warning(f"Config file not found: {config_file}")
+                return False
+            
+            with open(config_file, 'r') as f:
+                config_data = json.load(f)
+            
+            self.update_config(**config_data)
+            self.config.config_file = config_file
+            self.logger.info(f"Loaded config from: {config_file}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to load config from {config_file}: {e}")
+            return False
+    
+    # ============================================================================
+    # PERFORMANCE METRICS - Previously duplicated across all managers
+    # ============================================================================
+    
+    def record_operation(self, operation_type: str, success: bool, duration_ms: float = 0.0):
+        """Record operation metrics - common metrics method"""
+        try:
+            self.metrics.operations_processed += 1
+            self.metrics.last_operation = datetime.now()
+            
+            if not success:
+                self.metrics.errors_count += 1
+            
+            # Update performance score
+            if success:
+                # Simple scoring: successful operations improve score
+                self.metrics.performance_score = min(100.0, self.metrics.performance_score + 0.1)
+            else:
+                # Failed operations decrease score
+                self.metrics.performance_score = max(0.0, self.metrics.performance_score - 1.0)
+            
+            # Store operation history
+            operation_record = {
+                "timestamp": datetime.now().isoformat(),
+                "type": operation_type,
+                "success": success,
+                "duration_ms": duration_ms,
+                "error_count": self.error_count
+            }
+            self.operations_history.append(operation_record)
+            
+            # Keep only recent history
+            if len(self.operations_history) > 100:
+                self.operations_history = self.operations_history[-100:]
+            
+            self.metrics.updated_at = datetime.now()
+            
+        except Exception as e:
+            self.logger.error(f"Failed to record operation: {e}")
+    
+    def get_performance_summary(self) -> Dict[str, Any]:
+        """Get performance summary - common metrics method"""
+        return {
+            "manager_id": self.manager_id,
+            "uptime_seconds": self.metrics.uptime_seconds,
+            "operations_processed": self.metrics.operations_processed,
+            "success_rate": self._calculate_success_rate(),
+            "performance_score": self.metrics.performance_score,
+            "error_rate": self._calculate_error_rate(),
+            "average_operation_time": self._calculate_avg_operation_time()
+        }
+    
+    # ============================================================================
+    # EVENT SYSTEM - Previously duplicated across all managers
+    # ============================================================================
+    
+    def register_event_handler(self, event_type: str, handler: Callable):
+        """Register event handler - common event method"""
+        if event_type not in self.event_handlers:
+            self.event_handlers[event_type] = []
+        self.event_handlers[event_type].append(handler)
+        self.logger.debug(f"Registered event handler for {event_type}")
+    
+    def _emit_event(self, event_type: str, data: Dict[str, Any]):
+        """Emit event to registered handlers - common event method"""
         if event_type in self.event_handlers:
             for handler in self.event_handlers[event_type]:
                 try:
-                    handler(event)
+                    handler(data)
                 except Exception as e:
-                    logger.error(f"Event handler error for {event_type}: {e}")
-
-    # ========================================
-    # CONFIGURATION MANAGEMENT
-    # ========================================
-
-    def get_config(self, key: str, default: Any = None) -> Any:
-        """Get configuration value"""
-        return self.config.get(key, default)
-
-    def set_config(self, key: str, value: Any) -> None:
-        """Set configuration value"""
-        self.config[key] = value
-        logger.debug(f"Configuration updated: {key} = {value}")
-
-    def update_config(self, config_updates: Dict[str, Any]) -> None:
-        """Update multiple configuration values"""
-        self.config.update(config_updates)
-        logger.info(f"Configuration updated with {len(config_updates)} values")
-
-    def save_config(self) -> bool:
-        """Save configuration to file"""
-        if not self.config_path:
-            logger.warning("No config path specified")
-            return False
-        
+                    self.logger.error(f"Event handler error for {event_type}: {e}")
+    
+    # ============================================================================
+    # RESOURCE MANAGEMENT - Previously duplicated across all managers
+    # ============================================================================
+    
+    def _initialize_resources(self) -> bool:
+        """Initialize manager resources - common resource method"""
         try:
-            self.config_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.config_path, 'w') as f:
-                json.dump(self.config, f, indent=2, default=str)
-            logger.info(f"Configuration saved to {self.config_path}")
-            return True
-        except Exception as e:
-            logger.error(f"Failed to save configuration: {e}")
-            return False
-
-    # ========================================
-    # STATUS TRACKING AND MONITORING
-    # ========================================
-
-    def get_status(self) -> ManagerStatus:
-        """Get current manager status"""
-        return self.status
-
-    def set_status(self, status: ManagerStatus) -> None:
-        """Set manager status"""
-        old_status = self.status
-        self.status = status
-        logger.info(f"Manager status changed: {old_status} -> {status}")
-        
-        if self.enable_events:
-            self._trigger_event("status_changed", {
-                "old_status": old_status.value,
-                "new_status": status.value
-            })
-
-    def is_active(self) -> bool:
-        """Check if manager is active"""
-        return self.status == ManagerStatus.ACTIVE
-
-    def is_error(self) -> bool:
-        """Check if manager has errors"""
-        return self.status == ManagerStatus.ERROR
-
-    def get_uptime(self) -> float:
-        """Get manager uptime in seconds"""
-        return (datetime.now() - self.start_time).total_seconds()
-
-    def get_last_activity(self) -> datetime:
-        """Get last activity timestamp"""
-        return self.last_activity
-
-    def update_activity(self) -> None:
-        """Update last activity timestamp"""
-        self.last_activity = datetime.now()
-
-    # ========================================
-    # LIFECYCLE MANAGEMENT
-    # ========================================
-
-    def start(self) -> bool:
-        """Start the manager"""
-        try:
-            if self.status == ManagerStatus.ACTIVE:
-                logger.warning("Manager is already active")
-                return True
+            # Create resource locks
+            self.resource_locks = {
+                "config": threading.Lock(),
+                "metrics": threading.Lock(),
+                "status": threading.Lock()
+            }
             
-            self._start_manager()
-            self.status = ManagerStatus.ACTIVE
-            self.start_time = datetime.now()
-            
-            if self.enable_events:
-                self._trigger_event("manager_started", {})
-            
-            logger.info(f"Manager '{self.manager_name}' started successfully")
-            return True
+            # Initialize subclass-specific resources
+            return self._on_initialize_resources()
             
         except Exception as e:
-            logger.error(f"Failed to start manager: {e}")
-            self.status = ManagerStatus.ERROR
+            self.logger.error(f"Failed to initialize resources: {e}")
             return False
-
-    def stop(self) -> bool:
-        """Stop the manager"""
+    
+    def _cleanup_resources(self):
+        """Cleanup manager resources - common resource method"""
         try:
-            if self.status == ManagerStatus.SHUTDOWN:
-                logger.warning("Manager is already stopped")
-                return True
+            # Cleanup subclass-specific resources
+            self._on_cleanup_resources()
             
-            self._stop_manager()
-            self.status = ManagerStatus.SHUTDOWN
-            
-            if self.enable_events:
-                self._trigger_event("manager_stopped", {})
-            
-            logger.info(f"Manager '{self.manager_name}' stopped successfully")
-            return True
+            # Clear resource locks
+            self.resource_locks.clear()
             
         except Exception as e:
-            logger.error(f"Failed to stop manager: {e}")
-            return False
-
-    def restart(self) -> bool:
-        """Restart the manager"""
-        logger.info(f"Restarting manager '{self.manager_name}'")
-        if self.stop() and self.start():
-            logger.info(f"Manager '{self.manager_name}' restarted successfully")
-            return True
-        return False
-
-    def shutdown(self) -> None:
-        """Shutdown the manager gracefully"""
-        logger.info(f"Shutting down manager '{self.manager_name}'")
-        self._shutdown_event.set()
-        self.stop()
-
-    # ========================================
-    # ERROR HANDLING AND LOGGING
-    # ========================================
-
-    def handle_error(self, error: Exception, context: str = "") -> None:
-        """Handle manager errors"""
-        error_msg = f"Manager error in {context}: {error}"
-        logger.error(error_msg)
-        
-        if self.enable_metrics:
-            self.metrics.error_count += 1
-        
-        if self.enable_events:
-            self._trigger_event("error_occurred", {
+            self.logger.error(f"Failed to cleanup resources: {e}")
+    
+    def acquire_resource_lock(self, resource_name: str) -> Optional[threading.Lock]:
+        """Acquire resource lock - common resource method"""
+        return self.resource_locks.get(resource_name)
+    
+    # ============================================================================
+    # HEARTBEAT MONITORING - Previously duplicated across all managers
+    # ============================================================================
+    
+    def _start_heartbeat_monitoring(self):
+        """Start heartbeat monitoring - common monitoring method"""
+        try:
+            self.heartbeat_thread = threading.Thread(
+                target=self._heartbeat_loop,
+                daemon=True,
+                name=f"heartbeat-{self.manager_id}"
+            )
+            self.heartbeat_thread.start()
+            self.logger.debug(f"Started heartbeat monitoring for {self.manager_id}")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to start heartbeat monitoring: {e}")
+    
+    def _stop_heartbeat_monitoring(self):
+        """Stop heartbeat monitoring - common monitoring method"""
+        try:
+            if self.heartbeat_thread and self.heartbeat_thread.is_alive():
+                self.heartbeat_thread.join(timeout=5.0)
+                self.logger.debug(f"Stopped heartbeat monitoring for {self.manager_id}")
+                
+        except Exception as e:
+            self.logger.error(f"Failed to stop heartbeat monitoring: {e}")
+    
+    def _heartbeat_loop(self):
+        """Heartbeat monitoring loop - common monitoring method"""
+        while self.running:
+            try:
+                self.last_heartbeat = datetime.now()
+                
+                # Update uptime
+                if self.startup_time:
+                    self.metrics.uptime_seconds = (datetime.now() - self.startup_time).total_seconds()
+                
+                # Call subclass-specific heartbeat
+                self._on_heartbeat()
+                
+                # Sleep until next heartbeat
+                time.sleep(self.heartbeat_interval)
+                
+            except Exception as e:
+                self.logger.error(f"Heartbeat error: {e}")
+                time.sleep(5.0)  # Shorter sleep on error
+    
+    # ============================================================================
+    # ERROR HANDLING AND RECOVERY - Previously duplicated across all managers
+    # ============================================================================
+    
+    def handle_error(self, error: Exception, context: str = "") -> bool:
+        """Handle manager error - common error method"""
+        try:
+            self.error_count += 1
+            self.last_error = f"{context}: {str(error)}" if context else str(error)
+            self.logger.error(f"Manager error: {self.last_error}")
+            
+            # Emit error event
+            self._emit_event("manager_error", {
+                "manager_id": self.manager_id,
                 "error": str(error),
                 "context": context,
-                "timestamp": datetime.now().isoformat()
+                "error_count": self.error_count
             })
-        
-        # Set error status if critical
-        if self.status != ManagerStatus.ERROR:
-            self.set_status(ManagerStatus.ERROR)
-
-    def handle_warning(self, warning: str, context: str = "") -> None:
-        """Handle manager warnings"""
-        warning_msg = f"Manager warning in {context}: {warning}"
-        logger.warning(warning_msg)
-        
-        if self.enable_metrics:
-            self.metrics.warning_count += 1
-        
-        if self.enable_events:
-            self._trigger_event("warning_occurred", {
-                "warning": warning,
-                "context": context,
-                "timestamp": datetime.now().isoformat()
-            })
-
-    # ========================================
-    # METRICS COLLECTION AND REPORTING
-    # ========================================
-
-    def _update_metrics(self, success: bool, response_time: float) -> None:
-        """Update manager metrics"""
-        if not self.enable_metrics:
-            return
-        
-        self.metrics.total_operations += 1
-        if success:
-            self.metrics.successful_operations += 1
-        else:
-            self.metrics.failed_operations += 1
-        
-        # Update average response time
-        if self.metrics.total_operations > 0:
-            total_time = self.metrics.average_response_time * (self.metrics.total_operations - 1)
-            self.metrics.average_response_time = (total_time + response_time) / self.metrics.total_operations
-        
-        # Update uptime
-        self.metrics.uptime = self.get_uptime()
-        self.metrics.last_activity = datetime.now()
-
-    def get_metrics(self) -> ManagerMetrics:
-        """Get current manager metrics"""
-        if not self.enable_metrics:
-            return None
-        
-        # Update uptime before returning
-        self.metrics.uptime = self.get_uptime()
-        return self.metrics
-
-    def reset_metrics(self) -> None:
-        """Reset manager metrics"""
-        if not self.enable_metrics:
-            return
-        
-        self.metrics = ManagerMetrics(
-            total_operations=0,
-            successful_operations=0,
-            failed_operations=0,
-            average_response_time=0.0,
-            last_activity=datetime.now(),
-            uptime=0.0,
-            error_count=0,
-            warning_count=0
-        )
-        logger.info("Manager metrics reset")
-
-    def get_success_rate(self) -> float:
-        """Get operation success rate"""
-        if not self.enable_metrics or self.metrics.total_operations == 0:
+            
+            # Attempt recovery if possible
+            if self.error_count <= self.config.max_retries:
+                return self._attempt_recovery(error, context)
+            
+            # Mark as unrecoverable
+            self.status = ManagerStatus.ERROR
+            self.logger.critical(f"Manager {self.manager_id} marked as unrecoverable")
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Failed to handle error: {e}")
+            return False
+    
+    def _attempt_recovery(self, error: Exception, context: str) -> bool:
+        """Attempt error recovery - common recovery method"""
+        try:
+            self.recovery_attempts += 1
+            self.logger.info(f"Attempting recovery #{self.recovery_attempts} for {self.manager_id}")
+            
+            # Call subclass-specific recovery
+            if self._on_recovery_attempt(error, context):
+                self.status = ManagerStatus.RECOVERING
+                self.logger.info(f"Recovery successful for {self.manager_id}")
+                return True
+            
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Recovery attempt failed: {e}")
+            return False
+    
+    # ============================================================================
+    # ABSTRACT METHODS - Subclasses must implement these
+    # ============================================================================
+    
+    @abstractmethod
+    def _on_start(self) -> bool:
+        """Subclass-specific startup logic"""
+        pass
+    
+    @abstractmethod
+    def _on_stop(self):
+        """Subclass-specific shutdown logic"""
+        pass
+    
+    @abstractmethod
+    def _on_heartbeat(self):
+        """Subclass-specific heartbeat logic"""
+        pass
+    
+    @abstractmethod
+    def _on_initialize_resources(self) -> bool:
+        """Subclass-specific resource initialization"""
+        pass
+    
+    @abstractmethod
+    def _on_cleanup_resources(self):
+        """Subclass-specific resource cleanup"""
+        pass
+    
+    @abstractmethod
+    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
+        """Subclass-specific recovery logic"""
+        pass
+    
+    # ============================================================================
+    # UTILITY METHODS - Previously duplicated across all managers
+    # ============================================================================
+    
+    def _calculate_success_rate(self) -> float:
+        """Calculate operation success rate"""
+        if self.metrics.operations_processed == 0:
+            return 100.0
+        return ((self.metrics.operations_processed - self.metrics.errors_count) / 
+                self.metrics.operations_processed) * 100.0
+    
+    def _calculate_error_rate(self) -> float:
+        """Calculate operation error rate"""
+        if self.metrics.operations_processed == 0:
+            return 0.0
+        return (self.metrics.errors_count / self.metrics.operations_processed) * 100.0
+    
+    def _calculate_avg_operation_time(self) -> float:
+        """Calculate average operation time"""
+        if not self.operations_history:
             return 0.0
         
-        return self.metrics.successful_operations / self.metrics.total_operations
-
-    # ========================================
-    # ABSTRACT METHODS (Override in subclasses)
-    # ========================================
-
-    @abstractmethod
-    def _validate_data(self, data: Any) -> bool:
-        """Validate data before storage (override in subclasses)"""
-        return True
-
-    def _start_manager(self) -> None:
-        """Start manager-specific functionality (override in subclasses)"""
-        pass
-
-    def _stop_manager(self) -> None:
-        """Stop manager-specific functionality (override in subclasses)"""
-        pass
-
-    # ========================================
-    # UTILITY METHODS
-    # ========================================
-
-    def get_info(self) -> Dict[str, Any]:
-        """Get comprehensive manager information"""
-        return {
-            "manager_name": self.manager_name,
-            "status": self.status.value,
-            "start_time": self.start_time.isoformat(),
-            "last_activity": self.last_activity.isoformat(),
-            "uptime": self.get_uptime(),
-            "item_count": self.count(),
-            "config_keys": list(self.config.keys()),
-            "event_types": list(self.event_handlers.keys()) if self.enable_events else [],
-            "metrics": asdict(self.metrics) if self.enable_metrics else None,
-        }
-
-    def health_check(self) -> Dict[str, Any]:
-        """Perform health check on manager"""
-        health_status = {
-            "manager_name": self.manager_name,
-            "status": self.status.value,
-            "is_healthy": self.status == ManagerStatus.ACTIVE,
-            "uptime": self.get_uptime(),
-            "item_count": self.count(),
-            "last_activity": self.get_last_activity().isoformat(),
-        }
-        
-        if self.enable_metrics:
-            health_status.update({
-                "success_rate": self.get_success_rate(),
-                "error_count": self.metrics.error_count,
-                "warning_count": self.metrics.warning_count,
-            })
-        
-        return health_status
-
-    def cleanup(self) -> None:
-        """Clean up manager resources"""
-        # Clean up old events
-        if self.enable_events and len(self.event_history) > self.max_event_history:
-            cutoff_time = datetime.now() - timedelta(hours=24)
-            self.event_history = [
-                event for event in self.event_history 
-                if event.timestamp > cutoff_time
-            ]
-        
-        # Save persistent data
-        if self.enable_persistence:
-            self._save_persistent_data()
-        
-        logger.debug("Manager cleanup completed")
-
-    def __enter__(self):
-        """Context manager entry"""
-        self.start()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """Context manager exit"""
-        self.shutdown()
-
-    def __len__(self) -> int:
-        """Get number of items in manager"""
-        return self.count()
-
-    def __contains__(self, key: str) -> bool:
-        """Check if key exists in manager"""
-        return self.exists(key)
-
-    def __getitem__(self, key: str) -> Any:
-        """Get item by key"""
-        return self.read(key)
-
-    def __setitem__(self, key: str, value: Any) -> None:
-        """Set item by key"""
-        self.create(key, value)
-
-    def __delitem__(self, key: str) -> None:
-        """Delete item by key"""
-        self.delete(key)
+        total_time = sum(op.get("duration_ms", 0) for op in self.operations_history)
+        return total_time / len(self.operations_history)
+    
+    def _get_current_timestamp(self) -> str:
+        """Get current timestamp string"""
+        return datetime.now().isoformat()
+    
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}({self.manager_id}, status={self.status.value})"
+    
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(manager_id='{self.manager_id}', name='{self.name}', status={self.status.value})"

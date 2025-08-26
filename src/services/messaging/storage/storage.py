@@ -24,11 +24,32 @@ from abc import ABC, abstractmethod
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Import enums and data structures from main file
-from ..v2_comprehensive_messaging_system import (
-    V2MessageType, V2MessagePriority, V2MessageStatus,
-    V2Message, V2AgentInfo, IMessageStorage
-)
+# Import enums and data structures from consolidated modules
+from ..types.v2_message_enums import V2MessageType, V2MessagePriority, V2MessageStatus
+from ..models.v2_message import V2Message
+
+# Define missing classes and interfaces for compatibility
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+@dataclass
+class V2AgentInfo:
+    """Agent information for storage"""
+    agent_id: str
+    status: str
+
+class IMessageStorage(ABC):
+    """Interface for message storage"""
+    
+    @abstractmethod
+    def store_message(self, message: V2Message) -> bool:
+        """Store a message"""
+        pass
+    
+    @abstractmethod
+    def get_message(self, message_id: str) -> Optional[V2Message]:
+        """Get a message by ID"""
+        pass
 
 
 class V2MessageStorage(IMessageStorage):

@@ -35,10 +35,9 @@ def demo_fsm_discord_integration():
         # Import required components
         print("\n📦 Importing components...")
 
-        from core.fsm_core_v2 import FSMCoreV2
+        from core.fsm import FSMSystemManager
         from core.decision import AutonomousDecisionEngine
         from services.discord_integration_service import DiscordIntegrationService
-        from core.fsm_discord_bridge import FSMDiscordBridge
 
         print("✅ All components imported successfully")
 
@@ -57,24 +56,23 @@ def demo_fsm_discord_integration():
         workspace_manager = MockWorkspaceManager()
         inbox_manager = MockInboxManager()
 
-        # Initialize FSM Core
-        fsm_core = FSMCoreV2(workspace_manager, inbox_manager, "demo_fsm_data")
-        print("✅ FSM Core initialized")
+        # Initialize FSM System Manager
+        fsm_system_manager = FSMSystemManager()
+        print("✅ FSM System Manager initialized")
 
         # Initialize Decision Engine
         decision_engine = AutonomousDecisionEngine()
         print("✅ Decision Engine initialized")
 
         # Initialize Discord Service
-        discord_service = DiscordIntegrationService(fsm_core, decision_engine)
+        discord_service = DiscordIntegrationService(fsm_system_manager, decision_engine)
         discord_service.configure_discord(
             webhook_url="https://discord.com/api/webhooks/demo", guild_id="demo_guild"
         )
         print("✅ Discord Service initialized")
 
-        # Initialize FSM-Discord Bridge
-        bridge = FSMDiscordBridge(fsm_core, decision_engine, discord_service)
-        print("✅ FSM-Discord Bridge initialized")
+        # Initialize FSM System Manager (replaces bridge functionality)
+        print("✅ FSM System Manager replaces bridge functionality")
 
         # Demo 1: Agent Registration
         print("\n🎬 Demo 1: Agent Registration via Discord")
@@ -104,7 +102,7 @@ def demo_fsm_discord_integration():
         ]
 
         for title, description, agent, priority in test_tasks:
-            task_id = bridge.create_task_via_discord(
+            task_id = fsm_system_manager.create_task(
                 title, description, agent, priority
             )
             if task_id and task_id != "discord_only":
@@ -126,7 +124,7 @@ def demo_fsm_discord_integration():
         ]
 
         for context, options in decision_scenarios:
-            result = bridge.request_decision_via_discord(context, options, "agent-1")
+            result = decision_engine.make_decision(context, options, "agent-1")
             print(f"🧠 Decision for '{context}': {result}")
 
         # Demo 4: FSM State Synchronization

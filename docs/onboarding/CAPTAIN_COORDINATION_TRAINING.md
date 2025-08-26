@@ -45,6 +45,8 @@ Captain ↔ Coordinates ↔ Agents ↔ Collaborate
 4. **Resolve conflicts** when agents disagree
 5. **Maintain system-wide compliance** status
 6. **Coordinate cleanup** and prevent duplication
+7. **Create mission briefings** that get agents working immediately
+8. **Ensure single comprehensive prompts** eliminate communication gaps
 
 ---
 
@@ -61,6 +63,64 @@ Captain ↔ Coordinates ↔ Agents ↔ Collaborate
 - ✅ **Captain identifies** when agents need to collaborate
 - ✅ **Captain ensures** no critical tasks are missed
 - ✅ **Captain maintains** system health and compliance
+
+---
+
+## 🎯 **MISSION BRIEFING STANDARDS**
+
+### **Purpose:**
+Mission briefings are **single, comprehensive prompts** that get agents working immediately with complete understanding of their assignment.
+
+### **Mission Briefing Structure:**
+```
+🤖 AGENT-X: MISSION BRIEFING - [TASK NAME]
+🎯 **OBJECTIVE**: [Clear, single-sentence objective]
+✅ **DELIVERABLES**: [Specific outputs required]
+📱 **TIMELINE**: [Estimated duration]
+🚀 **IMMEDIATE ACTION**: [What to do right now]
+📋 **REPORTING**: [How and when to report back]
+🎖️ **SUCCESS CRITERIA**: [How to know you're done]
+```
+
+### **Mission Briefing Examples:**
+
+#### **Example 1: Development Task**
+```
+🤖 AGENT-1: MISSION BRIEFING - FSM System Integration
+🎯 **OBJECTIVE**: Integrate FSM core with workflow engine for unified state management
+✅ **DELIVERABLES**: Integration report, compatibility test, devlog entry
+📱 **TIMELINE**: 2-3 hours
+🚀 **IMMEDIATE ACTION**: Begin FSM integration while continuing Priority 1 consolidation
+📋 **REPORTING**: Use PyAutoGUI or devlog every 2 hours
+🎖️ **SUCCESS CRITERIA**: FSM system fully integrated, tests passing, documentation complete
+```
+
+#### **Example 2: Testing Task**
+```
+🤖 AGENT-3: MISSION BRIEFING - Performance System Testing
+🎯 **OBJECTIVE**: Validate performance systems meet V2 architecture standards
+✅ **DELIVERABLES**: Test results, compliance report, devlog entry
+📱 **TIMELINE**: 3-4 hours
+🚀 **IMMEDIATE ACTION**: Begin performance testing immediately
+📋 **REPORTING**: Status updates every 2 hours via PyAutoGUI
+🎖️ **SUCCESS CRITERIA**: All performance tests passing, V2 compliance verified
+```
+
+### **Mission Briefing Requirements:**
+- ✅ **Single message** - No follow-ups needed
+- ✅ **Complete information** - Agent can start working immediately
+- ✅ **Clear objectives** - No ambiguity about what to do
+- ✅ **Specific deliverables** - Agent knows exactly what to produce
+- ✅ **Immediate action** - Agent knows what to do right now
+- ✅ **Reporting protocol** - Agent knows how to communicate back
+- ✅ **Success criteria** - Agent knows when they're done
+
+### **Benefits of Mission Briefings:**
+- **No back-and-forth** - Agent has everything needed
+- **Immediate execution** - Agent can start working right away
+- **Clear accountability** - Agent knows exactly what's expected
+- **Efficient communication** - One message, complete understanding
+- **Consistent format** - All agents know what to expect
 
 ---
 
@@ -175,6 +235,8 @@ fsm_core.update_task_state(
 - [ ] **Facilitate agent communication**
 - [ ] **Resolve conflicts** efficiently
 - [ ] **Maintain system-wide visibility**
+- [ ] **Create mission briefings** with all required components
+- [ ] **Ensure single comprehensive prompts** eliminate follow-up questions
 
 ---
 
@@ -217,6 +279,12 @@ fsm_core.update_task_state(
 3. **Work through the conflict** collaboratively
 4. **Document the resolution**
 
+### **Exercise 4: Mission Briefing Creation**
+1. **Create a mission briefing** for a development task
+2. **Ensure all 7 components** are included (objective, deliverables, timeline, action, reporting, success criteria)
+3. **Test the briefing** with another agent
+4. **Verify the agent** can start working immediately without questions
+
 ---
 
 ## 📝 **KEY TAKEAWAYS**
@@ -227,6 +295,8 @@ fsm_core.update_task_state(
 3. **Coordination enables** efficient collaboration
 4. **FSM system provides** transparency and tracking
 5. **Collaboration prevents** duplication and conflicts
+6. **Mission briefings** get agents working immediately
+7. **Single comprehensive prompts** eliminate back-and-forth
 
 ### **Your Role:**
 - **Be autonomous** in your work

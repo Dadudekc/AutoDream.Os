@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Advanced Task Management System
-==============================
+Advanced Task Management System - UNIFIED VERSION
+================================================
 
 This module provides enterprise-grade task management capabilities including:
 - Task definition and types
@@ -9,9 +9,16 @@ This module provides enterprise-grade task management capabilities including:
 - Dependency resolution
 - Resource allocation
 - Performance monitoring
+
+CONSOLIDATED FROM 6 FRAGMENTED FILES INTO UNIFIED SYSTEM
 """
 
-from .task_types import (
+from .unified_task_scheduler import (
+    # Main scheduler class
+    UnifiedTaskScheduler,
+    TaskScheduler,
+    
+    # Task types and enums
     Task,
     TaskPriority,
     TaskStatus,
@@ -21,11 +28,22 @@ from .task_types import (
     TaskResource,
     TaskConstraint,
     TaskMetadata,
+    
+    # Metrics
+    SchedulingMetrics,
+    
+    # Backward compatibility aliases
+    TaskSchedulerConfig,
+    TaskSchedulerManager,
+    TaskSchedulerCoordinator,
+    TaskSchedulerCore,
 )
 
-from .task_scheduler import TaskScheduler, SchedulingMetrics
-
 __all__ = [
+    # Main scheduler class
+    "UnifiedTaskScheduler",
+    "TaskScheduler",
+    
     # Task types and enums
     "Task",
     "TaskPriority",
@@ -36,11 +54,17 @@ __all__ = [
     "TaskResource",
     "TaskConstraint",
     "TaskMetadata",
-    # Scheduler
-    "TaskScheduler",
+    
+    # Metrics
     "SchedulingMetrics",
+    
+    # Backward compatibility
+    "TaskSchedulerConfig",
+    "TaskSchedulerManager",
+    "TaskSchedulerCoordinator",
+    "TaskSchedulerCore",
 ]
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 __author__ = "Agent_Cellphone_V2_System"
-__description__ = "Advanced Task Management System for Multi-Agent Workflows"
+__description__ = "Unified Advanced Task Management System for Multi-Agent Workflows"

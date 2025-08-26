@@ -25,7 +25,8 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any
 from datetime import datetime
 
-from .decision_core import AutonomousDecisionEngine
+# ARCHITECTURE CORRECTED: Using local decision manager
+from .decision_manager import DecisionManager as AutonomousDecisionEngine
 from .decision_types import DecisionContext, LearningData, AgentCapability
 
 

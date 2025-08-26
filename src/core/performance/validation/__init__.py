@@ -1,11 +1,23 @@
 #!/usr/bin/env python3
 """
-Performance Validation Module
-=============================
+Performance Validation Package - V2 Modular Architecture
+=======================================================
 
-Handles performance validation rules and logic.
+Modular validation system for performance management.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
+
+Author: V2 SWARM CAPTAIN
+License: MIT
 """
 
-from .rules import ValidationRules
+from .validation_engine import ValidationEngine
+from .validation_types import ValidationStatus, ValidationSeverity, ValidationContext, ValidationResult, ValidationSummary
 
-__all__ = ["ValidationRules"]
+__all__ = [
+    "ValidationEngine",
+    "ValidationStatus",
+    "ValidationSeverity", 
+    "ValidationContext",
+    "ValidationResult",
+    "ValidationSummary"
+]

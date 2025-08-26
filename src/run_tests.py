@@ -10,35 +10,13 @@ with comprehensive reporting and quality metrics.
 import argparse
 import sys
 import time
-import json
 import subprocess
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.core.testing.test_categories import TestCategories
+from src.core.testing.output_formatter import OutputFormatter
 from pathlib import Path
 from typing import Dict, List, Any, Optional
-from datetime import datetime
-
-# Try to import colorama for colored output
-try:
-    import colorama
-    from colorama import Fore, Style
-
-    colorama.init(autoreset=True)
-    COLOR_AVAILABLE = True
-except ImportError:
-    # Fallback for systems without colorama
-    class Fore:
-        GREEN = ""
-        RED = ""
-        YELLOW = ""
-        BLUE = ""
-        CYAN = ""
-        RESET = ""
-
-    class Style:
-        RESET_ALL = ""
-
-    COLOR_AVAILABLE = False
 
 
 class TestRunner:
@@ -51,66 +29,16 @@ class TestRunner:
         self.results = {}
         self.start_time = None
         self.end_time = None
-
-        # Test categories and their configurations
-        self.test_categories = {
-            "smoke": {
-                "description": "Smoke tests for basic functionality validation",
-                "marker": "smoke",
-                "timeout": 60,
-                "critical": True,
-                "command": ["-m", "smoke"],
-            },
-            "unit": {
-                "description": "Unit tests for individual components",
-                "marker": "unit",
-                "timeout": 120,
-                "critical": True,
-                "command": ["-m", "unit"],
-            },
-            "integration": {
-                "description": "Integration tests for component interaction",
-                "marker": "integration",
-                "timeout": 300,
-                "critical": False,
-                "command": ["-m", "integration"],
-            },
-            "performance": {
-                "description": "Performance and load testing",
-                "marker": "performance",
-                "timeout": 600,
-                "critical": False,
-                "command": ["-m", "performance"],
-            },
-            "security": {
-                "description": "Security and vulnerability testing",
-                "marker": "security",
-                "timeout": 180,
-                "critical": True,
-                "command": ["-m", "security"],
-            },
-            "api": {
-                "description": "API endpoint testing",
-                "marker": "api",
-                "timeout": 240,
-                "critical": False,
-                "command": ["-m", "api"],
-            },
-        }
+        self.formatter = OutputFormatter()
+        self.categories = TestCategories()
 
     def print_banner(self):
         """Print the test runner banner."""
-        print(f"{Fore.CYAN}{'='*70}")
-        print(f"{Fore.CYAN}🧪 AGENT_CELLPHONE_V2 COMPREHENSIVE TEST RUNNER")
-        print(f"{Fore.CYAN}{'='*70}")
-        print(f"{Fore.CYAN}Foundation & Testing Specialist - TDD Integration Project")
-        print(f"{Fore.CYAN}Repository: {self.repo_root}")
-        print(f"{Fore.CYAN}Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}\n")
+        self.formatter.print_banner(str(self.repo_root))
 
     def check_prerequisites(self) -> bool:
         """Check if all testing prerequisites are met."""
-        print(f"{Fore.YELLOW}🔍 Checking testing prerequisites...{Style.RESET_ALL}")
+        self.formatter.print_prerequisites_check("Checking testing prerequisites...")
 
         # Check if pytest is available
         try:
@@ -121,42 +49,37 @@ class TestRunner:
                 timeout=30,
             )
             if result.returncode == 0:
-                print(f"✅ pytest available: {result.stdout.strip()}")
+                self.formatter.print_success(f"pytest available: {result.stdout.strip()}")
             else:
-                print(f"{Fore.RED}❌ pytest not available{Style.RESET_ALL}")
+                self.formatter.print_error("pytest not available")
                 return False
         except Exception as e:
-            print(f"{Fore.RED}❌ pytest check failed: {e}{Style.RESET_ALL}")
+            self.formatter.print_error(f"pytest check failed: {e}")
             return False
 
         # Check if tests directory exists
         if not self.tests_dir.exists():
-            print(
-                f"{Fore.RED}❌ Tests directory not found: {self.tests_dir}{Style.RESET_ALL}"
-            )
+            self.formatter.print_error(f"Tests directory not found: {self.tests_dir}")
             return False
 
         # Check if conftest.py exists
         conftest_file = self.tests_dir / "conftest.py"
         if not conftest_file.exists():
-            print(
-                f"{Fore.RED}❌ conftest.py not found: {conftest_file}{Style.RESET_ALL}"
-            )
+            self.formatter.print_error(f"conftest.py not found: {conftest_file}")
             return False
 
-        print(f"✅ All prerequisites met!")
+        self.formatter.print_success("All prerequisites met!")
         return True
 
     def run_test_category(self, category: str, verbose: bool = False) -> Dict[str, Any]:
         """Run tests for a specific category."""
-        if category not in self.test_categories:
+        config = self.categories.get_category(category)
+        if not config:
             return {"success": False, "error": f"Unknown test category: {category}"}
 
-        config = self.test_categories[category]
-        print(f"\n{Fore.BLUE}🚀 Running {category.upper()} tests...{Style.RESET_ALL}")
-        print(f"   Description: {config['description']}")
-        print(f"   Timeout: {config['timeout']}s")
-        print(f"   Critical: {'Yes' if config['critical'] else 'No'}")
+        self.formatter.print_test_category_header(
+            category, config['description'], config['timeout'], config['critical']
+        )
 
         start_time = time.time()
 
@@ -198,322 +121,150 @@ class TestRunner:
 
             result_data = {
                 "success": success,
+                "category": category,
                 "duration": duration,
-                "return_code": result.returncode,
                 "output": output,
                 "error_output": error_output,
-                "stats": stats,
-                "critical": config["critical"],
+                "tests_run": stats.get("tests_run", 0),
+                "failures": stats.get("failures", 0),
+                "errors": stats.get("errors", 0),
             }
 
-            # Print results
-            if success:
-                print(
-                    f"{Fore.GREEN}✅ {category.upper()} tests completed successfully in {duration:.2f}s{Style.RESET_ALL}"
-                )
-                print(f"   Tests: {stats.get('total', 'N/A')}")
-                print(f"   Passed: {stats.get('passed', 'N/A')}")
-                print(f"   Failed: {stats.get('failed', 'N/A')}")
-            else:
-                print(
-                    f"{Fore.RED}❌ {category.upper()} tests failed after {duration:.2f}s{Style.RESET_ALL}"
-                )
-                if stats.get("failed", 0) > 0:
-                    print(f"   Failed tests: {stats.get('failed', 'N/A')}")
-
+            self.results[category] = result_data
             return result_data
 
         except subprocess.TimeoutExpired:
-            print(
-                f"{Fore.RED}⏰ {category.upper()} tests timed out after {config['timeout']}s{Style.RESET_ALL}"
-            )
             return {
                 "success": False,
-                "error": "Timeout exceeded",
-                "duration": config["timeout"],
-                "critical": config["critical"],
+                "category": category,
+                "error": f"Test execution timed out after {config['timeout']} seconds",
             }
         except Exception as e:
-            print(
-                f"{Fore.RED}💥 {category.upper()} tests failed with exception: {e}{Style.RESET_ALL}"
-            )
             return {
                 "success": False,
-                "error": str(e),
-                "duration": 0,
-                "critical": config["critical"],
+                "category": category,
+                "error": f"Test execution failed: {str(e)}",
             }
 
-    def _parse_pytest_output(self, output: str) -> Dict[str, Any]:
+    def _parse_pytest_output(self, output: str) -> Dict[str, int]:
         """Parse pytest output to extract test statistics."""
-        stats = {"total": 0, "passed": 0, "failed": 0, "errors": 0, "skipped": 0}
-
-        try:
-            lines = output.split("\n")
-            for line in lines:
-                if "collected" in line and "items" in line:
-                    # Extract total tests
+        stats = {"tests_run": 0, "failures": 0, "errors": 0}
+        
+        lines = output.split("\n")
+        for line in lines:
+            if "collected" in line and "items" in line:
+                try:
+                    stats["tests_run"] = int(line.split()[0])
+                except (ValueError, IndexError):
+                    pass
+            elif "failed" in line and "passed" in line:
+                try:
                     parts = line.split()
                     for i, part in enumerate(parts):
-                        if part == "collected":
-                            if i + 1 < len(parts):
-                                stats["total"] = int(parts[i + 1])
-                            break
-                elif "passed" in line and "failed" in line:
-                    # Extract passed/failed counts
-                    parts = line.split()
-                    for i, part in enumerate(parts):
-                        if part == "passed":
-                            if i + 1 < len(parts):
-                                stats["passed"] = int(parts[i + 1])
-                        elif part == "failed":
-                            if i + 1 < len(parts):
-                                stats["failed"] = int(parts[i + 1])
-        except Exception:
-            pass
-
+                        if part == "failed":
+                            stats["failures"] = int(parts[i - 1])
+                        elif part == "passed":
+                            stats["tests_run"] = int(parts[i - 1])
+                except (ValueError, IndexError):
+                    pass
+        
         return stats
 
-    def run_all_tests(
-        self, categories: Optional[List[str]] = None, verbose: bool = False
-    ) -> Dict[str, Any]:
-        """Run all test categories or specified ones."""
-        if categories is None:
-            categories = list(self.test_categories.keys())
-
+    def run_all_tests(self, verbose: bool = False) -> Dict[str, Any]:
+        """Run all test categories."""
         self.start_time = time.time()
-        self.print_banner()
-
-        if not self.check_prerequisites():
-            return {"success": False, "error": "Prerequisites not met"}
-
-        print(
-            f"{Fore.GREEN}🎯 Running test categories: {', '.join(categories)}{Style.RESET_ALL}\n"
-        )
-
-        # Run each test category
+        
+        categories = self.categories.list_categories()
+        successful = 0
+        failed = 0
+        
         for category in categories:
-            if category in self.test_categories:
-                result = self.run_test_category(category, verbose)
-                self.results[category] = result
-
-                # Check if critical test failed
-                if not result["success"] and result.get("critical", False):
-                    print(
-                        f"\n{Fore.RED}🚨 CRITICAL TEST FAILURE: {category.upper()} tests failed!{Style.RESET_ALL}"
-                    )
-                    print(f"   Stopping test execution due to critical failure.")
-                    break
-
+            result = self.run_test_category(category, verbose)
+            if result["success"]:
+                successful += 1
+            else:
+                failed += 1
+            
+            self.formatter.print_test_results(result)
+        
         self.end_time = time.time()
-        return self._generate_summary()
-
-    def _generate_summary(self) -> Dict[str, Any]:
-        """Generate comprehensive test summary."""
-        total_duration = (
-            self.end_time - self.start_time if self.start_time and self.end_time else 0
-        )
-
-        # Calculate overall statistics
-        total_tests = sum(
-            result.get("stats", {}).get("total", 0) for result in self.results.values()
-        )
-        total_passed = sum(
-            result.get("stats", {}).get("passed", 0) for result in self.results.values()
-        )
-        total_failed = sum(
-            result.get("stats", {}).get("failed", 0) for result in self.results.values()
-        )
-
-        # Determine overall success
-        critical_failures = any(
-            not result["success"] and result.get("critical", False)
-            for result in self.results.values()
-        )
-
-        overall_success = not critical_failures and all(
-            result["success"] for result in self.results.values()
-        )
-
-        # Calculate success rate
-        success_rate = (total_passed / total_tests * 100) if total_tests > 0 else 0
-
+        
         summary = {
-            "overall_success": overall_success,
-            "critical_failures": critical_failures,
-            "total_duration": total_duration,
-            "total_tests": total_tests,
-            "total_passed": total_passed,
-            "total_failed": total_failed,
-            "success_rate": success_rate,
-            "category_results": self.results,
-            "timestamp": datetime.now().isoformat(),
+            "total_categories": len(categories),
+            "successful": successful,
+            "failed": failed,
+            "total_duration": self.end_time - self.start_time,
+            "overall_success": failed == 0,
         }
-
-        # Print summary
-        self._print_summary(summary)
-
+        
+        self.formatter.print_summary(summary)
         return summary
 
-    def _print_summary(self, summary: Dict[str, Any]):
-        """Print the test summary."""
-        print(f"\n{Fore.CYAN}{'='*70}")
-        print(f"{Fore.CYAN}📊 TEST RUNNER SUMMARY")
-        print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}")
-
-        # Overall status
-        status_color = Fore.GREEN if summary["overall_success"] else Fore.RED
-        status_icon = "✅" if summary["overall_success"] else "❌"
-        print(
-            f"{status_color}{status_icon} Overall Status: {'PASSED' if summary['overall_success'] else 'FAILED'}{Style.RESET_ALL}"
-        )
-
-        # Statistics
-        print(f"\n📈 Test Statistics:")
-        print(f"   Total Duration: {summary['total_duration']:.2f}s")
-        print(f"   Total Tests: {summary['total_tests']}")
-        print(f"   Passed: {Fore.GREEN}{summary['total_passed']}{Style.RESET_ALL}")
-        print(f"   Failed: {Fore.RED}{summary['total_failed']}{Style.RESET_ALL}")
-        print(
-            f"   Success Rate: {Fore.CYAN}{summary['success_rate']:.1f}%{Style.RESET_ALL}"
-        )
-
-        # Category results
-        print(f"\n🎯 Category Results:")
-        for category, result in summary["category_results"].items():
-            status_icon = "✅" if result["success"] else "❌"
-            status_color = Fore.GREEN if result["success"] else Fore.RED
-            critical_mark = "🚨" if result.get("critical", False) else ""
-
-            print(
-                f"   {status_icon} {category.upper()}: {status_color}{'PASSED' if result['success'] else 'FAILED'}{Style.RESET_ALL} {critical_mark}"
-            )
-            if result["success"]:
-                stats = result.get("stats", {})
-                print(
-                    f"      Tests: {stats.get('passed', 0)} passed, {stats.get('failed', 0)} failed ({result['duration']:.2f}s)"
-                )
+    def run_specific_categories(self, categories: List[str], verbose: bool = False) -> Dict[str, Any]:
+        """Run tests for specific categories."""
+        self.start_time = time.time()
+        
+        successful = 0
+        failed = 0
+        
+        for category in categories:
+            if category in self.categories.list_categories():
+                result = self.run_test_category(category, verbose)
+                if result["success"]:
+                    successful += 1
+                else:
+                    failed += 1
+                
+                self.formatter.print_test_results(result)
             else:
-                print(
-                    f"      Error: {result.get('error', 'Unknown error')} ({result['duration']:.2f}s)"
-                )
-
-        print(f"{Fore.CYAN}{'='*70}{Style.RESET_ALL}")
-
-        # Recommendations
-        if not summary["overall_success"]:
-            print(f"\n{Fore.YELLOW}💡 Recommendations:{Style.RESET_ALL}")
-            if summary["critical_failures"]:
-                print(f"   🚨 Fix critical test failures first")
-            if summary["success_rate"] < 80:
-                print(f"   📊 Improve test success rate (target: ≥80%)")
-            print(f"   🔍 Review failed tests and fix underlying issues")
-            print(f"   🧪 Run individual test categories for detailed debugging")
-
-    def save_results(self, output_file: Optional[Path] = None) -> Path:
-        """Save test results to a JSON file."""
-        if output_file is None:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_file = (
-                self.repo_root / "test_results" / f"test_run_results_{timestamp}.json"
-            )
-
-        # Ensure output directory exists
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-
-        # Save results
-        with open(output_file, "w", encoding="utf-8") as f:
-            json.dump(self.results, f, indent=2, default=str)
-
-        print(f"\n💾 Test results saved to: {output_file}")
-        return output_file
+                self.formatter.print_error(f"Unknown test category: {category}")
+                failed += 1
+        
+        self.end_time = time.time()
+        
+        summary = {
+            "total_categories": len(categories),
+            "successful": successful,
+            "failed": failed,
+            "total_duration": self.end_time - self.start_time,
+            "overall_success": failed == 0,
+        }
+        
+        self.formatter.print_summary(summary)
+        return summary
 
 
 def main():
     """Main entry point for the test runner."""
-    parser = argparse.ArgumentParser(
-        description="Comprehensive Test Runner for Agent_Cellphone_V2_Repository",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Run all tests
-  python run_tests.py
-
-  # Run specific test categories
-  python run_tests.py --categories smoke unit
-
-  # Run with verbose output
-  python run_tests.py --verbose
-
-  # Run only critical tests
-  python run_tests.py --critical-only
-
-  # Run tests and save results
-  python run_tests.py --save-results
-        """,
-    )
-
-    parser.add_argument(
-        "--categories",
-        "-c",
-        nargs="+",
-        choices=["smoke", "unit", "integration", "performance", "security", "api"],
-        help="Specific test categories to run (default: all)",
-    )
-
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Enable verbose output"
-    )
-
-    parser.add_argument(
-        "--critical-only",
-        action="store_true",
-        help="Run only critical tests (smoke, unit, security)",
-    )
-
-    parser.add_argument(
-        "--save-results", action="store_true", help="Save test results to JSON file"
-    )
-
-    parser.add_argument(
-        "--output",
-        "-o",
-        type=Path,
-        help="Output file for test results (default: auto-generated)",
-    )
-
+    parser = argparse.ArgumentParser(description="Comprehensive Test Runner")
+    parser.add_argument("--categories", nargs="+", help="Specific test categories to run")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
+    parser.add_argument("--list-categories", action="store_true", help="List available test categories")
+    
     args = parser.parse_args()
-
-    # Determine test categories
-    if args.critical_only:
-        categories = ["smoke", "unit", "security"]
-    elif args.categories:
-        categories = args.categories
-    else:
-        categories = None  # Run all
-
-    # Initialize and run test runner
-    repo_root = Path(__file__).parent
+    
+    repo_root = Path(__file__).parent.parent
     runner = TestRunner(repo_root)
-
-    try:
-        summary = runner.run_all_tests(categories, args.verbose)
-
-        # Save results if requested
-        if args.save_results or args.output:
-            output_file = runner.save_results(args.output)
-            print(f"📁 Results saved to: {output_file}")
-
-        # Exit with appropriate code
-        sys.exit(0 if summary["overall_success"] else 1)
-
-    except KeyboardInterrupt:
-        print(f"\n{Fore.YELLOW}⏹️  Test execution interrupted by user{Style.RESET_ALL}")
-        sys.exit(130)
-    except Exception as e:
-        print(f"\n{Fore.RED}💥 Test runner failed with exception: {e}{Style.RESET_ALL}")
-        sys.exit(1)
+    
+    if args.list_categories:
+        print("Available test categories:")
+        for category in TestCategories.list_categories():
+            config = TestCategories.get_category(category)
+            print(f"  • {category}: {config['description']}")
+        return 0
+    
+    runner.print_banner()
+    
+    if not runner.check_prerequisites():
+        return 1
+    
+    if args.categories:
+        summary = runner.run_specific_categories(args.categories, args.verbose)
+    else:
+        summary = runner.run_all_tests(args.verbose)
+    
+    return 0 if summary["overall_success"] else 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

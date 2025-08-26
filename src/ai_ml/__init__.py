@@ -102,7 +102,7 @@ from .ai_agent_tasks import AIAgentTask
 # Agent optimizer modules
 from .ai_agent_optimizer_core import AIAgentOptimizerCore
 from .ai_agent_performance_tuner import AIAgentPerformanceTuner
-from .ai_agent_resource_manager import AIAgentResourceManager
+from ..core.managers.ai_agent_orchestrator import AIAgentOrchestrator
 from .ai_agent_optimizer import AIAgentOptimizer
 
 __all__ = [
@@ -190,5 +190,5 @@ __all__ = [
     "AIAgentOptimizer",
     "AIAgentOptimizerCore",
     "AIAgentPerformanceTuner",
-    "AIAgentResourceManager",
+    "AIAgentOrchestrator",
 ]

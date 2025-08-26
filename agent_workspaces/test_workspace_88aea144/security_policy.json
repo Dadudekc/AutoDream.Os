@@ -1,0 +1,18 @@
+{
+  "workspace_name": "test_workspace_88aea144",
+  "security_level": "SecurityLevel.RESTRICTED",
+  "allowed_agents": [
+    "test_workspace_88aea144"
+  ],
+  "permissions": {
+    "test_workspace_88aea144": [
+      "Permission.READ",
+      "Permission.WRITE",
+      "Permission.EXECUTE"
+    ]
+  },
+  "isolation_rules": [],
+  "encryption_enabled": false,
+  "audit_logging": true,
+  "max_access_attempts": 3
+}

@@ -1,106 +1,119 @@
+#!/usr/bin/env python3
 """
-Consolidated Testing Framework Package
-=====================================
+Testing Package - Agent Cellphone V2
 
-A unified, modular testing framework that consolidates all testing functionality
-across the project into a single, maintainable system.
+Unified testing framework providing comprehensive testing capabilities
+with consolidated infrastructure and eliminated duplication.
 
-This package provides:
-- Core testing types and enums
-- Test execution and orchestration
-- Test result management and reporting
-- Integration testing capabilities
-- CLI interface for testing operations
+Author: Agent-3 Integration & Testing Specialist
+Task: TASK 3G - Testing Infrastructure Cleanup
+V2 Standards: ≤400 LOC, SRP, OOP principles
 """
 
-from .testing_types import (
-    TestStatus,
-    TestType,
-    TestPriority,
-    TestResult,
-    TestScenario,
-    TestEnvironment,
-    TestSuite,
-    TestReport
-)
-
+# Core testing components
 from .testing_core import (
-    BaseTest,
-    BaseIntegrationTest,
-    TestRunner,
-    TestExecutor
+    TestExecutor, TestRunner, BaseTest, TestResult,
+    TestStatus, TestType
 )
 
-from .testing_orchestrator import (
-    TestOrchestrator,
-    TestSuiteManager,
-    TestScheduler
+from .testing_orchestrator import TestingOrchestrator
+from .testing_reporter import TestingReporter
+from .test_categories import TestCategories
+from .output_formatter import OutputFormatter
+from .testing_types import TestingTypes
+
+# CLI handlers
+from .cli_handlers import (
+    RunCommandHandler, ReportCommandHandler, StatusCommandHandler,
+    RegisterCommandHandler, SuiteCommandHandler, ResultsCommandHandler
 )
 
-from .testing_reporter import (
-    TestReporter,
-    CoverageReporter,
-    PerformanceReporter,
-    HTMLReporter
+# Unified testing system (TASK 3G)
+from .unified_testing_system import (
+    UnifiedTestingSystem, TestExecutionConfig, TestFramework
 )
 
-from .testing_cli import TestingFrameworkCLI
+# Testing infrastructure manager (TASK 3G)
+from .testing_infrastructure_manager import (
+    TestingInfrastructureManager, TestingDependency, TestDirectory,
+    DependencyStatus
+)
 
-# Convenience functions for quick access
-def create_testing_system():
-    """Create a complete testing system instance"""
-    from .testing_orchestrator import TestOrchestrator
-    return TestOrchestrator()
+# Unified testing framework (TASK 3H)
+from .unified_testing_framework import (
+    UnifiedTestingFramework, TestFrameworkType, TestSuiteConfig, TestSuiteResult
+)
 
-def run_test_suite(suite_name: str):
-    """Quick function to run a test suite"""
-    system = create_testing_system()
-    return system.run_test_suite(suite_name)
+# Test suite consolidator (TASK 3H)
+from .test_suite_consolidator import (
+    TestSuiteConsolidator, TestCategory, TestFileInfo, ConsolidationPlan
+)
 
-def run_all_tests():
-    """Quick function to run all tests"""
-    system = create_testing_system()
-    return system.run_all_tests()
+# Testing system eliminator (TASK 3H)
+from .testing_system_eliminator import (
+    TestingSystemEliminator, EliminationTarget, EliminationPlan
+)
 
-def get_test_summary():
-    """Quick function to get test summary"""
-    system = create_testing_system()
-    return system.get_test_summary()
+# Example tests
+from .example_tests import ExampleTestSuite
 
 __all__ = [
-    # Core types
-    'TestStatus',
-    'TestType', 
-    'TestPriority',
-    'TestResult',
-    'TestScenario',
-    'TestEnvironment',
-    'TestSuite',
-    'TestReport',
-    
-    # Core classes
-    'BaseTest',
-    'BaseIntegrationTest',
-    'TestRunner',
+    # Core testing components
     'TestExecutor',
+    'TestRunner', 
+    'BaseTest',
+    'TestResult',
+    'TestStatus',
+    'TestType',
     
-    # Orchestration
-    'TestOrchestrator',
-    'TestSuiteManager',
-    'TestScheduler',
+    # Testing orchestration and reporting
+    'TestingOrchestrator',
+    'TestingReporter',
+    'TestCategories',
+    'OutputFormatter',
+    'TestingTypes',
     
-    # Reporting
-    'TestReporter',
-    'CoverageReporter',
-    'PerformanceReporter',
-    'HTMLReporter',
+    # CLI handlers
+    'RunCommandHandler',
+    'ReportCommandHandler',
+    'StatusCommandHandler',
+    'RegisterCommandHandler',
+    'SuiteCommandHandler',
+    'ResultsCommandHandler',
     
-    # CLI
-    'TestingFrameworkCLI',
+    # Unified testing system (TASK 3G)
+    'UnifiedTestingSystem',
+    'TestExecutionConfig',
+    'TestFramework',
     
-    # Convenience functions
-    'create_testing_system',
-    'run_test_suite',
-    'run_all_tests',
-    'get_test_summary'
+    # Testing infrastructure manager (TASK 3G)
+    'TestingInfrastructureManager',
+    'TestingDependency',
+    'TestDirectory',
+    'DependencyStatus',
+    
+    # Unified testing framework (TASK 3H)
+    'UnifiedTestingFramework',
+    'TestFrameworkType',
+    'TestSuiteConfig',
+    'TestSuiteResult',
+    
+    # Test suite consolidator (TASK 3H)
+    'TestSuiteConsolidator',
+    'TestCategory',
+    'TestFileInfo',
+    'ConsolidationPlan',
+    
+    # Testing system eliminator (TASK 3H)
+    'TestingSystemEliminator',
+    'EliminationTarget',
+    'EliminationPlan',
+    
+    # Example tests
+    'ExampleTestSuite'
 ]
+
+# Version information
+__version__ = "2.0.0"
+__author__ = "Agent-3 Integration & Testing Specialist"
+__description__ = "Unified testing framework with consolidated infrastructure"

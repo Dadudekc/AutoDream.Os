@@ -23,11 +23,9 @@ from core.internationalization_manager import (
     CulturalRegion,
     LocalizationLevel,
 )
-from core.horizontal_scaling_engine import (
-    HorizontalScalingEngine,
+from core.scaling import (
+    ScalingManager,
     ScalingStrategy,
-    AgentStatus,
-    DeploymentType,
 )
 from core.decision import (
     AutonomousDecisionEngine,
@@ -104,7 +102,7 @@ def demo_horizontal_scaling_system():
     print("=" * 50)
 
     # Initialize horizontal scaling engine
-    scaling_engine = HorizontalScalingEngine()
+    scaling_engine = ScalingManager()
 
     # Show initial status
     print("📈 Initial Scaling Status:")
@@ -283,7 +281,7 @@ def demo_system_integration():
     # Initialize all systems
     print("🚀 Initializing all critical systems...")
     i18n_manager = InternationalizationManager()
-    scaling_engine = HorizontalScalingEngine()
+    scaling_engine = ScalingManager()
     decision_engine = AutonomousDecisionEngine()
 
     print("✅ All systems initialized")

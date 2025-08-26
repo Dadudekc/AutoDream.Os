@@ -24,13 +24,59 @@ from abc import ABC, abstractmethod
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Import enums and data structures from main file
-from ..v2_comprehensive_messaging_system import (
-    V2MessageType, V2MessagePriority, V2MessageStatus,
-    V2AgentStatus, V2TaskStatus, V2WorkflowStatus,
-    V2Message, V2AgentInfo, V2TaskInfo, V2WorkflowInfo,
-    V2AgentCapability
-)
+# Import enums and data structures from consolidated modules
+from ..types.v2_message_enums import V2MessageType, V2MessagePriority, V2MessageStatus
+from ..models.v2_message import V2Message
+
+# Define missing enums and classes for compatibility
+from enum import Enum
+
+class V2AgentStatus(Enum):
+    """Agent status values"""
+    OFFLINE = "offline"
+    ONLINE = "online"
+    IDLE = "idle"
+    BUSY = "busy"
+    ERROR = "error"
+
+class V2TaskStatus(Enum):
+    """Task status values"""
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class V2WorkflowStatus(Enum):
+    """Workflow status values"""
+    PENDING = "pending"
+    ACTIVE = "active"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class V2AgentCapability(Enum):
+    """Agent capability values"""
+    TASK_EXECUTION = "task_execution"
+    DECISION_MAKING = "decision_making"
+    COMMUNICATION = "communication"
+
+@dataclass
+class V2AgentInfo:
+    """Agent information for routing"""
+    agent_id: str
+    status: V2AgentStatus
+    capabilities: Set[V2AgentCapability] = field(default_factory=set)
+
+@dataclass
+class V2TaskInfo:
+    """Task information for routing"""
+    task_id: str
+    status: V2TaskStatus
+
+@dataclass
+class V2WorkflowInfo:
+    """Workflow information for routing"""
+    workflow_id: str
+    status: V2WorkflowStatus
 
 
 class V2MessageRouter:

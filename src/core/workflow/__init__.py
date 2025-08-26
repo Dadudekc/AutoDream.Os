@@ -1,41 +1,93 @@
 #!/usr/bin/env python3
 """
-Workflow Package - V2 Core Workflow Automation System
+Workflow Package - Unified Workflow Management System
+===================================================
 
-This package provides modular workflow automation following V2 coding standards.
-Each module has ≤300 lines and follows single responsibility principle.
+Consolidated workflow system replacing 15+ duplicate implementations.
+Follows V2 standards: NO duplicate implementations, unified architecture only.
 
-Modules:
-- workflow_types: Data models and enums (≤100 lines)
-- workflow_orchestrator: Main orchestration logic (≤200 lines)  
-- workflow_executor: Task execution engine (≤200 lines)
-- workflow_planner: Execution planning and optimization (≤200 lines)
-- workflow_cli: CLI interface for testing (≤100 lines)
-
-Author: Agent-4 (Quality Assurance)
+Author: Agent-3 (Integration & Testing)
 License: MIT
 """
 
-from .workflow_types import (
-    WorkflowStatus, TaskStatus, TaskPriority, WorkflowType,
-    WorkflowTask, WorkflowCondition, WorkflowExecution,
-    AgentCapability, ResourceRequirement
+# Core workflow engine - Single entry point for all workflow operations
+from .base_workflow_engine import BaseWorkflowEngine
+
+# Core workflow components - only import what exists
+from .core import (
+    WorkflowEngine,
+    # WorkflowExecutor,  # REMOVED - module deleted
+    # WorkflowPlanner,   # REMOVED - module deleted
+    WorkflowMonitor
 )
 
-from .workflow_orchestrator import WorkflowOrchestrator
-from .workflow_executor import WorkflowExecutor
-from .workflow_planner import WorkflowPlanner
-from .workflow_cli import WorkflowCLI
+# Specialized workflow managers
+from .managers import (
+    WorkflowManager,
+    TaskManager,
+    ResourceManager
+)
 
-__version__ = "2.0.0"
-__author__ = "Agent-4 (Quality Assurance)"
+# Unified data models and types
+from .types import (
+    WorkflowStep,
+    WorkflowExecution,
+    WorkflowTask,
+    WorkflowDefinition,
+    WorkflowCondition,
+    AgentCapabilityInfo,
+    ResourceRequirement,
+    WorkflowStatus,
+    TaskStatus,
+    TaskType,
+    WorkflowType,
+    TaskPriority,
+    OptimizationStrategy,
+    AgentCapability
+)
+
+# Legacy compatibility aliases
+# These maintain backward compatibility with existing code
+from .types.workflow_types import WorkflowOptimization
 
 __all__ = [
-    # Types and enums
-    "WorkflowStatus", "TaskStatus", "TaskPriority", "WorkflowType",
-    "WorkflowTask", "WorkflowCondition", "WorkflowExecution",
-    "AgentCapability", "ResourceRequirement",
+    # Primary entry point - Use this for all workflow operations
+    "BaseWorkflowEngine",
     
-    # Core classes
-    "WorkflowOrchestrator", "WorkflowExecutor", "WorkflowPlanner", "WorkflowCLI"
+    # Core components
+    "WorkflowEngine",
+    # "WorkflowExecutor",  # REMOVED - module deleted
+    # "WorkflowPlanner",  # REMOVED - module deleted
+    "WorkflowMonitor",
+    
+    # Specialized managers
+    "WorkflowManager",
+    "TaskManager",
+    "ResourceManager",
+    
+    # Data models
+    "WorkflowStep",
+    "WorkflowExecution",
+    "WorkflowTask",
+    "WorkflowDefinition",
+    "WorkflowCondition",
+    "AgentCapabilityInfo",
+    "ResourceRequirement",
+    
+    # Enums and types
+    "WorkflowStatus",
+    "TaskStatus",
+    "TaskType",
+    "WorkflowType",
+    "TaskPriority",
+    "OptimizationStrategy",
+    "AgentCapability",
+    
+    # Legacy compatibility
+    "WorkflowOptimization"
 ]
+
+# Version information
+__version__ = "2.0.0"
+__author__ = "Agent-3 (Integration & Testing)"
+__description__ = "Unified workflow engine system consolidating multiple implementations"

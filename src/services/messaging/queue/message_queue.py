@@ -25,7 +25,8 @@ from queue import PriorityQueue
 from datetime import datetime
 from dataclasses import dataclass
 
-from .message_types import Message, MessagePriority, MessageStatus
+from ..models.v2_message import V2Message
+from ..types.v2_message_enums import V2MessagePriority, V2MessageStatus
 
 logger = logging.getLogger(__name__)
 
@@ -39,11 +40,11 @@ class MessageQueueInterface(Protocol):
     All implementations must satisfy these test contracts.
     """
     
-    def enqueue(self, message: Message) -> bool:
+    def enqueue(self, message: V2Message) -> bool:
         """Enqueue message. Return True if successful."""
         ...
     
-    def dequeue(self) -> Optional[Message]:
+    def dequeue(self) -> Optional[V2Message]:
         """Dequeue highest priority message. Return None if empty."""
         ...
     
@@ -75,11 +76,11 @@ class MessageStorageInterface(Protocol):
     Defines storage operations that TDD tests verify.
     """
     
-    def save_message(self, message: Message) -> bool:
+    def save_message(self, message: V2Message) -> bool:
         """Persist message to storage."""
         ...
     
-    def load_messages(self) -> List[Message]:
+    def load_messages(self) -> List[V2Message]:
         """Load all messages from storage."""
         ...
     
@@ -184,15 +185,15 @@ class FileMessageStorage:
                     try:
                         with open(file_path, 'r', encoding='utf-8') as f:
                             data = json.load(f)
-                            message = Message(
-                                id=data['id'],
+                            message = V2Message(
+                                message_id=data['id'],
                                 content=data['content'],
-                                priority=MessagePriority(data['priority']),
-                                sender=data['sender'],
-                                recipient=data['recipient'],
-                                status=MessageStatus(data['status']),
+                                priority=V2MessagePriority(data['priority']),
+                                sender_id=data['sender'],
+                                recipient_id=data['recipient'],
+                                status=V2MessageStatus(data['status']),
                                 timestamp=datetime.fromisoformat(data['timestamp']),
-                                metadata=data.get('metadata', {})
+                                payload=data.get('metadata', {})
                             )
                             messages.append(message)
                     except Exception as e:
@@ -258,7 +259,7 @@ class TDDMessageQueue:
         self.max_size = max_size
         self._storage = storage
         self._queue: PriorityQueue = PriorityQueue()
-        self._messages: Dict[str, Message] = {}
+        self._messages: Dict[str, V2Message] = {}
         self._metrics = QueueMetrics(queue_name=name)
         self._lock = threading.RLock()
         
@@ -266,7 +267,7 @@ class TDDMessageQueue:
         if self._storage:
             self._load_persisted_messages()
     
-    def enqueue(self, message: Message) -> bool:
+    def enqueue(self, message: V2Message) -> bool:
         """
         TDD Contract: Enqueue message with priority ordering.
         
@@ -282,7 +283,7 @@ class TDDMessageQueue:
                 # Priority queue ordering (lower number = higher priority)
                 priority_value = self._get_priority_value(message.priority)
                 self._queue.put((priority_value, time.time(), message))
-                self._messages[message.id] = message
+                self._messages[message.message_id] = message
                 self._metrics.increment_enqueue()
                 
                 # Persist if storage available
@@ -292,11 +293,11 @@ class TDDMessageQueue:
                 return True
                 
         except Exception as e:
-            logger.error(f"Failed to enqueue message {message.id}: {e}")
+            logger.error(f"Failed to enqueue message {message.message_id}: {e}")
             self._metrics.increment_error()
             return False
     
-    def dequeue(self) -> Optional[Message]:
+    def dequeue(self) -> Optional[V2Message]:
         """
         TDD Contract: Dequeue highest priority message.
         
@@ -309,7 +310,7 @@ class TDDMessageQueue:
                     return None
                 
                 priority_value, timestamp, message = self._queue.get()
-                message.status = MessageStatus.DELIVERED
+                message.status = V2MessageStatus.DELIVERED
                 self._metrics.increment_dequeue()
                 
                 return message
@@ -330,7 +331,7 @@ class TDDMessageQueue:
             with self._lock:
                 if message_id in self._messages:
                     message = self._messages[message_id]
-                    message.status = MessageStatus.PROCESSED
+                    message.status = V2MessageStatus.PROCESSED
                     self._metrics.increment_ack()
                     
                     # Remove from storage if available
@@ -364,18 +365,18 @@ class TDDMessageQueue:
         """TDD Contract: Return comprehensive metrics."""
         return self._metrics.to_dict()
     
-    def get_message_by_id(self, message_id: str) -> Optional[Message]:
+    def get_message_by_id(self, message_id: str) -> Optional[V2Message]:
         """TDD Contract: Retrieve message by ID."""
         return self._messages.get(message_id)
     
     # Private helper methods
-    def _get_priority_value(self, priority: MessagePriority) -> int:
+    def _get_priority_value(self, priority: V2MessagePriority) -> int:
         """Convert priority enum to queue ordering value."""
         priority_map = {
-            MessagePriority.CRITICAL: 1,
-            MessagePriority.HIGH: 2,
-            MessagePriority.NORMAL: 3,
-            MessagePriority.LOW: 4
+            V2MessagePriority.CRITICAL: 1,
+            V2MessagePriority.HIGH: 2,
+            V2MessagePriority.NORMAL: 3,
+            V2MessagePriority.LOW: 4
         }
         return priority_map.get(priority, 3)
     

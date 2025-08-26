@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 try:
     from src.core.messaging.message_queue import PersistentMessageQueue
     from src.core.messaging.message_types import Message, MessagePriority, MessageStatus
-    from src.core.decision.decision_core import DecisionMakingEngine
+    from src.core.decision import DecisionManager as DecisionMakingEngine
     from src.core.decision.decision_types import DecisionRequest, DecisionType
     from src.core.swarm_coordination_system import SwarmCoordinationSystem
     TDD_IMPORTS_AVAILABLE = True

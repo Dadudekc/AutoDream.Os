@@ -11,23 +11,24 @@ License: MIT
 """
 
 import logging
-import time
 import uuid
 from datetime import datetime
-from typing import Dict, List, Optional, Any, Tuple
-
-# from src.utils.stability_improvements import stability_manager, safe_import
+from typing import Dict, List, Optional, Any
 
 # Import the consolidated performance modules
 try:
     from .performance_core import PerformanceValidationCore, BenchmarkResult
     from .performance_reporter import PerformanceReporter, SystemPerformanceReport
     from .performance_config import PerformanceConfigManager, PerformanceValidationConfig
+    from .benchmark_executor import BenchmarkExecutor, BenchmarkExecutionConfig
+    from .metrics_collector import PerformanceMetricsCollector
 except ImportError:
     # Fallback imports for standalone testing
     from performance_core import PerformanceValidationCore, BenchmarkResult
     from performance_reporter import PerformanceReporter, SystemPerformanceReport
     from performance_config import PerformanceConfigManager, PerformanceValidationConfig
+    from benchmark_executor import BenchmarkExecutor, BenchmarkExecutionConfig
+    from metrics_collector import PerformanceMetricsCollector
 
 
 class PerformanceValidationOrchestrator:
@@ -48,6 +49,8 @@ class PerformanceValidationOrchestrator:
         self.config_manager = PerformanceConfigManager(config_file)
         self.core = PerformanceValidationCore()
         self.reporter = PerformanceReporter()
+        self.benchmark_executor = BenchmarkExecutor()
+        self.metrics_collector = PerformanceMetricsCollector()
         
         # System state
         self.is_running = False
@@ -159,8 +162,26 @@ class PerformanceValidationOrchestrator:
                 try:
                     self.logger.info(f"Running {benchmark_type} benchmark...")
                     
+                    # Get benchmark configuration
+                    config = self.config_manager.get_benchmark_config(benchmark_type)
+                    if not config:
+                        self.logger.warning(f"Benchmark type '{benchmark_type}' not found or disabled")
+                        continue
+                    
+                    # Convert to execution config
+                    exec_config = BenchmarkExecutionConfig(
+                        benchmark_type=benchmark_type,
+                        timeout_seconds=config.timeout_seconds,
+                        max_iterations=config.max_iterations,
+                        warmup_iterations=config.warmup_iterations,
+                        target_metrics=config.target_metrics
+                    )
+                    
                     # Run individual benchmark
-                    result = self._run_single_benchmark(benchmark_type)
+                    result = self.benchmark_executor.execute_benchmark(
+                        benchmark_type, exec_config, self.core
+                    )
+                    
                     if result:
                         benchmark_results.append(result)
                         self.successful_benchmarks += 1
@@ -201,7 +222,7 @@ class PerformanceValidationOrchestrator:
             self.current_benchmark_id = None
             return None
     
-    def _run_single_benchmark(self, benchmark_type: str) -> Optional[BenchmarkResult]:
+    def run_single_benchmark(self, benchmark_type: str) -> Optional[BenchmarkResult]:
         """
         Run a single benchmark type.
         
@@ -212,272 +233,120 @@ class PerformanceValidationOrchestrator:
             BenchmarkResult if successful, None otherwise
         """
         try:
+            if not self.is_running:
+                self.logger.error("System is not running")
+                return None
+            
             # Get benchmark configuration
             config = self.config_manager.get_benchmark_config(benchmark_type)
             if not config:
                 self.logger.warning(f"Benchmark type '{benchmark_type}' not found or disabled")
                 return None
             
-            # Run benchmark with configuration
-            start_time = datetime.now()
-            
-            # Simulate benchmark execution based on type
-            metrics = self._execute_benchmark(benchmark_type, config)
-            
-            end_time = datetime.now()
-            
-            # Create benchmark result
-            result = self.core.create_benchmark_result(
+            # Convert to execution config
+            exec_config = BenchmarkExecutionConfig(
                 benchmark_type=benchmark_type,
-                metrics=metrics,
-                start_time=start_time,
-                end_time=end_time
+                timeout_seconds=config.timeout_seconds,
+                max_iterations=config.max_iterations,
+                warmup_iterations=config.warmup_iterations,
+                target_metrics=config.target_metrics
             )
             
-            self.logger.info(
-                f"Benchmark {benchmark_type} completed: "
-                f"{result.performance_level} level in {result.duration:.2f}s"
+            # Execute benchmark
+            result = self.benchmark_executor.execute_benchmark(
+                benchmark_type, exec_config, self.core
             )
+            
+            if result:
+                self.benchmark_history.append(result)
+                self.successful_benchmarks += 1
+                self.total_benchmarks_run += 1
+                
+                self.logger.info(
+                    f"Benchmark {benchmark_type} completed: "
+                    f"{result.performance_level} level in {result.duration:.2f}s"
+                )
             
             return result
             
         except Exception as e:
             self.logger.error(f"Error running {benchmark_type} benchmark: {e}")
+            self.failed_benchmarks += 1
+            self.total_benchmarks_run += 1
             return None
     
-    def _execute_benchmark(self, benchmark_type: str, config: Any) -> Dict[str, Any]:
+    def get_benchmark_history(self) -> List[BenchmarkResult]:
+        """Get complete benchmark execution history."""
+        return self.benchmark_history.copy()
+    
+    def get_agent_health(self, agent_id: str) -> Optional[Dict[str, Any]]:
         """
-        Execute a benchmark and collect metrics.
+        Get health status for a specific agent.
         
         Args:
-            benchmark_type: Type of benchmark
-            config: Benchmark configuration
+            agent_id: ID of the agent
             
         Returns:
-            Dictionary of collected metrics
-        """
-        # Simulate benchmark execution with realistic delays
-        time.sleep(0.1)  # Simulate actual work
-        
-        # Generate metrics based on benchmark type
-        if benchmark_type == "response_time":
-            return self._generate_response_time_metrics(config)
-        elif benchmark_type == "throughput":
-            return self._generate_throughput_metrics(config)
-        elif benchmark_type == "scalability":
-            return self._generate_scalability_metrics(config)
-        elif benchmark_type == "reliability":
-            return self._generate_reliability_metrics(config)
-        elif benchmark_type == "resource":
-            return self._generate_resource_metrics(config)
-        else:
-            return {"unknown_metric": 0.0}
-    
-    def _generate_response_time_metrics(self, config: Any) -> Dict[str, Any]:
-        """Generate response time benchmark metrics."""
-        import random
-        
-        # Simulate realistic response time measurements
-        response_times = [random.uniform(0.1, 0.5) for _ in range(config.max_iterations)]
-        
-        return {
-            "average_response_time": sum(response_times) / len(response_times),
-            "min_response_time": min(response_times),
-            "max_response_time": max(response_times),
-            "p95_response_time": sorted(response_times)[int(len(response_times) * 0.95)],
-            "p99_response_time": sorted(response_times)[int(len(response_times) * 0.99)],
-            "iterations": len(response_times)
-        }
-    
-    def _generate_throughput_metrics(self, config: Any) -> Dict[str, Any]:
-        """Generate throughput benchmark metrics."""
-        import random
-        
-        # Simulate realistic throughput measurements
-        throughput_measurements = [random.uniform(800, 1500) for _ in range(config.max_iterations)]
-        
-        return {
-            "average_throughput": sum(throughput_measurements) / len(throughput_measurements),
-            "min_throughput": min(throughput_measurements),
-            "max_throughput": max(throughput_measurements),
-            "requests_per_second": sum(throughput_measurements) / len(throughput_measurements),
-            "total_requests": sum(throughput_measurements),
-            "iterations": len(throughput_measurements)
-        }
-    
-    def _generate_scalability_metrics(self, config: Any) -> Dict[str, Any]:
-        """Generate scalability benchmark metrics."""
-        import random
-        
-        # Simulate scalability measurements with different agent counts
-        scalability_data = {
-            "1_agent": {"throughput": 1000, "response_time": 0.1},
-            "5_agents": {"throughput": 4800, "response_time": 0.12},
-            "10_agents": {"throughput": 9000, "response_time": 0.15}
-        }
-        
-        # Calculate scalability efficiency
-        expected_linear = 1000 * 10  # Expected throughput for 10 agents
-        actual_throughput = scalability_data["10_agents"]["throughput"]
-        scalability_factor = actual_throughput / expected_linear
-        
-        return {
-            "scalability_factor": scalability_factor,
-            "scalability_data": scalability_data,
-            "efficiency_1_agent": 1.0,
-            "efficiency_5_agents": 0.96,  # 4800 / (1000 * 5)
-            "efficiency_10_agents": 0.9,  # 9000 / (1000 * 10)
-            "iterations": config.max_iterations
-        }
-    
-    def _generate_reliability_metrics(self, config: Any) -> Dict[str, Any]:
-        """Generate reliability benchmark metrics."""
-        import random
-        
-        # Simulate reliability testing
-        total_requests = 10000
-        success_rate = random.uniform(0.98, 0.999)
-        successful_requests = int(total_requests * success_rate)
-        failed_requests = total_requests - successful_requests
-        
-        return {
-            "success_rate": success_rate,
-            "error_rate": 1.0 - success_rate,
-            "total_requests": total_requests,
-            "successful_requests": successful_requests,
-            "failed_requests": failed_requests,
-            "iterations": config.max_iterations
-        }
-    
-    def _generate_resource_metrics(self, config: Any) -> Dict[str, Any]:
-        """Generate resource utilization benchmark metrics."""
-        import random
-        
-        # Simulate resource utilization measurements
-        return {
-            "cpu_utilization": random.uniform(0.3, 0.8),
-            "memory_utilization": random.uniform(0.4, 0.85),
-            "disk_io_utilization": random.uniform(0.2, 0.6),
-            "network_utilization": random.uniform(0.1, 0.5),
-            "iterations": config.max_iterations
-        }
-    
-    def run_smoke_test(self) -> bool:
-        """
-        Run a basic smoke test to verify the system is working.
-        
-        Returns:
-            True if smoke test passes, False otherwise
+            Agent health data or None if not found
         """
         try:
-            self.logger.info("Running performance validation smoke test")
-            
-            # Test core functionality
-            core_test = self.core.run_smoke_test()
-            if not core_test:
-                self.logger.error("Core smoke test failed")
-                return False
-            
-            # Test configuration
-            config_errors = self.config_manager.validate_config()
-            if config_errors:
-                self.logger.error(f"Configuration validation failed: {len(config_errors)} errors")
-                return False
-            
-            # Test reporter
-            try:
-                test_report = self.reporter.generate_performance_report([], "json")
-                if not test_report:
-                    self.logger.error("Reporter test failed")
-                    return False
-            except Exception as e:
-                self.logger.error(f"Reporter test failed: {e}")
-                return False
-            
-            self.logger.info("Smoke test passed - system is working correctly")
-            return True
-            
+            # This would typically integrate with the health monitoring system
+            # For now, return basic status
+            return {
+                "agent_id": agent_id,
+                "status": "healthy" if self.is_running else "inactive",
+                "last_benchmark": self.current_benchmark_id,
+                "total_benchmarks": self.total_benchmarks_run
+            }
         except Exception as e:
-            self.logger.error(f"Smoke test failed with error: {e}")
-            return False
+            self.logger.error(f"Error getting agent health for {agent_id}: {e}")
+            return None
+    
+    def get_health_summary(self) -> Dict[str, Any]:
+        """Get comprehensive health summary."""
+        try:
+            return {
+                "monitoring_active": self.is_running,
+                "total_benchmarks": self.total_benchmarks_run,
+                "successful_benchmarks": self.successful_benchmarks,
+                "failed_benchmarks": self.failed_benchmarks,
+                "success_rate": (self.successful_benchmarks / self.total_benchmarks_run * 100) if self.total_benchmarks_run > 0 else 0,
+                "current_benchmark": self.current_benchmark_id,
+                "start_time": self.start_time.isoformat() if self.start_time else None,
+                "uptime": (datetime.now() - self.start_time).total_seconds() if self.start_time and self.is_running else 0
+            }
+        except Exception as e:
+            self.logger.error(f"Error generating health summary: {e}")
+            return {"error": str(e)}
     
     def get_system_status(self) -> Dict[str, Any]:
-        """
-        Get current system status.
-        
-        Returns:
-            Dictionary containing system status information
-        """
-        status = {
-            "system_running": self.is_running,
-            "start_time": self.start_time.isoformat() if self.start_time else None,
-            "current_benchmark": self.current_benchmark_id,
-            "total_benchmarks_run": self.total_benchmarks_run,
-            "successful_benchmarks": self.successful_benchmarks,
-            "failed_benchmarks": self.failed_benchmarks,
-            "success_rate": (
-                self.successful_benchmarks / self.total_benchmarks_run 
-                if self.total_benchmarks_run > 0 else 0.0
-            ),
-            "benchmark_history_count": len(self.benchmark_history),
-            "enabled_benchmarks": self.config_manager.get_enabled_benchmarks(),
-            "configuration_valid": len(self.config_manager.validate_config()) == 0
-        }
-        
-        if self.start_time:
-            uptime = (datetime.now() - self.start_time).total_seconds()
-            status["uptime_seconds"] = uptime
-            status["uptime_formatted"] = self._format_uptime(uptime)
-        
-        return status
-    
-    def _format_uptime(self, seconds: float) -> str:
-        """Format uptime in human-readable format."""
-        hours = int(seconds // 3600)
-        minutes = int((seconds % 3600) // 60)
-        secs = int(seconds % 60)
-        
-        if hours > 0:
-            return f"{hours}h {minutes}m {secs}s"
-        elif minutes > 0:
-            return f"{minutes}m {secs}s"
-        else:
-            return f"{secs}s"
-    
-    def get_benchmark_history(self, limit: Optional[int] = None) -> List[BenchmarkResult]:
-        """
-        Get benchmark history.
-        
-        Args:
-            limit: Maximum number of results to return (None for all)
-            
-        Returns:
-            List of benchmark results
-        """
-        if limit is None:
-            return self.benchmark_history.copy()
-        else:
-            return self.benchmark_history[-limit:].copy()
-    
-    def clear_benchmark_history(self) -> bool:
-        """
-        Clear benchmark history.
-        
-        Returns:
-            True if history cleared successfully, False otherwise
-        """
+        """Get current system status."""
         try:
-            self.benchmark_history.clear()
-            self.logger.info("Benchmark history cleared")
-            return True
+            uptime_seconds = (datetime.now() - self.start_time).total_seconds() if self.start_time and self.is_running else 0
+            
+            # Format uptime
+            hours = int(uptime_seconds // 3600)
+            minutes = int((uptime_seconds % 3600) // 60)
+            seconds = int(uptime_seconds % 60)
+            uptime_formatted = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+            
+            return {
+                "system_status": "running" if self.is_running else "stopped",
+                "uptime_seconds": uptime_seconds,
+                "uptime_formatted": uptime_formatted,
+                "current_benchmark": self.current_benchmark_id,
+                "benchmarks_in_history": len(self.benchmark_history),
+                "last_update": datetime.now().isoformat()
+            }
         except Exception as e:
-            self.logger.error(f"Failed to clear benchmark history: {e}")
-            return False
+            self.logger.error(f"Error getting system status: {e}")
+            return {"error": str(e)}
     
     def _generate_final_report(self) -> Optional[SystemPerformanceReport]:
         """Generate final system report."""
         try:
             if not self.benchmark_history:
+                self.logger.warning("No benchmark history to report")
                 return None
             
             # Generate comprehensive report from all history
@@ -538,43 +407,51 @@ class PerformanceValidationOrchestrator:
         if not self.benchmark_history:
             return {"message": "No benchmark history available"}
         
-        # Calculate summary statistics
-        total_duration = sum(result.duration for result in self.benchmark_history)
-        performance_levels = {}
-        benchmark_types = {}
-        
-        for result in self.benchmark_history:
-            # Count performance levels
-            level = result.performance_level
-            performance_levels[level] = performance_levels.get(level, 0) + 1
+        try:
+            # Use the benchmark executor's summary functionality
+            execution_summary = self.benchmark_executor.get_execution_summary()
             
-            # Count benchmark types
-            btype = result.benchmark_type
-            benchmark_types[btype] = benchmark_types.get(btype, 0) + 1
-        
-        # Calculate average metrics across all benchmarks
-        all_metrics = {}
-        for result in self.benchmark_history:
-            for metric_name, metric_value in result.metrics.items():
-                if metric_name not in all_metrics:
-                    all_metrics[metric_name] = []
-                if isinstance(metric_value, (int, float)):
-                    all_metrics[metric_name].append(metric_value)
-        
-        # Calculate averages
-        avg_metrics = {}
-        for metric_name, values in all_metrics.items():
-            if values:
-                avg_metrics[f"avg_{metric_name}"] = sum(values) / len(values)
-                avg_metrics[f"min_{metric_name}"] = min(values)
-                avg_metrics[f"max_{metric_name}"] = max(values)
-        
-        return {
-            "total_benchmarks": len(self.benchmark_history),
-            "total_duration": total_duration,
-            "average_duration_per_benchmark": total_duration / len(self.benchmark_history),
-            "performance_level_distribution": performance_levels,
-            "benchmark_type_distribution": benchmark_types,
-            "average_metrics": avg_metrics,
-            "system_uptime": self.get_system_status().get("uptime_formatted", "Unknown")
-        }
+            # Add system-specific information
+            system_status = self.get_system_status()
+            
+            return {
+                **execution_summary,
+                "system_uptime": system_status.get("uptime_formatted", "Unknown"),
+                "system_status": system_status.get("system_status", "Unknown")
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error generating performance summary: {e}")
+            return {"error": str(e)}
+    
+    def run_smoke_test(self) -> bool:
+        """Run basic smoke test to verify system functionality."""
+        try:
+            self.logger.info("Running performance orchestrator smoke test...")
+            
+            # Test basic initialization
+            assert self.config_manager is not None, "Config manager not initialized"
+            assert self.core is not None, "Core not initialized"
+            assert self.reporter is not None, "Reporter not initialized"
+            assert self.benchmark_executor is not None, "Benchmark executor not initialized"
+            
+            # Test system start/stop
+            start_result = self.start_system()
+            assert start_result, "System failed to start"
+            
+            stop_result = self.stop_system()
+            assert stop_result, "System failed to stop"
+            
+            # Test status methods
+            status = self.get_system_status()
+            assert "system_status" in status, "System status missing required fields"
+            
+            health_summary = self.get_health_summary()
+            assert "monitoring_active" in health_summary, "Health summary missing required fields"
+            
+            self.logger.info("✅ Performance orchestrator smoke test PASSED")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"❌ Performance orchestrator smoke test FAILED: {e}")
+            return False

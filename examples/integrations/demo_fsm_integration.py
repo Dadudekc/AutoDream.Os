@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 from core.workspace_manager import WorkspaceManager
 from core.inbox_manager import InboxManager
 from core.task_manager import TaskManager
-from core.fsm_orchestrator import FSMOrchestrator, TaskState, TaskPriority
+from core.fsm import FSMSystemManager, TaskState, TaskPriority
 from launchers.unified_launcher_v2 import UnifiedLauncherV2
 
 
@@ -32,7 +32,7 @@ def demo_fsm_orchestrator():
         # Initialize managers
         workspace_manager = WorkspaceManager()
         inbox_manager = InboxManager(workspace_manager)
-        fsm_orchestrator = FSMOrchestrator(workspace_manager, inbox_manager)
+        fsm_system_manager = FSMSystemManager()
 
         print("✅ FSM Orchestrator initialized")
 
@@ -41,7 +41,7 @@ def demo_fsm_orchestrator():
         print("=" * 40)
 
         # Critical task
-        task1_id = fsm_orchestrator.create_task(
+        task1_id = fsm_system_manager.create_task(
             title="System Architecture Review",
             description="Review and validate the V2 system architecture with FSM integration",
             assigned_agent="Agent-2",
@@ -50,7 +50,7 @@ def demo_fsm_orchestrator():
         print(f"✅ Critical FSM task created: {task1_id}")
 
         # High priority task
-        task2_id = fsm_orchestrator.create_task(
+        task2_id = fsm_system_manager.create_task(
             title="Agent Swarm Coordination",
             description="Coordinate agent swarm operations using FSM system",
             assigned_agent="Agent-3",
@@ -59,7 +59,7 @@ def demo_fsm_orchestrator():
         print(f"✅ High priority FSM task created: {task2_id}")
 
         # Normal priority task
-        task3_id = fsm_orchestrator.create_task(
+        task3_id = fsm_system_manager.create_task(
             title="Response Capture Integration",
             description="Integrate response capture with FSM workflow",
             assigned_agent="Agent-4",
@@ -72,7 +72,7 @@ def demo_fsm_orchestrator():
         print("=" * 40)
 
         # Start task 1
-        fsm_orchestrator.update_task_state(
+        fsm_system_manager.update_task_state(
             task1_id,
             TaskState.IN_PROGRESS,
             "Agent-2",
@@ -82,7 +82,7 @@ def demo_fsm_orchestrator():
         print(f"✅ Task {task1_id} moved to IN_PROGRESS")
 
         # Complete task 2
-        fsm_orchestrator.update_task_state(
+        fsm_system_manager.update_task_state(
             task2_id,
             TaskState.COMPLETED,
             "Agent-3",
@@ -92,7 +92,7 @@ def demo_fsm_orchestrator():
         print(f"✅ Task {task2_id} moved to COMPLETED")
 
         # Block task 3
-        fsm_orchestrator.update_task_state(
+        fsm_system_manager.update_task_state(
             task3_id,
             TaskState.BLOCKED,
             "Agent-4",
@@ -102,10 +102,10 @@ def demo_fsm_orchestrator():
         print(f"✅ Task {task3_id} moved to BLOCKED")
 
         # Show FSM status
-        print("\n📊 **FSM ORCHESTRATOR STATUS**")
+        print("\n📊 **FSM SYSTEM MANAGER STATUS**")
         print("=" * 40)
 
-        status = fsm_orchestrator.get_fsm_status()
+        status = fsm_system_manager.generate_fsm_report()
         for key, value in status.items():
             print(f"   {key}: {value}")
 
@@ -114,7 +114,7 @@ def demo_fsm_orchestrator():
         print("=" * 40)
 
         for agent in ["Agent-2", "Agent-3", "Agent-4"]:
-            tasks = fsm_orchestrator.get_agent_tasks(agent)
+            tasks = fsm_system_manager.get_tasks_by_agent(agent)
             print(f"\n{agent}: {len(tasks)} tasks")
             for task in tasks:
                 print(f"   📄 {task.title} ({task.state.value})")

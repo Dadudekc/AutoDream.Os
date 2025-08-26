@@ -59,7 +59,7 @@ class DataTransformationMiddleware(BaseMiddlewareComponent):
             return bool(data_packet.metadata[condition])
         return False
 
-    async def _apply_transformation(self, data: Any, transformation: str) -> Any:
+    def _apply_transformation(self, data: Any, transformation: str) -> Any:
         """Apply the specified transformation to data."""
         if transformation == "json_to_dict" and isinstance(data, str):
             return json.loads(data)

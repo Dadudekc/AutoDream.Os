@@ -15,9 +15,9 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 
-from ..core.enums import AgentRole
-from ..core.models import DevelopmentTask
-from ...core.base_manager import BaseManager, ManagerStatus, ManagerPriority
+from src.core.enums import AgentRole
+from src.core.models import DevelopmentTask
+from src.core.base_manager import BaseManager, ManagerStatus, ManagerPriority
 
 
 @dataclass

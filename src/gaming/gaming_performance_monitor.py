@@ -17,8 +17,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 # Core infrastructure imports
-from ..core.managers.performance_manager import PerformanceManager
-from ..core.performance.alerts import AlertSeverity, AlertType
+from src.core.managers.performance_manager import PerformanceManager
+from src.core.performance.alerts import AlertSeverity, AlertType
 
 
 @dataclass

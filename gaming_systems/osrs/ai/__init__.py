@@ -11,7 +11,25 @@ License: MIT
 """
 
 from .decision_engine import OSRSDecisionEngine
+from .behavior_tree import (
+    OSRSBehaviorTree,
+    OSRSBehaviorNode,
+    OSRSBehaviorNodeType,
+    OSRSActionNode,
+    OSRSConditionNode,
+    OSRSSequenceNode,
+    OSRSSelectorNode,
+    OSRSDecoratorNode,
+)
 
 __all__ = [
-    'OSRSDecisionEngine'
+    'OSRSDecisionEngine',
+    'OSRSBehaviorTree',
+    'OSRSBehaviorNode',
+    'OSRSBehaviorNodeType',
+    'OSRSActionNode',
+    'OSRSConditionNode',
+    'OSRSSequenceNode',
+    'OSRSSelectorNode',
+    'OSRSDecoratorNode',
 ]

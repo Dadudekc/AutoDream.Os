@@ -28,7 +28,15 @@ from .trading import (
 )
 
 from .ai import (
-    OSRSDecisionEngine
+    OSRSDecisionEngine,
+    OSRSBehaviorTree,
+    OSRSBehaviorNode,
+    OSRSBehaviorNodeType,
+    OSRSActionNode,
+    OSRSConditionNode,
+    OSRSSequenceNode,
+    OSRSSelectorNode,
+    OSRSDecoratorNode,
 )
 
 # Factory function for backward compatibility
@@ -74,6 +82,14 @@ __all__ = [
     
     # AI systems
     'OSRSDecisionEngine',
+    'OSRSBehaviorTree',
+    'OSRSBehaviorNode',
+    'OSRSBehaviorNodeType',
+    'OSRSActionNode',
+    'OSRSConditionNode',
+    'OSRSSequenceNode',
+    'OSRSSelectorNode',
+    'OSRSDecoratorNode',
     
     # Factory function for backward compatibility
     'create_osrs_ai_agent'

@@ -117,4 +117,4 @@ class CoordinationSession:
     start_time: datetime
     end_time: Optional[datetime]
     agenda: List[str]
-    decisions: List[Dict]
+    decisions: List[Dict[str, Any]]

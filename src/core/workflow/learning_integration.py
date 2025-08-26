@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Use existing unified learning system - only import what actually exists
 from ..learning.unified_learning_engine import UnifiedLearningEngine
-from ..learning.learning_models import LearningData, LearningGoal, LearningStatus
+from ..learning.models import LearningData, LearningGoal, LearningStatus
 # ARCHITECTURE CORRECTED: Using decision models from existing learning module
 from ..learning.decision_models import DecisionRequest, DecisionResult, DecisionType
 

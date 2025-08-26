@@ -17,6 +17,8 @@ from typing import Dict, List, Any, Optional, Set
 from datetime import datetime
 import uuid
 
+from ..base_manager import ManagerConfig
+
 
 class LearningMode(Enum):
     """Unified learning modes consolidating all implementations"""
@@ -125,7 +127,7 @@ class LearningStrategy:
     strategy_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     name: str = ""
     description: str = ""
-    learning_mode: LearningMode = LearningMode.ADAPTIVE
+    learning_modes: List[LearningMode] = field(default_factory=list)
     parameters: Dict[str, Any] = field(default_factory=dict)
     success_criteria: Dict[str, float] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
@@ -175,40 +177,42 @@ class LearningSession:
     """Unified learning session tracking"""
     session_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     agent_id: str = ""
-    start_time: datetime = field(default_factory=datetime.now)
-    end_time: Optional[datetime] = None
-    duration_seconds: float = 0.0
+    session_type: str = "general"
+    created_at: datetime = field(default_factory=datetime.now)
+    ended_at: Optional[datetime] = None
+    status: LearningStatus = LearningStatus.NOT_STARTED
     learning_goals: List[str] = field(default_factory=list)
     strategies_used: List[str] = field(default_factory=list)
     performance_summary: Dict[str, float] = field(default_factory=dict)
     session_data: List[LearningData] = field(default_factory=list)
-    
+    total_duration: float = 0.0
+
     def __post_init__(self):
         if not self.session_id:
             self.session_id = str(uuid.uuid4())
-    
+
     def end_session(self):
         """End the learning session and calculate duration"""
-        self.end_time = datetime.now()
-        if self.start_time:
-            self.duration_seconds = (self.end_time - self.start_time).total_seconds()
-    
+        self.ended_at = datetime.now()
+        self.status = LearningStatus.COMPLETED
+        self.total_duration = (self.ended_at - self.created_at).total_seconds()
+
     def add_learning_data(self, data: LearningData):
         """Add learning data to the session"""
         self.session_data.append(data)
-    
+
     def get_performance_summary(self) -> Dict[str, float]:
         """Calculate performance summary from session data"""
         if not self.session_data:
             return {}
-        
+
         total_score = sum(data.performance_score for data in self.session_data)
         avg_score = total_score / len(self.session_data)
-        
+
         return {
             "total_data_points": len(self.session_data),
             "average_performance": avg_score,
-            "session_duration": self.duration_seconds,
+            "session_duration": self.total_duration,
             "goals_attempted": len(self.learning_goals)
         }
 
@@ -248,6 +252,37 @@ class LearningConfiguration:
         return self.adaptive_parameters.get(key, default)
 
 
+@dataclass
+class LearningManagerConfig(ManagerConfig):
+    """Extended configuration for the learning manager"""
+    max_concurrent_learners: int = 50
+    learning_session_timeout: int = 3600  # seconds
+    enable_adaptive_learning: bool = True
+    enable_collaborative_learning: bool = True
+    learning_rate: float = 0.1
+    batch_size: int = 32
+    max_iterations: int = 1000
+    convergence_threshold: float = 0.001
+    auto_cleanup_inactive_sessions: bool = True
+    cleanup_interval_minutes: int = 30
+
+
+@dataclass
+class LearningEngineConfig:
+    """Configuration for the unified learning engine"""
+    engine_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    max_concurrent_sessions: int = 10
+    session_timeout_minutes: int = 60
+    learning_rate: float = 0.1
+    batch_size: int = 32
+    max_iterations: int = 1000
+    convergence_threshold: float = 0.001
+    enable_adaptive_learning: bool = True
+    enable_collaborative_learning: bool = True
+    log_level: str = "INFO"
+    created_at: datetime = field(default_factory=datetime.now)
+
+
 # Utility functions for learning models
 def create_learning_goal(
     title: str,
@@ -272,13 +307,15 @@ def create_learning_goal(
 def create_learning_session(
     agent_id: str,
     learning_goals: List[str],
-    strategies: List[str]
+    strategies: List[str],
+    session_type: str = "general"
 ) -> LearningSession:
     """Create a new learning session"""
     return LearningSession(
         agent_id=agent_id,
         learning_goals=learning_goals,
-        strategies_used=strategies
+        strategies_used=strategies,
+        session_type=session_type
     )
 
 

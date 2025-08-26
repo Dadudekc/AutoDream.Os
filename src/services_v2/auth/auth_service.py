@@ -26,7 +26,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 try:
-    from security.authentication import AuthenticationSystem, AuthenticationResult
+    from security.authentication_manager import AuthenticationManager
     from security.network_security import NetworkScanner
     from security.compliance_audit import ComplianceAuditor
 
@@ -136,7 +136,7 @@ class AuthService:
         """Initialize core authentication components"""
         try:
             if SECURITY_AVAILABLE:
-                self.auth_system = AuthenticationSystem()
+                self.auth_system = AuthenticationManager()
                 self.network_scanner = NetworkScanner()
                 self.compliance_auditor = ComplianceAuditor()
                 self.logger.info("✅ Core security components initialized")

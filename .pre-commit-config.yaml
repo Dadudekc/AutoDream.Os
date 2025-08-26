@@ -7,7 +7,7 @@ repos:
         language: python
         types: [python]
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
         # Balanced LOC restrictions for maintainability:
         # - Standard files: max 400 LOC (was 200, balanced at 400)
         # - GUI files: max 600 LOC (was 300, generous for UI while maintaining structure)
@@ -19,7 +19,7 @@ repos:
         language: python
         types: [python]
         pass_filenames: false
-        stages: [commit]
+        stages: [pre-commit]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0

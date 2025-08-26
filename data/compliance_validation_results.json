@@ -87,9 +87,9 @@
         "D:\\Agent_Cellphone_V2_Repository\\tests\\test_testing_framework_modular.py"
       ],
       [
-        "tests\\ai_ml\\test_code_crafter.py",
+        "tests\\code_generation\\test_code_crafter.py",
         976,
-        "D:\\Agent_Cellphone_V2_Repository\\tests\\ai_ml\\test_code_crafter.py"
+        "D:\\Agent_Cellphone_V2_Repository\\tests\\code_generation\\test_code_crafter.py"
       ],
       [
         "tests\\gaming\\test_osrs_ai_agent.py",
@@ -1181,9 +1181,9 @@
         "D:\\Agent_Cellphone_V2_Repository\\tests\\test_advanced_task_management.py"
       ],
       [
-        "tests\\test_file_processor_service.py",
+        "tests\\file_utils\\test_file_processor_service.py",
         355,
-        "D:\\Agent_Cellphone_V2_Repository\\tests\\test_file_processor_service.py"
+        "D:\\Agent_Cellphone_V2_Repository\\tests\\file_utils\\test_file_processor_service.py"
       ],
       [
         "tests\\test_integrity_system.py",
@@ -2893,9 +2893,9 @@
         "D:\\Agent_Cellphone_V2_Repository\\tests\\test_agent1_message.py"
       ],
       [
-        "tests\\test_coordinates.py",
+        "tests\\other\\test_coordinates.py",
         73,
-        "D:\\Agent_Cellphone_V2_Repository\\tests\\test_coordinates.py"
+        "D:\\Agent_Cellphone_V2_Repository\\tests\\other\\test_coordinates.py"
       ],
       [
         "tests\\test_fast_8_agent.py",
@@ -3475,9 +3475,9 @@
           "D:\\Agent_Cellphone_V2_Repository\\tests\\test_testing_framework_modular.py"
         ],
         [
-          "tests\\ai_ml\\test_code_crafter.py",
+          "tests\\code_generation\\test_code_crafter.py",
           976,
-          "D:\\Agent_Cellphone_V2_Repository\\tests\\ai_ml\\test_code_crafter.py"
+          "D:\\Agent_Cellphone_V2_Repository\\tests\\code_generation\\test_code_crafter.py"
         ],
         [
           "tests\\gaming\\test_ai_agent_framework.py",
@@ -4574,9 +4574,9 @@
           "D:\\Agent_Cellphone_V2_Repository\\tests\\test_advanced_task_management.py"
         ],
         [
-          "tests\\test_file_processor_service.py",
+          "tests\\file_utils\\test_file_processor_service.py",
           355,
-          "D:\\Agent_Cellphone_V2_Repository\\tests\\test_file_processor_service.py"
+          "D:\\Agent_Cellphone_V2_Repository\\tests\\file_utils\\test_file_processor_service.py"
         ],
         [
           "tests\\test_integrity_system.py",
@@ -6286,9 +6286,9 @@
           "D:\\Agent_Cellphone_V2_Repository\\tests\\test_agent1_message.py"
         ],
         [
-          "tests\\test_coordinates.py",
+          "tests\\other\\test_coordinates.py",
           73,
-          "D:\\Agent_Cellphone_V2_Repository\\tests\\test_coordinates.py"
+          "D:\\Agent_Cellphone_V2_Repository\\tests\\other\\test_coordinates.py"
         ],
         [
           "tests\\test_fast_8_agent.py",

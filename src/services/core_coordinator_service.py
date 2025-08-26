@@ -7,7 +7,6 @@ Core coordination logic and agent management service.
 Follows V2 standards: ≤ 200 LOC, SRP, OOP design, CLI interface.
 """
 
-import json
 import logging
 import asyncio
 
@@ -17,6 +16,7 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import argparse
+from src.services.config_utils import ConfigLoader
 
 
 @dataclass
@@ -61,7 +61,15 @@ class CoreCoordinatorService:
         self.logger = self._setup_logging()
         self.agent_status: Dict[str, AgentStatus] = {}
         self.coordination_cycle = 0
-        self.config = self._load_configuration()
+        default_config = {
+            "election_mode": False,
+            "round_robin": False,
+            "campaign_duration": 300,
+            "voting_duration": 120,
+            "term_duration": 1800,
+        }
+        config_data = ConfigLoader.load(self.config_path / "coordination_config.json", default_config)
+        self.config = CoordinationConfig(**config_data)
 
         # Initialize agent status
         self._initialize_agent_status()
@@ -81,32 +89,6 @@ class CoreCoordinatorService:
 
         return logger
 
-    def _load_configuration(self) -> CoordinationConfig:
-        """Load coordination configuration."""
-        try:
-            config_file = self.config_path / "coordination_config.json"
-            if config_file.exists():
-                with open(config_file, "r") as f:
-                    config_data = json.load(f)
-                    return CoordinationConfig(**config_data)
-            else:
-                # Default configuration
-                return CoordinationConfig(
-                    election_mode=False,
-                    round_robin=False,
-                    campaign_duration=300,
-                    voting_duration=120,
-                    term_duration=1800,
-                )
-        except Exception as e:
-            self.logger.error(f"Error loading configuration: {e}")
-            return CoordinationConfig(
-                election_mode=False,
-                round_robin=False,
-                campaign_duration=300,
-                voting_duration=120,
-                term_duration=1800,
-            )
 
     def _initialize_agent_status(self):
         """Initialize agent status for all agents."""

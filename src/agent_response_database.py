@@ -116,18 +116,16 @@ class AgentResponseDatabase:
 
     def insert_analysis(self, response_id: int, analysis_result: dict) -> None:
         """Store analysis results for a response."""
-        conn = self.connect()
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            INSERT INTO response_analysis
-            (response_id, analysis_type, analysis_result, confidence_score)
-            VALUES (?, ?, ?, ?)
-            """,
-            (response_id, "content_analysis", json.dumps(analysis_result), 0.8),
-        )
-        conn.commit()
-        conn.close()
+        with self.connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO response_analysis
+                (response_id, analysis_type, analysis_result, confidence_score)
+                VALUES (?, ?, ?, ?)
+                """,
+                (response_id, "content_analysis", json.dumps(analysis_result), 0.8),
+            )
 
     def insert_task(self, response_id: int, task: dict) -> None:
         """Store a generated task linked to a response."""

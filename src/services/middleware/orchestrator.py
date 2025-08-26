@@ -141,8 +141,8 @@ class MiddlewareOrchestrator:
                 try:
                     current_packet = await middleware.process(current_packet, context)
                 except Exception as exc:  # noqa: BLE001
-                    logger.error("Error in middleware %s: %s", middleware_name, exc)
-                    current_packet.metadata["error"] = str(exc)
+                    logger.exception("Error in middleware %s", middleware_name)
+                    current_packet.metadata["error"] = f"Error in {middleware_name}: {type(exc).__name__}"
                     current_packet.metadata["failed_middleware"] = middleware_name
                     break
 

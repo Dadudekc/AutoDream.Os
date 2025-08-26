@@ -16,13 +16,12 @@ from .network_security import (
 )
 
 # Import authentication components
-from .authentication import (
-    AuthenticationSystem,
-    AuthenticationResult,
-    UserSession,
-    SessionManager,
+from .authentication_manager import (
+    AuthenticationManager,
     RoleBasedAccessControl,
 )
+from .session_manager import SessionManager
+from .models import User, UserSession
 
 # Import security monitoring components
 # from .security_monitoring import (
@@ -60,11 +59,11 @@ __all__ = [
     "NetworkDevice",
     "SecurityEvent",
     # Authentication
-    "AuthenticationSystem",
-    "AuthenticationResult",
-    "UserSession",
+    "AuthenticationManager",
     "SessionManager",
     "RoleBasedAccessControl",
+    "User",
+    "UserSession",
     # Security Monitoring
     # "SecurityMonitor",
     # "AlertSystem",

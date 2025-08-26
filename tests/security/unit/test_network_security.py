@@ -9,7 +9,8 @@ import unittest.mock as mock
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from src.security.network_security import NetworkScanner, VulnerabilityAssessor, AnomalyDetector, ThreatIntelligence, IncidentResponse, SecurityEvent
-from src.security.authentication import AuthenticationSystem, AuthenticationResult, SessionManager, RoleBasedAccessControl
+from src.security.authentication_manager import AuthenticationManager, RoleBasedAccessControl
+from src.security.session_manager import SessionManager
 from src.security.compliance_audit import ComplianceReporter
 from unittest.mock import MagicMock, patch
 import ipaddress
@@ -165,21 +166,21 @@ class TestAccessControl:
     @pytest.mark.access_control
     def test_user_authentication_success(self):
         """Test successful user authentication"""
-        auth_system = AuthenticationSystem()
-        result = auth_system.authenticate_user("admin", "secure_password_123", "127.0.0.1")
+        auth_manager = AuthenticationManager()
+        auth_manager.create_user("admin", "admin@example.com", "secure_password_123", "admin")
+        session_id = auth_manager.authenticate_user("admin", "secure_password_123", "127.0.0.1")
 
-        assert result.success is True
-        assert result.user_id == "admin"
+        assert session_id is not None
 
     @pytest.mark.security
     @pytest.mark.access_control
     def test_user_authentication_failure(self):
         """Test failed user authentication"""
-        auth_system = AuthenticationSystem()
-        result = auth_system.authenticate_user("admin", "wrong_password", "127.0.0.1")
+        auth_manager = AuthenticationManager()
+        auth_manager.create_user("admin", "admin@example.com", "secure_password_123", "admin")
+        session_id = auth_manager.authenticate_user("admin", "wrong_password", "127.0.0.1")
 
-        assert result.success is False
-        assert result.user_id is None
+        assert session_id is None
 
     @pytest.mark.security
     @pytest.mark.access_control

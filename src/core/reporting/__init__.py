@@ -9,14 +9,14 @@ Task: TASK 3I - Reporting Systems Consolidation
 V2 Standards: ≤400 LOC, SRP, OOP principles
 """
 
-from .unified_reporting_framework import (
-    UnifiedReportingFramework,
+from .unified_reporting_framework import UnifiedReportingFramework
+from .report_models import (
     ReportType,
     ReportFormat,
     ReportPriority,
     ReportConfig,
     ReportMetadata,
-    UnifiedReport
+    UnifiedReport,
 )
 
 # Consolidator module is optional in some installations
@@ -36,28 +36,27 @@ except ModuleNotFoundError:  # pragma: no cover - fallback when module missing
 from .reporting_system_eliminator import (
     ReportingSystemEliminator,
     EliminationTarget,
-    EliminationPlan
+    EliminationPlan,
 )
 
 __all__ = [
     # Core framework
-    'UnifiedReportingFramework',
-    'ReportType',
-    'ReportFormat',
-    'ReportPriority',
-    'ReportConfig',
-    'ReportMetadata',
-    'UnifiedReport',
-    
-    # System consolidation
-    'ReportingSystemConsolidator',
-    'ConsolidationTarget',
-    'ConsolidationPlan',
-    'ConsolidationResult',
-    
-    # System elimination
-    'ReportingSystemEliminator',
-    'EliminationTarget',
-    'EliminationPlan'
-]
+    "UnifiedReportingFramework",
+    "ReportType",
+    "ReportFormat",
+    "ReportPriority",
+    "ReportConfig",
+    "ReportMetadata",
+    "UnifiedReport",
 
+    # System consolidation
+    "ReportingSystemConsolidator",
+    "ConsolidationTarget",
+    "ConsolidationPlan",
+    "ConsolidationResult",
+
+    # System elimination
+    "ReportingSystemEliminator",
+    "EliminationTarget",
+    "EliminationPlan",
+]

@@ -368,3 +368,4 @@ class IntegrationFrameworkManager:
         except Exception as e:
             self.logger.error(f"Integration Framework Manager cleanup failed: {e}")
 
+

@@ -66,3 +66,4 @@ class BaseManagerInterface(ABC):
     def cleanup(self) -> bool:
         """Cleanup manager resources"""
         raise NotImplementedError
+

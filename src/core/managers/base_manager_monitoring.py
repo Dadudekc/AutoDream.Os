@@ -94,3 +94,4 @@ class BaseManagerMonitoring:
             "recovery_attempts": self.recovery_attempts,
             "max_retries": self.max_retries
         }
+

@@ -127,3 +127,4 @@ class BaseManagerLifecycle:
             "shutdown_time": self.shutdown_time.isoformat() if self.shutdown_time else None,
             "status": self.status.value
         }
+

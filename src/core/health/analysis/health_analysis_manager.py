@@ -384,3 +384,4 @@ class HealthAnalysisManager:
         except Exception as e:
             self.logger.error(f"Health Analysis Manager cleanup failed: {e}")
 
+

@@ -219,3 +219,4 @@ class ExtendedModelManager(BaseManager):
         base_status.update(model_status)
         return base_status
 
+

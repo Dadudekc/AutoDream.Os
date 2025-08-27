@@ -4,35 +4,49 @@ Unified Performance Orchestrator - Performance System Coordination
 ===============================================================
 
 Orchestrates all performance components using extracted modules.
-Follows V2 standards: ≤400 LOC, SRP, OOP principles.
+Legacy methods are supplied via ``OrchestratorCompatibilityMixin`` to keep the
+core orchestrator focused and within V2 standards (≤400 LOC, SRP, OOP).
 
 Author: Agent-1 (Phase 3 Modularization)
 License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional, Any
+import warnings
+from typing import Any, Dict, List, Optional
 
+from .orchestrator_compat import OrchestratorCompatibilityMixin
 from .performance_core import PerformanceCore
 from .performance_models import (
-    PerformanceMetric, BenchmarkResult, SystemPerformanceReport,
-    PerformanceLevel, ValidationRule, ValidationThreshold
+    BenchmarkResult,
+    SystemPerformanceReport,
+    ValidationRule,
+    ValidationThreshold,
 )
 
 
-class UnifiedPerformanceOrchestrator:
-    """Orchestrates performance system using extracted modules"""
-    
-    def __init__(self):
+class UnifiedPerformanceOrchestrator(OrchestratorCompatibilityMixin):
+    """Orchestrates performance system using extracted modules."""
+
+    def __init__(self, **core_kwargs: Any):
+        """Initialize the orchestrator and forward parameters to ``PerformanceCore``.
+
+        Any keyword arguments supplied are passed through to the underlying
+        :class:`PerformanceCore`, allowing callers to customise the core while
+        keeping this interface stable.
+        """
         self.logger = logging.getLogger(f"{__name__}.UnifiedPerformanceOrchestrator")
-        
-        # Initialize performance core
-        self.performance_core = PerformanceCore(
-            manager_id="unified_performance_orchestrator",
-            name="Unified Performance Orchestrator",
-            description="Coordinates all performance system components"
-        )
-        
+
+        core_config = {
+            "manager_id": "unified_performance_orchestrator",
+            "name": "Unified Performance Orchestrator",
+            "description": "Coordinates all performance system components",
+        }
+        core_config.update(core_kwargs)
+
+        # Initialize performance core with forwarded parameters
+        self.performance_core = PerformanceCore(**core_config)
+
         # Combined statistics
         self.orchestrator_stats = {
             "core_stats": {},
@@ -41,7 +55,7 @@ class UnifiedPerformanceOrchestrator:
             "benchmarking_stats": {},
             "reporting_stats": {}
         }
-        
+
         self.logger.info("Unified Performance Orchestrator initialized")
     
     def start_system(self) -> bool:
@@ -145,7 +159,7 @@ class UnifiedPerformanceOrchestrator:
         except Exception as e:
             self.logger.error(f"Failed to get performance summary: {e}")
             return {"error": str(e)}
-    
+
     def add_custom_metric(
         self,
         name: str,
@@ -325,8 +339,19 @@ class UnifiedPerformanceOrchestrator:
 
 # Backward compatibility - maintain existing interface
 class UnifiedPerformanceSystem(UnifiedPerformanceOrchestrator):
-    """Backward compatibility alias for existing code"""
-    pass
+    """Backward compatibility alias for existing code.
+
+    This class will be removed in a future release. Use
+    :class:`UnifiedPerformanceOrchestrator` directly instead.
+    """
+
+    def __init__(self, **kwargs: Any):
+        warnings.warn(
+            "UnifiedPerformanceSystem is deprecated; use UnifiedPerformanceOrchestrator",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        super().__init__(**kwargs)
 
 
 def main():

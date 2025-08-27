@@ -21,8 +21,8 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 # Import components to test
-from src.core.workspace_manager import WorkspaceManager
-from src.core.fsm import FSMCore as FSMCoreV2
+from src.core.unified_workspace_system import UnifiedWorkspaceSystem
+from src.core.fsm_core_v2 import FSMCoreV2
 from src.core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
 from src.core.fsm_communication_bridge import FSMCommunicationBridge
 
@@ -44,7 +44,7 @@ class TestFSMCommunicationIntegration(unittest.TestCase):
         self.fsm_data_path.mkdir(parents=True)
 
         # Initialize core components
-        self.workspace_manager = WorkspaceManager(str(self.workspace_path))
+        self.workspace_manager = UnifiedWorkspaceSystem(str(self.workspace_path))
         self.fsm_core = FSMCoreV2(
             workspace_manager=self.workspace_manager,
             fsm_data_path=str(self.fsm_data_path),
@@ -261,7 +261,7 @@ class TestIntegrationEndToEnd(unittest.TestCase):
     def test_full_workflow(self):
         """Test complete FSM-Communication workflow."""
         # Initialize all components
-        workspace_manager = WorkspaceManager(str(self.workspace_path))
+        workspace_manager = UnifiedWorkspaceSystem(str(self.workspace_path))
         inbox_manager = InboxManager(workspace_manager)
         fsm_core = FSMCoreV2(
             workspace_manager=workspace_manager,
@@ -332,7 +332,7 @@ class TestIntegrationEndToEnd(unittest.TestCase):
     def test_multi_agent_coordination(self):
         """Test coordination between multiple agents."""
         # Initialize components
-        workspace_manager = WorkspaceManager(str(self.workspace_path))
+        workspace_manager = UnifiedWorkspaceSystem(str(self.workspace_path))
         inbox_manager = InboxManager(workspace_manager)
         fsm_core = FSMCoreV2(
             workspace_manager=workspace_manager,

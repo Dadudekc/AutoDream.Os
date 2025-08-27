@@ -9,8 +9,10 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **Smoke tests and test suites** to validate components
 - **Structured logging and error handling**
 - **CI/CD templates** for Jenkins, GitLab CI and Docker
+<<<<<<< HEAD
 - **Refactored middleware pipeline** split into SRP modules under
   `src/services/middleware`
+- **Unified workspace management** via `UnifiedWorkspaceSystem`
 
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware
@@ -18,6 +20,7 @@ components are listed. Each component receives the `DataPacket` returned by the
 previous one, allowing earlier middleware to mutate the packet before later
 components execute. Disabled middleware or components whose conditions fail are
 skipped.
+>>>>>>> origin/codex/consolidate-workspace-management-modules
 
 ## Getting Started
 ### Installation

@@ -24,6 +24,7 @@ try:
     from .agent_cell_phone import AgentCellPhone
     from .sprint_management_service import SprintManagementService, Sprint, SprintStatus
     from .sprint_workflow_service import SprintWorkflowService, WorkflowStage
+    from .scanner_integration_service import ScannerIntegrationService
 
     __all__ = [
         "AgentCellPhone",
@@ -32,6 +33,7 @@ try:
         "Sprint",
         "SprintStatus",
         "WorkflowStage",
+        "ScannerIntegrationService",
     ]
 
 except Exception as e:

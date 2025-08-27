@@ -10,7 +10,7 @@ from typing import Dict, List, Any, Optional, Type
 from .base_validator import BaseValidator, ValidationResult, ValidationSeverity, ValidationStatus
 from .contract_validator import ContractValidator
 from .config_validator import ConfigValidator
-from .workflow_validator import WorkflowValidator
+from ..workflow.validation.workflow_validator import WorkflowValidator
 from .message_validator import MessageValidator
 from .quality_validator import QualityValidator
 from .security_validator import SecurityValidator

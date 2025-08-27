@@ -21,7 +21,8 @@ import logging
 current_dir = Path.cwd()
 sys.path.insert(0, str(current_dir))
 
-from src.core.validation import ValidationManager, ValidationResult, ValidationSeverity, ValidationStatus
+# Import validation types directly to avoid circular imports
+from src.core.validation.base_validator import ValidationResult, ValidationSeverity, ValidationStatus
 from .workflow_validator import WorkflowValidator
 from ..types.workflow_enums import WorkflowStatus, TaskStatus
 from ..types.workflow_models import WorkflowDefinition, WorkflowExecution, WorkflowStep
@@ -36,7 +37,7 @@ class WorkflowValidationManager:
         
         # Core validation components
         self.workflow_validator = WorkflowValidator()
-        self.validation_manager = ValidationManager()
+        # Note: ValidationManager removed to avoid circular imports
         
         # Validation tracking
         self.validation_history: List[ValidationResult] = []

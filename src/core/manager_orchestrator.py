@@ -539,7 +539,7 @@ class ManagerOrchestrator:
                     "services/financial/analytics/data_manager.py"
                 ],
                 "communication_manager": [
-                    "services/communication/channel_manager.py", "services/communication_manager.py",
+                    "services/communication/channel_manager.py", "core/communication/communication_manager.py",
                     "services/api_manager.py"
                 ],
                 "health_manager": [

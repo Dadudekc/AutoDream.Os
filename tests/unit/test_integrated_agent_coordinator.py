@@ -3,7 +3,7 @@ import pytest
 from src.services.integrated_agent_coordinator import IntegratedAgentCoordinator
 from src.services.agent_registry import AgentRegistry
 from src.services.task_assigner import TaskAssigner
-from src.services.communication_manager import CommunicationManager
+from src.core.communication import CommunicationManager
 
 
 def test_agent_lifecycle():

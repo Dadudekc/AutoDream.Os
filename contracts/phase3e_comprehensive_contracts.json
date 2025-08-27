@@ -150,10 +150,10 @@
     },
     {
       "contract_id": "MODERATE-025",
-      "file_path": "src/core/managers/communication_manager.py",
-      "current_lines": 618,
-      "target_lines": 400,
-      "reduction_target": "35%",
+      "file_path": "src/core/communication/communication_manager.py",
+      "current_lines": 24,
+      "target_lines": 24,
+      "reduction_target": "96%",
       "priority": "HIGH",
       "category": "Communication Management",
       "violations": [

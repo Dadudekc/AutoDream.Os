@@ -3,7 +3,7 @@ Stability Improvements and Warning Management Utilities
 
 This module provides utilities to improve code stability and manage warnings
 throughout the Agent Cellphone V2 system.
-Now inherits from BaseManager for unified functionality.
+Now standalone to avoid circular imports and ensure SSOT.
 """
 
 import warnings
@@ -11,32 +11,22 @@ import logging
 import functools
 import sys
 import time
-
-# This line was causing circular import - removed
 from typing import Any, Callable, Optional, Type, Union, List, Dict
 from contextlib import contextmanager
-
-# Import BaseManager with relative path
-import sys
-import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'core'))
-from base_manager import BaseManager
 
 logger = logging.getLogger(__name__)
 
 
-class StabilityManager(BaseManager):
+class StabilityManager:
     """Manages system stability and warning suppression
     
-    Now inherits from BaseManager for unified functionality
+    Standalone class to avoid circular imports and ensure SSOT
     """
     
     def __init__(self):
-        super().__init__(
-            manager_id="stability_manager",
-            name="Stability Manager",
-            description="Manages system stability and warning suppression"
-        )
+        self.manager_id = "stability_manager"
+        self.name = "Stability Manager"
+        self.description = "Manages system stability and warning suppression"
         
         self.suppressed_warnings = set()
         self.warning_counts = {}
@@ -46,297 +36,142 @@ class StabilityManager(BaseManager):
         self.stability_operations: List[Dict[str, Any]] = []
         self.warnings_suppressed = 0
         self.warnings_restored = 0
-        self.stability_checks = 0
-        self.failed_operations: List[Dict[str, Any]] = []
         
-        self.logger.info("Stability Manager initialized")
-    
-    def suppress_warning(self, warning_type: Type[Warning], message: str = ""):
-        """Suppress specific warnings with context"""
-        start_time = time.time()
-        try:
-            if message:
-                warnings.filterwarnings("ignore", category=warning_type, message=message)
-            else:
-                warnings.filterwarnings("ignore", category=warning_type)
-            
-            self.suppressed_warnings.add((warning_type, message))
-            
-            # Record successful operation
-            self.warnings_suppressed += 1
-            self.record_operation("suppress_warning", True, time.time() - start_time)
-            
-            logger.debug(f"Suppressed warning: {warning_type.__name__} - {message}")
-            
-        except Exception as e:
-            logger.error(f"Failed to suppress warning: {e}")
-            self.record_operation("suppress_warning", False, time.time() - start_time)
-            self.failed_operations.append({
-                "operation": "suppress_warning",
-                "warning_type": str(warning_type),
-                "message": message,
-                "error": str(e),
-                "timestamp": time.time()
-            })
-    
-    def restore_warnings(self):
-        """Restore all suppressed warnings"""
-        start_time = time.time()
-        try:
-            for warning_type, message in self.suppressed_warnings:
-                if message:
-                    warnings.filterwarnings("default", category=warning_type, message=message)
-                else:
-                    warnings.filterwarnings("default", category=warning_type)
-            
-            self.suppressed_warnings.clear()
-            
-            # Record successful operation
-            self.warnings_restored += 1
-            self.record_operation("restore_warnings", True, time.time() - start_time)
-            
-            logger.debug("Restored all warnings to default behavior")
-            
-        except Exception as e:
-            logger.error(f"Failed to restore warnings: {e}")
-            self.record_operation("restore_warnings", False, time.time() - start_time)
-            self.failed_operations.append({
-                "operation": "restore_warnings",
-                "error": str(e),
-                "timestamp": time.time()
-            })
-    
-    def track_warning(self, warning_type: str, context: str = ""):
-        """Track warning occurrences for monitoring"""
-        start_time = time.time()
-        try:
-            key = f"{warning_type}:{context}"
-            self.warning_counts[key] = self.warning_counts.get(key, 0) + 1
-            
-            if self.warning_counts[key] > 10:  # Threshold for stability concern
-                logger.warning(f"High warning count for {key}: {self.warning_counts[key]} occurrences")
-            
-            # Record successful operation
-            self.stability_checks += 1
-            self.record_operation("track_warning", True, time.time() - start_time)
-            
-        except Exception as e:
-            logger.error(f"Failed to track warning: {e}")
-            self.record_operation("track_warning", False, time.time() - start_time)
-            self.failed_operations.append({
-                "operation": "track_warning",
-                "warning_type": warning_type,
-                "context": context,
-                "error": str(e),
-                "timestamp": time.time()
-            })
-    
-    def get_stability_report(self) -> dict:
-        """Generate stability report"""
-        start_time = time.time()
-        try:
-            report = {
-                "suppressed_warnings": len(self.suppressed_warnings),
-                "warning_counts": self.warning_counts.copy(),
-                "stability_metrics": self.stability_metrics.copy()
-            }
-            
-            # Record successful operation
-            self.record_operation("get_stability_report", True, time.time() - start_time)
-            
-            return report
-            
-        except Exception as e:
-            logger.error(f"Failed to get stability report: {e}")
-            self.record_operation("get_stability_report", False, time.time() - start_time)
-            self.failed_operations.append({
-                "operation": "get_stability_report",
-                "error": str(e),
-                "timestamp": time.time()
-            })
-            return {}
+        # Performance tracking
+        self.start_time = time.time()
+        self.operation_count = 0
+        self.error_count = 0
+        
+        self.logger = logging.getLogger(__name__)
+        self.logger.info(f"StabilityManager initialized: {self.manager_id}")
 
-    # ============================================================================
-    # BaseManager Abstract Method Implementations
-    # ============================================================================
-    
-    def _on_start(self) -> bool:
-        """Initialize stability management system"""
+    def suppress_warning(self, warning_type: Type[Warning], reason: str = ""):
+        """Suppress a specific warning type"""
         try:
-            self.logger.info("Starting Stability Manager...")
+            warnings.filterwarnings("ignore", category=warning_type)
+            self.suppressed_warnings.add(warning_type.__name__)
+            self.warnings_suppressed += 1
             
-            # Clear tracking data
-            self.stability_operations.clear()
-            self.warnings_suppressed = 0
-            self.warnings_restored = 0
-            self.stability_checks = 0
-            self.failed_operations.clear()
+            self.logger.info(f"Warning suppressed: {warning_type.__name__} - {reason}")
             
-            self.logger.info("Stability Manager started successfully")
-            return True
+            # Track operation
+            self._track_operation("suppress_warning", {
+                "warning_type": warning_type.__name__,
+                "reason": reason,
+                "success": True
+            })
             
         except Exception as e:
-            self.logger.error(f"Failed to start Stability Manager: {e}")
-            return False
-    
-    def _on_stop(self) -> bool:
-        """Cleanup stability management system"""
+            self.logger.error(f"Failed to suppress warning {warning_type.__name__}: {e}")
+            self.error_count += 1
+            
+            self._track_operation("suppress_warning", {
+                "warning_type": warning_type.__name__,
+                "reason": reason,
+                "success": False,
+                "error": str(e)
+            })
+
+    def restore_warning(self, warning_type: Type[Warning]):
+        """Restore a previously suppressed warning"""
         try:
-            self.logger.info("Stopping Stability Manager...")
-            
-            # Save stability management data
-            self._save_stability_management_data()
-            
-            self.logger.info("Stability Manager stopped successfully")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to stop Stability Manager: {e}")
-            return False
-    
-    def _on_heartbeat(self) -> bool:
-        """Stability management health check"""
-        try:
-            # Check stability management health
-            health_status = self._check_stability_management_health()
-            
-            # Update metrics
-            self.metrics.update(
-                operations_count=len(self.stability_operations),
-                success_rate=self._calculate_success_rate(),
-                average_response_time=self._calculate_average_response_time(),
-                health_status=health_status
-            )
-            
-            return health_status == "healthy"
-            
-        except Exception as e:
-            self.logger.error(f"Stability Manager heartbeat failed: {e}")
-            return False
-    
-    def _on_initialize_resources(self) -> bool:
-        """Initialize stability management resources"""
-        try:
-            # Initialize stability tracking
-            self.stability_operations = []
-            self.warnings_suppressed = 0
-            self.warnings_restored = 0
-            self.stability_checks = 0
-            self.failed_operations = []
-            
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to initialize Stability Manager resources: {e}")
-            return False
-    
-    def _on_cleanup_resources(self) -> bool:
-        """Cleanup stability management resources"""
-        try:
-            # Save stability management data
-            self._save_stability_management_data()
-            
-            # Clear tracking data
-            self.stability_operations.clear()
-            self.warnings_suppressed = 0
-            self.warnings_restored = 0
-            self.stability_checks = 0
-            self.failed_operations.clear()
-            
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to cleanup Stability Manager resources: {e}")
-            return False
-    
-    def _on_recovery_attempt(self) -> bool:
-        """Attempt to recover from errors"""
-        try:
-            self.logger.info("Attempting Stability Manager recovery...")
-            
-            # Reinitialize stability tracking
-            self.stability_operations = []
-            self.warnings_suppressed = 0
-            self.warnings_restored = 0
-            self.stability_checks = 0
-            self.failed_operations = []
-            
-            self.logger.info("Stability Manager recovery successful")
-            return True
+            warnings.filterwarnings("default", category=warning_type)
+            if warning_type.__name__ in self.suppressed_warnings:
+                self.suppressed_warnings.remove(warning_type.__name__)
+                self.warnings_restored += 1
+                
+                self.logger.info(f"Warning restored: {warning_type.__name__}")
+                
+                self._track_operation("restore_warning", {
+                    "warning_type": warning_type.__name__,
+                    "success": True
+                })
                 
         except Exception as e:
-            self.logger.error(f"Stability Manager recovery attempt failed: {e}")
-            return False
-    
-    # ============================================================================
-    # Private Helper Methods
-    # ============================================================================
-    
-    def _save_stability_management_data(self):
-        """Save stability management data for persistence"""
-        try:
-            data = {
-                "warnings_suppressed": self.warnings_suppressed,
-                "warnings_restored": self.warnings_restored,
-                "stability_checks": self.stability_checks,
-                "failed_operations": self.failed_operations,
-                "timestamp": time.time()
-            }
+            self.logger.error(f"Failed to restore warning {warning_type.__name__}: {e}")
+            self.error_count += 1
             
-            # Save to file or database as needed
-            # For now, just log the data
-            self.logger.info(f"Stability management data: {data}")
-            
-        except Exception as e:
-            self.logger.error(f"Failed to save stability management data: {e}")
-    
-    def _check_stability_management_health(self) -> str:
-        """Check stability management system health"""
-        try:
-            # Check if we have recent operations
-            if len(self.stability_operations) > 0:
-                return "healthy"
-            else:
-                return "idle"
-                
-        except Exception as e:
-            self.logger.error(f"Stability management health check failed: {e}")
-            return "unhealthy"
-    
+            self._track_operation("restore_warning", {
+                "warning_type": warning_type.__name__,
+                "success": False,
+                "error": str(e)
+            })
+
+    def get_stability_report(self) -> Dict[str, Any]:
+        """Get comprehensive stability report"""
+        uptime = time.time() - self.start_time
+        
+        return {
+            "manager_id": self.manager_id,
+            "name": self.name,
+            "uptime_seconds": uptime,
+            "operation_count": self.operation_count,
+            "error_count": self.error_count,
+            "warnings_suppressed": self.warnings_suppressed,
+            "warnings_restored": self.warnings_restored,
+            "suppressed_warnings": list(self.suppressed_warnings),
+            "success_rate": self._calculate_success_rate(),
+            "timestamp": time.time()
+        }
+
+    def _track_operation(self, operation_type: str, details: Dict[str, Any]):
+        """Track an operation for monitoring"""
+        operation = {
+            "type": operation_type,
+            "timestamp": time.time(),
+            "details": details
+        }
+        
+        self.stability_operations.append(operation)
+        self.operation_count += 1
+        
+        # Keep only last 100 operations
+        if len(self.stability_operations) > 100:
+            self.stability_operations = self.stability_operations[-100:]
+
     def _calculate_success_rate(self) -> float:
         """Calculate operation success rate"""
         try:
-            if len(self.stability_operations) == 0:
-                return 1.0
+            if not self.stability_operations:
+                return 0.0
             
-            successful_ops = sum(1 for op in self.stability_operations if op.get("success", False))
+            successful_ops = sum(1 for op in self.stability_operations 
+                               if op.get("details", {}).get("success", False))
             return successful_ops / len(self.stability_operations)
             
         except Exception as e:
             self.logger.error(f"Failed to calculate success rate: {e}")
             return 0.0
-    
-    def _calculate_average_response_time(self) -> float:
-        """Calculate average operation response time"""
+
+    def cleanup(self):
+        """Cleanup resources and restore all warnings"""
         try:
-            if len(self.stability_operations) == 0:
-                return 0.0
+            # Restore all suppressed warnings
+            for warning_name in list(self.suppressed_warnings):
+                try:
+                    # Find the warning class and restore it
+                    for warning_type in [DeprecationWarning, UserWarning, RuntimeWarning, 
+                                       FutureWarning, ImportWarning, PendingDeprecationWarning]:
+                        if warning_type.__name__ == warning_name:
+                            warnings.filterwarnings("default", category=warning_type)
+                            break
+                except Exception as e:
+                    self.logger.warning(f"Could not restore warning {warning_name}: {e}")
             
-            total_time = sum(op.get("duration", 0.0) for op in self.stability_operations)
-            return total_time / len(self.stability_operations)
+            self.suppressed_warnings.clear()
+            self.logger.info("StabilityManager cleanup completed")
             
         except Exception as e:
-            self.logger.error(f"Failed to calculate average response time: {e}")
-            return 0.0
+            self.logger.error(f"Error during cleanup: {e}")
 
 
-# Global stability manager instance
+# Global stability manager instance - now safe to instantiate
 stability_manager = StabilityManager()
 
 # Export key functions and classes
 __all__ = [
     "StabilityManager",
-    "stability_manager", 
+    "stability_manager",
     "safe_import",
     "stable_function_call",
     "validate_imports",
@@ -422,64 +257,62 @@ def stable_function_call(func: Callable, *args,
     return fallback_return
 
 
-def validate_imports(required_modules: list, optional_modules: list = None) -> dict:
+def validate_imports(required_modules: List[str]) -> Dict[str, bool]:
     """
-    Validate module imports and report status
+    Validate that required modules can be imported
     
     Args:
-        required_modules: List of required module names
-        optional_modules: List of optional module names
+        required_modules: List of module names to validate
     
     Returns:
-        Dictionary with import status for each module
+        Dictionary mapping module names to import success status
     """
     results = {}
     
-    # Check required modules
-    for module in required_modules:
+    for module_name in required_modules:
         try:
-            __import__(module)
-            results[module] = {"status": "available", "required": True}
+            __import__(module_name)
+            results[module_name] = True
+            logger.debug(f"✅ {module_name} import validated")
         except ImportError:
-            results[module] = {"status": "missing", "required": True}
-            logger.error(f"❌ Required module {module} not available")
-    
-    # Check optional modules
-    if optional_modules:
-        for module in optional_modules:
-            try:
-                __import__(module)
-                results[module] = {"status": "available", "required": False}
-            except ImportError:
-                results[module] = {"status": "missing", "required": False}
-                logger.info(f"ℹ️ Optional module {module} not available")
+            results[module_name] = False
+            logger.warning(f"⚠️ {module_name} import failed")
+        except Exception as e:
+            results[module_name] = False
+            logger.error(f"❌ {module_name} import error: {e}")
     
     return results
 
 
 def setup_stability_improvements():
-    """Initialize stability improvements for the system"""
-    # Suppress common deprecation warnings that are known and handled
-    stability_manager.suppress_warning(
-        DeprecationWarning, 
-        ".*unclosed file.*"
-    )
-    
-    # Set up warning filters for better stability
-    warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib.*")
-    
-    # Log stability setup
-    logger.info("🔧 Stability improvements initialized")
-    
-    return stability_manager
+    """Setup stability improvements system"""
+    try:
+        # Initialize stability manager
+        stability_manager.__init__()
+        
+        # Configure basic warning suppression
+        stability_manager.suppress_warning(
+            DeprecationWarning, 
+            "Suppressing deprecation warnings for stability"
+        )
+        
+        logger.info("✅ Stability improvements setup completed")
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Failed to setup stability improvements: {e}")
+        return False
 
 
 def cleanup_stability_improvements():
-    """Clean up stability improvements and restore default behavior"""
-    stability_manager.restore_warnings()
-    logger.info("🧹 Stability improvements cleaned up")
-
-
-# Initialize stability improvements when module is imported
-# Note: Don't auto-import to avoid circular import issues
-# Use setup_stability_improvements() explicitly when needed
+    """Cleanup stability improvements system"""
+    try:
+        if stability_manager:
+            stability_manager.cleanup()
+        
+        logger.info("✅ Stability improvements cleanup completed")
+        return True
+        
+    except Exception as e:
+        logger.error(f"❌ Failed to cleanup stability improvements: {e}")
+        return False

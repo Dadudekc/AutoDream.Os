@@ -11,26 +11,12 @@ import time
 import logging
 import threading
 from typing import Dict, List, Any, Optional, Callable
-from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 from .core_framework import QualityLevel, QualityMetric, TestResult
+from .models import QualityAlert
 
 logger = logging.getLogger(__name__)
-
-
-@dataclass
-class QualityAlert:
-    """Quality alert data structure"""
-    alert_id: str
-    service_id: str
-    alert_type: str
-    severity: str
-    message: str
-    timestamp: float
-    metric_value: Any
-    threshold: Any
-    resolved: bool = False
 
 
 class QualityMonitor:

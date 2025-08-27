@@ -1,0 +1,272 @@
+summary:
+- file: src/web/static/js/portal/portal_components.js
+  dup_hits: 10
+  severity: critical
+- file: src/web/templates/pages/components_showcase.html
+  dup_hits: 6
+  severity: critical
+- file: src/core/managers/extended/financial/portfolio_manager.py
+  dup_hits: 4
+  severity: moderate
+- file: src/services/multimedia/tests/test_video_capture.py
+  dup_hits: 4
+  severity: moderate
+- file: src/services/multimedia/tests/test_multimedia_integration.py
+  dup_hits: 4
+  severity: moderate
+- file: src/services/middleware/components/validation.py
+  dup_hits: 4
+  severity: moderate
+- file: src/web/static/js/portal/portal_framework.js
+  dup_hits: 3
+  severity: moderate
+- file: src/core/managers/extended/ai_ml/ai_manager.py
+  dup_hits: 3
+  severity: moderate
+- file: src/core/managers/extended/ai_ml/model_manager.py
+  dup_hits: 3
+  severity: moderate
+- file: src/web/static/js/responsive_framework.js
+  dup_hits: 3
+  severity: moderate
+- file: src/web/static/css/portal/portal_components.css
+  dup_hits: 2
+  severity: moderate
+- file: src/core/workflow/testing/helpers/data_model.py
+  dup_hits: 2
+  severity: moderate
+- file: src/services/middleware/components/transformations.py
+  dup_hits: 2
+  severity: moderate
+- file: src/services/middleware/components/routing.py
+  dup_hits: 2
+  severity: moderate
+instances:
+- files:
+  - src/web/static/js/portal/portal_components.js
+  - src/web/static/js/portal/portal_components.js
+  lines: 19
+  tokens: 0
+  fragment: ".prototype = {\n        init: function() {\n            this.render();\n\
+    \            this.setupEventListeners();\n            this.startAutoRefresh();\n\
+    \        },\n\n        render: functi"
+- files:
+  - src/web/static/js/portal/portal_components.js
+  - src/web/static/js/portal/portal_components.js
+  lines: 14
+  tokens: 0
+  fragment: ".bind(this));\n            }\n        },\n\n        startAutoRefresh:\
+    \ function() {\n            if (this.config.autoRefresh !== false) {\n       \
+    \         this.refreshInterval = setInterv"
+- files:
+  - src/web/static/js/portal/portal_components.js
+  - src/web/static/js/portal/portal_components.js
+  lines: 11
+  tokens: 0
+  fragment: ".innerHTML = `<div class=\"error\">${message}</div>`;\n        },\n\n\
+    \        destroy: function() {\n            if (this.refreshInterval) {\n    \
+    \            clearInterval(this.refreshInte"
+- files:
+  - src/web/static/js/portal/portal_components.js
+  - src/web/static/js/portal/portal_components.js
+  lines: 9
+  tokens: 0
+  fragment: ".bind(this));\n            }\n        },\n\n        startAutoRefresh:\
+    \ function() {\n            if (this.config.autoRefresh !== false) {\n       \
+    \         this.refreshInterval = setInterv"
+- files:
+  - src/web/static/js/portal/portal_components.js
+  - src/web/static/js/portal/portal_framework.js
+  lines: 18
+  tokens: 0
+  fragment: ");\n                const diff = now - date;\n\n                const\
+    \ seconds = Math.floor(diff / 1000);\n                const minutes = Math.floor(seconds\
+    \ / 60);\n                cons"
+- files:
+  - src/web/static/css/portal/portal_components.css
+  - src/web/static/css/portal/portal_components.css
+  lines: 6
+  tokens: 0
+  fragment: " {\n    background: white;\n    border-radius: 12px;\n    padding: 1.5rem;\n\
+    \    box-shadow: 0 4px 20px rgba(0,0,0,0.08);\n    border: 1px solid var(--metric-border-color,"
+- files:
+  - src/core/workflow/testing/helpers/data_model.py
+  - src/core/workflow/testing/helpers/data_model.py
+  lines: 9
+  tokens: 0
+  fragment: ",\n                    }\n                )\n        except Exception\
+    \ as e:  # pragma: no cover - logging\n            result.compatibility_failures\
+    \ += 1\n            result.validation_"
+- files:
+  - src/core/managers/extended/financial/portfolio_manager.py
+  - src/core/managers/extended/financial/portfolio_manager.py
+  lines: 9
+  tokens: 0
+  fragment: "\n            portfolio[\"current_value\"] = portfolio[\"cash_balance\"\
+    ] + sum(\n                asset[\"total_value\"] for asset in portfolio[\"assets\"\
+    ]\n            )\n            \n        "
+- files:
+  - src/core/managers/extended/financial/portfolio_manager.py
+  - src/core/managers/extended/financial/portfolio_manager.py
+  lines: 11
+  tokens: 0
+  fragment: ",\n                \"timestamp\": self.last_activity.isoformat(),\n \
+    \               \"portfolio_id\": portfolio_id\n            }\n            self.transactions[portfolio_id].append(transac"
+- files:
+  - src/core/managers/extended/ai_ml/ai_manager.py
+  - src/core/managers/extended/ai_ml/model_manager.py
+  lines: 10
+  tokens: 0
+  fragment: "\n            \n            # Update metrics\n            self.metrics.total_operations\
+    \ += 1\n            self.metrics.successful_operations += 1\n            \n  \
+    \          # Emit model "
+- files:
+  - src/core/managers/extended/ai_ml/ai_manager.py
+  - src/core/managers/extended/ai_ml/model_manager.py
+  lines: 8
+  tokens: 0
+  fragment: ")\n            return True\n        except Exception as e:\n        \
+    \    logger.error(f\"Error registering model {model_name}: {e}\")\n          \
+    \  self.metrics.failed_operations += 1\n    "
+- files:
+  - src/core/managers/extended/ai_ml/ai_manager.py
+  - src/core/managers/extended/ai_ml/model_manager.py
+  lines: 13
+  tokens: 0
+  fragment: "\n        model = self.models.get(model_name)\n        if model:\n  \
+    \          # Update metrics\n            self.metrics.total_operations += 1\n\
+    \            self.metrics.successful_opera"
+- files:
+  - src/web/templates/pages/components_showcase.html
+  - src/web/templates/pages/components_showcase.html
+  lines: 6
+  tokens: 0
+  fragment: "</code></small>\n                            </div>\n               \
+    \         </div>\n                        <div class=\"col-md-3\">\n         \
+    \                   <div class=\"text-center"
+- files:
+  - src/web/templates/pages/components_showcase.html
+  - src/web/templates/pages/components_showcase.html
+  lines: 8
+  tokens: 0
+  fragment: ">\n                        <div class=\"col-4\">\n                  \
+    \          <div class=\"bg-success text-white p-2 text-center rounded\">col-4</div>\n\
+    \                        </div>\n    "
+- files:
+  - src/web/templates/pages/components_showcase.html
+  - src/web/templates/pages/components_showcase.html
+  lines: 11
+  tokens: 0
+  fragment: ">\n                        <div class=\"col-sm-6 col-lg-3\">\n      \
+    \                      <div class=\"bg-warning text-white p-2 text-center rounded\
+    \ mb-2\">col-sm-6 col-lg-3</div>\n      "
+- files:
+  - src/web/static/js/responsive_framework.js
+  - src/web/static/js/portal/portal_components.js
+  lines: 13
+  tokens: 0
+  fragment: "\n        throttle: function(func, limit) {\n            let inThrottle;\n\
+    \            return function() {\n                const args = arguments;\n  \
+    \              const context = this;"
+- files:
+  - src/web/static/js/responsive_framework.js
+  - src/web/static/js/portal/portal_framework.js
+  lines: 11
+  tokens: 0
+  fragment: "\n        on: function(event, callback) {\n            if (!this.listeners[event])\
+    \ {\n                this.listeners[event] = [];\n            }\n            this.listeners[event].push("
+- files:
+  - src/web/static/js/responsive_framework.js
+  - src/web/static/js/portal/portal_framework.js
+  lines: 9
+  tokens: 0
+  fragment: "\n        off: function(event, callback) {\n            if (this.listeners[event])\
+    \ {\n                const index = this.listeners[event].indexOf(callback);\n\
+    \                if (index "
+- files:
+  - src/services/multimedia/tests/test_video_capture.py
+  - src/services/multimedia/tests/test_video_capture.py
+  lines: 7
+  tokens: 0
+  fragment: "\n        mock_cap = Mock()\n        mock_cap.read.side_effect = [\n\
+    \            (True, np.random.randint(0, 255, (480, 640, 3), dtype=np.uint8))\n\
+    \        ]\n\n        def"
+- files:
+  - src/services/multimedia/tests/test_multimedia_integration.py
+  - src/services/multimedia/tests/test_video_capture.py
+  lines: 12
+  tokens: 0
+  fragment: '
+
+
+    from src.utils.stability_improvements import stability_manager, safe_import
+
+    from unittest.mock import Mock, patch, MagicMock
+
+    from pathlib import Path
+
+    import sys
+
+    import os
+
+
+    # Add '
+- files:
+  - src/services/multimedia/tests/test_multimedia_integration.py
+  - src/services/multimedia/tests/test_video_capture.py
+  lines: 8
+  tokens: 0
+  fragment: "()\n\n    @pytest.fixture\n    def mock_frame(self):\n        \"\"\"\
+    Create a mock video frame for testing\"\"\"\n        return np.random.randint(0,\
+    \ 255, (480, 640, 3), dtype=np.uint8)\n\n    @"
+- files:
+  - src/services/multimedia/tests/test_multimedia_integration.py
+  - src/services/multimedia/tests/test_multimedia_integration.py
+  lines: 7
+  tokens: 0
+  fragment: ",\n            \"type\": \"multimedia\",\n            \"enable_video\"\
+    : True,\n            \"enable_audio\": True,\n            \"video\": {\"device_id\"\
+    : 0},\n            \"audio\": {\"device_id\": 0}"
+- files:
+  - src/services/middleware/components/transformations.py
+  - src/services/middleware/components/validation.py
+  lines: 10
+  tokens: 0
+  fragment: ")\n\n    async def process(\n        self, data_packet: DataPacket, context:\
+    \ Dict[str, Any]\n    ) -> DataPacket:\n        start_time = time.time()\n   \
+    \     success = True\n\n        try:\n"
+- files:
+  - src/services/middleware/components/transformations.py
+  - src/services/middleware/components/validation.py
+  lines: 13
+  tokens: 0
+  fragment: ")\n\n        except Exception as exc:  # noqa: BLE001\n            success\
+    \ = False\n            logger.exception(\"Error in %s for packet %s\", self.name,\
+    \ data_packet.id)\n            dat"
+- files:
+  - src/services/middleware/components/routing.py
+  - src/services/middleware/components/validation.py
+  lines: 12
+  tokens: 0
+  fragment: '
+
+
+    from __future__ import annotations
+
+
+    import time
+
+    from typing import Any, Dict, Optional
+
+
+    from ..base import BaseMiddlewareComponent
+
+    from ..models import DataPacket, MiddlewareType'
+- files:
+  - src/services/middleware/components/routing.py
+  - src/services/middleware/components/validation.py
+  lines: 10
+  tokens: 0
+  fragment: ")\n\n    async def process(\n        self, data_packet: DataPacket, context:\
+    \ Dict[str, Any]\n    ) -> DataPacket:\n        start_time = time.time()\n   \
+    \     success = True\n\n        try:\n"

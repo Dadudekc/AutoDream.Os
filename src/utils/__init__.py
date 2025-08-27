@@ -37,6 +37,7 @@ try:
     from .config_utils_coordinator import ConfigUtilsCoordinator
     from .system_utils_coordinator import SystemUtilsCoordinator
     from .environment_overrides import EnvironmentOverrides
+    from .serializable import SerializableMixin
 
     __all__ = [
         "ConfigLoader",
@@ -53,6 +54,7 @@ try:
         "ConfigUtilsCoordinator",
         "SystemUtilsCoordinator",
         "EnvironmentOverrides",
+        "SerializableMixin",
     ]
 
 except ImportError as e:

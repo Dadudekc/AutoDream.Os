@@ -220,7 +220,7 @@ python run_integration_tests.py
 The integration tests generate:
 
 1. **Console Output**: Real-time test progress and results
-2. **Log File**: `auth_integration_tests.log` with detailed logging
+2. **Log File**: `logs/auth_integration_tests.log` with detailed logging
 3. **Test Report**: JSON report with comprehensive results
 4. **Performance Metrics**: Detailed performance analysis
 

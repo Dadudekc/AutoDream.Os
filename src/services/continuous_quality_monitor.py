@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Callable
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
+from src.services.config_utils import ConfigLoader
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -67,31 +68,6 @@ class ContinuousQualityMonitor:
     def __init__(self, config_path: str = "quality_monitor_config.json"):
         """Initialize continuous quality monitor"""
         self.config_path = config_path
-        self.config = self._load_configuration()
-        self.quality_gates = None
-        self.monitoring_active = False
-        self.monitor_thread = None
-        self.quality_history = []
-        self.alert_history = []
-        self.trend_analysis = {}
-
-        # Initialize V2 services
-        self.enterprise_qa = (
-            EnterpriseQualityAssurance() if EnterpriseQualityAssurance else None
-        )
-        self.integration_monitoring = (
-            V2IntegrationMonitoring() if V2IntegrationMonitoring else None
-        )
-
-        # Initialize quality gates if available
-        if AutomatedQualityGates:
-            self.quality_gates = AutomatedQualityGates()
-
-        # Alert callbacks
-        self.alert_callbacks = []
-
-    def _load_configuration(self) -> Dict:
-        """Load quality monitoring configuration"""
         default_config = {
             "monitoring": {
                 "enabled": True,
@@ -116,19 +92,29 @@ class ContinuousQualityMonitor:
                 "improvement_target": 2.0,
             },
         }
+        self.config = ConfigLoader.load(self.config_path, default_config)
+        self.quality_gates = None
+        self.monitoring_active = False
+        self.monitor_thread = None
+        self.quality_history = []
+        self.alert_history = []
+        self.trend_analysis = {}
 
-        try:
-            if os.path.exists(self.config_path):
-                with open(self.config_path, "r") as f:
-                    return json.load(f)
-            else:
-                # Create default configuration
-                with open(self.config_path, "w") as f:
-                    json.dump(default_config, f, indent=2)
-                return default_config
-        except Exception as e:
-            print(f"Configuration loading error: {e}")
-            return default_config
+        # Initialize V2 services
+        self.enterprise_qa = (
+            EnterpriseQualityAssurance() if EnterpriseQualityAssurance else None
+        )
+        self.integration_monitoring = (
+            V2IntegrationMonitoring() if V2IntegrationMonitoring else None
+        )
+
+        # Initialize quality gates if available
+        if AutomatedQualityGates:
+            self.quality_gates = AutomatedQualityGates()
+
+        # Alert callbacks
+        self.alert_callbacks = []
+
 
     def start_monitoring(self, directory_path: str = None) -> bool:
         """Start continuous quality monitoring"""

@@ -25,8 +25,8 @@ from .decision_manager import DecisionManager, DecisionManagerConfig
 from .decision_types import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
     DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel,
-    DecisionMetrics  # SSOT: Unified decision metrics
 )
+from .decision_metrics import DecisionMetrics  # SSOT: Unified decision metrics
 
 # Factory functions for easy component creation
 def create_decision_core(manager_id: str, name: str = "Decision Core", description: str = "") -> DecisionCore:

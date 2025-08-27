@@ -14,7 +14,7 @@ CONSOLIDATION STATUS:
 - ❌ REMOVED: LearningMode (unified with src/core/learning/)
 - ❌ REMOVED: DataIntegrityLevel (not decision-specific)
 - ✅ Clean decision type definitions
-- ✅ SSOT: Unified DecisionMetrics class
+- ✅ Decision metrics centralized in decision_metrics module
 """
 
 from enum import Enum
@@ -168,104 +168,6 @@ class DecisionWorkflow:
     steps: List[str]
     decision_types: List[DecisionType]
     is_active: bool
-
-
-@dataclass
-class DecisionMetrics:
-    """
-    SSOT: Unified Decision Performance Metrics
-    
-    This class consolidates all decision metrics functionality into a single
-    source of truth, eliminating duplication across the codebase.
-    """
-    metrics_id: str
-    decision_type: DecisionType
-    total_decisions: int = 0
-    successful_decisions: int = 0
-    failed_decisions: int = 0
-    average_confidence: float = 0.0
-    average_execution_time: float = 0.0
-    last_updated: datetime = field(default_factory=datetime.now)
-    
-    # Performance tracking
-    total_execution_time: float = 0.0
-    confidence_history: List[float] = field(default_factory=list)
-    execution_time_history: List[float] = field(default_factory=list)
-    
-    # Alert thresholds
-    success_rate_threshold: float = 0.8
-    execution_time_threshold: float = 5.0
-    confidence_threshold: float = 0.7
-    
-    def update_metrics(self, success: bool, execution_time: float, confidence: float):
-        """Update metrics with new decision result"""
-        self.total_decisions += 1
-        if success:
-            self.successful_decisions += 1
-        else:
-            self.failed_decisions += 1
-            
-        self.total_execution_time += execution_time
-        self.execution_time_history.append(execution_time)
-        self.confidence_history.append(confidence)
-        
-        # Update averages
-        self.average_execution_time = self.total_execution_time / self.total_decisions
-        self.average_confidence = sum(self.confidence_history) / len(self.confidence_history)
-        
-        # Keep history manageable
-        if len(self.execution_time_history) > 1000:
-            self.execution_time_history = self.execution_time_history[-1000:]
-        if len(self.confidence_history) > 1000:
-            self.confidence_history = self.confidence_history[-1000:]
-            
-        self.last_updated = datetime.now()
-    
-    def get_success_rate(self) -> float:
-        """Get current success rate"""
-        if self.total_decisions == 0:
-            return 0.0
-        return self.successful_decisions / self.total_decisions
-    
-    def get_performance_score(self) -> float:
-        """Calculate overall performance score"""
-        success_rate = self.get_success_rate()
-        time_score = max(0.0, 1.0 - (self.average_execution_time / 10.0))
-        confidence_score = self.average_confidence
-        
-        # Weighted combination
-        return (success_rate * 0.4) + (time_score * 0.3) + (confidence_score * 0.3)
-    
-    def check_alerts(self) -> List[str]:
-        """Check for performance alerts"""
-        alerts = []
-        
-        if self.get_success_rate() < self.success_rate_threshold:
-            alerts.append(f"Success rate {self.get_success_rate():.2%} below threshold {self.success_rate_threshold:.2%}")
-            
-        if self.average_execution_time > self.execution_time_threshold:
-            alerts.append(f"Average execution time {self.average_execution_time:.2f}s above threshold {self.execution_time_threshold:.2f}s")
-            
-        if self.average_confidence < self.confidence_threshold:
-            alerts.append(f"Average confidence {self.average_confidence:.2f} below threshold {self.confidence_threshold:.2f}")
-            
-        return alerts
-    
-    def get_summary(self) -> Dict[str, Any]:
-        """Get comprehensive metrics summary"""
-        return {
-            "metrics_id": self.metrics_id,
-            "decision_type": self.decision_type.value,
-            "total_decisions": self.total_decisions,
-            "successful_decisions": self.successful_decisions,
-            "failed_decisions": self.failed_decisions,
-            "success_rate": self.get_success_rate(),
-            "average_execution_time": self.average_execution_time,
-            "average_confidence": self.average_confidence,
-            "performance_score": self.get_performance_score(),
-            "alerts": self.check_alerts(),
-            "last_updated": self.last_updated.isoformat()
-        }
 
 
 @dataclass

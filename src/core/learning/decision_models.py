@@ -150,49 +150,6 @@ class DecisionRule:
         if not self.rule_id:
             self.rule_id = str(uuid.uuid4())
 
-
-@dataclass
-class DecisionMetrics:
-    """Unified decision performance metrics"""
-    metrics_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    decision_type: DecisionType = DecisionType.TASK_ASSIGNMENT
-    total_decisions: int = 0
-    successful_decisions: int = 0
-    failed_decisions: int = 0
-    average_processing_time: float = 0.0
-    confidence_distribution: Dict[str, int] = field(default_factory=dict)
-    last_updated: datetime = field(default_factory=datetime.now)
-    
-    def __post_init__(self):
-        if not self.metrics_id:
-            self.metrics_id = str(uuid.uuid4())
-    
-    def update_metrics(self, success: bool, processing_time: float, confidence: DecisionConfidence):
-        """Update decision metrics"""
-        self.total_decisions += 1
-        if success:
-            self.successful_decisions += 1
-        else:
-            self.failed_decisions += 1
-        
-        # Update average processing time
-        if self.total_decisions > 0:
-            total_time = self.average_processing_time * (self.total_decisions - 1)
-            self.average_processing_time = (total_time + processing_time) / self.total_decisions
-        
-        # Update confidence distribution
-        confidence_key = confidence.value
-        self.confidence_distribution[confidence_key] = self.confidence_distribution.get(confidence_key, 0) + 1
-        
-        self.last_updated = datetime.now()
-    
-    def get_success_rate(self) -> float:
-        """Calculate decision success rate"""
-        if self.total_decisions == 0:
-            return 0.0
-        return (self.successful_decisions / self.total_decisions) * 100.0
-
-
 @dataclass
 class DecisionWorkflow:
     """Unified decision workflow definition"""

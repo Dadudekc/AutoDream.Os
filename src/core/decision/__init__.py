@@ -24,7 +24,8 @@ from .decision_manager import DecisionManager, DecisionManagerConfig
 # Models and types
 from .decision_types import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
-    DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel
+    DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel,
+    DecisionMetrics  # SSOT: Unified decision metrics
 )
 
 # Factory functions for easy component creation
@@ -81,6 +82,7 @@ __all__ = [
     "DecisionStatus",
     "DecisionConfidence",
     "IntelligenceLevel",
+    "DecisionMetrics",
     
     # Factory functions
     "create_decision_core",

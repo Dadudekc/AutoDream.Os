@@ -17,6 +17,7 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
+from src.services.config_utils import ConfigLoader
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -68,24 +69,7 @@ class EnterpriseQualityAssurance:
             "code_quality_threshold": 85.0,
         }
 
-        self._load_configuration()
-
-    def _load_configuration(self) -> None:
-        """Load enterprise QA configuration"""
-        try:
-            if Path(self.config_path).exists():
-                with open(self.config_path, "r") as f:
-                    config = json.load(f)
-                    self.enterprise_standards.update(config.get("standards", {}))
-                    logger.info("Enterprise QA configuration loaded")
-            else:
-                self._create_default_config()
-        except Exception as e:
-            logger.warning(f"Configuration load failed, using defaults: {e}")
-
-    def _create_default_config(self) -> None:
-        """Create default enterprise QA configuration"""
-        config = {
+        default_config = {
             "standards": self.enterprise_standards,
             "metrics": [
                 "loc_compliance",
@@ -101,12 +85,8 @@ class EnterpriseQualityAssurance:
             },
         }
 
-        try:
-            with open(self.config_path, "w") as f:
-                json.dump(config, f, indent=2)
-            logger.info("Default enterprise QA configuration created")
-        except Exception as e:
-            logger.error(f"Failed to create default config: {e}")
+        config = ConfigLoader.load(self.config_path, default_config)
+        self.enterprise_standards.update(config.get("standards", {}))
 
     def register_metric(
         self, name: str, value: float, unit: str, threshold: float

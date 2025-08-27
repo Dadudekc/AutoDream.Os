@@ -18,6 +18,7 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass, asdict
+from src.services.config_utils import ConfigLoader
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -65,23 +66,6 @@ class AutomatedQualityGates:
     def __init__(self, config_path: str = "quality_gates_config.json"):
         """Initialize automated quality gates system"""
         self.config_path = config_path
-        self.config = self._load_configuration()
-        self.quality_gates = self._initialize_quality_gates()
-        self.validation_history = []
-
-        # Initialize V2 services
-        self.enterprise_qa = (
-            EnterpriseQualityAssurance() if EnterpriseQualityAssurance else None
-        )
-        self.integration_monitoring = (
-            V2IntegrationMonitoring() if V2IntegrationMonitoring else None
-        )
-        self.core_coordinator = (
-            CoreCoordinatorService() if CoreCoordinatorService else None
-        )
-
-    def _load_configuration(self) -> Dict:
-        """Load quality gates configuration"""
         default_config = {
             "loc_limits": {"target": 300, "maximum": 350, "critical": 400},
             "quality_thresholds": {
@@ -99,19 +83,21 @@ class AutomatedQualityGates:
                 ],
             },
         }
+        self.config = ConfigLoader.load(self.config_path, default_config)
+        self.quality_gates = self._initialize_quality_gates()
+        self.validation_history = []
 
-        try:
-            if os.path.exists(self.config_path):
-                with open(self.config_path, "r") as f:
-                    return json.load(f)
-            else:
-                # Create default configuration
-                with open(self.config_path, "w") as f:
-                    json.dump(default_config, f, indent=2)
-                return default_config
-        except Exception as e:
-            print(f"Configuration loading error: {e}")
-            return default_config
+        # Initialize V2 services
+        self.enterprise_qa = (
+            EnterpriseQualityAssurance() if EnterpriseQualityAssurance else None
+        )
+        self.integration_monitoring = (
+            V2IntegrationMonitoring() if V2IntegrationMonitoring else None
+        )
+        self.core_coordinator = (
+            CoreCoordinatorService() if CoreCoordinatorService else None
+        )
+
 
     def _initialize_quality_gates(self) -> Dict:
         """Initialize quality gates with validation rules"""

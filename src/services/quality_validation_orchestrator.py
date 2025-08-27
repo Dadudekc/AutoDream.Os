@@ -17,6 +17,7 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
 from typing import Dict, List, Optional, Callable
 from dataclasses import dataclass, asdict
+from src.services.config_utils import ConfigLoader
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -54,22 +55,6 @@ class QualityValidationOrchestrator:
     def __init__(self, config_path: str = "quality_orchestrator_config.json"):
         """Initialize quality validation orchestrator"""
         self.config_path = config_path
-        self.config = self._load_configuration()
-        self.quality_gates = None
-        self.quality_monitor = None
-        self.enterprise_qa = None
-        self.orchestration_active = False
-        self.validation_history = []
-        self.compliance_tracking = {}
-
-        # Initialize quality systems
-        self._initialize_quality_systems()
-
-        # Validation callbacks
-        self.validation_callbacks = []
-
-    def _load_configuration(self) -> Dict:
-        """Load orchestrator configuration"""
         default_config = {
             "orchestration": {
                 "enabled": True,
@@ -94,19 +79,20 @@ class QualityValidationOrchestrator:
                 "documentation": True,
             },
         }
+        self.config = ConfigLoader.load(self.config_path, default_config)
+        self.quality_gates = None
+        self.quality_monitor = None
+        self.enterprise_qa = None
+        self.orchestration_active = False
+        self.validation_history = []
+        self.compliance_tracking = {}
 
-        try:
-            if os.path.exists(self.config_path):
-                with open(self.config_path, "r") as f:
-                    return json.load(f)
-            else:
-                # Create default configuration
-                with open(self.config_path, "w") as f:
-                    json.dump(default_config, f, indent=2)
-                return default_config
-        except Exception as e:
-            print(f"Configuration loading error: {e}")
-            return default_config
+        # Initialize quality systems
+        self._initialize_quality_systems()
+
+        # Validation callbacks
+        self.validation_callbacks = []
+
 
     def _initialize_quality_systems(self):
         """Initialize all quality systems"""

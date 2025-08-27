@@ -19,6 +19,7 @@ from pathlib import Path
 import json
 
 from ..types.api_types import ServiceStatus, ServiceEndpoint
+from src.services.config_utils import ConfigLoader
 
 logger = logging.getLogger(__name__)
 
@@ -51,32 +52,15 @@ class IntegrationFrameworkManager:
         self._stop_monitoring = threading.Event()
         
         # Configuration
-        self._config: Dict[str, Any] = {}
-        
+        self._config: Dict[str, Any] = ConfigLoader.load(self.config_path, {})
+
         # Performance tracking
         self._start_time = time.time()
         self._total_integrations = 0
         self._successful_integrations = 0
         self._failed_integrations = 0
         
-        # Load configuration
-        self._load_configuration()
-        
         self.logger.info("✅ Integration Framework Manager initialized successfully")
-
-    def _load_configuration(self):
-        """Load integration configuration"""
-        try:
-            if self.config_path.exists():
-                with open(self.config_path, "r") as f:
-                    self._config = json.load(f)
-                    self.logger.info(f"Configuration loaded from {self.config_path}")
-            else:
-                self.logger.warning(f"Configuration file not found: {self.config_path}")
-                self._config = {}
-        except Exception as e:
-            self.logger.error(f"Failed to load configuration: {e}")
-            self._config = {}
 
     def register_service(
         self,

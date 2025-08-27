@@ -13,6 +13,7 @@ import logging
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 from datetime import datetime
+from src.services.config_utils import ConfigLoader
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from .base_manager import BaseManager, ManagerStatus, ManagerPriority
@@ -40,7 +41,12 @@ class CoreManager(BaseManager):
         )
         
         self.config_path = Path(config_path)
-        self.config = self._load_configuration()
+        self.config = {
+            "modes": ConfigLoader.load(self.config_path / "modes_runtime.json", {}),
+            "coordinates": ConfigLoader.load(
+                self.config_path / "cursor_agent_coords.json", {}
+            ),
+        }
         self.components = {}
         
         # Core management tracking
@@ -143,7 +149,14 @@ class CoreManager(BaseManager):
             self.logger.info(f"Attempting recovery for {context}")
             
             # Reload configuration
-            self.config = self._load_configuration()
+            self.config = {
+                "modes": ConfigLoader.load(
+                    self.config_path / "modes_runtime.json", {}
+                ),
+                "coordinates": ConfigLoader.load(
+                    self.config_path / "cursor_agent_coords.json", {}
+                ),
+            }
             
             # Reset tracking
             self.component_registrations.clear()
@@ -166,56 +179,6 @@ class CoreManager(BaseManager):
     # Core Management Methods
     # ============================================================================
     
-    def _load_configuration(self) -> Dict:
-        """Load system configuration from config files."""
-        try:
-            start_time = datetime.now()
-            
-            config = {}
-
-            # Load runtime modes
-            modes_file = self.config_path / "modes_runtime.json"
-            if modes_file.exists():
-                with open(modes_file, "r") as f:
-                    config["modes"] = json.load(f)
-                    self.logger.info("Runtime modes configuration loaded")
-
-            # Load agent coordinates
-            coords_file = self.config_path / "cursor_agent_coords.json"
-            if coords_file.exists():
-                with open(coords_file, "r") as f:
-                    config["coordinates"] = json.load(f)
-                    self.logger.info("Agent coordinates configuration loaded")
-            
-            # Record configuration operation
-            operation_record = {
-                "timestamp": datetime.now().isoformat(),
-                "operation": "load_configuration",
-                "config_keys": list(config.keys()),
-                "success": True
-            }
-            self.configuration_operations.append(operation_record)
-            
-            # Record operation
-            operation_time = (datetime.now() - start_time).total_seconds()
-            self.record_operation("load_configuration", True, operation_time)
-
-        except Exception as e:
-            self.logger.error(f"Configuration loading failed: {e}")
-            config = {}
-            
-            # Record failed operation
-            operation_record = {
-                "timestamp": datetime.now().isoformat(),
-                "operation": "load_configuration",
-                "error": str(e),
-                "success": False
-            }
-            self.configuration_operations.append(operation_record)
-            
-            self.record_operation("load_configuration", False, 0.0)
-
-        return config
 
     def initialize_system(self) -> bool:
         """Initialize the core system."""

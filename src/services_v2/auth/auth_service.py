@@ -13,8 +13,11 @@ import logging
 import hashlib
 import secrets
 import hmac
-from services_v2.auth.session_store import SessionStore
-from services_v2.auth.session_manager import SessionManager
+from src.session_management.backends import (
+    MemorySessionBackend,
+    SQLiteSessionBackend,
+)
+from src.session_management.session_manager import SessionManager
 
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
@@ -81,15 +84,18 @@ class AuthService:
         self.config = config or self._default_config()
 
         # Session backend setup
-        self.session_store = SessionStore(
-            backend=self.config.get("session_backend", "memory"),
-            db_path=self.config.get("session_db_path", "auth_sessions.db"),
-            logger=self.logger,
-        )
+        backend_name = self.config.get("session_backend", "memory")
+        if backend_name == "sqlite":
+            backend = SQLiteSessionBackend(
+                self.config.get("session_db_path", "auth_sessions.db"),
+                self.logger,
+            )
+        else:
+            backend = MemorySessionBackend()
         self.session_manager = SessionManager(
-            self.session_store,
+            backend,
             self.config["session_timeout"],
-            self.config["security_level"],
+            self.logger,
         )
 
         # Initialize core components
@@ -202,8 +208,15 @@ class AuthService:
                     self.successful_auths += 1
 
                     # Enhanced session management
-                    session_data = self.session_manager.create_session(
-                        username, source_ip, user_agent
+                    session = self.session_manager.create_session(
+                        username,
+                        source_ip,
+                        user_agent,
+                        metadata={
+                            "v2_features": True,
+                            "security_level": self.config["security_level"],
+                            "session_type": "enhanced",
+                        },
                     )
 
                     # Permission determination
@@ -223,10 +236,12 @@ class AuthService:
                     return V2AuthResult(
                         status=AuthStatus.SUCCESS,
                         user_id=username,
-                        session_id=session_data["session_id"],
+                        session_id=session.session_id,
                         permissions=permissions,
-                        expires_at=session_data["expires_at"],
-                        metadata=session_data["metadata"],
+                        expires_at=datetime.fromtimestamp(session.expires_at)
+                        if session.expires_at
+                        else None,
+                        metadata=session.metadata,
                         performance_metrics={"auth_duration": auth_duration},
                         security_events=security_events,
                     )

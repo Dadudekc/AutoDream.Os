@@ -20,7 +20,7 @@ from .authentication_manager import (
     AuthenticationManager,
     RoleBasedAccessControl,
 )
-from .session_manager import SessionManager
+from src.session_management.session_manager import SessionManager
 from .models import User, UserSession
 from .encryption import EncryptionManager
 

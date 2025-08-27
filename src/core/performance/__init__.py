@@ -21,6 +21,7 @@ from .monitoring.performance_monitor import (
     MonitorSnapshot,
     PerformanceLevel
 )
+from .metrics.collector import MetricsCollector
 
 from .performance_core import (
     PerformanceLevel as CorePerformanceLevel,
@@ -90,7 +91,8 @@ def get_performance_monitor(*args, **kwargs):
 def get_metrics_collector(*args, **kwargs):
     """SSOT: Get unified metrics collector"""
     _deprecation_warning(
-        "src.services.performance_monitor.MetricsCollector", 
-        "src.core.performance.monitoring.performance_monitor.PerformanceMonitor"
+        "src.services.performance_monitor.MetricsCollector",
+        "src.core.performance.metrics.collector.MetricsCollector"
     )
-    return PerformanceMonitor(*args, **kwargs)
+    return MetricsCollector(*args, **kwargs)
+

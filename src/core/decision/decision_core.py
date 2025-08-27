@@ -17,10 +17,10 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority, ManagerMetrics, ManagerConfig
-from .decision_models import (
+from .decision_types import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
-    DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
-    DecisionRule, DecisionMetrics, DecisionWorkflow
+    DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel,
+    DecisionAlgorithm
 )
 from .decision_algorithms import DecisionAlgorithmExecutor
 from .decision_workflows import DecisionWorkflowExecutor
@@ -291,10 +291,10 @@ class DecisionCore(BaseManager):
         """Calculate confidence level for a decision"""
         try:
             # Base confidence from algorithm
-            base_confidence = algorithm.parameters.get("confidence_threshold", 0.7)
+            base_confidence = algorithm.confidence_threshold
             
             # Adjust based on context
-            if context and context.risk_factors:
+            if context and hasattr(context, 'risk_factors') and context.risk_factors:
                 risk_factor = len(context.risk_factors) * 0.1
                 base_confidence = max(0.1, base_confidence - risk_factor)
             
@@ -304,7 +304,7 @@ class DecisionCore(BaseManager):
             
             # Convert to DecisionConfidence enum
             if base_confidence >= 0.9:
-                return DecisionConfidence.VERY_HIGH
+                return DecisionConfidence.HIGH
             elif base_confidence >= 0.7:
                 return DecisionConfidence.HIGH
             elif base_confidence >= 0.5:
@@ -312,7 +312,7 @@ class DecisionCore(BaseManager):
             elif base_confidence >= 0.3:
                 return DecisionConfidence.LOW
             else:
-                return DecisionConfidence.VERY_LOW
+                return DecisionConfidence.LOW
                 
         except Exception as e:
             self.logger.error(f"Error calculating decision confidence: {e}")

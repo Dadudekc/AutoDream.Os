@@ -3,11 +3,23 @@ from typing import Any, Dict, Optional
 
 import json
 
-import aiohttp
+try:  # optional dependency
+    import aiohttp
+    from aiohttp import ClientSession
+except Exception:  # pragma: no cover - falls back to dummy implementations
+    aiohttp = None
+    ClientSession = None
+
 import ssl
-import certifi
-import websockets
-from aiohttp import ClientSession
+try:  # optional dependency
+    import certifi
+except Exception:  # pragma: no cover
+    certifi = None
+
+try:  # optional dependency
+    import websockets
+except Exception:  # pragma: no cover
+    websockets = None
 
 from .channels import Channel
 from ...services.messaging.models.v2_message import V2Message
@@ -20,6 +32,8 @@ class HTTPAdapter:
         self.session: Optional[ClientSession] = None
 
     async def send(self, channel: Channel, message: V2Message) -> bool:
+        if aiohttp is None:
+            return False
         try:
             if self.session is None:
                 self.session = aiohttp.ClientSession()
@@ -42,8 +56,13 @@ class HTTPSAdapter(HTTPAdapter):
     """Adapter for sending HTTPS messages with SSL."""
 
     async def send(self, channel: Channel, message: V2Message) -> bool:
+        if aiohttp is None:
+            return False
         if self.session is None:
-            ssl_context = ssl.create_default_context(cafile=certifi.where())
+            if certifi is not None:
+                ssl_context = ssl.create_default_context(cafile=certifi.where())
+            else:  # pragma: no cover - fallback without certifi
+                ssl_context = ssl.create_default_context()
             connector = aiohttp.TCPConnector(ssl=ssl_context)
             self.session = aiohttp.ClientSession(connector=connector)
         return await super().send(channel, message)
@@ -56,6 +75,8 @@ class WebSocketAdapter:
         self.connections: Dict[str, Any] = {}
 
     async def connect(self, channel: Channel) -> None:
+        if websockets is None:
+            return
         websocket = await websockets.connect(
             channel.url,
             extra_headers=channel.config.get("headers", {}),
@@ -66,7 +87,7 @@ class WebSocketAdapter:
 
     async def send(self, channel_id: str, data: Any) -> bool:
         websocket = self.connections.get(channel_id)
-        if not websocket:
+        if not websocket or websockets is None:
             return False
         try:
             if isinstance(data, (dict, list)):

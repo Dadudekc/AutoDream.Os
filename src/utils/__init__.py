@@ -24,7 +24,7 @@ try:
     from .config_loader import ConfigLoader
     from .logging_setup import LoggingSetup
     from .system_info import SystemInfo
-    from .performance_monitor import PerformanceMonitor
+    from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
     from .dependency_checker import DependencyChecker
     from .cli_utils import CLIUtils
     from .file_utils import FileUtils

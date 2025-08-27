@@ -16,10 +16,12 @@ License: MIT
 # SSOT: Single source of truth for all performance monitoring classes
 from .monitoring.performance_monitor import (
     PerformanceMonitor,
+    PerformanceLevel,
+)
+from .monitoring.performance_types import (
     MetricType,
     MonitorMetric,
     MonitorSnapshot,
-    PerformanceLevel
 )
 
 from .performance_core import (

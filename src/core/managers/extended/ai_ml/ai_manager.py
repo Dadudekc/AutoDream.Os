@@ -258,3 +258,4 @@ class ExtendedAIManager(BaseManager):
         
         return (len(successful_workflows) / len(completed_workflows)) * 100.0
 
+

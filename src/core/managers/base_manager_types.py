@@ -68,3 +68,4 @@ class ManagerConfig:
     config_file: Optional[str] = None
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
+

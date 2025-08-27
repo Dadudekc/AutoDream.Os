@@ -573,3 +573,4 @@ class ExtendedRiskManager(BaseManager):
             "last_activity": self.last_activity.isoformat() if self.last_activity else None
         }
 
+

@@ -296,3 +296,4 @@ class ExtendedPortfolioManager(BaseManager):
         base_status.update(portfolio_status)
         return base_status
 
+

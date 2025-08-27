@@ -193,7 +193,7 @@ class ManagerOrchestrator:
         self,
         manager_name: str,
         manager_class_name: str,
-        priority: ManagerPriority = ManagerPriority.MEDIUM,
+                    priority: ManagerPriority = ManagerPriority.NORMAL,
         dependencies: List[str] = None,
         config_path: Optional[str] = None
     ) -> None:

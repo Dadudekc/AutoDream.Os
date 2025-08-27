@@ -79,3 +79,4 @@ class BaseManagerUtils:
         # Remove sensitive information and limit length
         sanitized = error_message[:200]  # Limit length
         return sanitized.replace("password", "***").replace("token", "***")
+

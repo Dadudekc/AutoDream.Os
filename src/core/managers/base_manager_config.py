@@ -127,3 +127,4 @@ class BaseManagerConfiguration:
             "created_at": self.config.created_at.isoformat(),
             "updated_at": self.config.updated_at.isoformat()
         }
+

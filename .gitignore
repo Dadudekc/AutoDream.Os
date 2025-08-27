@@ -296,3 +296,6 @@ compliance.db
 health_reports/
 health_charts/
 reporting_archive/
+
+# Audit heavy artifacts (keep diffs slim)
+reports/metrics/

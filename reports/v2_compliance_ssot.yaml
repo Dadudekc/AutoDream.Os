@@ -1,0 +1,61 @@
+violations:
+- file: simple_discord.py
+  violation: High cyclomatic complexity
+  detail: main C=12
+  fix: Extract smaller pure functions
+- file: tests/test_cursor_capture.py
+  violation: High cyclomatic complexity
+  detail: test_database_manager C=12
+  fix: Extract smaller pure functions
+- file: tests/test_cursor_capture.py
+  violation: High cyclomatic complexity
+  detail: test_v2_integration C=12
+  fix: Extract smaller pure functions
+- file: tests/test_cursor_capture.py
+  violation: High cyclomatic complexity
+  detail: test_message_normalizer C=11
+  fix: Extract smaller pure functions
+- file: tests/test_agent1_message.py
+  violation: High cyclomatic complexity
+  detail: send_test_message_to_agent1 C=12
+  fix: Extract smaller pure functions
+- file: tests/test_unified_message_system.py
+  violation: High cyclomatic complexity
+  detail: test_enum_values C=15
+  fix: Extract smaller pure functions
+- file: tests/test_unified_message_system.py
+  violation: High cyclomatic complexity
+  detail: test_serialization C=14
+  fix: Extract smaller pure functions
+- file: tests/test_unified_message_system.py
+  violation: High cyclomatic complexity
+  detail: test_utility_methods C=11
+  fix: Extract smaller pure functions
+- file: tests/test_autonomous_development_reporting.py
+  violation: High cyclomatic complexity
+  detail: test_format_cycle_summary C=11
+  fix: Extract smaller pure functions
+- file: tests/test_performance_execution.py
+  violation: High cyclomatic complexity
+  detail: test_dashboard_frontend_standalone C=13
+  fix: Extract smaller pure functions
+- file: README.md
+  violation: Pylint syntax-error
+  line: 76
+  fix: Fix or disable with rationale
+- file: src/services_v2/auth/README.md
+  violation: Pylint syntax-error
+  line: 11
+  fix: Fix or disable with rationale
+- file: config/development/coverage.ini
+  violation: Pylint syntax-error
+  line: 3
+  fix: Fix or disable with rationale
+- file: config/development/pytest.ini
+  violation: Pylint syntax-error
+  line: 1
+  fix: Fix or disable with rationale
+- file: gaming_systems/osrs/README.md
+  violation: Pylint syntax-error
+  line: 3
+  fix: Fix or disable with rationale

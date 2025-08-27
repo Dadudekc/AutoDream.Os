@@ -13,11 +13,10 @@ This module provides enterprise-grade task management capabilities including:
 CONSOLIDATED FROM 6 FRAGMENTED FILES INTO UNIFIED SYSTEM
 """
 
-from .unified_task_scheduler import (
+from .unified_scheduler import (
     # Main scheduler class
     UnifiedTaskScheduler,
     TaskScheduler,
-    
     # Task types and enums
     Task,
     TaskPriority,
@@ -28,10 +27,8 @@ from .unified_task_scheduler import (
     TaskResource,
     TaskConstraint,
     TaskMetadata,
-    
     # Metrics
     SchedulingMetrics,
-    
     # Backward compatibility aliases
     TaskSchedulerConfig,
     TaskSchedulerManager,
@@ -43,7 +40,6 @@ __all__ = [
     # Main scheduler class
     "UnifiedTaskScheduler",
     "TaskScheduler",
-    
     # Task types and enums
     "Task",
     "TaskPriority",
@@ -54,10 +50,8 @@ __all__ = [
     "TaskResource",
     "TaskConstraint",
     "TaskMetadata",
-    
     # Metrics
     "SchedulingMetrics",
-    
     # Backward compatibility
     "TaskSchedulerConfig",
     "TaskSchedulerManager",

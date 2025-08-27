@@ -7,7 +7,11 @@ from typing import Callable, Dict, List
 
 import psutil
 
-from .performance_monitor import MetricsCollector, MetricData, MetricType
+from src.core.performance.metrics.collector import (
+    MetricsCollector,
+    MetricData,
+    MetricType,
+)
 from .metrics_collector_config import CollectorConfig
 
 

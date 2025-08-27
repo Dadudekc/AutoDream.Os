@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Dict, List
 
-from .performance_monitor import MetricData
+from src.core.performance.metrics.collector import MetricData
 
 
 class MetricsStorage:

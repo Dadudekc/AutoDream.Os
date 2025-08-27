@@ -3,68 +3,44 @@
 Performance Metrics Collector - V2 Core Performance System
 ==========================================================
 
-Handles collection and processing of performance metrics.
-Follows Single Responsibility Principle - metrics collection only.
+Handles collection and processing of performance metrics and provides
+a lightweight base interface for additional metrics collectors used by
+services.
 """
 
 import time
-import uuid
 import logging
 import statistics
 from datetime import datetime
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
-from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from src.utils.stability_improvements import stability_manager, safe_import
-
-
-class BenchmarkType(Enum):
-    """Performance benchmark types"""
-    RESPONSE_TIME = "response_time"
-    THROUGHPUT = "throughput"
-    SCALABILITY = "scalability"
-    RELIABILITY = "reliability"
-    RESOURCE_UTILIZATION = "resource_utilization"
-    LATENCY = "latency"
-
-
-class PerformanceLevel(Enum):
-    """Performance level classifications"""
-    ENTERPRISE_READY = "enterprise_ready"
-    PRODUCTION_READY = "production_ready"
-    DEVELOPMENT_READY = "development_ready"
-    NOT_READY = "not_ready"
-
-
-@dataclass
-class PerformanceBenchmark:
-    """Performance benchmark result"""
-    benchmark_id: str
-    benchmark_type: BenchmarkType
-    test_name: str
-    start_time: str
-    end_time: str
-    duration: float
-    metrics: Dict[str, float]
-    target_metrics: Dict[str, float]
-    performance_level: PerformanceLevel
-    optimization_recommendations: List[str]
+from .types import MetricData, MetricType
+from .benchmarks import (
+    BenchmarkManager,
+    BenchmarkType,
+    PerformanceBenchmark,
+    PerformanceLevel,
+)
 
 
 class MetricsCollector:
     """
-    Performance metrics collection and processing system
-    
-    Responsibilities:
-    - Collect performance metrics from various benchmarks
-    - Process and aggregate metric data
-    - Calculate performance statistics
-    - Store benchmark results
+    Performance metrics collection and processing system.
+
+    This class serves as the single source of truth for metrics collection
+    across the project. It provides benchmarking helpers as well as the
+    minimal interface expected by service-level collectors.
     """
-    
-    def __init__(self):
-        self.benchmarks: Dict[str, PerformanceBenchmark] = {}
+
+    def __init__(self, collection_interval: int = 60):
+        # Basic collector configuration used by service collectors
+        self.collection_interval = collection_interval
+        self.enabled = True
+        self.running = False
+        self.performance_monitor = None
+
+        # Benchmark storage
+        self.benchmarks = BenchmarkManager()
         self.benchmark_targets = {
             BenchmarkType.RESPONSE_TIME: {"target": 100, "unit": "ms"},
             BenchmarkType.THROUGHPUT: {"target": 1000, "unit": "ops/sec"},
@@ -73,6 +49,22 @@ class MetricsCollector:
             BenchmarkType.LATENCY: {"target": 50, "unit": "ms"},
         }
         self.logger = logging.getLogger(f"{__name__}.MetricsCollector")
+
+    async def collect_metrics(self) -> List[MetricData]:
+        """Collect metrics and return a list of MetricData objects.
+
+        Subclasses should override this method. The default implementation
+        raises ``NotImplementedError`` to maintain backwards compatibility with
+        previous abstract base class behaviour.
+        """
+        raise NotImplementedError("collect_metrics must be implemented by subclasses")
+
+    def set_enabled(self, enabled: bool) -> None:
+        """Enable or disable this collector."""
+        self.enabled = enabled
+        self.logger.info(
+            "Metrics collector %s", "enabled" if enabled else "disabled"
+        )
     
     def collect_response_time_metrics(self, response_times: List[float]) -> Dict[str, float]:
         """Collect and process response time metrics"""
@@ -126,7 +118,9 @@ class MetricsCollector:
                 return {}
             
             # Calculate scalability score based on performance degradation
-            scalability_score = self._calculate_scalability_score(scalability_results)
+            scalability_score = self.benchmarks.calculate_scalability_score(
+                scalability_results
+            )
             
             max_ops_per_sec = max(
                 result.get("operations_per_second", 0) for result in scalability_results
@@ -141,7 +135,9 @@ class MetricsCollector:
                 "max_operations_per_second": max_ops_per_sec,
                 "average_operations_per_second": avg_ops_per_sec,
                 "concurrent_agent_tests": len(scalability_results),
-                "performance_degradation": self._calculate_performance_degradation(scalability_results),
+                "performance_degradation": self.benchmarks.calculate_performance_degradation(
+                    scalability_results
+                ),
             }
             
             self.logger.debug(f"Collected scalability metrics: {metrics}")
@@ -204,148 +200,38 @@ class MetricsCollector:
             self.logger.error(f"Failed to collect latency metrics: {e}")
             return {}
     
+    # Benchmark management wrappers -------------------------------------
     def store_benchmark(self, benchmark: PerformanceBenchmark) -> bool:
-        """Store a benchmark result"""
-        try:
-            self.benchmarks[benchmark.benchmark_id] = benchmark
-            self.logger.info(f"Stored benchmark: {benchmark.benchmark_id}")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to store benchmark: {e}")
-            return False
-    
+        return self.benchmarks.store(benchmark)
+
     def get_benchmark(self, benchmark_id: str) -> Optional[PerformanceBenchmark]:
-        """Retrieve a specific benchmark"""
         return self.benchmarks.get(benchmark_id)
-    
+
     def get_all_benchmarks(self) -> Dict[str, PerformanceBenchmark]:
-        """Get all stored benchmarks"""
-        return self.benchmarks.copy()
-    
-    def get_benchmarks_by_type(self, benchmark_type: BenchmarkType) -> List[PerformanceBenchmark]:
-        """Get benchmarks filtered by type"""
-        return [
-            benchmark for benchmark in self.benchmarks.values()
-            if benchmark.benchmark_type == benchmark_type
-        ]
-    
-    def calculate_aggregate_metrics(self, benchmarks: List[PerformanceBenchmark]) -> Dict[str, Any]:
-        """Calculate aggregate metrics across multiple benchmarks"""
-        try:
-            if not benchmarks:
-                return {}
-            
-            # Group by benchmark type
-            by_type = {}
-            for benchmark in benchmarks:
-                if benchmark.benchmark_type not in by_type:
-                    by_type[benchmark.benchmark_type] = []
-                by_type[benchmark.benchmark_type].append(benchmark)
-            
-            aggregate = {}
-            for benchmark_type, type_benchmarks in by_type.items():
-                type_metrics = []
-                for benchmark in type_benchmarks:
-                    type_metrics.extend(benchmark.metrics.values())
-                
-                if type_metrics:
-                    aggregate[benchmark_type.value] = {
-                        "count": len(type_benchmarks),
-                        "average": statistics.mean(type_metrics),
-                        "min": min(type_metrics),
-                        "max": max(type_metrics),
-                        "std_dev": statistics.stdev(type_metrics) if len(type_metrics) > 1 else 0,
-                    }
-            
-            return aggregate
-            
-        except Exception as e:
-            self.logger.error(f"Failed to calculate aggregate metrics: {e}")
-            return {}
-    
-    def _calculate_scalability_score(self, scalability_results: List[Dict[str, Any]]) -> float:
-        """Calculate scalability score based on performance degradation"""
-        try:
-            if len(scalability_results) < 2:
-                return 100.0  # Perfect score if only one data point
-            
-            # Sort by concurrent agents
-            sorted_results = sorted(scalability_results, key=lambda x: x.get("concurrent_agents", 0))
-            
-            # Calculate performance degradation
-            baseline_ops = sorted_results[0].get("operations_per_second", 1)
-            final_ops = sorted_results[-1].get("operations_per_second", 1)
-            
-            if baseline_ops == 0:
-                return 0.0
-            
-            # Ideal scaling would maintain ops/sec per agent
-            baseline_agents = sorted_results[0].get("concurrent_agents", 1)
-            final_agents = sorted_results[-1].get("concurrent_agents", 1)
-            
-            expected_ops = baseline_ops * (final_agents / baseline_agents)
-            actual_efficiency = (final_ops / expected_ops) * 100 if expected_ops > 0 else 0
-            
-            return min(100.0, max(0.0, actual_efficiency))
-            
-        except Exception as e:
-            self.logger.error(f"Failed to calculate scalability score: {e}")
-            return 0.0
-    
-    def _calculate_performance_degradation(self, scalability_results: List[Dict[str, Any]]) -> float:
-        """Calculate performance degradation percentage"""
-        try:
-            if len(scalability_results) < 2:
-                return 0.0
-            
-            sorted_results = sorted(scalability_results, key=lambda x: x.get("concurrent_agents", 0))
-            
-            baseline_ops = sorted_results[0].get("operations_per_second", 1)
-            final_ops = sorted_results[-1].get("operations_per_second", 1)
-            
-            if baseline_ops == 0:
-                return 100.0
-            
-            degradation = ((baseline_ops - final_ops) / baseline_ops) * 100
-            return max(0.0, degradation)
-            
-        except Exception as e:
-            self.logger.error(f"Failed to calculate performance degradation: {e}")
-            return 0.0
-    
+        return self.benchmarks.all()
+
+    def get_benchmarks_by_type(
+        self, benchmark_type: BenchmarkType
+    ) -> List[PerformanceBenchmark]:
+        return self.benchmarks.by_type(benchmark_type)
+
+    def calculate_aggregate_metrics(
+        self, benchmarks: List[PerformanceBenchmark]
+    ) -> Dict[str, Any]:
+        return self.benchmarks.calculate_aggregate_metrics(benchmarks)
+
     def clear_benchmarks(self) -> None:
-        """Clear all stored benchmarks"""
         self.benchmarks.clear()
-        self.logger.info("Cleared all benchmarks")
-    
+
     def get_benchmark_summary(self) -> Dict[str, Any]:
-        """Get summary of all benchmarks"""
-        try:
-            total_benchmarks = len(self.benchmarks)
-            
-            if total_benchmarks == 0:
-                return {"total_benchmarks": 0}
-            
-            # Count by type
-            type_counts = {}
-            performance_levels = {}
-            
-            for benchmark in self.benchmarks.values():
-                benchmark_type = benchmark.benchmark_type.value
-                type_counts[benchmark_type] = type_counts.get(benchmark_type, 0) + 1
-                
-                level = benchmark.performance_level.value
-                performance_levels[level] = performance_levels.get(level, 0) + 1
-            
-            return {
-                "total_benchmarks": total_benchmarks,
-                "benchmarks_by_type": type_counts,
-                "performance_levels": performance_levels,
-                "latest_benchmark": max(self.benchmarks.values(), 
-                                      key=lambda x: x.start_time).benchmark_id if self.benchmarks else None,
-            }
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get benchmark summary: {e}")
-            return {"error": str(e)}
+        return self.benchmarks.summary()
+
+
+__all__ = [
+    "MetricsCollector",
+    "MetricData",
+    "MetricType",
+    "BenchmarkType",
+    "PerformanceBenchmark",
+    "PerformanceLevel",
+]

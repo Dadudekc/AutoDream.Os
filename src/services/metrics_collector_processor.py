@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Callable, Iterable, List
 
-from .performance_monitor import MetricData, MetricType
+from src.core.performance.metrics.collector import MetricData, MetricType
 
 
 class MetricsProcessor:

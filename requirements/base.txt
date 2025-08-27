@@ -24,3 +24,4 @@ pathlib2>=2.3.0
 
 # Security
 PyJWT>=2.9.0
+cryptography>=41.0.0

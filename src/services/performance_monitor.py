@@ -9,7 +9,6 @@ import logging
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union, Callable
@@ -18,19 +17,12 @@ import uuid
 from datetime import datetime, timedelta
 import threading
 
+# Consolidated metrics definitions
+from src.core.performance.metrics.collector import MetricData, MetricType
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-class MetricType(Enum):
-    """Types of metrics that can be collected."""
-
-    GAUGE = "gauge"  # Current value (e.g., CPU usage)
-    COUNTER = "counter"  # Incrementing value (e.g., request count)
-    HISTOGRAM = "histogram"  # Distribution of values
-    TIMER = "timer"  # Timing measurements
-    SET = "set"  # Unique values count
 
 
 class AlertSeverity(Enum):
@@ -51,19 +43,6 @@ class AlertCondition(Enum):
     NOT_EQUALS = "not_equals"
     GREATER_THAN_OR_EQUAL = "greater_than_or_equal"
     LESS_THAN_OR_EQUAL = "less_than_or_equal"
-
-
-@dataclass
-class MetricData:
-    """Individual metric data point."""
-
-    metric_name: str
-    metric_type: MetricType
-    value: Union[float, int]
-    timestamp: float
-    tags: Dict[str, str] = field(default_factory=dict)
-    unit: str = ""
-    description: str = ""
 
 
 @dataclass
@@ -489,39 +468,13 @@ class PerformanceMonitor:
         }
 
 
-# Base class for metrics collectors (will be used by metrics_collector.py)
-class MetricsCollector(ABC):
-    """Abstract base class for metrics collectors."""
-
-    def __init__(self, collection_interval: int = 60):
-        self.collection_interval = collection_interval
-        self.enabled = True
-        self.running = False
-        self.performance_monitor: Optional[PerformanceMonitor] = None
-
-    @abstractmethod
-    async def collect_metrics(self) -> List[MetricData]:
-        """Collect metrics and return list of MetricData objects."""
-        raise NotImplementedError
-
-    def set_enabled(self, enabled: bool):
-        """Enable or disable this collector."""
-        self.enabled = enabled
-        logger.info(
-            f"Metrics collector {self.__class__.__name__} {'enabled' if enabled else 'disabled'}"
-        )
-
-
 # Export all classes for use in other modules
 __all__ = [
-    "MetricType",
     "AlertSeverity",
     "AlertCondition",
-    "MetricData",
     "MetricSeries",
     "AlertRule",
     "PerformanceAlert",
     "MetricsStorage",
     "PerformanceMonitor",
-    "MetricsCollector",
 ]

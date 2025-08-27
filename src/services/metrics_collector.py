@@ -5,7 +5,7 @@ from .metrics_collector_config import CollectorConfig
 from .metrics_collector_core import BaseCollector, SystemMetricsCollector, ApplicationMetricsCollector, NetworkMetricsCollector, CustomMetricsCollector
 from .metrics_collector_processor import MetricsProcessor
 from .metrics_collector_storage import MetricsStorage
-from .performance_monitor import MetricData, MetricType
+from src.core.performance.metrics.collector import MetricData, MetricType
 class MetricsCollectorOrchestrator:
     """Coordinate collectors, processor, and storage."""
     def __init__(self, collectors: Iterable[BaseCollector] | None=None, config: CollectorConfig | None=None) -> None:

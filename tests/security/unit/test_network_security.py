@@ -10,7 +10,8 @@ import unittest.mock as mock
 from src.utils.stability_improvements import stability_manager, safe_import
 from src.security.network_security import NetworkScanner, VulnerabilityAssessor, AnomalyDetector, ThreatIntelligence, IncidentResponse, SecurityEvent
 from src.security.authentication_manager import AuthenticationManager, RoleBasedAccessControl
-from src.security.session_manager import SessionManager
+from src.session_management.session_manager import SessionManager
+from src.session_management.backends import MemorySessionBackend
 from src.security.compliance_audit import ComplianceReporter
 from unittest.mock import MagicMock, patch
 import ipaddress
@@ -198,7 +199,7 @@ class TestAccessControl:
     @pytest.mark.access_control
     def test_session_management(self):
         """Test session validation and management"""
-        session_mgr = SessionManager()
+        session_mgr = SessionManager(MemorySessionBackend())
         
         # Test session validation (returns None for non-existent session)
         session = session_mgr.validate_session("non_existent_session")

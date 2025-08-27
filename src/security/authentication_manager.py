@@ -5,8 +5,9 @@ import time
 from datetime import datetime, timedelta
 from typing import Dict, Optional, Any
 
-from .models import User, UserSession
-from .session_manager import SessionManager
+from .models import User
+from src.session_management.session_manager import SessionManager
+from src.session_management.backends import SessionData, SQLiteSessionBackend
 from ..core.base_manager import BaseManager
 
 
@@ -23,7 +24,11 @@ class AuthenticationManager(BaseManager):
         self.max_failed_attempts = 5
         self.lockout_duration = 900  # 15 minutes
         self.session_timeout = 3600  # 1 hour
-        self.session_manager = SessionManager(db_file, self.session_timeout)
+        self.session_manager = SessionManager(
+            SQLiteSessionBackend(db_file, self.logger),
+            self.session_timeout,
+            self.logger,
+        )
         self.failed_login_attempts: Dict[str, int] = {}
         self.locked_accounts: Dict[str, str] = {}
         self.logger.info("Authentication Manager initialized")
@@ -98,16 +103,18 @@ class AuthenticationManager(BaseManager):
                 return None
 
             self._reset_failed_attempts(username)
-            session_id = self.session_manager.create_session(user.user_id, ip_address, user_agent)
+            session = self.session_manager.create_session(
+                user.user_id, ip_address, user_agent
+            )
             self._update_last_login(user.user_id)
             self.record_operation("authenticate_user", True, 0.0)
-            return session_id
+            return session.session_id
         except Exception as e:
             self.logger.error(f"Authentication failed for {username}: {e}")
             self.record_operation("authenticate_user", False, 0.0)
             return None
 
-    def validate_session(self, session_id: str) -> Optional[UserSession]:
+    def validate_session(self, session_id: str) -> Optional[SessionData]:
         session = self.session_manager.validate_session(session_id)
         self.record_operation("validate_session", session is not None, 0.0)
         return session

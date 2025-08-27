@@ -10,9 +10,9 @@ The V2 Authentication Module provides enterprise-grade authentication and author
 services_v2/auth/
 ├── __init__.py                         # Module initialization and exports
 ├── auth_service.py                     # Core V2 authentication service
-├── session_manager.py               # Session creation and management
-├── session_store.py                 # Backend-agnostic session storage
-├── session_backend.py               # Session storage backends
+├── session_manager.py               # Deprecated wrapper for unified manager
+├── session_store.py                 # Deprecated wrapper for backends
+├── session_backend.py               # Deprecated wrapper for backends
 ├── auth_integration_tester.py          # Orchestrator for integration tests
 ├── auth_integration_tester_core.py     # Core test routines
 ├── auth_integration_tester_validation.py # Environment validation helpers
@@ -35,7 +35,7 @@ The core V2 authentication service that provides:
 
 - **Enhanced Authentication**: V2 authentication with comprehensive security checks
 - **Session Management**: Advanced session handling with V2 features
-- **Configurable Session Backends**: In-memory or SQLite storage via SessionManager
+- **Configurable Session Backends**: In-memory or SQLite storage via the unified SessionManager
 - **Permission System**: Role-based access control with multiple permission levels
 - **Security Context**: Context-aware authentication with threat detection
 - **Fallback Support**: Graceful degradation when core components unavailable
@@ -106,7 +106,7 @@ result = auth_service.authenticate_user_v2(
 if result.status.value == "SUCCESS":
     print(f"User {result.user_id} authenticated successfully")
     print(f"Permissions: {[p.name for p in result.permissions]}")
-    print(f"Session ID: {result.session_id}")
+print(f"Session ID: {result.session_id}")
 else:
     print(f"Authentication failed: {result.metadata.get('error')}")
 ```
@@ -171,7 +171,7 @@ config = {
     "enable_performance_monitoring": True,  # Enable performance tracking
     "security_level": "enterprise",    # Security level
     "session_backend": "memory",       # or 'sqlite'
-    "session_db_path": "auth_sessions.db"  # Path when using sqlite backend
+"session_db_path": "auth_sessions.db"  # Path when using sqlite backend
 }
 
 auth_service = AuthService(config)
@@ -186,9 +186,9 @@ config = {
     "max_alerts_history": 100,         # Max alerts to store
     "enable_real_time_monitoring": True,
     "enable_performance_alerts": True,
-    "enable_baseline_calculation": True,
+"enable_baseline_calculation": True,
     "baseline_calculation_period": 300,  # 5 minutes
-    "performance_thresholds": {
+"performance_thresholds": {
         "auth_duration": {
             "warning": 0.5,            # 500ms warning
             "critical": 1.0            # 1 second critical
@@ -199,6 +199,15 @@ config = {
         }
     }
 }
+
+## Migration
+
+The session management utilities in this module now delegate to the
+shared implementation located in :mod:`src.session_management`. The
+previous ``session_manager.py``, ``session_store.py`` and
+``session_backend.py`` files remain as thin wrappers and will be removed
+in a future release. Update imports to use ``src.session_management``
+directly.
 
 monitor = AuthPerformanceMonitor(config)
 ```

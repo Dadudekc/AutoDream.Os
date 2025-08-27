@@ -22,6 +22,7 @@ from .authentication_manager import (
 )
 from .session_manager import SessionManager
 from .models import User, UserSession
+from .encryption import EncryptionManager
 
 # Import security monitoring components
 # from .security_monitoring import (
@@ -64,6 +65,7 @@ __all__ = [
     "RoleBasedAccessControl",
     "User",
     "UserSession",
+    "EncryptionManager",
     # Security Monitoring
     # "SecurityMonitor",
     # "AlertSystem",

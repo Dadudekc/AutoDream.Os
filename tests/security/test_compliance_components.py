@@ -1,8 +1,11 @@
 from dataclasses import asdict
+import sqlite3
+import ssl
 
 from src.security.policy_validator import SecurityPolicyValidator
 from src.security.audit_logger import AuditLogger
 from src.security.compliance_reporter import ComplianceReporter
+from src.security.encryption import EncryptionManager
 
 
 def test_policy_validator_detects_invalid_policy(tmp_path):
@@ -34,3 +37,30 @@ def test_compliance_reporter_generates_report(tmp_path):
     report = reporter.generate_compliance_report(["ISO27001"])
     assert report["standards"] == ["ISO27001"]
     assert 0 <= report["compliance_score"] <= 100
+    assert report["crypto_coverage"] == 100.0
+
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute("SELECT crypto_coverage FROM compliance_reports")
+    value = cursor.fetchone()[0]
+    conn.close()
+    assert value == 100.0
+
+
+def test_encryption_manager_round_trip(tmp_path):
+    key = EncryptionManager.generate_key()
+    manager = EncryptionManager(key)
+    data = b"secret"
+    token = manager.encrypt(data)
+    assert manager.decrypt(token) == data
+
+    plain = tmp_path / "plain.txt"
+    plain.write_text("hello")
+    enc = tmp_path / "enc.bin"
+    dec = tmp_path / "dec.txt"
+    manager.encrypt_file(str(plain), str(enc))
+    manager.decrypt_file(str(enc), str(dec))
+    assert dec.read_text() == "hello"
+
+    context = EncryptionManager.create_secure_context()
+    assert context.minimum_version >= ssl.TLSVersion.TLSv1_2

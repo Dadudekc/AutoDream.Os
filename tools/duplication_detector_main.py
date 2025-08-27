@@ -14,7 +14,7 @@ import argparse
 import logging
 import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.stability_improvements import safe_import  # stability_manager removed due to abstract class issues
 from pathlib import Path
 
 from duplication.duplication_detector import DuplicationDetector

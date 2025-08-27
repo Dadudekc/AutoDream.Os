@@ -2063,11 +2063,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard_core.py"
       ],
       [
-        "src\\services\\8_agent_coordinate_calibrator.py",
-        0,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\8_agent_coordinate_calibrator.py"
-      ],
-      [
         "src\\services\\autonomous_performance_monitor.py",
         250,
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\autonomous_performance_monitor.py"
@@ -2214,7 +2209,7 @@
       ],
       [
         "src\\services\\scanner_integration_service.py",
-        0,
+        52,
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\scanner_integration_service.py"
       ],
       [
@@ -5456,14 +5451,9 @@
           "D:\\Agent_Cellphone_V2_Repository\\src\\services\\dashboard_core.py"
         ],
         [
-          "src\\services\\8_agent_coordinate_calibrator.py",
-          0,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\services\\8_agent_coordinate_calibrator.py"
-        ],
-        [
-          "src\\services\\autonomous_performance_monitor.py",
-          250,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\services\\autonomous_performance_monitor.py"
+        "src\\services\\autonomous_performance_monitor.py",
+        250,
+        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\autonomous_performance_monitor.py"
         ],
         [
           "src\\services\\beta_transformation_service.py",
@@ -5607,7 +5597,7 @@
         ],
         [
           "src\\services\\scanner_integration_service.py",
-          0,
+          52,
           "D:\\Agent_Cellphone_V2_Repository\\src\\services\\scanner_integration_service.py"
         ],
         [

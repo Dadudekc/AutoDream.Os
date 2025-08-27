@@ -20,7 +20,8 @@ from .models import (
 )
 from .contract_validator import ContractValidator
 from .config_validator import ConfigValidator
-# WorkflowValidator removed during workflow unification cleanup
+# WorkflowValidator from workflow validation directory
+from ..workflow.validation.workflow_validator import WorkflowValidator
 from .message_validator import MessageValidator
 from .quality_validator import QualityValidator
 from .security_validator import SecurityValidator
@@ -38,7 +39,7 @@ __all__ = [
     'ValidationStatus',
     'ContractValidator',
     'ConfigValidator',
-    # 'WorkflowValidator',  # Removed during workflow unification cleanup
+    'WorkflowValidator',  # From workflow validation directory
     'MessageValidator',
     'QualityValidator',
     'SecurityValidator',

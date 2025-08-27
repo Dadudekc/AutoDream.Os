@@ -13,7 +13,7 @@ License: MIT
 
 import logging
 
-from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.stability_improvements import safe_import  # stability_manager removed due to abstract class issues
 from typing import Dict, Any, Optional, Union, List, Tuple
 
 from .interfaces import (

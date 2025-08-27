@@ -91,7 +91,7 @@ def test_config_validator():
 def test_workflow_validator():
     """Test WorkflowValidator consolidation"""
     try:
-        from workflow_validator import WorkflowValidator
+        from src.core.validation import WorkflowValidator
         validator = WorkflowValidator()
         
         # Test basic validation

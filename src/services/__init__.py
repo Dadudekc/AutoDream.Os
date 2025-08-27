@@ -17,7 +17,7 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.stability_improvements import safe_import  # stability_manager removed due to abstract class issues
 
 # Services component imports
 try:

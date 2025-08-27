@@ -17,9 +17,11 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from typing import Dict, List, Any, Optional
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+import os
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import requests
+import secrets
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -44,7 +46,7 @@ class HealthMonitorWebInterface:
         self.health_monitor = health_monitor
         self.app = Flask(__name__)
         self.app.config["SECRET_KEY"] = self.config.get(
-            "secret_key", "health_monitor_secret"
+            "secret_key", os.getenv("HEALTH_MONITOR_SECRET_KEY", secrets.token_hex(16))
         )
         self.app.config["DEBUG"] = self.config.get("debug", False)
 

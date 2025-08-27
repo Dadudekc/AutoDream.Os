@@ -15,7 +15,7 @@ portal:
   debug_mode: false
 
 flask:
-  SECRET_KEY: "portal-secret-key-change-in-production"
+  SECRET_KEY: "${PORTAL_SECRET_KEY}"
   DEBUG: false
   TEMPLATES_AUTO_RELOAD: true
   SEND_FILE_MAX_AGE_DEFAULT: 0
@@ -185,14 +185,14 @@ integration:
     host: "localhost"
     port: 6379
     db: 0
-    password: null
+    password: "${PORTAL_REDIS_PASSWORD}"
 
   rabbitmq:
     enabled: true
     host: "localhost"
     port: 5672
-    username: "guest"
-    password: "guest"
+    username: "${PORTAL_RABBITMQ_USERNAME}"
+    password: "${PORTAL_RABBITMQ_PASSWORD}"
     vhost: "/"
 
   # WebSocket settings
@@ -206,7 +206,7 @@ integration:
 security:
   enable_authentication: true
   enable_authorization: true
-  session_secret: "portal-session-secret-change-in-production"
+  session_secret: "${PORTAL_SESSION_SECRET}"
   token_expiry: 3600
   enable_https: false
   allowed_origins:

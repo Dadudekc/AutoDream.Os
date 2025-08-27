@@ -24,8 +24,9 @@ from .models import (
 from .decision_models import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
     DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
-    DecisionRule, DecisionMetrics, DecisionWorkflow, DecisionCollaboration
+    DecisionRule, DecisionWorkflow, DecisionCollaboration
 )
+from ..decision import DecisionMetrics
 
 
 class UnifiedLearningEngine:

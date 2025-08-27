@@ -17,7 +17,7 @@ from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
-from .decision_models import DecisionStatus
+from .decision_types import DecisionStatus
 
 
 @dataclass

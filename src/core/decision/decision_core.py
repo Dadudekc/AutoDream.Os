@@ -22,6 +22,7 @@ from .decision_types import (
     DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel,
     DecisionAlgorithm
 )
+from .decision_metrics import DecisionMetrics
 from .decision_algorithms import DecisionAlgorithmExecutor
 from .decision_workflows import DecisionWorkflowExecutor
 from .decision_rules import DecisionRuleEngine

@@ -24,11 +24,12 @@ from .decision_rules import DecisionRuleEngine, RuleEvaluationResult, RulePerfor
 from .decision_manager import DecisionManager, DecisionManagerConfig
 
 # Import decision models
-from .decision_models import (
+from .decision_types import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
     DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
-    DecisionRule, DecisionMetrics, DecisionWorkflow
+    DecisionRule, DecisionWorkflow
 )
+from .decision_metrics import DecisionMetrics
 
 
 class TestDecisionCore(unittest.TestCase):

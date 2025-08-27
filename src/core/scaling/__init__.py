@@ -1,37 +1,31 @@
-#!/usr/bin/env python3
-"""
-Scaling Package - Agent Cellphone V2
-====================================
+"""Scaling utilities and helper classes."""
 
-CONSOLIDATED scaling system - replaces 4 separate scaling files with unified manager.
-Follows V2 standards: OOP design, SRP, no strict LOC limits.
-
-CONSOLIDATION STATUS:
-- ✅ ScalingManager: Unified scaling management (managers/scaling_manager.py)
-- ❌ REMOVED: scaling_core.py (consolidated into ScalingManager)
-- ❌ REMOVED: scaling_distribution.py (consolidated into ScalingManager)
-- ❌ REMOVED: scaling_monitoring.py (consolidated into ScalingManager)
-- ❌ REMOVED: scaling_types.py (consolidated into ScalingManager)
-"""
-
-# ARCHITECTURE CORRECTED: Using unified scaling manager
-from ..managers.scaling_manager import (
-    ScalingManager,
+from .types import (
     ScalingStrategy,
     ScalingStatus,
-    LoadBalancerType,
     ScalingConfig,
     ScalingMetrics,
-    ScalingDecision
+    ScalingDecision,
 )
+from .resource_monitor import ResourceMonitor
+from .scaling_decider import ScalingDecider
+from .scaling_executor import ScalingExecutor
+from .distribution import LoadDistributor
+from . import forecasting, intelligence, optimization, patterns, reporting
 
-# Backward compatibility
 __all__ = [
-    "ScalingManager",
     "ScalingStrategy",
     "ScalingStatus",
-    "LoadBalancerType",
     "ScalingConfig",
     "ScalingMetrics",
-    "ScalingDecision"
+    "ScalingDecision",
+    "ResourceMonitor",
+    "ScalingDecider",
+    "ScalingExecutor",
+    "LoadDistributor",
+    "forecasting",
+    "intelligence",
+    "optimization",
+    "patterns",
+    "reporting",
 ]

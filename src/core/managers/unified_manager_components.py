@@ -42,7 +42,7 @@ class _BasicManager(BaseManager):
     def _on_heartbeat(self) -> None:  # pragma: no cover - simple
         pass
 
-    def _on_recovery_attempt(self) -> bool:  # pragma: no cover - simple
+    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:  # pragma: no cover - simple
         return True
 
 

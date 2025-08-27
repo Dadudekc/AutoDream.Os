@@ -36,11 +36,15 @@ class LoggingSetup:
 
             # Add file handler if specified
             if log_file:
-                # Ensure log directory exists
                 log_path = Path(log_file)
-                log_path.parent.mkdir(parents=True, exist_ok=True)
+                if not log_path.is_absolute():
+                    log_dir = Path("logs")
+                    log_dir.mkdir(parents=True, exist_ok=True)
+                    log_path = log_dir / log_path
+                else:
+                    log_path.parent.mkdir(parents=True, exist_ok=True)
 
-                file_handler = logging.FileHandler(log_file)
+                file_handler = logging.FileHandler(log_path)
                 file_handler.setFormatter(
                     logging.Formatter("%(asctime)s | %(levelname)8s | %(message)s")
                 )

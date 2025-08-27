@@ -12,7 +12,7 @@ License: MIT
 """
 
 # Core FSM components
-from .fsm_core import FSMCore, FSMCoreV2
+from .execution_engine import FSMCore
 from .workflow_executor import WorkflowExecutor
 from .task_manager import TaskManager
 from .communication_bridge import CommunicationBridge
@@ -20,27 +20,45 @@ from .performance_analyzer import PerformanceAnalyzer
 from .system_orchestrator import SystemOrchestrator
 
 # Data models and types
-from .models import StateStatus, TransitionType, WorkflowPriority, TaskState, TaskPriority
+from .models import (
+    StateStatus,
+    TransitionType,
+    WorkflowPriority,
+    TaskState,
+    TaskPriority,
+    StateDefinition,
+    TransitionDefinition,
+    WorkflowInstance,
+    StateExecutionResult,
+    StateHandler,
+    TransitionHandler,
+)
 from .types import FSMConfig, FSMStrategy
+
+FSMCoreV2 = FSMCore
 
 __all__ = [
     # Core components
-    'FSMCore',
-    'WorkflowExecutor', 
-    'TaskManager',
-    'CommunicationBridge',
-    'PerformanceAnalyzer',
-    'SystemOrchestrator',
-
+    "FSMCore",
+    "FSMCoreV2",
+    "WorkflowExecutor",
+    "TaskManager",
+    "CommunicationBridge",
+    "PerformanceAnalyzer",
+    "SystemOrchestrator",
     # Data models
-    'StateStatus',
-    'TransitionType', 
-    'WorkflowPriority',
-    'TaskState',
-    'TaskPriority',
-
+    "StateStatus",
+    "TransitionType",
+    "WorkflowPriority",
+    "TaskState",
+    "TaskPriority",
+    "StateDefinition",
+    "TransitionDefinition",
+    "WorkflowInstance",
+    "StateExecutionResult",
+    "StateHandler",
+    "TransitionHandler",
     # Types
-    'FSMConfig',
-    'FSMStrategy',
-    'FSMCoreV2'
+    "FSMConfig",
+    "FSMStrategy",
 ]

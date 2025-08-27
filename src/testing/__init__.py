@@ -7,7 +7,7 @@ CONSOLIDATED testing framework - replaces multiple separate testing classes with
 Follows V2 standards: OOP design, SRP, no strict LOC limits.
 
 CONSOLIDATION STATUS:
-- ✅ TestingFrameworkManager: Unified testing management (core/managers/testing_framework_manager.py)
+- ✅ TestingFrameworkManager: Unified testing management (core/managers/testing_framework_manager/)
 - ❌ REMOVED: runner.py (consolidated into TestingFrameworkManager)
 - ❌ REMOVED: orchestrator.py (consolidated into TestingFrameworkManager)
 - ❌ REMOVED: run_tdd_tests.py (consolidated into TestingFrameworkManager)
@@ -20,12 +20,12 @@ from ..core.managers.testing_framework_manager import (
     TestingFrameworkManager,
     TestExecutionResult,
     TestSuiteResult,
-    TestConfiguration
+    TestConfiguration,
 )
 
 __all__ = [
     "TestingFrameworkManager",
-    "TestExecutionResult", 
+    "TestExecutionResult",
     "TestSuiteResult",
-    "TestConfiguration"
+    "TestConfiguration",
 ]

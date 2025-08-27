@@ -13,6 +13,7 @@ from ...services.messaging.types.v2_message_enums import (
 
 from .channels import Channel, ChannelType
 from .adapters import HTTPAdapter, HTTPSAdapter, WebSocketAdapter
+from .router import MessageRouter
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,9 @@ class CommunicationManager:
         self.http_adapter = HTTPAdapter()
         self.https_adapter = HTTPSAdapter()
         self.websocket_adapter = WebSocketAdapter()
+        self.router = MessageRouter(
+            self.http_adapter, self.https_adapter, self.websocket_adapter
+        )
 
     async def create_channel(
         self,
@@ -86,15 +90,7 @@ class CommunicationManager:
             timeout=timeout or 30.0,
         )
 
-        success = False
-        if channel.type == ChannelType.HTTP:
-            success = await self.http_adapter.send(channel, message)
-        elif channel.type == ChannelType.HTTPS:
-            success = await self.https_adapter.send(channel, message)
-        elif channel.type == ChannelType.WEBSOCKET:
-            success = await self.websocket_adapter.send(channel_id, message.content)
-        else:
-            logger.warning("Unsupported channel type: %s", channel.type)
+        success = await self.router.route(channel, message)
 
         if success:
             message.status = V2MessageStatus.SENT

@@ -2,6 +2,7 @@
 
 from .channels import Channel, ChannelType
 from .adapters import HTTPAdapter, HTTPSAdapter, WebSocketAdapter
+from .router import MessageRouter
 from .communication_manager import CommunicationManager
 
 __all__ = [
@@ -10,5 +11,6 @@ __all__ = [
     "HTTPAdapter",
     "HTTPSAdapter",
     "WebSocketAdapter",
+    "MessageRouter",
     "CommunicationManager",
 ]

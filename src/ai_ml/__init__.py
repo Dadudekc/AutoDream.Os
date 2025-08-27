@@ -18,7 +18,9 @@ __description__ = "AI & ML Integration for Agent_Cellphone_V2_Repository"
 from .models import AIModel
 from .workflows import MLWorkflow, WorkflowAutomation
 from .engine import AIEngine
-from .core import AIManager, MLFramework, ModelManager
+from .inference import AIManager
+from .training import MLFramework
+from .model_loading import ModelManager
 
 # ML Frameworks (existing comprehensive implementations)
 from .ml_frameworks import (

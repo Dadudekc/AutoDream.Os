@@ -143,21 +143,21 @@ class WebDevelopmentEnvironmentSetup:
                 "development": {
                     "DEBUG": True,
                     "TESTING": False,
-                    "SECRET_KEY": "dev-secret-key-change-in-production",
+                    "SECRET_KEY": os.getenv("FLASK_DEV_SECRET_KEY", ""),
                     "DATABASE_URI": "sqlite:///dev.db",
                     "LOG_LEVEL": "DEBUG",
                 },
                 "testing": {
                     "DEBUG": False,
                     "TESTING": True,
-                    "SECRET_KEY": "test-secret-key",
+                    "SECRET_KEY": os.getenv("FLASK_TEST_SECRET_KEY", ""),
                     "DATABASE_URI": "sqlite:///test.db",
                     "LOG_LEVEL": "INFO",
                 },
                 "production": {
                     "DEBUG": False,
                     "TESTING": False,
-                    "SECRET_KEY": "change-this-in-production",
+                    "SECRET_KEY": os.getenv("FLASK_PROD_SECRET_KEY", ""),
                     "DATABASE_URI": "sqlite:///prod.db",
                     "LOG_LEVEL": "WARNING",
                 },
@@ -265,8 +265,8 @@ filterwarnings =
                     "fixtures_dir": "tests/fixtures",
                     "mocks_dir": "tests/mocks",
                     "test_users": [
-                        {"username": "test_user", "password": "test_pass"},
-                        {"username": "admin_user", "password": "admin_pass"},
+                        {"username": "test_user", "password": os.getenv("TEST_USER_PASSWORD", "")},
+                        {"username": "admin_user", "password": os.getenv("ADMIN_USER_PASSWORD", "")},
                     ],
                 },
             }

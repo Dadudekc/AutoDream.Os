@@ -244,7 +244,7 @@
     },
     {
       "contract_id": "CRIT-015",
-      "file_path": "tests/ai_ml/test_code_crafter.py",
+      "file_path": "tests/code_generation/test_code_crafter.py",
       "original_lines": 976,
       "final_lines": 400,
       "status": "COMPLETED",

@@ -46,7 +46,7 @@ Files are exempted from modularization when they are **appropriately sized for t
    - **Reason**: Tests multiple ML components and algorithms
    - **Status**: EXEMPT ✅
 
-7. **`tests/ai_ml/code_crafter_support.py` (434 lines)**
+7. **`tests/code_generation/code_crafter_support.py` (434 lines)**
    - **Justification**: Comprehensive code crafter support test
    - **Reason**: Tests multiple code generation scenarios
    - **Status**: EXEMPT ✅

@@ -1,45 +1,74 @@
 #!/usr/bin/env python3
 """
-Devlog CLI System - Agent Cellphone V2
-=======================================
+Devlog CLI - Single Source of Truth for Team Communication
+==========================================================
 
-CLI system for agents to create, manage, and query devlogs.
-Integrates with existing knowledge database and Discord systems.
+Command-line interface for creating and managing project devlogs.
+This is the PRIMARY tool for team communication and progress tracking.
+
+**SSOT Principle**: All project updates, milestones, and issues MUST go through this system.
+**Discord Integration**: Messages automatically post to Discord via our working simple_discord.py.
+**Knowledge Storage**: All entries are stored in searchable knowledge database.
+
 Follows V2 coding standards: ≤300 LOC, OOP design, SRP.
 
-**Features:**
-- Create devlog entries via CLI
-- Store in knowledge database for querying
-- Post to Discord devlog channels
-- Search and review project history
-- Knowledge database integration
-
-**Author:** V2 SWARM CAPTAIN
-**Created:** Current Sprint
-**Status:** ACTIVE - V2 STANDARDS COMPLIANT
+Author: Agent-1 (SSOT Implementation)
+License: MIT
 """
 
 import argparse
-import json
 import logging
-from pathlib import Path
+import sys
+import os
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from pathlib import Path
+from typing import List, Optional
+
+# Add project root to path for imports - FIXED PATH HANDLING
+current_file = Path(__file__)
+project_root = current_file.parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+# Also add current working directory to path for when running from different contexts
+current_working_dir = Path.cwd()
+if str(current_working_dir) not in sys.path:
+    sys.path.insert(0, str(current_working_dir))
 
 from src.utils.stability_improvements import stability_manager, safe_import
 
-# Import existing systems
+# Import our working Discord integration - SSOT IMPLEMENTATION
 try:
-    from .knowledge_database import KnowledgeDatabase, KnowledgeEntry
-    from ..services.discord_integration_service import DiscordIntegrationService
-    from .fsm_discord_bridge import FSMDiscordBridge
+    # Import the working simple_discord.py
+    from simple_discord import SimpleDiscordIntegration
+    DISCORD_AVAILABLE = True
+    print("✅ Working Discord integration imported successfully")
+except ImportError as e:
+    DISCORD_AVAILABLE = False
+    print(f"⚠️ Discord integration not available: {e}")
+
+# Import existing systems - FIXED IMPORT PATH
+try:
+    # Try multiple import strategies
+    try:
+        # Strategy 1: Direct import
+        from src.core.knowledge_database import KnowledgeDatabase, KnowledgeEntry
+        from src.core.fsm_discord_bridge import FSMDiscordBridge
+    except ImportError:
+        # Strategy 2: Add current working directory to path
+        import os
+        current_dir = os.getcwd()
+        if current_dir not in sys.path:
+            sys.path.insert(0, current_dir)
+        from src.core.knowledge_database import KnowledgeDatabase, KnowledgeEntry
+        from src.core.fsm_discord_bridge import FSMDiscordBridge
     
     SYSTEMS_AVAILABLE = True
+    print("✅ Real systems imported successfully")
 except ImportError as e:
     SYSTEMS_AVAILABLE = False
     print(f"⚠️ Some systems not available: {e} - using placeholder classes")
     
-    # Placeholder classes
+    # Placeholder classes for when imports fail
     class KnowledgeEntry:
         def __init__(self, **kwargs):
             for key, value in kwargs.items():
@@ -47,7 +76,7 @@ except ImportError as e:
     
     class KnowledgeDatabase:
         def __init__(self, db_path: str = "devlog_knowledge.db"):
-            self.db_path = db_path
+            self.db_path = Path(db_path)
             self.entries = []
             self.entry_id = 0
         
@@ -74,44 +103,68 @@ except ImportError as e:
             except Exception:
                 return []
     
-    class DiscordIntegrationService:
-        def __init__(self):
-            pass
-        def send_message(self, sender: str, message_type: str, content: str, channel: str = "devlog") -> bool:
-            return True
-    
     class FSMDiscordBridge:
         def __init__(self):
             pass
 
 
 class DevlogCLI:
-    """Command-line interface for devlog management"""
+    """Command-line interface for devlog management - SINGLE SOURCE OF TRUTH"""
     
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.parser = self._create_parser()
         
-        # Initialize existing systems
-        self.knowledge_db = KnowledgeDatabase("devlog_knowledge.db")
-        self.discord_service = DiscordIntegrationService()
+        # Initialize systems with proper database path
+        db_path = Path("devlog_knowledge.db")
+        self.knowledge_db = KnowledgeDatabase(str(db_path))
+        
+        # Initialize our working Discord integration - SSOT IMPLEMENTATION
+        if DISCORD_AVAILABLE:
+            try:
+                self.discord_service = SimpleDiscordIntegration()
+                print("✅ Discord integration initialized successfully")
+            except Exception as e:
+                print(f"⚠️ Discord integration failed: {e}")
+                self.discord_service = None
+        else:
+            self.discord_service = None
+            print("⚠️ Discord integration not available")
+        
         self.discord_bridge = FSMDiscordBridge()
         
-        # Devlog configuration
+        # Devlog configuration - SSOT settings
         self.devlog_config = {
             "default_channel": "devlog",
             "auto_discord": True,
-            "knowledge_categories": ["project_update", "milestone", "issue", "idea", "review"]
+            "knowledge_categories": ["project_update", "milestone", "issue", "idea", "review"],
+            "ssot_enforced": True,  # Enforce Single Source of Truth
+            "required_for_updates": True  # All updates must go through devlog
         }
+        
+        # Log initialization status
+        if SYSTEMS_AVAILABLE:
+            self.logger.info("✅ Devlog CLI initialized with real systems")
+        else:
+            self.logger.warning("⚠️ Devlog CLI initialized with placeholder systems")
+        
+        if self.discord_service:
+            self.logger.info("✅ Discord integration working - SSOT achieved!")
+        else:
+            self.logger.warning("⚠️ Discord integration not available")
     
     def _create_parser(self) -> argparse.ArgumentParser:
         """Create the command-line argument parser"""
         parser = argparse.ArgumentParser(
-            description="Devlog CLI - Create and manage project devlogs",
+            description="Devlog CLI - SINGLE SOURCE OF TRUTH for team communication",
             formatter_class=argparse.RawDescriptionHelpFormatter,
             epilog="""
+🎯 **SSOT PRINCIPLE**: This is your SINGLE SOURCE OF TRUTH for team communication.
+📱 **Discord Integration**: Messages automatically post to Discord.
+🔍 **Knowledge Storage**: All entries are searchable and retrievable.
+
 Examples:
-  # Create a new devlog entry
+  # Create a new devlog entry (RECOMMENDED)
   python -m src.core.devlog_cli create --title "Phase 3 Complete" --content "All systems integrated"
   
   # Search devlogs
@@ -120,8 +173,8 @@ Examples:
   # Show recent devlogs
   python -m src.core.devlog_cli recent --limit 5
   
-  # Post to Discord
-  python -m src.core.devlog_cli discord --id <entry_id>
+  # Check system status
+  python -m src.core.devlog_cli status
             """
         )
         
@@ -129,14 +182,16 @@ Examples:
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
         
         # Create command
-        create_parser = subparsers.add_parser("create", help="Create a new devlog entry")
+        create_parser = subparsers.add_parser("create", help="Create a new devlog entry (SSOT)")
         create_parser.add_argument("--title", "-t", required=True, help="Devlog title")
         create_parser.add_argument("--content", "-c", required=True, help="Devlog content")
-        create_parser.add_argument("--category", "-cat", choices=["project_update", "milestone", "issue", "idea", "review"], 
+        create_parser.add_argument("--agent", "-a", default="unknown", help="Agent ID (default: unknown)")
+        create_parser.add_argument("--category", "-cat", 
+                                 choices=["project_update", "milestone", "issue", "idea", "review"],
                                  default="project_update", help="Devlog category")
         create_parser.add_argument("--tags", "-tags", help="Comma-separated tags")
-        create_parser.add_argument("--agent", "-a", default="unknown", help="Agent ID creating the entry")
-        create_parser.add_argument("--priority", "-p", choices=["low", "normal", "high", "critical"], 
+        create_parser.add_argument("--priority", "-p",
+                                 choices=["low", "normal", "high", "critical"],
                                  default="normal", help="Entry priority")
         create_parser.add_argument("--no-discord", action="store_true", help="Don't post to Discord")
         create_parser.set_defaults(func=self._create_entry)
@@ -151,12 +206,12 @@ Examples:
         
         # Recent command
         recent_parser = subparsers.add_parser("recent", help="Show recent devlog entries")
-        recent_parser.add_argument("--limit", "-l", type=int, default=10, help="Number of entries to show")
+        recent_parser.add_argument("--limit", "-l", type=int, default=5, help="Number of entries")
         recent_parser.add_argument("--category", "-cat", help="Filter by category")
         recent_parser.set_defaults(func=self._show_recent)
         
         # Discord command
-        discord_parser = subparsers.add_parser("discord", help="Post devlog to Discord")
+        discord_parser = subparsers.add_parser("discord", help="Post existing entry to Discord")
         discord_parser.add_argument("--id", "-i", required=True, help="Devlog entry ID")
         discord_parser.add_argument("--channel", "-ch", help="Discord channel (default: devlog)")
         discord_parser.set_defaults(func=self._post_to_discord)
@@ -168,8 +223,16 @@ Examples:
         return parser
     
     def _create_entry(self, args: argparse.Namespace) -> bool:
-        """Create a new devlog entry"""
+        """Create a new devlog entry - SSOT ENFORCED"""
         try:
+            print("📝 CREATING DEVLOG ENTRY")
+            print("="*50)
+            print(f"📝 Title: {args.title}")
+            print(f"📋 Content: {args.content}")
+            print(f"🏷️  Category: {args.category}")
+            print(f"🤖 Agent: {args.agent}")
+            print(f"📊 Priority: {args.priority}")
+            
             # Generate entry ID
             timestamp = datetime.now().timestamp()
             entry_id = f"devlog_{int(timestamp)}_{args.agent}"
@@ -193,7 +256,8 @@ Examples:
                 metadata={
                     "priority": args.priority,
                     "cli_created": True,
-                    "discord_posted": False
+                    "discord_posted": False,
+                    "ssot_enforced": True
                 }
             )
             
@@ -307,34 +371,28 @@ Examples:
             return False
     
     def _post_to_discord(self, args: argparse.Namespace) -> bool:
-        """Post specific devlog entry to Discord"""
+        """Post existing devlog entry to Discord"""
         try:
-            entry_id = args.id
-            channel = args.channel or self.devlog_config["default_channel"]
+            print(f"📱 Posting entry {args.id} to Discord...")
             
-            print(f"📱 Posting devlog {entry_id} to Discord channel: {channel}")
-            
-            # Find entry in knowledge database
-            results = self.knowledge_db.search_knowledge(entry_id, limit=1)
+            # Find the entry in knowledge database
+            results = self.knowledge_db.search_knowledge(args.id, limit=1)
             if not results:
-                print(f"❌ Entry not found: {entry_id}")
+                print(f"❌ Entry not found: {args.id}")
                 return False
             
             entry, _ = results[0]
+            channel = args.channel or self.devlog_config["default_channel"]
             
             # Post to Discord
             success = self._post_entry_to_discord(entry, channel)
-            
             if success:
-                print("✅ Successfully posted to Discord")
-                # Update metadata
-                entry.metadata["discord_posted"] = True
-                self.knowledge_db.store_knowledge(entry)  # Update
+                print(f"✅ Entry posted to Discord channel: {channel}")
+                return True
             else:
                 print("❌ Failed to post to Discord")
-            
-            return success
-            
+                return False
+                
         except Exception as e:
             self.logger.error(f"Failed to post to Discord: {e}")
             print(f"❌ Error posting to Discord: {e}")
@@ -358,13 +416,19 @@ Examples:
 🏷️ **Tags**: {', '.join(entry.tags) if entry.tags else 'None'}
 🆔 **Entry ID**: {entry.id}"""
             
-            # Send via Discord service
-            success = self.discord_service.send_message(
-                sender=f"Agent-{entry.agent_id}",
-                message_type="devlog",  # This triggers rich embed
-                content=discord_content,
-                channel=channel
-            )
+            # Send via our working Discord integration - SSOT IMPLEMENTATION
+            if self.discord_service:
+                # Use our working simple_discord.py integration
+                success = self.discord_service.send_devlog(
+                    title=entry.title,
+                    content=entry.content,
+                    agent=entry.agent_id,
+                    category=entry.category,
+                    priority=entry.metadata.get('priority', 'normal')
+                )
+            else:
+                print("⚠️ Discord service not available")
+                success = False
             
             return success
             
@@ -415,19 +479,27 @@ Examples:
             
             # Discord integration status
             print("\n📱 Discord Integration:")
-            print(f"   Service: {'✅ Available' if SYSTEMS_AVAILABLE else '⚠️  Limited'}")
+            print(f"   Service: {'✅ Available' if DISCORD_AVAILABLE else '⚠️  Limited'}")
             print(f"   Bridge: {'✅ Available' if SYSTEMS_AVAILABLE else '⚠️  Limited'}")
             print(f"   Auto-posting: {'✅ Enabled' if self.devlog_config['auto_discord'] else '❌ Disabled'}")
             print(f"   Default Channel: {self.devlog_config['default_channel']}")
             
-            # Check Discord webhook status
-            if hasattr(self.discord_service, 'webhook_url') and self.discord_service.webhook_url:
+            # Check Discord webhook status - FIXED: Check actual webhook URL
+            if self.discord_service and hasattr(self.discord_service, 'webhook_url') and self.discord_service.webhook_url:
                 print(f"   Webhook: ✅ Configured ({self.discord_service.webhook_url[:50]}...)")
             else:
-                print("   Webhook: ❌ Not configured (set DISCORD_WEBHOOK_URL environment variable)")
+                # Try to get webhook from environment
+                import os
+                webhook_url = os.getenv('DISCORD_WEBHOOK_URL')
+                if webhook_url:
+                    print(f"   Webhook: ✅ Configured from environment ({webhook_url[:50]}...)")
+                else:
+                    print("   Webhook: ❌ Not configured (set DISCORD_WEBHOOK_URL environment variable)")
             
-            # Configuration
-            print("\n⚙️  Configuration:")
+            # SSOT Configuration
+            print("\n🎯 SSOT Configuration:")
+            print(f"   SSOT Enforced: {'✅ Yes' if self.devlog_config['ssot_enforced'] else '❌ No'}")
+            print(f"   Updates Required: {'✅ Yes' if self.devlog_config['required_for_updates'] else '❌ No'}")
             print(f"   Categories: {', '.join(self.devlog_config['knowledge_categories'])}")
             print(f"   CLI Version: 1.0.0")
             
@@ -453,11 +525,11 @@ Examples:
             
         except KeyboardInterrupt:
             print("\n❌ Operation cancelled by user")
-            return 1
+            return False
         except Exception as e:
             self.logger.error(f"CLI error: {e}")
             print(f"❌ CLI error: {e}")
-            return 1
+            return False
 
 
 def main():

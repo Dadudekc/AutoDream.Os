@@ -25,7 +25,8 @@ from ..base_manager import (
 from .report_data_collector import ReportDataCollector
 from .report_formatter import ReportFormatter
 from .report_models import ReportConfig, ReportFormat, ReportType, UnifiedReport
-from .report_output import ReportOutput
+from .report_storage import ReportStorage
+from .backends import FileReportBackend
 
 
 class UnifiedReportingFramework(BaseManager):
@@ -41,7 +42,7 @@ class UnifiedReportingFramework(BaseManager):
 
         self.collector = ReportDataCollector()
         self.formatter = ReportFormatter()
-        self.output = ReportOutput(self.formatter, self.collector)
+        self.storage = ReportStorage(self.collector, FileReportBackend())
 
         self.logger.info(f"UnifiedReportingFramework initialized: {manager_id}")
 
@@ -73,7 +74,9 @@ class UnifiedReportingFramework(BaseManager):
         filename: Optional[str] = None,
     ) -> str:
         try:
-            return self.output.save(report, format_type, filename)
+            format_type = format_type or report.metadata.format
+            formatted = self.formatter.format(report, format_type)
+            return self.storage.save(report, formatted, format_type, filename)
         except Exception as e:  # pragma: no cover - defensive programming
             self.logger.error(f"Failed to save report: {e}")
             raise

@@ -15,7 +15,10 @@ __author__ = "AI & ML Integration Specialist"
 __description__ = "AI & ML Integration for Agent_Cellphone_V2_Repository"
 
 # Core AI/ML components (existing comprehensive infrastructure)
-from .core import AIManager, MLFramework, ModelManager, WorkflowAutomation
+from .models import AIModel
+from .workflows import MLWorkflow, WorkflowAutomation
+from .engine import AIEngine
+from .core import AIManager, MLFramework, ModelManager
 
 # ML Frameworks (existing comprehensive implementations)
 from .ml_frameworks import (
@@ -107,10 +110,13 @@ from .ai_agent_optimizer import AIAgentOptimizer
 
 __all__ = [
     # Core components
+    "AIModel",
+    "MLWorkflow",
+    "WorkflowAutomation",
+    "AIEngine",
     "AIManager",
     "MLFramework",
     "ModelManager",
-    "WorkflowAutomation",
     # ML Frameworks
     "MLFrameworkManager",
     "PyTorchFramework",

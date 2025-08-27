@@ -2153,11 +2153,6 @@
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\integration_framework.py"
       ],
       [
-        "src\\services\\intelligent_task_assigner.py",
-        1,
-        "D:\\Agent_Cellphone_V2_Repository\\src\\services\\intelligent_task_assigner.py"
-      ],
-      [
         "src\\services\\language_analyzer_service.py",
         59,
         "D:\\Agent_Cellphone_V2_Repository\\src\\services\\language_analyzer_service.py"
@@ -2971,11 +2966,6 @@
         "tests\\security\\test_basic.py",
         4,
         "D:\\Agent_Cellphone_V2_Repository\\tests\\security\\test_basic.py"
-      ],
-      [
-        "tests\\security\\unit\\test_firewall_functionality.py",
-        1,
-        "D:\\Agent_Cellphone_V2_Repository\\tests\\security\\unit\\test_firewall_functionality.py"
       ],
       [
         "tests\\smoke\\__init__.py",
@@ -5546,11 +5536,6 @@
           "D:\\Agent_Cellphone_V2_Repository\\src\\services\\integration_framework.py"
         ],
         [
-          "src\\services\\intelligent_task_assigner.py",
-          1,
-          "D:\\Agent_Cellphone_V2_Repository\\src\\services\\intelligent_task_assigner.py"
-        ],
-        [
           "src\\services\\language_analyzer_service.py",
           59,
           "D:\\Agent_Cellphone_V2_Repository\\src\\services\\language_analyzer_service.py"
@@ -6364,11 +6349,6 @@
           "tests\\security\\test_basic.py",
           4,
           "D:\\Agent_Cellphone_V2_Repository\\tests\\security\\test_basic.py"
-        ],
-        [
-          "tests\\security\\unit\\test_firewall_functionality.py",
-          1,
-          "D:\\Agent_Cellphone_V2_Repository\\tests\\security\\unit\\test_firewall_functionality.py"
         ],
         [
           "tests\\smoke\\__init__.py",

@@ -170,7 +170,7 @@ function Setup-FlaskEnvironment {
             development = @{
                 DEBUG = $true
                 TESTING = $false
-                SECRET_KEY = "dev-secret-key-change-in-production"
+                SECRET_KEY = $env:FLASK_DEV_SECRET_KEY
                 DATABASE_URI = "sqlite:///dev.db"
                 LOG_LEVEL = "DEBUG"
                 HOST = "0.0.0.0"
@@ -179,14 +179,14 @@ function Setup-FlaskEnvironment {
             testing = @{
                 DEBUG = $false
                 TESTING = $true
-                SECRET_KEY = "test-secret-key"
+                SECRET_KEY = $env:FLASK_TEST_SECRET_KEY
                 DATABASE_URI = "sqlite:///test.db"
                 LOG_LEVEL = "INFO"
             }
             production = @{
                 DEBUG = $false
                 TESTING = $false
-                SECRET_KEY = "change-this-in-production"
+                SECRET_KEY = $env:FLASK_PROD_SECRET_KEY
                 DATABASE_URI = "sqlite:///prod.db"
                 LOG_LEVEL = "WARNING"
             }
@@ -309,8 +309,8 @@ filterwarnings =
                 fixtures_dir = "tests/fixtures"
                 mocks_dir = "tests/mocks"
                 test_users = @(
-                    @{username = "test_user"; password = "test_pass"},
-                    @{username = "admin_user"; password = "admin_pass"}
+                    @{username = "test_user"; password = $env:TEST_USER_PASSWORD},
+                    @{username = "admin_user"; password = $env:ADMIN_USER_PASSWORD}
                 )
             }
         }

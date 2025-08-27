@@ -18,21 +18,26 @@ License: MIT
 import logging
 import json
 import time
-import hashlib
-import threading
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Callable, Union
+<<<<<<< HEAD
 from dataclasses import dataclass, asdict
 from src.utils.serializable import SerializableMixin
 from datetime import datetime, timedelta
-from enum import Enum
 from collections import defaultdict
+
+from ..repository import discovery as repo_discovery
+from ..repository import analysis as repo_analysis
+from ..repository import reporting as repo_reporting
+from ..repository.discovery import DiscoveryConfig, DiscoveryStatus, RepositoryMetadata
+from ..repository.analysis import AnalysisResult, TechnologyStack, TechnologyType
 
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
 
 logger = logging.getLogger(__name__)
 
 
+<<<<<<< HEAD
 # CONSOLIDATED REPOSITORY TYPES
 class DiscoveryStatus(Enum):
     """Repository discovery status enumeration."""
@@ -125,6 +130,8 @@ class DiscoveryConfig:
             self.exclude_patterns = ['node_modules', '.git', '__pycache__', '.pytest_cache']
 
 
+=======
+>>>>>>> origin/codex/create-discovery,-analysis,-and-reporting-modules
 class RepositorySystemManager(BaseManager):
     """
     UNIFIED Repository System Manager - Single responsibility: All repository operations
@@ -184,52 +191,13 @@ class RepositorySystemManager(BaseManager):
     # SPECIALIZED REPOSITORY SYSTEM CAPABILITIES - ENHANCED FOR V2
     def analyze_repository_performance_patterns(self, time_range_hours: int = 24) -> Dict[str, Any]:
         """Analyze repository system performance patterns for optimization insights"""
-        try:
-            # Get recent performance data
-            recent_time = time.time() - (time_range_hours * 3600)
-
-            performance_analysis = {
-                "total_repositories": len(self._repositories),
-                "discovery_performance": {},
-                "analysis_performance": {},
-                "technology_detection_accuracy": {},
-                "optimization_opportunities": []
-            }
-
-            # Analyze discovery performance
-            recent_discoveries = [d for d in self._discovery_history if d.get("timestamp", 0) > recent_time]
-            if recent_discoveries:
-                discovery_times = [d.get("duration", 0) for d in recent_discoveries]
-                performance_analysis["discovery_performance"] = {
-                    "total_discoveries": len(recent_discoveries),
-                    "average_time": sum(discovery_times) / len(discovery_times),
-                    "fastest_discovery": min(discovery_times),
-                    "slowest_discovery": max(discovery_times)
-                }
-
-            # Analyze analysis performance
-            recent_analyses = [a for a in self._analysis_results if a.timestamp > recent_time]
-            if recent_analyses:
-                analysis_times = [a.metadata.get("duration", 0) for a in recent_analyses]
-                performance_analysis["analysis_performance"] = {
-                    "total_analyses": len(recent_analyses),
-                    "average_time": sum(analysis_times) / len(analysis_times) if analysis_times else 0,
-                    "success_rate": len([a for a in recent_analyses if a.metadata.get("status") == "success"]) / len(recent_analyses)
-                }
-
-            # Identify optimization opportunities
-            if len(self._repositories) > self.max_repositories * 0.8:
-                performance_analysis["optimization_opportunities"].append("Repository limit approaching - consider cleanup")
-
-            if recent_discoveries and performance_analysis["discovery_performance"]["average_time"] > 30:
-                performance_analysis["optimization_opportunities"].append("Slow discovery performance - optimize scanning algorithms")
-
-            logger.info(f"Repository performance analysis completed")
-            return performance_analysis
-
-        except Exception as e:
-            logger.error(f"Failed to analyze repository performance patterns: {e}")
-            return {"error": str(e)}
+        return repo_reporting.analyze_repository_performance_patterns(
+            self._repositories,
+            self._discovery_history,
+            self._analysis_results,
+            self.max_repositories,
+            time_range_hours,
+        )
 
     def create_intelligent_repository_strategy(self, strategy_type: str, parameters: Dict[str, Any]) -> str:
         """Create an intelligent repository strategy with adaptive parameters"""
@@ -422,187 +390,35 @@ class RepositorySystemManager(BaseManager):
 
     def generate_repository_report(self, report_type: str = "comprehensive") -> Dict[str, Any]:
         """Generate comprehensive repository system report"""
-        try:
-            report = {
-                "report_id": f"repository_system_report_{int(time.time())}",
-                "generated_at": datetime.now().isoformat(),
-                "report_type": report_type,
-                "summary": {},
-                "detailed_metrics": {},
-                "repository_summary": {},
-                "recommendations": []
-            }
+        return repo_reporting.generate_repository_report(
+            self._repositories,
+            self._analysis_results,
+            self._discovery_history,
+            self._scan_history,
+            self.status.value,
+            len(self._technology_database),
+            self.max_repositories,
+            report_type,
+        )
 
-            # Generate summary
-            total_repos = len(self._repositories)
-            total_analyses = len(self._analysis_results)
-            total_technologies = len(self._technology_database)
-
-            report["summary"] = {
-                "total_repositories": total_repos,
-                "total_analyses": total_analyses,
-                "total_technologies": total_technologies,
-                "system_status": self.status.value,
-                "last_discovery": max([d.get("timestamp", 0) for d in self._discovery_history]) if self._discovery_history else 0
-            }
-
-            # Generate detailed metrics
-            if self._repositories:
-                tech_stack_distribution = defaultdict(int)
-                architecture_distribution = defaultdict(int)
-                security_score_distribution = defaultdict(int)
-
-                for repo in self._repositories.values():
-                    for tech in repo.technology_stack:
-                        tech_stack_distribution[tech] += 1
-                    for arch in repo.architecture_patterns:
-                        architecture_distribution[arch] += 1
-                    security_score_distribution[int(repo.security_score * 10) // 10 * 10] += 1
-
-                report["detailed_metrics"] = {
-                    "technology_distribution": dict(tech_stack_distribution),
-                    "architecture_distribution": dict(architecture_distribution),
-                    "security_score_distribution": dict(security_score_distribution),
-                    "total_discoveries": len(self._discovery_history),
-                    "total_scan_operations": len(self._scan_history)
-                }
-
-            # Generate repository summary
-            if self._repositories:
-                recent_repos = sorted(self._repositories.values(), key=lambda r: r.discovery_timestamp, reverse=True)[:10]
-                report["repository_summary"] = {
-                    "recent_repositories": [{"id": r.repo_id, "name": r.name, "path": r.path} for r in recent_repos],
-                    "largest_repositories": sorted(self._repositories.values(), key=lambda r: r.size_bytes, reverse=True)[:5],
-                    "most_technologies": sorted(self._repositories.values(), key=lambda r: len(r.technology_stack), reverse=True)[:5]
-                }
-
-            # Generate recommendations
-            performance_analysis = self.analyze_repository_performance_patterns()
-            for opportunity in performance_analysis.get("optimization_opportunities", []):
-                report["recommendations"].append(opportunity)
-
-            # Check for system efficiency
-            if total_repos > 0:
-                if total_repos > self.max_repositories * 0.8:
-                    report["recommendations"].append("Repository limit approaching - consider cleanup")
-                if total_analyses / total_repos < 0.5:
-                    report["recommendations"].append("Low analysis coverage - consider re-analyzing repositories")
-
-            logger.info(f"Repository system report generated: {report['report_id']}")
-            return report
-
-        except Exception as e:
-            logger.error(f"Failed to generate repository system report: {e}")
-            return {"error": str(e)}
-
-    # REPOSITORY DISCOVERY METHODS
     def discover_repository(self, path: str, config: Optional[DiscoveryConfig] = None) -> Optional[str]:
         """Discover and register a new repository."""
-        try:
-            repo_path = Path(path)
-            if not repo_path.exists():
-                logger.error(f"Repository path does not exist: {path}")
-                return None
-
-            # Use provided config or default
-            discovery_config = config or self._discovery_config
-
-            # Generate repository ID
-            repo_id = hashlib.md5(f"{path}_{time.time()}".encode()).hexdigest()[:12]
-
-            # Basic repository metadata
-            metadata = RepositoryMetadata(
-                repo_id=repo_id,
-                name=repo_path.name,
-                path=str(repo_path),
-                size_bytes=self._calculate_repository_size(repo_path),
-                file_count=self._count_files(repo_path, discovery_config),
-                last_modified=repo_path.stat().st_mtime,
-                technology_stack=[],
-                architecture_patterns=[],
-                security_score=0.0,
-                performance_metrics={},
-                discovery_timestamp=time.time(),
-                analysis_status="discovered"
-            )
-
-            # Store repository
-            self._repositories[repo_id] = metadata
-
-            # Record discovery
-            discovery_record = {
-                "timestamp": time.time(),
-                "repo_id": repo_id,
-                "path": path,
-                "duration": 0,  # Will be updated after analysis
-                "status": "discovered"
-            }
-            self._discovery_history.append(discovery_record)
-
-            logger.info(f"Discovered repository: {repo_id} at {path}")
-            return repo_id
-
-        except Exception as e:
-            logger.error(f"Failed to discover repository at {path}: {e}")
-            return None
+        discovery_config = config or self._discovery_config
+        return repo_discovery.discover_repository(
+            path,
+            self._repositories,
+            self._discovery_history,
+            discovery_config,
+        )
 
     def analyze_repository(self, repo_id: str) -> Optional[str]:
         """Analyze a discovered repository."""
-        try:
-            if repo_id not in self._repositories:
-                logger.error(f"Repository not found: {repo_id}")
-                return None
-
-            repo = self._repositories[repo_id]
-            start_time = time.time()
-
-            # Perform technology detection
-            technology_stack = self._detect_technologies(repo.path)
-            repo.technology_stack = [tech.name for tech in technology_stack]
-
-            # Detect architecture patterns
-            architecture_patterns = self._detect_architecture_patterns(repo.path)
-            repo.architecture_patterns = architecture_patterns
-
-            # Calculate security score
-            security_score = self._calculate_security_score(repo.path, technology_stack)
-            repo.security_score = security_score
-
-            # Generate performance metrics
-            performance_metrics = self._generate_performance_metrics(repo.path)
-            repo.performance_metrics = performance_metrics
-
-            # Update analysis status
-            repo.analysis_status = "analyzed"
-
-            # Create analysis result
-            analysis_result = AnalysisResult(
-                repo_id=repo_id,
-                analysis_id=f"analysis_{int(time.time())}",
-                timestamp=time.time(),
-                technology_stack=technology_stack,
-                architecture_patterns=architecture_patterns,
-                security_assessment={"score": security_score, "details": {}},
-                performance_metrics=performance_metrics,
-                recommendations=self._generate_recommendations(technology_stack, architecture_patterns),
-                metadata={"duration": time.time() - start_time, "status": "success"}
-            )
-
-            self._analysis_results.append(analysis_result)
-
-            # Update discovery record
-            for record in self._discovery_history:
-                if record.get("repo_id") == repo_id:
-                    record["duration"] = time.time() - start_time
-                    record["status"] = "analyzed"
-                    break
-
-            logger.info(f"Repository analysis completed: {repo_id}")
-            return analysis_result.analysis_id
-
-        except Exception as e:
-            logger.error(f"Failed to analyze repository {repo_id}: {e}")
-            return None
+        return repo_analysis.analyze_repository(
+            repo_id,
+            self._repositories,
+            self._analysis_results,
+            self._discovery_history,
+        )
 
     def scan_repositories(self, paths: List[str], config: Optional[DiscoveryConfig] = None) -> Dict[str, str]:
         """Scan multiple repositories for discovery and analysis."""
@@ -639,147 +455,30 @@ class RepositorySystemManager(BaseManager):
             return {}
 
     # UTILITY METHODS
-    def _calculate_repository_size(self, path: Path) -> int:
-        """Calculate total size of repository."""
-        try:
-            total_size = 0
-            for file_path in path.rglob('*'):
-                if file_path.is_file():
-                    total_size += file_path.stat().st_size
-            return total_size
-        except Exception:
-            return 0
-
-    def _count_files(self, path: Path, config: DiscoveryConfig) -> int:
-        """Count files in repository based on configuration."""
-        try:
-            count = 0
-            for file_path in path.rglob('*'):
-                if file_path.is_file():
-                    # Apply file filters
-                    if config.file_extensions and file_path.suffix not in config.file_extensions:
-                        continue
-                    if any(pattern in str(file_path) for pattern in config.exclude_patterns):
-                        continue
-                    if file_path.stat().st_size > config.max_file_size:
-                        continue
-                    count += 1
-            return count
-        except Exception:
-            return 0
 
     def _detect_technologies(self, path: str) -> List[TechnologyStack]:
         """Detect technologies in repository."""
-        try:
-            technologies = []
-            repo_path = Path(path)
-
-            # Simple technology detection based on file patterns
-            tech_patterns = {
-                "Python": [".py", "requirements.txt", "setup.py", "Pipfile"],
-                "JavaScript": [".js", ".ts", "package.json", "yarn.lock"],
-                "Java": [".java", ".jar", "pom.xml", "build.gradle"],
-                "C++": [".cpp", ".h", ".hpp", "CMakeLists.txt"],
-                "Go": [".go", "go.mod", "go.sum"],
-                "Rust": [".rs", "Cargo.toml", "Cargo.lock"]
-            }
-
-            for tech_name, patterns in tech_patterns.items():
-                for pattern in patterns:
-                    if list(repo_path.rglob(pattern)):
-                        technologies.append(TechnologyStack(
-                            name=tech_name,
-                            version="unknown",
-                            type=TechnologyType.PROGRAMMING_LANGUAGE,
-                            confidence=0.8,
-                            detection_method="file_pattern"
-                        ))
-                        break
-
-            return technologies
-        except Exception as e:
-            logger.error(f"Failed to detect technologies: {e}")
-            return []
+        return repo_analysis.detect_technologies(path)
 
     def _detect_architecture_patterns(self, path: str) -> List[str]:
         """Detect architecture patterns in repository."""
-        try:
-            patterns = []
-            repo_path = Path(path)
-
-            # Simple architecture pattern detection
-            if (repo_path / "src").exists() and (repo_path / "tests").exists():
-                patterns.append("src_tests_separation")
-            if (repo_path / "api").exists() and (repo_path / "frontend").exists():
-                patterns.append("api_frontend_separation")
-            if (repo_path / "config").exists() and (repo_path / "scripts").exists():
-                patterns.append("config_scripts_separation")
-
-            return patterns
-        except Exception as e:
-            logger.error(f"Failed to detect architecture patterns: {e}")
-            return []
+        return repo_analysis.detect_architecture_patterns(path)
 
     def _calculate_security_score(self, path: str, technologies: List[TechnologyStack]) -> float:
         """Calculate basic security score for repository."""
-        try:
-            score = 0.5  # Base score
-
-            # Add points for security-related files
-            repo_path = Path(path)
-            security_files = ["security.md", ".security", "SECURITY.md", "security.txt"]
-            for file in security_files:
-                if (repo_path / file).exists():
-                    score += 0.1
-
-            # Add points for recent updates
-            if (repo_path / ".git").exists():
-                score += 0.2
-
-            return min(1.0, score)
-        except Exception:
-            return 0.5
+        return repo_analysis.calculate_security_score(path, technologies)
 
     def _generate_performance_metrics(self, path: str) -> Dict[str, Any]:
         """Generate basic performance metrics for repository."""
-        try:
-            repo_path = Path(path)
-            metrics = {
-                "file_count": len(list(repo_path.rglob("*"))),
-                "total_size_mb": self._calculate_repository_size(repo_path) / (1024 * 1024),
-                "complexity_score": 0.5  # Placeholder
-            }
-            return metrics
-        except Exception:
-            return {}
+        return repo_analysis.generate_performance_metrics(path)
 
     def _generate_recommendations(self, technologies: List[TechnologyStack], patterns: List[str]) -> List[str]:
         """Generate recommendations based on analysis."""
-        recommendations = []
-        
-        if len(technologies) > 5:
-            recommendations.append("Consider reducing technology stack complexity")
-        
-        if not patterns:
-            recommendations.append("Consider implementing clear architecture patterns")
-        
-        return recommendations
+        return repo_analysis.generate_recommendations(technologies, patterns)
 
     def _cleanup_old_repositories(self) -> None:
         """Clean up old repository entries."""
-        try:
-            current_time = time.time()
-            cutoff_time = current_time - (7 * 24 * 3600)  # 7 days
-            
-            old_repos = [repo_id for repo_id, repo in self._repositories.items() 
-                        if repo.discovery_timestamp < cutoff_time]
-            
-            for repo_id in old_repos:
-                del self._repositories[repo_id]
-            
-            logger.info(f"Cleaned up {len(old_repos)} old repositories")
-        except Exception as e:
-            logger.error(f"Failed to cleanup old repositories: {e}")
+        repo_discovery.cleanup_old_repositories(self._repositories)
 
     def _optimize_discovery_algorithms(self) -> None:
         """Optimize discovery algorithms for better performance."""

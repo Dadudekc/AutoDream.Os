@@ -17,10 +17,10 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority, ManagerMetrics, ManagerConfig
-from .decision_models import (
+from .decision_types import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
-    DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
-    DecisionRule, DecisionMetrics, DecisionWorkflow, DecisionCollaboration
+    DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel,
+    DecisionRule
 )
 from .decision_core import DecisionCore
 from .decision_algorithms import DecisionAlgorithmExecutor

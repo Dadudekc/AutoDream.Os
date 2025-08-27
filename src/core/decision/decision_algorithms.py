@@ -16,7 +16,7 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 
-from .decision_models import (
+from .decision_types import (
     DecisionAlgorithm, DecisionType, DecisionContext, DecisionRequest
 )
 

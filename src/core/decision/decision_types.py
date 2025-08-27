@@ -16,6 +16,7 @@ CONSOLIDATION STATUS:
 from enum import Enum
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Any
+from datetime import datetime
 
 
 class DecisionType(Enum):
@@ -127,3 +128,61 @@ class AgentCapability:
     learning_rate: float
     specialization: str
     availability: bool
+
+
+@dataclass
+class DecisionAlgorithm:
+    """Decision algorithm definition"""
+    algorithm_id: str
+    name: str
+    description: str
+    decision_types: List[DecisionType]
+    confidence_threshold: float
+    execution_timeout: float
+    version: str
+    is_active: bool
+
+
+@dataclass
+class DecisionRule:
+    """Decision rule definition"""
+    rule_id: str
+    name: str
+    description: str
+    condition: str
+    action: str
+    priority: DecisionPriority
+    is_active: bool
+
+
+@dataclass
+class DecisionWorkflow:
+    """Decision workflow definition"""
+    workflow_id: str
+    name: str
+    description: str
+    steps: List[str]
+    decision_types: List[DecisionType]
+    is_active: bool
+
+
+@dataclass
+class DecisionMetrics:
+    """Decision performance metrics"""
+    total_decisions: int
+    successful_decisions: int
+    failed_decisions: int
+    average_confidence: float
+    average_execution_time: float
+    last_updated: datetime
+
+
+@dataclass
+class DecisionCollaboration:
+    """Decision collaboration data"""
+    collaboration_id: str
+    participants: List[str]
+    decision_type: DecisionType
+    collaboration_mode: str
+    start_time: datetime
+    end_time: Optional[datetime]

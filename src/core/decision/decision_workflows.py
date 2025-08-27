@@ -14,9 +14,9 @@ import logging
 import uuid
 from datetime import datetime
 from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
-from .decision_models import (
+from .decision_types import (
     DecisionWorkflow, DecisionRequest, DecisionContext, DecisionAlgorithm
 )
 
@@ -41,8 +41,8 @@ class WorkflowExecution:
     request_id: str
     start_time: datetime
     current_step: int = 0
-    completed_steps: List[str] = []
-    failed_steps: List[str] = []
+    completed_steps: List[str] = field(default_factory=list)
+    failed_steps: List[str] = field(default_factory=list)
     status: str = "running"
     result: Optional[str] = None
     error_message: Optional[str] = None

@@ -22,14 +22,14 @@ import sys
 
 # Core component imports
 try:
-    from .performance_monitor import PerformanceMonitor
+    from .performance.monitoring.performance_monitor import PerformanceMonitor
     from .health_score_calculator import HealthScoreCalculator
 
     # Decision system components
-    from .decision import AutonomousDecisionEngine, LearningEngine
+    from .decision import DecisionCore, DecisionManager
 
     # FSM system components
-    from .fsm import FSMSystemManager
+    from .fsm import FSMCore, WorkflowExecutor
 
     # Status system components
     from .status import StatusManager
@@ -37,9 +37,10 @@ try:
     __all__ = [
         "PerformanceMonitor",
         "HealthScoreCalculator",
-        "AutonomousDecisionEngine",
-        "LearningEngine",
-        "FSMSystemManager",
+        "DecisionCore",
+        "DecisionManager",
+        "FSMCore",
+        "WorkflowExecutor",
         "StatusManager",
     ]
 except ImportError as e:

@@ -17,11 +17,11 @@ import os
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from core.performance_monitor import PerformanceMonitor, MetricType
-from core.performance_dashboard import PerformanceDashboard
-from core.api_gateway import APIGateway
-from core.v2_comprehensive_messaging_system import V2ComprehensiveMessagingSystem
-from core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
+from src.core.performance.monitoring.performance_monitor import PerformanceMonitor, MetricType
+from src.core.performance.dashboard.performance_dashboard import PerformanceDashboard
+from src.core.api_integration.gateway.api_gateway_manager import APIGatewayManager as APIGateway
+from src.services.messaging.unified_messaging_service import UnifiedMessagingService as V2ComprehensiveMessagingSystem
+from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 
 
 class TestServiceComponentsSmoke:

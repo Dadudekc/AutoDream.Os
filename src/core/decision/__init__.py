@@ -22,10 +22,9 @@ from .decision_rules import DecisionRuleEngine, RuleEvaluationResult, RulePerfor
 from .decision_manager import DecisionManager, DecisionManagerConfig
 
 # Models and types
-from .decision_models import (
+from .decision_types import (
     DecisionRequest, DecisionResult, DecisionContext, DecisionType,
-    DecisionPriority, DecisionStatus, DecisionConfidence, DecisionAlgorithm,
-    DecisionRule, DecisionMetrics, DecisionWorkflow, DecisionCollaboration
+    DecisionPriority, DecisionStatus, DecisionConfidence, IntelligenceLevel
 )
 
 # Factory functions for easy component creation
@@ -81,11 +80,7 @@ __all__ = [
     "DecisionPriority",
     "DecisionStatus",
     "DecisionConfidence",
-    "DecisionAlgorithm",
-    "DecisionRule",
-    "DecisionMetrics",
-    "DecisionWorkflow",
-    "DecisionCollaboration",
+    "IntelligenceLevel",
     
     # Factory functions
     "create_decision_core",

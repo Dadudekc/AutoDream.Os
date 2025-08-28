@@ -1,3 +1,5 @@
+import { dom as domUtils, createEventBus } from './shared_utils.js';
+
 /**
  * Responsive Framework JavaScript
  * Agent_Cellphone_V2_Repository TDD Integration Project
@@ -28,7 +30,7 @@
             xxl: 1400
         },
         components: {},
-        events: {},
+        events: createEventBus(),
         utils: {},
         config: {
             enableTouchSupport: true,
@@ -41,56 +43,114 @@
     /**
      * Utility Functions
      */
-    ResponsiveFramework.utils = {
-        /**
-         * Get current viewport width
-         */
-        getViewportWidth: function() {
-            return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        },
 
-        /**
-         * Get current viewport height
-         */
-        getViewportHeight: function() {
-            return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-        },
+ResponsiveFramework.utils = {
+    ...domUtils,
+    /**
+     * Get current viewport width
+     */
+    getViewportWidth: function() {
+        return Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    },
 
-        /**
-         * Get current breakpoint
-         */
-        getCurrentBreakpoint: function() {
-            const width = this.getViewportWidth();
-            const breakpoints = ResponsiveFramework.breakpoints;
+    /**
+     * Get current viewport height
+     */
+    getViewportHeight: function() {
+        return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    },
 
-            if (width >= breakpoints.xxl) return 'xxl';
-            if (width >= breakpoints.xl) return 'xl';
-            if (width >= breakpoints.lg) return 'lg';
-            if (width >= breakpoints.md) return 'md';
-            if (width >= breakpoints.sm) return 'sm';
-            return 'xs';
-        },
+    /**
+     * Get current breakpoint
+     */
+    getCurrentBreakpoint: function() {
+        const width = this.getViewportWidth();
+        const breakpoints = ResponsiveFramework.breakpoints;
 
-        /**
-         * Check if viewport matches breakpoint
-         */
-        matchesBreakpoint: function(breakpoint) {
-            const width = this.getViewportWidth();
-            return width >= ResponsiveFramework.breakpoints[breakpoint];
-        },
+        if (width >= breakpoints.xxl) return 'xxl';
+        if (width >= breakpoints.xl) return 'xl';
+        if (width >= breakpoints.lg) return 'lg';
+        if (width >= breakpoints.md) return 'md';
+        if (width >= breakpoints.sm) return 'sm';
+        return 'xs';
+    },
 
-        /**
-         * Debounce function
-         */
-        debounce: function(func, wait, immediate) {
-            let timeout;
-            return function executedFunction() {
-                const context = this;
-                const args = arguments;
-                const later = function() {
-                    timeout = null;
-                    if (!immediate) func.apply(context, args);
-                };
+    /**
+     * Check if viewport matches breakpoint
+     */
+    matchesBreakpoint: function(breakpoint) {
+        const width = this.getViewportWidth();
+        return width >= ResponsiveFramework.breakpoints[breakpoint];
+    },
+
+    /**
+     * Debounce function
+     */
+    debounce: function(func, wait, immediate) {
+        let timeout;
+        return function executedFunction() {
+            const context = this;
+            const args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    },
+
+    /**
+     * Throttle function
+     */
+    throttle: function(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    },
+
+    /**
+     * Check if element is in viewport
+     */
+    isInViewport: function(element) {
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = this.getViewportHeight();
+        const viewportWidth = this.getViewportWidth();
+
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= viewportHeight &&
+            rect.right <= viewportWidth
+        );
+    },
+
+    /**
+     * Get element offset from top of page
+     */
+    getElementOffset: function(element) {
+        let top = 0;
+        let left = 0;
+
+        while (element) {
+            top += element.offsetTop;
+            left += element.offsetLeft;
+            element = element.offsetParent;
+        }
+
+        return { top, left };
+    }
+};
+
                 const callNow = immediate && !timeout;
                 clearTimeout(timeout);
                 timeout = setTimeout(later, wait);
@@ -144,93 +204,6 @@
             }
 
             return { top, left };
-        },
-
-        /**
-         * Add class with animation support
-         */
-        addClass: function(element, className, animationClass = null) {
-            if (!element.classList.contains(className)) {
-                element.classList.add(className);
-
-                if (animationClass && ResponsiveFramework.config.enableAnimations) {
-                    element.classList.add(animationClass);
-                    setTimeout(() => {
-                        element.classList.remove(animationClass);
-                    }, 300);
-                }
-            }
-        },
-
-        /**
-         * Remove class with animation support
-         */
-        removeClass: function(element, className, animationClass = null) {
-            if (element.classList.contains(className)) {
-                if (animationClass && ResponsiveFramework.config.enableAnimations) {
-                    element.classList.add(animationClass);
-                    setTimeout(() => {
-                        element.classList.remove(className, animationClass);
-                    }, 300);
-                } else {
-                    element.classList.remove(className);
-                }
-            }
-        },
-
-        /**
-         * Toggle class with animation support
-         */
-        toggleClass: function(element, className, animationClass = null) {
-            if (element.classList.contains(className)) {
-                this.removeClass(element, className, animationClass);
-            } else {
-                this.addClass(element, className, animationClass);
-            }
-        }
-    };
-
-    /**
-     * Event Management System
-     */
-    ResponsiveFramework.events = {
-        listeners: {},
-
-        /**
-         * Add event listener
-         */
-        on: function(event, callback) {
-            if (!this.listeners[event]) {
-                this.listeners[event] = [];
-            }
-            this.listeners[event].push(callback);
-        },
-
-        /**
-         * Remove event listener
-         */
-        off: function(event, callback) {
-            if (this.listeners[event]) {
-                const index = this.listeners[event].indexOf(callback);
-                if (index > -1) {
-                    this.listeners[event].splice(index, 1);
-                }
-            }
-        },
-
-        /**
-         * Trigger event
-         */
-        trigger: function(event, data = null) {
-            if (this.listeners[event]) {
-                this.listeners[event].forEach(callback => {
-                    try {
-                        callback(data);
-                    } catch (error) {
-                        console.error('Error in event callback:', error);
-                    }
-                });
-            }
         }
     };
 

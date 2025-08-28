@@ -11,11 +11,12 @@ License: MIT
 """
 
 import time
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 from datetime import datetime
 
 from ...base_manager import BaseManager
 from ..types.health_types import HealthAlert, AlertType, HealthLevel, HealthMetric
+from .alert_config import DEFAULT_THRESHOLDS
 
 
 class HealthAlertManager(BaseManager):
@@ -29,12 +30,10 @@ class HealthAlertManager(BaseManager):
         )
         
         self.health_alerts: Dict[str, HealthAlert] = {}
-        self.thresholds: Dict[str, Dict[str, float]] = {}
+        self.thresholds: Dict[str, Dict[str, float]] = DEFAULT_THRESHOLDS.copy()
         self.auto_resolve_alerts = True
         self.alert_timeout = 3600
         self.max_alerts = 1000
-        
-        self._setup_default_thresholds()
         self.logger.info("✅ Health Alert Manager initialized successfully")
 
     # ============================================================================
@@ -65,7 +64,7 @@ class HealthAlertManager(BaseManager):
     
     def _on_initialize_resources(self) -> bool:
         try:
-            self._setup_default_thresholds()
+            self.thresholds = DEFAULT_THRESHOLDS.copy()
             return True
         except Exception as e:
             self.logger.error(f"Failed to initialize resources: {e}")
@@ -88,15 +87,6 @@ class HealthAlertManager(BaseManager):
     # ============================================================================
     # CORE HEALTH ALERT FUNCTIONALITY
     # ============================================================================
-    
-    def _setup_default_thresholds(self):
-        self.thresholds = {
-            "cpu_usage": {"warning": 70.0, "critical": 90.0, "emergency": 95.0},
-            "memory_usage": {"warning": 75.0, "critical": 90.0, "emergency": 95.0},
-            "disk_usage": {"warning": 80.0, "critical": 90.0, "emergency": 95.0},
-            "response_time": {"warning": 2.0, "critical": 5.0, "emergency": 10.0},
-            "error_rate": {"warning": 5.0, "critical": 15.0, "emergency": 25.0}
-        }
 
     def set_threshold(self, metric_name: str, level: str, value: float) -> bool:
         try:

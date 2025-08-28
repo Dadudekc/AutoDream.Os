@@ -1,9 +1,11 @@
+"""Helper functions to dispatch health alert notifications."""
+
 from typing import Dict, List, Optional
 
 from .logging_utils import logger
 from .models import (
-    HealthAlert,
     AlertRule,
+    HealthAlert,
     NotificationChannel,
     NotificationConfig,
 )

@@ -236,8 +236,8 @@
                                     ${agents.map(agent => `
                                         <tr>
                                             <td>
-                                                <strong>${agent.name}</strong><br>
-                                                <small class="text-muted">${agent.agent_id}</small>
+                                                <strong>${escapeHTML(agent.name)}</strong><br>
+                                                <small class="text-muted">${escapeHTML(agent.agent_id)}</small>
                                             </td>
                                             <td>
                                                 <span class="badge bg-${getStatusBadgeColor(agent.status)}">

@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/portal/portal_components.css') }}">
 
     <!-- Base responsive framework -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_framework.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ui_components.css') }}">
+    {% include 'partials/responsive_css.html' %}
 
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -137,7 +136,7 @@
     <script src="{{ url_for('static', filename='js/portal/portal_components.js') }}"></script>
 
     <!-- Base responsive framework -->
-    <script src="{{ url_for('static', filename='js/responsive_framework.js') }}"></script>
+    {% include 'partials/responsive_js.html' %}
 
     <!-- Portal-specific scripts -->
     <script>

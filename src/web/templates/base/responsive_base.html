@@ -16,8 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <!-- CSS Framework -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive_framework.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ui_components.css') }}">
+    {% include 'partials/responsive_css.html' %}
 
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
@@ -280,7 +279,7 @@
     </button>
 
     <!-- Core JavaScript -->
-    <script src="{{ url_for('static', filename='js/responsive_framework.js') }}"></script>
+    {% include 'partials/responsive_js.html' %}
 
     <!-- Additional JavaScript -->
     {% block additional_js %}{% endblock %}

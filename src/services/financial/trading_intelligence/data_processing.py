@@ -8,10 +8,14 @@ from typing import Iterable
 
 import pandas as pd
 
+from .constants import DEFAULT_REQUIRED_COLUMNS
+
 logger = logging.getLogger(__name__)
 
 
-def prepare_market_data(df: pd.DataFrame, required_columns: Iterable[str] | None = None) -> pd.DataFrame:
+def prepare_market_data(
+    df: pd.DataFrame, required_columns: Iterable[str] | None = None
+) -> pd.DataFrame:
     """Validate that *df* contains the expected columns and return a copy.
 
     Parameters
@@ -27,7 +31,7 @@ def prepare_market_data(df: pd.DataFrame, required_columns: Iterable[str] | None
     pandas.DataFrame
         A copy of *df* that is safe for strategy analysis.
     """
-    required = set(required_columns or {"Close", "Volume"})
+    required = set(required_columns or DEFAULT_REQUIRED_COLUMNS)
     logger.info("Preparing market data with %d rows", len(df))
     missing = required - set(df.columns)
     if missing:

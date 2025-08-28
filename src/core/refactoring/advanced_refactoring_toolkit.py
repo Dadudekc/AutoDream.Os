@@ -21,6 +21,21 @@ from dataclasses import dataclass, asdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from src.core.base_manager import BaseManager
+from .analysis_tools import (
+    analyze_file_for_extraction,
+    find_duplicate_files,
+    analyze_architecture_patterns,
+)
+from .refactor_tools import (
+    create_extraction_plan,
+    perform_extraction,
+    create_consolidation_plan,
+    perform_consolidation,
+    create_optimization_plan,
+    perform_optimization,
+)
+from .metrics_tools import RefactoringMetrics, update_metrics
+from . import config
 
 
 @dataclass
@@ -37,18 +52,6 @@ class RefactoringTask:
     start_time: Optional[datetime] = None
     completion_time: Optional[datetime] = None
     result: Optional[Dict[str, Any]] = None
-
-
-@dataclass
-class RefactoringMetrics:
-    """Refactoring performance metrics"""
-    total_files_processed: int = 0
-    total_lines_reduced: int = 0
-    total_time_saved: float = 0.0  # hours
-    duplication_eliminated: float = 0.0  # percentage
-    architecture_improvements: int = 0
-    quality_score: float = 0.0  # 0-100
-    efficiency_gain: float = 0.0  # percentage
 
 
 @dataclass
@@ -86,7 +89,7 @@ class AdvancedRefactoringToolkit(BaseManager):
         self.refactoring_tasks: Dict[str, RefactoringTask] = {}
         self.automation_workflows: Dict[str, AutomationWorkflow] = {}
         self.metrics = RefactoringMetrics()
-        self.execution_pool = ThreadPoolExecutor(max_workers=4)
+        self.execution_pool = ThreadPoolExecutor(max_workers=config.DEFAULT_MAX_WORKERS)
         self.is_running = False
         
         # Initialize logging
@@ -327,319 +330,44 @@ class AdvancedRefactoringToolkit(BaseManager):
         }
     
     def _analyze_file_for_extraction(self, file_path: Path) -> Dict[str, Any]:
-        """Analyze file for module extraction opportunities"""
-        try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                content = f.read()
-                lines = content.split('\n')
-            
-            # Basic analysis
-            line_count = len(lines)
-            class_count = content.count('class ')
-            function_count = content.count('def ')
-            
-            # Identify extraction opportunities
-            extraction_opportunities = []
-            
-            if line_count > 300:  # Large file
-                extraction_opportunities.append("file_size")
-            
-            if class_count > 3:  # Multiple classes
-                extraction_opportunities.append("multiple_classes")
-            
-            if function_count > 10:  # Many functions
-                extraction_opportunities.append("many_functions")
-            
-            # Check for mixed responsibilities
-            if any(keyword in content.lower() for keyword in ['import', 'class', 'def', 'if __name__']):
-                if content.count('import') > 5 and class_count > 0 and function_count > 0:
-                    extraction_opportunities.append("mixed_responsibilities")
-            
-            return {
-                "file_path": str(file_path),
-                "line_count": line_count,
-                "class_count": class_count,
-                "function_count": function_count,
-                "extraction_opportunities": extraction_opportunities,
-                "recommended_actions": self._get_extraction_recommendations(extraction_opportunities)
-            }
-            
-        except Exception as e:
-            return {"error": f"Analysis failed: {e}"}
-    
-    def _get_extraction_recommendations(self, opportunities: List[str]) -> List[str]:
-        """Get extraction recommendations based on opportunities"""
-        recommendations = []
-        
-        if "file_size" in opportunities:
-            recommendations.append("Extract large functions into separate modules")
-        
-        if "multiple_classes" in opportunities:
-            recommendations.append("Separate classes into focused modules")
-        
-        if "many_functions" in opportunities:
-            recommendations.append("Group related functions into utility modules")
-        
-        if "mixed_responsibilities" in opportunities:
-            recommendations.append("Separate imports, classes, and functions into focused modules")
-        
-        return recommendations
+        """Analyze file for module extraction opportunities."""
+        return analyze_file_for_extraction(file_path)
     
     def _create_extraction_plan(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
-        """Create extraction plan based on analysis"""
-        plan = {
-            "target_file": analysis["file_path"],
-            "extraction_modules": [],
-            "estimated_effort": 0.0,
-            "risk_assessment": "low"
-        }
-        
-        opportunities = analysis.get("extraction_opportunities", [])
-        
-        if "multiple_classes" in opportunities:
-            plan["extraction_modules"].append({
-                "type": "class_separation",
-                "description": "Separate classes into focused modules",
-                "estimated_effort": 2.0
-            })
-            plan["estimated_effort"] += 2.0
-        
-        if "many_functions" in opportunities:
-            plan["extraction_modules"].append({
-                "type": "function_grouping",
-                "description": "Group related functions into utility modules",
-                "estimated_effort": 1.5
-            })
-            plan["estimated_effort"] += 1.5
-        
-        if "mixed_responsibilities" in opportunities:
-            plan["extraction_modules"].append({
-                "type": "responsibility_separation",
-                "description": "Separate different responsibilities into focused modules",
-                "estimated_effort": 2.5
-            })
-            plan["estimated_effort"] += 2.5
-        
-        return plan
-    
+        """Create extraction plan based on analysis."""
+        return create_extraction_plan(analysis)
+
     def _perform_extraction(self, file_path: Path, plan: Dict[str, Any]) -> Dict[str, Any]:
-        """Perform the actual extraction based on plan"""
-        result = {
-            "success": True,
-            "created_modules": [],
-            "total_lines_after": 0,
-            "errors": []
-        }
-        
-        try:
-            # Create modules directory
-            modules_dir = file_path.parent / f"{file_path.stem}_modules"
-            modules_dir.mkdir(exist_ok=True)
-            
-            # For now, create placeholder modules
-            # In a real implementation, this would analyze the file content
-            # and extract actual code into separate modules
-            
-            for module_info in plan["extraction_modules"]:
-                module_name = f"{module_info['type']}_{file_path.stem}.py"
-                module_path = modules_dir / module_name
-                
-                # Create placeholder module
-                with open(module_path, 'w') as f:
-                    f.write(f"# {module_info['description']}\n")
-                    f.write(f"# Extracted from {file_path.name}\n")
-                    f.write(f"# Created by Advanced Refactoring Toolkit\n\n")
-                    f.write("def placeholder_function():\n")
-                    f.write("    \"\"\"Placeholder function - implement actual logic\"\"\"\n")
-                    f.write("    pass\n")
-                
-                result["created_modules"].append(str(module_path))
-            
-            # Estimate lines after extraction
-            result["total_lines_after"] = max(100, plan.get("estimated_effort", 0) * 50)
-            
-        except Exception as e:
-            result["success"] = False
-            result["errors"].append(str(e))
-        
-        return result
+        """Perform the actual extraction based on plan."""
+        return perform_extraction(file_path, plan)
     
     def _find_duplicate_files(self) -> List[Dict[str, Any]]:
-        """Find duplicate files in the codebase"""
-        # This is a simplified implementation
-        # In a real system, this would use content hashing and similarity analysis
-        
-        duplicates = []
-        
-        # Look for common duplicate patterns
-        duplicate_patterns = [
-            "api_key_manager.py",
-            "ai_agent_manager.py",
-            "workflow_manager.py"
-        ]
-        
-        for pattern in duplicate_patterns:
-            matches = list(self.workspace_path.rglob(f"*{pattern}"))
-            if len(matches) > 1:
-                duplicates.append({
-                    "pattern": pattern,
-                    "files": [str(f) for f in matches],
-                    "duplication_level": "high" if len(matches) > 2 else "medium"
-                })
-        
-        return duplicates
+        """Find duplicate files in the codebase."""
+        return find_duplicate_files(self.workspace_path)
     
     def _create_consolidation_plan(self, duplicates: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Create consolidation plan for duplicate files"""
-        plan = {
-            "consolidation_targets": [],
-            "estimated_effort": 0.0,
-            "risk_assessment": "medium"
-        }
-        
-        for duplicate in duplicates:
-            consolidation_target = {
-                "pattern": duplicate["pattern"],
-                "source_files": duplicate["files"][1:],  # Keep first as primary
-                "target_file": duplicate["files"][0],
-                "estimated_effort": len(duplicate["files"]) * 0.5
-            }
-            
-            plan["consolidation_targets"].append(consolidation_target)
-            plan["estimated_effort"] += consolidation_target["estimated_effort"]
-        
-        return plan
-    
+        """Create consolidation plan for duplicate files."""
+        return create_consolidation_plan(duplicates)
+
     def _perform_consolidation(self, plan: Dict[str, Any]) -> Dict[str, Any]:
-        """Perform the actual consolidation"""
-        result = {
-            "success": True,
-            "files_consolidated": 0,
-            "lines_eliminated": 0,
-            "errors": []
-        }
-        
-        for target in plan["consolidation_targets"]:
-            try:
-                # For now, just mark files for consolidation
-                # In a real implementation, this would merge functionality
-                # and remove duplicate files
-                
-                result["files_consolidated"] += len(target["source_files"])
-                result["lines_eliminated"] += len(target["source_files"]) * 100  # Estimate
-                
-            except Exception as e:
-                result["errors"].append(f"Failed to consolidate {target['pattern']}: {e}")
-        
-        return result
+        """Perform the actual consolidation."""
+        return perform_consolidation(plan)
     
     def _analyze_architecture_patterns(self) -> Dict[str, Any]:
-        """Analyze architecture patterns in the codebase"""
-        # This is a simplified implementation
-        # In a real system, this would analyze import patterns, class hierarchies, etc.
-        
-        patterns = [
-            {
-                "name": "BaseManager Inheritance",
-                "description": "Classes inheriting from BaseManager",
-                "count": 15,
-                "quality_score": 85
-            },
-            {
-                "name": "Module Extraction",
-                "description": "Large files broken into focused modules",
-                "count": 25,
-                "quality_score": 90
-            },
-            {
-                "name": "Single Responsibility",
-                "description": "Classes following SRP principle",
-                "count": 40,
-                "quality_score": 88
-            }
-        ]
-        
-        return {
-            "patterns": patterns,
-            "overall_quality_score": sum(p["quality_score"] for p in patterns) / len(patterns),
-            "recommendations": [
-                "Continue BaseManager inheritance pattern",
-                "Extract remaining large modules",
-                "Enforce SRP compliance"
-            ]
-        }
+        """Analyze architecture patterns in the codebase."""
+        return analyze_architecture_patterns()
     
     def _create_optimization_plan(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
-        """Create optimization plan based on architecture analysis"""
-        plan = {
-            "optimization_targets": [],
-            "estimated_effort": 0.0,
-            "expected_improvement": 0.0
-        }
-        
-        for pattern in analysis["patterns"]:
-            if pattern["quality_score"] < 90:
-                optimization_target = {
-                    "pattern": pattern["name"],
-                    "current_score": pattern["quality_score"],
-                    "target_score": 95,
-                    "estimated_effort": (95 - pattern["quality_score"]) * 0.2
-                }
-                
-                plan["optimization_targets"].append(optimization_target)
-                plan["estimated_effort"] += optimization_target["estimated_effort"]
-                plan["expected_improvement"] += (95 - pattern["quality_score"])
-        
-        return plan
-    
+        """Create optimization plan based on architecture analysis."""
+        return create_optimization_plan(analysis)
+
     def _perform_optimization(self, plan: Dict[str, Any]) -> Dict[str, Any]:
-        """Perform the actual optimization"""
-        result = {
-            "success": True,
-            "applied_optimizations": [],
-            "quality_score_improvement": 0.0,
-            "errors": []
-        }
-        
-        for target in plan["optimization_targets"]:
-            try:
-                # For now, just mark optimizations as applied
-                # In a real implementation, this would apply actual optimizations
-                
-                optimization = {
-                    "pattern": target["pattern"],
-                    "improvement": target["target_score"] - target["current_score"],
-                    "effort_applied": target["estimated_effort"]
-                }
-                
-                result["applied_optimizations"].append(optimization)
-                result["quality_score_improvement"] += optimization["improvement"]
-                
-            except Exception as e:
-                result["errors"].append(f"Failed to optimize {target['pattern']}: {e}")
-        
-        return result
+        """Perform the actual optimization."""
+        return perform_optimization(plan)
     
     def _update_metrics(self, task: RefactoringTask, result: Dict[str, Any]):
-        """Update refactoring metrics based on task result"""
-        if result.get("success"):
-            self.metrics.total_files_processed += 1
-            
-            # Update specific metrics based on task type
-            if task.task_type == "extract_module":
-                metrics = result.get("metrics", {})
-                self.metrics.total_lines_reduced += metrics.get("reduction", 0)
-                self.metrics.architecture_improvements += 1
-            
-            elif task.task_type == "consolidate_duplicates":
-                metrics = result.get("metrics", {})
-                self.metrics.duplication_eliminated += 10.0  # Estimate
-                self.metrics.total_lines_reduced += metrics.get("lines_eliminated", 0)
-            
-            elif task.task_type == "optimize_architecture":
-                metrics = result.get("metrics", {})
-                self.metrics.architecture_improvements += 1
-                self.metrics.quality_score += metrics.get("quality_improvement", 0)
+        """Update refactoring metrics based on task result."""
+        update_metrics(self.metrics, task, result)
     
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get current performance metrics"""

@@ -15,27 +15,21 @@ Author: Web Development & UI Framework Specialist
 License: MIT
 """
 
-import json
 import logging
-import asyncio
-import secrets
-
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Callable
+from typing import Any, Callable, Dict, List, Optional
 from dataclasses import dataclass, asdict
 from datetime import datetime
 import uuid
 
-# Frontend imports
-from flask import Flask, render_template, jsonify, request, session
+from flask import Flask, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_cors import CORS
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+
+from .routes import register_flask_routes, register_fastapi_routes
+from .settings import get_settings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -190,15 +184,14 @@ class StateManager:
 class FlaskFrontendApp:
     """Flask-based frontend application"""
 
-    def __init__(self, config: Dict[str, Any] = None):
-        self.config = config or {}
+    def __init__(self, config: Dict[str, Any] | None = None):
+        settings = get_settings()
+        self.config = {**asdict(settings), **(config or {})}
         self.app = Flask(__name__)
-        self.app.config["SECRET_KEY"] = self.config.get(
-            "secret_key", secrets.token_hex(32)
-        )  # SECURITY: Random secret key
-        self.app.config["DEBUG"] = self.config.get(
-            "debug", False
-        )  # SECURITY: Debug disabled by default
+        self.app.config["SECRET_KEY"] = self.config["secret_key"]
+        self.app.config["DEBUG"] = self.config[
+            "debug"
+        ]  # SECURITY: Debug disabled by default
 
         # Initialize extensions
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
@@ -209,54 +202,11 @@ class FlaskFrontendApp:
         self.state_manager = StateManager()
 
         # Setup routes and WebSocket events
-        self._setup_routes()
+        register_flask_routes(self.app, self.state_manager, self.component_registry)
         self._setup_websocket_events()
         self._register_default_components()
 
         logger.info("Flask frontend application initialized")
-
-    def _setup_routes(self):
-        """Setup Flask routes for frontend"""
-
-        @self.app.route("/")
-        def index():
-            """Main frontend application"""
-            return render_template(
-                "frontend/index.html", app_name=self.state_manager.get_state().app_name
-            )
-
-        @self.app.route("/api/frontend/state")
-        def get_state():
-            """Get current frontend state"""
-            return jsonify(asdict(self.state_manager.get_state()))
-
-        @self.app.route("/api/frontend/components")
-        def get_components():
-            """Get available components"""
-            return jsonify(
-                {
-                    "components": self.component_registry.list_components(),
-                    "templates": list(self.component_registry.templates.keys()),
-                }
-            )
-
-        @self.app.route("/api/frontend/route/<path:route_path>")
-        def get_route(route_path):
-            """Get route configuration"""
-            # This would typically come from a routing configuration
-            return jsonify(
-                {"path": f"/{route_path}", "component": "PageComponent", "props": {}}
-            )
-
-        @self.app.route("/api/frontend/theme", methods=["GET", "POST"])
-        def theme_endpoint():
-            """Get or set theme"""
-            if request.method == "POST":
-                data = request.get_json()
-                self.state_manager.update_state({"theme": data.get("theme", "light")})
-                return jsonify({"status": "success"})
-            else:
-                return jsonify({"theme": self.state_manager.get_state().theme})
 
     def _setup_websocket_events(self):
         """Setup WebSocket events for real-time communication"""
@@ -367,16 +317,15 @@ class FlaskFrontendApp:
 class FastAPIFrontendApp:
     """FastAPI-based frontend application"""
 
-    def __init__(self, config: Dict[str, Any] = None):
-        self.config = config or {}
+    def __init__(self, config: Dict[str, Any] | None = None):
+        settings = get_settings()
+        self.config = {**asdict(settings), **(config or {})}
 
         # Initialize FastAPI app
         self.app = FastAPI(
-            title=self.config.get("title", "Agent_Cellphone_V2 Frontend API"),
-            description=self.config.get(
-                "description", "Modern Frontend API with WebSocket Support"
-            ),
-            version=self.config.get("version", "2.0.0"),
+            title=self.config["title"],
+            description=self.config["description"],
+            version=self.config["version"],
             docs_url="/docs",
             redoc_url="/redoc",
         )
@@ -389,7 +338,7 @@ class FastAPIFrontendApp:
         self.state_manager = StateManager()
 
         # Setup routes and WebSocket endpoints
-        self._setup_routes()
+        register_fastapi_routes(self.app, self.state_manager, self.component_registry)
         self._setup_websocket_endpoints()
         self._register_default_components()
 
@@ -404,51 +353,6 @@ class FastAPIFrontendApp:
             allow_methods=["*"],
             allow_headers=["*"],
         )
-
-    def _setup_routes(self):
-        """Setup FastAPI routes for frontend"""
-
-        @self.app.get("/", response_class=HTMLResponse)
-        async def index():
-            """Main frontend application"""
-            return f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>{self.state_manager.get_state().app_name}</title>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-            </head>
-            <body>
-                <div id="app">
-                    <h1>{self.state_manager.get_state().app_name}</h1>
-                    <p>FastAPI Frontend Application</p>
-                </div>
-            </body>
-            </html>
-            """
-
-        @self.app.get("/api/frontend/state")
-        async def get_state():
-            """Get current frontend state"""
-            return asdict(self.state_manager.get_state())
-
-        @self.app.get("/api/frontend/components")
-        async def get_components():
-            """Get available components"""
-            return {
-                "components": self.component_registry.list_components(),
-                "templates": list(self.component_registry.templates.keys()),
-            }
-
-        @self.app.post("/api/frontend/state")
-        async def update_state(updates: Dict[str, Any]):
-            """Update frontend state"""
-            try:
-                self.state_manager.update_state(updates)
-                return {"status": "success", "message": "State updated"}
-            except Exception as e:
-                return {"status": "error", "message": str(e)}
 
     def _setup_websocket_endpoints(self):
         """Setup WebSocket endpoints for real-time communication"""

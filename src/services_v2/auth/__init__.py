@@ -7,11 +7,31 @@ Advanced authentication and authorization services for V2 architecture.
 Provides enterprise-grade security with integration testing capabilities.
 """
 
-from .auth_service import AuthService
-from .auth_integration_tester import AuthIntegrationTester
-from .auth_performance_monitor import AuthPerformanceMonitor
-from .auth_integration_tester_config import AuthTesterConfig
-from .auth_integration_tester_reporting import IntegrationReport, TestResult
+try:
+    from .auth_service import AuthService
+except Exception:  # pragma: no cover
+    AuthService = None  # type: ignore
+
+try:
+    from .auth_integration_tester import AuthIntegrationTester
+except Exception:  # pragma: no cover
+    AuthIntegrationTester = None  # type: ignore
+
+try:
+    from .auth_performance_monitor import AuthPerformanceMonitor
+except Exception:  # pragma: no cover
+    AuthPerformanceMonitor = None  # type: ignore
+
+try:
+    from .auth_integration_tester_config import AuthTesterConfig
+except Exception:  # pragma: no cover
+    AuthTesterConfig = None  # type: ignore
+
+try:  # Optional reporting utilities may not be available in all environments
+    from .auth_integration_tester_reporting import IntegrationReport, TestResult
+except Exception:  # pragma: no cover - best effort to import
+    IntegrationReport = None  # type: ignore
+    TestResult = None  # type: ignore
 
 __all__ = [
     "AuthService",

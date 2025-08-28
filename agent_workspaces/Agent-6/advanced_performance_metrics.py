@@ -25,6 +25,13 @@ from dataclasses import dataclass, asdict
 from collections import defaultdict, deque
 import statistics
 
+from constants import (
+    CPU_USAGE_THRESHOLD,
+    MEMORY_USAGE_THRESHOLD,
+    DISK_USAGE_THRESHOLD,
+    NETWORK_LATENCY_THRESHOLD,
+)
+
 # Add src to path for imports
 CURRENT_DIR = Path(__file__).resolve().parents[2]
 SRC_DIR = CURRENT_DIR / "src"
@@ -79,10 +86,10 @@ class AdvancedMetricsCollector:
         
         # Performance thresholds
         self.thresholds = {
-            "cpu_usage": 80.0,
-            "memory_usage": 85.0,
-            "disk_usage": 90.0,
-            "network_latency": 100.0
+            "cpu_usage": CPU_USAGE_THRESHOLD,
+            "memory_usage": MEMORY_USAGE_THRESHOLD,
+            "disk_usage": DISK_USAGE_THRESHOLD,
+            "network_latency": NETWORK_LATENCY_THRESHOLD,
         }
         
         self.logger.info("🚀 Advanced Metrics Collector initialized")

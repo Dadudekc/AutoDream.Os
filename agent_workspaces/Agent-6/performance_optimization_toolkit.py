@@ -17,6 +17,7 @@ if str(CURRENT_DIR) not in sys.path:
     sys.path.insert(0, str(CURRENT_DIR))
 
 from metric_collection import MetricCollector
+from performance_analysis import PerformanceAnalyzer
 from optimization_algorithms import OptimizationAlgorithms
 from report_generation import ReportGenerator
 
@@ -27,6 +28,7 @@ class PerformanceOptimizationToolkit:
     def __init__(self) -> None:
         self.logger = logging.getLogger(__name__ + ".PerformanceOptimizationToolkit")
         self.collector = MetricCollector()
+        self.analyzer = PerformanceAnalyzer()
         self.optimizer = OptimizationAlgorithms()
         self.reporter = ReportGenerator()
         self.optimization_results: Dict[str, Any] = {}
@@ -38,7 +40,7 @@ class PerformanceOptimizationToolkit:
 
         phases: Dict[str, Dict[str, Any]] = {}
 
-        analysis = self.optimizer.analyze_current_performance(self.collector)
+        analysis = self.analyzer.analyze(self.collector)
         phases["analysis"] = analysis
 
         strategies = self.optimizer.develop_optimization_strategies(analysis)

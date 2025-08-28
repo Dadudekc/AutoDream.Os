@@ -317,41 +317,86 @@ class UnifiedDashboardValidator:
         
         return result
     
-    def _validate_task_completion(self, claim: DashboardClaim) -> ValidationResult:
-        """Validate a task completion claim"""
-        result = ValidationResult(
-            validation_id=f"validation_{int(time.time())}",
-            timestamp=datetime.now(),
-            claim_id=claim.claim_id,
-            status="VALID",
-            discrepancies=[],
-            evidence={},
-            confidence_score=1.0
-        )
-        
-        # Check deliverables
+    def _parse_task_deliverables(self, claim: DashboardClaim) -> Tuple[List[str], int]:
+        """Parse deliverable information from a task claim."""
         deliverables = claim.claim_data.get("deliverables", [])
-        for deliverable in deliverables:
-            if not self._check_deliverable_exists(deliverable):
-                result.status = "PARTIAL"
-                result.discrepancies.append(f"Deliverable not found: {deliverable}")
-                result.confidence_score = min(result.confidence_score, 0.6)
-        
-        # Check devlog entries
         expected_devlogs = claim.claim_data.get("expected_devlogs", 0)
-        actual_devlogs = self._count_devlog_entries(claim.agent_id, claim.task_id)
-        if actual_devlogs < expected_devlogs:
-            result.status = "PARTIAL"
-            result.discrepancies.append(f"Insufficient devlog entries: expected {expected_devlogs}, got {actual_devlogs}")
-            result.confidence_score = min(result.confidence_score, 0.8)
-        
-        result.evidence = {
+        return deliverables, expected_devlogs
+
+    def _apply_task_validation_rules(
+        self,
+        deliverables: List[str],
+        expected_devlogs: int,
+        agent_id: str,
+        task_id: str,
+        base_path: Path,
+        rules: Dict[str, bool],
+    ) -> Tuple[str, List[str], Dict[str, Any], float]:
+        """Apply validation rules for task completion."""
+
+        status = "VALID"
+        discrepancies: List[str] = []
+        confidence = 1.0
+
+        if rules.get("deliverables_exist", True):
+            for deliverable in deliverables:
+                if not self._check_deliverable_exists(base_path, deliverable):
+                    status = "PARTIAL"
+                    discrepancies.append(f"Deliverable not found: {deliverable}")
+                    confidence = min(confidence, 0.6)
+
+        actual_devlogs = 0
+        if rules.get("devlog_entries_found", True):
+            actual_devlogs = self._count_devlog_entries(agent_id, task_id)
+            if actual_devlogs < expected_devlogs:
+                status = "PARTIAL"
+                discrepancies.append(
+                    f"Insufficient devlog entries: expected {expected_devlogs}, got {actual_devlogs}"
+                )
+                confidence = min(confidence, 0.8)
+
+        evidence = {
             "deliverables_checked": len(deliverables),
             "devlog_entries_found": actual_devlogs,
-            "validation_timestamp": datetime.now().isoformat()
+            "validation_timestamp": datetime.now().isoformat(),
         }
-        
-        return result
+
+        return status, discrepancies, evidence, confidence
+
+    def _generate_task_validation_result(
+        self,
+        claim_id: str,
+        status: str,
+        discrepancies: List[str],
+        evidence: Dict[str, Any],
+        confidence: float,
+    ) -> ValidationResult:
+        """Generate ValidationResult for a task claim."""
+        return ValidationResult(
+            validation_id=f"validation_{int(time.time())}",
+            timestamp=datetime.now(),
+            claim_id=claim_id,
+            status=status,
+            discrepancies=discrepancies,
+            evidence=evidence,
+            confidence_score=confidence,
+        )
+
+    def _validate_task_completion(self, claim: DashboardClaim) -> ValidationResult:
+        """Validate a task completion claim"""
+        deliverables, expected_devlogs = self._parse_task_deliverables(claim)
+        rules = self.validation_rules.get("TASK_COMPLETION", {})
+        status, discrepancies, evidence, confidence = self._apply_task_validation_rules(
+            deliverables,
+            expected_devlogs,
+            claim.agent_id,
+            claim.task_id,
+            self.base_path,
+            rules,
+        )
+        return self._generate_task_validation_result(
+            claim.claim_id, status, discrepancies, evidence, confidence
+        )
     
     def _validate_system_status(self, claim: DashboardClaim) -> ValidationResult:
         """Validate a system status claim"""
@@ -374,12 +419,10 @@ class UnifiedDashboardValidator:
         
         return result
     
-    def _check_deliverable_exists(self, deliverable: str) -> bool:
+    def _check_deliverable_exists(self, base_path: Path, deliverable: str) -> bool:
         """Check if a deliverable exists"""
-        # This would check for various types of deliverables
-        # For now, check if it's a file path
         if '/' in deliverable or '\\' in deliverable:
-            return (self.base_path / deliverable).exists()
+            return (base_path / deliverable).exists()
         return False
     
     def _count_devlog_entries(self, agent_id: str, task_id: str) -> int:

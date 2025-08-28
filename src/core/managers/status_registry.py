@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import threading
 import time
+import uuid
 from dataclasses import asdict
 from datetime import datetime
 from typing import Dict, List, Optional, Callable, Any
 
+from .constants import DEFAULT_MAX_STATUS_HISTORY
 from .status_entities import StatusItem, StatusEvent, StatusMetrics
 from .status_types import StatusLevel, StatusEventType
 
@@ -15,7 +17,7 @@ from .status_types import StatusLevel, StatusEventType
 class StatusRegistry:
     """Manage status items and events with thread safety."""
 
-    def __init__(self, max_history: int = 1000) -> None:
+    def __init__(self, max_history: int = DEFAULT_MAX_STATUS_HISTORY) -> None:
         self.max_history = max_history
         self.status_items: Dict[str, StatusItem] = {}
         self.status_events: Dict[str, StatusEvent] = {}

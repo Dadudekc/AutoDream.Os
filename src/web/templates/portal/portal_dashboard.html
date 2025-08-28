@@ -1,4 +1,5 @@
 {% extends "portal/portal_base.html" %}
+{% from "portal/macros.html" import status_card, action_card, metric_card %}
 
 {% block title %}Portal Dashboard - Agent_Cellphone_V2{% endblock %}
 
@@ -28,49 +29,10 @@
     <div class="dashboard-section">
         <h2 class="section-title"><i class="fas fa-shield-alt"></i> System Status</h2>
         <div class="status-grid">
-            <div class="status-card online">
-                <div class="status-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="status-content">
-                    <h3>Portal Status</h3>
-                    <p class="status-text">Operational</p>
-                    <p class="status-details">All systems running normally</p>
-                </div>
-            </div>
-
-            <div class="status-card {{ 'online' if system_health.overall == 'healthy' else 'warning' if system_health.overall == 'degraded' else 'offline' }}">
-                <div class="status-icon">
-                    <i class="fas fa-heartbeat"></i>
-                </div>
-                <div class="status-content">
-                    <h3>System Health</h3>
-                    <p class="status-text">{{ system_health.overall|title }}</p>
-                    <p class="status-details">{{ system_health.message }}</p>
-                </div>
-            </div>
-
-            <div class="status-card online">
-                <div class="status-icon">
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <div class="status-content">
-                    <h3>Communication</h3>
-                    <p class="status-text">Active</p>
-                    <p class="status-details">{{ connected_agents|length }} agents connected</p>
-                </div>
-            </div>
-
-            <div class="status-card {{ 'online' if automation_status.overall == 'active' else 'warning' if automation_status.overall == 'partial' else 'offline' }}">
-                <div class="status-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <div class="status-content">
-                    <h3>Automation</h3>
-                    <p class="status-text">{{ automation_status.overall|title }}</p>
-                    <p class="status-details">{{ automation_status.active_workflows }} active workflows</p>
-                </div>
-            </div>
+            {{ status_card('online', 'check-circle', 'Portal Status', 'Operational', 'All systems running normally') }}
+            {{ status_card('online' if system_health.overall == 'healthy' else 'warning' if system_health.overall == 'degraded' else 'offline', 'heartbeat', 'System Health', system_health.overall|title, system_health.message) }}
+            {{ status_card('online', 'network-wired', 'Communication', 'Active', connected_agents|length ~ ' agents connected') }}
+            {{ status_card('online' if automation_status.overall == 'active' else 'warning' if automation_status.overall == 'partial' else 'offline', 'cogs', 'Automation', automation_status.overall|title, automation_status.active_workflows ~ ' active workflows') }}
         </div>
     </div>
 
@@ -162,49 +124,10 @@
     <div class="dashboard-section">
         <h2 class="section-title"><i class="fas fa-bolt"></i> Quick Actions</h2>
         <div class="quick-actions-grid">
-            <div class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-plus-circle"></i>
-                </div>
-                <h3>Add Agent</h3>
-                <p>Register a new agent system</p>
-                <button class="btn btn-primary" onclick="showAddAgentModal()">
-                    <i class="fas fa-plus"></i> Add Agent
-                </button>
-            </div>
-
-            <div class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-play-circle"></i>
-                </div>
-                <h3>Start Workflow</h3>
-                <p>Launch automation workflow</p>
-                <button class="btn btn-primary" onclick="showWorkflowModal()">
-                    <i class="fas fa-play"></i> Start Workflow
-                </button>
-            </div>
-
-            <div class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>View Reports</h3>
-                <p>Access system reports</p>
-                <button class="btn btn-primary" onclick="showReportsModal()">
-                    <i class="fas fa-chart-bar"></i> View Reports
-                </button>
-            </div>
-
-            <div class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <h3>Portal Settings</h3>
-                <p>Configure portal options</p>
-                <button class="btn btn-primary" onclick="showSettingsModal()">
-                    <i class="fas fa-cog"></i> Settings
-                </button>
-            </div>
+            {{ action_card('plus-circle', 'Add Agent', 'Register a new agent system', 'plus', 'Add Agent', 'showAddAgentModal()') }}
+            {{ action_card('play-circle', 'Start Workflow', 'Launch automation workflow', 'play', 'Start Workflow', 'showWorkflowModal()') }}
+            {{ action_card('chart-line', 'View Reports', 'Access system reports', 'chart-bar', 'View Reports', 'showReportsModal()') }}
+            {{ action_card('cog', 'Portal Settings', 'Configure portal options', 'cog', 'Settings', 'showSettingsModal()') }}
         </div>
     </div>
 
@@ -212,53 +135,10 @@
     <div class="dashboard-section">
         <h2 class="section-title"><i class="fas fa-chart-area"></i> System Metrics</h2>
         <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-header">
-                    <h3>Active Agents</h3>
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="metric-value">{{ active_agents_count }}</div>
-                <div class="metric-change positive">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>{{ active_agents_change }}%</span>
-                </div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-header">
-                    <h3>Workflows</h3>
-                    <i class="fas fa-project-diagram"></i>
-                </div>
-                <div class="metric-value">{{ active_workflows_count }}</div>
-                <div class="metric-change {{ 'positive' if workflows_change >= 0 else 'negative' }}">
-                    <i class="fas fa-arrow-{{ 'up' if workflows_change >= 0 else 'down' }}"></i>
-                    <span>{{ workflows_change|abs }}%</span>
-                </div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-header">
-                    <h3>Response Time</h3>
-                    <i class="fas fa-tachometer-alt"></i>
-                </div>
-                <div class="metric-value">{{ avg_response_time }}ms</div>
-                <div class="metric-change {{ 'positive' if response_time_change <= 0 else 'negative' }}">
-                    <i class="fas fa-arrow-{{ 'down' if response_time_change <= 0 else 'up' }}"></i>
-                    <span>{{ response_time_change|abs }}%</span>
-                </div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-header">
-                    <h3>Uptime</h3>
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="metric-value">{{ system_uptime }}%</div>
-                <div class="metric-change positive">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>99.9%</span>
-                </div>
-            </div>
+            {{ metric_card('Active Agents', 'users', active_agents_count, active_agents_change) }}
+            {{ metric_card('Workflows', 'project-diagram', active_workflows_count, workflows_change|abs, 'up' if workflows_change >= 0 else 'down', 'positive' if workflows_change >= 0 else 'negative') }}
+            {{ metric_card('Response Time', 'tachometer-alt', avg_response_time ~ 'ms', response_time_change|abs, 'down' if response_time_change <= 0 else 'up', 'positive' if response_time_change <= 0 else 'negative') }}
+            {{ metric_card('Uptime', 'clock', system_uptime ~ '%', 99.9) }}
         </div>
     </div>
 </div>

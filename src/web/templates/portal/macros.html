@@ -1,0 +1,39 @@
+{% macro status_card(status_class, icon, title, text, details) %}
+<div class="status-card {{ status_class }}">
+    <div class="status-icon">
+        <i class="fas fa-{{ icon }}"></i>
+    </div>
+    <div class="status-content">
+        <h3>{{ title }}</h3>
+        <p class="status-text">{{ text }}</p>
+        <p class="status-details">{{ details }}</p>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro action_card(icon, title, description, button_icon, button_text, onclick) %}
+<div class="action-card">
+    <div class="action-icon">
+        <i class="fas fa-{{ icon }}"></i>
+    </div>
+    <h3>{{ title }}</h3>
+    <p>{{ description }}</p>
+    <button class="btn btn-primary" onclick="{{ onclick }}">
+        <i class="fas fa-{{ button_icon }}"></i> {{ button_text }}
+    </button>
+</div>
+{% endmacro %}
+
+{% macro metric_card(title, icon, value, change, arrow='up', change_class='positive') %}
+<div class="metric-card">
+    <div class="metric-header">
+        <h3>{{ title }}</h3>
+        <i class="fas fa-{{ icon }}"></i>
+    </div>
+    <div class="metric-value">{{ value }}</div>
+    <div class="metric-change {{ change_class }}">
+        <i class="fas fa-arrow-{{ arrow }}"></i>
+        <span>{{ change }}%</span>
+    </div>
+</div>
+{% endmacro %}

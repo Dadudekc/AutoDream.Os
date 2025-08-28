@@ -7,11 +7,11 @@ from dataclasses import dataclass, asdict
 from typing import Dict, List
 import json
 import logging
-import sqlite3
 import time
 import ssl
 
 from .encryption import EncryptionManager
+from .db_utils import execute_db
 
 
 @dataclass
@@ -174,9 +174,8 @@ class ComplianceReporter:
         return recs
 
     def _init_compliance_database(self) -> None:
-        conn = sqlite3.connect(self.db_file)
-        cursor = conn.cursor()
-        cursor.execute(
+        execute_db(
+            self.db_file,
             """
             CREATE TABLE IF NOT EXISTS compliance_reports (
                 report_id TEXT PRIMARY KEY,
@@ -189,15 +188,12 @@ class ComplianceReporter:
                 auditor TEXT NOT NULL,
                 crypto_coverage REAL DEFAULT 0
             )
-            """
+            """,
         )
-        conn.commit()
-        conn.close()
 
     def _store_compliance_report(self, report: ComplianceReport) -> None:
-        conn = sqlite3.connect(self.db_file)
-        cursor = conn.cursor()
-        cursor.execute(
+        execute_db(
+            self.db_file,
             """
             INSERT INTO compliance_reports
             (report_id, timestamp, standards, compliance_score, findings,
@@ -216,8 +212,6 @@ class ComplianceReporter:
                 report.crypto_coverage,
             ),
         )
-        conn.commit()
-        conn.close()
 
 
 __all__ = ["ComplianceReport", "ComplianceReporter"]

@@ -10,7 +10,7 @@ LOC: 60 lines (under 200 limit)
 
 from typing import Dict, Any, List, Optional
 from .system_info import SystemInfo
-from .performance_monitor import PerformanceMonitor
+from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
 from .logging_setup import LoggingSetup
 from .dependency_checker import DependencyChecker
 

@@ -4,8 +4,8 @@
   "created_by": "Agent-2 (PHASE TRANSITION OPTIMIZATION MANAGER)",
   "session_type": "8_agent_efficiency_optimization_contracts",
   "contract_status": "OPEN_FOR_CLAIMS",
-  "total_contracts": 119,
-  "available_contracts": 40,
+  "total_contracts": 126,
+  "available_contracts": 47,
   "claimed_contracts": 62,
   "completed_contracts": 33,
   "contract_categories": {
@@ -2514,6 +2514,209 @@
           "progress": "0% Complete - In Progress"
         }
       ]
+    },
+
+    "MONOLITHIC_FILE_MODULARIZATION_CONTRACTS": {
+      "category": "monolithic_file_modularization",
+      "manager": "Captain (Agent-4)",
+      "contracts": [
+        {
+          "contract_id": "MODULAR-001",
+          "title": "AI/ML Core Modularization",
+          "description": "Break down src/ai_ml/core.py (1157 LOC) into smaller, maintainable modules",
+          "difficulty": "HIGH",
+          "estimated_time": "4-5 hours",
+          "extra_credit_points": 600,
+          "requirements": [
+            "Analyze src/ai_ml/core.py structure and dependencies",
+            "Identify logical component boundaries",
+            "Create separate modules for each major component",
+            "Implement proper interfaces and abstractions",
+            "Ensure all functionality is preserved",
+            "Update imports and references throughout codebase"
+          ],
+          "deliverables": [
+            "Modularized AI/ML core components",
+            "Component interface documentation",
+            "Migration guide for existing code",
+            "Testing suite for modularized components"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        },
+        {
+          "contract_id": "MODULAR-002",
+          "title": "FSM Core V2 Modularization",
+          "description": "Break down src/core/fsm/fsm_core_v2.py (942 LOC) into smaller, focused modules",
+          "difficulty": "HIGH",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 500,
+          "requirements": [
+            "Analyze fsm_core_v2.py structure and state machine components",
+            "Separate state definitions, transitions, and execution logic",
+            "Create focused modules for each FSM aspect",
+            "Implement clean interfaces between modules",
+            "Preserve all existing functionality",
+            "Update dependent code to use new modular structure"
+          ],
+          "deliverables": [
+            "Modularized FSM components",
+            "State machine interface documentation",
+            "Transition logic modules",
+            "Testing suite for modularized FSM"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        },
+        {
+          "contract_id": "MODULAR-003",
+          "title": "Command Handler Modularization",
+          "description": "Break down src/services/messaging/command_handler.py (803 LOC) into focused components",
+          "difficulty": "MEDIUM",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 450,
+          "requirements": [
+            "Analyze command_handler.py structure and command types",
+            "Separate different command handling logic into modules",
+            "Create focused handlers for each command category",
+            "Implement command routing and dispatching",
+            "Ensure backward compatibility",
+            "Update messaging system to use new modular structure"
+          ],
+          "deliverables": [
+            "Modularized command handlers",
+            "Command routing system",
+            "Handler interface documentation",
+            "Testing suite for modularized handlers"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        },
+        {
+          "contract_id": "MODULAR-004",
+          "title": "Security Validator Modularization",
+          "description": "Break down src/core/validation/security_validator.py (777 LOC) into focused security modules",
+          "difficulty": "HIGH",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 475,
+          "requirements": [
+            "Analyze security_validator.py structure and security aspects",
+            "Separate different security validation logic into modules",
+            "Create focused modules for authentication, authorization, and validation",
+            "Implement clean security interfaces",
+            "Ensure all security functionality is preserved",
+            "Update dependent code to use new modular structure"
+          ],
+          "deliverables": [
+            "Modularized security components",
+            "Security interface documentation",
+            "Authentication and authorization modules",
+            "Testing suite for modularized security"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        },
+        {
+          "contract_id": "MODULAR-005",
+          "title": "Contract Deliverables Validator Modularization",
+          "description": "Break down src/core/refactoring/contract_deliverables_validator.py (753 LOC) into focused validation modules",
+          "difficulty": "MEDIUM",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 425,
+          "requirements": [
+            "Analyze contract_deliverables_validator.py structure and validation logic",
+            "Separate different validation aspects into focused modules",
+            "Create modules for contract validation, deliverables checking, and quality assessment",
+            "Implement clean validation interfaces",
+            "Preserve all validation functionality",
+            "Update contract system to use new modular structure"
+          ],
+          "deliverables": [
+            "Modularized validation components",
+            "Validation interface documentation",
+            "Contract and deliverables validation modules",
+            "Testing suite for modularized validation"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        },
+        {
+          "contract_id": "MODULAR-006",
+          "title": "AI Agent Orchestrator Modularization",
+          "description": "Break down src/core/managers/ai_agent_orchestrator.py (749 LOC) into focused orchestration modules",
+          "difficulty": "HIGH",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 475,
+          "requirements": [
+            "Analyze ai_agent_orchestrator.py structure and orchestration logic",
+            "Separate different orchestration aspects into focused modules",
+            "Create modules for agent management, task coordination, and workflow orchestration",
+            "Implement clean orchestration interfaces",
+            "Preserve all orchestration functionality",
+            "Update agent system to use new modular structure"
+          ],
+          "deliverables": [
+            "Modularized orchestration components",
+            "Orchestration interface documentation",
+            "Agent management and coordination modules",
+            "Testing suite for modularized orchestration"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        },
+        {
+          "contract_id": "MODULAR-007",
+          "title": "Unified Learning Engine Modularization",
+          "description": "Break down src/core/learning/unified_learning_engine.py (739 LOC) into focused learning modules",
+          "difficulty": "MEDIUM",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 425,
+          "requirements": [
+            "Analyze unified_learning_engine.py structure and learning components",
+            "Separate different learning aspects into focused modules",
+            "Create modules for learning algorithms, data processing, and model management",
+            "Implement clean learning interfaces",
+            "Preserve all learning functionality",
+            "Update learning system to use new modular structure"
+          ],
+          "deliverables": [
+            "Modularized learning components",
+            "Learning interface documentation",
+            "Algorithm and data processing modules",
+            "Testing suite for modularized learning"
+          ],
+          "status": "AVAILABLE",
+          "claimed_by": null,
+          "claimed_at": null,
+          "completed_at": null,
+          "extra_credit_claimed": false,
+          "progress": "0% Complete - Not Started"
+        }
+      ]
     }
   },
   "contract_claiming_instructions": {
@@ -2544,7 +2747,7 @@
     }
   },
   "extra_credit_system": {
-    "total_available_points": 10890,
+    "total_available_points": 14190,
     "points_distribution": {
       "coordination_enhancement": 1080,
       "phase_transition_optimization": 1120,
@@ -2559,7 +2762,8 @@
       "sprint_acceleration_boost": 1575,
       "innovation_momentum": 1700,
       "emergency_workflow_restoration": 2125,
-      "sprint_acceleration_emergency": 2250
+      "sprint_acceleration_emergency": 2250,
+      "monolithic_file_modularization": 3300
     },
     "difficulty_multipliers": {
       "LOW": 1.0,
@@ -2593,7 +2797,14 @@
       "SPRINT-EMERGENCY-002: Task Assignment Conflict Resolution (400 points)",
       "SPRINT-EMERGENCY-003: INNOVATION PLANNING MODE Gateway (475 points)",
       "SPRINT-EMERGENCY-004: Momentum Acceleration Engine (425 points)",
-      "SPRINT-EMERGENCY-005: Emergency Codebase Audit System (450 points)"
+      "SPRINT-EMERGENCY-005: Emergency Codebase Audit System (450 points)",
+      "MODULAR-001: AI/ML Core Modularization (600 points)",
+      "MODULAR-002: FSM Core V2 Modularization (500 points)",
+      "MODULAR-003: Command Handler Modularization (450 points)",
+      "MODULAR-004: Security Validator Modularization (475 points)",
+      "MODULAR-005: Contract Deliverables Validator Modularization (425 points)",
+      "MODULAR-006: AI Agent Orchestrator Modularization (475 points)",
+      "MODULAR-007: Unified Learning Engine Modularization (425 points)"
     ]
   }
 }

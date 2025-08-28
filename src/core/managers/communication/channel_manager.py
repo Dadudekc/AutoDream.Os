@@ -22,6 +22,7 @@ from dataclasses import asdict
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
 from .models import Channel, ChannelType
 from .types import CommunicationTypes, CommunicationConfig
+from ...communication.channel_utils import create_channel, default_channel_stats
 
 logger = logging.getLogger(__name__)
 
@@ -74,31 +75,11 @@ class ChannelManager(BaseManager):
         try:
             channel_id = f"{channel_type.value}_{name}_{len(self.channels)}"
             
-            channel = Channel(
-                id=channel_id,
-                name=name,
-                type=channel_type,
-                url=url,
-                config=config or {},
-                status=CommunicationTypes.ChannelStatus.ACTIVE.value,
-                created_at=datetime.now().isoformat(),
-                last_used=datetime.now().isoformat(),
-                message_count=0,
-                error_count=0
-            )
-            
+            channel = create_channel(channel_id, name, channel_type, url, config)
             self.channels[channel_id] = channel
-            
+
             # Initialize stats
-            self.channel_stats[channel_id] = {
-                "total_messages": 0,
-                "successful_messages": 0,
-                "failed_messages": 0,
-                "last_activity": datetime.now().isoformat(),
-                "uptime_percentage": 100.0,
-                "average_response_time": 0.0,
-                "error_rate": 0.0
-            }
+            self.channel_stats[channel_id] = default_channel_stats()
             
             self._emit_event("channel_created", {
                 "channel_id": channel_id,

@@ -1,4 +1,4 @@
-from src.core.smooth_handoff_manager import SmoothHandoffManager, HandoffContext
+from src.core.smooth_handoff import SmoothHandoffManager, HandoffContext
 
 
 def test_manager_coordinates_flow():
@@ -8,3 +8,4 @@ def test_manager_coordinates_flow():
     assert manager.get_handoff_status(execution_id) == "in_progress"
     assert manager.complete_handoff(execution_id)
     assert manager.get_handoff_status(execution_id) is None
+

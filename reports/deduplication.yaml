@@ -17,7 +17,6 @@ summary:
 - file: src/services/middleware/components/validation.py
   dup_hits: 4
   severity: moderate
-- file: src/web/static/js/portal/portal_framework.js
   dup_hits: 3
   severity: moderate
 - file: src/core/managers/extended/ai_ml/ai_manager.py
@@ -76,7 +75,6 @@ instances:
     \         this.refreshInterval = setInterv"
 - files:
   - src/web/static/js/portal/portal_components.js
-  - src/web/static/js/portal/portal_framework.js
   lines: 18
   tokens: 0
   fragment: ");\n                const diff = now - date;\n\n                const\
@@ -170,14 +168,12 @@ instances:
     \              const context = this;"
 - files:
   - src/web/static/js/responsive_framework.js
-  - src/web/static/js/portal/portal_framework.js
   lines: 11
   tokens: 0
   fragment: "\n        on: function(event, callback) {\n            if (!this.listeners[event])\
     \ {\n                this.listeners[event] = [];\n            }\n            this.listeners[event].push("
 - files:
   - src/web/static/js/responsive_framework.js
-  - src/web/static/js/portal/portal_framework.js
   lines: 9
   tokens: 0
   fragment: "\n        off: function(event, callback) {\n            if (this.listeners[event])\

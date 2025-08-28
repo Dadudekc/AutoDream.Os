@@ -5,8 +5,9 @@ from dataclasses import dataclass, asdict
 from typing import Dict, List, Optional
 import json
 import logging
-import sqlite3
 import time
+
+from .db_utils import execute_db, fetch_all
 
 
 @dataclass
@@ -78,8 +79,6 @@ class AuditLogger:
     ) -> List[Dict]:
         """Retrieve audit trail with optional filtering."""
         try:
-            conn = sqlite3.connect(self.db_file)
-            cursor = conn.cursor()
             query = "SELECT * FROM audit_events WHERE 1=1"
             params: List = []
             if user_id:
@@ -98,9 +97,7 @@ class AuditLogger:
                 query += " AND timestamp <= ?"
                 params.append(end_time)
             query += " ORDER BY timestamp DESC"
-            cursor.execute(query, params)
-            events = cursor.fetchall()
-            conn.close()
+            events = fetch_all(self.db_file, query, params)
             audit_trail: List[Dict] = []
             for event in events:
                 event_dict = {
@@ -122,9 +119,8 @@ class AuditLogger:
 
     def _init_audit_database(self) -> None:
         try:
-            conn = sqlite3.connect(self.db_file)
-            cursor = conn.cursor()
-            cursor.execute(
+            execute_db(
+                self.db_file,
                 """
                 CREATE TABLE IF NOT EXISTS audit_events (
                     timestamp REAL NOT NULL,
@@ -137,22 +133,20 @@ class AuditLogger:
                     session_id TEXT,
                     outcome TEXT DEFAULT 'success'
                 )
-                """
+                """,
             )
-            cursor.execute(
-                "CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_events(user_id)"
+            execute_db(
+                self.db_file,
+                "CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_events(user_id)",
             )
-            conn.commit()
-            conn.close()
             self.logger.info("Audit database initialized successfully")
         except Exception as exc:  # pragma: no cover - defensive
             self.logger.error("Failed to initialize audit database: %s", exc)
 
     def _store_audit_event(self, audit_event: AuditEvent) -> None:
         try:
-            conn = sqlite3.connect(self.db_file)
-            cursor = conn.cursor()
-            cursor.execute(
+            execute_db(
+                self.db_file,
                 """
                 INSERT INTO audit_events
                 (timestamp, user_id, action, resource, details, ip_address, user_agent, session_id, outcome)
@@ -170,7 +164,5 @@ class AuditLogger:
                     audit_event.outcome,
                 ),
             )
-            conn.commit()
-            conn.close()
         except Exception as exc:  # pragma: no cover - defensive
             self.logger.error("Failed to store audit event: %s", exc)

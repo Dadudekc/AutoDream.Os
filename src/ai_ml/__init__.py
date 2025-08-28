@@ -86,7 +86,9 @@ from .ai_agent_learner import (
 )
 
 # API integrations (existing implementations)
-from .integrations import OpenAIIntegration, AnthropicIntegration, PyTorchIntegration
+from .openai_integration import OpenAIIntegration
+from .anthropic_integration import AnthropicIntegration
+from .pytorch_integration import PyTorchIntegration
 
 # Utilities and helpers (existing implementations)
 from .utils import config_loader, logger_setup, performance_monitor

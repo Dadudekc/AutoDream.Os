@@ -99,7 +99,7 @@ def generic_template(duration: int, **_: Any) -> Dict[str, Any]:
 
 
 # Mapping of benchmark types to templates
-TEMPLATES: Dict[BenchmarkType, Callable[[int], Dict[str, Any]]] = {
+TEMPLATES: Dict[BenchmarkType, Callable[..., Dict[str, Any]]] = {
     BenchmarkType.CPU: cpu_template,
     BenchmarkType.MEMORY: memory_template,
     BenchmarkType.DISK: disk_template,

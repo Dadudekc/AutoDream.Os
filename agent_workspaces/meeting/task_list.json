@@ -22,7 +22,8 @@
     "sprint_acceleration_boost": 5,
     "innovation_momentum": 5,
     "emergency_workflow_restoration": 6,
-    "sprint_acceleration_emergency": 6
+    "sprint_acceleration_emergency": 6,
+    "monolithic_file_modularization": 7
   },
   "contracts": {
     "COORDINATION_ENHANCEMENT_CONTRACTS": {

@@ -39,6 +39,9 @@ try:
     
     # Communication (SSOT: Unified communication system)
     from .communication import CommunicationManager
+
+    # Agent management (lifecycle/communication/learning)
+    from .agent_manager import AgentManager
     
     # Health monitoring (SSOT: Unified health system)
     from .health_monitor import HealthMonitor
@@ -60,6 +63,9 @@ try:
         
         # Communication
         "CommunicationManager",
+
+        # Agent Management
+        "AgentManager",
         
         # Health & API
         "HealthMonitor", "APIGateway",

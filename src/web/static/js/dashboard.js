@@ -101,7 +101,7 @@
             }
 
             // Initialize charts after rendering
-            setTimeout(initializeCharts, 100);
+            requestAnimationFrame(() => initializeCharts(data));
         }
 
         // Render overview view

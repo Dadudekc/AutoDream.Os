@@ -14,7 +14,6 @@ License: MIT
 import pytest
 import asyncio
 
-from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 from unittest.mock import Mock, patch
 from pathlib import Path
@@ -25,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from core.health_metrics_collector import HealthMetricsCollector
 from core.health_threshold_manager import HealthThresholdManager
-from core.managers.health_manager import HealthManager
+from core.health_threshold_manager_simple import HealthThresholdManagerSimple
 from core.health_score_calculator import HealthScoreCalculator
 from core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 
@@ -88,7 +87,7 @@ class TestHealthThresholdManager:
         """Test component initialization"""
         manager = HealthThresholdManager()
         assert manager is not None
-        assert len(manager.thresholds) > 0  # Should have default thresholds
+        assert len(manager.operations.thresholds) > 0  # Should have default thresholds
 
     def test_set_custom_threshold(self):
         """Test setting custom thresholds"""
@@ -125,6 +124,31 @@ class TestHealthThresholdManager:
         all_thresholds = manager.get_all_thresholds()
         assert len(all_thresholds) > 0
         assert "response_time" in all_thresholds
+
+class TestHealthThresholdManagerSimple:
+    """Test HealthThresholdManagerSimple component"""
+
+    def test_initialization(self):
+        """Manager should initialize with default thresholds"""
+        manager = HealthThresholdManagerSimple()
+        assert manager is not None
+        assert manager.get_threshold_count() > 0
+
+    def test_set_custom_threshold(self):
+        """Setting and retrieving a custom threshold works"""
+        manager = HealthThresholdManagerSimple()
+        manager.set_threshold(
+            metric_type="custom_metric",
+            warning_threshold=50.0,
+            critical_threshold=100.0,
+            unit="count",
+            description="Custom metric threshold",
+        )
+
+        threshold = manager.get_threshold("custom_metric")
+        assert threshold is not None
+        assert threshold.warning_threshold == 50.0
+        assert threshold.critical_threshold == 100.0
 
 
 class TestHealthManager:

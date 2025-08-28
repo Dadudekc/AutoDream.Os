@@ -24,14 +24,13 @@ except ImportError as e:
 
 from .auth_performance_config import get_default_config
 from .auth_performance_metrics import (
-    PerformanceMetric,
-    PerformanceAlert,
     collect_performance_metrics,
     analyze_performance,
     check_performance_alerts,
     calculate_performance_baselines,
     calculate_performance_indicators,
 )
+from .common_performance import PerformanceMetric, PerformanceAlert
 from .auth_performance_reporting import PerformanceReport, generate_performance_report
 
 

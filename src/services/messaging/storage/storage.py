@@ -11,9 +11,7 @@ Original file: src/core/v2_comprehensive_messaging_system.py
 Extraction date: 2024-12-19
 """
 
-import json
 import logging
-import sqlite3
 import threading
 import time
 import uuid
@@ -48,24 +46,33 @@ class IMessageStorage(ABC):
 
     @abstractmethod
     def store_message(self, message: V2Message) -> bool:
-        """Store a message"""
-        raise NotImplementedError("store_message must be implemented")
+        """Persist a message.
+
+        Args:
+            message (V2Message): The message to store.
+
+        Returns:
+            bool: ``True`` if the message was stored successfully, ``False`` otherwise.
+        """
+        raise NotImplementedError("store_message must be implemented by subclasses")
 
     @abstractmethod
     def get_message(self, message_id: str) -> Optional[V2Message]:
-        """Get a message by ID"""
-        raise NotImplementedError("get_message must be implemented")
+        """Retrieve a message by its ID.
+
+        Args:
+            message_id (str): The message identifier.
+
+        Returns:
+            Optional[V2Message]: The matching message or ``None`` if not found.
+        """
+        raise NotImplementedError("get_message must be implemented by subclasses")
 
 
 class V2MessageStorage(IMessageStorage):
-    """Message storage implementation - SRP: Store and retrieve messages."""
+    """Message storage implementation - SRP: Store and retrieve messages"""
 
-    def __init__(self, db_path: Optional[str] = None):
-        """Initialize storage.
-
-        Args:
-            db_path: Optional path to SQLite database for persistence.
-        """
+    def __init__(self):
         self.messages: Dict[str, V2Message] = {}
         self.agent_messages: Dict[str, List[str]] = defaultdict(list)
         self.type_messages: Dict[V2MessageType, List[str]] = defaultdict(list)
@@ -78,29 +85,6 @@ class V2MessageStorage(IMessageStorage):
             "messages_by_status": defaultdict(int),
             "messages_by_agent": defaultdict(int),
         }
-        self.db_path = db_path
-        self.conn: Optional[sqlite3.Connection] = None
-        if db_path:
-            self._init_db()
-
-    def _init_db(self):
-        """Initialize SQLite backend and load existing messages."""
-        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
-        self.conn.execute(
-            "CREATE TABLE IF NOT EXISTS messages (message_id TEXT PRIMARY KEY, message_data TEXT)"
-        )
-        self.conn.commit()
-        cursor = self.conn.execute("SELECT message_data FROM messages")
-        for (message_data,) in cursor:
-            data = json.loads(message_data)
-            message = V2Message.from_dict(data)
-            self.messages[message.message_id] = message
-            self._update_indexes(message, "add")
-            self.storage_stats["total_messages"] += 1
-            self.storage_stats["messages_by_type"][message.message_type] += 1
-            self.storage_stats["messages_by_status"][message.status] += 1
-            if message.recipient_id and message.recipient_id != "broadcast":
-                self.storage_stats["messages_by_agent"][message.recipient_id] += 1
 
     def store_message(self, message: V2Message) -> bool:
         """Store a message with indexing"""
@@ -120,20 +104,9 @@ class V2MessageStorage(IMessageStorage):
                 if message.recipient_id and message.recipient_id != "broadcast":
                     self.storage_stats["messages_by_agent"][message.recipient_id] += 1
 
-                # Persist to database if configured
-                if self.conn:
-                    self.conn.execute(
-                        "INSERT OR REPLACE INTO messages (message_id, message_data) VALUES (?, ?)",
-                        (message.message_id, json.dumps(message.to_dict())),
-                    )
-                    self.conn.commit()
-
                 logger.debug(f"Stored message {message.message_id}")
                 return True
 
-        except sqlite3.Error as e:
-            logger.error(f"Failed to store message in database: {e}")
-            return False
         except Exception as e:
             logger.error(f"Failed to store message: {e}")
             return False
@@ -142,22 +115,7 @@ class V2MessageStorage(IMessageStorage):
         """Retrieve a message by ID"""
         try:
             with self.lock:
-                message = self.messages.get(message_id)
-                if message:
-                    return message
-                if self.conn:
-                    cursor = self.conn.execute(
-                        "SELECT message_data FROM messages WHERE message_id=?",
-                        (message_id,),
-                    )
-                    row = cursor.fetchone()
-                    if row:
-                        data = json.loads(row[0])
-                        message = V2Message.from_dict(data)
-                        self.messages[message_id] = message
-                        self._update_indexes(message, "add")
-                        return message
-                return None
+                return self.messages.get(message_id)
         except Exception as e:
             logger.error(f"Failed to get message {message_id}: {e}")
             return None
@@ -269,17 +227,6 @@ class V2MessageStorage(IMessageStorage):
                         self.storage_stats["messages_by_status"][old_status] -= 1
                         self.storage_stats["messages_by_status"][status] += 1
 
-                    # Persist update if using database
-                    if self.conn:
-                        self.conn.execute(
-                            "UPDATE messages SET message_data=? WHERE message_id=?",
-                            (
-                                json.dumps(self.messages[message_id].to_dict()),
-                                message_id,
-                            ),
-                        )
-                        self.conn.commit()
-
                     logger.debug(f"Updated message {message_id} status to {status}")
                     return True
                 return False
@@ -310,13 +257,6 @@ class V2MessageStorage(IMessageStorage):
 
                     # Remove from main storage
                     del self.messages[message_id]
-
-                    if self.conn:
-                        self.conn.execute(
-                            "DELETE FROM messages WHERE message_id=?",
-                            (message_id,),
-                        )
-                        self.conn.commit()
 
                     logger.debug(f"Deleted message {message_id}")
                     return True

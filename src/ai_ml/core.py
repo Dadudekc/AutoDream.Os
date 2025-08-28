@@ -20,7 +20,6 @@ import asyncio
 
 from .api_key_manager import APIKeyManager
 from ..core.base_manager import BaseManager, ManagerStatus, ManagerPriority
-from .evaluation import evaluate_model as shared_evaluate_model
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -543,32 +542,76 @@ class MLFramework(ABC):
 
     @abstractmethod
     def initialize(self) -> bool:
-        """Initialize the ML framework"""
-        pass
+        """Initialize the ML framework.
+
+        Returns:
+            bool: ``True`` if initialization succeeded.
+        """
+        raise NotImplementedError("initialize must be implemented by subclasses")
 
     @abstractmethod
     def create_model(self, model_config: Dict[str, Any]) -> Any:
-        """Create a model using the framework"""
-        pass
+        """Create a model using the framework.
+
+        Args:
+            model_config (Dict[str, Any]): Model configuration parameters.
+
+        Returns:
+            Any: The created model instance.
+        """
+        raise NotImplementedError("create_model must be implemented by subclasses")
 
     @abstractmethod
     def train_model(self, model: Any, data: Any, **kwargs) -> Dict[str, Any]:
-        """Train a model"""
-        pass
+        """Train a model.
 
+        Args:
+            model (Any): Model instance to train.
+            data (Any): Training data.
+            **kwargs: Additional training parameters.
+
+        Returns:
+            Dict[str, Any]: Training metrics or results.
+        """
+        raise NotImplementedError("train_model must be implemented by subclasses")
+
+    @abstractmethod
     def evaluate_model(self, model: Any, test_data: Any) -> Dict[str, float]:
-        """Evaluate a model using the shared evaluator."""
-        return shared_evaluate_model(model, test_data)
+        """Evaluate a model.
+
+        Args:
+            model (Any): Model instance to evaluate.
+            test_data (Any): Evaluation dataset.
+
+        Returns:
+            Dict[str, float]: Evaluation metrics.
+        """
+        raise NotImplementedError("evaluate_model must be implemented by subclasses")
 
     @abstractmethod
     def save_model(self, model: Any, path: str) -> bool:
-        """Save a model to disk"""
-        pass
+        """Save a model to disk.
+
+        Args:
+            model (Any): Model instance.
+            path (str): Destination path.
+
+        Returns:
+            bool: ``True`` if the model was saved successfully.
+        """
+        raise NotImplementedError("save_model must be implemented by subclasses")
 
     @abstractmethod
     def load_model(self, path: str) -> Any:
-        """Load a model from disk"""
-        pass
+        """Load a model from disk.
+
+        Args:
+            path (str): Path to the saved model.
+
+        Returns:
+            Any: The loaded model instance.
+        """
+        raise NotImplementedError("load_model must be implemented by subclasses")
 
 
 class ModelManager(BaseManager):

@@ -1,16 +1,5 @@
-"""Core communication package."""
+"""Core communication package exposing the canonical manager."""
 
-from .channels import Channel, ChannelType
-from .adapters import HTTPAdapter, HTTPSAdapter, WebSocketAdapter
-from .router import MessageRouter
 from .communication_manager import CommunicationManager
 
-__all__ = [
-    "Channel",
-    "ChannelType",
-    "HTTPAdapter",
-    "HTTPSAdapter",
-    "WebSocketAdapter",
-    "MessageRouter",
-    "CommunicationManager",
-]
+__all__ = ["CommunicationManager"]

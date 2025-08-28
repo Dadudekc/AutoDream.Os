@@ -8,8 +8,6 @@ for all test modules in the Agent_Cellphone_V2 testing framework.
 
 import os
 import sys
-import tempfile
-import shutil
 
 # Stability improvements are available but not auto-imported to avoid circular imports
 # from src.utils.stability_improvements import stability_manager, safe_import
@@ -26,63 +24,7 @@ src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 from utils.stability_improvements import StabilityManager
 
-# Testing configuration
-TEST_TIMEOUT = 30  # seconds
-TEST_COVERAGE_THRESHOLD = 80  # percentage
-
-
-class TestConfig:
-    """Test configuration and constants."""
-
-    # V2 Standards Compliance (Updated 2024 - Balanced Approach)
-    MAX_LOC_STANDARD = 400  # Standard files: balanced for maintainability
-    MAX_LOC_GUI = 600       # GUI files: generous for UI while maintaining structure
-    MAX_LOC_CORE = 400      # Core files: focused and testable business logic
-
-    # Testing thresholds
-    MIN_COVERAGE = 80
-    MAX_TEST_DURATION = 30
-
-    # Test data paths
-    TEST_DATA_DIR = Path(__file__).parent / "test_data"
-    TEMP_DIR = Path(tempfile.gettempdir()) / "agent_cellphone_v2_tests"
-
-    # Component categories for testing
-    COMPONENTS = {
-        "core": "Core system components",
-        "services": "Service layer components",
-        "launchers": "Launcher components",
-        "utils": "Utility components",
-        "web": "Web interface components",
-    }
-
-
-@pytest.fixture(scope="session")
-def test_config() -> TestConfig:
-    """Provide test configuration for all tests."""
-    return TestConfig()
-
-
-@pytest.fixture(scope="session")
-def temp_test_dir(test_config: TestConfig) -> Generator[Path, None, None]:
-    """Create and provide temporary test directory."""
-    test_config.TEMP_DIR.mkdir(parents=True, exist_ok=True)
-    yield test_config.TEMP_DIR
-    # Cleanup after all tests
-    if test_config.TEMP_DIR.exists():
-        shutil.rmtree(test_config.TEMP_DIR)
-
-
-@pytest.fixture(scope="function")
-def clean_temp_dir(temp_test_dir: Path) -> Generator[Path, None, None]:
-    """Provide clean temporary directory for each test."""
-    # Clean before test
-    for item in temp_test_dir.iterdir():
-        if item.is_file():
-            item.unlink()
-        elif item.is_dir():
-            shutil.rmtree(item)
-    yield temp_test_dir
+from .fixtures.shared import TestConfig, test_config, temp_test_dir, clean_temp_dir
 
 
 @pytest.fixture(scope="session")

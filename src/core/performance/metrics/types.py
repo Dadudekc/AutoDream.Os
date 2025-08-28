@@ -1,30 +1,11 @@
-"""Metric data structures and types."""
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Dict, Union
+"""Compatibility layer for metric definitions.
 
-
-class MetricType(Enum):
-    """Types of metrics that can be collected."""
-
-    GAUGE = "gauge"  # Current value (e.g., CPU usage)
-    COUNTER = "counter"  # Incrementing value (e.g., request count)
-    HISTOGRAM = "histogram"  # Distribution of values
-    TIMER = "timer"  # Timing measurements
-    SET = "set"  # Unique values count
-
-
-@dataclass
-class MetricData:
-    """Individual metric data point."""
-
-    metric_name: str
-    metric_type: MetricType
-    value: Union[float, int]
-    timestamp: float
-    tags: Dict[str, str] = field(default_factory=dict)
-    unit: str = ""
-    description: str = ""
+The actual data structures live in :mod:`src.services.metrics_definitions` to
+provide a single source of truth for metric schemas.  This module simply
+re-exports those definitions for backwards compatibility with existing
+imports throughout the code base.
+"""
+from src.services.metrics_definitions import MetricData, MetricType
 
 
 __all__ = ["MetricType", "MetricData"]

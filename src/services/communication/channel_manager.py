@@ -13,7 +13,8 @@ import threading
 from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime
-import uuid
+
+from .utils import generate_id, current_timestamp
 
 try:
     from .coordinator_types import (
@@ -72,9 +73,13 @@ class ChannelManager:
         self.logger.info(f"Registered channel type: {channel_type}")
 
     def create_channel(
-        self, channel_id: str, channel_type: str, config: Dict[str, Any] = None
+        self,
+        channel_id: Optional[str],
+        channel_type: str,
+        config: Dict[str, Any] = None,
     ) -> bool:
         """Create a new communication channel"""
+        channel_id = channel_id or generate_id()
         if channel_id in self.channels:
             self.logger.error(f"Channel {channel_id} already exists")
             return False
@@ -90,10 +95,10 @@ class ChannelManager:
             with self._lock:
                 self.channels[channel_id] = channel
                 self.channel_stats[channel_id] = {
-                    "created_at": datetime.now(),
+                    "created_at": current_timestamp(),
                     "message_count": 0,
                     "error_count": 0,
-                    "last_activity": datetime.now(),
+                    "last_activity": current_timestamp(),
                 }
 
             self.logger.info(f"Created {channel_type} channel: {channel_id}")
@@ -137,7 +142,9 @@ class ChannelManager:
             if success:
                 with self._lock:
                     self.channel_stats[channel_id]["message_count"] += 1
-                    self.channel_stats[channel_id]["last_activity"] = datetime.now()
+                    self.channel_stats[channel_id][
+                        "last_activity"
+                    ] = current_timestamp()
 
                 self.logger.debug(f"Message sent through channel {channel_id}")
                 return True
@@ -176,7 +183,9 @@ class ChannelManager:
                 if success:
                     with self._lock:
                         self.channel_stats[channel_id]["message_count"] += 1
-                        self.channel_stats[channel_id]["last_activity"] = datetime.now()
+                        self.channel_stats[channel_id][
+                            "last_activity"
+                        ] = current_timestamp()
 
             except Exception as e:
                 self.logger.error(f"Error broadcasting to channel {channel_id}: {e}")

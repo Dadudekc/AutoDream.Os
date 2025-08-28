@@ -1,8 +1,8 @@
 from typing import Dict, Any
 
-from src.utils.logger import get_logger
+from .logging_utils import setup_logger
 
-logger = get_logger(__name__)
+logger = setup_logger(__name__)
 
 def summarize(result: Dict[str, Any]) -> Dict[str, Any]:
     """Log and return execution results."""

@@ -295,7 +295,12 @@ security.db
 compliance.db
 health_reports/
 health_charts/
-reporting_archive/
+reporting_archive/*
+!reporting_archive/archive_config.py
+!reporting_archive/file_importer.py
+!reporting_archive/data_consolidator.py
+!reporting_archive/report_exporter.py
+!reporting_archive/report_generator_service.py
 
 # Audit heavy artifacts (keep diffs slim)
 reports/metrics/

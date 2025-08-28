@@ -1,17 +1,8 @@
-"""Cleanup helpers for validation finalization."""
-import logging
-from pathlib import Path
-from typing import Iterable
+"""Cleanup helpers for validation system finalization."""
 
-logger = logging.getLogger(__name__)
+from .validation_manager import ValidationManager
 
 
-def cleanup(paths: Iterable[Path]) -> None:
-    """Remove temporary files produced during finalization."""
-    for path in paths:
-        try:
-            if path.exists():
-                path.unlink()
-                logger.debug("Removed %s", path)
-        except OSError as exc:  # pragma: no cover - best effort
-            logger.warning("Failed to remove %s: %s", path, exc)
+def cleanup_resources(validation_manager: ValidationManager) -> None:
+    """Cleanup transient validation data."""
+    validation_manager.validation_history.clear()

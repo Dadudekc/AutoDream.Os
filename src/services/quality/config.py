@@ -1,6 +1,10 @@
-"""Central configuration for the quality monitoring system."""
+"""Shared configuration for quality monitoring modules."""
 
-DEFAULT_CHECK_INTERVAL = 30.0
+from __future__ import annotations
+
+# Default configuration values for quality monitoring components
+DEFAULT_CHECK_INTERVAL: float = 30.0
+"""Default interval in seconds between quality checks."""
 
 DEFAULT_ALERT_RULES = {
     "test_failure": {
@@ -19,3 +23,13 @@ DEFAULT_ALERT_RULES = {
         "message": "Test coverage below threshold",
     },
 }
+"""Default alert rules used by :class:`QualityAlertManager`."""
+
+DEFAULT_HISTORY_WINDOW: int = 100
+"""Number of quality data points retained for trend analysis."""
+
+__all__ = [
+    "DEFAULT_CHECK_INTERVAL",
+    "DEFAULT_ALERT_RULES",
+    "DEFAULT_HISTORY_WINDOW",
+]

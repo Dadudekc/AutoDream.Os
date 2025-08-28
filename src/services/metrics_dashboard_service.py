@@ -1,32 +1,46 @@
 #!/usr/bin/env python3
-"""
-Simple Metrics Dashboard Service for testing
-"""
+"""Simple metrics dashboard demonstrating the metrics pipeline modules."""
+
+from __future__ import annotations
 
 import json
-import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime
+from .metrics_pipeline.data_collection import MetricsDataCollector
+from .metrics_pipeline.data_exporter import MetricsExporter
+from .metrics_pipeline.data_transformer import MetricsTransformer
+from .metrics_pipeline.metrics_config import DEFAULT_EXPORT_PATH
 
 
 class MetricsDashboardService:
-    def __init__(self):
-        self.metrics = {}
+    """Coordinates the data collection, transformation and export stages."""
+
+    def __init__(self) -> None:
+        self.collector = MetricsDataCollector()
+        self.transformer = MetricsTransformer()
+        self.exporter = MetricsExporter()
         print("Metrics Dashboard Service initialized")
 
-    def record_metric(self, name, value):
-        if name not in self.metrics:
-            self.metrics[name] = []
-        self.metrics[name].append({"timestamp": time.time(), "value": value})
+    def record_metric(self, name: str, value: float) -> None:
+        """Record a single metric value."""
+
+        self.collector.record(name, value)
         print(f"Recorded metric {name}: {value}")
 
-    def get_summary(self):
-        return {
-            "total_metrics": sum(len(values) for values in self.metrics.values()),
-            "metrics_tracked": len(self.metrics),
-            "timestamp": datetime.now().isoformat(),
-        }
+    def get_summary(self) -> dict:
+        """Return a summary of collected metrics."""
+
+        return self.transformer.summarize(self.collector.metrics)
+
+    def export_metrics(self, path: str = DEFAULT_EXPORT_PATH) -> bool:
+        """Export collected metrics to ``path``.
+
+        Returns ``True`` when the export succeeds.
+        """
+
+        success = self.exporter.export(self.collector.metrics, filename=path)
+        if success:
+            print(f"Exported metrics to {path}")
+        return success
 
 
 def main():

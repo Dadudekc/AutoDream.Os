@@ -17,6 +17,7 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import argparse
 from src.services.config_utils import ConfigLoader
+from src.services.performance_analysis import analyze_agent_activity
 
 
 @dataclass
@@ -133,10 +134,9 @@ class CoreCoordinatorService:
 
     def get_coordination_summary(self) -> Dict[str, Any]:
         """Get coordination system summary."""
-        active_agents = sum(
-            1 for agent in self.agent_status.values() if agent.status == "active"
-        )
-        total_errors = sum(len(agent.errors) for agent in self.agent_status.values())
+        analysis = analyze_agent_activity(self.agent_status.values())
+        active_agents = analysis["active_agents"]
+        total_errors = analysis["total_errors"]
 
         return {
             "total_agents": len(self.agent_status),

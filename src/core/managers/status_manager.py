@@ -13,38 +13,26 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import logging
 import json
+import logging
 import threading
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Callable, Union
 from dataclasses import asdict
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Union
 
-from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
+from ..base_manager import BaseManager, ManagerPriority, ManagerStatus
 from .constants import (
     DEFAULT_AUTO_RESOLVE_TIMEOUT,
     DEFAULT_HEALTH_CHECK_INTERVAL,
     DEFAULT_MAX_STATUS_HISTORY,
+    STATUS_CONFIG_PATH,
 )
 from .status_reporter import StatusReportWriter
-from .status_types import (
-    StatusLevel,
-    HealthStatus,
-    UpdateFrequency,
-)
-from .status_entities import (
-    StatusItem,
-    HealthMetric,
-    ComponentHealth,
-    StatusEvent,
-    StatusMetrics,
-    ActivitySummary,
-)
-from .health_monitor import HealthMonitor
-from .status_registry import StatusRegistry
 from .status_tracker import StatusTracker
+from .status_types import HealthStatus, StatusLevel
 from .status_updater import StatusUpdater
+from .status_entities import ComponentHealth, StatusEvent, StatusItem, StatusMetrics
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +53,7 @@ class StatusManager(BaseManager):
     Total consolidation: 7 files → 1 file (85% duplication eliminated)
     """
 
-    def __init__(self, config_path: str = "config/status_manager.json"):
+    def __init__(self, config_path: str = STATUS_CONFIG_PATH):
         """Initialize unified status manager"""
         super().__init__(
             manager_id="status_manager",
@@ -74,23 +62,21 @@ class StatusManager(BaseManager):
         )
 
         # Configuration defaults
-        self.component_health: Dict[str, ComponentHealth] = {}
         self.health_check_interval = DEFAULT_HEALTH_CHECK_INTERVAL
         self.max_status_history = DEFAULT_MAX_STATUS_HISTORY
         self.auto_resolve_timeout = DEFAULT_AUTO_RESOLVE_TIMEOUT
 
+        # Reporting resources
         self.reporter = StatusReportWriter()
 
+        # Load configuration
         self.config_path = config_path
         self._load_manager_config()
 
-        self.registry = StatusRegistry(self.max_status_history)
-        self.registry.set_event_callback(self._emit_event)
-
-        self.health_monitor = HealthMonitor(self.health_check_interval)
-        self.health_monitor.setup_default_checks()
-        self.tracker = StatusTracker(self.registry, self.component_health)
-        self.updater = StatusUpdater(self.registry, self.health_monitor)
+        # Modules
+        self.tracker = StatusTracker(self.max_status_history)
+        self.tracker.set_event_callback(self._emit_event)
+        self.updater = StatusUpdater(self.health_check_interval)
 
         logger.info("StatusManager initialized successfully")
 
@@ -118,24 +104,24 @@ class StatusManager(BaseManager):
         self, name: str, check_function: Callable[[], HealthStatus]
     ):
         """Register a health check function."""
-        self.health_monitor.register_health_check(name, check_function)
+        self.updater.register_health_check(name, check_function)
         logger.info(f"Registered health check: {name}")
 
     @property
     def status_items(self) -> Dict[str, StatusItem]:
-        return self.registry.status_items
+        return self.tracker.registry.status_items
 
     @property
     def status_events(self) -> Dict[str, StatusEvent]:
-        return self.registry.status_events
+        return self.tracker.registry.status_events
 
     @property
     def status_lock(self) -> threading.Lock:  # type: ignore[override]
-        return self.registry.status_lock
+        return self.tracker.registry.status_lock
 
     @property
     def health_checks(self) -> Dict[str, Callable[[], HealthStatus]]:
-        return self.health_monitor.health_checks
+        return self.updater.health_monitor.health_checks
 
     def add_status(
         self,
@@ -146,40 +132,93 @@ class StatusManager(BaseManager):
         metadata: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Add a new status item."""
-        return self.updater.add_status(component, status, level, message, metadata)
+        try:
+            status_id = self.tracker.add_status(
+                component, status, level, message, metadata
+            )
+            logger.info(f"Added status for {component}: {status} ({level.value})")
+            return status_id
+        except Exception as e:
+            logger.error(f"Failed to add status for {component}: {e}")
+            raise
 
     def get_status(
         self, component: Optional[str] = None
     ) -> Union[StatusItem, List[StatusItem], None]:
         """Get status information."""
-        return self.tracker.get_status(component)
+        try:
+            return self.tracker.get_status(component)
+        except Exception as e:
+            logger.error(f"Failed to get status: {e}")
+            return None if component else []
 
     def get_health_status(self, component_id: str) -> Optional[ComponentHealth]:
         """Get health status for a component"""
-        return self.tracker.get_health_status(component_id)
+        try:
+            return self.updater.get_health_status(component_id)
+        except Exception as e:
+            logger.error(f"Failed to get health status for {component_id}: {e}")
+            return None
 
     def get_status_summary(self) -> StatusMetrics:
         """Get status summary metrics."""
-        return self.tracker.get_status_summary(self.startup_time)
+        try:
+            uptime = (
+                (datetime.now() - self.startup_time).total_seconds()
+                if self.startup_time
+                else 0.0
+            )
+            return self.tracker.get_status_summary(uptime)
+        except Exception as e:
+            logger.error(f"Failed to get status summary: {e}")
+            return StatusMetrics(
+                total_components=0,
+                healthy_components=0,
+                warning_components=0,
+                error_components=0,
+                critical_components=0,
+                last_update=datetime.now().isoformat(),
+                uptime_seconds=0.0,
+            )
 
     def get_active_alerts(self) -> List[StatusItem]:
         """Get active alerts (warning, error, critical)."""
-        return self.tracker.get_active_alerts()
+        try:
+            return self.tracker.get_active_alerts()
+        except Exception as e:
+            logger.error(f"Failed to get active alerts: {e}")
+            return []
 
     def resolve_status(
         self, status_id: str, resolution_message: str = "Resolved"
     ) -> bool:
         """Mark a status item as resolved."""
-        return self.updater.resolve_status(status_id, resolution_message)
+        try:
+            resolved = self.tracker.resolve_status(status_id, resolution_message)
+            if resolved:
+                logger.info(f"Resolved status: {status_id}")
+            else:
+                logger.warning(f"Status not found: {status_id}")
+            return resolved
+        except Exception as e:
+            logger.error(f"Failed to resolve status {status_id}: {e}")
+            return False
 
     def run_health_checks(self) -> Dict[str, HealthStatus]:
         """Run all registered health checks."""
-        return self.updater.run_health_checks()
+        try:
+            results = self.updater.run_health_checks()
+            logger.info(f"Completed {len(results)} health checks")
+            return results
+        except Exception as e:
+            logger.error(f"Failed to run health checks: {e}")
+            return {}
 
     # ==================== Abstract Method Implementations ====================
     async def _initialize_manager(self):
         logger.info(f"Initializing {self.name}...")
-        self.health_monitor.interval = self.health_check_interval
+        # Start health monitoring
+        self._start_health_monitoring()
         # Allocate reporting resource
         self.reporter.initialize()
         logger.debug(f"Allocated report file at {self.reporter.path}")
@@ -187,7 +226,7 @@ class StatusManager(BaseManager):
     async def _shutdown_manager(self):
         logger.info(f"Shutting down {self.name}...")
         # Stop health monitoring
-        self.health_monitor.stop()
+        self.updater.stop()
         # Final reporting and resource cleanup
         summary = asdict(self.get_status_summary())
         self.reporter.finalize(summary)
@@ -198,8 +237,6 @@ class StatusManager(BaseManager):
         """Called when manager starts"""
         try:
             logger.info(f"Starting {self.name}...")
-            # Start health monitoring
-            self._start_health_monitoring()
             return True
         except Exception as e:
             logger.error(f"Failed to start {self.name}: {e}")
@@ -209,8 +246,6 @@ class StatusManager(BaseManager):
         """Called when manager stops"""
         try:
             logger.info(f"Stopping {self.name}...")
-            # Stop health monitoring
-            self.health_monitor.stop()
         except Exception as e:
             logger.error(f"Failed to stop {self.name}: {e}")
 
@@ -221,7 +256,7 @@ class StatusManager(BaseManager):
             self.last_heartbeat = datetime.now()
 
             # Run health checks if needed
-            if not self.health_monitor.timer:
+            if not self.updater.health_monitor.timer:
                 self._start_health_monitoring()
 
         except Exception as e:
@@ -231,6 +266,9 @@ class StatusManager(BaseManager):
         """Called to initialize manager resources"""
         try:
             logger.info(f"Initializing resources for {self.name}...")
+            # Load configuration
+            self._load_manager_config()
+            self.updater.health_monitor.interval = self.health_check_interval
             return True
         except Exception as e:
             logger.error(f"Failed to initialize resources for {self.name}: {e}")
@@ -241,10 +279,10 @@ class StatusManager(BaseManager):
         try:
             logger.info(f"Cleaning up resources for {self.name}...")
             # Stop health monitoring
-            self.health_monitor.stop()
+            self.updater.stop()
             # Clear data structures
-            self.registry.clear()
-            self.component_health.clear()
+            self.tracker.clear()
+            self.updater.clear()
         except Exception as e:
             logger.error(f"Failed to cleanup resources for {self.name}: {e}")
 
@@ -358,31 +396,38 @@ class StatusManager(BaseManager):
     async def _apply_config(self, config: Dict[str, Any]):
         # Apply configuration
         if self._validate_config(config):
-            self.health_check_interval = config.get("health_check_interval", 30)
-            self.max_status_history = config.get("max_status_history", 1000)
-            self.auto_resolve_timeout = config.get("auto_resolve_timeout", 3600)
-            self._load_manager_config()
-            self.health_monitor.interval = self.health_check_interval
+            self.health_check_interval = config.get(
+                "health_check_interval", DEFAULT_HEALTH_CHECK_INTERVAL
+            )
+            self.max_status_history = config.get(
+                "max_status_history", DEFAULT_MAX_STATUS_HISTORY
+            )
+            self.auto_resolve_timeout = config.get(
+                "auto_resolve_timeout", DEFAULT_AUTO_RESOLVE_TIMEOUT
+            )
+            self.tracker.registry.max_history = self.max_status_history
+            self.updater.health_monitor.interval = self.health_check_interval
 
     async def _reset_state(self):
         """Reset manager state."""
-        self.registry.clear()
+        self.tracker.clear()
+        self.updater.clear()
         logger.info("Status manager state reset")
 
     async def _backup_state(self) -> Dict[str, Any]:
         """Backup current state."""
-        data = self.registry.backup()
+        data = self.tracker.registry.backup()
         data["component_health"] = {
-            k: asdict(v) for k, v in self.component_health.items()
+            k: asdict(v) for k, v in self.updater.component_health.items()
         }
         return data
 
     async def _restore_state(self, state: Dict[str, Any]):
         """Restore state from backup."""
         try:
-            self.registry.restore(state)
+            self.tracker.registry.restore(state)
             for k, v in state.get("component_health", {}).items():
-                self.component_health[k] = ComponentHealth(**v)
+                self.updater.component_health[k] = ComponentHealth(**v)
             logger.info("Status manager state restored")
         except Exception as e:
             logger.error(f"Failed to restore state: {e}")
@@ -493,8 +538,7 @@ class StatusManager(BaseManager):
     def _start_health_monitoring(self):
         """Start periodic health monitoring."""
         try:
-            self.health_monitor.interval = self.health_check_interval
-            self.health_monitor.start()
+            self.updater.start(self.health_check_interval)
             logger.info(
                 f"Health monitoring started with {self.health_check_interval}s interval"
             )

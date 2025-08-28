@@ -8,6 +8,7 @@ from typing import Any, Dict, Optional
 
 from ..base import BaseMiddlewareComponent
 from ..models import DataPacket, MiddlewareType
+from .common_validation import has_tag, metadata_exists
 
 
 class DataTransformationMiddleware(BaseMiddlewareComponent):
@@ -53,11 +54,9 @@ class DataTransformationMiddleware(BaseMiddlewareComponent):
 
     def _matches_condition(self, data_packet: DataPacket, condition: str) -> bool:
         """Check if packet matches transformation condition."""
-        if condition in data_packet.tags:
+        if has_tag(data_packet, condition):
             return True
-        if condition in data_packet.metadata:
-            return bool(data_packet.metadata[condition])
-        return False
+        return metadata_exists(data_packet, condition)
 
     def _apply_transformation(self, data: Any, transformation: str) -> Any:
         """Apply the specified transformation to data."""

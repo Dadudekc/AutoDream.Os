@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 
 from ..base import BaseMiddlewareComponent
 from ..models import DataPacket, MiddlewareType
+from .common_validation import validate_field
 
 
 class ValidationMiddleware(BaseMiddlewareComponent):
@@ -32,7 +33,7 @@ class ValidationMiddleware(BaseMiddlewareComponent):
                 if field in data_packet.metadata:
                     value = data_packet.metadata[field]
                     for rule, constraint in rules.items():
-                        if not self._validate_field(value, rule, constraint):
+                        if not validate_field(value, rule, constraint):
                             validation_errors.append(
                                 f"Validation failed for {field}: {rule} {constraint}"
                             )
@@ -59,21 +60,3 @@ class ValidationMiddleware(BaseMiddlewareComponent):
         self.update_metrics(processing_time, success)
 
         return data_packet
-
-    def _validate_field(self, value: Any, rule: str, constraint: Any) -> bool:
-        """Validate a field according to the specified rule."""
-        if rule == "required":
-            return value is not None and value != ""
-        if rule == "min_length" and isinstance(value, str):
-            return len(value) >= constraint
-        if rule == "max_length" and isinstance(value, str):
-            return len(value) <= constraint
-        if rule == "min_value" and isinstance(value, (int, float)):
-            return value >= constraint
-        if rule == "max_value" and isinstance(value, (int, float)):
-            return value <= constraint
-        if rule == "type" and constraint == "string":
-            return isinstance(value, str)
-        if rule == "type" and constraint == "number":
-            return isinstance(value, (int, float))
-        return True

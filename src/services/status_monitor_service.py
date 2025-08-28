@@ -7,16 +7,14 @@ Agent status tracking and performance monitoring service.
 Follows V2 standards: ≤ 200 LOC, SRP, OOP design, CLI interface.
 """
 
-import json
-import logging
-
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
 import argparse
+import logging
+from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, Optional
 
+from src.constants import MONITORING_DIR
 from src.services.performance_analysis import analyze_agent_activity
 
 
@@ -59,7 +57,7 @@ class StatusMonitorService:
     - Status reporting and alerts
     """
 
-    def __init__(self, monitoring_dir: str = "agent_workspaces/monitoring"):
+    def __init__(self, monitoring_dir: Path = MONITORING_DIR):
         """Initialize Status Monitor Service."""
         self.monitoring_dir = Path(monitoring_dir)
         self.monitoring_dir.mkdir(exist_ok=True)

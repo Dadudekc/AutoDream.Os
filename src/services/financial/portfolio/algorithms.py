@@ -13,7 +13,13 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 from scipy.optimize import minimize
-from scipy import stats
+
+from .common_algorithms import (
+    calculate_var,
+    calculate_max_drawdown,
+    calculate_beta,
+    calculate_alpha,
+)
 from enum import Enum
 
 # Configure logging
@@ -214,13 +220,23 @@ class PortfolioOptimizationAlgorithms:
             # Create weights dictionary
             weights_dict = {symbol: weight for symbol, weight in zip(symbols, optimal_weights)}
 
-            # Risk metrics
+            # Risk metrics using shared algorithms
+            weight_array = np.array(list(weights_dict.values()))
+            portfolio_returns = pd.Series(
+                [
+                    portfolio_return,
+                    portfolio_return - np.sqrt(
+                        np.dot(weight_array.T, np.dot(covariance_matrix, weight_array))
+                    )
+                    * 2,
+                ]
+            )
             risk_metrics = {
-                "var_95": self._calculate_var(weights_dict, mean_returns, covariance_matrix, 0.95),
-                "var_99": self._calculate_var(weights_dict, mean_returns, covariance_matrix, 0.99),
-                "max_drawdown": self._calculate_max_drawdown(weights_dict, mean_returns, covariance_matrix),
-                "beta": self._calculate_beta(weights_dict, mean_returns, covariance_matrix),
-                "alpha": self._calculate_alpha(weights_dict, mean_returns, covariance_matrix)
+                "var_95": calculate_var(weights_dict, mean_returns, covariance_matrix, 0.95),
+                "var_99": calculate_var(weights_dict, mean_returns, covariance_matrix, 0.99),
+                "max_drawdown": calculate_max_drawdown(portfolio_returns),
+                "beta": calculate_beta(portfolio_returns, pd.Series()),
+                "alpha": calculate_alpha(portfolio_returns, pd.Series(), self.risk_free_rate),
             }
 
             return OptimizationResult(
@@ -314,13 +330,23 @@ class PortfolioOptimizationAlgorithms:
             # Create weights dictionary
             weights_dict = {symbol: weight for symbol, weight in zip(symbols, optimal_weights)}
 
-            # Risk metrics
+            # Risk metrics using shared algorithms
+            weight_array = np.array(list(weights_dict.values()))
+            portfolio_returns = pd.Series(
+                [
+                    portfolio_return,
+                    portfolio_return - np.sqrt(
+                        np.dot(weight_array.T, np.dot(covariance_matrix, weight_array))
+                    )
+                    * 2,
+                ]
+            )
             risk_metrics = {
-                "var_95": self._calculate_var(weights_dict, None, covariance_matrix, 0.95),
-                "var_99": self._calculate_var(weights_dict, None, covariance_matrix, 0.99),
-                "max_drawdown": self._calculate_max_drawdown(weights_dict, None, covariance_matrix),
-                "beta": 0.0,  # No returns data for beta calculation
-                "alpha": 0.0   # No returns data for alpha calculation
+                "var_95": calculate_var(weights_dict, None, covariance_matrix, 0.95),
+                "var_99": calculate_var(weights_dict, None, covariance_matrix, 0.99),
+                "max_drawdown": calculate_max_drawdown(portfolio_returns),
+                "beta": calculate_beta(portfolio_returns, pd.Series()),
+                "alpha": calculate_alpha(portfolio_returns, pd.Series(), self.risk_free_rate),
             }
 
             return OptimizationResult(
@@ -354,73 +380,6 @@ class PortfolioOptimizationAlgorithms:
         }
         return sector_classifications.get(sector.upper(), [])
 
-    def _calculate_var(self, weights: Dict[str, float], returns: pd.Series, 
-                      covariance: pd.DataFrame, confidence_level: float) -> float:
-        """Calculate Value at Risk"""
-        try:
-            if returns is None:
-                return 0.0
-            
-            portfolio_return = np.sum(returns * np.array(list(weights.values())))
-            portfolio_volatility = np.sqrt(
-                np.dot(np.array(list(weights.values())).T, 
-                      np.dot(covariance, np.array(list(weights.values())))))
-            
-            # Assuming normal distribution
-            z_score = stats.norm.ppf(1 - confidence_level)
-            var = portfolio_return - z_score * portfolio_volatility
-            return var
-        except Exception as e:
-            logger.error(f"Error calculating VaR: {e}")
-            return 0.0
-
-    def _calculate_max_drawdown(self, weights: Dict[str, float], returns: pd.Series, 
-                               covariance: pd.DataFrame) -> float:
-        """Calculate maximum drawdown"""
-        try:
-            if returns is None:
-                return 0.0
-            
-            portfolio_return = np.sum(returns * np.array(list(weights.values())))
-            portfolio_volatility = np.sqrt(
-                np.dot(np.array(list(weights.values())).T, 
-                      np.dot(covariance, np.array(list(weights.values())))))
-            
-            # Simplified max drawdown calculation
-            max_drawdown = portfolio_volatility * 2.0  # Rough estimate
-            return max_drawdown
-        except Exception as e:
-            logger.error(f"Error calculating max drawdown: {e}")
-            return 0.0
-
-    def _calculate_beta(self, weights: Dict[str, float], returns: pd.Series, 
-                       covariance: pd.DataFrame) -> float:
-        """Calculate portfolio beta"""
-        try:
-            if returns is None:
-                return 0.0
-            
-            # Simplified beta calculation
-            portfolio_return = np.sum(returns * np.array(list(weights.values())))
-            beta = portfolio_return / returns.mean() if returns.mean() != 0 else 1.0
-            return beta
-        except Exception as e:
-            logger.error(f"Error calculating beta: {e}")
-            return 1.0
-
-    def _calculate_alpha(self, weights: Dict[str, float], returns: pd.Series, 
-                        covariance: pd.DataFrame) -> float:
-        """Calculate portfolio alpha"""
-        try:
-            if returns is None:
-                return 0.0
-            
-            portfolio_return = np.sum(returns * np.array(list(weights.values())))
-            alpha = portfolio_return - self.risk_free_rate
-            return alpha
-        except Exception as e:
-            logger.error(f"Error calculating alpha: {e}")
-            return 0.0
 
 
 def main():

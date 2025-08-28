@@ -1,0 +1,21 @@
+rules:
+  - rule_id: storage_structure
+    rule_name: Storage Structure
+    rule_type: storage
+    description: Validate storage configuration structure
+    severity: ERROR
+  - rule_id: storage_type_validation
+    rule_name: Storage Type Validation
+    rule_type: storage
+    description: Validate storage type and configuration
+    severity: ERROR
+  - rule_id: connection_validation
+    rule_name: Connection Validation
+    rule_type: storage
+    description: Validate storage connection parameters
+    severity: ERROR
+  - rule_id: performance_validation
+    rule_name: Performance Validation
+    rule_type: storage
+    description: Validate storage performance settings
+    severity: WARNING

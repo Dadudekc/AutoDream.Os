@@ -32,50 +32,6 @@ class MessageValidator(BaseValidator):
     def __init__(self):
         """Initialize message validator"""
         super().__init__("MessageValidator")
-        self._setup_default_rules()
-
-    def _setup_default_rules(self) -> None:
-        """Setup default message validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="unified_message_structure",
-                rule_name="Unified Message Structure",
-                rule_type="message",
-                description="Validate UnifiedMessage structure and format",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="required_fields",
-                rule_name="Required Fields",
-                rule_type="message",
-                description="Ensure all required UnifiedMessage fields are present",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="message_format",
-                rule_name="Message Format",
-                rule_type="message",
-                description="Validate UnifiedMessage format and encoding",
-                severity=ValidationSeverity.WARNING,
-            ),
-            ValidationRule(
-                rule_id="content_validation",
-                rule_name="Content Validation",
-                rule_type="message",
-                description="Validate UnifiedMessage content and structure",
-                severity=ValidationSeverity.WARNING,
-            ),
-            ValidationRule(
-                rule_id="enum_validation",
-                rule_name="Enum Validation",
-                rule_type="message",
-                description="Validate UnifiedMessage enum values",
-                severity=ValidationSeverity.ERROR,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, message_data: Dict[str, Any], **kwargs

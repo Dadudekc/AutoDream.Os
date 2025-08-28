@@ -1,0 +1,6 @@
+rules:
+  - rule_id: workflow_execution
+    rule_name: Workflow Execution Validation
+    rule_type: workflow
+    description: Validate workflow execution state and transitions
+    severity: ERROR

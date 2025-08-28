@@ -5,7 +5,6 @@ from typing import List
 from src.core.validation import (
     BaseValidator,
     ValidationResult,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
 )
@@ -18,26 +17,6 @@ class WorkflowStructureValidator(BaseValidator):
 
     def __init__(self) -> None:
         super().__init__("WorkflowStructureValidator")
-
-    def _setup_default_rules(self) -> None:  # pragma: no cover - simple rule setup
-        self.add_validation_rule(
-            ValidationRule(
-                rule_id="workflow_structure",
-                rule_name="Workflow Structure Validation",
-                rule_type="workflow",
-                description="Validate workflow definition structure and integrity",
-                severity=ValidationSeverity.ERROR,
-            )
-        )
-        self.add_validation_rule(
-            ValidationRule(
-                rule_id="step_dependencies",
-                rule_name="Step Dependencies Validation",
-                rule_type="workflow",
-                description="Validate workflow step dependencies and cycles",
-                severity=ValidationSeverity.ERROR,
-            )
-        )
 
     def validate(self, workflow_def: WorkflowDefinition, **_) -> List[ValidationResult]:
         results: List[ValidationResult] = []
@@ -116,7 +95,9 @@ class WorkflowStructureValidator(BaseValidator):
 
         return results
 
-    def _validate_workflow_steps(self, steps: List[WorkflowStep]) -> List[ValidationResult]:
+    def _validate_workflow_steps(
+        self, steps: List[WorkflowStep]
+    ) -> List[ValidationResult]:
         results: List[ValidationResult] = []
 
         for i, step in enumerate(steps):
@@ -173,7 +154,9 @@ class WorkflowStructureValidator(BaseValidator):
 
         return results
 
-    def _validate_step_dependencies(self, steps: List[WorkflowStep]) -> List[ValidationResult]:
+    def _validate_step_dependencies(
+        self, steps: List[WorkflowStep]
+    ) -> List[ValidationResult]:
         results: List[ValidationResult] = []
         step_ids = {step.step_id for step in steps}
 
@@ -210,7 +193,9 @@ class WorkflowStructureValidator(BaseValidator):
         results.extend(self._detect_dependency_cycles(steps))
         return results
 
-    def _detect_dependency_cycles(self, steps: List[WorkflowStep]) -> List[ValidationResult]:
+    def _detect_dependency_cycles(
+        self, steps: List[WorkflowStep]
+    ) -> List[ValidationResult]:
         results: List[ValidationResult] = []
 
         for i, step in enumerate(steps):
@@ -242,7 +227,9 @@ class WorkflowStructureValidator(BaseValidator):
 
         for dep_id in step.dependencies:
             dep_step = next((s for s in all_steps if s.step_id == dep_id), None)
-            if dep_step and self._has_cycle_recursive(dep_step, all_steps, visited, path):
+            if dep_step and self._has_cycle_recursive(
+                dep_step, all_steps, visited, path
+            ):
                 return True
 
         path.remove(step.step_id)

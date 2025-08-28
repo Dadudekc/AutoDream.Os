@@ -5,7 +5,6 @@ from typing import List
 from src.core.validation import (
     BaseValidator,
     ValidationResult,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
 )
@@ -18,24 +17,15 @@ class WorkflowPerformanceValidator(BaseValidator):
     def __init__(self) -> None:
         super().__init__("WorkflowPerformanceValidator")
 
-    def _setup_default_rules(self) -> None:  # pragma: no cover - simple rule setup
-        self.add_validation_rule(
-            ValidationRule(
-                rule_id="performance_metrics",
-                rule_name="Performance Metrics Validation",
-                rule_type="workflow",
-                description="Validate workflow performance and optimization",
-                severity=ValidationSeverity.WARNING,
-            )
-        )
-
     def validate(
         self, workflow_def: WorkflowDefinition, execution: WorkflowExecution, **_
     ) -> List[ValidationResult]:
         results: List[ValidationResult] = []
 
         try:
-            total_estimated = sum(step.estimated_duration for step in workflow_def.steps)
+            total_estimated = sum(
+                step.estimated_duration for step in workflow_def.steps
+            )
 
             if execution.start_time and execution.end_time:
                 actual_duration = (
@@ -60,9 +50,7 @@ class WorkflowPerformanceValidator(BaseValidator):
                     )
 
             long_steps = [
-                step
-                for step in workflow_def.steps
-                if step.estimated_duration > 300
+                step for step in workflow_def.steps if step.estimated_duration > 300
             ]
             if long_steps:
                 results.append(

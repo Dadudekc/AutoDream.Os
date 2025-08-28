@@ -8,7 +8,6 @@ and following the unified validation framework patterns.
 from typing import Dict, List, Any, Optional
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -39,42 +38,6 @@ class StorageValidator(BaseValidator):
             "elasticsearch",
             "dynamodb",
         ]
-
-    def _setup_default_rules(self) -> None:
-        """Setup default storage validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="storage_structure",
-                rule_name="Storage Structure",
-                rule_type="storage",
-                description="Validate storage configuration structure",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="storage_type_validation",
-                rule_name="Storage Type Validation",
-                rule_type="storage",
-                description="Validate storage type and configuration",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="connection_validation",
-                rule_name="Connection Validation",
-                rule_type="storage",
-                description="Validate storage connection parameters",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="performance_validation",
-                rule_name="Performance Validation",
-                rule_type="storage",
-                description="Validate storage performance settings",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, storage_data: Dict[str, Any], **kwargs

@@ -16,7 +16,99 @@ from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 
-from .decision_types import DecisionType, DecisionPriority, DecisionStatus
+from .decision_types import DecisionType
+
+
+@dataclass
+class DecisionMetrics:
+    """Centralized decision performance metrics"""
+    metrics_id: str
+    decision_type: DecisionType
+    name: str = ""
+    description: str = ""
+    current_value: float = 0.0
+    target_value: float = 0.0
+    unit: str = ""
+    is_active: bool = True
+    total_decisions: int = 0
+    successful_decisions: int = 0
+    failed_decisions: int = 0
+    average_confidence: float = 0.0
+    average_execution_time: float = 0.0
+    last_updated: datetime = field(default_factory=datetime.now)
+    total_execution_time: float = 0.0
+    confidence_history: List[float] = field(default_factory=list)
+    execution_time_history: List[float] = field(default_factory=list)
+    success_rate_threshold: float = 0.8
+    execution_time_threshold: float = 5.0
+    confidence_threshold: float = 0.7
+
+    def update_metrics(self, success: bool, execution_time: float, confidence: float):
+        """Update metrics with new decision result"""
+        self.total_decisions += 1
+        if success:
+            self.successful_decisions += 1
+        else:
+            self.failed_decisions += 1
+
+        self.total_execution_time += execution_time
+        self.execution_time_history.append(execution_time)
+        self.confidence_history.append(confidence)
+
+        self.average_execution_time = self.total_execution_time / self.total_decisions
+        self.average_confidence = sum(self.confidence_history) / len(self.confidence_history)
+        self.last_updated = datetime.now()
+
+    def get_success_rate(self) -> float:
+        """Return current success rate"""
+        if self.total_decisions == 0:
+            return 0.0
+        return self.successful_decisions / self.total_decisions
+
+    def get_performance_score(self) -> float:
+        """Calculate overall performance score"""
+        success_rate = self.get_success_rate()
+        time_score = max(0.0, 1.0 - (self.average_execution_time / 10.0))
+        confidence_score = self.average_confidence
+        return (success_rate * 0.4) + (time_score * 0.3) + (confidence_score * 0.3)
+
+    def check_alerts(self) -> List[str]:
+        """Check for performance alerts"""
+        alerts = []
+        if self.get_success_rate() < self.success_rate_threshold:
+            alerts.append(
+                f"Success rate {self.get_success_rate():.2%} below threshold {self.success_rate_threshold:.2%}"
+            )
+        if self.average_execution_time > self.execution_time_threshold:
+            alerts.append(
+                f"Average execution time {self.average_execution_time:.2f}s above threshold {self.execution_time_threshold:.2f}s"
+            )
+        if self.average_confidence < self.confidence_threshold:
+            alerts.append(
+                f"Average confidence {self.average_confidence:.2f} below threshold {self.confidence_threshold:.2f}"
+            )
+        return alerts
+
+    def get_summary(self) -> Dict[str, Any]:
+        """Return a metrics summary"""
+        return {
+            "metrics_id": self.metrics_id,
+            "decision_type": self.decision_type.value,
+            "total_decisions": self.total_decisions,
+            "successful_decisions": self.successful_decisions,
+            "failed_decisions": self.failed_decisions,
+            "success_rate": self.get_success_rate(),
+            "average_execution_time": self.average_execution_time,
+            "average_confidence": self.average_confidence,
+            "performance_score": self.get_performance_score(),
+            "alerts": self.check_alerts(),
+            "last_updated": self.last_updated.isoformat(),
+            "current_value": self.current_value,
+            "target_value": self.target_value,
+            "unit": self.unit,
+            "name": self.name,
+            "description": self.description,
+        }
 
 
 @dataclass
@@ -125,7 +217,7 @@ class DecisionMetricsManager:
                 metrics_id="overall_decisions",
                 name="Overall Decision Metrics",
                 description="Aggregate metrics for all decisions",
-                metrics_type=DecisionType.RULE_BASED,
+                decision_type=DecisionType.RULE_BASED,
                 current_value=0.0,
                 target_value=1.0,
                 unit="score",
@@ -138,7 +230,7 @@ class DecisionMetricsManager:
                 metrics_id="success_rate",
                 name="Decision Success Rate",
                 description="Percentage of successful decisions",
-                metrics_type=DecisionType.RULE_BASED,
+                decision_type=DecisionType.RULE_BASED,
                 current_value=0.0,
                 target_value=0.9,
                 unit="percentage",
@@ -151,7 +243,7 @@ class DecisionMetricsManager:
                 metrics_id="decision_time",
                 name="Average Decision Time",
                 description="Average time to make decisions",
-                metrics_type=DecisionType.RULE_BASED,
+                decision_type=DecisionType.RULE_BASED,
                 current_value=0.0,
                 target_value=2.0,
                 unit="seconds",
@@ -164,7 +256,7 @@ class DecisionMetricsManager:
                 metrics_id="performance_score",
                 name="Decision Performance Score",
                 description="Overall performance score for decisions",
-                metrics_type=DecisionType.RULE_BASED,
+                decision_type=DecisionType.RULE_BASED,
                 current_value=0.0,
                 target_value=0.8,
                 unit="score",

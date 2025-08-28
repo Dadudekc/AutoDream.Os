@@ -25,6 +25,7 @@ from .constants import (
     DEFAULT_MAX_CONCURRENT_DECISIONS,
     MAX_DECISION_HISTORY,
 )
+from .decision_metrics import DecisionMetrics
 from .decision_algorithms import DecisionAlgorithmExecutor
 from .decision_rules import DecisionRuleEngine
 from .decision_types import (

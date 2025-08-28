@@ -97,6 +97,7 @@ class ValidationRuleManager:
     def _initialize_default_rules(self):
         """Initialize default validation rules"""
         default_rules = [
+            # Deadline rule – ensures deliverables meet agreed deadlines
             ValidationRule(
                 rule_id="deadline_check",
                 name="Deadline Compliance",
@@ -106,6 +107,7 @@ class ValidationRuleManager:
                 severity=ValidationSeverity.ERROR,
                 enforcement_action=EnforcementAction.WARNING,
             ),
+            # Quality rule – verifies deliverables meet quality requirements
             ValidationRule(
                 rule_id="quality_standard",
                 name="Quality Standards",
@@ -115,6 +117,7 @@ class ValidationRuleManager:
                 severity=ValidationSeverity.WARNING,
                 enforcement_action=EnforcementAction.NOTIFICATION,
             ),
+            # Resource rule – checks usage stays within allocation
             ValidationRule(
                 rule_id="resource_limit",
                 name="Resource Limits",
@@ -124,6 +127,7 @@ class ValidationRuleManager:
                 severity=ValidationSeverity.WARNING,
                 enforcement_action=EnforcementAction.WARNING,
             ),
+            # Dependency rule – confirms all prerequisites completed
             ValidationRule(
                 rule_id="dependency_check",
                 name="Dependency Validation",

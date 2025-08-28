@@ -2,27 +2,12 @@ from __future__ import annotations
 
 """Training orchestration built around dependency injection."""
 
-from typing import Any, Dict, Protocol
+from typing import Any, Dict
+
+from ai_ml.ai_ml_common import DataService, TrainingFramework
 
 
-class Framework(Protocol):
-    """Protocol describing required framework behaviour."""
-
-    def create_model(self, model_config: Dict[str, Any]) -> Any:
-        ...
-
-    def train_model(self, model: Any, data: Any) -> Dict[str, Any]:
-        ...
-
-
-class DataService(Protocol):
-    """Protocol for providing training data."""
-
-    def fetch(self, query: Any) -> Any:
-        """Return training data for ``query``."""
-
-
-class TrainingOrchestrator:
+class TrainingManager:
     """Coordinate data retrieval and model training.
 
     Parameters
@@ -35,7 +20,9 @@ class TrainingOrchestrator:
         Logging interface for status messages.
     """
 
-    def __init__(self, framework: Framework, data_service: DataService, logger: Any) -> None:
+    def __init__(
+        self, framework: TrainingFramework, data_service: DataService, logger: Any
+    ) -> None:
         self._framework = framework
         self._data_service = data_service
         self._logger = logger

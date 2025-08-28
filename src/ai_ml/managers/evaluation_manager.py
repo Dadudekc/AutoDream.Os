@@ -2,27 +2,17 @@ from __future__ import annotations
 
 """Model evaluation built around dependency injection."""
 
-from typing import Any, Dict, Protocol
+from typing import Any, Dict
+
+from ai_ml.ai_ml_common import DataService, EvaluationFramework
 
 
-class Framework(Protocol):
-    """Protocol describing required evaluation behaviour."""
-
-    def evaluate_model(self, model: Any, data: Any) -> Dict[str, float]:
-        ...
-
-
-class DataService(Protocol):
-    """Protocol for providing evaluation data."""
-
-    def fetch(self, query: Any) -> Any:
-        """Return evaluation data for ``query``."""
-
-
-class Evaluator:
+class EvaluationManager:
     """Evaluate models using injected services."""
 
-    def __init__(self, framework: Framework, data_service: DataService, logger: Any) -> None:
+    def __init__(
+        self, framework: EvaluationFramework, data_service: DataService, logger: Any
+    ) -> None:
         self._framework = framework
         self._data_service = data_service
         self._logger = logger

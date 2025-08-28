@@ -1,3 +1,10 @@
+"""Handoff initiation utilities.
+
+Responsibilities:
+- Define handoff context and record structures.
+- Start new handoff execution and persist its state.
+"""
+
 from dataclasses import dataclass, field
 import time
 from typing import Dict, Any, Optional

@@ -1,5 +1,12 @@
+"""Handoff monitoring utilities.
+
+Responsibilities:
+- Track active handoff records.
+- Provide status queries for executions.
+"""
+
 from typing import Dict, Optional
-from .handoff_initiation import HandoffRecord
+from .initiation import HandoffRecord
 
 
 class HandoffMonitor:

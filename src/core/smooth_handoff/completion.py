@@ -1,6 +1,13 @@
+"""Handoff completion utilities.
+
+Responsibilities:
+- Finalize handoff executions.
+- Persist completed records in history.
+"""
+
 import time
 from typing import Dict, List
-from .handoff_initiation import HandoffRecord
+from .initiation import HandoffRecord
 
 
 class HandoffCompleter:

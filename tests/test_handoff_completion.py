@@ -1,6 +1,9 @@
-from src.core.handoff_initiation import HandoffInitiator, HandoffContext
-from src.core.handoff_monitoring import HandoffMonitor
-from src.core.handoff_completion import HandoffCompleter
+from src.core.smooth_handoff import (
+    HandoffInitiator,
+    HandoffContext,
+    HandoffMonitor,
+    HandoffCompleter,
+)
 
 
 def test_completion_moves_to_history():
@@ -16,3 +19,4 @@ def test_completion_moves_to_history():
     assert execution_id not in active
     assert len(history) == 1
     assert history[0].status == "completed"
+

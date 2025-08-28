@@ -494,7 +494,7 @@
                 <div class="alert-item ${alert.level}">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <strong>${alert.message}</strong>
+                            <strong>${escapeHTML(alert.message)}</strong>
                             <br><small class="text-muted">${formatTimestamp(alert.timestamp)}</small>
                         </div>
                         <div>

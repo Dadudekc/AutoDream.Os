@@ -1,8 +1,8 @@
 {
   "captains_handbook_id": "captain_agent4_comprehensive_reference_2025",
-  "timestamp": "2025-01-27T22:45:00Z",
+  "timestamp": "2025-01-27T23:00:00Z",
   "created_by": "Agent-4 (Captain)",
-  "version": "1.8",
+  "version": "1.9",
   "handbook_type": "comprehensive_captain_reference",
   
   "captain_role_definition": {
@@ -581,6 +581,66 @@
       "Support agents in completing emergency contracts",
       "Monitor progress toward INNOVATION PLANNING MODE",
       "Prevent future workflow stalls through proactive monitoring"
+    ]
+  },
+
+  "monolithic_file_modularization_mission": {
+    "status": "MISSION_ACTIVE_AND_EXECUTING",
+    "timestamp": "2025-01-27T23:00:00Z",
+    "mission_objective": "Break down monolithic files (500+ LOC) into smaller, maintainable modules to reach LOC standard",
+    "target_files_identified": [
+      "src/ai_ml/core.py (1157 LOC) - CRITICAL PRIORITY",
+      "src/core/fsm/fsm_core_v2.py (942 LOC) - HIGH PRIORITY",
+      "src/services/messaging/command_handler.py (803 LOC) - HIGH PRIORITY",
+      "src/core/validation/security_validator.py (777 LOC) - HIGH PRIORITY",
+      "src/core/refactoring/contract_deliverables_validator.py (753 LOC) - MEDIUM PRIORITY",
+      "src/core/managers/ai_agent_orchestrator.py (749 LOC) - HIGH PRIORITY",
+      "src/core/learning/unified_learning_engine.py (739 LOC) - MEDIUM PRIORITY"
+    ],
+    "modularization_contracts_created": [
+      "MODULAR-001: AI/ML Core Modularization (600 pts) - Break down 1157 LOC file",
+      "MODULAR-002: FSM Core V2 Modularization (500 pts) - Break down 942 LOC file",
+      "MODULAR-003: Command Handler Modularization (450 pts) - Break down 803 LOC file",
+      "MODULAR-004: Security Validator Modularization (475 pts) - Break down 777 LOC file",
+      "MODULAR-005: Contract Deliverables Validator Modularization (425 pts) - Break down 753 LOC file",
+      "MODULAR-006: AI Agent Orchestrator Modularization (475 pts) - Break down 749 LOC file",
+      "MODULAR-007: Unified Learning Engine Modularization (425 pts) - Break down 739 LOC file"
+    ],
+    "total_contracts_available": "47 contracts worth 14,190 points",
+    "modularization_contracts_value": "3,300 points (7 contracts)",
+    "mission_success_criteria": [
+      "All 7 monolithic files broken down into modules under 500 LOC",
+      "Each module has clear, focused responsibility",
+      "Proper interfaces and abstractions implemented",
+      "All functionality preserved during modularization",
+      "Testing suites created for modularized components",
+      "Documentation updated for new modular structure"
+    ],
+    "agent_assignments": [
+      "Agent-1: Available for modularization contracts",
+      "Agent-2: Available for modularization contracts",
+      "Agent-3: Available for modularization contracts",
+      "Agent-5: Available for modularization contracts",
+      "Agent-6: Available for modularization contracts",
+      "Agent-7: Available for modularization contracts",
+      "Agent-8: Available for modularization contracts"
+    ],
+    "modularization_guidelines": [
+      "Analyze file structure and identify logical component boundaries",
+      "Separate different functional aspects into focused modules",
+      "Implement clean interfaces and abstractions between modules",
+      "Ensure all existing functionality is preserved",
+      "Update imports and references throughout the codebase",
+      "Create comprehensive testing suites for modularized components",
+      "Document component interfaces and migration guides"
+    ],
+    "expected_outcomes": [
+      "Improved code maintainability and readability",
+      "Better separation of concerns and single responsibility principle",
+      "Easier testing and debugging of individual components",
+      "Reduced cognitive load for developers",
+      "Better adherence to LOC standards",
+      "Enhanced system architecture and modularity"
     ]
   },
 

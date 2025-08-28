@@ -3,6 +3,8 @@
  * Agent_Cellphone_V2_Repository - Unified Portal Architecture
  */
 
+import { debounce } from './utils.js';
+
 (function() {
     'use strict';
 
@@ -460,18 +462,8 @@
             });
     };
 
-    // Utility function for debouncing
-    PortalFramework.utils.debounce = function(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = function() {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    };
+    // Utility function for debouncing sourced from shared utils
+    PortalFramework.utils.debounce = debounce;
 
     // Portal Sidebar Component
     function PortalSidebar() {
@@ -761,3 +753,5 @@
     });
 
 })();
+
+export default window.PortalFramework;

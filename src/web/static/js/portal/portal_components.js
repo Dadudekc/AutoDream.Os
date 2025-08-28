@@ -3,8 +3,6 @@
  * Agent_Cellphone_V2_Repository - Unified Portal Architecture
  */
 
-import { debounce, throttle } from './utils.js';
-
 (function() {
     'use strict';
 
@@ -560,48 +558,7 @@ import { debounce, throttle } from './utils.js';
     };
 
     // Portal Components Utilities
-    PortalComponents.utils = {
-        // Format numbers with appropriate units
-        formatNumber: function(number, decimals = 2) {
-            if (number >= 1000000) {
-                return (number / 1000000).toFixed(decimals) + 'M';
-            } else if (number >= 1000) {
-                return (number / 1000).toFixed(decimals) + 'K';
-            } else {
-                return number.toString();
-            }
-        },
-
-        // Format file sizes
-        formatFileSize: function(bytes) {
-            if (bytes === 0) return '0 Bytes';
-
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        },
-
-        // Format duration
-        formatDuration: function(seconds) {
-            if (seconds < 60) {
-                return seconds + 's';
-            } else if (seconds < 3600) {
-                const minutes = Math.floor(seconds / 60);
-                const remainingSeconds = seconds % 60;
-                return minutes + 'm ' + remainingSeconds + 's';
-            } else {
-                const hours = Math.floor(seconds / 3600);
-                const remainingMinutes = Math.floor((seconds % 3600) / 60);
-                return hours + 'h ' + remainingMinutes + 'm';
-            }
-        },
-
-        // Debounce and throttle sourced from shared utils
-        debounce,
-        throttle
-    };
+    PortalComponents.utils = PortalShared.utils;
 
     // Auto-initialize widgets when DOM is ready
     document.addEventListener('DOMContentLoaded', function() {
@@ -626,5 +583,3 @@ import { debounce, throttle } from './utils.js';
     });
 
 })();
-
-export default window.PortalComponents;

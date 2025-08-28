@@ -7,7 +7,6 @@ Handles task scheduling, prioritization, and assignment.
 Single responsibility: Task scheduling and priority management.
 """
 
-import logging
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -15,11 +14,14 @@ from enum import Enum
 from pathlib import Path
 import json
 
+from src.config import TASK_ID_TIMESTAMP_FORMAT
 from src.utils.stability_improvements import stability_manager, safe_import
+from .logger import get_task_logger
 
 
 class TaskPriority(Enum):
     """Task priority levels."""
+
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -28,6 +30,7 @@ class TaskPriority(Enum):
 
 class TaskStatus(Enum):
     """Task status states."""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     BLOCKED = "blocked"
@@ -39,6 +42,7 @@ class TaskStatus(Enum):
 @dataclass
 class Task:
     """Task data structure."""
+
     task_id: str
     title: str
     description: str
@@ -57,7 +61,7 @@ class Task:
 class TaskScheduler:
     """
     Task Scheduler - Single responsibility: Task scheduling and priority management.
-    
+
     This service handles:
     - Task creation and assignment
     - Task prioritization and scheduling
@@ -68,27 +72,12 @@ class TaskScheduler:
     def __init__(self, workspace_manager):
         """Initialize Task Scheduler with workspace manager."""
         self.workspace_manager = workspace_manager
-        self.logger = self._setup_logging()
+        self.logger = get_task_logger("TaskScheduler")
         self.tasks: Dict[str, Task] = {}
         self.status = "initialized"
 
         # Load existing tasks
         self._load_tasks()
-
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for the service."""
-        logger = logging.getLogger("TaskScheduler")
-        logger.setLevel(logging.INFO)
-
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-
-        return logger
 
     def _load_tasks(self):
         """Load existing tasks from all workspaces."""
@@ -113,7 +102,7 @@ class TaskScheduler:
 
     def _generate_task_id(self, title: str, assigned_to: str) -> str:
         """Generate unique task ID."""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        timestamp = datetime.now().strftime(TASK_ID_TIMESTAMP_FORMAT)
         safe_title = "".join(
             c for c in title if c.isalnum() or c in (" ", "-", "_")
         ).rstrip()
@@ -286,4 +275,3 @@ class TaskScheduler:
         except Exception as e:
             self.logger.error(f"Failed to get system status: {e}")
             return {"status": "error", "error": str(e)}
-

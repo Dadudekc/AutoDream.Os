@@ -1,22 +1,23 @@
 """Orchestrator coordinating metric collectors."""
 from __future__ import annotations
-
-from typing import Iterable, List
+from typing import Iterable, List, Dict
 
 from .metrics_collector_config import CollectorConfig
-from .metrics_gathering import (
-    ApplicationMetricsCollector,
+from .metrics_collection import (
     BaseCollector,
-    CustomMetricsCollector,
-    NetworkMetricsCollector,
     SystemMetricsCollector,
+    ApplicationMetricsCollector,
+    NetworkMetricsCollector,
+    CustomMetricsCollector,
 )
-from .metrics_aggregation import MetricsAggregator
-from .metrics_definitions import MetricData, MetricType
+from .metrics_computation import MetricsProcessor
+from .metrics_collector_storage import MetricsStorage
+from .metrics_reporting import MetricsReporter
+from src.core.performance.metrics.collector import MetricData, MetricType
 
 
 class MetricsCollectorOrchestrator:
-    """Coordinate collectors and aggregation."""
+    """Coordinate collection, computation, and reporting."""
 
     def __init__(
         self,
@@ -24,27 +25,35 @@ class MetricsCollectorOrchestrator:
         config: CollectorConfig | None = None,
     ) -> None:
         self.config = config or CollectorConfig()
-        self.collectors: List[BaseCollector] = list(collectors) if collectors else [
-            SystemMetricsCollector(self.config),
-            ApplicationMetricsCollector(self.config),
-            NetworkMetricsCollector(self.config),
-        ]
-        self.aggregator = MetricsAggregator()
+        self.collectors: List[BaseCollector] = (
+            list(collectors)
+            if collectors
+            else [
+                SystemMetricsCollector(self.config),
+                ApplicationMetricsCollector(self.config),
+                NetworkMetricsCollector(self.config),
+            ]
+        )
+        self.processor = MetricsProcessor()
+        self.storage = MetricsStorage()
+        self.reporter = MetricsReporter(self.storage)
 
     async def collect(self) -> List[MetricData]:
-        """Collect metrics from all configured collectors."""
-
+        """Collect metrics from all collectors and store them."""
         metrics: List[MetricData] = []
         for collector in self.collectors:
             metrics.extend(await collector.collect_metrics())
-        metrics = self.aggregator.normalize(metrics)
-        self.aggregator.store(metrics)
-        return metrics
+        normalized = self.processor.normalize(metrics)
+        self.storage.store(normalized)
+        return normalized
 
     def get_metrics(self, name: str) -> List[MetricData]:
-        """Retrieve collected metrics by name."""
+        """Retrieve stored metrics by name."""
+        return self.storage.get(name)
 
-        return self.aggregator.get(name)
+    def generate_report(self) -> Dict[str, Dict[str, float]]:
+        """Generate a threshold-based report of collected metrics."""
+        return self.reporter.generate_report()
 
 
 __all__ = [

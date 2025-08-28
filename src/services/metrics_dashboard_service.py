@@ -5,8 +5,6 @@ Simple Metrics Dashboard Service for testing
 
 import json
 import time
-
-from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 
 

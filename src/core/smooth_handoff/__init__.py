@@ -6,16 +6,35 @@ initiation, monitoring, and completion utilities. The
 façade orchestrating these pieces.
 """
 
-from .initiation import HandoffContext, HandoffRecord, HandoffInitiator
+from .initiation import (
+    HandoffContext as LegacyHandoffContext,
+    HandoffRecord,
+    HandoffInitiator,
+)
 from .monitoring import HandoffMonitor
 from .completion import HandoffCompleter
 from .manager import SmoothHandoffManager
+from .models import (
+    HandoffStatus,
+    HandoffType,
+    HandoffContext,
+    HandoffProcedure,
+    HandoffExecution,
+)
+from .system import SmoothHandoffSystem, get_smooth_handoff_system
 
 __all__ = [
-    "HandoffContext",
+    "LegacyHandoffContext",
     "HandoffRecord",
     "HandoffInitiator",
     "HandoffMonitor",
     "HandoffCompleter",
     "SmoothHandoffManager",
+    "HandoffStatus",
+    "HandoffType",
+    "HandoffContext",
+    "HandoffProcedure",
+    "HandoffExecution",
+    "SmoothHandoffSystem",
+    "get_smooth_handoff_system",
 ]

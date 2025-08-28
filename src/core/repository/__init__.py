@@ -20,6 +20,10 @@ from ..managers.repository_system_manager import (
     TechnologyType
 )
 
+from .access import is_repository, list_files
+from .sync import fetch, get_status
+from .audit import audit_repository
+
 __version__ = "2.0.0"
 __author__ = "V2 SWARM CAPTAIN"
 __license__ = "MIT"
@@ -31,5 +35,10 @@ __all__ = [
     "AnalysisResult",
     "DiscoveryConfig",
     "DiscoveryStatus",
-    "TechnologyType"
+    "TechnologyType",
+    "is_repository",
+    "list_files",
+    "fetch",
+    "get_status",
+    "audit_repository"
 ]

@@ -1,25 +1,27 @@
-#!/usr/bin/env python3
-"""
-Master V2 Test Runner
-=====================
+"""Master V2 Test Runner.
+
 Enterprise-grade test runner orchestrating all V2 test suites.
-Target: 300 LOC, Maximum: 350 LOC.
-Focus: Test orchestration, comprehensive coverage, enterprise reliability.
 """
+
+from __future__ import annotations
 
 import time
-import json
 import sys
 import os
-
-from src.utils.stability_improvements import stability_manager, safe_import
 from pathlib import Path
+from typing import Dict, Type
 from unittest.mock import Mock
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from automation.common import execute_test_suite
+from services.orchestration import (
+    ENTERPRISE_STANDARDS,
+    initialize_test_suites,
+    run_all_suites,
+    run_suite,
+    calculate_metrics,
+)
 
 # Import test suites
 try:
@@ -27,9 +29,8 @@ try:
     from services.core_v2_test_suite import CoreV2TestSuite
     from services.advanced_v2_test_suite import AdvancedV2TestSuite
     from services.enterprise_quality_test_suite import EnterpriseQualityTestSuite
-except ImportError as e:
+except ImportError as e:  # pragma: no cover - fallback for missing suites
     print(f"Import warning: {e}")
-    # Fallback mock test suites
     ComprehensiveV2TestSuite = Mock
     CoreV2TestSuite = Mock
     AdvancedV2TestSuite = Mock
@@ -37,142 +38,77 @@ except ImportError as e:
 
 
 class MasterV2TestRunner:
-    """Master test runner for all V2 test suites"""
+    """Master test runner for all V2 test suites."""
 
-    def __init__(self):
-        """Initialize master test runner"""
-        self.test_suites = {
+    def __init__(self) -> None:
+        """Initialize master test runner."""
+        suites: Dict[str, Type] = {
             "comprehensive": ComprehensiveV2TestSuite,
             "core": CoreV2TestSuite,
             "advanced": AdvancedV2TestSuite,
             "enterprise_quality": EnterpriseQualityTestSuite,
         }
-        self.results = {}
-        self.start_time = None
-        self.end_time = None
+        self.test_suites: Dict[str, Type] = initialize_test_suites(suites)
+        self.results: Dict[str, Dict[str, float]] = {}
+        self.start_time: float | None = None
+        self.end_time: float | None = None
 
-    def run_all_test_suites(self):
-        """Run all V2 test suites"""
+    def run_all_test_suites(self) -> Dict[str, object]:
+        """Run all V2 test suites."""
         print("🎯 Master V2 Test Runner - Executing All Test Suites")
         print("=" * 60)
-
         self.start_time = time.time()
-
-        for suite_name, test_suite in self.test_suites.items():
-            if test_suite != Mock:  # Skip mock suites
-                print(f"\n🧪 Running {suite_name.upper()} Test Suite...")
-                try:
-                    result = self._run_test_suite(test_suite, suite_name)
-                    self.results[suite_name] = result
-                    print(f"✅ {suite_name.upper()} Test Suite completed!")
-                except Exception as e:
-                    print(f"❌ {suite_name.upper()} Test Suite failed: {e}")
-                    self.results[suite_name] = {"error": str(e), "status": "failed"}
-            else:
-                print(f"⚠️  {suite_name.upper()} Test Suite not available (using mock)")
-                self.results[suite_name] = {
-                    "status": "mock",
-                    "total_tests": 0,
-                    "failures": 0,
-                    "errors": 0,
-                    "success_rate": 0.0,
-                }
-
+        self.results = run_all_suites(self.test_suites)
         self.end_time = time.time()
         return self._generate_master_report()
 
-    def run_specific_test_suite(self, suite_name):
-        """Run specific test suite"""
+    def run_specific_test_suite(self, suite_name: str) -> Dict[str, float] | None:
+        """Run specific test suite."""
         if suite_name not in self.test_suites:
             print(f"❌ Test suite '{suite_name}' not found")
             return None
-
         print(f"🎯 Running specific test suite: {suite_name.upper()}")
-        test_suite = self.test_suites[suite_name]
+        result = run_suite(suite_name, self.test_suites[suite_name])
+        self.results[suite_name] = result
+        return result
 
-        if test_suite != Mock:
-            try:
-                result = self._run_test_suite(test_suite, suite_name)
-                self.results[suite_name] = result
-                return result
-            except Exception as e:
-                print(f"❌ {suite_name.upper()} Test Suite failed: {e}")
-                return {"error": str(e), "status": "failed"}
-        else:
-            print(f"⚠️  {suite_name.upper()} Test Suite not available (using mock)")
-            return {
-                "status": "mock",
-                "total_tests": 0,
-                "failures": 0,
-                "errors": 0,
-                "success_rate": 0.0,
-            }
-
-    def _run_test_suite(self, test_suite, suite_name):
-        """Run individual test suite"""
-        summary = execute_test_suite(test_suite)
-        summary["suite_name"] = suite_name
-        summary["status"] = (
-            "passed"
-            if summary["failures"] == 0 and summary["errors"] == 0
-            else "failed"
-        )
-        return summary
-
-    def _generate_master_report(self):
-        """Generate comprehensive master test report"""
-        total_tests = sum(
-            result.get("total_tests", 0) for result in self.results.values()
-        )
-        total_failures = sum(
-            result.get("failures", 0) for result in self.results.values()
-        )
-        total_errors = sum(result.get("errors", 0) for result in self.results.values())
-
-        overall_success_rate = (
-            ((total_tests - total_failures - total_errors) / total_tests * 100)
-            if total_tests > 0
-            else 0
-        )
-
+    def _generate_master_report(self) -> Dict[str, object]:
+        """Generate comprehensive master test report."""
+        metrics = calculate_metrics(self.results)
         master_report = {
             "timestamp": time.time(),
             "test_runner": "Master V2 Test Runner",
-            "execution_time": self.end_time - self.start_time if self.end_time else 0,
+            "execution_time": (self.end_time - self.start_time) if self.end_time else 0,
             "total_test_suites": len(self.test_suites),
-            "total_tests": total_tests,
-            "total_failures": total_failures,
-            "total_errors": total_errors,
-            "overall_success_rate": overall_success_rate,
+            "total_tests": metrics["total_tests"],
+            "total_failures": metrics["total_failures"],
+            "total_errors": metrics["total_errors"],
+            "overall_success_rate": metrics["success_rate"],
             "suite_results": self.results,
-            "enterprise_standards": {
-                "loc_compliance": "PASSED (350 LOC limit)",
-                "code_quality": "ENTERPRISE GRADE",
-                "test_coverage": "COMPREHENSIVE V2 SERVICES",
-                "reliability": "HIGH",
-            },
+            "enterprise_standards": ENTERPRISE_STANDARDS,
         }
-
         return master_report
 
-    def save_master_report(self, report, output_dir="master_v2_test_results"):
-        """Save master test report"""
+    def save_master_report(
+        self, report: Dict[str, object], output_dir: str = "master_v2_test_results"
+    ) -> str:
+        """Save master test report."""
         output_path = Path(output_dir)
         output_path.mkdir(exist_ok=True)
-
         report_file = output_path / f"master_v2_test_report_{int(time.time())}.json"
-
         try:
+            import json
+
             with open(report_file, "w") as f:
                 json.dump(report, f, indent=2)
             print(f"📋 Master test report saved: {report_file}")
             return str(report_file)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"❌ Failed to save master report: {e}")
             return ""
 
-    def print_summary(self, report):
-        """Print master test summary"""
+    def print_summary(self, report: Dict[str, object]) -> None:
+        """Print master test summary."""
         print("\n" + "=" * 60)
         print("🎯 MASTER V2 TEST RUNNER SUMMARY")
         print("=" * 60)
@@ -182,8 +118,7 @@ class MasterV2TestRunner:
         print(f"Total Errors: {report['total_errors']}")
         print(f"Overall Success Rate: {report['overall_success_rate']:.1f}%")
         print(f"Execution Time: {report['execution_time']:.2f} seconds")
-
-        print(f"\n📊 SUITE RESULTS:")
+        print("\n📊 SUITE RESULTS:")
         for suite_name, result in report["suite_results"].items():
             status = result.get("status", "unknown")
             tests_run = result.get("total_tests", 0)
@@ -193,8 +128,8 @@ class MasterV2TestRunner:
             )
 
 
-def main():
-    """Master V2 test runner CLI"""
+def main() -> None:
+    """Master V2 test runner CLI."""
     import argparse
 
     parser = argparse.ArgumentParser(description="Master V2 Test Runner")
@@ -216,12 +151,10 @@ def main():
         print("🚀 Starting comprehensive V2 testing...")
         report = runner.run_all_test_suites()
         runner.print_summary(report)
-
         if args.generate_report:
             report_path = runner.save_master_report(report)
             if report_path:
                 print(f"📋 Master report generated: {report_path}")
-
     elif args.suite:
         print(f"🎯 Running specific test suite: {args.suite}")
         result = runner.run_specific_test_suite(args.suite)
@@ -230,7 +163,6 @@ def main():
             print(
                 f"Tests: {result.get('total_tests', 0)}, Success Rate: {result.get('success_rate', 0.0):.1f}%"
             )
-
     else:
         print("🎯 Master V2 Test Runner")
         print("Use --run-all to execute all test suites")

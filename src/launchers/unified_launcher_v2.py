@@ -82,7 +82,7 @@ class UnifiedLauncherV2:
             from core.inbox_manager import InboxManager
             from core.task_manager import TaskManager
             from core.fsm import FSMSystemManager
-            from services.response_capture_service import (
+            from services.response_capture import (
                 ResponseCaptureService,
                 CaptureConfig,
                 CaptureStrategy,

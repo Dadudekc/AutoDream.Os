@@ -29,9 +29,9 @@ from .assurance_engine import (
 )
 
 # Quality Monitoring
-from .data_gathering import QualityMonitor
-from .analysis import QualityAnalyzer
+from .data_collection import QualityMonitor
 from .alerting import QualityAlertManager
+from .analysis import QualityTrendAnalyzer
 
 # Quality Validation
 from .quality_validator import (
@@ -61,8 +61,8 @@ __all__ = [
     
     # Quality Monitoring
     "QualityMonitor",
-    "QualityAnalyzer",
     "QualityAlertManager",
+    "QualityTrendAnalyzer",
     
     # Quality Validation
     "QualityValidator",

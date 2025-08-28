@@ -15,13 +15,12 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from .types import MetricData, MetricType
-from .benchmarks import (
-    BenchmarkManager,
+from .benchmarks import BenchmarkManager, PerformanceBenchmark
+from ..common_metrics import (
     BenchmarkType,
-    PerformanceBenchmark,
     PerformanceLevel,
+    DEFAULT_BENCHMARK_TARGETS,
 )
-from ..benchmarking.analysis import BenchmarkAnalyzer
 
 
 class MetricsCollector:
@@ -40,16 +39,10 @@ class MetricsCollector:
         self.running = False
         self.performance_monitor = None
 
-        # Benchmark storage and analysis
+        # Benchmark storage
         self.benchmarks = BenchmarkManager()
-        self.analyzer = BenchmarkAnalyzer()
-        self.benchmark_targets = {
-            BenchmarkType.RESPONSE_TIME: {"target": 100, "unit": "ms"},
-            BenchmarkType.THROUGHPUT: {"target": 1000, "unit": "ops/sec"},
-            BenchmarkType.SCALABILITY: {"target": 100, "unit": "concurrent_users"},
-            BenchmarkType.RELIABILITY: {"target": 99.9, "unit": "%"},
-            BenchmarkType.LATENCY: {"target": 50, "unit": "ms"},
-        }
+        # Use shared default targets so all collectors remain consistent
+        self.benchmark_targets = DEFAULT_BENCHMARK_TARGETS.copy()
         self.logger = logging.getLogger(f"{__name__}.MetricsCollector")
 
     async def collect_metrics(self) -> List[MetricData]:
@@ -120,7 +113,7 @@ class MetricsCollector:
                 return {}
             
             # Calculate scalability score based on performance degradation
-            scalability_score = self.analyzer.calculate_scalability_score(
+            scalability_score = self.benchmarks.calculate_scalability_score(
                 scalability_results
             )
             
@@ -137,7 +130,7 @@ class MetricsCollector:
                 "max_operations_per_second": max_ops_per_sec,
                 "average_operations_per_second": avg_ops_per_sec,
                 "concurrent_agent_tests": len(scalability_results),
-                "performance_degradation": self.analyzer.calculate_performance_degradation(
+                "performance_degradation": self.benchmarks.calculate_performance_degradation(
                     scalability_results
                 ),
             }

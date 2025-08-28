@@ -10,86 +10,13 @@ Author: Agent-5 (REFACTORING MANAGER)
 License: MIT
 """
 
-import logging
-import json
 import hashlib
 import secrets
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
-from dataclasses import dataclass, asdict
 
 from src.core.base_manager import BaseManager
-
-
-@dataclass
-class AIModel:
-    """Unified AI model representation"""
-    model_id: str
-    name: str
-    model_type: str  # 'llm', 'embedding', 'vision', 'audio'
-    provider: str  # 'openai', 'anthropic', 'local', etc.
-    version: str
-    capabilities: List[str]
-    is_active: bool = True
-    created_at: datetime = None
-    last_used: Optional[datetime] = None
-    usage_count: int = 0
-
-    def __post_init__(self):
-        if self.created_at is None:
-            self.created_at = datetime.now()
-
-
-@dataclass
-class AIAgent:
-    """Unified AI agent representation"""
-    agent_id: str
-    name: str
-    agent_type: str  # 'coordinator', 'learner', 'optimizer', 'performance_tuner'
-    skills: List[str]
-    workload_capacity: int
-    current_workload: int = 0
-    is_active: bool = True
-    created_at: datetime = None
-    last_activity: Optional[datetime] = None
-
-    def __post_init__(self):
-        if self.created_at is None:
-            self.created_at = datetime.now()
-
-
-@dataclass
-class APIKey:
-    """Unified API key representation"""
-    key_id: str
-    service: str
-    description: str
-    key_hash: str
-    permissions: List[str]
-    created_at: datetime
-    expires_at: Optional[datetime]
-    is_active: bool = True
-    usage_count: int = 0
-    last_used: Optional[datetime] = None
-
-
-@dataclass
-class Workflow:
-    """Unified workflow representation"""
-    workflow_id: str
-    name: str
-    description: str
-    workflow_type: str  # 'development', 'testing', 'deployment', 'monitoring'
-    steps: List[Dict[str, Any]]
-    is_active: bool = True
-    created_at: datetime = None
-    last_executed: Optional[datetime] = None
-    execution_count: int = 0
-
-    def __post_init__(self):
-        if self.created_at is None:
-            self.created_at = datetime.now()
+from src.core.models import AIModel, AIAgent, APIKey, Workflow
 
 
 class UnifiedAIMLManager(BaseManager):

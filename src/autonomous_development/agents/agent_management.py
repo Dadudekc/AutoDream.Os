@@ -11,14 +11,12 @@ License: MIT
 """
 
 import json
-import logging
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass, asdict
 
 from src.core.enums import AgentRole
-from src.core.models import DevelopmentTask
-from src.core.base_manager import BaseManager, ManagerStatus, ManagerPriority
+from src.core.base_manager import BaseManager
 
 
 @dataclass

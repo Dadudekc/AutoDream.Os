@@ -22,43 +22,6 @@ class ConfigValidator(BaseValidator):
         """Initialize config validator with optional custom validators"""
         super().__init__("ConfigValidator")
         self.custom_validators = validators or {}
-        self._setup_default_rules()
-
-    def _setup_default_rules(self) -> None:
-        """Setup default configuration validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="config_structure",
-                rule_name="Configuration Structure",
-                rule_type="config",
-                description="Validate configuration structure and format",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="required_sections",
-                rule_name="Required Sections",
-                rule_type="config",
-                description="Ensure all required configuration sections are present",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="section_validators",
-                rule_name="Section Validators",
-                rule_type="config",
-                description="Run section-specific validation functions",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="config_consistency",
-                rule_name="Configuration Consistency",
-                rule_type="config",
-                description="Check for configuration consistency across sections",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, configs: Dict[str, Dict[str, Any]], **kwargs

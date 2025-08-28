@@ -18,8 +18,6 @@ class WorkflowValidator(BaseValidator):
         self.execution_validator = WorkflowExecutionValidator()
         self.performance_validator = WorkflowPerformanceValidator()
         super().__init__("WorkflowValidator")
-
-    def _setup_default_rules(self) -> None:  # pragma: no cover - simple delegation
         for validator in (
             self.structure_validator,
             self.execution_validator,

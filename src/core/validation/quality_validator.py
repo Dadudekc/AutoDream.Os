@@ -8,7 +8,6 @@ and following the unified validation framework patterns.
 from typing import Dict, List, Any, Optional
 from .base_validator import (
     BaseValidator,
-    ValidationRule,
     ValidationSeverity,
     ValidationStatus,
     ValidationResult,
@@ -32,42 +31,6 @@ class QualityValidator(BaseValidator):
             "max_class_length": 500,
             "max_file_length": 400,
         }
-
-    def _setup_default_rules(self) -> None:
-        """Setup default quality validation rules"""
-        default_rules = [
-            ValidationRule(
-                rule_id="quality_metrics",
-                rule_name="Quality Metrics",
-                rule_type="quality",
-                description="Validate code quality metrics against thresholds",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="complexity_analysis",
-                rule_name="Complexity Analysis",
-                rule_type="quality",
-                description="Check cyclomatic complexity and maintainability",
-                severity=ValidationSeverity.ERROR,
-            ),
-            ValidationRule(
-                rule_id="duplication_check",
-                rule_name="Duplication Check",
-                rule_type="quality",
-                description="Identify code duplication patterns",
-                severity=ValidationSeverity.WARNING,
-            ),
-            ValidationRule(
-                rule_id="test_coverage_validation",
-                rule_name="Test Coverage Validation",
-                rule_type="quality",
-                description="Validate test coverage requirements",
-                severity=ValidationSeverity.WARNING,
-            ),
-        ]
-
-        for rule in default_rules:
-            self.add_validation_rule(rule)
 
     def validate(
         self, quality_data: Dict[str, Any], **kwargs

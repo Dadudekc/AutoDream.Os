@@ -1,64 +1,24 @@
-"""
-Base Validator - Unified Validation Framework
+"""Base Validator - Unified Validation Framework.
 
-This module provides the abstract base class and common structures for all validators
-in the unified validation system. Follows V2 coding standards and SRP principles.
+This module provides the abstract base class and common structures for all
+validators in the unified validation system. Rule definitions are now loaded
+from external YAML configuration files located in ``rules/``.
 """
 
 import logging
+import re
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
+import yaml
 
-class ValidationSeverity(Enum):
-    """Validation severity levels"""
-
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
-    CRITICAL = "critical"
-
-
-class ValidationStatus(Enum):
-    """Validation result status"""
-
-    PASSED = "passed"
-    FAILED = "failed"
-    WARNING = "warning"
-    PENDING = "pending"
-
-
-@dataclass
-class ValidationRule:
-    """Configurable validation rule"""
-
-    rule_id: str
-    rule_name: str
-    rule_type: str
-    description: str
-    severity: ValidationSeverity = ValidationSeverity.ERROR
-    threshold: Optional[float] = None
-    enabled: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass
-class ValidationResult:
-    """Standardized validation result"""
-
-    rule_id: str
-    rule_name: str
-    status: ValidationStatus
-    severity: ValidationSeverity
-    message: str
-    details: Dict[str, Any] = field(default_factory=dict)
-    timestamp: datetime = field(default_factory=datetime.now)
-    field_path: Optional[str] = None
-    actual_value: Optional[Any] = None
-    expected_value: Optional[Any] = None
+from .models import (
+    ValidationRule,
+    ValidationResult,
+    ValidationSeverity,
+    ValidationStatus,
+)
 
 
 class BaseValidator(ABC):
@@ -70,27 +30,51 @@ class BaseValidator(ABC):
         self.logger = logging.getLogger(f"{__name__}.{validator_name}")
         self.validation_rules: Dict[str, ValidationRule] = {}
         self.validation_history: List[ValidationResult] = []
-        self._setup_default_rules()
+        self._config: Dict[str, Any] = self._load_rules_from_file()
 
-    @abstractmethod
-    def _setup_default_rules(self) -> None:
-        """Set up default validation rules for this validator type."""
-        raise NotImplementedError(
-            "_setup_default_rules must be implemented by subclasses"
-        )
+    def _load_rules_from_file(self) -> Dict[str, Any]:
+        """Load validator rules from external YAML configuration."""
+        try:
+            base_name = re.sub(r"Validator$", "", self.validator_name)
+            file_name = re.sub(r"(?<!^)(?=[A-Z])", "_", base_name).lower() + ".yaml"
+            config_path = Path(__file__).resolve().parent / "rules" / file_name
+            if not config_path.exists():
+                return {}
+            with config_path.open("r", encoding="utf-8") as f:
+                data: Dict[str, Any] = yaml.safe_load(f) or {}
+            for rule in data.get("rules", []):
+                severity_str = rule.get("severity", "ERROR").upper()
+                try:
+                    severity = ValidationSeverity[severity_str]
+                except KeyError:
+                    severity = ValidationSeverity.ERROR
+                self.add_validation_rule(
+                    ValidationRule(
+                        rule_id=rule["rule_id"],
+                        rule_name=rule["rule_name"],
+                        rule_type=rule.get("rule_type", base_name.lower()),
+                        description=rule.get("description", ""),
+                        severity=severity,
+                    )
+                )
+            return data
+        except Exception as e:  # pragma: no cover - defensive
+            self.logger.error(f"Failed to load rules: {e}")
+            return {}
 
     @abstractmethod
     def validate(self, data: Any, **kwargs) -> List[ValidationResult]:
-        """Validate the given data.
+        """Main validation method.
 
-        Args:
-            data (Any): Data to validate.
-            **kwargs: Additional validation parameters.
+        Subclasses must implement this method and return a list of
+        :class:`ValidationResult` objects describing each validation check
+        performed.
 
         Returns:
-            List[ValidationResult]: Collection of validation results.
+            List[ValidationResult]: Validation results generated for the
+            provided data.
         """
-        raise NotImplementedError("validate must be implemented by subclasses")
+        raise NotImplementedError("Subclasses must implement validate")
 
     def add_validation_rule(self, rule: ValidationRule) -> bool:
         """Add a new validation rule"""

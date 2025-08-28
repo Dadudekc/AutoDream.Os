@@ -56,7 +56,7 @@ class BenchmarkAnalyzer:
 
             baseline_agents = sorted_results[0].get("concurrent_agents", 1)
             final_agents = sorted_results[-1].get("concurrent_agents", 1)
-            expected_ops = baseline_ops * (final_agents / baseline_agents)
+            expected_ops = baseline_ops * (final_agents / baseline_agents) if baseline_agents > 0 else 0
             actual_efficiency = (final_ops / expected_ops) * 100 if expected_ops > 0 else 0
             return min(100.0, max(0.0, actual_efficiency))
         except Exception as exc:  # pragma: no cover - logging only

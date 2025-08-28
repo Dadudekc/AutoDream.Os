@@ -373,7 +373,7 @@ class UnifiedDashboardValidator:
     ) -> ValidationResult:
         """Generate ValidationResult for a task claim."""
         return ValidationResult(
-            validation_id=f"validation_{int(time.time())}",
+            validation_id=f"validation_{time.time_ns()}",
             timestamp=datetime.now(),
             claim_id=claim_id,
             status=status,

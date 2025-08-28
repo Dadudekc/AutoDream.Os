@@ -187,7 +187,7 @@
                     <div class="agent-item ${statusClass}">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-1">${agent.agent_id}</h6>
+                                <h6 class="mb-1">${escapeHTML(agent.agent_id)}</h6>
                                 <small class="text-muted">
                                     Last update: ${new Date(agent.timestamp).toLocaleTimeString()}
                                 </small>

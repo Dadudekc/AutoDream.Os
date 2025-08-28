@@ -7,7 +7,6 @@ Target: 300 LOC, Maximum: 350 LOC.
 Focus: Test orchestration, enterprise quality validation, comprehensive reporting.
 """
 
-import unittest
 import time
 import json
 import sys
@@ -20,6 +19,8 @@ from unittest.mock import Mock, patch
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from automation.common import execute_test_suite
 
 # Import test suites for orchestration
 try:
@@ -63,34 +64,17 @@ class MasterV2TestOrchestrator:
         print(f"🚀 Running {suite_name.upper()} Test Suite...")
 
         try:
-            # Create test suite
-            suite = unittest.TestLoader().loadTestsFromTestCase(suite_class)
-
-            # Run tests
-            runner = unittest.TextTestRunner(verbosity=1)
-            result = runner.run(suite)
-
-            # Store results
-            self.test_results[suite_name] = {
-                "total_tests": result.testsRun,
-                "failures": len(result.failures),
-                "errors": len(result.errors),
-                "success_rate": (
-                    (result.testsRun - len(result.failures) - len(result.errors))
-                    / result.testsRun
-                    * 100
-                )
-                if result.testsRun > 0
-                else 0,
-            }
-
-            print(f"✅ {suite_name.upper()} Test Suite completed!")
+            summary = execute_test_suite(suite_class)
+            self.test_results[suite_name] = summary
+            success = summary["failures"] == 0 and summary["errors"] == 0
+            if success:
+                print(f"✅ {suite_name.upper()} Test Suite completed!")
+            else:
+                print(f"⚠️  {suite_name.upper()} Test Suite completed with issues")
             print(
-                f"   Tests: {result.testsRun}, Success Rate: {self.test_results[suite_name]['success_rate']:.1f}%"
+                f"   Tests: {summary['total_tests']}, Success Rate: {summary['success_rate']:.1f}%"
             )
-
-            return True
-
+            return success
         except Exception as e:
             print(f"❌ {suite_name.upper()} Test Suite failed: {e}")
             self.test_results[suite_name] = {

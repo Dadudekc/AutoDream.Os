@@ -7,7 +7,6 @@ Target: 300 LOC, Maximum: 350 LOC.
 Focus: Test orchestration, comprehensive coverage, enterprise reliability.
 """
 
-import unittest
 import time
 import json
 import sys
@@ -19,6 +18,8 @@ from unittest.mock import Mock
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from automation.common import execute_test_suite
 
 # Import test suites
 try:
@@ -71,7 +72,9 @@ class MasterV2TestRunner:
                 print(f"⚠️  {suite_name.upper()} Test Suite not available (using mock)")
                 self.results[suite_name] = {
                     "status": "mock",
-                    "tests_run": 0,
+                    "total_tests": 0,
+                    "failures": 0,
+                    "errors": 0,
                     "success_rate": 0.0,
                 }
 
@@ -97,36 +100,24 @@ class MasterV2TestRunner:
                 return {"error": str(e), "status": "failed"}
         else:
             print(f"⚠️  {suite_name.upper()} Test Suite not available (using mock)")
-            return {"status": "mock", "tests_run": 0, "success_rate": 0.0}
+            return {
+                "status": "mock",
+                "total_tests": 0,
+                "failures": 0,
+                "errors": 0,
+                "success_rate": 0.0,
+            }
 
     def _run_test_suite(self, test_suite, suite_name):
         """Run individual test suite"""
-        # Create test suite
-        suite = unittest.TestLoader().loadTestsFromTestCase(test_suite)
-
-        # Run tests
-        runner = unittest.TextTestRunner(verbosity=1)
-        result = runner.run(suite)
-
-        # Generate result summary
-        suite_result = {
-            "suite_name": suite_name,
-            "total_tests": result.testsRun,
-            "failures": len(result.failures),
-            "errors": len(result.errors),
-            "success_rate": (
-                (result.testsRun - len(result.failures) - len(result.errors))
-                / result.testsRun
-                * 100
-            )
-            if result.testsRun > 0
-            else 0,
-            "status": "passed"
-            if len(result.failures) == 0 and len(result.errors) == 0
-            else "failed",
-        }
-
-        return suite_result
+        summary = execute_test_suite(test_suite)
+        summary["suite_name"] = suite_name
+        summary["status"] = (
+            "passed"
+            if summary["failures"] == 0 and summary["errors"] == 0
+            else "failed"
+        )
+        return summary
 
     def _generate_master_report(self):
         """Generate comprehensive master test report"""

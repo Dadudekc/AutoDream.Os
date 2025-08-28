@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from .agent_manager import AgentCapability
+from .agent_utils import AgentCapability
 
 
 class ContractPriority(Enum):

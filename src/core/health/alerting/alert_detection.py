@@ -1,9 +1,11 @@
+"""Utilities for detecting and generating health alerts."""
+
 import time
 from datetime import datetime, timedelta
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
 from .logging_utils import logger
-from .models import AlertSeverity, AlertRule, HealthAlert, AlertStatus
+from .models import AlertRule, AlertSeverity, HealthAlert, AlertStatus
 
 
 def should_suppress_alert(alerts: Dict[str, HealthAlert], agent_id: str, metric_type: str, severity: AlertSeverity) -> bool:

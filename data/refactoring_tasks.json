@@ -1,6 +1,6 @@
 /*
  * REFACTORING TASKS - UPDATED APPROACH
- * 
+ *
  * NEW PHILOSOPHY (2024):
  * - Primary goal: Clean OOP production-ready code with SRP compliance
  * - Line count (300) is a GUIDELINE, not a strict rule
@@ -8,7 +8,7 @@
  * - TDD requirement: Every component must have tests or be developed with TDD
  * - Code reuse: Leverage existing systems and reduce duplication on sight
  * - When to refactor: SRP violations, high complexity, testing difficulties, duplication
- * 
+ *
  * The emphasis is NOT on strict line count limits, but on clean, organized,
  * maintainable code that follows OOP principles and reduces duplication.
  */
@@ -483,7 +483,6 @@
           ],
           "extraction_modules": [
             "src/autonomous_development/workflow/manager.py",
-            "src/autonomous_development/agents/coordinator.py",
             "src/autonomous_development/tasks/handler.py",
             "src/autonomous_development/reporting/manager.py"
           ],

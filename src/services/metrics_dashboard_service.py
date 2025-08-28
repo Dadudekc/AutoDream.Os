@@ -1,37 +1,49 @@
-"""Simple Metrics Dashboard Service for testing"""
+#!/usr/bin/env python3
+"""Simple metrics dashboard demonstrating the metrics pipeline modules."""
 
 from __future__ import annotations
 
-from typing import Any, Dict
+import json
 
-from .dashboard_collectors import MetricsCollector
-from .dashboard_processing import summarize_metrics
-from .dashboard_renderer import DashboardRenderer
+from .metrics_pipeline.data_collection import MetricsDataCollector
+from .metrics_pipeline.data_exporter import MetricsExporter
+from .metrics_pipeline.data_transformer import MetricsTransformer
+from .metrics_pipeline.metrics_config import DEFAULT_EXPORT_PATH
 
 
 class MetricsDashboardService:
-    """Orchestrates metric collection, processing, and rendering."""
+    """Coordinates the data collection, transformation and export stages."""
 
     def __init__(self) -> None:
-        self.collector = MetricsCollector()
-        self.renderer = DashboardRenderer()
+        self.collector = MetricsDataCollector()
+        self.transformer = MetricsTransformer()
+        self.exporter = MetricsExporter()
         print("Metrics Dashboard Service initialized")
 
     def record_metric(self, name: str, value: float) -> None:
-        """Record a metric value."""
+        """Record a single metric value."""
+
         self.collector.record(name, value)
         print(f"Recorded metric {name}: {value}")
 
-    def get_summary(self) -> Dict[str, Any]:
-        """Return summarized metric information."""
-        return summarize_metrics(self.collector.metrics)
+    def get_summary(self) -> dict:
+        """Return a summary of collected metrics."""
 
-    def render_summary(self) -> str:
-        """Render the summary as a JSON string."""
-        return self.renderer.render(self.get_summary())
+        return self.transformer.summarize(self.collector.metrics)
+
+    def export_metrics(self, path: str = DEFAULT_EXPORT_PATH) -> bool:
+        """Export collected metrics to ``path``.
+
+        Returns ``True`` when the export succeeds.
+        """
+
+        success = self.exporter.export(self.collector.metrics, filename=path)
+        if success:
+            print(f"Exported metrics to {path}")
+        return success
 
 
-def main() -> None:
+def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Simple Metrics Dashboard Service")
@@ -50,7 +62,8 @@ def main() -> None:
         dashboard.record_metric("system.cpu", 45.2)
 
         # Show summary
-        print(f"\nSummary: {dashboard.render_summary()}")
+        summary = dashboard.get_summary()
+        print(f"\\nSummary: {json.dumps(summary, indent=2)}")
         print("Test completed successfully!")
 
         return

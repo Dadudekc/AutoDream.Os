@@ -15,79 +15,17 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any, Callable
 from dataclasses import dataclass, asdict
 from pathlib import Path
-from enum import Enum
 import pandas as pd
 import numpy as np
-from concurrent.futures import ThreadPoolExecutor
+
+# Shared risk management primitives
+from .risk_base import RiskLevel, RiskType, RiskMetric, RiskAlert, BaseRiskManager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class RiskLevel(Enum):
-    """Risk level classifications"""
-
-    LOW = "LOW"
-    MEDIUM = "MEDIUM"
-    HIGH = "HIGH"
-    CRITICAL = "CRITICAL"
-
-
-class RiskType(Enum):
-    """Types of financial risk"""
-
-    MARKET_RISK = "MARKET_RISK"
-    CREDIT_RISK = "CREDIT_RISK"
-    LIQUIDITY_RISK = "LIQUIDITY_RISK"
-    OPERATIONAL_RISK = "OPERATIONAL_RISK"
-    CONCENTRATION_RISK = "CONCENTRATION_RISK"
-    VOLATILITY_RISK = "VOLATILITY_RISK"
-
-
-@dataclass
-class RiskMetric:
-    """Individual risk metric data"""
-
-    risk_type: RiskType
-    value: float
-    threshold: float
-    risk_level: RiskLevel
-    weight: float
-    description: str
-    last_updated: datetime = None
-
-    def __post_init__(self):
-        if self.last_updated is None:
-            self.last_updated = datetime.now()
-        self.calculate_risk_level()
-
-    def calculate_risk_level(self):
-        """Calculate risk level based on value vs threshold"""
-        if self.value <= self.threshold * 0.5:
-            self.risk_level = RiskLevel.LOW
-        elif self.value <= self.threshold * 0.8:
-            self.risk_level = RiskLevel.MEDIUM
-        elif self.value <= self.threshold:
-            self.risk_level = RiskLevel.HIGH
-        else:
-            self.risk_level = RiskLevel.CRITICAL
-
-
-@dataclass
-class RiskAlert:
-    """Risk alert notification"""
-
-    alert_id: str
-    risk_type: RiskType
-    risk_level: RiskLevel
-    message: str
-    current_value: float
-    threshold: float
-    timestamp: datetime
-    acknowledged: bool = False
-    acknowledged_by: str = ""
-    acknowledged_at: datetime = None
 
 
 @dataclass
@@ -108,62 +46,22 @@ class PortfolioRiskProfile:
             self.last_updated = datetime.now()
 
 
-class RiskManager:
+class RiskManager(BaseRiskManager):
     """Advanced risk management and monitoring system"""
 
     def __init__(self, portfolio_manager=None, data_dir: str = "risk_data"):
+        super().__init__()
         self.portfolio_manager = portfolio_manager
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(exist_ok=True)
 
-        self.risk_metrics: Dict[RiskType, RiskMetric] = {}
-        self.risk_alerts: List[RiskAlert] = []
         self.risk_profile: PortfolioRiskProfile = None
 
         self.risk_file = self.data_dir / "risk_profile.json"
         self.alerts_file = self.data_dir / "risk_alerts.json"
 
-        # Risk thresholds configuration
-        self.risk_thresholds = {
-            RiskType.MARKET_RISK: 0.25,  # 25% portfolio volatility
-            RiskType.CONCENTRATION_RISK: 0.20,  # 20% single position
-            RiskType.LIQUIDITY_RISK: 0.15,  # 15% illiquid assets
-            RiskType.VOLATILITY_RISK: 0.30,  # 30% annualized volatility
-        }
-
-        # Risk weights for composite scoring
-        self.risk_weights = {
-            RiskType.MARKET_RISK: 0.35,
-            RiskType.CONCENTRATION_RISK: 0.25,
-            RiskType.LIQUIDITY_RISK: 0.20,
-            RiskType.VOLATILITY_RISK: 0.20,
-        }
-
         self.load_risk_data()
         self.initialize_risk_metrics()
-
-    def initialize_risk_metrics(self):
-        """Initialize risk metrics with default values"""
-        for risk_type, threshold in self.risk_thresholds.items():
-            weight = self.risk_weights.get(risk_type, 0.25)
-            self.risk_metrics[risk_type] = RiskMetric(
-                risk_type=risk_type,
-                value=0.0,
-                threshold=threshold,
-                risk_level=RiskLevel.LOW,  # Default to LOW risk level
-                weight=weight,
-                description=self.get_risk_description(risk_type),
-            )
-
-    def get_risk_description(self, risk_type: RiskType) -> str:
-        """Get description for risk type"""
-        descriptions = {
-            RiskType.MARKET_RISK: "Risk of losses due to market movements",
-            RiskType.CONCENTRATION_RISK: "Risk of over-concentration in single positions",
-            RiskType.LIQUIDITY_RISK: "Risk of inability to exit positions quickly",
-            RiskType.VOLATILITY_RISK: "Risk of excessive price volatility",
-        }
-        return descriptions.get(risk_type, "Unknown risk type")
 
     def calculate_market_risk(self) -> float:
         """Calculate market risk based on portfolio volatility"""

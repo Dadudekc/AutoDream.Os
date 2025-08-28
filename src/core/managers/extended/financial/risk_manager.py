@@ -11,79 +11,26 @@ import json
 import logging
 from typing import Dict, List, Optional, Tuple, Any, Callable
 from datetime import datetime, timedelta
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from pathlib import Path
-from enum import Enum
 import pandas as pd
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
 
 from src.core.base_manager import BaseManager
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.services.financial.risk_base import (
+    BaseRiskManager,
+    RiskLevel,
+    RiskType,
+    RiskMetric,
+    RiskAlert,
+)
 
 # Configure logging
 logger = logging.getLogger(__name__)
 
 
-class RiskLevel(Enum):
-    """Risk level classifications"""
-    LOW = "LOW"
-    MEDIUM = "MEDIUM"
-    HIGH = "HIGH"
-    CRITICAL = "CRITICAL"
-
-
-class RiskType(Enum):
-    """Types of financial risk"""
-    MARKET_RISK = "MARKET_RISK"
-    CREDIT_RISK = "CREDIT_RISK"
-    LIQUIDITY_RISK = "LIQUIDITY_RISK"
-    OPERATIONAL_RISK = "OPERATIONAL_RISK"
-    CONCENTRATION_RISK = "CONCENTRATION_RISK"
-    VOLATILITY_RISK = "VOLATILITY_RISK"
-
-
-@dataclass
-class RiskMetric:
-    """Individual risk metric data"""
-    risk_type: RiskType
-    value: float
-    threshold: float
-    risk_level: RiskLevel
-    weight: float
-    description: str
-    last_updated: datetime = None
-
-    def __post_init__(self):
-        if self.last_updated is None:
-            self.last_updated = datetime.now()
-        self.calculate_risk_level()
-
-    def calculate_risk_level(self):
-        """Calculate risk level based on value vs threshold"""
-        if self.value <= self.threshold * 0.5:
-            self.risk_level = RiskLevel.LOW
-        elif self.value <= self.threshold * 0.8:
-            self.risk_level = RiskLevel.MEDIUM
-        elif self.value <= self.threshold:
-            self.risk_level = RiskLevel.HIGH
-        else:
-            self.risk_level = RiskLevel.CRITICAL
-
-
-@dataclass
-class RiskAlert:
-    """Risk alert notification"""
-    alert_id: str
-    risk_type: RiskType
-    risk_level: RiskLevel
-    message: str
-    current_value: float
-    threshold: float
-    timestamp: datetime
-    acknowledged: bool = False
-    acknowledged_by: str = ""
-    acknowledged_at: datetime = None
 
 
 @dataclass
@@ -104,39 +51,38 @@ class PortfolioRiskProfile:
             self.last_updated = datetime.now()
 
 
-class ExtendedRiskManager(BaseManager):
+class ExtendedRiskManager(BaseRiskManager, BaseManager):
     """Extended Risk Manager - inherits from BaseManager for unified functionality"""
-    
+
     def __init__(self, config_path: str = "config/financial/risk_manager.json"):
-        super().__init__(
+        BaseManager.__init__(
+            self,
             manager_name="ExtendedRiskManager",
             config_path=config_path,
             enable_metrics=True,
             enable_events=True,
-            enable_persistence=True
+            enable_persistence=True,
         )
-        
+        BaseRiskManager.__init__(self)
+
         # Risk management state
-        self.risk_metrics: Dict[RiskType, RiskMetric] = {}
-        self.risk_alerts: List[RiskAlert] = []
         self.portfolio_profiles: Dict[str, PortfolioRiskProfile] = {}
-        self.risk_thresholds: Dict[RiskType, float] = {}
         self.alert_handlers: Dict[RiskLevel, List[Callable]] = {}
-        
+
         # Risk calculation settings
         self.var_confidence_level = 0.95
         self.max_alert_history = 1000
         self.risk_update_interval = 300  # 5 minutes
         self.enable_real_time_monitoring = True
-        
+
         # Threading for risk calculations
         self.executor = ThreadPoolExecutor(max_workers=4)
         self.monitoring_active = False
-        
+
         # Initialize risk management components
         self._initialize_risk_components()
-        
-        logger.info(f"ExtendedRiskManager initialized successfully")
+
+        logger.info("ExtendedRiskManager initialized successfully")
     
     def _initialize_risk_components(self):
         """Initialize risk management components"""

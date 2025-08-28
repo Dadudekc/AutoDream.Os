@@ -1,41 +1,50 @@
-"""Helpers for reading status and health information."""
+"""Status tracking utilities for manager system."""
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Union
 
-from .status_entities import ComponentHealth, StatusItem, StatusMetrics
+from .status_entities import StatusItem, StatusMetrics
 from .status_registry import StatusRegistry
+from .status_types import StatusLevel
 
 
 class StatusTracker:
-    """Provide read-only access to status information."""
+    """Track status items and component health."""
 
-    def __init__(
-        self, registry: StatusRegistry, component_health: Dict[str, ComponentHealth]
-    ):
-        self._registry = registry
-        self._component_health = component_health
+    def __init__(self, max_history: int) -> None:
+        self.registry = StatusRegistry(max_history)
 
-    def get_status(self, component: Optional[str] = None):
-        """Return status for a component or all statuses."""
-        return self._registry.get_status(component)
+    def set_event_callback(
+        self, callback: Callable[[str, Dict[str, Any]], None]
+    ) -> None:
+        self.registry.set_event_callback(callback)
 
-    def get_health_status(self, component_id: str) -> Optional[ComponentHealth]:
-        """Return health status for a component."""
-        return self._component_health.get(component_id)
+    def add_status(
+        self,
+        component: str,
+        status: str,
+        level: StatusLevel,
+        message: str,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> str:
+        return self.registry.add_status(component, status, level, message, metadata)
 
-    def get_status_summary(self, startup_time: Optional[datetime]) -> StatusMetrics:
-        """Return summary metrics including uptime."""
-        uptime = (
-            (datetime.now() - startup_time).total_seconds() if startup_time else 0.0
-        )
-        return self._registry.get_summary(uptime)
+    def get_status(
+        self, component: Optional[str] = None
+    ) -> Union[StatusItem, List[StatusItem], None]:
+        return self.registry.get_status(component)
+
+    def resolve_status(
+        self, status_id: str, resolution_message: str = "Resolved"
+    ) -> bool:
+        return self.registry.resolve_status(status_id, resolution_message)
 
     def get_active_alerts(self) -> List[StatusItem]:
-        """Return unresolved warning/error/critical statuses."""
-        return self._registry.get_active_alerts()
+        return self.registry.get_active_alerts()
 
+    def get_status_summary(self, uptime_seconds: float) -> StatusMetrics:
+        return self.registry.get_summary(uptime_seconds)
 
-__all__ = ["StatusTracker"]
+    def clear(self) -> None:
+        self.registry.clear()

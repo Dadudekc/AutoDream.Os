@@ -3,9 +3,9 @@
 
 import argparse
 
-from agent_response_database import AgentResponseDatabase
-from response_analytics import ResponseAnalytics
-from response_capture import ResponseCapture
+from data_pipeline.storage import AgentResponseDatabase
+from data_pipeline.transformation import ResponseAnalytics
+from data_pipeline.ingestion import ResponseCapture
 
 
 if __name__ == "__main__":

@@ -13,11 +13,8 @@ import logging
 import hashlib
 import secrets
 import hmac
-from src.session_management.backends import (
-    MemorySessionBackend,
-    SQLiteSessionBackend,
-)
-from src.session_management.session_manager import SessionManager
+from services_v2.auth.session_store import SessionStore
+from services_v2.auth.session_manager import SessionManager
 
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
@@ -29,7 +26,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 try:
-    from security.authentication_manager import AuthenticationManager
+    from security.authentication import AuthenticationSystem, AuthenticationResult
     from security.network_security import NetworkScanner
     from security.compliance_audit import ComplianceAuditor
 
@@ -84,18 +81,15 @@ class AuthService:
         self.config = config or self._default_config()
 
         # Session backend setup
-        backend_name = self.config.get("session_backend", "memory")
-        if backend_name == "sqlite":
-            backend = SQLiteSessionBackend(
-                self.config.get("session_db_path", "auth_sessions.db"),
-                self.logger,
-            )
-        else:
-            backend = MemorySessionBackend()
+        self.session_store = SessionStore(
+            backend=self.config.get("session_backend", "memory"),
+            db_path=self.config.get("session_db_path", "auth_sessions.db"),
+            logger=self.logger,
+        )
         self.session_manager = SessionManager(
-            backend,
+            self.session_store,
             self.config["session_timeout"],
-            self.logger,
+            self.config["security_level"],
         )
 
         # Initialize core components
@@ -142,7 +136,7 @@ class AuthService:
         """Initialize core authentication components"""
         try:
             if SECURITY_AVAILABLE:
-                self.auth_system = AuthenticationManager()
+                self.auth_system = AuthenticationSystem()
                 self.network_scanner = NetworkScanner()
                 self.compliance_auditor = ComplianceAuditor()
                 self.logger.info("✅ Core security components initialized")
@@ -208,15 +202,8 @@ class AuthService:
                     self.successful_auths += 1
 
                     # Enhanced session management
-                    session = self.session_manager.create_session(
-                        username,
-                        source_ip,
-                        user_agent,
-                        metadata={
-                            "v2_features": True,
-                            "security_level": self.config["security_level"],
-                            "session_type": "enhanced",
-                        },
+                    session_data = self.session_manager.create_session(
+                        username, source_ip, user_agent
                     )
 
                     # Permission determination
@@ -236,12 +223,10 @@ class AuthService:
                     return V2AuthResult(
                         status=AuthStatus.SUCCESS,
                         user_id=username,
-                        session_id=session.session_id,
+                        session_id=session_data["session_id"],
                         permissions=permissions,
-                        expires_at=datetime.fromtimestamp(session.expires_at)
-                        if session.expires_at
-                        else None,
-                        metadata=session.metadata,
+                        expires_at=session_data["expires_at"],
+                        metadata=session_data["metadata"],
                         performance_metrics={"auth_duration": auth_duration},
                         security_events=security_events,
                     )

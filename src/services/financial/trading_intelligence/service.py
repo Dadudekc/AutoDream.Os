@@ -1,24 +1,11 @@
 """Trading Intelligence Service package"""
-import json
+
 import logging
-from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Callable, Any
+from typing import Callable, Dict, List, Optional
 
-import numpy as np
-import pandas as pd
-
-from src.utils.stability_improvements import stability_manager, safe_import
-
-from .models import (
-    StrategyType,
-    SignalType,
-    SignalStrength,
-    TradingSignal,
-    StrategyPerformance,
-    MarketCondition,
-)
-from .data_processing import calculate_rsi, analyze_market_conditions
+from .models import StrategyPerformance, StrategyType, TradingSignal, MarketCondition
+from .analysis import calculate_rsi, analyze_market_conditions
 from .strategy_analysis import (
     momentum_strategy,
     mean_reversion_strategy,
@@ -37,7 +24,9 @@ logger = logging.getLogger(__name__)
 class TradingIntelligenceService:
     """Advanced trading intelligence and strategy execution service"""
 
-    def __init__(self, market_data_service=None, data_dir: str = "trading_intelligence"):
+    def __init__(
+        self, market_data_service=None, data_dir: str = "trading_intelligence"
+    ):
         self.market_data_service = market_data_service
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(exist_ok=True)

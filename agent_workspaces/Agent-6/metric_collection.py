@@ -7,7 +7,7 @@ import psutil
 
 
 class MetricCollector:
-    """Collects raw system metrics used during optimization."""
+    """Collect raw system metrics."""
 
     def __init__(self) -> None:
         self.logger = logging.getLogger(__name__ + ".MetricCollector")
@@ -82,18 +82,6 @@ class MetricCollector:
         except Exception as exc:  # pragma: no cover - defensive
             self.logger.error("Failed to collect network metrics: %s", exc)
             return {"error": str(exc)}
-
-    def analyze_performance_patterns(self) -> Dict[str, Any]:
-        """Return simple static descriptions of performance patterns."""
-        # In the original toolkit this performed complex analysis.  For the
-        # refactor we keep a lightweight placeholder that still returns
-        # structured information used by the orchestrator.
-        return {
-            "cpu_patterns": "Variable usage with peaks during operations",
-            "memory_patterns": "Consistent usage with gradual growth",
-            "disk_patterns": "Burst I/O during file operations",
-            "network_patterns": "Low baseline with activity spikes",
-        }
 
     def _get_load_average(self) -> Optional[float]:
         try:

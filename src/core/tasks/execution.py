@@ -7,13 +7,13 @@ Handles task execution, workflow management, and development task operations.
 Single responsibility: Task execution and workflow management.
 """
 
-import logging
 from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
 from pathlib import Path
 import json
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from .logger import get_task_logger
 
 # Development task dependencies - Mocked to avoid circular imports
 # from autonomous_development.core.models import DevelopmentTask
@@ -23,9 +23,11 @@ from src.utils.stability_improvements import stability_manager, safe_import
 #     TaskStatus as DevTaskStatus,
 # )
 
+
 # Mock classes to avoid circular imports
 class DevelopmentTask:
     """Mock DevelopmentTask class to avoid circular imports."""
+
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
@@ -34,74 +36,76 @@ class DevelopmentTask:
         self.completed_at = None
         self.started_at = None
         self.metadata = {}
-    
+
     def is_available(self):
         return self.status == MockTaskStatus.AVAILABLE
-    
+
     def claim(self, agent_id):
         if self.is_available():
             self.claimed_by = agent_id
             self.status = MockTaskStatus.CLAIMED
             return True
         return False
-    
+
     def start_work(self):
         if self.status == MockTaskStatus.CLAIMED:
             self.status = MockTaskStatus.IN_PROGRESS
             self.started_at = datetime.now().isoformat()
             return True
         return False
-    
+
     def complete(self):
         if self.status in [MockTaskStatus.IN_PROGRESS, MockTaskStatus.CLAIMED]:
             self.status = MockTaskStatus.COMPLETED
             self.completed_at = datetime.now().isoformat()
             return True
         return False
-    
+
     def block(self, reason):
         if self.status != MockTaskStatus.COMPLETED:
             self.status = MockTaskStatus.BLOCKED
             if not self.metadata:
                 self.metadata = {}
-            self.metadata['block_reason'] = reason
+            self.metadata["block_reason"] = reason
             return True
         return False
-    
+
     def unblock(self):
         if self.status == MockTaskStatus.BLOCKED:
             self.status = MockTaskStatus.CLAIMED
             return True
         return False
-    
+
     def cancel(self):
         if self.status != MockTaskStatus.COMPLETED:
             self.status = MockTaskStatus.CANCELLED
             return True
         return False
-    
+
     def update_progress(self, percentage):
-        if hasattr(self, 'progress'):
+        if hasattr(self, "progress"):
             self.progress = max(0, min(100, percentage))
             return True
         return False
-    
+
     def get_elapsed_time(self):
         if self.started_at and self.completed_at:
             start = datetime.fromisoformat(self.started_at)
             end = datetime.fromisoformat(self.completed_at)
             return (end - start).total_seconds() / 3600  # hours
         return None
-    
+
     def to_dict(self):
         return {k: v for k, v in self.__dict__.items()}
-    
+
     @classmethod
     def from_dict(cls, data):
         return cls(**data)
 
+
 class MockTaskStatus:
     """Mock TaskStatus enum to avoid circular imports."""
+
     AVAILABLE = "available"
     CLAIMED = "claimed"
     IN_PROGRESS = "in_progress"
@@ -109,30 +113,34 @@ class MockTaskStatus:
     BLOCKED = "blocked"
     CANCELLED = "cancelled"
 
+
 class MockTaskPriorityMeta(type):
     """Metaclass to make MockTaskPriority subscriptable."""
+
     def __getitem__(cls, key):
-        if key == 'MINIMAL':
+        if key == "MINIMAL":
             return cls.MINIMAL
-        elif key == 'LOW':
+        elif key == "LOW":
             return cls.LOW
-        elif key == 'MEDIUM':
+        elif key == "MEDIUM":
             return cls.MEDIUM
-        elif key == 'HIGH':
+        elif key == "HIGH":
             return cls.HIGH
-        elif key == 'CRITICAL':
+        elif key == "CRITICAL":
             return cls.CRITICAL
         else:
             raise KeyError(f"'{key}' is not a valid MockTaskPriority key")
 
+
 class MockTaskPriority(metaclass=MockTaskPriorityMeta):
     """Mock TaskPriority enum to avoid circular imports."""
-    MINIMAL = type('MockPriority', (), {'value': 1})()
-    LOW = type('MockPriority', (), {'value': 2})()
-    MEDIUM = type('MockPriority', (), {'value': 3})()
-    HIGH = type('MockPriority', (), {'value': 4})()
-    CRITICAL = type('MockPriority', (), {'value': 5})()
-    
+
+    MINIMAL = type("MockPriority", (), {"value": 1})()
+    LOW = type("MockPriority", (), {"value": 2})()
+    MEDIUM = type("MockPriority", (), {"value": 3})()
+    HIGH = type("MockPriority", (), {"value": 4})()
+    CRITICAL = type("MockPriority", (), {"value": 5})()
+
     def __new__(cls, value):
         """Make the class callable to simulate enum behavior."""
         if value == 1:
@@ -148,19 +156,21 @@ class MockTaskPriority(metaclass=MockTaskPriorityMeta):
         else:
             raise ValueError(f"'{value}' is not a valid MockTaskPriority")
 
+
 class MockTaskComplexity:
     """Mock TaskComplexity enum to avoid circular imports."""
-    LOW = type('MockComplexity', (), {'value': 'low'})()
-    MEDIUM = type('MockComplexity', (), {'value': 'medium'})()
-    HIGH = type('MockComplexity', (), {'value': 'high'})()
-    
+
+    LOW = type("MockComplexity", (), {"value": "low"})()
+    MEDIUM = type("MockComplexity", (), {"value": "medium"})()
+    HIGH = type("MockComplexity", (), {"value": "high"})()
+
     def __new__(cls, value):
         """Make the class callable to simulate enum behavior."""
-        if value == 'low':
+        if value == "low":
             return cls.LOW
-        elif value == 'medium':
+        elif value == "medium":
             return cls.MEDIUM
-        elif value == 'high':
+        elif value == "high":
             return cls.HIGH
         else:
             raise ValueError(f"'{value}' is not a valid MockTaskComplexity")
@@ -169,7 +179,7 @@ class MockTaskComplexity:
 class TaskExecutor:
     """
     Task Executor - Single responsibility: Task execution and workflow management.
-    
+
     This service handles:
     - Task execution and workflow management
     - Development task operations
@@ -181,7 +191,7 @@ class TaskExecutor:
         """Initialize Task Executor."""
         self.tasks: Dict[str, DevelopmentTask] = {}
         self.task_counter = 0
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_task_logger(__name__)
         self.workflow_stats = {
             "total_tasks_created": 0,
             "total_tasks_completed": 0,
@@ -234,7 +244,11 @@ class TaskExecutor:
                 "complexity": MockTaskComplexity.HIGH,
                 "priority": MockTaskPriority.CRITICAL,
                 "estimated_hours": 5.0,
-                "required_skills": ["security", "code_review", "vulnerability_assessment"],
+                "required_skills": [
+                    "security",
+                    "code_review",
+                    "vulnerability_assessment",
+                ],
             },
         ]
 
@@ -294,15 +308,20 @@ class TaskExecutor:
         """Get development tasks by status."""
         return [task for task in self.tasks.values() if task.status == status]
 
-    def get_tasks_by_priority(self, min_priority: int = MockTaskPriority.MINIMAL.value) -> List[DevelopmentTask]:
+    def get_tasks_by_priority(
+        self, min_priority: int = MockTaskPriority.MINIMAL.value
+    ) -> List[DevelopmentTask]:
         """Get development tasks by minimum priority."""
         return [
             task
             for task in self.tasks.values()
-            if task.status == MockTaskStatus.AVAILABLE and task.priority.value >= min_priority
+            if task.status == MockTaskStatus.AVAILABLE
+            and task.priority.value >= min_priority
         ]
 
-    def get_tasks_by_complexity(self, complexity: MockTaskComplexity) -> List[DevelopmentTask]:
+    def get_tasks_by_complexity(
+        self, complexity: MockTaskComplexity
+    ) -> List[DevelopmentTask]:
         """Get development tasks by complexity."""
         return [task for task in self.tasks.values() if task.complexity == complexity]
 
@@ -432,7 +451,11 @@ class TaskExecutor:
         removed_count = 0
         to_remove = []
         for task_id, task in self.tasks.items():
-            if task.is_completed() and task.completed_at and task.completed_at < cutoff_date:
+            if (
+                task.is_completed()
+                and task.completed_at
+                and task.completed_at < cutoff_date
+            ):
                 to_remove.append(task_id)
         for task_id in to_remove:
             del self.tasks[task_id]

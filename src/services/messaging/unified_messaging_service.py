@@ -24,6 +24,8 @@ from .coordinate_manager import CoordinateManager
 from .unified_pyautogui_messaging import UnifiedPyAutoGUIMessaging
 from .campaign_messaging import CampaignMessaging
 from .yolo_messaging import YOLOMessaging
+from .message_queue_system import message_queue_system, AgentStatus
+from .models.unified_message import UnifiedMessagePriority
 
 logger = logging.getLogger(__name__)
 
@@ -118,6 +120,99 @@ class UnifiedMessagingService:
         """Validate coordinates using coordinate manager"""
         return self.coordinate_manager.validate_coordinates()
     
+    def validate_agent_coordinates(self, agent_id: str, mode: str = "8-agent") -> Dict[str, Any]:
+        """
+        Validate coordinates for a specific agent before sending message
+        
+        Args:
+            agent_id: Agent to validate coordinates for
+            mode: Coordinate mode to use
+            
+        Returns:
+            Dict with validation results including 'valid' boolean and 'error' if any
+        """
+        logger.info(f"🔍 Validating coordinates for {agent_id} in {mode} mode")
+        
+        try:
+            # Get agent coordinates
+            coords = self.coordinate_manager.get_agent_coordinates(agent_id, mode)
+            if not coords:
+                return {
+                    "valid": False,
+                    "error": f"No coordinates found for {agent_id} in {mode} mode"
+                }
+            
+            # Test if coordinates are within multi-monitor bounds
+            try:
+                import pyautogui
+                
+                # For multi-monitor setups, we need to account for negative coordinates
+                # Since PyAutoGUI 0.9.54 doesn't have getAllMonitors(), we'll use a heuristic approach
+                screen_width, screen_height = pyautogui.size()
+                
+                # Check if coordinates suggest multi-monitor setup (negative X values)
+                has_negative_x = any([
+                    coords.input_box[0] < 0,
+                    coords.starter_location[0] < 0
+                ])
+                
+                if has_negative_x:
+                    # Multi-monitor setup detected (negative X coordinates indicate left monitor)
+                    # Assume left monitor is roughly the same size as primary monitor
+                    min_x = -screen_width  # Left monitor extends to negative X
+                    max_x = screen_width   # Right monitor extends to positive X
+                    min_y = 0
+                    max_y = screen_height
+                    
+                    logger.info(f"🔍 Multi-monitor setup detected (negative X coordinates)")
+                    logger.info(f"   Extended bounds: X({min_x} to {max_x}), Y({min_y} to {max_y})")
+                    logger.info(f"   Primary monitor: {screen_width}x{screen_height}")
+                    
+                else:
+                    # Single monitor setup
+                    min_x, max_x = 0, screen_width
+                    min_y, max_y = 0, screen_height
+                    logger.info(f"🔍 Single monitor setup: {screen_width}x{screen_height}")
+                
+                # Check input box coordinates
+                input_x, input_y = coords.input_box
+                if not (min_x <= input_x <= max_x and min_y <= input_y <= max_y):
+                    return {
+                        "valid": False,
+                        "error": f"Input box coordinates ({input_x}, {input_y}) out of multi-monitor bounds (X: {min_x} to {max_x}, Y: {min_y} to {max_y})"
+                    }
+                
+                # Check starter location coordinates
+                starter_x, starter_y = coords.starter_location
+                if not (min_x <= starter_x <= max_x and min_y <= starter_y <= max_y):
+                    return {
+                        "valid": False,
+                        "error": f"Starter coordinates ({starter_x}, {starter_y}) out of multi-monitor bounds (X: {min_x} to {max_x}, Y: {min_y} to {max_y})"
+                    }
+                
+                logger.info(f"✅ Coordinates validated for {agent_id}")
+                return {
+                    "valid": True,
+                    "coordinates": coords,
+                    "monitor_bounds": (min_x, max_x, min_y, max_y),
+                    "monitor_count": 2 if has_negative_x else 1
+                }
+                
+            except ImportError:
+                logger.warning("PyAutoGUI not available - coordinate validation skipped")
+                return {
+                    "valid": True,
+                    "coordinates": coords,
+                    "warning": "PyAutoGUI not available, validation limited"
+                }
+                
+        except Exception as e:
+            logger.error(f"Error validating coordinates for {agent_id}: {e}")
+            return {
+                "valid": False,
+                "error": f"Validation error: {str(e)}"
+            }
+    
     def get_available_modes(self) -> list:
         """Get available coordinate modes"""
         return self.coordinate_manager.get_available_modes()
@@ -187,3 +282,50 @@ class UnifiedMessagingService:
         """
         logger.info(f"🚨 Sending bulk HIGH PRIORITY messages via unified service")
         return self.pyautogui_messaging.send_bulk_high_priority(urgent_messages, mode)
+    
+    def send_coordinated_messages(self, messages: Dict[str, str], priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL) -> Dict[str, bool]:
+        """
+        Send coordinated messages to all 8 agents through the message queue system
+        
+        Args:
+            messages: Dictionary of agent_id: message_content
+            priority: Priority level for all messages
+            
+        Returns:
+            Dict with queuing results for each agent
+        """
+        logger.info(f"📡 Sending coordinated messages to all agents via queue system (Priority: {priority.value})")
+        
+        results = {}
+        for agent_id, message in messages.items():
+            # Queue message through the message queue system
+            success = message_queue_system.queue_message(
+                agent_id=agent_id,
+                message=message,
+                message_type="text",
+                priority=priority,
+                requires_response=True
+            )
+            
+            # Update agent state to working
+            if success:
+                message_queue_system.update_agent_state(agent_id, AgentStatus.WORKING, "Coordinated message processing")
+            
+            results[agent_id] = success
+            
+            logger.info(f"Message queued for {agent_id}: {'✅ Success' if success else '❌ Failed'}")
+        
+        return results
+    
+    def get_queue_status(self) -> Dict[str, Any]:
+        """
+        Get current status of the message queue system
+        
+        Returns:
+            Dict with queue status and agent states
+        """
+        return {
+            "queue_size": message_queue_system.message_queue.qsize(),
+            "agent_states": message_queue_system.get_all_agent_statuses(),
+            "keyboard_conflicts": message_queue_system.check_keyboard_conflicts()
+        }

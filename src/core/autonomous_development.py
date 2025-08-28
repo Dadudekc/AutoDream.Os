@@ -8,6 +8,7 @@ to create true autonomous development where agents can interact with
 development tools and create new conversations automatically.
 
 REFACTORED: Uses extracted modules for workflow, task management, code generation, and testing.
+CLEANED UP: Removed extracted code remnants, updated imports, and ensured proper module usage.
 """
 
 import time
@@ -59,7 +60,9 @@ class DevelopmentAction:
 class AutonomousDevelopmentEngine:
     """
     Refactored autonomous development engine that uses extracted modules
-    for workflow, task management, code generation, and testing
+    for workflow, task management, code generation, and testing.
+    
+    CLEANED UP: Removed extracted code remnants and ensured proper module usage.
     """
 
     def __init__(self):

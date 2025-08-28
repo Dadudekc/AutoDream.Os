@@ -2,15 +2,15 @@
   "performance_monitoring": {
     "version": "1.0.0",
     "enabled": true,
-    "collection_interval": 30,
-    "retention_period": 86400,
-    "max_data_points": 10000,
-    "cleanup_interval": 3600,
+    "collection_interval": 60,
+    "retention_period": 43200,
+    "max_data_points": 5000,
+    "cleanup_interval": 7200,
 
     "collectors": {
       "system_metrics": {
         "enabled": true,
-        "collection_interval": 30,
+        "collection_interval": 60,
         "collect_cpu": true,
         "collect_memory": true,
         "collect_disk": true,
@@ -60,7 +60,7 @@
       "host": "0.0.0.0",
       "port": 8080,
       "auto_refresh": true,
-      "refresh_interval": 5,
+      "refresh_interval": 10,
       "theme": "dark",
       "websocket_enabled": true,
       "max_websocket_connections": 100,

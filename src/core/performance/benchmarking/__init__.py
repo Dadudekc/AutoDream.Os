@@ -12,10 +12,14 @@ License: MIT
 
 from .benchmark_runner import BenchmarkRunner
 from .benchmark_types import BenchmarkResult, BenchmarkMetrics, BenchmarkConfig
+from .analysis import BenchmarkAnalyzer
+from .setup import BenchmarkSetup
 
 __all__ = [
     "BenchmarkRunner",
     "BenchmarkResult",
-    "BenchmarkMetrics", 
-    "BenchmarkConfig"
+    "BenchmarkMetrics",
+    "BenchmarkConfig",
+    "BenchmarkAnalyzer",
+    "BenchmarkSetup",
 ]

@@ -21,6 +21,7 @@ from .benchmarks import (
     PerformanceBenchmark,
     PerformanceLevel,
 )
+from ..benchmarking.analysis import BenchmarkAnalyzer
 
 
 class MetricsCollector:
@@ -39,8 +40,9 @@ class MetricsCollector:
         self.running = False
         self.performance_monitor = None
 
-        # Benchmark storage
+        # Benchmark storage and analysis
         self.benchmarks = BenchmarkManager()
+        self.analyzer = BenchmarkAnalyzer()
         self.benchmark_targets = {
             BenchmarkType.RESPONSE_TIME: {"target": 100, "unit": "ms"},
             BenchmarkType.THROUGHPUT: {"target": 1000, "unit": "ops/sec"},
@@ -118,7 +120,7 @@ class MetricsCollector:
                 return {}
             
             # Calculate scalability score based on performance degradation
-            scalability_score = self.benchmarks.calculate_scalability_score(
+            scalability_score = self.analyzer.calculate_scalability_score(
                 scalability_results
             )
             
@@ -135,7 +137,7 @@ class MetricsCollector:
                 "max_operations_per_second": max_ops_per_sec,
                 "average_operations_per_second": avg_ops_per_sec,
                 "concurrent_agent_tests": len(scalability_results),
-                "performance_degradation": self.benchmarks.calculate_performance_degradation(
+                "performance_degradation": self.analyzer.calculate_performance_degradation(
                     scalability_results
                 ),
             }

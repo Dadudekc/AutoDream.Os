@@ -1,6 +1,6 @@
 """Contract cleanup validator package."""
 
-from .models import (
+from .shared import (
     CleanupStatus,
     StandardCompliance,
     CleanupRequirement,

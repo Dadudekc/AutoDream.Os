@@ -1,15 +1,8 @@
-"""
-🔧 Utils Package - Agent_Cellphone_V2
+"""Central utilities package.
 
-This package contains utility components for the Agent_Cellphone_V2 system:
-- Configuration utilities
-- Logging utilities
-- System utilities
-- Validation utilities
-- File utilities
-
-Following V2 coding standards: ≤300 LOC per file, OOP design, SRP.
-SSOT: Single Source of Truth for all utility functions.
+This module re-exports commonly used utilities to provide a single import
+location. Only modules that are available in the repository are imported to
+avoid runtime import errors.
 """
 
 __version__ = "2.0.0"
@@ -19,45 +12,32 @@ __status__ = "ACTIVE"
 import argparse
 import sys
 
-# SSOT: Core utility imports - Single source of truth for all utility classes
-try:
-    from .config_loader import ConfigLoader
-    from .logging_setup import LoggingSetup
-    from .system_info import SystemInfo
-    from .performance_monitor import PerformanceMonitor
-    from .dependency_checker import DependencyChecker
-    from .cli_utils import CLIUtils
-    from .file_utils import FileUtils
-    from .message_builder import MessageBuilder
-    from .onboarding_utils import OnboardingUtils
-    from .onboarding_coordinator import OnboardingCoordinator
-    from .onboarding_orchestrator import OnboardingOrchestrator
-    from .config_utils_coordinator import ConfigUtilsCoordinator
-    from .system_utils_coordinator import SystemUtilsCoordinator
-    from .environment_overrides import EnvironmentOverrides
-    from .serializable import SerializableMixin
+from .config_loader import ConfigLoader
+from .logging_setup import LoggingSetup
+from .system_info import SystemInfo
+from .dependency_checker import DependencyChecker
+from .file_utils import FileUtils
+from .config_utils_coordinator import ConfigUtilsCoordinator
+from .system_utils_coordinator import SystemUtilsCoordinator
+from .environment_overrides import EnvironmentOverrides
+from .serializable import SerializableMixin
+from .profiling import time_block
+from .caching import generate_cache_key, calculate_file_hash
 
-    __all__ = [
-        "ConfigLoader",
-        "LoggingSetup",
-        "SystemInfo",
-        "PerformanceMonitor",
-        "DependencyChecker",
-        "CLIUtils",
-        "FileUtils",
-        "MessageBuilder",
-        "OnboardingUtils",
-        "OnboardingCoordinator",
-        "OnboardingOrchestrator",
-        "ConfigUtilsCoordinator",
-        "SystemUtilsCoordinator",
-        "EnvironmentOverrides",
-        "SerializableMixin",
-    ]
-
-except ImportError as e:
-    print(f"⚠️ Warning: Some utils components not available: {e}")
-    __all__ = []
+__all__ = [
+    "ConfigLoader",
+    "LoggingSetup",
+    "SystemInfo",
+    "DependencyChecker",
+    "FileUtils",
+    "ConfigUtilsCoordinator",
+    "SystemUtilsCoordinator",
+    "EnvironmentOverrides",
+    "SerializableMixin",
+    "time_block",
+    "generate_cache_key",
+    "calculate_file_hash",
+]
 
 
 def main():
@@ -65,9 +45,9 @@ def main():
     parser = argparse.ArgumentParser(description="Utils Package CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
     parser.add_argument("--status", action="store_true", help="Show status")
-    
+
     args = parser.parse_args()
-    
+
     if args.version:
         print(f"Utils Package v{__version__}")
     elif args.status:

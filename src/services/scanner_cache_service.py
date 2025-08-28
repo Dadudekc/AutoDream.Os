@@ -9,9 +9,9 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 
 import json
 import time
-import hashlib
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.caching import generate_cache_key, calculate_file_hash
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -43,7 +43,7 @@ class ScannerCacheService:
     def get_cached_result(self, file_path: Path) -> Optional[Dict[str, Any]]:
         """Get cached result for a file if it exists and is valid"""
         try:
-            cache_key = self._generate_cache_key(file_path)
+            cache_key = generate_cache_key(file_path)
             cache_file = self.cache_dir / f"{cache_key}.json"
 
             if not cache_file.exists():
@@ -81,14 +81,14 @@ class ScannerCacheService:
             # Prepare cache data
             cache_data = {
                 "file_path": str(file_path),
-                "file_hash": self._calculate_file_hash(file_path),
+                "file_hash": calculate_file_hash(file_path),
                 "analysis_result": analysis_result,
                 "cached_at": time.time(),
                 "expires_at": time.time() + (self.cache_ttl_hours * 3600),
             }
 
             # Save to cache
-            cache_key = self._generate_cache_key(file_path)
+            cache_key = generate_cache_key(file_path)
             cache_file = self.cache_dir / f"{cache_key}.json"
 
             with open(cache_file, "w") as f:
@@ -102,7 +102,7 @@ class ScannerCacheService:
     def invalidate_cache(self, file_path: Path) -> bool:
         """Invalidate cache for a specific file"""
         try:
-            cache_key = self._generate_cache_key(file_path)
+            cache_key = generate_cache_key(file_path)
             cache_file = self.cache_dir / f"{cache_key}.json"
 
             if cache_file.exists():
@@ -206,22 +206,6 @@ class ScannerCacheService:
         except Exception:
             return 0
 
-    def _generate_cache_key(self, file_path: Path) -> str:
-        """Generate unique cache key for a file"""
-        # Use file path and modification time for cache key
-        file_stat = file_path.stat()
-        key_string = f"{file_path}_{file_stat.st_mtime}_{file_stat.st_size}"
-        return hashlib.md5(key_string.encode()).hexdigest()
-
-    def _calculate_file_hash(self, file_path: Path) -> str:
-        """Calculate SHA256 hash of file content"""
-        try:
-            with open(file_path, "rb") as f:
-                content = f.read()
-                return hashlib.sha256(content).hexdigest()
-        except Exception:
-            return "unknown"
-
     def _is_cache_expired(self, cache_file: Path) -> bool:
         """Check if cache file is expired"""
         try:
@@ -272,7 +256,7 @@ class ScannerCacheService:
     def get_cache_info(self, file_path: Path) -> Optional[Dict[str, Any]]:
         """Get detailed cache information for a specific file"""
         try:
-            cache_key = self._generate_cache_key(file_path)
+            cache_key = generate_cache_key(file_path)
             cache_file = self.cache_dir / f"{cache_key}.json"
 
             if not cache_file.exists():

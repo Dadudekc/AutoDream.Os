@@ -384,6 +384,7 @@ class UnifiedDashboardValidator:
 
     def _validate_task_completion(self, claim: DashboardClaim) -> ValidationResult:
         """Validate a task completion claim"""
+        validation_time = datetime.now()
         deliverables, expected_devlogs = self._parse_task_deliverables(claim)
         rules = self.validation_rules.get("TASK_COMPLETION", {})
         status, discrepancies, evidence, confidence = self._apply_task_validation_rules(
@@ -393,9 +394,10 @@ class UnifiedDashboardValidator:
             claim.task_id,
             self.base_path,
             rules,
+            validation_time,
         )
         return self._generate_task_validation_result(
-            claim.claim_id, status, discrepancies, evidence, confidence
+            claim.claim_id, status, discrepancies, evidence, confidence, validation_time
         )
     
     def _validate_system_status(self, claim: DashboardClaim) -> ValidationResult:

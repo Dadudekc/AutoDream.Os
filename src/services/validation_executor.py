@@ -14,6 +14,7 @@ from .validation_rules import (
     ValidationResult,
     ValidationSeverity,
 )
+from .constants import DEFAULT_CONTRACT_ID
 
 
 class ValidationExecutor:
@@ -32,7 +33,7 @@ class ValidationExecutor:
             passed, message, details = self._apply_rule(rule, contract_data)
             results.append(
                 ValidationResult(
-                    contract_id=contract_data.get("contract_id", "unknown"),
+                    contract_id=contract_data.get("contract_id", DEFAULT_CONTRACT_ID),
                     rule_id=rule.rule_id,
                     passed=passed,
                     severity=rule.severity,

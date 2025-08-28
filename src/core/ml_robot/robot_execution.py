@@ -16,6 +16,7 @@ import random
 from src.utils.stability_improvements import stability_manager, safe_import
 from typing import Dict, Any, List
 from unittest.mock import Mock
+from src.ai_ml.evaluation import evaluate_model as shared_evaluate_model
 
 try:
     from .robot_types import ModelConfig, TrainingConfig, DatasetConfig, ModelResult
@@ -35,13 +36,13 @@ class ModelCreator:
                 "simple": [64, 32],
                 "deep": [128, 64, 32],
                 "wide": [256, 128, 64],
-                "custom": []
+                "custom": [],
             },
             "random_forest": {
                 "default": {"n_estimators": 100, "max_depth": 10},
                 "conservative": {"n_estimators": 50, "max_depth": 5},
-                "aggressive": {"n_estimators": 200, "max_depth": 15}
-            }
+                "aggressive": {"n_estimators": 200, "max_depth": 15},
+            },
         }
 
     def create_model_architecture(self, config: ModelConfig) -> Any:
@@ -122,7 +123,7 @@ class ModelTrainer:
         self.training_strategies = {
             "fast": {"epochs": 25, "batch_size": 16, "patience": 5},
             "balanced": {"epochs": 100, "batch_size": 32, "patience": 10},
-            "thorough": {"epochs": 200, "batch_size": 64, "patience": 20}
+            "thorough": {"epochs": 200, "batch_size": 64, "patience": 20},
         }
 
     def train_model(self, model: Any, config: TrainingConfig) -> Dict[str, Any]:
@@ -144,7 +145,9 @@ class ModelTrainer:
             "epochs_completed": config.epochs,
         }
 
-    def create_optimal_training_config(self, analysis: Dict[str, Any]) -> TrainingConfig:
+    def create_optimal_training_config(
+        self, analysis: Dict[str, Any]
+    ) -> TrainingConfig:
         """Create optimal training configuration"""
         if analysis["sample_count"] < 1000:
             epochs = 50
@@ -173,36 +176,14 @@ class ModelEvaluator:
         self.evaluation_metrics = {
             "classification": ["accuracy", "precision", "recall", "f1"],
             "regression": ["mse", "mae", "r2_score"],
-            "clustering": ["silhouette_score", "calinski_harabasz_score"]
+            "clustering": ["silhouette_score", "calinski_harabasz_score"],
         }
 
     def evaluate_model(
         self, model: Any, training_result: Dict[str, Any]
     ) -> Dict[str, float]:
-        """Evaluate model performance"""
-        history = training_result.get("history", {})
-
-        # Calculate final metrics
-        final_loss = history.get("loss", [1.0])[-1] if history.get("loss") else 1.0
-        final_accuracy = (
-            history.get("accuracy", [0.5])[-1] if history.get("accuracy") else 0.5
-        )
-        final_val_loss = (
-            history.get("val_loss", [1.0])[-1] if history.get("val_loss") else 1.0
-        )
-        final_val_accuracy = (
-            history.get("val_accuracy", [0.5])[-1]
-            if history.get("val_accuracy")
-            else 0.5
-        )
-
-        return {
-            "loss": final_loss,
-            "accuracy": final_accuracy,
-            "val_loss": final_val_loss,
-            "val_accuracy": final_val_accuracy,
-            "overfitting_score": final_loss - final_val_loss,
-        }
+        """Evaluate model performance using shared evaluator"""
+        return shared_evaluate_model(model, training_result=training_result)
 
     def calculate_model_size(self, model: Any) -> float:
         """Calculate model size in MB"""
@@ -368,7 +349,7 @@ class HyperparameterOptimizer:
 def run_smoke_test():
     """Run smoke test for robot execution module"""
     print("🧪 Testing ML Robot Execution Module...")
-    
+
     try:
         # Test ModelCreator
         creator = ModelCreator()
@@ -387,7 +368,9 @@ def run_smoke_test():
 
         # Test HyperparameterOptimizer
         optimizer = HyperparameterOptimizer()
-        rf_params = optimizer.auto_tune_hyperparameters("random_forest", "classification")
+        rf_params = optimizer.auto_tune_hyperparameters(
+            "random_forest", "classification"
+        )
         assert "n_estimators" in rf_params
         print("✅ HyperparameterOptimizer smoke test passed")
 

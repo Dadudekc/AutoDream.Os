@@ -3,11 +3,11 @@
 
 import json
 import logging
-import threading
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from ..base_manager import BaseManager
+from src.core.workspace import WorkspaceInitializer
 from ..scaling import (
     LoadDistributor,
     ResourceMonitor,
@@ -56,12 +56,9 @@ class ScalingManager(BaseManager):
         self.scaling_decider = ScalingDecider()
         self.scaling_executor = ScalingExecutor()
         self.distributor = LoadDistributor()
-        # Monitoring helpers (unused but kept for compatibility) -----------------
-        self.is_monitoring = False
-        self.monitor_thread: Optional[threading.Thread] = None
         # Initialization ---------------------------------------------------------
         self._load_manager_config()
-        self._initialize_workspace()
+        self.workspace_path = WorkspaceInitializer().initialize()
 
     # Core pipeline -------------------------------------------------------------
     def process_metrics(
@@ -103,7 +100,9 @@ class ScalingManager(BaseManager):
     def execute_intelligent_scaling(
         self, strategy_id: str, current_metrics: ScalingMetrics
     ) -> Dict[str, Any]:
-        return intelligence.execute_intelligent_scaling(self, strategy_id, current_metrics)
+        return intelligence.execute_intelligent_scaling(
+            self, strategy_id, current_metrics
+        )
 
     def predict_scaling_needs(
         self, time_horizon_minutes: int = 30
@@ -113,15 +112,12 @@ class ScalingManager(BaseManager):
     def optimize_scaling_automatically(self) -> Dict[str, Any]:
         return optimization.optimize_scaling_automatically(self)
 
-    def generate_scaling_report(self, report_type: str = "comprehensive") -> Dict[str, Any]:
+    def generate_scaling_report(
+        self, report_type: str = "comprehensive"
+    ) -> Dict[str, Any]:
         return reporting.generate_scaling_report(self, report_type)
 
     # Utility methods ----------------------------------------------------------
-    def _initialize_workspace(self) -> None:
-        self.workspace_path = Path("agent_workspaces")
-        self.workspace_path.mkdir(exist_ok=True)
-        logger.info("Scaling workspace initialized")
-
     def _load_manager_config(self) -> None:
         try:
             if Path(self.config_path).exists():
@@ -144,7 +140,9 @@ class ScalingManager(BaseManager):
 
     def cleanup(self) -> None:
         try:
-            if getattr(self, "is_monitoring", False) and hasattr(self, "stop_monitoring"):
+            if getattr(self, "is_monitoring", False) and hasattr(
+                self, "stop_monitoring"
+            ):
                 self.stop_monitoring()
             logger.info("ScalingManager cleanup completed")
         except Exception as exc:  # pragma: no cover - defensive

@@ -1,8 +1,13 @@
 from datetime import datetime, timedelta
 from typing import Dict, Optional
 
-from .channel_dispatch import dispatch_to_channels
+"""Utilities for handling alert escalation logic."""
+
+from datetime import datetime, timedelta
+from typing import Dict, Optional
+
 from .logging_utils import logger
+from .notification_dispatch import dispatch_to_channels
 from .models import (
     HealthAlert,
     AlertStatus,
@@ -14,6 +19,8 @@ from .models import (
 
 
 def get_next_escalation_level(current_level: EscalationLevel) -> Optional[EscalationLevel]:
+    """Return the next escalation level after ``current_level`` if any."""
+
     levels = [
         EscalationLevel.LEVEL_1,
         EscalationLevel.LEVEL_2,
@@ -34,6 +41,7 @@ def send_escalation_notifications(
     policy: EscalationPolicy,
     configs: Dict[NotificationChannel, NotificationConfig],
 ) -> None:
+    """Dispatch escalation notifications using the provided policy."""
     dispatch_to_channels(
         alert, policy.notification_channels, configs, policy.contacts
     )
@@ -44,6 +52,8 @@ def escalate_alert(
     policy: EscalationPolicy,
     configs: Dict[NotificationChannel, NotificationConfig],
 ) -> None:
+    """Escalate an alert according to the provided policy."""
+
     try:
         next_level = get_next_escalation_level(alert.escalation_level)
         if next_level:
@@ -62,6 +72,8 @@ def check_escalations(
     policies: Dict[EscalationLevel, EscalationPolicy],
     configs: Dict[NotificationChannel, NotificationConfig],
 ) -> None:
+    """Check active alerts and escalate them when delay thresholds pass."""
+
     current_time = datetime.now()
     for alert in alerts.values():
         if alert.status != AlertStatus.ACTIVE:

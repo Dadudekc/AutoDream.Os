@@ -45,7 +45,7 @@ from .frontend_testing import (
     TestSuite,
     MockDataGenerator,
 )
-from .ui_interactions import (
+from .utils import (
     create_mock_component,
     create_mock_route,
     create_mock_navigation_state,

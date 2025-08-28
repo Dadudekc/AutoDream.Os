@@ -7,6 +7,7 @@ from typing import Any, Dict, Optional
 
 from ..base import BaseMiddlewareComponent
 from ..models import DataPacket, MiddlewareType
+from .common_validation import has_tag, metadata_equals, source_equals
 
 
 class RoutingMiddleware(BaseMiddlewareComponent):
@@ -51,14 +52,12 @@ class RoutingMiddleware(BaseMiddlewareComponent):
     def _matches_pattern(self, data_packet: DataPacket, pattern: str) -> bool:
         """Check if packet matches routing pattern."""
         if pattern.startswith("tag:"):
-            tag = pattern[4:]
-            return tag in data_packet.tags
+            return has_tag(data_packet, pattern[4:])
         if pattern.startswith("metadata:"):
             key_value = pattern[9:].split("=", 1)
             if len(key_value) == 2:
                 key, value = key_value
-                return data_packet.metadata.get(key) == value
+                return metadata_equals(data_packet, key, value)
         if pattern.startswith("source:"):
-            source = pattern[7:]
-            return data_packet.source == source
+            return source_equals(data_packet, pattern[7:])
         return False

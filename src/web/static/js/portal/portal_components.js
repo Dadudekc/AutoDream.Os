@@ -3,6 +3,8 @@
  * Agent_Cellphone_V2_Repository - Unified Portal Architecture
  */
 
+import { debounce, throttle } from './utils.js';
+
 (function() {
     'use strict';
 
@@ -596,32 +598,9 @@
             }
         },
 
-        // Debounce function
-        debounce: function(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = function() {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        },
-
-        // Throttle function
-        throttle: function(func, limit) {
-            let inThrottle;
-            return function() {
-                const args = arguments;
-                const context = this;
-                if (!inThrottle) {
-                    func.apply(context, args);
-                    inThrottle = true;
-                    setTimeout(() => inThrottle = false, limit);
-                }
-            };
-        }
+        // Debounce and throttle sourced from shared utils
+        debounce,
+        throttle
     };
 
     // Auto-initialize widgets when DOM is ready
@@ -647,3 +626,5 @@
     });
 
 })();
+
+export default window.PortalComponents;

@@ -17,6 +17,8 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import argparse
 
+from src.services.performance_analysis import analyze_agent_activity
+
 
 @dataclass
 class AgentMetrics:
@@ -188,14 +190,9 @@ class StatusMonitorService:
     def assess_system_health(self) -> SystemHealth:
         """Assess overall system health."""
         try:
-            active_agents = sum(
-                1
-                for metrics in self.agent_metrics.values()
-                if metrics.status == "active"
-            )
-            total_errors = sum(
-                metrics.error_count for metrics in self.agent_metrics.values()
-            )
+            analysis = analyze_agent_activity(self.agent_metrics.values())
+            active_agents = analysis["active_agents"]
+            total_errors = analysis["total_errors"]
             total_warnings = sum(
                 1
                 for metrics in self.agent_metrics.values()

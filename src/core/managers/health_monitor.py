@@ -1,13 +1,19 @@
+"""Health monitoring helpers."""
+
+import logging
 import threading
 from typing import Callable, Dict, Optional
 
+from .constants import DEFAULT_HEALTH_CHECK_INTERVAL
 from .status_types import HealthStatus
+
+logger = logging.getLogger(__name__)
 
 
 class HealthMonitor:
     """Manage health checks and periodic execution."""
 
-    def __init__(self, interval: int = 30):
+    def __init__(self, interval: int = DEFAULT_HEALTH_CHECK_INTERVAL):
         self.interval = interval
         self.health_checks: Dict[str, Callable[[], HealthStatus]] = {}
         self.timer: Optional[threading.Timer] = None

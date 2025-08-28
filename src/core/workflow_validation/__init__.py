@@ -10,6 +10,7 @@ from .system import (
     ValidationResult,
     ValidationRule,
     WorkflowValidationReport,
+    RuleResult,
 )
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "ValidationResult",
     "ValidationRule",
     "WorkflowValidationReport",
+    "RuleResult",
 ]

@@ -1,9 +1,6 @@
-"""Baseline measurement tools.
+"""Baseline measurement tools."""
 
-Responsibilities:
-- Capture and compare performance baselines.
-"""
-
+from .constants import DEFAULT_BASELINE_CONFIG
 from .measurements import RefactoringBaselineMeasurements
 from .metrics import (
     average_latency,
@@ -20,4 +17,5 @@ __all__ = [
     "min_latency",
     "calculate_throughput",
     "calculate_error_rate",
+    "DEFAULT_BASELINE_CONFIG",
 ]

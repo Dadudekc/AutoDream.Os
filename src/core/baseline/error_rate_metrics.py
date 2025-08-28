@@ -1,4 +1,5 @@
 """Error-rate measurement utilities."""
+
 from typing import Union
 
 Number = Union[int, float]

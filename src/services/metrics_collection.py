@@ -87,7 +87,6 @@ class SystemMetricsCollector(BaseCollector):
                 "memory_usage_percent",
                 memory.percent,
                 unit="percent",
-            
                 description="Memory usage percentage",
             )
         )

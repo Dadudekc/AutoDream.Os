@@ -12,13 +12,13 @@ License: MIT
 import logging
 from typing import Dict, Optional, List, Any
 
-from health_threshold.models import HealthThreshold
-from health_threshold.operations import HealthThresholdOperations
-from health_threshold.validation import HealthThresholdValidation
-from health_threshold.persistence import HealthThresholdPersistence
-from health_threshold.defaults import HealthThresholdDefaults
-from health_threshold.testing import HealthThresholdTesting
-from health_threshold.monitoring import HealthThresholdMonitoring
+from core.health.models import HealthThreshold
+from core.health.operations import HealthThresholdOperations
+from core.health.validation import HealthThresholdValidation
+from core.health.persistence import HealthThresholdPersistence
+from core.health.defaults import HealthThresholdDefaults
+from core.health.testing import HealthThresholdTesting
+from core.health_base.monitoring import HealthThresholdMonitoring
 
 # Configure logging
 logger = logging.getLogger(__name__)

@@ -1,20 +1,23 @@
 from importlib import util
 from pathlib import Path
 from unittest.mock import MagicMock
+import sys
 
-ROOT = Path(__file__).resolve().parents[2] / "src" / "ai_ml"
+SRC_ROOT = Path(__file__).resolve().parents[2] / "src"
+sys.path.insert(0, str(SRC_ROOT))
+ROOT = SRC_ROOT / "ai_ml" / "managers"
 
 
 def _load(name):
-    spec = util.spec_from_file_location(name, ROOT / f"{name}.py")
+    spec = util.spec_from_file_location(f"ai_ml.managers.{name}", ROOT / f"{name}.py")
     module = util.module_from_spec(spec)
     spec.loader.exec_module(module)  # type: ignore[attr-defined]
     return module
 
 
-ModelLifecycle = _load("model_lifecycle").ModelLifecycle
-TrainingOrchestrator = _load("training_orchestrator").TrainingOrchestrator
-Evaluator = _load("evaluation").Evaluator
+ModelManager = _load("model_manager").ModelManager
+TrainingManager = _load("training_manager").TrainingManager
+EvaluationManager = _load("evaluation_manager").EvaluationManager
 
 
 class DummyFramework:
@@ -27,7 +30,7 @@ class DummyFramework:
 def test_model_lifecycle_uses_store_and_logger():
     logger = MagicMock()
     store = MagicMock()
-    lifecycle = ModelLifecycle(logger, store)
+    lifecycle = ModelManager(logger, store)
 
     lifecycle.save("m", "path")
     lifecycle.load("path")
@@ -38,13 +41,13 @@ def test_model_lifecycle_uses_store_and_logger():
     store.load.assert_called_once_with("path")
 
 
-def test_training_orchestrator_runs_pipeline():
+def test_training_manager_runs_pipeline():
     framework = DummyFramework()
     data_service = MagicMock()
     data_service.fetch.return_value = "data"
     logger = MagicMock()
 
-    orchestrator = TrainingOrchestrator(framework, data_service, logger)
+    orchestrator = TrainingManager(framework, data_service, logger)
     result = orchestrator.run({"layers": 2}, "query")
 
     data_service.fetch.assert_called_once_with("query")
@@ -53,13 +56,13 @@ def test_training_orchestrator_runs_pipeline():
     assert result == {"loss": 0.1}
 
 
-def test_evaluator_runs_evaluation():
+def test_evaluation_manager_runs_evaluation():
     framework = DummyFramework()
     data_service = MagicMock()
     data_service.fetch.return_value = "test_data"
     logger = MagicMock()
 
-    evaluator = Evaluator(framework, data_service, logger)
+    evaluator = EvaluationManager(framework, data_service, logger)
     metrics = evaluator.run("model", "query")
 
     data_service.fetch.assert_called_once_with("query")

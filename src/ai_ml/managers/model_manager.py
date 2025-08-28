@@ -2,20 +2,12 @@ from __future__ import annotations
 
 """Utilities for managing the lifecycle of ML models."""
 
-from typing import Any, Protocol
+from typing import Any
+
+from ai_ml.ai_ml_common import ModelStore
 
 
-class ModelStore(Protocol):
-    """Protocol defining how models are persisted."""
-
-    def save(self, model: Any, path: str) -> None:
-        """Persist a model at ``path``."""
-
-    def load(self, path: str) -> Any:
-        """Retrieve a model from ``path``."""
-
-
-class ModelLifecycle:
+class ModelManager:
     """Handle saving and loading models.
 
     Parameters

@@ -29,11 +29,9 @@ from .assurance_engine import (
 )
 
 # Quality Monitoring
-from .quality_monitor import (
-    QualityMonitor,
-    QualityAlertManager,
-    QualityTrendAnalyzer
-)
+from .data_collection import QualityMonitor
+from .alerting import QualityAlertManager
+from .analysis import QualityTrendAnalyzer
 
 # Quality Validation
 from .quality_validator import (

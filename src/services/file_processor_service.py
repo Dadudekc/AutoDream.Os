@@ -8,9 +8,9 @@ Follows V2 standards: ≤200 LOC, SRP, OOP principles.
 """
 
 import logging
-import time
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from src.utils.profiling import time_block
 from pathlib import Path
 from typing import Dict, Any, List
 
@@ -42,7 +42,6 @@ class FileProcessorService:
         Returns:
             Dict containing file analysis results
         """
-        start_time = time.time()
         file_key = str(file_path.absolute())
 
         if use_cache and file_key in self.cache:
@@ -54,49 +53,62 @@ class FileProcessorService:
             raise FileNotFoundError(f"File not found: {file_path}")
 
         try:
-            # Basic file information
-            stat = file_path.stat()
-            content = file_path.read_text(encoding="utf-8")
+            with time_block() as elapsed:
+                # Basic file information
+                stat = file_path.stat()
+                content = file_path.read_text(encoding="utf-8")
 
-            result = {
-                "file_path": str(file_path),
-                "file_type": self._get_file_type(file_path),
-                "size_bytes": stat.st_size,
-                "lines_count": len(content.splitlines()) if content else 0,
-                "encoding": "utf-8",
-                "has_syntax_errors": False,
-                "from_cache": False,
-            }
+                result = {
+                    "file_path": str(file_path),
+                    "file_type": self._get_file_type(file_path),
+                    "size_bytes": stat.st_size,
+                    "lines_count": len(content.splitlines()) if content else 0,
+                    "encoding": "utf-8",
+                    "has_syntax_errors": False,
+                    "from_cache": False,
+                }
 
-            # Language-specific analysis
-            if content and file_path.suffix in [".py", ".js", ".ts", ".rs"]:
-                try:
-                    lang_result = self.language_analyzer.analyze_file(
-                        file_path, content
-                    )
-                    result.update(
-                        {
-                            "functions_count": len(lang_result.get("functions", [])),
-                            "classes_count": len(lang_result.get("classes", {})),
-                            "structs_count": lang_result.get("structs_count", 0),
-                            "complexity_score": lang_result.get("complexity", 0),
-                        }
-                    )
+                # Language-specific analysis
+                if content and file_path.suffix in [".py", ".js", ".ts", ".rs"]:
+                    try:
+                        lang_result = self.language_analyzer.analyze_file(
+                            file_path, content
+                        )
+                        result.update(
+                            {
+                                "functions_count": len(
+                                    lang_result.get("functions", [])
+                                ),
+                                "classes_count": len(lang_result.get("classes", {})),
+                                "structs_count": lang_result.get("structs_count", 0),
+                                "complexity_score": lang_result.get("complexity", 0),
+                            }
+                        )
 
-                    # Set complexity level
-                    complexity = result["complexity_score"]
-                    if complexity <= 5:
-                        result["complexity_level"] = "low"
-                    elif complexity <= 10:
-                        result["complexity_level"] = "medium"
-                    elif complexity <= 20:
-                        result["complexity_level"] = "high"
-                    else:
-                        result["complexity_level"] = "very_high"
+                        # Set complexity level
+                        complexity = result["complexity_score"]
+                        if complexity <= 5:
+                            result["complexity_level"] = "low"
+                        elif complexity <= 10:
+                            result["complexity_level"] = "medium"
+                        elif complexity <= 20:
+                            result["complexity_level"] = "high"
+                        else:
+                            result["complexity_level"] = "very_high"
 
-                except Exception as e:
-                    result["has_syntax_errors"] = True
-                    result["error_details"] = str(e)
+                    except Exception as e:
+                        result["has_syntax_errors"] = True
+                        result["error_details"] = str(e)
+                        result.update(
+                            {
+                                "functions_count": 0,
+                                "classes_count": 0,
+                                "structs_count": 0,
+                                "complexity_score": 0,
+                                "complexity_level": "unknown",
+                            }
+                        )
+                else:
                     result.update(
                         {
                             "functions_count": 0,
@@ -106,27 +118,18 @@ class FileProcessorService:
                             "complexity_level": "unknown",
                         }
                     )
-            else:
-                result.update(
-                    {
-                        "functions_count": 0,
-                        "classes_count": 0,
-                        "structs_count": 0,
-                        "complexity_score": 0,
-                        "complexity_level": "unknown",
-                    }
-                )
 
-            # Extract imports (Python only for now)
-            if file_path.suffix == ".py" and content:
-                result["imports"] = FileAnalysisUtils.extract_python_imports(content)
+                # Extract imports (Python only for now)
+                if file_path.suffix == ".py" and content:
+                    result["imports"] = FileAnalysisUtils.extract_python_imports(
+                        content
+                    )
 
-            # Extract TODO/FIXME comments
-            result["work_items"] = FileAnalysisUtils.extract_work_items(content)
+                # Extract TODO/FIXME comments
+                result["work_items"] = FileAnalysisUtils.extract_work_items(content)
 
             # Performance metrics
-            processing_time = (time.time() - start_time) * 1000
-            result["processing_time_ms"] = round(processing_time, 2)
+            result["processing_time_ms"] = round(elapsed(), 2)
             result["memory_usage_bytes"] = len(content)
 
             # Cache result

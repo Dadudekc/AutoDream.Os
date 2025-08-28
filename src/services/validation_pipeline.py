@@ -6,6 +6,7 @@ from typing import Any, Dict
 from .validation_rules import ValidationRuleManager
 from .validation_executor import ValidationExecutor
 from .validation_reporter import ValidationReporter
+from .constants import RESULTS_KEY, SUMMARY_KEY
 
 
 class ValidationPipeline:
@@ -20,4 +21,4 @@ class ValidationPipeline:
         """Execute validation and return results with summary."""
         results = self.executor.execute(contract_data)
         summary = self.reporter.summarize(results)
-        return {"results": results, "summary": summary}
+        return {RESULTS_KEY: results, SUMMARY_KEY: summary}

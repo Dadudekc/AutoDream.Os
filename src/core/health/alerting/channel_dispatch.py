@@ -9,6 +9,20 @@ from .models import (
 )
 
 
+def dispatch_to_channels(
+    alert: HealthAlert,
+    channels: List[NotificationChannel],
+    configs: Dict[NotificationChannel, NotificationConfig],
+    recipients: Optional[List[str]] = None,
+) -> None:
+    """Helper to dispatch notifications to configured channels."""
+    for channel in channels:
+        if channel in configs:
+            config = configs[channel]
+            if config.enabled:
+                send_notification(alert, channel, config, recipients)
+
+
 def send_alert_notifications(
     alert: HealthAlert,
     rule: AlertRule,
@@ -16,11 +30,7 @@ def send_alert_notifications(
 ) -> None:
     """Send notifications for a new alert using configured channels."""
     try:
-        for channel in rule.notification_channels:
-            if channel in configs:
-                config = configs[channel]
-                if config.enabled:
-                    send_notification(alert, channel, config)
+        dispatch_to_channels(alert, rule.notification_channels, configs)
         alert.notification_sent = True
     except Exception as e:
         logger.error(f"Error sending alert notifications: {e}")

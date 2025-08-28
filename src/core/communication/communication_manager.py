@@ -14,6 +14,7 @@ from ...services.messaging.types.v2_message_enums import (
 from .channels import Channel, ChannelType
 from .adapters import HTTPAdapter, HTTPSAdapter, WebSocketAdapter
 from .router import MessageRouter
+from .channel_utils import create_channel
 
 logger = logging.getLogger(__name__)
 
@@ -39,18 +40,7 @@ class CommunicationManager:
     ) -> str:
         """Register a new channel and initialise protocol adapters as needed."""
         channel_id = f"{channel_type.value}_{len(self.channels)}"
-        channel = Channel(
-            id=channel_id,
-            name=name,
-            type=channel_type,
-            url=url,
-            config=config or {},
-            status="active",
-            created_at=datetime.now().isoformat(),
-            last_used=datetime.now().isoformat(),
-            message_count=0,
-            error_count=0,
-        )
+        channel = create_channel(channel_id, name, channel_type, url, config)
         self.channels[channel_id] = channel
 
         if channel.type == ChannelType.WEBSOCKET:

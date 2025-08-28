@@ -27,8 +27,9 @@ from .api_manager import APIManager
 from .websocket_manager import WebSocketManager
 from .routing_manager import RoutingManager
 from .reporting_manager import ReportingManager
-from .models import Channel, ChannelType
-from .types import CommunicationTypes, CommunicationConfig
+from .models import ChannelType
+from .types import CommunicationConfig
+from ...communication.channel_utils import create_channel, default_channel_stats
 
 logger = logging.getLogger(__name__)
 
@@ -102,28 +103,15 @@ class CommunicationManager(BaseManager):
                 CommunicationConfig.DEFAULT_RETRY_COUNT,
             )
 
-            channel = Channel(
-                id="http_default",
-                name="Default HTTP",
-                type=ChannelType.HTTP,
-                url="http://localhost:8000",
-                config={"timeout": default_timeout, "retry_count": default_retry},
-                status=CommunicationTypes.ChannelStatus.ACTIVE.value,
-                created_at=datetime.now().isoformat(),
-                last_used=datetime.now().isoformat(),
-                message_count=0,
-                error_count=0,
+            channel = create_channel(
+                "http_default",
+                "Default HTTP",
+                ChannelType.HTTP,
+                "http://localhost:8000",
+                {"timeout": default_timeout, "retry_count": default_retry},
             )
             self.channel_manager.channels["http_default"] = channel
-            self.channel_manager.channel_stats["http_default"] = {
-                "total_messages": 0,
-                "successful_messages": 0,
-                "failed_messages": 0,
-                "last_activity": datetime.now().isoformat(),
-                "uptime_percentage": 100.0,
-                "average_response_time": 0.0,
-                "error_rate": 0.0,
-            }
+            self.channel_manager.channel_stats["http_default"] = default_channel_stats()
 
     def _setup_default_api_configs(self):
         """Setup default API configurations"""

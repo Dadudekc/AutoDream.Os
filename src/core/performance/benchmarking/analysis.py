@@ -27,7 +27,7 @@ class BenchmarkAnalyzer:
             for bench_name, type_benchmarks in by_type.items():
                 type_metrics: List[float] = []
                 for benchmark in type_benchmarks:
-                    type_metrics.extend(benchmark.metrics.values())
+                    type_metrics.extend(v for v in benchmark.metrics.values() if isinstance(v, (int, float)))
 
                 if type_metrics:
                     aggregate[bench_name] = {

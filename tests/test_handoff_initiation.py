@@ -1,4 +1,4 @@
-from src.core.handoff_initiation import HandoffInitiator, HandoffContext
+from src.core.smooth_handoff import HandoffInitiator, HandoffContext
 
 
 def test_initiate_handoff_creates_record():
@@ -10,3 +10,4 @@ def test_initiate_handoff_creates_record():
     record = active[execution_id]
     assert record.context == context
     assert record.status == "in_progress"
+

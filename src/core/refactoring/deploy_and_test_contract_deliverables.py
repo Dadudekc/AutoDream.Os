@@ -34,7 +34,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 from core.refactoring.workflow_integration_manager import WorkflowIntegrationManager
 from core.refactoring.contract_deliverables_validator import ContractDeliverablesValidator
 from core.refactoring.automated_refactoring_workflows import WorkflowType
-from core.refactoring.workflow_validation_system import ValidationLevel
+from core.workflow_validation import ValidationLevel
 
 # Configure logging
 logging.basicConfig(

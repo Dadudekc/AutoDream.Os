@@ -37,7 +37,7 @@ import concurrent.futures
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from core.managers.base_manager import BaseManager
-from core.refactoring.workflow_validation_system import WorkflowValidationSystem, ValidationLevel
+from core.workflow_validation import WorkflowValidationSystem, ValidationLevel
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

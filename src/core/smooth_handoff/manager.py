@@ -1,8 +1,14 @@
+"""Smooth handoff manager façade.
+
+Responsibilities:
+- Orchestrate initiation, monitoring, and completion modules.
+"""
+
 from typing import Dict, List, Optional
 
-from .handoff_initiation import HandoffInitiator, HandoffContext, HandoffRecord
-from .handoff_monitoring import HandoffMonitor
-from .handoff_completion import HandoffCompleter
+from .initiation import HandoffInitiator, HandoffContext, HandoffRecord
+from .monitoring import HandoffMonitor
+from .completion import HandoffCompleter
 
 
 class SmoothHandoffManager:

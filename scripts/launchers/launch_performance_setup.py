@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from services.performance_monitor import PerformanceMonitor
+from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
 from services.metrics_collector import (
     SystemMetricsCollector,
     ApplicationMetricsCollector,

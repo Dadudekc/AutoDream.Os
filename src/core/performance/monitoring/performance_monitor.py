@@ -13,11 +13,13 @@ import time
 from src.utils.stability_improvements import stability_manager, safe_import
 from collections import defaultdict
 from contextlib import contextmanager
-from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import wraps
 from typing import Any, Callable, Dict, List, Optional
+
+from .performance_types import MetricType, MonitorMetric, MonitorSnapshot
+from .performance_alerts import AlertSeverity, AlertCondition, PerformanceAlert
 
 import json
 import psutil
@@ -38,43 +40,6 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-class MetricType(Enum):
-    """Common metric categories used throughout the project."""
-
-    RESPONSE_TIME = "response_time"
-    THROUGHPUT = "throughput"
-    ERROR_RATE = "error_rate"
-    MEMORY_USAGE = "memory_usage"
-    CPU_USAGE = "cpu_usage"
-    NETWORK_LATENCY = "network_latency"
-    AGENT_HEALTH = "agent_health"
-    TASK_COMPLETION = "task_completion"
-    SYSTEM_LOAD = "system_load"
-
-
-@dataclass
-class MonitorMetric:
-    """Single metric data point"""
-
-    name: str
-    value: float
-    timestamp: datetime = field(default_factory=datetime.now)
-    unit: str = "units"
-    agent_id: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
-    tags: List[str] = field(default_factory=list)
-
-
-@dataclass
-class MonitorSnapshot:
-    """Snapshot of collected metrics"""
-
-    timestamp: datetime
-    system_metrics: Dict[str, float] = field(default_factory=dict)
-    agent_metrics: Dict[str, Dict[str, float]] = field(default_factory=dict)
-    custom_metrics: Dict[str, float] = field(default_factory=dict)
-
-
 class PerformanceMonitor:
     """Unified performance tracker and profiler."""
 
@@ -88,6 +53,8 @@ class PerformanceMonitor:
         self.max_history = self.config.get("max_metrics_history", 10000)
         self.snapshot_interval = self.config.get("snapshot_interval", 60)
         self.profiling_enabled = self.config.get("profiling_enabled", True)
+        self.metrics_history: List[Dict[str, Any]] = []
+        self.max_history_size = self.config.get("max_history_size", 100)
 
         self.lock = threading.RLock()
         self.metric_callbacks: List[Callable] = []
@@ -189,6 +156,56 @@ class PerformanceMonitor:
                 "latest": values[-1],
             }
         return summary
+
+    # ------------------------------------------------------------------
+    # System metrics history
+    # ------------------------------------------------------------------
+    def _store_history(self, metrics: Dict[str, Any]):
+        """Store system metrics in history for averaging."""
+        with self.lock:
+            self.metrics_history.append(metrics)
+            if len(self.metrics_history) > self.max_history_size:
+                self.metrics_history = self.metrics_history[-self.max_history_size :]
+
+    def get_performance_metrics(self) -> Dict[str, Any]:
+        """Collect and return current system metrics."""
+        metrics = self.get_system_metrics()
+        metrics["timestamp"] = time.time()
+        self._store_history(metrics)
+        return metrics
+
+    def get_metrics_history(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+        """Return recorded system metrics history."""
+        with self.lock:
+            history = list(self.metrics_history)
+        if limit is not None:
+            return history[-limit:]
+        return history
+
+    def get_average_metrics(self, time_window_minutes: int = 5) -> Dict[str, Any]:
+        """Return average system metrics over a time window."""
+        cutoff = time.time() - (time_window_minutes * 60)
+        history = [m for m in self.get_metrics_history() if m.get("timestamp", 0) >= cutoff]
+        if not history:
+            return {}
+        avg: Dict[str, float] = {}
+        for key in [
+            "cpu_percent",
+            "memory_percent",
+            "memory_used_gb",
+            "memory_available_gb",
+            "disk_percent",
+            "disk_free_gb",
+        ]:
+            values = [h.get(key, 0) for h in history if key in h]
+            if values:
+                avg[key] = sum(values) / len(values)
+        avg_metrics = {
+            "sample_count": len(history),
+            "time_window_minutes": time_window_minutes,
+            **avg,
+        }
+        return avg_metrics
 
     # ------------------------------------------------------------------
     # Profiling
@@ -465,4 +482,7 @@ __all__ = [
     "MetricType",
     "PerformanceMetric",
     "PerformanceSnapshot",
+    "AlertSeverity",
+    "AlertCondition",
+    "PerformanceAlert",
 ]

@@ -22,7 +22,7 @@ from typing import Any, Dict
 
 from .agent_registry import AgentRegistry
 from .task_assigner import TaskAssigner
-from .communication_manager import CommunicationManager
+from src.core.communication import CommunicationManager
 
 
 class IntegratedAgentCoordinator:

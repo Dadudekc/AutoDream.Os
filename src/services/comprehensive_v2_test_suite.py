@@ -46,7 +46,7 @@ try:
     from services.v2_ai_code_review import V2AICodeReview
     from services.data_synchronization import DataSynchronization
     from services.discord_integration_service import DiscordIntegrationService
-    from services.response_capture_service import ResponseCaptureService
+    from services.response_capture import ResponseCaptureService
     from services.status_monitor_service import StatusMonitorService
     from services.report_generator_service import ReportGeneratorService
     from services.enterprise_quality_assurance import EnterpriseQualityAssurance

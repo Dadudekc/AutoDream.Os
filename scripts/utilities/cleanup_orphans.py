@@ -35,7 +35,7 @@ class OrphanCleanup:
         # Files that should NOT be removed (keep these)
         self.keep_files = [
             "test_core_system.py",  # This is working and useful
-            "src/services/response_capture_service.py",  # This has tests now
+            "src/services/response_capture/service.py",  # This has tests now
         ]
 
     def confirm_removal(self) -> bool:

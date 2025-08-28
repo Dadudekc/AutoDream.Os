@@ -4,48 +4,22 @@ Status Monitor Service - Agent Cellphone V2
 ==========================================
 
 Agent status tracking and performance monitoring service.
-Follows V2 standards: ≤ 200 LOC, SRP, OOP design, CLI interface.
+Follows V2 standards: \u2264 200 LOC, SRP, OOP design, CLI interface.
 """
 
-import json
-import logging
-
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
 import argparse
+import logging
+from pathlib import Path
+from typing import Any, Dict, Optional
 
-from src.services.performance_analysis import analyze_agent_activity
-
-
-@dataclass
-class AgentMetrics:
-    """Agent performance metrics data structure."""
-
-    agent_id: str
-    status: str
-    last_activity: Optional[datetime]
-    coordination_count: int
-    error_count: int
-    success_rate: float
-    response_time_avg: float
-    tasks_completed: int
-    tasks_failed: int
-
-
-@dataclass
-class SystemHealth:
-    """System health data structure."""
-
-    total_agents: int
-    active_agents: int
-    system_status: str
-    overall_health_score: float
-    critical_issues: int
-    warnings: int
-    last_health_check: datetime
+from src.services.status_monitor.calculations import (
+    SystemHealth,
+    assess_system_health,
+    get_system_summary,
+)
+from src.services.status_monitor.constants import DEFAULT_AGENT_IDS
+from src.services.status_monitor.metrics import MetricsCollector
+from src.services.status_monitor.visualization import generate_health_report
 
 
 class StatusMonitorService:
@@ -64,11 +38,8 @@ class StatusMonitorService:
         self.monitoring_dir = Path(monitoring_dir)
         self.monitoring_dir.mkdir(exist_ok=True)
         self.logger = self._setup_logging()
-        self.agent_metrics: Dict[str, AgentMetrics] = {}
-        self.system_health = self._initialize_system_health()
-
-        # Initialize agent metrics
-        self._initialize_agent_metrics()
+        self.collector = MetricsCollector()
+        self.system_health = SystemHealth(total_agents=len(DEFAULT_AGENT_IDS))
 
     def _setup_logging(self) -> logging.Logger:
         """Setup logging for the service."""
@@ -85,269 +56,69 @@ class StatusMonitorService:
 
         return logger
 
-    def _initialize_system_health(self) -> SystemHealth:
-        """Initialize system health."""
-        return SystemHealth(
-            total_agents=5,
-            active_agents=0,
-            system_status="initializing",
-            overall_health_score=100.0,
-            critical_issues=0,
-            warnings=0,
-            last_health_check=datetime.now(),
-        )
-
-    def _initialize_agent_metrics(self):
-        """Initialize metrics for all agents."""
-        agent_ids = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5"]
-
-        for agent_id in agent_ids:
-            self.agent_metrics[agent_id] = AgentMetrics(
-                agent_id=agent_id,
-                status="standby",
-                last_activity=None,
-                coordination_count=0,
-                error_count=0,
-                success_rate=100.0,
-                response_time_avg=0.0,
-                tasks_completed=0,
-                tasks_failed=0,
-            )
-
     def update_agent_status(
         self, agent_id: str, status: str, activity_type: str = "coordination"
-    ):
+    ) -> None:
         """Update agent status and activity."""
         try:
-            if agent_id not in self.agent_metrics:
-                self.logger.error(f"Agent {agent_id} not found in metrics")
-                return
-
-            metrics = self.agent_metrics[agent_id]
-            metrics.status = status
-            metrics.last_activity = datetime.now()
-
-            if activity_type == "coordination":
-                metrics.coordination_count += 1
-            elif activity_type == "task_completion":
-                metrics.tasks_completed += 1
-            elif activity_type == "task_failure":
-                metrics.tasks_failed += 1
-
-            # Update success rate
-            total_tasks = metrics.tasks_completed + metrics.tasks_failed
-            if total_tasks > 0:
-                metrics.success_rate = (metrics.tasks_completed / total_tasks) * 100
-
+            self.collector.update_agent_status(agent_id, status, activity_type)
             self.logger.info(f"Updated {agent_id} status: {status} ({activity_type})")
-
         except Exception as e:
             self.logger.error(f"Error updating agent status for {agent_id}: {e}")
 
-    def record_agent_error(self, agent_id: str, error_message: str):
+    def record_agent_error(self, agent_id: str, error_message: str) -> None:
         """Record an error for a specific agent."""
         try:
-            if agent_id not in self.agent_metrics:
-                self.logger.error(f"Agent {agent_id} not found in metrics")
-                return
-
-            metrics = self.agent_metrics[agent_id]
-            metrics.error_count += 1
-
-            # Log error details
-            error_log_file = self.monitoring_dir / f"{agent_id}_errors.log"
-            with open(error_log_file, "a") as f:
-                timestamp = datetime.now().isoformat()
-                f.write(f"[{timestamp}] {error_message}\n")
-
+            self.collector.record_agent_error(
+                agent_id, error_message, self.monitoring_dir
+            )
             self.logger.warning(f"Recorded error for {agent_id}: {error_message}")
-
         except Exception as e:
             self.logger.error(f"Error recording error for {agent_id}: {e}")
 
-    def record_agent_response_time(self, agent_id: str, response_time: float):
+    def record_agent_response_time(self, agent_id: str, response_time: float) -> None:
         """Record response time for a specific agent."""
         try:
-            if agent_id not in self.agent_metrics:
-                self.logger.error(f"Agent {agent_id} not found in metrics")
-                return
-
-            metrics = self.agent_metrics[agent_id]
-
-            # Update average response time
-            if metrics.response_time_avg == 0.0:
-                metrics.response_time_avg = response_time
-            else:
-                metrics.response_time_avg = (
-                    metrics.response_time_avg + response_time
-                ) / 2
-
+            self.collector.record_agent_response_time(agent_id, response_time)
             self.logger.debug(f"Updated response time for {agent_id}: {response_time}s")
-
         except Exception as e:
             self.logger.error(f"Error recording response time for {agent_id}: {e}")
 
     def assess_system_health(self) -> SystemHealth:
         """Assess overall system health."""
         try:
-            analysis = analyze_agent_activity(self.agent_metrics.values())
-            active_agents = analysis["active_agents"]
-            total_errors = analysis["total_errors"]
-            total_warnings = sum(
-                1
-                for metrics in self.agent_metrics.values()
-                if metrics.success_rate < 90.0
+            self.system_health = assess_system_health(
+                self.collector.agent_metrics.values(), self.system_health
             )
-
-            # Calculate health score
-            health_score = 100.0
-            if total_errors > 0:
-                health_score -= total_errors * 10  # -10 points per error
-            if total_warnings > 0:
-                health_score -= total_warnings * 5  # -5 points per warning
-            if active_agents < 2:
-                health_score -= 20  # -20 points if less than 2 agents active
-
-            health_score = max(0.0, health_score)
-
-            # Determine system status
-            if health_score >= 90:
-                system_status = "healthy"
-            elif health_score >= 70:
-                system_status = "warning"
-            elif health_score >= 50:
-                system_status = "critical"
-            else:
-                system_status = "failing"
-
-            # Update system health
-            self.system_health.active_agents = active_agents
-            self.system_health.system_status = system_status
-            self.system_health.overall_health_score = health_score
-            self.system_health.critical_issues = total_errors
-            self.system_health.warnings = total_warnings
-            self.system_health.last_health_check = datetime.now()
-
             self.logger.info(
-                f"System health assessed: {system_status} (score: {health_score:.1f})"
+                f"System health assessed: {self.system_health.system_status} "
+                f"(score: {self.system_health.overall_health_score:.1f})"
             )
             return self.system_health
-
         except Exception as e:
             self.logger.error(f"Error assessing system health: {e}")
             return self.system_health
 
     def get_agent_metrics(self, agent_id: str) -> Optional[Dict[str, Any]]:
         """Get performance metrics for a specific agent."""
-        metrics = self.agent_metrics.get(agent_id)
-        if not metrics:
-            return None
-
-        return {
-            "agent_id": metrics.agent_id,
-            "status": metrics.status,
-            "last_activity": metrics.last_activity.isoformat()
-            if metrics.last_activity
-            else None,
-            "coordination_count": metrics.coordination_count,
-            "error_count": metrics.error_count,
-            "success_rate": metrics.success_rate,
-            "response_time_avg": metrics.response_time_avg,
-            "tasks_completed": metrics.tasks_completed,
-            "tasks_failed": metrics.tasks_failed,
-        }
+        return self.collector.get_agent_metrics(agent_id)
 
     def get_system_summary(self) -> Dict[str, Any]:
         """Get system monitoring summary."""
         health = self.assess_system_health()
-
-        # Get agent status summary
-        agent_status_summary = {}
-        for agent_id, metrics in self.agent_metrics.items():
-            agent_status_summary[agent_id] = {
-                "status": metrics.status,
-                "success_rate": metrics.success_rate,
-                "error_count": metrics.error_count,
-                "last_activity": metrics.last_activity.isoformat()
-                if metrics.last_activity
-                else None,
-            }
-
-        return {
-            "system_health": {
-                "status": health.system_status,
-                "health_score": health.overall_health_score,
-                "active_agents": health.active_agents,
-                "total_agents": health.total_agents,
-                "critical_issues": health.critical_issues,
-                "warnings": health.warnings,
-                "last_health_check": health.last_health_check.isoformat(),
-            },
-            "agent_status": agent_status_summary,
-            "overall_metrics": {
-                "total_coordinations": sum(
-                    m.coordination_count for m in self.agent_metrics.values()
-                ),
-                "total_errors": sum(m.error_count for m in self.agent_metrics.values()),
-                "total_tasks": sum(
-                    m.tasks_completed + m.tasks_failed
-                    for m in self.agent_metrics.values()
-                ),
-                "average_success_rate": sum(
-                    m.success_rate for m in self.agent_metrics.values()
-                )
-                / len(self.agent_metrics),
-            },
-        }
+        return get_system_summary(self.collector.agent_metrics, health)
 
     def generate_health_report(self) -> str:
         """Generate a human-readable health report."""
         try:
             summary = self.get_system_summary()
-
-            report = f"""
-📊 AGENT CELLPHONE V2 SYSTEM HEALTH REPORT
-Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-{'=' * 60}
-
-🏥 SYSTEM HEALTH STATUS
-  Status: {summary['system_health']['status'].upper()}
-  Health Score: {summary['system_health']['health_score']:.1f}/100
-  Active Agents: {summary['system_health']['active_agents']}/{summary['system_health']['total_agents']}
-  Critical Issues: {summary['system_health']['critical_issues']}
-  Warnings: {summary['system_health']['warnings']}
-
-🤖 AGENT STATUS SUMMARY
-"""
-
-            for agent_id, status in summary["agent_status"].items():
-                status_emoji = (
-                    "🟢"
-                    if status["status"] == "active"
-                    else "🟡"
-                    if status["status"] == "standby"
-                    else "🔴"
-                )
-                report += f"  {status_emoji} {agent_id}: {status['status']} (Success: {status['success_rate']:.1f}%, Errors: {status['error_count']})\n"
-
-            report += f"""
-📈 OVERALL METRICS
-  Total Coordinations: {summary['overall_metrics']['total_coordinations']}
-  Total Errors: {summary['overall_metrics']['total_errors']}
-  Total Tasks: {summary['overall_metrics']['total_tasks']}
-  Average Success Rate: {summary['overall_metrics']['average_success_rate']:.1f}%
-
-{'=' * 60}
-"""
-
-            return report.strip()
-
+            return generate_health_report(summary)
         except Exception as e:
             self.logger.error(f"Error generating health report: {e}")
             return f"Error generating health report: {e}"
 
 
-def main():
+def main() -> None:
     """CLI interface for Status Monitor Service."""
     parser = argparse.ArgumentParser(description="Status Monitor Service CLI")
     parser.add_argument("--status", type=str, help="Show status for specific agent")

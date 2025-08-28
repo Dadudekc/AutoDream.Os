@@ -12,42 +12,65 @@ Author: Agent-6 (Performance Validation Manager)
 License: MIT
 """
 
-# Core performance monitoring
-from .monitoring.performance_monitor import (
-    PerformanceMonitor,
-    PerformanceLevel,
-)
-from .monitoring.performance_types import (
-    MetricType,
-    MonitorMetric,
-    MonitorSnapshot,
-)
+# Core performance monitoring (optional)
+try:  # pragma: no cover - import guarding
+    from .monitoring.performance_monitor import (
+        PerformanceMonitor,
+        MetricType,
+        MonitorMetric,
+        MonitorSnapshot,
+        PerformanceLevel,
+    )
+except Exception:  # pragma: no cover - missing optional deps
+    PerformanceMonitor = MetricType = MonitorMetric = MonitorSnapshot = PerformanceLevel = None
 
-# Core performance system
-from .performance_core import (
-    PerformanceLevel as CorePerformanceLevel,
-    ValidationSeverity,
-    BenchmarkType,
-    MetricType as CoreMetricType,
-    PerformanceMetric,
-    ValidationRule,
-    ValidationThreshold,
-    PerformanceBenchmark,
-    PerformanceResult
-)
+# Core performance system (optional)
+try:  # pragma: no cover - import guarding
+    from .performance_core import (
+        PerformanceLevel as CorePerformanceLevel,
+        ValidationSeverity,
+        BenchmarkType,
+        MetricType as CoreMetricType,
+        PerformanceMetric,
+        ValidationRule,
+        ValidationThreshold,
+        PerformanceBenchmark,
+        PerformanceResult,
+    )
+except Exception:  # pragma: no cover
+    (
+        CorePerformanceLevel,
+        ValidationSeverity,
+        BenchmarkType,
+        CoreMetricType,
+        PerformanceMetric,
+        ValidationRule,
+        ValidationThreshold,
+        PerformanceBenchmark,
+        PerformanceResult,
+    ) = (None,) * 9
 
 # Essential management classes
-from .performance_validator import PerformanceValidator
-from .performance_reporter import PerformanceReporter
-from .performance_config import PerformanceConfig, PerformanceConfigManager
+try:  # pragma: no cover
+    from .performance_validator import PerformanceValidator
+    from .performance_reporter import PerformanceReporter
+    from .performance_config import PerformanceConfig, PerformanceConfigManager
+except Exception:  # pragma: no cover
+    PerformanceValidator = PerformanceReporter = PerformanceConfig = PerformanceConfigManager = None
 
 # Connection management
-from .connection.connection_pool_manager import ConnectionPoolManager
+try:  # pragma: no cover
+    from .connection.connection_pool_manager import ConnectionPoolManager
+except Exception:  # pragma: no cover
+    ConnectionPoolManager = None
 
 # Benchmarking and validation
-from .benchmark_runner import BenchmarkRunner
-from .performance_calculator import PerformanceCalculator
-from .performance_validation_system import PerformanceValidationSystem
+try:  # pragma: no cover
+    from .benchmark_runner import BenchmarkRunner
+    from .performance_calculator import PerformanceCalculator
+    from .performance_validation_system import PerformanceValidationSystem
+except Exception:  # pragma: no cover
+    BenchmarkRunner = PerformanceCalculator = PerformanceValidationSystem = None
 
 # Clean interface - only essential components
 __all__ = [

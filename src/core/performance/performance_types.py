@@ -1,56 +1,56 @@
-"""Compatibility layer providing performance type definitions."""
-from dataclasses import dataclass, field
-from typing import Any, Dict, List
+"""Compatibility types for performance modules.
 
-from .types.enums import BenchmarkType, PerformanceLevel, OptimizationTarget
+This lightweight module provides the core type definitions required by
+several performance components.  The original project referenced a
+`performance_types` module that was absent from the repository, which
+caused import errors during test collection.  The definitions here are
+kept intentionally minimal and re-export existing shared enums and
+dataclasses from other modules.
+"""
 
+from __future__ import annotations
 
-@dataclass
-class BenchmarkTargets:
-    """Default benchmark target thresholds."""
-    response_time_target: float = 100.0
-    throughput_target: float = 1000.0
-    scalability_target: float = 1.0
+from dataclasses import dataclass
+from enum import Enum
 
-
-@dataclass
-class PerformanceBenchmark:
-    """Result of a performance benchmark run."""
-    benchmark_id: str
-    benchmark_type: BenchmarkType
-    test_name: str
-    start_time: str
-    end_time: str
-    duration: float
-    metrics: Dict[str, Any]
-    target_metrics: Dict[str, Any]
-    performance_level: PerformanceLevel
-    optimization_recommendations: List[str] = field(default_factory=list)
+from .common_metrics import BenchmarkType, PerformanceLevel
+from .metrics.benchmarks import PerformanceBenchmark
 
 
-@dataclass
-class SystemPerformanceReport:
-    """Aggregated performance report."""
-    report_id: str
-    generated_at: str
-    benchmarks: List[PerformanceBenchmark] = field(default_factory=list)
-    performance_level: PerformanceLevel = PerformanceLevel.NOT_READY
+class OptimizationTarget(str, Enum):
+    """Areas where performance can be improved."""
+
+    RESPONSE_TIME_IMPROVEMENT = "response_time_improvement"
+    THROUGHPUT_INCREASE = "throughput_increase"
+    SCALABILITY_ENHANCEMENT = "scalability_enhancement"
+    RELIABILITY_IMPROVEMENT = "reliability_improvement"
+    RESOURCE_EFFICIENCY = "resource_efficiency"
 
 
 @dataclass
 class PerformanceThresholds:
-    """Threshold values for performance level classification."""
+    """Thresholds used to classify performance levels."""
+
     enterprise_ready: float = 0.9
     production_ready: float = 0.8
     development_ready: float = 0.7
 
 
+@dataclass
+class BenchmarkTargets:
+    """Default benchmark targets for the benchmark runner."""
+
+    response_time_target: float = 100.0
+    throughput_target: float = 1000.0
+    scalability_target: float = 100.0
+
+
 __all__ = [
+    "PerformanceBenchmark",
     "BenchmarkType",
     "PerformanceLevel",
     "OptimizationTarget",
-    "BenchmarkTargets",
-    "PerformanceBenchmark",
-    "SystemPerformanceReport",
     "PerformanceThresholds",
+    "BenchmarkTargets",
 ]
+

@@ -39,3 +39,22 @@ def test_store_and_retrieve_benchmark():
     assert collector.store_benchmark(benchmark)
     assert collector.get_benchmark("b1") is benchmark
 
+
+def test_collect_reliability_metrics():
+    collector = MetricsCollector()
+    metrics = collector.collect_reliability_metrics(
+        total_operations=100, failed_operations=5, duration=50
+    )
+    assert metrics["success_rate_percent"] == pytest.approx(95.0)
+    assert metrics["failure_rate_percent"] == pytest.approx(5.0)
+    assert metrics["mean_time_between_failures"] == pytest.approx(10.0)
+
+
+def test_collect_latency_metrics():
+    collector = MetricsCollector()
+    latencies = [10, 20, 30, 40, 50]
+    metrics = collector.collect_latency_metrics(latencies)
+    assert metrics["average_latency"] == pytest.approx(30)
+    assert metrics["p95_latency"] == 50
+    assert metrics["p99_latency"] == 50
+

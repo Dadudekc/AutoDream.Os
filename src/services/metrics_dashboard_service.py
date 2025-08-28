@@ -1,35 +1,37 @@
-#!/usr/bin/env python3
-"""
-Simple Metrics Dashboard Service for testing
-"""
+"""Simple Metrics Dashboard Service for testing"""
 
-import json
-import time
+from __future__ import annotations
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime
+from typing import Any, Dict
+
+from .dashboard_collectors import MetricsCollector
+from .dashboard_processing import summarize_metrics
+from .dashboard_renderer import DashboardRenderer
 
 
 class MetricsDashboardService:
-    def __init__(self):
-        self.metrics = {}
+    """Orchestrates metric collection, processing, and rendering."""
+
+    def __init__(self) -> None:
+        self.collector = MetricsCollector()
+        self.renderer = DashboardRenderer()
         print("Metrics Dashboard Service initialized")
 
-    def record_metric(self, name, value):
-        if name not in self.metrics:
-            self.metrics[name] = []
-        self.metrics[name].append({"timestamp": time.time(), "value": value})
+    def record_metric(self, name: str, value: float) -> None:
+        """Record a metric value."""
+        self.collector.record(name, value)
         print(f"Recorded metric {name}: {value}")
 
-    def get_summary(self):
-        return {
-            "total_metrics": sum(len(values) for values in self.metrics.values()),
-            "metrics_tracked": len(self.metrics),
-            "timestamp": datetime.now().isoformat(),
-        }
+    def get_summary(self) -> Dict[str, Any]:
+        """Return summarized metric information."""
+        return summarize_metrics(self.collector.metrics)
+
+    def render_summary(self) -> str:
+        """Render the summary as a JSON string."""
+        return self.renderer.render(self.get_summary())
 
 
-def main():
+def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description="Simple Metrics Dashboard Service")
@@ -48,8 +50,7 @@ def main():
         dashboard.record_metric("system.cpu", 45.2)
 
         # Show summary
-        summary = dashboard.get_summary()
-        print(f"\\nSummary: {json.dumps(summary, indent=2)}")
+        print(f"\nSummary: {dashboard.render_summary()}")
         print("Test completed successfully!")
 
         return

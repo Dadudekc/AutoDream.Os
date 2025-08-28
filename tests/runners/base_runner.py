@@ -6,8 +6,6 @@ Common functionality for all test runners, eliminating duplication
 across the previous 3 separate test runners.
 """
 
-import subprocess
-import time
 import json
 
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -16,21 +14,30 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 from abc import ABC, abstractmethod
 
+from tests.testing_config import (
+    REPO_ROOT,
+    TESTS_DIR,
+    SRC_DIR,
+    RESULTS_DIR,
+    COVERAGE_DIR,
+)
+from tests.submodules.environment_setup import prepare_environment
+from tests.submodules.cleanup import cleanup_artifacts
+
 
 class BaseTestRunner(ABC):
     """Base class for all test runners with common functionality."""
 
-    def __init__(self, repo_root: Path):
+    def __init__(self, repo_root: Path = REPO_ROOT):
         """Initialize the base test runner."""
         self.repo_root = repo_root
-        self.tests_dir = repo_root / "tests"
-        self.src_dir = repo_root / "src"
-        self.results_dir = repo_root / "test_results"
-        self.coverage_dir = repo_root / "htmlcov"
+        self.tests_dir = TESTS_DIR
+        self.src_dir = SRC_DIR
+        self.results_dir = RESULTS_DIR
+        self.coverage_dir = COVERAGE_DIR
 
-        # Ensure required directories exist
-        self.results_dir.mkdir(exist_ok=True)
-        self.coverage_dir.mkdir(exist_ok=True)
+        # Ensure environment is prepared
+        prepare_environment()
 
         self.results = {}
         self.start_time = None
@@ -110,103 +117,9 @@ class BaseTestRunner(ABC):
 
         return cmd
 
-    def execute_command(self, cmd: List[str], timeout: int = 300) -> Dict[str, Any]:
-        """Execute command and return results."""
-        print(f"🚀 Executing: {' '.join(cmd)}")
-
-        start_time = time.time()
-        try:
-            result = subprocess.run(
-                cmd, capture_output=True, text=True, cwd=self.repo_root, timeout=timeout
-            )
-            duration = time.time() - start_time
-
-            return {
-                "success": result.returncode == 0,
-                "returncode": result.returncode,
-                "stdout": result.stdout,
-                "stderr": result.stderr,
-                "duration": duration,
-                "command": " ".join(cmd),
-            }
-
-        except subprocess.TimeoutExpired as e:
-            duration = time.time() - start_time
-            return {
-                "success": False,
-                "returncode": -1,
-                "stdout": "",
-                "stderr": f"Command timed out after {timeout}s",
-                "duration": duration,
-                "command": " ".join(cmd),
-                "timeout": True,
-            }
-        except Exception as e:
-            duration = time.time() - start_time
-            return {
-                "success": False,
-                "returncode": -1,
-                "stdout": "",
-                "stderr": f"Command execution error: {str(e)}",
-                "duration": duration,
-                "command": " ".join(cmd),
-                "error": str(e),
-            }
-
-    def parse_test_results(self, execution_result: Dict[str, Any]) -> Dict[str, Any]:
-        """Parse test execution results."""
-        results = {
-            "execution": execution_result,
-            "tests_run": 0,
-            "passed": 0,
-            "failed": 0,
-            "skipped": 0,
-            "errors": 0,
-            "coverage": None,
-            "summary": "UNKNOWN",
-        }
-
-        if not execution_result["success"]:
-            results["summary"] = "FAILED"
-            return results
-
-        # Parse pytest output
-        stdout = execution_result["stdout"]
-
-        # Look for test summary line
-        for line in stdout.split("\n"):
-            line = line.strip()
-            if "passed" in line or "failed" in line or "error" in line:
-                # Parse various pytest output formats
-                if " passed" in line:
-                    try:
-                        parts = line.split()
-                        for i, part in enumerate(parts):
-                            if "passed" in part and i > 0:
-                                results["passed"] = int(parts[i - 1])
-                                results["tests_run"] += results["passed"]
-                    except (ValueError, IndexError):
-                        pass
-
-                if " failed" in line:
-                    try:
-                        parts = line.split()
-                        for i, part in enumerate(parts):
-                            if "failed" in part and i > 0:
-                                results["failed"] = int(parts[i - 1])
-                                results["tests_run"] += results["failed"]
-                    except (ValueError, IndexError):
-                        pass
-
-        # Determine summary
-        if results["failed"] > 0 or results["errors"] > 0:
-            results["summary"] = "FAILED"
-        elif results["passed"] > 0:
-            results["summary"] = "PASSED"
-        else:
-            results["summary"] = "NO_TESTS"
-
-        return results
+    def cleanup(self) -> None:
+        """Clean up any generated test artifacts."""
+        cleanup_artifacts()
 
     def save_results(self, results: Dict[str, Any], filename: str = None):
         """Save test results to file."""

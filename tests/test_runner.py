@@ -16,16 +16,7 @@ Usage:
     python test_runner.py --mode files test_file.py  # Run specific files
 """
 
-import sys
-
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-
-# Add tests directory to path
-repo_root = Path(__file__).parent
-sys.path.insert(0, str(repo_root))
-
-# Import the unified runner
+import testing_config  # noqa: F401  # sets up paths
 from tests.runners.unified_runner import main
 
 if __name__ == "__main__":

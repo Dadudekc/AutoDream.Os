@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Dict, Optional
 
-from .channel_dispatch import send_notification
+from .channel_dispatch import dispatch_to_channels
 from .logging_utils import logger
 from .models import (
     HealthAlert,
@@ -34,11 +34,9 @@ def send_escalation_notifications(
     policy: EscalationPolicy,
     configs: Dict[NotificationChannel, NotificationConfig],
 ) -> None:
-    for channel in policy.notification_channels:
-        if channel in configs:
-            config = configs[channel]
-            if config.enabled:
-                send_notification(alert, channel, config, policy.contacts)
+    dispatch_to_channels(
+        alert, policy.notification_channels, configs, policy.contacts
+    )
 
 
 def escalate_alert(

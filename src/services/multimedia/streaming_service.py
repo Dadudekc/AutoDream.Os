@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-"""
-Streaming Service
-Live streaming, content scheduling, and social media integration
-"""
+"""Streaming service orchestration and high level operations."""
 
 import logging
 import time
 import threading
-import json
-
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import Dict, Any, Optional, List, Callable
-from pathlib import Path
+from typing import Dict, Any, Optional
 from datetime import datetime, timedelta
-import queue
+
+from .media_processing import get_streaming_frame, process_frame_for_streaming
+from .protocol_handler import (
+    initialize_platform_connection,
+    send_frame_to_platform,
+)
+from .streaming_config import (
+    DEFAULT_STREAMING_CONFIG,
+    VALID_PLATFORMS,
+    VALID_SCHEDULE_TYPES,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -25,21 +28,10 @@ class StreamingService:
     """
 
     def __init__(self):
-        self.streaming_sessions = {}
-        self.content_schedules = {}
-        self.social_platforms = {}
-        self.streaming_config = {
-            "max_streams": 5,
-            "default_quality": "720p",
-            "buffer_size": 1000,
-            "auto_restart": True,
-            "quality_presets": {
-                "1080p": {"width": 1920, "height": 1080, "bitrate": 5000},
-                "720p": {"width": 1280, "height": 720, "bitrate": 2500},
-                "480p": {"width": 854, "height": 480, "bitrate": 1000},
-            },
-        }
-        self.streaming_threads = {}
+        self.streaming_sessions: Dict[str, Any] = {}
+        self.content_schedules: Dict[str, Any] = {}
+        self.streaming_config = DEFAULT_STREAMING_CONFIG.copy()
+        self.streaming_threads: Dict[str, Any] = {}
 
     def start_live_stream(self, stream_name: str, config: Dict[str, Any]) -> bool:
         """
@@ -115,27 +107,21 @@ class StreamingService:
 
         for field in required_fields:
             if field not in config:
-                logger.error(f"Missing required field: {field}")
+                logger.error("Missing required field: %s", field)
                 return False
 
         # Validate quality preset
-        if "quality" in config:
-            if config["quality"] not in self.streaming_config["quality_presets"]:
-                logger.error(f"Invalid quality preset: {config['quality']}")
-                return False
+        if (
+            "quality" in config
+            and config["quality"] not in self.streaming_config["quality_presets"]
+        ):
+            logger.error("Invalid quality preset: %s", config["quality"])
+            return False
 
         # Validate platforms
-        valid_platforms = [
-            "youtube",
-            "twitch",
-            "facebook",
-            "instagram",
-            "tiktok",
-            "custom",
-        ]
         for platform in config["platforms"]:
-            if platform not in valid_platforms:
-                logger.error(f"Invalid platform: {platform}")
+            if platform not in VALID_PLATFORMS:
+                logger.error("Invalid platform: %s", platform)
                 return False
 
         return True
@@ -162,16 +148,16 @@ class StreamingService:
             while self.streaming_threads[stream_name]["active"]:
                 try:
                     # Get frame from source
-                    frame = self._get_streaming_frame(stream_name, config)
+                    frame = get_streaming_frame(stream_name, config)
                     if frame is not None:
                         # Process frame for streaming
-                        processed_frame = self._process_frame_for_streaming(
+                        processed_frame = process_frame_for_streaming(
                             frame, quality_preset
                         )
 
                         # Send frame to platforms
                         for platform in config["platforms"]:
-                            if self._send_frame_to_platform(
+                            if send_frame_to_platform(
                                 processed_frame, platform, stream_name
                             ):
                                 session["statistics"]["frames_sent"] += 1
@@ -207,9 +193,11 @@ class StreamingService:
         try:
             # Initialize platform connections
             for platform in config["platforms"]:
-                if not self._initialize_platform_connection(platform, stream_name):
+                if not initialize_platform_connection(platform, stream_name):
                     logger.error(
-                        f"Failed to initialize platform {platform} for stream {stream_name}"
+                        "Failed to initialize platform %s for stream %s",
+                        platform,
+                        stream_name,
                     )
                     return False
 
@@ -223,35 +211,6 @@ class StreamingService:
 
         except Exception as e:
             logger.error(f"Error initializing streaming components: {e}")
-            return False
-
-    def _initialize_platform_connection(self, platform: str, stream_name: str) -> bool:
-        """Initialize connection to streaming platform"""
-        try:
-            # This would integrate with actual platform APIs
-            # For now, we'll simulate successful connections
-
-            if platform == "youtube":
-                logger.info(f"YouTube connection initialized for stream {stream_name}")
-            elif platform == "twitch":
-                logger.info(f"Twitch connection initialized for stream {stream_name}")
-            elif platform == "facebook":
-                logger.info(f"Facebook connection initialized for stream {stream_name}")
-            elif platform == "instagram":
-                logger.info(
-                    f"Instagram connection initialized for stream {stream_name}"
-                )
-            elif platform == "tiktok":
-                logger.info(f"TikTok connection initialized for stream {stream_name}")
-            elif platform == "custom":
-                logger.info(
-                    f"Custom platform connection initialized for stream {stream_name}"
-                )
-
-            return True
-
-        except Exception as e:
-            logger.error(f"Error initializing platform {platform}: {e}")
             return False
 
     def _initialize_encoders(
@@ -269,47 +228,6 @@ class StreamingService:
 
         except Exception as e:
             logger.error(f"Error initializing encoders: {e}")
-            return False
-
-    def _get_streaming_frame(self, stream_name: str, config: Dict[str, Any]):
-        """Get frame from streaming source"""
-        try:
-            # This would get frames from the video capture service
-            # For now, we'll return a placeholder
-
-            # In actual implementation, this would call:
-            # from .video_capture_service import VideoCaptureService
-            # return video_service.get_frame(device_id=config['source'])
-
-            return "frame_placeholder"
-
-        except Exception as e:
-            logger.error(f"Error getting streaming frame: {e}")
-            return None
-
-    def _process_frame_for_streaming(self, frame, quality_preset: Dict[str, Any]):
-        """Process frame for streaming with quality settings"""
-        try:
-            # This would apply quality-specific processing
-            # For now, we'll return the frame as-is
-
-            return frame
-
-        except Exception as e:
-            logger.error(f"Error processing frame for streaming: {e}")
-            return frame
-
-    def _send_frame_to_platform(self, frame, platform: str, stream_name: str) -> bool:
-        """Send frame to specific streaming platform"""
-        try:
-            # This would send the frame to the platform's streaming API
-            # For now, we'll simulate successful sending
-
-            logger.debug(f"Frame sent to {platform} for stream {stream_name}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Error sending frame to {platform}: {e}")
             return False
 
     def _cleanup_streaming_session(self, stream_name: str):
@@ -407,13 +325,12 @@ class StreamingService:
 
         for field in required_fields:
             if field not in config:
-                logger.error(f"Missing required field: {field}")
+                logger.error("Missing required field: %s", field)
                 return False
 
         # Validate schedule type
-        valid_types = ["once", "daily", "weekly", "monthly", "custom"]
-        if config["schedule_type"] not in valid_types:
-            logger.error(f"Invalid schedule type: {config['schedule_type']}")
+        if config["schedule_type"] not in VALID_SCHEDULE_TYPES:
+            logger.error("Invalid schedule type: %s", config["schedule_type"])
             return False
 
         return True

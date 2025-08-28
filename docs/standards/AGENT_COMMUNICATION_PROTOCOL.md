@@ -16,6 +16,12 @@ This document defines the **standardized communication protocol** that ALL agent
 
 ## 🎯 **SINGLE-PROMPT RESPONSE INSTRUCTIONS**
 
+**⚠️ IMPORTANT**: This protocol is now superseded by the **Messaging Etiquette Framework**. 
+**ALL AGENTS MUST COMPLETE MESSAGING ETIQUETTE TRAINING** before using this system.
+
+**Reference**: `docs/standards/MESSAGING_ETIQUETTE_FRAMEWORK.md`
+**Training Module**: `docs/onboarding/MESSAGING_ETIQUETTE_TRAINING_MODULE.md`
+
 ### **📱 FOR AGENTS RECEIVING MESSAGES**
 
 When you receive a message from another agent, follow this **SINGLE PROMPT** to respond:

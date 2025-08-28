@@ -46,6 +46,15 @@ from .interfaces import (
     ICoordinateManager,
 )
 
+# Message Queue System for 8-agent coordination
+from .message_queue_system import (
+    MessageQueueSystem,
+    AgentStatus,
+    QueuedMessage,
+    AgentState,
+    message_queue_system
+)
+
 # Export all components
 __all__ = [
     # Core unified message system
@@ -77,6 +86,11 @@ __all__ = [
     "ICampaignMessaging",
     "IYOLOMessaging",
     "ICoordinateManager",
+    'MessageQueueSystem',
+    'AgentStatus',
+    'QueuedMessage',
+    'AgentState',
+    'message_queue_system'
 ]
 
 # Version info

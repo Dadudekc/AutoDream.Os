@@ -4,11 +4,49 @@
 import json
 from dataclasses import asdict
 from datetime import datetime
-from typing import Any, Dict, Optional
+from string import Template
+from typing import Any, Callable, Dict, Optional
 
 
 class Reporting:
     """Provides reporting utilities."""
+
+    # Report format plugins. Mapped as {format_name: formatter_callable}
+    report_plugins: Dict[str, Callable[[Dict[str, Any]], str]]
+
+    def _ensure_plugins(self) -> None:
+        if not hasattr(self, "report_plugins"):
+            self.report_plugins = {}
+
+    # ------------------------------------------------------------------
+    # Data gathering
+    def gather_workflow_data(self, workflow_id: str) -> Optional[Dict[str, Any]]:
+        """Gather raw workflow data for reporting."""
+        workflow = self.workflows.get(workflow_id)
+        if not workflow:
+            return None
+        return asdict(workflow)
+
+    # ------------------------------------------------------------------
+    # Formatting
+    def register_report_plugin(
+        self, format_name: str, formatter: Callable[[Dict[str, Any]], str]
+    ) -> None:
+        """Register a formatter plugin for a report format."""
+        self._ensure_plugins()
+        self.report_plugins[format_name.lower()] = formatter
+
+    def format_report(self, data: Dict[str, Any], format: str = "json") -> str:
+        """Format report data into a string using built-in or plugin formatters."""
+        self._ensure_plugins()
+        fmt = format.lower()
+        if fmt in self.report_plugins:
+            return self.report_plugins[fmt](data)
+        if fmt == "json":
+            return json.dumps(data, indent=2, default=str)
+        return Template("Report format '${format}' not supported").substitute(
+            format=format
+        )
 
     def get_system_stats(self) -> Dict[str, Any]:
         """Get FSM system statistics."""
@@ -25,21 +63,23 @@ class Reporting:
             "last_updated": datetime.now().isoformat(),
         }
 
+    # ------------------------------------------------------------------
+    # Export
     def export_workflow_report(
         self, workflow_id: str, format: str = "json"
     ) -> Optional[str]:
         """Export workflow execution report."""
         try:
-            workflow = self.workflows.get(workflow_id)
-            if not workflow:
+            data = self.gather_workflow_data(workflow_id)
+            if data is None:
                 return None
-
-            if format.lower() == "json":
-                return json.dumps(asdict(workflow), indent=2, default=str)
-            return f"Report format '{format}' not supported"
-
+            return self.format_report(data, format)
         except Exception as e:  # pragma: no cover - defensive
-            self.logger.error(f"Failed to export workflow report: {e}")
+            self.logger.error(
+                Template("Failed to export workflow report: ${error}").substitute(
+                    error=e
+                )
+            )
             return None
 
     def clear_history(self) -> None:

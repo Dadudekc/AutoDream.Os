@@ -7,7 +7,7 @@ Follows V2 coding standards: ≤100 LOC, clean data models
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 
 
 class CommunicationMode(Enum):

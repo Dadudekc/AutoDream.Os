@@ -17,6 +17,9 @@ from .coordinator_types import (
 )
 
 from .message_coordinator import MessageCoordinator
+from .message_parser import MessageParser
+from .message_router import MessageRouter
+from .task_scheduler import TaskScheduler
 from .channel_manager import (
     ChannelManager,
     CommunicationChannel,
@@ -41,6 +44,9 @@ __all__ = [
     "MessageType",
     # Core classes
     "MessageCoordinator",
+    "MessageParser",
+    "MessageRouter",
+    "TaskScheduler",
     "ChannelManager",
     "CommunicationChannel",
     "ProtocolHandler",

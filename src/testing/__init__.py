@@ -16,16 +16,25 @@ CONSOLIDATION STATUS:
 """
 
 # ARCHITECTURE CORRECTED: Using unified testing framework manager
-from ..core.managers.testing_framework_manager import (
-    TestingFrameworkManager,
-    TestExecutionResult,
-    TestSuiteResult,
-    TestConfiguration,
-)
+# Optional import to keep package lightweight and avoid hard dependency
+try:  # pragma: no cover - tested via import side effects
+    from ..core.managers.testing_framework_manager import (
+        TestingFrameworkManager,
+        TestExecutionResult,
+        TestSuiteResult,
+        TestConfiguration,
+    )
 
-__all__ = [
-    "TestingFrameworkManager",
-    "TestExecutionResult",
-    "TestSuiteResult",
-    "TestConfiguration",
-]
+    __all__ = [
+        "TestingFrameworkManager",
+        "TestExecutionResult",
+        "TestSuiteResult",
+        "TestConfiguration",
+    ]
+except Exception:  # pragma: no cover - imported lazily
+    TestingFrameworkManager = None
+    TestExecutionResult = None
+    TestSuiteResult = None
+    TestConfiguration = None
+    __all__ = []
+

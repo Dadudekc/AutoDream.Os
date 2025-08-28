@@ -21,6 +21,25 @@ class CLIInteface:
 
     def __init__(self):
         self.delivery_service = V2MessageDeliveryService()
+        # Registry mapping command names to handler callables
+        self.command_registry = {
+            "status": lambda a: self._show_status(),
+            "agents": lambda a: self._show_agents(),
+            "ping": lambda a: self._ping_agent(a.ping[0]),
+            "ping_all": lambda a: self._ping_all_agents(),
+            "coordinate": lambda a: self._coordinate_agents(a.coordinate[0], a.coordinate[1]),
+            "emergency": lambda a: self._send_emergency(a.emergency[0]),
+            "send": lambda a: self._send_message(*a.send),
+            "send_file": lambda a: self._send_file_message(*a.send_file),
+            "send_sync": lambda a: self._send_sync_message(*a.send_sync),
+            "broadcast": lambda a: self._broadcast_message(*a.broadcast),
+            "broadcast_sync": lambda a: self._broadcast_sync_message(*a.broadcast_sync),
+            "broadcast_file": lambda a: self._broadcast_file_message(*a.broadcast_file),
+            "broadcast_file_sync": lambda a: self._broadcast_file_sync_message(*a.broadcast_file_sync),
+            "update_coords": lambda a: self._update_coordinates(*a.update_coords),
+            "test": lambda a: self._test_delivery(),
+            "test_sync": lambda a: self._test_sync_delivery(),
+        }
 
     def run(self, args=None):
         """Run the CLI interface"""
@@ -28,41 +47,12 @@ class CLIInteface:
         parsed_args = parser.parse_args(args)
 
         try:
-            if parsed_args.status:
-                self._show_status()
-            elif parsed_args.agents:
-                self._show_agents()
-            elif parsed_args.ping:
-                self._ping_agent(parsed_args.ping[0])
-            elif parsed_args.ping_all:
-                self._ping_all_agents()
-            elif parsed_args.coordinate:
-                self._coordinate_agents(parsed_args.coordinate[0], parsed_args.coordinate[1])
-            elif parsed_args.emergency:
-                self._send_emergency(parsed_args.emergency[0])
-            elif parsed_args.send:
-                self._send_message(parsed_args.send[0], parsed_args.send[1], parsed_args.send[2])
-            elif parsed_args.send_file:
-                self._send_file_message(parsed_args.send_file[0], parsed_args.send_file[1], parsed_args.send_file[2])
-            elif parsed_args.send_sync:
-                self._send_sync_message(parsed_args.send_sync[0], parsed_args.send_sync[1], parsed_args.send_sync[2])
-            elif parsed_args.broadcast:
-                self._broadcast_message(parsed_args.broadcast[0], parsed_args.broadcast[1])
-            elif parsed_args.broadcast_sync:
-                self._broadcast_sync_message(parsed_args.broadcast_sync[0], parsed_args.broadcast_sync[1])
-            elif parsed_args.broadcast_file:
-                self._broadcast_file_message(parsed_args.broadcast_file[0], parsed_args.broadcast_file[1])
-            elif parsed_args.broadcast_file_sync:
-                self._broadcast_file_sync_message(parsed_args.broadcast_file_sync[0], parsed_args.broadcast_file_sync[1])
-            elif parsed_args.update_coords:
-                self._update_coordinates(parsed_args.update_coords[0], parsed_args.update_coords[1], parsed_args.update_coords[2])
-            elif parsed_args.test:
-                self._test_delivery()
-            elif parsed_args.test_sync:
-                self._test_sync_delivery()
+            for cmd, handler in self.command_registry.items():
+                if getattr(parsed_args, cmd):
+                    handler(parsed_args)
+                    break
             else:
                 self._show_help()
-
         except Exception as e:
             print(f"❌ Error: {e}")
             return 1
@@ -264,20 +254,21 @@ class CLIInteface:
         success = self.delivery_service.send_message(agent_id, message_type, message)
         print(f"{'✅' if success else '❌'} Message {'sent' if success else 'failed'} to {agent_id}")
 
+    def _read_file_content(self, filepath: str) -> str:
+        """Read file content with best-effort encoding detection"""
+        with open(filepath, "rb") as f:
+            raw = f.read()
+        for enc in ("utf-8-sig", "cp1252", "latin-1"):
+            try:
+                return raw.decode(enc)
+            except Exception:
+                continue
+        raise UnicodeDecodeError("unknown", raw, 0, 1, "cannot decode")
+
     def _send_file_message(self, agent_id: str, message_type: str, filepath: str):
         """Send file content to specific agent"""
         try:
-            with open(filepath, "rb") as f:
-                raw = f.read()
-            content = None
-            for enc in ("utf-8-sig", "cp1252", "latin-1"):
-                try:
-                    content = raw.decode(enc)
-                    break
-                except Exception:
-                    continue
-            if content is None:
-                raise UnicodeDecodeError("unknown", raw, 0, 1, "cannot decode")
+            content = self._read_file_content(filepath)
             success = self.delivery_service.send_message(agent_id, message_type, content)
             print(f"{'✅' if success else '❌'} File message {'sent' if success else 'failed'} to {agent_id}")
         except Exception as e:
@@ -310,17 +301,7 @@ class CLIInteface:
     def _broadcast_file_message(self, message_type: str, filepath: str):
         """Broadcast file content to all agents"""
         try:
-            with open(filepath, "rb") as f:
-                raw = f.read()
-            content = None
-            for enc in ("utf-8-sig", "cp1252", "latin-1"):
-                try:
-                    content = raw.decode(enc)
-                    break
-                except Exception:
-                    continue
-            if content is None:
-                raise UnicodeDecodeError("unknown", raw, 0, 1, "cannot decode")
+            content = self._read_file_content(filepath)
             results = self.delivery_service.broadcast_message(message_type, content)
             success_count = sum(1 for success in results.values() if success)
             print(f"📢 Broadcast sent to {success_count}/8 agents")
@@ -331,17 +312,7 @@ class CLIInteface:
     def _broadcast_file_sync_message(self, message_type: str, filepath: str):
         """Broadcast file content synchronously to all agents"""
         try:
-            with open(filepath, "rb") as f:
-                raw = f.read()
-            content = None
-            for enc in ("utf-8-sig", "cp1252", "latin-1"):
-                try:
-                    content = raw.decode(enc)
-                    break
-                except Exception:
-                    continue
-            if content is None:
-                raise UnicodeDecodeError("unknown", raw, 0, 1, "cannot decode")
+            content = self._read_file_content(filepath)
             agents = list(self.delivery_service.agent_coordinates.keys())
             results = {}
             for agent_id in agents:

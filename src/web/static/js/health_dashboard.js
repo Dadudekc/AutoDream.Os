@@ -240,9 +240,9 @@
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="flex-grow-1">
                                 <h6 class="alert-heading">
-                                    ${severityIcon} ${alert.agent_id}
+                                    ${severityIcon} ${escapeHTML(alert.agent_id)}
                                 </h6>
-                                <p class="mb-1">${alert.message}</p>
+                                <p class="mb-1">${escapeHTML(alert.message)}</p>
                                 <small class="text-muted">
                                     ${new Date(alert.timestamp).toLocaleString()}
                                 </small>

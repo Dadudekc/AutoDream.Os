@@ -5,6 +5,7 @@ repos:
         name: V2 Coding Standards Check (Balanced LOC Restrictions)
         entry: python tests/v2_standards_checker_simple.py --all
         language: python
+        additional_dependencies: [pyyaml, psutil]
         types: [python]
         pass_filenames: false
         stages: [pre-commit]
@@ -17,6 +18,7 @@ repos:
         name: Duplication Detector
         entry: python tools/duplication_detector_main.py
         language: python
+        additional_dependencies: [pyyaml, psutil]
         types: [python]
         pass_filenames: false
         stages: [pre-commit]

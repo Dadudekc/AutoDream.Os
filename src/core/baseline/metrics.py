@@ -2,6 +2,7 @@
 
 This module re-exports domain specific helpers for easier consumption.
 """
+
 from .latency_metrics import average_latency, max_latency, min_latency
 from .throughput_metrics import calculate_throughput
 from .error_rate_metrics import calculate_error_rate

@@ -7,14 +7,58 @@ in the unified validation system. Follows V2 coding standards and SRP principles
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Tuple
+from dataclasses import dataclass, field
+from enum import Enum
+from datetime import datetime
 
-from .models import (
-    ValidationRule,
-    ValidationResult,
-    ValidationSeverity,
-    ValidationStatus,
-)
+
+class ValidationSeverity(Enum):
+    """Validation severity levels"""
+
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+    CRITICAL = "critical"
+
+
+class ValidationStatus(Enum):
+    """Validation result status"""
+
+    PASSED = "passed"
+    FAILED = "failed"
+    WARNING = "warning"
+    PENDING = "pending"
+
+
+@dataclass
+class ValidationRule:
+    """Configurable validation rule"""
+
+    rule_id: str
+    rule_name: str
+    rule_type: str
+    description: str
+    severity: ValidationSeverity = ValidationSeverity.ERROR
+    threshold: Optional[float] = None
+    enabled: bool = True
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class ValidationResult:
+    """Standardized validation result"""
+
+    rule_id: str
+    rule_name: str
+    status: ValidationStatus
+    severity: ValidationSeverity
+    message: str
+    details: Dict[str, Any] = field(default_factory=dict)
+    timestamp: datetime = field(default_factory=datetime.now)
+    field_path: Optional[str] = None
+    actual_value: Optional[Any] = None
+    expected_value: Optional[Any] = None
 
 
 class BaseValidator(ABC):
@@ -30,22 +74,23 @@ class BaseValidator(ABC):
 
     @abstractmethod
     def _setup_default_rules(self) -> None:
-        """Setup default validation rules for this validator type."""
-        raise NotImplementedError("Subclasses must implement _setup_default_rules")
+        """Set up default validation rules for this validator type."""
+        raise NotImplementedError(
+            "_setup_default_rules must be implemented by subclasses"
+        )
 
     @abstractmethod
     def validate(self, data: Any, **kwargs) -> List[ValidationResult]:
-        """Main validation method.
+        """Validate the given data.
 
-        Subclasses must implement this method and return a list of
-        :class:`ValidationResult` objects describing each validation check
-        performed.
+        Args:
+            data (Any): Data to validate.
+            **kwargs: Additional validation parameters.
 
         Returns:
-            List[ValidationResult]: Validation results generated for the
-            provided data.
+            List[ValidationResult]: Collection of validation results.
         """
-        raise NotImplementedError("Subclasses must implement validate")
+        raise NotImplementedError("validate must be implemented by subclasses")
 
     def add_validation_rule(self, rule: ValidationRule) -> bool:
         """Add a new validation rule"""

@@ -32,6 +32,7 @@ class AlertChannel(ABC):
         successfully.  The default implementations below swallow any
         exceptions and simply log failures to keep the tests lightweight.
         """
+        raise NotImplementedError("send_alert must be implemented by subclasses")
 
 
 class EmailAlertChannel(AlertChannel):
@@ -120,7 +121,9 @@ class WebhookAlertChannel(AlertChannel):
         }
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.request(self.method, self.webhook_url, json=payload) as resp:
+                async with session.request(
+                    self.method, self.webhook_url, json=payload
+                ) as resp:
                     return resp.status < 400
         except Exception:  # pragma: no cover - network interactions
             logger.exception("webhook alert failed")

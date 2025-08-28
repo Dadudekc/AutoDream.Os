@@ -20,34 +20,55 @@ from .report_types import PerformanceReport, ReportSection, ReportMetric, Report
 
 class ReportFormatter(ABC):
     """Abstract base class for report formatters."""
-    
+
     @abstractmethod
     def format_report(self, report: PerformanceReport) -> str:
-        """Format a performance report."""
-        pass
-    
+        """Format a performance report.
+
+        Args:
+            report (PerformanceReport): Report data to format.
+
+        Returns:
+            str: Formatted report output.
+        """
+        raise NotImplementedError("format_report must be implemented by subclasses")
+
     @abstractmethod
     def format_section(self, section: ReportSection) -> str:
-        """Format a report section."""
-        pass
-    
+        """Format a report section.
+
+        Args:
+            section (ReportSection): Section to format.
+
+        Returns:
+            str: Formatted section output.
+        """
+        raise NotImplementedError("format_section must be implemented by subclasses")
+
     @abstractmethod
     def format_metric(self, metric: ReportMetric) -> str:
-        """Format a report metric."""
-        pass
+        """Format a report metric.
+
+        Args:
+            metric (ReportMetric): Metric to format.
+
+        Returns:
+            str: Formatted metric output.
+        """
+        raise NotImplementedError("format_metric must be implemented by subclasses")
 
 
 class JSONFormatter(ReportFormatter):
     """JSON format formatter."""
-    
+
     def format_report(self, report: PerformanceReport) -> str:
         """Format report as JSON."""
         return json.dumps(report.to_dict(), indent=2)
-    
+
     def format_section(self, section: ReportSection) -> str:
         """Format section as JSON."""
         return json.dumps(section.to_dict(), indent=2)
-    
+
     def format_metric(self, metric: ReportMetric) -> str:
         """Format metric as JSON."""
         return json.dumps(metric.to_dict(), indent=2)
@@ -55,7 +76,7 @@ class JSONFormatter(ReportFormatter):
 
 class TextFormatter(ReportFormatter):
     """Plain text format formatter."""
-    
+
     def format_report(self, report: PerformanceReport) -> str:
         """Format report as plain text."""
         lines = []
@@ -67,13 +88,13 @@ class TextFormatter(ReportFormatter):
         lines.append("")
         lines.append(report.description)
         lines.append("")
-        
+
         for section in report.sections:
             lines.append(self.format_section(section))
             lines.append("")
-        
+
         return "\n".join(lines)
-    
+
     def format_section(self, section: ReportSection) -> str:
         """Format section as plain text."""
         lines = []
@@ -81,19 +102,19 @@ class TextFormatter(ReportFormatter):
         lines.append("-" * (len(section.title) + 3))
         lines.append(section.description)
         lines.append("")
-        
+
         if section.metrics:
             lines.append("Metrics:")
             for metric in section.metrics:
                 lines.append(f"  {metric.name}: {metric.value} {metric.unit}")
             lines.append("")
-        
+
         if section.subsections:
             for subsection in section.subsections:
                 lines.append(self.format_section(subsection))
-        
+
         return "\n".join(lines)
-    
+
     def format_metric(self, metric: ReportMetric) -> str:
         """Format metric as plain text."""
         return f"{metric.name}: {metric.value} {metric.unit}"
@@ -101,7 +122,7 @@ class TextFormatter(ReportFormatter):
 
 class HTMLFormatter(ReportFormatter):
     """HTML format formatter."""
-    
+
     def format_report(self, report: PerformanceReport) -> str:
         """Format report as HTML."""
         html = f"""
@@ -126,16 +147,16 @@ class HTMLFormatter(ReportFormatter):
         <p>{report.description}</p>
     </div>
 """
-        
+
         for section in report.sections:
             html += self.format_section(section)
-        
+
         html += """
 </body>
 </html>
 """
         return html
-    
+
     def format_section(self, section: ReportSection) -> str:
         """Format section as HTML."""
         html = f"""
@@ -143,22 +164,22 @@ class HTMLFormatter(ReportFormatter):
         <h2>{section.title}</h2>
         <p>{section.description}</p>
 """
-        
+
         if section.metrics:
             html += "        <div class='metrics'>\n"
             for metric in section.metrics:
                 html += self.format_metric(metric)
             html += "        </div>\n"
-        
+
         if section.subsections:
             html += "        <div class='subsections'>\n"
             for subsection in section.subsections:
                 html += self.format_section(subsection)
             html += "        </div>\n"
-        
+
         html += "    </div>\n"
         return html
-    
+
     def format_metric(self, metric: ReportMetric) -> str:
         """Format metric as HTML."""
         return f"""
@@ -170,40 +191,52 @@ class HTMLFormatter(ReportFormatter):
 
 class CSVFormatter(ReportFormatter):
     """CSV format formatter."""
-    
+
     def format_report(self, report: PerformanceReport) -> str:
         """Format report as CSV."""
         lines = []
         lines.append("Report ID,Title,Description,Timestamp,Status")
-        lines.append(f"{report.report_id},{report.title},{report.description},{report.timestamp},{report.status.value}")
+        lines.append(
+            f"{report.report_id},{report.title},{report.description},{report.timestamp},{report.status.value}"
+        )
         lines.append("")
         lines.append("Section,Subsection,Metric,Value,Unit,Type,Timestamp")
-        
+
         for section in report.sections:
             lines.extend(self._format_section_csv(section))
-        
+
         return "\n".join(lines)
-    
-    def _format_section_csv(self, section: ReportSection, parent_section: str = "") -> List[str]:
+
+    def _format_section_csv(
+        self, section: ReportSection, parent_section: str = ""
+    ) -> List[str]:
         """Format section as CSV rows."""
         lines = []
-        current_section = f"{parent_section}/{section.name}" if parent_section else section.name
-        
+        current_section = (
+            f"{parent_section}/{section.name}" if parent_section else section.name
+        )
+
         for metric in section.metrics:
-            lines.append(f"{current_section},,{metric.name},{metric.value},{metric.unit},{metric.metric_type.value},{metric.timestamp}")
-        
+            lines.append(
+                f"{current_section},,{metric.name},{metric.value},{metric.unit},{metric.metric_type.value},{metric.timestamp}"
+            )
+
         for subsection in section.subsections:
             lines.extend(self._format_section_csv(subsection, current_section))
-        
+
         return lines
-    
+
     def format_section(self, section: ReportSection) -> str:
         """Format section as CSV (not implemented for CSV formatter)."""
-        raise NotImplementedError("CSV formatter does not support individual section formatting")
-    
+        raise NotImplementedError(
+            "CSV formatter does not support individual section formatting"
+        )
+
     def format_metric(self, metric: ReportMetric) -> str:
         """Format metric as CSV (not implemented for CSV formatter)."""
-        raise NotImplementedError("CSV formatter does not support individual metric formatting")
+        raise NotImplementedError(
+            "CSV formatter does not support individual metric formatting"
+        )
 
 
 def get_formatter(format_type: ReportFormat) -> ReportFormatter:
@@ -212,6 +245,6 @@ def get_formatter(format_type: ReportFormat) -> ReportFormatter:
         ReportFormat.JSON: JSONFormatter(),
         ReportFormat.TEXT: TextFormatter(),
         ReportFormat.HTML: HTMLFormatter(),
-        ReportFormat.CSV: CSVFormatter()
+        ReportFormat.CSV: CSVFormatter(),
     }
     return formatters.get(format_type, JSONFormatter())

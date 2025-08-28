@@ -24,7 +24,12 @@ class MetricSourceAdapter(MetricSource, ABC):
 
     @abstractmethod
     def collect(self) -> List[Metric]:
-        """Collect metrics from the underlying source."""
+        """Collect metrics from the underlying source.
+
+        Returns:
+            List[Metric]: Collected metrics.
+        """
+        raise NotImplementedError("collect must be implemented by subclasses")
 
 
 class SystemMetricsAdapter(MetricSourceAdapter):

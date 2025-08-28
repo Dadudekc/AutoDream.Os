@@ -101,7 +101,7 @@
             }
 
             // Initialize charts after rendering
-            setTimeout(initializeCharts, 100);
+            requestAnimationFrame(() => initializeCharts(data));
         }
 
         // Render overview view
@@ -236,8 +236,8 @@
                                     ${agents.map(agent => `
                                         <tr>
                                             <td>
-                                                <strong>${agent.name}</strong><br>
-                                                <small class="text-muted">${agent.agent_id}</small>
+                                                <strong>${escapeHTML(agent.name)}</strong><br>
+                                                <small class="text-muted">${escapeHTML(agent.agent_id)}</small>
                                             </td>
                                             <td>
                                                 <span class="badge bg-${getStatusBadgeColor(agent.status)}">
@@ -494,7 +494,7 @@
                 <div class="alert-item ${alert.level}">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <strong>${alert.message}</strong>
+                            <strong>${escapeHTML(alert.message)}</strong>
                             <br><small class="text-muted">${formatTimestamp(alert.timestamp)}</small>
                         </div>
                         <div>

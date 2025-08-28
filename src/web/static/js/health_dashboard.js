@@ -187,7 +187,7 @@
                     <div class="agent-item ${statusClass}">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-1">${agent.agent_id}</h6>
+                                <h6 class="mb-1">${escapeHTML(agent.agent_id)}</h6>
                                 <small class="text-muted">
                                     Last update: ${new Date(agent.timestamp).toLocaleTimeString()}
                                 </small>
@@ -240,9 +240,9 @@
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="flex-grow-1">
                                 <h6 class="alert-heading">
-                                    ${severityIcon} ${alert.agent_id}
+                                    ${severityIcon} ${escapeHTML(alert.agent_id)}
                                 </h6>
-                                <p class="mb-1">${alert.message}</p>
+                                <p class="mb-1">${escapeHTML(alert.message)}</p>
                                 <small class="text-muted">
                                     ${new Date(alert.timestamp).toLocaleString()}
                                 </small>
@@ -397,10 +397,14 @@
             alertDiv.style.top = '80px';
             alertDiv.style.right = '20px';
             alertDiv.style.zIndex = '1050';
-            alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" title="Close" aria-label="Close"></button>
-            `;
+            alertDiv.textContent = message;
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn-close';
+            button.setAttribute('data-bs-dismiss', 'alert');
+            button.setAttribute('title', 'Close');
+            button.setAttribute('aria-label', 'Close');
+            alertDiv.appendChild(button);
 
             document.body.appendChild(alertDiv);
 

@@ -8,12 +8,19 @@ Follows V2 standards: ≤300 LOC, SRP, OOP principles.
 """
 
 import logging
-import math
 import numpy as np
 from typing import Dict, Optional
 from enum import Enum
 
 from src.utils.stability_improvements import stability_manager, safe_import
+from .common import (
+    normal_cdf,
+    normal_pdf,
+    calculate_d1,
+    calculate_d2,
+    intrinsic_value,
+    break_even_point,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -54,22 +61,24 @@ class OptionsPricingEngine:
     ) -> Dict[str, float]:
         """Calculate Black-Scholes option pricing and Greeks"""
         try:
-            # Black-Scholes formula
-            d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-            d2 = d1 - sigma * np.sqrt(T)
+            # Black-Scholes formula components
+            d1 = calculate_d1(S, K, T, r, sigma)
+            d2 = calculate_d2(d1, sigma, T)
 
             if option_type == OptionType.CALL:
-                price = S * self.normal_cdf(d1) - K * np.exp(-r * T) * self.normal_cdf(d2)
-                delta = self.normal_cdf(d1)
+                price = S * normal_cdf(d1) - K * np.exp(-r * T) * normal_cdf(d2)
+                delta = normal_cdf(d1)
             else:  # PUT
-                price = K * np.exp(-r * T) * self.normal_cdf(-d2) - S * self.normal_cdf(-d1)
-                delta = self.normal_cdf(d1) - 1
+                price = K * np.exp(-r * T) * normal_cdf(-d2) - S * normal_cdf(-d1)
+                delta = normal_cdf(d1) - 1
 
             # Greeks
-            gamma = self.normal_pdf(d1) / (S * sigma * np.sqrt(T))
-            theta = (-S * sigma * self.normal_pdf(d1)) / (2 * np.sqrt(T)) - r * K * np.exp(-r * T) * self.normal_cdf(d2)
-            vega = S * np.sqrt(T) * self.normal_pdf(d1)
-            rho = K * T * np.exp(-r * T) * self.normal_cdf(d2)
+            gamma = normal_pdf(d1) / (S * sigma * np.sqrt(T))
+            theta = (-S * sigma * normal_pdf(d1)) / (2 * np.sqrt(T)) - r * K * np.exp(
+                -r * T
+            ) * normal_cdf(d2)
+            vega = S * np.sqrt(T) * normal_pdf(d1)
+            rho = K * T * np.exp(-r * T) * normal_cdf(d2)
 
             return {
                 "price": price,
@@ -100,8 +109,12 @@ class OptionsPricingEngine:
             max_iterations = 100
 
             for i in range(max_iterations):
-                price = self.calculate_black_scholes(S, K, T, r, sigma, option_type).get("price", 0)
-                vega = self.calculate_black_scholes(S, K, T, r, sigma, option_type).get("vega", 0)
+                price = self.calculate_black_scholes(
+                    S, K, T, r, sigma, option_type
+                ).get("price", 0)
+                vega = self.calculate_black_scholes(S, K, T, r, sigma, option_type).get(
+                    "vega", 0
+                )
 
                 if abs(price - market_price) < tolerance:
                     return sigma
@@ -129,18 +142,20 @@ class OptionsPricingEngine:
     ) -> Dict[str, float]:
         """Calculate option Greeks"""
         try:
-            d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-            d2 = d1 - sigma * np.sqrt(T)
+            d1 = calculate_d1(S, K, T, r, sigma)
+            d2 = calculate_d2(d1, sigma, T)
 
             if option_type == OptionType.CALL:
-                delta = self.normal_cdf(d1)
+                delta = normal_cdf(d1)
             else:  # PUT
-                delta = self.normal_cdf(d1) - 1
+                delta = normal_cdf(d1) - 1
 
-            gamma = self.normal_pdf(d1) / (S * sigma * np.sqrt(T))
-            theta = (-S * sigma * self.normal_pdf(d1)) / (2 * np.sqrt(T)) - r * K * np.exp(-r * T) * self.normal_cdf(d2)
-            vega = S * np.sqrt(T) * self.normal_pdf(d1)
-            rho = K * T * np.exp(-r * T) * self.normal_cdf(d2)
+            gamma = normal_pdf(d1) / (S * sigma * np.sqrt(T))
+            theta = (-S * sigma * normal_pdf(d1)) / (2 * np.sqrt(T)) - r * K * np.exp(
+                -r * T
+            ) * normal_cdf(d2)
+            vega = S * np.sqrt(T) * normal_pdf(d1)
+            rho = K * T * np.exp(-r * T) * normal_cdf(d2)
 
             return {
                 "delta": delta,
@@ -153,14 +168,6 @@ class OptionsPricingEngine:
         except Exception as e:
             self.logger.error(f"Error calculating Greeks: {e}")
             return {}
-
-    def normal_cdf(self, x: float) -> float:
-        """Standard normal cumulative distribution function"""
-        return 0.5 * (1 + math.erf(x / math.sqrt(2)))
-
-    def normal_pdf(self, x: float) -> float:
-        """Standard normal probability density function"""
-        return (1 / math.sqrt(2 * math.pi)) * math.exp(-0.5 * x**2)
 
     def calculate_time_value(
         self,
@@ -177,10 +184,7 @@ class OptionsPricingEngine:
         option_type: OptionType,
     ) -> float:
         """Calculate intrinsic value of an option"""
-        if option_type == OptionType.CALL:
-            return max(0, S - K)
-        else:  # PUT
-            return max(0, K - S)
+        return intrinsic_value(S, K, option_type == OptionType.CALL)
 
     def calculate_breakeven_point(
         self,
@@ -189,10 +193,4 @@ class OptionsPricingEngine:
         option_type: OptionType,
     ) -> float:
         """Calculate breakeven point for an option strategy"""
-        if option_type == OptionType.CALL:
-            return K + premium
-        else:  # PUT
-            return K - premium
-
-
-
+        return break_even_point(K, premium, option_type == OptionType.CALL)

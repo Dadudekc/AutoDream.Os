@@ -15,6 +15,7 @@ from enum import Enum
 
 from src.utils.stability_improvements import stability_manager, safe_import
 from .pricing import OptionType
+from .common import break_even_point, intrinsic_value
 
 
 class OptionStrategy(Enum):
@@ -60,7 +61,7 @@ class OptionsStrategyEngine:
 
     def __init__(self):
         self.logger = logging.getLogger(f"{__name__}.OptionsStrategyEngine")
-        
+
         # Strategy parameters
         self.strategy_params = {
             OptionStrategy.LONG_CALL: {
@@ -90,20 +91,22 @@ class OptionsStrategyEngine:
     ) -> OptionsStrategy:
         """Create a long call strategy"""
         try:
-            contracts = [{
-                "symbol": symbol,
-                "strike": strike,
-                "expiration": expiration,
-                "option_type": OptionType.CALL,
-                "quantity": quantity,
-                "premium": premium,
-            }]
+            contracts = [
+                {
+                    "symbol": symbol,
+                    "strike": strike,
+                    "expiration": expiration,
+                    "option_type": OptionType.CALL,
+                    "quantity": quantity,
+                    "premium": premium,
+                }
+            ]
 
             # Calculate strategy metrics
             max_loss = premium * quantity
-            max_profit = float('inf')  # Unlimited upside
-            break_even = strike + premium
-            risk_reward = float('inf') if max_loss > 0 else 0
+            max_profit = float("inf")  # Unlimited upside
+            break_even = break_even_point(strike, premium, True)
+            risk_reward = float("inf") if max_loss > 0 else 0
 
             return OptionsStrategy(
                 strategy_type=OptionStrategy.LONG_CALL,
@@ -115,7 +118,12 @@ class OptionsStrategyEngine:
                 break_even_points=[break_even],
                 probability_profit=0.4,  # Rough estimate
                 risk_reward_ratio=risk_reward,
-                greeks_exposure={"delta": 0.6, "gamma": 0.02, "theta": -0.03, "vega": 0.15},
+                greeks_exposure={
+                    "delta": 0.6,
+                    "gamma": 0.02,
+                    "theta": -0.03,
+                    "vega": 0.15,
+                },
             )
 
         except Exception as e:
@@ -132,19 +140,21 @@ class OptionsStrategyEngine:
     ) -> OptionsStrategy:
         """Create a covered call strategy"""
         try:
-            contracts = [{
-                "symbol": symbol,
-                "strike": strike,
-                "expiration": expiration,
-                "option_type": OptionType.CALL,
-                "quantity": -1,  # Short call
-                "premium": premium,
-            }]
+            contracts = [
+                {
+                    "symbol": symbol,
+                    "strike": strike,
+                    "expiration": expiration,
+                    "option_type": OptionType.CALL,
+                    "quantity": -1,  # Short call
+                    "premium": premium,
+                }
+            ]
 
             # Calculate strategy metrics
             max_profit = premium * underlying_quantity
-            max_loss = float('inf')  # Unlimited downside if underlying rises
-            break_even = strike + premium
+            max_loss = float("inf")  # Unlimited downside if underlying rises
+            break_even = break_even_point(strike, premium, True)
             risk_reward = max_profit / max_loss if max_loss > 0 else 0
 
             return OptionsStrategy(
@@ -157,7 +167,12 @@ class OptionsStrategyEngine:
                 break_even_points=[break_even],
                 probability_profit=0.7,  # Higher probability due to premium collection
                 risk_reward_ratio=risk_reward,
-                greeks_exposure={"delta": -0.3, "gamma": -0.01, "theta": 0.02, "vega": -0.08},
+                greeks_exposure={
+                    "delta": -0.3,
+                    "gamma": -0.01,
+                    "theta": 0.02,
+                    "vega": -0.08,
+                },
             )
 
         except Exception as e:
@@ -210,7 +225,7 @@ class OptionsStrategyEngine:
                     "option_type": OptionType.PUT,
                     "quantity": quantity,  # Long put
                     "premium": -put_premium,
-                }
+                },
             ]
 
             # Calculate strategy metrics
@@ -228,11 +243,16 @@ class OptionsStrategyEngine:
                 max_loss=max_loss,
                 break_even_points=[
                     short_put_strike - net_premium / quantity,
-                    short_call_strike + net_premium / quantity
+                    short_call_strike + net_premium / quantity,
                 ],
                 probability_profit=0.8,  # High probability due to range-bound assumption
                 risk_reward_ratio=risk_reward,
-                greeks_exposure={"delta": 0.0, "gamma": 0.0, "theta": 0.01, "vega": 0.0},
+                greeks_exposure={
+                    "delta": 0.0,
+                    "gamma": 0.0,
+                    "theta": 0.01,
+                    "vega": 0.0,
+                },
             )
 
         except Exception as e:
@@ -256,23 +276,35 @@ class OptionsStrategyEngine:
 
             # Check capital allocation
             if strategy.entry_price > portfolio_value * 0.1:  # Max 10% of portfolio
-                validation_results["warnings"].append("Strategy uses more than 10% of portfolio")
-                validation_results["recommendations"].append("Consider reducing position size")
+                validation_results["warnings"].append(
+                    "Strategy uses more than 10% of portfolio"
+                )
+                validation_results["recommendations"].append(
+                    "Consider reducing position size"
+                )
 
             # Check risk parameters
             if strategy.max_loss > portfolio_value * 0.05:  # Max 5% risk
-                validation_results["warnings"].append("Strategy risk exceeds 5% of portfolio")
-                validation_results["recommendations"].append("Consider hedging or reducing exposure")
+                validation_results["warnings"].append(
+                    "Strategy risk exceeds 5% of portfolio"
+                )
+                validation_results["recommendations"].append(
+                    "Consider hedging or reducing exposure"
+                )
 
             # Check probability of profit
             if strategy.probability_profit < 0.3:
                 validation_results["warnings"].append("Low probability of profit")
-                validation_results["recommendations"].append("Review strategy assumptions")
+                validation_results["recommendations"].append(
+                    "Review strategy assumptions"
+                )
 
             # Check risk-reward ratio
             if strategy.risk_reward_ratio < 0.5:
                 validation_results["warnings"].append("Unfavorable risk-reward ratio")
-                validation_results["recommendations"].append("Consider alternative strategies")
+                validation_results["recommendations"].append(
+                    "Consider alternative strategies"
+                )
 
             # Check expiration constraints
             for contract in strategy.contracts:
@@ -303,22 +335,26 @@ class OptionsStrategyEngine:
         """Calculate strategy payoff at different underlying prices"""
         try:
             payoffs = {}
-            
+
             # Calculate at current price
             current_payoff = self._calculate_single_payoff(strategy, underlying_price)
             payoffs["current"] = current_payoff
-            
+
             # Calculate at break-even points
             for be_point in strategy.break_even_points:
                 be_payoff = self._calculate_single_payoff(strategy, be_point)
                 payoffs[f"break_even_{be_point}"] = be_payoff
-            
+
             # Calculate at max profit/loss scenarios
-            max_profit_payoff = self._calculate_single_payoff(strategy, underlying_price * 1.5)
-            max_loss_payoff = self._calculate_single_payoff(strategy, underlying_price * 0.5)
+            max_profit_payoff = self._calculate_single_payoff(
+                strategy, underlying_price * 1.5
+            )
+            max_loss_payoff = self._calculate_single_payoff(
+                strategy, underlying_price * 0.5
+            )
             payoffs["max_profit_scenario"] = max_profit_payoff
             payoffs["max_loss_scenario"] = max_loss_payoff
-            
+
             return payoffs
 
         except Exception as e:
@@ -333,32 +369,28 @@ class OptionsStrategyEngine:
         """Calculate payoff at a specific underlying price"""
         try:
             total_payoff = 0.0
-            
+
             for contract in strategy.contracts:
                 strike = contract["strike"]
                 option_type = contract["option_type"]
                 quantity = contract["quantity"]
                 premium = contract["premium"]
-                
-                if option_type == OptionType.CALL:
-                    if underlying_price > strike:
-                        payoff = (underlying_price - strike) * quantity
-                    else:
-                        payoff = 0
-                else:  # PUT
-                    if underlying_price < strike:
-                        payoff = (strike - underlying_price) * quantity
-                    else:
-                        payoff = 0
-                
+
+                intrinsic = intrinsic_value(
+                    underlying_price,
+                    strike,
+                    option_type == OptionType.CALL,
+                )
+                payoff = intrinsic * quantity
+
                 # Adjust for premium
                 if quantity > 0:  # Long position
                     payoff -= premium * abs(quantity)
                 else:  # Short position
                     payoff += premium * abs(quantity)
-                
+
                 total_payoff += payoff
-            
+
             return total_payoff
 
         except Exception as e:
@@ -373,14 +405,18 @@ class OptionsStrategyEngine:
         """Get comprehensive strategy summary"""
         try:
             payoffs = self.calculate_strategy_payoff(strategy, underlying_price)
-            
+
             return {
                 "strategy": strategy,
                 "current_payoff": payoffs.get("current", 0),
                 "unrealized_pnl": payoffs.get("current", 0) - strategy.entry_price,
                 "payoffs": payoffs,
-                "days_to_expiry": (strategy.contracts[0]["expiration"] - datetime.now()).days,
-                "strategy_health": self._assess_strategy_health(strategy, payoffs.get("current", 0)),
+                "days_to_expiry": (
+                    strategy.contracts[0]["expiration"] - datetime.now()
+                ).days,
+                "strategy_health": self._assess_strategy_health(
+                    strategy, payoffs.get("current", 0)
+                ),
             }
 
         except Exception as e:
@@ -395,8 +431,12 @@ class OptionsStrategyEngine:
         """Assess overall health of the strategy"""
         try:
             unrealized_pnl = current_payoff - strategy.entry_price
-            pnl_percentage = (unrealized_pnl / strategy.entry_price * 100) if strategy.entry_price > 0 else 0
-            
+            pnl_percentage = (
+                (unrealized_pnl / strategy.entry_price * 100)
+                if strategy.entry_price > 0
+                else 0
+            )
+
             if pnl_percentage >= 20:
                 return "Excellent"
             elif pnl_percentage >= 10:
@@ -407,10 +447,7 @@ class OptionsStrategyEngine:
                 return "Concerning"
             else:
                 return "Critical"
-                
+
         except Exception as e:
             self.logger.error(f"Error assessing strategy health: {e}")
             return "Unknown"
-
-
-

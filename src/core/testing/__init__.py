@@ -11,106 +11,125 @@ V2 Standards: ≤400 LOC, SRP, OOP principles
 """
 
 # Core testing components
-from .testing_core import (
-    TestExecutor, TestRunner, BaseTest, TestResult,
-    TestStatus, TestType
+from .testing_utils import (
+    BaseIntegrationTest,
+    BaseTest,
+    TestEnvironment,
+    TestPriority,
+    TestReport,
+    TestResult,
+    TestStatus,
+    TestSuite,
+    TestType,
 )
+from .test_execution import TestExecutor, TestRunner
+from .test_discovery import discover_test_files
+from .test_reporting import summarize_results, print_execution_summary
 
 from .testing_orchestrator import TestingOrchestrator
 from .testing_reporter import TestingReporter
 from .test_categories import TestCategories
 from .output_formatter import OutputFormatter
-from .testing_types import TestingTypes
 
 # CLI handlers
 from .cli_handlers import (
-    RunCommandHandler, ReportCommandHandler, StatusCommandHandler,
-    RegisterCommandHandler, SuiteCommandHandler, ResultsCommandHandler
+    RunCommandHandler,
+    ReportCommandHandler,
+    StatusCommandHandler,
+    RegisterCommandHandler,
+    SuiteCommandHandler,
+    ResultsCommandHandler,
 )
 
 # Unified testing system (TASK 3G)
 from .unified_testing_system import (
-    UnifiedTestingSystem, TestExecutionConfig, TestFramework
+    UnifiedTestingSystem,
+    TestExecutionConfig,
+    TestFramework,
 )
 
 # Testing infrastructure manager (TASK 3G)
 from .testing_infrastructure_manager import (
-    TestingInfrastructureManager, TestingDependency, TestDirectory,
-    DependencyStatus
+    TestingInfrastructureManager,
+    TestingDependency,
+    TestDirectory,
+    DependencyStatus,
 )
 
 # Unified testing framework (TASK 3H)
 from .unified_testing_framework import (
-    UnifiedTestingFramework, TestFrameworkType, TestSuiteConfig, TestSuiteResult
+    UnifiedTestingFramework,
+    TestFrameworkType,
+    TestSuiteConfig,
+    TestSuiteResult,
 )
 
 # Test suite consolidator (TASK 3H)
 from .test_suite_consolidator import (
-    TestSuiteConsolidator, TestCategory, TestFileInfo, ConsolidationPlan
+    TestSuiteConsolidator,
+    TestCategory,
+    TestFileInfo,
+    ConsolidationPlan,
 )
 
 # Testing system eliminator (TASK 3H)
 from .testing_system_eliminator import (
-    TestingSystemEliminator, EliminationTarget, EliminationPlan
+    TestingSystemEliminator,
+    EliminationTarget,
+    EliminationPlan,
 )
-
-# Example tests
-from .example_tests import ExampleTestSuite
 
 __all__ = [
     # Core testing components
-    'TestExecutor',
-    'TestRunner', 
-    'BaseTest',
-    'TestResult',
-    'TestStatus',
-    'TestType',
-    
+    "TestExecutor",
+    "TestRunner",
+    "BaseTest",
+    "BaseIntegrationTest",
+    "TestResult",
+    "TestStatus",
+    "TestType",
+    "TestPriority",
+    "TestEnvironment",
+    "TestSuite",
+    "TestReport",
+    "discover_test_files",
+    "summarize_results",
+    "print_execution_summary",
     # Testing orchestration and reporting
-    'TestingOrchestrator',
-    'TestingReporter',
-    'TestCategories',
-    'OutputFormatter',
-    'TestingTypes',
-    
+    "TestingOrchestrator",
+    "TestingReporter",
+    "TestCategories",
+    "OutputFormatter",
     # CLI handlers
-    'RunCommandHandler',
-    'ReportCommandHandler',
-    'StatusCommandHandler',
-    'RegisterCommandHandler',
-    'SuiteCommandHandler',
-    'ResultsCommandHandler',
-    
+    "RunCommandHandler",
+    "ReportCommandHandler",
+    "StatusCommandHandler",
+    "RegisterCommandHandler",
+    "SuiteCommandHandler",
+    "ResultsCommandHandler",
     # Unified testing system (TASK 3G)
-    'UnifiedTestingSystem',
-    'TestExecutionConfig',
-    'TestFramework',
-    
+    "UnifiedTestingSystem",
+    "TestExecutionConfig",
+    "TestFramework",
     # Testing infrastructure manager (TASK 3G)
-    'TestingInfrastructureManager',
-    'TestingDependency',
-    'TestDirectory',
-    'DependencyStatus',
-    
+    "TestingInfrastructureManager",
+    "TestingDependency",
+    "TestDirectory",
+    "DependencyStatus",
     # Unified testing framework (TASK 3H)
-    'UnifiedTestingFramework',
-    'TestFrameworkType',
-    'TestSuiteConfig',
-    'TestSuiteResult',
-    
+    "UnifiedTestingFramework",
+    "TestFrameworkType",
+    "TestSuiteConfig",
+    "TestSuiteResult",
     # Test suite consolidator (TASK 3H)
-    'TestSuiteConsolidator',
-    'TestCategory',
-    'TestFileInfo',
-    'ConsolidationPlan',
-    
+    "TestSuiteConsolidator",
+    "TestCategory",
+    "TestFileInfo",
+    "ConsolidationPlan",
     # Testing system eliminator (TASK 3H)
-    'TestingSystemEliminator',
-    'EliminationTarget',
-    'EliminationPlan',
-    
-    # Example tests
-    'ExampleTestSuite'
+    "TestingSystemEliminator",
+    "EliminationTarget",
+    "EliminationPlan",
 ]
 
 # Version information

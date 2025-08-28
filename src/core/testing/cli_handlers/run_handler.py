@@ -5,19 +5,19 @@ Handles test execution commands for the testing framework CLI.
 """
 
 from typing import List
-from src.core.testing.testing_types import TestType, TestPriority
+from src.core.testing.testing_utils import TestType, TestPriority
 
 
 class RunCommandHandler:
     """Handles test execution commands"""
-    
+
     def __init__(self, orchestrator):
         self.orchestrator = orchestrator
-    
+
     def handle(self, args) -> int:
         """Handle the run command"""
         results = []
-        
+
         if args.all:
             print("🧪 Running all registered tests...")
             results = self.orchestrator.run_all_tests()
@@ -40,19 +40,18 @@ class RunCommandHandler:
         else:
             print("No run target specified. Use --help for usage information.")
             return 1
-        
+
         if results:
             print(f"\n✅ Test execution completed. {len(results)} tests run.")
-            
+
             # Save results if requested
             if args.save_results:
                 filepath = self.orchestrator.save_results(args.save_results)
                 print(f"📁 Results saved to: {filepath}")
-            
+
             # Print summary
             self.orchestrator.print_status()
         else:
             print("No tests were executed.")
-        
-        return 0
 
+        return 0

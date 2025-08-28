@@ -15,7 +15,7 @@ from launch_performance_validator import (
     get_system_status as validator_get_system_status,
     get_health_status as validator_get_health_status,
 )
-from services.performance_monitor import PerformanceMonitor
+from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
 from services.dashboard_backend import DashboardBackend
 from services.dashboard import DashboardFrontend
 from services.performance_alerting import AlertingSystem

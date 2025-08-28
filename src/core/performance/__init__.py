@@ -15,10 +15,12 @@ License: MIT
 # Core performance monitoring
 from .monitoring.performance_monitor import (
     PerformanceMonitor,
+    PerformanceLevel,
+)
+from .monitoring.performance_types import (
     MetricType,
     MonitorMetric,
     MonitorSnapshot,
-    PerformanceLevel
 )
 
 # Core performance system

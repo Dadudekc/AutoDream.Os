@@ -397,10 +397,14 @@
             alertDiv.style.top = '80px';
             alertDiv.style.right = '20px';
             alertDiv.style.zIndex = '1050';
-            alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" title="Close" aria-label="Close"></button>
-            `;
+            alertDiv.textContent = message;
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn-close';
+            button.setAttribute('data-bs-dismiss', 'alert');
+            button.setAttribute('title', 'Close');
+            button.setAttribute('aria-label', 'Close');
+            alertDiv.appendChild(button);
 
             document.body.appendChild(alertDiv);
 

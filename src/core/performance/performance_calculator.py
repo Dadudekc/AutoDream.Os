@@ -14,6 +14,7 @@ from .performance_types import (
     PerformanceBenchmark, PerformanceLevel, OptimizationTarget,
     PerformanceThresholds
 )
+from .common_metrics import DEFAULT_METRIC_WEIGHTS
 
 
 class PerformanceCalculator:
@@ -91,14 +92,8 @@ class PerformanceCalculator:
         if not benchmarks:
             return 0.0
         
-        # Weight different benchmark types
-        weights = {
-            "response_time": 0.25,
-            "throughput": 0.25,
-            "scalability": 0.20,
-            "reliability": 0.20,
-            "latency": 0.10
-        }
+        # Weight different benchmark types using shared configuration
+        weights = DEFAULT_METRIC_WEIGHTS
         
         total_score = 0.0
         total_weight = 0.0

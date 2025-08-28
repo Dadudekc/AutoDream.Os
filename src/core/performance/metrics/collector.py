@@ -15,11 +15,11 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from .types import MetricData, MetricType
-from .benchmarks import (
-    BenchmarkManager,
+from .benchmarks import BenchmarkManager, PerformanceBenchmark
+from ..common_metrics import (
     BenchmarkType,
-    PerformanceBenchmark,
     PerformanceLevel,
+    DEFAULT_BENCHMARK_TARGETS,
 )
 
 
@@ -41,13 +41,8 @@ class MetricsCollector:
 
         # Benchmark storage
         self.benchmarks = BenchmarkManager()
-        self.benchmark_targets = {
-            BenchmarkType.RESPONSE_TIME: {"target": 100, "unit": "ms"},
-            BenchmarkType.THROUGHPUT: {"target": 1000, "unit": "ops/sec"},
-            BenchmarkType.SCALABILITY: {"target": 100, "unit": "concurrent_users"},
-            BenchmarkType.RELIABILITY: {"target": 99.9, "unit": "%"},
-            BenchmarkType.LATENCY: {"target": 50, "unit": "ms"},
-        }
+        # Use shared default targets so all collectors remain consistent
+        self.benchmark_targets = DEFAULT_BENCHMARK_TARGETS.copy()
         self.logger = logging.getLogger(f"{__name__}.MetricsCollector")
 
     async def collect_metrics(self) -> List[MetricData]:

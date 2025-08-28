@@ -2,28 +2,9 @@
 import logging
 import statistics
 from dataclasses import dataclass
-from enum import Enum
 from typing import Any, Dict, List, Optional
 
-
-class BenchmarkType(Enum):
-    """Performance benchmark types"""
-
-    RESPONSE_TIME = "response_time"
-    THROUGHPUT = "throughput"
-    SCALABILITY = "scalability"
-    RELIABILITY = "reliability"
-    RESOURCE_UTILIZATION = "resource_utilization"
-    LATENCY = "latency"
-
-
-class PerformanceLevel(Enum):
-    """Performance level classifications"""
-
-    ENTERPRISE_READY = "enterprise_ready"
-    PRODUCTION_READY = "production_ready"
-    DEVELOPMENT_READY = "development_ready"
-    NOT_READY = "not_ready"
+from ..common_metrics import BenchmarkType, PerformanceLevel
 
 
 @dataclass

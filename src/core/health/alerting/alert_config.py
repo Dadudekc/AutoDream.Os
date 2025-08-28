@@ -1,4 +1,4 @@
-"""Configuration helpers for the health alerting subsystem."""
+"""Configuration helpers and default settings for health alerts."""
 
 from __future__ import annotations
 
@@ -13,6 +13,15 @@ from .models import (
     AlertSeverity,
 )
 
+# Default metric thresholds shared across the alerting system
+DEFAULT_THRESHOLDS: Dict[str, Dict[str, float]] = {
+    "cpu_usage": {"warning": 70.0, "critical": 90.0, "emergency": 95.0},
+    "memory_usage": {"warning": 75.0, "critical": 90.0, "emergency": 95.0},
+    "disk_usage": {"warning": 80.0, "critical": 90.0, "emergency": 95.0},
+    "response_time": {"warning": 2.0, "critical": 5.0, "emergency": 10.0},
+    "error_rate": {"warning": 5.0, "critical": 15.0, "emergency": 25.0},
+}
+
 
 def load_default_rules() -> Dict[str, AlertRule]:
     """Return the default set of alert rules."""
@@ -26,7 +35,7 @@ def load_default_rules() -> Dict[str, AlertRule]:
             conditions={
                 "metric": "cpu_usage",
                 "operator": ">",
-                "threshold": 85.0,
+                "threshold": DEFAULT_THRESHOLDS["cpu_usage"]["critical"],
                 "duration": 300,
             },
             notification_channels=[
@@ -42,7 +51,7 @@ def load_default_rules() -> Dict[str, AlertRule]:
             conditions={
                 "metric": "memory_usage",
                 "operator": ">",
-                "threshold": 90.0,
+                "threshold": DEFAULT_THRESHOLDS["memory_usage"]["critical"],
                 "duration": 300,
             },
             notification_channels=[
@@ -58,7 +67,7 @@ def load_default_rules() -> Dict[str, AlertRule]:
             conditions={
                 "metric": "response_time",
                 "operator": ">",
-                "threshold": 5000.0,
+                "threshold": DEFAULT_THRESHOLDS["response_time"]["critical"] * 1000,
                 "duration": 60,
             },
             notification_channels=[
@@ -76,7 +85,7 @@ def load_default_rules() -> Dict[str, AlertRule]:
             conditions={
                 "metric": "error_rate",
                 "operator": ">",
-                "threshold": 10.0,
+                "threshold": DEFAULT_THRESHOLDS["error_rate"]["critical"],
                 "duration": 600,
             },
             notification_channels=[

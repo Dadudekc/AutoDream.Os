@@ -33,7 +33,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from core.managers.base_manager import BaseManager
 from core.refactoring.automated_refactoring_workflows import AutomatedRefactoringWorkflows, WorkflowType
-from core.refactoring.workflow_validation_system import WorkflowValidationSystem, ValidationLevel
+from core.workflow_validation import WorkflowValidationSystem, ValidationLevel
 from core.refactoring.workflow_reliability_testing import WorkflowReliabilityTesting
 
 # Configure logging

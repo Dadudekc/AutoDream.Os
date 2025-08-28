@@ -33,7 +33,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 from core.managers.base_manager import BaseManager
 from core.refactoring.refactoring_performance_metrics import RefactoringPerformanceMetrics
 from core.refactoring.performance_dashboard import RefactoringPerformanceDashboard
-from core.refactoring.baseline_measurements import RefactoringBaselineMeasurements
+from core.baseline.measurements import RefactoringBaselineMeasurements
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

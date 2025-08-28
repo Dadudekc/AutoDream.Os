@@ -3,6 +3,10 @@
 Workflow Validation System - Agent-5
 ====================================
 
+Responsibilities:
+- Define and run validation rules for workflows.
+- Aggregate outcomes and generate reports.
+
 This module implements a comprehensive validation system for automated refactoring
 workflows as part of contract REFACTOR-002 deliverables.
 

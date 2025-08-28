@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 
+from .common_algorithms import calculate_max_drawdown, calculate_beta, calculate_alpha
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -155,8 +157,8 @@ class PortfolioRiskModels:
             cvar_99 = self.calculate_conditional_var(portfolio_returns, 0.99)
             
             # Calculate max drawdown
-            max_drawdown = self._calculate_max_drawdown(portfolio_returns)
-            
+            max_drawdown = calculate_max_drawdown(portfolio_returns)
+
             # Calculate Sharpe ratio
             sharpe_ratio = self._calculate_sharpe_ratio(portfolio_returns)
             
@@ -168,10 +170,10 @@ class PortfolioRiskModels:
             alpha = 0.0
             information_ratio = 0.0
             tracking_error = 0.0
-            
+
             if benchmark_returns is not None:
-                beta = self._calculate_beta(portfolio_returns, benchmark_returns)
-                alpha = self._calculate_alpha(portfolio_returns, benchmark_returns)
+                beta = calculate_beta(portfolio_returns, benchmark_returns)
+                alpha = calculate_alpha(portfolio_returns, benchmark_returns, self.risk_free_rate)
                 information_ratio = self._calculate_information_ratio(portfolio_returns, benchmark_returns)
                 tracking_error = self._calculate_tracking_error(portfolio_returns, benchmark_returns)
             
@@ -287,28 +289,6 @@ class PortfolioRiskModels:
             logger.error(f"Error calculating portfolio returns: {e}")
             return pd.Series()
 
-    def _calculate_max_drawdown(self, returns: pd.Series) -> float:
-        """Calculate maximum drawdown"""
-        try:
-            if returns.empty:
-                return 0.0
-            
-            # Calculate cumulative returns
-            cumulative_returns = (1 + returns).cumprod()
-            
-            # Calculate running maximum
-            running_max = cumulative_returns.expanding().max()
-            
-            # Calculate drawdown
-            drawdown = (cumulative_returns - running_max) / running_max
-            
-            # Return maximum drawdown
-            return abs(drawdown.min())
-            
-        except Exception as e:
-            logger.error(f"Error calculating max drawdown: {e}")
-            return 0.0
-
     def _calculate_sharpe_ratio(self, returns: pd.Series) -> float:
         """Calculate Sharpe ratio"""
         try:
@@ -340,59 +320,6 @@ class PortfolioRiskModels:
             
         except Exception as e:
             logger.error(f"Error calculating Sortino ratio: {e}")
-            return 0.0
-
-    def _calculate_beta(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
-        """Calculate portfolio beta relative to benchmark"""
-        try:
-            if portfolio_returns.empty or benchmark_returns.empty:
-                return 1.0
-            
-            # Align returns
-            aligned_returns = pd.concat([portfolio_returns, benchmark_returns], axis=1).dropna()
-            
-            if len(aligned_returns) < 2:
-                return 1.0
-            
-            portfolio_ret = aligned_returns.iloc[:, 0]
-            benchmark_ret = aligned_returns.iloc[:, 1]
-            
-            # Calculate beta
-            covariance = np.cov(portfolio_ret, benchmark_ret)[0, 1]
-            benchmark_variance = np.var(benchmark_ret)
-            
-            return covariance / benchmark_variance if benchmark_variance != 0 else 1.0
-            
-        except Exception as e:
-            logger.error(f"Error calculating beta: {e}")
-            return 1.0
-
-    def _calculate_alpha(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:
-        """Calculate portfolio alpha"""
-        try:
-            if portfolio_returns.empty or benchmark_returns.empty:
-                return 0.0
-            
-            beta = self._calculate_beta(portfolio_returns, benchmark_returns)
-            
-            # Align returns
-            aligned_returns = pd.concat([portfolio_returns, benchmark_returns], axis=1).dropna()
-            
-            if len(aligned_returns) < 2:
-                return 0.0
-            
-            portfolio_ret = aligned_returns.iloc[:, 0]
-            benchmark_ret = aligned_returns.iloc[:, 1]
-            
-            # Calculate alpha
-            portfolio_mean = portfolio_ret.mean() * 252  # Annualized
-            benchmark_mean = benchmark_ret.mean() * 252  # Annualized
-            
-            alpha = portfolio_mean - (self.risk_free_rate + beta * (benchmark_mean - self.risk_free_rate))
-            return alpha
-            
-        except Exception as e:
-            logger.error(f"Error calculating alpha: {e}")
             return 0.0
 
     def _calculate_information_ratio(self, portfolio_returns: pd.Series, benchmark_returns: pd.Series) -> float:

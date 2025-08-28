@@ -1,3 +1,5 @@
+import { dom as domUtils, createEventBus } from '../shared_utils.js';
+
 /**
  * Portal Framework JavaScript
  * Agent_Cellphone_V2_Repository - Unified Portal Architecture
@@ -13,7 +15,7 @@ import { debounce } from './utils.js';
         version: '1.0.0',
         config: {},
         components: {},
-        events: {},
+        events: createEventBus(),
         utils: {}
     };
 
@@ -49,115 +51,10 @@ import { debounce } from './utils.js';
         charts: null
     };
 
-    // Event System
-    PortalFramework.events = {
-        listeners: {},
-
-        on: function(event, callback) {
-            if (!this.listeners[event]) {
-                this.listeners[event] = [];
-            }
-            this.listeners[event].push(callback);
-        },
-
-        emit: function(event, data) {
-            if (this.listeners[event]) {
-                this.listeners[event].forEach(function(callback) {
-                    try {
-                        callback(data);
-                    } catch (error) {
-                        console.error('Error in event listener:', error);
-                    }
-                });
-            }
-        },
-
-        off: function(event, callback) {
-            if (this.listeners[event]) {
-                const index = this.listeners[event].indexOf(callback);
-                if (index > -1) {
-                    this.listeners[event].splice(index, 1);
-                }
-            }
-        }
-    };
-
     // Utility Functions
     PortalFramework.utils = {
         // DOM utilities
-        dom: {
-            ready: function(callback) {
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', callback);
-                } else {
-                    callback();
-                }
-            },
-
-            createElement: function(tag, attributes, content) {
-                const element = document.createElement(tag);
-
-                if (attributes) {
-                    Object.keys(attributes).forEach(function(key) {
-                        if (key === 'className') {
-                            element.className = attributes[key];
-                        } else if (key === 'textContent') {
-                            element.textContent = attributes[key];
-                        } else {
-                            element.setAttribute(key, attributes[key]);
-                        }
-                    });
-                }
-
-                if (content) {
-                    if (typeof content === 'string') {
-                        element.textContent = content;
-                    } else if (content instanceof HTMLElement) {
-                        element.appendChild(content);
-                    } else if (Array.isArray(content)) {
-                        content.forEach(function(item) {
-                            element.appendChild(item);
-                        });
-                    }
-                }
-
-                return element;
-            },
-
-            addClass: function(element, className) {
-                if (element.classList) {
-                    element.classList.add(className);
-                } else {
-                    element.className += ' ' + className;
-                }
-            },
-
-            removeClass: function(element, className) {
-                if (element.classList) {
-                    element.classList.remove(className);
-                } else {
-                    element.className = element.className.replace(
-                        new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' '
-                    );
-                }
-            },
-
-            hasClass: function(element, className) {
-                if (element.classList) {
-                    return element.classList.contains(className);
-                } else {
-                    return new RegExp('(^| )' + className + '( |$)', 'gi').test(element.className);
-                }
-            },
-
-            toggleClass: function(element, className) {
-                if (this.hasClass(element, className)) {
-                    this.removeClass(element, className);
-                } else {
-                    this.addClass(element, className);
-                }
-            }
-        },
+        dom: domUtils,
 
         // Storage utilities
         storage: {

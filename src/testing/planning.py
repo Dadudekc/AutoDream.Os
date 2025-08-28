@@ -1,9 +1,9 @@
 from pathlib import Path
 from typing import List
 
-from src.utils.logger import get_logger
+from .logging_utils import setup_logger
 
-logger = get_logger(__name__)
+logger = setup_logger(__name__)
 
 def collect_tests(tests_dir: Path) -> List[Path]:
     """Gather test files from the given directory."""

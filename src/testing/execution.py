@@ -5,9 +5,9 @@ from typing import List, Dict, Any
 import pytest
 import coverage
 
-from src.utils.logger import get_logger
+from .logging_utils import setup_logger
 
-logger = get_logger(__name__)
+logger = setup_logger(__name__)
 
 def run_tests(test_files: List[Path], source_dir: Path) -> Dict[str, Any]:
     """Execute tests and return pass status and coverage percentage."""

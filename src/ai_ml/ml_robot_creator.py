@@ -1,4 +1,5 @@
 """Task and blueprint generation for the modular ML Robot system."""
+
 from __future__ import annotations
 
 import json
@@ -13,18 +14,22 @@ try:
     from ml_robot_validator import validate_blueprint_config
 except ImportError:
     from unittest.mock import Mock
+
     validate_blueprint_config = Mock(return_value={})
 
 try:
     from ml_frameworks import MLFrameworkManager
 except ImportError:
     from unittest.mock import Mock
+
     MLFrameworkManager = Mock
 
 try:
-    from integrations import OpenAIIntegration, AnthropicIntegration
+    from .openai_integration import OpenAIIntegration
+    from .anthropic_integration import AnthropicIntegration
 except ImportError:
     from unittest.mock import Mock
+
     OpenAIIntegration = Mock
     AnthropicIntegration = Mock
 
@@ -108,9 +113,8 @@ class MLRobotCreator:
         return self._rule_based_blueprint_generation(task)
 
     def _create_prompt(self, task: MLTask) -> str:
-        return (
-            "Generate a JSON blueprint for the following ML task:\n" +
-            json.dumps(task.to_dict(), indent=2)
+        return "Generate a JSON blueprint for the following ML task:\n" + json.dumps(
+            task.to_dict(), indent=2
         )
 
     def _rule_based_blueprint_generation(self, task: MLTask) -> Dict[str, Any]:
@@ -124,7 +128,11 @@ class MLRobotCreator:
             "framework": "scikit_learn",
             "architecture": arch,
             "hyperparameters": {"learning_rate": 0.001, "batch_size": 32, "epochs": 10},
-            "training_config": {"optimizer": "adam", "loss_function": "auto", "validation_split": 0.2},
+            "training_config": {
+                "optimizer": "adam",
+                "loss_function": "auto",
+                "validation_split": 0.2,
+            },
             "evaluation_metrics": ["accuracy"],
         }
 

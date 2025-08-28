@@ -18,6 +18,8 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 from .base_runner import BaseTestRunner
+from tests.testing_config import REPO_ROOT
+from tests.submodules.test_execution import execute_command, parse_test_results
 
 # Color support
 try:
@@ -163,10 +165,12 @@ class UnifiedTestRunner(BaseTestRunner):
         )
 
         # Execute tests
-        execution_result = self.execute_command(cmd, timeout=config["timeout"])
+        execution_result = execute_command(
+            cmd, cwd=self.repo_root, timeout=config["timeout"]
+        )
 
         # Parse results
-        results = self.parse_test_results(execution_result)
+        results = parse_test_results(execution_result)
         results["category"] = category
         results["config"] = config
 
@@ -249,8 +253,8 @@ class UnifiedTestRunner(BaseTestRunner):
             verbose=kwargs.get("verbose", True),
         )
 
-        execution_result = self.execute_command(cmd)
-        results = self.parse_test_results(execution_result)
+        execution_result = execute_command(cmd, cwd=self.repo_root)
+        results = parse_test_results(execution_result)
         results["files"] = [str(f) for f in file_paths]
 
         return results
@@ -337,8 +341,7 @@ Examples:
     args = parser.parse_args()
 
     # Setup runner
-    repo_root = Path(__file__).parent.parent.parent
-    runner = UnifiedTestRunner(repo_root)
+    runner = UnifiedTestRunner(REPO_ROOT)
 
     # Prepare kwargs
     kwargs = {

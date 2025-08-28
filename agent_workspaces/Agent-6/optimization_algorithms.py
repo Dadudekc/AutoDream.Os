@@ -2,25 +2,14 @@ import logging
 from datetime import datetime
 from typing import Any, Dict, List
 
-from metric_collection import MetricCollector
-
 
 class OptimizationAlgorithms:
-    """Implements the algorithms used to optimise system performance."""
+    """Implement algorithms used to optimise system performance."""
 
     def __init__(self) -> None:
         self.logger = logging.getLogger(__name__ + ".OptimizationAlgorithms")
 
-    # --- Analysis and strategy -------------------------------------------------
-    def analyze_current_performance(self, collector: MetricCollector) -> Dict[str, Any]:
-        """Collect metrics and establish a performance baseline."""
-        metrics = collector.collect_all()
-        metrics["performance_patterns"] = collector.analyze_performance_patterns()
-        metrics["baseline_established"] = True
-        metrics["analysis_timestamp"] = datetime.now().isoformat()
-        self.logger.debug("Performance analysis: %s", metrics)
-        return metrics
-
+    # --- Strategy --------------------------------------------------------------
     def develop_optimization_strategies(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
         """Create a very small placeholder set of optimisation strategies."""
         strategies = {

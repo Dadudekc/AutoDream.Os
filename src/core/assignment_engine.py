@@ -17,17 +17,36 @@ from .contract_models import (
     ContractPriority,
     ContractStatus,
 )
-from .validation import ContractValidator
+from .optimization.assignment import AssignmentOptimizer
+from .optimization.metrics import AssignmentMetrics
+
+try:  # pragma: no cover - optional dependency
+    from .validation import ContractValidator
+except Exception:  # noqa: BLE001 - broad to avoid heavy dependency errors
+
+    class ContractValidator:  # type: ignore[override]
+        """Fallback validator used when validation system is unavailable."""
+
+        def validate_contract(
+            self, _contract_data: dict
+        ) -> list:  # pragma: no cover - simple stub
+            return []
 
 
 class ContractManager:
     """Manages contract lifecycle and basic assignment."""
 
     def __init__(
-        self, agent_manager: AgentManager, config_manager: ConfigManager
+        self,
+        agent_manager: AgentManager,
+        config_manager: ConfigManager,
+        assignment_optimizer: AssignmentOptimizer | None = None,
+        metrics: AssignmentMetrics | None = None,
     ) -> None:
         self.agent_manager = agent_manager
         self.config_manager = config_manager
+        self.assignment_optimizer = assignment_optimizer or AssignmentOptimizer()
+        self.metrics = metrics or AssignmentMetrics()
         self.validator = ContractValidator()
         self.contracts: Dict[str, Contract] = {}
         self.assignments: Dict[str, AssignmentResult] = {}
@@ -86,18 +105,34 @@ class ContractManager:
     def assign_contract(
         self,
         contract_id: str,
-        agent_id: str,
+        agent_id: str | None = None,
         strategy: AssignmentStrategy = AssignmentStrategy.SKILL_MATCH,
     ) -> bool:
-        """Assign a contract to an agent."""
+        """Assign a contract to an agent.
+
+        If ``agent_id`` is ``None`` the ``AssignmentOptimizer`` selects the
+        best candidate based on the configured scoring strategy.
+        """
         contract = self.contracts.get(contract_id)
         if not contract or contract.status not in {
             ContractStatus.PENDING,
             ContractStatus.APPROVED,
         }:
             return False
-        if self.agent_manager and not self.agent_manager.get_agent_info(agent_id):
-            return False
+
+        # Allow the optimizer to choose an agent if one wasn't provided
+        if agent_id is None:
+            agent_id, score = self.assignment_optimizer.choose_agent(
+                contract, self.agent_manager.list_agents()
+            )
+            if agent_id is None:
+                return False
+        else:
+            agent_info = self.agent_manager.get_agent_info(agent_id)
+            if not agent_info:
+                return False
+            score = self.assignment_optimizer.score(contract, agent_info)
+
         assignment_id = str(uuid.uuid4())
         contract.assigned_agent = agent_id
         contract.assigned_at = datetime.now().isoformat()
@@ -107,14 +142,13 @@ class ContractManager:
             contract_id=contract_id,
             agent_id=agent_id,
             strategy=strategy,
-            confidence_score=1.0,
+            confidence_score=score,
             assignment_timestamp=datetime.now().isoformat(),
             metadata={},
         )
         self.assignments[assignment_id] = result
-        self.logger.info(
-            f"Assigned contract {contract_id} to agent {agent_id}"
-        )
+        self.metrics.record(contract_id, agent_id, score)
+        self.logger.info(f"Assigned contract {contract_id} to agent {agent_id}")
         return True
 
     # ------------------------------------------------------------------

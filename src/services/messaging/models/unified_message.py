@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Unified Message System - Agent Cellphone V2
 =========================================
@@ -16,11 +17,10 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import uuid
 import logging
 from datetime import datetime
-from typing import Dict, Any, List, Optional, Union
-from dataclasses import dataclass, field
+from typing import Any, ClassVar, Dict, List, Optional, Type
+from dataclasses import dataclass
 from enum import Enum
 
 logger = logging.getLogger(__name__)
@@ -92,91 +92,49 @@ class UnifiedMessageTag(Enum):
 # UNIFIED MESSAGE CLASS (Consolidated from all Message classes)
 # ============================================================================
 
+from .base_message import BaseMessage
+
+
 @dataclass
-class UnifiedMessage:
+class UnifiedMessage(BaseMessage):
     """
     Unified Message - Single source of truth for ALL message functionality
-    
+
     Consolidates functionality from:
     - Message (coordination system)
     - V2Message (comprehensive system)
     - AgentMessage (V1 compatibility)
-    
+
     Follows V2 standards: Single responsibility, comprehensive functionality
     """
-    
-    # Core identification
-    message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+
     message_type: UnifiedMessageType = UnifiedMessageType.COORDINATION
     priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL
     status: UnifiedMessageStatus = UnifiedMessageStatus.PENDING
     tag: UnifiedMessageTag = UnifiedMessageTag.NORMAL
-    
-    # Sender and recipient
-    sender_id: str = ""
-    recipient_id: str = ""
-    
-    # Content and payload
-    subject: str = ""
-    content: str = ""
-    payload: Dict[str, Any] = field(default_factory=dict)
-    
-    # Timestamps
-    timestamp: datetime = field(default_factory=datetime.now)
-    created_at: datetime = field(default_factory=datetime.now)
-    delivered_at: Optional[datetime] = None
-    acknowledged_at: Optional[datetime] = None
-    read_at: Optional[datetime] = None
+
     expires_at: Optional[datetime] = None
-    
-    # Delivery and retry
-    retry_count: int = 0
-    max_retries: int = 3
-    ttl: Optional[int] = None
-    
-    # Coordination and workflow
-    sequence_number: Optional[int] = None
-    dependencies: List[str] = field(default_factory=list)
-    workflow_id: Optional[str] = None
-    task_id: Optional[str] = None
-    phase_number: Optional[int] = None
-    
-    # Metadata and flags
-    tags: List[str] = field(default_factory=list)
-    requires_acknowledgment: bool = False
-    is_onboarding_message: bool = False
     is_broadcast: bool = False
-    
-    # V1 compatibility fields
     from_agent: Optional[str] = None
     to_agent: Optional[str] = None
+
+    _enum_fields: ClassVar[Dict[str, Type[Enum]]] = {
+        "message_type": UnifiedMessageType,
+        "priority": UnifiedMessagePriority,
+        "status": UnifiedMessageStatus,
+        "tag": UnifiedMessageTag,
+    }
     
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Ensure required fields are set and V1 compatibility maintained"""
-        # Set message_id if not provided
-        if not self.message_id:
-            self.message_id = str(uuid.uuid4())
-        
-        # Set timestamps if not provided
-        if not self.timestamp:
-            self.timestamp = datetime.now()
-        if not self.created_at:
-            self.created_at = self.timestamp
-        
-        # Initialize collections if None
-        if self.payload is None:
-            self.payload = {}
-        if self.dependencies is None:
-            self.dependencies = []
-        if self.tags is None:
-            self.tags = []
-        
+        super().__post_init__()
+
         # V1 compatibility: set from_agent/to_agent if not set
         if not self.from_agent and self.sender_id:
             self.from_agent = self.sender_id
         if not self.to_agent and self.recipient_id:
             self.to_agent = self.recipient_id
-        
+
         # Set V1 compatibility fields
         if self.from_agent and not self.sender_id:
             self.sender_id = self.from_agent
@@ -242,62 +200,25 @@ class UnifiedMessage:
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert message to dictionary for serialization"""
-        return {
-            "message_id": self.message_id,
-            "message_type": self.message_type.value,
-            "priority": self.priority.value,
-            "status": self.status.value,
+        data = super().to_dict()
+        data.update({
             "tag": self.tag.value,
-            "sender_id": self.sender_id,
-            "recipient_id": self.recipient_id,
-            "subject": self.subject,
-            "content": self.content,
-            "payload": self.payload,
-            "timestamp": self.timestamp.isoformat(),
-            "created_at": self.created_at.isoformat(),
-            "delivered_at": self.delivered_at.isoformat() if self.delivered_at else None,
-            "acknowledged_at": self.acknowledged_at.isoformat() if self.acknowledged_at else None,
-            "read_at": self.read_at.isoformat() if self.read_at else None,
             "expires_at": self.expires_at.isoformat() if self.expires_at else None,
-            "retry_count": self.retry_count,
-            "max_retries": self.max_retries,
-            "ttl": self.ttl,
-            "sequence_number": self.sequence_number,
-            "dependencies": self.dependencies,
-            "workflow_id": self.workflow_id,
-            "task_id": self.task_id,
-            "phase_number": self.phase_number,
-            "tags": self.tags,
-            "requires_acknowledgment": self.requires_acknowledgment,
-            "is_onboarding_message": self.is_onboarding_message,
             "is_broadcast": self.is_broadcast,
             "from_agent": self.from_agent,
-            "to_agent": self.to_agent
-        }
-    
+            "to_agent": self.to_agent,
+        })
+        return data
+
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'UnifiedMessage':
+    def from_dict(cls, data: Dict[str, Any]) -> "UnifiedMessage":
         """Create message from dictionary"""
-        # Convert timestamp strings back to datetime objects
-        timestamp_fields = ['timestamp', 'created_at', 'delivered_at', 'acknowledged_at', 'read_at', 'expires_at']
-        for field in timestamp_fields:
-            if field in data and isinstance(data[field], str):
-                try:
-                    data[field] = datetime.fromisoformat(data[field])
-                except ValueError:
-                    data[field] = None
-        
-        # Convert enum values back to enum objects
-        if 'message_type' in data and isinstance(data['message_type'], str):
-            data['message_type'] = UnifiedMessageType(data['message_type'])
-        if 'priority' in data and isinstance(data['priority'], str):
-            data['priority'] = UnifiedMessagePriority(data['priority'])
-        if 'status' in data and isinstance(data['status'], str):
-            data['status'] = UnifiedMessageStatus(data['status'])
-        if 'tag' in data and isinstance(data['tag'], str):
-            data['tag'] = UnifiedMessageTag(data['tag'])
-        
-        return cls(**data)
+        if "expires_at" in data and isinstance(data["expires_at"], str):
+            try:
+                data["expires_at"] = datetime.fromisoformat(data["expires_at"])
+            except ValueError:
+                data["expires_at"] = None
+        return super().from_dict(data)
     
     # ============================================================================
     # V1 COMPATIBILITY METHODS

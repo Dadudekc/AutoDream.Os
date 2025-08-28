@@ -15,14 +15,7 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime
 from enum import Enum
 
-
-class MetricType(Enum):
-    """Types of metrics that can be collected."""
-    GAUGE = "gauge"  # Current value (e.g., CPU usage)
-    COUNTER = "counter"  # Incrementing value (e.g., request count)
-    HISTOGRAM = "histogram"  # Distribution of values
-    TIMER = "timer"  # Timing measurements
-    SET = "set"  # Unique values count
+from src.services.metrics_definitions import MetricType
 
 
 class MetricStatus(Enum):

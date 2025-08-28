@@ -1,4 +1,10 @@
-"""Core metric collector implementations."""
+"""Metric gathering implementations.
+
+This module provides concrete collectors responsible for gathering system,
+application, network and custom metrics.  It is adapted from the previous
+``metrics_collector_core`` module with streamlined imports and shared metric
+definitions.
+"""
 from __future__ import annotations
 
 import asyncio
@@ -7,18 +13,15 @@ from typing import Callable, Dict, List
 
 import psutil
 
-from src.core.performance.metrics.collector import (
-    MetricsCollector,
-    MetricData,
-    MetricType,
-)
+from src.core.performance.metrics.collector import MetricsCollector
+from .metrics_definitions import MetricData, MetricType
 from .metrics_collector_config import CollectorConfig
 
 
 class BaseCollector(MetricsCollector):
     """Common logic shared by all collectors."""
 
-    def __init__(self, config: CollectorConfig | None = None):
+    def __init__(self, config: CollectorConfig | None = None) -> None:
         config = config or CollectorConfig()
         super().__init__(config.collection_interval)
         self.config = config
@@ -32,7 +35,7 @@ class BaseCollector(MetricsCollector):
         description: str = "",
         tags: Dict[str, str] | None = None,
     ) -> MetricData:
-        """Helper to build a MetricData instance."""
+        """Helper to build a :class:`MetricData` instance."""
         full_tags = dict(self.config.tags)
         if tags:
             full_tags.update(tags)
@@ -48,29 +51,15 @@ class BaseCollector(MetricsCollector):
 
 
 class SystemMetricsCollector(BaseCollector):
-    """Collect system-level metrics using `psutil`.
-
-    Requirements:
-        - ``psutil`` must be available in the environment.
-
-    Metrics collected (with units):
-        - ``cpu_usage_percent`` (percent)
-        - ``memory_usage_percent`` (percent)
-        - ``disk_usage_percent`` (percent)
-    """
+    """Collect system-level metrics using :mod:`psutil`."""
 
     async def collect_metrics(self) -> List[MetricData]:
-        """Gather CPU, memory and disk statistics.
-
-        Returns:
-            List[MetricData]: Collected metric values with units.
-        """
+        """Gather CPU, memory and disk statistics."""
         if not self.enabled:
             return []
 
         metrics: List[MetricData] = []
 
-        # CPU usage
         metrics.append(
             self._metric(
                 "cpu_usage_percent",
@@ -80,19 +69,16 @@ class SystemMetricsCollector(BaseCollector):
             )
         )
 
-        # Memory usage
         memory = psutil.virtual_memory()
         metrics.append(
             self._metric(
                 "memory_usage_percent",
                 memory.percent,
                 unit="percent",
-            
                 description="Memory usage percentage",
             )
         )
 
-        # Disk usage
         disk = psutil.disk_usage("/")
         metrics.append(
             self._metric(
@@ -107,14 +93,9 @@ class SystemMetricsCollector(BaseCollector):
 
 
 class ApplicationMetricsCollector(BaseCollector):
-    """Collect basic runtime information about the current process.
+    """Collect basic runtime information about the current process."""
 
-    Metrics collected (with units):
-        - ``app_uptime_seconds`` (seconds)
-        - ``event_loop_tasks`` (count)
-    """
-
-    def __init__(self, config: CollectorConfig | None = None):
+    def __init__(self, config: CollectorConfig | None = None) -> None:
         super().__init__(config)
         self.start_time = time.time()
 
@@ -140,15 +121,7 @@ class ApplicationMetricsCollector(BaseCollector):
 
 
 class NetworkMetricsCollector(BaseCollector):
-    """Collect network I/O statistics.
-
-    Requirements:
-        - ``psutil`` must be installed.
-
-    Metrics collected (with units):
-        - ``network_bytes_sent`` (bytes)
-        - ``network_bytes_recv`` (bytes)
-    """
+    """Collect network I/O statistics."""
 
     async def collect_metrics(self) -> List[MetricData]:
         if not self.enabled:
@@ -161,17 +134,13 @@ class NetworkMetricsCollector(BaseCollector):
 
 
 class CustomMetricsCollector(BaseCollector):
-    """Collect metrics defined at runtime via callables.
+    """Collect metrics defined at runtime via callables."""
 
-    Each callable should return a numeric value. Units are determined by the
-    caller and are not enforced.
-    """
-
-    def __init__(self, config: CollectorConfig | None = None):
+    def __init__(self, config: CollectorConfig | None = None) -> None:
         super().__init__(config)
         self._custom: Dict[str, Callable[[], float]] = {}
 
-    def add_custom_metric(self, name: str, func: Callable[[], float]):
+    def add_custom_metric(self, name: str, func: Callable[[], float]) -> None:
         """Register a custom metric producer."""
         self._custom[name] = func
 
@@ -188,3 +157,4 @@ __all__ = [
     "NetworkMetricsCollector",
     "CustomMetricsCollector",
 ]
+

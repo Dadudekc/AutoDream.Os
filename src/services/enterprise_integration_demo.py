@@ -10,7 +10,7 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from datetime import datetime
 
 # Import our services
-from metrics_dashboard_service import MetricsDashboardService
+from metrics_visualization import MetricsVisualizer
 from discord_integration_service import DiscordIntegrationService
 from beta_transformation_service import BetaTransformationService
 
@@ -21,7 +21,7 @@ def run_integration_demo():
 
     # Initialize services
     print("📊 Initializing services...")
-    metrics = MetricsDashboardService()
+    metrics = MetricsVisualizer()
     discord = DiscordIntegrationService()
     transformation = BetaTransformationService()
 

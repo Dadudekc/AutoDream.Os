@@ -2,6 +2,7 @@
 
 Provides basic statistical helpers for latency samples.
 """
+
 from statistics import mean
 from typing import Sequence
 

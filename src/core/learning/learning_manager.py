@@ -11,12 +11,16 @@ from .models import (
     LearningEngineConfig,
 )
 from .unified_learning_engine import UnifiedLearningEngine
+from . import models as learning_models
+from .trainer import add_learning_data
 
 
 class LearningManager(BaseManager):
     """High-level orchestration for learning operations."""
 
-    def __init__(self, manager_id: str, name: str = "Learning Manager", description: str = ""):
+    def __init__(
+        self, manager_id: str, name: str = "Learning Manager", description: str = ""
+    ):
         super().__init__(manager_id, name, description)
         self.learning_config = LearningManagerConfig(
             manager_id=manager_id,
@@ -31,7 +35,8 @@ class LearningManager(BaseManager):
         try:
             engine_config = LearningEngineConfig(
                 max_concurrent_sessions=self.learning_config.max_concurrent_learners,
-                session_timeout_minutes=self.learning_config.learning_session_timeout // 60,
+                session_timeout_minutes=self.learning_config.learning_session_timeout
+                // 60,
                 learning_rate=self.learning_config.learning_rate,
                 batch_size=self.learning_config.batch_size,
                 max_iterations=self.learning_config.max_iterations,
@@ -70,17 +75,21 @@ class LearningManager(BaseManager):
     # ------------------------------------------------------------------
     # High-level learning operations
     # ------------------------------------------------------------------
-    def start_learning_session(self, agent_id: str, session_type: str = "general") -> Optional[str]:
+    def start_learning_session(
+        self, agent_id: str, session_type: str = "general"
+    ) -> Optional[str]:
         """Create a new learning session."""
         if not self.learning_engine:
             return None
-        return self.learning_engine.create_learning_session(agent_id, session_type)
+        return learning_models.create_learning_session(
+            self.learning_engine, agent_id, session_type
+        )
 
     def end_learning_session(self, session_id: str) -> bool:
         """End an existing learning session."""
         if not self.learning_engine:
             return False
-        return self.learning_engine.end_learning_session(session_id)
+        return learning_models.end_learning_session(self.learning_engine, session_id)
 
     def add_learning_data(
         self,
@@ -94,7 +103,8 @@ class LearningManager(BaseManager):
         """Add learning data to a session."""
         if not self.learning_engine:
             return False
-        return self.learning_engine.add_learning_data(
+        return add_learning_data(
+            self.learning_engine,
             session_id,
             context,
             input_data,
@@ -114,19 +124,25 @@ class LearningManager(BaseManager):
         """Create a learning goal."""
         if not self.learning_engine:
             return None
-        return self.learning_engine.create_learning_goal(
-            title, description, target_metrics, priority, deadline
+        return learning_models.create_learning_goal(
+            self.learning_engine,
+            title,
+            description,
+            target_metrics,
+            priority,
+            deadline,
         )
 
     def update_learning_goal(self, goal_id: str, **kwargs: Any) -> bool:
         """Update a learning goal."""
         if not self.learning_engine:
             return False
-        return self.learning_engine.update_learning_goal(goal_id, **kwargs)
+        return learning_models.update_learning_goal(
+            self.learning_engine, goal_id, **kwargs
+        )
 
     def get_learning_status(self) -> Dict[str, Any]:
         """Get engine status summary."""
         if not self.learning_engine:
             return {"status": "engine_not_initialized"}
         return self.learning_engine.get_engine_status()
-

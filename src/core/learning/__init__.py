@@ -13,6 +13,7 @@ Follows V2 standards: 400 LOC, OOP design, SRP.
 
 from .unified_learning_engine import UnifiedLearningEngine
 from .learning_manager import LearningManager
+
 # ARCHITECTURE CORRECTED: Decision manager moved to decision module
 from .models import (
     LearningData,
@@ -22,15 +23,20 @@ from .models import (
     IntelligenceLevel,
     LearningManagerConfig,
     LearningEngineConfig,
+    initialize_default_components,
+    create_learning_session,
+    end_learning_session,
+    create_learning_goal,
+    update_learning_goal,
 )
+from .progress import update_learning_progress
+from .trainer import add_learning_data, make_decision
 
 __all__ = [
     # Core Engine
     "UnifiedLearningEngine",
-    
     # Specialized Managers
     "LearningManager",
-    
     # Learning Models
     "LearningData",
     "LearningGoal",
@@ -39,6 +45,14 @@ __all__ = [
     "IntelligenceLevel",
     "LearningManagerConfig",
     "LearningEngineConfig",
+    "initialize_default_components",
+    "create_learning_session",
+    "end_learning_session",
+    "create_learning_goal",
+    "update_learning_goal",
+    "update_learning_progress",
+    "add_learning_data",
+    "make_decision",
 ]
 
 # Version information

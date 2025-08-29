@@ -29,10 +29,11 @@ from .constants import (
     STATUS_CONFIG_PATH,
 )
 from .status_reporter import StatusReportWriter
-from .status_tracker import StatusTracker
-from .status_types import HealthStatus, StatusLevel
-from .status_updater import StatusUpdater
 from .status_entities import ComponentHealth, StatusEvent, StatusItem, StatusMetrics
+from .status_types import HealthStatus, StatusLevel
+from .status.tracker import StatusTracker
+from .status.broadcaster import StatusBroadcaster
+from .status.storage import StatusStorage
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +77,10 @@ class StatusManager(BaseManager):
         # Modules
         self.tracker = StatusTracker(self.max_status_history)
         self.tracker.set_event_callback(self._emit_event)
-        self.updater = StatusUpdater(self.health_check_interval)
+        self.broadcaster = StatusBroadcaster(
+            self.health_check_interval, self._emit_event
+        )
+        self.storage = StatusStorage(self.tracker, self.broadcaster)
 
         logger.info("StatusManager initialized successfully")
 
@@ -104,7 +108,7 @@ class StatusManager(BaseManager):
         self, name: str, check_function: Callable[[], HealthStatus]
     ):
         """Register a health check function."""
-        self.updater.register_health_check(name, check_function)
+        self.broadcaster.register_health_check(name, check_function)
         logger.info(f"Registered health check: {name}")
 
     @property
@@ -120,8 +124,12 @@ class StatusManager(BaseManager):
         return self.tracker.registry.status_lock
 
     @property
+    def component_health(self) -> Dict[str, ComponentHealth]:
+        return self.broadcaster.component_health
+
+    @property
     def health_checks(self) -> Dict[str, Callable[[], HealthStatus]]:
-        return self.updater.health_monitor.health_checks
+        return self.broadcaster.health_monitor.health_checks
 
     def add_status(
         self,
@@ -155,7 +163,7 @@ class StatusManager(BaseManager):
     def get_health_status(self, component_id: str) -> Optional[ComponentHealth]:
         """Get health status for a component"""
         try:
-            return self.updater.get_health_status(component_id)
+            return self.broadcaster.get_health_status(component_id)
         except Exception as e:
             logger.error(f"Failed to get health status for {component_id}: {e}")
             return None
@@ -207,7 +215,7 @@ class StatusManager(BaseManager):
     def run_health_checks(self) -> Dict[str, HealthStatus]:
         """Run all registered health checks."""
         try:
-            results = self.updater.run_health_checks()
+            results = self.broadcaster.run_health_checks()
             logger.info(f"Completed {len(results)} health checks")
             return results
         except Exception as e:
@@ -226,7 +234,7 @@ class StatusManager(BaseManager):
     async def _shutdown_manager(self):
         logger.info(f"Shutting down {self.name}...")
         # Stop health monitoring
-        self.updater.stop()
+        self.broadcaster.stop()
         # Final reporting and resource cleanup
         summary = asdict(self.get_status_summary())
         self.reporter.finalize(summary)
@@ -256,7 +264,7 @@ class StatusManager(BaseManager):
             self.last_heartbeat = datetime.now()
 
             # Run health checks if needed
-            if not self.updater.health_monitor.timer:
+            if not self.broadcaster.health_monitor.timer:
                 self._start_health_monitoring()
 
         except Exception as e:
@@ -268,7 +276,7 @@ class StatusManager(BaseManager):
             logger.info(f"Initializing resources for {self.name}...")
             # Load configuration
             self._load_manager_config()
-            self.updater.health_monitor.interval = self.health_check_interval
+            self.broadcaster.health_monitor.interval = self.health_check_interval
             return True
         except Exception as e:
             logger.error(f"Failed to initialize resources for {self.name}: {e}")
@@ -279,10 +287,10 @@ class StatusManager(BaseManager):
         try:
             logger.info(f"Cleaning up resources for {self.name}...")
             # Stop health monitoring
-            self.updater.stop()
+            self.broadcaster.stop()
             # Clear data structures
             self.tracker.clear()
-            self.updater.clear()
+            self.broadcaster.clear()
         except Exception as e:
             logger.error(f"Failed to cleanup resources for {self.name}: {e}")
 
@@ -406,28 +414,21 @@ class StatusManager(BaseManager):
                 "auto_resolve_timeout", DEFAULT_AUTO_RESOLVE_TIMEOUT
             )
             self.tracker.registry.max_history = self.max_status_history
-            self.updater.health_monitor.interval = self.health_check_interval
+            self.broadcaster.health_monitor.interval = self.health_check_interval
 
     async def _reset_state(self):
         """Reset manager state."""
-        self.tracker.clear()
-        self.updater.clear()
+        self.storage.reset()
         logger.info("Status manager state reset")
 
     async def _backup_state(self) -> Dict[str, Any]:
         """Backup current state."""
-        data = self.tracker.registry.backup()
-        data["component_health"] = {
-            k: asdict(v) for k, v in self.updater.component_health.items()
-        }
-        return data
+        return self.storage.backup()
 
     async def _restore_state(self, state: Dict[str, Any]):
         """Restore state from backup."""
         try:
-            self.tracker.registry.restore(state)
-            for k, v in state.get("component_health", {}).items():
-                self.updater.component_health[k] = ComponentHealth(**v)
+            self.storage.restore(state)
             logger.info("Status manager state restored")
         except Exception as e:
             logger.error(f"Failed to restore state: {e}")
@@ -538,7 +539,7 @@ class StatusManager(BaseManager):
     def _start_health_monitoring(self):
         """Start periodic health monitoring."""
         try:
-            self.updater.start(self.health_check_interval)
+            self.broadcaster.start(self.health_check_interval)
             logger.info(
                 f"Health monitoring started with {self.health_check_interval}s interval"
             )
@@ -597,7 +598,7 @@ def run_smoke_test() -> bool:
             assert summary.healthy_components == 1
 
             # Cleanup
-            status_manager.shutdown()
+            status_manager.stop()
 
         print("✅ StatusManager Smoke Test PASSED")
         return True

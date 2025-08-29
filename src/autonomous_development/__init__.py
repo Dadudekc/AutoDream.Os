@@ -15,7 +15,7 @@ from .workflow.engine import WorkflowEngine
 from .tasks.manager import TaskManager, Task, TaskStatus, TaskPriority
 from .code.generator import CodeGenerator, CodeImprovement, CursorAgentPrompt
 from .testing.orchestrator import TestingOrchestrator
-from .testing.test_execution import TestResult
+from .testing.testing_utils import TestResult
 from .testing.result_collation import TestSuite
 
 __all__ = [

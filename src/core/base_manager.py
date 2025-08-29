@@ -11,17 +11,14 @@ This provides common functionality that was previously duplicated in 15+ manager
 **Status:** ACTIVE - CONSOLIDATION IN PROGRESS
 """
 
-import logging
-import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from dataclasses import dataclass, field
 from enum import Enum
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Set, Callable
-import json
+from typing import Dict, List, Any, Optional, Callable
 import threading
 import time
+from .base import ManagerConfig
 
 
 class ManagerStatus(Enum):
@@ -63,37 +60,20 @@ class ManagerMetrics:
     updated_at: datetime = field(default_factory=datetime.now)
 
 
-@dataclass
-class ManagerConfig:
-    """Unified manager configuration"""
-
-    manager_id: str
-    name: str
-    description: str
-    enabled: bool = True
-    auto_start: bool = True
-    heartbeat_interval: int = 30
-    max_retries: int = 3
-    timeout_seconds: int = 60
-    log_level: str = "INFO"
-    config_file: Optional[str] = None
-    created_at: datetime = field(default_factory=datetime.now)
-    updated_at: datetime = field(default_factory=datetime.now)
-
-
 class BaseManager(ABC):
     """
     CONSOLIDATED base manager class that eliminates duplication
 
-    Common functionality previously duplicated across 15+ manager classes:
+    Common functionality previously duplicated across manager classes:
     - Lifecycle management (start/stop/restart)
     - Status tracking and monitoring
-    - Configuration management
     - Performance metrics collection
     - Heartbeat monitoring
     - Error handling and recovery
-    - Logging and debugging
     - Resource management
+
+    Additional responsibilities such as configuration, logging, and validation
+    are provided via mixins.
     """
 
     def __init__(self, manager_id: str, name: str, description: str = ""):
@@ -109,27 +89,19 @@ class BaseManager(ABC):
         self.startup_time: Optional[datetime] = None
         self.shutdown_time: Optional[datetime] = None
 
-        # Configuration
-        self.config = ManagerConfig(
-            manager_id=manager_id, name=name, description=description
-        )
-
         # Performance tracking
         self.metrics = ManagerMetrics(manager_id=manager_id)
         self.operations_history: List[Dict[str, Any]] = []
 
         # Heartbeat monitoring
         self.heartbeat_thread: Optional[threading.Thread] = None
-        self.heartbeat_interval = self.config.heartbeat_interval
+        self.heartbeat_interval = 30
         self.last_heartbeat = datetime.now()
 
         # Error handling
         self.error_count = 0
         self.last_error: Optional[str] = None
         self.recovery_attempts = 0
-
-        # Logging
-        self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
 
         # Event handlers
         self.event_handlers: Dict[str, List[Callable]] = {}
@@ -138,7 +110,8 @@ class BaseManager(ABC):
         self.resources: Dict[str, Any] = {}
         self.resource_locks: Dict[str, threading.Lock] = {}
 
-        self.logger.info(f"BaseManager initialized: {manager_id} ({name})")
+        if hasattr(self, "logger"):
+            self.logger.info(f"BaseManager initialized: {manager_id} ({name})")
 
     # ============================================================================
     # LIFECYCLE MANAGEMENT - Previously duplicated across all managers
@@ -277,54 +250,15 @@ class BaseManager(ABC):
         ).total_seconds() > self.heartbeat_interval * 2:
             return False
 
-        # Check error threshold
-        if self.error_count > self.config.max_retries:
+        config = getattr(self, "config", None)
+        if config and self.error_count > config.max_retries:
             return False
 
         return True
 
     # ============================================================================
-    # CONFIGURATION MANAGEMENT - Previously duplicated across all managers
+    # CONFIGURATION MANAGEMENT - Provided via ConfigMixin
     # ============================================================================
-
-    def update_config(self, **kwargs) -> bool:
-        """Update manager configuration - common config method"""
-        try:
-            for key, value in kwargs.items():
-                if hasattr(self.config, key):
-                    setattr(self.config, key, value)
-                    self.logger.info(f"Updated config {key}: {value}")
-                else:
-                    self.logger.warning(f"Unknown config key: {key}")
-
-            self.config.updated_at = datetime.now()
-            self._emit_event(
-                "config_updated", {"manager_id": self.manager_id, "changes": kwargs}
-            )
-            return True
-
-        except Exception as e:
-            self.logger.error(f"Failed to update config: {e}")
-            return False
-
-    def load_config_from_file(self, config_file: str) -> bool:
-        """Load configuration from file - common config method"""
-        try:
-            if not Path(config_file).exists():
-                self.logger.warning(f"Config file not found: {config_file}")
-                return False
-
-            with open(config_file, "r") as f:
-                config_data = json.load(f)
-
-            self.update_config(**config_data)
-            self.config.config_file = config_file
-            self.logger.info(f"Loaded config from: {config_file}")
-            return True
-
-        except Exception as e:
-            self.logger.error(f"Failed to load config from {config_file}: {e}")
-            return False
 
     # ============================================================================
     # PERFORMANCE METRICS - Previously duplicated across all managers

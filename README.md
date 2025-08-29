@@ -297,3 +297,10 @@ logger = get_logger(__name__)
 ```
 
 This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.
+
+## Backup Policy
+
+Temporary backup directories (e.g., names matching `*_backup_*`) may be
+created for short-term local use during development. These directories are
+ignored by Git and should never be committed to the repository. Remove or move
+backups outside the project before submitting changes to keep history clean.

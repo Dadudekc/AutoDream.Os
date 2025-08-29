@@ -4,7 +4,7 @@ import sys
 
 import unittest
 
-from src.core.tasks.execution import TaskExecutor
+from src.core.tasks.executor import TaskExecutor
 from src.core.tasks.monitoring import TaskMonitor
 from src.core.tasks.recovery import TaskRecovery
 from src.core.tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
@@ -132,7 +132,7 @@ class TestTaskExecutor(unittest.TestCase):
         mock_dev_task = Mock()
         mock_dev_task.task_id = "task_0001"
         
-        with patch('src.core.tasks.execution.DevelopmentTask', return_value=mock_dev_task):
+        with patch('src.core.tasks.definitions.DevelopmentTask', return_value=mock_dev_task):
             task_id = self.executor.create_task(
                 "Test Dev Task",
                 "Test Description",
@@ -153,7 +153,7 @@ class TestTaskExecutor(unittest.TestCase):
         mock_dev_task.claim.return_value = True
         mock_dev_task.claimed_by = "Agent-1"
         
-        with patch('src.core.tasks.execution.DevelopmentTask', return_value=mock_dev_task):
+        with patch('src.core.tasks.definitions.DevelopmentTask', return_value=mock_dev_task):
             # Create a task
             task_id = self.executor.create_task(
                 "Test Task",
@@ -183,7 +183,7 @@ class TestTaskExecutor(unittest.TestCase):
         mock_dev_task2.task_id = "task_0002"
         mock_dev_task2.is_available.return_value = True
         
-        with patch('src.core.tasks.execution.DevelopmentTask', return_value=mock_dev_task1):
+        with patch('src.core.tasks.definitions.DevelopmentTask', return_value=mock_dev_task1):
             # Create some tasks
             self.executor.create_task("Task 1", "Desc 1", "medium", "HIGH", 2.0, ["python"])
             self.executor.create_task("Task 2", "Desc 2", "low", "MEDIUM", 1.0, ["python"])

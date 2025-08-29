@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-from .command_parser import create_parser
+from .parser import create_parser
 from .command_handler import CommandHandler
 from .output_formatter import OutputFormatter
 
@@ -18,6 +18,7 @@ class MessagingCLI:
     def __init__(self, formatter: Optional[OutputFormatter] = None) -> None:
         self.parser = create_parser(None)
         self.handler = CommandHandler(formatter or OutputFormatter())
+        self.service = self.handler.executor.service
 
     def run(self, argv: Optional[list[str]] = None) -> bool:
         try:
@@ -26,6 +27,12 @@ class MessagingCLI:
         except Exception as exc:  # pragma: no cover - defensive programming
             logger.error("Error running CLI: %s", exc)
             return False
+
+    # The smoke tests expect a private helper for displaying help
+    def _show_help(self) -> bool:
+        """Display help information for the CLI."""
+        self.parser.print_help()
+        return True
 
 
 if __name__ == "__main__":

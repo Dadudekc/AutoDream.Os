@@ -1,16 +1,19 @@
-import tempfile
 from pathlib import Path
+import tempfile
 
 import pytest
 
+    import shutil
 from .code_crafter_support import CodeCrafter
+
+
+
 
 
 @pytest.fixture
 def temp_code_dir():
     temp_dir = tempfile.mkdtemp()
     yield Path(temp_dir)
-    import shutil
 
     shutil.rmtree(temp_dir)
 

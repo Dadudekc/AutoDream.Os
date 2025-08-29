@@ -1,9 +1,13 @@
-import pandas as pd
-import numpy as np
-from scipy import stats
-import importlib.util
 import pathlib
 import sys
+
+from scipy import stats
+import numpy as np
+import pandas as pd
+
+from common_algorithms import (
+import importlib.util
+
 
 # Import module directly to avoid executing package-level side effects
 MODULE_PATH = pathlib.Path(__file__).resolve().parents[2] / "src/services/financial/portfolio/common_algorithms.py"
@@ -12,7 +16,6 @@ common_algorithms = importlib.util.module_from_spec(spec)
 sys.modules["common_algorithms"] = common_algorithms
 spec.loader.exec_module(common_algorithms)
 
-from common_algorithms import (
     calculate_var,
     calculate_max_drawdown,
     calculate_beta,

@@ -1,3 +1,10 @@
+from pathlib import Path
+from typing import List, Optional
+import os
+import subprocess
+import argparse
+from src.utils.stability_improvements import stability_manager, safe_import
+
 """
 CLI Utilities Module - Command Execution
 
@@ -8,12 +15,7 @@ Architecture: Single Responsibility Principle - CLI execution only
 LOC: 150 lines (under 200 limit)
 """
 
-import subprocess
-import os
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import List, Optional
-from pathlib import Path
 
 
 class CLIExecutor:
@@ -206,7 +208,6 @@ def run_smoke_test():
 
 def main():
     """CLI interface for CLIExecutor testing"""
-    import argparse
 
     parser = argparse.ArgumentParser(description="CLI Executor CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")

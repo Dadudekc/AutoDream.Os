@@ -101,10 +101,10 @@ __all__ = [
     # Connection management
     'ConnectionPoolManager',
     
-    # Benchmarking
+    # Benchmarking and validation
     'BenchmarkRunner',
     'PerformanceCalculator',
-    'PerformanceValidationSystem'
+    'PerformanceValidationSystem',
 ]
 
 # Cleanup status

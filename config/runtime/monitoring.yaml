@@ -1,0 +1,78 @@
+# Unified Monitoring Configuration
+# Consolidates monitoring configuration from multiple scattered files
+# Eliminates SSOT violations in monitoring configuration
+
+monitoring:
+  system_name: "Health Monitoring System"
+  version: "2.0.0"
+  enable_monitoring: true
+  monitoring_interval: 30
+  
+  health_metrics:
+    system_health_score:
+      enabled: true
+      threshold: 0.7
+      weight: 0.3
+      
+    agent_engagement:
+      enabled: true
+      threshold: 0.9
+      weight: 0.2
+      
+    workflow_completion:
+      enabled: true
+      threshold: 0.4
+      weight: 0.2
+      
+    system_response_time:
+      enabled: true
+      threshold: 5000
+      weight: 0.15
+      
+    error_rate:
+      enabled: true
+      threshold: 0.2
+      weight: 0.15
+      
+  directories:
+    health_reports: "health_reports"
+    health_charts: "health_charts"
+    monitoring_data: "agent_workspaces/monitoring"
+    
+  reporting:
+    enable_automatic_reports: true
+    report_interval: 3600  # 1 hour
+    report_format: "json"
+    enable_charts: true
+    chart_format: "png"
+    
+  alerts:
+    enable_alerts: true
+    alert_threshold: 0.6
+    enable_email_alerts: true
+    enable_slack_alerts: true
+    enable_webhook_alerts: false
+    
+  performance_monitoring:
+    enable_cpu_monitoring: true
+    enable_memory_monitoring: true
+    enable_disk_monitoring: true
+    enable_network_monitoring: true
+    
+  agent_monitoring:
+    enable_agent_health_checks: true
+    agent_health_check_interval: 60
+    enable_agent_performance_tracking: true
+    enable_agent_workload_monitoring: true
+    
+  system_monitoring:
+    enable_system_health_checks: true
+    system_health_check_interval: 120
+    enable_system_performance_tracking: true
+    enable_system_resource_monitoring: true
+    
+  data_retention:
+    health_data_retention_days: 30
+    performance_data_retention_days: 7
+    alert_data_retention_days: 90
+    enable_data_compression: true

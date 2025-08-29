@@ -1,0 +1,3604 @@
+{
+  "files_processed": 719,
+  "files_optimized": 591,
+  "duplicate_imports_removed": 423,
+  "imports_reorganized": 462,
+  "pep8_violations_fixed": 23,
+  "optimization_details": [
+    {
+      "file": "test_smooth_handoff_system.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "test_smooth_handoff_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "duplication_analysis_and_cleanup.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\__init__.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development_system.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development_system.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\collaboration_engine.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\config_storage.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\continuous_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\recovery_manager.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\calibrate_coordinates.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\autonomous_development.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\inbox_manager.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\workspace_config.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workspace_creator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workspace_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\routing_models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\devlog_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\devlog_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health_system_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\unified_performance_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\unified_workspace_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm_contract_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm_contract_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\agent_lifecycle.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\agent_registration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\agent_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\config_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\unified_task_manager.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\unified_utility_functions.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\unified_data_source_consolidation.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\unified_duplication_detection_consolidation.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\knowledge_database_modular.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\knowledge_database_modular.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\decision\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\decision\\decision_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\decision\\test_modular_decision_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\decision\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\integrity\\integrity_persistence.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\integrity\\integrity_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\task_management\\lifecycle.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\task_management\\validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workflow\\validate_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workflow\\workflow_engine_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\workflow\\workflow_engine_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workflow\\workflow_integration_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workflow\\managers\\workflow_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\workflow\\managers\\resource_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\workflow\\optimization\\task_assignment_workflow_optimizer.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\performance\\performance_reporter.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\performance\\performance_reporter.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\performance\\performance_validator.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\performance\\performance_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\performance\\performance_calculator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\performance\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\performance\\validation\\validation_constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\ml_robot\\robot_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\ml_robot\\robot_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\ml_robot\\robot_core.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\ml_robot\\robot_execution.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\health\\test_health_refactoring.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\test_health_refactoring.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\metrics\\collector_facade.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\metrics\\scheduler.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\metrics\\aggregation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\metrics\\adapters.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\alerting\\escalation.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\health\\monitoring\\core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\managers\\health_monitor.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\managers\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\managers\\extended\\autonomous_development\\workflow_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\testing\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\testing\\testing_orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\testing\\cli_handlers\\status_handler.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\testing\\cli_handlers\\suite_handler.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\testing\\cli_handlers\\results_handler.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\validation\\validation_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_reporting.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\task_validation_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\test_consolidation_simple.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\test_simple.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\validation_constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\validation\\validation_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\contract_validator.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\message_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\storage_validator.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_core.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\validation\\security_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_authentication.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_authorization.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_encryption.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_policy.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_recommendations.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\security_validator_v2.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\validation\\security_validator_v2.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\validation\\test_security_modular.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\learning\\model_management.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\learning\\training.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\learning\\learning_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\learning\\learning_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\learning\\modules\\test_suite.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\learning\\modules\\test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_core_v2.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_compliance_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_compliance_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_compliance_validation_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_handlers.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_states.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_execution.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\fsm_models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\fsm\\execution_engine\\common.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\workspace\\unified_workspace_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workspace\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\reporting\\report_data_collector.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\reporting\\unified_reporting_framework.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\reporting\\backends\\base.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\reporting\\backends\\file.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\communication\\adapters.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\communication\\router.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\refactoring_performance_benchmark.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\refactoring_performance_metrics.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\performance_dashboard.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\refactoring_impact_assessment_framework.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\automated_refactoring_validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\refactoring\\refactoring_metrics_integration.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\automated_refactoring_workflows\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\automated_refactoring_workflows\\setup.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\workflow_reliability_testing\\metrics.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\refactoring\\workflow_reliability_testing\\runner.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\baseline\\measurements.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\handoff\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\handoff_reliability\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\optimization\\assignment.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\optimization\\metrics.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\optimization\\scoring.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\smooth_handoff\\models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\smooth_handoff\\system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\workflow_validation\\system\\engine.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\emergency\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\core\\emergency\\emergency_response_system_refactored.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\core\\emergency\\emergency_response_system_refactored.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\agent_stall_prevention_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\agent_stall_prevention_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\api_integration_examples.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\api_integration_templates.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\captain_specific_stall_prevention.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\captain_specific_stall_prevention.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\contract_validation_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\core_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\dashboard_backend.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\demo_cdp_messenger.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\demo_cdp_messenger.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\enterprise_quality_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\fsm_task_sink.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\quality_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\role_assignment_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\system_broadcast_utility.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\task_master_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\test_cdp_messenger.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\test_cdp_messenger.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\test_scenario_generator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\test_v1_v2_message_queue.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\test_v1_v2_message_queue.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\training_content_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\v1_v2_message_queue_demo.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\v2_integration_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\api_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\test_refactored_modules.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\discord_integration_service.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\unified_messaging_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\advanced_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\comprehensive_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\validation_evaluator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\master_v2_test_orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\master_v2_test_runner.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\performance_monitor.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\service_registry.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\validation_executor.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\api_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\api_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\metrics_collector.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\options_trading_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\api_authentication.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\api_data_aggregator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\api_error_handler.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\api_background_tasks.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\api_router.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\risk_management_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\market_data_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\analytics\\__init__.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\portfolio\\test_refactored_functionality.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\portfolio\\test_refactored_functionality.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\financial\\trading_intelligence\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\multimedia\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\audio_processing_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\audio_processing_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\demo_real_time_processing.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\video_capture_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\video_capture_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\tests\\test_multimedia_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\multimedia\\tests\\test_video_capture.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\tests\\test_multimedia_integration_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\unified_pyautogui_messaging.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\command_handler.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\command_handler.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\models\\v2_message.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\routing\\router.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\messaging\\storage\\storage.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\communication\\channel_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\communication\\coordinator_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\communication\\coordinator_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\quality\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\perpetual_motion\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\error_analytics\\correlation_analyzer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\error_analytics\\pattern_detector.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\error_analytics\\trend_analyzer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\middleware\\orchestrator.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\middleware\\orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\response_capture\\data_access.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\response_capture\\service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\status_monitor\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\services\\status_monitor\\calculations.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services\\status_monitor\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\launchers\\launcher_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "src\\launchers\\launcher_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\launchers\\launcher_modes.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\launchers\\sprint_management_launcher.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\launchers\\unified_launcher_v2.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\launchers\\unified_launcher_v2.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\security\\network_security_config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\security\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services_v2\\auth\\auth_integration_test_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services_v2\\auth\\auth_integration_test_validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services_v2\\auth\\run_integration_tests.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\services_v2\\auth\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\utils\\agent_info.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\utils\\cli_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\utils\\validation_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\frontend\\frontend_testing.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\frontend\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\frontend\\controllers.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\frontend\\routes.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\multimedia\\core.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\multimedia\\core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\multimedia\\obs_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\multimedia\\obs_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\portal\\__init__.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\web\\portal\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\tasks\\manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\workflow\\workflow_engine.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\workflow\\manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\tests\\smoke_tests.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\reporting\\formatting.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\reporting\\generation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\autonomous_development\\reporting\\manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\testing\\dependency_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\testing\\__init__.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "src\\testing\\orchestrator_config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\task_distribution\\standards.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\package_template\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\automation\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\data_pipeline\\ingestion.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "src\\monitoring\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "src\\ai_ml\\core\\ai_ml_engine.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\test_advanced_task_management.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_full_sprint_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_integration_basic.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_integration_basic.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_integrity_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_standalone_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_standalone_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\simple_test.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\test_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_v2_onboarding_sequence.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke_test_v2_comprehensive_messaging.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke_test_v2_comprehensive_messaging.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_messaging_system_tdd.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_messaging_system_tdd.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke_test_messaging_system.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke_test_messaging_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_refactored_communication_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_sprint_simple.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_trading_intelligence_tdd.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_trading_intelligence_tdd.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_agent1_message.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_task_modules.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_autonomous_development_workflow.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_status_manager_consolidation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_unified_manager_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_autonomous_development_reporting.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\test_advanced_parallel_testing.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\ai_ml\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\ai_ml\\test_ml_robot_modular.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\ai_ml\\test_ai_development_environment.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\fixtures\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\gaming\\test_anti_detection.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\gaming\\test_automation.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\gaming\\test_skill_systems.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\gaming\\test_state_analysis.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\gaming\\test_ai_agent_framework_cleanup.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\gaming\\test_ai_agent_framework_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\gaming\\test_ai_agent_framework_setup.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\gaming\\test_ai_agent_framework_validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\integration\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\integration\\test_advanced_task_management.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\security\\test_basic.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\smoke\\test_integration_smoke.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke\\test_smoke_infrastructure.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke\\test_smoke_infrastructure.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke\\test_performance_monitoring_smoke.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke\\test_performance_monitoring_smoke.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke\\test_service_components.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\smoke\\test_response_capture_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\unit\\test_core_system.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_core_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_repository_scanner.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_v2_workflow_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_v2_workflow_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_health_notification_manager_module.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_health_status_analyzer_module.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_task_manager_refactored.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_task_manager_refactored.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_auth_common_performance.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_common_algorithms.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\unit\\test_health_components.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\utils\\test_helpers.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\core\\test_tdd_integration_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\core\\test_tdd_validation_runner.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\core\\test_tdd_validation_runner.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\behavior_trees\\test_behavior_tree_basic.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\decision_engines\\test_decision_engine_basic.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\learning\\test_learning_basic.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\multi_agent\\test_multi_agent_coordination_basic.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\setup\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\code_generation\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\code_generation\\test_code_crafter_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\code_generation\\test_code_crafter_validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\file_utils\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\file_utils\\test_file_processor_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "tests\\other\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\launchers\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "tests\\submodules\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\generate_refactoring_issues.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "scripts\\launchers\\launch_cross_system_communication.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "scripts\\launchers\\launch_performance_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "scripts\\setup\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\setup\\backend_api.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\setup\\dependency_install.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\setup\\env_config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\setup\\frontend_tooling.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\setup\\testing_setup.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "scripts\\setup\\setup_web_development.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "scripts\\setup\\setup_web_development_env.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "scripts\\analysis\\workflow_optimization_analytics.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "examples\\demos\\demo_perpetual_motion.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\demos\\demonstrate_advanced_error_handling_logging.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\demos\\demonstrate_advanced_error_handling_logging.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\integrations\\demo_simple_fsm_discord.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\integrations\\demo_integrated_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\integrations\\demo_critical_systems_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\integrations\\demo_critical_systems_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\workflows\\demo_continuous_coordination.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\workflows\\demo_coordination_round_1.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\systems\\demo_message_queue_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\systems\\demo_autonomous_development.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\systems\\demo_autonomous_development.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\systems\\demo_cursor_capture.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\systems\\demo_persistent_data_storage.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\systems\\demo_agent_health_monitor.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "examples\\interfaces\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "examples\\interfaces\\example_messaging.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\test_gaming_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\skills\\woodcutting_trainer.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\skills\\woodcutting_trainer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\skills\\fishing_trainer.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\skills\\fishing_trainer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\skills\\combat_trainer.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\skills\\combat_trainer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\trading\\market_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "gaming_systems\\osrs\\tests\\smoke_tests.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "config\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\Agent-1\\modularization_output\\test_modular_system.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "agent_workspaces\\Agent-1\\modularization_output\\test_modular_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "agent_workspaces\\Agent-1\\modularization_output\\simple_test.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "agent_workspaces\\Agent-1\\modularization_output\\simple_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "agent_workspaces\\Agent-1\\modularization_output\\contract_claiming_system\\models\\__init__.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\Agent-5\\integration_test_refactoring_tools.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "agent_workspaces\\Agent-5\\contract_integrity_checker.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\Agent-7\\contract_cleanup_validator\\validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\modules\\core_engine\\core_engine.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\modules\\model_manager\\model_manager.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\modules\\algorithm_orchestrator\\algorithm_orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\modules\\data_processor\\data_processor.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\modules\\performance_optimizer\\performance_optimizer.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\interfaces\\ai_interface.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\interfaces\\ml_interface.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "agent_workspaces\\meeting\\src\\ai_ml\\interfaces\\optimization_interface.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "reporting_archive\\performance_reporter.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "reporting_archive\\report_generator_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "reporting_archive\\reporting\\data_formatter.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "reporting_archive\\reporting\\generator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "reporting_archive\\reporting\\models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "reporting_archive\\reporting\\output_delivery.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "reporting_archive\\reporting\\report_builder.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "refactoring_performance_benchmark\\utils.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "refactoring_performance_benchmark\\utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\code_crafter.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\code_crafter.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\code_synthesis.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\template_generation.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_processor.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_processor.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\intelligent_review_config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ai_agent_knowledge.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ai_agent_optimizer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_bridge.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_bridge.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_integration_test.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_integration_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\test_integration_simple.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\test_integration_simple.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\workflows.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\anthropic_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_creator.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\ml_robot_creator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\openai_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\pytorch_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\integrations.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\workflow_automation.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\cli.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\agent_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\testing\\model_evaluation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\testing\\cleanup.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\managers\\evaluation_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\managers\\model_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "ai_ml_backup_20250828_221414\\managers\\training_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_core_v2.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_compliance_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_compliance_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_compliance_validation_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_handlers.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_states.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_execution.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\fsm_models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "fsm_core_v2_backup_20250828_224451\\execution_engine\\common.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\__init__.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development_system.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development_system.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\collaboration_engine.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\config_storage.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\continuous_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\recovery_manager.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\calibrate_coordinates.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\autonomous_development.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\inbox_manager.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workspace_config.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workspace_creator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workspace_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\routing_models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\devlog_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\devlog_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health_system_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\unified_performance_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\unified_workspace_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm_contract_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm_contract_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\agent_lifecycle.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\agent_registration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\agent_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\config_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\unified_task_manager.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\unified_utility_functions.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\unified_data_source_consolidation.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\decision\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\decision\\decision_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\decision\\test_modular_decision_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\decision\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\integrity\\integrity_persistence.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\integrity\\integrity_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\task_management\\lifecycle.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\task_management\\validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\validate_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\workflow_engine_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\workflow_engine_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\workflow_integration_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\managers\\workflow_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\managers\\resource_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow\\optimization\\task_assignment_workflow_optimizer.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\performance_reporter.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\performance_reporter.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\performance_validator.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\performance_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\performance_calculator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\performance\\validation\\validation_constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\ml_robot\\robot_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\ml_robot\\robot_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\ml_robot\\robot_core.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\ml_robot\\robot_execution.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\test_health_refactoring.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\test_health_refactoring.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\metrics\\collector_facade.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\metrics\\scheduler.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\metrics\\aggregation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\metrics\\adapters.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\alerting\\escalation.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\health\\monitoring\\core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\managers\\health_monitor.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\managers\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\managers\\extended\\autonomous_development\\workflow_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\testing\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\testing\\testing_orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\testing\\cli_handlers\\status_handler.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\testing\\cli_handlers\\suite_handler.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\testing\\cli_handlers\\results_handler.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\validation_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_reporting.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\task_validation_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\test_consolidation_simple.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\test_simple.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\validation_constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\validation_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\contract_validator.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\message_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\storage_validator.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_validator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_core.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_authentication.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_authorization.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_encryption.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\validation\\security_policy.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\learning\\model_management.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\learning\\training.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\learning\\learning_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\learning\\learning_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\learning\\modules\\test_suite.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\learning\\modules\\test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_core_v2.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_compliance_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_compliance_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_compliance_validation_test.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_handlers.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_states.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_execution.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\fsm_models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\fsm\\execution_engine\\common.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workspace\\unified_workspace_system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workspace\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\reporting\\report_data_collector.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\reporting\\unified_reporting_framework.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\reporting\\backends\\base.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\reporting\\backends\\file.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\communication\\adapters.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\communication\\router.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\refactoring_performance_benchmark.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\refactoring_performance_metrics.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\performance_dashboard.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\refactoring_impact_assessment_framework.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\automated_refactoring_validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\refactoring_metrics_integration.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\automated_refactoring_workflows\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\automated_refactoring_workflows\\setup.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\workflow_reliability_testing\\metrics.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\refactoring\\workflow_reliability_testing\\runner.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\baseline\\measurements.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\handoff\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\handoff_reliability\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\optimization\\assignment.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\optimization\\metrics.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\optimization\\scoring.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\smooth_handoff\\models.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\smooth_handoff\\system.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\workflow_validation\\system\\engine.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\emergency\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\emergency\\emergency_response_system_refactored.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\core\\emergency\\emergency_response_system_refactored.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\agent_stall_prevention_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\agent_stall_prevention_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\api_integration_examples.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\api_integration_templates.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\captain_specific_stall_prevention.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\captain_specific_stall_prevention.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\contract_validation_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\core_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\dashboard_backend.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\demo_cdp_messenger.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\demo_cdp_messenger.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\enterprise_quality_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\fsm_task_sink.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\quality_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\role_assignment_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\system_broadcast_utility.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\task_master_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\test_cdp_messenger.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\test_cdp_messenger.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\test_scenario_generator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\test_v1_v2_message_queue.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\test_v1_v2_message_queue.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\training_content_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\v1_v2_message_queue_demo.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\v2_integration_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\api_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\test_refactored_modules.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\discord_integration_service.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\unified_messaging_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\advanced_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\comprehensive_v2_test_suite.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\validation_evaluator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\master_v2_test_orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\master_v2_test_runner.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\performance_monitor.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\service_registry.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\validation_executor.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\api_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\api_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\metrics_collector.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\options_trading_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\api_authentication.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\api_data_aggregator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\api_error_handler.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\api_background_tasks.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\api_router.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\risk_management_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\market_data_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\analytics\\__init__.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\portfolio\\test_refactored_functionality.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\portfolio\\test_refactored_functionality.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\financial\\trading_intelligence\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\audio_processing_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\audio_processing_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\demo_real_time_processing.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\video_capture_service.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\video_capture_service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\tests\\test_multimedia_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\multimedia\\tests\\test_video_capture.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\tests\\test_multimedia_integration_coordinator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\unified_pyautogui_messaging.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\command_handler.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\command_handler.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\models\\v2_message.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\routing\\router.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\messaging\\storage\\storage.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\communication\\channel_manager.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\communication\\coordinator_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\communication\\coordinator_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\quality\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\perpetual_motion\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\error_analytics\\correlation_analyzer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\error_analytics\\pattern_detector.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\error_analytics\\trend_analyzer.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\middleware\\orchestrator.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\middleware\\orchestrator.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\response_capture\\data_access.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\response_capture\\service.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\status_monitor\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\status_monitor\\calculations.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services\\status_monitor\\constants.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\launchers\\launcher_cli.py",
+      "type": "duplicate_imports",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\launchers\\launcher_cli.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\launchers\\launcher_modes.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\launchers\\sprint_management_launcher.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\launchers\\unified_launcher_v2.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\launchers\\unified_launcher_v2.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\security\\network_security_config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\security\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services_v2\\auth\\auth_integration_test_execution.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services_v2\\auth\\auth_integration_test_validation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services_v2\\auth\\run_integration_tests.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\services_v2\\auth\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\utils\\agent_info.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\utils\\cli_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\utils\\validation_utils.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\frontend\\frontend_testing.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\frontend\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\frontend\\controllers.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\frontend\\routes.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\multimedia\\core.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\multimedia\\core.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\multimedia\\obs_integration.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\multimedia\\obs_integration.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\portal\\__init__.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\web\\portal\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\tasks\\manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\workflow\\workflow_engine.py",
+      "type": "duplicate_imports",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\workflow\\manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\tests\\smoke_tests.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\reporting\\formatting.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\reporting\\generation.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\autonomous_development\\reporting\\manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\testing\\dependency_manager.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\testing\\__init__.py",
+      "type": "pep8_violation",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\testing\\orchestrator_config.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\task_distribution\\standards.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\package_template\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\automation\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\data_pipeline\\ingestion.py",
+      "type": "organization_improvement",
+      "changes_made": true
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\monitoring\\__init__.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    },
+    {
+      "file": "monolithic_modularization_backup_20250828_225436\\ai_ml\\core\\ai_ml_engine.py",
+      "type": "organization_improvement",
+      "changes_made": false
+    }
+  ]
+}

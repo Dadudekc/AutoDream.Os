@@ -1,3 +1,14 @@
+    from .ai.decision_engine import OSRSDecisionEngine
+    from .combat.combat_system import OSRSCombatSystem
+    from .core.data_models import OSRSPlayerStats
+    from .skills.woodcutting_trainer import OSRSWoodcuttingTrainer
+    from .trading.market_system import OSRSMarketSystem
+from .ai import (
+from .combat import (
+from .core import (
+from .skills import (
+from .trading import (
+
 #!/usr/bin/env python3
 """
 OSRS Module - Agent Cellphone V2
@@ -10,24 +21,19 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-from .core import (
     OSRSSkill, OSRSLocation, OSRSGameState, OSRSActionType,
     OSRSPlayerStats, OSRSInventoryItem, OSRSGameData, OSRSResourceSpot, OSRSRecipe
 )
 
-from .skills import (
     OSRSSkillTrainer, OSRSWoodcuttingTrainer, OSRSFishingTrainer, OSRSCombatTrainer
 )
 
-from .combat import (
     OSRSCombatSystem, OSRSNPCInteraction
 )
 
-from .trading import (
     OSRSMarketSystem
 )
 
-from .ai import (
     OSRSDecisionEngine,
     OSRSBehaviorTree,
     OSRSBehaviorNode,
@@ -42,11 +48,6 @@ from .ai import (
 # Factory function for backward compatibility
 def create_osrs_ai_agent(config: dict = None):
     """Create an OSRS AI agent instance for backward compatibility"""
-    from .ai.decision_engine import OSRSDecisionEngine
-    from .skills.woodcutting_trainer import OSRSWoodcuttingTrainer
-    from .combat.combat_system import OSRSCombatSystem
-    from .trading.market_system import OSRSMarketSystem
-    from .core.data_models import OSRSPlayerStats
     
     # Create a player stats instance for the trainer
     player_stats = OSRSPlayerStats(

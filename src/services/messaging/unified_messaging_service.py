@@ -114,7 +114,7 @@ class UnifiedMessagingService:
             message_type: Type of message
             new_chat: Whether these are new chat (onboarding) messages
         """
-        return self.pyautogui_messaging.send_bulk_messages(messages, mode, message_type.value, new_chat)
+        return self.pyautogui_messaging.send_bulk_messages(messages, mode, message_type.value, "normal", new_chat)
     
     def validate_coordinates(self) -> Dict[str, Any]:
         """Validate coordinates using coordinate manager"""

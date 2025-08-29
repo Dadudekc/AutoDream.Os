@@ -1,3 +1,22 @@
+from pathlib import Path
+import sys
+
+import pytest
+
+        from tests.conftest import mock_config, mock_agent_data
+        from tests.test_utils import TestAssertions
+        from tests.test_utils import TestDataFactory
+        from tests.test_utils import V2StandardsChecker
+        from tests.test_utils import V2StandardsChecker, TestDataFactory, TestAssertions
+        from tests.test_utils import assert_cli_help
+        from tests.test_utils import assert_file_structure
+        from tests.test_utils import create_temp_test_file, cleanup_temp_files
+        from tests.test_utils import run_cli_command
+        from typing import Dict, List, Any, Optional, Tuple, Union
+        from unittest.mock import Mock, patch, MagicMock
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch
+
 """
 Smoke Tests for Testing Infrastructure
 Foundation & Testing Specialist - TDD Integration Project
@@ -5,12 +24,7 @@ Foundation & Testing Specialist - TDD Integration Project
 These tests verify that the basic testing infrastructure is working correctly.
 """
 
-import pytest
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch
 
 # Add parent directories to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -21,7 +35,6 @@ class TestSmokeInfrastructure:
 
     def test_pytest_import(self):
         """Test that pytest can be imported."""
-        import pytest
 
         assert pytest is not None
         assert hasattr(pytest, "mark")
@@ -29,7 +42,6 @@ class TestSmokeInfrastructure:
 
     def test_test_utils_import(self):
         """Test that test utilities can be imported."""
-        from tests.test_utils import V2StandardsChecker, TestDataFactory, TestAssertions
 
         assert V2StandardsChecker is not None
         assert TestDataFactory is not None
@@ -38,7 +50,6 @@ class TestSmokeInfrastructure:
 
     def test_conftest_import(self):
         """Test that conftest.py can be imported."""
-        from tests.conftest import mock_config, mock_agent_data
 
         assert mock_config is not None
         assert mock_agent_data is not None
@@ -46,7 +57,6 @@ class TestSmokeInfrastructure:
 
     def test_v2_standards_checker_creation(self):
         """Test that V2StandardsChecker can be created."""
-        from tests.test_utils import V2StandardsChecker
 
         checker = V2StandardsChecker()
         assert checker is not None
@@ -56,7 +66,6 @@ class TestSmokeInfrastructure:
 
     def test_test_data_factory_creation(self):
         """Test that TestDataFactory can be used."""
-        from tests.test_utils import TestDataFactory
 
         factory = TestDataFactory()
         assert factory is not None
@@ -70,7 +79,6 @@ class TestSmokeInfrastructure:
 
     def test_test_assertions_creation(self):
         """Test that TestAssertions can be created."""
-        from tests.test_utils import TestAssertions
 
         assertions = TestAssertions()
         assert assertions is not None
@@ -104,7 +112,6 @@ class TestSmokeInfrastructure:
 
     def test_typing_imports(self):
         """Test that typing imports work."""
-        from typing import Dict, List, Any, Optional, Tuple, Union
 
         assert Dict is not None
         assert List is not None
@@ -116,7 +123,6 @@ class TestSmokeInfrastructure:
 
     def test_unittest_mock_imports(self):
         """Test that unittest.mock imports work."""
-        from unittest.mock import Mock, patch, MagicMock
 
         assert Mock is not None
         assert patch is not None
@@ -129,7 +135,6 @@ class TestSmokeFileOperations:
 
     def test_temp_file_creation(self):
         """Test temporary file creation and cleanup."""
-        from tests.test_utils import create_temp_test_file, cleanup_temp_files
 
         # Create temporary file
         content = "def test_function():\n    return True\n"
@@ -151,7 +156,6 @@ class TestSmokeFileOperations:
 
     def test_file_structure_assertion(self):
         """Test file structure assertion utility."""
-        from tests.test_utils import assert_file_structure
 
         # Test with current directory
         current_dir = Path(__file__).parent
@@ -167,7 +171,6 @@ class TestSmokeCLIUtilities:
 
     def test_cli_command_runner(self):
         """Test CLI command runner utility."""
-        from tests.test_utils import run_cli_command
 
         # Test with a simple Python command
         return_code, stdout, stderr = run_cli_command(
@@ -180,7 +183,6 @@ class TestSmokeCLIUtilities:
 
     def test_cli_help_assertion(self):
         """Test CLI help assertion utility."""
-        from tests.test_utils import assert_cli_help
 
         # Test with pytest help
         pytest_path = Path(sys.executable)
@@ -197,7 +199,6 @@ class TestSmokeV2Standards:
 
     def test_v2_standards_checker_basic(self):
         """Test basic V2 standards checker functionality."""
-        from tests.test_utils import V2StandardsChecker
 
         checker = V2StandardsChecker()
 
@@ -210,7 +211,6 @@ class TestSmokeV2Standards:
 
     def test_v2_standards_constants(self):
         """Test that V2 standards constants are defined."""
-        from tests.test_utils import V2StandardsChecker
 
         checker = V2StandardsChecker()
 
@@ -230,7 +230,6 @@ class TestSmokeTestData:
 
     def test_mock_agent_creation(self):
         """Test mock agent creation with various parameters."""
-        from tests.test_utils import TestDataFactory
 
         factory = TestDataFactory()
 
@@ -256,7 +255,6 @@ class TestSmokeTestData:
 
     def test_mock_workflow_creation(self):
         """Test mock workflow creation."""
-        from tests.test_utils import TestDataFactory
 
         factory = TestDataFactory()
         workflow = factory.create_mock_workflow()
@@ -269,7 +267,6 @@ class TestSmokeTestData:
 
     def test_mock_performance_metrics(self):
         """Test mock performance metrics creation."""
-        from tests.test_utils import TestDataFactory
 
         factory = TestDataFactory()
         metrics = factory.create_mock_performance_metrics()

@@ -1,3 +1,72 @@
+import argparse
+import sys
+
+# Core component imports (conditional to avoid import errors)
+try:
+    from .agent_manager import AgentManager
+except ImportError:
+    AgentManager = None
+
+try:
+    from .api_gateway import APIGateway
+except ImportError:
+    APIGateway = None
+
+try:
+    from .base_manager import BaseManager, ManagerStatus, ManagerPriority, ManagerMetrics
+except ImportError:
+    BaseManager = ManagerStatus = ManagerPriority = ManagerMetrics = None
+
+try:
+    from .communication import CommunicationManager
+except ImportError:
+    CommunicationManager = None
+
+try:
+    from .core_manager import CoreManager
+except ImportError:
+    CoreManager = None
+
+try:
+    from .health_monitor import HealthMonitor
+except ImportError:
+    HealthMonitor = None
+
+try:
+    from .manager_orchestrator import ManagerOrchestrator
+except ImportError:
+    ManagerOrchestrator = None
+
+try:
+    from .performance import PerformanceMonitor, MetricType
+except ImportError:
+    PerformanceMonitor = MetricType = None
+
+try:
+    from .task_manager import TaskManager
+except ImportError:
+    TaskManager = None
+
+try:
+    from .tasks.execution import TaskExecutor
+except ImportError:
+    TaskExecutor = None
+
+try:
+    from .tasks.monitoring import TaskMonitor
+except ImportError:
+    TaskMonitor = None
+
+try:
+    from .tasks.recovery import TaskRecovery
+except ImportError:
+    TaskRecovery = None
+
+try:
+    from .tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
+except ImportError:
+    TaskScheduler = Task = TaskPriority = TaskStatus = None
+
 """
 🔧 Core Package - Agent_Cellphone_V2
 
@@ -17,37 +86,22 @@ __version__ = "2.0.0"
 __author__ = "Integration & Performance Optimization Captain"
 __status__ = "ACTIVE"
 
-import argparse
-import sys
 
 # SSOT: Core component imports - Single source of truth for all core classes
 try:
     # Performance monitoring (SSOT: Unified from multiple locations)
-    from .performance import PerformanceMonitor, MetricType
     
     # Task management (SSOT: Unified task system)
-    from .task_manager import TaskManager
-    from .tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
-    from .tasks.execution import TaskExecutor
-    from .tasks.monitoring import TaskMonitor
-    from .tasks.recovery import TaskRecovery
     
     # Core management (SSOT: Unified manager system)
-    from .base_manager import BaseManager, ManagerStatus, ManagerPriority, ManagerMetrics
-    from .core_manager import CoreManager
-    from .manager_orchestrator import ManagerOrchestrator
     
     # Communication (SSOT: Unified communication system)
-    from .communication import CommunicationManager
 
     # Agent management (lifecycle/communication/learning)
-    from .agent_manager import AgentManager
     
     # Health monitoring (SSOT: Unified health system)
-    from .health_monitor import HealthMonitor
     
     # API gateway (SSOT: Unified API system)
-    from .api_gateway import APIGateway
     
     __all__ = [
         # Performance

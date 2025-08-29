@@ -1,14 +1,16 @@
-from __future__ import annotations
-
-"""Core report generation logic extracted from the legacy generator."""
-
-import logging
-import time
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+import logging
 
 from .models import HealthReport, ReportConfig, ReportType, ReportFormat
+from __future__ import annotations
+import time
+
+
+"""Core report generation logic extracted from the legacy generator."""
+
+
 
 logger = logging.getLogger(__name__)
 

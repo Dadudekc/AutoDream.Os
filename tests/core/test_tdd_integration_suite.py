@@ -1,3 +1,20 @@
+from datetime import datetime, timedelta
+from pathlib import Path
+import asyncio
+import json
+
+import pytest
+
+        import concurrent.futures
+        import threading
+    from src.core.decision import DecisionManager as DecisionMakingEngine
+    from src.core.decision.decision_types import DecisionRequest, DecisionType
+    from src.core.messaging.message_queue import PersistentMessageQueue
+    from src.core.messaging.message_types import Message, UnifiedMessagePriority, MessageStatus
+    from src.core.swarm_coordination_system import SwarmCoordinationSystem
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch
+
 """
 TDD Integration Test Suite - Agent Cellphone V2 
 ==============================================
@@ -13,22 +30,10 @@ Components Under Test:
 TDD Status: RED - Integration tests first, system integration follows
 """
 
-import pytest
-import asyncio
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch
-from datetime import datetime, timedelta
 
 # Import TDD components (will fail initially - RED phase)
 try:
-    from src.core.messaging.message_queue import PersistentMessageQueue
-    from src.core.messaging.message_types import Message, UnifiedMessagePriority, MessageStatus
-    from src.core.decision import DecisionManager as DecisionMakingEngine
-    from src.core.decision.decision_types import DecisionRequest, DecisionType
-    from src.core.swarm_coordination_system import SwarmCoordinationSystem
     TDD_IMPORTS_AVAILABLE = True
 except ImportError as e:
     TDD_IMPORTS_AVAILABLE = False
@@ -337,8 +342,6 @@ class TestTDDPerformanceIntegration:
     
     def test_concurrent_system_operations_tdd(self, performance_system_setup):
         """RED: Test concurrent operations across all TDD components"""
-        import threading
-        import concurrent.futures
         
         queue = performance_system_setup['message_queue']
         engine = performance_system_setup['decision_engine']

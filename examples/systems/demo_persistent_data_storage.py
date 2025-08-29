@@ -1,3 +1,13 @@
+from pathlib import Path
+import json
+import sys
+
+from core.data_integrity_manager import DataIntegrityManager, IntegrityCheckType
+from core.persistent_data_storage import PersistentDataStorage
+from core.persistent_storage_config import StorageType, DataIntegrityLevel
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 PERSISTENT DATA STORAGE DEMO - Agent Cellphone V2
@@ -6,20 +16,12 @@ PERSISTENT DATA STORAGE DEMO - Agent Cellphone V2
 Demonstrates persistent data storage with integrity, recovery, and backup.
 """
 
-import time
-import sys
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.persistent_data_storage import PersistentDataStorage
-from core.persistent_storage_config import StorageType, DataIntegrityLevel
-from core.data_integrity_manager import DataIntegrityManager, IntegrityCheckType
 
 
 def main():

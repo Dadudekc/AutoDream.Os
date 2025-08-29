@@ -1,3 +1,15 @@
+from pathlib import Path
+from typing import Dict, Any, List
+import shutil
+import tempfile
+
+import pytest
+
+from src.utils.stability_improvements import stability_manager, safe_import
+from tests.utils.test_data import get_sample_agent_data
+from tests.utils.test_helpers import (
+from unittest.mock import Mock, patch, MagicMock
+
 #!/usr/bin/env python3
 """
 Repository Scanner Test Suite - Agent_Cellphone_V2_Repository
@@ -6,23 +18,14 @@ Foundation & Testing Specialist - Testing Framework Setup
 Comprehensive testing for intelligent repository scanner functionality.
 """
 
-import pytest
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List
 
 # Import test utilities
-from tests.utils.test_helpers import (
     create_mock_file_system,
     create_mock_database,
     assert_test_results,
     performance_test_wrapper,
 )
-from tests.utils.test_data import get_sample_agent_data
 
 
 class TestRepositoryScanner:

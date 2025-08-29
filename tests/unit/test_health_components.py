@@ -1,3 +1,17 @@
+from datetime import datetime
+from pathlib import Path
+import asyncio
+import sys
+
+import pytest
+
+from core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
+from core.health_metrics_collector import HealthMetricsCollector
+from core.health_score_calculator import HealthScoreCalculator
+from core.health_threshold_manager import HealthThresholdManager
+from core.health_threshold_manager_simple import HealthThresholdManagerSimple
+from unittest.mock import Mock, patch
+
 #!/usr/bin/env python3
 """
 🧪 Unit Tests for Refactored Health Monitoring Components
@@ -11,22 +25,11 @@ Author: Foundation & Testing Specialist
 License: MIT
 """
 
-import pytest
-import asyncio
 
-from datetime import datetime
-from unittest.mock import Mock, patch
-from pathlib import Path
-import sys
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from core.health_metrics_collector import HealthMetricsCollector
-from core.health_threshold_manager import HealthThresholdManager
-from core.health_threshold_manager_simple import HealthThresholdManagerSimple
-from core.health_score_calculator import HealthScoreCalculator
-from core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 
 
 class TestHealthMetricsCollector:

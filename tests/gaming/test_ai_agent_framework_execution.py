@@ -1,12 +1,15 @@
-import unittest
-import sys
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+import sys
+
+import unittest
+
+from gaming_systems.ai_agent_framework import (
 from unittest.mock import Mock
+
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from gaming_systems.ai_agent_framework import (
     BehaviorNodeType,
     ActionNode,
     ConditionNode,

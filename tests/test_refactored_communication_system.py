@@ -1,3 +1,17 @@
+from pathlib import Path
+import asyncio
+import json
+import tempfile
+
+import pytest
+
+from src.core.broadcast_system import BroadcastSystem, BroadcastMessage
+from src.core.communication_compatibility_layer import AgentCommunicationProtocol
+from src.core.input_buffer_system import InputBufferSystem, BufferedInput
+from src.core.screen_region_manager import ScreenRegionManager, ScreenRegion
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, AsyncMock
+
 #!/usr/bin/env python3
 """
 Test Suite for Refactored Communication System - Agent_Cellphone_V2
@@ -10,20 +24,9 @@ Author: Agent-1 (Foundation & Testing Specialist)
 License: MIT
 """
 
-import pytest
-import asyncio
-import json
-import tempfile
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch, AsyncMock
 
 # Import our refactored components
-from src.core.screen_region_manager import ScreenRegionManager, ScreenRegion
-from src.core.input_buffer_system import InputBufferSystem, BufferedInput
-from src.core.broadcast_system import BroadcastSystem, BroadcastMessage
-from src.core.communication_compatibility_layer import AgentCommunicationProtocol
 
 
 class TestScreenRegionManager:

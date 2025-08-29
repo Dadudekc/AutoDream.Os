@@ -1,3 +1,14 @@
+from datetime import datetime
+import logging
+
+import unittest
+
+from gaming_integration import (
+from src.core.managers.performance_manager import PerformanceManager
+from src.core.performance.alerts import AlertSeverity
+from unittest.mock import Mock, patch
+import time
+
 #!/usr/bin/env python3
 """
 Gaming Integration Test Suite - TASK 3C
@@ -9,22 +20,14 @@ Author: Agent-3 Integration & Testing Specialist
 Task: TASK 3C - Gaming Systems Integration
 """
 
-import unittest
-import time
-import logging
-from unittest.mock import Mock, patch
-from datetime import datetime
 
 # Import gaming integration components
-from gaming_integration import (
     GamingIntegrationManager, 
     GamingPerformanceMetrics, 
     GamingAlert
 )
 
 # Import core infrastructure components
-from src.core.managers.performance_manager import PerformanceManager
-from src.core.performance.alerts import AlertSeverity
 
 
 class TestGamingIntegration(unittest.TestCase):

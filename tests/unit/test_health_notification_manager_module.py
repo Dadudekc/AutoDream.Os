@@ -1,14 +1,15 @@
+from src.core.health.alerting.models import AlertSeverity
+from src.core.health.monitoring.health_metrics_collector import (
+from src.core.health.monitoring.health_monitoring_config import (
+from src.core.health.monitoring.health_monitoring_metrics import HealthMetricType
 from src.core.health.monitoring.health_notification_manager import (
+
     HealthNotificationManager,
 )
-from src.core.health.monitoring.health_metrics_collector import (
     HealthMetricsCollector,
 )
-from src.core.health.monitoring.health_monitoring_metrics import HealthMetricType
-from src.core.health.monitoring.health_monitoring_config import (
     initialize_default_thresholds,
 )
-from src.core.health.alerting.models import AlertSeverity
 
 
 def test_create_and_resolve_alert():

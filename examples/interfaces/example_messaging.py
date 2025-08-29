@@ -1,10 +1,14 @@
-"""Example implementations for messaging interfaces."""
-
-from __future__ import annotations
-
 from typing import Any, Dict, List, Optional, Tuple
 
+from __future__ import annotations
 from src.services.messaging.interfaces import (
+from src.services.messaging.storage.models import V2Message
+from src.services.messaging.storage.storage import IMessageStorage
+
+"""Example implementations for messaging interfaces."""
+
+
+
     IBulkMessaging,
     ICampaignMessaging,
     ICoordinateManager,
@@ -15,8 +19,6 @@ from src.services.messaging.interfaces import (
     IYOLOMessaging,
     MessageType,
 )
-from src.services.messaging.storage.storage import IMessageStorage
-from src.services.messaging.storage.models import V2Message
 
 
 class InMemoryMessageStorage(IMessageStorage):

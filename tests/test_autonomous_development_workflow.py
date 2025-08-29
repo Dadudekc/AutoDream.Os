@@ -1,3 +1,16 @@
+from datetime import datetime
+from typing import TYPE_CHECKING
+import asyncio
+
+import pytest
+import unittest
+
+    from src.autonomous_development.core import DevelopmentTask
+    from src.core.task_manager import DevelopmentTaskManager
+from src.autonomous_development.workflow.manager import AutonomousWorkflowManager
+from src.utils.stability_improvements import safe_import
+from unittest.mock import Mock, AsyncMock, patch, call
+
 #!/usr/bin/env python3
 """
 Tests for Autonomous Development Workflow Module
@@ -6,20 +19,10 @@ Tests for Autonomous Development Workflow Module
 Tests the workflow management functionality for autonomous development.
 """
 
-import pytest
-import asyncio
-import unittest
-from unittest.mock import Mock, AsyncMock, patch, call
-from datetime import datetime
 
-from src.autonomous_development.workflow.manager import AutonomousWorkflowManager
 # Use type hints with strings to avoid circular imports
-from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from src.autonomous_development.core import DevelopmentTask
-    from src.core.task_manager import DevelopmentTaskManager
 
-from src.utils.stability_improvements import safe_import
 
 autonomous_dev_module = safe_import("src.core.autonomous_development")
 AutonomousDevelopmentEngine = getattr(

@@ -1,11 +1,13 @@
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from __future__ import annotations
+from dataclasses import dataclass, field
+from enum import Enum
+
 
 """Shared data models for health reporting."""
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional
 
 
 class ReportType(Enum):

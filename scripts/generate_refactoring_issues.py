@@ -182,7 +182,6 @@ def main():
                     
         except Exception as e:
             print(f"   ❌ Error processing {contract_file}: {e}")
-            import traceback
             traceback.print_exc()
     
     print("\n" + "=" * 60)

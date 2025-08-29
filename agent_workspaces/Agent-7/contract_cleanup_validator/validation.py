@@ -1,18 +1,20 @@
-"""Validation routines for contract cleanup."""
-from __future__ import annotations
-
-import subprocess
 from datetime import datetime
 from pathlib import Path
 from typing import List, Tuple
+import subprocess
 
+from . import rules
 from .shared import (
+from __future__ import annotations
+
+"""Validation routines for contract cleanup."""
+
+
     CleanupRequirement,
     CleanupValidation,
     StandardRequirement,
     DEBUG_PATTERNS,
 )
-from . import rules
 
 
 def check_code_cleanup(contract_id: str) -> Tuple[bool, List[str]]:

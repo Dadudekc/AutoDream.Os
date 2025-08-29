@@ -1,3 +1,12 @@
+from pathlib import Path
+import os
+import sys
+
+        from core.v2_comprehensive_messaging_system import (
+        import time
+        import traceback
+from src.utils.stability_improvements import stability_manager, safe_import
+
 #!/usr/bin/env python3
 """
 Smoke Test for V2 Comprehensive Messaging System
@@ -9,11 +18,7 @@ Author: V2 Testing Specialist
 License: MIT
 """
 
-import sys
-import os
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -26,7 +31,6 @@ def smoke_test_comprehensive_system():
     try:
         # Test 1: Import the comprehensive messaging system
         print("✅ Test 1: Importing V2 comprehensive messaging system...")
-        from core.v2_comprehensive_messaging_system import (
             V2MessageType, V2MessagePriority, V2MessageStatus, V2AgentStatus,
             V2TaskStatus, V2WorkflowStatus, V2WorkflowType, V2AgentCapability,
             V2Message, V2AgentInfo, V2ComprehensiveMessagingSystem,
@@ -260,7 +264,6 @@ def smoke_test_comprehensive_system():
         
     except Exception as e:
         print(f"\n❌ COMPREHENSIVE SMOKE TEST FAILED: {e}")
-        import traceback
         traceback.print_exc()
         return False
 
@@ -271,7 +274,6 @@ def smoke_test_enum_completeness():
     print("=" * 40)
     
     try:
-        from core.v2_comprehensive_messaging_system import (
             V2MessageType, V2MessagePriority, V2MessageStatus, V2AgentStatus,
             V2TaskStatus, V2WorkflowStatus, V2WorkflowType, V2AgentCapability
         )
@@ -358,7 +360,6 @@ def smoke_test_message_features():
     print("=" * 45)
     
     try:
-        from core.v2_comprehensive_messaging_system import (
             V2Message, V2MessageType, V2MessagePriority, V2MessageStatus
         )
         
@@ -440,7 +441,6 @@ def smoke_test_message_features():
         # Test TTL expiration
         message.ttl = 1
         assert not message.is_expired()
-        import time
         time.sleep(1.1)
         assert message.is_expired()
         

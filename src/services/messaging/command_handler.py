@@ -1,14 +1,23 @@
+import argparse
+import logging
+import json
+import os
+from .interactive_coordinate_capture import (
+    InteractiveCoordinateCapture
+)
+from agent_workspaces.meeting.contract_claiming_system import ContractClaimingSystem
+from datetime import datetime, timedelta
+import sys
+from .config import DEFAULT_COORDINATE_MODE, AGENT_COUNT, CAPTAIN_ID
+from .coordinate_manager import CoordinateManager
+from .interfaces import MessagingMode, MessageType
+from .output_formatter import OutputFormatter
+from .unified_messaging_service import UnifiedMessagingService
+
 #!/usr/bin/env python3
 """Command handler for messaging operations."""
 
-import argparse
-import logging
 
-from .interfaces import MessagingMode, MessageType
-from .unified_messaging_service import UnifiedMessagingService
-from .coordinate_manager import CoordinateManager
-from .output_formatter import OutputFormatter
-from .config import DEFAULT_COORDINATE_MODE, AGENT_COUNT, CAPTAIN_ID
 
 logger = logging.getLogger(__name__)
 
@@ -63,6 +72,10 @@ class CommandHandler:
                 return self._handle_resume_agents(args)
             elif args.message:
                 return self._handle_message(args)
+            elif args.onboard:
+                return self._handle_onboarding(args)
+            elif args.check_status:
+                return self._handle_status_check()
             else:
                 return False
 
@@ -224,6 +237,380 @@ class CommandHandler:
             logger.error(f"Error handling message: {e}")
             return False
 
+    def _handle_onboarding(self, args: argparse.Namespace) -> bool:
+        """Handle automatic agent onboarding with contract assignment"""
+        try:
+            print("🚀 AUTOMATIC AGENT ONBOARDING: Contract Assignment & System Overview")
+            print("=" * 80)
+            
+            # Get available contracts for assignment
+            contract_system = ContractClaimingSystem("agent_workspaces/meeting/task_list.json")
+            available_contracts = contract_system.list_available_contracts()
+            
+            if not available_contracts or len(available_contracts) < 7:
+                print(f"⚠️ Only {len(available_contracts) if available_contracts else 0} available contracts found - creating additional real problem-solving contracts...")
+                # Create real contracts for SSOT, deduplication, and monolithic file modularization
+                real_contracts = [
+                    {
+                        "contract_id": "SSOT-001",
+                        "title": "SSOT Violation Analysis & Resolution",
+                        "description": "Identify and resolve multiple sources of truth violations across the codebase",
+                        "difficulty": "HIGH",
+                        "estimated_time": "3-4 hours",
+                        "extra_credit_points": 400,
+                        "requirements": [
+                            "Analyze codebase for SSOT violations",
+                            "Identify duplicate data sources",
+                            "Create consolidation plan",
+                            "Implement SSOT resolution"
+                        ],
+                        "deliverables": [
+                            "SSOT violation analysis report",
+                            "Consolidation plan document",
+                            "Implementation code changes"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "SSOT_Resolution"
+                    },
+                    {
+                        "contract_id": "DEDUP-001", 
+                        "title": "Code Duplication Detection & Consolidation",
+                        "description": "Find and eliminate duplicate code patterns, consolidate into reusable components",
+                        "difficulty": "MEDIUM",
+                        "estimated_time": "2-3 hours",
+                        "extra_credit_points": 350,
+                        "requirements": [
+                            "Scan codebase for duplicate patterns",
+                            "Identify consolidation opportunities",
+                            "Create reusable components",
+                            "Update affected code"
+                        ],
+                        "deliverables": [
+                            "Duplication analysis report",
+                            "Reusable component library",
+                            "Code refactoring changes"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "Deduplication"
+                    },
+                    {
+                        "contract_id": "MODULAR-001",
+                        "title": "Monolithic File Modularization",
+                        "description": "Break down large files (>500 LOC) into smaller, maintainable modules",
+                        "difficulty": "HIGH",
+                        "estimated_time": "4-5 hours",
+                        "extra_credit_points": 500,
+                        "requirements": [
+                            "Identify monolithic files",
+                            "Design modular architecture",
+                            "Break down into smaller files",
+                            "Update imports and references"
+                        ],
+                        "deliverables": [
+                            "Modularization plan",
+                            "Refactored code files",
+                            "Updated import statements"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "Modularization"
+                    },
+                    {
+                        "contract_id": "SSOT-002",
+                        "title": "Data Source Consolidation",
+                        "description": "Consolidate scattered data sources into single authoritative locations",
+                        "difficulty": "MEDIUM",
+                        "estimated_time": "2-3 hours",
+                        "extra_credit_points": 450,
+                        "requirements": [
+                            "Map all data sources",
+                            "Identify authoritative locations",
+                            "Create migration plan",
+                            "Execute consolidation"
+                        ],
+                        "deliverables": [
+                            "Data source mapping",
+                            "Consolidation plan",
+                            "Migration implementation"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "SSOT_Resolution"
+                    },
+                    {
+                        "contract_id": "DEDUP-002",
+                        "title": "Function Duplication Elimination",
+                        "description": "Identify and eliminate duplicate function implementations across modules",
+                        "difficulty": "MEDIUM",
+                        "estimated_time": "2-3 hours",
+                        "extra_credit_points": 300,
+                        "requirements": [
+                            "Find duplicate functions",
+                            "Create unified implementations",
+                            "Update all references",
+                            "Remove duplicates"
+                        ],
+                        "deliverables": [
+                            "Duplication analysis",
+                            "Unified function library",
+                            "Reference updates"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "Deduplication"
+                    },
+                    {
+                        "contract_id": "MODULAR-002",
+                        "title": "Class Hierarchy Refactoring",
+                        "description": "Refactor large classes into smaller, focused components with clear responsibilities",
+                        "difficulty": "MEDIUM",
+                        "estimated_time": "3-4 hours",
+                        "extra_credit_points": 400,
+                        "requirements": [
+                            "Analyze class responsibilities",
+                            "Design component hierarchy",
+                            "Refactor large classes",
+                            "Update dependencies"
+                        ],
+                        "deliverables": [
+                            "Class analysis report",
+                            "Refactored components",
+                            "Updated class hierarchy"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "Modularization"
+                    },
+                    {
+                        "contract_id": "SSOT-003",
+                        "title": "Configuration Management Consolidation",
+                        "description": "Consolidate scattered configuration files into unified management system",
+                        "difficulty": "MEDIUM",
+                        "estimated_time": "2-3 hours",
+                        "extra_credit_points": 350,
+                        "requirements": [
+                            "Map all configuration files",
+                            "Identify consolidation opportunities",
+                            "Design unified system",
+                            "Implement consolidation"
+                        ],
+                        "deliverables": [
+                            "Configuration mapping report",
+                            "Unified system design",
+                            "Consolidation implementation"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "SSOT_Resolution"
+                    },
+                    {
+                        "contract_id": "DEDUP-003",
+                        "title": "Import Statement Optimization",
+                        "description": "Optimize and consolidate import statements across the codebase",
+                        "difficulty": "LOW",
+                        "estimated_time": "1-2 hours",
+                        "extra_credit_points": 200,
+                        "requirements": [
+                            "Analyze import patterns",
+                            "Identify optimization opportunities",
+                            "Consolidate imports",
+                            "Update affected files"
+                        ],
+                        "deliverables": [
+                            "Import optimization report",
+                            "Consolidated import statements",
+                            "Updated file references"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "Deduplication"
+                    },
+                    {
+                        "contract_id": "MODULAR-003",
+                        "title": "Service Layer Refactoring",
+                        "description": "Refactor service layer to eliminate duplication and improve modularity",
+                        "difficulty": "HIGH",
+                        "estimated_time": "3-4 hours",
+                        "extra_credit_points": 450,
+                        "requirements": [
+                            "Analyze service layer structure",
+                            "Identify modularization opportunities",
+                            "Design improved architecture",
+                            "Implement refactoring"
+                        ],
+                        "deliverables": [
+                            "Service layer analysis",
+                            "Architecture design document",
+                            "Refactoring implementation"
+                        ],
+                        "status": "AVAILABLE",
+                        "category": "Modularization"
+                    }
+                ]
+                
+                # Add these contracts to the actual task list
+                try:
+                    # Load existing task list
+                    task_list_path = "agent_workspaces/meeting/task_list.json"
+                    if os.path.exists(task_list_path):
+                        with open(task_list_path, 'r', encoding='utf-8') as f:
+                            task_list = json.load(f)
+                        
+                        # Add new category for these contracts
+                        if "SSOT_AND_DEDUP_CONTRACTS" not in task_list.get("contracts", {}):
+                            task_list["contracts"]["SSOT_AND_DEDUP_CONTRACTS"] = {
+                                "category": "SSOT_Resolution",
+                                "manager": "Agent-6",
+                                "contracts": []
+                            }
+                        
+                        # Add contracts to the task list
+                        for contract in real_contracts:
+                            # Ensure contract has the right structure
+                            contract_copy = contract.copy()
+                            if "status" not in contract_copy:
+                                contract_copy["status"] = "AVAILABLE"
+                            task_list["contracts"]["SSOT_AND_DEDUP_CONTRACTS"]["contracts"].append(contract_copy)
+                        
+                        # Update statistics
+                        task_list["total_contracts"] = task_list.get("total_contracts", 0) + len(real_contracts)
+                        task_list["available_contracts"] = task_list.get("available_contracts", 0) + len(real_contracts)
+                        
+                        # Save updated task list
+                        with open(task_list_path, 'w', encoding='utf-8') as f:
+                            json.dump(task_list, f, indent=2, ensure_ascii=False)
+                        
+                        print(f"✅ Added {len(real_contracts)} contracts to task list")
+                    else:
+                        print("⚠️ Task list not found, using in-memory contracts only")
+                except Exception as e:
+                    print(f"⚠️ Warning: Could not update task list: {e}")
+                    print("   Using in-memory contracts only")
+                
+                available_contracts = real_contracts
+                print(f"✅ Created {len(real_contracts)} real problem-solving contracts for onboarding")
+            
+            print(f"📋 Found {len(available_contracts)} available contracts for assignment")
+            
+            # Create simplified onboarding messages for each agent
+            onboarding_messages = {}
+            
+            for i in range(1, 9):  # Agents 1-8
+                if i == 4:  # Skip Agent-4 (Captain)
+                    continue
+                    
+                agent_id = f"Agent-{i}"
+                
+                # Assign a contract if available
+                if available_contracts:
+                    contract = available_contracts.pop(0)
+                    contract_name = contract.get("title", contract.get("name", "Unknown Contract"))
+                    points = contract.get("extra_credit_points", contract.get("points", 0))
+                    category = contract.get("category", "General")
+                    
+                    # Create simplified onboarding message
+                    message = f"""🚨 AGENT ONBOARDING: CONTRACT ASSIGNMENT & SYSTEM OVERVIEW
+
+📋 YOUR CONTRACT: {contract_name} - {points} points
+🎯 DELIVERABLE: Complete the assigned contract with high quality - this is REAL project work
+⏰ TIMELINE: Complete immediately
+
+🧹 WORKSPACE CLEANUP & ORGANIZATION:
+- IMMEDIATELY clean up your workspace: D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\{agent_id}\\
+- Remove any old files, temporary work, or clutter
+- Organize your workspace with clear folder structure
+- Keep only essential files related to your current contract
+- A clean workspace = better productivity and focus
+
+📚 ONBOARDING DIRECTORY REVIEW:
+- Review: D:\\Agent_Cellphone_V2_Repository\\onboarding\\
+- This contains your training materials and system protocols
+- Read through the documentation to understand your role
+- Familiarize yourself with the project structure and standards
+
+🔄 HOW YOU WORK WITH OTHER AGENTS:
+- You're part of a multiagentic feedback loop
+- Other agents will review your work and provide feedback
+- You'll review other agents' work and provide feedback
+- This creates continuous improvement and quality assurance
+- Always communicate clearly about your progress and blockers
+
+📝 DEVLOG SYSTEM (COMMAND LINE):
+- Use: python -m src.core.devlog_cli --add "Your progress message here"
+- Read other agents' devlogs: python -m src.core.devlog_cli --list
+- Search devlogs: python -m src.core.devlog_cli --search "keyword"
+- This is how we maintain transparency and coordination
+- Update devlog with any blockers, discoveries, or completed work
+- Other agents read your devlog to understand what you're working on
+
+🔧 CODING STANDARDS & EXPECTATIONS:
+- Use existing architecture before developing new solutions
+- Write clean, readable, well-documented code
+- Follow proper error handling and validation patterns
+- Test your changes thoroughly
+
+🚨 CRITICAL PROBLEMS TO FIX WHEN YOU SEE THEM:
+1. SSOT VIOLATIONS: Multiple sources of truth for the same data
+2. DUPLICATION: Repeated code that should be consolidated
+3. MONOLITHIC FILES: Files over 500 lines that need modularization
+
+📬 COMMUNICATION & MAIL RESPONSE:
+- Check your inbox REGULARLY: D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\{agent_id}\\
+- Respond to ALL messages from other agents and the Captain IMMEDIATELY
+- Keep your inbox updated with your progress
+- Check for new messages at least every 30 minutes
+- ALWAYS respond to mail - this is critical for coordination
+- If you receive a message, acknowledge it and provide status update
+
+📊 STATUS TRACKING:
+- Create/update: D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\{agent_id}\\status.json
+- Include: current_contract, progress, blockers, estimated_completion, last_updated
+- Example: {{"current_contract": "{contract_name}", "progress": "25%", "blockers": "None", "estimated_completion": "2 hours", "last_updated": "2025-08-28 22:30"}}
+- Update status.json every time you make progress or encounter blockers
+
+⚡ IMMEDIATE ACTION:
+1. CLEAN UP YOUR WORKSPACE immediately
+2. Review your contract details
+3. Start working immediately
+4. Submit deliverables when complete
+5. Claim your next contract
+
+🚀 OBJECTIVE: Help restore system momentum and reach INNOVATION PLANNING MODE
+
+📋 CONTRACT CLAIMING SYSTEM (COMMAND LINE):
+- List contracts: python agent_workspaces/meeting/contract_claiming_system.py --list
+- Claim contract: python agent_workspaces/meeting/contract_claiming_system.py --claim [CONTRACT_ID] --agent [YOUR_AGENT_ID]
+- Update progress: python agent_workspaces/meeting/contract_claiming_system.py --update-progress [CONTRACT_ID] --agent [YOUR_AGENT_ID] --progress "50% Complete"
+- Complete contract: python agent_workspaces/meeting/contract_claiming_system.py --complete [CONTRACT_ID] --agent [YOUR_AGENT_ID] --deliverables "Report, Plan, Code"
+- Check status: python agent_workspaces/meeting/contract_claiming_system.py --status [CONTRACT_ID]
+- Show stats: python agent_workspaces/meeting/contract_claiming_system.py --stats
+
+💡 TIP: Use --help to see all available commands and examples!"""
+                    
+                    onboarding_messages[agent_id] = message
+                    print(f"✅ {agent_id}: Assigned {contract_name} ({points} pts)")
+                else:
+                    print(f"⚠️ {agent_id}: No contracts available for assignment")
+            
+            # Send onboarding messages to all agents with new chat sequence
+            print(f"\n📡 Sending onboarding messages to {len(onboarding_messages)} agents...")
+            print("🚀 Using new chat sequence (Ctrl+N) for onboarding messages...")
+            
+            results = self.service.send_bulk_messages(onboarding_messages, "8-agent", MessageType.TEXT, new_chat=True)
+            
+            # Display results
+            if isinstance(results, dict):
+                success_count = sum(1 for success in results.values() if success)
+                print(f"\n📊 Onboarding Results: {success_count}/{len(onboarding_messages)} successful")
+                
+                for agent_id, success in results.items():
+                    status = "✅ Success" if success else "❌ Failed"
+                    print(f"   {agent_id}: {status}")
+            else:
+                print(f"\n📊 Onboarding Results: {results}")
+                success_count = len(onboarding_messages)  # Assume success if results format is unexpected
+            
+            return success_count > 0
+            
+        except Exception as e:
+            logger.error(f"Onboarding failed: {e}")
+            print(f"❌ Onboarding failed: {e}")
+            return False
+
     def _handle_coordinate_mapping(self, mode: str) -> bool:
         """Handle coordinate mapping display"""
         try:
@@ -352,11 +739,8 @@ class CommandHandler:
             print(f"📋 Claiming contract {contract_id} for {agent_id}...")
 
             # Import contract system
-            import sys
-            import os
 
             sys.path.append(os.path.join(os.getcwd(), "agent_workspaces", "meeting"))
-            from contract_claiming_system import ContractClaimingSystem
 
             # Use the correct path for task_list.json
             task_list_path = os.path.join(
@@ -393,11 +777,8 @@ class CommandHandler:
             print(f"🎯 Completing contract {contract_id} for {agent_id}...")
 
             # Import contract system
-            import sys
-            import os
 
             sys.path.append(os.path.join(os.getcwd(), "agent_workspaces", "meeting"))
-            from contract_claiming_system import ContractClaimingSystem
 
             # Use the correct path for task_list.json
             task_list_path = os.path.join(
@@ -442,11 +823,8 @@ class CommandHandler:
             print(f"🔍 Finding next available task for {agent_id}...")
 
             # Import contract system
-            import sys
-            import os
 
             sys.path.append(os.path.join(os.getcwd(), "agent_workspaces", "meeting"))
-            from contract_claiming_system import ContractClaimingSystem
 
             # Use the correct path for task_list.json
             task_list_path = os.path.join(
@@ -515,11 +893,8 @@ class CommandHandler:
             print("=" * 60)
 
             # Import contract system
-            import sys
-            import os
 
             sys.path.append(os.path.join(os.getcwd(), "agent_workspaces", "meeting"))
-            from contract_claiming_system import ContractClaimingSystem
 
             # Use the correct path for task_list.json
             task_list_path = os.path.join(
@@ -742,9 +1117,6 @@ class CommandHandler:
     def _should_send_resume_message(self) -> bool:
         """Check if enough time has passed since last resume message"""
         try:
-            import os
-            import json
-            from datetime import datetime, timedelta
 
             counter_file = "resume_message_counter.json"
 
@@ -778,9 +1150,6 @@ class CommandHandler:
     def _update_resume_message_counter(self):
         """Update the resume message counter after sending"""
         try:
-            import os
-            import json
-            from datetime import datetime
 
             counter_file = "resume_message_counter.json"
 
@@ -801,3 +1170,71 @@ class CommandHandler:
 
         except Exception as e:
             logger.error(f"Error updating resume message counter: {e}")
+
+    def _handle_status_check(self) -> bool:
+        """Handle checking all agent statuses from their status.json files"""
+        try:
+            print("📊 AGENT STATUS CHECK: Checking all agent statuses...")
+            print("=" * 80)
+            
+            
+            status_results = {}
+            total_agents = 0
+            active_agents = 0
+            
+            for i in range(1, 9):  # Agents 1-8
+                if i == 4:  # Skip Agent-4 (Captain)
+                    continue
+                    
+                agent_id = f"Agent-{i}"
+                total_agents += 1
+                
+                status_file_path = f"agent_workspaces/{agent_id}/status.json"
+                
+                if os.path.exists(status_file_path):
+                    try:
+                        with open(status_file_path, "r") as f:
+                            status_data = json.load(f)
+                        
+                        status_results[agent_id] = status_data
+                        active_agents += 1
+                        
+                        # Display agent status
+                        current_contract = status_data.get("current_contract", "Unknown")
+                        progress = status_data.get("progress", "Unknown")
+                        blockers = status_data.get("blockers", "None")
+                        estimated_completion = status_data.get("estimated_completion", "Unknown")
+                        last_updated = status_data.get("last_updated", "Unknown")
+                        
+                        print(f"✅ {agent_id}:")
+                        print(f"   📋 Contract: {current_contract}")
+                        print(f"   📊 Progress: {progress}")
+                        print(f"   🚧 Blockers: {blockers}")
+                        print(f"   ⏰ ETA: {estimated_completion}")
+                        print(f"   🕒 Last Updated: {last_updated}")
+                        print()
+                        
+                    except Exception as e:
+                        print(f"❌ {agent_id}: Error reading status.json - {e}")
+                        status_results[agent_id] = {"error": str(e)}
+                else:
+                    print(f"⚠️ {agent_id}: No status.json found - agent may be inactive")
+                    status_results[agent_id] = {"status": "inactive"}
+                    print()
+            
+            # Display summary
+            print("=" * 80)
+            print(f"📊 STATUS SUMMARY:")
+            print(f"   Total Agents: {total_agents}")
+            print(f"   Active Agents: {active_agents}")
+            print(f"   Inactive Agents: {total_agents - active_agents}")
+            
+            if active_agents > 0:
+                print(f"\n🎯 ACTIVE AGENTS: {', '.join([k for k, v in status_results.items() if 'error' not in v and v.get('status') != 'inactive'])}")
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Status check failed: {e}")
+            print(f"❌ Status check failed: {e}")
+            return False

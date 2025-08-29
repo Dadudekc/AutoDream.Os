@@ -1,29 +1,31 @@
+from pathlib import Path
+import asyncio
+import json
+import shutil
+import tempfile
+
+from src.core.config_manager import ConfigManager
+from src.services.api_manager import APIManager, APIEndpoint, APIMethod
+from src.services.integration_coordinator import IntegrationCoordinator
+from src.services.middleware_orchestrator import MiddlewareOrchestrator, DataPacket
+from src.services.service_registry import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 """
 Integration Infrastructure Smoke Test for Agent_Cellphone_V2_Repository
 Quick verification that the integration system works correctly.
 """
 
-import asyncio
-import json
-import time
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Import the components we're testing
-from src.services.api_manager import APIManager, APIEndpoint, APIMethod
-from src.services.middleware_orchestrator import MiddlewareOrchestrator, DataPacket
-from src.services.service_registry import (
     ServiceRegistry,
     ServiceInfo,
     ServiceType,
     ServiceMetadata,
     ServiceEndpoint,
 )
-from src.core.config_manager import ConfigManager
-from src.services.integration_coordinator import IntegrationCoordinator
 
 
 async def smoke_test_api_manager():

@@ -1,3 +1,19 @@
+from pathlib import Path
+from typing import Dict, List, Any, Optional, Tuple, Union
+import argparse
+import ast
+import os
+import sys
+
+import pytest
+
+    import shutil
+    import subprocess
+    import tempfile
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, MagicMock
+import inspect
+
 """
 Test Utilities for Agent_Cellphone_V2_Repository
 Foundation & Testing Specialist - TDD Integration Project
@@ -6,16 +22,7 @@ This module provides utility functions and helpers for testing,
 including V2 standards compliance validation and common testing patterns.
 """
 
-import ast
-import inspect
-import os
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple, Union
-from unittest.mock import Mock, patch, MagicMock
-import pytest
 
 
 class V2StandardsChecker:
@@ -426,7 +433,6 @@ def test_assertions():
 # Utility functions for testing
 def create_temp_test_file(content: str, filename: str = "test_file.py") -> Path:
     """Create a temporary test file with specified content."""
-    import tempfile
 
     temp_dir = tempfile.mkdtemp()
     file_path = Path(temp_dir) / filename
@@ -439,7 +445,6 @@ def create_temp_test_file(content: str, filename: str = "test_file.py") -> Path:
 
 def cleanup_temp_files(*file_paths: Path):
     """Clean up temporary test files."""
-    import shutil
 
     for file_path in file_paths:
         if file_path.exists():
@@ -503,7 +508,6 @@ def run_cli_command(
     Returns:
         Tuple of (return_code, stdout, stderr)
     """
-    import subprocess
 
     cmd = [sys.executable, str(script_path)] + args
 
@@ -542,7 +546,6 @@ def assert_cli_version(script_path: Path, expected_version: str = None):
 def test_v2_standards_checker(v2_checker):
     """Verify V2StandardsChecker flags compliant files correctly."""
     compliant_code = """\
-import argparse
 
 class Sample:
     def action(self):

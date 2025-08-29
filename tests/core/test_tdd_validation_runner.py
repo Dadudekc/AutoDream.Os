@@ -1,3 +1,22 @@
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, Any, List
+import json
+import logging
+import os
+import sys
+
+import unittest
+
+            from core.decision import (
+            from core.decision import AutonomousDecisionEngine
+            from core.decision.decision_types import DecisionRequest, DecisionType
+            from core.messaging.message_queue_tdd_refactored import (
+            from core.messaging.message_types import Message, UnifiedMessagePriority
+            from core.messaging.message_types import Message, UnifiedMessagePriority, MessageStatus
+from unittest.mock import Mock, MagicMock
+import time
+
 """
 TDD Validation Test Runner - Agent Cellphone V2
 ==============================================
@@ -13,19 +32,9 @@ This runner demonstrates the TDD GREEN phase:
 Status: GREEN PHASE - Tests should pass with refactored architecture
 """
 
-import sys
-import os
-import json
-import logging
-import unittest
-import time
 
 # Stability improvements are available but not auto-imported to avoid circular imports
 # from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, List
-from unittest.mock import Mock, MagicMock
 
 # Add src to path for testing
 current_dir = Path(__file__).parent.parent.parent
@@ -64,10 +73,8 @@ class TDDValidationRunner:
         
         try:
             # Import TDD refactored components
-            from core.messaging.message_queue_tdd_refactored import (
                 TDDMessageQueue, TDDMessageQueueFactory, QueueMetrics
             )
-            from core.messaging.message_types import Message, UnifiedMessagePriority, MessageStatus
             
             # Test 1: TDD Contract - Queue Initialization
             queue = TDDMessageQueueFactory.create_memory_queue("test_queue", max_size=100)
@@ -156,7 +163,6 @@ class TDDValidationRunner:
         
         try:
             # Import modular decision components
-            from core.decision import (
                 AutonomousDecisionEngine, DecisionRequest, DecisionType, DecisionPriority
             )
             
@@ -225,9 +231,6 @@ class TDDValidationRunner:
         
         try:
             # Import modular components
-            from core.decision import AutonomousDecisionEngine
-            from core.messaging.message_types import Message, UnifiedMessagePriority
-            from core.decision.decision_types import DecisionRequest, DecisionType
             
             # Test 1: Integration - Message Queue + Decision Engine
             # Note: Simplified test for modular system

@@ -1,3 +1,15 @@
+from pathlib import Path
+import json
+import os
+import shutil
+import sys
+import tempfile
+
+import unittest
+
+from src.launchers.sprint_management_launcher import (
+from src.utils.stability_improvements import stability_manager, safe_import
+
 #!/usr/bin/env python3
 """
 Full Sprint Integration Test - Agent Cellphone V2
@@ -6,21 +18,12 @@ Full Sprint Integration Test - Agent Cellphone V2
 End-to-end test of the sprint integration system.
 """
 
-import unittest
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-import sys
-import os
-import json
 
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from src.launchers.sprint_management_launcher import (
     SprintManagementLauncher,
     SprintLaunchConfig,
 )

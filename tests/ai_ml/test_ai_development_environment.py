@@ -1,3 +1,17 @@
+from pathlib import Path
+from typing import Dict, Any, Optional
+import os
+import sys
+
+import pytest
+
+    from src.ai_ml.api_key_manager import APIKeyManager
+from src.ai_debugger_assistant import AIDebuggerAssistant
+from src.autonomous_decision_engine import AutonomousDecisionEngine
+from src.smart_organizer import SmartOrganizer
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, MagicMock
+
 #!/usr/bin/env python3
 """
 AI Development Environment Test Suite
@@ -13,18 +27,8 @@ This test suite validates:
 - ML Robot Maker integration
 """
 
-import pytest
-import os
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, Optional
 
-from src.ai_debugger_assistant import AIDebuggerAssistant
-from src.smart_organizer import SmartOrganizer
-from src.autonomous_decision_engine import AutonomousDecisionEngine
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent
@@ -32,7 +36,6 @@ sys.path.insert(0, str(project_root))
 
 # Import only the API key manager (avoiding problematic ML framework imports)
 try:
-    from src.ai_ml.api_key_manager import APIKeyManager
 
     API_KEY_MANAGER_AVAILABLE = True
 except ImportError as e:

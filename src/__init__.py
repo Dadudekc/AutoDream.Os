@@ -1,3 +1,23 @@
+from pathlib import Path
+import argparse
+import sys
+
+# Import statements for main functionality (conditional to avoid import errors)
+try:
+    from examples.demo_suite import run_demo
+except ImportError:
+    run_demo = None
+
+try:
+    from tests.run_tests import run_all_tests
+except ImportError:
+    run_all_tests = None
+
+try:
+    from tests.v2_standards_checker import validate_v2_standards
+except ImportError:
+    validate_v2_standards = None
+
 """
 🚀 Agent_Cellphone_V2 - Main Package
 
@@ -19,12 +39,9 @@ __version__ = "2.0.0"
 __author__ = "Agent_Cellphone_V2 Development Team"
 __status__ = "ACTIVE - V2 STANDARDS COMPLIANT"
 
-import argparse
-import sys
 
 # Stability improvements are available but not auto-imported to avoid circular imports
 # from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 src_path = Path(__file__).parent
@@ -64,9 +81,11 @@ Examples:
     if args.test:
         print("🧪 Running comprehensive test suite...")
         # Import and run test suite
+        if run_all_tests is None:
+            print("⚠️ Test suite not available")
+            return 1
+        
         try:
-            from tests.run_tests import run_all_tests
-
             success = run_all_tests()
             if success:
                 print("✅ All tests passed!")
@@ -74,20 +93,22 @@ Examples:
             else:
                 print("❌ Some tests failed!")
                 return 1
-        except ImportError:
-            print("⚠️ Test suite not available")
+        except Exception as e:
+            print(f"❌ Test execution failed: {e}")
             return 1
 
     elif args.demo:
         print("🚀 Starting Agent_Cellphone_V2 demo...")
         # Import and run demo
+        if run_demo is None:
+            print("⚠️ Demo not available")
+            return 1
+        
         try:
-            from examples.demo_suite import run_demo
-
             run_demo()
             return 0
-        except ImportError:
-            print("⚠️ Demo not available")
+        except Exception as e:
+            print(f"❌ Demo execution failed: {e}")
             return 1
 
     elif args.status:
@@ -112,9 +133,11 @@ Examples:
     elif args.validate:
         print("🔍 Validating V2 coding standards compliance...")
         # Import and run validation
+        if validate_v2_standards is None:
+            print("⚠️ Standards checker not available")
+            return 1
+        
         try:
-            from tests.v2_standards_checker import validate_v2_standards
-
             results = validate_v2_standards()
             if results["overall_compliance"]:
                 print("✅ V2 standards compliance validated!")
@@ -122,8 +145,8 @@ Examples:
             else:
                 print("❌ V2 standards violations found!")
                 return 1
-        except ImportError:
-            print("⚠️ Standards checker not available")
+        except Exception as e:
+            print(f"❌ Standards validation failed: {e}")
             return 1
 
     else:

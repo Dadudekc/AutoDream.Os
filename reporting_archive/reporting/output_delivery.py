@@ -1,13 +1,15 @@
+from pathlib import Path
+from typing import List
+import logging
+
+from .data_formatter import ReportFormatter
+from .models import HealthReport, ReportFormat
 from __future__ import annotations
+
 
 """Output delivery utilities for health reports."""
 
-import logging
-from pathlib import Path
-from typing import List
 
-from .models import HealthReport, ReportFormat
-from .data_formatter import ReportFormatter
 
 logger = logging.getLogger(__name__)
 

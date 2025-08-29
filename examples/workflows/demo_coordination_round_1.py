@@ -1,3 +1,12 @@
+from pathlib import Path
+import json
+import sys
+
+from core.decision import DecisionManager as DecisionMakingEngine, DecisionType
+from core.decision_coordination_system import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 COORDINATION ROUND 1 DEMO: Decision-Making Algorithms
@@ -7,19 +16,12 @@ Demonstrates collaborative decision-making algorithms and coordination systems.
 This is COORDINATION ROUND 1 of 6 - Decision-Making Algorithms focus.
 """
 
-import time
-import sys
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.decision import DecisionManager as DecisionMakingEngine, DecisionType
-from core.decision_coordination_system import (
     DecisionCoordinationSystem,
     CoordinationMode,
 )

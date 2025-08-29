@@ -1,20 +1,22 @@
+from pathlib import Path
+import sys
+
+from __future__ import annotations
+from services.response_capture import (
+from services.response_capture.cli import run_smoke_test
+
 #!/usr/bin/env python3
 """Smoke tests for the response capture service."""
 
-from __future__ import annotations
 
-import sys
-from pathlib import Path
 
 # Ensure src is on the import path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from services.response_capture import (
     CaptureConfig,
     CaptureStrategy,
     ResponseCaptureService,
 )
-from services.response_capture.cli import run_smoke_test
 
 
 def test_smoke_test_runner() -> None:

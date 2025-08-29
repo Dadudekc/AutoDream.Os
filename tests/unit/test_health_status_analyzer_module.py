@@ -1,18 +1,19 @@
-from src.core.health.monitoring.health_status_analyzer import HealthStatusAnalyzer
+from src.core.health.alerting.models import AlertSeverity
 from src.core.health.monitoring.health_metrics_collector import (
+from src.core.health.monitoring.health_monitoring_config import (
+from src.core.health.monitoring.health_monitoring_metrics import (
+from src.core.health.monitoring.health_notification_manager import (
+from src.core.health.monitoring.health_status_analyzer import HealthStatusAnalyzer
+
     HealthMetricsCollector,
 )
-from src.core.health.monitoring.health_monitoring_metrics import (
     HealthMetricType,
     HealthStatus,
 )
-from src.core.health.monitoring.health_notification_manager import (
     HealthNotificationManager,
 )
-from src.core.health.monitoring.health_monitoring_config import (
     initialize_default_thresholds,
 )
-from src.core.health.alerting.models import AlertSeverity
 
 
 def test_analyzer_updates_scores_and_status():

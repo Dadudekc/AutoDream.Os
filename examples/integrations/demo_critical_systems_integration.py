@@ -1,41 +1,47 @@
+from datetime import datetime
+from pathlib import Path
+import json
+import sys
+
+        import traceback
+    from core.decision import AgentCapability
+    from core.decision import DecisionContext
+    from core.decision import LearningData
+from core.decision import (
+from core.internationalization_manager import (
+from core.persistent_data_storage import PersistentDataStorage
+from core.persistent_storage_config import DataIntegrityLevel
+from core.scaling import (
+import time
+
 #!/usr/bin/env python3
 """
 Critical Systems Integration Demo for Agent Cellphone V2
 Demonstrates Internationalization, Horizontal Scaling, and Autonomous Decision-Making
 """
 
-import sys
-import time
-import json
 
 # Stability improvements are available but not auto-imported to avoid circular imports
 # from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from datetime import datetime
 
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.internationalization_manager import (
     InternationalizationManager,
     LanguageCode,
     CulturalRegion,
     LocalizationLevel,
 )
-from core.scaling import (
     ScalingManager,
     ScalingStrategy,
 )
-from core.decision import (
     AutonomousDecisionEngine,
     DecisionType,
     DecisionConfidence,
     LearningMode,
     IntelligenceLevel,
 )
-from core.persistent_data_storage import PersistentDataStorage
-from core.persistent_storage_config import DataIntegrityLevel
 
 
 def demo_internationalization_system():
@@ -171,7 +177,6 @@ def demo_autonomous_decision_system():
 
     # Test agent capability updates
     print("\n👥 Agent Capability Test:")
-    from core.decision import AgentCapability
 
     test_capability = AgentCapability(
         agent_id="demo_agent_001",
@@ -188,7 +193,6 @@ def demo_autonomous_decision_system():
 
     # Test autonomous decision making
     print("\n🤖 Autonomous Decision Test:")
-    from core.decision import DecisionContext
 
     # Test task assignment decision
     task_context = DecisionContext(
@@ -243,7 +247,6 @@ def demo_autonomous_decision_system():
 
     # Test learning data addition
     print("\n📚 Learning Data Test:")
-    from core.decision import LearningData
 
     learning_data = LearningData(
         input_features=[0.9, 0.8, 0.95, 0.7],
@@ -307,7 +310,6 @@ def demo_system_integration():
         scaling_engine.update_node_metrics(test_node.node_id, 60.0, 0.4)
 
         # Make autonomous decision about scaling
-        from core.decision import DecisionContext
 
         scaling_context = DecisionContext(
             decision_id="scaling_decision_001",
@@ -430,7 +432,6 @@ def main():
 
     except Exception as e:
         print(f"\n❌ Demo failed with error: {e}")
-        import traceback
 
         traceback.print_exc()
 

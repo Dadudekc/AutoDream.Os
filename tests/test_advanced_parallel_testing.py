@@ -1,3 +1,25 @@
+from pathlib import Path
+import os
+import subprocess
+import sys
+import tempfile
+
+import unittest
+
+            import psutil
+            import time
+            import time
+        from unittest.mock import Mock, patch
+        import requests
+        import requests
+        import shutil
+        import time
+        import unittest
+        import unittest
+from advanced_parallel_testing import (
+from unittest.mock import Mock, patch, MagicMock
+import time
+
 #!/usr/bin/env python3
 """
 Test Suite for Advanced Parallel Testing Implementation
@@ -11,19 +33,10 @@ Contract: TEST-002: Parallel Testing Implementation
 Extra Credit: 200 points
 """
 
-import unittest
-import tempfile
-import os
-import sys
-import time
-from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
-import subprocess
 
 # Add the tests directory to the path for imports
 sys.path.insert(0, str(Path(__file__).parent))
 
-from advanced_parallel_testing import (
     AdvancedParallelTestingEngine,
     TestExecutionMetrics
 )
@@ -86,7 +99,6 @@ class TestAdvancedParallelTestingEngine(unittest.TestCase):
         
         # Complex test content
         complex_content = """
-        import unittest
         class TestComplex(unittest.TestCase):
             def setUp(self):
                 self.db = Database()
@@ -100,7 +112,6 @@ class TestAdvancedParallelTestingEngine(unittest.TestCase):
         
         # Content with multiple complexity factors
         multi_factor_content = """
-        import requests
         class TestNetwork(unittest.TestCase):
             def setUp(self):
                 self.mock_service = Mock()
@@ -258,7 +269,6 @@ class TestAdvancedParallelTestingEngine(unittest.TestCase):
         """Test memory usage calculation."""
         # Test with psutil available
         try:
-            import psutil
             memory = self.engine._get_memory_usage()
             self.assertGreaterEqual(memory, 0.0)
         except ImportError:
@@ -279,7 +289,6 @@ class TestAdvancedParallelTestingIntegration(unittest.TestCase):
     
     def tearDown(self):
         """Clean up integration test fixtures."""
-        import shutil
         shutil.rmtree(self.temp_dir, ignore_errors=True)
     
     def _create_test_files(self):
@@ -287,13 +296,11 @@ class TestAdvancedParallelTestingIntegration(unittest.TestCase):
         test_files = [
             ("test_simple.py", "def test_simple(): assert True"),
             ("test_medium.py", """
-            import time
             def test_medium():
                 time.sleep(0.1)
                 assert True
             """),
             ("test_complex.py", """
-            import time
             class TestComplex:
                 def setup_method(self):
                     self.data = [1, 2, 3]
@@ -365,10 +372,6 @@ class TestAdvancedParallelTestingPerformance(unittest.TestCase):
     def test_complexity_score_calculation_performance(self):
         """Test complexity score calculation performance."""
         test_content = """
-        import unittest
-        import time
-        import requests
-        from unittest.mock import Mock, patch
         
         class TestPerformance(unittest.TestCase):
             def setUp(self):

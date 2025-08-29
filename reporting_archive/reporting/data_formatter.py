@@ -1,10 +1,12 @@
+from typing import Any
+import json
+
+from .models import HealthReport, ReportFormat
 from __future__ import annotations
+
 
 """Functions responsible for formatting :class:`HealthReport` objects."""
 
-import json
-from typing import Any
-from .models import HealthReport, ReportFormat
 
 
 class ReportFormatter:

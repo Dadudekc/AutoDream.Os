@@ -1,3 +1,12 @@
+from pathlib import Path
+import json
+import sys
+
+        from core.refactoring.advanced_refactoring_toolkit import AdvancedRefactoringToolkit
+        from core.refactoring.automated_workflow_orchestrator import AutomatedWorkflowOrchestrator
+        from core.refactoring.refactoring_performance_benchmark import RefactoringPerformanceBenchmark
+import time
+
 #!/usr/bin/env python3
 """
 Refactoring Tools Integration Testing - Agent-5
@@ -11,10 +20,6 @@ Contract: REFACTOR-001
 Status: INTEGRATION TESTING
 """
 
-import sys
-import json
-import time
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.append('src')
@@ -127,7 +132,6 @@ def test_tool_imports():
     import_results = {}
     
     try:
-        from core.refactoring.advanced_refactoring_toolkit import AdvancedRefactoringToolkit
         import_results["advanced_refactoring_toolkit"] = {"status": "IMPORT_SUCCESS", "class": "AdvancedRefactoringToolkit"}
         print("✅ Advanced Refactoring Toolkit: IMPORT SUCCESS")
     except Exception as e:
@@ -135,7 +139,6 @@ def test_tool_imports():
         print(f"❌ Advanced Refactoring Toolkit: IMPORT FAILED - {e}")
     
     try:
-        from core.refactoring.refactoring_performance_benchmark import RefactoringPerformanceBenchmark
         import_results["refactoring_performance_benchmark"] = {"status": "IMPORT_SUCCESS", "class": "RefactoringPerformanceBenchmark"}
         print("✅ Performance Benchmark: IMPORT SUCCESS")
     except Exception as e:
@@ -143,7 +146,6 @@ def test_tool_imports():
         print(f"❌ Performance Benchmark: IMPORT FAILED - {e}")
     
     try:
-        from core.refactoring.automated_workflow_orchestrator import AutomatedWorkflowOrchestrator
         import_results["automated_workflow_orchestrator"] = {"status": "IMPORT_SUCCESS", "class": "AutomatedWorkflowOrchestrator"}
         print("✅ Workflow Orchestrator: IMPORT SUCCESS")
     except Exception as e:

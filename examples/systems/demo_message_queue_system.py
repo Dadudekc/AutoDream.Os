@@ -1,3 +1,13 @@
+from pathlib import Path
+import json
+
+        import traceback
+from src.core.v2_comprehensive_messaging_system import V2AgentCapability
+from src.services.cdp_message_delivery import (
+from src.services.testing import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 V1-V2 Message Queue System Demo
@@ -7,23 +17,16 @@ Demonstrates the integrated V1 PyAutoGUI + V2 architecture message queue system.
 Shows how to send messages between agents without mouse movement.
 """
 
-import time
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Import the message queue system
-from src.services.testing import (
     UnifiedMessageQueue,
     UnifiedMessagePriority,
 )
-from src.services.cdp_message_delivery import (
     CDPMessageDelivery,
     send_message_to_cursor,
     broadcast_message_to_cursor,
 )
-from src.core.v2_comprehensive_messaging_system import V2AgentCapability
 
 
 def demo_agent_registration():
@@ -370,7 +373,6 @@ def main():
     except Exception as e:
         print(f"\n❌ **Demo Failed: {e}**")
         print("Please check the error and try again.")
-        import traceback
 
         traceback.print_exc()
 

@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-08-28T22:10:00.000000Z",
+  "captain_agent": "Agent-3",
+  "duplication_analysis": {
+    "total_files": 6,
+    "duplicate_content": {},
+    "duplicate_functions": {
+      "__init__": [
+        "src\\ai_ml\\core\\ai_ml_engine.py",
+        "src\\ai_ml\\managers\\base_manager.py",
+        "src\\ai_ml\\integrations\\base_integration.py"
+      ],
+      "execute": [
+        "src\\ai_ml\\core\\ai_ml_engine.py",
+        "src\\ai_ml\\managers\\base_manager.py",
+        "src\\ai_ml\\integrations\\base_integration.py"
+      ]
+    },
+    "duplicate_classes": {},
+    "duplicate_filenames": {}
+  },
+  "cleanup_plan": {
+    "critical_issues": [],
+    "moderate_issues": [
+      {
+        "type": "DUPLICATE_FUNCTION_NAMES",
+        "description": "Found 2 functions with duplicate names",
+        "functions": {
+          "__init__": [
+            "src\\ai_ml\\core\\ai_ml_engine.py",
+            "src\\ai_ml\\managers\\base_manager.py",
+            "src\\ai_ml\\integrations\\base_integration.py"
+          ],
+          "execute": [
+            "src\\ai_ml\\core\\ai_ml_engine.py",
+            "src\\ai_ml\\managers\\base_manager.py",
+            "src\\ai_ml\\integrations\\base_integration.py"
+          ]
+        }
+      }
+    ],
+    "minor_issues": [],
+    "recommendations": [
+      "Implement proper modular architecture with clear separation of concerns",
+      "Create unified interfaces for common functionality",
+      "Consolidate duplicate managers into single, well-defined modules",
+      "Establish naming conventions to prevent future duplication",
+      "Implement automated duplication detection in CI/CD pipeline"
+    ]
+  },
+  "status": "ANALYSIS_COMPLETE"
+}

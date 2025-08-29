@@ -58,22 +58,39 @@ class ComplianceTrackerValidator:
             "recommendations": []
         }
         
-        # Check if both files exist
-        if not all(f.exists() for f in self.tracker_files):
+        # Check if root file exists (master file is required)
+        if not self.tracker_files[0].exists():
             results["status"] = "error"
-            results["issues"].append("One or more tracker files missing")
+            results["issues"].append("Master tracker file missing")
             return results
             
-        # Read both files
+        # Check if docs file exists (will be created if missing)
+        if not self.tracker_files[1].exists():
+            results["status"] = "warning"
+            results["issues"].append("Docs tracker file missing - will be created")
+            results["recommendations"].append("Synchronize tracker files")
+            return results
+            
+        # Read root file (master file)
         try:
             with open(self.tracker_files[0], 'r', encoding='utf-8') as f:
                 root_content = f.read()
-            with open(self.tracker_files[1], 'r', encoding='utf-8') as f:
-                docs_content = f.read()
         except Exception as e:
             results["status"] = "error"
-            results["issues"].append(f"Error reading tracker files: {e}")
+            results["issues"].append(f"Error reading master tracker file: {e}")
             return results
+            
+        # Read docs file if it exists
+        docs_content = ""
+        if self.tracker_files[1].exists():
+            try:
+                with open(self.tracker_files[1], 'r', encoding='utf-8') as f:
+                    docs_content = f.read()
+            except Exception as e:
+                results["status"] = "warning"
+                results["issues"].append(f"Error reading docs tracker file: {e}")
+                results["recommendations"].append("Synchronize tracker files")
+                return results
             
         # Check for Git merge conflicts
         if "<<<<<<< HEAD" in root_content or ">>>>>>>" in root_content:
@@ -86,7 +103,7 @@ class ComplianceTrackerValidator:
             results["issues"].append("Duplicate contract entries detected")
             
         # Check content consistency
-        if root_content != docs_content:
+        if not docs_content or root_content != docs_content:
             results["status"] = "warning"
             results["issues"].append("Tracker files are not identical")
             results["recommendations"].append("Synchronize tracker files")

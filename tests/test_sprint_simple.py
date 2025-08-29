@@ -1,3 +1,16 @@
+from pathlib import Path
+import os
+import shutil
+import sys
+import tempfile
+
+import unittest
+
+from .utils.mock_managers import MockWorkspaceManager, MockTaskManager
+from sprint_management_service import SprintManagementService, Sprint, SprintStatus
+from sprint_workflow_service import SprintWorkflowService, WorkflowStage
+from src.utils.stability_improvements import stability_manager, safe_import
+
 #!/usr/bin/env python3
 """
 Simple Sprint Test - Agent Cellphone V2
@@ -6,14 +19,7 @@ Simple Sprint Test - Agent Cellphone V2
 Simple test of sprint services without complex imports.
 """
 
-import unittest
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-import sys
-import os
 
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
@@ -21,10 +27,7 @@ sys.path.insert(0, str(src_path))
 
 # Import sprint services directly
 sys.path.insert(0, str(src_path / "services"))
-from sprint_management_service import SprintManagementService, Sprint, SprintStatus
-from sprint_workflow_service import SprintWorkflowService, WorkflowStage
 
-from .utils.mock_managers import MockWorkspaceManager, MockTaskManager
 
 
 class TestSprintServicesSimple(unittest.TestCase):

@@ -1,3 +1,17 @@
+import asyncio
+import os
+import sys
+
+import pytest
+
+from src.core.api_integration.gateway.api_gateway_manager import APIGatewayManager as APIGateway
+from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
+from src.core.performance.dashboard.performance_dashboard import PerformanceDashboard
+from src.core.performance.monitoring.performance_monitor import PerformanceMonitor, MetricType
+from src.services.messaging.unified_messaging_service import UnifiedMessagingService as V2ComprehensiveMessagingSystem
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, AsyncMock
+
 """
 🧪 SMOKE TESTS - SERVICE COMPONENTS
 Integration & Performance Optimization Captain - TDD Integration Project
@@ -6,22 +20,11 @@ This module contains smoke tests for all service components, ensuring basic func
 and integration between performance monitoring, API gateway, and agent communication systems.
 """
 
-import pytest
-import asyncio
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from unittest.mock import Mock, patch, AsyncMock
-import sys
-import os
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
-from src.core.performance.monitoring.performance_monitor import PerformanceMonitor, MetricType
-from src.core.performance.dashboard.performance_dashboard import PerformanceDashboard
-from src.core.api_integration.gateway.api_gateway_manager import APIGatewayManager as APIGateway
-from src.services.messaging.unified_messaging_service import UnifiedMessagingService as V2ComprehensiveMessagingSystem
-from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 
 
 class TestServiceComponentsSmoke:

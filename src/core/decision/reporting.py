@@ -6,7 +6,8 @@ import uuid
 from datetime import datetime
 from typing import Dict, Any
 
-from .decision_types import DecisionType, DecisionConfidence, DecisionMetrics
+from .decision_types import DecisionType, DecisionConfidence
+from .metrics import DecisionMetrics
 
 
 class DecisionReporter:

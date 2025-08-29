@@ -11,7 +11,7 @@ import time
 from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime
 
-from fsm_states import TransitionType, TransitionDefinition, TransitionResult, StateStatus
+from fsm.states import TransitionType, TransitionDefinition, TransitionResult, StateStatus
 
 
 class TransitionManager:

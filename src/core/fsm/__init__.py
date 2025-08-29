@@ -6,10 +6,15 @@ All components follow V2 standards: ≤400 LOC, OOP design, SRP compliance.
 """
 
 from .fsm_core import FSMCore, FSMStateManager, FSMWorkflowManager
-from .fsm_states import (
-    StateStatus, TransitionType, WorkflowPriority,
-    StateDefinition, TransitionDefinition, WorkflowInstance,
-    StateExecutionResult, TransitionResult
+from fsm.states import (
+    StateStatus,
+    TransitionType,
+    WorkflowPriority,
+    StateDefinition,
+    TransitionDefinition,
+    WorkflowInstance,
+    StateExecutionResult,
+    TransitionResult,
 )
 from .fsm_transitions import TransitionManager, TransitionValidator
 from .fsm_execution import ExecutionEngine, ExecutionMonitor

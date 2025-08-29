@@ -13,7 +13,7 @@ from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor, Future
 
-from fsm_states import StateStatus, WorkflowInstance, StateExecutionResult
+from fsm.states import StateStatus, WorkflowInstance, StateExecutionResult
 from fsm_transitions import TransitionManager
 
 

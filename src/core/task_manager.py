@@ -8,20 +8,20 @@ Follows Single Responsibility Principle with extracted modules.
 Eliminates duplication by consolidating workflow and general task management.
 """
 
-import logging
 import uuid
 import threading
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
 from src.core.base_manager import BaseManager
+from src.core.base import ConfigMixin, LoggingMixin, ValidationMixin
 from src.core.tasks.scheduler import TaskScheduler, Task, TaskPriority, TaskStatus
 from src.core.tasks.executor import TaskExecutor
 from src.core.tasks.monitoring import TaskMonitor
 from src.core.tasks.recovery import TaskRecovery
 
 
-class TaskManager(BaseManager):
+class TaskManager(LoggingMixin, ConfigMixin, ValidationMixin, BaseManager):
     """
     Unified Task Manager - Orchestrates all task management functionality.
 

@@ -15,11 +15,12 @@ from typing import Any, Dict, List, Optional
 from datetime import datetime
 
 from ...base_manager import BaseManager
+from ...base import ConfigMixin, LoggingMixin, ValidationMixin
 from ..types.health_types import HealthAlert, AlertType, HealthLevel, HealthMetric
 from .alert_config import DEFAULT_THRESHOLDS
 
 
-class HealthAlertManager(BaseManager):
+class HealthAlertManager(LoggingMixin, ConfigMixin, ValidationMixin, BaseManager):
     """Health Alert Manager - inherits from BaseManager for unified lifecycle management"""
     
     def __init__(self):
@@ -31,7 +32,7 @@ class HealthAlertManager(BaseManager):
         
         self.health_alerts: Dict[str, HealthAlert] = {}
         self.thresholds: Dict[str, Dict[str, float]] = DEFAULT_THRESHOLDS.copy()
-        self.auto_resolve_alerts = True
+        self.auto_resolve_enabled = True
         self.alert_timeout = 3600
         self.max_alerts = 1000
         self.logger.info("✅ Health Alert Manager initialized successfully")
@@ -57,7 +58,7 @@ class HealthAlertManager(BaseManager):
     
     def _on_heartbeat(self):
         try:
-            if self.auto_resolve_alerts:
+            if self.auto_resolve_enabled:
                 self.auto_resolve_alerts()
         except Exception as e:
             self.logger.error(f"Heartbeat error: {e}")

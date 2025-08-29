@@ -386,7 +386,7 @@
         "completion_date": "2024-12-19",
         "extraction_modules": [
           "src/core/tasks/scheduling.py",
-          "src/core/tasks/execution.py",
+          "src/core/tasks/executor.py",
           "src/core/tasks/monitoring.py",
           "src/core/tasks/recovery.py"
         ],

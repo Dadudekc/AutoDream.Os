@@ -1,191 +1,26 @@
 #!/usr/bin/env python3
-"""
-Task Executor - Agent Cellphone V2
-=================================
+"""Task execution engine for development tasks."""
 
-Handles task execution, workflow management, and development task operations.
-Single responsibility: Task execution and workflow management.
-"""
-
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 from datetime import datetime, timedelta
-from pathlib import Path
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
+from .definitions import (
+    DevelopmentTask,
+    MockTaskStatus,
+    MockTaskPriority,
+    MockTaskComplexity,
+)
 from .logger import get_task_logger
-
-# Development task dependencies - Mocked to avoid circular imports
-# from autonomous_development.core.models import DevelopmentTask
-# from autonomous_development.core.enums import (
-#     TaskPriority as DevTaskPriority,
-#     TaskComplexity,
-#     TaskStatus as DevTaskStatus,
-# )
-
-
-# Mock classes to avoid circular imports
-class DevelopmentTask:
-    """Mock DevelopmentTask class to avoid circular imports."""
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        self.status = MockTaskStatus.AVAILABLE
-        self.claimed_by = None
-        self.completed_at = None
-        self.started_at = None
-        self.metadata = {}
-
-    def is_available(self):
-        return self.status == MockTaskStatus.AVAILABLE
-
-    def claim(self, agent_id):
-        if self.is_available():
-            self.claimed_by = agent_id
-            self.status = MockTaskStatus.CLAIMED
-            return True
-        return False
-
-    def start_work(self):
-        if self.status == MockTaskStatus.CLAIMED:
-            self.status = MockTaskStatus.IN_PROGRESS
-            self.started_at = datetime.now().isoformat()
-            return True
-        return False
-
-    def complete(self):
-        if self.status in [MockTaskStatus.IN_PROGRESS, MockTaskStatus.CLAIMED]:
-            self.status = MockTaskStatus.COMPLETED
-            self.completed_at = datetime.now().isoformat()
-            return True
-        return False
-
-    def block(self, reason):
-        if self.status != MockTaskStatus.COMPLETED:
-            self.status = MockTaskStatus.BLOCKED
-            if not self.metadata:
-                self.metadata = {}
-            self.metadata["block_reason"] = reason
-            return True
-        return False
-
-    def unblock(self):
-        if self.status == MockTaskStatus.BLOCKED:
-            self.status = MockTaskStatus.CLAIMED
-            return True
-        return False
-
-    def cancel(self):
-        if self.status != MockTaskStatus.COMPLETED:
-            self.status = MockTaskStatus.CANCELLED
-            return True
-        return False
-
-    def update_progress(self, percentage):
-        if hasattr(self, "progress"):
-            self.progress = max(0, min(100, percentage))
-            return True
-        return False
-
-    def get_elapsed_time(self):
-        if self.started_at and self.completed_at:
-            start = datetime.fromisoformat(self.started_at)
-            end = datetime.fromisoformat(self.completed_at)
-            return (end - start).total_seconds() / 3600  # hours
-        return None
-
-    def to_dict(self):
-        return {k: v for k, v in self.__dict__.items()}
-
-    @classmethod
-    def from_dict(cls, data):
-        return cls(**data)
-
-
-class MockTaskStatus:
-    """Mock TaskStatus enum to avoid circular imports."""
-
-    AVAILABLE = "available"
-    CLAIMED = "claimed"
-    IN_PROGRESS = "in_progress"
-    COMPLETED = "completed"
-    BLOCKED = "blocked"
-    CANCELLED = "cancelled"
-
-
-class MockTaskPriorityMeta(type):
-    """Metaclass to make MockTaskPriority subscriptable."""
-
-    def __getitem__(cls, key):
-        if key == "MINIMAL":
-            return cls.MINIMAL
-        elif key == "LOW":
-            return cls.LOW
-        elif key == "MEDIUM":
-            return cls.MEDIUM
-        elif key == "HIGH":
-            return cls.HIGH
-        elif key == "CRITICAL":
-            return cls.CRITICAL
-        else:
-            raise KeyError(f"'{key}' is not a valid MockTaskPriority key")
-
-
-class MockTaskPriority(metaclass=MockTaskPriorityMeta):
-    """Mock TaskPriority enum to avoid circular imports."""
-
-    MINIMAL = type("MockPriority", (), {"value": 1})()
-    LOW = type("MockPriority", (), {"value": 2})()
-    MEDIUM = type("MockPriority", (), {"value": 3})()
-    HIGH = type("MockPriority", (), {"value": 4})()
-    CRITICAL = type("MockPriority", (), {"value": 5})()
-
-    def __new__(cls, value):
-        """Make the class callable to simulate enum behavior."""
-        if value == 1:
-            return cls.MINIMAL
-        elif value == 2:
-            return cls.LOW
-        elif value == 3:
-            return cls.MEDIUM
-        elif value == 4:
-            return cls.HIGH
-        elif value == 5:
-            return cls.CRITICAL
-        else:
-            raise ValueError(f"'{value}' is not a valid MockTaskPriority")
-
-
-class MockTaskComplexity:
-    """Mock TaskComplexity enum to avoid circular imports."""
-
-    LOW = type("MockComplexity", (), {"value": "low"})()
-    MEDIUM = type("MockComplexity", (), {"value": "medium"})()
-    HIGH = type("MockComplexity", (), {"value": "high"})()
-
-    def __new__(cls, value):
-        """Make the class callable to simulate enum behavior."""
-        if value == "low":
-            return cls.LOW
-        elif value == "medium":
-            return cls.MEDIUM
-        elif value == "high":
-            return cls.HIGH
-        else:
-            raise ValueError(f"'{value}' is not a valid MockTaskComplexity")
+from .results import (
+    get_task_statistics as _get_task_statistics,
+    get_task_summary as _get_task_summary,
+    get_priority_distribution as _get_priority_distribution,
+    get_complexity_distribution as _get_complexity_distribution,
+)
 
 
 class TaskExecutor:
-    """
-    Task Executor - Single responsibility: Task execution and workflow management.
-
-    This service handles:
-    - Task execution and workflow management
-    - Development task operations
-    - Task progress tracking
-    - Task completion and blocking
-    """
+    """Manage task lifecycle and workflow operations."""
 
     def __init__(self):
         """Initialize Task Executor."""
@@ -387,63 +222,21 @@ class TaskExecutor:
             return False
         return task.cancel()
 
-    def get_task_statistics(self) -> Dict[str, any]:
-        """Get comprehensive task statistics."""
-        total_tasks = len(self.tasks)
-        available_tasks = len(self.get_available_tasks())
-        claimed_tasks = len(self.get_tasks_by_status(MockTaskStatus.CLAIMED))
-        in_progress_tasks = len(self.get_tasks_by_status(MockTaskStatus.IN_PROGRESS))
-        completed_tasks = len(self.get_tasks_by_status(MockTaskStatus.COMPLETED))
-        blocked_tasks = len(self.get_tasks_by_status(MockTaskStatus.BLOCKED))
+    def get_task_statistics(self) -> Dict[str, Any]:
+        """Aggregate statistics for current tasks."""
+        return _get_task_statistics(self.tasks, self.workflow_stats)
 
-        completed_task_times = []
-        for task in self.get_tasks_by_status(MockTaskStatus.COMPLETED):
-            elapsed = task.get_elapsed_time()
-            if elapsed is not None:
-                completed_task_times.append(elapsed)
-
-        avg_completion_time = (
-            sum(completed_task_times) / len(completed_task_times)
-            if completed_tasks > 0
-            else 0
-        )
-
-        return {
-            "total_tasks": total_tasks,
-            "available_tasks": available_tasks,
-            "claimed_tasks": claimed_tasks,
-            "in_progress_tasks": in_progress_tasks,
-            "completed_tasks": completed_tasks,
-            "blocked_tasks": blocked_tasks,
-            "avg_completion_time_hours": avg_completion_time,
-            "workflow_stats": self.workflow_stats.copy(),
-        }
-
-    def get_task_summary(self) -> Dict[str, any]:
-        """Get task summary with completion rate."""
-        stats = self.get_task_statistics()
-        total = stats["total_tasks"]
-        completed = stats["completed_tasks"]
-        stats["completion_rate"] = (completed / total * 100) if total else 0
-        return stats
+    def get_task_summary(self) -> Dict[str, Any]:
+        """Task statistics with completion rate."""
+        return _get_task_summary(self.tasks, self.workflow_stats)
 
     def get_priority_distribution(self) -> Dict[str, int]:
-        """Get distribution of tasks by priority."""
-        distribution = {}
-        for priority in MockTaskPriority:
-            distribution[priority.name] = len(
-                [t for t in self.tasks.values() if t.priority == priority]
-            )
-        return distribution
+        """Distribution of tasks by priority."""
+        return _get_priority_distribution(self.tasks)
 
     def get_complexity_distribution(self) -> Dict[str, int]:
-        """Get distribution of tasks by complexity."""
-        distribution = {}
-        for complexity in MockTaskComplexity:
-            distribution[complexity.name] = len(
-                [t for t in self.tasks.values() if t.complexity == complexity]
-            )
-        return distribution
+        """Distribution of tasks by complexity."""
+        return _get_complexity_distribution(self.tasks)
 
     def cleanup_completed_tasks(self, days_old: int = 30) -> int:
         """Clean up old completed tasks."""
@@ -463,11 +256,11 @@ class TaskExecutor:
         self.logger.info(f"Removed {removed_count} old completed tasks")
         return removed_count
 
-    def export_tasks(self) -> List[Dict[str, any]]:
+    def export_tasks(self) -> List[Dict[str, Any]]:
         """Export all tasks to dictionary format."""
         return [task.to_dict() for task in self.tasks.values()]
 
-    def import_tasks(self, tasks_data: List[Dict[str, any]]) -> int:
+    def import_tasks(self, tasks_data: List[Dict[str, Any]]) -> int:
         """Import tasks from dictionary format."""
         imported_count = 0
         for task_data in tasks_data:

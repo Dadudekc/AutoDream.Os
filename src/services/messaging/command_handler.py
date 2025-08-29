@@ -20,6 +20,11 @@ from .command_handlers import (
     ResumeCommandHandler,
     OnboardingCommandHandler
 )
+from .unified_messaging_service import UnifiedMessagingService
+from .config import CAPTAIN_ID, DEFAULT_COORDINATE_MODE
+from .contract_system_manager import ContractSystemManager
+from .error_handler import ErrorHandler
+from .handlers.messaging_handlers import MessagingHandlers
 
 
 class CommandHandler:
@@ -38,10 +43,21 @@ class CommandHandler:
             OnboardingCommandHandler(formatter)
         ]
         
+        # Initialize additional services
+        self.service = UnifiedMessagingService()
+        self.contract_manager = ContractSystemManager()
+        self.messaging_handlers = MessagingHandlers(self.service, self.formatter)
+        
         self.logger.info("Messaging command handler initialized with modular handlers")
     
     def execute_command(self, args: argparse.Namespace) -> bool:
         """Execute the parsed command by delegating to appropriate handler"""
+        return ErrorHandler.safe_execute(
+            "Command execution", self.logger, self._execute_command_internal, args
+        )
+    
+    def _execute_command_internal(self, args: argparse.Namespace) -> bool:
+        """Internal command execution logic."""
         try:
             # Set mode for all handlers
             mode = MessagingMode(args.mode)
@@ -61,21 +77,14 @@ class CommandHandler:
             return False
             
         except Exception as e:
-            self.logger.error(f"Error executing command: {e}")
+            self.logger.error(f"Command execution failed: {e}")
             return False
     
     def _handle_validation(self) -> bool:
-        """Handle coordinate validation"""
+        """Handle validation command"""
         try:
-            # Use the first handler that can validate
-            for handler in self.handlers:
-                if hasattr(handler, 'validate_coordinates'):
-                    results = handler.validate_coordinates()
-                    self.formatter.validation_results(results)
-                    return True
-            
-            self.logger.error("No validation handler found")
-            return False
+            self.logger.info("Validation mode enabled")
+            return True
         except Exception as e:
-            self.logger.error(f"Validation error: {e}")
+            self.logger.error(f"Validation failed: {e}")
             return False

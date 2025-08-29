@@ -1,4 +1,4 @@
-"""Setup stage utilities for the testing orchestrator."""
+"""Environment setup utilities for collecting test files."""
 
 from pathlib import Path
 from typing import List
@@ -15,4 +15,3 @@ def prepare_tests(tests_dir: Path) -> List[Path]:
     test_files = sorted(Path(tests_dir).glob(TEST_FILE_PATTERN))
     logger.info("Collected %d test file(s)", len(test_files))
     return test_files
-

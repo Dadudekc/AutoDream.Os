@@ -1,47 +1,12 @@
-from typing import List
+"""Legacy module for metric adapters.
 
-from .interfaces import Metric, MetricSource
-from __future__ import annotations
-from abc import ABC, abstractmethod
-import psutil
-import time
-
-
-"""Metric source adapters.
-
-These adapters provide a small interface for fetching metrics from different
-sources. They are intentionally light weight so they can be tested in
-isolation and composed by higher level components.
+The actual implementations now live in ``refactoring.metrics.adapters``.
+This module re-exports them for backward compatibility.
 """
 
+from __future__ import annotations
 
+from refactoring.metrics.aggregator import Metric
+from refactoring.metrics.adapters import MetricAdapter as MetricSourceAdapter, SystemMetricsAdapter
 
-
-
-class MetricSourceAdapter(MetricSource, ABC):
-    """Base class for metric source adapters."""
-
-    def __init__(self, interval: float = 1.0) -> None:
-        self.interval = interval
-
-    @abstractmethod
-    def collect(self) -> List[Metric]:
-        """Collect metrics from the underlying source.
-
-        Returns:
-            List[Metric]: Collected metrics.
-        """
-        raise NotImplementedError("collect must be implemented by subclasses")
-
-
-class SystemMetricsAdapter(MetricSourceAdapter):
-    """Collect a handful of system level metrics using ``psutil``."""
-
-    def collect(self) -> List[Metric]:
-        now = time.time()
-        cpu = psutil.cpu_percent(interval=None)
-        memory = psutil.virtual_memory().percent
-        return [
-            Metric("system", "cpu_percent", cpu, now),
-            Metric("system", "memory_percent", memory, now),
-        ]
+__all__ = ["Metric", "MetricSourceAdapter", "SystemMetricsAdapter"]

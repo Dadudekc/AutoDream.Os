@@ -14,7 +14,7 @@ CONSOLIDATION STATUS:
 - ❌ REMOVED: LearningMode (unified with src/core/learning/)
 - ❌ REMOVED: DataIntegrityLevel (not decision-specific)
 - ✅ Clean decision type definitions
-- ✅ Decision metrics centralized in decision_metrics module
+- ✅ Decision metrics centralized in metrics module
 """
 
 from enum import Enum

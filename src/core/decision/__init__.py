@@ -1,7 +1,7 @@
 from .decision_algorithms import DecisionAlgorithmExecutor, AlgorithmPerformance
 from .decision_core import DecisionCore, DecisionCoreConfig
 from .decision_manager import DecisionManager, DecisionManagerConfig
-from .decision_metrics import DecisionMetrics  # SSOT: Unified decision metrics
+from .metrics import DecisionMetrics, DecisionMetricsManager  # SSOT: Unified decision metrics
 from .decision_rules import DecisionRuleEngine, RuleEvaluationResult, RulePerformance
 from .decision_types import (
 from .decision_workflows import DecisionWorkflowExecutor, WorkflowStep, WorkflowExecution
@@ -84,6 +84,7 @@ __all__ = [
     "DecisionConfidence",
     "IntelligenceLevel",
     "DecisionMetrics",
+    "DecisionMetricsManager",
     
     # Factory functions
     "create_decision_core",

@@ -15,35 +15,10 @@ import threading
 import time
 from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime, timedelta
-from dataclasses import dataclass
 
 from src.core.base_manager import BaseManager
+from src.extended.ai_ml.orchestrator import OrchestrationTask, SystemHealth
 from .unified_ai_ml_manager import UnifiedAIMLManager, AIModel, AIAgent, APIKey, Workflow
-
-
-@dataclass
-class OrchestrationTask:
-    """AI/ML orchestration task"""
-    task_id: str
-    task_type: str  # 'model_management', 'agent_coordination', 'workflow_execution'
-    priority: int
-    data: Dict[str, Any]
-    created_at: datetime
-    status: str = "pending"  # pending, running, completed, failed
-    assigned_agent: Optional[str] = None
-    result: Optional[Any] = None
-
-
-@dataclass
-class SystemHealth:
-    """AI/ML system health status"""
-    overall_health: str
-    models_health: str
-    agents_health: str
-    api_keys_health: str
-    workflows_health: str
-    last_check: datetime
-    issues: List[str]
 
 
 class AIMLOrchestrator(BaseManager):

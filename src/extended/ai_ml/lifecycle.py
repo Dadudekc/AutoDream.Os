@@ -17,9 +17,7 @@ EventEmitter = Callable[[str, Dict[str, Any]], None]
 class AgentLifecycle:
     """Manage models and workflows with metric tracking."""
 
-    def __init__(
-        self, metrics: MetricsCollector, emit_event: Optional[EventEmitter] = None
-    ) -> None:
+    def __init__(self, metrics: MetricsCollector, emit_event: Optional[EventEmitter] = None) -> None:
         self.metrics = metrics
         self.emit_event = emit_event
         self.models: Dict[str, Any] = {}
@@ -80,9 +78,7 @@ class AgentLifecycle:
         """List all workflow names."""
         return list(self.workflows.keys())
 
-    def add_workflow_step(
-        self, workflow_name: str, step_name: str, step_type: str = "task"
-    ) -> bool:
+    def add_workflow_step(self, workflow_name: str, step_name: str, step_type: str = "task") -> bool:
         """Add a step to an existing workflow."""
         workflow = self.get_workflow(workflow_name)
         if not workflow:
@@ -117,10 +113,7 @@ class AgentLifecycle:
             if self.emit_event:
                 self.emit_event(
                     "workflow_execution_completed",
-                    {
-                        "workflow_name": workflow_name,
-                        "status": WORKFLOW_STATUS_COMPLETED,
-                    },
+                    {"workflow_name": workflow_name, "status": WORKFLOW_STATUS_COMPLETED},
                 )
             return True
         except Exception as exc:  # pragma: no cover - defensive

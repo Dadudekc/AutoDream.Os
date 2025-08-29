@@ -1,4 +1,4 @@
-"""Teardown stage utilities for the testing orchestrator."""
+"""Teardown utilities for summarizing test results."""
 
 from typing import Any, Dict
 
@@ -12,4 +12,3 @@ def perform_teardown(result: Dict[str, Any]) -> Dict[str, Any]:
     logger.info("Tests passed: %s", result.get("passed"))
     logger.info("Coverage: %.2f", result.get("coverage", 0.0))
     return result
-

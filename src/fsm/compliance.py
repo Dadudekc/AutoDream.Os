@@ -1,28 +1,28 @@
-"""Compliance validation for FSM definitions."""
+"""High-level orchestrator for FSM compliance tasks."""
 
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Dict, Any
 
-from .constants import DEFAULT_STATES, DEFAULT_TRANSITIONS
-
-
-def validate_states(states: Iterable[str]) -> bool:
-    """Ensure all provided states exist in the defaults."""
-
-    unknown = set(states) - set(DEFAULT_STATES)
-    if unknown:
-        raise ValueError(f"Unknown states: {sorted(unknown)}")
-    return True
+from .compliance_rules import validate_states, validate_transitions
+from .state_manager import StateManager
+from .compliance_reporting import generate_report
 
 
-def validate_transitions(transitions: Iterable[Tuple[str, str]]) -> bool:
-    """Validate that transitions use known states and allowed paths."""
+class ComplianceOrchestrator:
+    """Coordinate validation, state management, and reporting."""
 
-    for source, target in transitions:
-        if source not in DEFAULT_STATES:
-            raise ValueError(f"Unknown source state: {source}")
-        if target not in DEFAULT_STATES:
-            raise ValueError(f"Unknown target state: {target}")
-        allowed = DEFAULT_TRANSITIONS.get(source, ())
-        if target not in allowed:
-            raise ValueError(f"Invalid transition: {source} -> {target}")
-    return True
+    def __init__(self) -> None:
+        self.state_manager = StateManager()
+
+    def run(
+        self, states: Iterable[str], transitions: Iterable[Tuple[str, str]]
+    ) -> Dict[str, Any]:
+        """Validate the FSM definition and return a compliance report."""
+
+        validate_states(states)
+        validate_transitions(transitions)
+        for state in states:
+            self.state_manager.set_state(state, {})
+        return generate_report(states, transitions)
+
+
+__all__ = ["ComplianceOrchestrator"]

@@ -12,7 +12,6 @@ License: MIT
 """
 
 import logging
-import json
 import time
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
@@ -21,6 +20,8 @@ from pathlib import Path
 from enum import Enum
 
 from ..base_manager import BaseManager
+from .docs.generator import generate_report_content
+from .docs.distribution import save_document_to_file
 
 
 logger = logging.getLogger(__name__)
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 class DocumentType(Enum):
     """Types of emergency documentation"""
+
     EVENT_LOG = "event_log"
     RESPONSE_TIMELINE = "response_timeline"
     RECOVERY_VALIDATION = "recovery_validation"
@@ -38,6 +40,7 @@ class DocumentType(Enum):
 
 class DocumentPriority(Enum):
     """Document priority levels"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -47,6 +50,7 @@ class DocumentPriority(Enum):
 @dataclass
 class EmergencyEvent:
     """Emergency event data structure for documentation"""
+
     event_id: str
     timestamp: datetime
     event_type: str
@@ -61,6 +65,7 @@ class EmergencyEvent:
 @dataclass
 class ResponseTimeline:
     """Response action timeline for documentation"""
+
     timeline_id: str
     emergency_id: str
     start_time: datetime
@@ -73,6 +78,7 @@ class ResponseTimeline:
 @dataclass
 class RecoveryValidation:
     """Recovery validation results for documentation"""
+
     validation_id: str
     recovery_id: str
     timestamp: datetime
@@ -86,6 +92,7 @@ class RecoveryValidation:
 @dataclass
 class LessonsLearned:
     """Lessons learned documentation"""
+
     lesson_id: str
     emergency_id: str
     timestamp: datetime
@@ -101,6 +108,7 @@ class LessonsLearned:
 @dataclass
 class EmergencyDocument:
     """Emergency document metadata"""
+
     document_id: str
     document_type: DocumentType
     title: str
@@ -117,7 +125,7 @@ class EmergencyDocument:
 class EmergencyDocumentation(BaseManager):
     """
     Emergency Documentation - Single responsibility: Emergency documentation and reporting
-    
+
     This component is responsible for:
     - Emergency event logging and tracking
     - Response timeline documentation
@@ -133,39 +141,41 @@ class EmergencyDocumentation(BaseManager):
             config_path=config_path,
             enable_metrics=True,
             enable_events=True,
-            enable_persistence=True
+            enable_persistence=True,
         )
-        
+
         # Documentation storage
         self.emergency_events: List[EmergencyEvent] = []
         self.response_timelines: List[ResponseTimeline] = []
         self.recovery_validations: List[RecoveryValidation] = []
         self.lessons_learned: List[LessonsLearned] = []
         self.documents: List[EmergencyDocument] = []
-        
+
         # Configuration
         self.documentation_path = Path("emergency_documentation")
         self.auto_save_interval = 300  # 5 minutes
         self.max_events_retained = 1000
         self.max_documents_retained = 500
-        
+
         # Load configuration and setup
         self._load_documentation_config()
         self._setup_documentation_directory()
-        
+
         self.logger.info("✅ Emergency Documentation system initialized successfully")
 
     def _load_documentation_config(self):
         """Load documentation configuration"""
         try:
             config = self.get_config()
-            
+
             # Load configuration settings
-            self.documentation_path = Path(config.get('documentation_path', 'emergency_documentation'))
-            self.auto_save_interval = config.get('auto_save_interval', 300)
-            self.max_events_retained = config.get('max_events_retained', 1000)
-            self.max_documents_retained = config.get('max_documents_retained', 500)
-            
+            self.documentation_path = Path(
+                config.get("documentation_path", "emergency_documentation")
+            )
+            self.auto_save_interval = config.get("auto_save_interval", 300)
+            self.max_events_retained = config.get("max_events_retained", 1000)
+            self.max_documents_retained = config.get("max_documents_retained", 500)
+
         except Exception as e:
             self.logger.error(f"Failed to load documentation config: {e}")
 
@@ -174,26 +184,35 @@ class EmergencyDocumentation(BaseManager):
         try:
             # Create main documentation directory
             self.documentation_path.mkdir(exist_ok=True)
-            
+
             # Create subdirectories for different document types
             (self.documentation_path / "events").mkdir(exist_ok=True)
             (self.documentation_path / "timelines").mkdir(exist_ok=True)
             (self.documentation_path / "validations").mkdir(exist_ok=True)
             (self.documentation_path / "lessons").mkdir(exist_ok=True)
             (self.documentation_path / "reports").mkdir(exist_ok=True)
-            
-            self.logger.info(f"✅ Documentation directory structure created: {self.documentation_path}")
-            
+
+            self.logger.info(
+                f"✅ Documentation directory structure created: {self.documentation_path}"
+            )
+
         except Exception as e:
             self.logger.error(f"Failed to setup documentation directory: {e}")
 
-    def log_emergency_event(self, event_type: str, description: str, source: str,
-                          severity: str = "medium", affected_components: Optional[List[str]] = None,
-                          details: Optional[Dict[str, Any]] = None, tags: Optional[List[str]] = None) -> str:
+    def log_emergency_event(
+        self,
+        event_type: str,
+        description: str,
+        source: str,
+        severity: str = "medium",
+        affected_components: Optional[List[str]] = None,
+        details: Optional[Dict[str, Any]] = None,
+        tags: Optional[List[str]] = None,
+    ) -> str:
         """Log an emergency event"""
         try:
             event_id = f"event_{int(time.time())}_{len(self.emergency_events)}"
-            
+
             event = EmergencyEvent(
                 event_id=event_id,
                 timestamp=datetime.now(),
@@ -203,26 +222,29 @@ class EmergencyDocumentation(BaseManager):
                 severity=severity,
                 affected_components=affected_components or [],
                 details=details or {},
-                tags=tags or []
+                tags=tags or [],
             )
-            
+
             self.emergency_events.append(event)
-            
+
             # Maintain event limit
             if len(self.emergency_events) > self.max_events_retained:
                 self.emergency_events.pop(0)
-            
+
             # Record event
-            self.record_event("emergency_event_logged", {
-                "event_id": event_id,
-                "event_type": event_type,
-                "severity": severity,
-                "timestamp": event.timestamp.isoformat()
-            })
-            
+            self.record_event(
+                "emergency_event_logged",
+                {
+                    "event_id": event_id,
+                    "event_type": event_type,
+                    "severity": severity,
+                    "timestamp": event.timestamp.isoformat(),
+                },
+            )
+
             self.logger.info(f"📝 Emergency event logged: {event_type} - {description}")
             return event_id
-            
+
         except Exception as e:
             self.logger.error(f"Failed to log emergency event: {e}")
             return ""
@@ -231,66 +253,78 @@ class EmergencyDocumentation(BaseManager):
         """Create a response timeline for an emergency"""
         try:
             timeline_id = f"timeline_{emergency_id}_{int(time.time())}"
-            
+
             timeline = ResponseTimeline(
                 timeline_id=timeline_id,
                 emergency_id=emergency_id,
-                start_time=datetime.now()
+                start_time=datetime.now(),
             )
-            
+
             self.response_timelines.append(timeline)
-            
+
             self.logger.info(f"📅 Response timeline created: {timeline_id}")
             return timeline_id
-            
+
         except Exception as e:
             self.logger.error(f"Failed to create response timeline: {e}")
             return ""
 
-    def add_timeline_action(self, timeline_id: str, action: str, description: str,
-                          timestamp: Optional[datetime] = None, details: Optional[Dict[str, Any]] = None) -> bool:
+    def add_timeline_action(
+        self,
+        timeline_id: str,
+        action: str,
+        description: str,
+        timestamp: Optional[datetime] = None,
+        details: Optional[Dict[str, Any]] = None,
+    ) -> bool:
         """Add an action to a response timeline"""
         try:
             timeline = self._get_timeline(timeline_id)
             if not timeline:
                 return False
-            
+
             action_data = {
                 "action": action,
                 "description": description,
                 "timestamp": timestamp or datetime.now(),
-                "details": details or {}
+                "details": details or {},
             }
-            
+
             timeline.actions.append(action_data)
-            
+
             self.logger.info(f"📝 Timeline action added: {action}")
             return True
-            
+
         except Exception as e:
             self.logger.error(f"Failed to add timeline action: {e}")
             return False
 
-    def add_timeline_milestone(self, timeline_id: str, milestone: str, description: str,
-                             timestamp: Optional[datetime] = None, details: Optional[Dict[str, Any]] = None) -> bool:
+    def add_timeline_milestone(
+        self,
+        timeline_id: str,
+        milestone: str,
+        description: str,
+        timestamp: Optional[datetime] = None,
+        details: Optional[Dict[str, Any]] = None,
+    ) -> bool:
         """Add a milestone to a response timeline"""
         try:
             timeline = self._get_timeline(timeline_id)
             if not timeline:
                 return False
-            
+
             milestone_data = {
                 "milestone": milestone,
                 "description": description,
                 "timestamp": timestamp or datetime.now(),
-                "details": details or {}
+                "details": details or {},
             }
-            
+
             timeline.milestones.append(milestone_data)
-            
+
             self.logger.info(f"🎯 Timeline milestone added: {milestone}")
             return True
-            
+
         except Exception as e:
             self.logger.error(f"Failed to add timeline milestone: {e}")
             return False
@@ -301,24 +335,32 @@ class EmergencyDocumentation(BaseManager):
             timeline = self._get_timeline(timeline_id)
             if not timeline:
                 return False
-            
+
             timeline.end_time = datetime.now()
             timeline.duration = timeline.end_time - timeline.start_time
-            
-            self.logger.info(f"✅ Timeline completed: {timeline_id} (Duration: {timeline.duration})")
+
+            self.logger.info(
+                f"✅ Timeline completed: {timeline_id} (Duration: {timeline.duration})"
+            )
             return True
-            
+
         except Exception as e:
             self.logger.error(f"Failed to complete timeline: {e}")
             return False
 
-    def log_recovery_validation(self, recovery_id: str, criteria_tested: List[str],
-                              results: Dict[str, bool], overall_success: bool,
-                              notes: str = "", validator: str = "") -> str:
+    def log_recovery_validation(
+        self,
+        recovery_id: str,
+        criteria_tested: List[str],
+        results: Dict[str, bool],
+        overall_success: bool,
+        notes: str = "",
+        validator: str = "",
+    ) -> str:
         """Log recovery validation results"""
         try:
             validation_id = f"validation_{recovery_id}_{int(time.time())}"
-            
+
             validation = RecoveryValidation(
                 validation_id=validation_id,
                 recovery_id=recovery_id,
@@ -327,26 +369,34 @@ class EmergencyDocumentation(BaseManager):
                 results=results,
                 overall_success=overall_success,
                 notes=notes,
-                validator=validator
+                validator=validator,
             )
-            
+
             self.recovery_validations.append(validation)
-            
-            self.logger.info(f"✅ Recovery validation logged: {validation_id} (Success: {overall_success})")
+
+            self.logger.info(
+                f"✅ Recovery validation logged: {validation_id} (Success: {overall_success})"
+            )
             return validation_id
-            
+
         except Exception as e:
             self.logger.error(f"Failed to log recovery validation: {e}")
             return ""
 
-    def add_lesson_learned(self, emergency_id: str, category: str, description: str,
-                          impact: str, recommendations: Optional[List[str]] = None,
-                          priority: DocumentPriority = DocumentPriority.MEDIUM,
-                          assigned_to: Optional[str] = None) -> str:
+    def add_lesson_learned(
+        self,
+        emergency_id: str,
+        category: str,
+        description: str,
+        impact: str,
+        recommendations: Optional[List[str]] = None,
+        priority: DocumentPriority = DocumentPriority.MEDIUM,
+        assigned_to: Optional[str] = None,
+    ) -> str:
         """Add a lesson learned from an emergency"""
         try:
             lesson_id = f"lesson_{emergency_id}_{int(time.time())}"
-            
+
             lesson = LessonsLearned(
                 lesson_id=lesson_id,
                 emergency_id=emergency_id,
@@ -356,26 +406,32 @@ class EmergencyDocumentation(BaseManager):
                 impact=impact,
                 recommendations=recommendations or [],
                 implementation_priority=priority,
-                assigned_to=assigned_to
+                assigned_to=assigned_to,
             )
-            
+
             self.lessons_learned.append(lesson)
-            
+
             self.logger.info(f"📚 Lesson learned added: {category} - {description}")
             return lesson_id
-            
+
         except Exception as e:
             self.logger.error(f"Failed to add lesson learned: {e}")
             return ""
 
-    def create_document(self, document_type: DocumentType, title: str, content: str,
-                       author: str, priority: DocumentPriority = DocumentPriority.MEDIUM,
-                       tags: Optional[List[str]] = None,
-                       related_emergencies: Optional[List[str]] = None) -> str:
+    def create_document(
+        self,
+        document_type: DocumentType,
+        title: str,
+        content: str,
+        author: str,
+        priority: DocumentPriority = DocumentPriority.MEDIUM,
+        tags: Optional[List[str]] = None,
+        related_emergencies: Optional[List[str]] = None,
+    ) -> str:
         """Create an emergency document"""
         try:
             document_id = f"doc_{document_type.value}_{int(time.time())}"
-            
+
             document = EmergencyDocument(
                 document_id=document_id,
                 document_type=document_type,
@@ -386,85 +442,66 @@ class EmergencyDocumentation(BaseManager):
                 author=author,
                 priority=priority,
                 tags=tags or [],
-                related_emergencies=related_emergencies or []
+                related_emergencies=related_emergencies or [],
             )
-            
+
             self.documents.append(document)
-            
+
             # Maintain document limit
             if len(self.documents) > self.max_documents_retained:
                 self.documents.pop(0)
-            
-            # Save document to file
-            self._save_document_to_file(document)
-            
+
+            # Save document to file via distribution module
+            save_document_to_file(self.documentation_path, document)
+
             self.logger.info(f"📄 Document created: {title} ({document_type.value})")
             return document_id
-            
+
         except Exception as e:
             self.logger.error(f"Failed to create document: {e}")
             return ""
 
-    def _save_document_to_file(self, document: EmergencyDocument):
-        """Save document to file system"""
-        try:
-            # Determine file path based on document type
-            if document.document_type == DocumentType.EVENT_LOG:
-                file_path = self.documentation_path / "events" / f"{document.document_id}.json"
-            elif document.document_type == DocumentType.RESPONSE_TIMELINE:
-                file_path = self.documentation_path / "timelines" / f"{document.document_id}.json"
-            elif document.document_type == DocumentType.RECOVERY_VALIDATION:
-                file_path = self.documentation_path / "validations" / f"{document.document_id}.json"
-            elif document.document_type == DocumentType.LESSONS_LEARNED:
-                file_path = self.documentation_path / "lessons" / f"{document.document_id}.json"
-            else:
-                file_path = self.documentation_path / "reports" / f"{document.document_id}.json"
-            
-            # Convert document to JSON-serializable format
-            doc_data = {
-                "document_id": document.document_id,
-                "document_type": document.document_type.value,
-                "title": document.title,
-                "content": document.content,
-                "created_at": document.created_at.isoformat(),
-                "updated_at": document.updated_at.isoformat(),
-                "author": document.author,
-                "priority": document.priority.value,
-                "tags": document.tags,
-                "related_emergencies": document.related_emergencies
-            }
-            
-            # Save to file
-            with open(file_path, 'w') as f:
-                json.dump(doc_data, f, indent=2)
-            
-            document.file_path = str(file_path)
-            
-        except Exception as e:
-            self.logger.error(f"Failed to save document to file: {e}")
-
-    def generate_emergency_report(self, emergency_id: str, include_timeline: bool = True,
-                                include_validation: bool = True, include_lessons: bool = True) -> str:
+    def generate_emergency_report(
+        self,
+        emergency_id: str,
+        include_timeline: bool = True,
+        include_validation: bool = True,
+        include_lessons: bool = True,
+    ) -> str:
         """Generate a comprehensive emergency report"""
         try:
             # Find related events
-            related_events = [e for e in self.emergency_events if emergency_id in e.event_id or emergency_id in e.tags]
-            
+            related_events = [
+                e
+                for e in self.emergency_events
+                if emergency_id in e.event_id or emergency_id in e.tags
+            ]
+
             # Find related timeline
-            related_timeline = next((t for t in self.response_timelines if t.emergency_id == emergency_id), None)
-            
-            # Find related validations
-            related_validations = [v for v in self.recovery_validations if v.recovery_id == emergency_id]
-            
-            # Find related lessons
-            related_lessons = [l for l in self.lessons_learned if l.emergency_id == emergency_id]
-            
-            # Generate report content
-            report_content = self._format_emergency_report(
-                emergency_id, related_events, related_timeline, 
-                related_validations, related_lessons
+            related_timeline = next(
+                (t for t in self.response_timelines if t.emergency_id == emergency_id),
+                None,
             )
-            
+
+            # Find related validations
+            related_validations = [
+                v for v in self.recovery_validations if v.recovery_id == emergency_id
+            ]
+
+            # Find related lessons
+            related_lessons = [
+                l for l in self.lessons_learned if l.emergency_id == emergency_id
+            ]
+
+            # Generate report content using template generator
+            report_content = generate_report_content(
+                emergency_id,
+                related_events,
+                related_timeline,
+                related_validations,
+                related_lessons,
+            )
+
             # Create document
             document_id = self.create_document(
                 document_type=DocumentType.INCIDENT_REPORT,
@@ -473,109 +510,47 @@ class EmergencyDocumentation(BaseManager):
                 author="EmergencyDocumentation",
                 priority=DocumentPriority.HIGH,
                 tags=["emergency_report", "automated"],
-                related_emergencies=[emergency_id]
+                related_emergencies=[emergency_id],
             )
-            
+
             self.logger.info(f"📊 Emergency report generated: {emergency_id}")
             return document_id
-            
+
         except Exception as e:
             self.logger.error(f"Failed to generate emergency report: {e}")
             return ""
 
-    def _format_emergency_report(self, emergency_id: str, events: List[EmergencyEvent],
-                                timeline: Optional[ResponseTimeline],
-                                validations: List[RecoveryValidation],
-                                lessons: List[LessonsLearned]) -> str:
-        """Format emergency report content"""
-        try:
-            report_lines = []
-            report_lines.append(f"# Emergency Report - {emergency_id}")
-            report_lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-            report_lines.append("")
-            
-            # Events Summary
-            report_lines.append("## Emergency Events Summary")
-            if events:
-                for event in events:
-                    report_lines.append(f"- **{event.timestamp.strftime('%H:%M:%S')}** [{event.severity.upper()}] {event.event_type}: {event.description}")
-            else:
-                report_lines.append("No events recorded for this emergency.")
-            report_lines.append("")
-            
-            # Timeline Summary
-            if timeline:
-                report_lines.append("## Response Timeline")
-                report_lines.append(f"**Start Time:** {timeline.start_time.strftime('%Y-%m-%d %H:%M:%S')}")
-                if timeline.end_time:
-                    report_lines.append(f"**End Time:** {timeline.end_time.strftime('%Y-%m-%d %H:%M:%S')}")
-                    report_lines.append(f"**Duration:** {timeline.duration}")
-                report_lines.append("")
-                
-                if timeline.actions:
-                    report_lines.append("### Response Actions")
-                    for action in timeline.actions:
-                        report_lines.append(f"- **{action['timestamp'].strftime('%H:%M:%S')}** {action['action']}: {action['description']}")
-                    report_lines.append("")
-                
-                if timeline.milestones:
-                    report_lines.append("### Key Milestones")
-                    for milestone in timeline.milestones:
-                        report_lines.append(f"- **{milestone['timestamp'].strftime('%H:%M:%S')}** {milestone['milestone']}: {milestone['description']}")
-                    report_lines.append("")
-            
-            # Validation Results
-            if validations:
-                report_lines.append("## Recovery Validation Results")
-                for validation in validations:
-                    report_lines.append(f"**Validation ID:** {validation.validation_id}")
-                    report_lines.append(f"**Overall Success:** {'✅ PASSED' if validation.overall_success else '❌ FAILED'}")
-                    report_lines.append(f"**Timestamp:** {validation.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
-                    if validation.notes:
-                        report_lines.append(f"**Notes:** {validation.notes}")
-                    report_lines.append("")
-            
-            # Lessons Learned
-            if lessons:
-                report_lines.append("## Lessons Learned")
-                for lesson in lessons:
-                    report_lines.append(f"**Category:** {lesson.category}")
-                    report_lines.append(f"**Description:** {lesson.description}")
-                    report_lines.append(f"**Impact:** {lesson.impact}")
-                    if lesson.recommendations:
-                        report_lines.append("**Recommendations:**")
-                        for rec in lesson.recommendations:
-                            report_lines.append(f"- {rec}")
-                    report_lines.append(f"**Priority:** {lesson.implementation_priority.value}")
-                    if lesson.assigned_to:
-                        report_lines.append(f"**Assigned To:** {lesson.assigned_to}")
-                    report_lines.append("")
-            
-            return "\n".join(report_lines)
-            
-        except Exception as e:
-            self.logger.error(f"Failed to format emergency report: {e}")
-            return f"Error formatting report: {e}"
-
     def _get_timeline(self, timeline_id: str) -> Optional[ResponseTimeline]:
         """Get a timeline by ID"""
-        return next((t for t in self.response_timelines if t.timeline_id == timeline_id), None)
+        return next(
+            (t for t in self.response_timelines if t.timeline_id == timeline_id), None
+        )
 
-    def get_emergency_events(self, emergency_id: Optional[str] = None, 
-                            event_type: Optional[str] = None, severity: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_emergency_events(
+        self,
+        emergency_id: Optional[str] = None,
+        event_type: Optional[str] = None,
+        severity: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
         """Get emergency events with optional filtering"""
         try:
             filtered_events = self.emergency_events
-            
+
             if emergency_id:
-                filtered_events = [e for e in filtered_events if emergency_id in e.event_id or emergency_id in e.tags]
-            
+                filtered_events = [
+                    e
+                    for e in filtered_events
+                    if emergency_id in e.event_id or emergency_id in e.tags
+                ]
+
             if event_type:
-                filtered_events = [e for e in filtered_events if e.event_type == event_type]
-            
+                filtered_events = [
+                    e for e in filtered_events if e.event_type == event_type
+                ]
+
             if severity:
                 filtered_events = [e for e in filtered_events if e.severity == severity]
-            
+
             return [
                 {
                     "event_id": e.event_id,
@@ -586,11 +561,11 @@ class EmergencyDocumentation(BaseManager):
                     "severity": e.severity,
                     "affected_components": e.affected_components,
                     "details": e.details,
-                    "tags": e.tags
+                    "tags": e.tags,
                 }
                 for e in filtered_events
             ]
-            
+
         except Exception as e:
             self.logger.error(f"Failed to get emergency events: {e}")
             return []
@@ -607,9 +582,9 @@ class EmergencyDocumentation(BaseManager):
                 "documentation_path": str(self.documentation_path),
                 "auto_save_interval": self.auto_save_interval,
                 "max_events_retained": self.max_events_retained,
-                "max_documents_retained": self.max_documents_retained
+                "max_documents_retained": self.max_documents_retained,
             }
-            
+
         except Exception as e:
             self.logger.error(f"Failed to get documentation summary: {e}")
             return {"error": str(e)}
@@ -625,18 +600,21 @@ class EmergencyDocumentation(BaseManager):
                 "total_lessons": len(self.lessons_learned),
                 "total_documents": len(self.documents),
                 "documentation_directory_exists": self.documentation_path.exists(),
-                "documentation_directory_writable": self.documentation_path.is_dir()
+                "documentation_directory_writable": self.documentation_path.is_dir(),
             }
-            
+
         except Exception as e:
-            return {
-                "is_healthy": False,
-                "error": str(e)
-            }
+            return {"is_healthy": False, "error": str(e)}
 
 
 # Export the main classes
 __all__ = [
-    "EmergencyDocumentation", "EmergencyEvent", "ResponseTimeline", "RecoveryValidation",
-    "LessonsLearned", "EmergencyDocument", "DocumentType", "DocumentPriority"
+    "EmergencyDocumentation",
+    "EmergencyEvent",
+    "ResponseTimeline",
+    "RecoveryValidation",
+    "LessonsLearned",
+    "EmergencyDocument",
+    "DocumentType",
+    "DocumentPriority",
 ]

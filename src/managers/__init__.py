@@ -6,10 +6,8 @@ lifecycle control, coordination and metrics tracking for agents.
 
 from .lifecycle_manager import AgentLifecycleManager
 from .coordination_manager import AgentCoordinator
-from .metrics_manager import AgentMetricsManager
 
 __all__ = [
     "AgentLifecycleManager",
     "AgentCoordinator",
-    "AgentMetricsManager",
 ]

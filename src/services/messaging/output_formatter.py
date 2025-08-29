@@ -18,6 +18,13 @@ class OutputFormatter:
         for key, value in summary.items():
             print(f"  {key}: {value}")
 
+    def consolidation_results(self, result: Dict[str, Any]) -> None:
+        print("\U0001F4C1 Consolidation Result:")
+        print(f"  Primary File: {result['primary_file']}")
+        print(f"  Sources Found: {len(result['sources_found'])}")
+        print(f"  Sources Merged: {len(result['sources_merged'])}")
+        print(f"  Conflicts: {len(result['conflicts'])}")
+
     def generic_results(
         self, title: str, results: Dict[str, bool], high_priority: bool = False
     ) -> None:

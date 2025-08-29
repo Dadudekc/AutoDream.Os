@@ -3,50 +3,34 @@
 Agent Management - Agent Cellphone V2
 ====================================
 
-Handles agent registration, unregistration, and basic agent operations.
+Main agent management orchestrator.
 Follows V2 standards: SRP, OOP principles, BaseManager inheritance.
 
 Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import json
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Dict, List, Optional, Any, Callable
-from dataclasses import dataclass, asdict
 
 from src.core.enums import AgentRole
 from src.core.base_manager import BaseManager
-
-
-@dataclass
-class AgentInfo:
-    """Agent information and capabilities"""
-    agent_id: str
-    name: str
-    role: AgentRole
-    skills: List[str]
-    max_concurrent_tasks: int
-    is_active: bool = True
-    last_heartbeat: datetime = None
-    current_tasks: List[str] = None
-    
-    def __post_init__(self):
-        if self.current_tasks is None:
-            self.current_tasks = []
-        if self.last_heartbeat is None:
-            self.last_heartbeat = datetime.now()
+from .agent_models import AgentInfo, AgentStats
+from .agent_health import AgentHealthMonitor
+from .agent_persistence import AgentPersistenceHandler
+from .agent_tasks import AgentTaskManager
 
 
 class AgentManager(BaseManager):
     """
-    Manages agent registration, unregistration, and basic operations
+    Main agent management orchestrator
     
-    Now inherits from BaseManager for unified functionality
+    Coordinates agent registration, health monitoring, task management,
+    and persistence through specialized modules.
     """
     
     def __init__(self, data_handler: Optional[Callable[[str], None]] = None):
-        """Initialize agent manager with BaseManager
+        """Initialize agent manager with modular components
 
         Args:
             data_handler: Optional callable or object with a ``write`` method
@@ -59,26 +43,21 @@ class AgentManager(BaseManager):
             description="Manages agent registration, unregistration, and basic operations"
         )
         
-        # Injected persistence handler (e.g., database or file writer)
-        self.data_handler = data_handler
-
+        # Initialize modular components
+        self.health_monitor = AgentHealthMonitor()
+        self.persistence_handler = AgentPersistenceHandler(data_handler)
+        self.task_manager = AgentTaskManager(self.health_monitor)
+        
         # Agent storage
         self.agents: Dict[str, AgentInfo] = {}
         
         # Management tracking
-        self.management_stats = {
-            "total_agents_registered": 0,
-            "active_agents": 0,
-        }
-        
-        # Agent monitoring
-        self.agent_heartbeats: Dict[str, datetime] = {}
-        self.agent_workloads: Dict[str, int] = {}
+        self.management_stats = AgentStats()
         
         # Initialize with sample agents
         self._initialize_sample_agents()
         
-        self.logger.info("Agent Manager initialized")
+        self.logger.info("Agent Manager initialized with modular architecture")
     
     # ============================================================================
     # BaseManager Abstract Method Implementations
@@ -91,12 +70,10 @@ class AgentManager(BaseManager):
             
             # Clear agent data
             self.agents.clear()
-            self.agent_heartbeats.clear()
-            self.agent_workloads.clear()
+            self.health_monitor.clear_all_data()
             
             # Reset stats
-            self.management_stats["total_agents_registered"] = 0
-            self.management_stats["active_agents"] = 0
+            self.management_stats = AgentStats()
             
             # Initialize sample agents
             self._initialize_sample_agents()
@@ -108,142 +85,52 @@ class AgentManager(BaseManager):
             self.logger.error(f"Failed to start Agent Manager: {e}")
             return False
     
-    def _on_stop(self):
+    def _on_stop(self) -> bool:
         """Cleanup agent management system"""
         try:
             self.logger.info("Stopping Agent Manager...")
             
-            # Save agent data
+            # Save final agent data
             self._save_agent_data()
             
-            # Clear data
+            # Clear all data
             self.agents.clear()
-            self.agent_heartbeats.clear()
-            self.agent_workloads.clear()
+            self.health_monitor.clear_all_data()
             
             self.logger.info("Agent Manager stopped successfully")
+            return True
             
         except Exception as e:
             self.logger.error(f"Failed to stop Agent Manager: {e}")
+            return False
     
-    def _on_heartbeat(self):
-        """Agent manager heartbeat"""
+    def _on_health_check(self) -> bool:
+        """Perform health check on agent management system"""
         try:
             # Check agent health
-            self._check_agent_health()
+            health_status = self.health_monitor.check_agent_health(self.agents)
             
-            # Cleanup inactive agents
-            self.cleanup_inactive_agents()
+            # Update active agent count
+            active_count = sum(1 for status in health_status.values() if status)
+            self.management_stats.active_agents = active_count
             
-            # Update metrics
-            self.record_operation("heartbeat", True, 0.0)
+            # Log health status
+            unhealthy_count = len(health_status) - active_count
+            if unhealthy_count > 0:
+                self.logger.warning(f"Found {unhealthy_count} unhealthy agents")
             
-        except Exception as e:
-            self.logger.error(f"Heartbeat error: {e}")
-            self.record_operation("heartbeat", False, 0.0)
-    
-    def _on_initialize_resources(self) -> bool:
-        """Initialize agent manager resources"""
-        try:
-            # Initialize data structures
-            self.agents = {}
-            self.agent_heartbeats = {}
-            self.agent_workloads = {}
-            self.management_stats = {
-                "total_agents_registered": 0,
-                "active_agents": 0,
-            }
-            
-            return True
+            return active_count > 0  # Consider healthy if at least one agent is active
             
         except Exception as e:
-            self.logger.error(f"Failed to initialize resources: {e}")
-            return False
-    
-    def _on_cleanup_resources(self):
-        """Cleanup agent manager resources"""
-        try:
-            # Clear data
-            self.agents.clear()
-            self.agent_heartbeats.clear()
-            self.agent_workloads.clear()
-            
-        except Exception as e:
-            self.logger.error(f"Failed to cleanup resources: {e}")
-    
-    def _on_recovery_attempt(self, error: Exception, context: str) -> bool:
-        """Attempt recovery from errors"""
-        try:
-            self.logger.info(f"Attempting recovery for {context}")
-            
-            # Reset agent state
-            self.agents.clear()
-            self.agent_heartbeats.clear()
-            self.agent_workloads.clear()
-            
-            # Reinitialize sample agents
-            self._initialize_sample_agents()
-            
-            self.logger.info("Recovery successful")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Recovery failed: {e}")
+            self.logger.error(f"Health check failed: {e}")
             return False
     
     # ============================================================================
-    # Agent Management Methods
+    # Public Agent Management Methods
     # ============================================================================
     
-    def _initialize_sample_agents(self):
-        """Initialize with sample development agents - ALL can take command"""
-        try:
-            sample_agents = [
-                {
-                    "agent_id": "agent_1",
-                    "name": "Agent-1 (Swarm Captain)",
-                    "role": AgentRole.COORDINATOR,
-                    "skills": ["coordination", "planning", "monitoring", "swarm_command"],
-                    "max_concurrent_tasks": 1
-                },
-                {
-                    "agent_id": "agent_2",
-                    "name": "Agent-2 (Swarm Commander)",
-                    "role": AgentRole.COORDINATOR,
-                    "skills": ["git", "code_analysis", "optimization", "testing", "swarm_command"],
-                    "max_concurrent_tasks": 3
-                },
-                {
-                    "agent_id": "agent_3",
-                    "name": "Agent-3 (Swarm Leader)",
-                    "role": AgentRole.COORDINATOR,
-                    "skills": ["documentation", "markdown", "api_design", "security", "swarm_command"],
-                    "max_concurrent_tasks": 2
-                },
-                {
-                    "agent_id": "agent_4",
-                    "name": "Agent-4 (Swarm Director)",
-                    "role": AgentRole.COORDINATOR,
-                    "skills": ["monitoring", "reporting", "quality_assurance", "swarm_command"],
-                    "max_concurrent_tasks": 1
-                },
-                {
-                    "agent_id": "agent_5",
-                    "name": "Agent-5 (Swarm Validator)",
-                    "role": AgentRole.VALIDATOR,
-                    "skills": ["code_review", "testing", "validation", "swarm_command"],
-                    "max_concurrent_tasks": 2
-                }
-            ]
-            
-            for agent_data in sample_agents:
-                self.register_agent(**agent_data)
-                
-        except Exception as e:
-            self.logger.error(f"Failed to initialize sample agents: {e}")
-    
-    def register_agent(self, agent_id: str, name: str, role: AgentRole,
-                      skills: List[str], max_concurrent_tasks: int) -> bool:
+    def register_agent(self, agent_id: str, name: str, role: AgentRole, 
+                      skills: List[str], max_concurrent_tasks: int = 3) -> bool:
         """Register a new agent"""
         try:
             if agent_id in self.agents:
@@ -259,348 +146,100 @@ class AgentManager(BaseManager):
             )
             
             self.agents[agent_id] = agent
-            self.management_stats["total_agents_registered"] += 1
-            self.management_stats["active_agents"] += 1
+            self.health_monitor.update_heartbeat(agent_id)
+            self.health_monitor.update_workload(agent_id, 0)
             
-            # Initialize tracking
-            self.agent_heartbeats[agent_id] = datetime.now()
-            self.agent_workloads[agent_id] = 0
+            self.management_stats.total_agents_registered += 1
+            self.management_stats.active_agents += 1
             
-            # Record operation
-            self.record_operation("register_agent", True, 0.0)
-            
-            self.logger.info(f"Registered agent {agent_id}: {name} ({role.value})")
+            self.logger.info(f"Registered agent {agent_id} ({name})")
             return True
             
         except Exception as e:
             self.logger.error(f"Failed to register agent {agent_id}: {e}")
-            self.record_operation("register_agent", False, 0.0)
             return False
     
     def unregister_agent(self, agent_id: str) -> bool:
-        """Unregister an agent"""
+        """Unregister an existing agent"""
         try:
             if agent_id not in self.agents:
+                self.logger.warning(f"Agent {agent_id} not found")
                 return False
             
             agent = self.agents[agent_id]
             if agent.is_active:
-                self.management_stats["active_agents"] -= 1
+                self.management_stats.active_agents -= 1
             
-            # Remove tracking
-            if agent_id in self.agent_heartbeats:
-                del self.agent_heartbeats[agent_id]
-            if agent_id in self.agent_workloads:
-                del self.agent_workloads[agent_id]
+            # Clear health data
+            self.health_monitor.clear_agent_data(agent_id)
             
+            # Remove agent
             del self.agents[agent_id]
-            
-            # Record operation
-            self.record_operation("unregister_agent", True, 0.0)
             
             self.logger.info(f"Unregistered agent {agent_id}")
             return True
             
         except Exception as e:
             self.logger.error(f"Failed to unregister agent {agent_id}: {e}")
-            self.record_operation("unregister_agent", False, 0.0)
             return False
     
     def update_agent_heartbeat(self, agent_id: str) -> bool:
         """Update agent heartbeat"""
         try:
             if agent_id not in self.agents:
+                self.logger.warning(f"Agent {agent_id} not found")
                 return False
             
-            agent = self.agents[agent_id]
-            agent.last_heartbeat = datetime.now()
-            
-            # Update tracking
-            self.agent_heartbeats[agent_id] = datetime.now()
-            
-            # Reactivate if was inactive
-            if not agent.is_active:
-                agent.is_active = True
-                self.management_stats["active_agents"] += 1
-                self.logger.info(f"Agent {agent_id} reactivated")
-            
-            # Record operation
-            self.record_operation("update_agent_heartbeat", True, 0.0)
-            
+            self.health_monitor.update_heartbeat(agent_id)
             return True
             
         except Exception as e:
-            self.logger.error(f"Failed to update agent heartbeat {agent_id}: {e}")
-            self.record_operation("update_agent_heartbeat", False, 0.0)
+            self.logger.error(f"Failed to update heartbeat for agent {agent_id}: {e}")
             return False
     
-    def deactivate_agent(self, agent_id: str) -> bool:
-        """Deactivate an agent"""
-        try:
-            if agent_id not in self.agents:
-                return False
-            
-            agent = self.agents[agent_id]
-            if agent.is_active:
-                agent.is_active = False
-                self.management_stats["active_agents"] -= 1
-                
-                # Record operation
-                self.record_operation("deactivate_agent", True, 0.0)
-                
-                self.logger.info(f"Agent {agent_id} deactivated")
-                return True
-            
-            return False
-            
-        except Exception as e:
-            self.logger.error(f"Failed to deactivate agent {agent_id}: {e}")
-            self.record_operation("deactivate_agent", False, 0.0)
-            return False
+    def assign_task_to_agent(self, task_id: str, agent_id: str) -> bool:
+        """Assign a task to an agent"""
+        return self.task_manager.assign_task_to_agent(task_id, agent_id, self.agents)
     
-    def get_agent(self, agent_id: str) -> Optional[AgentInfo]:
-        """Get agent information"""
-        try:
-            agent = self.agents.get(agent_id)
-            
-            # Record operation
-            self.record_operation("get_agent", True, 0.0)
-            
-            return agent
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get agent {agent_id}: {e}")
-            self.record_operation("get_agent", False, 0.0)
-            return None
+    def remove_task_from_agent(self, task_id: str, agent_id: str) -> bool:
+        """Remove a task from an agent"""
+        return self.task_manager.remove_task_from_agent(task_id, agent_id, self.agents)
     
-    def get_active_agents(self) -> List[AgentInfo]:
-        """Get all active agents"""
-        try:
-            active_agents = [agent for agent in self.agents.values() if agent.is_active]
-            
-            # Record operation
-            self.record_operation("get_active_agents", True, 0.0)
-            
-            return active_agents
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get active agents: {e}")
-            self.record_operation("get_active_agents", False, 0.0)
-            return []
+    def get_agent_info(self, agent_id: str) -> Optional[AgentInfo]:
+        """Get information about a specific agent"""
+        return self.agents.get(agent_id)
     
-    def get_agents_by_role(self, role: AgentRole) -> List[AgentInfo]:
-        """Get agents by role"""
-        try:
-            agents = [agent for agent in self.agents.values() if agent.role == role]
-            
-            # Record operation
-            self.record_operation("get_agents_by_role", True, 0.0)
-            
-            return agents
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get agents by role {role}: {e}")
-            self.record_operation("get_agents_by_role", False, 0.0)
-            return []
+    def get_all_agents(self) -> Dict[str, AgentInfo]:
+        """Get all registered agents"""
+        return self.agents.copy()
     
-    def get_agents_with_skill(self, skill: str) -> List[AgentInfo]:
-        """Get agents with a specific skill"""
-        try:
-            agents = [agent for agent in self.agents.values() if skill in agent.skills]
-            
-            # Record operation
-            self.record_operation("get_agents_with_skill", True, 0.0)
-            
-            return agents
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get agents with skill {skill}: {e}")
-            self.record_operation("get_agents_with_skill", False, 0.0)
-            return []
+    def get_agent_workload(self, agent_id: str) -> int:
+        """Get current workload for a specific agent"""
+        return self.task_manager.get_agent_workload(agent_id, self.agents)
     
-    def get_available_agents(self) -> List[AgentInfo]:
-        """Get agents available for new tasks"""
-        try:
-            available_agents = [
-                agent for agent in self.agents.values()
-                if (agent.is_active and 
-                    len(agent.current_tasks) < agent.max_concurrent_tasks)
-            ]
-            
-            # Record operation
-            self.record_operation("get_available_agents", True, 0.0)
-            
-            return available_agents
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get available agents: {e}")
-            self.record_operation("get_available_agents", False, 0.0)
-            return []
+    def get_available_agents(self) -> List[str]:
+        """Get list of agents that can accept new tasks"""
+        return self.task_manager.get_available_agents(self.agents)
     
-    def get_all_agents(self) -> List[AgentInfo]:
-        """Get all registered agents."""
-        try:
-            agents = list(self.agents.values())
-            
-            # Record operation
-            self.record_operation("get_all_agents", True, 0.0)
-            
-            return agents
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get all agents: {e}")
-            self.record_operation("get_all_agents", False, 0.0)
-            return []
-    
-    def cleanup_inactive_agents(self, max_inactive_time: int = 3600) -> int:
-        """Remove agents that haven't sent heartbeat for specified time"""
-        try:
-            timeout = timedelta(minutes=max_inactive_time)
-            cutoff_time = datetime.now() - timeout
-            removed_count = 0
-            
-            agent_ids_to_remove = []
-            for agent_id, agent in self.agents.items():
-                if (agent.last_heartbeat and 
-                    agent.last_heartbeat < cutoff_time and
-                    agent.role != AgentRole.COORDINATOR):  # Don't remove coordinator
-                    agent_ids_to_remove.append(agent_id)
-            
-            for agent_id in agent_ids_to_remove:
-                self.unregister_agent(agent_id)
-                removed_count += 1
-            
-            # Record operation
-            self.record_operation("cleanup_inactive_agents", True, 0.0)
-            
-            self.logger.info(f"Removed {removed_count} inactive agents")
-            return removed_count
-            
-        except Exception as e:
-            self.logger.error(f"Failed to cleanup inactive agents: {e}")
-            self.record_operation("cleanup_inactive_agents", False, 0.0)
-            return 0
-    
-    def get_agent_statistics(self) -> Dict[str, Any]:
-        """Get comprehensive agent statistics."""
-        try:
-            active_agents = [agent for agent in self.agents.values() if agent.is_active]
-            inactive_agents = [agent for agent in self.agents.values() if not agent.is_active]
-            
-            stats = {
-                "total_agents": len(self.agents),
-                "active_agents": len(active_agents),
-                "inactive_agents": len(inactive_agents),
-                "total_skills": sum(len(agent.skills) for agent in self.agents.values()),
-                "avg_skills_per_agent": sum(len(agent.skills) for agent in self.agents.values()) / len(self.agents) if self.agents else 0,
-                "total_tasks_assigned": sum(len(agent.current_tasks) for agent in self.agents.values()),
-                "avg_tasks_per_agent": sum(len(agent.current_tasks) for agent in self.agents.values()) / len(self.agents) if self.agents else 0
-            }
-            
-            # Record operation
-            self.record_operation("get_agent_statistics", True, 0.0)
-            
-            return stats
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get agent statistics: {e}")
-            self.record_operation("get_agent_statistics", False, 0.0)
-            return {}
-    
-    def get_agent_workload_summary(self) -> Dict[str, Any]:
-        """Get summary of agent workloads"""
-        try:
-            workload_summary = {}
-            
-            for agent_id, agent in self.agents.items():
-                workload_summary[agent_id] = {
-                    "name": agent.name,
-                    "role": agent.role.value,
-                    "current_tasks": len(agent.current_tasks),
-                    "max_tasks": agent.max_concurrent_tasks,
-                    "workload_percentage": (len(agent.current_tasks) / agent.max_concurrent_tasks) * 100,
-                    "is_active": agent.is_active,
-                    "last_heartbeat": agent.last_heartbeat.isoformat() if agent.last_heartbeat else None
-                }
-            
-            # Record operation
-            self.record_operation("get_agent_workload_summary", True, 0.0)
-            
-            return workload_summary
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get agent workload summary: {e}")
-            self.record_operation("get_agent_workload_summary", False, 0.0)
-            return {}
+    def get_management_stats(self) -> AgentStats:
+        """Get current management statistics"""
+        return self.management_stats
     
     # ============================================================================
     # Private Helper Methods
     # ============================================================================
-
-    def _save_agent_data(self):
-        """Serialize agent data and persist using the injected handler"""
-        if not self.data_handler:
-            self.logger.debug("No data handler configured; skipping save")
-            return
-        try:
-            data = {}
-            for agent_id, agent in self.agents.items():
-                info = asdict(agent)
-                info["role"] = agent.role.value if isinstance(agent.role, AgentRole) else agent.role
-                info["last_heartbeat"] = agent.last_heartbeat.isoformat() if agent.last_heartbeat else None
-                data[agent_id] = info
-            serialized = json.dumps(data)
-            if hasattr(self.data_handler, "write"):
-                self.data_handler.write(serialized)
-            elif callable(self.data_handler):
-                self.data_handler(serialized)
-            else:
-                raise TypeError("data_handler must be callable or have write() method")
-            self.logger.debug("Agent data saved")
-        except Exception as e:
-            context = {"agents": len(self.agents)}
-            self.logger.error(f"Failed to save agent data: {e} | context: {context}")
-            raise
     
-    def _check_agent_health(self):
-        """Check agent health status"""
-        try:
-            current_time = datetime.now()
-            
-            for agent_id, agent in self.agents.items():
-                if agent.last_heartbeat:
-                    time_since_heartbeat = (current_time - agent.last_heartbeat).total_seconds()
-                    
-                    # Check if agent is responsive
-                    if time_since_heartbeat > 300:  # 5 minutes
-                        self.logger.warning(f"Agent {agent_id} heartbeat is stale ({time_since_heartbeat}s old)")
-                    
-                    # Check workload
-                    workload_percentage = (len(agent.current_tasks) / agent.max_concurrent_tasks) * 100
-                    if workload_percentage > 90:
-                        self.logger.warning(f"Agent {agent_id} is at {workload_percentage:.1f}% capacity")
-                        
-        except Exception as e:
-            self.logger.error(f"Failed to check agent health: {e}")
+    def _initialize_sample_agents(self) -> None:
+        """Initialize with sample agents for testing"""
+        sample_agents = [
+            ("coordinator", "System Coordinator", AgentRole.COORDINATOR, ["coordination", "planning"], 5),
+            ("developer", "Code Developer", AgentRole.DEVELOPER, ["coding", "testing"], 3),
+            ("analyst", "Data Analyst", AgentRole.ANALYST, ["analysis", "reporting"], 2),
+        ]
+        
+        for agent_id, name, role, skills, max_tasks in sample_agents:
+            self.register_agent(agent_id, name, role, skills, max_tasks)
     
-    def get_agent_manager_stats(self) -> Dict[str, Any]:
-        """Get agent manager statistics"""
-        try:
-            stats = {
-                "total_agents_registered": self.management_stats["total_agents_registered"],
-                "active_agents": self.management_stats["active_agents"],
-                "agent_heartbeats_count": len(self.agent_heartbeats),
-                "agent_workloads_count": len(self.agent_workloads),
-                "manager_status": self.status.value,
-                "manager_uptime": self.metrics.uptime_seconds
-            }
-            
-            # Record operation
-            self.record_operation("get_agent_manager_stats", True, 0.0)
-            
-            return stats
-            
-        except Exception as e:
-            self.logger.error(f"Failed to get agent manager stats: {e}")
-            self.record_operation("get_agent_manager_stats", False, 0.0)
-            return {"error": str(e)}
+    def _save_agent_data(self) -> None:
+        """Save agent data using persistence handler"""
+        self.persistence_handler.save_agent_data(self.agents)

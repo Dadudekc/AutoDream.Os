@@ -15,8 +15,8 @@ from .base_validator import (
 )
 
 
-class ValidationReporter:
-    """Handles reporting of overall validation status and errors"""
+class CodeReporter:
+    """Handles reporting of overall validation status and errors."""
 
     def __init__(self, validator: BaseValidator) -> None:
         self.validator = validator
@@ -35,7 +35,7 @@ class ValidationReporter:
             results.append(success_result)
 
     def report_error(self, exc: Exception) -> ValidationResult:
-        """Create a result for an unexpected error"""
+        """Create a result for an unexpected error."""
         return self.validator._create_result(
             rule_id="code_validation_error",
             rule_name="Code Validation Error",
@@ -44,3 +44,6 @@ class ValidationReporter:
             message=f"Code validation error: {str(exc)}",
             details={"error_type": type(exc).__name__},
         )
+
+
+__all__ = ["CodeReporter"]

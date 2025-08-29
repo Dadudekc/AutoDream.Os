@@ -1,4 +1,4 @@
-"""Execution stage utilities for the testing orchestrator."""
+"""Execution engine for running tests with coverage."""
 
 import io
 from pathlib import Path
@@ -21,7 +21,6 @@ def run_tests(test_files: List[Path], source_dir: Path) -> Dict[str, Any]:
     exit_code = pytest.main([str(f) for f in test_files])
     cov.stop()
     cov.save()
-    # Capture report output to avoid printing to stdout
     stream = io.StringIO()
     coverage_pct = round(cov.report(file=stream), COVERAGE_REPORT_PRECISION)
     logger.info(
@@ -30,4 +29,3 @@ def run_tests(test_files: List[Path], source_dir: Path) -> Dict[str, Any]:
         coverage_pct,
     )
     return {"passed": exit_code == 0, "coverage": coverage_pct}
-

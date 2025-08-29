@@ -21,7 +21,7 @@ from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass, field
 from enum import Enum
 
-from .test_execution import TestExecutor
+from .executor import TestExecutor
 from .testing_utils import BaseTest, TestType, TestStatus
 from .test_categories import TestCategories
 from .output_formatter import OutputFormatter

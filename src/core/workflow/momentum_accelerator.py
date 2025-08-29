@@ -23,7 +23,7 @@ import json
 # Import existing workflow systems
 from .core.workflow_monitor import WorkflowMonitor
 from .managers.task_manager import TaskManager, Task, TaskPriority
-from .optimization.task_assignment_workflow_optimizer import TaskAssignmentWorkflowOptimizer
+from .optimizers.task_assignment_optimizer import TaskAssignmentOptimizer
 
 
 @dataclass
@@ -56,7 +56,7 @@ class MomentumAccelerator:
         self.logger = logging.getLogger(f"{__name__}.MomentumAccelerator")
         self.workflow_monitor = WorkflowMonitor()
         self.task_manager = TaskManager()
-        self.optimizer = TaskAssignmentWorkflowOptimizer()
+        self.optimizer = TaskAssignmentOptimizer()
         
         # Momentum tracking
         self.momentum_history: List[MomentumMetrics] = []

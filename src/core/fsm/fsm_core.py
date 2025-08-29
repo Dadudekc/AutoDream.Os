@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any, Callable, Union, Set
 from collections import defaultdict, deque
 
-from fsm_states import StateStatus, TransitionType, WorkflowPriority
+from fsm.states import StateStatus, TransitionType, WorkflowPriority
 from fsm_models import StateDefinition, TransitionDefinition, WorkflowInstance
 
 

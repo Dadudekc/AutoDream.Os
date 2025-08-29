@@ -20,8 +20,8 @@ from __future__ import annotations
 
 from typing import Any, Dict
 
-from .agent_registry import AgentRegistry
-from .task_assigner import TaskAssigner
+from src.agents.registration import AgentRegistry
+from src.agents.scheduler import TaskAssigner
 from src.core.communication import CommunicationManager
 
 

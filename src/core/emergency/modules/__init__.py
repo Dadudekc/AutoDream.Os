@@ -12,7 +12,7 @@ from .emergency_types import (
     EmergencyEvent,
     EmergencyProtocol,
     EmergencyAction,
-    EmergencyResponse
+    EmergencyResponse,
 )
 
 from .emergency_monitoring import EmergencyMonitoring
@@ -22,26 +22,28 @@ from .recovery_manager import RecoveryManager
 from .emergency_documentation import EmergencyDocumentation
 from .health_integration import HealthIntegration
 from .emergency_response_core import EmergencyResponseSystem
+from .utils import load_template, ensure_directory
 
 __all__ = [
     # Types and enums
     "EmergencyLevel",
-    "EmergencyType", 
+    "EmergencyType",
     "EmergencyEvent",
     "EmergencyProtocol",
     "EmergencyAction",
     "EmergencyResponse",
-    
     # Core components
     "EmergencyResponseSystem",
-    
     # Module components
     "EmergencyMonitoring",
     "ProtocolManager",
-    "EmergencyCoordination", 
+    "EmergencyCoordination",
     "RecoveryManager",
     "EmergencyDocumentation",
-    "HealthIntegration"
+    "HealthIntegration",
+    # Shared utilities
+    "load_template",
+    "ensure_directory",
 ]
 
 __version__ = "2.0.0"

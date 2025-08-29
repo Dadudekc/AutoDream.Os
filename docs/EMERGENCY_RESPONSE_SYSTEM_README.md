@@ -6,10 +6,10 @@ The Emergency Response System is a comprehensive automated emergency response pr
 
 ## 🎯 Contract Deliverables
 
-✅ **Emergency Response Protocols** - Comprehensive protocols for different emergency types  
-✅ **Automated Failure Detection** - Intelligent monitoring and detection system  
-✅ **Recovery Procedures** - Automated recovery actions with validation  
-✅ **Emergency Documentation** - Automatic report generation and lessons learned  
+✅ **Emergency Response Protocols** - Comprehensive protocols for different emergency types
+✅ **Automated Failure Detection** - Intelligent monitoring and detection system
+✅ **Recovery Procedures** - Automated recovery actions with validation
+✅ **Emergency Documentation** - Automatic report generation and lessons learned
 
 ## 🏗️ System Architecture
 
@@ -50,6 +50,13 @@ src/core/emergency/
 - **Lessons Learned** - Automatic extraction and documentation of lessons learned
 - **Performance Metrics** - Track emergency response effectiveness and timing
 - **System Improvements** - Generate improvement recommendations based on emergency analysis
+
+### Module Documentation
+Detailed documentation for each emergency domain is available in:
+
+- [Failure Detection System](emergency/failure_detection_system.md)
+- [Recovery Procedures](emergency/recovery_procedures.md)
+- [Emergency Documentation](emergency/emergency_documentation.md)
 
 ## 📋 Emergency Types Supported
 
@@ -350,19 +357,19 @@ print(f"Recovery procedures: {recovery_status['total_procedures']}")
 
 ## 📄 License and Attribution
 
-**Contract**: EMERGENCY-RESTORE-005: Emergency Response Protocol (400 pts)  
-**Author**: Agent-6 (Data & Analytics Specialist)  
-**License**: MIT  
-**Version**: 1.0.0  
+**Contract**: EMERGENCY-RESTORE-005: Emergency Response Protocol (400 pts)
+**Author**: Agent-6 (Data & Analytics Specialist)
+**License**: MIT
+**Version**: 1.0.0
 
 ## 🎯 Conclusion
 
 The Emergency Response System successfully implements all contract requirements for **EMERGENCY-RESTORE-005: Emergency Response Protocol (400 pts)**. The system provides:
 
-✅ **Comprehensive Emergency Response Protocols** - Covering all emergency types and levels  
-✅ **Automated Failure Detection** - Intelligent monitoring with configurable thresholds  
-✅ **Rapid Recovery Procedures** - Automated recovery with validation and rollback  
-✅ **Emergency Documentation** - Automatic report generation and lessons learned  
+✅ **Comprehensive Emergency Response Protocols** - Covering all emergency types and levels
+✅ **Automated Failure Detection** - Intelligent monitoring with configurable thresholds
+✅ **Rapid Recovery Procedures** - Automated recovery with validation and rollback
+✅ **Emergency Documentation** - Automatic report generation and lessons learned
 
 The system is designed to integrate seamlessly with existing infrastructure while providing robust emergency response capabilities for future system failures. It follows established coding standards, maintains code quality, implements robust error handling, and provides comprehensive documentation for all changes.
 

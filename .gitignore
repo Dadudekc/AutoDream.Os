@@ -198,6 +198,9 @@ $RECYCLE.BIN/
 *.msp
 *.lnk
 
+# Backup directories
+*_backup_*/
+
 # Linux
 *~
 .fuse_hidden*

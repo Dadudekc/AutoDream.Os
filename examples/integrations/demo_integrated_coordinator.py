@@ -1,3 +1,11 @@
+from pathlib import Path
+import asyncio
+
+        import traceback
+from src.services.integrated_agent_coordinator import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Integrated Agent Coordinator Demo
@@ -7,14 +15,9 @@ Demonstrates the integrated PyAutoGUI + Message Queue coordination system.
 Shows how Agent-5 can coordinate other agents using both systems.
 """
 
-import asyncio
-import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Import the integrated coordinator
-from src.services.integrated_agent_coordinator import (
     IntegratedAgentCoordinator,
     UnifiedMessagePriority,
 )
@@ -303,7 +306,6 @@ async def main():
     except Exception as e:
         print(f"\n❌ **Demo Failed: {e}**")
         print("Please check the error and try again.")
-        import traceback
 
         traceback.print_exc()
 

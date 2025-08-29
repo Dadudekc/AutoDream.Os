@@ -1,3 +1,11 @@
+from typing import Dict, List, Optional, Tuple
+
+                import random
+from ..core.enums import OSRSSkill
+from dataclasses import dataclass
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 OSRS Market System - Agent Cellphone V2
@@ -10,12 +18,7 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass
-from ..core.enums import OSRSSkill
 
 
 @dataclass
@@ -184,7 +187,6 @@ class OSRSMarketSystem:
             # Simulate price fluctuations
             if current_time - item.last_updated > 3600:  # 1 hour
                 # Random price change ±5%
-                import random
                 change = 1 + (random.uniform(-0.05, 0.05))
                 item.current_price = int(item.current_price * change)
                 item.last_updated = current_time

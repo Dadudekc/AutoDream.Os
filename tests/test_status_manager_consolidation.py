@@ -1,25 +1,31 @@
+from pathlib import Path
+import json
+import os
+import shutil
+import tempfile
+
+import unittest
+
+        from src.core.managers.status_manager import run_smoke_test
+        from src.core.status import (
+        from src.core.status import StatusManager as ImportedStatusManager
+from src.core.managers.status_manager import (
+from the 7 deleted files is properly integrated.
+from unittest.mock import Mock, patch
+import time
+
 #!/usr/bin/env python3
 """
 Status Manager Consolidation Integration Test
 ============================================
 
 Tests the consolidated StatusManager to ensure all functionality
-from the 7 deleted files is properly integrated.
 
 Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import unittest
-import tempfile
-import shutil
-import os
-import time
-import json
-from pathlib import Path
-from unittest.mock import Mock, patch
 
-from src.core.managers.status_manager import (
     StatusManager,
     StatusLevel,
     HealthStatus,
@@ -351,18 +357,15 @@ class TestStatusManagerConsolidation(unittest.TestCase):
     def test_19_smoke_test(self):
         """Test smoke test function"""
         # Import and run smoke test
-        from src.core.managers.status_manager import run_smoke_test
         success = run_smoke_test()
         self.assertTrue(success)
     
     def test_20_integration_compatibility(self):
         """Test integration with existing systems"""
         # Test that StatusManager can be imported from core.status
-        from src.core.status import StatusManager as ImportedStatusManager
         self.assertEqual(ImportedStatusManager, StatusManager)
         
         # Test that all expected types are available
-        from src.core.status import (
             StatusLevel, HealthStatus, UpdateFrequency, StatusEventType,
             StatusItem, HealthMetric, ComponentHealth, StatusEvent,
             StatusMetrics, ActivitySummary

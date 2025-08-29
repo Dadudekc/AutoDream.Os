@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-08-28T18:54:58.827517",
+  "metrics": {
+    "system_health_score": {
+      "name": "system_health_score",
+      "value": 82.12,
+      "unit": "percentage",
+      "timestamp": "2025-08-28T18:54:58.812504",
+      "threshold": null,
+      "status": 

@@ -1,3 +1,14 @@
+from pathlib import Path
+import tempfile
+
+import pytest
+
+from src.core.ml_robot import (
+from src.core.ml_robot.robot_cli import MLRobotCLI
+from src.core.ml_robot.robot_execution import (
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch
+
 #!/usr/bin/env python3
 """
 🧪 ML Robot Modular Tests - TDD Implementation
@@ -10,22 +21,14 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import pytest
-import tempfile
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch
 
 # Import our new modular components
-from src.core.ml_robot import (
     ModelConfig, TrainingConfig, DatasetConfig, ModelResult,
     MLRobotMaker
 )
-from src.core.ml_robot.robot_execution import (
     ModelCreator, ModelTrainer, ModelEvaluator, HyperparameterOptimizer
 )
-from src.core.ml_robot.robot_cli import MLRobotCLI
 
 
 class TestModelConfig:

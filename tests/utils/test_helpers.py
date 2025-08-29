@@ -1,3 +1,17 @@
+from datetime import datetime, timedelta
+from typing import Dict, Any, Optional, List
+import logging
+
+        import json
+        import os
+        import pathlib
+        import pytest
+        import tempfile
+        import unittest
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, MagicMock
+import time
+
 """
 Test Helper Functions - Agent_Cellphone_V2_Repository
 Foundation & Testing Specialist - Consolidated Test Utilities
@@ -5,13 +19,7 @@ Foundation & Testing Specialist - Consolidated Test Utilities
 Common helper functions used across all test files, eliminating duplication.
 """
 
-import time
-import logging
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import Dict, Any, Optional, List
-from unittest.mock import Mock, MagicMock
-from datetime import datetime, timedelta
 
 
 def create_mock_agent(
@@ -282,18 +290,12 @@ def validate_test_environment():
 
     # Test imports
     try:
-        import pytest
-        import unittest
-        import json
-        import pathlib
     except ImportError as e:
         checks["imports_working"] = False
         checks["import_error"] = str(e)
 
     # Test file system
     try:
-        import tempfile
-        import os
 
         with tempfile.NamedTemporaryFile() as tmp:
             tmp.write(b"test")

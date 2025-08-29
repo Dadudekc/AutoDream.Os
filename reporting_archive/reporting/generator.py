@@ -1,19 +1,22 @@
+from pathlib import Path
+from typing import Any, Dict, List
+import logging
+
+    import argparse
+from .models import (
+from .output_delivery import ReportDelivery
+from .report_builder import ReportGenerator
 from __future__ import annotations
+
 
 """Facade that wires together report generation, formatting and delivery."""
 
-import logging
-from pathlib import Path
-from typing import Any, Dict, List
 
-from .models import (
     HealthReport,
     ReportConfig,
     ReportFormat,
     ReportType,
 )
-from .report_builder import ReportGenerator
-from .output_delivery import ReportDelivery
 
 logger = logging.getLogger(__name__)
 
@@ -66,7 +69,6 @@ class HealthReportingGenerator:
 
 
 def main() -> None:  # pragma: no cover - CLI helper
-    import argparse
 
     parser = argparse.ArgumentParser(description="Health Reporting Generator CLI")
     parser.add_argument("--test", action="store_true", help="Run smoke test")

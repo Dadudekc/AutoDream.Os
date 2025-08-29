@@ -1,16 +1,23 @@
+import asyncio
+import json
+import os
+import sys
+
+        from services.api_manager import APIManager, APIEndpoint, APIMethod
+        from services.integration_coordinator import (
+        from services.middleware_tools import (
+        from services.middleware_tools import UnifiedMessagePriority
+        import traceback
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Basic Integration Infrastructure Test
 Tests the core functionality without complex imports.
 """
 
-import asyncio
-import json
-import time
-import sys
-import os
 
-from src.utils.stability_improvements import stability_manager, safe_import
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
@@ -24,7 +31,6 @@ def test_basic_functionality():
     try:
         # Test 1: Import API Manager
         print("\n1. Testing API Manager Import...")
-        from services.api_manager import APIManager, APIEndpoint, APIMethod
 
         print("✅ API Manager imported successfully")
 
@@ -37,7 +43,6 @@ def test_basic_functionality():
 
         # Test 3: Import Middleware Tools
         print("\n3. Testing Middleware Tools Import...")
-        from services.middleware_tools import (
             MessageQueue,
             CacheManager,
             DataTransformer,
@@ -99,7 +104,6 @@ def test_basic_functionality():
 
         # Test 9: Import Integration Coordinator
         print("\n9. Testing Integration Coordinator Import...")
-        from services.integration_coordinator import (
             IntegrationCoordinator,
             IntegrationConfig,
         )
@@ -140,7 +144,6 @@ def test_basic_functionality():
 
     except Exception as e:
         print(f"❌ Test Error: {str(e)}")
-        import traceback
 
         traceback.print_exc()
         return False
@@ -152,11 +155,9 @@ async def test_async_functionality():
     print("=" * 40)
 
     try:
-        from services.integration_coordinator import (
             IntegrationCoordinator,
             IntegrationConfig,
         )
-        from services.middleware_tools import UnifiedMessagePriority
 
         # Create coordinator
         config = IntegrationConfig(
@@ -197,7 +198,6 @@ async def test_async_functionality():
 
     except Exception as e:
         print(f"❌ Async Test Error: {str(e)}")
-        import traceback
 
         traceback.print_exc()
         return False

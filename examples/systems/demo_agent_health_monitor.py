@@ -1,3 +1,19 @@
+from datetime import datetime, timedelta
+from typing import Dict, List, Any
+import asyncio
+import json
+import logging
+import threading
+
+import requests
+
+            from src.core.health.monitoring.health_config import HealthMetricType
+            from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as AgentHealthMonitor
+            from src.web.health_monitor_web import HealthMonitorWebInterface
+    import argparse
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 """
 Comprehensive Demo for Agent Health Monitoring System
 
@@ -12,16 +28,7 @@ Author: Agent-1
 License: MIT
 """
 
-import asyncio
-import json
-import logging
-import time
-import threading
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
-import requests
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -135,7 +142,6 @@ class AgentHealthMonitorDemo:
 
         try:
             # Import and initialize health monitor
-            from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as AgentHealthMonitor
 
             self.health_monitor = AgentHealthMonitor()
 
@@ -341,7 +347,6 @@ class AgentHealthMonitorDemo:
 
         try:
             # Import web interface
-            from src.web.health_monitor_web import HealthMonitorWebInterface
 
             # Initialize web interface
             self.web_interface = HealthMonitorWebInterface(
@@ -420,7 +425,6 @@ class AgentHealthMonitorDemo:
 
         try:
             # Test threshold management
-            from src.core.health.monitoring.health_config import HealthMetricType
 
             # Set custom threshold
             self.health_monitor.set_health_threshold(
@@ -536,7 +540,6 @@ class AgentHealthMonitorDemo:
 
 def main():
     """Main demo function"""
-    import argparse
 
     parser = argparse.ArgumentParser(description="Agent Health Monitor Demo")
     parser.add_argument(

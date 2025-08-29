@@ -1,3 +1,11 @@
+from datetime import datetime
+from pathlib import Path
+import logging
+
+from src.core.cursor_response_capture import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Demo Cursor Response Capture - Agent Cellphone V2
@@ -7,15 +15,9 @@ Demonstration script showing the cursor response capture system in action.
 This script simulates the capture process and displays the results.
 """
 
-import time
-import logging
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime
-from pathlib import Path
 
 # Import our cursor capture system
-from src.core.cursor_response_capture import (
     CursorResponseCapture,
     CursorDatabaseManager,
     CursorMessageNormalizer,

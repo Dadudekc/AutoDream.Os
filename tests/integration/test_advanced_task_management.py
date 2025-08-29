@@ -1,3 +1,13 @@
+from datetime import datetime, timedelta
+import asyncio
+import logging
+
+import pytest
+
+from src.core.task_management import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Advanced Task Management System - Integration Test Suite
@@ -10,20 +20,13 @@ Moved from root to tests/integration/ for better organization.
 Foundation & Testing Specialist - Test Structure Reorganization
 """
 
-import asyncio
-import time
-import logging
-import pytest
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime, timedelta
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Import the task management system
-from src.core.task_management import (
     Task,
     TaskPriority,
     TaskStatus,

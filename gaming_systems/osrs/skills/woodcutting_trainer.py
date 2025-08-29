@@ -1,3 +1,13 @@
+from datetime import datetime
+from typing import List, Dict, Optional
+import logging
+
+from ..core.data_models import OSRSResourceSpot
+from ..core.enums import OSRSSkill, OSRSLocation
+from .base_trainer import OSRSSkillTrainer
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 OSRS Woodcutting Trainer - Agent Cellphone V2
@@ -10,16 +20,8 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import time
-import logging
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from typing import List, Dict, Optional
-from datetime import datetime
 
-from ..core.enums import OSRSSkill, OSRSLocation
-from ..core.data_models import OSRSResourceSpot
-from .base_trainer import OSRSSkillTrainer
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +46,6 @@ class OSRSWoodcuttingTrainer(OSRSSkillTrainer):
     
     def _initialize_trees(self) -> Dict[str, OSRSResourceSpot]:
         """Initialize available woodcutting trees"""
-        from ..core.data_models import OSRSResourceSpot
         
         trees = {
             "regular": OSRSResourceSpot(

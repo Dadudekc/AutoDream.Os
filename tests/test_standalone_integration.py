@@ -1,17 +1,20 @@
+import asyncio
+import json
+import os
+import sys
+
+        import traceback
+from src.utils.stability_improvements import stability_manager, safe_import
+import importlib.util
+import time
+
 #!/usr/bin/env python3
 """
 Standalone Integration Infrastructure Test
 Tests the integration infrastructure files directly without import conflicts.
 """
 
-import asyncio
-import json
-import time
-import sys
-import os
-import importlib.util
 
-from src.utils.stability_improvements import stability_manager, safe_import
 
 
 def load_module_from_file(module_name, file_path):
@@ -66,7 +69,6 @@ def test_api_manager_standalone():
 
     except Exception as e:
         print(f"❌ API Manager Test Error: {str(e)}")
-        import traceback
 
         traceback.print_exc()
         return False
@@ -141,7 +143,6 @@ def test_middleware_tools_standalone():
 
     except Exception as e:
         print(f"❌ Middleware Tools Test Error: {str(e)}")
-        import traceback
 
         traceback.print_exc()
         return False
@@ -183,7 +184,6 @@ def test_integration_coordinator_standalone():
 
     except Exception as e:
         print(f"❌ Integration Coordinator Test Error: {str(e)}")
-        import traceback
 
         traceback.print_exc()
         return False
@@ -244,7 +244,6 @@ async def test_async_coordinator_standalone():
 
     except Exception as e:
         print(f"❌ Async Integration Coordinator Test Error: {str(e)}")
-        import traceback
 
         traceback.print_exc()
         return False

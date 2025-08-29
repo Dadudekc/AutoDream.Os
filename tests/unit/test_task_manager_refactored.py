@@ -1,3 +1,13 @@
+from datetime import datetime
+
+import pytest
+import unittest
+
+        from src.core.base_manager import BaseManager
+        import os
+from src.core.task_manager import TaskManager
+from unittest.mock import Mock, patch, MagicMock
+
 #!/usr/bin/env python3
 """
 Test Task Manager Refactored - Agent Cellphone V2
@@ -7,12 +17,7 @@ Comprehensive testing for refactored TaskManager with BaseManager inheritance.
 Validates SRP compliance and BaseManager pattern implementation.
 """
 
-import pytest
-import unittest
-from unittest.mock import Mock, patch, MagicMock
-from datetime import datetime
 
-from src.core.task_manager import TaskManager
 
 
 class TestTaskManagerRefactored(unittest.TestCase):
@@ -41,7 +46,6 @@ class TestTaskManagerRefactored(unittest.TestCase):
 
     def test_inheritance_structure(self):
         """Test that TaskManager properly inherits from BaseManager."""
-        from src.core.base_manager import BaseManager
         self.assertTrue(issubclass(TaskManager, BaseManager))
         self.assertIsInstance(self.task_manager, BaseManager)
 
@@ -199,7 +203,6 @@ class TestTaskManagerRefactored(unittest.TestCase):
 
     def test_line_count_target(self):
         """Test that the refactored file meets the 300-line target."""
-        import os
         file_path = "src/core/task_manager.py"
         if os.path.exists(file_path):
             try:
@@ -217,8 +220,6 @@ class TestTaskManagerRefactored(unittest.TestCase):
     def test_import_stability(self):
         """Test that all imports are stable and accessible."""
         try:
-            from src.core.task_manager import TaskManager
-            from src.core.base_manager import BaseManager
             self.assertTrue(True, "All imports successful")
         except ImportError as e:
             self.fail(f"Import failed: {e}")

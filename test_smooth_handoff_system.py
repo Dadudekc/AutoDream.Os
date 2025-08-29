@@ -1,3 +1,14 @@
+from pathlib import Path
+import asyncio
+import logging
+import sys
+
+        from src.core.handoff_reliability_system import get_handoff_reliability_system
+        from src.core.handoff_validation_system import get_handoff_validation_system
+        from src.core.smooth_handoff_system import get_smooth_handoff_system
+    from src.core.smooth_handoff_system import HandoffContext, HandoffType
+import time
+
 #!/usr/bin/env python3
 """
 Test Script for Smooth Handoff System Implementation
@@ -14,11 +25,6 @@ Contract: PHASE-003 - Smooth Handoff Procedure Implementation
 License: MIT
 """
 
-import asyncio
-import time
-import logging
-from pathlib import Path
-import sys
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -38,9 +44,6 @@ async def test_smooth_handoff_system():
     
     try:
         # Import the systems
-        from src.core.smooth_handoff_system import get_smooth_handoff_system
-        from src.core.handoff_validation_system import get_handoff_validation_system
-        from src.core.handoff_reliability_system import get_handoff_reliability_system
         
         # Get system instances
         handoff_system = get_smooth_handoff_system()
@@ -103,7 +106,6 @@ async def test_handoff_procedure_execution(handoff_system):
     logger.info("🔍 Testing handoff procedure execution...")
     
     # Test data classes
-    from src.core.smooth_handoff_system import HandoffContext, HandoffType
     
     # Create test handoff context
     test_context = HandoffContext(
@@ -225,7 +227,6 @@ async def test_system_integration(handoff_system, validation_system, reliability
     logger.info("🔍 Testing system integration...")
     
     # Test end-to-end workflow
-    from src.core.smooth_handoff_system import HandoffContext, HandoffType
     
     # Create integrated test context
     integration_context = HandoffContext(
@@ -293,7 +294,6 @@ async def test_performance_characteristics(handoff_system, reliability_system):
     logger.info("🔍 Testing performance characteristics...")
     
     # Test multiple concurrent handoffs
-    from src.core.smooth_handoff_system import HandoffContext, HandoffType
     
     concurrent_handoffs = 5
     handoff_execution_ids = []
@@ -351,9 +351,6 @@ async def run_comprehensive_demo():
     
     try:
         # Import systems
-        from src.core.smooth_handoff_system import get_smooth_handoff_system
-        from src.core.handoff_validation_system import get_handoff_validation_system
-        from src.core.handoff_reliability_system import get_handoff_reliability_system
         
         handoff_system = get_smooth_handoff_system()
         validation_system = get_handoff_validation_system()
@@ -366,7 +363,6 @@ async def run_comprehensive_demo():
         logger.info(f"  Test Configurations: {len(reliability_system.test_configurations)}")
         
         # Demo 2: Execute sample handoff
-        from src.core.smooth_handoff_system import HandoffContext, HandoffType
         
         demo_context = HandoffContext(
             handoff_id="demo_handoff_001",

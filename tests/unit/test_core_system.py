@@ -1,3 +1,14 @@
+from pathlib import Path
+import sys
+
+        from core.agent_manager import AgentManager
+        from core.config_manager import ConfigManager
+        from core.message_router import MessageRouter
+        from launchers.unified_launcher_v2 import UnifiedLauncherV2
+        from services.agent_cell_phone import AgentCellPhone
+        from services.coordination import CoordinationService
+from src.utils.stability_improvements import stability_manager, safe_import
+
 #!/usr/bin/env python3
 """
 Core System Test - Agent Cellphone V2
@@ -7,10 +18,7 @@ Simple test script to verify core system functionality
 without pytest dependencies.
 """
 
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 src_path = Path(__file__).parent / "src"
@@ -23,7 +31,6 @@ def test_core_imports():
     print("🧪 Testing core component imports...")
 
     try:
-        from core.agent_manager import AgentManager
 
         print("✅ AgentManager import successful")
     except ImportError as e:
@@ -31,7 +38,6 @@ def test_core_imports():
         return False
 
     try:
-        from core.message_router import MessageRouter
 
         print("✅ MessageRouter import successful")
     except ImportError as e:
@@ -39,7 +45,6 @@ def test_core_imports():
         return False
 
     try:
-        from core.config_manager import ConfigManager
 
         print("✅ ConfigManager import successful")
     except ImportError as e:
@@ -54,7 +59,6 @@ def test_services_imports():
     print("\n🧪 Testing services imports...")
 
     try:
-        from services.agent_cell_phone import AgentCellPhone
 
         print("✅ AgentCellPhone import successful")
     except ImportError as e:
@@ -62,7 +66,6 @@ def test_services_imports():
         return False
 
     try:
-        from services.coordination import CoordinationService
 
         print("✅ CoordinationService import successful")
     except ImportError as e:
@@ -77,7 +80,6 @@ def test_launcher_imports():
     print("\n🧪 Testing launcher imports...")
 
     try:
-        from launchers.unified_launcher_v2 import UnifiedLauncherV2
 
         print("✅ UnifiedLauncherV2 import successful")
     except ImportError as e:
@@ -92,7 +94,6 @@ def test_basic_functionality():
     print("\n🧪 Testing basic functionality...")
 
     try:
-        from core.agent_manager import AgentManager
 
         manager = AgentManager()
         print("✅ AgentManager instantiation successful")

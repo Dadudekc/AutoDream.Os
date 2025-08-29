@@ -1,3 +1,13 @@
+from pathlib import Path
+import json
+import sys
+
+        from core.fsm import FSMSystemManager
+        from services.discord_integration_service import DiscordIntegrationService
+        import traceback
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Simple FSM-Discord Integration Demo - Agent Cellphone V2
@@ -11,12 +21,7 @@ Tests core functionality without complex dependencies.
 **Status:** ACTIVE - V2 STANDARDS COMPLIANT
 """
 
-import sys
-import json
-import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -32,7 +37,6 @@ def demo_simple_integration():
         print("\n📱 Test 1: Discord Integration Service")
         print("-" * 40)
 
-        from services.discord_integration_service import DiscordIntegrationService
 
         discord_service = DiscordIntegrationService()
         discord_service.configure_discord(
@@ -59,7 +63,6 @@ def demo_simple_integration():
         print("\n🔗 Test 2: FSM-Discord Bridge")
         print("-" * 40)
 
-        from core.fsm import FSMSystemManager
 
         fsm_manager = FSMSystemManager()
 
@@ -122,7 +125,6 @@ def demo_simple_integration():
 
     except Exception as e:
         print(f"❌ Demo Error: {e}")
-        import traceback
 
         traceback.print_exc()
         return False

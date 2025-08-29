@@ -1,3 +1,12 @@
+from datetime import datetime
+from pathlib import Path
+import logging
+import threading
+
+from src.core.fsm_cursor_integration import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Demo Perpetual Motion Machine - Agent Cellphone V2
@@ -7,16 +16,9 @@ Demonstrates the perpetual motion machine where agents never stop working.
 This creates a self-sustaining ecosystem powered by cursor responses.
 """
 
-import time
-import threading
-import logging
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime
-from pathlib import Path
 
 # Import our perpetual motion engine
-from src.core.fsm_cursor_integration import (
     PerpetualMotionEngine,
     FSMStateMachine,
     FSMTrigger,

@@ -1,3 +1,15 @@
+from pathlib import Path
+import shutil
+import tempfile
+
+import pytest
+
+        import time
+from src.core.integrity.integrity_core import DataIntegrityManager
+from src.core.integrity.integrity_types import (
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch
+
 #!/usr/bin/env python3
 """
 Test-Driven Development: Integrity System Tests
@@ -7,16 +19,9 @@ Tests written BEFORE implementation to drive development.
 Follows TDD workflow: RED (failing) → GREEN (passing) → REFACTOR.
 """
 
-import pytest
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch
 
 # Import integrity types and classes
-from src.core.integrity.integrity_types import (
     IntegrityCheckType,
     RecoveryStrategy,
     IntegrityLevel,
@@ -24,7 +29,6 @@ from src.core.integrity.integrity_types import (
     IntegrityViolation,
     IntegrityConfig,
 )
-from src.core.integrity.integrity_core import DataIntegrityManager
 
 
 class TestIntegrityTypes:
@@ -348,7 +352,6 @@ class TestDataIntegrityManager:
 
     def test_integrity_check_timestamp_generation(self, integrity_manager):
         """Test that integrity check timestamps are generated correctly."""
-        import time
 
         before_check = time.time()
         check = integrity_manager.perform_integrity_check(

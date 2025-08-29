@@ -1,3 +1,12 @@
+from pathlib import Path
+import os
+import sys
+
+import unittest
+
+from osrs import (
+from src.utils.stability_improvements import stability_manager, safe_import
+
 #!/usr/bin/env python3
 """
 OSRS Smoke Tests - Agent Cellphone V2
@@ -10,17 +19,11 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import unittest
-import sys
-import os
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from osrs import (
     OSRSSkill, OSRSLocation, OSRSGameState, OSRSActionType,
     OSRSPlayerStats, OSRSInventoryItem, OSRSGameData, OSRSResourceSpot, OSRSRecipe,
     OSRSSkillTrainer, OSRSWoodcuttingTrainer, OSRSFishingTrainer, OSRSCombatTrainer,

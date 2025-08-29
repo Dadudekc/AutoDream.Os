@@ -1,17 +1,28 @@
-"""
-Performance Monitoring Smoke Tests for Agent_Cellphone_V2_Repository
-Lightweight smoke tests to verify basic functionality and integration.
-"""
-
+from pathlib import Path
 import asyncio
 import json
 import os
 import sys
 import tempfile
+
+        from services.dashboard_backend import (
+        from services.dashboard_backend import DashboardBackend
+        from services.metrics_collector import (
+        from services.metrics_collector import SystemMetricsCollector
+        from services.performance_alerting import (
+        from services.performance_alerting import AlertingSystem, AlertRule
+        from services.performance_monitor import (
+        from services.performance_monitor import PerformanceMonitor
+        from src.services.dashboard import (
+from src.utils.stability_improvements import stability_manager, safe_import
 import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
+"""
+Performance Monitoring Smoke Tests for Agent_Cellphone_V2_Repository
+Lightweight smoke tests to verify basic functionality and integration.
+"""
+
+
 
 # Add src to path for imports
 current_dir = Path(__file__).parent.parent.parent
@@ -25,7 +36,6 @@ def test_basic_imports():
     print("=" * 40)
 
     try:
-        from services.performance_monitor import (
             PerformanceMonitor,
             MetricType,
             MetricData,
@@ -37,7 +47,6 @@ def test_basic_imports():
 
         print("✅ Performance monitor imported successfully")
 
-        from services.metrics_collector import (
             SystemMetricsCollector,
             ApplicationMetricsCollector,
             NetworkMetricsCollector,
@@ -46,7 +55,6 @@ def test_basic_imports():
 
         print("✅ Metrics collectors imported successfully")
 
-        from services.dashboard_backend import (
             DashboardBackend,
             DashboardAPI,
             DashboardWebSocket,
@@ -54,7 +62,6 @@ def test_basic_imports():
 
         print("✅ Dashboard backend imported successfully")
 
-        from src.services.dashboard import (
             DashboardFrontend,
             DashboardWidget,
             ChartType,
@@ -62,7 +69,6 @@ def test_basic_imports():
 
         print("✅ Dashboard frontend imported successfully")
 
-        from services.performance_alerting import (
             AlertingSystem,
             EmailAlertChannel,
             SlackAlertChannel,
@@ -83,7 +89,6 @@ def test_performance_monitor_basic():
     print("=" * 50)
 
     try:
-        from services.performance_monitor import (
             PerformanceMonitor,
             MetricData,
             MetricType,
@@ -142,7 +147,6 @@ async def test_metrics_collectors():
     print("=" * 35)
 
     try:
-        from services.metrics_collector import (
             SystemMetricsCollector,
             ApplicationMetricsCollector,
             NetworkMetricsCollector,
@@ -203,8 +207,6 @@ async def test_dashboard_backend():
     print("=" * 30)
 
     try:
-        from services.dashboard_backend import DashboardBackend
-        from services.performance_monitor import PerformanceMonitor
 
         # Create components
         monitor = PerformanceMonitor()
@@ -249,7 +251,6 @@ def test_dashboard_frontend():
     print("=" * 30)
 
     try:
-        from src.services.dashboard import (
             DashboardFrontend,
             DashboardWidget,
             ChartType,
@@ -314,12 +315,10 @@ async def test_alerting_system():
     print("=" * 25)
 
     try:
-        from services.performance_alerting import (
             AlertingSystem,
             AlertRule,
             EmailAlertChannel,
         )
-        from services.performance_monitor import (
             AlertCondition,
             AlertSeverity,
             PerformanceAlert,
@@ -439,14 +438,10 @@ async def test_integration_workflow():
     print("=" * 35)
 
     try:
-        from services.performance_monitor import (
             PerformanceMonitor,
             MetricData,
             MetricType,
         )
-        from services.metrics_collector import SystemMetricsCollector
-        from services.dashboard_backend import DashboardBackend
-        from services.performance_alerting import AlertingSystem, AlertRule
 
         # Initialize components
         monitor = PerformanceMonitor()

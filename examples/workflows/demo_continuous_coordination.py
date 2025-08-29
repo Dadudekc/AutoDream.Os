@@ -1,3 +1,11 @@
+from pathlib import Path
+import sys
+
+from core.collaboration_engine import CollaborationEngine
+from core.continuous_coordinator import ContinuousCoordinator
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Continuous Coordination Demo - Agent Cellphone V2
@@ -6,18 +14,12 @@ Continuous Coordination Demo - Agent Cellphone V2
 Demonstrates the continuous coordination system with never-ending collaboration.
 """
 
-import time
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.continuous_coordinator import ContinuousCoordinator
-from core.collaboration_engine import CollaborationEngine
 
 
 def main():

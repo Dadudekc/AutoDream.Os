@@ -1,19 +1,21 @@
-#!/usr/bin/env python3
-"""Orchestrate web development environment setup."""
-from __future__ import annotations
-
 from pathlib import Path
 import sys
+
+from __future__ import annotations
+from scripts.setup.setup_web_configuration import WebConfigurator
+from scripts.setup.setup_web_dependencies import WebDependencyInstaller
+from scripts.setup.setup_web_environment import WebEnvironmentSetup
+from scripts.setup.setup_web_validation import WebSetupValidator
+
+#!/usr/bin/env python3
+"""Orchestrate web development environment setup."""
+
 
 # Ensure project root on path for absolute imports when executed directly
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from scripts.setup.setup_web_environment import WebEnvironmentSetup
-from scripts.setup.setup_web_dependencies import WebDependencyInstaller
-from scripts.setup.setup_web_configuration import WebConfigurator
-from scripts.setup.setup_web_validation import WebSetupValidator
 
 
 def main() -> None:

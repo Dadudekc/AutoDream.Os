@@ -1,3 +1,17 @@
+from pathlib import Path
+import json
+import shutil
+import tempfile
+
+import unittest
+
+from src.core.fsm import FSMSystemManager
+from src.core.v2_comprehensive_messaging_system import (
+from src.core.v2_onboarding_sequence import (
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, MagicMock
+import time
+
 #!/usr/bin/env python3
 """
 Test V2 Onboarding Sequence - Agent Cellphone V2
@@ -10,30 +24,19 @@ Author: V2 Testing & Validation Specialist
 License: MIT
 """
 
-import unittest
-import time
-import json
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
 
 # Import components to test
-from src.core.v2_onboarding_sequence import (
     V2OnboardingSequence,
     OnboardingStatus,
     OnboardingPhase,
     OnboardingSession,
     OnboardingMessage,
 )
-from src.core.v2_comprehensive_messaging_system import (
     V2ComprehensiveMessagingSystem,
     V2MessageType,
     V2MessagePriority,
 )
-from src.core.fsm import FSMSystemManager
 
 
 class TestV2OnboardingSequence(unittest.TestCase):

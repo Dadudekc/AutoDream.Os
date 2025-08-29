@@ -1,3 +1,21 @@
+from pathlib import Path
+import json
+import os
+import sys
+import tempfile
+
+import unittest
+
+        import shutil
+from services.messaging import UnifiedPyAutoGUIMessaging
+from services.messaging.campaign_messaging import CampaignMessaging
+from services.messaging.coordinate_manager import CoordinateManager, AgentCoordinates
+from services.messaging.interfaces import (
+from services.messaging.unified_messaging_service import UnifiedMessagingService
+from services.messaging.yolo_messaging import YOLOMessaging
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, MagicMock
+
 #!/usr/bin/env python3
 """
 TDD Tests for Unified Messaging System - Agent Cellphone V2
@@ -10,29 +28,15 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import unittest
-import tempfile
-import json
-import os
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 # Import the messaging system components
-from services.messaging.interfaces import (
     MessagingMode, MessageType, IMessageSender, IBulkMessaging,
     ICampaignMessaging, IYOLOMessaging, ICoordinateManager
 )
-from services.messaging.coordinate_manager import CoordinateManager, AgentCoordinates
-from services.messaging import UnifiedPyAutoGUIMessaging
-from services.messaging.campaign_messaging import CampaignMessaging
-from services.messaging.yolo_messaging import YOLOMessaging
-from services.messaging.unified_messaging_service import UnifiedMessagingService
 
 
 class TestCoordinateManager(unittest.TestCase):
@@ -66,7 +70,6 @@ class TestCoordinateManager(unittest.TestCase):
     
     def tearDown(self):
         """Clean up test fixtures"""
-        import shutil
         shutil.rmtree(self.temp_dir)
     
     def test_load_coordinates(self):
@@ -289,7 +292,6 @@ class TestUnifiedMessagingService(unittest.TestCase):
     
     def tearDown(self):
         """Clean up test fixtures"""
-        import shutil
         shutil.rmtree(self.temp_dir)
     
     def test_initialization(self):
@@ -384,7 +386,6 @@ class TestMessagingIntegration(unittest.TestCase):
     
     def tearDown(self):
         """Clean up test fixtures"""
-        import shutil
         shutil.rmtree(self.temp_dir)
     
     def test_full_messaging_workflow(self):

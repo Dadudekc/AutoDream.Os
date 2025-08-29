@@ -1,3 +1,16 @@
+from pathlib import Path
+from typing import List, Dict, Any
+import json
+import os
+import subprocess
+import sys
+
+                from fastapi import FastAPI
+                from flask import Flask
+                import yaml
+from src.utils.stability_improvements import stability_manager, safe_import
+import platform
+
 #!/usr/bin/env python3
 """
 Web Development Environment Setup Script
@@ -14,15 +27,7 @@ Author: Web Development & UI Framework Specialist
 License: MIT
 """
 
-import os
-import sys
-import subprocess
-import platform
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from typing import List, Dict, Any
 
 
 class WebDevelopmentEnvironmentSetup:
@@ -323,7 +328,6 @@ filterwarnings =
 
             precommit_file = self.repo_root / ".pre-commit-config.yaml"
             with open(precommit_file, "w") as f:
-                import yaml
 
                 yaml.dump(precommit_config, f, default_flow_style=False)
 
@@ -414,7 +418,6 @@ filterwarnings =
 
             # Test basic Flask app creation
             try:
-                from flask import Flask
 
                 app = Flask(__name__)
                 print("✅ Flask app creation successful")
@@ -424,7 +427,6 @@ filterwarnings =
 
             # Test basic FastAPI app creation
             try:
-                from fastapi import FastAPI
 
                 app = FastAPI()
                 print("✅ FastAPI app creation successful")

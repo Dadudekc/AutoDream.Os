@@ -1,3 +1,15 @@
+from pathlib import Path
+import os
+import sys
+
+import unittest
+
+from src.core.tasks.execution import TaskExecutor
+from src.core.tasks.monitoring import TaskMonitor
+from src.core.tasks.recovery import TaskRecovery
+from src.core.tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
+from unittest.mock import Mock, MagicMock, patch
+
 #!/usr/bin/env python3
 """
 Test Task Modules - Agent Cellphone V2
@@ -6,19 +18,10 @@ Test Task Modules - Agent Cellphone V2
 Tests for extracted task management modules.
 """
 
-import unittest
-import sys
-import os
-from unittest.mock import Mock, MagicMock, patch
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from src.core.tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
-from src.core.tasks.execution import TaskExecutor
-from src.core.tasks.monitoring import TaskMonitor
-from src.core.tasks.recovery import TaskRecovery
 
 
 class TestTaskScheduler(unittest.TestCase):

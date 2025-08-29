@@ -1,24 +1,26 @@
+from typing import Optional
 import asyncio
 import logging
-import signal
-import time
-from typing import Optional
 
 from launch_performance_config import load_config
 from launch_performance_setup import (
+from launch_performance_validator import (
+from services.dashboard import DashboardFrontend
+from services.dashboard_backend import DashboardBackend
+from services.performance_alerting import AlertingSystem
+from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
+import signal
+import time
+
+
     setup_performance_monitor,
     setup_alerting_system,
     setup_dashboard,
 )
-from launch_performance_validator import (
     print_startup_summary,
     get_system_status as validator_get_system_status,
     get_health_status as validator_get_health_status,
 )
-from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
-from services.dashboard_backend import DashboardBackend
-from services.dashboard import DashboardFrontend
-from services.performance_alerting import AlertingSystem
 
 logger = logging.getLogger(__name__)
 

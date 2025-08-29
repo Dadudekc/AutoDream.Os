@@ -1,3 +1,15 @@
+from pathlib import Path
+import json
+import sys
+
+import unittest
+
+        from datetime import datetime
+from core.base_manager import ManagerStatus, ManagerPriority
+from core.managers.unified_manager_system import UnifiedManagerSystem, ManagerRegistration
+from unittest.mock import Mock, patch, MagicMock
+import time
+
 #!/usr/bin/env python3
 """
 🧪 Unified Manager System Tests
@@ -9,18 +21,10 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import unittest
-import time
-import sys
-import json
-from pathlib import Path
-from unittest.mock import Mock, patch, MagicMock
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from core.managers.unified_manager_system import UnifiedManagerSystem, ManagerRegistration
-from core.base_manager import ManagerStatus, ManagerPriority
 
 
 class TestUnifiedManagerSystem(unittest.TestCase):
@@ -276,7 +280,6 @@ class TestManagerRegistration(unittest.TestCase):
 
     def test_manager_registration_creation(self):
         """Test ManagerRegistration creation"""
-        from datetime import datetime
         
         registration = ManagerRegistration(
             manager_id="test_manager",

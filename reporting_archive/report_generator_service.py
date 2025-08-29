@@ -1,3 +1,13 @@
+from pathlib import Path
+from typing import Any, Dict
+
+from .archive_config import REPORTS_DIR
+from .data_consolidator import (
+from .file_importer import load_project_data
+from .report_exporter import export_report
+from __future__ import annotations
+import time
+
 """Report Generator Service - Agent Cellphone V2
 =============================================
 
@@ -5,15 +15,8 @@ Generates comprehensive reports from scanner analysis data.
 Split into dedicated modules for file import, consolidation and export.
 """
 
-from __future__ import annotations
 
-import time
-from pathlib import Path
-from typing import Any, Dict
 
-from .archive_config import REPORTS_DIR
-from .file_importer import load_project_data
-from .data_consolidator import (
     analyze_files,
     calculate_complexity_statistics,
     calculate_language_statistics,
@@ -22,7 +25,6 @@ from .data_consolidator import (
     generate_recommendations,
     identify_priority_actions,
 )
-from .report_exporter import export_report
 
 
 class ReportGeneratorService:

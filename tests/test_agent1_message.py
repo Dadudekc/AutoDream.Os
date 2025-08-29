@@ -1,3 +1,17 @@
+from pathlib import Path
+import json
+import os
+import sys
+
+        import traceback
+    from core.agent_communication import (
+    from core.fsm import FSMSystemManager
+    from core.inbox_manager import InboxManager
+    from core.v2_onboarding_sequence import V2OnboardingSequence
+from src.utils.stability_improvements import stability_manager, safe_import
+from tests.utils.mock_managers import MockWorkspaceManager
+import time
+
 #!/usr/bin/env python3
 """
 Test Individual Message to Agent-1 - Agent Cellphone V2
@@ -10,28 +24,17 @@ Author: V2 Testing Specialist
 License: MIT
 """
 
-import sys
-import os
-import time
-import json
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from tests.utils.mock_managers import MockWorkspaceManager
 
 try:
-    from core.v2_onboarding_sequence import V2OnboardingSequence
-    from core.agent_communication import (
         AgentCommunicationProtocol,
         MessageType,
         UnifiedMessagePriority,
     )
-    from core.fsm import FSMSystemManager
-    from core.inbox_manager import InboxManager
 
     print("✅ All V2 components imported successfully")
 
@@ -170,7 +173,6 @@ def send_test_message_to_agent1():
 
     except Exception as e:
         print(f"❌ Error during test: {e}")
-        import traceback
 
         traceback.print_exc()
         return False

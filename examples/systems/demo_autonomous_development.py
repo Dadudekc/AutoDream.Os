@@ -1,3 +1,15 @@
+from datetime import datetime
+from pathlib import Path
+import logging
+import sys
+import threading
+
+        import pyautogui
+        import pyperclip
+    from src.core.autonomous_development import AutonomousDevelopmentEngine
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Demo Autonomous Development System - Agent Cellphone V2
@@ -8,14 +20,7 @@ can interact with development tools using PyAutoGUI and create new
 conversations automatically.
 """
 
-import time
-import threading
-import logging
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from datetime import datetime
-from pathlib import Path
 
 # Configure logging
 logging.basicConfig(
@@ -25,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 # Import our autonomous development engine
 try:
-    from src.core.autonomous_development import AutonomousDevelopmentEngine
 
     AUTONOMOUS_DEV_AVAILABLE = True
 except ImportError as e:
@@ -39,7 +43,6 @@ def check_dependencies():
 
     # Check PyAutoGUI
     try:
-        import pyautogui
 
         print("   ✅ PyAutoGUI available")
         pyautogui_available = True
@@ -50,7 +53,6 @@ def check_dependencies():
 
     # Check pyperclip
     try:
-        import pyperclip
 
         print("   ✅ pyperclip available")
         pyperclip_available = True
@@ -75,7 +77,6 @@ def demonstrate_pyautogui_capabilities():
     print("\n🎭 DEMONSTRATING PYAUTOGUI CAPABILITIES...")
 
     try:
-        import pyautogui
 
         # Get screen dimensions
         screen_width, screen_height = pyautogui.size()

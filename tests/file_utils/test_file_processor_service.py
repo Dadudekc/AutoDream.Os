@@ -1,3 +1,18 @@
+from pathlib import Path
+from pathlib import Path
+from typing import Dict, List
+import json
+import json as js
+import os
+import sys
+import tempfile
+
+import pytest
+
+        import shutil
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch
+
 #!/usr/bin/env python3
 """
 Test File Processor Service - Agent Cellphone V2
@@ -7,13 +22,7 @@ TDD tests for FileProcessorService implementation.
 Follows V2 standards: Test-First Development, 90% coverage minimum.
 """
 
-import pytest
-import tempfile
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from unittest.mock import Mock, patch
-import json
 
 # Import will be created after tests pass (TDD RED phase)
 # from src.services.file_processor_service import FileProcessorService
@@ -29,7 +38,6 @@ class TestFileProcessorService:
 
     def teardown_method(self):
         """Cleanup test fixtures."""
-        import shutil
 
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
@@ -245,11 +253,6 @@ def complex_function(x):
         import_file = self.test_dir / "imports.py"
         import_file.write_text(
             """
-import os
-import sys
-from pathlib import Path
-from typing import Dict, List
-import json as js
 """
         )
 

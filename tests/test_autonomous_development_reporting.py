@@ -1,3 +1,13 @@
+from datetime import datetime
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+import pytest
+
+    from src.autonomous_development.core import DevelopmentTask
+from unittest.mock import Mock, patch
+import importlib.util
+
 #!/usr/bin/env python3
 """
 Tests for Autonomous Development Reporting Module
@@ -6,11 +16,6 @@ Tests for Autonomous Development Reporting Module
 Tests the reporting and status management functionality for autonomous development.
 """
 
-import pytest
-from unittest.mock import Mock, patch
-from datetime import datetime
-import importlib.util
-from pathlib import Path
 
 module_path = (
     Path(__file__).resolve().parents[1]
@@ -24,10 +29,8 @@ ReportingManager = reporting_module.ReportingManager
 InMemoryReportStorage = reporting_module.InMemoryReportStorage
 
 # Use type hints with strings to avoid circular imports
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: no cover - for type checking only
-    from src.autonomous_development.core import DevelopmentTask
 
 
 class DevelopmentTask:  # pragma: no cover - minimal stub for tests

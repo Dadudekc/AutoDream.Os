@@ -1,35 +1,38 @@
+from pathlib import Path
+from typing import Dict, Any, Optional
+import argparse
+import asyncio
+import json
+import logging
+import sys
+
+            from services.cross_system_communication import (
+from services.cross_system_communication import (
+from services.integration_coordinator import IntegrationCoordinator
+from services.testing import (
+from src.utils.stability_improvements import stability_manager, safe_import
+import signal
+import time
+
 #!/usr/bin/env python3
 """
 Cross-System Communication and Integration Testing Launcher
 Launches and manages the cross-system communication infrastructure and integration testing.
 """
 
-import argparse
-import asyncio
-import json
-import logging
-import signal
-import sys
-import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from typing import Dict, Any, Optional
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from services.cross_system_communication import (
     CrossSystemCommunicationManager,
     SystemEndpoint,
     CommunicationProtocol,
 )
-from services.testing import (
     TestExecutor,
     TestOrchestrator,
     ServiceIntegrationTester,
 )
-from services.integration_coordinator import IntegrationCoordinator
 
 # Configure logging
 logging.basicConfig(
@@ -335,7 +338,6 @@ class CrossSystemCommunicationLauncher:
             return False
 
         try:
-            from services.cross_system_communication import (
                 CrossSystemMessage,
                 MessageType,
                 UnifiedMessagePriority,

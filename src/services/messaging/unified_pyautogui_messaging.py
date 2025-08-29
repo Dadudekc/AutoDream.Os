@@ -1,3 +1,16 @@
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, Any, List, Optional, Tuple
+import json
+import logging
+import pyautogui
+import pyperclip
+from .coordinate_manager import CoordinateManager, AgentCoordinates
+from .interfaces import IMessageSender, IBulkMessaging
+from dataclasses import dataclass
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Unified PyAutoGUI Messaging System - Agent Cellphone V2
@@ -9,20 +22,10 @@ Consolidates all duplicate PyAutoGUI messaging functionality.
 Follows V2 standards: 400 LOC, OOP design, SRP.
 """
 
-import time
-import logging
-import json
-from pathlib import Path
-from typing import Dict, Any, List, Optional, Tuple
-from dataclasses import dataclass
-from datetime import datetime
 
-from src.utils.stability_improvements import stability_manager, safe_import
 
 # Import PyAutoGUI with safety checks
 try:
-    import pyautogui
-    import pyperclip
     PYAUTOGUI_AVAILABLE = True
     PYPERCLIP_AVAILABLE = True
     logger = logging.getLogger(__name__)
@@ -32,8 +35,6 @@ except ImportError as e:
     logger = logging.getLogger(__name__)
     logger.warning(f"PyAutoGUI not available: {e}")
 
-from .interfaces import IMessageSender, IBulkMessaging
-from .coordinate_manager import CoordinateManager, AgentCoordinates
 
 
 @dataclass
@@ -318,7 +319,8 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
         messages: Dict[str, str], 
         mode: str = "8-agent",
         message_type: str = "text",
-        priority: str = "normal"
+        priority: str = "normal",
+        new_chat: bool = False
     ) -> Dict[str, bool]:
         """
         Send bulk messages to multiple agents.
@@ -338,21 +340,44 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
         
         for agent_id, message_content in messages.items():
             try:
-                success = self.send_message(
-                    recipient=agent_id,
-                    message_content=message_content,
-                    message_type=message_type,
-                    priority=priority
-                )
+                if new_chat:
+                    # Special onboarding sequence: click starter location, Ctrl+N, then paste message
+                    success = self._send_onboarding_message(agent_id, message_content, mode)
+                else:
+                    # Normal message sending
+                    success = self.send_message(
+                        recipient=agent_id,
+                        message_content=message_content,
+                        message_type=message_type,
+                        priority=priority
+                    )
                 
                 if success:
                     success_count += 1
+                    results.append(MessageDeliveryResult(
+                        recipient=agent_id,
+                        success=True,
+                        timestamp=datetime.now(),
+                        message_type=message_type
+                    ))
                 else:
                     failure_count += 1
+                    results.append(MessageDeliveryResult(
+                        recipient=agent_id,
+                        success=False,
+                        timestamp=datetime.now(),
+                        message_type=message_type
+                    ))
                     
             except Exception as e:
                 logger.error(f"Error in bulk delivery to {agent_id}: {e}")
                 failure_count += 1
+                results.append(MessageDeliveryResult(
+                    recipient=agent_id,
+                    success=False,
+                    timestamp=datetime.now(),
+                    message_type=message_type
+                ))
         
         end_time = datetime.now()
         
@@ -434,6 +459,58 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
             logger.error(f"Failed to activate agent {agent_id}: {e}")
             return False
 
+    def _send_onboarding_message(self, agent_id: str, message_content: str, mode: str) -> bool:
+        """Send onboarding message with new chat sequence: click starter location, Ctrl+N, paste message."""
+        try:
+            if not PYAUTOGUI_AVAILABLE:
+                logger.warning("PyAutoGUI not available - simulating onboarding message")
+                return True
+                
+            coords = self.coordinate_manager.get_agent_coordinates(agent_id, mode)
+            if not coords:
+                logger.error(f"No coordinates found for {agent_id}")
+                return False
+            
+            starter_x, starter_y = coords.starter_location
+            input_x, input_y = coords.input_box
+            
+            logger.info(f"🚀 Onboarding {agent_id}: Clicking starter location at ({starter_x}, {starter_y})")
+            
+            # Step 1: Click to the starter agent location
+            pyautogui.moveTo(starter_x, starter_y, duration=0.3)
+            pyautogui.click()
+            time.sleep(0.5)
+            
+            # Step 2: Click Ctrl+N to start new chat
+            logger.info(f"🆕 Starting new chat for {agent_id} with Ctrl+N")
+            pyautogui.hotkey('ctrl', 'n')
+            time.sleep(1.0)  # Wait for new chat to load
+            
+            # Step 3: Click the starter input spot and paste the first message
+            logger.info(f"📝 Pasting onboarding message to {agent_id} at ({input_x}, {input_y})")
+            pyautogui.moveTo(input_x, input_y, duration=0.3)
+            pyautogui.click()
+            time.sleep(0.5)
+            
+            # Paste the onboarding message
+            if PYPERCLIP_AVAILABLE:
+                pyperclip.copy(message_content)
+                pyautogui.hotkey('ctrl', 'v')
+            else:
+                pyautogui.write(message_content)
+            
+            time.sleep(0.5)
+            
+            # Send the message
+            pyautogui.press('enter')
+            
+            logger.info(f"✅ Onboarding message sent to {agent_id} with new chat sequence")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to send onboarding message to {agent_id}: {e}")
+            return False
+
     def test_coordinates(self, agent_id: str, mode: str = "8-agent") -> bool:
         """Test if coordinates are valid for an agent."""
         try:
@@ -466,6 +543,66 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
                 
         except Exception as e:
             logger.error(f"Error testing coordinates for {agent_id}: {e}")
+            return False
+
+    def _send_onboarding_message(self, agent_id: str, message_content: str, mode: str = "8-agent") -> bool:
+        """
+        Send onboarding message using the specific PyAutoGUI sequence:
+        1. Click to starter agent location
+        2. Press Ctrl+N (new chat)
+        3. Paste message in starter input location
+        """
+        try:
+            if not PYAUTOGUI_AVAILABLE:
+                logger.warning("PyAutoGUI not available - simulating onboarding message")
+                return True
+                
+            # Get agent coordinates
+            coords = self.coordinate_manager.get_agent_coordinates(agent_id, mode)
+            if not coords:
+                logger.error(f"No coordinates found for {agent_id}")
+                return False
+            
+            starter_x, starter_y = coords.starter_location
+            input_x, input_y = coords.input_box
+            
+            logger.info(f"🚀 ONBOARDING: {agent_id} - Clicking starter location at ({starter_x}, {starter_y})")
+            
+            # STEP 1: Click to starter agent location
+            pyautogui.moveTo(starter_x, starter_y, duration=0.3)
+            pyautogui.click()
+            time.sleep(0.5)
+            
+            logger.info(f"📱 ONBOARDING: {agent_id} - Pressing Ctrl+N for new chat")
+            
+            # STEP 2: Press Ctrl+N (new chat)
+            pyautogui.hotkey('ctrl', 'n')
+            time.sleep(1.0)  # Wait for new chat to load
+            
+            logger.info(f"📝 ONBOARDING: {agent_id} - Pasting message in starter location at ({starter_x}, {starter_y})")
+            
+            # STEP 3: Click starter location again and paste message
+            pyautogui.moveTo(starter_x, starter_y, duration=0.3)
+            pyautogui.click()
+            time.sleep(0.5)
+            
+            # Paste the onboarding message
+            if PYPERCLIP_AVAILABLE:
+                pyperclip.copy(message_content)
+                pyautogui.hotkey('ctrl', 'v')
+            else:
+                pyautogui.write(message_content)
+            
+            time.sleep(0.5)
+            
+            # Send the message
+            pyautogui.press('enter')
+            
+            logger.info(f"✅ ONBOARDING: {agent_id} - Message sent successfully")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to send onboarding message to {agent_id}: {e}")
             return False
 
 

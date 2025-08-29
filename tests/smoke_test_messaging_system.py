@@ -1,3 +1,20 @@
+from pathlib import Path
+import json
+import sys
+import tempfile
+
+        from services.messaging import UnifiedPyAutoGUIMessaging
+        from services.messaging.campaign_messaging import CampaignMessaging
+        from services.messaging.cli_interface import MessagingCLI
+        from services.messaging.coordinate_manager import CoordinateManager
+        from services.messaging.interfaces import (
+        from services.messaging.interfaces import MessagingMode
+        from services.messaging.unified_messaging_service import UnifiedMessagingService
+        from services.messaging.yolo_messaging import YOLOMessaging
+        import shutil
+from src.utils.stability_improvements import stability_manager, safe_import
+import time
+
 #!/usr/bin/env python3
 """
 Smoke Tests for Unified Messaging System - Agent Cellphone V2
@@ -10,13 +27,7 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import sys
-import tempfile
-import json
-import time
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -26,7 +37,6 @@ def test_coordinate_manager():
     print("🧪 Testing Coordinate Manager...")
     
     try:
-        from services.messaging.coordinate_manager import CoordinateManager
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -75,7 +85,6 @@ def test_coordinate_manager():
         return False
     finally:
         # Cleanup
-        import shutil
         shutil.rmtree(temp_dir)
 
 
@@ -84,8 +93,6 @@ def test_pyautogui_messaging():
     print("🧪 Testing PyAutoGUI Messaging...")
     
     try:
-        from services.messaging import UnifiedPyAutoGUIMessaging
-        from services.messaging.coordinate_manager import CoordinateManager
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -121,7 +128,6 @@ def test_pyautogui_messaging():
         return False
     finally:
         # Cleanup
-        import shutil
         shutil.rmtree(temp_dir)
 
 
@@ -130,9 +136,6 @@ def test_campaign_messaging():
     print("🧪 Testing Campaign Messaging...")
     
     try:
-        from services.messaging.campaign_messaging import CampaignMessaging
-        from services.messaging.coordinate_manager import CoordinateManager
-        from services.messaging import UnifiedPyAutoGUIMessaging
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -169,7 +172,6 @@ def test_campaign_messaging():
         return False
     finally:
         # Cleanup
-        import shutil
         shutil.rmtree(temp_dir)
 
 
@@ -178,9 +180,6 @@ def test_yolo_messaging():
     print("🧪 Testing YOLO Messaging...")
     
     try:
-        from services.messaging.yolo_messaging import YOLOMessaging
-        from services.messaging.coordinate_manager import CoordinateManager
-        from services.messaging import UnifiedPyAutoGUIMessaging
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -217,7 +216,6 @@ def test_yolo_messaging():
         return False
     finally:
         # Cleanup
-        import shutil
         shutil.rmtree(temp_dir)
 
 
@@ -226,8 +224,6 @@ def test_unified_messaging_service():
     print("🧪 Testing Unified Messaging Service...")
     
     try:
-        from services.messaging.unified_messaging_service import UnifiedMessagingService
-        from services.messaging.interfaces import MessagingMode
         
         # Create temporary coordinate file
         temp_dir = tempfile.mkdtemp()
@@ -281,7 +277,6 @@ def test_unified_messaging_service():
         return False
     finally:
         # Cleanup
-        import shutil
         shutil.rmtree(temp_dir)
 
 
@@ -290,7 +285,6 @@ def test_interfaces():
     print("🧪 Testing Interfaces...")
     
     try:
-        from services.messaging.interfaces import (
             MessagingMode, MessageType, IMessageSender, IBulkMessaging,
             ICampaignMessaging, IYOLOMessaging, ICoordinateManager
         )
@@ -325,7 +319,6 @@ def test_cli_interface():
     print("🧪 Testing CLI Interface...")
     
     try:
-        from services.messaging.cli_interface import MessagingCLI
         
         # Test CLI initialization
         cli = MessagingCLI()

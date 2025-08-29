@@ -1,3 +1,17 @@
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Dict, List, Any
+import json
+import shutil
+import tempfile
+
+import pytest
+
+        from src.services.financial.trading_intelligence_v2 import (
+        import pandas as pd
+from src.utils.stability_improvements import stability_manager, safe_import
+from unittest.mock import Mock, patch, MagicMock
+
 """
 Trading Intelligence TDD Test Suite
 Agent-5: Business Intelligence & Trading Specialist
@@ -12,16 +26,7 @@ This suite covers all trading intelligence functionality including:
 - Financial performance analytics
 """
 
-import pytest
-import json
-import tempfile
-import shutil
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
-from unittest.mock import Mock, patch, MagicMock
 
 
 # Test data and fixtures
@@ -130,7 +135,6 @@ class TestUltimateTradingIntelligence:
     def test_trading_intelligence_initialization(self):
         """Test that trading intelligence system can be initialized"""
         # Import and test the new TradingIntelligenceService
-        from src.services.financial.trading_intelligence_v2 import (
             TradingIntelligenceService,
         )
 
@@ -141,7 +145,6 @@ class TestUltimateTradingIntelligence:
 
     def test_market_analysis_capabilities(self):
         """Test market analysis capabilities"""
-        from src.services.financial.trading_intelligence_v2 import (
             TradingIntelligenceService,
         )
 
@@ -160,7 +163,6 @@ class TestUltimateTradingIntelligence:
 
     def test_trading_signal_generation(self):
         """Test trading signal generation"""
-        from src.services.financial.trading_intelligence_v2 import (
             TradingIntelligenceService,
             StrategyType,
         )
@@ -168,7 +170,6 @@ class TestUltimateTradingIntelligence:
         service = TradingIntelligenceService()
 
         # Create sample market data
-        import pandas as pd
 
         dates = pd.date_range("2024-01-01", periods=60, freq="D")
         data = pd.DataFrame(

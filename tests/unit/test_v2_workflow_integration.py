@@ -1,3 +1,15 @@
+from pathlib import Path
+import sys
+
+        from services.v2_ai_code_review import (
+        from services.v2_ai_code_review import V2AICodeReviewService
+        from src.core.workflow.workflow_core import WorkflowDefinitionManager
+        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
+        from src.core.workflow.workflow_types import WorkflowExecution, WorkflowStep
+        from src.core.workflow.workflow_types import WorkflowStep
+from ..utils.mock_managers import (
+from src.utils.stability_improvements import stability_manager, safe_import
+
 #!/usr/bin/env python3
 """
 V2 Workflow Integration Test - Agent Cellphone V2
@@ -7,17 +19,13 @@ Comprehensive test script to verify V2 workflow system integration
 without pytest dependencies.
 """
 
-import sys
 
-from src.utils.stability_improvements import stability_manager, safe_import
-from pathlib import Path
 
 # Add src to path for imports
 src_path = Path(__file__).parent / "src"
 if str(src_path) not in sys.path:
     sys.path.insert(0, str(src_path))
 
-from ..utils.mock_managers import (
     MockFSMOrchestrator,
     MockAgentManager,
     MockResponseCaptureService,
@@ -30,9 +38,6 @@ def test_v2_workflow_engine_import():
     print("🧪 Testing modular workflow system import...")
 
     try:
-        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
-        from src.core.workflow.workflow_types import WorkflowExecution, WorkflowStep
-        from src.core.workflow.workflow_core import WorkflowDefinitionManager
 
         print("✅ WorkflowExecutionEngine import successful")
         print("✅ WorkflowExecution import successful")
@@ -49,7 +54,6 @@ def test_v2_ai_code_review_import():
     print("\n🧪 Testing V2 AI code review service import...")
 
     try:
-        from services.v2_ai_code_review import (
             V2AICodeReviewService,
             CodeReviewTask,
             CodeReviewResult,
@@ -69,8 +73,6 @@ def test_v2_workflow_engine_instantiation():
     print("\n🧪 Testing modular workflow system instantiation...")
 
     try:
-        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
-        from src.core.workflow.workflow_core import WorkflowDefinitionManager
 
         # Test instantiation of modular components
         engine = WorkflowExecutionEngine(max_workers=2)
@@ -91,8 +93,6 @@ def test_v2_workflow_creation():
     print("\n🧪 Testing modular workflow system creation...")
 
     try:
-        from src.core.workflow.workflow_core import WorkflowDefinitionManager
-        from src.core.workflow.workflow_types import WorkflowStep
 
         # Test workflow definition management
         definition_manager = WorkflowDefinitionManager()
@@ -134,7 +134,6 @@ def test_v2_ai_code_review_instantiation():
     print("\n🧪 Testing V2 AI code review service instantiation...")
 
     try:
-        from services.v2_ai_code_review import V2AICodeReviewService
 
         # Test instantiation with shared mocks
         service = V2AICodeReviewService(MockWorkflowEngine(), MockAgentManager())
@@ -154,8 +153,6 @@ def test_v2_workflow_system_summary():
     print("\n🧪 Testing modular workflow system summary...")
 
     try:
-        from src.core.workflow.workflow_core import WorkflowDefinitionManager
-        from src.core.workflow.workflow_execution import WorkflowExecutionEngine
 
         # Test modular system components
         definition_manager = WorkflowDefinitionManager()
@@ -181,7 +178,6 @@ def test_v2_ai_code_review_system_summary():
     print("\n🧪 Testing V2 AI code review system summary...")
 
     try:
-        from services.v2_ai_code_review import V2AICodeReviewService
 
         service = V2AICodeReviewService(MockWorkflowEngine(), MockAgentManager())
 

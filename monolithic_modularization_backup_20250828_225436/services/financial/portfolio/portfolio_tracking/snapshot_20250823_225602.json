@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-08-23T22:56:02.569617",
+  "total_value": 1000000,
+  "total_return": 0.0,
+  "daily_return": 0.0,
+  "weights": {
+    "AAPL": 0.4,
+    "MSFT": 0.3,
+    "GOOGL": 0.3
+  },
+  "metrics": {
+    "total_weight": 1.0,
+    "num_positions": 3,
+    "largest_position": 0.4,
+    "smallest_position": 0.3,
+    "concentration_risk": 0.33999999999999997
+  },
+  "benchmark_comparison": {}
+}

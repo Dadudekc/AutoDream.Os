@@ -1,12 +1,15 @@
+from pathlib import Path
+from typing import Optional
+
+        import psutil  # type: ignore
+from __future__ import annotations
+
 """Shared constants and helper utilities for performance benchmarking.
 
 This module centralizes configuration values and reusable helpers so that
 all benchmark components follow a single source of truth (SSOT).
 """
-from __future__ import annotations
 
-from pathlib import Path
-from typing import Optional
 
 # ---------------------------------------------------------------------------
 # Configuration constants
@@ -50,7 +53,6 @@ def get_memory_usage() -> float:
         ``psutil`` dependency is unavailable.
     """
     try:
-        import psutil  # type: ignore
 
         return psutil.Process().memory_info().rss / 1024 / 1024
     except Exception:
@@ -65,7 +67,6 @@ def get_cpu_usage() -> float:
         unavailable.
     """
     try:
-        import psutil  # type: ignore
 
         return psutil.cpu_percent(interval=0.1)
     except Exception:

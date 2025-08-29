@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from .status_entities import StatusItem, StatusMetrics
-from .status_registry import StatusRegistry
-from .status_types import StatusLevel
+from ..status_entities import StatusItem, StatusMetrics
+from ..status_registry import StatusRegistry
+from ..status_types import StatusLevel
 
 
 class StatusTracker:

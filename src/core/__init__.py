@@ -53,7 +53,7 @@ except ImportError:
     TaskManager = None
 
 try:
-    from .tasks.execution import TaskExecutor
+    from .tasks.executor import TaskExecutor
 except ImportError:
     TaskExecutor = None
 

@@ -25,7 +25,7 @@ import queue
 import json
 import asyncio
 
-from .test_execution import TestExecutor
+from .executor import TestExecutor
 from .testing_utils import BaseTest, TestType, TestStatus
 from .test_categories import TestCategories
 from .output_formatter import OutputFormatter

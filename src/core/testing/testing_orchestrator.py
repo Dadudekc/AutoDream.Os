@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
             import json
-from src.core.testing.test_execution import TestExecutor
+from src.core.testing.executor import TestExecutor
 from src.core.testing.testing_utils import (
 import time
 import uuid

@@ -26,6 +26,9 @@ import hashlib
 import pickle
 
 from ..base_manager import BaseManager, ManagerStatus, ManagerPriority
+from managers.data.loader import load_file
+from managers.data.cache import CacheManager
+from managers.data.validator import DataValidator
 
 logger = logging.getLogger(__name__)
 
@@ -125,8 +128,6 @@ class DataManager(BaseManager):
         
         self.data_records: Dict[str, DataRecord] = {}
         self.data_schemas: Dict[str, DataSchema] = {}
-        self.data_cache: Dict[str, Any] = {}
-        self.analytics_cache: Dict[str, DataAnalytics] = {}
         self.connection_pools: Dict[str, Any] = {}
         
         # Data management settings
@@ -138,6 +139,8 @@ class DataManager(BaseManager):
         # Initialize data management
         self._load_manager_config()
         self._setup_default_schemas()
+        self.cache = CacheManager(self.data_records, self.max_cache_size)
+        self.validator = DataValidator(self.data_schemas)
 
     def _load_manager_config(self):
         """Load manager-specific configuration"""
@@ -199,7 +202,7 @@ class DataManager(BaseManager):
             
             # Validate data against schema if provided
             if schema_name and schema_name in self.data_schemas:
-                if not self._validate_data_against_schema(data, schema_name):
+                if not self.validator.validate_data_against_schema(data, schema_name):
                     logger.warning(f"Data validation failed for schema {schema_name}")
             
             # Create data record
@@ -219,9 +222,9 @@ class DataManager(BaseManager):
             
             # Store record
             self.data_records[data_id] = record
-            
+
             # Add to cache
-            self._add_to_cache(data_id, data)
+            self.cache.add_data(data_id, data)
             
             # Calculate quality score
             quality_score = self._calculate_data_quality(record)
@@ -256,16 +259,18 @@ class DataManager(BaseManager):
             record.access_count += 1
             
             # Try cache first
-            if use_cache and data_id in self.data_cache:
-                logger.debug(f"Data {data_id} retrieved from cache")
-                return self.data_cache[data_id]
+            if use_cache:
+                cached = self.cache.get_data(data_id)
+                if cached is not None:
+                    logger.debug(f"Data {data_id} retrieved from cache")
+                    return cached
             
             # Return actual data
             data = record.data
             
             # Add to cache
             if use_cache:
-                self._add_to_cache(data_id, data)
+                self.cache.add_data(data_id, data)
             
             self._emit_event("data_retrieved", {
                 "data_id": data_id,
@@ -278,22 +283,6 @@ class DataManager(BaseManager):
         except Exception as e:
             logger.error(f"Failed to retrieve data {data_id}: {e}")
             return None
-
-    def _add_to_cache(self, data_id: str, data: Any):
-        """Add data to cache with size management"""
-        try:
-            # Check cache size limit
-            if len(self.data_cache) >= self.max_cache_size:
-                # Remove oldest accessed items
-                oldest_id = min(self.data_records.keys(), 
-                              key=lambda x: self.data_records[x].last_accessed)
-                if oldest_id in self.data_cache:
-                    del self.data_cache[oldest_id]
-            
-            self.data_cache[data_id] = data
-            
-        except Exception as e:
-            logger.error(f"Failed to add data to cache: {e}")
 
     def _calculate_data_quality(self, record: DataRecord) -> DataQuality:
         """Calculate data quality score"""
@@ -328,123 +317,26 @@ class DataManager(BaseManager):
             logger.error(f"Failed to calculate data quality: {e}")
             return DataQuality.UNKNOWN
 
-    def _validate_data_against_schema(self, data: Any, schema_name: str) -> bool:
-        """Validate data against a schema"""
+    def load_data_from_file(self, file_path: str, data_type: Optional[DataType] = None) -> Optional[str]:
+        """Load data from a file and store it."""
         try:
-            schema = self.data_schemas[schema_name]
-            
-            if isinstance(data, dict):
-                # Check required fields
-                for field in schema.fields:
-                    if field.get('required', False):
-                        if field['name'] not in data:
-                            logger.warning(f"Required field '{field['name']}' missing")
-                            return False
-                
-                # Validate field values
-                for field_name, value in data.items():
-                    field_schema = next((f for f in schema.fields if f['name'] == field_name), None)
-                    if field_schema:
-                        if not self._validate_field_value(value, field_schema, schema.validation_rules.get(field_name, [])):
-                            return False
-            
-            return True
-            
-        except Exception as e:
-            logger.error(f"Schema validation failed: {e}")
-            return False
-
-    def _validate_field_value(self, value: Any, field_schema: Dict[str, Any], rules: List[str]) -> bool:
-        """Validate individual field value"""
-        try:
-            # Type validation
-            expected_type = field_schema.get('type')
-            if expected_type == 'string' and not isinstance(value, str):
-                return False
-            elif expected_type == 'float' and not isinstance(value, (int, float)):
-                return False
-            elif expected_type == 'integer' and not isinstance(value, int):
-                return False
-            elif expected_type == 'datetime' and not isinstance(value, (str, datetime)):
-                return False
-            
-            # Rule validation
-            for rule in rules:
-                if rule.startswith('min:'):
-                    min_val = float(rule.split(':')[1])
-                    if value < min_val:
-                        return False
-                elif rule.startswith('max:'):
-                    max_val = float(rule.split(':')[1])
-                    if value > max_val:
-                        return False
-                elif rule == 'positive' and value <= 0:
-                    return False
-                elif rule == 'non_negative' and value < 0:
-                    return False
-                elif rule == 'finite' and not (isinstance(value, (int, float)) and abs(value) < float('inf')):
-                    return False
-            
-            return True
-            
-        except Exception as e:
-            logger.error(f"Field validation failed: {e}")
-            return False
-
-    def load_data_from_file(self, file_path: str, data_type: Optional[DataType] = None) -> Optional[Any]:
-        """Load data from file"""
-        try:
-            file_path = Path(file_path)
-            if not file_path.exists():
-                logger.warning(f"File not found: {file_path}")
+            data, detected = load_file(file_path, data_type.value if data_type else None)
+            if data is None:
                 return None
-            
-            # Auto-detect data type if not specified
-            if data_type is None:
-                data_type = self._detect_file_type(file_path)
-            
-            # Load data based on type
-            if data_type == DataType.CSV:
-                data = pd.read_csv(file_path)
-            elif data_type == DataType.JSON:
-                with open(file_path, 'r') as f:
-                    data = json.load(f)
-            elif data_type == DataType.EXCEL:
-                data = pd.read_excel(file_path)
-            elif data_type == DataType.TEXT:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    data = f.read()
-            else:
-                logger.warning(f"Unsupported file type: {data_type}")
-                return None
-            
-            # Store the loaded data
+
+            data_type = data_type or DataType(detected)
+            path = Path(file_path)
             data_id = self.store_data(
                 data=data,
                 data_type=data_type,
                 source=DataSource.FILE,
-                metadata={"file_path": str(file_path), "file_size": file_path.stat().st_size}
+                metadata={"file_path": str(path), "file_size": path.stat().st_size},
             )
-            
             return data_id
-            
+
         except Exception as e:
             logger.error(f"Failed to load data from file {file_path}: {e}")
             return None
-
-    def _detect_file_type(self, file_path: Path) -> DataType:
-        """Auto-detect file type based on extension"""
-        suffix = file_path.suffix.lower()
-        if suffix == '.csv':
-            return DataType.CSV
-        elif suffix == '.json':
-            return DataType.JSON
-        elif suffix in ['.xlsx', '.xls']:
-            return DataType.EXCEL
-        elif suffix in ['.txt', '.md', '.py', '.js', '.html']:
-            return DataType.TEXT
-        else:
-            return DataType.TEXT  # Default
 
     def save_data_to_file(self, data_id: str, file_path: str, format_type: DataType = DataType.JSON) -> bool:
         """Save data to file"""
@@ -489,8 +381,9 @@ class DataManager(BaseManager):
     def analyze_data(self, data_id: str) -> Optional[DataAnalytics]:
         """Analyze data and generate analytics"""
         try:
-            if data_id in self.analytics_cache:
-                return self.analytics_cache[data_id]
+            cached = self.cache.get_analytics(data_id)
+            if cached is not None:
+                return cached
             
             data = self.retrieve_data(data_id)
             if data is None:
@@ -500,7 +393,7 @@ class DataManager(BaseManager):
             analytics = self._generate_analytics(data)
             
             # Cache analytics
-            self.analytics_cache[data_id] = analytics
+            self.cache.add_analytics(data_id, analytics)
             
             self._emit_event("data_analyzed", {
                 "data_id": data_id,
@@ -639,8 +532,8 @@ class DataManager(BaseManager):
                 "type_distribution": type_counts,
                 "source_distribution": source_counts,
                 "quality_distribution": quality_counts,
-                "cache_size": len(self.data_cache),
-                "analytics_cache_size": len(self.analytics_cache)
+                "cache_size": self.cache.data_size(),
+                "analytics_cache_size": self.cache.analytics_size()
             }
             
         except Exception as e:
@@ -651,8 +544,7 @@ class DataManager(BaseManager):
         """Cleanup resources"""
         try:
             # Clear caches
-            self.data_cache.clear()
-            self.analytics_cache.clear()
+            self.cache.clear()
             
             # Close database connections
             for pool in self.connection_pools.values():

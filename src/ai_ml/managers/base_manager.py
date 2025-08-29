@@ -1,27 +1,32 @@
-"""
-Base Manager Interface
-Captain Agent-3: Unified Management Pattern
+"""Base Manager Interface
+
+Provides a minimal manager contract that reuses shared mixins.
 """
 
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Any
 
-class BaseManager(ABC):
-    """Abstract base manager - no duplication allowed"""
-    
-    def __init__(self, name):
-        self.name = name
-        self.status = "initialized"
-    
+from src.utils.serializable import SerializableMixin
+
+
+@dataclass
+class BaseManager(SerializableMixin, ABC):
+    """Abstract base manager using common mixins."""
+
+    name: str
+    status: str = field(default="initialized")
+
     @abstractmethod
-    def initialize(self):
-        """Initialize manager"""
-        pass
-    
+    def initialize(self) -> None:
+        """Initialize manager."""
+        raise NotImplementedError
+
     @abstractmethod
-    def execute(self, operation):
-        """Execute manager operation"""
-        pass
-    
-    def get_status(self):
-        """Get manager status"""
+    def execute(self, operation: Any) -> Any:
+        """Execute manager operation."""
+        raise NotImplementedError
+
+    def get_status(self) -> dict:
+        """Get manager status."""
         return {"name": self.name, "status": self.status}

@@ -6,7 +6,7 @@ from ..base_manager import BaseManager, ManagerConfig
 from .cleanup_rules import (
 from .constants import (
 from .decision_algorithms import DecisionAlgorithmExecutor
-from .decision_metrics import DecisionMetrics
+from .metrics import DecisionMetrics
 from .decision_rules import DecisionRuleEngine
 from .decision_tracking import DecisionTracker
 from .decision_types import (

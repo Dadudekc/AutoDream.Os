@@ -5,7 +5,7 @@ import unittest
 from .decision_algorithms import DecisionAlgorithmExecutor, AlgorithmPerformance
 from .decision_core import DecisionCore, DecisionCoreConfig
 from .decision_manager import DecisionManager, DecisionManagerConfig
-from .decision_metrics import DecisionMetrics
+from .metrics import DecisionMetrics
 from .decision_rules import DecisionRuleEngine, RuleEvaluationResult, RulePerformance
 from .decision_types import (
 from .decision_workflows import DecisionWorkflowExecutor, WorkflowStep, WorkflowExecution

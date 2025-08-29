@@ -1,12 +1,26 @@
+#!/usr/bin/env python3
 """
-Autonomous Development Agents Module
-===================================
+Agent Management Package - Agent Cellphone V2
+=============================================
 
-This module handles agent coordination and management for autonomous development.
+Comprehensive agent management system with modular architecture.
+Follows V2 standards: SRP, OOP principles, clean separation of concerns.
+
+Author: V2 SWARM CAPTAIN
+License: MIT
 """
 
-from .coordinator import AgentCoordinator
+from .agent_models import AgentInfo, AgentStats
+from .agent_health import AgentHealthMonitor
+from .agent_persistence import AgentPersistenceHandler
+from .agent_tasks import AgentTaskManager
+from .agent_management import AgentManager
 
-__all__ = ["AgentCoordinator"]
-__version__ = "1.0.0"
-__author__ = "Agent-5 (Business Intelligence & Trading Specialist)"
+__all__ = [
+    'AgentInfo',
+    'AgentStats', 
+    'AgentHealthMonitor',
+    'AgentPersistenceHandler',
+    'AgentTaskManager',
+    'AgentManager'
+]

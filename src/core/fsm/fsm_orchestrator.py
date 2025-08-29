@@ -11,8 +11,9 @@ import json
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 
+from fsm import setup
 from fsm_core import FSMCore, FSMStateManager, FSMWorkflowManager
-from fsm_states import StateDefinition, TransitionDefinition, WorkflowInstance, StateStatus
+from fsm.states import StateDefinition, TransitionDefinition, WorkflowInstance, StateStatus
 from fsm_transitions import TransitionManager, TransitionValidator
 from fsm_execution import ExecutionEngine, ExecutionMonitor
 
@@ -32,6 +33,9 @@ class FSMOrchestrator:
     def initialize(self, config_path: Optional[str] = None) -> bool:
         """Initialize the FSM orchestrator system."""
         try:
+            # Load configuration
+            setup.initialize(config_path)
+
             # Initialize core components
             if not self.core.initialize(config_path):
                 self.logger.error("Failed to initialize FSM core")

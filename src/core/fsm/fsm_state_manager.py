@@ -13,6 +13,7 @@ License: MIT
 import logging
 from typing import Dict, List, Optional, Any, Set
 
+from fsm.backup import export_state_definitions
 from .fsm_data_models import StateDefinition, validate_state_definition
 
 
@@ -208,38 +209,9 @@ class FSMStateManager:
             return {}
 
     def export_state_definitions(self, format: str = "dict") -> Any:
-        """Export all state definitions.
-        
-        Args:
-            format (str): Export format ("dict" or "json").
-            
-        Returns:
-            Any: Exported state definitions.
-        """
+        """Export all state definitions using backup utilities."""
         try:
-            if format.lower() == "dict":
-                return {
-                    name: {
-                        "name": state.name,
-                        "description": state.description,
-                        "entry_actions": state.entry_actions,
-                        "exit_actions": state.exit_actions,
-                        "timeout_seconds": state.timeout_seconds,
-                        "retry_count": state.retry_count,
-                        "retry_delay": state.retry_delay,
-                        "required_resources": state.required_resources,
-                        "dependencies": state.dependencies,
-                        "metadata": state.metadata,
-                    }
-                    for name, state in self.states.items()
-                }
-            elif format.lower() == "json":
-                import json
-                return json.dumps(self.export_state_definitions("dict"), indent=2)
-            else:
-                self.logger.error(f"Unsupported export format: {format}")
-                return None
-
+            return export_state_definitions(self.states, format)
         except Exception as e:
             self.logger.error(f"Failed to export state definitions: {e}")
             return None

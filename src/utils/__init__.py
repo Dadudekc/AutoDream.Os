@@ -27,7 +27,6 @@ try:
     from src.core.performance.monitoring.performance_monitor import PerformanceMonitor
     from .dependency_checker import DependencyChecker
     from .cli_utils import CLIUtils
-    from .file_utils import FileUtils
     from .message_builder import MessageBuilder
     from .onboarding_utils import OnboardingUtils
     from .onboarding_coordinator import OnboardingCoordinator
@@ -44,7 +43,6 @@ try:
         "PerformanceMonitor",
         "DependencyChecker",
         "CLIUtils",
-        "FileUtils",
         "MessageBuilder",
         "OnboardingUtils",
         "OnboardingCoordinator",

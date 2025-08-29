@@ -26,6 +26,7 @@ from ..managers.status_entities import (
     StatusMetrics,
     ActivitySummary,
 )
+from ..managers.status import StatusTracker, StatusBroadcaster, StatusStorage
 
 # Backward compatibility
 __all__ = [
@@ -41,6 +42,9 @@ __all__ = [
     "StatusEvent",
     "StatusMetrics",
     "ActivitySummary",
+    "StatusTracker",
+    "StatusBroadcaster",
+    "StatusStorage",
     "run_smoke_test",
     "main",
 ]

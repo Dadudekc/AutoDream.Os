@@ -13,7 +13,7 @@ from typing import Any, Dict
 
 from .config_manager import ConfigManager
 from .message_router import MessageRouter
-from .optimization_algorithms import BatchOptimizer
+from ..optimizers.batch_optimizer import BatchOptimizer
 
 
 class CommunicationWorkflowAutomation:

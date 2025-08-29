@@ -13,7 +13,11 @@ from .refactor_tools import (
     create_optimization_plan,
     perform_optimization,
 )
-from .metrics_tools import RefactoringMetrics, update_metrics
+from .metrics import (
+    MetricsManager,
+    RefactoringMetrics,
+    update_metrics,
+)
 
 __all__ = [
     "analyze_file_for_extraction",
@@ -25,6 +29,7 @@ __all__ = [
     "perform_consolidation",
     "create_optimization_plan",
     "perform_optimization",
+    "MetricsManager",
     "RefactoringMetrics",
     "update_metrics",
 ]

@@ -1,22 +1,23 @@
-from collections import deque
-from typing import Any, Dict, List, Optional
+from __future__ import annotations
+
+"""Middleware orchestrator coordinating registration, ordering, and errors."""
+
 import asyncio
 import json
 import logging
+import time
+from collections import deque
+from typing import Any, Dict, List, Optional
 
-    from .components.routing import RoutingMiddleware
-    from .components.transformations import DataTransformationMiddleware
-    from .components.validation import ValidationMiddleware
-    from .models import DataPacket
 from .base import BaseMiddlewareComponent
 from .models import DataPacket, MiddlewareChain
-from __future__ import annotations
-import time
+from .ordering import execute_chain, resolve_chain
+from .registry import create_chain, register_middleware
+from .errors import handle_packet_error
 
-"""Middleware orchestrator for managing data flow through components."""
-
-
-
+from .components.routing import RoutingMiddleware
+from .components.transformations import DataTransformationMiddleware
+from .components.validation import ValidationMiddleware
 
 logger = logging.getLogger(__name__)
 
@@ -36,38 +37,27 @@ class MiddlewareOrchestrator:
         self.start_time = time.time()
 
     def register_middleware(self, middleware: BaseMiddlewareComponent) -> None:
-        """Register a middleware component."""
-        if middleware.name in self.middleware_components:
-            logger.warning(
-                "Middleware %s already registered, overwriting", middleware.name
-            )
-        self.middleware_components[middleware.name] = middleware
+        register_middleware(self.middleware_components, middleware)
 
     def create_chain(self, chain: MiddlewareChain) -> None:
-        """Create a new middleware chain."""
-        for middleware_name in chain.middleware_list:
-            if middleware_name not in self.middleware_components:
-                raise ValueError(
-                    f"Middleware '{middleware_name}' not found in chain '{chain.name}'"
-                )
-        self.middleware_chains.append(chain)
-        self.middleware_chains.sort(key=lambda x: x.priority)
+        create_chain(self.middleware_chains, chain)
 
     async def process_data_packet(
         self, data_packet: DataPacket, chain_name: Optional[str] = None
     ) -> DataPacket:
         """Process a data packet through the appropriate middleware chain."""
         start_time = time.time()
-
         try:
-            chain = self._resolve_chain(data_packet, chain_name)
+            chain = resolve_chain(self.middleware_chains, data_packet, chain_name)
             if not chain or not chain.enabled:
                 logger.warning(
                     "No appropriate chain found for packet %s", data_packet.id
                 )
                 return data_packet
 
-            processed_packet = await self._execute_chain(data_packet, chain, {})
+            processed_packet = await execute_chain(
+                self.middleware_components, data_packet, chain
+            )
 
             processing_time = time.time() - start_time
             self.total_packets_processed += 1
@@ -84,75 +74,8 @@ class MiddlewareOrchestrator:
             )
 
             return processed_packet
-
         except Exception as exc:  # noqa: BLE001
-            logger.error("Error processing data packet %s: %s", data_packet.id, exc)
-            data_packet.metadata["error"] = str(exc)
-            data_packet.metadata["processing_failed"] = True
-            return data_packet
-
-    def _resolve_chain(
-        self, data_packet: DataPacket, chain_name: Optional[str]
-    ) -> Optional[MiddlewareChain]:
-        if chain_name:
-            return self._find_chain(chain_name)
-        return self._select_appropriate_chain(data_packet)
-
-    def _find_chain(self, chain_name: str) -> Optional[MiddlewareChain]:
-        for chain in self.middleware_chains:
-            if chain.name == chain_name:
-                return chain
-        return None
-
-    def _select_appropriate_chain(
-        self, data_packet: DataPacket
-    ) -> Optional[MiddlewareChain]:
-        for chain in self.middleware_chains:
-            if not chain.enabled:
-                continue
-            if self._chain_matches_packet(chain, data_packet):
-                return chain
-        return None
-
-    @staticmethod
-    def _chain_matches_packet(chain: MiddlewareChain, data_packet: DataPacket) -> bool:
-        for key, value in chain.conditions.items():
-            if key in data_packet.metadata:
-                if data_packet.metadata[key] != value:
-                    return False
-            elif key in data_packet.tags:
-                if value not in data_packet.tags:
-                    return False
-            else:
-                return False
-        return True
-
-    async def _execute_chain(
-        self, data_packet: DataPacket, chain: MiddlewareChain, context: Dict[str, Any]
-    ) -> DataPacket:
-        """Execute a middleware chain on a data packet.
-
-        Middleware components run sequentially in the order defined by the
-        chain's ``middleware_list``. Each component receives the packet returned
-        by the previous component. Components that are disabled or whose
-        ``should_process`` method returns ``False`` are skipped.
-        """
-        current_packet = data_packet
-
-        for middleware_name in chain.middleware_list:
-            middleware = self.middleware_components.get(middleware_name)
-            if not middleware or not middleware.enabled:
-                continue
-            if middleware.should_process(current_packet, context):
-                try:
-                    current_packet = await middleware.process(current_packet, context)
-                except Exception as exc:  # noqa: BLE001
-                    logger.exception("Error in middleware %s", middleware_name)
-                    current_packet.metadata["error"] = f"Error in {middleware_name}: {type(exc).__name__}"
-                    current_packet.metadata["failed_middleware"] = middleware_name
-                    break
-
-        return current_packet
+            return handle_packet_error(data_packet, exc)
 
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get overall performance metrics."""
@@ -234,7 +157,6 @@ async def run_demo() -> None:
             }
         )
     )
-
 
     orchestrator.create_chain(
         MiddlewareChain(

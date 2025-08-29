@@ -18,7 +18,7 @@ from .types.workflow_models import WorkflowExecution, WorkflowTask, WorkflowStep
 from .types.workflow_enums import WorkflowStatus, TaskStatus, WorkflowType
 
 # Optimization components
-from .optimization.task_assignment_workflow_optimizer import TaskAssignmentWorkflowOptimizer
+from .optimizers.task_assignment_optimizer import TaskAssignmentOptimizer
 from .optimization.phase_transition_workflow_analyzer import PhaseTransitionWorkflowAnalyzer
 
 # Specialized workflows
@@ -35,7 +35,7 @@ __all__ = [
     "WorkflowStatus",
     "TaskStatus",
     "WorkflowType",
-    "TaskAssignmentWorkflowOptimizer",
+    "TaskAssignmentOptimizer",
     "PhaseTransitionWorkflowAnalyzer",
     "BusinessProcessWorkflow"
 ]

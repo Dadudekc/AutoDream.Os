@@ -3,10 +3,11 @@ from typing import Dict, List, Optional, Any
 import logging
 
     import argparse
+from fsm import setup
 from fsm_core import FSMCore, FSMStateManager, FSMWorkflowManager
 from fsm_execution import ExecutionEngine, ExecutionMonitor
 from fsm_orchestrator import FSMOrchestrator
-from fsm_states import (
+from fsm.states import (
 from fsm_transitions import TransitionManager, TransitionValidator
 
 #!/usr/bin/env python3
@@ -23,8 +24,12 @@ License: MIT
 
 
 # Import from modular components
-    StateStatus, TransitionType, WorkflowPriority,
-    StateDefinition, TransitionDefinition, WorkflowInstance
+    StateStatus,
+    TransitionType,
+    WorkflowPriority,
+    StateDefinition,
+    TransitionDefinition,
+    WorkflowInstance,
 )
 
 
@@ -44,6 +49,7 @@ class FSMCoreV2:
     def initialize(self, config_path: Optional[str] = None) -> bool:
         """Initialize the FSM Core V2 system."""
         try:
+            setup.initialize(config_path)
             if self.orchestrator.initialize(config_path):
                 self.initialized = True
                 self.logger.info("FSM Core V2 initialized successfully")

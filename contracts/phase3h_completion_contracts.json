@@ -360,7 +360,7 @@
     },
     {
       "contract_id": "MODERATE-061",
-      "file_path": "src/core/tasks/execution.py",
+      "file_path": "src/core/tasks/executor.py",
       "current_lines": 413,
       "target_lines": 400,
       "reduction_target": "3%",

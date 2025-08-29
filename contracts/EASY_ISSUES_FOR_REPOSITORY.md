@@ -181,7 +181,7 @@ This document contains **73 easy issues** for the repository to complete Phase 3
 - **MODERATE-023**: `src/services/messaging/unified_pyautogui_messaging.py` (421 lines) - Extract messaging modules
 - **MODERATE-024**: `src/scripts/refactoring_executor.py` (421 lines) - Extract executor modules
 - **MODERATE-025**: `src/core/autonomous_development.py` (419 lines) - Extract development modules
-- **MODERATE-026**: `src/core/tasks/execution.py` (414 lines) - Extract execution modules
+- **MODERATE-026**: `src/core/tasks/executor.py` (414 lines) - Extract execution modules
 - **MODERATE-027**: `src/scripts/setup/setup_web_development_env.py` (413 lines) - Extract setup modules
 - **MODERATE-028**: `src/services/report_generator_service.py` (412 lines) - Extract generator modules
 - **MODERATE-029**: `src/web/frontend/frontend_testing.py` (412 lines) - Extract testing modules

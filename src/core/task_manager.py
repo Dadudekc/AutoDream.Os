@@ -16,7 +16,7 @@ from typing import Dict, List, Optional, Any
 
 from src.core.base_manager import BaseManager
 from src.core.tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
-from src.core.tasks.execution import TaskExecutor
+from src.core.tasks.executor import TaskExecutor
 from src.core.tasks.monitoring import TaskMonitor
 from src.core.tasks.recovery import TaskRecovery
 

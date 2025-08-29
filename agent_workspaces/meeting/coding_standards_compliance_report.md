@@ -58,7 +58,7 @@
 - ..\..\src\core\health\unified_health_manager.py: File exceeds standard limit: 492 lines (limit: 400)
 - ..\..\src\core\health\notifications\health_notification_manager.py: File exceeds standard limit: 433 lines (limit: 400)
 - ..\..\src\core\health\recovery\health_recovery_manager.py: File exceeds standard limit: 425 lines (limit: 400)
-- ..\..\src\core\tasks\execution.py: File exceeds standard limit: 482 lines (limit: 400)
+- ..\..\src\core\tasks\executor.py: File exceeds standard limit: 482 lines (limit: 400)
 - ..\..\src\core\managers\config_manager.py: File exceeds standard limit: 414 lines (limit: 400)
 - ..\..\src\core\managers\data_manager.py: File exceeds standard limit: 667 lines (limit: 400)
 - ..\..\src\core\managers\repository_system_manager.py: File exceeds standard limit: 610 lines (limit: 400)
@@ -345,7 +345,7 @@
 - ..\..\src\security\db_utils.py: File contains procedural code without class structure
 - ..\..\src\services_v2\auth\auth_integration_tester_core.py: File contains procedural code without class structure
 - ..\..\src\services_v2\auth\auth_integration_tester_validation.py: File contains procedural code without class structure
-- ..\..\src\services_v2\auth\auth_integration_test_execution.py: File contains procedural code without class structure
+- ..\..\src\services_v2\auth\auth_integration_test_executor.py: File contains procedural code without class structure
 - ..\..\src\services_v2\auth\auth_integration_test_validation.py: File contains procedural code without class structure
 - ..\..\src\services_v2\auth\run_integration_tests.py: File contains procedural code without class structure
 - ..\..\src\services_v2\auth\auth_performance_config.py: File contains procedural code without class structure
@@ -647,7 +647,7 @@
 - ..\..\src\core\tasks\monitoring.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\tasks\recovery.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\tasks\__init__.py: Missing CLI interface for testing and agent usability
-- ..\..\src\core\tasks\execution.py: Missing CLI interface for testing and agent usability
+- ..\..\src\core\tasks\executor.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\tasks\logger.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\tasks\scheduling.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\managers\config_manager.py: Missing CLI interface for testing and agent usability
@@ -727,14 +727,14 @@
 - ..\..\src\core\managers\testing_framework_manager\performance_analysis.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\managers\testing_framework_manager\result_aggregation.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\managers\testing_framework_manager\strategy_management.py: Missing CLI interface for testing and agent usability
-- ..\..\src\core\managers\testing_framework_manager\test_execution.py: Missing CLI interface for testing and agent usability
+- ..\..\src\core\managers\testing_framework_manager\test_executor.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\managers\testing_framework_manager\test_orchestration.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\managers\testing_framework_manager\test_utilities.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\test_categories.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\output_formatter.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\__init__.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\test_discovery.py: Missing CLI interface for testing and agent usability
-- ..\..\src\core\testing\test_execution.py: Missing CLI interface for testing and agent usability
+- ..\..\src\core\testing\test_executor.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\test_reporting.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\testing_orchestrator.py: Missing CLI interface for testing and agent usability
 - ..\..\src\core\testing\testing_utils.py: Missing CLI interface for testing and agent usability
@@ -1220,7 +1220,7 @@
 - ..\..\src\services_v2\auth\auth_integration_tester_config.py: Missing CLI interface for testing and agent usability
 - ..\..\src\services_v2\auth\auth_integration_tester_core.py: Missing CLI interface for testing and agent usability
 - ..\..\src\services_v2\auth\auth_integration_tester_validation.py: Missing CLI interface for testing and agent usability
-- ..\..\src\services_v2\auth\auth_integration_test_execution.py: Missing CLI interface for testing and agent usability
+- ..\..\src\services_v2\auth\auth_integration_test_executor.py: Missing CLI interface for testing and agent usability
 - ..\..\src\services_v2\auth\auth_integration_test_validation.py: Missing CLI interface for testing and agent usability
 - ..\..\src\services_v2\auth\auth_performance_config.py: Missing CLI interface for testing and agent usability
 - ..\..\src\services_v2\auth\auth_integration_test_setup.py: Missing CLI interface for testing and agent usability
@@ -1715,7 +1715,7 @@
 - ..\..\src\core\tasks\monitoring.py: Missing smoke test file: test_monitoring.py
 - ..\..\src\core\tasks\recovery.py: Missing smoke test file: test_recovery.py
 - ..\..\src\core\tasks\__init__.py: Missing smoke test file: test___init__.py
-- ..\..\src\core\tasks\execution.py: Missing smoke test file: test_execution.py
+- ..\..\src\core\tasks\executor.py: Missing smoke test file: test_executor.py
 - ..\..\src\core\tasks\logger.py: Missing smoke test file: test_logger.py
 - ..\..\src\core\tasks\scheduling.py: Missing smoke test file: test_scheduling.py
 - ..\..\src\core\managers\config_manager.py: Missing smoke test file: test_config_manager.py
@@ -1796,7 +1796,7 @@
 - ..\..\src\core\managers\testing_framework_manager\performance_analysis.py: Missing smoke test file: test_performance_analysis.py
 - ..\..\src\core\managers\testing_framework_manager\result_aggregation.py: Missing smoke test file: test_result_aggregation.py
 - ..\..\src\core\managers\testing_framework_manager\strategy_management.py: Missing smoke test file: test_strategy_management.py
-- ..\..\src\core\managers\testing_framework_manager\test_execution.py: Missing smoke test file: test_test_execution.py
+- ..\..\src\core\managers\testing_framework_manager\test_executor.py: Missing smoke test file: test_test_executor.py
 - ..\..\src\core\managers\testing_framework_manager\test_orchestration.py: Missing smoke test file: test_test_orchestration.py
 - ..\..\src\core\managers\testing_framework_manager\test_utilities.py: Missing smoke test file: test_test_utilities.py
 - ..\..\src\core\testing\testing_cli.py: Missing smoke test file: test_testing_cli.py
@@ -1808,7 +1808,7 @@
 - ..\..\src\core\testing\__init__.py: Missing smoke test file: test___init__.py
 - ..\..\src\core\testing\example_tests.py: Missing smoke test file: test_example_tests.py
 - ..\..\src\core\testing\test_discovery.py: Missing smoke test file: test_test_discovery.py
-- ..\..\src\core\testing\test_execution.py: Missing smoke test file: test_test_execution.py
+- ..\..\src\core\testing\test_executor.py: Missing smoke test file: test_test_executor.py
 - ..\..\src\core\testing\test_reporting.py: Missing smoke test file: test_test_reporting.py
 - ..\..\src\core\testing\testing_orchestrator.py: Missing smoke test file: test_testing_orchestrator.py
 - ..\..\src\core\testing\testing_utils.py: Missing smoke test file: test_testing_utils.py
@@ -1986,11 +1986,11 @@
 - ..\..\src\core\refactoring\workflow_integration_manager.py: Missing smoke test file: test_workflow_integration_manager.py
 - ..\..\src\core\refactoring\automated_refactoring_workflows\__init__.py: Missing smoke test file: test___init__.py
 - ..\..\src\core\refactoring\automated_refactoring_workflows\common.py: Missing smoke test file: test_common.py
-- ..\..\src\core\refactoring\automated_refactoring_workflows\execution.py: Missing smoke test file: test_execution.py
+- ..\..\src\core\refactoring\automated_refactoring_workflows\execution.py: Missing smoke test file: test_executor.py
 - ..\..\src\core\refactoring\automated_refactoring_workflows\postprocess.py: Missing smoke test file: test_postprocess.py
 - ..\..\src\core\refactoring\automated_refactoring_workflows\setup.py: Missing smoke test file: test_setup.py
 - ..\..\src\core\refactoring\automated_workflow_orchestrator\__init__.py: Missing smoke test file: test___init__.py
-- ..\..\src\core\refactoring\automated_workflow_orchestrator\execution.py: Missing smoke test file: test_execution.py
+- ..\..\src\core\refactoring\automated_workflow_orchestrator\execution.py: Missing smoke test file: test_executor.py
 - ..\..\src\core\refactoring\automated_workflow_orchestrator\monitoring.py: Missing smoke test file: test_monitoring.py
 - ..\..\src\core\refactoring\automated_workflow_orchestrator\planning.py: Missing smoke test file: test_planning.py
 - ..\..\src\core\refactoring\automated_workflow_orchestrator\settings.py: Missing smoke test file: test_settings.py
@@ -2274,7 +2274,7 @@
 - ..\..\src\services\financial\trading_intelligence\analysis.py: Missing smoke test file: test_analysis.py
 - ..\..\src\services\financial\trading_intelligence\constants.py: Missing smoke test file: test_constants.py
 - ..\..\src\services\financial\trading_intelligence\data_processing.py: Missing smoke test file: test_data_processing.py
-- ..\..\src\services\financial\trading_intelligence\execution.py: Missing smoke test file: test_execution.py
+- ..\..\src\services\financial\trading_intelligence\execution.py: Missing smoke test file: test_executor.py
 - ..\..\src\services\financial\trading_intelligence\reporting.py: Missing smoke test file: test_reporting.py
 - ..\..\src\services\financial\trading_intelligence\service.py: Missing smoke test file: test_service.py
 - ..\..\src\services\financial\trading_intelligence\strategy_analysis.py: Missing smoke test file: test_strategy_analysis.py
@@ -2427,7 +2427,7 @@
 - ..\..\src\services_v2\auth\auth_integration_tester_config.py: Missing smoke test file: test_auth_integration_tester_config.py
 - ..\..\src\services_v2\auth\auth_integration_tester_core.py: Missing smoke test file: test_auth_integration_tester_core.py
 - ..\..\src\services_v2\auth\auth_integration_tester_validation.py: Missing smoke test file: test_auth_integration_tester_validation.py
-- ..\..\src\services_v2\auth\auth_integration_test_execution.py: Missing smoke test file: test_auth_integration_test_execution.py
+- ..\..\src\services_v2\auth\auth_integration_test_executor.py: Missing smoke test file: test_auth_integration_test_executor.py
 - ..\..\src\services_v2\auth\auth_integration_test_validation.py: Missing smoke test file: test_auth_integration_test_validation.py
 - ..\..\src\services_v2\auth\run_integration_tests.py: Missing smoke test file: test_run_integration_tests.py
 - ..\..\src\services_v2\auth\auth_performance_config.py: Missing smoke test file: test_auth_performance_config.py

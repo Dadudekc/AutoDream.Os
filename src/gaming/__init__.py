@@ -12,13 +12,12 @@ V2 Standards: ≤200 LOC, SRP, OOP principles
 
 from .gaming_integration_core import GamingIntegrationCore
 from .gaming_performance_monitor import GamingPerformanceMonitor
-from .gaming_alert_manager import GamingAlertManager
+from .alerts import GamingAlertManager
 from .gaming_test_runner import GamingTestRunner
 
 __all__ = [
-    'GamingIntegrationCore',
-    'GamingPerformanceMonitor', 
-    'GamingAlertManager',
-    'GamingTestRunner'
+    "GamingIntegrationCore",
+    "GamingPerformanceMonitor",
+    "GamingAlertManager",
+    "GamingTestRunner",
 ]
-

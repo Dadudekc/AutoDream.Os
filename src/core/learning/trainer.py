@@ -1,20 +1,12 @@
-from datetime import datetime
-from typing import Dict, Any, Optional
-
-from .decision_models import (
-from .models import (
+"""Training orchestration utilities for the unified learning engine."""
 from __future__ import annotations
+
 import uuid
+from datetime import datetime
+from typing import Dict, Any, Optional, TYPE_CHECKING
 
-#!/usr/bin/env python3
-"""Training utilities for UnifiedLearningEngine."""
-
-
-
-    LearningData,
-    LearningMode,
-    LearningStatus,
-)
+from .models import LearningData, LearningMode
+from .decision_models import (
     DecisionRequest,
     DecisionResult,
     DecisionContext,
@@ -22,6 +14,9 @@ import uuid
     DecisionConfidence,
     DecisionAlgorithm,
 )
+
+if TYPE_CHECKING:  # pragma: no cover - for type checkers
+    from .unified_learning_engine import UnifiedLearningEngine
 
 
 def add_learning_data(
@@ -88,7 +83,9 @@ def make_decision(
             confidence=confidence,
             reasoning=f"Decision made using {algorithm.name} algorithm",
         )
-        _update_decision_metrics(engine, decision_type, True, processing_time, confidence)
+        _update_decision_metrics(
+            engine, decision_type, True, processing_time, confidence
+        )
         engine.logger.info(f"Decision made: {request.decision_id} - {outcome}")
         engine.total_learning_operations += 1
         engine.successful_operations += 1
@@ -209,4 +206,3 @@ def _update_decision_metrics(
     metrics["success_rate"] = (
         metrics["successful_decisions"] / metrics["total_decisions"]
     ) * 100.0
-

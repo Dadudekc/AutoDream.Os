@@ -9,6 +9,8 @@ from typing import Dict, Any, List, Optional
 
 from .models import LearningPattern, LearningStatus
 from .decision_models import DecisionType
+from . import models as learning_models
+from .trainer import add_learning_data, make_decision
 
 
 def identify_learning_patterns(
@@ -55,7 +57,9 @@ def identify_learning_patterns(
         return []
 
 
-def get_learning_performance_summary(engine: "UnifiedLearningEngine", agent_id: str) -> Dict[str, Any]:
+def get_learning_performance_summary(
+    engine: "UnifiedLearningEngine", agent_id: str
+) -> Dict[str, Any]:
     """Get comprehensive learning performance summary for an agent."""
     try:
         summary = {
@@ -75,7 +79,9 @@ def get_learning_performance_summary(engine: "UnifiedLearningEngine", agent_id: 
         summary["active_sessions"] = len(
             [s for s in agent_sessions if s.session_id in engine.active_sessions]
         )
-        agent_goals = [g for g in engine.learning_goals.values() if g.agent_id == agent_id]
+        agent_goals = [
+            g for g in engine.learning_goals.values() if g.agent_id == agent_id
+        ]
         summary["total_learning_goals"] = len(agent_goals)
         summary["completed_goals"] = len(
             [g for g in agent_goals if g.status == LearningStatus.COMPLETED]
@@ -87,7 +93,9 @@ def get_learning_performance_summary(engine: "UnifiedLearningEngine", agent_id: 
         if all_scores:
             summary["average_performance"] = sum(all_scores) / len(all_scores)
         agent_patterns = [
-            p for p in engine.learning_patterns.values() if p.pattern_id.startswith(agent_id)
+            p
+            for p in engine.learning_patterns.values()
+            if p.pattern_id.startswith(agent_id)
         ]
         summary["learning_patterns"] = [p.pattern_type for p in agent_patterns]
         agent_metrics = [
@@ -132,10 +140,13 @@ def get_engine_status(engine: "UnifiedLearningEngine") -> Dict[str, Any]:
 def run_smoke_test(engine: "UnifiedLearningEngine") -> bool:
     """Run basic functionality test for the learning engine."""
     try:
-        test_session_id = engine.create_learning_session("test_agent", "test")
+        test_session_id = learning_models.create_learning_session(
+            engine, "test_agent", "test"
+        )
         if not test_session_id:
             return False
-        success = engine.add_learning_data(
+        success = add_learning_data(
+            engine,
             test_session_id,
             "test_context",
             {"input": "test"},
@@ -144,21 +155,23 @@ def run_smoke_test(engine: "UnifiedLearningEngine") -> bool:
         )
         if not success:
             return False
-        goal_id = engine.create_learning_goal(
-            "Test Goal", "Test learning goal", {"accuracy": 0.9}
+        goal_id = learning_models.create_learning_goal(
+            engine, "Test Goal", "Test learning goal", {"accuracy": 0.9}
         )
         if not goal_id:
             return False
-        decision_result = engine.make_decision(
-            DecisionType.TASK_ASSIGNMENT, "test_requester", {"task_id": "test_task"}
+        decision_result = make_decision(
+            engine,
+            DecisionType.TASK_ASSIGNMENT,
+            "test_requester",
+            {"task_id": "test_task"},
         )
         if not decision_result:
             return False
-        engine.end_learning_session(test_session_id)
+        learning_models.end_learning_session(engine, test_session_id)
         engine.learning_goals.pop(goal_id, None)
         engine.logger.info("\u2705 Learning engine smoke test passed")
         return True
     except Exception as exc:  # pragma: no cover - log and return
         engine.logger.error(f"\u274c Learning engine smoke test failed: {exc}")
         return False
-

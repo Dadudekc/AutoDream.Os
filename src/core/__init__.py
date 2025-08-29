@@ -13,7 +13,12 @@ except ImportError:
     APIGateway = None
 
 try:
-    from .base_manager import BaseManager, ManagerStatus, ManagerPriority, ManagerMetrics
+    from .base_manager import (
+        BaseManager,
+        ManagerStatus,
+        ManagerPriority,
+        ManagerMetrics,
+    )
 except ImportError:
     BaseManager = ManagerStatus = ManagerPriority = ManagerMetrics = None
 
@@ -63,7 +68,7 @@ except ImportError:
     TaskRecovery = None
 
 try:
-    from .tasks.scheduling import TaskScheduler, Task, TaskPriority, TaskStatus
+    from .tasks.scheduler import TaskScheduler, Task, TaskPriority, TaskStatus
 except ImportError:
     TaskScheduler = Task = TaskPriority = TaskStatus = None
 
@@ -90,41 +95,48 @@ __status__ = "ACTIVE"
 # SSOT: Core component imports - Single source of truth for all core classes
 try:
     # Performance monitoring (SSOT: Unified from multiple locations)
-    
+
     # Task management (SSOT: Unified task system)
-    
+
     # Core management (SSOT: Unified manager system)
-    
+
     # Communication (SSOT: Unified communication system)
 
     # Agent management (lifecycle/communication/learning)
-    
+
     # Health monitoring (SSOT: Unified health system)
-    
+
     # API gateway (SSOT: Unified API system)
-    
+
     __all__ = [
         # Performance
-        "PerformanceMonitor", "MetricType",
-        
+        "PerformanceMonitor",
+        "MetricType",
         # Task Management
-        "TaskManager", "TaskScheduler", "Task", "TaskPriority", "TaskStatus",
-        "TaskExecutor", "TaskMonitor", "TaskRecovery",
-        
+        "TaskManager",
+        "TaskScheduler",
+        "Task",
+        "TaskPriority",
+        "TaskStatus",
+        "TaskExecutor",
+        "TaskMonitor",
+        "TaskRecovery",
         # Core Management
-        "BaseManager", "ManagerStatus", "ManagerPriority", "ManagerMetrics",
-        "CoreManager", "ManagerOrchestrator",
-        
+        "BaseManager",
+        "ManagerStatus",
+        "ManagerPriority",
+        "ManagerMetrics",
+        "CoreManager",
+        "ManagerOrchestrator",
         # Communication
         "CommunicationManager",
-
         # Agent Management
         "AgentManager",
-        
         # Health & API
-        "HealthMonitor", "APIGateway",
+        "HealthMonitor",
+        "APIGateway",
     ]
-    
+
 except ImportError as e:
     print(f"⚠️ Warning: Some core components not available: {e}")
     __all__ = []
@@ -135,10 +147,12 @@ def main():
     parser = argparse.ArgumentParser(description="Core Package CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
     parser.add_argument("--status", action="store_true", help="Show status")
-    parser.add_argument("--components", action="store_true", help="List available components")
-    
+    parser.add_argument(
+        "--components", action="store_true", help="List available components"
+    )
+
     args = parser.parse_args()
-    
+
     if args.version:
         print(f"Core Package v{__version__}")
     elif args.status:

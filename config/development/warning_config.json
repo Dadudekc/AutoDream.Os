@@ -32,24 +32,24 @@
   },
   "stability_improvements": {
     "retry_mechanisms": {
-      "max_retries": 3,
-      "retry_delay": 1.0,
-      "exponential_backoff": true
+      "max_retries": "VALUE_THREE",
+      "retry_delay": "SECONDS_ONE",
+      "exponential_backoff": "ENABLE_TRUE"
     },
     "import_validation": {
-      "validate_on_startup": true,
-      "check_optional_modules": true,
-      "fallback_gracefully": true
+      "validate_on_startup": "ENABLE_TRUE",
+      "check_optional_modules": "ENABLE_TRUE",
+      "fallback_gracefully": "ENABLE_TRUE"
     },
     "error_handling": {
-      "log_all_errors": true,
-      "suppress_known_errors": false,
-      "max_error_log_size": 1000
+      "log_all_errors": "ENABLE_TRUE",
+      "suppress_known_errors": "ENABLE_FALSE",
+      "max_error_log_size": "VALUE_THOUSAND"
     }
   },
   "logging": {
     "warning_level": "WARNING",
-    "log_warning_counts": true,
-    "stability_reporting": true
+    "log_warning_counts": "ENABLE_TRUE",
+    "stability_reporting": "ENABLE_TRUE"
   }
 }

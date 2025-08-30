@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 """
-Agent-5 Package
-===============
+Database Integrity Package - EMERGENCY-RESTORE-004 Mission
+=========================================================
 
-Database recovery and audit tools for Agent-5.
-Follows V2 standards: modular, compliant architecture.
-
-Author: V2 SWARM CAPTAIN
-License: MIT
+Modular database integrity checking system.
+Part of the emergency system restoration mission for Agent-5.
 """
 
-from .database_audit_core import DatabaseAuditCore, FileInfo, AuditResult
-from .database_recovery_ops import DatabaseRecoveryOps, RecoveryAction
-from .database_recovery_orchestrator import DatabaseRecoveryOrchestrator
-
-__all__ = [
-    'DatabaseAuditCore',
-    'FileInfo', 
-    'AuditResult',
-    'DatabaseRecoveryOps',
-    'RecoveryAction',
-    'DatabaseRecoveryOrchestrator'
-]
+from .database_integrity_models import IntegrityCheck, IntegrityReport, IntegrityValidator
+from .database_integrity_operations import DatabaseOperations
+from .database_integrity_core import IntegrityChecker
+from .database_integrity_reporting import IntegrityReporter, CLIInterface
+from .database_integrity_orchestrator import DatabaseIntegrityOrchestrator
 
 __version__ = "1.0.0"
-__author__ = "V2 SWARM CAPTAIN"
-__license__ = "MIT"
+__author__ = "Agent-7 - Modularization Specialist"
+__description__ = "Modular database integrity checking system"
+
+__all__ = [
+    "IntegrityCheck",
+    "IntegrityReport", 
+    "IntegrityValidator",
+    "DatabaseOperations",
+    "IntegrityChecker",
+    "IntegrityReporter",
+    "CLIInterface",
+    "DatabaseIntegrityOrchestrator"
+]

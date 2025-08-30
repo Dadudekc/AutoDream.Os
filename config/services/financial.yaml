@@ -1,20 +1,20 @@
 market_data:
   cache_duration: 300
   default_provider: yfinance
-  max_retries: 3
+  max_retries: VALUE_THREE
   providers:
   - yfinance
   - alpha_vantage
   - quandl
 options_trading:
   default_model: black_scholes
-  greeks_calculation: true
+  greeks_calculation: ENABLE_TRUE
   risk_metrics:
   - delta
   - gamma
   - theta
   - vega
-  volatility_surface_points: 100
+  volatility_surface_points: VALUE_HUNDRED
 portfolio:
   max_sector_allocation: 0.3
   min_diversification: 10

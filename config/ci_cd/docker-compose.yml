@@ -1,268 +1,210 @@
-# 🚀 CI/CD Local Testing Environment - Agent_Cellphone_V2
-# Foundation & Testing Specialist - TDD Integration Project
-# Docker Compose configuration for local CI/CD pipeline testing
-
-version: '3.8'
-
-services:
-  # 🐍 Python Testing Environment
-  python-testing:
-    image: python:3.9-slim
-    container_name: agent_cellphone_v2_testing
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - pip_cache:/root/.cache/pip
-      - pytest_cache:/workspace/.pytest_cache
-    environment:
-      - PYTHONPATH=/workspace
-      - PYTHONUNBUFFERED=1
-      - COVERAGE_THRESHOLD=80
-      - V2_LOC_LIMIT=300
-      - V2_CORE_LOC_LIMIT=200
-      - V2_GUI_LOC_LIMIT=500
-    command: >
-      bash -c "
-        echo '🚀 Starting Agent_Cellphone_V2 CI/CD Local Testing Environment...' &&
-        echo '📦 Installing dependencies...' &&
-        python -m pip install --upgrade pip &&
-        pip install -r requirements-testing.txt &&
-        echo '🔧 Installing pre-commit hooks...' &&
-        pip install pre-commit &&
-        pre-commit install &&
-        echo '✅ Environment ready for testing!' &&
-        echo '' &&
-        echo '🧪 Available commands:' &&
-        echo '  - make test-smoke        # Run smoke tests' &&
-        echo '  - make test-unit         # Run unit tests' &&
-        echo '  - make test-integration  # Run integration tests' &&
-        echo '  - make test-all          # Run all tests' &&
-        echo '  - make coverage          # Generate coverage report' &&
-        echo '  - make validate-standards # Validate V2 standards' &&
-        echo '  - make security          # Run security scans' &&
-        echo '' &&
-        echo '🔍 Starting interactive shell...' &&
-        bash
-      "
-    stdin_open: true
-    tty: true
-    networks:
-      - ci-cd-network
-
-  # 🧪 Test Runner Service
-  test-runner:
-    image: python:3.9-slim
-    container_name: agent_cellphone_v2_test_runner
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - pip_cache:/root/.cache/pip
-      - test_results:/workspace/test-results
-      - coverage_reports:/workspace/htmlcov
-    environment:
-      - PYTHONPATH=/workspace
-      - PYTHONUNBUFFERED=1
-      - COVERAGE_THRESHOLD=80
-      - TEST_RESULTS_DIR=/workspace/test-results
-      - COVERAGE_DIR=/workspace/htmlcov
-    depends_on:
-      - python-testing
-    command: >
-      bash -c "
-        echo '🧪 Test Runner Service Starting...' &&
-        python -m pip install --upgrade pip &&
-        pip install -r requirements-testing.txt &&
-        mkdir -p /workspace/test-results &&
-        echo '✅ Test Runner ready!' &&
-        echo '🚀 Running comprehensive test suite...' &&
-        python tests/run_tests.py --all-categories --coverage --parallel &&
-        echo '✅ Test suite completed!' &&
-        echo '📊 Results saved to /workspace/test-results'
-      "
-    networks:
-      - ci-cd-network
-
-  # 🔒 Security Scanner Service
-  security-scanner:
-    image: python:3.9-slim
-    container_name: agent_cellphone_v2_security_scanner
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - pip_cache:/root/.cache/pip
-      - security_reports:/workspace/security-reports
-    environment:
-      - PYTHONPATH=/workspace
-      - PYTHONUNBUFFERED=1
-    depends_on:
-      - python-testing
-    command: >
-      bash -c "
-        echo '🔒 Security Scanner Service Starting...' &&
-        python -m pip install --upgrade pip &&
-        pip install -r requirements-testing.txt &&
-        mkdir -p /workspace/security-reports &&
-        echo '✅ Security Scanner ready!' &&
-        echo '🔍 Running security vulnerability scan...' &&
-        bandit -r src/ -f json -o /workspace/security-reports/security-scan.json &&
-        echo '🔍 Checking dependency vulnerabilities...' &&
-        safety check --json --output /workspace/security-reports/security-dependencies.json &&
-        echo '✅ Security scans completed!' &&
-        echo '📊 Reports saved to /workspace/security-reports'
-      "
-    networks:
-      - ci-cd-network
-
-  # 📈 Coverage Analyzer Service
-  coverage-analyzer:
-    image: python:3.9-slim
-    container_name: agent_cellphone_v2_coverage_analyzer
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - pip_cache:/root/.cache/pip
-      - coverage_reports:/workspace/htmlcov
-      - coverage_data:/workspace/.coverage
-    environment:
-      - PYTHONPATH=/workspace
-      - PYTHONUNBUFFERED=1
-      - COVERAGE_THRESHOLD=80
-    depends_on:
-      - test-runner
-    command: >
-      bash -c "
-        echo '📈 Coverage Analyzer Service Starting...' &&
-        python -m pip install --upgrade pip &&
-        pip install -r requirements-testing.txt &&
-        echo '✅ Coverage Analyzer ready!' &&
-        echo '📊 Waiting for test results...' &&
-        sleep 30 &&
-        echo '📈 Analyzing coverage data...' &&
-        coverage combine coverage-*.xml || echo 'No coverage files to combine' &&
-        coverage report --show-missing &&
-        coverage html --title='Agent_Cellphone_V2 Coverage Report' &&
-        echo '✅ Coverage analysis completed!' &&
-        echo '📊 Report generated in /workspace/htmlcov'
-      "
-    networks:
-      - ci-cd-network
-
-  # 🚀 V2 Standards Validator Service
-  v2-standards-validator:
-    image: python:3.9-slim
-    container_name: agent_cellphone_v2_standards_validator
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - pip_cache:/root/.cache/pip
-      - standards_reports:/workspace/standards-reports
-    environment:
-      - PYTHONPATH=/workspace
-      - PYTHONUNBUFFERED=1
-      - V2_LOC_LIMIT=300
-      - V2_CORE_LOC_LIMIT=200
-      - V2_GUI_LOC_LIMIT=500
-    depends_on:
-      - python-testing
-    command: >
-      bash -c "
-        echo '🚀 V2 Standards Validator Service Starting...' &&
-        python -m pip install --upgrade pip &&
-        pip install -r requirements-testing.txt &&
-        mkdir -p /workspace/standards-reports &&
-        echo '✅ V2 Standards Validator ready!' &&
-        echo '🔍 Running V2 Standards compliance check...' &&
-        python tests/v2_standards_checker.py --all-checks --strict --report --output-format=json > /workspace/standards-reports/v2_standards_report.json &&
-        echo '✅ V2 Standards validation completed!' &&
-        echo '📊 Report saved to /workspace/standards-reports/v2_standards_report.json'
-      "
-    networks:
-      - ci-cd-network
-
-  # 🌐 Web Dashboard Service (Optional)
-  web-dashboard:
-    image: nginx:alpine
-    container_name: agent_cellphone_v2_web_dashboard
-    ports:
-      - "8080:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - coverage_reports:/usr/share/nginx/html/coverage
-      - test_results:/usr/share/nginx/html/test-results
-      - security_reports:/usr/share/nginx/html/security
-      - standards_reports:/usr/share/nginx/html/standards
-    depends_on:
-      - coverage-analyzer
-      - security-scanner
-      - v2-standards-validator
-    networks:
-      - ci-cd-network
-
-  # 📊 Monitoring Service
-  monitoring:
-    image: python:3.9-slim
-    container_name: agent_cellphone_v2_monitoring
-    working_dir: /workspace
-    volumes:
-      - .:/workspace
-      - pip_cache:/root/.cache/pip
-    environment:
-      - PYTHONPATH=/workspace
-      - PYTHONUNBUFFERED=1
-    depends_on:
-      - test-runner
-      - coverage-analyzer
-      - security-scanner
-      - v2-standards-validator
-    command: >
-      bash -c "
-        echo '📊 Monitoring Service Starting...' &&
-        python -m pip install --upgrade pip &&
-        pip install -r requirements-testing.txt &&
-        echo '✅ Monitoring Service ready!' &&
-        echo '📈 Monitoring CI/CD pipeline status...' &&
-        while true; do
-          echo '🔄 Pipeline Status Check - $(date)' &&
-          echo '  - Test Results: $(ls -la /workspace/test-results/ 2>/dev/null | wc -l || echo 0) files' &&
-          echo '  - Coverage Reports: $(ls -la /workspace/htmlcov/ 2>/dev/null | wc -l || echo 0) files' &&
-          echo '  - Security Reports: $(ls -la /workspace/security-reports/ 2>/dev/null | wc -l || echo 0) files' &&
-          echo '  - Standards Reports: $(ls -la /workspace/standards-reports/ 2>/dev/null | wc -l || echo 0) files' &&
-          echo '  - Waiting 60 seconds...' &&
-          sleep 60
-        done
-      "
-    networks:
-      - ci-cd-network
-
-# 📁 Named Volumes
-volumes:
-  pip_cache:
-    driver: local
-  pytest_cache:
-    driver: local
-  test_results:
-    driver: local
-  coverage_reports:
-    driver: local
-  coverage_data:
-    driver: local
-  security_reports:
-    driver: local
-  standards_reports:
-    driver: local
-
-# 🌐 Network Configuration
 networks:
   ci-cd-network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16
-
-# 🔧 Health Checks
-x-healthcheck: &healthcheck
-  test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      - subnet: 172.20.0.0/16
+services:
+  coverage-analyzer:
+    command: "bash -c \"\n  echo '\U0001F4C8 Coverage Analyzer Service Starting...'\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  echo '✅ Coverage Analyzer ready!' &&\n  echo '\U0001F4CA Waiting for\
+      \ test results...' &&\n  sleep 30 &&\n  echo '\U0001F4C8 Analyzing coverage\
+      \ data...' &&\n  coverage combine coverage-*.xml || echo 'No coverage files\
+      \ to combine' &&\n  coverage report --show-missing &&\n  coverage html --title='Agent_Cellphone_V2\
+      \ Coverage Report' &&\n  echo '✅ Coverage analysis completed!' &&\n  echo '\U0001F4CA\
+      \ Report generated in /workspace/htmlcov'\n\"\n"
+    container_name: agent_cellphone_v2_coverage_analyzer
+    depends_on:
+    - test-runner
+    environment:
+    - PYTHONPATH=/workspace
+    - PYTHONUNBUFFERED=1
+    - COVERAGE_THRESHOLD=80
+    image: python:3.9-slim
+    networks:
+    - ci-cd-network
+    volumes:
+    - .:/workspace
+    - pip_cache:/root/.cache/pip
+    - coverage_reports:/workspace/htmlcov
+    - coverage_data:/workspace/.coverage
+    working_dir: /workspace
+  monitoring:
+    command: "bash -c \"\n  echo '\U0001F4CA Monitoring Service Starting...' &&\n\
+      \  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  echo '✅ Monitoring Service ready!' &&\n  echo '\U0001F4C8 Monitoring\
+      \ CI/CD pipeline status...' &&\n  while true; do\n    echo '\U0001F504 Pipeline\
+      \ Status Check - $(date)' &&\n    echo '  - Test Results: $(ls -la /workspace/test-results/\
+      \ 2>/dev/null | wc -l || echo 0) files' &&\n    echo '  - Coverage Reports:\
+      \ $(ls -la /workspace/htmlcov/ 2>/dev/null | wc -l || echo 0) files' &&\n  \
+      \  echo '  - Security Reports: $(ls -la /workspace/security-reports/ 2>/dev/null\
+      \ | wc -l || echo 0) files' &&\n    echo '  - Standards Reports: $(ls -la /workspace/standards-reports/\
+      \ 2>/dev/null | wc -l || echo 0) files' &&\n    echo '  - Waiting 60 seconds...'\
+      \ &&\n    sleep 60\n  done\n\"\n"
+    container_name: agent_cellphone_v2_monitoring
+    depends_on:
+    - test-runner
+    - coverage-analyzer
+    - security-scanner
+    - v2-standards-validator
+    environment:
+    - PYTHONPATH=/workspace
+    - PYTHONUNBUFFERED=1
+    image: python:3.9-slim
+    networks:
+    - ci-cd-network
+    volumes:
+    - .:/workspace
+    - pip_cache:/root/.cache/pip
+    working_dir: /workspace
+  python-testing:
+    command: "bash -c \"\n  echo '\U0001F680 Starting Agent_Cellphone_V2 CI/CD Local\
+      \ Testing Environment...' &&\n  echo '\U0001F4E6 Installing dependencies...'\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  echo '\U0001F527 Installing pre-commit hooks...' &&\n  pip install pre-commit\
+      \ &&\n  pre-commit install &&\n  echo '✅ Environment ready for testing!' &&\n\
+      \  echo '' &&\n  echo '\U0001F9EA Available commands:' &&\n  echo '  - make\
+      \ test-smoke        # Run smoke tests' &&\n  echo '  - make test-unit      \
+      \   # Run unit tests' &&\n  echo '  - make test-integration  # Run integration\
+      \ tests' &&\n  echo '  - make test-all          # Run all tests' &&\n  echo\
+      \ '  - make coverage          # Generate coverage report' &&\n  echo '  - make\
+      \ validate-standards # Validate V2 standards' &&\n  echo '  - make security\
+      \          # Run security scans' &&\n  echo '' &&\n  echo '\U0001F50D Starting\
+      \ interactive shell...' &&\n  bash\n\"\n"
+    container_name: agent_cellphone_v2_testing
+    environment:
+    - PYTHONPATH=/workspace
+    - PYTHONUNBUFFERED=1
+    - COVERAGE_THRESHOLD=80
+    - V2_LOC_LIMIT=300
+    - V2_CORE_LOC_LIMIT=200
+    - V2_GUI_LOC_LIMIT=500
+    image: python:3.9-slim
+    networks:
+    - ci-cd-network
+    stdin_open: ENABLE_TRUE
+    tty: ENABLE_TRUE
+    volumes:
+    - .:/workspace
+    - pip_cache:/root/.cache/pip
+    - pytest_cache:/workspace/.pytest_cache
+    working_dir: /workspace
+  security-scanner:
+    command: "bash -c \"\n  echo '\U0001F512 Security Scanner Service Starting...'\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  mkdir -p /workspace/security-reports &&\n  echo '✅ Security Scanner\
+      \ ready!' &&\n  echo '\U0001F50D Running security vulnerability scan...' &&\n\
+      \  bandit -r src/ -f json -o /workspace/security-reports/security-scan.json\
+      \ &&\n  echo '\U0001F50D Checking dependency vulnerabilities...' &&\n  safety\
+      \ check --json --output /workspace/security-reports/security-dependencies.json\
+      \ &&\n  echo '✅ Security scans completed!' &&\n  echo '\U0001F4CA Reports saved\
+      \ to /workspace/security-reports'\n\"\n"
+    container_name: agent_cellphone_v2_security_scanner
+    depends_on:
+    - python-testing
+    environment:
+    - PYTHONPATH=/workspace
+    - PYTHONUNBUFFERED=1
+    image: python:3.9-slim
+    networks:
+    - ci-cd-network
+    volumes:
+    - .:/workspace
+    - pip_cache:/root/.cache/pip
+    - security_reports:/workspace/security-reports
+    working_dir: /workspace
+  test-runner:
+    command: "bash -c \"\n  echo '\U0001F9EA Test Runner Service Starting...' &&\n\
+      \  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  mkdir -p /workspace/test-results &&\n  echo '✅ Test Runner ready!' &&\n\
+      \  echo '\U0001F680 Running comprehensive test suite...' &&\n  python tests/run_tests.py\
+      \ --all-categories --coverage --parallel &&\n  echo '✅ Test suite completed!'\
+      \ &&\n  echo '\U0001F4CA Results saved to /workspace/test-results'\n\"\n"
+    container_name: agent_cellphone_v2_test_runner
+    depends_on:
+    - python-testing
+    environment:
+    - PYTHONPATH=/workspace
+    - PYTHONUNBUFFERED=1
+    - COVERAGE_THRESHOLD=80
+    - TEST_RESULTS_DIR=/workspace/test-results
+    - COVERAGE_DIR=/workspace/htmlcov
+    image: python:3.9-slim
+    networks:
+    - ci-cd-network
+    volumes:
+    - .:/workspace
+    - pip_cache:/root/.cache/pip
+    - test_results:/workspace/test-results
+    - coverage_reports:/workspace/htmlcov
+    working_dir: /workspace
+  v2-standards-validator:
+    command: "bash -c \"\n  echo '\U0001F680 V2 Standards Validator Service Starting...'\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  mkdir -p /workspace/standards-reports &&\n  echo '✅ V2 Standards Validator\
+      \ ready!' &&\n  echo '\U0001F50D Running V2 Standards compliance check...' &&\n\
+      \  python tests/v2_standards_checker.py --all-checks --strict --report --output-format=json\
+      \ > /workspace/standards-reports/v2_standards_report.json &&\n  echo '✅ V2 Standards\
+      \ validation completed!' &&\n  echo '\U0001F4CA Report saved to /workspace/standards-reports/v2_standards_report.json'\n\
+      \"\n"
+    container_name: agent_cellphone_v2_standards_validator
+    depends_on:
+    - python-testing
+    environment:
+    - PYTHONPATH=/workspace
+    - PYTHONUNBUFFERED=1
+    - V2_LOC_LIMIT=300
+    - V2_CORE_LOC_LIMIT=200
+    - V2_GUI_LOC_LIMIT=500
+    image: python:3.9-slim
+    networks:
+    - ci-cd-network
+    volumes:
+    - .:/workspace
+    - pip_cache:/root/.cache/pip
+    - standards_reports:/workspace/standards-reports
+    working_dir: /workspace
+  web-dashboard:
+    container_name: agent_cellphone_v2_web_dashboard
+    depends_on:
+    - coverage-analyzer
+    - security-scanner
+    - v2-standards-validator
+    image: nginx:alpine
+    networks:
+    - ci-cd-network
+    ports:
+    - 8080:80
+    volumes:
+    - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    - coverage_reports:/usr/share/nginx/html/coverage
+    - test_results:/usr/share/nginx/html/test-results
+    - security_reports:/usr/share/nginx/html/security
+    - standards_reports:/usr/share/nginx/html/standards
+version: '3.8'
+volumes:
+  coverage_data:
+    driver: local
+  coverage_reports:
+    driver: local
+  pip_cache:
+    driver: local
+  pytest_cache:
+    driver: local
+  security_reports:
+    driver: local
+  standards_reports:
+    driver: local
+  test_results:
+    driver: local
+x-healthcheck:
   interval: 30s
-  timeout: 10s
-  retries: 3
+  retries: VALUE_THREE
   start_period: 40s
+  test:
+  - CMD
+  - curl
+  - -f
+  - http://localhost:80/health
+  timeout: 10s

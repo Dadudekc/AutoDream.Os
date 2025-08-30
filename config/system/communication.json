@@ -1,55 +1,55 @@
 {
   "cross_system_communication": {
-    "enabled": true,
-    "default_timeout": 30.0,
-    "default_retry_attempts": 3,
-    "health_check_interval": 60.0,
+    "enabled": "ENABLE_TRUE",
+    "default_timeout": "DEFAULT_TIMEOUT",
+    "default_retry_attempts": "VALUE_THREE",
+    "health_check_interval": "LONG_TIMEOUT",
     "max_connections_per_system": 10,
     "connection_pool_size": 20,
-    "message_queue_size": 1000,
-    "enable_compression": true,
-    "enable_encryption": false,
+    "message_queue_size": "VALUE_THOUSAND",
+    "enable_compression": "ENABLE_TRUE",
+    "enable_encryption": "ENABLE_FALSE",
     "log_level": "INFO"
   },
   "protocols": {
     "http": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "default_port": 80,
-      "timeout": 30.0,
+      "timeout": "DEFAULT_TIMEOUT",
       "max_redirects": 5,
-      "enable_keepalive": true,
-      "keepalive_timeout": 60.0
+      "enable_keepalive": "ENABLE_TRUE",
+      "keepalive_timeout": "LONG_TIMEOUT"
     },
     "https": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "default_port": 443,
-      "timeout": 30.0,
-      "verify_ssl": true,
-      "enable_keepalive": true,
-      "keepalive_timeout": 60.0
+      "timeout": "DEFAULT_TIMEOUT",
+      "verify_ssl": "ENABLE_TRUE",
+      "enable_keepalive": "ENABLE_TRUE",
+      "keepalive_timeout": "LONG_TIMEOUT"
     },
     "websocket": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "default_port": 8080,
-      "ping_interval": 30.0,
-      "ping_timeout": 10.0,
+      "ping_interval": "DEFAULT_TIMEOUT",
+      "ping_timeout": "SHORT_TIMEOUT",
       "max_message_size": 1048576,
-      "enable_compression": true
+      "enable_compression": "ENABLE_TRUE"
     },
     "tcp": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "default_port": 8000,
-      "timeout": 30.0,
+      "timeout": "DEFAULT_TIMEOUT",
       "buffer_size": 8192,
-      "enable_nagle": false,
-      "keepalive": true
+      "enable_nagle": "ENABLE_FALSE",
+      "keepalive": "ENABLE_TRUE"
     },
     "udp": {
-      "enabled": false,
+      "enabled": "ENABLE_FALSE",
       "default_port": 8001,
-      "timeout": 10.0,
+      "timeout": "SHORT_TIMEOUT",
       "buffer_size": 65507,
-      "enable_broadcast": false
+      "enable_broadcast": "ENABLE_FALSE"
     }
   },
   "systems": {
@@ -60,13 +60,17 @@
       "host": "localhost",
       "port": 8000,
       "path": "/api/v2",
-      "timeout": 30.0,
-      "retry_attempts": 3,
-      "health_check_interval": 30.0,
+      "timeout": "DEFAULT_TIMEOUT",
+      "retry_attempts": "VALUE_THREE",
+      "health_check_interval": "DEFAULT_TIMEOUT",
       "credentials": null,
       "metadata": {
         "version": "2.0.0",
-        "capabilities": ["api_management", "middleware_orchestration", "service_registry"],
+        "capabilities": [
+          "api_management",
+          "middleware_orchestration",
+          "service_registry"
+        ],
         "environment": "development"
       }
     },
@@ -77,7 +81,7 @@
       "host": "api.example.com",
       "port": 443,
       "path": "/v1",
-      "timeout": 60.0,
+      "timeout": "LONG_TIMEOUT",
       "retry_attempts": 5,
       "health_check_interval": 120.0,
       "credentials": {
@@ -86,7 +90,11 @@
       },
       "metadata": {
         "version": "1.0.0",
-        "capabilities": ["external_integration", "rate_limiting", "authentication"],
+        "capabilities": [
+          "external_integration",
+          "rate_limiting",
+          "authentication"
+        ],
         "environment": "production"
       }
     },
@@ -98,15 +106,19 @@
       "port": 5432,
       "path": "",
       "timeout": 15.0,
-      "retry_attempts": 3,
-      "health_check_interval": 60.0,
+      "retry_attempts": "VALUE_THREE",
+      "health_check_interval": "LONG_TIMEOUT",
       "credentials": {
         "username": "${DB_USERNAME}",
         "password": "${DB_PASSWORD}"
       },
       "metadata": {
         "version": "13.0",
-        "capabilities": ["data_storage", "query_processing", "transaction_management"],
+        "capabilities": [
+          "data_storage",
+          "query_processing",
+          "transaction_management"
+        ],
         "environment": "development"
       }
     },
@@ -117,13 +129,17 @@
       "host": "localhost",
       "port": 8080,
       "path": "/ws",
-      "timeout": 30.0,
-      "retry_attempts": 3,
-      "health_check_interval": 30.0,
+      "timeout": "DEFAULT_TIMEOUT",
+      "retry_attempts": "VALUE_THREE",
+      "health_check_interval": "DEFAULT_TIMEOUT",
       "credentials": null,
       "metadata": {
         "version": "5.0.0",
-        "capabilities": ["message_queuing", "pub_sub", "task_distribution"],
+        "capabilities": [
+          "message_queuing",
+          "pub_sub",
+          "task_distribution"
+        ],
         "environment": "development"
       }
     },
@@ -134,31 +150,35 @@
       "host": "localhost",
       "port": 9090,
       "path": "/metrics",
-      "timeout": 10.0,
-      "retry_attempts": 2,
+      "timeout": "SHORT_TIMEOUT",
+      "retry_attempts": "VALUE_TWO",
       "health_check_interval": 15.0,
       "credentials": null,
       "metadata": {
         "version": "2.0.0",
-        "capabilities": ["metrics_collection", "health_monitoring", "alerting"],
+        "capabilities": [
+          "metrics_collection",
+          "health_monitoring",
+          "alerting"
+        ],
         "environment": "development"
       }
     }
   },
   "integration_testing": {
-    "enabled": true,
-    "test_timeout": 300.0,
-    "parallel_execution": true,
+    "enabled": "ENABLE_TRUE",
+    "test_timeout": "CRITICAL_TIMEOUT",
+    "parallel_execution": "ENABLE_TRUE",
     "max_parallel_tests": 5,
-    "stop_on_failure": false,
-    "retry_failed_tests": true,
-    "max_retries": 3,
-    "generate_reports": true,
+    "stop_on_failure": "ENABLE_FALSE",
+    "retry_failed_tests": "ENABLE_TRUE",
+    "max_retries": "VALUE_THREE",
+    "generate_reports": "ENABLE_TRUE",
     "report_format": "json",
     "log_level": "INFO",
     "test_suites": {
       "cross_system_communication": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "priority": "high",
         "timeout": 600.0,
         "tests": [
@@ -170,9 +190,9 @@
         ]
       },
       "api_integration": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "priority": "high",
-        "timeout": 300.0,
+        "timeout": "CRITICAL_TIMEOUT",
         "tests": [
           "test_endpoint_registration",
           "test_request_handling",
@@ -182,9 +202,9 @@
         ]
       },
       "middleware_integration": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "priority": "normal",
-        "timeout": 300.0,
+        "timeout": "CRITICAL_TIMEOUT",
         "tests": [
           "test_middleware_chains",
           "test_data_transformation",
@@ -194,7 +214,7 @@
         ]
       },
       "end_to_end_workflows": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "priority": "critical",
         "timeout": 900.0,
         "tests": [
@@ -214,13 +234,13 @@
         "pattern": "system.*.health",
         "target": "monitoring_system",
         "priority": "high",
-        "timeout": 10.0
+        "timeout": "SHORT_TIMEOUT"
       },
       {
         "pattern": "api.*.request",
         "target": "external_api_gateway",
         "priority": "normal",
-        "timeout": 30.0
+        "timeout": "DEFAULT_TIMEOUT"
       },
       {
         "pattern": "data.*.query",
@@ -237,49 +257,52 @@
     ],
     "fallback_routing": {
       "default_target": "agent_cellphone_v2",
-      "retry_attempts": 2,
-      "timeout": 60.0
+      "retry_attempts": "VALUE_TWO",
+      "timeout": "LONG_TIMEOUT"
     }
   },
   "security": {
     "authentication": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "method": "api_key",
       "api_key_header": "X-API-Key",
       "api_key_env_var": "CROSS_SYSTEM_API_KEY"
     },
     "authorization": {
-      "enabled": true,
-      "role_based_access": true,
+      "enabled": "ENABLE_TRUE",
+      "role_based_access": "ENABLE_TRUE",
       "default_role": "readonly"
     },
     "encryption": {
-      "enabled": false,
+      "enabled": "ENABLE_FALSE",
       "algorithm": "AES-256",
       "key_rotation_interval": 86400
     },
     "rate_limiting": {
-      "enabled": true,
-      "requests_per_minute": 100,
+      "enabled": "ENABLE_TRUE",
+      "requests_per_minute": "VALUE_HUNDRED",
       "burst_limit": 20,
-      "per_system_limits": true
+      "per_system_limits": "ENABLE_TRUE"
     }
   },
   "monitoring": {
     "metrics_collection": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "collection_interval": 15.0,
       "retention_period": 86400
     },
     "health_checks": {
-      "enabled": true,
-      "check_interval": 30.0,
-      "timeout": 10.0,
-      "failure_threshold": 3
+      "enabled": "ENABLE_TRUE",
+      "check_interval": "DEFAULT_TIMEOUT",
+      "timeout": "SHORT_TIMEOUT",
+      "failure_threshold": "VALUE_THREE"
     },
     "alerting": {
-      "enabled": true,
-      "alert_channels": ["log", "email"],
+      "enabled": "ENABLE_TRUE",
+      "alert_channels": [
+        "log",
+        "email"
+      ],
       "critical_threshold": 0.8,
       "warning_threshold": 0.9
     },
@@ -294,42 +317,42 @@
   },
   "performance": {
     "connection_pooling": {
-      "enabled": true,
-      "max_connections": 100,
+      "enabled": "ENABLE_TRUE",
+      "max_connections": "VALUE_HUNDRED",
       "min_connections": 10,
-      "connection_timeout": 30.0,
-      "idle_timeout": 300.0
+      "connection_timeout": "DEFAULT_TIMEOUT",
+      "idle_timeout": "CRITICAL_TIMEOUT"
     },
     "caching": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "cache_type": "memory",
-      "max_size": 1000,
-      "ttl": 300.0
+      "max_size": "VALUE_THOUSAND",
+      "ttl": "CRITICAL_TIMEOUT"
     },
     "compression": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "algorithm": "gzip",
       "min_size": 1024,
       "compression_level": 6
     },
     "load_balancing": {
-      "enabled": false,
+      "enabled": "ENABLE_FALSE",
       "algorithm": "round_robin",
       "health_check_weight": 0.3
     }
   },
   "deployment": {
     "environment": "development",
-    "auto_restart": true,
-    "graceful_shutdown": true,
-    "shutdown_timeout": 30.0,
+    "auto_restart": "ENABLE_TRUE",
+    "graceful_shutdown": "ENABLE_TRUE",
+    "shutdown_timeout": "DEFAULT_TIMEOUT",
     "health_check_endpoint": "/health",
     "readiness_probe": "/ready",
     "liveness_probe": "/live",
     "resource_limits": {
       "max_memory": "512MB",
       "max_cpu": "2.0",
-      "max_connections": 1000
+      "max_connections": "VALUE_THOUSAND"
     }
   }
 }

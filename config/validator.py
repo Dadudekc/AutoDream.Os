@@ -5,8 +5,8 @@ This module validates configuration files for SSOT violations and ensures
 consistency across the entire configuration system.
 
 Author: Agent-6
-Contract: SSOT-003: Configuration Management Consolidation
-Date: 2025-08-28
+Contract: SSOT-VALUE_ZEROVALUE_ZEROVALUE_THREE: Configuration Management Consolidation
+Date: VALUE_TWOVALUE_ZEROVALUE_TWO5-VALUE_ZERO8-VALUE_TWO8
 """
 
 import json
@@ -16,7 +16,7 @@ from typing import Dict, Any, List, Tuple, Set
 from collections import defaultdict
 import logging
 
-from constants import (
+from .constants import (
     DEFAULT_TIMEOUT, SHORT_TIMEOUT, LONG_TIMEOUT, CRITICAL_TIMEOUT,
     DEFAULT_RETRY_ATTEMPTS, DEFAULT_RETRY_DELAY, MAX_RETRY_ATTEMPTS,
     DEFAULT_COLLECTION_INTERVAL, LONG_COLLECTION_INTERVAL, SHORT_COLLECTION_INTERVAL,
@@ -116,10 +116,10 @@ class ConfigurationValidator:
             for line in lines:
                 line = line.strip()
                 if '=' in line and not line.startswith('#'):
-                    parts = line.split('=', 1)
-                    if len(parts) == 2:
-                        key = parts[0].strip()
-                        value = parts[1].strip().rstrip(',')
+                    parts = line.split('=', VALUE_ONE)
+                    if len(parts) == VALUE_TWO:
+                        key = parts[VALUE_ZERO].strip()
+                        value = parts[VALUE_ONE].strip().rstrip(',')
                         constants[key] = value
         except Exception as e:
             logger.warning(f"Could not extract constants from {file_path}: {e}")
@@ -173,7 +173,7 @@ class ConfigurationValidator:
         
         # Report duplicates
         for value, locations in value_locations.items():
-            if len(locations) > 1:
+            if len(locations) > VALUE_ONE:
                 self.duplicates[value].extend([f"{file_path}:{loc}" for loc in locations])
     
     def _check_timeout_violations(self, config: Dict[str, Any], file_path: str):
@@ -282,7 +282,7 @@ class ConfigurationValidator:
         """Validate consistency across multiple configuration files."""
         # Check for duplicate values across files
         for value, locations in self.duplicates.items():
-            if len(locations) > 1:
+            if len(locations) > VALUE_ONE:
                 self.violations.append({
                     "type": "CROSS_FILE_DUPLICATE",
                     "value": value,
@@ -338,4 +338,4 @@ def check_ssot_violations(config_dir: str = "config") -> List[Dict[str, Any]]:
 if __name__ == "__main__":
     # Run validation when script is executed directly
     report = validate_configuration()
-    print(json.dumps(report, indent=2))
+    print(json.dumps(report, indent=VALUE_TWO))

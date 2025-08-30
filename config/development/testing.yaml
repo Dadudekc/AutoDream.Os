@@ -1,47 +1,38 @@
-# Unified Testing Configuration
-# Consolidates testing configuration from multiple scattered files
-# Eliminates SSOT violations in testing configuration
-
 testing:
-  framework: "pytest"
-  enable_parallel_execution: true
-  max_workers: 4
-  enable_fast_fail: true
-  
   coverage:
-    enable: true
-    threshold: 0.8
-    output_format: "json"
-    output_file: "coverage.json"
+    enable: ENABLE_TRUE
     exclude_patterns:
-      - "*/tests/*"
-      - "*/test_*"
-      - "*/__pycache__/*"
-      - "*/venv/*"
-      - "*/env/*"
-      
-  pytest:
-    config_file: "pytest.ini"
-    addopts: "-v --tb=short --strict-markers"
-    markers:
-      unit: "Unit tests"
-      integration: "Integration tests"
-      slow: "Slow running tests"
-      fast: "Fast running tests"
-      
+    - '*/tests/*'
+    - '*/test_*'
+    - '*/__pycache__/*'
+    - '*/venv/*'
+    - '*/env/*'
+    output_file: coverage.json
+    output_format: json
+    threshold: 0.8
+  enable_fast_fail: ENABLE_TRUE
+  enable_parallel_execution: ENABLE_TRUE
+  framework: pytest
   linting:
-    enable_pylint: true
-    enable_flake8: true
-    enable_mypy: true
-    enable_bandit: true
-    enable_safety: true
-    
+    enable_bandit: ENABLE_TRUE
+    enable_flake8: ENABLE_TRUE
+    enable_mypy: ENABLE_TRUE
+    enable_pylint: ENABLE_TRUE
+    enable_safety: ENABLE_TRUE
+  max_workers: 4
   output:
-    junit_output: "test-results/junit.xml"
-    coverage_output: "test-results/coverage.json"
-    linting_output: "test-results/"
-    
+    coverage_output: test-results/coverage.json
+    junit_output: test-results/junit.xml
+    linting_output: test-results/
   performance:
-    enable_benchmarking: true
     benchmark_threshold: 1.5
-    enable_profiling: false
+    enable_benchmarking: ENABLE_TRUE
+    enable_profiling: ENABLE_FALSE
+  pytest:
+    addopts: -v --tb=short --strict-markers
+    config_file: pytest.ini
+    markers:
+      fast: Fast running tests
+      integration: Integration tests
+      slow: Slow running tests
+      unit: Unit tests

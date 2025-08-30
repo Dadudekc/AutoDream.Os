@@ -1,8 +1,8 @@
 {
   "autopolicy": {
-    "resume_on_error": true,
-    "max_retries_per_mode": 3,
-    "default_new_chat": true
+    "resume_on_error": "ENABLE_TRUE",
+    "max_retries_per_mode": "VALUE_THREE",
+    "default_new_chat": "ENABLE_TRUE"
   },
   "pipeline": {
     "stages": [
@@ -10,7 +10,10 @@
       "tasklist_autogen"
     ]
   },
-  "stages": ["init", "main"],
+  "stages": [
+    "init",
+    "main"
+  ],
   "modes": {
     "ideation_to_prd": {
       "description": "Convert an initial product idea into a detailed product requirements document.",
@@ -23,12 +26,28 @@
       "next": null
     },
     "test": {
-      "init": {"agent": "Agent-1", "budget": 1, "gate": "pass"},
-      "main": {"agent": "Agent-2", "budget": 2, "gate": "pass"}
+      "init": {
+        "agent": "Agent-1",
+        "budget": "VALUE_ONE",
+        "gate": "pass"
+      },
+      "main": {
+        "agent": "Agent-2",
+        "budget": "VALUE_TWO",
+        "gate": "pass"
+      }
     },
     "gated": {
-      "init": {"agent": "Agent-1", "budget": 1, "gate": "fail"},
-      "main": {"agent": "Agent-2", "budget": 2, "gate": "pass"}
+      "init": {
+        "agent": "Agent-1",
+        "budget": "VALUE_ONE",
+        "gate": "fail"
+      },
+      "main": {
+        "agent": "Agent-2",
+        "budget": "VALUE_TWO",
+        "gate": "pass"
+      }
     }
   }
 }

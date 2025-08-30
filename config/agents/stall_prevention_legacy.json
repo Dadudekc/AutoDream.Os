@@ -1,10 +1,10 @@
 {
   "check_interval_minutes": 5,
-  "response_timeout_minutes": 2,
+  "response_timeout_minutes": "VALUE_TWO",
   "max_stall_duration_minutes": 10,
-  "auto_restart_enabled": true,
-  "captain_notification_enabled": true,
-  "log_stall_events": true,
+  "auto_restart_enabled": "ENABLE_TRUE",
+  "captain_notification_enabled": "ENABLE_TRUE",
+  "log_stall_events": "ENABLE_TRUE",
   "service_description": "Agent Stall Prevention Service - 5-minute timer system to prevent Code Black emergencies",
   "features": [
     "5-minute automatic captain status checks",

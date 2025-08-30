@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python3
 """
 Command Handler - Main entry point for messaging operations
@@ -10,15 +9,10 @@ This module has been modularized to comply with V2 standards:
 - No duplication: All functionality moved to dedicated handler modules
 """
 
-import argparse
-import logging
-=======
 from __future__ import annotations
 
 import argparse
 import logging
-
->>>>>>> origin/codex/add-parser,-router,-executor-submodules
 from .interfaces import MessagingMode
 from .output_formatter import OutputFormatter
 from .command_handlers import (
@@ -29,10 +23,10 @@ from .command_handlers import (
     OnboardingCommandHandler
 )
 from .unified_messaging_service import UnifiedMessagingService
-<<<<<<< HEAD
 from .config import CAPTAIN_ID, DEFAULT_COORDINATE_MODE
 from .contract_system_manager import ContractSystemManager
 from .error_handler import ErrorHandler
+from .executor import CommandExecutor
 from .handlers.messaging_handlers import MessagingHandlers
 
 
@@ -56,6 +50,7 @@ class CommandHandler:
         self.service = UnifiedMessagingService()
         self.contract_manager = ContractSystemManager()
         self.messaging_handlers = MessagingHandlers(self.service, self.formatter)
+        self.executor = CommandExecutor(self.service, self.formatter)
         
         self.logger.info("Messaging command handler initialized with modular handlers")
     
@@ -82,6 +77,10 @@ class CommandHandler:
                 if handler.can_handle(args):
                     return handler.handle(args)
             
+            # Check if this is a messaging operation that should be handled by MessagingHandlers
+            if self._is_messaging_operation(args):
+                return self._handle_messaging_operation(args, mode)
+            
             self.logger.warning("No handler found for command")
             return False
             
@@ -96,33 +95,34 @@ class CommandHandler:
             return True
         except Exception as e:
             self.logger.error(f"Validation failed: {e}")
-=======
-from .router import route_command
-from .executor import CommandExecutor
-
-
-logger = logging.getLogger(__name__)
-
-
-class CommandHandler:
-    """Wire together command parsing, routing and execution."""
-
-    def __init__(self, formatter: OutputFormatter | None = None) -> None:
-        service = UnifiedMessagingService()
-        self.executor = CommandExecutor(service, formatter or OutputFormatter())
-        logger.info("Messaging command handler initialized")
-
-    def execute_command(self, args: argparse.Namespace) -> bool:
-        """Route the command to the appropriate executor method."""
+            return False
+    
+    def route_command(self, args: argparse.Namespace) -> bool:
+        """Route command to appropriate handler using router pattern"""
         try:
-            mode = MessagingMode(args.mode)
-            self.executor.service.set_mode(mode)
-            action = route_command(args)
-            if not action:
-                return False
-            handler = getattr(self.executor, action)
-            return handler(args)
-        except Exception as exc:  # pragma: no cover - defensive programming
-            logger.error("Error executing command: %s", exc)
->>>>>>> origin/codex/add-parser,-router,-executor-submodules
+            from .router import route_command
+            return route_command(args)
+        except ImportError:
+            # Fallback to internal routing
+            return self._execute_command_internal(args)
+    
+    def _is_messaging_operation(self, args: argparse.Namespace) -> bool:
+        """Check if this is a messaging operation that should be handled by MessagingHandlers"""
+        return any([
+            hasattr(args, 'bulk') and args.bulk,
+            hasattr(args, 'agent') and args.agent,
+            hasattr(args, 'campaign') and args.campaign,
+            hasattr(args, 'yolo') and args.yolo,
+            hasattr(args, 'onboarding') and args.onboarding,
+            hasattr(args, 'new_chat') and args.new_chat,
+            hasattr(args, 'high_priority') and args.high_priority
+        ])
+    
+    def _handle_messaging_operation(self, args: argparse.Namespace, mode) -> bool:
+        """Handle messaging operations using MessagingHandlers"""
+        try:
+            self.logger.info("Routing messaging operation to MessagingHandlers")
+            return self.messaging_handlers.message(args, mode)
+        except Exception as e:
+            self.logger.error(f"Error handling messaging operation: {e}")
             return False

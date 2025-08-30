@@ -176,22 +176,39 @@ class UnifiedConfigManager:
         # Core system configuration
         core_file = self.config_dir / "system" / "core.yaml"
         if core_file.exists():
-            system_config["core"] = self.loader.load_yaml(core_file)
+            core_config = self.loader.load_yaml(core_file)
+            # Flatten the YAML structure by removing the top-level key
+            if isinstance(core_config, dict) and len(core_config) == 1:
+                system_config["core"] = list(core_config.values())[0]
+            else:
+                system_config["core"] = core_config
         
         # Logging configuration
         logging_file = self.config_dir / "system" / "logging.yaml"
         if logging_file.exists():
-            system_config["logging"] = self.loader.load_yaml(logging_file)
+            logging_config = self.loader.load_yaml(logging_file)
+            if isinstance(logging_config, dict) and len(logging_config) == 1:
+                system_config["logging"] = list(logging_config.values())[0]
+            else:
+                system_config["logging"] = logging_config
         
         # Agent configuration
         agents_file = self.config_dir / "system" / "agents.yaml"
         if agents_file.exists():
-            system_config["agents"] = self.loader.load_yaml(agents_file)
+            agents_config = self.loader.load_yaml(agents_file)
+            if isinstance(agents_config, dict) and len(agents_config) == 1:
+                system_config["agents"] = list(agents_config.values())[0]
+            else:
+                system_config["agents"] = agents_config
         
         # Service configuration
         services_file = self.config_dir / "system" / "services.yaml"
         if services_file.exists():
-            system_config["services"] = self.loader.load_yaml(services_file)
+            services_config = self.loader.load_yaml(services_file)
+            if isinstance(services_config, dict) and len(services_config) == 1:
+                system_config["services"] = list(services_config.values())[0]
+            else:
+                system_config["services"] = services_config
         
         return system_config
     
@@ -202,12 +219,20 @@ class UnifiedConfigManager:
         # Testing configuration
         testing_file = self.config_dir / "development" / "testing.yaml"
         if testing_file.exists():
-            dev_config["testing"] = self.loader.load_yaml(testing_file)
+            testing_config = self.loader.load_yaml(testing_file)
+            if isinstance(testing_config, dict) and len(testing_config) == 1:
+                dev_config["testing"] = list(testing_config.values())[0]
+            else:
+                dev_config["testing"] = testing_config
         
         # CI/CD configuration
         cicd_file = self.config_dir / "development" / "ci_cd.yaml"
         if cicd_file.exists():
-            dev_config["ci_cd"] = self.loader.load_yaml(cicd_file)
+            cicd_config = self.loader.load_yaml(cicd_file)
+            if isinstance(cicd_config, dict) and len(cicd_config) == 1:
+                dev_config["ci_cd"] = list(cicd_config.values())[0]
+            else:
+                dev_config["ci_cd"] = cicd_config
         
         return dev_config
     
@@ -218,12 +243,20 @@ class UnifiedConfigManager:
         # Emergency response configuration
         emergency_file = self.config_dir / "runtime" / "emergency.yaml"
         if emergency_file.exists():
-            runtime_config["emergency"] = self.loader.load_yaml(emergency_file)
+            emergency_config = self.loader.load_yaml(emergency_file)
+            if isinstance(emergency_config, dict) and len(emergency_config) == 1:
+                runtime_config["emergency"] = list(emergency_config.values())[0]
+            else:
+                runtime_config["emergency"] = emergency_config
         
         # Monitoring configuration
         monitoring_file = self.config_dir / "runtime" / "monitoring.yaml"
         if monitoring_file.exists():
-            runtime_config["monitoring"] = self.loader.load_yaml(monitoring_file)
+            monitoring_config = self.loader.load_yaml(monitoring_file)
+            if isinstance(monitoring_config, dict) and len(monitoring_config) == 1:
+                runtime_config["monitoring"] = list(monitoring_config.values())[0]
+            else:
+                runtime_config["monitoring"] = monitoring_config
         
         return runtime_config
     
@@ -238,6 +271,7 @@ class UnifiedConfigManager:
             keys = key_path.split(".")
             config = self.config_cache
             
+            # Navigate through the configuration structure
             for key in keys:
                 if isinstance(config, dict) and key in config:
                     config = config[key]
@@ -350,6 +384,16 @@ class UnifiedConfigManager:
         except Exception as e:
             logging.error(f"Error getting config summary: {e}")
             return {}
+
+    def get_status(self) -> Dict[str, Any]:
+        """Get the current status of the configuration manager."""
+        return {
+            "environment": self.environment,
+            "last_loaded": datetime.now().isoformat(),
+            "config_cache_size": len(self.config_cache),
+            "config_cache_keys": list(self.config_cache.keys()),
+            "config_summary": self.get_config_summary()
+        }
 
 # Global configuration manager instance
 config_manager = UnifiedConfigManager()

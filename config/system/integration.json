@@ -3,25 +3,24 @@
     "version": "1.0.0",
     "description": "Configuration for Agent_Cellphone_V2_Repository integration infrastructure",
     "last_updated": "2025-01-20",
-
     "api_management": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "host": "localhost",
       "port": 8080,
       "base_path": "/api",
-      "cors_enabled": true,
+      "cors_enabled": "ENABLE_TRUE",
       "rate_limiting": {
-        "enabled": true,
-        "default_limit": 100,
+        "enabled": "ENABLE_TRUE",
+        "default_limit": "VALUE_HUNDRED",
         "window_size": 60,
         "per_endpoint_limits": {
-          "/api/health": 1000,
+          "/api/health": "VALUE_THOUSAND",
           "/api/metrics": 500,
           "/api/status": 500
         }
       },
       "authentication": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "type": "bearer_token",
         "token_expiry": 3600,
         "public_endpoints": [
@@ -31,77 +30,72 @@
       },
       "logging": {
         "level": "INFO",
-        "log_requests": true,
-        "log_responses": false,
-        "log_request_body": false
+        "log_requests": "ENABLE_TRUE",
+        "log_responses": "ENABLE_FALSE",
+        "log_request_body": "ENABLE_FALSE"
       }
     },
-
     "message_queue": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "max_size": 10000,
       "priority_levels": {
-        "LOW": 1,
-        "NORMAL": 2,
-        "HIGH": 3,
+        "LOW": "VALUE_ONE",
+        "NORMAL": "VALUE_TWO",
+        "HIGH": "VALUE_THREE",
         "URGENT": 4,
         "CRITICAL": 5
       },
       "retry_policy": {
-        "max_retries": 3,
-        "retry_delay": 1.0,
-        "exponential_backoff": true
+        "max_retries": "VALUE_THREE",
+        "retry_delay": "SECONDS_ONE",
+        "exponential_backoff": "ENABLE_TRUE"
       },
       "persistence": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "storage_path": "./data/message_queue",
         "backup_interval": 300
       }
     },
-
     "caching": {
-      "enabled": true,
-      "max_size": 1000,
+      "enabled": "ENABLE_TRUE",
+      "max_size": "VALUE_THOUSAND",
       "default_ttl": 3600,
       "eviction_policy": "LRU",
       "compression": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "algorithm": "gzip",
         "threshold": 1024
       },
       "distributed": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "nodes": [],
         "sync_interval": 60
       }
     },
-
     "circuit_breaker": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "failure_threshold": 5,
       "recovery_timeout": 60,
       "monitoring": {
-        "enabled": true,
-        "metrics_collection": true,
-        "alerting": false
+        "enabled": "ENABLE_TRUE",
+        "metrics_collection": "ENABLE_TRUE",
+        "alerting": "ENABLE_FALSE"
       }
     },
-
     "retry_middleware": {
-      "enabled": true,
-      "max_retries": 3,
-      "base_delay": 1.0,
-      "max_delay": 60.0,
-      "jitter": true,
+      "enabled": "ENABLE_TRUE",
+      "max_retries": "VALUE_THREE",
+      "base_delay": "SECONDS_ONE",
+      "max_delay": "LONG_TIMEOUT",
+      "jitter": "ENABLE_TRUE",
       "retryable_exceptions": [
         "ConnectionError",
         "TimeoutError",
         "ServiceUnavailableError"
       ]
     },
-
     "data_transformation": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "supported_formats": [
         "json",
         "xml",
@@ -111,115 +105,108 @@
         "hash"
       ],
       "validation": {
-        "enabled": true,
-        "strict_mode": false,
+        "enabled": "ENABLE_TRUE",
+        "strict_mode": "ENABLE_FALSE",
         "custom_validators": {}
       }
     },
-
     "service_registry": {
-      "enabled": true,
-      "auto_discovery": true,
+      "enabled": "ENABLE_TRUE",
+      "auto_discovery": "ENABLE_TRUE",
       "health_check_interval": 30,
       "service_timeout": 10,
       "load_balancing": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "algorithm": "round_robin",
         "health_check_weight": 0.3
       }
     },
-
     "monitoring": {
-      "enabled": true,
-      "metrics_collection": true,
-      "health_checks": true,
-      "performance_tracking": true,
+      "enabled": "ENABLE_TRUE",
+      "metrics_collection": "ENABLE_TRUE",
+      "health_checks": "ENABLE_TRUE",
+      "performance_tracking": "ENABLE_TRUE",
       "alerting": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "channels": [],
         "thresholds": {}
       },
       "dashboards": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "port": 8081,
         "auto_refresh": 30
       }
     },
-
     "security": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "encryption": {
-        "en_transit": true,
-        "at_rest": false,
+        "en_transit": "ENABLE_TRUE",
+        "at_rest": "ENABLE_FALSE",
         "algorithm": "AES-256"
       },
       "access_control": {
-        "enabled": true,
-        "role_based": true,
+        "enabled": "ENABLE_TRUE",
+        "role_based": "ENABLE_TRUE",
         "default_role": "readonly"
       },
       "audit_logging": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "log_level": "INFO",
         "retention_days": 90
       }
     },
-
     "performance": {
       "max_workers": 10,
       "connection_pool_size": 20,
       "timeout": 30,
       "compression": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "algorithm": "gzip",
         "min_size": 1024
       },
       "optimization": {
-        "connection_reuse": true,
-        "keep_alive": true,
-        "pipelining": false
+        "connection_reuse": "ENABLE_TRUE",
+        "keep_alive": "ENABLE_TRUE",
+        "pipelining": "ENABLE_FALSE"
       }
     },
-
     "deployment": {
       "environment": "development",
-      "auto_restart": true,
-      "graceful_shutdown": true,
+      "auto_restart": "ENABLE_TRUE",
+      "graceful_shutdown": "ENABLE_TRUE",
       "health_check_endpoint": "/api/health",
       "readiness_probe": "/api/status",
       "liveness_probe": "/api/health"
     },
-
     "integration_points": {
       "external_apis": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "endpoints": [],
         "authentication": {},
         "rate_limiting": {}
       },
       "databases": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "connections": [],
-        "connection_pooling": true
+        "connection_pooling": "ENABLE_TRUE"
       },
       "message_brokers": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "brokers": [],
         "topics": [],
         "consumer_groups": []
       }
     },
-
     "logging_config": {
       "level": "INFO",
       "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
       "handlers": {
         "console": {
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "level": "INFO"
         },
         "file": {
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "level": "DEBUG",
           "path": "./logs/integration.log",
           "max_size": "10MB",
@@ -227,25 +214,24 @@
         }
       }
     },
-
     "testing": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "test_coverage": {
         "minimum": 90,
         "target": 95
       },
       "performance_benchmarks": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "thresholds": {
-          "response_time": 100,
-          "throughput": 1000,
+          "response_time": "VALUE_HUNDRED",
+          "throughput": "VALUE_THOUSAND",
           "error_rate": 0.01
         }
       },
       "integration_tests": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "timeout": 30,
-        "retry_count": 3
+        "retry_count": "VALUE_THREE"
       }
     }
   }

@@ -8,81 +8,81 @@
   },
   "timeouts": {
     "description": "Centralized timeout configurations - SSOT compliant",
-    "default": 30.0,
-    "short": 10.0,
-    "long": 60.0,
-    "critical": 300.0,
-    "urgent": 5.0,
+    "default": "DEFAULT_TIMEOUT",
+    "short": "SHORT_TIMEOUT",
+    "long": "LONG_TIMEOUT",
+    "critical": "CRITICAL_TIMEOUT",
+    "urgent": "URGENT_TIMEOUT",
     "extended": 600.0,
-    "communication": 30.0,
-    "keepalive": 60.0,
-    "ping": 10.0,
-    "connection": 30.0,
-    "idle": 300.0,
-    "shutdown": 30.0,
-    "api": 30.0,
-    "service": 10.0,
-    "recovery": 60.0,
-    "validation": 300.0,
-    "test": 300.0
+    "communication": "DEFAULT_TIMEOUT",
+    "keepalive": "LONG_TIMEOUT",
+    "ping": "SHORT_TIMEOUT",
+    "connection": "DEFAULT_TIMEOUT",
+    "idle": "CRITICAL_TIMEOUT",
+    "shutdown": "DEFAULT_TIMEOUT",
+    "api": "DEFAULT_TIMEOUT",
+    "service": "SHORT_TIMEOUT",
+    "recovery": "LONG_TIMEOUT",
+    "validation": "CRITICAL_TIMEOUT",
+    "test": "CRITICAL_TIMEOUT"
   },
   "retry_settings": {
     "description": "Centralized retry configurations - SSOT compliant",
-    "default_attempts": 3,
-    "default_delay": 1.0,
+    "default_attempts": "VALUE_THREE",
+    "default_delay": "SECONDS_ONE",
     "max_attempts": 5,
     "min_delay": 0.5,
-    "max_delay": 30.0,
-    "message_attempts": 3,
+    "max_delay": "DEFAULT_TIMEOUT",
+    "message_attempts": "VALUE_THREE",
     "message_delay": 2.0,
-    "fsm_attempts": 3,
-    "fsm_delay": 5.0,
-    "integration_attempts": 3,
-    "integration_delay": 1.0
+    "fsm_attempts": "VALUE_THREE",
+    "fsm_delay": "URGENT_TIMEOUT",
+    "integration_attempts": "VALUE_THREE",
+    "integration_delay": "SECONDS_ONE"
   },
   "collection_intervals": {
     "description": "Centralized monitoring intervals - SSOT compliant",
     "default": 60,
-    "long": 120,
+    "long": "SECONDS_TWO_MINUTES",
     "short": 15,
     "urgent": 5,
     "extended": 300,
     "system_metrics": 60,
     "application_metrics": 60,
     "network_metrics": 60,
-    "custom_metrics": 120,
+    "custom_metrics": "SECONDS_TWO_MINUTES",
     "communication_metrics": 15.0
   },
   "enable_flags": {
     "description": "Centralized feature flags - SSOT compliant",
-    "system": true,
-    "monitoring": true,
-    "performance_monitoring": true,
-    "alerting": true,
-    "dashboard": true,
-    "communication": true,
-    "broadcast": true,
-    "private_messaging": true,
-    "compression": false,
-    "authorization": false,
-    "encryption": false,
-    "auto_discovery": true,
-    "plugin_system": true
+    "system": "ENABLE_TRUE",
+    "monitoring": "ENABLE_TRUE",
+    "performance_monitoring": "ENABLE_TRUE",
+    "alerting": "ENABLE_TRUE",
+    "dashboard": "ENABLE_TRUE",
+    "communication": "ENABLE_TRUE",
+    "broadcast": "ENABLE_TRUE",
+    "private_messaging": "ENABLE_TRUE",
+    "compression": "ENABLE_FALSE",
+    "authorization": "ENABLE_FALSE",
+    "encryption": "ENABLE_FALSE",
+    "auto_discovery": "ENABLE_TRUE",
+    "plugin_system": "ENABLE_TRUE"
   },
   "priority_levels": {
     "description": "Centralized priority definitions - SSOT compliant",
-    "low": 1,
-    "normal": 2,
-    "high": 3,
+    "low": "VALUE_ONE",
+    "normal": "VALUE_TWO",
+    "high": "VALUE_THREE",
     "urgent": 4,
     "critical": 5
   },
   "queue_settings": {
     "description": "Centralized queue configurations - SSOT compliant",
-    "default_size": 1000,
+    "default_size": "VALUE_THOUSAND",
     "max_size": 10000,
-    "default_batch_size": 100,
-    "max_batch_size": 1000
+    "default_batch_size": "VALUE_HUNDRED",
+    "max_batch_size": "VALUE_THOUSAND"
   },
   "performance_thresholds": {
     "description": "Centralized performance thresholds - SSOT compliant",
@@ -116,18 +116,34 @@
   },
   "validation": {
     "description": "Configuration validation settings",
-    "enforce_ssot": true,
-    "check_duplicates": true,
-    "validate_required_keys": true,
-    "auto_correct": false,
-    "report_violations": true
+    "enforce_ssot": "ENABLE_TRUE",
+    "check_duplicates": "ENABLE_TRUE",
+    "validate_required_keys": "ENABLE_TRUE",
+    "auto_correct": "ENABLE_FALSE",
+    "report_violations": "ENABLE_TRUE"
   },
   "inheritance": {
     "description": "Configuration inheritance hierarchy",
     "base": "system/base.json",
-    "system": ["system/performance.json", "system/communication.json", "system/integration.json"],
-    "agents": ["agents/agent_config.json", "agents/fsm_communication.json"],
-    "services": ["services/portal.yaml", "services/api_gateway.yaml", "services/broadcast.yaml"],
-    "override_order": ["base", "system", "agents", "services"]
+    "system": [
+      "system/performance.json",
+      "system/communication.json",
+      "system/integration.json"
+    ],
+    "agents": [
+      "agents/agent_config.json",
+      "agents/fsm_communication.json"
+    ],
+    "services": [
+      "services/portal.yaml",
+      "services/api_gateway.yaml",
+      "services/broadcast.yaml"
+    ],
+    "override_order": [
+      "base",
+      "system",
+      "agents",
+      "services"
+    ]
   }
 }

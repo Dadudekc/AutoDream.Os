@@ -1,95 +1,101 @@
-# Unified Emergency Response Configuration
-# Consolidates emergency response configuration from multiple scattered files
-# Eliminates SSOT violations in emergency configuration
-
 emergency_response_system:
-  name: "Emergency Response System"
-  version: "2.0.0"
-  description: "Comprehensive emergency response protocols for system failures"
-  contract: "SSOT-003: Configuration Management Consolidation"
-  author: "Agent-8 (Integration Enhancement Manager)"
-  license: "MIT"
-  
-  monitoring:
-    monitoring_interval: 15
-    enable_automated_detection: true
-    enable_health_integration: true
-    enable_auto_recovery: true
-    enable_notifications: true
-    
-  failure_thresholds:
-    contract_availability: 30
-    agent_idle_time: 900
-    system_response_time: 5000
-    error_rate: 0.20
-    health_score: 0.70
-    workflow_completion_rate: 0.40
-    agent_engagement: 0.90
-    system_synchronization: 0.95
-    
-  emergency_levels:
-    low:
-      response_time: 300
-      escalation_time: 1800
-      notification_channels: ["log", "email"]
-      
-    medium:
-      response_time: 180
-      escalation_time: 900
-      notification_channels: ["log", "email", "slack"]
-      
-    high:
-      response_time: 120
-      escalation_time: 600
-      notification_channels: ["log", "email", "slack", "sms"]
-      
-    critical:
-      response_time: 60
-      escalation_time: 300
-      notification_channels: ["log", "email", "slack", "sms", "phone"]
-      
-    code_black:
-      response_time: 30
-      escalation_time: 120
-      notification_channels: ["log", "email", "slack", "sms", "phone", "emergency_broadcast"]
-      
-  protocols:
-    workflow_restoration:
-      enabled: true
-      priority: "CRITICAL"
-      auto_activate: true
-      recovery_timeout: 1800
-      
-    crisis_management:
-      enabled: true
-      priority: "HIGH"
-      auto_activate: true
-      recovery_timeout: 1200
-      
-    system_failure:
-      enabled: true
-      priority: "CRITICAL"
-      auto_activate: true
-      recovery_timeout: 2400
-      
-  recovery_procedures:
-    enable_automated_recovery: true
-    max_recovery_attempts: 3
-    recovery_timeout: 300
-    enable_rollback: true
-    enable_backup_restoration: true
-    
+  author: Agent-8 (Integration Enhancement Manager)
+  contract: 'SSOT-003: Configuration Management Consolidation'
+  description: Comprehensive emergency response protocols for system failures
   documentation:
-    enable_automatic_documentation: true
-    documentation_format: "json"
-    include_lessons_learned: true
-    include_response_timeline: true
-    include_validation_results: true
-    save_location: "reports/emergency"
-    
+    documentation_format: json
+    enable_automatic_documentation: ENABLE_TRUE
+    include_lessons_learned: ENABLE_TRUE
+    include_response_timeline: ENABLE_TRUE
+    include_validation_results: ENABLE_TRUE
+    save_location: reports/emergency
+  emergency_levels:
+    code_black:
+      escalation_time: SECONDS_TWO_MINUTES
+      notification_channels:
+      - log
+      - email
+      - slack
+      - sms
+      - phone
+      - emergency_broadcast
+      response_time: 30
+    critical:
+      escalation_time: 300
+      notification_channels:
+      - log
+      - email
+      - slack
+      - sms
+      - phone
+      response_time: 60
+    high:
+      escalation_time: 600
+      notification_channels:
+      - log
+      - email
+      - slack
+      - sms
+      response_time: SECONDS_TWO_MINUTES
+    low:
+      escalation_time: 1800
+      notification_channels:
+      - log
+      - email
+      response_time: 300
+    medium:
+      escalation_time: 900
+      notification_channels:
+      - log
+      - email
+      - slack
+      response_time: 180
+  failure_thresholds:
+    agent_engagement: 0.9
+    agent_idle_time: 900
+    contract_availability: 30
+    error_rate: 0.2
+    health_score: 0.7
+    system_response_time: 5000
+    system_synchronization: 0.95
+    workflow_completion_rate: 0.4
+  license: MIT
+  monitoring:
+    enable_auto_recovery: ENABLE_TRUE
+    enable_automated_detection: ENABLE_TRUE
+    enable_health_integration: ENABLE_TRUE
+    enable_notifications: ENABLE_TRUE
+    monitoring_interval: 15
+  name: Emergency Response System
   notifications:
-    enable_email_notifications: true
-    enable_slack_notifications: true
-    enable_sms_notifications: false
-    enable_phone_notifications: false
-    notification_recipients: ["system_admin", "emergency_team", "captain_coordinator"]
+    enable_email_notifications: ENABLE_TRUE
+    enable_phone_notifications: ENABLE_FALSE
+    enable_slack_notifications: ENABLE_TRUE
+    enable_sms_notifications: ENABLE_FALSE
+    notification_recipients:
+    - system_admin
+    - emergency_team
+    - captain_coordinator
+  protocols:
+    crisis_management:
+      auto_activate: ENABLE_TRUE
+      enabled: ENABLE_TRUE
+      priority: HIGH
+      recovery_timeout: 1200
+    system_failure:
+      auto_activate: ENABLE_TRUE
+      enabled: ENABLE_TRUE
+      priority: CRITICAL
+      recovery_timeout: 2400
+    workflow_restoration:
+      auto_activate: ENABLE_TRUE
+      enabled: ENABLE_TRUE
+      priority: CRITICAL
+      recovery_timeout: 1800
+  recovery_procedures:
+    enable_automated_recovery: ENABLE_TRUE
+    enable_backup_restoration: ENABLE_TRUE
+    enable_rollback: ENABLE_TRUE
+    max_recovery_attempts: VALUE_THREE
+    recovery_timeout: 300
+  version: 2.0.0

@@ -1,0 +1,311 @@
+# Portal Configuration
+# Agent_Cellphone_V2_Repository - Multi-Agent Web Integration
+
+portal:
+  title: "Agent_Cellphone_V2 Unified Portal"
+  version: "1.0.0"
+  theme: "default"
+  enable_real_time: true
+  enable_websockets: true
+  enable_agent_integration: true
+  max_agents: 8
+  session_timeout: 3600
+  session_backend: "memory"  # Options: memory, sqlite
+  session_database: "auth_sessions.db"  # Used when session_backend=sqlite
+  debug_mode: false
+
+flask:
+  SECRET_KEY: "${PORTAL_SECRET_KEY}"
+  DEBUG: false
+  TEMPLATES_AUTO_RELOAD: true
+  SEND_FILE_MAX_AGE_DEFAULT: 0
+
+fastapi:
+  title: "Agent_Cellphone_V2 Unified Portal"
+  version: "1.0.0"
+  description: "Unified web portal for all agent systems"
+  docs_url: "/docs"
+  redoc_url: "/redoc"
+
+# Agent System Configurations
+agents:
+  Agent-1:
+    name: "Project Management Specialist"
+    description: "Manages project workflows and coordination across all agent systems"
+    dashboard_type: "project_management"
+    capabilities:
+      - "project_management"
+      - "workflow_coordination"
+      - "task_tracking"
+      - "resource_allocation"
+      - "timeline_management"
+      - "progress_monitoring"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+  Agent-2:
+    name: "Data Analysis Specialist"
+    description: "Handles data processing, analytics, and reporting for all systems"
+    dashboard_type: "data_analysis"
+    capabilities:
+      - "data_processing"
+      - "analytics"
+      - "reporting"
+      - "data_visualization"
+      - "statistical_analysis"
+      - "data_mining"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+  Agent-3:
+    name: "System Administration Specialist"
+    description: "Manages system infrastructure, security, and operational stability"
+    dashboard_type: "system_admin"
+    capabilities:
+      - "system_admin"
+      - "security"
+      - "infrastructure"
+      - "monitoring"
+      - "backup_recovery"
+      - "performance_optimization"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+  Agent-4:
+    name: "User Interface Specialist"
+    description: "Designs and implements user interfaces and user experience optimization"
+    dashboard_type: "user_interface"
+    capabilities:
+      - "ui_design"
+      - "ux_optimization"
+      - "frontend_development"
+      - "responsive_design"
+      - "accessibility"
+      - "user_research"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+  Agent-5:
+    name: "Coordination Specialist"
+    description: "Coordinates multi-agent workflows and communication protocols"
+    dashboard_type: "coordination"
+    capabilities:
+      - "workflow_coordination"
+      - "agent_communication"
+      - "task_orchestration"
+      - "conflict_resolution"
+      - "priority_management"
+      - "synchronization"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+  Agent-6:
+    name: "Integration Specialist"
+    description: "Manages system integrations, APIs, and middleware connections"
+    dashboard_type: "integration"
+    capabilities:
+      - "api_management"
+      - "system_integration"
+      - "middleware"
+      - "data_transformation"
+      - "protocol_management"
+      - "connector_development"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+  Agent-7:
+    name: "Web Development & UI Framework Specialist"
+    description: "Develops web applications, UI frameworks, and frontend systems"
+    dashboard_type: "web_development"
+    capabilities:
+      - "web_development"
+      - "ui_frameworks"
+      - "frontend_systems"
+      - "responsive_design"
+      - "web_automation"
+      - "component_libraries"
+    status: "online"
+    integration_status: "integrated"
+    web_interface_url: "http://localhost:5000"
+    api_endpoints:
+      - "/api/web/automation"
+      - "/api/web/ui"
+      - "/api/web/frontend"
+    custom_components:
+      - "responsive_framework"
+      - "ui_component_library"
+      - "web_automation_engine"
+      - "frontend_architecture"
+
+  Agent-8:
+    name: "Automation Specialist"
+    description: "Implements automated workflows and process optimization"
+    dashboard_type: "automation"
+    capabilities:
+      - "workflow_automation"
+      - "process_optimization"
+      - "task_automation"
+      - "scheduling"
+      - "monitoring"
+      - "error_handling"
+    status: "offline"
+    integration_status: "pending"
+    web_interface_url: null
+    api_endpoints: []
+    custom_components: []
+
+# Integration Settings
+integration:
+  enable_cross_agent_communication: true
+  enable_real_time_updates: true
+  enable_status_monitoring: true
+  enable_health_checks: true
+
+  # Communication backends
+  redis:
+    enabled: true
+    host: "localhost"
+    port: 6379
+    db: 0
+    password: "${PORTAL_REDIS_PASSWORD}"
+
+  rabbitmq:
+    enabled: true
+    host: "localhost"
+    port: 5672
+    username: "${PORTAL_RABBITMQ_USERNAME}"
+    password: "${PORTAL_RABBITMQ_PASSWORD}"
+    vhost: "/"
+
+  # WebSocket settings
+  websocket:
+    enabled: true
+    ping_interval: 25
+    ping_timeout: 10
+    max_message_size: 1048576
+
+# Security Settings
+security:
+  enable_authentication: true
+  enable_authorization: true
+  session_secret: "${PORTAL_SESSION_SECRET}"
+  token_expiry: 3600
+  enable_https: false
+  allowed_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5000"
+    - "http://localhost:8000"
+
+# UI/UX Settings
+ui:
+  theme: "default"
+  color_scheme: "light"
+  enable_dark_mode: true
+  enable_animations: true
+  enable_tooltips: true
+  enable_keyboard_shortcuts: true
+
+  # Dashboard settings
+  dashboard:
+    default_layout: "grid"
+    enable_customization: true
+    max_widgets_per_row: 4
+    enable_drag_and_drop: true
+
+  # Navigation settings
+  navigation:
+    enable_breadcrumbs: true
+    enable_search: true
+    enable_quick_actions: true
+    enable_recent_items: true
+
+# Monitoring and Logging
+monitoring:
+  enable_metrics: true
+  enable_logging: true
+  enable_alerts: true
+  enable_performance_tracking: true
+
+  # Metrics collection
+  metrics:
+    collection_interval: 60
+    retention_days: 30
+    enable_export: true
+
+  # Logging
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    enable_file_logging: true
+    log_file: "logs/portal.log"
+    max_file_size: "10MB"
+    backup_count: 5
+
+# Performance Settings
+performance:
+  enable_caching: true
+  enable_compression: true
+  enable_minification: true
+
+  # Cache settings
+  cache:
+    type: "redis"
+    ttl: 300
+    max_size: 1000
+
+  # Database settings (if applicable)
+  database:
+    connection_pool_size: 10
+    query_timeout: 30
+    enable_connection_pooling: true
+
+# Development Settings
+development:
+  enable_debug_mode: false
+  enable_hot_reload: true
+  enable_error_details: false
+  enable_profiling: false
+
+  # Testing
+  testing:
+    enable_mock_agents: true
+    enable_integration_tests: true
+    enable_performance_tests: true
+
+# Deployment Settings
+deployment:
+  environment: "development"
+  enable_health_checks: true
+  enable_graceful_shutdown: true
+  enable_auto_restart: true
+
+  # Health check settings
+  health_checks:
+    interval: 30
+    timeout: 10
+    failure_threshold: 3
+
+  # Scaling
+  scaling:
+    enable_auto_scaling: false
+    min_instances: 1
+    max_instances: 5
+    target_cpu_utilization: 70

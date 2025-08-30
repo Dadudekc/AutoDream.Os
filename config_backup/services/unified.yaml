@@ -1,0 +1,159 @@
+# Unified Configuration for Agent Cellphone V2 System
+# ===================================================
+# This file consolidates all system settings in one place
+# with environment-aware defaults and clear documentation
+
+# System Configuration
+# -------------------
+system:
+  name: "Agent Cellphone V2"
+  version: "2.0.0"
+  environment: "development"  # development, staging, production
+  debug_mode: true
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Agent Configuration
+# ------------------
+agents:
+  count: 8
+  names:
+    - "Agent-1"
+    - "Agent-2"
+    - "Agent-3"
+    - "Agent-4"
+    - "Agent-5"
+    - "Agent-6"
+    - "Agent-7"
+    - "Agent-8"
+
+  roles:
+    Agent-1: "Project Coordinator"
+    Agent-2: "Technical Architect"
+    Agent-3: "Development Lead"
+    Agent-4: "Quality Assurance Specialist"
+    Agent-5: "Captain Coordinator"
+
+  default_mode: "8-agent"
+  startup_delay: 1.0  # seconds between agent startups
+
+# Communication Configuration
+# --------------------------
+communication:
+  message_timeout: 30  # seconds
+  retry_attempts: 3
+  retry_delay: 1.0  # seconds
+
+  # Message tags
+  tags:
+    - "TASK"
+    - "COORDINATE"
+    - "SYNC"
+    - "ONBOARDING"
+    - "ERROR"
+    - "SUCCESS"
+
+# UI Configuration
+# ---------------
+ui:
+  layout_modes:
+    "2-agent":
+      width: 1920
+      height: 1080
+      agents: ["Agent-1", "Agent-2"]
+
+    "4-agent":
+      width: 1920
+      height: 1080
+      agents: ["Agent-1", "Agent-2", "Agent-3", "Agent-4"]
+
+    "5-agent":
+      width: 1920
+      height: 1080
+      agents: ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5"]
+
+    "8-agent":
+      width: 1920
+      height: 1080
+      agents: ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+
+  default_layout: "8-agent"
+  input_box_size: 20  # characters
+  message_delay: 0.5  # seconds between messages
+
+# File Paths
+# ----------
+paths:
+  runtime: "runtime"
+  logs: "logs"
+  config: "config"
+  data: "data"
+  artifacts: "artifacts"
+
+  # Configuration files
+  agent_coords: "runtime/agent_comms/cursor_agent_coords.json"
+  modes_runtime: "runtime/config/modes_runtime.json"
+
+  # Log files
+  main_log: "logs/agent_cellphone.log"
+  error_log: "logs/errors.log"
+  access_log: "logs/access.log"
+
+# Performance Configuration
+# ------------------------
+performance:
+  max_concurrent_agents: 10
+  memory_limit_mb: 1024
+  cpu_limit_percent: 80
+
+  # Caching
+  cache_enabled: true
+  cache_ttl: 300  # seconds
+  max_cache_size: 100  # items
+
+# Security Configuration
+# ---------------------
+security:
+  encryption_enabled: false
+  api_key_required: false
+  rate_limiting: true
+  max_requests_per_minute: 100
+
+# Testing Configuration
+# --------------------
+testing:
+  test_mode: false
+  mock_agents: false
+  test_timeout: 30  # seconds
+  auto_cleanup: true
+
+# Logging Configuration
+# --------------------
+logging:
+  console_enabled: true
+  file_enabled: true
+  log_rotation: true
+  max_log_size_mb: 10
+  backup_count: 5
+
+  # Log formats
+  console_format: "%(asctime)s | %(levelname)8s | %(message)s"
+  file_format: "%(asctime)s | %(levelname)8s | %(name)s | %(message)s"
+
+# Development Configuration
+# ------------------------
+development:
+  hot_reload: true
+  auto_restart: false
+  profiling: false
+  memory_profiling: false
+
+# Environment Overrides
+# ---------------------
+# These settings can be overridden by environment variables
+# Format: ENV_VAR_NAME: "default_value"
+environment_overrides:
+  AGENT_CELLPHONE_ENV: "development"
+  AGENT_CELLPHONE_DEBUG: "true"
+  AGENT_CELLPHONE_LOG_LEVEL: "INFO"
+  AGENT_CELLPHONE_LAYOUT: "5-agent"
+  AGENT_CELLPHONE_TEST_MODE: "false"

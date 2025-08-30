@@ -1,43 +1,46 @@
 {
   "performance_monitoring": {
     "version": "1.0.0",
-    "enabled": true,
+    "enabled": "ENABLE_TRUE",
     "collection_interval": 60,
     "retention_period": 43200,
     "max_data_points": 5000,
     "cleanup_interval": 7200,
-
     "collectors": {
       "system_metrics": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "collection_interval": 60,
-        "collect_cpu": true,
-        "collect_memory": true,
-        "collect_disk": true,
-        "collect_network": true,
-        "per_cpu_metrics": true,
-        "disk_io_metrics": true,
-        "network_interface_metrics": true
+        "collect_cpu": "ENABLE_TRUE",
+        "collect_memory": "ENABLE_TRUE",
+        "collect_disk": "ENABLE_TRUE",
+        "collect_network": "ENABLE_TRUE",
+        "per_cpu_metrics": "ENABLE_TRUE",
+        "disk_io_metrics": "ENABLE_TRUE",
+        "network_interface_metrics": "ENABLE_TRUE"
       },
       "application_metrics": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "collection_interval": 60,
         "app_name": "agent_cellphone_v2",
-        "collect_process_metrics": true,
-        "collect_request_metrics": true,
-        "collect_response_time_metrics": true,
-        "collect_error_metrics": true
+        "collect_process_metrics": "ENABLE_TRUE",
+        "collect_request_metrics": "ENABLE_TRUE",
+        "collect_response_time_metrics": "ENABLE_TRUE",
+        "collect_error_metrics": "ENABLE_TRUE"
       },
       "network_metrics": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "collection_interval": 60,
-        "collect_connection_metrics": true,
-        "collect_interface_metrics": true,
-        "monitored_ports": [8080, 8443, 9090]
+        "collect_connection_metrics": "ENABLE_TRUE",
+        "collect_interface_metrics": "ENABLE_TRUE",
+        "monitored_ports": [
+          8080,
+          8443,
+          9090
+        ]
       },
       "custom_metrics": {
-        "enabled": true,
-        "collection_interval": 120,
+        "enabled": "ENABLE_TRUE",
+        "collection_interval": "SECONDS_TWO_MINUTES",
         "metrics": {
           "integration_health": {
             "description": "Overall integration system health",
@@ -54,18 +57,16 @@
         }
       }
     },
-
     "dashboard": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "host": "0.0.0.0",
       "port": 8080,
-      "auto_refresh": true,
+      "auto_refresh": "ENABLE_TRUE",
       "refresh_interval": 10,
       "theme": "dark",
-      "websocket_enabled": true,
-      "max_websocket_connections": 100,
+      "websocket_enabled": "ENABLE_TRUE",
+      "max_websocket_connections": "VALUE_HUNDRED",
       "static_files_path": "static/dashboard",
-
       "widgets": [
         {
           "id": "cpu_usage",
@@ -74,13 +75,13 @@
           "metric_name": "cpu_usage_percent",
           "width": 6,
           "height": 4,
-          "position_x": 0,
-          "position_y": 0,
+          "position_x": "VALUE_ZERO",
+          "position_y": "VALUE_ZERO",
           "time_range": 3600,
           "aggregation": "raw",
           "options": {
-            "min_value": 0,
-            "max_value": 100,
+            "min_value": "VALUE_ZERO",
+            "max_value": "VALUE_HUNDRED",
             "warning_threshold": 70,
             "critical_threshold": 90
           }
@@ -90,13 +91,13 @@
           "title": "Memory Usage",
           "chart_type": "gauge",
           "metric_name": "memory_usage_percent",
-          "width": 3,
+          "width": "VALUE_THREE",
           "height": 4,
           "position_x": 6,
-          "position_y": 0,
+          "position_y": "VALUE_ZERO",
           "options": {
-            "min_value": 0,
-            "max_value": 100,
+            "min_value": "VALUE_ZERO",
+            "max_value": "VALUE_HUNDRED",
             "warning_threshold": 80,
             "critical_threshold": 95
           }
@@ -106,10 +107,10 @@
           "title": "Disk Usage",
           "chart_type": "bar",
           "metric_name": "disk_usage_percent",
-          "width": 3,
+          "width": "VALUE_THREE",
           "height": 4,
           "position_x": 9,
-          "position_y": 0,
+          "position_y": "VALUE_ZERO",
           "options": {
             "warning_threshold": 80,
             "critical_threshold": 90
@@ -122,7 +123,7 @@
           "metric_name": "network_bytes_sent_total",
           "width": 6,
           "height": 4,
-          "position_x": 0,
+          "position_x": "VALUE_ZERO",
           "position_y": 4,
           "time_range": 1800,
           "aggregation": "raw"
@@ -139,7 +140,7 @@
           "time_range": 3600,
           "options": {
             "warning_threshold": 0.5,
-            "critical_threshold": 1.0
+            "critical_threshold": "SECONDS_ONE"
           }
         },
         {
@@ -148,12 +149,12 @@
           "chart_type": "gauge",
           "metric_name": "app_errors_total",
           "width": 4,
-          "height": 3,
-          "position_x": 0,
+          "height": "VALUE_THREE",
+          "position_x": "VALUE_ZERO",
           "position_y": 8,
           "aggregation": "rate",
           "options": {
-            "max_value": 100,
+            "max_value": "VALUE_HUNDRED",
             "warning_threshold": 5,
             "critical_threshold": 10
           }
@@ -164,7 +165,7 @@
           "chart_type": "gauge",
           "metric_name": "network_connections",
           "width": 4,
-          "height": 3,
+          "height": "VALUE_THREE",
           "position_x": 4,
           "position_y": 8,
           "filters": {
@@ -177,20 +178,18 @@
           "chart_type": "table",
           "metric_name": "alerts_history",
           "width": 4,
-          "height": 3,
+          "height": "VALUE_THREE",
           "position_x": 8,
           "position_y": 8,
           "time_range": 3600
         }
       ]
     },
-
     "alerting": {
-      "enabled": true,
+      "enabled": "ENABLE_TRUE",
       "default_cooldown_period": 300,
-      "max_alert_history": 1000,
-      "deduplication_enabled": true,
-
+      "max_alert_history": "VALUE_THOUSAND",
+      "deduplication_enabled": "ENABLE_TRUE",
       "rules": [
         {
           "name": "High CPU Usage",
@@ -199,10 +198,13 @@
           "threshold": 85.0,
           "severity": "warning",
           "description": "CPU usage is above 85%",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 300,
-          "consecutive_violations": 2,
-          "channels": ["email", "slack"]
+          "consecutive_violations": "VALUE_TWO",
+          "channels": [
+            "email",
+            "slack"
+          ]
         },
         {
           "name": "Critical CPU Usage",
@@ -211,10 +213,14 @@
           "threshold": 95.0,
           "severity": "critical",
           "description": "CPU usage is critically high at 95%+",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 180,
-          "consecutive_violations": 1,
-          "channels": ["email", "slack", "pagerduty"]
+          "consecutive_violations": "VALUE_ONE",
+          "channels": [
+            "email",
+            "slack",
+            "pagerduty"
+          ]
         },
         {
           "name": "High Memory Usage",
@@ -223,10 +229,13 @@
           "threshold": 90.0,
           "severity": "warning",
           "description": "Memory usage is above 90%",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 300,
-          "consecutive_violations": 2,
-          "channels": ["email", "slack"]
+          "consecutive_violations": "VALUE_TWO",
+          "channels": [
+            "email",
+            "slack"
+          ]
         },
         {
           "name": "Critical Memory Usage",
@@ -235,10 +244,14 @@
           "threshold": 98.0,
           "severity": "critical",
           "description": "Memory usage is critically high",
-          "enabled": true,
-          "cooldown_period": 120,
-          "consecutive_violations": 1,
-          "channels": ["email", "slack", "pagerduty"]
+          "enabled": "ENABLE_TRUE",
+          "cooldown_period": "SECONDS_TWO_MINUTES",
+          "consecutive_violations": "VALUE_ONE",
+          "channels": [
+            "email",
+            "slack",
+            "pagerduty"
+          ]
         },
         {
           "name": "Disk Space Low",
@@ -247,10 +260,13 @@
           "threshold": 85.0,
           "severity": "warning",
           "description": "Disk space is running low",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 1800,
-          "consecutive_violations": 1,
-          "channels": ["email", "slack"]
+          "consecutive_violations": "VALUE_ONE",
+          "channels": [
+            "email",
+            "slack"
+          ]
         },
         {
           "name": "Disk Space Critical",
@@ -259,10 +275,14 @@
           "threshold": 95.0,
           "severity": "critical",
           "description": "Disk space is critically low",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 600,
-          "consecutive_violations": 1,
-          "channels": ["email", "slack", "pagerduty"]
+          "consecutive_violations": "VALUE_ONE",
+          "channels": [
+            "email",
+            "slack",
+            "pagerduty"
+          ]
         },
         {
           "name": "High Response Time",
@@ -271,10 +291,13 @@
           "threshold": 2.0,
           "severity": "warning",
           "description": "Application response time is high",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 300,
-          "consecutive_violations": 3,
-          "channels": ["email", "slack"]
+          "consecutive_violations": "VALUE_THREE",
+          "channels": [
+            "email",
+            "slack"
+          ]
         },
         {
           "name": "High Error Rate",
@@ -283,10 +306,13 @@
           "threshold": 10,
           "severity": "warning",
           "description": "Application error rate is high",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 300,
-          "consecutive_violations": 2,
-          "channels": ["email", "slack"]
+          "consecutive_violations": "VALUE_TWO",
+          "channels": [
+            "email",
+            "slack"
+          ]
         },
         {
           "name": "Integration System Down",
@@ -295,22 +321,25 @@
           "threshold": 0.5,
           "severity": "critical",
           "description": "Integration system health is critically low",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "cooldown_period": 180,
-          "consecutive_violations": 1,
-          "channels": ["email", "slack", "pagerduty"]
+          "consecutive_violations": "VALUE_ONE",
+          "channels": [
+            "email",
+            "slack",
+            "pagerduty"
+          ]
         }
       ],
-
       "channels": {
         "email": {
           "type": "email",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "min_severity": "warning",
           "rate_limit_seconds": 300,
           "smtp_server": "smtp.gmail.com",
           "smtp_port": 587,
-          "use_tls": true,
+          "use_tls": "ENABLE_TRUE",
           "username": "alerts@agent-cellphone.local",
           "password": "${SMTP_PASSWORD}",
           "sender_email": "noreply@agent-cellphone.local",
@@ -321,7 +350,7 @@
         },
         "slack": {
           "type": "slack",
-          "enabled": true,
+          "enabled": "ENABLE_TRUE",
           "min_severity": "warning",
           "rate_limit_seconds": 180,
           "webhook_url": "${SLACK_WEBHOOK_URL}",
@@ -331,15 +360,15 @@
         },
         "discord": {
           "type": "discord",
-          "enabled": false,
+          "enabled": "ENABLE_FALSE",
           "min_severity": "critical",
-          "rate_limit_seconds": 120,
+          "rate_limit_seconds": "SECONDS_TWO_MINUTES",
           "webhook_url": "${DISCORD_WEBHOOK_URL}",
           "username": "AlertBot"
         },
         "pagerduty": {
           "type": "pagerduty",
-          "enabled": false,
+          "enabled": "ENABLE_FALSE",
           "min_severity": "critical",
           "rate_limit_seconds": 60,
           "integration_key": "${PAGERDUTY_INTEGRATION_KEY}",
@@ -347,9 +376,9 @@
         },
         "webhook": {
           "type": "webhook",
-          "enabled": false,
+          "enabled": "ENABLE_FALSE",
           "min_severity": "warning",
-          "rate_limit_seconds": 120,
+          "rate_limit_seconds": "SECONDS_TWO_MINUTES",
           "webhook_url": "${CUSTOM_WEBHOOK_URL}",
           "method": "POST",
           "headers": {
@@ -359,27 +388,33 @@
         }
       }
     },
-
     "security": {
       "authentication": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "type": "basic",
         "username": "admin",
         "password": "${DASHBOARD_PASSWORD}"
       },
       "rate_limiting": {
-        "enabled": true,
+        "enabled": "ENABLE_TRUE",
         "requests_per_minute": 60,
         "burst_size": 10
       },
       "cors": {
-        "enabled": true,
-        "allowed_origins": ["*"],
-        "allowed_methods": ["GET", "POST"],
-        "allowed_headers": ["Content-Type", "Authorization"]
+        "enabled": "ENABLE_TRUE",
+        "allowed_origins": [
+          "*"
+        ],
+        "allowed_methods": [
+          "GET",
+          "POST"
+        ],
+        "allowed_headers": [
+          "Content-Type",
+          "Authorization"
+        ]
       }
     },
-
     "storage": {
       "type": "memory",
       "retention_policy": {
@@ -388,59 +423,57 @@
         "alert_history_days": 30
       },
       "compression": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "algorithm": "gzip",
         "threshold_bytes": 1048576
       }
     },
-
     "performance": {
       "collection_threads": 4,
       "max_concurrent_alerts": 50,
       "websocket_buffer_size": 1024,
-      "metric_batch_size": 100,
-      "async_processing": true,
-      "cache_metrics": true,
+      "metric_batch_size": "VALUE_HUNDRED",
+      "async_processing": "ENABLE_TRUE",
+      "cache_metrics": "ENABLE_TRUE",
       "cache_ttl_seconds": 60
     },
-
     "logging": {
       "level": "INFO",
       "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
       "file": "logs/performance_monitoring.log",
       "max_file_size": "10MB",
       "backup_count": 5,
-      "rotate_daily": true
+      "rotate_daily": "ENABLE_TRUE"
     },
-
     "integration": {
       "prometheus": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "port": 9090,
         "metrics_path": "/metrics",
         "push_gateway": "http://localhost:9091"
       },
       "grafana": {
-        "enabled": false,
+        "enabled": "ENABLE_FALSE",
         "url": "http://localhost:3000",
         "api_key": "${GRAFANA_API_KEY}",
         "datasource": "prometheus"
       },
       "elasticsearch": {
-        "enabled": false,
-        "hosts": ["localhost:9200"],
+        "enabled": "ENABLE_FALSE",
+        "hosts": [
+          "localhost:9200"
+        ],
         "index_pattern": "performance-metrics-{date}",
         "username": "${ELASTICSEARCH_USERNAME}",
         "password": "${ELASTICSEARCH_PASSWORD}"
       }
     },
-
     "development": {
-      "debug_mode": false,
-      "mock_data": false,
-      "test_alerts": false,
-      "profiling": false,
-      "hot_reload": true
+      "debug_mode": "ENABLE_FALSE",
+      "mock_data": "ENABLE_FALSE",
+      "test_alerts": "ENABLE_FALSE",
+      "profiling": "ENABLE_FALSE",
+      "hot_reload": "ENABLE_TRUE"
     }
   }
 }

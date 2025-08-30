@@ -3,7 +3,12 @@
   "title": "Agent Integration Configuration Schema",
   "description": "JSON Schema for validating agent integration configuration",
   "type": "object",
-  "required": ["version", "last_updated", "integration_config", "validation_rules"],
+  "required": [
+    "version",
+    "last_updated",
+    "integration_config",
+    "validation_rules"
+  ],
   "properties": {
     "version": {
       "type": "string",
@@ -21,34 +26,58 @@
     },
     "integration_config": {
       "type": "object",
-      "required": ["messaging_system", "task_manager", "monitoring", "logging"],
+      "required": [
+        "messaging_system",
+        "task_manager",
+        "monitoring",
+        "logging"
+      ],
       "properties": {
         "messaging_system": {
           "type": "string",
-          "enum": ["v2_message_queue", "v1_message_queue", "legacy_messaging"],
+          "enum": [
+            "v2_message_queue",
+            "v1_message_queue",
+            "legacy_messaging"
+          ],
           "description": "Messaging system implementation to use"
         },
         "task_manager": {
           "type": "string",
-          "enum": ["v2_task_manager", "v1_task_manager", "legacy_task_manager"],
+          "enum": [
+            "v2_task_manager",
+            "v1_task_manager",
+            "legacy_task_manager"
+          ],
           "description": "Task management system implementation to use"
         },
         "monitoring": {
           "type": "string",
-          "enum": ["v2_performance_monitor", "v1_performance_monitor", "basic_monitoring"],
+          "enum": [
+            "v2_performance_monitor",
+            "v1_performance_monitor",
+            "basic_monitoring"
+          ],
           "description": "Performance monitoring system implementation to use"
         },
         "logging": {
           "type": "string",
-          "enum": ["v2_logging_system", "v1_logging_system", "basic_logging"],
+          "enum": [
+            "v2_logging_system",
+            "v1_logging_system",
+            "basic_logging"
+          ],
           "description": "Logging system implementation to use"
         }
       },
-      "additionalProperties": false
+      "additionalProperties": "ENABLE_FALSE"
     },
     "validation_rules": {
       "type": "object",
-      "required": ["required_fields", "version_compatibility"],
+      "required": [
+        "required_fields",
+        "version_compatibility"
+      ],
       "properties": {
         "required_fields": {
           "type": "array",
@@ -95,5 +124,5 @@
       }
     }
   },
-  "additionalProperties": false
+  "additionalProperties": "ENABLE_FALSE"
 }

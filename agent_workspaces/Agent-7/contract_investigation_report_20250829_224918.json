@@ -1,0 +1,139 @@
+{
+  "timestamp": "2025-08-29T22:49:16.372515",
+  "system_status": "INVESTIGATING",
+  "findings": {
+    "contract_system": {
+      "status": "OPERATIONAL",
+      "file_exists": true,
+      "executable": true,
+      "stats_available": false,
+      "stats_output": "Error getting stats",
+      "system_path": "agent_workspaces\\meeting\\contract_claiming_system.py"
+    },
+    "task_list": {
+      "status": "HEALTHY",
+      "file_exists": true,
+      "total_contracts": 138,
+      "available_contracts": 9,
+      "claimed_contracts": 83,
+      "completed_contracts": 46,
+      "available_contract_list": [
+        {
+          "contract_id": "SSOT-001",
+          "title": "SSOT Violation Analysis & Resolution",
+          "category": "SSOT_Resolution",
+          "difficulty": "HIGH",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 400
+        },
+        {
+          "contract_id": "SSOT-002",
+          "title": "Data Source Consolidation",
+          "category": "SSOT_Resolution",
+          "difficulty": "MEDIUM",
+          "estimated_time": "2-3 hours",
+          "extra_credit_points": 450
+        },
+        {
+          "contract_id": "DEDUP-002",
+          "title": "Function Duplication Elimination",
+          "category": "Deduplication",
+          "difficulty": "MEDIUM",
+          "estimated_time": "2-3 hours",
+          "extra_credit_points": 300
+        },
+        {
+          "contract_id": "DEDUP-001",
+          "title": "Code Duplication Detection & Consolidation",
+          "category": "Deduplication",
+          "difficulty": "MEDIUM",
+          "estimated_time": "2-3 hours",
+          "extra_credit_points": 350
+        },
+        {
+          "contract_id": "MODULAR-001",
+          "title": "Monolithic File Modularization",
+          "category": "Modularization",
+          "difficulty": "HIGH",
+          "estimated_time": "4-5 hours",
+          "extra_credit_points": 500
+        },
+        {
+          "contract_id": "SSOT-002",
+          "title": "Data Source Consolidation",
+          "category": "SSOT_Resolution",
+          "difficulty": "MEDIUM",
+          "estimated_time": "2-3 hours",
+          "extra_credit_points": 450
+        },
+        {
+          "contract_id": "DEDUP-002",
+          "title": "Function Duplication Elimination",
+          "category": "Deduplication",
+          "difficulty": "MEDIUM",
+          "estimated_time": "2-3 hours",
+          "extra_credit_points": 300
+        },
+        {
+          "contract_id": "MODULAR-002",
+          "title": "Class Hierarchy Refactoring",
+          "category": "Modularization",
+          "difficulty": "MEDIUM",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 400
+        },
+        {
+          "contract_id": "MODULAR-003",
+          "title": "Service Layer Refactoring",
+          "category": "Modularization",
+          "difficulty": "HIGH",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 450
+        }
+      ],
+      "file_path": "agent_workspaces\\meeting\\task_list.json"
+    },
+    "discrepancies": [
+      {
+        "type": "CLAIMING_FAILURE",
+        "contract_id": "SSOT-001",
+        "expected_status": "AVAILABLE",
+        "actual_status": "UNAVAILABLE",
+        "error_message": "Traceback (most recent call last):\n  File \"D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\meeting\\contract_claiming_system.py\", line 622, in <module>\n    main()\n  File \"D:\\Agent_Cellphone_V2_Repository\\agent_workspaces\\meeting\\contract_claiming_system.py\", line 539, in main\n    print(f\"\\U0001f4cb Claiming contract {args.claim} for {args.agent}...\")\n  File \"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\U0001f4cb' in position 0: character maps to <undefined>",
+        "recommendation": "Investigate contract status synchronization"
+      }
+    ],
+    "system_files": {
+      "status": "HEALTHY",
+      "files": {
+        "contract_claiming_system": {
+          "exists": true,
+          "size": "29393 bytes",
+          "path": "agent_workspaces\\meeting\\contract_claiming_system.py"
+        },
+        "task_list": {
+          "exists": true,
+          "size": "156283 bytes",
+          "path": "agent_workspaces\\meeting\\task_list.json"
+        },
+        "meeting": {
+          "exists": true,
+          "size": "10226 bytes",
+          "path": "agent_workspaces\\meeting\\meeting.json"
+        }
+      }
+    }
+  },
+  "discrepancies": [],
+  "recommendations": [
+    "Resolve contract status discrepancies - claiming system out of sync",
+    "Investigate why 9 available contracts cannot be claimed"
+  ],
+  "summary": {
+    "total_discrepancies": 0,
+    "system_health": "HEALTHY",
+    "available_contracts": 9,
+    "investigation_complete": true
+  },
+  "report_generated": "2025-08-29T22:49:18.185164"
+}

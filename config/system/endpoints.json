@@ -6,7 +6,7 @@
     "host": "localhost",
     "port": 8080,
     "path": "/fsm",
-    "timeout": 30.0
+    "timeout": "DEFAULT_TIMEOUT"
   },
   {
     "system_id": "onboarding_service",
@@ -15,7 +15,7 @@
     "host": "localhost",
     "port": 8081,
     "path": "/onboarding",
-    "timeout": 30.0
+    "timeout": "DEFAULT_TIMEOUT"
   },
   {
     "system_id": "cdp_service",
@@ -24,7 +24,7 @@
     "host": "localhost",
     "port": 9222,
     "path": "/json",
-    "timeout": 30.0
+    "timeout": "DEFAULT_TIMEOUT"
   },
   {
     "system_id": "cross_system_manager",
@@ -33,6 +33,6 @@
     "host": "localhost",
     "port": 8082,
     "path": "",
-    "timeout": 30.0
+    "timeout": "DEFAULT_TIMEOUT"
   }
 ]

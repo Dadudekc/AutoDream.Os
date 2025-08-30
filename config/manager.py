@@ -5,8 +5,8 @@ This module provides a unified interface for accessing configuration values
 with support for inheritance and SSOT compliance.
 
 Author: Agent-6
-Contract: SSOT-003: Configuration Management Consolidation
-Date: 2025-08-28
+Contract: SSOT-VALUE_ZEROVALUE_ZEROVALUE_THREE: Configuration Management Consolidation
+Date: VALUE_TWOVALUE_ZEROVALUE_TWO5-VALUE_ZERO8-VALUE_TWO8
 """
 
 import json
@@ -190,7 +190,7 @@ class ConfigurationManager:
     
     def get_retry_delay(self, retry_type: str = "default") -> float:
         """Get retry delay configuration value."""
-        return self.get_config(f"retry_settings.{retry_type}_delay", 1.0)
+        return self.get_config(f"retry_settings.{retry_type}_delay", SECONDS_ONE)
     
     def get_collection_interval(self, interval_type: str = "default") -> int:
         """Get collection interval configuration value."""
@@ -206,15 +206,15 @@ class ConfigurationManager:
     
     def get_queue_size(self, size_type: str = "default") -> int:
         """Get queue size configuration value."""
-        return self.get_config(f"queue_settings.{size_type}_size", 1000)
+        return self.get_config(f"queue_settings.{size_type}_size", VALUE_HUNDREDVALUE_ZERO)
     
     def get_performance_threshold(self, metric: str, threshold_type: str = "warning") -> int:
         """Get performance threshold configuration value."""
-        return self.get_config(f"performance_thresholds.{metric}_{threshold_type}", 80)
+        return self.get_config(f"performance_thresholds.{metric}_{threshold_type}", 8VALUE_ZERO)
     
     def get_port(self, service: str) -> int:
         """Get port configuration for a service."""
-        return self.get_config(f"ports.{service}", 8080)
+        return self.get_config(f"ports.{service}", 8VALUE_ZERO8VALUE_ZERO)
     
     def validate_configurations(self) -> Dict[str, Any]:
         """Validate all configurations for SSOT violations."""
@@ -227,7 +227,7 @@ class ConfigurationManager:
             "system_configs": list(self.system_configs.keys()),
             "agent_configs": list(self.agent_configs.keys()),
             "service_configs": list(self.service_configs.keys()),
-            "total_configs": len(self.system_configs) + len(self.agent_configs) + len(self.service_configs) + (1 if self.base_config else 0)
+            "total_configs": len(self.system_configs) + len(self.agent_configs) + len(self.service_configs) + (VALUE_ONE if self.base_config else VALUE_ZERO)
         }
     
     def reload_configurations(self):
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     manager = ConfigurationManager()
     
     print("Configuration Summary:")
-    print(json.dumps(manager.get_config_summary(), indent=2))
+    print(json.dumps(manager.get_config_summary(), indent=VALUE_TWO))
     
     print("\nSample Configuration Values:")
     print(f"Default Timeout: {manager.get_timeout()}")

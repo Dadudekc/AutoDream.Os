@@ -14,6 +14,8 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
+from src.database.integrity_tools import setup_logging, iter_contracts
+
 @dataclass
 class IntegrityCheck:
     """Represents a single integrity check"""
@@ -44,22 +46,7 @@ class DatabaseIntegrityChecker:
     def __init__(self, task_list_path: str = "agent_workspaces/meeting/task_list.json"):
         self.task_list_path = Path(task_list_path)
         self.contracts = {}
-        self.logger = self._setup_logging()
-        
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for integrity operations"""
-        logger = logging.getLogger("DatabaseIntegrityChecker")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-            
-        return logger
+        self.logger = setup_logging("DatabaseIntegrityChecker")
         
     def load_contracts(self) -> bool:
         """Load contracts from the task list file"""
@@ -86,11 +73,7 @@ class DatabaseIntegrityChecker:
         total_contracts = self.contracts.get("total_contracts", 0)
         
         # Count actual contracts in the data
-        actual_total = 0
-        if "contracts" in self.contracts:
-            for category_name, category_data in self.contracts["contracts"].items():
-                if "contracts" in category_data:
-                    actual_total += len(category_data["contracts"])
+        actual_total = sum(1 for _ in iter_contracts(self.contracts))
         
         calculated_total = total_claimed + total_completed + total_available
         
@@ -154,24 +137,16 @@ class DatabaseIntegrityChecker:
         ]
         
         missing_field_contracts = []
-        
-        for category_name, category_data in self.contracts["contracts"].items():
-            if "contracts" not in category_data:
-                continue
-                
-            for contract in category_data["contracts"]:
-                contract_id = contract.get("contract_id", "UNKNOWN")
-                missing_fields = []
-                
-                for field in required_fields:
-                    if field not in contract:
-                        missing_fields.append(field)
-                        
-                if missing_fields:
-                    missing_field_contracts.append({
-                        "contract_id": contract_id,
-                        "missing_fields": missing_fields
-                    })
+
+        for _, contract in iter_contracts(self.contracts):
+            contract_id = contract.get("contract_id", "UNKNOWN")
+            missing_fields = [field for field in required_fields if field not in contract]
+
+            if missing_fields:
+                missing_field_contracts.append({
+                    "contract_id": contract_id,
+                    "missing_fields": missing_fields,
+                })
                     
         if missing_field_contracts:
             checks.append(IntegrityCheck(
@@ -205,37 +180,33 @@ class DatabaseIntegrityChecker:
             
         status_issues = []
         
-        for category_name, category_data in self.contracts["contracts"].items():
-            if "contracts" not in category_data:
-                continue
-                
-            for contract in category_data["contracts"]:
-                contract_id = contract.get("contract_id", "UNKNOWN")
-                status = contract.get("status")
-                claimed_by = contract.get("claimed_by")
-                claimed_at = contract.get("claimed_at")
-                completed_at = contract.get("completed_at")
-                
-                # Check CLAIMED status consistency
-                if status == "CLAIMED":
-                    if not claimed_by:
-                        status_issues.append({
-                            "contract_id": contract_id,
-                            "issue": "CLAIMED status without agent assignment"
-                        })
-                    if not claimed_at:
-                        status_issues.append({
-                            "contract_id": contract_id,
-                            "issue": "CLAIMED status without claim timestamp"
-                        })
-                        
-                # Check COMPLETED status consistency
-                elif status == "COMPLETED":
-                    if not completed_at:
-                        status_issues.append({
-                            "contract_id": contract_id,
-                            "issue": "COMPLETED status without completion timestamp"
-                        })
+        for _, contract in iter_contracts(self.contracts):
+            contract_id = contract.get("contract_id", "UNKNOWN")
+            status = contract.get("status")
+            claimed_by = contract.get("claimed_by")
+            claimed_at = contract.get("claimed_at")
+            completed_at = contract.get("completed_at")
+
+            # Check CLAIMED status consistency
+            if status == "CLAIMED":
+                if not claimed_by:
+                    status_issues.append({
+                        "contract_id": contract_id,
+                        "issue": "CLAIMED status without agent assignment"
+                    })
+                if not claimed_at:
+                    status_issues.append({
+                        "contract_id": contract_id,
+                        "issue": "CLAIMED status without claim timestamp"
+                    })
+
+            # Check COMPLETED status consistency
+            elif status == "COMPLETED":
+                if not completed_at:
+                    status_issues.append({
+                        "contract_id": contract_id,
+                        "issue": "COMPLETED status without completion timestamp"
+                    })
                         
         if status_issues:
             checks.append(IntegrityCheck(
@@ -269,52 +240,48 @@ class DatabaseIntegrityChecker:
             
         timestamp_issues = []
         
-        for category_name, category_data in self.contracts["contracts"].items():
-            if "contracts" not in category_data:
-                continue
-                
-            for contract in category_data["contracts"]:
-                contract_id = contract.get("contract_id", "UNKNOWN")
-                
-                # Check claimed_at timestamp
-                if "claimed_at" in contract and contract["claimed_at"]:
-                    try:
-                        claimed_time = datetime.datetime.fromisoformat(
-                            contract["claimed_at"].replace('Z', '+00:00')
-                        )
-                        current_dt = datetime.datetime.now(claimed_time.tzinfo)
-                        if claimed_time > current_dt:
-                            timestamp_issues.append({
-                                "contract_id": contract_id,
-                                "issue": "Future claim timestamp",
-                                "timestamp": contract["claimed_at"]
-                            })
-                    except ValueError:
+        for _, contract in iter_contracts(self.contracts):
+            contract_id = contract.get("contract_id", "UNKNOWN")
+
+            # Check claimed_at timestamp
+            if "claimed_at" in contract and contract["claimed_at"]:
+                try:
+                    claimed_time = datetime.datetime.fromisoformat(
+                        contract["claimed_at"].replace('Z', '+00:00')
+                    )
+                    current_dt = datetime.datetime.now(claimed_time.tzinfo)
+                    if claimed_time > current_dt:
                         timestamp_issues.append({
                             "contract_id": contract_id,
-                            "issue": "Invalid claim timestamp format",
+                            "issue": "Future claim timestamp",
                             "timestamp": contract["claimed_at"]
                         })
-                        
-                # Check completed_at timestamp
-                if "completed_at" in contract and contract["completed_at"]:
-                    try:
-                        completed_time = datetime.datetime.fromisoformat(
-                            contract["completed_at"].replace('Z', '+00:00')
-                        )
-                        current_dt = datetime.datetime.now(completed_time.tzinfo)
-                        if completed_time > current_dt:
-                            timestamp_issues.append({
-                                "contract_id": contract_id,
-                                "issue": "Future completion timestamp",
-                                "timestamp": contract["completed_at"]
-                            })
-                    except ValueError:
+                except ValueError:
+                    timestamp_issues.append({
+                        "contract_id": contract_id,
+                        "issue": "Invalid claim timestamp format",
+                        "timestamp": contract["claimed_at"]
+                    })
+
+            # Check completed_at timestamp
+            if "completed_at" in contract and contract["completed_at"]:
+                try:
+                    completed_time = datetime.datetime.fromisoformat(
+                        contract["completed_at"].replace('Z', '+00:00')
+                    )
+                    current_dt = datetime.datetime.now(completed_time.tzinfo)
+                    if completed_time > current_dt:
                         timestamp_issues.append({
                             "contract_id": contract_id,
-                            "issue": "Invalid completion timestamp format",
+                            "issue": "Future completion timestamp",
                             "timestamp": contract["completed_at"]
                         })
+                except ValueError:
+                    timestamp_issues.append({
+                        "contract_id": contract_id,
+                        "issue": "Invalid completion timestamp format",
+                        "timestamp": contract["completed_at"]
+                    })
                         
         if timestamp_issues:
             checks.append(IntegrityCheck(
@@ -345,33 +312,29 @@ class DatabaseIntegrityChecker:
         
         if "contracts" not in self.contracts:
             return checks
-            
+
         type_issues = []
-        
-        for category_name, category_data in self.contracts["contracts"].items():
-            if "contracts" not in category_data:
-                continue
-                
-            for contract in category_data["contracts"]:
-                contract_id = contract.get("contract_id", "UNKNOWN")
-                
-                # Check extra_credit_points is numeric
-                if "extra_credit_points" in contract:
-                    if not isinstance(contract["extra_credit_points"], (int, float)):
-                        type_issues.append({
-                            "contract_id": contract_id,
-                            "issue": "extra_credit_points is not numeric",
-                            "value": contract["extra_credit_points"]
-                        })
-                        
-                # Check requirements and deliverables are lists
-                for field in ["requirements", "deliverables"]:
-                    if field in contract and not isinstance(contract[field], list):
-                        type_issues.append({
-                            "contract_id": contract_id,
-                            "issue": f"{field} is not a list",
-                            "value": contract[field]
-                        })
+
+        for _, contract in iter_contracts(self.contracts):
+            contract_id = contract.get("contract_id", "UNKNOWN")
+
+            # Check extra_credit_points is numeric
+            if "extra_credit_points" in contract:
+                if not isinstance(contract["extra_credit_points"], (int, float)):
+                    type_issues.append({
+                        "contract_id": contract_id,
+                        "issue": "extra_credit_points is not numeric",
+                        "value": contract["extra_credit_points"],
+                    })
+
+            # Check requirements and deliverables are lists
+            for field in ["requirements", "deliverables"]:
+                if field in contract and not isinstance(contract[field], list):
+                    type_issues.append({
+                        "contract_id": contract_id,
+                        "issue": f"{field} is not a list",
+                        "value": contract[field],
+                    })
                         
         if type_issues:
             checks.append(IntegrityCheck(

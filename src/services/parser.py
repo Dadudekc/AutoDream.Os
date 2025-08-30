@@ -11,7 +11,52 @@ from .config import DEFAULT_MODE, DEFAULT_COORDINATE_MODE
 
 def create_parser(argv: List[str] | None = None) -> argparse.ArgumentParser:
     """Create the argument parser for the messaging CLI."""
-    parser = argparse.ArgumentParser(description="Unified Messaging Service CLI")
+    parser = argparse.ArgumentParser(
+        description="Unified Messaging Service CLI - Agent Communication System",
+        epilog="""
+Examples:
+  # Send message to specific agent
+  python -m src.services.messaging --agent Agent-1 --message "Hello Agent-1!"
+  
+  # Send to all agents
+  python -m src.services.messaging --bulk --message "Message to all agents"
+  
+  # High priority message
+  python -m src.services.messaging --agent Agent-1 --message "URGENT!" --high-priority
+  
+  # Onboard all agents
+  python -m src.services.messaging --onboard
+  
+  # Check agent statuses
+  python -m src.services.messaging --check-status
+  
+  # Get next task
+  python -m src.services.messaging --get-next-task
+  
+  # Send to Captain
+  python -m src.services.messaging --captain --message "Status update"
+  
+  # Show coordinates
+  python -m src.services.messaging --coordinates
+  
+  # Validate coordinates
+  python -m src.services.messaging --validate
+        """
+    )
+    
+    # Custom help flag with enhanced description
+    parser.add_argument(
+        "--help", "-h",
+        action="store_true",
+        help="Show detailed help information with examples and usage patterns"
+    )
+    
+    # Quick help flag for common operations
+    parser.add_argument(
+        "--quick-help", "-q",
+        action="store_true",
+        help="Show quick reference for most common messaging operations"
+    )
 
     # Mode selection
     parser.add_argument(

@@ -1,0 +1,30 @@
+{
+  "branch_protection": {
+    "main_branch": "agent",
+    "protected_branches": [
+      "agent",
+      "main",
+      "master"
+    ],
+    "rules": {
+      "require_reviews": "ENABLE_TRUE",
+      "min_reviews": "VALUE_TWO",
+      "require_status_checks": "ENABLE_TRUE",
+      "require_branch_up_to_date": "ENABLE_TRUE",
+      "restrict_pushes": "ENABLE_TRUE",
+      "allow_force_pushes": "ENABLE_FALSE",
+      "allow_deletions": "ENABLE_FALSE"
+    }
+  },
+  "pr_limits": {
+    "max_file_size_lines": 400,
+    "max_pr_size_lines": 500,
+    "max_files_per_pr": 20
+  },
+  "automated_checks": [
+    "file_size_validation",
+    "code_style_checking",
+    "basic_syntax_validation",
+    "security_scanning"
+  ]
+}

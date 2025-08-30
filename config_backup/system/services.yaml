@@ -1,0 +1,56 @@
+services:
+  base:
+    enable_monitoring: ENABLE_TRUE
+    enable_validation: ENABLE_TRUE
+    max_workers: 4
+    retry_attempts: VALUE_THREE
+    timeout: 30
+    validation_timeout: 60
+  fsm:
+    enable_transition_logging: ENABLE_TRUE
+    extends: base
+    max_state_history: VALUE_HUNDRED
+    state_persistence: ENABLE_TRUE
+  messaging:
+    agent_count: 8
+    captain_id: Agent-4
+    coordinate_mode: 8-agent
+    default_mode: pyautogui
+    extends: base
+    message_ttl: 3600
+    queue_size: VALUE_THOUSAND
+  orchestration:
+    enable_parallel_processing: ENABLE_TRUE
+    extends: base
+    max_concurrent_tasks: 10
+    task_distribution_strategy: round_robin
+    task_timeout: 300
+  quality:
+    enable_auto_fixes: ENABLE_TRUE
+    enable_validation: ENABLE_TRUE
+    extends: base
+    quality_threshold: 0.8
+    validation_timeout: 60
+  refactoring:
+    enable_duplication_detection: ENABLE_TRUE
+    enable_parallel_processing: ENABLE_TRUE
+    extends: base
+    max_file_size: 500
+    max_workers: 4
+  reporting:
+    default_format: json
+    enable_compression: ENABLE_TRUE
+    extends: base
+    max_report_size: 10485760
+  testing:
+    coverage_threshold: 0.8
+    enable_fast_fail: ENABLE_TRUE
+    enable_parallel_execution: ENABLE_TRUE
+    extends: base
+    max_workers: 4
+  web:
+    enable_ssl: ENABLE_FALSE
+    extends: base
+    host: 0.0.0.0
+    max_connections: VALUE_THOUSAND
+    port: 8000

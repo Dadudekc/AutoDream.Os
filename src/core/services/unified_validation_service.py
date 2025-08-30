@@ -19,8 +19,8 @@ from typing import Dict, List, Optional, Any, Union, Tuple
 from dataclasses import dataclass, field
 from enum import Enum
 
-from src.core.base import BaseValidator, ValidationConfig, ValidationRule, ValidationResult, ValidationSeverity
-from src.core.base import BaseModel, ModelType, ModelStatus
+from src.core.base.base_validator import BaseValidator, ValidationConfig, ValidationRule, ValidationResult, ValidationSeverity
+from src.core.base.base_model import BaseModel, ModelType, ModelStatus
 
 
 # ============================================================================
@@ -860,15 +860,13 @@ class UnifiedValidationService(BaseValidator):
             # Clear caches
             self.clear_cache()
             
-            # Update state
-            # Assuming ManagerState is defined elsewhere or needs to be imported
-            # from src.core.base import ManagerState 
-            # self.state = ManagerState.STOPPED
+                        # Update state
+            from src.core.base.base_manager import ManagerState
+            self.state = ManagerState.STOPPED
             
             self.logger.info("Unified Validation Service stopped successfully")
             
         except Exception as e:
-            self.logger.error(f"Error stopping validation service: {e}")
-            # Assuming ManagerState is defined elsewhere or needs to be imported
-            # from src.core.base import ManagerState 
-            # self.state = ManagerState.ERROR
+                        self.logger.error(f"Error stopping validation service: {e}")
+            from src.core.base.base_manager import ManagerState
+            self.state = ManagerState.ERROR

@@ -21,36 +21,10 @@ import asyncio
 import threading
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import logging
 
-# Configure logging for Captain-level innovation operations
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - CAPTAIN AGENT-3 - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-@dataclass
-class InnovationMetrics:
-    """Comprehensive innovation readiness metrics"""
-    gateway_readiness: float
-    transition_protocols: float
-    innovation_capacity: float
-    system_adaptability: float
-    captain_leadership: float
-    innovation_activation_potential: float
-
-@dataclass
-class GatewayResult:
-    """Result of gateway activation operation"""
-    success: bool
-    activation_level: float
-    activation_type: str
-    implementation_time: float
-    system_impact: str
-    innovation_score: float
+from src.captain_tools import InnovationMetrics, GatewayResult
 
 class InnovationGatewayActivator:
     """

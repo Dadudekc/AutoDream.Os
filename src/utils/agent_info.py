@@ -166,11 +166,11 @@ class AgentInfoManager(BaseManager):
                     emoji="👤",
                     key_responsibilities=["General team support and collaboration"],
                     leadership="You are a valuable team member.",
-                    onboarding_path="agent_workspaces/onboarding/README.md",
+                    onboarding_path="docs/onboarding/README.md",
                     priority_docs=[
-                        "agent_workspaces/onboarding/training_documents/agent_roles_and_responsibilities.md",
-                        "agent_workspaces/onboarding/training_documents/development_standards.md",
-                        "agent_workspaces/onboarding/training_documents/best_practices.md",
+                        "docs/onboarding/agent_roles_and_responsibilities.md",
+                        "docs/onboarding/development_standards.md",
+                        "docs/onboarding/best_practices.md",
                     ],
                 ),
             )

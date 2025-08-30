@@ -63,7 +63,7 @@ This workspace contains onboarding system artifacts and configurations, includin
 2. **Complete SSOT training and certification** 🆕
 3. **Complete Devlog training and certification** 🆕 (MANDATORY)
 4. **Complete Messaging Etiquette training and certification** 🆕 (MANDATORY)
-5. **Run role validation script** 🆕 - `python scripts/onboarding/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
+5. **Run role validation script** 🆕 - `python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
 6. Pass all assessments (85% minimum)
 7. Receive role-specific assignments
 
@@ -71,7 +71,7 @@ This workspace contains onboarding system artifacts and configurations, includin
 1. **Complete SSOT training immediately** 🆕
 2. **Complete Devlog training immediately** 🆕 (MANDATORY)
 3. **Complete Messaging Etiquette training immediately** 🆕 (MANDATORY)
-4. **Run role validation script** 🆕 - `python scripts/onboarding/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
+4. **Run role validation script** 🆕 - `python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
 5. Review agent-specific responsibilities
 6. Practice with troubleshooting guide
 7. Get certified in SSOT procedures
@@ -166,7 +166,7 @@ This workspace contains onboarding system artifacts and configurations, includin
 ### **Validation Commands**
 ```bash
 # Validate role and training completion
-python scripts/onboarding/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"
+python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"
 
 # Check devlog system status
 python -m src.core.devlog_cli status
@@ -226,4 +226,46 @@ python scripts/devlog.py "Training Test" "Testing devlog system" --agent "test-a
 ---
 
 *This onboarding system ensures all agents understand and comply with SSOT principles, making the devlog system the single source of truth for team communication.*
+
+---
+
+## 🚨 **SSOT CONSOLIDATION COMPLETED - SINGLE ONBOARDING DIRECTORY** 🚨
+
+### **Consolidated Structure**
+This directory now contains **ALL onboarding materials** consolidated from multiple locations:
+
+#### **📚 Core Training Materials**
+- `README.md` - **This file** - Complete onboarding overview
+- `UNIVERSAL_DEVELOPMENT_PRINCIPLES.md` - Core development principles
+- `MESSAGING_ETIQUETTE_TRAINING_MODULE.md` - Communication protocols
+- `CAPTAIN_COORDINATION_TRAINING.md` - Captain-specific training
+
+#### **🔧 Scripts & Tools**
+- `scripts/validate_phase2_roles.py` - Role validation script
+- **Usage**: `python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
+
+#### **📋 Protocols & Configuration**
+- `protocols/v2_onboarding_protocol.json` - V2 onboarding configuration
+- `protocols/workflow_protocols.md` - Workflow protocols
+- `protocols/RESUME_INTEGRATION_PROTOCOL.md` - Resume integration
+- `protocols/ROLE_ASSIGNMENT_PROTOCOL.md` - Role assignment
+- `protocols/command_reference.md` - Command reference
+
+#### **🎯 SSOT Training Materials**
+- `ssot_agent_responsibilities_matrix.md` - Agent responsibility matrix
+- `ssot_practical_exercises.md` - Practical SSOT exercises
+- `ssot_troubleshooting_guide.md` - SSOT troubleshooting
+- `tools_and_technologies.md` - Tools and technologies guide
+- `system_overview.md` - System overview
+
+### **🚫 What Was Removed**
+- ~~`agent_workspaces/onboarding/`~~ - **DELETED - DUPLICATE DIRECTORY**
+- All duplicate training materials consolidated here
+- Single source of truth for all onboarding content
+
+### **✅ Benefits of SSOT Consolidation**
+- **No more duplicate directories** - Single onboarding location
+- **Consistent file organization** - Logical structure
+- **Eliminated confusion** - Agents know exactly where to look
+- **Maintained all functionality** - Nothing lost, everything gained
 

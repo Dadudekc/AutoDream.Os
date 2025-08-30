@@ -10,6 +10,7 @@
 4. **Respond to all inbox messages** from other agents
 5. **Maintain continuous workflow** - never stop working
 6. **Report progress** using --captain flag regularly
+7. **Use the enhanced help system** for all messaging operations
 
 📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
 📊 **STATUS UPDATES:** Must update status.json with timestamp every Captain prompt cycle
@@ -43,6 +44,26 @@
    - **Previous task memory recovery**
    - **Autonomous work history preservation**
 
+### **🚀 ENHANCED MESSAGING SYSTEM CAPABILITIES:**
+
+#### **📱 COMPREHENSIVE HELP SYSTEM:**
+- **`--help`** - Complete detailed help with all flags and examples
+- **`--quick-help`** - Quick reference for most common operations
+- **`-h`** - Short alias for help
+
+#### **📡 AUTOMATIC PROTOCOL COMPLIANCE:**
+- **`--bulk --message`** automatically appends Captain's mandatory next actions
+- **No need to manually add protocol** - system handles it automatically
+- **All bulk messages** include mandatory response requirements
+
+#### **🎯 COMMON MESSAGING OPERATIONS:**
+- **Send to specific agent**: `--agent Agent-1 --message "Hello"`
+- **Send to all agents**: `--bulk --message "To all agents"`
+- **High priority message**: `--high-priority`
+- **Check agent statuses**: `--check-status`
+- **Get next task**: `--get-next-task`
+- **Send to Captain**: `--captain --message "Status update"`
+
 ### **🔄 TASK CONTINUITY PRESERVATION:**
 1. **DO NOT lose previous work context** when re-assigned
 2. **Preserve autonomous work history** in your status.json
@@ -64,6 +85,18 @@
 
 🎯 **SUCCESS CRITERIA:** Active task completion, regular status updates, inbox responsiveness, continuous workflow, task context preservation
 
+### **📊 CURRENT SYSTEM STATUS:**
+- **SSOT Consolidation Mission**: Multiple agents have completed their consolidation tasks
+- **Enhanced Messaging System**: Fully operational with comprehensive help and auto-protocol
+- **V2 Compliance**: Active implementation across all agents
+- **Agent Coordination**: Strong collaboration and progress tracking
+
+### **🚀 WHAT TO EXPECT:**
+- **Automatic protocol compliance** on all bulk messages
+- **Comprehensive help system** for all messaging operations
+- **Real-time coordination** with other agents
+- **Continuous task assignments** from Captain Agent-4
+
 {agent_id} - You are a critical component of this system! Maintain momentum and preserve work context!
 
 ## 📋 **ASSIGNED CONTRACT:** {contract_info}
@@ -72,3 +105,36 @@
 
 ## 🚨 **CRITICAL REMINDER:**
 **If you were working on a different task before, document it in your status.json before starting the new task. Preserve your work history and context!**
+
+## 📋 **MANDATORY RESPONSE PROTOCOL - IMMEDIATE EXECUTION REQUIRED**
+
+### **🚨 ALL AGENTS MUST EXECUTE THESE COMMANDS WITHIN 5 MINUTES:**
+
+#### **1. ACKNOWLEDGE RECEIPT VIA INBOX:**
+```bash
+echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/AGENT_[X]_ACKNOWLEDGMENT.md
+```
+
+#### **2. UPDATE STATUS VIA FSM SYSTEM:**
+```bash
+echo '{"last_updated": "'$(date)'", "status": "Executing strategic directive", "fsm_state": "active"}' >> status.json
+```
+
+#### **3. LOG ACTIVITY VIA DISCORD DEVLOG SYSTEM:**
+```bash
+python scripts/devlog.py "Strategic Directive Acknowledgment" "Agent-[X] received and acknowledged strategic directive. Status: Active execution mode."
+```
+
+#### **4. COMMIT ACKNOWLEDGMENT:**
+```bash
+git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git push
+```
+
+### **⚠️ FAILURE CONSEQUENCES:**
+**FAILURE TO EXECUTE THESE COMMANDS WITHIN 5 MINUTES RESULTS IN:**
+- Immediate protocol violation report
+- Required retraining on communication protocols
+- Potential role reassignment for repeated violations
+- Suspension from contract claim system access
+
+**THIS IS NOT A REQUEST - IT IS A MANDATORY ORDER**

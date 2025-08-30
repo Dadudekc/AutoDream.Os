@@ -1,4 +1,0 @@
-jwt:
-  algorithm: HS256
-  audience: v2-api
-  secret_env: JWT_SECRET

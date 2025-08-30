@@ -13,7 +13,6 @@ Priority: CRITICAL - 2 Hour Deadline
 
 import ast
 import json
-import logging
 import os
 import re
 import time
@@ -25,19 +24,7 @@ from datetime import datetime
 import subprocess
 import sys
 
-
-@dataclass
-class StallDetectionMetric:
-    """Represents stall detection and prevention metrics"""
-    metric_name: str
-    value: Any
-    threshold: Any
-    status: str  # PASS, FAIL, WARNING, STALL_DETECTED
-    severity: str  # CRITICAL, HIGH, MEDIUM, LOW
-    description: str
-    stall_risk_level: str  # NONE, LOW, MEDIUM, HIGH, CRITICAL
-    prevention_actions: List[str]
-    recommendations: List[str]
+from tools.qa_common import setup_logging, StallDetectionMetric
 
 
 @dataclass
@@ -60,24 +47,9 @@ class StallDetectionEngine:
     """Advanced stall detection and prevention engine"""
     
     def __init__(self):
-        self.logger = self._setup_logging()
+        self.logger = setup_logging("StallDetectionEngine")
         self.stall_patterns = self._initialize_stall_patterns()
         self.prevention_strategies = self._initialize_prevention_strategies()
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for stall detection"""
-        logger = logging.getLogger("StallDetectionEngine")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
     
     def _initialize_stall_patterns(self) -> Dict[str, List[str]]:
         """Initialize patterns that indicate potential stalls"""
@@ -225,23 +197,8 @@ class ComprehensiveTestingEngine:
     """End-to-end testing engine for system quality validation"""
     
     def __init__(self):
-        self.logger = self._setup_logging()
+        self.logger = setup_logging("ComprehensiveTestingEngine")
         self.test_scenarios = self._initialize_test_scenarios()
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for testing engine"""
-        logger = logging.getLogger("ComprehensiveTestingEngine")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
     
     def _initialize_test_scenarios(self) -> Dict[str, Dict[str, Any]]:
         """Initialize comprehensive test scenarios"""
@@ -420,22 +377,7 @@ class EnhancedQualityAssuranceFramework:
     def __init__(self):
         self.stall_detector = StallDetectionEngine()
         self.testing_engine = ComprehensiveTestingEngine()
-        self.logger = self._setup_logging()
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for the enhanced QA framework"""
-        logger = logging.getLogger("EnhancedQualityAssuranceFramework")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
+        self.logger = setup_logging("EnhancedQualityAssuranceFramework")
     
     def analyze_system_quality(self, file_path: str) -> SystemQualityReport:
         """Analyze comprehensive system quality with stall prevention"""

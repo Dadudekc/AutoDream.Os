@@ -13,7 +13,6 @@ Priority: URGENT - Captain's Directive
 
 import ast
 import json
-import logging
 import os
 import re
 from pathlib import Path
@@ -21,17 +20,7 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime
 
-
-@dataclass
-class QualityMetric:
-    """Represents a single quality metric measurement"""
-    metric_name: str
-    value: Any
-    threshold: Any
-    status: str  # PASS, FAIL, WARNING
-    severity: str  # CRITICAL, HIGH, MEDIUM, LOW
-    description: str
-    recommendations: List[str]
+from tools.qa_common import setup_logging, QualityMetric
 
 
 @dataclass
@@ -52,22 +41,7 @@ class CodeQualityAnalyzer:
     """Analyzes code quality metrics for modularized components"""
     
     def __init__(self):
-        self.logger = self._setup_logging()
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for quality analysis"""
-        logger = logging.getLogger("CodeQualityAnalyzer")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
+        self.logger = setup_logging("CodeQualityAnalyzer")
     
     def analyze_lines_of_code(self, file_path: str) -> QualityMetric:
         """Analyze lines of code compliance"""
@@ -257,24 +231,9 @@ class CodeQualityAnalyzer:
 
 class ArchitectureValidator:
     """Validates architecture compliance for modularized components"""
-    
+
     def __init__(self):
-        self.logger = self._setup_logging()
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for architecture validation"""
-        logger = logging.getLogger("ArchitectureValidator")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
+        self.logger = setup_logging("ArchitectureValidator")
     
     def validate_module_interfaces(self, file_path: str) -> QualityMetric:
         """Validate module interface consistency"""
@@ -421,26 +380,11 @@ class ArchitectureValidator:
 
 class ModularizationQAFramework:
     """Main QA framework for modularized components"""
-    
+
     def __init__(self):
         self.code_analyzer = CodeQualityAnalyzer()
         self.arch_validator = ArchitectureValidator()
-        self.logger = self._setup_logging()
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for the QA framework"""
-        logger = logging.getLogger("ModularizationQAFramework")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
+        self.logger = setup_logging("ModularizationQAFramework")
     
     def analyze_module_quality(self, file_path: str) -> ModuleQualityReport:
         """Analyze quality of a single module"""

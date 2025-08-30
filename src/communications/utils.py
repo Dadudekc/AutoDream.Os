@@ -9,7 +9,7 @@ from enum import Enum
 logging.basicConfig(level=logging.INFO)
 
 
-def get_logger(name: str = __name__) -> logging.Logger:
+def get_logger(name: str) -> logging.Logger:
     """Return a module-specific logger."""
     return logging.getLogger(name)
 

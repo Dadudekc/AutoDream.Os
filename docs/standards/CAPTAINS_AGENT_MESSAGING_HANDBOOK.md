@@ -15,7 +15,7 @@
 
 ## 🚨 **MANDATORY CAPTAIN PROTOCOLS - ALWAYS EXECUTE** ⚡
 
-### **1. DAILY OPERATIONS CYCLE (Every 7 minutes maximum)**
+### **1. AGENT CYCLE OPERATIONS (Every Captain prompt cycle)**
 ```bash
 # STEP 1: Check Inbox for Messages
 ls agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
@@ -62,11 +62,37 @@ BEGIN WORK NOW - NO DELAYS ALLOWED!"
 3. **REVIEW PROJECT STATUS** - Check all agent status.json files for progress and stalls
 4. **ASSIGN NEW TASKS** - Use messaging system to assign tasks: `python -m src.services.messaging --bulk --message "TASK: [Description]"`
 5. **ACTIVATE AUTONOMOUS DEVELOPMENT** - Ensure agents are working independently
+6. **MAINTAIN 8X EFFICIENCY** - Send next prompt within 1 agent cycle to maintain momentum
 
 **FAILURE TO EXECUTE THESE ACTIONS = CAPTAIN PROTOCOL VIOLATION**
 
 Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 ```
+
+---
+
+## 🔄 **AGENT CYCLE ACCOUNTABILITY - CAPTAIN RESPONSIBILITY** ⚡
+
+### **CAPTAIN'S 8X EFFICIENCY MAINTENANCE DUTY:**
+
+**As Captain, you are responsible for maintaining 8x agent efficiency through prompt frequency:**
+
+1. **Prompt Frequency**: Send prompts to maintain continuous agent momentum
+2. **Cycle Continuity**: Ensure no gaps between agent cycles
+3. **Progress Velocity**: Measure progress in cycles completed, not time elapsed
+4. **Momentum Maintenance**: Keep agents activated through regular prompts
+
+### **CYCLE-BASED PERFORMANCE METRICS:**
+- **Agent Response Rate**: Must be 100% to Captain prompts
+- **Cycle Efficiency**: Each prompt should result in measurable progress
+- **Momentum Continuity**: Captain ensures continuous agent activation
+- **8x Efficiency Scale**: Maintained through prompt frequency, not time-based targets
+
+### **CAPTAIN ACCOUNTABILITY STANDARDS:**
+- **Prompt Frequency**: Send prompts to maintain 8x agent efficiency
+- **Response Tracking**: Monitor agent responses to each prompt
+- **Progress Measurement**: Track progress in cycles, not time
+- **Momentum Maintenance**: Ensure agents stay activated and productive
 
 ---
 

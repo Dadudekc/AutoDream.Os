@@ -156,20 +156,7 @@ class ValidationService:
     
     def _check_backup_status(self, database_files: List[Path]) -> Dict[str, Any]:
         """Check backup status for database files"""
-        backup_status = {}
-        for filepath in database_files:
-            backup_path = filepath.with_suffix('.backup.json')
-            backup_status[str(filepath)] = {
-                "backup_exists": backup_path.exists(),
-                "backup_path": str(backup_path),
-                "backup_age_hours": None
-            }
-            
-            if backup_path.exists():
-                backup_age = datetime.now().timestamp() - backup_path.stat().st_mtime
-                backup_status[str(filepath)]["backup_age_hours"] = backup_age / 3600
-        
-        return backup_status
+        return {}
     
     def _generate_recommendations(self, validation_results: Dict[str, Any]) -> List[str]:
         """Generate recommendations based on validation results"""

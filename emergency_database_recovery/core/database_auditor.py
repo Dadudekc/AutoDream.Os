@@ -32,7 +32,6 @@ class DatabaseAuditor:
         # Critical database files to audit
         self.critical_files = [
             ("task_list.json", Path("agent_workspaces/meeting/task_list.json")),
-            ("task_list.backup.json", Path("agent_workspaces/meeting/task_list.backup.json")),
             ("meeting.json", Path("agent_workspaces/meeting/meeting.json"))
         ]
         

@@ -27,7 +27,7 @@ echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/mee
 echo '{"last_updated": "'$(date)'", "status": "Executing strategic directive", "fsm_state": "active"}' >> status.json
 ```
 
-### **MANDATORY COMMAND 3: Log Activity via Devlog System**
+### **MANDATORY COMMAND 3: Log Activity via Discord Devlog System**
 ```bash
 python scripts/devlog.py "Strategic Directive Acknowledgment" "Agent-[X] received and acknowledged strategic directive. Status: Active execution mode."
 ```
@@ -63,10 +63,10 @@ git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git 
 - **Workflow Tracking**: Log all state changes and transitions
 - **Progress Monitoring**: Use FSM states to track task completion
 
-### **3. DEVLOG SYSTEM INTEGRATION**
-- **Activity Logging**: Log all major actions and decisions
-- **Progress Updates**: Document progress via devlog entries
-- **Issue Reporting**: Use devlog for blocker identification
+### **3. DISCORD DEVLOG SYSTEM INTEGRATION**
+- **Activity Logging**: Log all major actions and decisions via Discord devlog
+- **Progress Updates**: Document progress via Discord devlog entries
+- **Issue Reporting**: Use Discord devlog for blocker identification
 
 ### **4. INBOX MESSAGING INTEGRATION**
 - **Captain Communication**: Send all messages to Agent-4 inbox
@@ -76,11 +76,49 @@ git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git 
 
 ---
 
+## 📱 **DISCORD DEVLOG SYSTEM - SINGLE SOURCE OF TRUTH**
+
+### **What is Discord Devlog?**
+- **Automatic Discord Integration**: All devlog entries automatically post to Discord
+- **No Manual Discord Work**: Use the devlog system, Discord updates automatically
+- **Team Communication**: All agents see your updates in real-time via Discord
+- **Progress Tracking**: Captain monitors all agent progress via Discord devlog
+
+### **Correct Usage Commands:**
+```bash
+# Basic usage (automatically posts to Discord)
+python scripts/devlog.py "Your Title" "Your content here"
+
+# With agent identification
+python scripts/devlog.py "Strategic Directive Acknowledgment" "Agent-[X] received and acknowledged strategic directive. Status: Active execution mode." --agent "Agent-[X]"
+
+# Report issues or blockers
+python scripts/devlog.py "Blocker Identified" "Issue with routing system preventing progress" --agent "Agent-[X]" --category "issue" --priority "high"
+
+# Share milestones
+python scripts/devlog.py "Task Complete" "Successfully consolidated manager classes" --agent "Agent-[X]" --category "milestone" --priority "high"
+```
+
+### **Available Categories:**
+- **`project_update`** - General project progress (default)
+- **`milestone`** - Major achievements and milestones
+- **`issue`** - Problems, bugs, or blockers
+- **`idea`** - New ideas or suggestions
+- **`review`** - Code reviews or system reviews
+
+### **Available Priorities:**
+- **`low`** - Minor updates or informational
+- **`normal`** - Standard updates (default)
+- **`high`** - Important updates or progress
+- **`critical`** - Urgent issues or major problems
+
+---
+
 ## 📋 **BLOCKER REPORTING PROTOCOL**
 
 ### **When Blockers Arise:**
 1. **Immediate Inbox Message** to Captain Agent-4
-2. **Devlog Entry** documenting the blocker
+2. **Discord Devlog Entry** documenting the blocker
 3. **Status Update** in status.json
 4. **Contract System** update if task is blocked
 
@@ -101,7 +139,7 @@ git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git 
 
 ### **When New Ideas Arise:**
 1. **Inbox Message** to Captain Agent-4
-2. **Devlog Entry** documenting the idea
+2. **Discord Devlog Entry** documenting the idea
 3. **Contract System** proposal if it's a new task
 
 ### **Task Idea Format:**
@@ -148,7 +186,7 @@ git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git 
 
 ### **Daily Updates (Required):**
 1. **Status.json Update**: Every 7 minutes maximum
-2. **Devlog Entry**: At least one entry per day
+2. **Discord Devlog Entry**: At least one entry per day
 3. **Inbox Report**: Progress update to Captain
 4. **Contract Update**: Task completion status
 
@@ -166,12 +204,12 @@ git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git 
 - [ ] All mandatory commands executed
 - [ ] Inbox acknowledgment sent
 - [ ] Status updated in FSM system
-- [ ] Devlog entry created
+- [ ] Discord devlog entry created
 - [ ] Changes committed and pushed
 
 ### **Daily Success:**
 - [ ] Status updated every 7 minutes
-- [ ] Progress logged in devlog
+- [ ] Progress logged in Discord devlog
 - [ ] Blockers reported immediately
 - [ ] New ideas submitted promptly
 - [ ] V2 compliance maintained

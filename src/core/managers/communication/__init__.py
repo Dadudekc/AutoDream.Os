@@ -20,6 +20,10 @@ from .websocket_manager import WebSocketManager
 from .routing_manager import RoutingManager
 from .reporting_manager import ReportingManager
 
+# Emergency restoration and testing capabilities (integrated from communications workspace)
+from .emergency_restoration_manager import EmergencyRestorationManager
+from .interaction_testing_manager import InteractionTestingManager
+
 # Data models and types
 from .models import Channel, ChannelType, APIConfig
 from .types import CommunicationTypes

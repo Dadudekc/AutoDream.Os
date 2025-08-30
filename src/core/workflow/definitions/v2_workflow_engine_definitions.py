@@ -15,8 +15,31 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from pathlib import Path
 
-from ..types.workflow_enums import WorkflowStatus, TaskStatus
-from ..types.workflow_models import WorkflowDefinition, WorkflowExecution
+# Import handling for both package and standalone execution
+try:
+    from ..types.workflow_enums import WorkflowStatus, TaskStatus
+    from ..types.workflow_models import WorkflowDefinition, WorkflowExecution
+except ImportError:
+    # Standalone execution - create minimal stubs
+    from enum import Enum
+    class WorkflowStatus(Enum):
+        PENDING = "pending"
+        RUNNING = "running"
+        COMPLETED = "completed"
+        FAILED = "failed"
+    
+    class TaskStatus(Enum):
+        PENDING = "pending"
+        RUNNING = "running"
+        COMPLETED = "completed"
+        FAILED = "failed"
+    
+    # Minimal model stubs for standalone testing
+    class WorkflowDefinition:
+        pass
+    
+    class WorkflowExecution:
+        pass
 
 
 @dataclass

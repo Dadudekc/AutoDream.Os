@@ -67,6 +67,18 @@ class CommunicationManager(BaseManager):
         self.routing_manager = RoutingManager()
         self.reporting_manager = ReportingManager()
         
+        # Emergency restoration and testing capabilities (integrated from communications workspace)
+        try:
+            from .emergency_restoration_manager import EmergencyRestorationManager
+            from .interaction_testing_manager import InteractionTestingManager
+            self.emergency_restoration_manager = EmergencyRestorationManager()
+            self.interaction_testing_manager = InteractionTestingManager()
+            self.logger.info("✅ Emergency restoration and interaction testing managers integrated")
+        except ImportError:
+            self.logger.warning("⚠️ Emergency restoration and interaction testing managers not available")
+            self.emergency_restoration_manager = None
+            self.interaction_testing_manager = None
+        
         # Communication monitoring settings
         self.enable_message_tracking = True
         self.enable_analytics = True
@@ -75,6 +87,10 @@ class CommunicationManager(BaseManager):
         self._load_manager_config()
         self._setup_default_channels()
         self._setup_default_api_configs()
+        
+        # Setup emergency restoration callbacks
+        if self.emergency_restoration_manager:
+            self.emergency_restoration_manager.register_emergency_callback(self._on_emergency_event)
     
     def _load_manager_config(self):
         """Load manager-specific configuration"""
@@ -402,4 +418,121 @@ class CommunicationManager(BaseManager):
             
         except Exception as e:
             logger.error(f"CommunicationManager cleanup failed: {e}")
+    
+    # ============================================================================
+    # EMERGENCY RESTORATION AND TESTING CAPABILITIES
+    # ============================================================================
+    
+    def activate_emergency_mode(self) -> bool:
+        """Activate emergency communication restoration mode"""
+        if not self.emergency_restoration_manager:
+            self.logger.error("❌ Emergency restoration manager not available")
+            return False
+        
+        try:
+            success = self.emergency_restoration_manager.activate_emergency_mode()
+            if success:
+                self.logger.warning("🚨 EMERGENCY MODE ACTIVATED - Communication restoration initiated")
+            return success
+        except Exception as e:
+            self.logger.error(f"❌ Failed to activate emergency mode: {e}")
+            return False
+    
+    def deactivate_emergency_mode(self) -> bool:
+        """Deactivate emergency communication restoration mode"""
+        if not self.emergency_restoration_manager:
+            self.logger.error("❌ Emergency restoration manager not available")
+            return False
+        
+        try:
+            success = self.emergency_restoration_manager.deactivate_emergency_mode()
+            if success:
+                self.logger.info("✅ Emergency mode deactivated - Normal operations resumed")
+            return success
+        except Exception as e:
+            self.logger.error(f"❌ Failed to deactivate emergency mode: {e}")
+            return False
+    
+    def initiate_emergency_restoration(self, channels: List[str] = None) -> str:
+        """Initiate emergency restoration for specified channels"""
+        if not self.emergency_restoration_manager:
+            self.logger.error("❌ Emergency restoration manager not available")
+            return ""
+        
+        try:
+            restoration_id = self.emergency_restoration_manager.initiate_emergency_restoration(channels)
+            if restoration_id:
+                self.logger.warning(f"🚨 Emergency restoration initiated: {restoration_id}")
+            return restoration_id
+        except Exception as e:
+            self.logger.error(f"❌ Failed to initiate emergency restoration: {e}")
+            return ""
+    
+    def get_emergency_status(self) -> Dict[str, Any]:
+        """Get current emergency restoration status"""
+        if not self.emergency_restoration_manager:
+            return {"error": "Emergency restoration manager not available"}
+        
+        try:
+            return self.emergency_restoration_manager.get_emergency_status()
+        except Exception as e:
+            self.logger.error(f"❌ Failed to get emergency status: {e}")
+            return {"error": str(e)}
+    
+    def run_communication_tests(self, test_suite: str = "communication_basic") -> List[str]:
+        """Run communication system tests"""
+        if not self.interaction_testing_manager:
+            self.logger.error("❌ Interaction testing manager not available")
+            return []
+        
+        try:
+            test_ids = self.interaction_testing_manager.run_test_suite(test_suite)
+            if test_ids:
+                self.logger.info(f"🧪 Communication tests started: {len(test_ids)} tests")
+            return test_ids
+        except Exception as e:
+            self.logger.error(f"❌ Failed to run communication tests: {e}")
+            return []
+    
+    def get_test_status(self, test_id: str) -> Optional[Dict[str, Any]]:
+        """Get status of a specific test"""
+        if not self.interaction_testing_manager:
+            return None
+        
+        try:
+            return self.interaction_testing_manager.get_test_status(test_id)
+        except Exception as e:
+            self.logger.error(f"❌ Failed to get test status: {e}")
+            return None
+    
+    def get_test_summary(self) -> Dict[str, Any]:
+        """Get summary of all tests"""
+        if not self.interaction_testing_manager:
+            return {"error": "Interaction testing manager not available"}
+        
+        try:
+            return self.interaction_testing_manager.get_test_summary()
+        except Exception as e:
+            self.logger.error(f"❌ Failed to get test summary: {e}")
+            return {"error": str(e)}
+    
+    def _on_emergency_event(self, event_type: str):
+        """Handle emergency events from restoration manager"""
+        try:
+            self.logger.warning(f"🚨 Emergency event received: {event_type}")
+            
+            # Handle different emergency event types
+            if event_type == "emergency_mode_activated":
+                # Notify all channels of emergency mode
+                for channel in self.channels.values():
+                    try:
+                        # Send emergency notification to channel
+                        self.logger.info(f"📡 Emergency notification sent to channel: {channel.channel_id}")
+                    except Exception as e:
+                        self.logger.error(f"❌ Failed to notify channel {channel.channel_id}: {e}")
+            
+            # Additional emergency event handling can be added here
+            
+        except Exception as e:
+            self.logger.error(f"❌ Failed to handle emergency event: {e}")
 

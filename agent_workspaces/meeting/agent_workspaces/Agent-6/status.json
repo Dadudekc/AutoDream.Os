@@ -46,9 +46,9 @@
     "quality_score": "V2_COMPLIANCE_EXCELLENT"
   },
   "communication": {
-    "last_devlog_update": "2025-01-27 14:50:00",
-    "last_inbox_check": "2025-01-27 14:50:00",
-    "messages_sent": 1,
+    "last_devlog_update": "2025-01-27 15:00:00",
+    "last_inbox_check": "2025-01-27 15:00:00",
+    "messages_sent": 2,
     "messages_received": 2,
     "coordination_needed": true
   },

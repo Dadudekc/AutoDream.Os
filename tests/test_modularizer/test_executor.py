@@ -11,7 +11,7 @@ from typing import Callable, Dict, Any
 from .models import TestStatus, RegressionTestResult
 
 
-class TestExecutor:
+class RegressionTestExecutor:
     """Handles execution of individual tests with timeout protection."""
     
     def __init__(self, timeout_default: float = 30.0):

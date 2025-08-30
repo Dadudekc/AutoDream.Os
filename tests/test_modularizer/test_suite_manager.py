@@ -9,13 +9,13 @@ import time
 from datetime import datetime
 from typing import Dict, Any, List, Callable
 from .models import TestStatus, RegressionTestSuite
-from .test_executor import TestExecutor
+from .test_executor import RegressionTestExecutor
 
 
-class TestSuiteManager:
+class RegressionTestSuiteManager:
     """Manages test suites and their execution."""
     
-    def __init__(self, test_executor: TestExecutor):
+    def __init__(self, test_executor: RegressionTestExecutor):
         self.test_executor = test_executor
         self.test_suites = {}
         self.test_results = {}

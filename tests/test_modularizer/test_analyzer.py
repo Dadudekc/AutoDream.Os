@@ -9,7 +9,7 @@ from typing import Dict, Any, List
 from .models import TestStatus
 
 
-class TestAnalyzer:
+class RegressionTestAnalyzer:
     """Analyzes test results and provides compliance assessment."""
     
     def __init__(self):

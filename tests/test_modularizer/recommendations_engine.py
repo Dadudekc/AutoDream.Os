@@ -1,246 +1,177 @@
 #!/usr/bin/env python3
 """
-Recommendations Engine - Coverage improvement recommendations.
+Recommendations Engine - Generates coverage improvement recommendations.
 
-This module generates actionable recommendations for improving test coverage
-based on coverage metrics and risk assessment.
-V2 COMPLIANT: Focused module under 150 lines
+This module provides intelligent recommendations for improving test coverage.
 """
 
 from typing import Dict, List, Any
-from .coverage_models import CoverageMetric, RiskAssessment
+from .coverage_models import CoverageMetric
 
 
 class RecommendationsEngine:
-    """
-    Engine for generating coverage improvement recommendations.
-    
-    This class handles:
-    - Coverage improvement recommendations
-    - Risk-based suggestions
-    - Actionable improvement steps
-    - Priority-based recommendations
-    """
+    """Generates intelligent recommendations for coverage improvement."""
     
     def __init__(self):
-        """Initialize the recommendations engine."""
-        self.improvement_strategies = self._initialize_improvement_strategies()
-        
-    def _initialize_improvement_strategies(self) -> Dict[str, List[str]]:
-        """Initialize improvement strategies for different coverage levels."""
+        self.recommendation_templates = self._initialize_templates()
+    
+    def _initialize_templates(self) -> Dict[str, List[str]]:
+        """Initialize recommendation templates for different scenarios."""
         return {
-            "critical": [
-                "Implement comprehensive unit testing strategy",
-                "Focus on core functionality testing first",
-                "Add basic smoke tests for all functions",
-                "Establish minimum coverage thresholds",
-                "Prioritize high-impact areas"
+            "line_coverage": [
+                "Add test cases to cover lines {lines} in {function}",
+                "Create edge case tests for {function} to improve line coverage",
+                "Add boundary condition tests for {function}"
             ],
-            "high": [
-                "Expand unit test coverage systematically",
-                "Add integration tests for complex interactions",
-                "Implement test-driven development practices",
-                "Focus on uncovered functions and classes",
-                "Add edge case testing"
+            "function_coverage": [
+                "Create unit tests for uncovered function '{function}'",
+                "Add integration tests for {function}",
+                "Test error handling paths in {function}"
             ],
-            "medium": [
-                "Fill gaps in existing test coverage",
-                "Add boundary condition tests",
-                "Improve test quality and maintainability",
-                "Consider property-based testing",
-                "Add performance testing where appropriate"
+            "class_coverage": [
+                "Add unit tests for class '{class_name}'",
+                "Test all methods in {class_name}",
+                "Create mock objects for {class_name} dependencies"
             ],
-            "low": [
-                "Fine-tune existing test coverage",
-                "Add advanced testing techniques",
-                "Focus on edge cases and error conditions",
-                "Implement continuous coverage monitoring",
-                "Consider mutation testing"
+            "branch_coverage": [
+                "Add tests for conditional branches in {function}",
+                "Test both true and false paths in {function}",
+                "Cover exception handling in {function}"
             ]
         }
     
-    def generate_coverage_recommendations(self, coverage_metrics: Dict[str, CoverageMetric], 
-                                        risk_assessment: RiskAssessment) -> List[str]:
-        """
-        Generate comprehensive coverage improvement recommendations.
-        
-        Args:
-            coverage_metrics: Dictionary of coverage metrics
-            risk_assessment: Risk assessment results
-            
-        Returns:
-            List of actionable recommendations
-        """
-        try:
-            recommendations = []
-            
-            # Add risk-based recommendations
-            recommendations.extend(self._get_risk_based_recommendations(risk_assessment))
-            
-            # Add metric-specific recommendations
-            recommendations.extend(self._get_metric_based_recommendations(coverage_metrics))
-            
-            # Add general improvement recommendations
-            recommendations.extend(self._get_general_recommendations(coverage_metrics, risk_assessment))
-            
-            # Prioritize and deduplicate recommendations
-            prioritized_recommendations = self._prioritize_recommendations(recommendations)
-            
-            return prioritized_recommendations[:10]  # Limit to top 10
-            
-        except Exception as e:
-            return [f"Error generating recommendations: {e}"]
-    
-    def _get_risk_based_recommendations(self, risk_assessment: RiskAssessment) -> List[str]:
-        """Get recommendations based on risk level."""
+    def generate_coverage_recommendations(self, metrics: Dict[str, CoverageMetric],
+                                       uncovered_areas: List[str]) -> List[str]:
+        """Generate comprehensive coverage improvement recommendations."""
         recommendations = []
         
-        risk_level = risk_assessment.overall_risk.lower()
+        # Generate metric-specific recommendations
+        for metric_name, metric in metrics.items():
+            if metric.value < metric.target:
+                metric_recommendations = self._generate_metric_recommendations(
+                    metric_name, metric, uncovered_areas
+                )
+                recommendations.extend(metric_recommendations)
         
-        if risk_level in self.improvement_strategies:
-            recommendations.extend(self.improvement_strategies[risk_level])
+        # Generate general recommendations based on overall performance
+        general_recommendations = self._generate_general_recommendations(metrics)
+        recommendations.extend(general_recommendations)
         
-        # Add specific risk factor recommendations
-        for factor in risk_assessment.risk_factors[:3]:  # Top 3 factors
-            if "function" in factor.lower():
-                recommendations.append("Add unit tests for uncovered functions")
-            elif "class" in factor.lower():
-                recommendations.append("Implement class-level testing strategy")
-            elif "branch" in factor.lower():
-                recommendations.append("Add branch coverage testing")
-            elif "coverage" in factor.lower() and "low" in factor.lower():
-                recommendations.append("Implement comprehensive testing strategy")
+        # Generate specific recommendations for uncovered areas
+        specific_recommendations = self._generate_specific_recommendations(uncovered_areas)
+        recommendations.extend(specific_recommendations)
+        
+        # Prioritize recommendations
+        prioritized_recommendations = self._prioritize_recommendations(recommendations, metrics)
+        
+        return prioritized_recommendations
+    
+    def _generate_metric_recommendations(self, metric_name: str, metric: CoverageMetric,
+                                       uncovered_areas: List[str]) -> List[str]:
+        """Generate recommendations for a specific metric."""
+        recommendations = []
+        
+        if metric_name == "line_coverage":
+            if metric.value < 50.0:
+                recommendations.append("CRITICAL: Line coverage is extremely low. Focus on basic functionality tests first.")
+            elif metric.value < 75.0:
+                recommendations.append("HIGH PRIORITY: Line coverage needs significant improvement. Add comprehensive test cases.")
+            else:
+                recommendations.append(f"Increase line coverage from {metric.value:.1f}% to at least {metric.target:.1f}%")
+        
+        elif metric_name == "function_coverage":
+            if metric.value < 80.0:
+                recommendations.append("HIGH PRIORITY: Many functions are untested. Create unit tests for all public functions.")
+            else:
+                recommendations.append(f"Improve function coverage from {metric.value:.1f}% to {metric.target:.1f}%")
+        
+        elif metric_name == "class_coverage":
+            if metric.value < 70.0:
+                recommendations.append("HIGH PRIORITY: Class coverage is poor. Test all class methods and constructors.")
+            else:
+                recommendations.append(f"Enhance class coverage from {metric.value:.1f}% to {metric.target:.1f}%")
+        
+        elif metric_name == "branch_coverage":
+            if metric.value < 60.0:
+                recommendations.append("CRITICAL: Branch coverage is very low. Test all conditional paths and edge cases.")
+            else:
+                recommendations.append(f"Improve branch coverage from {metric.value:.1f}% to {metric.target:.1f}%")
         
         return recommendations
     
-    def _get_metric_based_recommendations(self, coverage_metrics: Dict[str, CoverageMetric]) -> List[str]:
-        """Get recommendations based on specific metric failures."""
+    def _generate_general_recommendations(self, metrics: Dict[str, CoverageMetric]) -> List[str]:
+        """Generate general improvement recommendations."""
         recommendations = []
         
-        for metric_name, metric in coverage_metrics.items():
-            if not metric.is_passing():
-                gap = metric.get_gap()
-                
-                if metric_name == "line_coverage":
-                    if gap > 20:
-                        recommendations.append(f"CRITICAL: Line coverage {gap:.1f}% below target - implement comprehensive testing")
-                    else:
-                        recommendations.append(f"Improve line coverage by {gap:.1f}% to meet target")
-                
-                elif metric_name == "function_coverage":
-                    if gap > 15:
-                        recommendations.append(f"HIGH: Function coverage {gap:.1f}% below target - add unit tests for uncovered functions")
-                    else:
-                        recommendations.append(f"Add tests for {gap:.1f}% of uncovered functions")
-                
-                elif metric_name == "class_coverage":
-                    if gap > 15:
-                        recommendations.append(f"HIGH: Class coverage {gap:.1f}% below target - implement class testing strategy")
-                    else:
-                        recommendations.append(f"Add tests for {gap:.1f}% of uncovered classes")
-                
-                elif metric_name == "branch_coverage":
-                    if gap > 20:
-                        recommendations.append(f"MEDIUM: Branch coverage {gap:.1f}% below target - add conditional testing")
-                    else:
-                        recommendations.append(f"Improve branch coverage by {gap:.1f}%")
+        # Check for overall patterns
+        failing_metrics = [m for m in metrics.values() if m.status == "FAILING"]
+        warning_metrics = [m for m in metrics.values() if m.status == "WARNING"]
+        
+        if len(failing_metrics) >= 3:
+            recommendations.append("CRITICAL: Multiple metrics are failing. Consider comprehensive test suite overhaul.")
+        elif len(failing_metrics) >= 2:
+            recommendations.append("HIGH PRIORITY: Several metrics need attention. Focus on most critical areas first.")
+        
+        if len(warning_metrics) >= 2:
+            recommendations.append("MEDIUM PRIORITY: Multiple metrics are in warning range. Plan improvements for next iteration.")
+        
+        # Check for specific metric combinations
+        if "line_coverage" in metrics and "function_coverage" in metrics:
+            line_metric = metrics["line_coverage"]
+            func_metric = metrics["function_coverage"]
+            
+            if line_metric.value < func_metric.value:
+                recommendations.append("Focus on line coverage - functions are tested but not all code paths are covered.")
+            elif func_metric.value < line_metric.value:
+                recommendations.append("Focus on function coverage - add tests for untested functions.")
         
         return recommendations
     
-    def _get_general_recommendations(self, coverage_metrics: Dict[str, CoverageMetric], 
-                                   risk_assessment: RiskAssessment) -> List[str]:
-        """Get general improvement recommendations."""
+    def _generate_specific_recommendations(self, uncovered_areas: List[str]) -> List[str]:
+        """Generate specific recommendations based on uncovered areas."""
         recommendations = []
         
-        # Coverage improvement strategies
-        if risk_assessment.overall_risk in ["CRITICAL", "HIGH"]:
-            recommendations.append("Establish testing standards and guidelines")
-            recommendations.append("Implement automated testing in CI/CD pipeline")
-            recommendations.append("Set up coverage monitoring and reporting")
-            recommendations.append("Provide testing training for development team")
-        
-        # Quality improvement
-        if any(metric.risk_level == "HIGH" for metric in coverage_metrics.values()):
-            recommendations.append("Review and improve existing test quality")
-            recommendations.append("Implement test code review process")
-            recommendations.append("Add test coverage requirements to pull requests")
-        
-        # Maintenance and monitoring
-        recommendations.append("Regularly review and update test coverage targets")
-        recommendations.append("Monitor coverage trends over time")
-        recommendations.append("Set up alerts for coverage drops")
+        for area in uncovered_areas:
+            if "Function" in area:
+                func_name = area.split("'")[1] if "'" in area else "unknown"
+                recommendations.append(f"Create unit tests for function '{func_name}'")
+            elif "Class" in area:
+                class_name = area.split("'")[1] if "'" in area else "unknown"
+                recommendations.append(f"Add comprehensive tests for class '{class_name}'")
+            elif "Line coverage" in area:
+                recommendations.append("Add test cases to cover untested lines")
+            elif "Branch coverage" in area:
+                recommendations.append("Test all conditional branches and edge cases")
         
         return recommendations
     
-    def _prioritize_recommendations(self, recommendations: List[str]) -> List[str]:
-        """Prioritize recommendations based on importance and urgency."""
-        try:
-            # Define priority keywords
-            priority_keywords = {
-                "CRITICAL": 1,
-                "HIGH": 2,
-                "MEDIUM": 3,
-                "LOW": 4
-            }
-            
-            # Score recommendations based on priority keywords
-            scored_recommendations = []
-            for rec in recommendations:
-                score = 5  # Default priority
-                for keyword, priority in priority_keywords.items():
-                    if keyword in rec.upper():
-                        score = priority
-                        break
-                
-                scored_recommendations.append((score, rec))
-            
-            # Sort by priority (lower score = higher priority)
-            scored_recommendations.sort(key=lambda x: x[0])
-            
-            # Return recommendations without scores
-            return [rec for _, rec in scored_recommendations]
-            
-        except Exception:
-            return recommendations  # Return original if prioritization fails
-    
-    def get_quick_win_recommendations(self, coverage_metrics: Dict[str, CoverageMetric]) -> List[str]:
-        """Get quick win recommendations for immediate improvement."""
-        quick_wins = []
+    def _prioritize_recommendations(self, recommendations: List[str],
+                                  metrics: Dict[str, CoverageMetric]) -> List[str]:
+        """Prioritize recommendations based on urgency and impact."""
+        if not recommendations:
+            return []
         
-        for metric_name, metric in coverage_metrics.items():
-            if not metric.is_passing():
-                gap = metric.get_gap()
-                
-                # Quick wins for small gaps
-                if gap <= 10:
-                    if metric_name == "function_coverage":
-                        quick_wins.append(f"Quick win: Add tests for {gap:.1f}% of uncovered functions")
-                    elif metric_name == "class_coverage":
-                        quick_wins.append(f"Quick win: Add tests for {gap:.1f}% of uncovered classes")
-                    elif metric_name == "line_coverage":
-                        quick_wins.append(f"Quick win: Improve line coverage by {gap:.1f}%")
+        # Categorize recommendations by priority
+        critical = []
+        high = []
+        medium = []
+        low = []
         
-        return quick_wins[:3]  # Top 3 quick wins
-    
-    def get_long_term_recommendations(self, risk_assessment: RiskAssessment) -> List[str]:
-        """Get long-term strategic recommendations."""
-        long_term = []
+        for rec in recommendations:
+            if any(keyword in rec.upper() for keyword in ["CRITICAL", "EXTREMELY LOW", "VERY LOW"]):
+                critical.append(rec)
+            elif any(keyword in rec.upper() for keyword in ["HIGH PRIORITY", "SIGNIFICANT", "MANY"]):
+                high.append(rec)
+            elif any(keyword in rec.upper() for keyword in ["MEDIUM PRIORITY", "CONSIDER", "PLAN"]):
+                medium.append(rec)
+            else:
+                low.append(rec)
         
-        if risk_assessment.overall_risk in ["CRITICAL", "HIGH"]:
-            long_term.extend([
-                "Establish comprehensive testing culture and practices",
-                "Implement test-driven development methodology",
-                "Set up continuous testing and quality gates",
-                "Develop testing expertise within the team",
-                "Create testing standards and best practices"
-            ])
-        else:
-            long_term.extend([
-                "Maintain high testing standards",
-                "Continuously improve test quality",
-                "Explore advanced testing techniques",
-                "Implement automated quality monitoring",
-                "Regular testing process optimization"
-            ])
+        # Return prioritized list
+        prioritized = []
+        prioritized.extend(critical)
+        prioritized.extend(high)
+        prioritized.extend(medium)
+        prioritized.extend(low)
         
-        return long_term[:5]  # Top 5 long-term recommendations
+        return prioritized

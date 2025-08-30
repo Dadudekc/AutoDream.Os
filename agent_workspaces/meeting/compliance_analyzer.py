@@ -1,351 +1,259 @@
 #!/usr/bin/env python3
 """
 Compliance Analyzer Module
-==========================
+V2 Compliance: File analysis and compliance checking functionality
 
-Handles compliance analysis and reporting operations.
-Follows V2 standards: ≤400 LOC, SRP, OOP principles.
-
-Author: V2 SWARM CAPTAIN
-License: MIT
+This module contains the ComplianceAnalyzer class that analyzes files for
+V2 coding standards compliance while maintaining V2 compliance limits.
 """
 
-import json
-import os
+import re
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from datetime import datetime
-from dataclasses import dataclass, asdict
-
-from .standards_core import StandardsCore, FileComplianceReport, StandardsViolation
-
-
-@dataclass
-class ComplianceSummary:
-    """Summary of compliance analysis"""
-    timestamp: str
-    overall_compliance: float
-    total_files: int
-    compliant_files: int
-    violation_counts: Dict[str, int]
-    average_scores: Dict[str, float]
-    recommendations: List[str]
+from typing import Dict, List, Any
 
 
 class ComplianceAnalyzer:
-    """Analyzes codebase compliance with coding standards"""
+    """
+    File compliance analyzer for V2 coding standards.
     
-    def __init__(self, standards_core: StandardsCore):
-        self.standards_core = standards_core
-        self.analysis_results: List[FileComplianceReport] = []
+    Single Responsibility: Analyze files for coding standards compliance.
+    Follows V2 standards: ≤400 LOC, OOP design, SRP compliance.
+    """
+    
+    def __init__(self, standards_config: Dict[str, Any]):
+        self.standards_config = standards_config
+    
+    def analyze_codebase(self, workspace_root: Path) -> Dict[str, Any]:
+        """
+        Analyze the entire codebase for V2 coding standards compliance.
         
-    def analyze_codebase_compliance(self, src_directories: Optional[List[str]] = None) -> ComplianceSummary:
-        """Analyze the entire codebase for coding standards compliance"""
-        try:
-            if src_directories is None:
-                src_directories = ["src", "agent_workspaces", "scripts"]
+        Args:
+            workspace_root: Root path of the workspace
             
-            self.analysis_results.clear()
-            
-            # Analyze each source directory
-            for src_dir in src_directories:
-                src_path = self.standards_core.workspace_root / src_dir
-                if src_path.exists():
-                    self._analyze_directory(src_path)
-            
-            # Generate compliance summary
-            summary = self._generate_compliance_summary()
-            
-            return summary
-            
-        except Exception as e:
-            # Return error summary
-            return ComplianceSummary(
-                timestamp=datetime.now().isoformat(),
-                overall_compliance=0.0,
-                total_files=0,
-                compliant_files=0,
-                violation_counts={},
-                average_scores={},
-                recommendations=[f"Analysis error: {str(e)}"]
-            )
-    
-    def _analyze_directory(self, directory_path: Path) -> None:
-        """Analyze all Python files in a directory recursively"""
-        try:
-            # Find all Python files
-            python_files = list(directory_path.rglob("*.py"))
+        Returns:
+            Dict containing compliance analysis and violation details
+        """
+        compliance_report = {
+            "timestamp": datetime.now().isoformat(),
+            "overall_compliance": 0.0,
+            "total_files": 0,
+            "compliant_files": 0,
+            "violations": {
+                "line_count": [],
+                "oop_design": [],
+                "single_responsibility": [],
+                "cli_interface": [],
+                "smoke_tests": []
+            },
+            "recommendations": []
+        }
+        
+        # Scan Python files in src directory
+        src_path = workspace_root / "src"
+        if src_path.exists():
+            python_files = list(src_path.rglob("*.py"))
+            compliance_report["total_files"] = len(python_files)
             
             for file_path in python_files:
-                # Skip certain directories
-                if self._should_skip_file(file_path):
-                    continue
-                
-                # Analyze file compliance
-                compliance_report = self.standards_core.analyze_file_standards_compliance(file_path)
-                self.analysis_results.append(compliance_report)
-                
-        except Exception as e:
-            print(f"Error analyzing directory {directory_path}: {e}")
-    
-    def _should_skip_file(self, file_path: Path) -> bool:
-        """Determine if a file should be skipped from analysis"""
-        try:
-            # Skip common directories that don't need standards compliance
-            skip_patterns = [
-                "__pycache__",
-                ".git",
-                "node_modules",
-                "venv",
-                "env",
-                ".venv",
-                ".env"
-            ]
-            
-            for pattern in skip_patterns:
-                if pattern in str(file_path):
-                    return True
-            
-            # Skip certain file types
-            skip_files = [
-                "setup.py",
-                "requirements.txt",
-                "README.md"
-            ]
-            
-            if file_path.name in skip_files:
-                return True
-            
-            return False
-            
-        except Exception:
-            return False
-    
-    def _generate_compliance_summary(self) -> ComplianceSummary:
-        """Generate comprehensive compliance summary from analysis results"""
-        try:
-            if not self.analysis_results:
-                return ComplianceSummary(
-                    timestamp=datetime.now().isoformat(),
-                    overall_compliance=0.0,
-                    total_files=0,
-                    compliant_files=0,
-                    violation_counts={},
-                    average_scores={},
-                    recommendations=[]
-                )
-            
-            total_files = len(self.analysis_results)
-            compliant_files = sum(1 for r in self.analysis_results if r.compliant)
-            overall_compliance = (compliant_files / total_files) * 100 if total_files > 0 else 0.0
-            
-            # Count violations by type
-            violation_counts = {}
-            for report in self.analysis_results:
-                for violation in report.violations:
-                    violation_type = violation.violation_type
-                    violation_counts[violation_type] = violation_counts.get(violation_type, 0) + 1
-            
-            # Calculate average scores
-            average_scores = self._calculate_average_scores()
-            
-            # Generate recommendations
-            recommendations = self._generate_recommendations(violation_counts, average_scores)
-            
-            return ComplianceSummary(
-                timestamp=datetime.now().isoformat(),
-                overall_compliance=overall_compliance,
-                total_files=total_files,
-                compliant_files=compliant_files,
-                violation_counts=violation_counts,
-                average_scores=average_scores,
-                recommendations=recommendations
-            )
-            
-        except Exception as e:
-            return ComplianceSummary(
-                timestamp=datetime.now().isoformat(),
-                overall_compliance=0.0,
-                total_files=0,
-                compliant_files=0,
-                violation_counts={},
-                average_scores={},
-                recommendations=[f"Error generating summary: {str(e)}"]
-            )
-    
-    def _calculate_average_scores(self) -> Dict[str, float]:
-        """Calculate average scores across all analyzed files"""
-        try:
-            scores = {
-                "oop_score": [],
-                "srp_score": [],
-                "cli_score": [],
-                "test_score": []
-            }
-            
-            for report in self.analysis_results:
-                scores["oop_score"].append(report.oop_score)
-                scores["srp_score"].append(report.srp_score)
-                scores["cli_score"].append(report.cli_score)
-                scores["test_score"].append(report.test_score)
-            
-            average_scores = {}
-            for score_type, score_list in scores.items():
-                if score_list:
-                    average_scores[score_type] = sum(score_list) / len(score_list)
+                file_analysis = self._analyze_file_standards_compliance(file_path)
+                if file_analysis["compliant"]:
+                    compliance_report["compliant_files"] += 1
                 else:
-                    average_scores[score_type] = 0.0
-            
-            return average_scores
-            
-        except Exception:
-            return {
-                "oop_score": 0.0,
-                "srp_score": 0.0,
-                "cli_score": 0.0,
-                "test_score": 0.0
-            }
+                    for violation_type, details in file_analysis["violations"].items():
+                        if details:
+                            compliance_report["violations"][violation_type].append({
+                                "file": str(file_path),
+                                "details": details
+                            })
+        
+        # Calculate overall compliance
+        if compliance_report["total_files"] > 0:
+            compliance_report["overall_compliance"] = (
+                compliance_report["compliant_files"] / compliance_report["total_files"]
+            ) * 100
+        
+        # Generate recommendations
+        compliance_report["recommendations"] = self._generate_standards_recommendations(
+            compliance_report["violations"]
+        )
+        
+        return compliance_report
     
-    def _generate_recommendations(self, violation_counts: Dict[str, int], 
-                                 average_scores: Dict[str, float]) -> List[str]:
-        """Generate recommendations based on analysis results"""
+    def _analyze_file_standards_compliance(self, file_path: Path) -> Dict[str, Any]:
+        """
+        Analyze a single file for V2 coding standards compliance.
+        
+        Args:
+            file_path: Path to the Python file to analyze
+            
+        Returns:
+            Dict containing compliance analysis for the file
+        """
         try:
-            recommendations = []
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                lines = content.split('\n')
             
-            # Line count violations
-            if "line_count" in violation_counts:
-                count = violation_counts["line_count"]
-                recommendations.append(f"Refactor {count} files to meet line count limits (≤400 LOC)")
-            
-            # OOP design violations
-            if "oop_design" in violation_counts:
-                count = violation_counts["oop_design"]
-                recommendations.append(f"Improve OOP design in {count} files")
-            
-            # Single responsibility violations
-            if "single_responsibility" in violation_counts:
-                count = violation_counts["single_responsibility"]
-                recommendations.append(f"Apply single responsibility principle to {count} files")
-            
-            # CLI interface violations
-            if "cli_interface" in violation_counts:
-                count = violation_counts["cli_interface"]
-                recommendations.append(f"Add CLI interfaces to {count} files")
-            
-            # Smoke tests violations
-            if "smoke_tests" in violation_counts:
-                count = violation_counts["smoke_tests"]
-                recommendations.append(f"Add smoke tests to {count} files")
-            
-            # Score-based recommendations
-            oop_score = average_scores.get("oop_score", 0.0)
-            if oop_score < 0.6:
-                recommendations.append("Focus on improving overall OOP design across the codebase")
-            
-            srp_score = average_scores.get("srp_score", 0.0)
-            if srp_score < 0.6:
-                recommendations.append("Emphasize single responsibility principle in code reviews")
-            
-            cli_score = average_scores.get("cli_score", 0.0)
-            if cli_score < 0.5:
-                recommendations.append("Prioritize adding CLI interfaces to improve usability")
-            
-            test_score = average_scores.get("test_score", 0.0)
-            if test_score < 0.5:
-                recommendations.append("Increase test coverage with smoke tests")
-            
-            if not recommendations:
-                recommendations.append("Codebase is well-compliant with V2 standards")
-            
-            return recommendations
-            
-        except Exception:
-            return ["Error generating recommendations"]
-    
-    def get_violation_details(self, violation_type: Optional[str] = None) -> List[StandardsViolation]:
-        """Get detailed violation information"""
-        try:
-            all_violations = []
-            
-            for report in self.analysis_results:
-                if violation_type is None:
-                    all_violations.extend(report.violations)
-                else:
-                    for violation in report.violations:
-                        if violation.violation_type == violation_type:
-                            all_violations.append(violation)
-            
-            return all_violations
-            
-        except Exception:
-            return []
-    
-    def get_files_by_compliance_status(self, compliant: bool = True) -> List[str]:
-        """Get list of files by compliance status"""
-        try:
-            if compliant:
-                return [r.file_path for r in self.analysis_results if r.compliant]
-            else:
-                return [r.file_path for r in self.analysis_results if not r.compliant]
-                
-        except Exception:
-            return []
-    
-    def export_compliance_report(self, output_file: str) -> bool:
-        """Export comprehensive compliance report to JSON file"""
-        try:
-            summary = self._generate_compliance_summary()
-            
-            report_data = {
-                "summary": asdict(summary),
-                "file_reports": [asdict(r) for r in self.analysis_results],
-                "export_timestamp": datetime.now().isoformat()
+            analysis = {
+                "file": str(file_path),
+                "compliant": True,
+                "line_count": len(lines),
+                "violations": {},
+                "recommendations": []
             }
             
-            with open(output_file, 'w') as f:
-                json.dump(report_data, f, indent=2, default=str)
+            # Check line count compliance
+            loc_violation = self._check_line_count_compliance(file_path, lines)
+            if loc_violation:
+                analysis["compliant"] = False
+                analysis["violations"]["line_count"] = loc_violation
             
-            return True
+            # Check OOP design compliance
+            oop_violation = self._check_oop_design_compliance(content)
+            if oop_violation:
+                analysis["compliant"] = False
+                analysis["violations"]["oop_design"] = oop_violation
             
-        except Exception:
-            return False
-    
-    def get_compliance_trends(self) -> Dict[str, Any]:
-        """Get compliance trends and statistics"""
-        try:
-            if not self.analysis_results:
-                return {"error": "No analysis results available"}
+            # Check CLI interface compliance
+            cli_violation = self._check_cli_interface_compliance(content)
+            if cli_violation:
+                analysis["compliant"] = False
+                analysis["violations"]["cli_interface"] = cli_violation
             
-            # Group by directory
-            directory_stats = {}
-            for report in self.analysis_results:
-                file_path = Path(report.file_path)
-                directory = file_path.parent.name
-                
-                if directory not in directory_stats:
-                    directory_stats[directory] = {
-                        "total_files": 0,
-                        "compliant_files": 0,
-                        "total_violations": 0
-                    }
-                
-                directory_stats[directory]["total_files"] += 1
-                if report.compliant:
-                    directory_stats[directory]["compliant_files"] += 1
-                directory_stats[directory]["total_violations"] += len(report.violations)
+            # Check smoke tests compliance
+            tests_violation = self._check_smoke_tests_compliance(file_path)
+            if tests_violation:
+                analysis["compliant"] = False
+                analysis["violations"]["smoke_tests"] = tests_violation
             
-            # Calculate compliance rates by directory
-            for directory, stats in directory_stats.items():
-                stats["compliance_rate"] = (
-                    stats["compliant_files"] / stats["total_files"] * 100
-                    if stats["total_files"] > 0 else 0.0
-                )
-            
-            return {
-                "directory_compliance": directory_stats,
-                "total_analysis": len(self.analysis_results),
-                "timestamp": datetime.now().isoformat()
-            }
+            return analysis
             
         except Exception as e:
-            return {"error": str(e)}
+            return {
+                "file": str(file_path),
+                "compliant": False,
+                "error": str(e),
+                "violations": {"error": f"Could not analyze file: {e}"}
+            }
+    
+    def _check_line_count_compliance(self, file_path: Path, lines: List[str]) -> str:
+        """
+        Check if file complies with line count standards.
+        
+        Args:
+            file_path: Path to the file
+            lines: List of lines in the file
+            
+        Returns:
+            Violation message if non-compliant, empty string if compliant
+        """
+        line_count = len(lines)
+        file_name = file_path.name.lower()
+        
+        # Determine appropriate limit based on file type
+        if "test" in file_name:
+            limit = self.standards_config["test_loc_limit"]
+            file_type = "test"
+        elif "demo" in file_name or "example" in file_name:
+            limit = self.standards_config["demo_loc_limit"]
+            file_type = "demo/example"
+        elif "gui" in file_name or "frontend" in file_name or "web" in file_name:
+            limit = self.standards_config["gui_loc_limit"]
+            file_type = "GUI"
+        else:
+            limit = self.standards_config["standard_loc_limit"]
+            file_type = "standard"
+        
+        if line_count > limit:
+            return f"File exceeds {file_type} limit: {line_count} lines (limit: {limit})"
+        
+        return ""
+    
+    def _check_oop_design_compliance(self, content: str) -> str:
+        """
+        Check if file follows OOP design principles.
+        
+        Args:
+            content: File content as string
+            
+        Returns:
+            Violation message if non-compliant, empty string if compliant
+        """
+        # Check for class definitions
+        class_pattern = r'class\s+\w+'
+        classes = re.findall(class_pattern, content)
+        
+        if not classes:
+            return "No class definitions found - procedural code detected"
+        
+        # Check for proper class structure
+        if not re.search(r'class\s+\w+.*:', content):
+            return "Invalid class definition syntax"
+        
+        return ""
+    
+    def _check_cli_interface_compliance(self, content: str) -> str:
+        """
+        Check if file has CLI interface.
+        
+        Args:
+            content: File content as string
+            
+        Returns:
+            Violation message if non-compliant, empty string if compliant
+        """
+        # Check for main function or CLI interface
+        if not re.search(r'def\s+main\s*\(', content) and not re.search(r'if\s+__name__\s*==\s*[\'"]__main__[\'"]', content):
+            return "No CLI interface found - missing main function or __main__ block"
+        
+        return ""
+    
+    def _check_smoke_tests_compliance(self, file_path: Path) -> str:
+        """
+        Check if file has associated smoke tests.
+        
+        Args:
+            file_path: Path to the file
+            
+        Returns:
+            Violation message if non-compliant, empty string if compliant
+        """
+        # Look for test file in same directory
+        test_file = file_path.parent / f"test_{file_path.name}"
+        if not test_file.exists():
+            return "No associated test file found"
+        
+        return ""
+    
+    def _generate_standards_recommendations(self, violations: Dict[str, List]) -> List[str]:
+        """
+        Generate recommendations based on violations.
+        
+        Args:
+            violations: Dictionary of violations by type
+            
+        Returns:
+            List of recommendation strings
+        """
+        recommendations = []
+        
+        if violations["line_count"]:
+            recommendations.append(f"Refactor {len(violations['line_count'])} files to meet line count limits")
+        
+        if violations["oop_design"]:
+            recommendations.append(f"Convert {len(violations['oop_design'])} procedural files to OOP structure")
+        
+        if violations["cli_interface"]:
+            recommendations.append(f"Add CLI interfaces to {len(violations['cli_interface'])} modules")
+        
+        if violations["smoke_tests"]:
+            recommendations.append(f"Create smoke tests for {len(violations['smoke_tests'])} components")
+        
+        if not recommendations:
+            recommendations.append("All files are compliant with V2 standards")
+        
+        return recommendations
+
+
+# Import datetime for timestamp generation
+from datetime import datetime

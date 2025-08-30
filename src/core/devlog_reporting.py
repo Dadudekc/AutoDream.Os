@@ -59,9 +59,9 @@ def post_entry_to_discord(entry, discord_service, config, channel: Optional[str]
             agent=entry.agent_id,
             category=entry.category,
             priority=entry.metadata.get("priority", "normal"),
-            channel=channel,
         )
-    except Exception:
+    except Exception as e:
+        print(f"⚠️ Discord posting failed: {e}")
         return False
 
 

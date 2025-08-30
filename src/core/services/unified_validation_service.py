@@ -118,7 +118,7 @@ class UnifiedValidationService(BaseValidator):
         if config is None:
             config = ValidationConfig(
                 name="UnifiedValidationService",
-                description="Unified validation service",
+                validation_type=ValidationType.CUSTOM,
                 log_level="INFO"
             )
         
@@ -860,13 +860,13 @@ class UnifiedValidationService(BaseValidator):
             # Clear caches
             self.clear_cache()
             
-                        # Update state
+            # Update state
             from src.core.base.base_manager import ManagerState
             self.state = ManagerState.STOPPED
             
             self.logger.info("Unified Validation Service stopped successfully")
             
         except Exception as e:
-                        self.logger.error(f"Error stopping validation service: {e}")
+            self.logger.error(f"Error stopping validation service: {e}")
             from src.core.base.base_manager import ManagerState
             self.state = ManagerState.ERROR

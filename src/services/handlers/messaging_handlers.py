@@ -237,8 +237,14 @@ class MessagingHandlers:
             print("🚀 COMPREHENSIVE ONBOARDING messages detected - using agent identity and responsibility messages!")
             return self._send_comprehensive_onboarding(args)
         
-        # Regular bulk messaging
-        messages = {f"Agent-{i}": args.message for i in range(1, AGENT_COUNT + 1)}
+        # Regular bulk messaging with mandatory protocol append
+        base_message = args.message
+        mandatory_protocol = self._load_mandatory_protocol()
+        
+        # Append mandatory protocol to all messages
+        enhanced_message = f"{base_message}\n\n{mandatory_protocol}"
+        
+        messages = {f"Agent-{i}": enhanced_message for i in range(1, AGENT_COUNT + 1)}
 
         new_chat = False
         if args.new_chat:
@@ -250,10 +256,55 @@ class MessagingHandlers:
         )
 
         if results:
-            print("✅ Bulk messaging completed successfully")
+            print("✅ Bulk messaging completed successfully with mandatory protocol")
             return True
         print("❌ Bulk messaging failed")
         return False
+
+    def _load_mandatory_protocol(self) -> str:
+        """Load the Captain's mandatory next actions protocol."""
+        try:
+            protocol_path = "docs/standards/MANDATORY_AGENT_RESPONSE_PROTOCOL.md"
+            with open(protocol_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Extract the Captain's mandatory next actions section
+            # Look for the specific section that should be appended
+            mandatory_section = """---
+
+## 🚨 **CAPTAIN'S MANDATORY NEXT ACTIONS** 🚨
+
+**AFTER SENDING THIS MESSAGE, YOU MUST:**
+
+1. **CHECK INBOX** - Review all messages in agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+2. **RESPOND TO MESSAGES** - Reply to ALL agent messages and requests
+3. **REVIEW PROJECT STATUS** - Check all agent status.json files for progress and stalls
+4. **ASSIGN NEW TASKS** - Use messaging system to assign tasks: `python -m src.services.messaging --bulk --message "TASK: [Description]"`
+5. **ACTIVATE AUTONOMOUS DEVELOPMENT** - Ensure agents are working independently
+
+**FAILURE TO EXECUTE THESE ACTIONS = CAPTAIN PROTOCOL VIOLATION**
+
+Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager"""
+            
+            return mandatory_section
+        except Exception as e:
+            logger.error(f"Failed to load mandatory protocol: {e}")
+            # Fallback to hardcoded version
+            return """---
+
+## 🚨 **CAPTAIN'S MANDATORY NEXT ACTIONS** 🚨
+
+**AFTER SENDING THIS MESSAGE, YOU MUST:**
+
+1. **CHECK INBOX** - Review all messages in agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+2. **RESPOND TO MESSAGES** - Reply to ALL agent messages and requests
+3. **REVIEW PROJECT STATUS** - Check all agent status.json files for progress and stalls
+4. **ASSIGN NEW TASKS** - Use messaging system to assign tasks: `python -m src.services.messaging --bulk --message "TASK: [Description]"`
+5. **ACTIVATE AUTONOMOUS DEVELOPMENT** - Ensure agents are working independently
+
+**FAILURE TO EXECUTE THESE ACTIONS = CAPTAIN PROTOCOL VIOLATION**
+
+Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager"""
 
     def campaign_messaging(self, args: argparse.Namespace) -> bool:
         """Handle campaign messaging."""

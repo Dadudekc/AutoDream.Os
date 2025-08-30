@@ -21,36 +21,10 @@ import asyncio
 import threading
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import logging
 
-# Configure logging for Captain-level workflow operations
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - CAPTAIN AGENT-3 - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-@dataclass
-class WorkflowMetrics:
-    """Comprehensive workflow performance metrics"""
-    current_momentum: float
-    efficiency_score: float
-    productivity_rate: float
-    workflow_velocity: float
-    acceleration_potential: float
-    innovation_readiness: float
-
-@dataclass
-class AccelerationResult:
-    """Result of workflow acceleration operation"""
-    success: bool
-    momentum_increase: float
-    acceleration_type: str
-    implementation_time: float
-    workflow_impact: str
-    innovation_score: float
+from src.captain_tools import WorkflowMetrics, AccelerationResult
 
 class PerpetualMotionAccelerator:
     """

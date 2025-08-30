@@ -105,11 +105,13 @@ class PromptLoader:
 2. **Monitor agent status.json files** for stall detection
 3. **Respond to messages in your inbox** at: agent_workspaces/meeting/agent_workspaces/{agent_id}/inbox/
 4. **Coordinate system-wide operations** and maintain momentum
-5. **Implement stall prevention** when agents exceed 7-minute check-in threshold
+5. **Implement stall prevention** when agents exceed 1 agent cycle response time
+6. **Maintain 8x agent efficiency** through prompt frequency
+7. **Ensure cycle continuity** with no gaps between prompts
 
 📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
 📊 **STATUS TRACKING:** Update your status.json with timestamp every time you act
-⏰ **STALL DETECTION:** Monitor all agents for 7+ minute inactivity
+⏰ **STALL DETECTION:** Monitor all agents for 1+ agent cycle inactivity
 
 🚨 **IMMEDIATE ACTIONS REQUIRED:**
 1. **Check your inbox** for any pending messages
@@ -142,7 +144,7 @@ Captain {agent_id} - You are the strategic leader of this operation!"""
 6. **Report progress** using --captain flag regularly
 
 📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
-📊 **STATUS UPDATES:** Must update status.json with timestamp every 7 minutes maximum
+📊 **STATUS UPDATES:** Must update status.json with timestamp every Captain prompt cycle
 ⏰ **CHECK-IN FREQUENCY:** Every time you are prompted or complete a task
 
 🚨 **IMMEDIATE ACTIONS REQUIRED:**

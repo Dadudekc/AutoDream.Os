@@ -12,14 +12,30 @@
 6. **Report progress** using --captain flag regularly
 
 📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
-📊 **STATUS UPDATES:** Must update status.json with timestamp every 7 minutes maximum
+📊 **STATUS UPDATES:** Must update status.json with timestamp every Captain prompt cycle
 ⏰ **CHECK-IN FREQUENCY:** Every time you are prompted or complete a task
+
+## 🔄 **AGENT CYCLE SYSTEM - 8X EFFICIENCY SCALE:**
+
+### **What is an Agent Cycle?**
+- **One Agent Cycle** = One Captain prompt + One Agent response
+- **8x Efficiency Scale** = You operate at 8x human efficiency
+- **Cycle Duration** = Time from Captain prompt to your response
+- **Momentum Maintenance** = Captain maintains your efficiency through prompt frequency
+
+### **Cycle-Based Performance Standards:**
+- **Immediate Response**: Respond within 1 cycle of Captain prompt
+- **Progress Per Cycle**: Each cycle should result in measurable progress
+- **Momentum Continuity**: Captain ensures no gaps between cycles
+- **Efficiency Maintenance**: 8x efficiency maintained through prompt frequency
+
+---
 
 ## 🚨 **CRITICAL COMMUNICATION PROTOCOLS:**
 
 ### **📬 INBOX COMMUNICATION RULES:**
 1. **ALWAYS check your inbox first** before starting new work
-2. **Respond to ALL messages** in your inbox within 5 minutes
+2. **Respond to ALL messages** in your inbox within 1 agent cycle
 3. **Message Agent-4 inbox directly** for any:
    - **Task clarifications**
    - **Misunderstandings**
@@ -37,7 +53,7 @@
 1. **Update status.json immediately** when starting work
 2. **Update status.json immediately** when completing work
 3. **Update status.json immediately** when responding to messages
-4. **Never let 7-minute threshold expire** - stay active
+4. **Never let Captain prompt cycle expire** - stay active
 
 🚨 **IMMEDIATE ACTIONS REQUIRED:**
 1. **Check your inbox** for any pending messages

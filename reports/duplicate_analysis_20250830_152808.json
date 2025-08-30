@@ -1,0 +1,1021 @@
+{
+  "scan_timestamp": "2025-08-30T15:28:08.116439",
+  "total_files_scanned": 4389,
+  "duplicate_groups_found": 50,
+  "total_duplicate_files": 118,
+  "potential_space_savings_mb": 2.54,
+  "priority_analysis": {
+    "660bda9dc09e01de0847bba338188c243d11df0fb28baba32b5045940a7acd77": {
+      "duplicate_count": 2,
+      "total_priority_score": 110.0,
+      "average_priority_score": 55.0,
+      "files": [
+        {
+          "path": "src\\web\\templates\\dashboard\\partials\\loading_spinner.html",
+          "priority_score": 55.0,
+          "error": "'src\\\\web\\\\templates\\\\dashboard\\\\partials\\\\loading_spinner.html' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "src\\web\\templates\\components\\loading_spinner.html",
+          "priority_score": 55.0,
+          "error": "'src\\\\web\\\\templates\\\\components\\\\loading_spinner.html' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855": {
+      "duplicate_count": 2,
+      "total_priority_score": 230.0,
+      "average_priority_score": 115.0,
+      "files": [
+        {
+          "path": "src\\communications\\__init__.py",
+          "priority_score": 115.0,
+          "error": "'src\\\\communications\\\\__init__.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "src\\database\\__init__.py",
+          "priority_score": 115.0,
+          "error": "'src\\\\database\\\\__init__.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "44e5b4efe6c3e64f1380adc74a636ef637059fa764a1a703f845e14e79dfcd25": {
+      "duplicate_count": 2,
+      "total_priority_score": 230.0,
+      "average_priority_score": 115.0,
+      "files": [
+        {
+          "path": "config\\__init__.py",
+          "priority_score": 115.0,
+          "error": "'config\\\\__init__.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\__init__.py",
+          "priority_score": 115.0,
+          "error": "'config_backup\\\\__init__.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "c8234a8593c9d248532f831af5ef7e0bbf0c5036f12fc9761e7420d7a7d5ca2d": {
+      "duplicate_count": 2,
+      "total_priority_score": 230.0,
+      "average_priority_score": 115.0,
+      "files": [
+        {
+          "path": "config\\config_loader.py",
+          "priority_score": 115.0,
+          "error": "'config\\\\config_loader.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\config_loader.py",
+          "priority_score": 115.0,
+          "error": "'config_backup\\\\config_loader.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "41265b27d7fb2aa974ffa9564c1e5cf43279218506ee401db48a769a3613ac12": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\unified_manager_system.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\unified_manager_system.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\unified_manager_system.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\unified_manager_system.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "8aeb348ca61ce5c6c13d88d18aeffc01a50adfd8795836b62960836ed6adf6f4": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\logging.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\logging.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\logging.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\logging.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "0c6a5b4fa68cfd1dc2b7814c3ac6c0b17158aa81d069005323f1136dcc5a3ce2": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agent_integration_config.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agent_integration_config.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agent_integration_config.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agent_integration_config.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "13325cbf31851746a3acc3534e493bc9e1d676f9bcd2511faa126eac7cb3db1e": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agent_integration_schema.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agent_integration_schema.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agent_integration_schema.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agent_integration_schema.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "f854805043733b58a727165878fd78e8a42983a67aaa6898ec0de40aa912ed12": {
+      "duplicate_count": 2,
+      "total_priority_score": 230.0,
+      "average_priority_score": 115.0,
+      "files": [
+        {
+          "path": "config\\config.py",
+          "priority_score": 115.0,
+          "error": "'config\\\\config.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\config.py",
+          "priority_score": 115.0,
+          "error": "'config_backup\\\\config.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "68b244062090e7955ed0a7db26f6ae9c65b5358176a911c965027b395bced048": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\emergency_response.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\emergency_response.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\emergency_response.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\emergency_response.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "82061cdcd50fea51d3106847bcb7c464464a1c9708de805c157237e67b2e0f29": {
+      "duplicate_count": 2,
+      "total_priority_score": 240.0,
+      "average_priority_score": 120.0,
+      "files": [
+        {
+          "path": "config\\manager.py",
+          "priority_score": 120.0,
+          "error": "'config\\\\manager.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\manager.py",
+          "priority_score": 120.0,
+          "error": "'config_backup\\\\manager.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "b1370a94bcf0ed965e34232b0f7d576901ba74476f02a102310aa1382775c499": {
+      "duplicate_count": 2,
+      "total_priority_score": 230.0,
+      "average_priority_score": 115.0,
+      "files": [
+        {
+          "path": "config\\repo_config.py",
+          "priority_score": 115.0,
+          "error": "'config\\\\repo_config.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\repo_config.py",
+          "priority_score": 115.0,
+          "error": "'config_backup\\\\repo_config.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "fb0f2f82675b7295f75621b92fafbda4fceeb96ae7aff4169ff8d46057dfcdb5": {
+      "duplicate_count": 2,
+      "total_priority_score": 240.0,
+      "average_priority_score": 120.0,
+      "files": [
+        {
+          "path": "config\\validator.py",
+          "priority_score": 120.0,
+          "error": "'config\\\\validator.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\validator.py",
+          "priority_score": 120.0,
+          "error": "'config_backup\\\\validator.py' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "9212689f04b331d106780d454b90d5b6f735fc387e420e3bc41ae83782575f46": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\branch_protection.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\branch_protection.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\branch_protection.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\branch_protection.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "2bbc3ddbf67137a9fc48a1d104697884f95ba4b2a86c6f62b2ff997d0496a739": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\system\\integration.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\system\\\\integration.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\integration.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\system\\\\integration.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "3c862216de939318de587baad2baef441ef081d6a150aa239469e27e0a0a3caa": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\system\\communication.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\system\\\\communication.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\communication.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\system\\\\communication.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "2fd433b94b8d0172f74f00c36e53e70be1340a0578f0cf67ab47ace0ff3bff7c": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\system\\endpoints.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\system\\\\endpoints.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\endpoints.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\system\\\\endpoints.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "d87aac4042d152a3d46d252dcb6e2ce5c2431cec8cee70522e6b2f3f9ea777f9": {
+      "duplicate_count": 2,
+      "total_priority_score": 200.0,
+      "average_priority_score": 100.0,
+      "files": [
+        {
+          "path": "config\\system\\performance.json",
+          "priority_score": 100.0,
+          "error": "'config\\\\system\\\\performance.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\performance.json",
+          "priority_score": 100.0,
+          "error": "'config_backup\\\\system\\\\performance.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "aa2eef55b2a25a5a8a341b8edc3fd0526756ba9b114ece7712890b9e1d9ce456": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\system\\agents.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\system\\\\agents.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\agents.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\system\\\\agents.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "ff7776910368daf7c5dce46f6a7de98c161bd4efa4e1017b9377033bb0d0d877": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\system\\base.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\system\\\\base.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\base.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\system\\\\base.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "ce5456f984538fb13c7800618475608ac4601de9837d12fbc665f109e9a0a7ee": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\system\\core.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\system\\\\core.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\core.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\system\\\\core.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "466d83f8e7104bf1397b863700dfe2d8d9509be0a3e9ae2648ebde12f0a77682": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\system\\logging.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\system\\\\logging.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\logging.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\system\\\\logging.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "da874791a004db3a28122b15c69a07e16d603c63828218a0bb4edc63dc4eb838": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\system\\services.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\system\\\\services.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\services.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\system\\\\services.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "23772115097235272c5765ab4fb8d21d2f28978358a1ef23f69ddfc7b51964a0": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\system\\stall_prevention_dashboard.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\system\\\\stall_prevention_dashboard.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\system\\stall_prevention_dashboard.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\system\\\\stall_prevention_dashboard.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "13f1a45a94c1dd2bc1a6bea7919555a7b6cbc71c0391d01f576c4cddbf855d74": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\services\\financial.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\services\\\\financial.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\services\\financial.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\services\\\\financial.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "b37c9c2904d0078ee1289a8ee61cb0f942adc529f2062c0e015884387cffb052": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\services\\broadcast.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\services\\\\broadcast.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\services\\broadcast.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\services\\\\broadcast.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "543790cf71b34a3edf1186e1800b91f3dc35fb37c67b7bfdab48816b0505252f": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\services\\message_queue.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\services\\\\message_queue.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\services\\message_queue.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\services\\\\message_queue.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "d466faa46ff23555b0ec955d0cf76296b3e8d15949e79d6189e061b26fe4b59b": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\services\\unified.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\services\\\\unified.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\services\\unified.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\services\\\\unified.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "d6bb70f6e8b19082faeccec2c63b45f3e4011c22e4cc5af62ea816514299c0ba": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\services\\api_gateway.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\services\\\\api_gateway.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\services\\api_gateway.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\services\\\\api_gateway.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "ffa3b44e6f7275dacb1ce4b07bee704f1385462ec8c4f4f662cf647b86b638fa": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\services\\portal.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\services\\\\portal.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\services\\portal.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\services\\\\portal.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "8152b472d19ed7dd7f7af64383f49352986cd900aae4b72bfbf271dcf480c07d": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agents\\agent_config.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agents\\\\agent_config.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agents\\agent_config.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agents\\\\agent_config.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "c1b2cb09b5d86990541360db8e61c3ebaf02ca2bffd576d515d0b7982416135b": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agents\\stall_prevention.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agents\\\\stall_prevention.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agents\\stall_prevention.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agents\\\\stall_prevention.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "7e396d9792870d411473d30b287e6e95554978352c97467630079e0cfb00e272": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agents\\stall_prevention_legacy.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agents\\\\stall_prevention_legacy.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agents\\stall_prevention_legacy.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agents\\\\stall_prevention_legacy.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "ed76965cffd57e63e591934129d6c1b878b12eb3a9a565f60d43c12839e1548a": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agents\\modes.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agents\\\\modes.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agents\\modes.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agents\\\\modes.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "c06966b01ab4863ebf9fc8a83d83e134013aef444118856dfa4bff2b8f418fdc": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\agents\\fsm_communication.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\agents\\\\fsm_communication.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\agents\\fsm_communication.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\agents\\\\fsm_communication.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "8a41c6ffac10991464c021fe464af9b425c201b53958233a8f22a3dcb87b9a44": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\development\\test.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\development\\\\test.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\development\\test.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\development\\\\test.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "6673e740ea99290f04b120ef0bfcdd7d0e798fc77f35b766d0157fad552a04f5": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\development\\warning_config.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\development\\\\warning_config.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\development\\warning_config.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\development\\\\warning_config.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "0b8cfef5034f2082c60ed0d2d7ea9a8960af8ffaaffe4a081e453ea8c2ea593e": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\development\\ci_cd.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\development\\\\ci_cd.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\development\\ci_cd.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\development\\\\ci_cd.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "785a159d300affbe1fbc7036830cb42fd9faeddfa1d477a9bff9e996f08c2ab5": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\development\\testing.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\development\\\\testing.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\development\\testing.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\development\\\\testing.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "f6c4b9e8a07cfad3221dd26c85e42531de9071ed7c2904fb4e1677675ffaa28f": {
+      "duplicate_count": 2,
+      "total_priority_score": 180.0,
+      "average_priority_score": 90.0,
+      "files": [
+        {
+          "path": "config\\ci_cd\\gitlab-ci.yml",
+          "priority_score": 90.0,
+          "error": "'config\\\\ci_cd\\\\gitlab-ci.yml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\ci_cd\\gitlab-ci.yml",
+          "priority_score": 90.0,
+          "error": "'config_backup\\\\ci_cd\\\\gitlab-ci.yml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "1f08b154ce6e4a3db768dbc279bac217778224c1d05b88e0afd1f205f0a7b735": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\ci_cd\\docker-compose.yml",
+          "priority_score": 85.0,
+          "error": "'config\\\\ci_cd\\\\docker-compose.yml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\ci_cd\\docker-compose.yml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\ci_cd\\\\docker-compose.yml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "e04c86dc7e28ad27959f4613541d858046437c418183d188add9a3a68db2fd1e": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\ai_ml\\ai_ml.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\ai_ml\\\\ai_ml.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\ai_ml\\ai_ml.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\ai_ml\\\\ai_ml.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "603b990c8203aed54bc5f53bb15ad691ee9baf3e23ca9bfa5f1542201591a375": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "config\\ai_ml\\api_keys.template.json",
+          "priority_score": 95.0,
+          "error": "'config\\\\ai_ml\\\\api_keys.template.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\ai_ml\\api_keys.template.json",
+          "priority_score": 95.0,
+          "error": "'config_backup\\\\ai_ml\\\\api_keys.template.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "ab93e8f11a0f29585ae27e3cd1883600e86bad69641fd847ce458cca2a7e61d5": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\runtime\\emergency.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\runtime\\\\emergency.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\runtime\\emergency.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\runtime\\\\emergency.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "e16fba041e1037afd1dc40cfdd8bd9c3cf3e3358d29fb378f91412ead497a96c": {
+      "duplicate_count": 2,
+      "total_priority_score": 170.0,
+      "average_priority_score": 85.0,
+      "files": [
+        {
+          "path": "config\\runtime\\monitoring.yaml",
+          "priority_score": 85.0,
+          "error": "'config\\\\runtime\\\\monitoring.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "config_backup\\runtime\\monitoring.yaml",
+          "priority_score": 85.0,
+          "error": "'config_backup\\\\runtime\\\\monitoring.yaml' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "9e3099fb30d8f7cc17b2e3eff2f9f18b6ca8bcd82e74da908737bdf7fba15b48": {
+      "duplicate_count": 2,
+      "total_priority_score": 150.0,
+      "average_priority_score": 75.0,
+      "files": [
+        {
+          "path": "agent_workspaces\\Agent-3\\inbox\\REPORT_TO_CAPTAIN_AGENT-4.md",
+          "priority_score": 75.0,
+          "error": "'agent_workspaces\\\\Agent-3\\\\inbox\\\\REPORT_TO_CAPTAIN_AGENT-4.md' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "meeting\\REPORT_TO_CAPTAIN_AGENT-4.md",
+          "priority_score": 75.0,
+          "error": "'meeting\\\\REPORT_TO_CAPTAIN_AGENT-4.md' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "7889c8cbf1d5630e7f3d9e355ca07560cf1411409f538c3e594b8c82b2df5421": {
+      "duplicate_count": 2,
+      "total_priority_score": 190.0,
+      "average_priority_score": 95.0,
+      "files": [
+        {
+          "path": "agent_workspaces\\meeting\\prompts\\agents\\role_mapping.json",
+          "priority_score": 95.0,
+          "error": "'agent_workspaces\\\\meeting\\\\prompts\\\\agents\\\\role_mapping.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "prompts\\agents\\role_mapping.json",
+          "priority_score": 95.0,
+          "error": "'prompts\\\\agents\\\\role_mapping.json' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "MEDIUM"
+    },
+    "23df17bb737b13309bc4913fc697410349a0a8eda07b817bfbd1fb206c531bf4": {
+      "duplicate_count": 2,
+      "total_priority_score": 30.0,
+      "average_priority_score": 15.0,
+      "files": [
+        {
+          "path": ".git\\refs\\heads\\agent",
+          "priority_score": 15.0,
+          "error": "'.git\\\\refs\\\\heads\\\\agent' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": ".git\\refs\\remotes\\origin\\agent",
+          "priority_score": 15.0,
+          "error": "'.git\\\\refs\\\\remotes\\\\origin\\\\agent' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "LOW"
+    },
+    "5a82f8c3395c913d24f2f3c60a3d380724fc7e53b45328ba4d7f06ce811d0282": {
+      "duplicate_count": 11,
+      "total_priority_score": 275.0,
+      "average_priority_score": 25.0,
+      "files": [
+        {
+          "path": "health_charts\\metrics_comparison_1756008641.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756008641.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756008694.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756008694.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756008756.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756008756.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756008969.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756008969.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756009043.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756009043.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756009076.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756009076.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756009130.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756009130.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756009166.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756009166.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756009201.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756009201.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756009230.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756009230.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\metrics_comparison_1756029468.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\metrics_comparison_1756029468.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "CRITICAL"
+    },
+    "1814761b0e8cc7b4176377f020b3c28159e2eb43685a02a51dd4da31787c7e22": {
+      "duplicate_count": 11,
+      "total_priority_score": 275.0,
+      "average_priority_score": 25.0,
+      "files": [
+        {
+          "path": "health_charts\\status_distribution_1756008640.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756008640.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756008693.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756008693.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756008755.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756008755.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756008968.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756008968.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756009042.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756009042.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756009075.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756009075.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756009129.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756009129.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756009164.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756009164.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756009200.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756009200.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756009229.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756009229.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        },
+        {
+          "path": "health_charts\\status_distribution_1756029466.png",
+          "priority_score": 25.0,
+          "error": "'health_charts\\\\status_distribution_1756029466.png' is not in the subpath of 'D:\\\\Agent_Cellphone_V2_Repository' OR one path is relative and the other is absolute."
+        }
+      ],
+      "consolidation_priority": "CRITICAL"
+    }
+  },
+  "summary_by_priority": {
+    "CRITICAL": {
+      "count": 2,
+      "files": 22,
+      "total_score": 550.0
+    },
+    "HIGH": {
+      "count": 0,
+      "files": 0,
+      "total_score": 0
+    },
+    "MEDIUM": {
+      "count": 47,
+      "files": 94,
+      "total_score": 8790.0
+    },
+    "LOW": {
+      "count": 1,
+      "files": 2,
+      "total_score": 30.0
+    }
+  }
+}

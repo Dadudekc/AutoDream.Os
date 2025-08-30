@@ -95,7 +95,7 @@ class ConfigMetadata:
 @dataclass
 class ConfigOptions:
     """Configuration options for loading and validation."""
-    auto_reload: bool = False
+    auto_reload: bool = True
     reload_interval: float = 300.0  # 5 minutes
     validate_on_load: bool = True
     strict_mode: bool = False

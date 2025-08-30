@@ -9,7 +9,8 @@ from ..interfaces import MessagingMode, MessageType
 from ..config import DEFAULT_COORDINATE_MODE, AGENT_COUNT, CAPTAIN_ID
 from ..contract_system_manager import ContractSystemManager
 from ..error_handler import ErrorHandler
-from ..message_queue_system import message_queue_system
+from ..prompt_loader import PromptLoader
+# Message queue system is now consolidated into UnifiedMessagingService
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ class MessagingHandlers:
         self.service = service
         self.formatter = formatter
         self.contract_manager = ContractSystemManager()
+        self.prompt_loader = PromptLoader()
 
     def message(self, args: argparse.Namespace, mode: MessagingMode) -> bool:
         """Route message commands based on arguments."""
@@ -43,20 +45,80 @@ class MessagingHandlers:
         )
 
     def _onboarding_internal(self, args: argparse.Namespace) -> bool:
+        """Generate comprehensive onboarding messages with agent identity and responsibilities"""
         contracts = self.contract_manager.list_available_contracts()
         messages: dict[str, str] = {}
+        
         for i in range(1, AGENT_COUNT + 1):
             agent_id = f"Agent-{i}"
-            base = args.message or f"Welcome {agent_id}!"
-            if i - 1 < len(contracts):
-                c = contracts[i - 1]
-                base += f" Assigned contract {c['contract_id']}: {c['title']}"
+            
+            # Determine agent role and responsibilities
+            if agent_id == "Agent-4":  # Captain
+                base = self._generate_captain_onboarding(agent_id, args.message)
+            else:  # Regular agents
+                base = self._generate_agent_onboarding(agent_id, i, contracts, args.message)
+            
             messages[agent_id] = base
+        
         results = self.service.send_bulk_messages(
             messages, DEFAULT_COORDINATE_MODE, MessageType.ONBOARDING_START, True
         )
         self.formatter.generic_results("📊 Onboarding Results:", results)
         return True
+    
+    def _generate_captain_onboarding(self, agent_id: str, custom_message: str = None) -> str:
+        """Generate comprehensive onboarding message for Captain (Agent-4)"""
+        return self.prompt_loader.load_captain_onboarding(agent_id, custom_message)
+    
+    def _generate_agent_onboarding(self, agent_id: str, agent_number: int, contracts: list, custom_message: str = None) -> str:
+        """Generate comprehensive onboarding message for regular agents"""
+        
+        # Get assigned contract if available
+        contract_info = ""
+        if agent_number - 1 < len(contracts):
+            c = contracts[agent_number - 1]
+            contract_info = f"{c['contract_id']}: {c['title']}"
+        
+        return self.prompt_loader.load_agent_onboarding(agent_id, agent_number, contract_info, custom_message)
+
+    def _send_comprehensive_onboarding(self, args: argparse.Namespace) -> bool:
+        """Send comprehensive onboarding messages to all agents with identity and responsibilities"""
+        try:
+            print("🚀 **COMPREHENSIVE ONBOARDING INITIATED**")
+            print("📋 Generating agent-specific onboarding messages...")
+            
+            # Use the same comprehensive onboarding logic
+            contracts = self.contract_manager.list_available_contracts()
+            messages: dict[str, str] = {}
+            
+            for i in range(1, AGENT_COUNT + 1):
+                agent_id = f"Agent-{i}"
+                
+                # Determine agent role and responsibilities
+                if agent_id == "Agent-4":  # Captain
+                    base = self._generate_captain_onboarding(agent_id, args.message)
+                else:  # Regular agents
+                    base = self._generate_agent_onboarding(agent_id, i, contracts, args.message)
+                
+                messages[agent_id] = base
+                print(f"✅ {agent_id}: {agent_id.split('-')[1]} onboarding message generated")
+            
+            print("📤 Sending comprehensive onboarding messages to all agents...")
+            results = self.service.send_bulk_messages(
+                messages, DEFAULT_COORDINATE_MODE, MessageType.ONBOARDING_START, True
+            )
+            
+            if results:
+                print("✅ **COMPREHENSIVE ONBOARDING COMPLETED SUCCESSFULLY!**")
+                print("🎯 All agents now know their identity, role, and responsibilities!")
+                return True
+            else:
+                print("❌ **COMPREHENSIVE ONBOARDING FAILED!**")
+                return False
+                
+        except Exception as e:
+            print(f"❌ Error in comprehensive onboarding: {e}")
+            return False
 
     def captain_message(self, args: argparse.Namespace) -> bool:
         """Handle captain message."""
@@ -127,10 +189,35 @@ class MessagingHandlers:
         )
 
     def _status_check_internal(self) -> bool:
-        statuses = message_queue_system.get_all_agent_statuses()
-        for agent_id, state in statuses.items():
-            print(f"{agent_id}: {state.status.value}")
-        return True
+        """Check status using the unified messaging service"""
+        try:
+            # Get status from the unified service
+            statuses = self.service.get_all_agent_statuses()
+            print("📊 **AGENT STATUS CHECK**")
+            print("=" * 40)
+            
+            for agent_id, state in statuses.items():
+                status_emoji = {
+                    "idle": "🟡",
+                    "working": "🟢", 
+                    "waiting": "🟠",
+                    "completed": "✅",
+                    "error": "🔴"
+                }.get(state.status.value, "❓")
+                
+                print(f"{status_emoji} {agent_id}: {state.status.value}")
+                if state.current_task:
+                    print(f"   📋 Task: {state.current_task}")
+                if state.last_activity:
+                    import time
+                    time_since = time.time() - state.last_activity
+                    print(f"   ⏰ Last Activity: {time_since:.1f}s ago")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ Status check failed: {e}")
+            return False
 
     def bulk_messaging(
         self, args: argparse.Namespace, mode: MessagingMode, message_type: MessageType
@@ -145,14 +232,18 @@ class MessagingHandlers:
     ) -> bool:
         print(f"📡 Bulk messaging to all agents via {mode.value}...")
 
+        # Check if this is onboarding - if so, use comprehensive onboarding messages
+        if args.onboarding:
+            print("🚀 COMPREHENSIVE ONBOARDING messages detected - using agent identity and responsibility messages!")
+            return self._send_comprehensive_onboarding(args)
+        
+        # Regular bulk messaging
         messages = {f"Agent-{i}": args.message for i in range(1, AGENT_COUNT + 1)}
 
         new_chat = False
-        if args.onboarding or args.new_chat:
+        if args.new_chat:
             new_chat = True
-            print("🚀 ONBOARDING messages detected - using new chat sequence!")
-            if args.onboarding:
-                message_type = MessageType.ONBOARDING_START
+            print("🆕 NEW CHAT messages detected - using new chat sequence!")
 
         results = self.service.send_bulk_messages(
             messages, DEFAULT_COORDINATE_MODE, message_type, new_chat

@@ -1,374 +1,324 @@
-# 🚀 CI/CD Pipeline - Agent_Cellphone_V2
-# Foundation & Testing Specialist - TDD Integration Project
-# GitLab CI/CD Configuration for Continuous Integration & Deployment
-
-stages:
-  - validate
-  - test
-  - security
-  - performance
-  - integration
-  - coverage
-  - deploy
-  - summary
-
-variables:
-  PYTHON_VERSION: "3.9"
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip-cache"
-  COVERAGE_THRESHOLD: "80"
-  V2_LOC_LIMIT: "300"
-  V2_CORE_LOC_LIMIT: "200"
-  V2_GUI_LOC_LIMIT: "500"
-  TEST_RESULTS_DIR: "test-results"
-  COVERAGE_DIR: "htmlcov"
-  ARTIFACT_EXPIRATION: "1 week"
-
-# Global cache configuration
 cache:
-  key: "$CI_COMMIT_REF_SLUG"
+  key: $CI_COMMIT_REF_SLUG
   paths:
-    - .pip-cache/
-    - .venv/
-    - __pycache__/
-    - .pytest_cache/
-
-# 🔍 Code Quality & V2 Standards Validation
+  - .pip-cache/
+  - .venv/
+  - __pycache__/
+  - .pytest_cache/
 code-quality:
-  stage: validate
-  name: "🔍 Code Quality & V2 Standards"
-  image: python:3.9-slim
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-    - pip install pre-commit
-    - pre-commit install
-  script:
-    - echo "🔍 Running pre-commit checks..."
-    - pre-commit run --all-files
-    - echo "📏 Validating V2 Standards compliance..."
-    - python tests/v2_standards_checker.py --all-checks --strict
-    - echo "📊 Generating V2 Standards report..."
-    - python tests/v2_standards_checker.py --all-checks --report --output-format=json > v2_standards_report.json
   artifacts:
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - v2_standards_report.json
     reports:
       junit: v2_standards_report.json
-    paths:
-      - v2_standards_report.json
-    expire_in: $ARTIFACT_EXPIRATION
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
-
-# 🧪 Smoke Tests
-smoke-tests:
-  stage: test
-  name: "🧪 Smoke Tests"
-  image: python:3.9-slim
   before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-    - mkdir -p $TEST_RESULTS_DIR
-  script:
-    - echo "🧪 Running smoke tests..."
-    - python -m pytest tests/smoke/
-      --cov=src
-      --cov-report=xml
-      --cov-report=html
-      --cov-report=term-missing
-      --cov-fail-under=$COVERAGE_THRESHOLD
-      --junitxml=$TEST_RESULTS_DIR/smoke-tests.xml
-      --html=$TEST_RESULTS_DIR/smoke-tests.html
-      --self-contained-html
-      -v
-      --tb=short
-  artifacts:
-    reports:
-      junit: $TEST_RESULTS_DIR/smoke-tests.xml
-    coverage_report:
-      coverage_format: cobertura
-      path: coverage.xml
-    paths:
-      - $TEST_RESULTS_DIR/
-      - $COVERAGE_DIR/
-      - coverage.xml
-    expire_in: $ARTIFACT_EXPIRATION
-  coverage: '/TOTAL.*\s+(\d+%)$/'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
-
-# 🧪 Unit Tests
-unit-tests:
-  stage: test
-  name: "🧪 Unit Tests"
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  - pip install pre-commit
+  - pre-commit install
   image: python:3.9-slim
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-    - mkdir -p $TEST_RESULTS_DIR
-  script:
-    - echo "🧪 Running unit tests..."
-    - python -m pytest tests/unit/
-      --cov=src
-      --cov-report=xml
-      --cov-report=html
-      --cov-report=term-missing
-      --cov-fail-under=$COVERAGE_THRESHOLD
-      --junitxml=$TEST_RESULTS_DIR/unit-tests.xml
-      --html=$TEST_RESULTS_DIR/unit-tests.html
-      --self-contained-html
-      -v
-      --tb=short
-  artifacts:
-    reports:
-      junit: $TEST_RESULTS_DIR/unit-tests.xml
-    coverage_report:
-      coverage_format: cobertura
-      path: coverage.xml
-    paths:
-      - $TEST_RESULTS_DIR/
-      - $COVERAGE_DIR/
-      - coverage.xml
-    expire_in: $ARTIFACT_EXPIRATION
-  coverage: '/TOTAL.*\s+(\d+%)$/'
+  name: 🔍 Code Quality & V2 Standards
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
-
-# 🧪 Integration Tests
-integration-tests:
-  stage: test
-  name: "🧪 Integration Tests"
-  image: python:3.9-slim
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-    - mkdir -p $TEST_RESULTS_DIR
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
+  - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
   script:
-    - echo "🧪 Running integration tests..."
-    - python -m pytest tests/integration/
-      --cov=src
-      --cov-report=xml
-      --cov-report=html
-      --cov-report=term-missing
-      --cov-fail-under=$COVERAGE_THRESHOLD
-      --junitxml=$TEST_RESULTS_DIR/integration-tests.xml
-      --html=$TEST_RESULTS_DIR/integration-tests.html
-      --self-contained-html
-      -v
-      --tb=short
-  artifacts:
-    reports:
-      junit: $TEST_RESULTS_DIR/integration-tests.xml
-    coverage_report:
-      coverage_format: cobertura
-      path: coverage.xml
-    paths:
-      - $TEST_RESULTS_DIR/
-      - $COVERAGE_DIR/
-      - coverage.xml
-    expire_in: $ARTIFACT_EXPIRATION
-  coverage: '/TOTAL.*\s+(\d+%)$/'
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  allow_failure: true
-
-# 🔒 Security Testing
-security-tests:
-  stage: security
-  name: "🔒 Security Testing"
-  image: python:3.9-slim
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-  script:
-    - echo "🔒 Running security vulnerability scan..."
-    - bandit -r src/ -f json -o security-scan.json || echo "Bandit scan completed"
-    - echo "🔒 Checking dependency vulnerabilities..."
-    - safety check --json --output security-dependencies.json || echo "Safety check completed"
-    - echo "🔒 Security scans completed successfully"
-  artifacts:
-    reports:
-      junit: security-scan.json
-    paths:
-      - security-scan.json
-      - security-dependencies.json
-    expire_in: $ARTIFACT_EXPIRATION
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - schedule: "0 2 * * 1"  # Weekly security scan
-
-# ⚡ Performance Testing
-performance-tests:
-  stage: performance
-  name: "⚡ Performance Testing"
-  image: python:3.9-slim
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-  script:
-    - echo "⚡ Running performance benchmarks..."
-    - python -m pytest tests/performance/ --benchmark-only --benchmark-skip --benchmark-sort=mean || echo "No performance tests found"
-    - echo "⚡ Performance testing completed"
-  artifacts:
-    paths:
-      - .benchmarks/
-    expire_in: $ARTIFACT_EXPIRATION
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  allow_failure: true
-
-# 📈 Coverage Analysis
+  - echo "🔍 Running pre-commit checks..."
+  - pre-commit run --all-files
+  - echo "📏 Validating V2 Standards compliance..."
+  - python tests/v2_standards_checker.py --all-checks --strict
+  - echo "📊 Generating V2 Standards report..."
+  - python tests/v2_standards_checker.py --all-checks --report --output-format=json
+    > v2_standards_report.json
+  stage: validate
 coverage-analysis:
-  stage: coverage
-  name: "📈 Coverage Analysis"
-  image: python:3.9-slim
-  dependencies:
-    - smoke-tests
-    - unit-tests
-    - integration-tests
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-  script:
-    - echo "📈 Combining coverage reports..."
-    - coverage combine coverage-*.xml || echo "No coverage files to combine"
-    - echo "📊 Generating coverage report..."
-    - coverage report --show-missing
-    - coverage html --title="Agent_Cellphone_V2 Coverage Report"
-    - echo "📈 Coverage analysis completed"
   artifacts:
-    paths:
-      - $COVERAGE_DIR/
-      - coverage.xml
-      - coverage-report.txt
     expire_in: $ARTIFACT_EXPIRATION
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-# 🚀 Deployment (Production)
-deploy-production:
-  stage: deploy
-  name: "🚀 Deploy to Production"
+    paths:
+    - $COVERAGE_DIR/
+    - coverage.xml
+    - coverage-report.txt
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  dependencies:
+  - smoke-tests
+  - unit-tests
+  - integration-tests
   image: python:3.9-slim
+  name: 📈 Coverage Analysis
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+  - echo "📈 Combining coverage reports..."
+  - coverage combine coverage-*.xml || echo "No coverage files to combine"
+  - echo "📊 Generating coverage report..."
+  - coverage report --show-missing
+  - coverage html --title="Agent_Cellphone_V2 Coverage Report"
+  - echo "📈 Coverage analysis completed"
+  stage: coverage
+deploy-production:
+  allow_failure: ENABLE_FALSE
+  artifacts:
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - deployment-log.txt
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
   environment:
     name: production
     url: https://production.agent-cellphone-v2.com
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-  script:
-    - echo "🚀 Starting production deployment..."
-    - echo "🔍 Final V2 Standards validation..."
-    - python tests/v2_standards_checker.py --all-checks --strict
-    - echo "🧪 Final smoke test..."
-    - python -m pytest tests/smoke/ --tb=short
-    - echo "🏷️ Creating release tag..."
-    - git config --global user.email "ci@gitlab.com"
-    - git config --global user.name "GitLab CI"
-    - git tag -a "v$(date +'%Y.%m.%d')" -m "Automated release $(date +'%Y-%m-%d %H:%M:%S')"
-    - git push origin "v$(date +'%Y.%m.%d')"
-    - echo "🚀 Production deployment completed successfully"
-  artifacts:
-    paths:
-      - deployment-log.txt
-    expire_in: $ARTIFACT_EXPIRATION
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: manual
-  allow_failure: false
-
-# 🚀 Deployment (Staging)
-deploy-staging:
-  stage: deploy
-  name: "🚀 Deploy to Staging"
   image: python:3.9-slim
+  name: 🚀 Deploy to Production
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    when: manual
+  script:
+  - echo "🚀 Starting production deployment..."
+  - echo "🔍 Final V2 Standards validation..."
+  - python tests/v2_standards_checker.py --all-checks --strict
+  - echo "🧪 Final smoke test..."
+  - python -m pytest tests/smoke/ --tb=short
+  - echo "🏷️ Creating release tag..."
+  - git config --global user.email "ci@gitlab.com"
+  - git config --global user.name "GitLab CI"
+  - git tag -a "v$(date +'%Y.%m.%d')" -m "Automated release $(date +'%Y-%m-%d %H:%M:%S')"
+  - git push origin "v$(date +'%Y.%m.%d')"
+  - echo "🚀 Production deployment completed successfully"
+  stage: deploy
+deploy-staging:
+  allow_failure: ENABLE_TRUE
+  artifacts:
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - staging-deployment-log.txt
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
   environment:
     name: staging
     url: https://staging.agent-cellphone-v2.com
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install -r requirements-testing.txt
-  script:
-    - echo "🚀 Starting staging deployment..."
-    - echo "🔍 V2 Standards validation..."
-    - python tests/v2_standards_checker.py --all-checks --strict
-    - echo "🧪 Smoke test validation..."
-    - python -m pytest tests/smoke/ --tb=short
-    - echo "🚀 Staging deployment completed successfully"
-  artifacts:
-    paths:
-      - staging-deployment-log.txt
-    expire_in: $ARTIFACT_EXPIRATION
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-  allow_failure: true
-
-# 📊 Pipeline Summary
-pipeline-summary:
-  stage: summary
-  name: "📊 Pipeline Summary"
   image: python:3.9-slim
-  dependencies:
-    - smoke-tests
-    - unit-tests
-    - integration-tests
-    - security-tests
-    - performance-tests
-    - coverage-analysis
-  script:
-    - echo "📊 AGENT_CELLPHONE_V2 CI/CD PIPELINE SUMMARY"
-    - echo "============================================="
-    - echo ""
-    - echo "## 📅 Pipeline Information"
-    - echo "- Pipeline ID: $CI_PIPELINE_ID"
-    - echo "- Commit: $CI_COMMIT_SHA"
-    - echo "- Branch: $CI_COMMIT_BRANCH"
-    - echo "- Source: $CI_PIPELINE_SOURCE"
-    - echo ""
-    - echo "## ✅ Quality Gates"
-    - echo "- V2 Standards Compliance: ✅"
-    - echo "- Test Coverage: $COVERAGE_THRESHOLD%+"
-    - echo "- Code Quality: ✅"
-    - echo "- Security Scans: ✅"
-    - echo ""
-    - echo "## 🚀 Next Steps"
-    - echo "- Review coverage reports"
-    - echo "- Address any V2 standards violations"
-    - echo "- Deploy to staging/production"
-    - echo ""
-    - echo "## 📊 Test Results"
-    - echo "- Smoke Tests: ✅"
-    - echo "- Unit Tests: ✅"
-    - echo "- Integration Tests: ✅"
-    - echo "- Security Tests: ✅"
-    - echo "- Performance Tests: ✅"
-  artifacts:
-    paths:
-      - pipeline-summary.txt
-    expire_in: $ARTIFACT_EXPIRATION
+  name: 🚀 Deploy to Staging
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    when: manual
+  script:
+  - echo "🚀 Starting staging deployment..."
+  - echo "🔍 V2 Standards validation..."
+  - python tests/v2_standards_checker.py --all-checks --strict
+  - echo "🧪 Smoke test validation..."
+  - python -m pytest tests/smoke/ --tb=short
+  - echo "🚀 Staging deployment completed successfully"
+  stage: deploy
+integration-tests:
+  allow_failure: ENABLE_TRUE
+  artifacts:
+    coverage_report:
+      coverage_format: cobertura
+      path: coverage.xml
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - $TEST_RESULTS_DIR/
+    - $COVERAGE_DIR/
+    - coverage.xml
+    reports:
+      junit: $TEST_RESULTS_DIR/integration-tests.xml
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  - mkdir -p $TEST_RESULTS_DIR
+  coverage: /TOTAL.*\s+(\d+%)$/
+  image: python:3.9-slim
+  name: 🧪 Integration Tests
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+  - echo "🧪 Running integration tests..."
+  - python -m pytest tests/integration/ --cov=src --cov-report=xml --cov-report=html
+    --cov-report=term-missing --cov-fail-under=$COVERAGE_THRESHOLD --junitxml=$TEST_RESULTS_DIR/integration-tests.xml
+    --html=$TEST_RESULTS_DIR/integration-tests.html --self-contained-html -v --tb=short
+  stage: test
+performance-tests:
+  allow_failure: ENABLE_TRUE
+  artifacts:
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - .benchmarks/
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  image: python:3.9-slim
+  name: ⚡ Performance Testing
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+  - echo "⚡ Running performance benchmarks..."
+  - python -m pytest tests/performance/ --benchmark-only --benchmark-skip --benchmark-sort=mean
+    || echo "No performance tests found"
+  - echo "⚡ Performance testing completed"
+  stage: performance
+pipeline-summary:
+  artifacts:
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - pipeline-summary.txt
+  dependencies:
+  - smoke-tests
+  - unit-tests
+  - integration-tests
+  - security-tests
+  - performance-tests
+  - coverage-analysis
+  image: python:3.9-slim
+  name: 📊 Pipeline Summary
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+  - echo "📊 AGENT_CELLPHONE_V2 CI/CD PIPELINE SUMMARY"
+  - echo "============================================="
+  - echo ""
+  - echo "## 📅 Pipeline Information"
+  - echo "- Pipeline ID: $CI_PIPELINE_ID"
+  - echo "- Commit: $CI_COMMIT_SHA"
+  - echo "- Branch: $CI_COMMIT_BRANCH"
+  - echo "- Source: $CI_PIPELINE_SOURCE"
+  - echo ""
+  - echo "## ✅ Quality Gates"
+  - echo "- V2 Standards Compliance: ✅"
+  - echo "- Test Coverage: $COVERAGE_THRESHOLD%+"
+  - echo "- Code Quality: ✅"
+  - echo "- Security Scans: ✅"
+  - echo ""
+  - echo "## 🚀 Next Steps"
+  - echo "- Review coverage reports"
+  - echo "- Address any V2 standards violations"
+  - echo "- Deploy to staging/production"
+  - echo ""
+  - echo "## 📊 Test Results"
+  - echo "- Smoke Tests: ✅"
+  - echo "- Unit Tests: ✅"
+  - echo "- Integration Tests: ✅"
+  - echo "- Security Tests: ✅"
+  - echo "- Performance Tests: ✅"
+  stage: summary
   when: always
-
-# 🔧 Pipeline Configuration
+security-tests:
+  artifacts:
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - security-scan.json
+    - security-dependencies.json
+    reports:
+      junit: security-scan.json
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  image: python:3.9-slim
+  name: 🔒 Security Testing
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - schedule: 0 2 * * 1
+  script:
+  - echo "🔒 Running security vulnerability scan..."
+  - bandit -r src/ -f json -o security-scan.json || echo "Bandit scan completed"
+  - echo "🔒 Checking dependency vulnerabilities..."
+  - safety check --json --output security-dependencies.json || echo "Safety check
+    completed"
+  - echo "🔒 Security scans completed successfully"
+  stage: security
+smoke-tests:
+  artifacts:
+    coverage_report:
+      coverage_format: cobertura
+      path: coverage.xml
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - $TEST_RESULTS_DIR/
+    - $COVERAGE_DIR/
+    - coverage.xml
+    reports:
+      junit: $TEST_RESULTS_DIR/smoke-tests.xml
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  - mkdir -p $TEST_RESULTS_DIR
+  coverage: /TOTAL.*\s+(\d+%)$/
+  image: python:3.9-slim
+  name: 🧪 Smoke Tests
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
+  - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
+  script:
+  - echo "🧪 Running smoke tests..."
+  - python -m pytest tests/smoke/ --cov=src --cov-report=xml --cov-report=html --cov-report=term-missing
+    --cov-fail-under=$COVERAGE_THRESHOLD --junitxml=$TEST_RESULTS_DIR/smoke-tests.xml
+    --html=$TEST_RESULTS_DIR/smoke-tests.html --self-contained-html -v --tb=short
+  stage: test
+stages:
+- validate
+- test
+- security
+- performance
+- integration
+- coverage
+- deploy
+- summary
+unit-tests:
+  artifacts:
+    coverage_report:
+      coverage_format: cobertura
+      path: coverage.xml
+    expire_in: $ARTIFACT_EXPIRATION
+    paths:
+    - $TEST_RESULTS_DIR/
+    - $COVERAGE_DIR/
+    - coverage.xml
+    reports:
+      junit: $TEST_RESULTS_DIR/unit-tests.xml
+  before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements-testing.txt
+  - mkdir -p $TEST_RESULTS_DIR
+  coverage: /TOTAL.*\s+(\d+%)$/
+  image: python:3.9-slim
+  name: 🧪 Unit Tests
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
+  - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
+  script:
+  - echo "🧪 Running unit tests..."
+  - python -m pytest tests/unit/ --cov=src --cov-report=xml --cov-report=html --cov-report=term-missing
+    --cov-fail-under=$COVERAGE_THRESHOLD --junitxml=$TEST_RESULTS_DIR/unit-tests.xml
+    --html=$TEST_RESULTS_DIR/unit-tests.html --self-contained-html -v --tb=short
+  stage: test
+variables:
+  ARTIFACT_EXPIRATION: 1 week
+  COVERAGE_DIR: htmlcov
+  COVERAGE_THRESHOLD: '80'
+  PIP_CACHE_DIR: $CI_PROJECT_DIR/.pip-cache
+  PYTHON_VERSION: '3.9'
+  TEST_RESULTS_DIR: test-results
+  V2_CORE_LOC_LIMIT: '200'
+  V2_GUI_LOC_LIMIT: '500'
+  V2_LOC_LIMIT: '300'
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
-    - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
-    - if: $CI_SCHEDULE_TYPE == "nightly"
-    - if: $CI_SCHEDULE_TYPE == "weekly"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  - if: $CI_COMMIT_BRANCH =~ /^feature\/.*$/
+  - if: $CI_COMMIT_BRANCH =~ /^hotfix\/.*$/
+  - if: $CI_SCHEDULE_TYPE == "nightly"
+  - if: $CI_SCHEDULE_TYPE == "weekly"

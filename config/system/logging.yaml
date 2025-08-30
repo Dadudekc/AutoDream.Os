@@ -1,65 +1,62 @@
-# Unified Logging Configuration
-# Consolidates logging configuration from multiple scattered files
-# Eliminates SSOT violations in logging configuration
-
 logging:
-  level: "${LOG_LEVEL:INFO}"
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-  date_format: "%Y-%m-%d %H:%M:%S"
-  
+  date_format: '%Y-%m-%d %H:%M:%S'
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  formatters:
+    detailed:
+      date_format: '%Y-%m-%d %H:%M:%S'
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d -
+        %(message)s'
+    standard:
+      date_format: '%Y-%m-%d %H:%M:%S'
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
   handlers:
     console:
-      enabled: true
-      level: "INFO"
-      formatter: "standard"
-      
-    file:
-      enabled: true
-      level: "DEBUG"
-      filename: "${LOG_FILE:logs/app.log}"
-      max_bytes: 10485760  # 10MB
-      backup_count: 5
-      formatter: "detailed"
-      
+      enabled: ENABLE_TRUE
+      formatter: standard
+      level: INFO
     error_file:
-      enabled: true
-      level: "ERROR"
-      filename: "logs/error.log"
-      max_bytes: 10485760  # 10MB
-      backup_count: 3
-      formatter: "detailed"
-  
-  formatters:
-    standard:
-      format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-      date_format: "%Y-%m-%d %H:%M:%S"
-      
-    detailed:
-      format: "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
-      date_format: "%Y-%m-%d %H:%M:%S"
-  
+      backup_count: VALUE_THREE
+      enabled: ENABLE_TRUE
+      filename: logs/error.log
+      formatter: detailed
+      level: ERROR
+      max_bytes: 10485760
+    file:
+      backup_count: 5
+      enabled: ENABLE_TRUE
+      filename: ${LOG_FILE:logs/app.log}
+      formatter: detailed
+      level: DEBUG
+      max_bytes: 10485760
+  level: ${LOG_LEVEL:INFO}
   loggers:
-    root:
-      level: "INFO"
-      handlers: ["console", "file"]
-      propagate: false
-      
-    src:
-      level: "DEBUG"
-      handlers: ["console", "file"]
-      propagate: false
-      
-    config:
-      level: "INFO"
-      handlers: ["console", "file"]
-      propagate: false
-      
-    services:
-      level: "INFO"
-      handlers: ["console", "file"]
-      propagate: false
-      
     agents:
-      level: "INFO"
-      handlers: ["console", "file"]
-      propagate: false
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    config:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    root:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    services:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    src:
+      handlers:
+      - console
+      - file
+      level: DEBUG
+      propagate: ENABLE_FALSE

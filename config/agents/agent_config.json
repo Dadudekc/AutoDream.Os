@@ -1,13 +1,13 @@
 {
   "8_agent_config": {
-    "max_queue_size": 1000,
-    "high_priority_timeout": 5.0,
-    "message_retry_attempts": 3,
+    "max_queue_size": "VALUE_THOUSAND",
+    "high_priority_timeout": "URGENT_TIMEOUT",
+    "message_retry_attempts": "VALUE_THREE",
     "retry_delay": 2.0,
-    "enable_pyautogui": true,
-    "enable_keyboard_monitoring": true,
-    "ctrl_enter_double_timeout": 1.0,
-    "message_persistence": true,
+    "enable_pyautogui": "ENABLE_TRUE",
+    "enable_keyboard_monitoring": "ENABLE_TRUE",
+    "ctrl_enter_double_timeout": "SECONDS_ONE",
+    "message_persistence": "ENABLE_TRUE",
     "persistence_file": "8_agent_message_history.json",
     "agent_coordinates": {
       "agent_1": {
@@ -60,28 +60,74 @@
       }
     },
     "agent_capabilities": {
-      "agent_1": ["TASK_EXECUTION", "MONITORING", "TESTING", "VALIDATION"],
-      "agent_2": ["AI_ML", "AUTOMATION", "INTELLIGENCE", "LEARNING"],
-      "agent_3": ["WEB_DEV", "FRONTEND", "BACKEND", "APIS"],
-      "agent_4": ["GAMING", "MULTIMEDIA", "INTERACTIVE", "CONTENT"],
-      "agent_5": ["SECURITY", "COMPLIANCE", "THREAT_PROTECTION", "AUDITING"],
-      "agent_6": ["DATA_ANALYTICS", "BI", "PROCESSING", "VISUALIZATION"],
-      "agent_7": ["INFRASTRUCTURE", "DEVOPS", "DEPLOYMENT", "OPERATIONS"],
-      "agent_8": ["BUSINESS_LOGIC", "WORKFLOWS", "INTEGRATION", "PROCESSES"]
+      "agent_1": [
+        "TASK_EXECUTION",
+        "MONITORING",
+        "TESTING",
+        "VALIDATION"
+      ],
+      "agent_2": [
+        "AI_ML",
+        "AUTOMATION",
+        "INTELLIGENCE",
+        "LEARNING"
+      ],
+      "agent_3": [
+        "WEB_DEV",
+        "FRONTEND",
+        "BACKEND",
+        "APIS"
+      ],
+      "agent_4": [
+        "GAMING",
+        "MULTIMEDIA",
+        "INTERACTIVE",
+        "CONTENT"
+      ],
+      "agent_5": [
+        "SECURITY",
+        "COMPLIANCE",
+        "THREAT_PROTECTION",
+        "AUDITING"
+      ],
+      "agent_6": [
+        "DATA_ANALYTICS",
+        "BI",
+        "PROCESSING",
+        "VISUALIZATION"
+      ],
+      "agent_7": [
+        "INFRASTRUCTURE",
+        "DEVOPS",
+        "DEPLOYMENT",
+        "OPERATIONS"
+      ],
+      "agent_8": [
+        "BUSINESS_LOGIC",
+        "WORKFLOWS",
+        "INTEGRATION",
+        "PROCESSES"
+      ]
     },
     "priority_levels": {
-      "low": 1,
-      "normal": 2,
-      "high": 3,
+      "low": "VALUE_ONE",
+      "normal": "VALUE_TWO",
+      "high": "VALUE_THREE",
       "urgent": 4,
       "critical": 5
     },
-    "message_types": ["text", "image", "file", "command", "status"],
+    "message_types": [
+      "text",
+      "image",
+      "file",
+      "command",
+      "status"
+    ],
     "system_features": {
-      "auto_recovery": true,
-      "load_balancing": true,
-      "failover_support": true,
-      "performance_monitoring": true
+      "auto_recovery": "ENABLE_TRUE",
+      "load_balancing": "ENABLE_TRUE",
+      "failover_support": "ENABLE_TRUE",
+      "performance_monitoring": "ENABLE_TRUE"
     }
   }
 }

@@ -10,7 +10,7 @@ from pathlib import Path
 BASE_PATH = Path(__file__).resolve().parent.parent
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=ENABLE_TRUE)
 class RepoConfig:
     """Configuration for repository operations."""
 

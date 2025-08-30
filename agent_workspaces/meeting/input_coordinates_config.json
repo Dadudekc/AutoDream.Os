@@ -1,0 +1,55 @@
+{
+  "agent_input_coordinates": {
+    "Agent-1": {
+      "x": -1269,
+      "y": 481,
+      "description": "Cross-Agent Communication Enhancement Manager input field"
+    },
+    "Agent-2": {
+      "x": -308,
+      "y": 480,
+      "description": "Code Duplication Detection & Consolidation Manager input field"
+    },
+    "Agent-3": {
+      "x": -1269,
+      "y": 1001,
+      "description": "Modularization Testing Framework Enhancement Manager input field"
+    },
+    "Agent-4": {
+      "x": -308,
+      "y": 1000,
+      "description": "Captain - Strategic Oversight & Emergency Intervention Manager input field"
+    },
+    "Agent-5": {
+      "x": 652,
+      "y": 421,
+      "description": "Data Source Consolidation Manager input field"
+    },
+    "Agent-6": {
+      "x": 1612,
+      "y": 419,
+      "description": "Agent-6 input field"
+    },
+    "Agent-7": {
+      "x": 653,
+      "y": 940,
+      "description": "Agent-7 input field"
+    },
+    "Agent-8": {
+      "x": 1611,
+      "y": 941,
+      "description": "Agent-8 input field"
+    }
+  },
+  "messaging_settings": {
+    "click_delay": 0.3,
+    "clipboard_delay": 0.1,
+    "paste_delay": 0.2,
+    "send_delay": 0.3,
+    "send_key": "enter",
+    "paste_key": "ctrl+v",
+    "method": "fast_paste",
+    "clear_input_before_typing": true
+  },
+  "notes": "✅ COORDINATES UPDATED - Using existing coordinates from cursor_agent_coords.json (8-agent configuration). These coordinates are already established and tested in the system."
+}

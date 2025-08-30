@@ -1,0 +1,19 @@
+# Performance Profiling Tools Requirements
+# Contract: PERF-005 - Advanced Performance Profiling Tools
+# Agent: Agent-6 (Performance Optimization Manager)
+
+# Core dependencies
+psutil>=5.9.0
+pathlib2>=2.3.7; python_version < "3.4"
+
+# Optional dependencies for enhanced functionality
+# matplotlib>=3.5.0  # For visualization (optional)
+# numpy>=1.21.0     # For advanced statistical analysis (optional)
+# pandas>=1.3.0     # For data manipulation (optional)
+
+# Development and testing dependencies
+pytest>=6.0.0
+pytest-cov>=2.12.0
+black>=21.0.0
+flake8>=3.9.0
+mypy>=0.910

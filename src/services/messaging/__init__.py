@@ -46,14 +46,8 @@ from .interfaces import (
     ICoordinateManager,
 )
 
-# Message Queue System for 8-agent coordination
-from .message_queue_system import (
-    MessageQueueSystem,
-    AgentStatus,
-    QueuedMessage,
-    AgentState,
-    message_queue_system
-)
+# Message Queue System is now consolidated into UnifiedMessagingService
+# No separate import needed - all functionality is unified
 
 # Export all components
 __all__ = [
@@ -85,14 +79,9 @@ __all__ = [
     "IBulkMessaging",
     "ICampaignMessaging",
     "IYOLOMessaging",
-    "ICoordinateManager",
-    'MessageQueueSystem',
-    'AgentStatus',
-    'QueuedMessage',
-    'AgentState',
-    'message_queue_system'
+    "ICoordinateManager"
 ]
 
 # Version info
 __version__ = "2.0.0"
-__description__ = "Unified Messaging System - Single Source of Truth"
+__description__ = "Unified Messaging System - SSOT COMPLIANT - Single Source of Truth Restored"

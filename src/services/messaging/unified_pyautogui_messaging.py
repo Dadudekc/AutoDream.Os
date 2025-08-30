@@ -5,7 +5,7 @@ import json
 import logging
 import pyautogui
 import pyperclip
-from .coordinate_manager import CoordinateManager, AgentCoordinates
+from .coordinate_manager import CoordinateManager
 from .interfaces import IMessageSender, IBulkMessaging
 from dataclasses import dataclass
 from src.utils.stability_improvements import stability_manager, safe_import
@@ -138,7 +138,7 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
                 message_type=message_type,
                 timestamp=datetime.now(),
                 error_message=None if success else "Delivery failed",
-                coordinates_used=(coords.input_box[0], coords.input_box[1]) if success else None
+                coordinates_used=coords["input_box"] if success else None
             )
             self.delivery_history.append(result)
             
@@ -159,14 +159,14 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
             
             return False
 
-    def _send_onboarding_message(self, recipient: str, message_content: str, coords: AgentCoordinates) -> bool:
+    def _send_onboarding_message(self, recipient: str, message_content: str, coords: Dict[str, Any]) -> bool:
         """Send onboarding message using proper sequence: starter → Ctrl+N → validate → paste."""
         try:
             if not PYAUTOGUI_AVAILABLE:
                 logger.warning("PyAutoGUI not available - simulating onboarding message")
                 return True
                 
-            starter_x, starter_y = coords.starter_location
+            starter_x, starter_y = coords["starter_location"]
             
             logger.info(f"🚀 Onboarding message to {recipient} at ({starter_x}, {starter_y})")
             
@@ -203,14 +203,14 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
             logger.error(f"Failed to send onboarding message to {recipient}: {e}")
             return False
 
-    def _send_urgent_message(self, recipient: str, message_content: str, coords: AgentCoordinates) -> bool:
+    def _send_urgent_message(self, recipient: str, message_content: str, coords: Dict[str, Any]) -> bool:
         """Send urgent message with visual emphasis."""
         try:
             if not PYAUTOGUI_AVAILABLE:
                 logger.warning("PyAutoGUI not available - simulating urgent message")
                 return True
                 
-            input_x, input_y = coords.input_box
+            input_x, input_y = coords["input_box"]
             
             logger.info(f"🚨 URGENT message to {recipient} at ({input_x}, {input_y})")
             
@@ -241,14 +241,14 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
             logger.error(f"Failed to send urgent message to {recipient}: {e}")
             return False
 
-    def _send_high_priority_message(self, recipient: str, message_content: str, coords: AgentCoordinates) -> bool:
+    def _send_high_priority_message(self, recipient: str, message_content: str, coords: Dict[str, Any]) -> bool:
         """Send high priority message."""
         try:
             if not PYAUTOGUI_AVAILABLE:
                 logger.warning("PyAutoGUI not available - simulating high priority message")
                 return True
                 
-            input_x, input_y = coords.input_box
+            input_x, input_y = coords["input_box"]
             
             logger.info(f"⚠️ High priority message to {recipient} at ({input_x}, {input_y})")
             
@@ -279,14 +279,14 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
             logger.error(f"Failed to send high priority message to {recipient}: {e}")
             return False
 
-    def _send_normal_message(self, recipient: str, message_content: str, coords: AgentCoordinates) -> bool:
+    def _send_normal_message(self, recipient: str, message_content: str, coords: Dict[str, Any]) -> bool:
         """Send normal message."""
         try:
             if not PYAUTOGUI_AVAILABLE:
                 logger.warning("PyAutoGUI not available - simulating normal message")
                 return True
                 
-            input_x, input_y = coords.input_box
+            input_x, input_y = coords["input_box"]
             
             logger.info(f"📤 Normal message to {recipient} at ({input_x}, {input_y})")
             
@@ -443,7 +443,7 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
                 logger.warning("PyAutoGUI not available - simulating agent activation")
                 return True
             
-            starter_x, starter_y = coords.starter_location
+            starter_x, starter_y = coords["starter_location"]
             
             logger.info(f"🚀 Activating agent {agent_id} at ({starter_x}, {starter_y})")
             
@@ -471,8 +471,8 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
                 logger.error(f"No coordinates found for {agent_id}")
                 return False
             
-            starter_x, starter_y = coords.starter_location
-            input_x, input_y = coords.input_box
+            starter_x, starter_y = coords["starter_location"]
+            input_x, input_y = coords["input_box"]
             
             logger.info(f"🚀 Onboarding {agent_id}: Clicking starter location at ({starter_x}, {starter_y})")
             
@@ -524,13 +524,13 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
                 screen_width, screen_height = pyautogui.size()
                 
                 # Check input box coordinates
-                input_x, input_y = coords.input_box
+                input_x, input_y = coords["input_box"]
                 if not (0 <= input_x <= screen_width and 0 <= input_y <= screen_height):
                     logger.error(f"Input box coordinates ({input_x}, {input_y}) out of bounds")
                     return False
                 
                 # Check starter location coordinates
-                starter_x, starter_y = coords.starter_location
+                starter_x, starter_y = coords["starter_location"]
                 if not (0 <= starter_x <= screen_width and 0 <= starter_y <= screen_height):
                     logger.error(f"Starter coordinates ({starter_x}, {starter_y}) out of bounds")
                     return False
@@ -563,8 +563,8 @@ class UnifiedPyAutoGUIMessaging(IMessageSender, IBulkMessaging):
                 logger.error(f"No coordinates found for {agent_id}")
                 return False
             
-            starter_x, starter_y = coords.starter_location
-            input_x, input_y = coords.input_box
+            starter_x, starter_y = coords["starter_location"]
+            input_x, input_y = coords["input_box"]
             
             logger.info(f"🚀 ONBOARDING: {agent_id} - Clicking starter location at ({starter_x}, {starter_y})")
             

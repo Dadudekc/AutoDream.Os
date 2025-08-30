@@ -1,0 +1,34 @@
+# Core System Configuration
+# Unified configuration for system constants and paths
+# Eliminates SSOT violations by centralizing scattered configuration
+
+system:
+  version: "2.0.0"
+  environment: "${ENVIRONMENT:development}"
+  debug: "${DEBUG:false}"
+  
+  paths:
+    root_dir: "${ROOT_DIR}"
+    agent_workspaces: "agent_workspaces"
+    health_reports: "health_reports"
+    health_charts: "health_charts"
+    logs: "logs"
+    reports: "reports"
+    
+  constants:
+    task_id_format: "%Y%m%d_%H%M%S_%f"
+    clipboard_poll_ms: 500
+    ocr_language: "eng"
+    ocr_psm: 6
+    file_watch_root: "agent_workspaces"
+    file_response_name: "response.txt"
+    
+  performance:
+    max_workers: 4
+    timeout: 30
+    retry_attempts: 3
+    
+  security:
+    secret_key: "${PORTAL_SECRET_KEY:change-me}"
+    enable_validation: true
+    validation_timeout: 60

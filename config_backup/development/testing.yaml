@@ -1,0 +1,47 @@
+# Unified Testing Configuration
+# Consolidates testing configuration from multiple scattered files
+# Eliminates SSOT violations in testing configuration
+
+testing:
+  framework: "pytest"
+  enable_parallel_execution: true
+  max_workers: 4
+  enable_fast_fail: true
+  
+  coverage:
+    enable: true
+    threshold: 0.8
+    output_format: "json"
+    output_file: "coverage.json"
+    exclude_patterns:
+      - "*/tests/*"
+      - "*/test_*"
+      - "*/__pycache__/*"
+      - "*/venv/*"
+      - "*/env/*"
+      
+  pytest:
+    config_file: "pytest.ini"
+    addopts: "-v --tb=short --strict-markers"
+    markers:
+      unit: "Unit tests"
+      integration: "Integration tests"
+      slow: "Slow running tests"
+      fast: "Fast running tests"
+      
+  linting:
+    enable_pylint: true
+    enable_flake8: true
+    enable_mypy: true
+    enable_bandit: true
+    enable_safety: true
+    
+  output:
+    junit_output: "test-results/junit.xml"
+    coverage_output: "test-results/coverage.json"
+    linting_output: "test-results/"
+    
+  performance:
+    enable_benchmarking: true
+    benchmark_threshold: 1.5
+    enable_profiling: false

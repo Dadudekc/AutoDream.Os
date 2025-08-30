@@ -1,159 +1,159 @@
-# IMPROVED BROADCAST SYSTEM CONFIGURATION
-# Enhanced agent coordination and communication system
-
 broadcast_system:
-  name: "Enhanced Agent Coordination System"
-  version: "2.0"
-  description: "Improved resume message templates and broadcast protocols"
-
-  # Message Template Types
-  message_types:
-    standard:
-      name: "Standard Resume Operations"
-      description: "Normal operational resumption with enhanced coordination"
-      template_method: "get_standard_resume_message"
-      priority: "high"
-      response_time: "2 minutes"
-
-    emergency:
-      name: "Emergency Resume Operations"
-      description: "Critical system recovery and emergency coordination"
-      template_method: "get_emergency_resume_message"
-      priority: "critical"
-      response_time: "1 minute"
-
-    development:
-      name: "Development Resume Operations"
-      description: "Code-focused development and technical coordination"
-      template_method: "get_development_resume_message"
-      priority: "high"
-      response_time: "2 minutes"
-
-    maintenance:
-      name: "Maintenance Resume Operations"
-      description: "System maintenance and infrastructure coordination"
-      template_method: "get_maintenance_resume_message"
-      priority: "medium"
-      response_time: "5 minutes"
-
-  # Agent Configuration
   agents:
     agent_1:
-      name: "Foundation & Testing Specialist"
-      role: "Testing & Quality Assurance"
-      capabilities: ["TASK_EXECUTION", "MONITORING", "TESTING", "QUALITY_ASSURANCE"]
-      response_priority: "high"
-
+      capabilities:
+      - TASK_EXECUTION
+      - MONITORING
+      - TESTING
+      - QUALITY_ASSURANCE
+      name: Foundation & Testing Specialist
+      response_priority: high
+      role: Testing & Quality Assurance
     agent_2:
-      name: "AI/ML Specialist"
-      role: "Artificial Intelligence & Machine Learning"
-      capabilities: ["DECISION_MAKING", "DATA_PROCESSING", "AI_DEVELOPMENT", "ML_OPTIMIZATION"]
-      response_priority: "high"
-
+      capabilities:
+      - DECISION_MAKING
+      - DATA_PROCESSING
+      - AI_DEVELOPMENT
+      - ML_OPTIMIZATION
+      name: AI/ML Specialist
+      response_priority: high
+      role: Artificial Intelligence & Machine Learning
     agent_3:
-      name: "Web Development Specialist"
-      role: "Web Applications & User Interface"
-      capabilities: ["TASK_EXECUTION", "COMMUNICATION", "WEB_DEVELOPMENT", "UI_UX"]
-      response_priority: "high"
-
+      capabilities:
+      - TASK_EXECUTION
+      - COMMUNICATION
+      - WEB_DEVELOPMENT
+      - UI_UX
+      name: Web Development Specialist
+      response_priority: high
+      role: Web Applications & User Interface
     agent_4:
-      name: "Multimedia & Gaming Specialist"
-      role: "Content & Interactive Media"
-      capabilities: ["DATA_PROCESSING", "MONITORING", "MULTIMEDIA", "GAMING_DEVELOPMENT"]
-      response_priority: "medium"
-
+      capabilities:
+      - DATA_PROCESSING
+      - MONITORING
+      - MULTIMEDIA
+      - GAMING_DEVELOPMENT
+      name: Multimedia & Gaming Specialist
+      response_priority: medium
+      role: Content & Interactive Media
     agent_5:
-      name: "Security & Compliance Specialist"
-      role: "Captain & Security Coordinator"
-      capabilities: ["MONITORING", "REPORTING", "SECURITY", "COMPLIANCE", "COORDINATION"]
-      response_priority: "critical"
-      is_captain: true
-
+      capabilities:
+      - MONITORING
+      - REPORTING
+      - SECURITY
+      - COMPLIANCE
+      - COORDINATION
+      is_captain: ENABLE_TRUE
+      name: Security & Compliance Specialist
+      response_priority: critical
+      role: Captain & Security Coordinator
     agent_6:
-      name: "Data & Analytics Specialist"
-      role: "Data Science & Business Intelligence"
-      capabilities: ["DATA_PROCESSING", "ANALYSIS", "DATA_SCIENCE", "BUSINESS_INTELLIGENCE"]
-      response_priority: "high"
-
+      capabilities:
+      - DATA_PROCESSING
+      - ANALYSIS
+      - DATA_SCIENCE
+      - BUSINESS_INTELLIGENCE
+      name: Data & Analytics Specialist
+      response_priority: high
+      role: Data Science & Business Intelligence
     agent_7:
-      name: "Infrastructure & DevOps Specialist"
-      role: "System Administration & Deployment"
-      capabilities: ["INFRASTRUCTURE", "DEPLOYMENT", "DEVOPS", "SYSTEM_ADMINISTRATION"]
-      response_priority: "high"
-
+      capabilities:
+      - INFRASTRUCTURE
+      - DEPLOYMENT
+      - DEVOPS
+      - SYSTEM_ADMINISTRATION
+      name: Infrastructure & DevOps Specialist
+      response_priority: high
+      role: System Administration & Deployment
     agent_8:
-      name: "Business Logic & Workflows Specialist"
-      role: "Process Optimization & Automation"
-      capabilities: ["WORKFLOW_DESIGN", "BUSINESS_LOGIC", "PROCESS_OPTIMIZATION", "AUTOMATION"]
-      response_priority: "medium"
-
-  # Message Enhancement Features
-  enhanced_features:
-    emojis: true
-    structured_formatting: true
-    action_items: true
-    progress_tracking: true
-    response_deadlines: true
-    success_metrics: true
-    coordination_workflow: true
-
-  # Response Time Requirements
-  response_times:
-    emergency: "1 minute"
-    critical: "2 minutes"
-    high: "5 minutes"
-    medium: "10 minutes"
-    low: "30 minutes"
-
-  # Broadcast Intervals
+      capabilities:
+      - WORKFLOW_DESIGN
+      - BUSINESS_LOGIC
+      - PROCESS_OPTIMIZATION
+      - AUTOMATION
+      name: Business Logic & Workflows Specialist
+      response_priority: medium
+      role: Process Optimization & Automation
   broadcast_intervals:
-    emergency: "immediate"
-    critical: "every 5 minutes"
-    high: "every 10 minutes"
-    medium: "every 30 minutes"
-    low: "every hour"
-
-  # Success Metrics
-  success_metrics:
-    - "Response time compliance"
-    - "Task completion rate"
-    - "Agent engagement level"
-    - "Coordination effectiveness"
-    - "System performance improvement"
-    - "Code quality enhancement"
-    - "Integration discoveries"
-    - "Documentation updates"
-
-  # Integration Focus Areas
-  integration_focus:
-    - "AI/ML integration opportunities"
-    - "Web development synergies"
-    - "Data analytics improvements"
-    - "Security enhancements"
-    - "Infrastructure optimizations"
-    - "Gaming/multimedia features"
-    - "Workflow automation"
-    - "Performance optimization"
-
-  # Discord Integration
+    critical: every 5 minutes
+    emergency: immediate
+    high: every 10 minutes
+    low: every hour
+    medium: every 30 minutes
+  description: Improved resume message templates and broadcast protocols
   discord:
-    enabled: true
-    update_frequency: "every 10 minutes"
-    progress_reporting: true
-    coordination_updates: true
-    emergency_alerts: true
-
-  # Git Integration
+    coordination_updates: ENABLE_TRUE
+    emergency_alerts: ENABLE_TRUE
+    enabled: ENABLE_TRUE
+    progress_reporting: ENABLE_TRUE
+    update_frequency: every 10 minutes
+  enhanced_features:
+    action_items: ENABLE_TRUE
+    coordination_workflow: ENABLE_TRUE
+    emojis: ENABLE_TRUE
+    progress_tracking: ENABLE_TRUE
+    response_deadlines: ENABLE_TRUE
+    structured_formatting: ENABLE_TRUE
+    success_metrics: ENABLE_TRUE
   git:
-    branch: "agent"
-    commit_frequency: "every 15-30 minutes"
-    push_frequency: "every commit"
-    commit_message_format: "Agent-{id}: {description}"
-
-  # Monitoring & Analytics
+    branch: agent
+    commit_frequency: every 15-30 minutes
+    commit_message_format: 'Agent-{id}: {description}'
+    push_frequency: every commit
+  integration_focus:
+  - AI/ML integration opportunities
+  - Web development synergies
+  - Data analytics improvements
+  - Security enhancements
+  - Infrastructure optimizations
+  - Gaming/multimedia features
+  - Workflow automation
+  - Performance optimization
+  message_types:
+    development:
+      description: Code-focused development and technical coordination
+      name: Development Resume Operations
+      priority: high
+      response_time: 2 minutes
+      template_method: get_development_resume_message
+    emergency:
+      description: Critical system recovery and emergency coordination
+      name: Emergency Resume Operations
+      priority: critical
+      response_time: 1 minute
+      template_method: get_emergency_resume_message
+    maintenance:
+      description: System maintenance and infrastructure coordination
+      name: Maintenance Resume Operations
+      priority: medium
+      response_time: 5 minutes
+      template_method: get_maintenance_resume_message
+    standard:
+      description: Normal operational resumption with enhanced coordination
+      name: Standard Resume Operations
+      priority: high
+      response_time: 2 minutes
+      template_method: get_standard_resume_message
   monitoring:
-    agent_response_times: true
-    task_completion_rates: true
-    system_performance: true
-    coordination_effectiveness: true
-    integration_discoveries: true
+    agent_response_times: ENABLE_TRUE
+    coordination_effectiveness: ENABLE_TRUE
+    integration_discoveries: ENABLE_TRUE
+    system_performance: ENABLE_TRUE
+    task_completion_rates: ENABLE_TRUE
+  name: Enhanced Agent Coordination System
+  response_times:
+    critical: 2 minutes
+    emergency: 1 minute
+    high: 5 minutes
+    low: 30 minutes
+    medium: 10 minutes
+  success_metrics:
+  - Response time compliance
+  - Task completion rate
+  - Agent engagement level
+  - Coordination effectiveness
+  - System performance improvement
+  - Code quality enhancement
+  - Integration discoveries
+  - Documentation updates
+  version: '2.0'

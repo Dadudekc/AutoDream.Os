@@ -7,7 +7,7 @@ FILE_WATCH_ROOT: str = "agent_workspaces"
 FILE_RESPONSE_NAME: str = "response.txt"
 
 # Response capture timing
-CLIPBOARD_POLL_MS: int = 500
+CLIPBOARD_POLL_MS: int = 5VALUE_ZEROVALUE_ZERO
 
 # Optical character recognition defaults
 OCR_LANG: str = "eng"

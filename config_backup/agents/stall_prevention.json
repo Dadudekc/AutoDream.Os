@@ -1,0 +1,35 @@
+{
+  "captain_check_interval_minutes": 5,
+  "cursor_monitor_interval_seconds": 30,
+  "max_captain_dark_time_minutes": 5,
+  "captain_duty_prompts_enabled": true,
+  "cursor_response_monitoring": true,
+  "auto_agent_activation": true,
+  "log_captain_activity": true,
+  "service_description": "Captain-Specific Stall Prevention Service - Prevents Captain-5 from going dark using cursor response detection",
+  "features": [
+    "5-minute Captain-5 activity checks",
+    "30-second cursor response monitoring",
+    "Captain duty prompts with priority levels",
+    "Automatic agent activation when captain goes dark",
+    "Cursor response database for all 5 agent instances",
+    "Captain activity tracking and logging"
+  ],
+  "duty_prompts": {
+    "normal": {
+      "frequency_minutes": 5,
+      "priority": "normal",
+      "description": "Regular captaincy duty reminder"
+    },
+    "urgent": {
+      "frequency_minutes": 3,
+      "priority": "urgent",
+      "description": "Urgent duty reminder when captain inactive"
+    },
+    "critical": {
+      "frequency_minutes": 1,
+      "priority": "critical",
+      "description": "Critical duty reminder when captain going dark"
+    }
+  }
+}

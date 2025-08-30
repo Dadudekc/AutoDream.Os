@@ -1,0 +1,48 @@
+{
+  "pyautogui_settings": {
+    "failsafe": true,
+    "pause": 0.1,
+    "confidence": 0.9,
+    "timeout": 10.0
+  },
+  "delivery_methods": {
+    "default": "hybrid",
+    "fallback": "pyautogui",
+    "cdp_port": 9222,
+    "cdp_timeout": 5.0
+  },
+  "high_priority": {
+    "ctrl_enter_threshold": 2,
+    "timeout_ms": 5000,
+    "activation_delay": 0.5
+  },
+  "message_queue": {
+    "max_queue_size": 1000,
+    "default_priority": "normal",
+    "retry_attempts": 3,
+    "retry_delay": 1.0,
+    "priority_boost": 100
+  },
+  "agent_management": {
+    "heartbeat_interval": 30.0,
+    "offline_timeout": 120.0,
+    "auto_reconnect": true,
+    "max_agents": 50
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/message_queue.log",
+    "max_file_size": "10MB",
+    "backup_count": 5
+  },
+  "security": {
+    "require_authentication": false,
+    "allowed_agents": [],
+    "encryption_enabled": false
+  },
+  "performance": {
+    "worker_threads": 4,
+    "batch_size": 10,
+    "processing_delay": 0.1
+  }
+}

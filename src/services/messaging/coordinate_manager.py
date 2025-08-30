@@ -81,8 +81,8 @@ class CoordinateManager(ICoordinateManager):
             logger.error(f"Error loading coordinates: {e}")
             return {}
     
-    def get_agent_coordinates(self, agent_id: str, mode: str = "8-agent") -> Optional[AgentCoordinates]:
-        """Get coordinates for a specific agent"""
+    def get_agent_coordinates(self, agent_id: str, mode: str = "8-agent") -> Optional[Dict[str, Any]]:
+        """Get coordinates for a specific agent in PyAutoGUI-compatible format"""
         try:
             if mode in self.coordinates and agent_id in self.coordinates[mode]:
                 agent_coords = self.coordinates[mode][agent_id]
@@ -92,12 +92,15 @@ class CoordinateManager(ICoordinateManager):
                 input_x = agent_coords["input_box"]["x"]
                 input_y = agent_coords["input_box"]["y"]
                 
-                return AgentCoordinates(
-                    agent_id=agent_id,
-                    starter_location=(starter_x, starter_y),
-                    input_box=(input_x, input_y),
-                    mode=mode
-                )
+                # Return coordinates in PyAutoGUI-compatible format
+                return {
+                    "agent_id": agent_id,
+                    "starter_location": (starter_x, starter_y),
+                    "input_box": (input_x, input_y),
+                    "mode": mode,
+                    "starter_location_box": agent_coords["starter_location_box"],
+                    "input_box_raw": agent_coords["input_box"]
+                }
             else:
                 logger.warning(f"Coordinates not found for {agent_id} in {mode} mode")
                 return None

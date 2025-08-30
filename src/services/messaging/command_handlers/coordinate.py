@@ -9,9 +9,9 @@ Handles all coordinate-related commands for the messaging system.
 import argparse
 import logging
 from .base import BaseCommandHandler
-from .interfaces import MessagingMode
-from .interactive_coordinate_capture import InteractiveCoordinateCapture
-from .coordinate_manager import CoordinateManager
+from ..interfaces import MessagingMode
+from ..interactive_coordinate_capture import InteractiveCoordinateCapture
+from ..coordinate_manager import CoordinateManager
 
 
 class CoordinateCommandHandler(BaseCommandHandler):
@@ -20,7 +20,7 @@ class CoordinateCommandHandler(BaseCommandHandler):
     def __init__(self, formatter=None):
         super().__init__(formatter)
         self.coordinate_manager = CoordinateManager()
-        self.interactive_capture = InteractiveCoordinateCapture()
+        self.interactive_capture = InteractiveCoordinateCapture(self.coordinate_manager)
     
     def can_handle(self, args: argparse.Namespace) -> bool:
         """Check if this handler can handle the given arguments"""

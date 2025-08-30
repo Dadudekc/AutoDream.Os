@@ -9,9 +9,9 @@ Provides the base class and common functionality for all command handlers.
 import argparse
 import logging
 from abc import ABC, abstractmethod
-from .interfaces import MessagingMode, MessageType
-from .unified_messaging_service import UnifiedMessagingService
-from .output_formatter import OutputFormatter
+from ..interfaces import MessagingMode, MessageType
+from ..unified_messaging_service import UnifiedMessagingService
+from ..output_formatter import OutputFormatter
 
 
 class BaseCommandHandler(ABC):

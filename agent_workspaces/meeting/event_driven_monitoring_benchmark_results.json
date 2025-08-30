@@ -1,0 +1,13 @@
+{
+  "total_events": 1575,
+  "processed_events": 1575,
+  "failed_events": 0,
+  "success_rate": 100.0,
+  "avg_processing_time": 4.1148664799771615e-05,
+  "events_per_second": 492.8831699978145,
+  "active_handlers": 4,
+  "system_uptime": 4.017438173294067,
+  "monitoring_mode": "emergency",
+  "queue_size": 0,
+  "monitored_agents": 10
+}

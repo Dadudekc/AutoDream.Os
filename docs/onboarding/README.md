@@ -82,7 +82,7 @@ This workspace contains onboarding system artifacts and configurations, includin
 - `agent_roles_and_responsibilities.md` - Agent role definitions
 - `system_overview.md` - System architecture overview
 - `ssot_compliance_training.md` - SSOT training module 🆕
-- `devlog_training_module.md` - Devlog system training 🆕 (MANDATORY)
+- `devlog_training_module.md` - ~~Devlog system training~~ 🗑️ **DELETED - REDUNDANT**
 - `messaging_etiquette_framework.md` - Messaging etiquette training 🆕 (MANDATORY)
 - `universal_development_principles.md` - Universal development principles
 - `troubleshooting_guide.md` - Issue resolution guide
@@ -178,10 +178,16 @@ python scripts/devlog.py "Training Test" "Testing devlog system" --agent "test-a
 ## Support and Resources
 
 ### **Training Support**
-- **Devlog Training**: `docs/onboarding/DEVLOG_TRAINING_MODULE.md` 🆕
+- **Devlog Training**: ~~`docs/onboarding/DEVLOG_TRAINING_MODULE.md`~~ 🗑️ **DELETED - REDUNDANT**
 - **SSOT Training**: `docs/onboarding/SSOT_COMPLIANCE_TRAINING.md`
-- **User Guide**: `docs/AGENT_DEVLOG_GUIDE.md`
-- **System Overview**: `docs/DEVLOG_SYSTEM_FIXED.md`
+- **User Guide**: ~~`docs/AGENT_DEVLOG_GUIDE.md`~~ 🗑️ **DELETED - REDUNDANT**
+- **System Overview**: ~~`docs/DEVLOG_SYSTEM_FIXED.md`~~ 🗑️ **DELETED - REDUNDANT**
+
+### **📱 Discord Devlog System - SINGLE SOURCE OF TRUTH**
+- **Discord devlog is your primary communication system**
+- **All updates automatically post to Discord**
+- **Use**: `python scripts/devlog.py "Title" "Content"`
+- **Reference**: `docs/standards/MANDATORY_AGENT_RESPONSE_PROTOCOL.md`
 
 ### **Technical Support**
 - **System Status**: `python -m src.core.devlog_cli status`

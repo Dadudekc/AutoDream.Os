@@ -14,6 +14,8 @@ from typing import Dict, List, Any, Optional, Tuple
 from pathlib import Path
 import logging
 
+from common import DEFAULT_THRESHOLDS, load_json_file, save_json_file
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,14 +37,7 @@ class PerformanceAnalysisDashboard:
         self.profiler_data_file = profiler_data_file
         self.performance_data: Dict[str, Any] = {}
         self.analysis_results: Dict[str, Any] = {}
-        self.performance_thresholds = {
-            'critical_cpu': 95.0,
-            'warning_cpu': 80.0,
-            'critical_memory': 90.0,
-            'warning_memory': 75.0,
-            'critical_function_time': 5.0,
-            'warning_function_time': 1.0
-        }
+        self.performance_thresholds = DEFAULT_THRESHOLDS.copy()
         
         if profiler_data_file:
             self.load_profiler_data(profiler_data_file)
@@ -59,14 +54,13 @@ class PerformanceAnalysisDashboard:
         Returns:
             True if data loaded successfully
         """
-        try:
-            with open(data_file, 'r') as f:
-                self.performance_data = json.load(f)
+        self.performance_data = load_json_file(data_file)
+        if self.performance_data:
             logger.info(f"Loaded profiling data from {data_file}")
             return True
-        except Exception as e:
-            logger.error(f"Error loading profiling data: {e}")
-            return False
+
+        logger.error(f"Failed to load profiling data from {data_file}")
+        return False
     
     def analyze_performance_trends(self) -> Dict[str, Any]:
         """
@@ -448,10 +442,8 @@ class PerformanceAnalysisDashboard:
             'performance_data': self.performance_data,
             'analysis_results': self.analysis_results
         }
-        
-        with open(output_file, 'w') as f:
-            json.dump(export_data, f, indent=2)
-        
+
+        save_json_file(output_file, export_data)
         logger.info(f"Exported analysis report to {output_file}")
         return output_file
     

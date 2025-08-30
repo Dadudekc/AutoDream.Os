@@ -14,6 +14,13 @@ from typing import Dict, List, Any, Tuple
 from datetime import datetime
 import sys
 
+from src.database.integrity_tools import (
+    setup_logging,
+    iter_contracts,
+    is_contract_corrupted,
+    identify_corruption_issues,
+)
+
 class EmergencyContractDatabaseRecovery:
     """EMERGENCY-RESTORE-004: Contract Database Recovery System"""
     
@@ -23,22 +30,10 @@ class EmergencyContractDatabaseRecovery:
         self.audit_results = {}
         self.integrity_issues = []
         self.recovery_actions = []
-        self.logger = self._setup_logging()
-        
-    def _setup_logging(self) -> logging.Logger:
-        """Setup emergency logging for database recovery"""
-        logger = logging.getLogger("EMERGENCY_RESTORE_004")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '[EMERGENCY] %(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-            
-        return logger
+        self.logger = setup_logging(
+            "EMERGENCY_RESTORE_004",
+            fmt="[EMERGENCY] %(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        )
         
     def execute_emergency_recovery(self) -> Dict[str, Any]:
         """Execute EMERGENCY-RESTORE-004 immediately"""
@@ -370,36 +365,32 @@ class EmergencyContractDatabaseRecovery:
         try:
             with open(self.task_list_path, 'r') as f:
                 task_list = json.load(f)
-                
-            if "contracts" in task_list:
-                contract_ids = set()
-                
-                for category, category_data in task_list["contracts"].items():
-                    if "contracts" in category_data and isinstance(category_data["contracts"], list):
-                        for contract in category_data["contracts"]:
-                            contract_id = contract.get("contract_id")
-                            
-                            if not contract_id:
-                                corruption_scan["corruption_indicators"].append(
-                                    f"Contract missing ID in category {category}"
-                                )
-                                continue
+
+            contract_ids = set()
+            for category, contract in iter_contracts(task_list):
+                contract_id = contract.get("contract_id")
+
+                if not contract_id:
+                    corruption_scan["corruption_indicators"].append(
+                        f"Contract missing ID in category {category}"
+                    )
+                    continue
+
+                # Check for duplicates
+                if contract_id in contract_ids:
+                    corruption_scan["duplicate_contracts"].append(contract_id)
+                else:
+                    contract_ids.add(contract_id)
+
+                # Check for data corruption indicators
+                if is_contract_corrupted(contract):
+                    corruption_scan["data_integrity_issues"].append({
+                        "contract_id": contract_id,
+                        "issues": identify_corruption_issues(contract)
+                    })
                                 
-                            # Check for duplicates
-                            if contract_id in contract_ids:
-                                corruption_scan["duplicate_contracts"].append(contract_id)
-                            else:
-                                contract_ids.add(contract_id)
-                                
-                            # Check for data corruption indicators
-                            if self._is_contract_corrupted(contract):
-                                corruption_scan["data_integrity_issues"].append({
-                                    "contract_id": contract_id,
-                                    "issues": self._identify_corruption_issues(contract)
-                                })
-                                
-        except Exception as e:
-            corruption_scan["corruption_indicators"].append(f"Failed to scan for corruption: {e}")
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            corruption_scan["corruption_indicators"].append(f"Failed to read or parse task list for corruption scan: {e}")
             
         # Generate recovery actions
         if corruption_scan["corruption_indicators"]:
@@ -414,38 +405,6 @@ class EmergencyContractDatabaseRecovery:
             )
             
         return corruption_scan
-        
-    def _is_contract_corrupted(self, contract: Dict[str, Any]) -> bool:
-        """Check if a contract appears to be corrupted"""
-        corruption_indicators = [
-            not contract.get("contract_id"),
-            not contract.get("title"),
-            not contract.get("description"),
-            not contract.get("status"),
-            contract.get("extra_credit_points", 0) < 0,
-            contract.get("estimated_time") == "INVALID_TIME"
-        ]
-        
-        return any(corruption_indicators)
-        
-    def _identify_corruption_issues(self, contract: Dict[str, Any]) -> List[str]:
-        """Identify specific corruption issues in a contract"""
-        issues = []
-        
-        if not contract.get("contract_id"):
-            issues.append("Missing contract ID")
-        if not contract.get("title"):
-            issues.append("Missing title")
-        if not contract.get("description"):
-            issues.append("Missing description")
-        if not contract.get("status"):
-            issues.append("Missing status")
-        if contract.get("extra_credit_points", 0) < 0:
-            issues.append("Invalid extra credit points")
-        if contract.get("estimated_time") == "INVALID_TIME":
-            issues.append("Invalid estimated time")
-            
-        return issues
         
     def implement_integrity_checks(self) -> Dict[str, Any]:
         """Implement database integrity checks to prevent future corruption"""

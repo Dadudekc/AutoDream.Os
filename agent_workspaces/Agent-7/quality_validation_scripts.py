@@ -21,7 +21,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass
 from datetime import datetime
-import logging
+from tools.qa_common import setup_logging
 
 
 @dataclass
@@ -50,26 +50,11 @@ class TestResult:
 
 class QualityValidationEngine:
     """Engine for running quality validation tests"""
-    
+
     def __init__(self):
-        self.logger = self._setup_logging()
+        self.logger = setup_logging("QualityValidationEngine")
         self.test_scenarios = self._initialize_test_scenarios()
         self.results = []
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for validation engine"""
-        logger = logging.getLogger("QualityValidationEngine")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
     
     def _initialize_test_scenarios(self) -> List[TestScenario]:
         """Initialize comprehensive test scenarios"""

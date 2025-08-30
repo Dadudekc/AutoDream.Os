@@ -334,8 +334,8 @@ class UnifiedMessagingService:
                 
                 # Check if coordinates suggest multi-monitor setup (negative X values)
                 has_negative_x = any([
-                    coords.input_box[0] < 0,
-                    coords.starter_location[0] < 0
+                    coords["input_box"][0] < 0,
+                    coords["starter_location"][0] < 0
                 ])
                 
                 if has_negative_x:
@@ -357,7 +357,7 @@ class UnifiedMessagingService:
                     logger.info(f"🔍 Single monitor setup: {screen_width}x{screen_height}")
                 
                 # Check input box coordinates
-                input_x, input_y = coords.input_box
+                input_x, input_y = coords["input_box"]
                 if not (min_x <= input_x <= max_x and min_y <= input_y <= max_y):
                     return {
                         "valid": False,
@@ -365,7 +365,7 @@ class UnifiedMessagingService:
                     }
                 
                 # Check starter location coordinates
-                starter_x, starter_y = coords.starter_location
+                starter_x, starter_y = coords["starter_location"]
                 if not (min_x <= starter_x <= max_x and min_y <= starter_y <= max_y):
                     return {
                         "valid": False,

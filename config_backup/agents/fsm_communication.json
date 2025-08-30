@@ -1,0 +1,133 @@
+{
+  "system": {
+    "name": "FSM-Communication Integration System",
+    "version": "2.0.0",
+    "description": "Integrated FSM and Communication system for Agent Cellphone V2",
+    "author": "FSM-Communication Integration Specialist"
+  },
+  "workspace_path": "data/workspaces",
+  "inbox_path": "data/communication",
+  "fsm_data_path": "data/workspaces/fsm_data",
+  "logs_path": "data/logs",
+  "communication": {
+    "heartbeat_interval": 30,
+    "message_timeout": 300,
+    "max_message_history": 10000,
+    "retry_attempts": "VALUE_THREE",
+    "retry_delay": 5,
+    "broadcast_enabled": "ENABLE_TRUE",
+    "private_messaging_enabled": "ENABLE_TRUE",
+    "message_encryption": "ENABLE_FALSE"
+  },
+  "fsm": {
+    "task_timeout": 3600,
+    "max_concurrent_tasks": "VALUE_HUNDRED",
+    "coordination_interval": 60,
+    "state_transition_validation": "ENABLE_TRUE",
+    "evidence_required": "ENABLE_TRUE",
+    "auto_cleanup_enabled": "ENABLE_TRUE",
+    "cleanup_interval": 86400,
+    "max_task_history": "VALUE_THOUSAND"
+  },
+  "bridge": {
+    "event_processing_interval": 0.1,
+    "coordination_check_interval": 60,
+    "cleanup_interval": 3600,
+    "max_event_history": 5000,
+    "event_ttl": 86400,
+    "coordination_timeout": 300,
+    "retry_failed_events": "ENABLE_TRUE",
+    "max_retry_attempts": "VALUE_THREE"
+  },
+  "agents": {
+    "default_capabilities": [
+      "task_execution",
+      "status_reporting",
+      "coordination",
+      "communication"
+    ],
+    "coordination_agents": [
+      "Agent-1",
+      "Agent-5"
+    ],
+    "specialized_agents": {
+      "Agent-2": [
+        "communication",
+        "validation"
+      ],
+      "Agent-3": [
+        "testing",
+        "quality"
+      ],
+      "Agent-4": [
+        "monitoring",
+        "analytics"
+      ],
+      "Agent-6": [
+        "development",
+        "integration"
+      ],
+      "Agent-7": [
+        "web",
+        "ui"
+      ],
+      "Agent-8": [
+        "gaming",
+        "entertainment"
+      ]
+    }
+  },
+  "messaging": {
+    "default_priority": "NORMAL",
+    "urgent_timeout": 60,
+    "high_timeout": 300,
+    "normal_timeout": 1800,
+    "low_timeout": 7200,
+    "message_formats": [
+      "json",
+      "text"
+    ],
+    "compression_enabled": "ENABLE_FALSE",
+    "batch_processing": "ENABLE_TRUE",
+    "batch_size": "VALUE_HUNDRED",
+    "batch_timeout": 5
+  },
+  "monitoring": {
+    "health_check_interval": 30,
+    "performance_metrics_enabled": "ENABLE_TRUE",
+    "alerting_enabled": "ENABLE_TRUE",
+    "log_level": "INFO",
+    "metrics_retention": 86400,
+    "status_broadcast_interval": 60
+  },
+  "security": {
+    "authentication_required": "ENABLE_FALSE",
+    "authorization_enabled": "ENABLE_FALSE",
+    "message_validation": "ENABLE_TRUE",
+    "input_sanitization": "ENABLE_TRUE",
+    "rate_limiting": "ENABLE_FALSE",
+    "max_messages_per_minute": "VALUE_THOUSAND"
+  },
+  "integration": {
+    "auto_discovery_enabled": "ENABLE_TRUE",
+    "plugin_system_enabled": "ENABLE_TRUE",
+    "webhook_support": "ENABLE_FALSE",
+    "api_endpoints": {
+      "status": "/api/v1/status",
+      "tasks": "/api/v1/tasks",
+      "agents": "/api/v1/agents",
+      "messages": "/api/v1/messages"
+    }
+  },
+  "development": {
+    "debug_mode": "ENABLE_FALSE",
+    "verbose_logging": "ENABLE_FALSE",
+    "mock_services": "ENABLE_FALSE",
+    "test_mode": "ENABLE_FALSE",
+    "development_features": [
+      "hot_reload",
+      "live_debugging",
+      "performance_profiling"
+    ]
+  }
+}

@@ -3530,8 +3530,11 @@
             "Consolidation plan",
             "Migration implementation"
           ],
-          "status": "AVAILABLE",
-          "category": "SSOT_Resolution"
+          "status": "CLAIMED",
+          "category": "SSOT_Resolution",
+          "claimed_by": "Agent-5",
+          "claimed_at": "2025-08-30T14:32:39.025442Z",
+          "progress": "0% Complete - In Progress"
         },
         {
           "contract_id": "DEDUP-002",

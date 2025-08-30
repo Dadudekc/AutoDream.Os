@@ -1,0 +1,45 @@
+ci_cd:
+  artifacts:
+    reports:
+    - junit:test-results/junit.xml
+    - coverage:test-results/coverage.json
+    - security:test-results/security-scan.json
+    - dependencies:test-results/safety.json
+  build:
+    enable_docker: ENABLE_FALSE
+    enable_package_building: ENABLE_TRUE
+    output_directory: dist/
+  deploy:
+    enable_health_checks: ENABLE_TRUE
+    enable_rollback: ENABLE_TRUE
+    environments:
+    - development
+    - staging
+    - production
+  enable_automated_building: ENABLE_TRUE
+  enable_automated_deployment: ENABLE_FALSE
+  enable_automated_testing: ENABLE_TRUE
+  notifications:
+    enable_email: ENABLE_TRUE
+    enable_slack: ENABLE_TRUE
+    enable_webhook: ENABLE_FALSE
+  platform: gitlab
+  security:
+    enable_container_scanning: ENABLE_FALSE
+    enable_dependency_checking: ENABLE_TRUE
+    enable_secret_scanning: ENABLE_TRUE
+    enable_vulnerability_scanning: ENABLE_TRUE
+  stages:
+  - validate
+  - test
+  - build
+  - deploy
+  test:
+    coverage_threshold: 0.8
+    enable_fast_fail: ENABLE_TRUE
+    framework: pytest
+    parallel_jobs: 4
+  validate:
+    enable_dependency_checking: ENABLE_TRUE
+    enable_schema_validation: ENABLE_TRUE
+    enable_syntax_checking: ENABLE_TRUE

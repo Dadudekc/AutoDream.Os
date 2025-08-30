@@ -1,0 +1,35 @@
+market_data:
+  cache_duration: 300
+  default_provider: yfinance
+  max_retries: VALUE_THREE
+  providers:
+  - yfinance
+  - alpha_vantage
+  - quandl
+options_trading:
+  default_model: black_scholes
+  greeks_calculation: ENABLE_TRUE
+  risk_metrics:
+  - delta
+  - gamma
+  - theta
+  - vega
+  volatility_surface_points: VALUE_HUNDRED
+portfolio:
+  max_sector_allocation: 0.3
+  min_diversification: 10
+  rebalancing_frequency: monthly
+  target_volatility: 0.15
+risk_management:
+  correlation_threshold: 0.7
+  max_drawdown: 0.2
+  stress_test_scenarios:
+  - 2008_crisis
+  - 2020_covid
+  - 2022_inflation
+  var_confidence: 0.95
+trading:
+  default_currency: USD
+  max_position_size: 0.1
+  risk_free_rate: 0.02
+  stop_loss_threshold: 0.05

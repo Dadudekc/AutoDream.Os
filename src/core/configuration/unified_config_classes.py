@@ -20,6 +20,8 @@ import json
 import yaml
 import logging
 from abc import ABC, abstractmethod
+import threading
+from datetime import datetime
 
 from .unified_constants import (
     ConfigCategory, ConfigPriority, get_constant,
@@ -237,40 +239,43 @@ class TestingConfig:
 @dataclass
 class NetworkConfig:
     """Unified network configuration container."""
-    host: str = get_constant("DEFAULT_NETWORK_HOST", "0.0.0.0")
-    port: int = get_constant("DEFAULT_NETWORK_PORT", 8000)
-    timeout: float = get_constant("DEFAULT_NETWORK_TIMEOUT", 30.0)
+    host: str = get_constant("DEFAULT_NETWORK_HOST", "localhost")
+    port: int = get_constant("DEFAULT_NETWORK_PORT", 8080)
     max_connections: int = get_constant("DEFAULT_MAX_CONNECTIONS", 100)
-    keep_alive: bool = get_constant("DEFAULT_KEEP_ALIVE", True)
+    connection_timeout: float = get_constant("DEFAULT_CONNECTION_TIMEOUT", 10.0)
+    read_timeout: float = get_constant("DEFAULT_READ_TIMEOUT", 30.0)
+    write_timeout: float = get_constant("DEFAULT_WRITE_TIMEOUT", 30.0)
+    keep_alive: bool = True
+    keep_alive_timeout: float = 60.0
+    max_retries: int = 3
+    retry_delay: float = 1.0
     ssl_enabled: bool = False
-    ssl_cert_path: Optional[str] = None
-    ssl_key_path: Optional[str] = None
-    rate_limiting_enabled: bool = False
-    rate_limit_requests: int = 100
-    rate_limit_window: float = 60.0
-    cors_enabled: bool = False
-    cors_origins: List[str] = field(default_factory=list)
-    proxy_enabled: bool = False
-    proxy_url: Optional[str] = None
+    ssl_cert_file: Optional[str] = None
+    ssl_key_file: Optional[str] = None
+    compression_enabled: bool = False
+    rate_limiting_enabled: bool = True
+    max_requests_per_minute: int = 1000
 
 
 @dataclass
 class SecurityConfig:
     """Unified security configuration container."""
-    timeout: float = get_constant("DEFAULT_SECURITY_TIMEOUT", 30.0)
+    authentication_enabled: bool = True
+    authorization_enabled: bool = True
+    session_timeout: float = get_constant("DEFAULT_SECURITY_TIMEOUT", 3600.0)
     max_login_attempts: int = get_constant("DEFAULT_MAX_LOGIN_ATTEMPTS", 5)
-    session_timeout: float = get_constant("DEFAULT_SESSION_TIMEOUT", 3600.0)
-    encryption_algorithm: str = get_constant("DEFAULT_ENCRYPTION_ALGORITHM", "AES-256")
-    hash_algorithm: str = get_constant("DEFAULT_HASH_ALGORITHM", "SHA-256")
+    lockout_duration: float = 300.0
     password_min_length: int = 8
     password_require_special: bool = True
     password_require_numbers: bool = True
     password_require_uppercase: bool = True
+    encryption_enabled: bool = True
+    encryption_algorithm: str = "AES-256"
     jwt_secret: Optional[str] = None
-    jwt_expiry_hours: int = 24
-    mfa_enabled: bool = False
-    mfa_type: str = "totp"
-    audit_logging_enabled: bool = True
+    jwt_expiration: float = 3600.0
+    csrf_protection: bool = True
+    rate_limiting_enabled: bool = True
+    max_requests_per_ip: int = 100
     ip_whitelist: List[str] = field(default_factory=list)
     ip_blacklist: List[str] = field(default_factory=list)
 
@@ -280,48 +285,49 @@ class DatabaseConfig:
     """Unified database configuration container."""
     host: str = get_constant("DEFAULT_DB_HOST", "localhost")
     port: int = get_constant("DEFAULT_DB_PORT", 5432)
-    name: str = get_constant("DEFAULT_DB_NAME", "agent_cellphone_v2")
-    pool_size: int = get_constant("DEFAULT_DB_POOL_SIZE", 10)
-    timeout: float = get_constant("DEFAULT_DB_TIMEOUT", 30.0)
+    database: str = "agent_cellphone_v2"
     username: Optional[str] = None
     password: Optional[str] = None
-    ssl_mode: str = "prefer"
-    ssl_cert: Optional[str] = None
-    ssl_key: Optional[str] = None
-    ssl_ca: Optional[str] = None
-    connection_retries: int = 3
+    pool_size: int = get_constant("DEFAULT_DB_POOL_SIZE", 10)
+    max_connections: int = 20
+    connection_timeout: float = 10.0
+    query_timeout: float = 30.0
+    transaction_timeout: float = 60.0
+    retry_count: int = 3
     retry_delay: float = 1.0
-    enable_logging: bool = False
-    log_queries: bool = False
-    log_slow_queries: bool = True
+    ssl_enabled: bool = False
+    ssl_cert_file: Optional[str] = None
+    ssl_key_file: Optional[str] = None
+    backup_enabled: bool = True
+    backup_interval: float = 86400.0
+    backup_retention_days: int = 30
+    logging_enabled: bool = True
     slow_query_threshold: float = 1.0
-    enable_pooling: bool = True
-    max_overflow: int = 20
 
 
 @dataclass
 class LoggingConfig:
     """Unified logging configuration container."""
-    format: str = get_constant("DEFAULT_LOG_FORMAT", "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    date_format: str = get_constant("DEFAULT_LOG_DATE_FORMAT", "%Y-%m-%d %H:%M:%S")
-    file_size: int = get_constant("DEFAULT_LOG_FILE_SIZE", 10485760)
-    backup_count: int = get_constant("DEFAULT_LOG_BACKUP_COUNT", 5)
-    level: str = "INFO"
+    level: str = get_constant("LOG_LEVEL", "INFO")
+    format: str = get_constant("DEFAULT_LOG_FORMAT", "%(asctime)s | %(name)s | %(levelname)s | %(message)s")
     file_enabled: bool = True
+    file_path: str = "logs/agent_cellphone_v2.log"
+    file_max_size: int = get_constant("DEFAULT_LOG_FILE_SIZE", 10 * 1024 * 1024)  # 10MB
+    file_backup_count: int = 5
     console_enabled: bool = True
+    console_level: str = "INFO"
     syslog_enabled: bool = False
     syslog_host: Optional[str] = None
     syslog_port: int = 514
-    syslog_facility: str = "user"
+    syslog_facility: str = "local0"
     json_format: bool = False
     include_timestamp: bool = True
     include_level: bool = True
-    include_logger: bool = True
+    include_name: bool = True
     include_thread: bool = False
     include_process: bool = False
-    enable_rotation: bool = True
-    rotation_when: str = "midnight"
-    rotation_interval: int = 1
+    color_enabled: bool = True
+    sensitive_fields: List[str] = field(default_factory=lambda: ["password", "token", "secret", "key"])
 
 
 # ============================================================================
@@ -333,11 +339,10 @@ class UnifiedConfigurationManager(ABC):
     
     def __init__(self, config_dir: str = "config"):
         self.config_dir = Path(config_dir)
-        self.configs: Dict[str, Any] = {}
+        self.configs: Dict[str, Dict[str, Any]] = {}
         self.metadata: Dict[str, ConfigMetadata] = {}
-        self.validation_results: Dict[str, ConfigValidationResult] = {}
         self.change_history: List[ConfigChangeEvent] = []
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self._lock = threading.Lock()
     
     @abstractmethod
     def load_config(self, config_name: str, config_type: ConfigType) -> bool:
@@ -345,8 +350,24 @@ class UnifiedConfigurationManager(ABC):
         pass
     
     @abstractmethod
-    def save_config(self, config_name: str, config_data: Any) -> bool:
+    def save_config(self, config_name: str, config_data: Dict[str, Any], 
+                   config_type: ConfigType, format: ConfigFormat = ConfigFormat.JSON) -> bool:
         """Save configuration to destination."""
+        pass
+    
+    @abstractmethod
+    def get_config(self, config_name: str, default: Any = None) -> Any:
+        """Get configuration value."""
+        pass
+    
+    @abstractmethod
+    def set_config(self, config_name: str, key: str, value: Any) -> bool:
+        """Set configuration value."""
+        pass
+    
+    @abstractmethod
+    def delete_config(self, config_name: str) -> bool:
+        """Delete configuration."""
         pass
     
     @abstractmethod
@@ -354,82 +375,42 @@ class UnifiedConfigurationManager(ABC):
         """Validate configuration."""
         pass
     
-    def get_config(self, config_name: str, default: Any = None) -> Any:
-        """Get configuration by name."""
-        return self.configs.get(config_name, default)
-    
-    def set_config(self, config_name: str, config_data: Any) -> bool:
-        """Set configuration by name."""
-        try:
-            old_value = self.configs.get(config_name)
-            self.configs[config_name] = config_data
-            
-            # Record change event
-            change_event = ConfigChangeEvent(
-                config_name=config_name,
-                change_type="update" if old_value is not None else "create",
-                old_value=old_value,
-                new_value=config_data,
-                timestamp=self._get_timestamp(),
-                source=self.__class__.__name__
-            )
-            self.change_history.append(change_event)
-            
-            return True
-        except Exception as e:
-            self.logger.error(f"Error setting config {config_name}: {e}")
-            return False
-    
-    def delete_config(self, config_name: str) -> bool:
-        """Delete configuration by name."""
-        try:
-            if config_name in self.configs:
-                old_value = self.configs[config_name]
-                del self.configs[config_name]
-                
-                # Record change event
-                change_event = ConfigChangeEvent(
-                    config_name=config_name,
-                    change_type="delete",
-                    old_value=old_value,
-                    new_value=None,
-                    timestamp=self._get_timestamp(),
-                    source=self.__class__.__name__
-                )
-                self.change_history.append(change_event)
-                
-                return True
-            return False
-        except Exception as e:
-            self.logger.error(f"Error deleting config {config_name}: {e}")
-            return False
-    
     def list_configs(self) -> List[str]:
-        """List all configuration names."""
-        return list(self.configs.keys())
+        """List all available configurations."""
+        with self._lock:
+            return list(self.configs.keys())
     
     def get_metadata(self, config_name: str) -> Optional[ConfigMetadata]:
         """Get configuration metadata."""
-        return self.metadata.get(config_name)
-    
-    def get_validation_result(self, config_name: str) -> Optional[ConfigValidationResult]:
-        """Get configuration validation result."""
-        return self.validation_results.get(config_name)
+        with self._lock:
+            return self.metadata.get(config_name)
     
     def get_change_history(self, config_name: Optional[str] = None) -> List[ConfigChangeEvent]:
         """Get configuration change history."""
-        if config_name:
-            return [event for event in self.change_history if event.config_name == config_name]
-        return self.change_history
+        with self._lock:
+            if config_name:
+                return [event for event in self.change_history if event.config_name == config_name]
+            return self.change_history.copy()
     
-    def _get_timestamp(self) -> str:
-        """Get current timestamp string."""
-        from datetime import datetime
-        return datetime.now().isoformat()
+    def _add_change_event(self, config_name: str, change_type: str, 
+                         old_value: Any = None, new_value: Any = None):
+        """Add change event to history."""
+        event = ConfigChangeEvent(
+            config_name=config_name,
+            change_type=change_type,
+            old_value=old_value,
+            new_value=new_value,
+            timestamp=datetime.now().isoformat()
+        )
+        with self._lock:
+            self.change_history.append(event)
+            # Keep only last 1000 events
+            if len(self.change_history) > 1000:
+                self.change_history = self.change_history[-1000:]
 
 
 # ============================================================================
-# CONCRETE CONFIGURATION MANAGERS
+# FILE-BASED CONFIGURATION MANAGER
 # ============================================================================
 
 class FileBasedConfigurationManager(UnifiedConfigurationManager):
@@ -438,311 +419,283 @@ class FileBasedConfigurationManager(UnifiedConfigurationManager):
     def __init__(self, config_dir: str = "config"):
         super().__init__(config_dir)
         self.supported_formats = {ConfigFormat.JSON, ConfigFormat.YAML, ConfigFormat.INI, ConfigFormat.PYTHON}
+        self._ensure_config_dir()
+    
+    def _ensure_config_dir(self):
+        """Ensure configuration directory exists."""
+        self.config_dir.mkdir(parents=True, exist_ok=True)
+    
+    def _get_config_path(self, config_name: str, format: ConfigFormat) -> Path:
+        """Get configuration file path."""
+        extension_map = {
+            ConfigFormat.JSON: ".json",
+            ConfigFormat.YAML: ".yaml",
+            ConfigFormat.INI: ".ini",
+            ConfigFormat.PYTHON: ".py"
+        }
+        extension = extension_map.get(format, ".json")
+        return self.config_dir / f"{config_name}{extension}"
     
     def load_config(self, config_name: str, config_type: ConfigType) -> bool:
         """Load configuration from file."""
         try:
-            # Try different file formats
-            for format_type in self.supported_formats:
-                file_path = self._get_config_file_path(config_name, format_type)
-                if file_path.exists():
-                    config_data = self._load_file(file_path, format_type)
-                    if config_data:
-                        self.configs[config_name] = config_data
-                        
-                        # Create metadata
-                        metadata = ConfigMetadata(
-                            name=config_name,
-                            config_type=config_type,
-                            format=format_type,
-                            source_path=str(file_path),
-                            last_modified=self._get_file_timestamp(file_path)
-                        )
-                        self.metadata[config_name] = metadata
-                        
-                        # Validate configuration
-                        self.validation_results[config_name] = self.validate_config(config_name)
-                        
-                        self.logger.info(f"Loaded config {config_name} from {file_path}")
-                        return True
+            # Try to auto-detect format
+            for format in [ConfigFormat.JSON, ConfigFormat.YAML, ConfigFormat.INI, ConfigFormat.PYTHON]:
+                config_path = self._get_config_path(config_name, format)
+                if config_path.exists():
+                    return self._load_from_file(config_name, config_path, format, config_type)
             
-            self.logger.warning(f"No configuration file found for {config_name}")
-            return False
+            # If no file exists, create default
+            self.configs[config_name] = {}
+            self.metadata[config_name] = ConfigMetadata(
+                name=config_name,
+                config_type=config_type,
+                format=ConfigFormat.JSON
+            )
+            return True
             
         except Exception as e:
-            self.logger.error(f"Error loading config {config_name}: {e}")
+            logging.error(f"Failed to load config {config_name}: {e}")
             return False
     
-    def save_config(self, config_name: str, config_data: Any) -> bool:
-        """Save configuration to file."""
+    def _load_from_file(self, config_name: str, config_path: Path, 
+                        format: ConfigFormat, config_type: ConfigType) -> bool:
+        """Load configuration from specific file format."""
         try:
-            metadata = self.metadata.get(config_name)
-            if not metadata:
-                self.logger.error(f"No metadata found for config {config_name}")
-                return False
+            if format == ConfigFormat.JSON:
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config_data = json.load(f)
+            elif format == ConfigFormat.YAML:
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config_data = yaml.safe_load(f)
+            elif format == ConfigFormat.INI:
+                config_data = self._load_ini_file(config_path)
+            elif format == ConfigFormat.PYTHON:
+                config_data = self._load_python_file(config_path)
+            else:
+                raise ValueError(f"Unsupported format: {format}")
             
-            file_path = self._get_config_file_path(config_name, metadata.format)
-            success = self._save_file(file_path, config_data, metadata.format)
-            
-            if success:
-                # Update metadata
-                metadata.last_modified = self._get_file_timestamp(file_path)
-                self.metadata[config_name] = metadata
-                
-                # Record change event
-                change_event = ConfigChangeEvent(
-                    config_name=config_name,
-                    change_type="update",
-                    old_value=self.configs.get(config_name),
-                    new_value=config_data,
-                    timestamp=self._get_timestamp(),
-                    source=self.__class__.__name__
+            with self._lock:
+                self.configs[config_name] = config_data
+                self.metadata[config_name] = ConfigMetadata(
+                    name=config_name,
+                    config_type=config_type,
+                    format=format,
+                    source_path=str(config_path),
+                    last_modified=datetime.fromtimestamp(config_path.stat().st_mtime).isoformat()
                 )
-                self.change_history.append(change_event)
-                
-                self.logger.info(f"Saved config {config_name} to {file_path}")
-                return True
             
-            return False
+            self._add_change_event(config_name, "reload")
+            return True
             
         except Exception as e:
-            self.logger.error(f"Error saving config {config_name}: {e}")
+            logging.error(f"Failed to load {format.value} config from {config_path}: {e}")
+            return False
+    
+    def _load_ini_file(self, config_path: Path) -> Dict[str, Any]:
+        """Load INI configuration file."""
+        import configparser
+        config = configparser.ConfigParser()
+        config.read(config_path)
+        
+        result = {}
+        for section in config.sections():
+            result[section] = dict(config.items(section))
+        
+        return result
+    
+    def _load_python_file(self, config_path: Path) -> Dict[str, Any]:
+        """Load Python configuration file."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("config_module", config_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        
+        # Extract configuration variables (uppercase)
+        config_data = {}
+        for attr_name in dir(module):
+            if attr_name.isupper() and not attr_name.startswith('_'):
+                config_data[attr_name] = getattr(module, attr_name)
+        
+        return config_data
+    
+    def save_config(self, config_name: str, config_data: Dict[str, Any], 
+                   config_type: ConfigType, format: ConfigFormat = ConfigFormat.JSON) -> bool:
+        """Save configuration to file."""
+        try:
+            config_path = self._get_config_path(config_name, format)
+            
+            if format == ConfigFormat.JSON:
+                with open(config_path, 'w', encoding='utf-8') as f:
+                    json.dump(config_data, f, indent=2, ensure_ascii=False)
+            elif format == ConfigFormat.YAML:
+                with open(config_path, 'w', encoding='utf-8') as f:
+                    yaml.dump(config_data, f, default_flow_style=False, allow_unicode=True)
+            elif format == ConfigFormat.INI:
+                self._save_ini_file(config_path, config_data)
+            elif format == ConfigFormat.PYTHON:
+                self._save_python_file(config_path, config_data)
+            else:
+                raise ValueError(f"Unsupported format: {format}")
+            
+            with self._lock:
+                self.configs[config_name] = config_data
+                if config_name in self.metadata:
+                    self.metadata[config_name].last_modified = datetime.now().isoformat()
+                    self.metadata[config_name].format = format
+                else:
+                    self.metadata[config_name] = ConfigMetadata(
+                        name=config_name,
+                        config_type=config_type,
+                        format=format,
+                        source_path=str(config_path)
+                    )
+            
+            self._add_change_event(config_name, "update")
+            return True
+            
+        except Exception as e:
+            logging.error(f"Failed to save config {config_name}: {e}")
+            return False
+    
+    def _save_ini_file(self, config_path: Path, config_data: Dict[str, Any]):
+        """Save configuration to INI file."""
+        import configparser
+        config = configparser.ConfigParser()
+        
+        for section_name, section_data in config_data.items():
+            if isinstance(section_data, dict):
+                config.add_section(section_name)
+                for key, value in section_data.items():
+                    config.set(section_name, key, str(value))
+            else:
+                # Single value, put in DEFAULT section
+                if not config.has_section('DEFAULT'):
+                    config.add_section('DEFAULT')
+                config.set('DEFAULT', section_name, str(section_data))
+        
+        with open(config_path, 'w', encoding='utf-8') as f:
+            config.write(f)
+    
+    def _save_python_file(self, config_path: Path, config_data: Dict[str, Any]):
+        """Save configuration to Python file."""
+        with open(config_path, 'w', encoding='utf-8') as f:
+            f.write("# Configuration file generated by UnifiedConfigurationManager\n")
+            f.write("# Generated on: {}\n\n".format(datetime.now().isoformat()))
+            
+            for key, value in config_data.items():
+                if isinstance(value, str):
+                    f.write(f'{key} = "{value}"\n')
+                else:
+                    f.write(f'{key} = {repr(value)}\n')
+    
+    def get_config(self, config_name: str, default: Any = None) -> Any:
+        """Get configuration value."""
+        with self._lock:
+            return self.configs.get(config_name, default)
+    
+    def set_config(self, config_name: str, key: str, value: Any) -> bool:
+        """Set configuration value."""
+        try:
+            with self._lock:
+                if config_name not in self.configs:
+                    self.configs[config_name] = {}
+                
+                old_value = self.configs[config_name].get(key)
+                self.configs[config_name][key] = value
+                
+                # Update metadata
+                if config_name in self.metadata:
+                    self.metadata[config_name].last_modified = datetime.now().isoformat()
+                
+                self._add_change_event(config_name, "update", old_value, value)
+                return True
+                
+        except Exception as e:
+            logging.error(f"Failed to set config {config_name}.{key}: {e}")
+            return False
+    
+    def delete_config(self, config_name: str) -> bool:
+        """Delete configuration."""
+        try:
+            with self._lock:
+                if config_name in self.configs:
+                    old_config = self.configs[config_name]
+                    del self.configs[config_name]
+                    
+                    if config_name in self.metadata:
+                        del self.metadata[config_name]
+                    
+                    self._add_change_event(config_name, "delete", old_config, None)
+                
+                # Remove file
+                for format in self.supported_formats:
+                    config_path = self._get_config_path(config_name, format)
+                    if config_path.exists():
+                        config_path.unlink()
+                        break
+                
+                return True
+                
+        except Exception as e:
+            logging.error(f"Failed to delete config {config_name}: {e}")
             return False
     
     def validate_config(self, config_name: str) -> ConfigValidationResult:
         """Validate configuration."""
         try:
-            config_data = self.configs.get(config_name)
-            if not config_data:
+            with self._lock:
+                if config_name not in self.configs:
+                    return ConfigValidationResult(
+                        is_valid=False,
+                        errors=[f"Configuration '{config_name}' not found"]
+                    )
+                
+                config_data = self.configs[config_name]
+                metadata = self.metadata.get(config_name)
+                
+                # Basic validation
+                errors = []
+                warnings = []
+                
+                if not isinstance(config_data, dict):
+                    errors.append("Configuration data must be a dictionary")
+                
+                if metadata and metadata.validation_level == ConfigValidationLevel.STRICT:
+                    # Strict validation
+                    if not metadata.name:
+                        warnings.append("Configuration name is empty")
+                    
+                    if not metadata.format:
+                        warnings.append("Configuration format is not specified")
+                
+                elif metadata and metadata.validation_level == ConfigValidationLevel.COMPREHENSIVE:
+                    # Comprehensive validation
+                    if not metadata.name:
+                        errors.append("Configuration name is required")
+                    
+                    if not metadata.format:
+                        errors.append("Configuration format is required")
+                    
+                    if not metadata.version:
+                        warnings.append("Configuration version is not specified")
+                    
+                    if not metadata.description:
+                        warnings.append("Configuration description is not specified")
+                
                 return ConfigValidationResult(
-                    is_valid=False,
-                    errors=[f"Configuration {config_name} not found"],
-                    validation_level=ConfigValidationLevel.BASIC,
-                    timestamp=self._get_timestamp()
+                    is_valid=len(errors) == 0,
+                    errors=errors,
+                    warnings=warnings,
+                    validation_level=metadata.validation_level if metadata else ConfigValidationLevel.BASIC
                 )
-            
-            metadata = self.metadata.get(config_name)
-            validation_level = metadata.validation_level if metadata else ConfigValidationLevel.BASIC
-            
-            errors = []
-            warnings = []
-            
-            # Basic validation
-            if not isinstance(config_data, dict):
-                errors.append("Configuration must be a dictionary")
-            
-            # Type-specific validation based on config name
-            if "ai" in config_name.lower():
-                errors.extend(self._validate_ai_config(config_data))
-            elif "fsm" in config_name.lower():
-                errors.extend(self._validate_fsm_config(config_data))
-            elif "performance" in config_name.lower():
-                errors.extend(self._validate_performance_config(config_data))
-            elif "quality" in config_name.lower():
-                errors.extend(self._validate_quality_config(config_data))
-            elif "messaging" in config_name.lower():
-                errors.extend(self._validate_messaging_config(config_data))
-            elif "testing" in config_name.lower():
-                errors.extend(self._validate_testing_config(config_data))
-            elif "network" in config_name.lower():
-                errors.extend(self._validate_network_config(config_data))
-            elif "security" in config_name.lower():
-                errors.extend(self._validate_security_config(config_data))
-            elif "database" in config_name.lower():
-                errors.extend(self._validate_database_config(config_data))
-            elif "logging" in config_name.lower():
-                errors.extend(self._validate_logging_config(config_data))
-            
-            is_valid = len(errors) == 0
-            
-            return ConfigValidationResult(
-                is_valid=is_valid,
-                errors=errors,
-                warnings=warnings,
-                validation_level=validation_level,
-                timestamp=self._get_timestamp()
-            )
-            
+                
         except Exception as e:
             return ConfigValidationResult(
                 is_valid=False,
-                errors=[f"Validation error: {str(e)}"],
-                validation_level=ConfigValidationLevel.BASIC,
-                timestamp=self._get_timestamp()
+                errors=[f"Validation failed: {e}"],
+                validation_level=ConfigValidationLevel.BASIC
             )
-    
-    def _get_config_file_path(self, config_name: str, format_type: ConfigFormat) -> Path:
-        """Get configuration file path for given format."""
-        if format_type == ConfigFormat.JSON:
-            return self.config_dir / f"{config_name}.json"
-        elif format_type == ConfigFormat.YAML:
-            return self.config_dir / f"{config_name}.yaml"
-        elif format_type == ConfigFormat.INI:
-            return self.config_dir / f"{config_name}.ini"
-        elif format_type == ConfigFormat.PYTHON:
-            return self.config_dir / f"{config_name}.py"
-        else:
-            return self.config_dir / f"{config_name}.json"
-    
-    def _load_file(self, file_path: Path, format_type: ConfigFormat) -> Optional[Dict[str, Any]]:
-        """Load configuration from file based on format."""
-        try:
-            if format_type == ConfigFormat.JSON:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            elif format_type == ConfigFormat.YAML:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    return yaml.safe_load(f)
-            elif format_type == ConfigFormat.INI:
-                import configparser
-                config = configparser.ConfigParser()
-                config.read(file_path)
-                return {section: dict(config[section]) for section in config.sections()}
-            elif format_type == ConfigFormat.PYTHON:
-                import importlib.util
-                spec = importlib.util.spec_from_file_location("config_module", file_path)
-                module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
-                return {key: value for key, value in module.__dict__.items() 
-                       if not key.startswith('_') and not callable(value)}
-            else:
-                return None
-        except Exception as e:
-            self.logger.error(f"Error loading file {file_path}: {e}")
-            return None
-    
-    def _save_file(self, file_path: Path, config_data: Any, format_type: ConfigFormat) -> bool:
-        """Save configuration to file based on format."""
-        try:
-            if format_type == ConfigFormat.JSON:
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    json.dump(config_data, f, indent=2, ensure_ascii=False)
-            elif format_type == ConfigFormat.YAML:
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    yaml.dump(config_data, f, default_flow_style=False, allow_unicode=True)
-            elif format_type == ConfigFormat.INI:
-                import configparser
-                config = configparser.ConfigParser()
-                if isinstance(config_data, dict):
-                    for section, data in config_data.items():
-                        config[section] = data
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    config.write(f)
-            elif format_type == ConfigFormat.PYTHON:
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    f.write("# Configuration file - Auto-generated\n\n")
-                    for key, value in config_data.items():
-                        if isinstance(value, str):
-                            f.write(f'{key} = "{value}"\n')
-                        else:
-                            f.write(f'{key} = {value}\n')
-            else:
-                return False
-            
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Error saving file {file_path}: {e}")
-            return False
-    
-    def _get_file_timestamp(self, file_path: Path) -> str:
-        """Get file modification timestamp."""
-        try:
-            stat = file_path.stat()
-            return str(stat.st_mtime)
-        except Exception:
-            return ""
-    
-    # Validation methods for different configuration types
-    def _validate_ai_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate AI configuration."""
-        errors = []
-        if "api_keys" in config_data and not isinstance(config_data["api_keys"], dict):
-            errors.append("api_keys must be a dictionary")
-        if "model_timeout" in config_data and not isinstance(config_data["model_timeout"], (int, float)):
-            errors.append("model_timeout must be a number")
-        return errors
-    
-    def _validate_fsm_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate FSM configuration."""
-        errors = []
-        if "timeout" in config_data and not isinstance(config_data["timeout"], (int, float)):
-            errors.append("timeout must be a number")
-        if "max_states" in config_data and not isinstance(config_data["max_states"], int):
-            errors.append("max_states must be an integer")
-        return errors
-    
-    def _validate_performance_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate performance configuration."""
-        errors = []
-        if "max_workers" in config_data and not isinstance(config_data["max_workers"], int):
-            errors.append("max_workers must be an integer")
-        if "cache_size" in config_data and not isinstance(config_data["cache_size"], int):
-            errors.append("cache_size must be an integer")
-        return errors
-    
-    def _validate_quality_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate quality configuration."""
-        errors = []
-        if "coverage_threshold" in config_data and not isinstance(config_data["coverage_threshold"], (int, float)):
-            errors.append("coverage_threshold must be a number")
-        if "check_interval" in config_data and not isinstance(config_data["check_interval"], (int, float)):
-            errors.append("check_interval must be a number")
-        return errors
-    
-    def _validate_messaging_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate messaging configuration."""
-        errors = []
-        if "agent_count" in config_data and not isinstance(config_data["agent_count"], int):
-            errors.append("agent_count must be an integer")
-        if "message_timeout" in config_data and not isinstance(config_data["message_timeout"], (int, float)):
-            errors.append("message_timeout must be a number")
-        return errors
-    
-    def _validate_testing_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate testing configuration."""
-        errors = []
-        if "timeout" in config_data and not isinstance(config_data["timeout"], (int, float)):
-            errors.append("timeout must be a number")
-        if "coverage_min_percent" in config_data and not isinstance(config_data["coverage_min_percent"], (int, float)):
-            errors.append("coverage_min_percent must be a number")
-        return errors
-    
-    def _validate_network_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate network configuration."""
-        errors = []
-        if "port" in config_data and not isinstance(config_data["port"], int):
-            errors.append("port must be an integer")
-        if "max_connections" in config_data and not isinstance(config_data["max_connections"], int):
-            errors.append("max_connections must be an integer")
-        return errors
-    
-    def _validate_security_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate security configuration."""
-        errors = []
-        if "max_login_attempts" in config_data and not isinstance(config_data["max_login_attempts"], int):
-            errors.append("max_login_attempts must be an integer")
-        if "session_timeout" in config_data and not isinstance(config_data["session_timeout"], (int, float)):
-            errors.append("session_timeout must be a number")
-        return errors
-    
-    def _validate_database_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate database configuration."""
-        errors = []
-        if "port" in config_data and not isinstance(config_data["port"], int):
-            errors.append("port must be an integer")
-        if "pool_size" in config_data and not isinstance(config_data["pool_size"], int):
-            errors.append("pool_size must be an integer")
-        return errors
-    
-    def _validate_logging_config(self, config_data: Dict[str, Any]) -> List[str]:
-        """Validate logging configuration."""
-        errors = []
-        if "file_size" in config_data and not isinstance(config_data["file_size"], int):
-            errors.append("file_size must be an integer")
-        if "backup_count" in config_data and not isinstance(config_data["backup_count"], int):
-            errors.append("backup_count must be an integer")
-        return errors
 
 
 # ============================================================================
@@ -750,7 +703,7 @@ class FileBasedConfigurationManager(UnifiedConfigurationManager):
 # ============================================================================
 
 class ConfigurationFactory:
-    """Factory for creating configuration instances."""
+    """Factory for creating configuration instances and managers."""
     
     @staticmethod
     def create_ai_config(**kwargs) -> AIConfig:

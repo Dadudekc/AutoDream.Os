@@ -63,6 +63,12 @@ class CommandHandler:
     def _execute_command_internal(self, args: argparse.Namespace) -> bool:
         """Internal command execution logic."""
         try:
+            # Handle help commands first
+            if args.help:
+                return self._handle_help()
+            if args.quick_help:
+                return self._handle_quick_help()
+            
             # Set mode for all handlers
             mode = MessagingMode(args.mode)
             for handler in self.handlers:
@@ -88,6 +94,125 @@ class CommandHandler:
             self.logger.error(f"Command execution failed: {e}")
             return False
     
+    def _handle_help(self) -> bool:
+        """Handle help command with detailed information"""
+        try:
+            print("🚨 **UNIFIED MESSAGING SERVICE CLI - COMPLETE HELP** 🚨")
+            print("=" * 60)
+            print()
+            print("🎯 **DESCRIPTION:**")
+            print("   Unified messaging system for Agent Cellphone V2")
+            print("   Enables communication between Captain Agent-4 and all agents")
+            print()
+            print("📋 **CORE MESSAGING FLAGS:**")
+            print("   --mode          - Messaging mode (pyautogui, cdp, http, websocket, tcp, fsm, onboarding, campaign, yolo)")
+            print("   --message       - Message content to send")
+            print("   --agent         - Send to specific agent (e.g., Agent-1)")
+            print("   --bulk          - Send to all agents simultaneously")
+            print("   --type          - Message type (text, command, broadcast, high_priority, task_assignment, status_update, coordination)")
+            print("   --high-priority - Send as urgent message (Ctrl+Enter 2x)")
+            print()
+            print("🚀 **ONBOARDING FLAGS:**")
+            print("   --onboarding    - Send onboarding message (new chat sequence)")
+            print("   --new-chat      - Send new chat message (onboarding sequence)")
+            print("   --onboard       - Automatically onboard all agents with contracts")
+            print("   --check-status  - Check all agent statuses from status.json files")
+            print()
+            print("📜 **CONTRACT SYSTEM FLAGS:**")
+            print("   --claim-contract    - Claim a contract by ID")
+            print("   --complete-contract - Complete a contract by ID")
+            print("   --get-next-task    - Get next available task from queue")
+            print("   --contract-status  - Show contract claiming status")
+            print()
+            print("🎖️ **CAPTAIN COMMUNICATION FLAGS:**")
+            print("   --captain       - Send message directly to Captain (Agent-4)")
+            print()
+            print("🔄 **RESUME SYSTEM FLAGS:**")
+            print("   --resume        - Resume perpetual motion system")
+            print("   --resume-captain - Send Captain resume message")
+            print("   --resume-agents - Send Agent resume message")
+            print()
+            print("📍 **COORDINATE MANAGEMENT FLAGS:**")
+            print("   --coordinates   - Show coordinate mapping for all agents")
+            print("   --coordinate-mode - Coordinate mode to use")
+            print("   --map-mode      - Coordinate mode to map")
+            print("   --consolidate   - Consolidate coordinate files")
+            print("   --calibrate     - Calibrate coordinates for specific agent")
+            print("   --interactive   - Run interactive coordinate capture")
+            print("   --validate      - Validate coordinates")
+            print()
+            print("💡 **COMMON USAGE EXAMPLES:**")
+            print("   # Send to specific agent")
+            print("   python -m src.services.messaging --agent Agent-1 --message 'Hello Agent-1!'")
+            print()
+            print("   # Send to all agents")
+            print("   python -m src.services.messaging --bulk --message 'Message to all agents'")
+            print()
+            print("   # High priority message")
+            print("   python -m src.services.messaging --agent Agent-1 --message 'URGENT!' --high-priority")
+            print()
+            print("   # Onboard all agents")
+            print("   python -m src.services.messaging --onboard")
+            print()
+            print("   # Check agent statuses")
+            print("   python -m src.services.messaging --check-status")
+            print()
+            print("   # Get next task")
+            print("   python -m src.services.messaging --get-next-task")
+            print()
+            print("   # Send to Captain")
+            print("   python -m src.services.messaging --captain --message 'Status update'")
+            print()
+            print("   # Show coordinates")
+            print("   python -m src.services.messaging --coordinates")
+            print()
+            print("   # Validate coordinates")
+            print("   python -m src.services.messaging --validate")
+            print()
+            print("🎯 **FOR MORE HELP:**")
+            print("   python -m src.services.messaging --help")
+            print()
+            print("Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager")
+            return True
+        except Exception as e:
+            self.logger.error(f"Help display failed: {e}")
+            return False
+
+    def _handle_quick_help(self) -> bool:
+        """Handle quick help command with common operations"""
+        try:
+            print("🚨 **QUICK HELP - MOST COMMON OPERATIONS** 🚨")
+            print("=" * 50)
+            print()
+            print("📱 **BASIC MESSAGING:**")
+            print("   --agent Agent-1 --message 'Hello'     # Send to specific agent")
+            print("   --bulk --message 'To all agents'      # Send to all agents")
+            print("   --high-priority                        # Urgent message")
+            print()
+            print("🚀 **ONBOARDING:**")
+            print("   --onboard                             # Onboard all agents")
+            print("   --check-status                         # Check agent statuses")
+            print()
+            print("📜 **CONTRACTS:**")
+            print("   --get-next-task                       # Get next task")
+            print("   --claim-contract CONTRACT-001         # Claim contract")
+            print()
+            print("🎖️ **CAPTAIN:**")
+            print("   --captain --message 'Status update'   # Send to Captain")
+            print()
+            print("📍 **COORDINATES:**")
+            print("   --coordinates                         # Show coordinates")
+            print("   --validate                            # Validate coordinates")
+            print()
+            print("💡 **FULL HELP:**")
+            print("   --help                                # Complete help with examples")
+            print()
+            print("Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager")
+            return True
+        except Exception as e:
+            self.logger.error(f"Quick help display failed: {e}")
+            return False
+
     def _handle_validation(self) -> bool:
         """Handle validation command"""
         try:

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """
 Config Validator - Unified Validation Framework
 

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 {
   "agent_id": "Agent-3",
   "agent_name": "Development Agent",

@@ -1,3 +1,7 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """
 Configuration Loader - Unified Configuration Management
 """

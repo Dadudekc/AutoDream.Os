@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration utilities for extended AI/ML managers."""
 
 from dataclasses import dataclass

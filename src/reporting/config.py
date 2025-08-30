@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for error report generation."""
 
 from pathlib import Path

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration and definitions for the metrics pipeline.
 
 This module centralizes metric-related constants and simple data

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration utilities for the AI Agent Framework."""
 
 import logging

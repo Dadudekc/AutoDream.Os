@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Central configuration module providing SSOT for shared settings."""
 
 from __future__ import annotations

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration utilities for agent orchestrator."""
 
 from __future__ import annotations

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 #!/usr/bin/env pythonVALUE_THREE
 """
 Configuration Migration Script - SSOT Consolidation

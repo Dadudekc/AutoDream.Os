@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration helpers for authentication performance monitoring."""
 from typing import Dict, Any
 

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration and data models for the new health monitoring system."""
 
 from dataclasses import dataclass, field

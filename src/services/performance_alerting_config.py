@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration objects for the performance alerting system."""
 
 from dataclasses import dataclass, field

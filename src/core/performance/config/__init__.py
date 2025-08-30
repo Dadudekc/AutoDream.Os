@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 #!/usr/bin/env python3
 """
 Performance Configuration Package - V2 Modular Architecture

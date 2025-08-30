@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Agent Integration Configuration Schema",

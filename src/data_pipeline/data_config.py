@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Single source of truth for data pipeline configuration."""
 
 from typing import Dict

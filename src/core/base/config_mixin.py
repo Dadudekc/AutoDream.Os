@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path

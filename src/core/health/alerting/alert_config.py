@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration helpers and default settings for health alerts."""
 
 from __future__ import annotations

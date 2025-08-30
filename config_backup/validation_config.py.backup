@@ -1,0 +1,70 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+#!/usr/bin/env python3
+"""
+Validation Configuration - V2 Modular Architecture
+=================================================
+
+Validation threshold and rule configuration management.
+Follows V2 standards: OOP design, SRP, no strict LOC limits.
+
+Author: V2 SWARM CAPTAIN
+License: MIT
+"""
+
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Any
+from enum import Enum
+
+
+class ThresholdOperator(Enum):
+    """Threshold comparison operators."""
+    GREATER_THAN = "gt"
+    LESS_THAN = "lt"
+    EQUAL = "eq"
+    GREATER_THAN_EQUAL = "gte"
+    LESS_THAN_EQUAL = "lte"
+
+
+class ThresholdSeverity(Enum):
+    """Threshold severity levels."""
+    INFO = "info"
+    WARNING = "warning"
+    CRITICAL = "critical"
+
+
+@dataclass
+class ValidationThreshold:
+    """Performance validation threshold configuration."""
+    metric_name: str
+    threshold_value: float
+    operator: ThresholdOperator
+    severity: ThresholdSeverity
+    description: str
+    enabled: bool = True
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class ValidationConfig:
+    """Validation system configuration."""
+    thresholds: List[ValidationThreshold] = field(default_factory=list)
+    validation_interval: int = 60  # seconds
+    auto_validation: bool = True
+    max_validation_errors: int = 10
+    validation_timeout: int = 300  # seconds
+    
+    def get_threshold(self, metric_name: str) -> Optional[ValidationThreshold]:
+        """Get threshold for specific metric."""
+        for threshold in self.thresholds:
+            if threshold.metric_name == metric_name and threshold.enabled:
+                return threshold
+        return None
+    
+    def get_critical_thresholds(self) -> List[ValidationThreshold]:
+        """Get all critical thresholds."""
+        return [t for t in self.thresholds if t.severity == ThresholdSeverity.CRITICAL and t.enabled]
+    
+    def get_warning_thresholds(self) -> List[ValidationThreshold]:
+        """Get all warning thresholds."""
+        return [t for t in self.thresholds if t.severity == ThresholdSeverity.WARNING and t.enabled]

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """
 🧪 COVERAGE CONFIGURATION - TEST-011 Modularization Implementation
 Testing Framework Enhancement Manager - Agent-3

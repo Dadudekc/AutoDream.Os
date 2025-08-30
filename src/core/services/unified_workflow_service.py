@@ -168,7 +168,6 @@ class UnifiedWorkflowService(BaseManager):
             config = ManagerConfig(
                 name="UnifiedWorkflowService",
                 manager_type=ManagerType.WORKFLOW,
-                description="Unified workflow management service",
                 log_level="INFO"
             )
         

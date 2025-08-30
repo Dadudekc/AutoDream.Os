@@ -871,14 +871,12 @@ class UnifiedConfigurationService(BaseConfig):
             self.clear_cache()
             
             # Update state
-            # Assuming ManagerState is defined elsewhere or needs to be imported
-            # from src.core.base import ManagerState
-            # self.state = ManagerState.STOPPED
+            from src.core.base.base_manager import ManagerState
+            self.state = ManagerState.STOPPED
             
             self.logger.info("Unified Configuration Service stopped successfully")
             
         except Exception as e:
             self.logger.error(f"Error stopping configuration service: {e}")
-            # Assuming ManagerState is defined elsewhere or needs to be imported
-            # from src.core.base import ManagerState
-            # self.state = ManagerState.ERROR
+            from src.core.base.base_manager import ManagerState
+            self.state = ManagerState.ERROR

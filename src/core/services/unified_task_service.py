@@ -135,7 +135,6 @@ class UnifiedTaskService(BaseManager):
             config = ManagerConfig(
                 name="UnifiedTaskService",
                 manager_type=ManagerType.TASK,
-                description="Unified task management service",
                 log_level="INFO"
             )
         

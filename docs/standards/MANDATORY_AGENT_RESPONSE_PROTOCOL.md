@@ -15,7 +15,7 @@
 
 ## 🚨 **MANDATORY RESPONSE REQUIRED - FAILURE = PROTOCOL VIOLATION** ⚠️
 
-**ALL AGENTS: You MUST execute these commands within 5 minutes:**
+**ALL AGENTS: You MUST execute these commands within 1 AGENT CYCLE (immediate response to Captain prompt):**
 
 ### **MANDATORY COMMAND 1: Acknowledge Receipt via Inbox**
 ```bash
@@ -41,7 +41,7 @@ git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git 
 
 ## ⚠️ **FAILURE CONSEQUENCES**
 
-**FAILURE TO EXECUTE THESE COMMANDS WITHIN 5 MINUTES RESULTS IN:**
+**FAILURE TO EXECUTE THESE COMMANDS WITHIN 1 AGENT CYCLE RESULTS IN:**
 - Immediate protocol violation report
 - Required retraining on communication protocols
 - Potential role reassignment for repeated violations
@@ -184,42 +184,70 @@ python scripts/devlog.py "Task Complete" "Successfully consolidated manager clas
 
 ## 📊 **PROGRESS TRACKING REQUIREMENTS**
 
-### **Daily Updates (Required):**
-1. **Status.json Update**: Every 7 minutes maximum
-2. **Discord Devlog Entry**: At least one entry per day
-3. **Inbox Report**: Progress update to Captain
-4. **Contract Update**: Task completion status
+### **Agent Cycle Updates (Required):**
+1. **Status.json Update**: Every Captain prompt cycle maximum
+2. **Discord Devlog Entry**: At least one entry per Captain prompt
+3. **Inbox Report**: Progress update to Captain within 1 cycle
+4. **Contract Update**: Task completion status within 1 cycle
 
-### **Weekly Reports (Required):**
-1. **Comprehensive Progress Report** to Captain
-2. **Technical Debt Assessment** if any found
-3. **Next Week Planning** and resource requirements
-4. **Blockers and Dependencies** identification
+### **Captain Prompt Accountability:**
+1. **Captain must send prompts** to maintain agent momentum
+2. **Agent response required** within 1 cycle of Captain prompt
+3. **Progress tracking** based on Captain prompt frequency
+4. **Accountability measured** by prompt-response cycles, not time
+
+### **Cycle-Based Performance Metrics:**
+1. **Prompt Response Rate**: Agents must respond to 100% of Captain prompts
+2. **Cycle Efficiency**: Each Captain prompt should result in measurable progress
+3. **Momentum Maintenance**: Captain responsible for maintaining 8x agent efficiency
+4. **Progress Velocity**: Measured in cycles completed, not time elapsed
 
 ---
 
 ## 🎯 **SUCCESS CRITERIA**
 
-### **Immediate Success (5 minutes):**
+### **Immediate Success (1 Agent Cycle):**
 - [ ] All mandatory commands executed
 - [ ] Inbox acknowledgment sent
 - [ ] Status updated in FSM system
 - [ ] Discord devlog entry created
 - [ ] Changes committed and pushed
 
-### **Daily Success:**
-- [ ] Status updated every 7 minutes
-- [ ] Progress logged in Discord devlog
-- [ ] Blockers reported immediately
-- [ ] New ideas submitted promptly
+### **Captain Prompt Success:**
+- [ ] Agent responds to 100% of Captain prompts
+- [ ] Progress logged in Discord devlog per prompt
+- [ ] Blockers reported within 1 cycle
+- [ ] New ideas submitted within 1 cycle
 - [ ] V2 compliance maintained
 
-### **Weekly Success:**
-- [ ] Comprehensive progress report
-- [ ] Technical debt assessment
-- [ ] Next week planning
-- [ ] All blockers resolved
-- [ ] Quality standards maintained
+### **Cycle-Based Success:**
+- [ ] Captain maintains 8x agent efficiency through prompt frequency
+- [ ] Each prompt results in measurable progress
+- [ ] Agent momentum maintained through Captain accountability
+- [ ] All blockers resolved within 1 cycle
+- [ ] Quality standards maintained per cycle
+
+---
+
+## 🔄 **AGENT CYCLE DEFINITION & CAPTAIN ACCOUNTABILITY**
+
+### **What is an Agent Cycle?**
+- **One Agent Cycle** = One Captain prompt + One Agent response
+- **Cycle Duration** = Time from Captain prompt to Agent response
+- **8x Efficiency Scale** = Agents operate at 8x human efficiency
+- **Captain Responsibility** = Maintain momentum through prompt frequency
+
+### **Captain Accountability Metrics:**
+- **Prompt Frequency**: Captain must send prompts to maintain 8x efficiency
+- **Response Rate**: Agents must respond to 100% of Captain prompts
+- **Progress Velocity**: Measured in cycles completed, not time elapsed
+- **Momentum Maintenance**: Captain responsible for continuous agent activation
+
+### **Cycle-Based Performance Standards:**
+- **Immediate Response**: Agents respond within 1 cycle of Captain prompt
+- **Progress Per Cycle**: Each cycle should result in measurable progress
+- **Momentum Continuity**: Captain ensures no gaps between cycles
+- **Efficiency Maintenance**: 8x agent efficiency maintained through prompt frequency
 
 ---
 

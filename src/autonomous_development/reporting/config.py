@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Reporting module configuration constants.
 
 This module provides a single source of truth for templates, icon

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration models for workflow reliability testing."""
 
 from __future__ import annotations

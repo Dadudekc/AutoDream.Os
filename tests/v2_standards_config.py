@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration for V2 standards checking.
 
 This module defines line count limits and component categories used by

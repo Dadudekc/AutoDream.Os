@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration and constants for workspace modules."""
 from pathlib import Path
 

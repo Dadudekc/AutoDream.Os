@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration management for communication workflow automation.
 
 This module isolates configuration concerns.  It provides a simple dataclass

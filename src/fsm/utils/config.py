@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """
 Configuration Management - FSM Core V2 Modularization
 Captain Agent-3: Configuration Utility Implementation

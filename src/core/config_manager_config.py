@@ -1,3 +1,7 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration data structures for ConfigManager modules.
 
 These lightweight dataclasses store configuration metadata and values

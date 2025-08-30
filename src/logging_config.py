@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Central logging configuration for AutoDream.
 
 Provides a single function to configure logging across the

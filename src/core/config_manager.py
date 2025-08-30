@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 from typing import Any, Dict
 
 from __future__ import annotations

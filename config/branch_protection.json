@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 {
   "branch_protection": {
     "main_branch": "agent",

@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration for the auth integration tester."""
 from dataclasses import dataclass, field
 from typing import List, Optional

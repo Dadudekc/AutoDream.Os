@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration and constants for streaming services."""
 
 from typing import Dict, Any

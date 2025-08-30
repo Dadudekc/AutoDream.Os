@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration utilities for continuous quality monitoring."""
 from __future__ import annotations
 

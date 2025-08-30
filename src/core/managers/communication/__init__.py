@@ -38,6 +38,10 @@ __all__ = [
     'RoutingManager',
     'ReportingManager',
     
+    # Emergency restoration and testing capabilities
+    'EmergencyRestorationManager',
+    'InteractionTestingManager',
+    
     # Data models
     'Channel',
     'ChannelType',

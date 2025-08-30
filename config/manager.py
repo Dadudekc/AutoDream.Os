@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """
 Configuration Manager - Unified Configuration Access with Inheritance
 

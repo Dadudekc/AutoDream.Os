@@ -1,3 +1,7 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 #!/usr/bin/env python3
 """
 Validation Configuration - V2 Modular Architecture

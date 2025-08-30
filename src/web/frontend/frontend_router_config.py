@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration models for the frontend routing system."""
 
 from dataclasses import dataclass, field

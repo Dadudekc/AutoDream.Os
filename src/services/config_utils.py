@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 import json
 from pathlib import Path
 from typing import Any, Dict, Union

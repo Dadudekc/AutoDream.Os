@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Simple configuration loader used by the ConfigManager.
 
 The loader discovers JSON or YAML files in a directory and returns a

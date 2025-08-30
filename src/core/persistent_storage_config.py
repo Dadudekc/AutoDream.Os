@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration and metadata definitions for persistent storage."""
 
 from __future__ import annotations

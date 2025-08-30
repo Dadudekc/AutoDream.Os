@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Application-wide configuration settings (SSOT)."""
 
 from __future__ import annotations

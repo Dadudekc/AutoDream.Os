@@ -2,10 +2,10 @@
 
 ## 📋 **EXECUTIVE SUMMARY - IMMEDIATE ACTION REQUIRED**
 
-**Generated:** 2025-08-30T17:01:45.642391
-**Total Configuration Files:** 917
-**Duplicate Groups:** 3
-**Total Duplicate Files:** 6
+**Generated:** 2025-08-30T17:16:10.105533
+**Total Configuration Files:** 824
+**Duplicate Groups:** 2
+**Total Duplicate Files:** 4
 **Priority:** CRITICAL
 
 ## 🚨 **IMMEDIATE TARGETS (NEXT 2 HOURS)**
@@ -32,14 +32,14 @@
 - **Path:** `src\services\quality_gates_report.json`
 
 ### **4. unified_config_classes.py**
-- **Score:** 811
+- **Score:** 749
 - **Type:** .py
 - **Classes:** 12
-- **Functions:** 33
+- **Functions:** 30
 - **Path:** `src\core\configuration\unified_config_classes.py`
 
 ### **5. test_unified_config_classes.py**
-- **Score:** 649
+- **Score:** 648
 - **Type:** .py
 - **Classes:** 6
 - **Functions:** 30

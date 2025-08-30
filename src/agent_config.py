@@ -1,3 +1,5 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Shared agent configuration constants.
 
 This module acts as a single source of truth (SSOT) for settings

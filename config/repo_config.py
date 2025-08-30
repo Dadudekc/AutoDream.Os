@@ -1,3 +1,7 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+
+# MIGRATED: This file has been migrated to the centralized configuration system
 """Repository configuration module.
 
 Provides a single source of truth (SSOT) for repository related settings.

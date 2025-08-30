@@ -13,8 +13,15 @@ logger = logging.getLogger(__name__)
 class PromptLoader:
     """Loads prompts from external files for the messaging system"""
     
-    def __init__(self, prompts_base_path: str = "prompts"):
-        self.prompts_base_path = Path(prompts_base_path)
+    def __init__(self, prompts_base_path: str = None):
+        if prompts_base_path is None:
+            # Use the directory where this script is located as the base
+            current_file = Path(__file__)
+            # Go up to the meeting directory: src/services/messaging/prompt_loader.py -> meeting/
+            self.prompts_base_path = current_file.parent.parent.parent.parent / "prompts"
+        else:
+            self.prompts_base_path = Path(prompts_base_path)
+        
         self.role_mapping_path = self.prompts_base_path / "agents" / "role_mapping.json"
         self.captain_prompt_path = self.prompts_base_path / "captain" / "onboarding.md"
         self.agent_prompt_path = self.prompts_base_path / "agents" / "onboarding.md"
@@ -47,8 +54,8 @@ class PromptLoader:
                 with open(self.captain_prompt_path, 'r', encoding='utf-8') as f:
                     prompt_template = f.read()
                 
-                # Replace placeholders
-                prompt = prompt_template.format(agent_id=agent_id)
+                # Replace placeholders using string replacement to avoid format() issues
+                prompt = prompt_template.replace("{agent_id}", agent_id)
                 
                 if custom_message:
                     prompt = prompt.replace("{custom_message}", custom_message)
@@ -74,12 +81,11 @@ class PromptLoader:
                 # Get role for this agent
                 role = self.get_agent_role(agent_number)
                 
-                # Replace placeholders
-                prompt = prompt_template.format(
-                    agent_id=agent_id,
-                    role=role,
-                    contract_info=contract_info
-                )
+                # Replace placeholders using string replacement to avoid format() issues
+                prompt = prompt_template
+                prompt = prompt.replace("{agent_id}", agent_id)
+                prompt = prompt.replace("{role}", role)
+                prompt = prompt.replace("{contract_info}", contract_info)
                 
                 if custom_message:
                     prompt = prompt.replace("{custom_message}", custom_message)

@@ -14,10 +14,9 @@ from datetime import datetime
 
 class DatabaseAuditor:
     """Database structure auditor for contract database"""
-    
-    def __init__(self, task_list_path: Path, backup_path: Path, meeting_path: Path):
+
+    def __init__(self, task_list_path: Path, meeting_path: Path):
         self.task_list_path = task_list_path
-        self.backup_path = backup_path
         self.meeting_path = meeting_path
         self.logger = self._setup_logging()
         
@@ -50,7 +49,6 @@ class DatabaseAuditor:
         # File existence and accessibility check
         files_to_check = [
             ("task_list.json", self.task_list_path),
-            ("task_list.backup.json", self.backup_path),
             ("meeting.json", self.meeting_path)
         ]
         

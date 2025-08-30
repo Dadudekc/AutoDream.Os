@@ -34,7 +34,6 @@ class DatabaseRecoveryOrchestrator:
         # Target files for recovery
         self.target_files = [
             "task_list.json",
-            "task_list.backup.json", 
             "meeting.json"
         ]
         

@@ -3800,6 +3800,36 @@
           ],
           "status": "AVAILABLE",
           "category": "Modularization"
+        },
+        {
+          "contract_id": "SSOT-004",
+          "title": "Workflow & Reporting System Consolidation",
+          "description": "Consolidate scattered workflow implementations and reporting systems into unified SSOT-compliant architecture",
+          "difficulty": "HIGH",
+          "estimated_time": "3-4 hours",
+          "extra_credit_points": 500,
+          "requirements": [
+            "Analyze scattered workflow implementations",
+            "Identify duplicate reporting systems",
+            "Design unified workflow architecture",
+            "Implement consolidation and migration",
+            "Eliminate all SSOT violations"
+          ],
+          "deliverables": [
+            "Workflow Duplication Analysis Report",
+            "Unified Workflow Engine",
+            "Consolidated Reporting System",
+            "Migration Framework",
+            "SSOT Compliance Validation",
+            "Implementation Report"
+          ],
+          "status": "CLAIMED",
+          "category": "SSOT_Resolution",
+          "claimed_by": "Agent-8",
+          "claimed_at": "2025-01-27T15:50:00.000000Z",
+          "progress": "0% Complete - In Progress",
+          "completed_at": null,
+          "points_earned": 0
         }
       ]
     }

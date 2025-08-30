@@ -391,8 +391,8 @@ class EmergencyContractDatabaseRecovery:
                         "issues": identify_corruption_issues(contract)
                     })
                                 
-        except Exception as e:
-            corruption_scan["corruption_indicators"].append(f"Failed to scan for corruption: {e}")
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            corruption_scan["corruption_indicators"].append(f"Failed to read or parse task list for corruption scan: {e}")
             
         # Generate recovery actions
         if corruption_scan["corruption_indicators"]:

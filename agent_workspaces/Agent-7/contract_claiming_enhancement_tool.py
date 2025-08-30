@@ -14,36 +14,22 @@ Priority: HIGH - System Enhancement
 import os
 import sys
 import json
-import logging
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 import subprocess
 
+from tools.qa_common import setup_logging
+
 
 class ContractClaimingEnhancementTool:
     """Enhances contract claiming system functionality"""
-    
+
     def __init__(self):
-        self.logger = self._setup_logging()
+        self.logger = setup_logging("ContractClaimingEnhancementTool")
         self.enhancement_results = {}
         self.system_analysis = {}
         self.improvement_plan = {}
-    
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for contract claiming enhancement"""
-        logger = logging.getLogger("ContractClaimingEnhancementTool")
-        logger.setLevel(logging.INFO)
-        
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-        
-        return logger
     
     def analyze_system_issues(self) -> Dict[str, Any]:
         """Analyze current system issues and identify improvements"""

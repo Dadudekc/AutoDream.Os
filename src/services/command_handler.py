@@ -141,7 +141,7 @@ class CommandHandler:
             print("   --interactive   - Run interactive coordinate capture")
             print("   --validate      - Validate coordinates")
             print()
-            print("💡 **COMMON USAGE EXAMPLES:**")
+            print("💡 **COMMON USAGE EXAMPLES (CLI COMMANDS):**")
             print("   # Send to specific agent")
             print("   python -m src.services.messaging --agent Agent-1 --message 'Hello Agent-1!'")
             print()
@@ -171,6 +171,9 @@ class CommandHandler:
             print()
             print("🎯 **FOR MORE HELP:**")
             print("   python -m src.services.messaging --help")
+            print()
+            print("📝 **NOTE:** These are CLI command examples, not actual messages.")
+            print("   The mandatory reminder appendix only applies to messages FROM Captain TO agents.")
             print()
             print("Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager")
             return True

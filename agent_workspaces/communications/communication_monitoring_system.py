@@ -330,7 +330,7 @@ class CommunicationMonitoringSystem:
                                     else AlertSeverity.MEDIUM
                                 ),
                                 message=f"Metric {metric_name} exceeded threshold: {metric.value} {metric.unit} > {threshold} {metric.unit}",
-                                source="threshold_monitor",
+                                source=metric_name,
                                 timestamp=datetime.now(),
                             )
 

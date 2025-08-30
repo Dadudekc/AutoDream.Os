@@ -13,6 +13,63 @@
 
 ---
 
+## 🚨 **MANDATORY CAPTAIN PROTOCOLS - ALWAYS EXECUTE** ⚡
+
+### **1. DAILY OPERATIONS CYCLE (Every 7 minutes maximum)**
+```bash
+# STEP 1: Check Inbox for Messages
+ls agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+
+# STEP 2: Respond to Inbox Messages
+# Read and respond to ALL messages in inbox
+
+# STEP 3: Review Project Status
+# Check agent status.json files for progress and stalls
+
+# STEP 4: Assign New Tasks via Messaging System
+python -m src.services.messaging --bulk --message "NEW TASK ASSIGNMENT: [Task Description]"
+```
+
+### **2. AUTONOMOUS DEVELOPMENT ACTIVATION**
+```bash
+# ACTIVATE AGENTS FOR AUTONOMOUS WORK:
+python -m src.services.messaging --bulk --message "🚨 AUTONOMOUS DEVELOPMENT ACTIVATED 🚨
+
+AGENTS: You are now in AUTONOMOUS MODE. Execute your assigned tasks independently.
+
+REQUIRED ACTIONS:
+1. Check your inbox for task details
+2. Begin work immediately 
+3. Update status.json every 7 minutes
+4. Use Discord devlog for progress updates
+5. Report blockers to Captain inbox
+
+BEGIN WORK NOW - NO DELAYS ALLOWED!"
+```
+
+### **3. CAPTAIN'S MANDATORY REMINDER APPENDIX**
+**EVERY MESSAGE FROM CAPTAIN MUST END WITH:**
+
+```markdown
+---
+
+## 🚨 **CAPTAIN'S MANDATORY NEXT ACTIONS** 🚨
+
+**AFTER SENDING THIS MESSAGE, YOU MUST:**
+
+1. **CHECK INBOX** - Review all messages in agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+2. **RESPOND TO MESSAGES** - Reply to ALL agent messages and requests
+3. **REVIEW PROJECT STATUS** - Check all agent status.json files for progress and stalls
+4. **ASSIGN NEW TASKS** - Use messaging system to assign tasks: `python -m src.services.messaging --bulk --message "TASK: [Description]"`
+5. **ACTIVATE AUTONOMOUS DEVELOPMENT** - Ensure agents are working independently
+
+**FAILURE TO EXECUTE THESE ACTIONS = CAPTAIN PROTOCOL VIOLATION**
+
+Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
+```
+
+---
+
 ## 🚨 **PROMPT DESIGN PRINCIPLES - ALWAYS FOLLOW** ⚡
 
 ### **1. ELIMINATE TIMELINES - USE IMMEDIATE ACTIONS**
@@ -47,6 +104,30 @@
 ✅ RIGHT (Mandatory Order):
 "YOU MUST execute these commands within 5 minutes or face protocol violation"
 ```
+
+---
+
+## 📱 **DISCORD DEVLOG INTEGRATION - SINGLE SOURCE OF TRUTH** 📱
+
+### **Discord Devlog System Status**
+- **✅ FULLY OPERATIONAL** - All devlog entries automatically post to Discord
+- **✅ AUTOMATIC POSTING** - No manual Discord work required
+- **✅ TEAM COMMUNICATION** - Real-time updates visible to entire team
+
+### **How Agents Use Discord Devlog**
+```bash
+# Agents log progress via Discord devlog:
+python scripts/devlog.py "Progress Update" "Completed task X, moving to task Y"
+
+# This automatically appears in Discord channel
+# Captain can monitor all agent activity in real-time
+```
+
+### **Captain's Discord Monitoring**
+- **Monitor Discord channel** for real-time agent updates
+- **Track progress** without checking individual status.json files
+- **Identify blockers** immediately when agents report issues
+- **Coordinate responses** based on Discord devlog entries
 
 ---
 
@@ -165,6 +246,45 @@ Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 - Potential role reassignment for repeated violations
 - Suspension from contract claim system access
 ```
+
+## 🚀 **AUTONOMOUS DEVELOPMENT PROTOCOLS** 🚀
+
+### **What is Autonomous Development?**
+- **Agents work independently** without constant Captain supervision
+- **Self-directed task execution** based on assigned contracts
+- **Automatic progress reporting** via Discord devlog and status.json
+- **Captain oversight** through monitoring and intervention when needed
+
+### **How to Activate Autonomous Development**
+```bash
+# STEP 1: Assign Tasks via Messaging System
+python -m src.services.messaging --bulk --message "🚨 TASK ASSIGNMENT: [Specific Task Description]"
+
+# STEP 2: Activate Autonomous Mode
+python -m src.services.messaging --bulk --message "🚨 AUTONOMOUS MODE ACTIVATED 🚨
+
+AGENTS: You are now in AUTONOMOUS DEVELOPMENT MODE.
+
+REQUIRED PROTOCOLS:
+1. Execute assigned tasks independently
+2. Update status.json every 7 minutes maximum
+3. Log progress via Discord devlog: python scripts/devlog.py 'Title' 'Content'
+4. Report blockers to Captain inbox immediately
+5. Continue working until task completion
+
+BEGIN AUTONOMOUS EXECUTION NOW!"
+
+# STEP 3: Monitor Progress via Discord
+# Watch Discord channel for real-time updates
+# Intervene only when agents report blockers or need guidance
+```
+
+### **Autonomous Development Success Criteria**
+- **✅ Agents working independently** without Captain prompts
+- **✅ Regular status updates** every 7 minutes maximum
+- **✅ Discord devlog entries** showing continuous progress
+- **✅ Blocker reports** sent to Captain inbox immediately
+- **✅ Task completion** without Captain intervention
 
 ---
 

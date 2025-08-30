@@ -20,6 +20,9 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 import subprocess
 
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+from src.contracting.claim_utils import load_tasks, validate_contract
+
 
 class ContractInvestigationTool:
     """Investigates contract claiming system and identifies available work"""
@@ -143,16 +146,13 @@ class ContractInvestigationTool:
         """Check the task list for available contracts"""
         try:
             task_list_path = Path("agent_workspaces/meeting/task_list.json")
-            if not task_list_path.exists():
+            task_list = load_tasks(task_list_path)
+            if not task_list:
                 return {
                     "status": "ERROR",
                     "error": "Task list not found",
                     "path": str(task_list_path)
                 }
-            
-            # Read task list
-            with open(task_list_path, 'r', encoding='utf-8') as f:
-                task_list = json.load(f)
             
             # Extract contract information
             total_contracts = task_list.get("total_contracts", 0)
@@ -166,7 +166,7 @@ class ContractInvestigationTool:
                 for category, category_data in task_list["contracts"].items():
                     if "contracts" in category_data:
                         for contract in category_data["contracts"]:
-                            if contract.get("status") == "AVAILABLE":
+                            if validate_contract(contract) and contract.get("status") == "AVAILABLE":
                                 available_contract_list.append({
                                     "contract_id": contract.get("contract_id"),
                                     "title": contract.get("title"),

@@ -5,13 +5,17 @@ Implements contract claiming, management, and validation for Agent-6
 Emergency Restoration Mission EMERGENCY-RESTORE-008
 """
 
-import json
 import os
 import sys
 import argparse
 from datetime import datetime, timezone
 from typing import Dict, List, Optional, Any
 from pathlib import Path
+
+# Allow importing project packages when executed directly
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+
+from src.contracting.claim_utils import load_tasks, save_tasks, validate_contract
 
 class ContractClaimingSystem:
     """Emergency Contract Claiming System for System Synchronization"""
@@ -21,27 +25,12 @@ class ContractClaimingSystem:
         self.contracts = self._load_contracts()
         
     def _load_contracts(self) -> Dict[str, Any]:
-        """Load contracts from task list"""
-        try:
-            if self.task_list_path.exists():
-                with open(self.task_list_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            else:
-                print(f"ERROR Task list not found: {self.task_list_path}")
-                return {}
-        except Exception as e:
-            print(f"ERROR Error loading contracts: {e}")
-            return {}
-    
+        """Load contracts from the task list."""
+        return load_tasks(self.task_list_path)
+
     def _save_contracts(self) -> bool:
-        """Save contracts to task list"""
-        try:
-            with open(self.task_list_path, 'w', encoding='utf-8') as f:
-                json.dump(self.contracts, f, indent=2, ensure_ascii=False)
-            return True
-        except Exception as e:
-            print(f"ERROR Error saving contracts: {e}")
-            return False
+        """Persist current contract data to the task list."""
+        return save_tasks(self.task_list_path, self.contracts)
     
     def list_available_contracts(self, category: Optional[str] = None) -> List[Dict[str, Any]]:
         """List all available contracts, optionally filtered by category"""
@@ -57,11 +46,12 @@ class ContractClaimingSystem:
                 contracts_list = contract_data.get('contracts', [])
                 if isinstance(contracts_list, list):
                     for contract in contracts_list:
-                        if isinstance(contract, dict):
-                            contract_id = contract.get('contract_id', '')
-                            if contract_id:
-                                # Check if we've seen this contract before
-                                if contract_id in seen_contracts:
+                        if not (isinstance(contract, dict) and validate_contract(contract)):
+                            continue
+                        contract_id = contract.get('contract_id', '')
+                        if contract_id:
+                            # Check if we've seen this contract before
+                            if contract_id in seen_contracts:
                                     # Resolve duplicate: prefer completed status over available
                                     existing_status = seen_contracts[contract_id].get('status', '')
                                     current_status = contract.get('status', '')
@@ -93,11 +83,12 @@ class ContractClaimingSystem:
             elif isinstance(contract_data, list):
                 # Handle direct list structure (fallback)
                 for contract in contract_data:
-                    if isinstance(contract, dict):
-                        contract_id = contract.get('contract_id', '')
-                        if contract_id:
-                            # Check if we've seen this contract before
-                            if contract_id in seen_contracts:
+                    if not (isinstance(contract, dict) and validate_contract(contract)):
+                        continue
+                    contract_id = contract.get('contract_id', '')
+                    if contract_id:
+                        # Check if we've seen this contract before
+                        if contract_id in seen_contracts:
                                 # Resolve duplicate: prefer completed status over available
                                 existing_status = seen_contracts[contract_id].get('status', '')
                                 current_status = contract.get('status', '')
@@ -163,6 +154,24 @@ class ContractClaimingSystem:
                 return {
                     "success": False,
                     "message": f"Contract {contract_id} not found"
+                }
+
+            if not validate_contract(contract):
+                return {
+                    "success": False,
+                    "message": f"Invalid contract structure for {contract_id}"
+                }
+
+            if not validate_contract(contract):
+                return {
+                    "success": False,
+                    "message": f"Invalid contract structure for {contract_id}"
+                }
+
+            if not validate_contract(contract):
+                return {
+                    "success": False,
+                    "message": f"Invalid contract structure for {contract_id}"
                 }
             
             if contract.get('status') != 'AVAILABLE':
@@ -372,7 +381,13 @@ class ContractClaimingSystem:
                     "success": False,
                     "message": f"Contract {contract_id} not found"
                 }
-            
+
+            if not validate_contract(contract):
+                return {
+                    "success": False,
+                    "message": f"Invalid contract structure for {contract_id}"
+                }
+
             return {
                 "success": True,
                 "contract": contract
@@ -401,41 +416,43 @@ class ContractClaimingSystem:
                     contracts_list = contract_data.get('contracts', [])
                     if isinstance(contracts_list, list):
                         for contract in contracts_list:
-                            if isinstance(contract, dict):
-                                total_contracts += 1
-                                status = contract.get('status', 'UNKNOWN')
-                                
-                                if status == 'AVAILABLE':
-                                    available_contracts += 1
-                                elif status == 'CLAIMED':
-                                    claimed_contracts += 1
-                                elif status == 'COMPLETED':
-                                    completed_contracts += 1
-                                
-                                # Add points
-                                if status == 'COMPLETED':
-                                    total_extra_credit += contract.get('points_earned', 0)
-                                else:
-                                    total_extra_credit += contract.get('extra_credit_points', 0)
-                elif isinstance(contract_data, list):
-                    # Handle direct list structure (fallback)
-                    for contract in contract_data:
-                        if isinstance(contract, dict):
+                            if not (isinstance(contract, dict) and validate_contract(contract)):
+                                continue
                             total_contracts += 1
                             status = contract.get('status', 'UNKNOWN')
-                            
+
                             if status == 'AVAILABLE':
                                 available_contracts += 1
                             elif status == 'CLAIMED':
                                 claimed_contracts += 1
                             elif status == 'COMPLETED':
                                 completed_contracts += 1
-                            
+
                             # Add points
                             if status == 'COMPLETED':
                                 total_extra_credit += contract.get('points_earned', 0)
                             else:
                                 total_extra_credit += contract.get('extra_credit_points', 0)
+                elif isinstance(contract_data, list):
+                    # Handle direct list structure (fallback)
+                    for contract in contract_data:
+                        if not (isinstance(contract, dict) and validate_contract(contract)):
+                            continue
+                        total_contracts += 1
+                        status = contract.get('status', 'UNKNOWN')
+
+                        if status == 'AVAILABLE':
+                            available_contracts += 1
+                        elif status == 'CLAIMED':
+                            claimed_contracts += 1
+                        elif status == 'COMPLETED':
+                            completed_contracts += 1
+
+                        # Add points
+                        if status == 'COMPLETED':
+                            total_extra_credit += contract.get('points_earned', 0)
+                        else:
+                            total_extra_credit += contract.get('extra_credit_points', 0)
             
             return {
                 "total_contracts": total_contracts,

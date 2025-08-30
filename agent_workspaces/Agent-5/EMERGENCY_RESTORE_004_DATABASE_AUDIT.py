@@ -19,7 +19,6 @@ class EmergencyContractDatabaseRecovery:
     
     def __init__(self):
         self.task_list_path = Path("agent_workspaces/meeting/task_list.json")
-        self.backup_path = Path("agent_workspaces/meeting/task_list.backup.json")
         self.meeting_path = Path("agent_workspaces/meeting/meeting.json")
         self.audit_results = {}
         self.integrity_issues = []
@@ -83,7 +82,6 @@ class EmergencyContractDatabaseRecovery:
         # File existence and accessibility check
         files_to_check = [
             ("task_list.json", self.task_list_path),
-            ("task_list.backup.json", self.backup_path),
             ("meeting.json", self.meeting_path)
         ]
         

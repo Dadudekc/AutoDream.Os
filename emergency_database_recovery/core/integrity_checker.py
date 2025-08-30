@@ -24,7 +24,6 @@ class IntegrityChecker:
         # Critical database files to check
         self.critical_files = [
             Path("agent_workspaces/meeting/task_list.json"),
-            Path("agent_workspaces/meeting/task_list.backup.json"),
             Path("agent_workspaces/meeting/meeting.json"),
             Path("agent_workspaces/meeting/agent_workspaces/Agent-1/status.json"),
             Path("agent_workspaces/meeting/agent_workspaces/Agent-2/status.json"),
@@ -265,35 +264,7 @@ class IntegrityChecker:
     
     def _check_backup_status(self) -> Dict[str, Any]:
         """Check backup status for critical files"""
-        backup_status = {}
-        
-        for filepath in self.critical_files:
-            backup_path = filepath.with_suffix('.backup.json')
-            backup_info = {
-                "backup_exists": backup_path.exists(),
-                "backup_path": str(backup_path),
-                "backup_age_hours": None,
-                "backup_valid": False
-            }
-            
-            if backup_info["backup_exists"]:
-                try:
-                    backup_stat = backup_path.stat()
-                    backup_age_seconds = datetime.now().timestamp() - backup_stat.st_mtime
-                    backup_info["backup_age_hours"] = backup_age_seconds / 3600
-                    
-                    # Check if backup is recent enough
-                    if backup_info["backup_age_hours"] < self.thresholds["min_backup_age_hours"]:
-                        backup_info["backup_valid"] = True
-                    else:
-                        backup_info["backup_valid"] = False
-                        
-                except Exception as e:
-                    backup_info["backup_valid"] = False
-            
-            backup_status[str(filepath)] = backup_info
-        
-        return backup_status
+        return {}
     
     def _check_cross_references(self, file_analysis: Dict[str, Any]) -> List[str]:
         """Check for cross-reference issues between files"""

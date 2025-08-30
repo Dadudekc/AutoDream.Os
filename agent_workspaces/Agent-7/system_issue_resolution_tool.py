@@ -170,18 +170,13 @@ class SystemIssueResolutionTool:
         try:
             self.logger.info("Fixing Unicode encoding error in contract claiming system")
             
-            # Create a backup of the original file
+            # Fix Unicode encoding issues directly in the original file
             original_file = "agent_workspaces/meeting/contract_claiming_system.py"
-            backup_file = f"{original_file}.backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-            
+
             if Path(original_file).exists():
-                # Create backup
                 with open(original_file, 'r', encoding='utf-8') as src:
                     content = src.read()
-                
-                with open(backup_file, 'w', encoding='utf-8') as backup:
-                    backup.write(content)
-                
+
                 # Fix Unicode characters in the content
                 fixed_content = content.replace('📋', 'CONTRACT')
                 fixed_content = fixed_content.replace('🔄', 'CLAIMED')
@@ -198,7 +193,6 @@ class SystemIssueResolutionTool:
                     "issue_type": "UNICODE_ENCODING_ERROR",
                     "resolved": True,
                     "fix_applied": "Unicode characters replaced with ASCII equivalents",
-                    "backup_created": backup_file,
                     "recommendation": "Test contract claiming system functionality"
                 }
             else:

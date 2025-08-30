@@ -22,37 +22,10 @@ import asyncio
 import threading
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import logging
 
-# Configure logging for Captain-level operations
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - CAPTAIN AGENT-3 - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-@dataclass
-class OptimizationResult:
-    """Result of optimization operation"""
-    success: bool
-    performance_improvement: float
-    optimization_type: str
-    implementation_time: float
-    system_impact: str
-    innovation_score: float
-
-@dataclass
-class SystemMetrics:
-    """Comprehensive system performance metrics"""
-    cpu_usage: float
-    memory_usage: float
-    disk_io: float
-    network_throughput: float
-    process_count: int
-    system_load: float
-    optimization_potential: float
+from src.captain_tools import OptimizationResult, SystemMetrics
 
 class AdvancedSystemOptimizer:
     """

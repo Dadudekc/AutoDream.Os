@@ -8,13 +8,14 @@ Description: Validation system for ensuring profiling accuracy and reliability
 
 import time
 import statistics
-import json
 import logging
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Tuple, Callable
 from dataclasses import dataclass, asdict
 from pathlib import Path
 import random
+
+from common import DEFAULT_THRESHOLDS, save_json_file
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -60,6 +61,7 @@ class ProfilingValidationSystem:
         self.tolerance = tolerance  # 5% tolerance by default
         self.validation_results: List[ValidationResult] = []
         self.calibration_data: Dict[str, Any] = {}
+        self.performance_thresholds = DEFAULT_THRESHOLDS.copy()
         
         logger.info("Profiling Validation System initialized")
     
@@ -458,10 +460,8 @@ class ProfilingValidationSystem:
         
         # Convert dataclass to dict for JSON serialization
         report_dict = asdict(report)
-        
-        with open(output_file, 'w') as f:
-            json.dump(report_dict, f, indent=2)
-        
+
+        save_json_file(output_file, report_dict)
         logger.info(f"Validation report exported to {output_file}")
         return output_file
     

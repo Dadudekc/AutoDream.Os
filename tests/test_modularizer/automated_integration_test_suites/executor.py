@@ -5,23 +5,18 @@ Test suite executor for automated integration test suites.
 import os
 import sys
 import time
-import asyncio
-import threading
-import json
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Callable, Union
-from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional
 from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import subprocess
-import traceback
+import json
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent.parent))
 
 from .models import TestSuiteConfig, TestSuiteResult, TestSuiteCategory, TestExecutionMode
 from .config import DEFAULT_TEST_SUITES
+from .parallel_executor import ParallelTestSuiteExecutor
 
 
 class AutomatedIntegrationTestSuites:
@@ -38,6 +33,9 @@ class AutomatedIntegrationTestSuites:
         self.max_suite_retries = 3
         self.retry_failed_suites = True
         self.suite_timeout = 600
+        
+        # Initialize parallel executor
+        self.parallel_executor = ParallelTestSuiteExecutor(self)
         
         # Load test suite configurations
         self._load_test_suites(config_file)
@@ -234,80 +232,9 @@ class AutomatedIntegrationTestSuites:
         self.logger.info(f"🚀 Starting execution of {len(suites_to_run)} test suites")
         
         if parallel:
-            return self._run_suites_parallel(suites_to_run)
+            return self.parallel_executor.run_suites_parallel(suites_to_run)
         else:
-            return self._run_suites_sequential(suites_to_run)
-    
-    def _run_suites_parallel(self, suite_ids: List[str]) -> List[TestSuiteResult]:
-        """Run test suites in parallel."""
-        results = []
-        
-        with ThreadPoolExecutor(max_workers=self.max_parallel_suites) as executor:
-            future_to_suite = {
-                executor.submit(self.run_test_suite, suite_id): suite_id
-                for suite_id in suite_ids
-            }
-            
-            for future in as_completed(future_to_suite):
-                suite_id = future_to_suite[future]
-                try:
-                    result = future.result()
-                    results.append(result)
-                    self.logger.info(f"✅ {suite_id}: {result.status}")
-                except Exception as e:
-                    self.logger.error(f"❌ {suite_id}: Failed with error: {e}")
-                    # Create error result
-                    error_result = TestSuiteResult(
-                        suite_id=suite_id,
-                        suite_name=self.test_suites[suite_id].name,
-                        execution_start=datetime.now(),
-                        execution_end=datetime.now(),
-                        total_tests=0,
-                        passed_tests=0,
-                        failed_tests=0,
-                        error_tests=1,
-                        skipped_tests=0,
-                        execution_time=0.0,
-                        status="error",
-                        test_results=[],
-                        summary={},
-                        error_details=str(e)
-                    )
-                    results.append(error_result)
-        
-        return results
-    
-    def _run_suites_sequential(self, suite_ids: List[str]) -> List[TestSuiteResult]:
-        """Run test suites sequentially."""
-        results = []
-        
-        for suite_id in suite_ids:
-            try:
-                result = self.run_test_suite(suite_id)
-                results.append(result)
-                self.logger.info(f"✅ {suite_id}: {result.status}")
-            except Exception as e:
-                self.logger.error(f"❌ {suite_id}: Failed with error: {e}")
-                # Create error result
-                error_result = TestSuiteResult(
-                    suite_id=suite_id,
-                    suite_name=self.test_suites[suite_id].name,
-                    execution_start=datetime.now(),
-                    execution_end=datetime.now(),
-                    total_tests=0,
-                    passed_tests=0,
-                    failed_tests=0,
-                    error_tests=1,
-                    skipped_tests=0,
-                    execution_time=0.0,
-                    status="error",
-                    test_results=[],
-                    summary={},
-                    error_details=str(e)
-                )
-                results.append(error_result)
-        
-        return results
+            return self.parallel_executor.run_suites_sequential(suites_to_run)
     
     def get_suite_summary(self) -> Dict[str, Any]:
         """Get summary of all test suite results."""
@@ -348,3 +275,10 @@ class AutomatedIntegrationTestSuites:
             "total_tests": total_tests,
             "test_pass_rate": test_pass_rate
         }
+    
+    def export_suite_results(self, format_type: str = "json") -> str:
+        """Export test suite results in specified format."""
+        from .reporting import TestSuiteReporter
+        
+        reporter = TestSuiteReporter(self.test_suite_results)
+        return reporter.export_suite_results(format_type)

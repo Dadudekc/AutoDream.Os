@@ -20,8 +20,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from src.core.base import BaseManager, ManagerConfig, ManagerType, ManagerState
-from src.core.base import BaseModel, ModelType, ModelStatus
+from src.core.base.base_manager import BaseManager, ManagerConfig, ManagerType, ManagerState
+from src.core.base.base_model import BaseModel, ModelType, ModelStatus
 
 
 # ============================================================================

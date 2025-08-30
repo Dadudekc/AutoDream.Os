@@ -21,8 +21,8 @@ from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from enum import Enum
 
-from src.core.base import BaseConfig, ConfigOptions, ConfigSection, ConfigValue, ConfigFormat
-from src.core.base import BaseModel, ModelType, ModelStatus
+from src.core.base.base_config import BaseConfig, ConfigOptions, ConfigSection, ConfigValue, ConfigFormat
+from src.core.base.base_model import BaseModel, ModelType, ModelStatus
 
 
 # ============================================================================

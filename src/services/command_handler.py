@@ -20,7 +20,8 @@ from .command_handlers import (
     ContractCommandHandler,
     CaptainCommandHandler,
     ResumeCommandHandler,
-    OnboardingCommandHandler
+    OnboardingCommandHandler,
+    WrapupCommandHandler
 )
 from .unified_messaging_service import UnifiedMessagingService
 from .config import CAPTAIN_ID, DEFAULT_COORDINATE_MODE
@@ -43,7 +44,8 @@ class CommandHandler:
             ContractCommandHandler(formatter),
             CaptainCommandHandler(formatter),
             ResumeCommandHandler(formatter),
-            OnboardingCommandHandler(formatter)
+            OnboardingCommandHandler(formatter),
+            WrapupCommandHandler(formatter)
         ]
         
         # Initialize additional services
@@ -63,9 +65,7 @@ class CommandHandler:
     def _execute_command_internal(self, args: argparse.Namespace) -> bool:
         """Internal command execution logic."""
         try:
-            # Handle help commands first
-            if args.help:
-                return self._handle_help()
+            # Handle quick help command first
             if args.quick_help:
                 return self._handle_quick_help()
             

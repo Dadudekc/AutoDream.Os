@@ -4,12 +4,17 @@ import asyncio
 import json
 import logging
 import os
-
-                from fsm_contract_integration import FSMContractIntegration
-                import sys
-            from src.core.fsm_contract_integration import fsm_integration
-    from src.core.fsm_contract_integration import get_fsm_integration, FSMContractIntegration
+import sys
 import time
+
+# Import our FSM integration
+try:
+    from src.core.fsm_contract_integration import fsm_integration, get_fsm_integration, FSMContractIntegration
+except ImportError:
+    # Fallback if import fails
+    FSMContractIntegration = None
+    get_fsm_integration = lambda: None
+    fsm_integration = None
 
 """
 Unified Messaging Service with FSM Integration
@@ -18,12 +23,7 @@ Integrates FSM, Contract, and Messaging systems into unified workflow
 """
 
 
-# Import our FSM integration
-try:
-except ImportError:
-    # Fallback if import fails
-    FSMContractIntegration = None
-    get_fsm_integration = lambda: None
+
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +35,7 @@ class UnifiedMessagingService:
     
     def __init__(self, project_root: str = "."):
         self.project_root = project_root
+        self.messaging_mode = "pyautogui"  # Default mode
         # Use the global FSM integration instance
         try:
             self.fsm_integration = fsm_integration
@@ -49,6 +50,11 @@ class UnifiedMessagingService:
             self._create_standalone_fsm()
         
         logger.info("Unified Messaging Service initialized")
+    
+    def set_mode(self, mode):
+        """Set the messaging mode"""
+        self.messaging_mode = mode.value if hasattr(mode, 'value') else str(mode)
+        logger.info(f"Messaging mode set to: {self.messaging_mode}")
     
     def _create_standalone_fsm(self):
         """Create standalone FSM integration if import fails"""

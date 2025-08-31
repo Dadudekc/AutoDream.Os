@@ -27,8 +27,23 @@ from .test_dataclasses import (
     TestReport
 )
 
+from .test_utilities_enums import (
+    TestUtilityType,
+    MockObjectType,
+    TestDataType,
+    ValidationType
+)
+
+from .test_utilities_dataclasses import (
+    MockObjectConfig,
+    TestDataConfig,
+    ValidationRule,
+    TestEnvironment as TestEnvConfig,
+    TestReport as TestReportConfig
+)
+
 __all__ = [
-    # Enums
+    # Core Enums
     'TestMode',
     'TestStatus', 
     'TestPriority',
@@ -36,10 +51,23 @@ __all__ = [
     'TestLevel',
     'TestType',
     
-    # Dataclasses
+    # Core Dataclasses
     'TestCategory',
     'TestResult',
     'TestExecutionConfig',
     'TestSuite',
-    'TestReport'
+    'TestReport',
+    
+    # Utilities Enums
+    'TestUtilityType',
+    'MockObjectType',
+    'TestDataType',
+    'ValidationType',
+    
+    # Utilities Dataclasses
+    'MockObjectConfig',
+    'TestDataConfig',
+    'ValidationRule',
+    'TestEnvConfig',
+    'TestReportConfig'
 ]

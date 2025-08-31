@@ -10,7 +10,8 @@ __status__ = "DUPLICATION_FREE"
 from .core.ai_ml_engine import ai_ml_engine
 from .managers.base_manager import BaseManager
 from .integrations.base_integration import BaseIntegration
-from .utilities.common_utils import generate_hash, validate_config, format_response
+from src.utils.string_utils import generate_hash, format_response
+from .utilities.common_utils import validate_config
 
 __all__ = [
     "ai_ml_engine",

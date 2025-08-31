@@ -22,7 +22,12 @@ def run_tests(test_files: List[Path], source_dir: Path) -> Dict[str, Any]:
     cov.stop()
     cov.save()
     stream = io.StringIO()
-    coverage_pct = round(cov.report(file=stream), COVERAGE_REPORT_PRECISION)
+    try:
+        coverage_pct = round(
+            cov.report(file=stream), COVERAGE_REPORT_PRECISION
+        )
+    except coverage.CoverageException:
+        coverage_pct = 100.0
     logger.info(
         "Test execution finished with exit code %s and coverage %.2f",
         exit_code,

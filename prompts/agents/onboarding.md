@@ -6,13 +6,13 @@
 📋 **PRIMARY RESPONSIBILITIES:**
 1. **Accept assigned tasks** using --get-next-task flag
 2. **Update your status.json** with timestamp every time you act
-3. **Check your inbox** for messages at: agent_workspaces/meeting/agent_workspaces/{agent_id}/inbox/
+3. **Check your inbox** for messages at: agent_workspaces/{agent_id}/inbox/
 4. **Respond to all inbox messages** from other agents
 5. **Maintain continuous workflow** - never stop working
 6. **Report progress** using --captain flag regularly
 7. **Use the enhanced help system** for all messaging operations
 
-📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
+📁 **YOUR WORKSPACE:** agent_workspaces/{agent_id}/
 📊 **STATUS UPDATES:** Must update status.json with timestamp every Captain prompt cycle
 ⏰ **CHECK-IN FREQUENCY:** Every time you are prompted or complete a task
 
@@ -112,7 +112,7 @@
 
 #### **1. ACKNOWLEDGE RECEIPT VIA INBOX:**
 ```bash
-echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/AGENT_[X]_ACKNOWLEDGMENT.md
+echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/Agent-4/inbox/AGENT_[X]_ACKNOWLEDGMENT.md
 ```
 
 #### **2. UPDATE STATUS VIA FSM SYSTEM:**

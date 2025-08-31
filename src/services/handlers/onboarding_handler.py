@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-devlog - Object-Oriented Implementation
+onboarding_handler - Object-Oriented Implementation
 Refactored from procedural code to follow OO principles
 """
 from typing import Any, Dict, List, Optional
 
-class Devlog:
-    """Object-oriented implementation of devlog"""
+class OnboardingHandler:
+    """Object-oriented implementation of onboarding_handler"""
     
     def __init__(self):
         self.state = {}
@@ -26,4 +26,4 @@ class Devlog:
         self.state.clear()
 
 # OO Implementation
-devlog_instance = Devlog()
+onboarding_handler_instance = OnboardingHandler()

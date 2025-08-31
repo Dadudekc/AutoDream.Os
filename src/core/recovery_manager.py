@@ -1,1 +1,0 @@
-# RECOVERY MANAGER - V2 Core System

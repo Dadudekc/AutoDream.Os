@@ -6,10 +6,8 @@ Clean Message Delivery Test
 Clean test to see exactly what's happening with message delivery to all agents.
 """
 
-from src.services import UnifiedMessagingService
+from src.services.unified_messaging_service import UnifiedMessagingService
 import time
-
-from src.utils.stability_improvements import stability_manager, safe_import
 
 
 def clean_message_test():

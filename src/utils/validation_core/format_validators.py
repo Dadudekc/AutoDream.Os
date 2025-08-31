@@ -11,11 +11,12 @@ Status: IN PROGRESS - Phase 1: Validation System Consolidation
 """
 
 import re
-import urllib.parse
 from typing import Any, List, Optional
 
 from .base_validator import BaseValidator
 from .validation_result import ValidationResult, ValidationStatus
+from .email_validators import EmailValidators
+from .url_validators import URLValidators
 
 
 class FormatValidators(BaseValidator):
@@ -29,6 +30,8 @@ class FormatValidators(BaseValidator):
     def __init__(self):
         """Initialize the format validators."""
         super().__init__("FormatValidators")
+        self.email_validators = EmailValidators()
+        self.url_validators = URLValidators()
     
     def validate(self, data: Any, **kwargs) -> ValidationResult:
         """
@@ -52,112 +55,12 @@ class FormatValidators(BaseValidator):
             )
     
     def validate_email(self, email: str) -> ValidationResult:
-        """
-        Validate email address format.
-        
-        Args:
-            email: Email address to validate
-            
-        Returns:
-            ValidationResult with validation status and details
-        """
-        try:
-            # Basic email validation using regex
-            if not email or not isinstance(email, str):
-                return ValidationResult(
-                    status=ValidationStatus.INVALID,
-                    message="Email validation failed",
-                    errors=["Email must be a non-empty string"],
-                    validated_data=email,
-                    validator_name=self.name
-                )
-            
-            # Simple email regex pattern
-            email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-            
-            if re.match(email_pattern, email):
-                return ValidationResult(
-                    status=ValidationStatus.VALID,
-                    message="Email format validation passed",
-                    validated_data=email,
-                    validator_name=self.name
-                )
-            else:
-                return ValidationResult(
-                    status=ValidationStatus.INVALID,
-                    message="Email format validation failed",
-                    errors=["Invalid email format"],
-                    validated_data=email,
-                    validator_name=self.name
-                )
-                
-        except Exception as e:
-            return ValidationResult(
-                status=ValidationStatus.ERROR,
-                message="Email validation error occurred",
-                errors=[f"Email validation exception: {str(e)}"],
-                validated_data=email,
-                validator_name=self.name
-            )
+        """Delegate to email validators."""
+        return self.email_validators.validate_email(email)
     
     def validate_url(self, url: str) -> ValidationResult:
-        """
-        Validate URL format.
-        
-        Args:
-            url: URL to validate
-            
-        Returns:
-            ValidationResult with validation status and details
-        """
-        try:
-            # Basic URL format validation
-            if not url or not isinstance(url, str):
-                return ValidationResult(
-                    status=ValidationStatus.INVALID,
-                    message="URL validation failed",
-                    errors=["URL must be a non-empty string"],
-                    validated_data=url,
-                    validator_name=self.name
-                )
-            
-            # Check for basic URL structure
-            if not (url.startswith('http://') or url.startswith('https://') or 
-                   url.startswith('ftp://') or url.startswith('file://')):
-                return ValidationResult(
-                    status=ValidationStatus.INVALID,
-                    message="URL validation failed",
-                    errors=["URL must start with http://, https://, ftp://, or file://"],
-                    validated_data=url,
-                    validator_name=self.name
-                )
-            
-            # Parse URL to check structure
-            parsed_url = urllib.parse.urlparse(url)
-            if not parsed_url.netloc:
-                return ValidationResult(
-                    status=ValidationStatus.INVALID,
-                    message="URL validation failed",
-                    errors=["URL must have a valid domain/host"],
-                    validated_data=url,
-                    validator_name=self.name
-                )
-            
-            return ValidationResult(
-                status=ValidationStatus.VALID,
-                message="URL format validation passed",
-                validated_data=url,
-                validator_name=self.name
-            )
-            
-        except Exception as e:
-            return ValidationResult(
-                status=ValidationStatus.ERROR,
-                message="URL validation error occurred",
-                errors=[f"URL validation exception: {str(e)}"],
-                validated_data=url,
-                validator_name=self.name
-            )
+        """Delegate to URL validators."""
+        return self.url_validators.validate_url(url)
     
     def validate_file_extension(self, filename: str, 
                                allowed_extensions: List[str]) -> ValidationResult:

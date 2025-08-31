@@ -6,12 +6,12 @@
 📋 **PRIMARY RESPONSIBILITIES:**
 1. **Accept assigned tasks** using --get-next-task flag
 2. **Update your status.json** with timestamp every time you act
-3. **Check your inbox** for messages at: agent_workspaces/meeting/agent_workspaces/{agent_id}/inbox/
+3. **Check your inbox** for messages at: agent_workspaces/{agent_id}/inbox/
 4. **Respond to all inbox messages** from other agents
 5. **Maintain continuous workflow** - never stop working
 6. **Report progress** using --captain flag regularly
 
-📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
+📁 **YOUR WORKSPACE:** agent_workspaces/{agent_id}/
 📊 **STATUS UPDATES:** Must update status.json with timestamp every 7 minutes maximum
 ⏰ **CHECK-IN FREQUENCY:** Every time you are prompted or complete a task
 

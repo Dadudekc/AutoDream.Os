@@ -35,8 +35,11 @@ class FileUtils:
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
-        except Exception as e:
-            logger.error(f"Failed to read JSON {file_path}: {e}")
+        except FileNotFoundError:
+            logger.warning(f"JSON file not found: {file_path}")
+            return None
+        except json.JSONDecodeError as e:
+            logger.error(f"Error decoding JSON from {file_path}: {e}")
             return None
 
     @staticmethod

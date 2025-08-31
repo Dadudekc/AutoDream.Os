@@ -26,9 +26,9 @@ import logging
 try:
     from .unified_configuration_framework import (
         IConfigurationManager, IConfigurationLoader, IConfigurationValidator,
-        IConfigurationMigrator, IConfigurationBackup, IConfigurationMonitor,
+        IConfigurationMigrator, IConfigurationMonitor,
         ConfigurationResult, ConfigurationManager, ConfigurationLoader,
-        ConfigurationValidator, ConfigurationMigrator, ConfigurationBackup,
+        ConfigurationValidator, ConfigurationMigrator,
         ConfigurationMonitor, ConfigurationRegistry
     )
 
@@ -47,14 +47,12 @@ except ImportError:
     class IConfigurationLoader: pass
     class IConfigurationValidator: pass
     class IConfigurationMigrator: pass
-    class IConfigurationBackup: pass
     class IConfigurationMonitor: pass
     class ConfigurationResult: pass
     class ConfigurationManager: pass
     class ConfigurationLoader: pass
     class ConfigurationValidator: pass
     class ConfigurationMigrator: pass
-    class ConfigurationBackup: pass
     class ConfigurationMonitor: pass
     class ConfigurationRegistry: pass
     
@@ -116,7 +114,6 @@ class ConsolidatedConfigurationManager:
         self.config_loader = ConfigurationLoader()
         self.config_validator = ConfigurationValidator()
         self.config_migrator = ConfigurationMigrator()
-        self.config_backup = ConfigurationBackup()
         self.config_monitor = ConfigurationMonitor()
         self.config_registry = ConfigurationRegistry()
         
@@ -253,11 +250,7 @@ class ConsolidatedConfigurationManager:
             Consolidation results and status
         """
         try:
-            logger.info("🚀 Starting configuration system consolidation...")
-            
-            # Phase 1: Backup legacy configuration
-            backup_result = self._backup_legacy_configuration()
-            
+            logger.info("🚀 Starting configuration system consolidation...")            
             # Phase 2: Migrate legacy configurations to unified framework
             migration_result = self._migrate_legacy_configurations()
             
@@ -268,7 +261,6 @@ class ConsolidatedConfigurationManager:
             self._update_consolidation_status()
             
             consolidation_results = {
-                "backup": backup_result,
                 "migration": migration_result,
                 "validation": validation_result,
                 "consolidation_status": self.consolidation_status,
@@ -282,27 +274,6 @@ class ConsolidatedConfigurationManager:
             logger.error(f"❌ Configuration consolidation failed: {e}")
             return {"error": str(e), "ssot_violation_resolved": False}
     
-    def _backup_legacy_configuration(self) -> Dict[str, Any]:
-        """Backup legacy configuration before consolidation"""
-        try:
-            logger.info("📦 Backing up legacy configuration...")
-            
-            backup_path = Path("src/core/configuration/legacy_backup")
-            backup_path.mkdir(exist_ok=True)
-            
-            # Create backup of legacy config directory
-            backup_result = self.config_backup.create_backup(
-                source_path=str(self.legacy_config_path),
-                backup_path=str(backup_path),
-                backup_name=f"legacy_config_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-            )
-            
-            logger.info(f"✅ Legacy configuration backed up: {backup_result.get('backup_path', 'Unknown')}")
-            return backup_result
-            
-        except Exception as e:
-            logger.error(f"❌ Failed to backup legacy configuration: {e}")
-            return {"error": str(e)}
     
     def _migrate_legacy_configurations(self) -> Dict[str, Any]:
         """Migrate legacy configurations to unified framework"""

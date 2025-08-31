@@ -7,7 +7,7 @@ networks:
 services:
   coverage-analyzer:
     command: "bash -c \"\n  echo '\U0001F4C8 Coverage Analyzer Service Starting...'\
-      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements.txt\
       \ &&\n  echo '✅ Coverage Analyzer ready!' &&\n  echo '\U0001F4CA Waiting for\
       \ test results...' &&\n  sleep 30 &&\n  echo '\U0001F4C8 Analyzing coverage\
       \ data...' &&\n  coverage combine coverage-*.xml || echo 'No coverage files\
@@ -32,7 +32,7 @@ services:
     working_dir: /workspace
   monitoring:
     command: "bash -c \"\n  echo '\U0001F4CA Monitoring Service Starting...' &&\n\
-      \  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \  python -m pip install --upgrade pip &&\n  pip install -r requirements.txt\
       \ &&\n  echo '✅ Monitoring Service ready!' &&\n  echo '\U0001F4C8 Monitoring\
       \ CI/CD pipeline status...' &&\n  while true; do\n    echo '\U0001F504 Pipeline\
       \ Status Check - $(date)' &&\n    echo '  - Test Results: $(ls -la /workspace/test-results/\
@@ -61,7 +61,7 @@ services:
   python-testing:
     command: "bash -c \"\n  echo '\U0001F680 Starting Agent_Cellphone_V2 CI/CD Local\
       \ Testing Environment...' &&\n  echo '\U0001F4E6 Installing dependencies...'\
-      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements.txt\
       \ &&\n  echo '\U0001F527 Installing pre-commit hooks...' &&\n  pip install pre-commit\
       \ &&\n  pre-commit install &&\n  echo '✅ Environment ready for testing!' &&\n\
       \  echo '' &&\n  echo '\U0001F9EA Available commands:' &&\n  echo '  - make\
@@ -92,7 +92,7 @@ services:
     working_dir: /workspace
   security-scanner:
     command: "bash -c \"\n  echo '\U0001F512 Security Scanner Service Starting...'\
-      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements.txt\
       \ &&\n  mkdir -p /workspace/security-reports &&\n  echo '✅ Security Scanner\
       \ ready!' &&\n  echo '\U0001F50D Running security vulnerability scan...' &&\n\
       \  bandit -r src/ -f json -o /workspace/security-reports/security-scan.json\
@@ -116,7 +116,7 @@ services:
     working_dir: /workspace
   test-runner:
     command: "bash -c \"\n  echo '\U0001F9EA Test Runner Service Starting...' &&\n\
-      \  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \  python -m pip install --upgrade pip &&\n  pip install -r requirements.txt\
       \ &&\n  mkdir -p /workspace/test-results &&\n  echo '✅ Test Runner ready!' &&\n\
       \  echo '\U0001F680 Running comprehensive test suite...' &&\n  python tests/run_tests.py\
       \ --all-categories --coverage --parallel &&\n  echo '✅ Test suite completed!'\
@@ -141,7 +141,7 @@ services:
     working_dir: /workspace
   v2-standards-validator:
     command: "bash -c \"\n  echo '\U0001F680 V2 Standards Validator Service Starting...'\
-      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements-testing.txt\
+      \ &&\n  python -m pip install --upgrade pip &&\n  pip install -r requirements.txt\
       \ &&\n  mkdir -p /workspace/standards-reports &&\n  echo '✅ V2 Standards Validator\
       \ ready!' &&\n  echo '\U0001F50D Running V2 Standards compliance check...' &&\n\
       \  python tests/v2_standards_checker.py --all-checks --strict --report --output-format=json\

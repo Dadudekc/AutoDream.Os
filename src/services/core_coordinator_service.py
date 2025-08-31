@@ -16,7 +16,7 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 import argparse
-from src.services.config_utils import ConfigLoader
+from src.core.config_loader import load_config
 from src.services.performance_analysis import analyze_agent_activity
 
 
@@ -69,7 +69,7 @@ class CoreCoordinatorService:
             "voting_duration": 120,
             "term_duration": 1800,
         }
-        config_data = ConfigLoader.load(self.config_path / "coordination_config.json", default_config)
+        config_data = load_config(self.config_path / "coordination_config.json", default_config)
         self.config = CoordinationConfig(**config_data)
 
         # Initialize agent status

@@ -98,7 +98,7 @@ Welcome aboard — momentum starts now 🚀
 
 #### **1. ACKNOWLEDGE RECEIPT VIA INBOX:**
 ```bash
-echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/AGENT_[X]_ACKNOWLEDGMENT.md
+echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/Agent-4/inbox/AGENT_[X]_ACKNOWLEDGMENT.md
 ```
 
 #### **2. UPDATE STATUS VIA FSM SYSTEM:**

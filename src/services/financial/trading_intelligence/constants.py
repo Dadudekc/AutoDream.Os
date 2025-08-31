@@ -1,7 +1,5 @@
 """Shared constants for the trading intelligence service."""
 
-# Default columns required for market data frames
-DEFAULT_REQUIRED_COLUMNS = {"Close", "Volume"}
+from src.core.constants import DEFAULT_REQUIRED_COLUMNS, RSI_PERIOD
 
-# Standard period for RSI calculations
-RSI_PERIOD = 14
+__all__ = ["DEFAULT_REQUIRED_COLUMNS", "RSI_PERIOD"]

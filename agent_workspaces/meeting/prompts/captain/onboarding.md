@@ -17,7 +17,7 @@
 ## 🚨 **CRITICAL INBOX MONITORING PROTOCOLS:**
 
 ### **📬 AGENT COMMUNICATION CHANNEL:**
-1. **Monitor your inbox continuously** at: agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+1. **Monitor your inbox continuously** at: agent_workspaces/Agent-4/inbox/
 2. **Agents will message you directly** for:
    - **Task clarifications**
    - **Previous work context recovery**

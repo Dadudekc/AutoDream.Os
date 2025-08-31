@@ -2,12 +2,11 @@
 # MIGRATED: This file has been migrated to the centralized configuration system
 #!/usr/bin/env python3
 """
-Config Loader Module - Configuration File Loading Operations
+Config Loader Module - **Single Source of Truth** for configuration loading.
 
-This module handles configuration file loading and parsing.
-Follows Single Responsibility Principle - only file loading operations.
-Architecture: Single Responsibility Principle - file loading only
-LOC: 120 lines (under 200 limit)
+This module centralizes all configuration file loading and parsing logic.
+Other modules must import configuration utilities from here rather than
+implementing their own loaders.
 """
 
 import os
@@ -132,6 +131,23 @@ class ConfigLoader:
         """Get list of supported configuration file formats"""
         return [".yaml", ".yml", ".json"]
 
+
+def load_config(path: str | Path, defaults: Optional[Dict[str, Any]] | None = None) -> Dict[str, Any]:
+    """Load a configuration file and return its data.
+
+    This convenience function is the preferred entry point for modules that
+    need configuration data. It leverages :class:`ConfigLoader` to read the
+    file and applies optional *defaults* when loading fails.
+    """
+    config_path = Path(path)
+    loader = ConfigLoader(config_path.parent)
+    section = loader.load_config_file(config_path)
+    if section and section.data is not None:
+        data = section.data
+        if defaults:
+            return {**defaults, **data}
+        return data
+    return defaults.copy() if defaults else {}
 
 def run_smoke_test():
     """Run basic functionality test for ConfigLoader"""

@@ -9,7 +9,7 @@ repos:
         language_version: python3
         args: [--line-length=88, --target-version=py38]
         types: [python]
-        additional_dependencies: [black[jupyter]]
+        additional_dependencies: ["black[jupyter]"]
 
   # isort import sorting
   - repo: https://github.com/pycqa/isort
@@ -118,33 +118,8 @@ repos:
       - id: name-tests-test
       - id: requirements-txt-fixer
       - id: fix-byte-order-marker
-
-  # Python-specific hooks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
       - id: check-added-large-files
         args: [--maxkb=1000]
-      - id: check-merge-conflict
-      - id: check-toml
-      - id: check-yaml
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-      - id: debug-statements
-      - id: check-docstring-first
-      - id: check-ast
-      - id: name-tests-test
-      - id: requirements-txt-fixer
-      - id: fix-byte-order-marker
-
-  # Git hooks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: check-merge-conflict
-      - id: check-case-conflict
-      - id: check-merge-conflict
-      - id: check-merge-conflict
 
   # Commit message formatting
   - repo: https://github.com/commitizen-tools/commitizen
@@ -152,15 +127,7 @@ repos:
     hooks:
       - id: commitizen
         stages: [commit-msg]
-        additional_dependencies: [commitizen[cz_conventional_commits]]
-
-  # Conventional commit message validation
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.13.0
-    hooks:
-      - id: commitizen
-        stages: [commit-msg]
-        additional_dependencies: [commitizen[cz_conventional_commits]]
+        additional_dependencies: ["commitizen[cz_conventional_commits]"]
 
   # Pre-commit hooks for emergency database recovery system
   - repo: local
@@ -189,48 +156,6 @@ repos:
 # Global configuration
 default_language_version:
   python: python3.8
-
-# Hook execution order
-repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-toml
-      - id: check-json
-      - id: check-merge-conflict
-      - id: check-case-conflict
-      - id: check-docstring-first
-      - id: check-ast
-      - id: debug-statements
-      - id: name-tests-test
-      - id: requirements-txt-fixer
-      - id: fix-byte-order-marker
-
-# Quality gates
-quality_gates:
-  - name: "Code Formatting"
-    hooks: ["black", "isort", "autopep8"]
-    required: true
-  
-  - name: "Linting"
-    hooks: ["flake8", "pylint"]
-    required: true
-  
-  - name: "Type Checking"
-    hooks: ["mypy"]
-    required: false
-  
-  - name: "Security"
-    hooks: ["bandit", "safety"]
-    required: true
-  
-  - name: "Import Management"
-    hooks: ["autoflake"]
-    required: true
-
 # Failure handling
 fail_fast: false
 require_serial: false

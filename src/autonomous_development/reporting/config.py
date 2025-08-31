@@ -14,7 +14,7 @@ from typing import Dict
 # ---------------------------------------------------------------------------
 # Directory where report artifacts can be persisted if a file based backend
 # is used.  Modules can import this constant instead of hard coding paths.
-DEFAULT_REPORT_ARCHIVE_PATH = "reporting_archive"
+DEFAULT_REPORT_ARCHIVE_PATH = "reports"
 
 # ---------------------------------------------------------------------------
 # Icon mappings

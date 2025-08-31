@@ -4,7 +4,7 @@ Migrated Configuration: archive_config.py
 This file was automatically migrated from the original configuration
 file to the centralized configuration system.
 
-Original file: reporting_archive\archive_config.py
+Original file: src/autonomous_development/reporting/config.py 
 Migration date: 2025-08-30T17:16:17.106854
 """
 

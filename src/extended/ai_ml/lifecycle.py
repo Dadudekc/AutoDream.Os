@@ -9,7 +9,7 @@ from .constants import (
     WORKFLOW_STATUS_FAILED,
     WORKFLOW_STATUS_RUNNING,
 )
-from .metrics import MetricsCollector
+from src.core.metrics import MetricsCollector
 
 EventEmitter = Callable[[str, Dict[str, Any]], None]
 

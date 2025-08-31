@@ -75,14 +75,14 @@ class HealthCheck:
 @dataclass
 class HealthReport:
     """Health report structure"""
-    
+
     report_id: str
-    timestamp: datetime = field(default_factory=datetime.now)
     overall_status: HealthStatus
     total_checks: int
     healthy_checks: int
     warning_checks: int
     critical_checks: int
+    timestamp: datetime = field(default_factory=datetime.now)
     checks: List[HealthCheck] = field(default_factory=list)
     metrics: List[HealthMetric] = field(default_factory=list)
     summary: str = ""

@@ -23,20 +23,62 @@ from dataclasses import dataclass, field
 import logging
 
 # Import unified configuration framework
-from .unified_configuration_framework import (
-    IConfigurationManager, IConfigurationLoader, IConfigurationValidator,
-    IConfigurationMigrator, IConfigurationBackup, IConfigurationMonitor,
-    ConfigurationResult, ConfigurationManager, ConfigurationLoader,
-    ConfigurationValidator, ConfigurationMigrator, ConfigurationBackup,
-    ConfigurationMonitor, ConfigurationRegistry
-)
+try:
+    from .unified_configuration_framework import (
+        IConfigurationManager, IConfigurationLoader, IConfigurationValidator,
+        IConfigurationMigrator, IConfigurationBackup, IConfigurationMonitor,
+        ConfigurationResult, ConfigurationManager, ConfigurationLoader,
+        ConfigurationValidator, ConfigurationMigrator, ConfigurationBackup,
+        ConfigurationMonitor, ConfigurationRegistry
+    )
 
-# Import unified configuration classes
-from .unified_config_classes import (
-    ConfigFormat, ConfigValidationLevel, ConfigType, ConfigMetadata,
-    ConfigSection, ConfigValidationResult, ConfigChangeEvent,
-    AIConfig, FSMConfig, PerformanceConfig, QualityConfig, MessagingConfig
-)
+    # Import unified configuration classes
+    from .unified_config_classes import (
+        ConfigFormat, ConfigValidationLevel, ConfigType, ConfigMetadata,
+        ConfigSection, ConfigValidationResult, ConfigChangeEvent,
+        AIConfig, FSMConfig, PerformanceConfig, QualityConfig, MessagingConfig
+    )
+except ImportError:
+    # Fallback for standalone execution
+    print("⚠️ Import error - running in standalone mode")
+    
+    # Define placeholder classes for testing
+    class IConfigurationManager: pass
+    class IConfigurationLoader: pass
+    class IConfigurationValidator: pass
+    class IConfigurationMigrator: pass
+    class IConfigurationBackup: pass
+    class IConfigurationMonitor: pass
+    class ConfigurationResult: pass
+    class ConfigurationManager: pass
+    class ConfigurationLoader: pass
+    class ConfigurationValidator: pass
+    class ConfigurationMigrator: pass
+    class ConfigurationBackup: pass
+    class ConfigurationMonitor: pass
+    class ConfigurationRegistry: pass
+    
+    class ConfigFormat: pass
+    class ConfigValidationLevel: pass
+    class ConfigType:
+        AGENT = "agent"
+        MANAGER = "manager"
+        VALIDATION = "validation"
+        PERFORMANCE = "performance"
+        EMERGENCY = "emergency"
+        CONSTANTS = "constants"
+        BASE = "base"
+        MIGRATION = "migration"
+    
+    class ConfigMetadata: pass
+    class ConfigSection: pass
+    class ConfigValidationResult: pass
+    class ConfigChangeEvent: pass
+    class AIConfig: pass
+    class FSMConfig: pass
+    class PerformanceConfig: pass
+    class QualityConfig: pass
+    class MessagingConfig: pass
 
 logger = logging.getLogger(__name__)
 

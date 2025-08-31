@@ -8,7 +8,7 @@ Tests message queue, agent coordination, and system reliability before
 integrating Dadudekc combat, economy, and NPC systems.
 """
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 import time
 import threading
 import random

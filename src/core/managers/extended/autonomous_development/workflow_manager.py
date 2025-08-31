@@ -8,7 +8,7 @@ import logging
     from src.autonomous_development.reporting.manager import ReportingManager
     from src.autonomous_development.tasks.handler import TaskHandler
     from src.core.task_manager import DevelopmentTaskManager as TaskManager
-    from src.services.messaging import UnifiedMessagingService as RealAgentCommunicationSystem
+    from src.services import UnifiedMessagingService as RealAgentCommunicationSystem
 from src.core.base_manager import BaseManager
 from src.utils.stability_improvements import stability_manager, safe_import
 from src/autonomous_development/workflow/manager.py into a V2-compliant system.

@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Optional, Tuple
 
 from __future__ import annotations
-from src.services.messaging.interfaces import (
-from src.services.messaging.storage.models import V2Message
-from src.services.messaging.storage.storage import IMessageStorage
+from src.services.interfaces import (
+from src.services.storage.models import V2Message
+from src.services.storage.storage import IMessageStorage
 
 """Example implementations for messaging interfaces."""
 

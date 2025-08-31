@@ -13,9 +13,9 @@ from typing import Dict, List, Any, Optional
 from pathlib import Path
 from dataclasses import dataclass, asdict
 
-from ..tools.coverage_analyzer import TestCoverageAnalyzer
-from ..tools.complexity_analyzer import CodeComplexityAnalyzer
-from ..tools.dependency_analyzer import DependencyAnalyzer
+from tools.coverage_analyzer import TestCoverageAnalyzer
+from tools.complexity_analyzer import CodeComplexityAnalyzer
+from tools.dependency_analyzer import DependencyAnalyzer
 
 
 @dataclass

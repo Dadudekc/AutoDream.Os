@@ -3,7 +3,7 @@ import sys
 import threading
 
         import traceback
-from src.services.messaging import (
+from src.services import (
 from src.utils.stability_improvements import stability_manager, safe_import
 import time
 

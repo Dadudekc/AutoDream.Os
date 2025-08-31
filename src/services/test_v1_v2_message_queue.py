@@ -1,8 +1,8 @@
 from pathlib import Path
 import sys
 
-        from src.services.messaging import (
-        from src.services.messaging import UnifiedMessagingService, UnifiedMessagePriority
+        from src.services import (
+        from src.services import UnifiedMessagingService, UnifiedMessagePriority
         import traceback
 from src.utils.stability_improvements import stability_manager, safe_import
 import time

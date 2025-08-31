@@ -8,8 +8,8 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from src.services.messaging.unified_messaging_service import UnifiedMessagingService
-from src.services.messaging.interfaces import MessageType
+from src.services.unified_messaging_service import UnifiedMessagingService
+from src.services.interfaces import MessageType
 
 def send_urgent_activation_messages():
     """Send high-priority activation messages to all agents"""

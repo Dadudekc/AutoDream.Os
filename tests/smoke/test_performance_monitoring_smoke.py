@@ -13,7 +13,7 @@ import tempfile
         from services.performance_alerting import AlertingSystem, AlertRule
         from services.performance_monitor import (
         from services.performance_monitor import PerformanceMonitor
-        from src.services.dashboard import (
+        from src.services import (
 from src.utils.stability_improvements import stability_manager, safe_import
 import time
 

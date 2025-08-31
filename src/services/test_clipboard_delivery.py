@@ -6,7 +6,7 @@ Test Clipboard Message Delivery
 Test the new clipboard-based message delivery system for faster message sending.
 """
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import

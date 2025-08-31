@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test script to send messages to all 8 agents using fixed routing"""
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 
 
 def test_all_agents():

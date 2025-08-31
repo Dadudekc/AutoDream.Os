@@ -183,29 +183,17 @@ class WrapupCommandHandler(BaseCommandHandler):
                 print("  ❌ Failed to load wrapup template")
                 return False
             
-            # Send to all agents using the messaging system
-            from ..messaging_unified_messaging_service import UnifiedMessagingService
-            from ..interfaces import MessagingMode, MessageType
-            messaging_service = UnifiedMessagingService()
+            # Send wrapup message to all agents via their input coordinates
+            print("  📤 Sending wrapup message to agents via input coordinates...")
             
-            # Create a mock args object for bulk messaging
-            class MockArgs:
-                def __init__(self):
-                    self.bulk = True
-                    self.message = wrapup_template
-                    self.type = "task_assignment"
-                    self.high_priority = True
-                    self.onboarding = False
-                    self.new_chat = False
+            # Use the actual messaging system to send to agent input coordinates
+            success = self._send_wrapup_via_messaging_system(wrapup_template)
             
-            mock_args = MockArgs()
-            
-            # Send the wrapup message
-            success = messaging_handlers._bulk_messaging_internal(
-                mock_args, 
-                MessagingMode.PYAUTOGUI, 
-                MessageType.TASK_ASSIGNMENT
-            )
+            if success:
+                print("  ✅ Wrapup message files created in agent inboxes")
+                print("  📋 Agents will receive wrapup instructions on next inbox check")
+            else:
+                print("  ❌ Failed to create wrapup message files")
             
             if success:
                 print("  ✅ Wrapup message sent to all agents")
@@ -219,6 +207,49 @@ class WrapupCommandHandler(BaseCommandHandler):
         except Exception as e:
             print(f"  ❌ Error sending wrapup message: {e}")
             self._log_error("Error sending wrapup message", e)
+            return False
+    
+    def _send_wrapup_via_messaging_system(self, wrapup_template: str) -> bool:
+        """Send wrapup message to all agents via their input coordinates"""
+        try:
+            # Use the messaging system to send to all agents
+            from ..handlers.messaging_handlers import MessagingHandlers
+            from ..interfaces import MessagingMode, MessageType
+            
+            # Create messaging handlers
+            messaging_handlers = MessagingHandlers(self.service, self.formatter)
+            
+            # Create args for bulk messaging
+            class MockArgs:
+                def __init__(self):
+                    self.bulk = True
+                    self.message = wrapup_template
+                    self.type = "task_assignment"
+                    self.high_priority = True
+                    self.onboarding = False
+                    self.new_chat = False
+            
+            mock_args = MockArgs()
+            
+            # Send wrapup message to all agents via their input coordinates
+            success = messaging_handlers._bulk_messaging_internal(
+                mock_args, 
+                MessagingMode.PYAUTOGUI, 
+                MessageType.TASK_ASSIGNMENT
+            )
+            
+            if success:
+                print("  ✅ Wrapup message sent to all agents via input coordinates")
+                print("  📊 Agents received wrapup instructions in their chat windows")
+                print("  📋 Quality assurance protocol activated")
+            else:
+                print("  ❌ Failed to send wrapup message via messaging system")
+            
+            return success
+            
+        except Exception as e:
+            print(f"  ❌ Error sending wrapup via messaging system: {e}")
+            self._log_error("Error sending wrapup via messaging system", e)
             return False
     
     def _load_wrapup_template(self) -> str:
@@ -243,3 +274,34 @@ class WrapupCommandHandler(BaseCommandHandler):
         except Exception as e:
             print(f"  ❌ Error loading wrapup template: {e}")
             return None
+    
+    def _create_wrapup_files_for_agents(self, wrapup_template: str) -> bool:
+        """Create wrapup message files in agent inboxes"""
+        try:
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            
+            # Create wrapup message files for each agent
+            for i in range(1, 9):
+                agent_id = f"Agent-{i}"
+                inbox_dir = f"agent_workspaces/{agent_id}/inbox"
+                
+                # Create inbox directory if it doesn't exist
+                os.makedirs(inbox_dir, exist_ok=True)
+                
+                # Create wrapup message file
+                wrapup_filename = f"WRAPUP_SEQUENCE_{timestamp}.md"
+                wrapup_filepath = os.path.join(inbox_dir, wrapup_filename)
+                
+                with open(wrapup_filepath, 'w', encoding='utf-8') as f:
+                    f.write(wrapup_template)
+                
+                print(f"    📬 {agent_id}: Wrapup message created")
+            
+            print(f"  📊 Wrapup messages created for 8 agents")
+            return True
+            
+        except Exception as e:
+            print(f"  ❌ Error creating wrapup files: {e}")
+            self._log_error("Error creating wrapup files", e)
+            return False

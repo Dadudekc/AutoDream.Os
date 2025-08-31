@@ -212,9 +212,22 @@ class CoordinateManager:
             },
         }
 
-    def get_agent_coordinates(self, agent_id: str) -> Optional[Dict[str, Any]]:
+    def get_agent_coordinates(self, agent_id: str, mode: str = "8-agent") -> Optional[Dict[str, Any]]:
         """Get coordinates for a specific agent"""
-        return self.agent_coordinates.get(agent_id)
+        # Convert Agent-1 format to agent_1 format
+        normalized_id = agent_id.lower().replace('-', '_')
+        coords = self.agent_coordinates.get(normalized_id)
+        
+        if coords:
+            # Convert to expected format with input_box
+            return {
+                "input_box": (coords["input_x"], coords["input_y"]),
+                "status": coords.get("status", "active"),
+                "name": coords.get("name", agent_id),
+                "color": coords.get("color", "⚪")
+            }
+        
+        return None
 
     def get_all_coordinates(self) -> Dict[str, Any]:
         """Get all agent coordinates"""

@@ -1,12 +1,12 @@
 {
   "agent_id": "Agent-5",
   "current_contract": {
-    "contract_id": "V2-COMPLIANCE-005",
-    "title": "Database Audit System Modularization",
+    "contract_id": "V2-COMPLIANCE-003",
+    "title": "Command Handler System Modularization",
     "category": "V2_Compliance",
-    "extra_credit_points": 150,
+    "extra_credit_points": 200,
     "difficulty": "CRITICAL",
-    "estimated_time": "2-3 days",
+    "estimated_time": "3-4 days",
     "deadline": "2025-01-31 23:59:00"
   },
   "progress": {

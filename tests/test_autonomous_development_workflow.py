@@ -6,7 +6,7 @@ import pytest
 import unittest
 
     from src.autonomous_development.core import DevelopmentTask
-    from src.core.task_manager import DevelopmentTaskManager
+    from src.core.task_manager_refactored import DevelopmentTaskManager
 from src.autonomous_development.workflow.manager import AutonomousWorkflowManager
 from src.utils.stability_improvements import safe_import
 from unittest.mock import Mock, AsyncMock, patch, call

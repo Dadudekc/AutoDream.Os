@@ -29,7 +29,7 @@ This directory contains all configuration files organized in a clean, logical st
 - pytest.ini - PyTest configuration
 - coverage.ini - Coverage configuration
 - test.yaml - Test configuration
-- requirements.txt - Basic requirements
+- requirements.txt - Consolidated requirements (SSOT)
 
 ### ci_cd/ - CI/CD Configurations
 - jenkins.groovy - Jenkins pipeline configuration

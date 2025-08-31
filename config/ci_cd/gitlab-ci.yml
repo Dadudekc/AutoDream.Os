@@ -14,7 +14,7 @@ code-quality:
       junit: v2_standards_report.json
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   - pip install pre-commit
   - pre-commit install
   image: python:3.9-slim
@@ -42,7 +42,7 @@ coverage-analysis:
     - coverage-report.txt
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   dependencies:
   - smoke-tests
   - unit-tests
@@ -68,7 +68,7 @@ deploy-production:
     - deployment-log.txt
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   environment:
     name: production
     url: https://production.agent-cellphone-v2.com
@@ -98,7 +98,7 @@ deploy-staging:
     - staging-deployment-log.txt
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   environment:
     name: staging
     url: https://staging.agent-cellphone-v2.com
@@ -130,7 +130,7 @@ integration-tests:
       junit: $TEST_RESULTS_DIR/integration-tests.xml
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   - mkdir -p $TEST_RESULTS_DIR
   coverage: /TOTAL.*\s+(\d+%)$/
   image: python:3.9-slim
@@ -152,7 +152,7 @@ performance-tests:
     - .benchmarks/
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   image: python:3.9-slim
   name: ⚡ Performance Testing
   rules:
@@ -220,7 +220,7 @@ security-tests:
       junit: security-scan.json
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   image: python:3.9-slim
   name: 🔒 Security Testing
   rules:
@@ -249,7 +249,7 @@ smoke-tests:
       junit: $TEST_RESULTS_DIR/smoke-tests.xml
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   - mkdir -p $TEST_RESULTS_DIR
   coverage: /TOTAL.*\s+(\d+%)$/
   image: python:3.9-slim
@@ -288,7 +288,7 @@ unit-tests:
       junit: $TEST_RESULTS_DIR/unit-tests.xml
   before_script:
   - python -m pip install --upgrade pip
-  - pip install -r requirements-testing.txt
+  - pip install -r requirements.txt
   - mkdir -p $TEST_RESULTS_DIR
   coverage: /TOTAL.*\s+(\d+%)$/
   image: python:3.9-slim

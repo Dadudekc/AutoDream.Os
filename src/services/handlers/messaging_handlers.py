@@ -276,7 +276,7 @@ class MessagingHandlers:
 
 **AFTER SENDING THIS MESSAGE, YOU MUST:**
 
-1. **CHECK INBOX** - Review all messages in agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+1. **CHECK INBOX** - Review all messages in agent_workspaces/Agent-4/inbox/
 2. **RESPOND TO MESSAGES** - Reply to ALL agent messages and requests
 3. **REVIEW PROJECT STATUS** - Check all agent status.json files for progress and stalls
 4. **ASSIGN NEW TASKS** - Use messaging system to assign tasks: `python -m src.services.messaging --bulk --message "TASK: [Description]"`
@@ -296,7 +296,7 @@ Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager"""
 
 **AFTER SENDING THIS MESSAGE, YOU MUST:**
 
-1. **CHECK INBOX** - Review all messages in agent_workspaces/meeting/agent_workspaces/Agent-4/inbox/
+1. **CHECK INBOX** - Review all messages in agent_workspaces/Agent-4/inbox/
 2. **RESPOND TO MESSAGES** - Reply to ALL agent messages and requests
 3. **REVIEW PROJECT STATUS** - Check all agent status.json files for progress and stalls
 4. **ASSIGN NEW TASKS** - Use messaging system to assign tasks: `python -m src.services.messaging --bulk --message "TASK: [Description]"`

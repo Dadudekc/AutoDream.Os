@@ -109,11 +109,11 @@ class PromptLoader:
 📋 **PRIMARY RESPONSIBILITIES:**
 1. **Create and assign tasks** to all agents
 2. **Monitor agent status.json files** for stall detection
-3. **Respond to messages in your inbox** at: agent_workspaces/meeting/agent_workspaces/{agent_id}/inbox/
+3. **Respond to messages in your inbox** at: agent_workspaces/{agent_id}/inbox/
 4. **Coordinate system-wide operations** and maintain momentum
 5. **Implement stall prevention** when agents exceed 7-minute check-in threshold
 
-📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
+📁 **YOUR WORKSPACE:** agent_workspaces/{agent_id}/
 📊 **STATUS TRACKING:** Update your status.json with timestamp every time you act
 ⏰ **STALL DETECTION:** Monitor all agents for 7+ minute inactivity
 
@@ -142,12 +142,12 @@ Captain {agent_id} - You are the strategic leader of this operation!"""
 📋 **PRIMARY RESPONSIBILITIES:**
 1. **Accept assigned tasks** using --get-next-task flag
 2. **Update your status.json** with timestamp every time you act
-3. **Check your inbox** for messages at: agent_workspaces/meeting/agent_workspaces/{agent_id}/inbox/
+3. **Check your inbox** for messages at: agent_workspaces/{agent_id}/inbox/
 4. **Respond to all inbox messages** from other agents
 5. **Maintain continuous workflow** - never stop working
 6. **Report progress** using --captain flag regularly
 
-📁 **YOUR WORKSPACE:** agent_workspaces/meeting/agent_workspaces/{agent_id}/
+📁 **YOUR WORKSPACE:** agent_workspaces/{agent_id}/
 📊 **STATUS UPDATES:** Must update status.json with timestamp every 7 minutes maximum
 ⏰ **CHECK-IN FREQUENCY:** Every time you are prompted or complete a task
 

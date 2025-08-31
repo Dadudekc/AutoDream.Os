@@ -66,6 +66,7 @@ Agent Cellphone V2 is a sophisticated multi-agent communication system with a **
 - **Modular Messaging System** - Clean, V2-compliant architecture following OOP and SRP principles
 - **Multi-Mode Support** - 2-agent, 4-agent, 5-agent, and 8-agent configurations
 - **Advanced Coordinate Features** - Mapping, calibration, consolidation, and validation
+- **Unified Consolidation Framework** - Generic consolidator for constants, metrics, and other resources (`src/core/consolidation/unified_consolidator.py`)
 - **Fallback Compatibility** - Graceful degradation for legacy systems
 - **100% V2 Compliance** - Clean, modular, production-grade code
 
@@ -276,15 +277,7 @@ The coordinate system is now 100% unified and V2 compliant! Future enhancements 
 ## License
 MIT License - See [LICENSE](LICENSE) file for details.
 
----
-
-**The Agent Cellphone V2 coordinate system is now completely unified, efficient, and ready for production deployment!**
-
-**WE. ARE. SWARM.** 🚀
-
----
-
-This repository is the single source of truth for AutoDream OS. It maintains V2 standards to ensure high-quality, agent-friendly code.
+This repository is the single source of truth for AutoDream OS, maintaining V2 standards for high-quality, agent-friendly code.
 
 ## Logging
 
@@ -297,10 +290,3 @@ logger = get_logger(__name__)
 ```
 
 This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.
-
-## Backup Policy
-
-Temporary backup directories (e.g., names matching `*_backup_*`) may be
-created for short-term local use during development. These directories are
-ignored by Git and should never be committed to the repository. Remove or move
-backups outside the project before submitting changes to keep history clean.

@@ -82,7 +82,6 @@ class BaseManager(ABC):
     - src/autonomous_development/workflow/manager.py
     - src/autonomous_development/reporting/manager.py
     - config/manager.py
-    - config_backup/manager.py
     """
     
     def __init__(self, config: ManagerConfig):

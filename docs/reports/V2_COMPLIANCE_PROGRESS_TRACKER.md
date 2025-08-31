@@ -18,19 +18,19 @@ This file is the **MASTER SOURCE** for all V2 compliance tracking data. It serve
 - **Compliant Files (<300 lines)**: 1,432
 - **Moderate Violations (300-499 lines)**: 254
 - **Major Violations (500-799 lines)**: 81+
-- **Critical Violations (800+ lines)**: 6
-- **Current Compliance**: 79.2%
+- **Critical Violations (800+ lines)**: 5
+- **Current Compliance**: 79.4%
 - **Target Compliance**: 100%
-- **Gap to Target**: 20.8%
+- **Gap to Target**: 20.6%
 
 ### **Violation Categories**
 
 #### **Phase 1: Critical Violations (800+ lines)** 🚨 **HIGH PRIORITY**
 - **Total Contracts**: 8
-- **Completed**: 2
+- **Completed**: 3
 - **In Progress**: 0
-- **Available**: 6
-- **Progress**: 25%
+- **Available**: 5
+- **Progress**: 37.5%
 
 **Critical Files Identified:**
 1. `src/core/fsm/fsm_core_v2.py` (942 lines) - **READY FOR CONTRACT**

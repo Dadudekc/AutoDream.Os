@@ -19,7 +19,7 @@ class WebDependencyInstaller:
         self.pip_path = pip_path
         self.python_path = python_path
         self.project_root = project_root
-        self.requirements_file = project_root / "requirements_web_development.txt"
+        self.requirements_file = project_root / "requirements.txt"
 
     def run_command(self, command: List[str]) -> bool:
         """

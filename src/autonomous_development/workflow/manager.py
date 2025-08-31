@@ -5,7 +5,7 @@ import asyncio
 import logging
 
     from src.autonomous_development.core import DevelopmentTask
-    from src.core.task_manager import DevelopmentTaskManager as TaskManager
+    from src.core.task_manager_refactored import DevelopmentTaskManager as TaskManager
     from src.services import (
 from src.autonomous_development.agents.coordinator import AgentCoordinator
 from src.autonomous_development.reporting.manager import ReportingManager

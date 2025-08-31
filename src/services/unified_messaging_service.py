@@ -36,6 +36,26 @@ class UnifiedMessagingService:
     def __init__(self, project_root: str = "."):
         self.project_root = project_root
         self.messaging_mode = "pyautogui"  # Default mode
+        
+        # Initialize messaging modules
+        try:
+            from .coordinate_manager import CoordinateManager
+            from .unified_pyautogui_messaging import UnifiedPyAutoGUIMessaging
+            from .campaign_messaging import CampaignMessaging
+            from .yolo_messaging import YOLOMessaging
+            
+            self.coordinate_manager = CoordinateManager()
+            self.pyautogui_messaging = UnifiedPyAutoGUIMessaging(self.coordinate_manager)
+            self.campaign_messaging = CampaignMessaging(self.coordinate_manager, self.pyautogui_messaging)
+            self.yolo_messaging = YOLOMessaging(self.coordinate_manager, self.pyautogui_messaging)
+            
+            logger.info("Messaging modules initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize messaging modules: {e}")
+            self.pyautogui_messaging = None
+            self.campaign_messaging = None
+            self.yolo_messaging = None
+        
         # Use the global FSM integration instance
         try:
             self.fsm_integration = fsm_integration
@@ -387,6 +407,80 @@ class UnifiedMessagingService:
             return ["auto_claim_next"]
         else:
             return ["reset_to_idle"]
+
+    def send_bulk_messages(self, messages: Dict[str, str], mode: str = "8-agent", message_type=None, new_chat: bool = False) -> Dict[str, bool]:
+        """Send bulk messages to all agents via their input coordinates"""
+        try:
+            logger.info(f"Sending bulk messages to {len(messages)} agents via {mode}")
+            
+            results = {}
+            
+            # Use pyautogui messaging to send to each agent's input coordinates
+            for agent_id, message in messages.items():
+                try:
+                    # Send message to agent via their input coordinates
+                    success = self.pyautogui_messaging.send_message(agent_id, message)
+                    results[agent_id] = success
+                    
+                    if success:
+                        logger.info(f"✅ Message sent to {agent_id}")
+                    else:
+                        logger.error(f"❌ Failed to send message to {agent_id}")
+                        
+                except Exception as e:
+                    logger.error(f"Error sending message to {agent_id}: {e}")
+                    results[agent_id] = False
+            
+            return results
+            
+        except Exception as e:
+            logger.error(f"Error in send_bulk_messages: {e}")
+            return {agent_id: False for agent_id in messages.keys()}
+
+    def send_message(self, agent_id: str, message: str, message_type=None, mode=None) -> bool:
+        """Send a single message to an agent via their input coordinates"""
+        try:
+            logger.info(f"Sending message to {agent_id}")
+            
+            # Use pyautogui messaging to send to agent's input coordinates
+            success = self.pyautogui_messaging.send_message(agent_id, message)
+            
+            if success:
+                logger.info(f"✅ Message sent to {agent_id}")
+            else:
+                logger.error(f"❌ Failed to send message to {agent_id}")
+            
+            return success
+            
+        except Exception as e:
+            logger.error(f"Error sending message to {agent_id}: {e}")
+            return False
+
+    def send_campaign_message(self, message: str) -> Dict[str, bool]:
+        """Send campaign message to all agents"""
+        try:
+            logger.info("Sending campaign message to all agents")
+            
+            # Create messages for all agents
+            messages = {f"Agent-{i}": message for i in range(1, 9)}
+            
+            return self.send_bulk_messages(messages)
+            
+        except Exception as e:
+            logger.error(f"Error sending campaign message: {e}")
+            return {f"Agent-{i}": False for i in range(1, 9)}
+
+    def activate_yolo_mode(self, message: str) -> Dict[str, bool]:
+        """Activate YOLO mode messaging"""
+        try:
+            logger.info("Activating YOLO mode messaging")
+            
+            # Use YOLO messaging service
+            return self.yolo_messaging.activate_yolo_mode(message)
+            
+        except Exception as e:
+            logger.error(f"Error activating YOLO mode: {e}")
+            return {f"Agent-{i}": False for i in range(1, 9)}
 
 # Global instance for easy access
 unified_messaging = UnifiedMessagingService()

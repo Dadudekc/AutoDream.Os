@@ -17,7 +17,7 @@ from src.utils.stability_improvements import stability_manager, safe_import
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.autonomous_development.core import DevelopmentTask
-    from src.core.task_manager import DevelopmentTaskManager as TaskManager
+    from src.core.task_manager_refactored import DevelopmentTaskManager as TaskManager
 
 
 class TaskHandler:

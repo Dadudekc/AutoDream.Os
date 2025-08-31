@@ -18,7 +18,7 @@ import os
 from .devlog_reporting import post_entry_to_discord, show_status
 
 try:  # Optional integrations -------------------------------------------------
-    from src.core.knowledge_database import KnowledgeDatabase, KnowledgeEntry
+    from src.core.knowledge_database_refactored import KnowledgeDatabase, KnowledgeEntry
     from simple_discord import SimpleDiscordIntegration
     FSMDiscordBridge = None  # Not available, set to None
 except Exception:  # pragma: no cover - fallback placeholders

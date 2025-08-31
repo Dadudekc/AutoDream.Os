@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, Dict, TYPE_CHECKING
 
-    from src.core.task_manager import DevelopmentTaskManager as TaskManager
+    from src.core.task_manager_refactored import DevelopmentTaskManager as TaskManager
 from __future__ import annotations
 
 """Report generation helpers.

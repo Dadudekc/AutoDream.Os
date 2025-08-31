@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING
 
     from src.autonomous_development.core import DevelopmentTask
-    from src.core.task_manager import DevelopmentTaskManager as TaskManager
+    from src.core.task_manager_refactored import DevelopmentTaskManager as TaskManager
 from . import formatting as fmt
 from .generation import generate_performance_report
 from .persistence import (

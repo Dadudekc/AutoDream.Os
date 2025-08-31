@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 # Import unified TaskManager instead of duplicate
-from src.core.task_manager import TaskManager
+from src.core.task_manager_refactored import TaskManager
 
 import logging
 

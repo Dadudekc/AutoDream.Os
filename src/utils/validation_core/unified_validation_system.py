@@ -11,16 +11,14 @@ Mission: SSOT Consolidation - Utility Systems
 Status: IN PROGRESS - Phase 1: Validation System Consolidation
 """
 
-import time
-import psutil
 from typing import Any, Dict, List, Optional, Union
-from datetime import datetime
 
 from .base_validator import BaseValidator
 from .data_validators import DataValidators
 from .format_validators import FormatValidators
 from .value_validators import ValueValidators
 from .validation_result import ValidationResult, ValidationStatus
+from .performance_tracker import PerformanceTracker
 
 
 class UnifiedValidationSystem(BaseValidator):
@@ -42,8 +40,7 @@ class UnifiedValidationSystem(BaseValidator):
         self.value_validators = ValueValidators()
         
         # Performance tracking
-        self.total_validations = 0
-        self.total_validation_time = 0.0
+        self.performance_tracker = PerformanceTracker()
     
     def validate(self, data: Any, **kwargs) -> ValidationResult:
         """
@@ -56,8 +53,7 @@ class UnifiedValidationSystem(BaseValidator):
         Returns:
             ValidationResult with validation status and details
         """
-        start_time = time.time()
-        start_memory = psutil.Process().memory_info().rss / 1024  # KB
+        start_metrics = self.performance_tracker.start_validation()
         
         try:
             # Route to appropriate validator based on data type and context
@@ -76,17 +72,9 @@ class UnifiedValidationSystem(BaseValidator):
                 )
             
             # Add performance metrics
-            end_time = time.time()
-            end_memory = psutil.Process().memory_info().rss / 1024  # KB
-            
-            result.validation_time_ms = (end_time - start_time) * 1000
-            result.memory_usage_kb = end_memory - start_memory
+            metrics = self.performance_tracker.end_validation(start_metrics)
+            self.performance_tracker.log_performance_metrics(result, metrics)
             result.validator_name = self.name
-            result.validator_version = "2.0.0"
-            
-            # Update performance tracking
-            self.total_validations += 1
-            self.total_validation_time += result.validation_time_ms
             
             # Log result
             self.log_validation_result(result)
@@ -95,20 +83,17 @@ class UnifiedValidationSystem(BaseValidator):
             
         except Exception as e:
             # Handle validation errors gracefully
-            end_time = time.time()
-            end_memory = psutil.Process().memory_info().rss / 1024  # KB
+            metrics = self.performance_tracker.end_validation(start_metrics)
             
             error_result = ValidationResult(
                 status=ValidationStatus.ERROR,
                 message=f"Validation error occurred: {str(e)}",
                 errors=[f"Validation exception: {str(e)}"],
                 validated_data=data,
-                validator_name=self.name,
-                validator_version="2.0.0",
-                validation_time_ms=(end_time - start_time) * 1000,
-                memory_usage_kb=end_memory - start_memory
+                validator_name=self.name
             )
             
+            self.performance_tracker.log_performance_metrics(error_result, metrics)
             self.log_validation_result(error_result)
             return error_result
     
@@ -291,19 +276,12 @@ class UnifiedValidationSystem(BaseValidator):
         Returns:
             Dictionary with performance metrics
         """
-        avg_time = (self.total_validation_time / self.total_validations 
-                   if self.total_validations > 0 else 0)
-        
-        return {
-            'total_validations': self.total_validations,
-            'total_validation_time_ms': self.total_validation_time,
-            'average_validation_time_ms': avg_time,
-            'validator_name': self.name,
-            'validator_version': "2.0.0"
-        }
+        stats = self.performance_tracker.get_performance_stats()
+        stats['validator_name'] = self.name
+        stats['validator_version'] = "2.0.0"
+        return stats
     
     def reset_performance_stats(self) -> None:
         """Reset performance statistics."""
-        self.total_validations = 0
-        self.total_validation_time = 0.0
+        self.performance_tracker.reset_performance_stats()
         self.logger.info("Performance statistics reset")

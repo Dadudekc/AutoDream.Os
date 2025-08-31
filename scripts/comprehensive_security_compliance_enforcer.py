@@ -10,7 +10,7 @@ from datetime import datetime
 
 class ComprehensiveSecurityComplianceEnforcer:
     def __init__(self):
-        self.backup_dir = f"backups/comprehensive_security_compliance_enforcer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/comprehensive_security_compliance_enforcer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.security_improvements = 0
         self.compliance_issues_fixed = 0

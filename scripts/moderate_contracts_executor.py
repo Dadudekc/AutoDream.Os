@@ -10,7 +10,7 @@ from datetime import datetime
 
 class ModerateContractsExecutor:
     def __init__(self):
-        self.backup_dir = f"backups/moderate_contracts_executor_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/moderate_contracts_executor_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.contracts_completed = 0
         self.total_improvement = 0

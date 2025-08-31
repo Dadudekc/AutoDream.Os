@@ -9,7 +9,7 @@ from datetime import datetime
 
 class V2ComplianceFinal100PercentAchieverComprehensive:
     def __init__(self):
-        self.backup_dir = f"backups/v2_compliance_final_100_percent_achiever_comprehensive_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/v2_compliance_final_100_percent_achiever_comprehensive_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         
     def run(self):

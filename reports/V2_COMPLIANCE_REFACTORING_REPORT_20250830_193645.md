@@ -9,7 +9,7 @@
 
 ## 📁 **BACKUP LOCATION**
 
-**Backup Directory:** backups/v2_compliance_refactoring_20250830_193645
+**Backup Directory:** ../backups/v2_compliance_refactoring_20250830_193645 (external)
 **Status:** ✅ All original files backed up
 
 ## ⚠️ **ERRORS & WARNINGS**

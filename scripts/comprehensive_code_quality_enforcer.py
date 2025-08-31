@@ -10,7 +10,7 @@ from datetime import datetime
 
 class ComprehensiveCodeQualityEnforcer:
     def __init__(self):
-        self.backup_dir = f"backups/comprehensive_code_quality_enforcer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/comprehensive_code_quality_enforcer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.quality_improvements = 0
         self.files_processed = 0

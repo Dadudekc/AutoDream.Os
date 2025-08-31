@@ -274,7 +274,6 @@ class UnifiedInterfaceRegistry:
                     "src/managers/ai_ml/interfaces/",
                     "agent_workspaces/meeting/src/ai_ml/interfaces/",
                     "examples/interfaces/",
-                    "backups/service_consolidation_20250830_174051/messaging/interfaces/"
                 ],
                 "reduction_percentage": 100.0
             }

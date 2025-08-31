@@ -11,7 +11,7 @@
 
 ## 📁 **BACKUP LOCATION**
 
-**Backup Directory:** backups/v2_compliance_targeted_20250830_193820
+**Backup Directory:** ../backups/v2_compliance_targeted_20250830_193820 (external)
 **Status:** ✅ All original files backed up
 
 ## 🎯 **V2 COMPLIANCE ACHIEVEMENT**

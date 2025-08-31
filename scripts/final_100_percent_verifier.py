@@ -9,7 +9,7 @@ from datetime import datetime
 
 class Final100PercentVerifier:
     def __init__(self):
-        self.backup_dir = f"backups/final_100_percent_verifier_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/final_100_percent_verifier_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.verification_passed = False
         

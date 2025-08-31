@@ -10,7 +10,7 @@ from datetime import datetime
 
 class ComprehensiveDocumentationStandardsEnforcer:
     def __init__(self):
-        self.backup_dir = f"backups/comprehensive_documentation_standards_enforcer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/comprehensive_documentation_standards_enforcer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.documentation_improvements = 0
         self.standards_enforced = 0

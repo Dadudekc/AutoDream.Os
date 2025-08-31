@@ -10,7 +10,7 @@ from datetime import datetime
 
 class FinalCleanupForceResolver:
     def __init__(self):
-        self.backup_dir = f"backups/final_cleanup_force_resolver_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/final_cleanup_force_resolver_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.violations_resolved = 0
         

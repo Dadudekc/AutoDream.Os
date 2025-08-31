@@ -17,7 +17,7 @@
 - Side mission tool creation
 
 ### 📁 **Backup Location**
-All original files backed up to: `backups/v2_compliance_comprehensive_20250830_211905`
+All original files backed up to external storage: `../backups/v2_compliance_comprehensive_20250830_211905`
 
 ### 🛠️ **Created Tools**
 - V2 Compliance Monitor (`scripts/v2_compliance_monitor.py`)

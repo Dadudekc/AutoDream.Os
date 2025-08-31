@@ -115,7 +115,7 @@
 - ✅ `src/services/consolidated/unified_service_registry.py`
 
 ### **Backup and Safety Systems**
-- ✅ `backups/service_consolidation_20250830_174051/` - Complete backup structure
+- ✅ `../backups/service_consolidation_20250830_174051/` - Complete external backup structure
 - ✅ `service_registry_export_20250830_174932.json` - Service registry export
 
 ---

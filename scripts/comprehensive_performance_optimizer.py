@@ -10,7 +10,7 @@ from datetime import datetime
 
 class ComprehensivePerformanceOptimizer:
     def __init__(self):
-        self.backup_dir = f"backups/comprehensive_performance_optimizer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/comprehensive_performance_optimizer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.optimizations_completed = 0
         self.performance_improvements = 0

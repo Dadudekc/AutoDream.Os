@@ -53,11 +53,11 @@ The `data/` directory contains all system data, logs, and persistent storage in 
 - **Catalog data** - Data catalog and organization
 - **Relationship data** - Data relationship mapping
 
-### **`backups/`** - Backup & Recovery Data
-- **System backups** - Complete system backups
-- **Data snapshots** - Point-in-time data snapshots
-- **Recovery points** - System recovery checkpoints
-- **Archive data** - Long-term data archiving
+### **External Backups** - Backup & Recovery Data
+- **System backups** - Stored outside version control
+- **Data snapshots** - Point-in-time snapshots in external storage
+- **Recovery points** - External system recovery checkpoints
+- **Archive data** - Long-term archival outside repository
 
 ## 🚀 **Data Management**
 
@@ -175,7 +175,7 @@ new_workflow = workflow_dir / "WF-004.json"
 1. **Access control** - Restrict access to sensitive data
 2. **Encryption** - Encrypt sensitive data at rest
 3. **Audit logging** - Track data access and modifications
-4. **Regular backups** - Maintain current backup copies
+4. **Regular external backups** - Maintain current backup copies outside the repository
 
 ## 📁 **File Organization**
 
@@ -190,7 +190,7 @@ data/
 ├── workflows/                          # Workflow and process data
 ├── persistent/                         # Persistent storage
 ├── metadata/                           # Data metadata and indexing
-└── backups/                            # Backup and recovery data
+└── ../backups/                         # External backup and recovery data
 ```
 
 ## 🚀 **Next Steps**

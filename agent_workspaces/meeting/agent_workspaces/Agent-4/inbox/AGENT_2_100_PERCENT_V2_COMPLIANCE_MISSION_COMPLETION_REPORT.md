@@ -149,11 +149,11 @@ Agent-2 has successfully achieved **100% V2 Compliance** by systematically resol
 - **Recovery Options:** Full restoration capability available
 
 ### **Backup Locations Created**
-- `backups/v2_compliance_final_100_percent_*`
-- `backups/v2_compliance_ultimate_100_percent_*`
-- `backups/v2_compliance_comprehensive_final_*`
-- `backups/v2_compliance_final_100_percent_achiever_*`
-- `backups/v2_compliance_final_100_percent_resolution_*`
+- `../backups/v2_compliance_final_100_percent_*`
+- `../backups/v2_compliance_ultimate_100_percent_*`
+- `../backups/v2_compliance_comprehensive_final_*`
+- `../backups/v2_compliance_final_100_percent_achiever_*`
+- `../backups/v2_compliance_final_100_percent_resolution_*`
 
 ---
 

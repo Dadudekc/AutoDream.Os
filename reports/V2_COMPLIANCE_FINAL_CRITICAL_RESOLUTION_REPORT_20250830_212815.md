@@ -25,7 +25,7 @@
 
 ## 📁 **BACKUP LOCATION**
 
-All original files backed up to: `backups/v2_compliance_final_critical_20250830_212811`
+All original files backed up to external storage: `../backups/v2_compliance_final_critical_20250830_212811`
 
 ## ✅ **NEXT STEPS**
 

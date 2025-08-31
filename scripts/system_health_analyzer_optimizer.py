@@ -11,7 +11,7 @@ from pathlib import Path
 
 class SystemHealthAnalyzerOptimizer:
     def __init__(self):
-        self.backup_dir = f"backups/system_health_optimizer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = f"../backups/system_health_optimizer_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         os.makedirs(self.backup_dir, exist_ok=True)
         self.optimizations_completed = 0
         self.total_improvements = 0

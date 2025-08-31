@@ -46,6 +46,11 @@ python -m src.services.messaging --onboard --onboarding-style strict
 python -m src.services.messaging --onboard --onboarding-style friendly
 ```
 
+### **Wrapup Sequence:**
+```bash
+python -m src.services.messaging --wrapup
+```
+
 ---
 
 ## 🔧 **TECHNICAL IMPLEMENTATION**
@@ -61,6 +66,7 @@ prompts/agents/
 ├── onboarding.md              # Original comprehensive onboarding
 ├── onboarding_friendly.md     # Warm, guiding onboarding
 ├── onboarding_strict.md       # Authoritative, compliance-first
+├── wrapup.md                  # Quality assurance wrapup sequence
 └── README.md                  # This documentation
 ```
 

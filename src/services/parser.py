@@ -30,6 +30,9 @@ Examples:
   # Onboard with specific style
   python -m src.services.messaging --onboard --onboarding-style strict
   
+  # Execute wrapup sequence
+  python -m src.services.messaging --wrapup
+  
   # Check agent statuses
   python -m src.services.messaging --check-status
   
@@ -131,6 +134,11 @@ Examples:
         choices=["friendly", "strict"],
         default="friendly",
         help="Onboarding style: friendly (warm guidance) or strict (authoritative compliance)",
+    )
+    parser.add_argument(
+        "--wrapup",
+        action="store_true",
+        help="Execute wrapup sequence: validate implementations, check for duplication, ensure coding standards compliance, and clean up technical debt",
     )
     parser.add_argument(
         "--check-status",

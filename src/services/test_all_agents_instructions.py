@@ -3,7 +3,7 @@
 Test script to send instructions to ALL 8 agents on how to reply back
 """
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import

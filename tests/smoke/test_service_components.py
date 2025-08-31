@@ -8,7 +8,7 @@ from src.core.api_integration.gateway.api_gateway_manager import APIGatewayManag
 from src.core.health.monitoring.health_core import AgentHealthCoreMonitor as HealthMonitorCore
 from src.core.performance.dashboard.performance_dashboard import PerformanceDashboard
 from src.core.performance.monitoring.performance_monitor import PerformanceMonitor, MetricType
-from src.services.messaging.unified_messaging_service import UnifiedMessagingService as V2ComprehensiveMessagingSystem
+from src.services.unified_messaging_service import UnifiedMessagingService as V2ComprehensiveMessagingSystem
 from src.utils.stability_improvements import stability_manager, safe_import
 from unittest.mock import Mock, patch, AsyncMock
 

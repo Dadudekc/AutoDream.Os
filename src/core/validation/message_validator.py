@@ -3,7 +3,7 @@ from typing import Dict, List, Any, Optional
 import re
 
 from .base_validator import (
-from src.services.messaging.models.unified_message import (
+from src.services.models.unified_message import (
 
 """
 Message Validator - Unified Validation Framework

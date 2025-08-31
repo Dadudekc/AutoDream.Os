@@ -6,7 +6,7 @@ Debug Message Test
 Simple test to verify message content is being sent correctly to agents.
 """
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 import time
 
 from src.utils.stability_improvements import stability_manager, safe_import

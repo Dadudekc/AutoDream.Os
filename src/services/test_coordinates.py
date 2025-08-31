@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test script to verify real coordinates are loaded"""
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 
 
 def test_coordinates():

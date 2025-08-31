@@ -14,7 +14,7 @@ import pytest
 from datetime import datetime, timedelta
 from unittest.mock import Mock
 
-from src.services.messaging.models.unified_message import (
+from src.services.models.unified_message import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,

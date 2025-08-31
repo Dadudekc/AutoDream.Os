@@ -24,6 +24,9 @@ from .optimization.phase_transition_workflow_analyzer import PhaseTransitionWork
 # Specialized workflows
 from .specialized.business_process_workflow import BusinessProcessWorkflow
 
+# Consolidated workflow manager (SSOT violation resolution)
+from .consolidated_workflow_manager import ConsolidatedWorkflowManager
+
 # Export main classes
 __all__ = [
     "BaseWorkflowEngine",
@@ -37,5 +40,6 @@ __all__ = [
     "WorkflowType",
     "TaskAssignmentOptimizer",
     "PhaseTransitionWorkflowAnalyzer",
-    "BusinessProcessWorkflow"
+    "BusinessProcessWorkflow",
+    "ConsolidatedWorkflowManager"  # New consolidated manager
 ]

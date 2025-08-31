@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from src.core.managers.base_manager import BaseManager
-from src.services.messaging.models.unified_message import (
+from src.services.models.unified_message import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,

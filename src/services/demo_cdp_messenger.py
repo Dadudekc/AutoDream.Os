@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-            from src.services.messaging import (
+            from src.services import (
         from cdp_send_message import choose_targets, send_to_target
 from src.utils.stability_improvements import stability_manager, safe_import
 import time

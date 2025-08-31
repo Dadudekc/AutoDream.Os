@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test script to verify fixed message routing"""
 
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 
 
 def test_fixed_routing():

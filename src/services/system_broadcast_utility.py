@@ -1,7 +1,7 @@
 import os
 
     import sys
-from src.services.messaging import UnifiedMessagingService
+from src.services import UnifiedMessagingService
 from src.utils.stability_improvements import stability_manager, safe_import
 import time
 

@@ -27,6 +27,9 @@ Examples:
   # Onboard all agents
   python -m src.services.messaging --onboard
   
+  # Onboard with specific style
+  python -m src.services.messaging --onboard --onboarding-style strict
+  
   # Check agent statuses
   python -m src.services.messaging --check-status
   
@@ -121,6 +124,13 @@ Examples:
         "--onboard",
         action="store_true",
         help="Automatically onboard all agents with contract assignment and simplified system overview",
+    )
+    parser.add_argument(
+        "--onboarding-style",
+        type=str,
+        choices=["friendly", "strict"],
+        default="friendly",
+        help="Onboarding style: friendly (warm guidance) or strict (authoritative compliance)",
     )
     parser.add_argument(
         "--check-status",

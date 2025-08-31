@@ -18,6 +18,12 @@ from .report_models import (
     ReportMetadata,
     UnifiedReport,
 )
+from .performance_report_formatter import (
+    ReportFormatter as PerformanceReportFormatter,
+    PerformanceReport,
+    ReportSection,
+    ReportMetric,
+)
 
 # Consolidator module is optional in some installations
 try:
@@ -33,11 +39,6 @@ except ModuleNotFoundError:  # pragma: no cover - fallback when module missing
     ConsolidationPlan = None
     ConsolidationResult = None
 
-from .reporting_system_eliminator import (
-    ReportingSystemEliminator,
-    EliminationTarget,
-    EliminationPlan,
-)
 
 __all__ = [
     # Core framework
@@ -48,15 +49,17 @@ __all__ = [
     "ReportConfig",
     "ReportMetadata",
     "UnifiedReport",
+    # Performance reporting
+    "PerformanceReportFormatter",
+    "PerformanceReport",
+    "ReportSection",
+    "ReportMetric",
+
 
     # System consolidation
     "ReportingSystemConsolidator",
     "ConsolidationTarget",
     "ConsolidationPlan",
     "ConsolidationResult",
-
-    # System elimination
-    "ReportingSystemEliminator",
-    "EliminationTarget",
-    "EliminationPlan",
 ]
+

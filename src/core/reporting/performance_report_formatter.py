@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Report Formatter - V2 Modular Architecture
 ==========================================
@@ -12,10 +11,9 @@ License: MIT
 
 import json
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any
-from datetime import datetime
+from typing import List
 
-from .report_types import PerformanceReport, ReportSection, ReportMetric, ReportFormat
+from .performance_report_types import PerformanceReport, ReportSection, ReportMetric, ReportFormat
 
 
 class ReportFormatter(ABC):

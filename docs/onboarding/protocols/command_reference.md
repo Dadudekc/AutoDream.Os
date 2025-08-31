@@ -216,7 +216,7 @@ This document provides a comprehensive reference for all available commands in t
 **Examples**:
 ```
 @agent-1 restore backup_20250629 database
-@agent-2 restore config_backup
+@agent-2 restore config@<commit_hash> --source=git
 @agent-3 restore logs_backup --verify
 ```
 

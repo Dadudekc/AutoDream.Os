@@ -1,4 +1,4 @@
-from testing.infrastructure.executor import run_tests
+from tests.infrastructure.executor import run_tests
 
 
 def test_executor_runs_tests(tmp_path):

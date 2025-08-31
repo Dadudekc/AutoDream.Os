@@ -1,33 +1,9 @@
+"""Compatibility wrapper for FSM configuration utilities.
 
-# MIGRATED: This file has been migrated to the centralized configuration system
+This module preserves the previous import path while delegating to the
+centralized configuration implementation in :mod:`utils.config_core`.
 """
-Configuration Management - FSM Core V2 Modularization
-Captain Agent-3: Configuration Utility Implementation
-"""
 
-import json
-from pathlib import Path
-from typing import Dict, Any, Optional
+from utils.config_core import FSMConfig
 
-class FSMConfig:
-    """Manages FSM configuration"""
-    
-    def __init__(self, config_path: Optional[str] = None):
-        self.config_path = config_path or "fsm_config.json"
-        self.config_data = {}
-        self.load_config()
-    
-    def load_config(self) -> bool:
-        """Load configuration from file"""
-        try:
-            if Path(self.config_path).exists():
-                with open(self.config_path, 'r') as f:
-                    self.config_data = json.load(f)
-                return True
-            return False
-        except Exception:
-            return False
-    
-    def get_config(self, key: str, default: Any = None) -> Any:
-        """Get configuration value"""
-        return self.config_data.get(key, default)
+__all__ = ["FSMConfig"]

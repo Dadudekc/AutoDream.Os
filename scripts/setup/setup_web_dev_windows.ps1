@@ -83,7 +83,7 @@ function Install-Dependencies {
     Write-Host "📦 Installing Web Development Dependencies..." -ForegroundColor Yellow
 
     # Check if requirements file exists
-    $requirementsFile = Join-Path $PSScriptRoot\.. "requirements_web_development.txt"
+    $requirementsFile = Join-Path $PSScriptRoot\.. "requirements.txt"
     if (Test-Path $requirementsFile) {
         Write-Host "📋 Installing from requirements file..." -ForegroundColor Cyan
         python -m pip install -r $requirementsFile --quiet

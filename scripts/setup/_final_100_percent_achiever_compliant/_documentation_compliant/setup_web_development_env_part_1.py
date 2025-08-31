@@ -42,8 +42,8 @@ class WebDevelopmentEnvironmentSetup:
         print("📦 Installing Web Development Dependencies...")
 
         try:
-            # Install core requirements
-            requirements_file = self.repo_root / "requirements_web_development.txt"
+            # Install core requirements from consolidated file
+            requirements_file = self.repo_root / "requirements.txt"
             if requirements_file.exists():
                 subprocess.run(
                     [
@@ -59,7 +59,7 @@ class WebDevelopmentEnvironmentSetup:
                 )
                 print("✅ Core dependencies installed successfully")
             else:
-                print("❌ requirements_web_development.txt not found")
+                print("❌ requirements.txt not found")
                 return False
 
             # Install additional development tools

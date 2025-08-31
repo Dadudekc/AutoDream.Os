@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Report Types - V2 Modular Architecture
 ======================================

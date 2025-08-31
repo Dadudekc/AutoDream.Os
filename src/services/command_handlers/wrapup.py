@@ -24,26 +24,28 @@ class WrapupCommandHandler(BaseCommandHandler):
     def handle(self, args: argparse.Namespace) -> bool:
         """Handle wrapup commands"""
         try:
-            print("🚨 **WRAPUP SEQUENCE INITIATED** 🚨")
+            print("🚨 **SENDING WRAPUP MESSAGE TO AGENTS** 🚨")
             print("=" * 50)
-            self._log_info("Executing wrapup sequence")
+            self._log_info("Sending wrapup message to agents")
             
-            # Execute the 5-phase wrapup sequence
-            self._phase1_work_completion()
-            self._phase2_duplication_prevention()
-            self._phase3_coding_standards()
-            self._phase4_technical_debt_cleanup()
-            self._phase5_final_status_update()
+            # Send wrapup message to all agents
+            success = self._send_wrapup_message_to_agents()
             
-            print("=" * 50)
-            print("🎉 **WRAPUP SEQUENCE COMPLETED SUCCESSFULLY** 🎉")
-            self._log_success("Wrapup sequence completed successfully")
-            return True
+            if success:
+                print("=" * 50)
+                print("🎉 **WRAPUP MESSAGE SENT SUCCESSFULLY** 🎉")
+                self._log_success("Wrapup message sent to agents")
+            else:
+                print("=" * 50)
+                print("❌ **WRAPUP MESSAGE FAILED** ❌")
+                self._log_error("Failed to send wrapup message to agents")
+            
+            return success
             
         except Exception as e:
             print("=" * 50)
-            print("💥 **WRAPUP SEQUENCE FAILED** 💥")
-            self._log_error("Wrapup sequence failed", e)
+            print("💥 **WRAPUP MESSAGE FAILED** 💥")
+            self._log_error("Wrapup message failed", e)
             return False
     
     def _phase1_work_completion(self):
@@ -169,3 +171,75 @@ class WrapupCommandHandler(BaseCommandHandler):
         
         print("  ✅ Final status update completed")
         self._log_success("Final status update completed")
+    
+    def _send_wrapup_message_to_agents(self) -> bool:
+        """Send wrapup message to all agents via messaging system"""
+        try:
+            print("\n📤 **SENDING WRAPUP MESSAGE TO AGENTS**")
+            
+            # Load the wrapup template
+            wrapup_template = self._load_wrapup_template()
+            if not wrapup_template:
+                print("  ❌ Failed to load wrapup template")
+                return False
+            
+            # Send to all agents using the messaging system
+            from ..handlers.messaging_handlers import MessagingHandlers
+            from ..interfaces import MessagingMode, MessageType
+            messaging_handlers = MessagingHandlers(self.service, self.formatter)
+            
+            # Create a mock args object for bulk messaging
+            class MockArgs:
+                def __init__(self):
+                    self.bulk = True
+                    self.message = wrapup_template
+                    self.type = "task_assignment"
+                    self.high_priority = True
+                    self.onboarding = False
+                    self.new_chat = False
+            
+            mock_args = MockArgs()
+            
+            # Send the wrapup message
+            success = messaging_handlers._bulk_messaging_internal(
+                mock_args, 
+                MessagingMode.PYAUTOGUI, 
+                MessageType.TASK_ASSIGNMENT
+            )
+            
+            if success:
+                print("  ✅ Wrapup message sent to all agents")
+                print("  📊 Agents instructed to execute wrapup sequence")
+                print("  📋 Quality assurance protocol activated")
+            else:
+                print("  ❌ Failed to send wrapup message")
+            
+            return success
+            
+        except Exception as e:
+            print(f"  ❌ Error sending wrapup message: {e}")
+            self._log_error("Error sending wrapup message", e)
+            return False
+    
+    def _load_wrapup_template(self) -> str:
+        """Load the wrapup template from prompts/agents/wrapup.md"""
+        try:
+            template_path = "prompts/agents/wrapup.md"
+            if not os.path.exists(template_path):
+                print(f"  ❌ Wrapup template not found: {template_path}")
+                return None
+            
+            with open(template_path, 'r', encoding='utf-8') as f:
+                template = f.read()
+            
+            # Replace placeholders with current values
+            from datetime import datetime
+            template = template.replace("{timestamp}", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            template = template.replace("{mission_name}", "Current Session Work")
+            
+            print(f"  📄 Wrapup template loaded: {len(template)} characters")
+            return template
+            
+        except Exception as e:
+            print(f"  ❌ Error loading wrapup template: {e}")
+            return None

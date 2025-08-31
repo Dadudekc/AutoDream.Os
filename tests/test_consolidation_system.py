@@ -19,7 +19,7 @@ import shutil
 from pathlib import Path
 
 # Add src to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 def test_imports():
     """Test that all required modules can be imported"""
@@ -295,59 +295,3 @@ def test_contract_deliverables():
         print(f"❌ Contract deliverables test failed: {e}")
         return False
 
-def run_all_tests():
-    """Run all tests and provide summary"""
-    print("🚀 DATA SOURCE CONSOLIDATION SYSTEM - COMPREHENSIVE TESTING")
-    print("=" * 70)
-    print("🎯 Contract: SSOT-002: Data Source Consolidation - 450 points")
-    print("👤 Agent: Agent-5 - SPRINT ACCELERATION REFACTORING TOOL PREPARATION MANAGER")
-    print("📋 Status: TESTING FOR COMPLETION")
-    print("=" * 70)
-    
-    tests = [
-        ("Import Tests", test_imports),
-        ("DataSourceMapper Tests", test_data_source_mapper),
-        ("DataValidationEngine Tests", test_data_validation_engine),
-        ("Consolidation System Tests", test_consolidation_system),
-        ("Migration Framework Tests", test_migration_framework),
-        ("CLI Interface Tests", test_cli_interface),
-        ("Contract Deliverables Tests", test_contract_deliverables)
-    ]
-    
-    results = {}
-    total_tests = len(tests)
-    passed_tests = 0
-    
-    for test_name, test_func in tests:
-        try:
-            success = test_func()
-            results[test_name] = success
-            if success:
-                passed_tests += 1
-        except Exception as e:
-            print(f"❌ {test_name} failed with exception: {e}")
-            results[test_name] = False
-    
-    # Print results summary
-    print("\n" + "=" * 70)
-    print("📊 TEST RESULTS SUMMARY")
-    print("=" * 70)
-    
-    for test_name, result in results.items():
-        status = "✅ PASS" if result else "❌ FAIL"
-        print(f"{test_name}: {status}")
-    
-    print(f"\nOverall: {passed_tests}/{total_tests} tests passed")
-    
-    if passed_tests == total_tests:
-        print("\n🎉 ALL TESTS PASSED! Data Source Consolidation system is ready for contract completion!")
-        print("📋 Contract deliverables verified and working correctly.")
-        print("🚀 Ready to submit for contract completion and earn 450 points!")
-    else:
-        print(f"\n⚠️  {total_tests - passed_tests} tests failed. System needs attention before contract completion.")
-    
-    return passed_tests == total_tests
-
-if __name__ == "__main__":
-    success = run_all_tests()
-    sys.exit(0 if success else 1)

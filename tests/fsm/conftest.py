@@ -4,9 +4,8 @@ from pathlib import Path
 from datetime import datetime
 import pytest
 
-# Ensure src is on path
+# Repository root used for fsm package stubbing
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "src"))
 
 # Mock the fsm package to avoid importing heavy dependencies in __init__
 fsm_pkg = types.ModuleType("src.core.fsm")

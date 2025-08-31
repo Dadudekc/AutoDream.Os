@@ -2,6 +2,6 @@
 
 from .registration import AgentRegistry
 from .scheduler import TaskAssigner
-from .metrics import AgentMetricsManager
+from ..core.metrics import MetricsCollector
 
-__all__ = ["AgentRegistry", "TaskAssigner", "AgentMetricsManager"]
+__all__ = ["AgentRegistry", "TaskAssigner", "MetricsCollector"]

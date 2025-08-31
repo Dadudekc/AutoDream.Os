@@ -3,7 +3,7 @@
 from .config import AIConfig, load_ai_config
 from .constants import DEFAULT_AI_MANAGER_CONFIG
 from .lifecycle import AgentLifecycle
-from .metrics import MetricsCollector
+from src.core.metrics import MetricsCollector
 from .orchestrator import OrchestrationTask, SystemHealth
 
 __all__ = [

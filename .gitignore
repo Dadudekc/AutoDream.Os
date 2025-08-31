@@ -118,36 +118,10 @@ venv.bak/
 .spyderproject
 .spyproject
 
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
 # mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-.idea/
-
-# VS Code
-.vscode/
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
 # Vim
 *.swp
 *.swo
@@ -200,6 +174,7 @@ $RECYCLE.BIN/
 
 # Backup directories
 *_backup_*/
+backups/
 
 # Linux
 *~
@@ -307,3 +282,7 @@ reporting_archive/*
 
 # Audit heavy artifacts (keep diffs slim)
 reports/metrics/
+
+# Legacy testing directory
+testing/
+

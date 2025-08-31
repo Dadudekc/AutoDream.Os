@@ -3,7 +3,7 @@
 """Configuration utilities for continuous quality monitoring."""
 from __future__ import annotations
 
-from src.services.config_utils import ConfigLoader
+from src.core.config_loader import load_config as _load_config
 
 DEFAULT_CONFIG = {
     "monitoring": {
@@ -32,5 +32,5 @@ DEFAULT_CONFIG = {
 
 
 def load_config(config_path: str) -> dict:
-    """Load configuration from ``config_path`` using :class:`ConfigLoader`."""
-    return ConfigLoader.load(config_path, DEFAULT_CONFIG)
+    """Load configuration from ``config_path`` using the SSOT loader."""
+    return _load_config(config_path, DEFAULT_CONFIG)

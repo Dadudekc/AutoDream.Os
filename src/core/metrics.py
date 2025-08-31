@@ -84,12 +84,12 @@ class OptimizationRunMetrics:
 
 
 def gather_run_metrics(
-    tasks_processed: int, errors: int, duration: float
+    tasks_processed: int, errors: int, duration: float, _now: Optional[datetime] = None
 ) -> OptimizationRunMetrics:
     """Gather metrics for an optimization run."""
 
     return OptimizationRunMetrics(
-        timestamp=datetime.now().isoformat(),
+        timestamp=(_now or datetime.now()).isoformat(),
         tasks_processed=tasks_processed,
         errors=errors,
         duration=duration,

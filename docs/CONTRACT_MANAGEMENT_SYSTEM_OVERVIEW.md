@@ -284,8 +284,7 @@ python cleanup_validator.py report TASK_1B
 - `cleanup_validator.py`
 
 ### **Configuration**
-- `logs/contract_statuses.json` - Contract status database
-- `logs/cleanup_validations.json` - Cleanup validation database
+- `logs/` directory – runtime databases like `contract_statuses.json` and `cleanup_validations.json` (not version-controlled)
 
 ---
 

@@ -145,10 +145,10 @@ import logging
 # TODO: Import or implement functionality from .\tests\test_modularizer\automated_integration_test_suites\models.py
 # TODO: Remove duplicate file after migration
 
-# Consolidated from .\reporting_archive\reporting\models.py
-# Original file: .\reporting_archive\reporting\models.py
+# Consolidated from ./src/core/reporting/report_models.py
+# Original file: ./src/core/reporting/report_models.py
 # Category: general
-# TODO: Import or implement functionality from .\reporting_archive\reporting\models.py
+# TODO: Import or implement functionality from ./src/core/reporting/report_models.py
 # TODO: Remove duplicate file after migration
 
 # ============================================================================

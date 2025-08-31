@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import List
 
-from .metrics import MetricsCollector
+from src.core.metrics import MetricsCollector
 from .rules import RuleEvaluator, Rule
 from .alerts import AlertManager
 

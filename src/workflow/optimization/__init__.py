@@ -1,7 +1,7 @@
 """Workflow optimization package coordinating metrics, analysis and reporting."""
 from __future__ import annotations
 
-from .metrics import gather_metrics
+from src.core.metrics import gather_run_metrics as gather_metrics
 from .analysis import analyze_metrics
 from .reporting import generate_report
 

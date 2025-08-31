@@ -1,4 +1,4 @@
-from testing.coordinator import TestCoordinator
+from tests.coordinator import TestCoordinator
 
 
 def test_coordinator_runs_all(tmp_path):

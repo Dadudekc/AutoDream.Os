@@ -1,6 +1,6 @@
 """Example report formatter."""
 
-from reporting_archive.reporting_1756174210.report_formatter import (
+from src.core.reporting.performance_report_formatter import (
     PerformanceReport,
     ReportFormatter,
     ReportMetric,

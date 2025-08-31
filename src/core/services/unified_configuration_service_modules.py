@@ -30,8 +30,6 @@ class ConfigurationServiceConfig:
     cache_ttl: int = 300
     max_config_size: int = 1024 * 1024  # 1MB
     enable_validation: bool = True
-    enable_backup: bool = True
-    backup_retention_days: int = 30
 
 
 class ConfigurationServiceCore:
@@ -120,51 +118,6 @@ class ConfigurationCacheManager:
         self.timestamps[key] = datetime.now().timestamp()
 
 
-class ConfigurationBackupManager:
-    """Configuration backup functionality"""
-    
-    def __init__(self, config: ConfigurationServiceConfig):
-        self.config = config
-        self.backup_dir = Path("config_backups")
-        self.backup_dir.mkdir(exist_ok=True)
-        
-    def create_backup(self, config: Dict[str, Any], name: str) -> str:
-        """Create configuration backup"""
-        if not self.config.enable_backup:
-            return ""
-            
-        try:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            backup_file = self.backup_dir / f"{name}_{timestamp}.json"
-            
-            with open(backup_file, 'w') as f:
-                json.dump(config, f, indent=2)
-                
-            logger.info(f"Backup created: {backup_file}")
-            return str(backup_file)
-        except Exception as e:
-            logger.error(f"Failed to create backup: {e}")
-            return ""
-    
-    def cleanup_old_backups(self) -> int:
-        """Clean up old backups"""
-        if not self.config.enable_backup:
-            return 0
-            
-        try:
-            cutoff_time = datetime.now().timestamp() - (self.config.backup_retention_days * 24 * 3600)
-            deleted_count = 0
-            
-            for backup_file in self.backup_dir.glob("*.json"):
-                if backup_file.stat().st_mtime < cutoff_time:
-                    backup_file.unlink()
-                    deleted_count += 1
-                    
-            logger.info(f"Cleaned up {deleted_count} old backups")
-            return deleted_count
-        except Exception as e:
-            logger.error(f"Failed to cleanup backups: {e}")
-            return 0
 
 
 # Main service class that orchestrates all components
@@ -175,7 +128,6 @@ class UnifiedConfigurationService:
         self.config = config or ConfigurationServiceConfig()
         self.core = ConfigurationServiceCore(self.config)
         self.cache_manager = ConfigurationCacheManager(self.config)
-        self.backup_manager = ConfigurationBackupManager(self.config)
         
     def load_configuration(self, file_path: str) -> Dict[str, Any]:
         """Load configuration with caching and validation"""
@@ -193,20 +145,11 @@ class UnifiedConfigurationService:
             return {}
             
         # Cache result
-        self.cache_manager.set_cached(file_path, config)
-        
-        # Create backup
-        if self.config.enable_backup:
-            self.backup_manager.create_backup(config, Path(file_path).stem)
-            
+        self.cache_manager.set_cached(file_path, config)            
         return config
     
     def save_configuration(self, config: Dict[str, Any], file_path: str) -> bool:
-        """Save configuration with backup"""
-        # Create backup before saving
-        if self.config.enable_backup:
-            self.backup_manager.create_backup(config, Path(file_path).stem)
-            
+        """Save configuration"""            
         # Save to file
         success = self.core.save_config(config, file_path)
         
@@ -217,8 +160,8 @@ class UnifiedConfigurationService:
         return success
     
     def cleanup(self) -> int:
-        """Cleanup old backups"""
-        return self.backup_manager.cleanup_old_backups()
+        """No backups to clean; rely on version control"""
+        return 0
 
 
 if __name__ == "__main__":

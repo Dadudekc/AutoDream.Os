@@ -3,10 +3,10 @@ from __future__ import annotations
 
 from typing import Dict
 
-from .metrics import OptimizationMetrics
+from src.core.metrics import OptimizationRunMetrics
 
 
-def analyze_metrics(metrics: OptimizationMetrics) -> Dict[str, float]:
+def analyze_metrics(metrics: OptimizationRunMetrics) -> Dict[str, float]:
     """Analyze collected metrics and compute derived values.
 
     Args:

@@ -49,7 +49,7 @@
 - `.\tools\refactoring_workflow\models.py`
 - `.\agent_workspaces\Agent-5\emergency_database_recovery\models.py`
 - `.\agent_workspaces\Agent-8\completed_contracts\EMERGENCY-RESTORE-007\momentum_system\models.py`
-- `.\reporting_archive\reporting\models.py`
+- `.\src\core\reporting\report_models.py`
 - `.\testing\quality_gates\models.py`
 
 ## Files by Category

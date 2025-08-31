@@ -82,9 +82,9 @@ install: ## Install project dependencies
 	@echo "$(GREEN)✅ Project dependencies installed$(NC)"
 
 install-testing: ## Install testing dependencies
-	@echo "$(BLUE)🧪 Installing testing dependencies...$(NC)"
-	$(PIP) install -r requirements-testing.txt
-	@echo "$(GREEN)✅ Testing dependencies installed$(NC)"
+@echo "$(BLUE)🧪 Installing testing dependencies...$(NC)"
+$(PIP) install -r requirements.txt
+@echo "$(GREEN)✅ Testing dependencies installed$(NC)"
 
 # Testing targets
 test: ## Run all tests with coverage

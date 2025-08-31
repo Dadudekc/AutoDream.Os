@@ -34,7 +34,7 @@ class ParallelTestingBenchmark:
         }
         
         self.test_dir = Path("tests")
-        self.requirements_file = Path("requirements/development.txt")
+        self.requirements_file = Path("requirements.txt")
         
     def run_command(self, command, capture_output=True):
         """Execute a command and return results."""

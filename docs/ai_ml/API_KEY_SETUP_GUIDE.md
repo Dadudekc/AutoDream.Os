@@ -69,7 +69,7 @@ Edit `config/ai_ml/api_keys.json` and replace the placeholder values with your a
 #### Step 3: Install Dependencies
 
 ```bash
-pip install -r requirements_ai_ml.txt
+pip install -r requirements.txt  # Includes optional AI/ML extras
 ```
 
 ## 🔑 Getting API Keys
@@ -197,7 +197,7 @@ else:
 
 #### 4. Dependencies Missing
 **Problem**: Package import errors
-**Solution**: Run `pip install -r requirements_ai_ml.txt`
+**Solution**: Run `pip install -r requirements.txt`
 
 ### Getting Help
 

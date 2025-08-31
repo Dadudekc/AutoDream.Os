@@ -1,19 +1,8 @@
 """Shared FSM constants for states and transitions."""
 
-from typing import Dict, Tuple
-
-# Single source of truth for default workflow states
-DEFAULT_STATES: Tuple[str, ...] = (
-    "pending",
-    "in_progress",
-    "completed",
-    "failed",
+from src.core.constants import (
+    FSM_DEFAULT_STATES as DEFAULT_STATES,
+    FSM_DEFAULT_TRANSITIONS as DEFAULT_TRANSITIONS,
 )
 
-# Allowed transitions between states
-DEFAULT_TRANSITIONS: Dict[str, Tuple[str, ...]] = {
-    "pending": ("in_progress",),
-    "in_progress": ("completed", "failed"),
-    "completed": (),
-    "failed": (),
-}
+__all__ = ["DEFAULT_STATES", "DEFAULT_TRANSITIONS"]

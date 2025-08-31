@@ -20,6 +20,7 @@ from .contract import ContractCommandHandler
 from .captain import CaptainCommandHandler
 from .resume import ResumeCommandHandler
 from .onboarding import OnboardingCommandHandler
+from .wrapup import WrapupCommandHandler
 
 __all__ = [
     'BaseCommandHandler',
@@ -27,5 +28,6 @@ __all__ = [
     'ContractCommandHandler',
     'CaptainCommandHandler',
     'ResumeCommandHandler',
-    'OnboardingCommandHandler'
+    'OnboardingCommandHandler',
+    'WrapupCommandHandler'
 ]

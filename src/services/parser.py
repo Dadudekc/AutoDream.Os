@@ -50,13 +50,6 @@ Examples:
         """
     )
     
-    # Custom help flag with enhanced description
-    parser.add_argument(
-        "--help", "-h",
-        action="store_true",
-        help="Show detailed help information with examples and usage patterns"
-    )
-    
     # Quick help flag for common operations
     parser.add_argument(
         "--quick-help", "-q",

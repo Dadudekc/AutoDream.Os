@@ -24,9 +24,7 @@ class MetricsCollector:
 
     def __init__(self) -> None:
         self._metrics: Dict[str, float] = {}
-        self.total_operations = 0
-        self.successful_operations = 0
-        self.failed_operations = 0
+        self._counters = CounterMetrics()
 
     def record(self, name: str, value: float) -> None:
         """Record a metric value."""
@@ -43,17 +41,29 @@ class MetricsCollector:
 
         return dict(self._metrics)
 
+    @property
+    def total_operations(self) -> int:
+        return self._counters.get("total_operations")
+
+    @property
+    def successful_operations(self) -> int:
+        return self._counters.get("successful_operations")
+
+    @property
+    def failed_operations(self) -> int:
+        return self._counters.get("failed_operations")
+
     def record_success(self) -> None:
         """Record a successful operation."""
 
-        self.total_operations += 1
-        self.successful_operations += 1
+        self._counters.increment("total_operations")
+        self._counters.increment("successful_operations")
 
     def record_failure(self) -> None:
         """Record a failed operation."""
 
-        self.total_operations += 1
-        self.failed_operations += 1
+        self._counters.increment("total_operations")
+        self._counters.increment("failed_operations")
 
 
 class CounterMetrics:

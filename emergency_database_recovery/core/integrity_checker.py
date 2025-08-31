@@ -26,14 +26,14 @@ class IntegrityChecker:
         self.critical_files = [
             Path("agent_workspaces/meeting/task_list.json"),
             Path("agent_workspaces/meeting/meeting.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-1/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-2/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-3/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-4/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-5/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-6/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-7/status.json"),
-            Path("agent_workspaces/meeting/agent_workspaces/Agent-8/status.json"),
+            Path("agent_workspaces/Agent-1/status.json"),
+            Path("agent_workspaces/Agent-2/status.json"),
+            Path("agent_workspaces/Agent-3/status.json"),
+            Path("agent_workspaces/Agent-4/status.json"),
+            Path("agent_workspaces/Agent-5/status.json"),
+            Path("agent_workspaces/Agent-6/status.json"),
+            Path("agent_workspaces/Agent-7/status.json"),
+            Path("agent_workspaces/Agent-8/status.json"),
         ]
 
         # Integrity check thresholds

@@ -282,3 +282,7 @@ reporting_archive/*
 
 # Audit heavy artifacts (keep diffs slim)
 reports/metrics/
+
+# Legacy testing directory
+testing/
+

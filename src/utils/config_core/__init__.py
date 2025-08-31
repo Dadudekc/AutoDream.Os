@@ -14,6 +14,7 @@ from .config_manager import UnifiedConfigManager
 from .config_loader import ConfigLoader
 from .config_validator import ConfigValidator
 from .environment_manager import EnvironmentManager
+from .fsm_config import FSMConfig
 
 # Main configuration interface
 from .unified_configuration_system import UnifiedConfigurationSystem
@@ -21,8 +22,9 @@ from .unified_configuration_system import UnifiedConfigurationSystem
 __all__ = [
     'UnifiedConfigManager',
     'ConfigLoader',
-    'ConfigValidator', 
+    'ConfigValidator',
     'EnvironmentManager',
+    'FSMConfig',
     'UnifiedConfigurationSystem'
 ]
 

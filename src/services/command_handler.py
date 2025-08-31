@@ -65,6 +65,8 @@ class CommandHandler:
     def _execute_command_internal(self, args: argparse.Namespace) -> bool:
         """Internal command execution logic."""
         try:
+            # Debug: Log the arguments
+            self.logger.info(f"Executing command with args: {vars(args)}")
             # Handle quick help command first
             if args.quick_help:
                 return self._handle_quick_help()
@@ -80,8 +82,12 @@ class CommandHandler:
             
             # Find and use appropriate handler
             for handler in self.handlers:
+                self.logger.info(f"Checking handler: {handler.__class__.__name__}")
                 if handler.can_handle(args):
+                    self.logger.info(f"Handler {handler.__class__.__name__} can handle the command")
                     return handler.handle(args)
+                else:
+                    self.logger.info(f"Handler {handler.__class__.__name__} cannot handle the command")
             
             # Check if this is a messaging operation that should be handled by MessagingHandlers
             if self._is_messaging_operation(args):

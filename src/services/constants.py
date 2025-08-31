@@ -1,12 +1,17 @@
 """Common constants for validation services."""
 
-# Summary keys
-SUMMARY_PASSED = "passed"
-SUMMARY_FAILED = "failed"
+from src.core.constants import (
+    SUMMARY_PASSED,
+    SUMMARY_FAILED,
+    RESULTS_KEY,
+    SUMMARY_KEY,
+    DEFAULT_CONTRACT_ID,
+)
 
-# Pipeline result keys
-RESULTS_KEY = "results"
-SUMMARY_KEY = "summary"
-
-# Default values
-DEFAULT_CONTRACT_ID = "unknown"
+__all__ = [
+    "SUMMARY_PASSED",
+    "SUMMARY_FAILED",
+    "RESULTS_KEY",
+    "SUMMARY_KEY",
+    "DEFAULT_CONTRACT_ID",
+]

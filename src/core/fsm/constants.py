@@ -1,69 +1,12 @@
-from .fsm_core import StateDefinition, TransitionDefinition, TransitionType
-
-START_STATE = StateDefinition(
-    name="start",
-    description="Starting state",
-    entry_actions=[],
-    exit_actions=[],
-    timeout_seconds=None,
-    retry_count=0,
-    retry_delay=0.0,
-    required_resources=[],
-    dependencies=[],
-    metadata={},
+from src.core.constants import (
+    CORE_FSM_START_STATE as START_STATE,
+    CORE_FSM_PROCESS_STATE as PROCESS_STATE,
+    CORE_FSM_END_STATE as END_STATE,
+    CORE_FSM_DEFAULT_STATES as DEFAULT_STATES,
+    CORE_FSM_TRANSITION_START_PROCESS as TRANSITION_START_PROCESS,
+    CORE_FSM_TRANSITION_PROCESS_END as TRANSITION_PROCESS_END,
+    CORE_FSM_DEFAULT_TRANSITIONS as DEFAULT_TRANSITIONS,
 )
-
-PROCESS_STATE = StateDefinition(
-    name="process",
-    description="Processing state",
-    entry_actions=[],
-    exit_actions=[],
-    timeout_seconds=None,
-    retry_count=0,
-    retry_delay=0.0,
-    required_resources=[],
-    dependencies=[],
-    metadata={},
-)
-
-END_STATE = StateDefinition(
-    name="end",
-    description="Ending state",
-    entry_actions=[],
-    exit_actions=[],
-    timeout_seconds=None,
-    retry_count=0,
-    retry_delay=0.0,
-    required_resources=[],
-    dependencies=[],
-    metadata={},
-)
-
-DEFAULT_STATES = [START_STATE, PROCESS_STATE, END_STATE]
-
-TRANSITION_START_PROCESS = TransitionDefinition(
-    from_state="start",
-    to_state="process",
-    transition_type=TransitionType.AUTOMATIC,
-    condition=None,
-    priority=1,
-    timeout_seconds=None,
-    actions=[],
-    metadata={},
-)
-
-TRANSITION_PROCESS_END = TransitionDefinition(
-    from_state="process",
-    to_state="end",
-    transition_type=TransitionType.AUTOMATIC,
-    condition=None,
-    priority=1,
-    timeout_seconds=None,
-    actions=[],
-    metadata={},
-)
-
-DEFAULT_TRANSITIONS = [TRANSITION_START_PROCESS, TRANSITION_PROCESS_END]
 
 __all__ = [
     "START_STATE",

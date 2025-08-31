@@ -184,9 +184,9 @@ class WrapupCommandHandler(BaseCommandHandler):
                 return False
             
             # Send to all agents using the messaging system
-            from ..handlers.messaging_handlers import MessagingHandlers
+            from ..messaging_unified_messaging_service import UnifiedMessagingService
             from ..interfaces import MessagingMode, MessageType
-            messaging_handlers = MessagingHandlers(self.service, self.formatter)
+            messaging_service = UnifiedMessagingService()
             
             # Create a mock args object for bulk messaging
             class MockArgs:

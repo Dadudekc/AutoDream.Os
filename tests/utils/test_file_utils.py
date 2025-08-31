@@ -4,7 +4,7 @@
 import shutil
 import unittest
 from pathlib import Path
-from src.core.utils.io_utils import FileUtils
+from src.utils.file_utils import FileUtils
 
 
 class TestFileUtils(unittest.TestCase):

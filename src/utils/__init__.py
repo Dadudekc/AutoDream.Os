@@ -35,6 +35,14 @@ try:
     from .system_utils_coordinator import SystemUtilsCoordinator
     from .environment_overrides import EnvironmentOverrides
     from .serializable import SerializableMixin
+    from .file_utils import FileUtils
+    from .string_utils import generate_hash, get_current_timestamp, format_response
+    from .math_utils import clamp, calculate_mean
+    from .learning_utils import (
+        validate_learning_config,
+        format_learning_result,
+        get_learning_metrics,
+    )
 
     __all__ = [
         "ConfigLoader",
@@ -51,6 +59,15 @@ try:
         "SystemUtilsCoordinator",
         "EnvironmentOverrides",
         "SerializableMixin",
+        "FileUtils",
+        "generate_hash",
+        "get_current_timestamp",
+        "format_response",
+        "clamp",
+        "calculate_mean",
+        "validate_learning_config",
+        "format_learning_result",
+        "get_learning_metrics",
     ]
 
 except ImportError as e:

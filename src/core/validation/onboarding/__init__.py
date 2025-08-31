@@ -1,2 +1,0 @@
-"""Onboarding validation helpers package."""
-

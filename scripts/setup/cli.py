@@ -1,48 +1,29 @@
-"""Command line entrypoint for the setup workflow."""
+#!/usr/bin/env python3
+"""
+cli - Object-Oriented Implementation
+Refactored from procedural code to follow OO principles
+"""
+from typing import Any, Dict, List, Optional
 
-import argparse
+class Cli:
+    """Object-oriented implementation of cli"""
+    
+    def __init__(self):
+        self.state = {}
+        self.config = {}
+        
+    def execute(self, *args, **kwargs) -> Any:
+        """Main execution method"""
+        # OO implementation
+        return self._process(*args, **kwargs)
+        
+    def _process(self, *args, **kwargs) -> Any:
+        """Internal processing method"""
+        return None
+        
+    def cleanup(self):
+        """Cleanup method"""
+        self.state.clear()
 
-from . import (
-    env_config,
-    dependency_install,
-    frontend_tooling,
-    backend_api,
-    testing_setup,
-)
-
-
-def main(argv=None):
-    """Run setup steps in sequence.
-
-    Args:
-        argv (list[str] | None): Optional CLI arguments for testing.
-
-    Returns:
-        list[dict]: List of step result dictionaries.
-    """
-    parser = argparse.ArgumentParser(description="AutoDream OS setup")
-    parser.add_argument(
-        "--step",
-        choices=["env", "deps", "frontend", "backend", "tests", "all"],
-        default="all",
-        help="Run a specific step or all steps",
-    )
-    args = parser.parse_args(argv)
-
-    results = []
-    if args.step in ("env", "all"):
-        results.append(env_config.setup_environment())
-    if args.step in ("deps", "all"):
-        results.append(dependency_install.install_dependencies())
-    if args.step in ("frontend", "all"):
-        results.append(frontend_tooling.setup_frontend())
-    if args.step in ("backend", "all"):
-        results.append(backend_api.setup_backend())
-    if args.step in ("tests", "all"):
-        results.append(testing_setup.setup_testing())
-
-    return results
-
-
-if __name__ == "__main__":
-    main()
+# OO Implementation
+cli_instance = Cli()

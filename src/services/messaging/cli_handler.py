@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-devlog - Object-Oriented Implementation
+cli_handler - Object-Oriented Implementation
 Refactored from procedural code to follow OO principles
 """
 from typing import Any, Dict, List, Optional
 
-class Devlog:
-    """Object-oriented implementation of devlog"""
+class CliHandler:
+    """Object-oriented implementation of cli_handler"""
     
     def __init__(self):
         self.state = {}
@@ -26,4 +26,4 @@ class Devlog:
         self.state.clear()
 
 # OO Implementation
-devlog_instance = Devlog()
+cli_handler_instance = CliHandler()

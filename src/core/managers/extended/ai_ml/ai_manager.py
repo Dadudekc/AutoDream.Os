@@ -13,7 +13,7 @@ from src.core.base_manager import BaseManager
 from src.extended.ai_ml.config import load_ai_config
 from src.extended.ai_ml.constants import DEFAULT_AI_MANAGER_CONFIG
 from src.extended.ai_ml.lifecycle import AgentLifecycle
-from src.extended.ai_ml.metrics import MetricsCollector
+from src.core.metrics import MetricsCollector
 
 logger = logging.getLogger(__name__)
 

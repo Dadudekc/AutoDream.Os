@@ -19,6 +19,7 @@ from .models.messaging_models import (
     UnifiedMessagePriority,
     UnifiedMessageTag,
 )
+from .onboarding_service import OnboardingService
 from .messaging_pyautogui import PyAutoGUIMessagingDelivery
 
 
@@ -52,36 +53,9 @@ class UnifiedMessagingCore:
             "Agent-7": "agent_workspaces/Agent-7/inbox",
             "Agent-8": "agent_workspaces/Agent-8/inbox",
         }
-        
-        # EXISTING ONBOARDING PROMPT TO APPEND
-        self.onboarding_prompt = """🎯 **ONBOARDING - FRIENDLY MODE** 🎯
-
-**Agent**: {agent_id}
-**Role**: {description}
-**Captain**: Agent-4 - Strategic Oversight & Emergency Intervention Manager
-
-**WELCOME TO THE SWARM!** 🚀
-
-**MISSION OBJECTIVES**:
-1. **Active Participation**: Engage in perpetual motion workflow
-2. **Task Completion**: Efficiently complete assigned contracts
-3. **System Compliance**: Follow V2 coding standards
-4. **Team Coordination**: Maintain communication with Captain
-
-**SUPPORT SYSTEMS**:
-- ✅ **Contract System**: Use --get-next-task for immediate task claiming
-- ✅ **Messaging System**: PyAutoGUI coordination with Captain
-- ✅ **Status Tracking**: Regular progress updates
-- ✅ **Emergency Protocols**: Available for crisis intervention
-
-**READY FOR**: Cycle 1 task assignments and strategic operations
-
-**Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager**
-
-**WE. ARE. SWARM.** ⚡️🔥"""
-        
-        # Initialize PyAutoGUI delivery
+        # Initialize services
         self.pyautogui_delivery = PyAutoGUIMessagingDelivery(self.agents)
+        self.onboarding_service = OnboardingService()
     
     def send_message_to_inbox(self, message: UnifiedMessage) -> bool:
         """Send message to agent's inbox file."""
@@ -119,17 +93,27 @@ class UnifiedMessagingCore:
             print(f"❌ ERROR delivering message to inbox: {e}")
             return False
     
-    def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True) -> bool:
-        """Send message via PyAutoGUI to agent coordinates."""
-        return self.pyautogui_delivery.send_message_via_pyautogui(message, use_paste)
-    
+    def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True, new_tab_method: str = "ctrl_t", use_new_tab: bool = None) -> bool:
+        """Send message via PyAutoGUI to agent coordinates.
+
+        Args:
+            message: The message to send
+            use_paste: Whether to use clipboard paste (faster) or typing
+            new_tab_method: "ctrl_t" for Ctrl+T or "ctrl_n" for Ctrl+N
+            use_new_tab: Whether to create new tab/window. If None, determined by message type.
+        """
+        # Determine whether to use new tab based on message type if not explicitly set
+        if use_new_tab is None:
+            # Onboarding messages should use new tab/window
+            use_new_tab = (message.message_type == UnifiedMessageType.ONBOARDING)
+
+        return self.pyautogui_delivery.send_message_via_pyautogui(message, use_paste, new_tab_method, use_new_tab)
+
     def generate_onboarding_message(self, agent_id: str, style: str = "friendly") -> str:
-        """Generate onboarding message for specific agent."""
+        """Generate onboarding message for specific agent using onboarding service."""
         agent_info = self.agents.get(agent_id, {})
-        description = agent_info.get("description", "Specialist")
-        
-        # APPEND EXISTING ONBOARDING PROMPT
-        return self.onboarding_prompt.format(agent_id=agent_id, description=description)
+        role = agent_info.get("description", "Specialist")
+        return self.onboarding_service.generate_onboarding_message(agent_id, role, style)
     
     def send_onboarding_message(self, agent_id: str, style: str = "friendly", mode: str = "pyautogui") -> bool:
         """Send onboarding message to specific agent."""
@@ -184,13 +168,15 @@ class UnifiedMessagingCore:
         print(f"📊 BULK ONBOARDING COMPLETED: {success_count}/{total_count} successful")
         return results
     
-    def send_message(self, content: str, sender: str, recipient: str, 
+    def send_message(self, content: str, sender: str, recipient: str,
                     message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
                     priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL,
                     tags: List[UnifiedMessageTag] = None,
                     metadata: Dict[str, Any] = None,
                     mode: str = "pyautogui",
-                    use_paste: bool = True) -> bool:
+                    use_paste: bool = True,
+                    new_tab_method: str = "ctrl_t",
+                    use_new_tab: bool = None) -> bool:
         """Send a single message to a specific agent."""
         message = UnifiedMessage(
             content=content,
@@ -210,7 +196,7 @@ class UnifiedMessagingCore:
         # Deliver the message
         delivery_success = False
         if mode == "pyautogui":
-            delivery_success = self.send_message_via_pyautogui(message, use_paste)
+            delivery_success = self.send_message_via_pyautogui(message, use_paste, new_tab_method, use_new_tab)
         else:
             delivery_success = self.send_message_to_inbox(message)
         
@@ -228,7 +214,9 @@ class UnifiedMessagingCore:
                           tags: List[UnifiedMessageTag] = None,
                           metadata: Dict[str, Any] = None,
                           mode: str = "pyautogui",
-                          use_paste: bool = True) -> List[bool]:
+                          use_paste: bool = True,
+                          new_tab_method: str = "ctrl_t",
+                          use_new_tab: bool = None) -> List[bool]:
         """Send message to all agents."""
         results = []
         print(f"🚨 BULK MESSAGE ACTIVATED")
@@ -247,7 +235,9 @@ class UnifiedMessagingCore:
                 tags=tags or [],
                 metadata=metadata or {},
                 mode=mode,
-                use_paste=use_paste
+                use_paste=use_paste,
+                new_tab_method=new_tab_method,
+                use_new_tab=use_new_tab
             )
             results.append(success)
             time.sleep(1)  # Brief pause between agents

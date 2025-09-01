@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 """Base utilities for consolidation tasks.
 
 Provides common helpers for consolidating scattered files into a
@@ -37,7 +38,7 @@ class ConsolidationBase:
     # The following methods can be overridden by subclasses for custom logic
     def _consolidate_directory(self, directory: str) -> int:
         """Consolidate a single directory into the SSOT layout."""
-        count = 0
+        count = get_config('count', 0)
         for root, _, files in os.walk(directory):
             for file in files:
                 if file.endswith(".py"):

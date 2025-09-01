@@ -1,0 +1,35 @@
+---
+description: Core V2 architecture conventions and patterns
+globs:
+  - "src/**"
+  - "**/*.py"
+alwaysApply: true
+---
+
+## **🏗️ ARCHITECTURE PRINCIPLES**
+- Follow the **repository pattern** for data access.
+- Place **business logic** in `services/` layer.
+- Use dependency injection for shared utilities.
+- Avoid circular dependencies across modules.
+- Maintain **single source of truth (SSOT)** across configurations.
+- Use object-oriented code for complex domain logic.
+- Keep functions small and cohesive; refactor when exceeding LOC limits.
+
+## **📁 MODULE ORGANIZATION**
+- `src/services/` - Core business logic and services
+- `src/core/` - Framework and shared components
+- `src/utils/` - Shared utilities and helpers
+- `agent_workspaces/` - Agent-specific data and status
+- `docs/` - Documentation and guides
+
+## **🔗 DEPENDENCY RULES**
+- Services can import from `core/` and `utils/`
+- `utils/` cannot import from `services/` or `core/`
+- No circular imports between any modules
+- Use dependency injection for shared utilities
+
+## **📊 DATA FLOW**
+- Repository → Service → Controller pattern
+- All data access goes through repositories
+- Business logic lives in services
+- Controllers handle request/response logic

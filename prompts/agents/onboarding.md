@@ -112,22 +112,22 @@
 
 #### **1. ACKNOWLEDGE RECEIPT VIA INBOX:**
 ```bash
-echo "Agent-[X]: Strategic directive received at $(date)" > agent_workspaces/Agent-4/inbox/AGENT_[X]_ACKNOWLEDGMENT.md
+echo "Agent-{agent_id}: Strategic directive received" > agent_workspaces/Agent-4/inbox/AGENT_{agent_id}_ACKNOWLEDGMENT.md
 ```
 
 #### **2. UPDATE STATUS VIA FSM SYSTEM:**
 ```bash
-echo '{"last_updated": "'$(date)'", "status": "Executing strategic directive", "fsm_state": "active"}' >> status.json
+echo '{{"last_updated": "current_timestamp", "status": "Executing strategic directive", "fsm_state": "active"}}' >> agent_workspaces/{agent_id}/status.json
 ```
 
 #### **3. LOG ACTIVITY VIA DISCORD DEVLOG SYSTEM:**
 ```bash
-python scripts/devlog.py "Strategic Directive Acknowledgment" "Agent-[X] received and acknowledged strategic directive. Status: Active execution mode."
+python scripts/devlog.py "Strategic Directive Acknowledgment" "Agent-{agent_id} received and acknowledged strategic directive. Status: Active execution mode."
 ```
 
 #### **4. COMMIT ACKNOWLEDGMENT:**
 ```bash
-git add . && git commit -m "Agent-[X]: Strategic directive acknowledged" && git push
+git add . && git commit -m "Agent-{agent_id}: Strategic directive acknowledged" && git push
 ```
 
 ### **⚠️ FAILURE CONSEQUENCES:**

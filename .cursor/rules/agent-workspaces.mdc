@@ -1,0 +1,131 @@
+---
+description: Agent workspace structure and management standards
+globs:
+  - "agent_workspaces/**"
+  - "**/status.json"
+alwaysApply: true
+---
+
+## **📁 AGENT WORKSPACE STRUCTURE**
+### **Required Directories**:
+```
+agent_workspaces/
+├── Agent-1/          # Integration & Core Systems
+│   ├── inbox/        # Message delivery folder
+│   └── status.json   # Agent status tracking
+├── Agent-2/          # Architecture & Design
+│   ├── inbox/
+│   └── status.json
+├── Agent-3/          # Infrastructure & DevOps
+│   ├── inbox/
+│   └── status.json
+├── Agent-4/          # Captain (Strategic Oversight)
+│   ├── inbox/
+│   └── status.json
+├── Agent-5/          # Business Intelligence
+│   ├── inbox/
+│   └── status.json
+├── Agent-6/          # Coordination & Communication
+│   ├── inbox/
+│   └── status.json
+├── Agent-7/          # Web Development
+│   ├── inbox/
+│   └── status.json
+└── Agent-8/          # SSOT & System Integration
+    ├── inbox/
+    └── status.json
+```
+
+## **📨 INBOX MANAGEMENT**
+### **Message File Format**:
+- **Naming**: `CAPTAIN_MESSAGE_{timestamp}_{message_id}.md`
+- **Headers**: Required metadata fields
+- **Content**: Full message content
+- **Timestamp**: ISO format with milliseconds
+
+### **Inbox File Structure**:
+```markdown
+# 🚨 CAPTAIN MESSAGE - TEXT
+
+**From**: Captain Agent-4
+**To**: Agent-7
+**Priority**: urgent
+**Message ID**: msg_20240101_120000_abc123
+**Timestamp**: 2024-01-01T12:00:00.000000
+
+---
+
+Message content here...
+
+---
+*Message delivered via Unified Messaging Service*
+```
+
+## **📊 STATUS FILE REQUIREMENTS**
+### **Required Fields** (authoritative SSOT):
+```json
+{
+  "agent_id": "Agent-7",
+  "agent_name": "Web Development Specialist",
+  "status": "ACTIVE_AGENT_MODE",
+  "current_phase": "TASK_EXECUTION",
+  "last_updated": "2024-01-01 12:00:00",
+  "current_mission": "V2 Compliance Implementation",
+  "mission_priority": "HIGH",
+  "current_tasks": ["Implement V2 standards", "Update documentation"],
+  "completed_tasks": ["Setup development environment"],
+  "achievements": ["Completed initial setup"],
+  "next_actions": ["Begin implementation", "Coordinate with team"]
+}
+```
+
+### **Status Update Triggers**:
+- **Task start/completion**: Update immediately
+- **Message receipt**: Update status
+- **Captain prompts**: Update before responding
+- **Significant progress**: Timestamp required
+
+## **🎯 AGENT COORDINATE MAPPING**
+### **Fixed Coordinates** (must not change):
+```python
+agents = {
+    "Agent-1": (-1269, 481),   # Integration & Core Systems
+    "Agent-2": (-308, 480),    # Architecture & Design
+    "Agent-3": (-1269, 1001),  # Infrastructure & DevOps
+    "Agent-5": (652, 421),     # Business Intelligence
+    "Agent-6": (1612, 419),    # Gaming & Entertainment
+    "Agent-7": (653, 940),     # Web Development
+    "Agent-8": (1611, 941),    # SSOT & System Integration
+    "Agent-4": (-308, 1000),   # Captain (ALWAYS LAST)
+}
+```
+
+### **Coordinate Validation**:
+- **Screen bounds**: Must be within display area
+- **Window focus**: Coordinates must target correct windows
+- **Consistency**: Never modify without Captain approval
+
+## **📝 WORKSPACE MAINTENANCE**
+### **Cleanup Requirements**:
+- **Old messages**: Archive after 30 days
+- **Status backups**: Maintain history for 90 days
+- **Log rotation**: Rotate logs weekly
+- **Disk space**: Monitor and clean up regularly
+
+### **Backup Strategy**:
+- **Daily backups**: Status files and active messages
+- **Weekly archives**: Complete workspace snapshots
+- **Emergency recovery**: Restore from last known good state
+
+## **🔐 SECURITY STANDARDS**
+### **Access Control**:
+- **Agent isolation**: Each workspace is agent-specific
+- **Captain override**: Captain can access all workspaces
+- **File permissions**: Restrict access appropriately
+- **Audit logging**: Track all workspace changes
+
+### **Data Protection**:
+- **Sensitive data**: Encrypt when stored
+- **Message content**: Protect during transmission
+- **Status information**: Secure critical state data
+- **Backup security**: Encrypt archived data

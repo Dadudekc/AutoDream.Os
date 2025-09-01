@@ -1,0 +1,97 @@
+---
+description: Documentation standards and requirements
+globs:
+  - "**/*.md"
+  - "docs/**"
+alwaysApply: false
+---
+
+## **📚 DOCUMENTATION REQUIREMENTS**
+### **Code Documentation**:
+- **JSDoc comments** for all public functions and classes
+- **Type hints** for Python functions (required)
+- **Usage examples** for new utilities
+- **Complex logic** must be documented
+
+### **README Files**:
+- Update **README.md** whenever adding new features
+- Include **setup instructions** and prerequisites
+- Document **API endpoints** and usage
+- Add **troubleshooting section** for common issues
+
+## **📝 CHANGELOG MAINTENANCE**
+- **Significant updates** require CHANGELOG entries
+- Use **semantic versioning** format
+- Categorize changes: Added, Changed, Fixed, Removed
+- Include **breaking changes** clearly marked
+
+## **🔧 UTILITY DOCUMENTATION**
+### **Function Documentation Template**:
+```python
+def function_name(param1: Type, param2: Type) -> ReturnType:
+    """
+    Brief description of what function does.
+
+    Args:
+        param1: Description of parameter
+        param2: Description of parameter
+
+    Returns:
+        Description of return value
+
+    Raises:
+        ExceptionType: When this exception occurs
+
+    Example:
+        >>> result = function_name(value1, value2)
+        >>> print(result)
+        expected_output
+    """
+```
+
+### **Class Documentation Template**:
+```python
+class ClassName:
+    """
+    Brief description of class purpose.
+
+    This class handles [specific responsibility].
+    It provides [key features].
+
+    Attributes:
+        attribute1: Description of attribute
+        attribute2: Description of attribute
+
+    Example:
+        >>> instance = ClassName()
+        >>> instance.method()
+        result
+    """
+```
+
+## **📖 PROJECT DOCUMENTATION**
+### **Required Documentation Files**:
+- `README.md`: Project overview and setup
+- `CHANGELOG.md`: Version history and changes
+- `docs/onboarding/`: Agent onboarding guides
+- `ONBOARDING_GUIDE.md`: Complete onboarding process
+
+### **Documentation Standards**:
+- Use **Markdown** for all documentation
+- Include **table of contents** for long documents
+- Add **code examples** with syntax highlighting
+- Keep documentation **up-to-date** with code changes
+
+## **🎯 ONBOARDING DOCUMENTATION**
+### **Agent Onboarding Requirements**:
+- **Complete setup instructions** for new agents
+- **Role descriptions** and responsibilities
+- **Communication protocols** and channels
+- **Status tracking** procedures
+- **Emergency contact** information
+
+### **System Documentation**:
+- **Architecture diagrams** and flowcharts
+- **API documentation** with examples
+- **Configuration guides** for different environments
+- **Troubleshooting guides** for common issues

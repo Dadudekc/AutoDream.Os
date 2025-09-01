@@ -1,0 +1,35 @@
+---
+description: Enforce consistent code style across V2 project
+globs:
+  - "**/*.py"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+alwaysApply: true
+---
+
+## **🔤 NAMING CONVENTIONS**
+- Database columns and API fields: **snake_case**
+- Python classes: **PascalCase**
+- Python functions/methods: **snake_case**
+- Constants: **UPPER_SNAKE_CASE**
+- React components: **PascalCase** (functional components preferred)
+
+## **📏 FORMATTING STANDARDS**
+- Max line length: **100 characters**
+- Use 4 spaces for Python indentation
+- Use 2 spaces for JavaScript/TypeScript indentation
+- Use **snake_case** for database fields and API payloads
+
+## **📝 CODE ORGANIZATION**
+- Use **TypeScript** for all new files
+- Prefer **functional components** in React
+- Import statements at top of files
+- Constants defined before functions
+- One class per file (Python)
+
+## **💬 COMMENTING & DOCUMENTATION**
+- Use JSDoc for public functions and classes
+- Add usage examples for new utilities
+- Document complex business logic
+- Include type hints for Python functions

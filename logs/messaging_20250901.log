@@ -4976,3 +4976,121 @@
 2025-09-01 12:40:40,972 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
 2025-09-01 12:40:40,983 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
 2025-09-01 12:40:40,987 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:41:07,511 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:41:07,518 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:41:07,519 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:41:16,266 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:41:16,276 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:41:16,277 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:41:24,029 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:41:24,044 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:41:24,046 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:41:24,083 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:41:24,102 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:41:24,104 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:42:05,384 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:42:05,384 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:42:13,152 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:42:13,155 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:42:33,094 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:42:33,097 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:42:47,754 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:42:47,755 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:43:00,432 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:43:00,433 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:43:07,805 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:43:07,810 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:43:15,616 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:43:15,617 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:43:15,932 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:43:15,933 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:43:32,894 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:43:32,897 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:43:39,470 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:43:39,470 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:44:08,112 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:44:08,114 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:44:20,473 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:44:20,479 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:44:21,698 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:44:21,700 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:44:33,460 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:44:33,461 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:44:45,919 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:44:45,920 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:45:11,581 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:45:11,582 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:45:13,386 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:45:13,387 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:45:32,151 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:45:32,152 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:45:39,477 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:45:39,479 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:45:45,566 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:45:45,567 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:45:51,748 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:45:51,750 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:46:00,365 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:46:00,366 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:46:33,137 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:46:33,144 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:46:37,966 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:46:37,967 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:46:45,802 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:46:45,804 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:46:50,504 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:46:50,507 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:46:56,468 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:46:56,472 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:02,774 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:02,775 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:06,884 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:06,885 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:06,986 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:06,992 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:16,485 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:16,486 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:27,001 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:27,002 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:47,733 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:47,734 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:56,186 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:56,194 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:47:56,782 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:47:56,783 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:48:07,614 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:48:07,618 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:48:27,706 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:48:27,708 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:48:37,625 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:48:37,626 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:48:48,984 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:48:48,986 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:49:08,419 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:49:08,422 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:49:36,542 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:49:36,544 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:50:10,246 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:50:10,247 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:50:45,652 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:50:45,654 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:51:20,751 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:51:20,756 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:51:30,065 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:51:30,066 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:51:39,577 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:51:39,578 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:51:50,882 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:51:50,884 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:51:59,714 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:51:59,715 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:53:17,886 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:53:17,890 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:55:21,320 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:55:21,324 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:56:31,591 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:56:31,604 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:56:43,963 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:56:43,964 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:57:14,718 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:57:14,722 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully

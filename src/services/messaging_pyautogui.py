@@ -60,6 +60,12 @@ class PyAutoGUIMessagingDelivery:
                 return False
 
             coords = self.agents[recipient]["coords"]
+            
+            # Validate coordinates before PyAutoGUI operations
+            from .coordinate_validator import validate_coordinates_before_delivery
+            if not validate_coordinates_before_delivery(coords, recipient):
+                print(f"❌ ERROR: Coordinate validation failed for {recipient}")
+                return False
 
             # Move to agent coordinates
             pyautogui.moveTo(coords[0], coords[1], duration=0.5)

@@ -12,9 +12,20 @@ License: MIT
 import ast
 import re
 from pathlib import Path
-from typing import List
+from typing import List, Any
+from dataclasses import dataclass
 
-from .config_consolidator import ConfigPattern
+
+@dataclass
+class ConfigPattern:
+    """Configuration pattern found in code."""
+    file_path: Path
+    line_number: int
+    pattern_type: str
+    key: str
+    value: Any
+    context: str
+    source: str
 
 
 class ConfigurationPatternScanner:

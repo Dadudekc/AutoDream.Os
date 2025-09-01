@@ -12,7 +12,7 @@ License: MIT
 from pathlib import Path
 from typing import List
 
-from .config_consolidator import ConfigPattern
+from .config_pattern_scanner import ConfigPattern
 
 
 class ConfigurationFileMigrator:
@@ -31,7 +31,7 @@ class ConfigurationFileMigrator:
             if 'from src.utils.config_core import get_config' not in content:
                 # Find the best place to add the import
                 lines = content.split('\n')
-                import_section_end = 0
+                import_section_end = get_config('import_section_end', 0)
                 
                 for i, line in enumerate(lines):
                     if line.strip().startswith('import ') or line.strip().startswith('from '):

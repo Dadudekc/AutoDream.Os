@@ -24,16 +24,23 @@ from .contract_service import ContractService
 
 def create_parser():
     """Create command-line argument parser."""
+    # Import centralized configuration
+    from src.utils.config_core import get_config
+    
+    # Get default values from centralized config
+    default_sender = get_config("CAPTAIN_ID", "Captain Agent-4")
+    default_mode = get_config("DEFAULT_MODE", "pyautogui")
+    
     parser = argparse.ArgumentParser(
         description="Unified Messaging Service - Agent Cellphone V2",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+        epilog=f"""
 Examples:
   # Send message to specific agent
-  python -m src.services.messaging_cli --agent Agent-5 --message "Hello from Captain" --sender "Captain Agent-4"
+  python -m src.services.messaging_cli --agent Agent-5 --message "Hello from Captain" --sender "{default_sender}"
   
   # Send bulk message to all agents
-  python -m src.services.messaging_cli --bulk --message "System update" --sender "Captain Agent-4"
+  python -m src.services.messaging_cli --bulk --message "System update" --sender "{default_sender}"
   
   # Send onboarding to all agents
   python -m src.services.messaging_cli --onboarding --onboarding-style friendly
@@ -51,7 +58,7 @@ Examples:
     
     # Message sending options
     parser.add_argument("--message", "-m", help="Message content to send")
-    parser.add_argument("--sender", "-s", default="Captain Agent-4", help="Message sender (default: Captain Agent-4)")
+    parser.add_argument("--sender", "-s", default=default_sender, help=f"Message sender (default: {default_sender})")
     parser.add_argument("--agent", "-a", help="Specific agent to send message to")
     parser.add_argument("--bulk", action="store_true", help="Send message to all agents")
     
@@ -63,8 +70,8 @@ Examples:
     parser.add_argument("--high-priority", action="store_true", help="Set message as high priority (overrides --priority)")
     
     # Delivery options
-    parser.add_argument("--mode", default="pyautogui", choices=["pyautogui", "inbox"],
-                       help="Delivery mode (default: pyautogui)")
+    parser.add_argument("--mode", default=default_mode, choices=["pyautogui", "inbox"],
+                       help=f"Delivery mode (default: {default_mode})")
     parser.add_argument("--no-paste", action="store_true", help="Disable paste mode (use typing instead)")
     parser.add_argument("--new-tab-method", default="ctrl_t", choices=["ctrl_t", "ctrl_n"],
                        help="New tab method for PyAutoGUI mode (default: ctrl_t)")

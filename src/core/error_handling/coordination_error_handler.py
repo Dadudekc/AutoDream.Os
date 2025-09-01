@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 Coordination & Communication Error Handler - Agent Cellphone V2
@@ -167,9 +168,9 @@ class CircuitBreaker:
         self.expected_exception = expected_exception
         
         self.state = CircuitState.CLOSED
-        self.failure_count = 0
+        self.failure_count = get_config('failure_count', 0)
         self.last_failure_time = None
-        self.success_count = 0
+        self.success_count = get_config('success_count', 0)
     
     def call(self, operation: Callable[[], T], operation_name: str = "operation") -> T:
         """Execute operation with circuit breaker protection."""
@@ -191,7 +192,7 @@ class CircuitBreaker:
     
     def _on_success(self, operation_name: str):
         """Handle successful operation."""
-        self.failure_count = 0
+        self.failure_count = get_config('failure_count', 0)
         self.success_count += 1
         
         if self.state == CircuitState.HALF_OPEN:

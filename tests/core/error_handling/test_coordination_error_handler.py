@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 Unit tests for Coordination Error Handler - Agent Cellphone V2
@@ -112,7 +113,7 @@ class TestRetryHandler:
     
     def test_execute_with_retry_success_after_retry(self, retry_handler):
         """Test retry handler with success after retry."""
-        attempt_count = 0
+        attempt_count = get_config('attempt_count', 0)
         
         def failing_then_successful_operation():
             nonlocal attempt_count

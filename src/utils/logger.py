@@ -18,6 +18,14 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 from pathlib import Path
 
+# Import config after path setup
+try:
+    from .config_core import get_config
+except ImportError:
+    # Fallback if config_core is not available
+    def get_config(key, default=None):
+        return default
+
 
 class StructuredFormatter(logging.Formatter):
     """Custom formatter for structured JSON logging."""

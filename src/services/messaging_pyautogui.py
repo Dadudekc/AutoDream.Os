@@ -1,4 +1,3 @@
-from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 PyAutoGUI Messaging Delivery - Agent Cellphone V2
@@ -12,6 +11,9 @@ License: MIT
 
 import time
 from typing import Dict, Tuple
+
+# Import centralized configuration
+from src.utils.config_core import get_config
 
 try:
     import pyautogui

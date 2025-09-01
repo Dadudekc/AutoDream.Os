@@ -1,7 +1,7 @@
 {
-  "discord_webhook_url": "",
-  "enable_discord": false,
-  "agent_name": "Agent-1",
+  "discord_webhook_url": "***REMOVED_DISCORD_TOKEN***",
+  "enable_discord": true,
+  "agent_name": "Agent-4",
   "default_channel": "devlog",
   "log_to_file": true,
   "discord_config_notes": "To enable Discord integration, set discord_webhook_url to your Discord webhook URL and enable_discord to true"

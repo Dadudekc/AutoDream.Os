@@ -45,12 +45,19 @@ class UnifiedMessagingCore:
                         extra={"agent_count": len(self.agents), "inbox_paths": len(self.inbox_paths)})
 
     def _load_configuration(self):
-        """Load configuration from external files (V2 compliance requirement).
+        """Load configuration from centralized SSOT system (V2 compliance requirement).
 
-        This method implements SSOT by centralizing configuration management.
+        This method implements SSOT by using the centralized configuration management.
         """
         try:
-            # Default configuration (can be overridden by config files)
+            # Import centralized configuration
+            from src.utils.config_core import get_config
+            
+            # Get agent count and captain ID from centralized config
+            agent_count = get_config("AGENT_COUNT", 8)
+            captain_id = get_config("CAPTAIN_ID", "Agent-4")
+            
+            # Default configuration using centralized values
             self.agents = {
                 "Agent-1": {"description": "Integration & Core Systems Specialist", "coords": (-1269, 481)},
                 "Agent-2": {"description": "Architecture & Design Specialist", "coords": (-308, 480)},
@@ -62,7 +69,7 @@ class UnifiedMessagingCore:
                 "Agent-4": {"description": "Quality Assurance Specialist (CAPTAIN)", "coords": (-308, 1000)},
             }
 
-            # Agent inbox paths
+            # Agent inbox paths using centralized configuration
             self.inbox_paths = {
                 "Agent-1": "agent_workspaces/Agent-1/inbox",
                 "Agent-2": "agent_workspaces/Agent-2/inbox",

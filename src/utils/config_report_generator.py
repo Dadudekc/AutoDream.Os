@@ -11,7 +11,7 @@ License: MIT
 
 from typing import Dict, Any, List
 
-from .config_consolidator import ConfigPattern
+from .config_pattern_scanner import ConfigPattern
 
 
 class ConfigurationReportGenerator:

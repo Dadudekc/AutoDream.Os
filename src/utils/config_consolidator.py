@@ -19,21 +19,9 @@ from typing import Dict, List, Set, Any
 from dataclasses import dataclass
 
 from .config_core import ConfigurationManager, ConfigSource, get_config_manager
-from .config_pattern_scanner import ConfigurationPatternScanner
+from .config_pattern_scanner import ConfigurationPatternScanner, ConfigPattern
 from .config_file_migrator import ConfigurationFileMigrator
 from .config_report_generator import ConfigurationReportGenerator
-
-
-@dataclass
-class ConfigPattern:
-    """Configuration pattern found in code."""
-    file_path: Path
-    line_number: int
-    pattern_type: str
-    key: str
-    value: Any
-    context: str
-    source: str
 
 
 class ConfigurationConsolidator:

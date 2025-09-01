@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 Performance Analyzer - Agent Cellphone V2
@@ -92,7 +93,7 @@ class PerformanceAnalyzer:
             return {"operation": operation_name, "no_data": True}
         
         # Group metrics by time intervals for throughput calculation
-        interval_seconds = 60  # 1-minute intervals
+        interval_seconds = get_config('interval_seconds', 60)  # 1-minute intervals
         intervals = defaultdict(list)
         
         for metric in metrics:

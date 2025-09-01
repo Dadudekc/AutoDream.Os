@@ -17,6 +17,7 @@ import sys
 import os
 import json
 import requests
+import argparse
 from datetime import datetime
 from pathlib import Path
 
@@ -24,11 +25,12 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from utils.logger import get_logger
+from utils.config_core import get_config
 
 class DevlogSystem:
     """Discord devlog system for team communication."""
 
-    def __init__(self):
+    def __init__(self, agent_name=None):
         """Initialize devlog system."""
         self.logger = get_logger("devlog")
         self.config_file = Path("config/devlog_config.json")
@@ -37,6 +39,10 @@ class DevlogSystem:
 
         # Load configuration
         self.config = self._load_config()
+        
+        # Override agent name if specified
+        if agent_name:
+            self.config["agent_name"] = agent_name
 
     def _load_config(self):
         """Load devlog configuration."""
@@ -196,7 +202,7 @@ class DevlogSystem:
     def _count_entries(self) -> int:
         """Count total devlog entries."""
         try:
-            count = 0
+            count = get_config('count', 0)
             for file_path in self.devlog_dir.glob("*.json"):
                 with open(file_path, 'r') as f:
                     entries = json.load(f)
@@ -208,25 +214,42 @@ class DevlogSystem:
 
 def main():
     """Main CLI entry point for devlog system."""
-    if len(sys.argv) < 3:
-        print("Usage: python scripts/devlog.py \"Title\" \"Content\" [category]")
-        print("Categories: general, progress, issue, success, warning, info")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="Discord Devlog System - V2 SWARM Communication",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python scripts/devlog.py "Title" "Content"
+  python scripts/devlog.py "Title" "Content" --category success
+  python scripts/devlog.py "Title" "Content" --agent Agent-7
+  python scripts/devlog.py "Title" "Content" --category progress --agent Agent-5
 
-    title = sys.argv[1]
-    content = sys.argv[2]
-    category = sys.argv[3] if len(sys.argv) > 3 else "general"
+Categories: general, progress, issue, success, warning, info
+        """
+    )
+    
+    parser.add_argument("title", help="Devlog entry title")
+    parser.add_argument("content", help="Devlog entry content")
+    parser.add_argument("--category", "-c", default="general", 
+                       choices=["general", "progress", "issue", "success", "warning", "info"],
+                       help="Entry category (default: general)")
+    parser.add_argument("--agent", "-a", help="Agent name (overrides config)")
+    
+    args = parser.parse_args()
 
-    # Initialize devlog system
-    devlog = DevlogSystem()
+    # Initialize devlog system with optional agent override
+    devlog = DevlogSystem(agent_name=args.agent)
 
     # Create devlog entry
-    success = devlog.create_entry(title, content, category)
+    success = devlog.create_entry(args.title, args.content, args.category)
 
     if success:
-        print(f"✅ Devlog entry created: {title}")
+        print(f"✅ Devlog entry created: {args.title}")
+        if args.agent:
+            print(f"📝 Agent: {args.agent}")
+        print(f"📂 Category: {args.category}")
     else:
-        print(f"❌ Failed to create devlog entry: {title}")
+        print(f"❌ Failed to create devlog entry: {args.title}")
         sys.exit(1)
 
 

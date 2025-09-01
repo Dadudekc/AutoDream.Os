@@ -152,7 +152,7 @@ def handle_onboarding_commands(args, service):
     """Handle onboarding-related commands."""
     if args.onboarding:
         # Delegate to core bulk onboarding using SSOT template
-        service.send_bulk_onboarding(style=args.onboarding_style, mode=args.mode)
+        service.send_bulk_onboarding(style=args.onboarding_style, mode=args.mode, new_tab_method=args.new_tab_method)
         return True
 
     if args.onboard:
@@ -160,7 +160,7 @@ def handle_onboarding_commands(args, service):
             print("❌ ERROR: --agent is required with --onboard")
             print("Usage: python -m src.services.messaging_cli --onboard --agent Agent-X [--onboarding-style friendly|professional] [--mode inbox|pyautogui]")
             sys.exit(1)
-        service.send_onboarding_message(agent_id=args.agent, style=args.onboarding_style, mode=args.mode)
+        service.send_onboarding_message(agent_id=args.agent, style=args.onboarding_style, mode=args.mode, new_tab_method=args.new_tab_method)
         return True
 
     if args.wrapup:

@@ -115,7 +115,7 @@ class UnifiedMessagingCore:
         role = agent_info.get("description", "Specialist")
         return self.onboarding_service.generate_onboarding_message(agent_id, role, style)
     
-    def send_onboarding_message(self, agent_id: str, style: str = "friendly", mode: str = "pyautogui") -> bool:
+    def send_onboarding_message(self, agent_id: str, style: str = "friendly", mode: str = "pyautogui", new_tab_method: str = "ctrl_t") -> bool:
         """Send onboarding message to specific agent."""
         message_content = self.generate_onboarding_message(agent_id, style)
         
@@ -137,7 +137,7 @@ class UnifiedMessagingCore:
         # Deliver the message
         delivery_success = False
         if mode == "pyautogui":
-            delivery_success = self.send_message_via_pyautogui(message, use_paste=True)
+            delivery_success = self.send_message_via_pyautogui(message, use_paste=True, new_tab_method=new_tab_method)
         else:
             delivery_success = self.send_message_to_inbox(message)
         
@@ -149,7 +149,7 @@ class UnifiedMessagingCore:
         print()
         return delivery_success
     
-    def send_bulk_onboarding(self, style: str = "friendly", mode: str = "pyautogui") -> List[bool]:
+    def send_bulk_onboarding(self, style: str = "friendly", mode: str = "pyautogui", new_tab_method: str = "ctrl_t") -> List[bool]:
         """Send onboarding messages to all agents."""
         results = []
         print(f"🚨 BULK ONBOARDING ACTIVATED - {style.upper()} MODE")
@@ -159,7 +159,7 @@ class UnifiedMessagingCore:
         agent_order = ["Agent-1", "Agent-2", "Agent-3", "Agent-5", "Agent-6", "Agent-7", "Agent-8", "Agent-4"]
         
         for agent_id in agent_order:
-            success = self.send_onboarding_message(agent_id, style, mode)
+            success = self.send_onboarding_message(agent_id, style, mode, new_tab_method)
             results.append(success)
             time.sleep(1)  # Brief pause between agents
         

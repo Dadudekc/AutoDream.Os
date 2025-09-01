@@ -12,11 +12,11 @@
 // IMPORT EXTRACTED MODULES
 // ================================
 
-import { dashboardStateManager } from './dashboard-state-manager.js';
-import { dashboardSocketManager } from './dashboard-socket-manager.js';
-import { initializeDashboardNavigationManager } from './dashboard-navigation-manager.js';
 import { DashboardUtils } from './dashboard-utils.js';
+import { dashboardSocketManager } from './dashboard-socket-manager.js';
+import { dashboardStateManager } from './dashboard-state-manager.js';
 import { initializeConsolidatedDashboard } from './dashboard-consolidator.js';
+import { initializeDashboardNavigationManager } from './dashboard-navigation-manager.js';
 import { loadDashboardData } from './dashboard-data-manager.js';
 
 // ================================

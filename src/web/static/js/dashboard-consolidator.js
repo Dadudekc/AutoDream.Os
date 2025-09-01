@@ -12,11 +12,11 @@
 // IMPORT DEPENDENCIES
 // ================================
 
-import { dashboardStateManager } from './dashboard-state-manager.js';
 import { dashboardSocketManager } from './dashboard-socket-manager.js';
+import { dashboardStateManager } from './dashboard-state-manager.js';
 import { initializeDashboardNavigationManager } from './dashboard-navigation-manager.js';
-import { updateCurrentTime } from './dashboard-ui-helpers.js';
 import { loadDashboardData } from './dashboard-data-manager.js';
+import { updateCurrentTime } from './dashboard-ui-helpers.js';
 
 // ================================
 // CONSOLIDATOR CLASS

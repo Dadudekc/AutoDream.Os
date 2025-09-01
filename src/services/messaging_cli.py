@@ -12,6 +12,11 @@ License: MIT
 import argparse
 import sys
 import os
+import yaml
+import uuid
+from datetime import datetime
+from typing import Dict, Any
+from pathlib import Path
 
 from .models.messaging_models import (
     UnifiedMessageType,
@@ -20,79 +25,52 @@ from .models.messaging_models import (
 )
 from .messaging_core import UnifiedMessagingCore
 from .contract_service import ContractService
+from .cli_validator import CLIValidator, ValidationError, create_enhanced_parser, validate_and_parse_args
+from ..core.file_lock import LockConfig
 
+
+def load_config_with_precedence() -> Dict[str, Any]:
+    """Load configuration with precedence: CLI → ENV → YAML → defaults."""
+    config = {
+        "sender": "Captain Agent-4",
+        "mode": "pyautogui",
+        "new_tab_method": "ctrl_t",
+        "priority": "regular",
+        "paste": True,
+        "onboarding_style": "friendly"
+    }
+
+    # Load from YAML config file (lowest precedence)
+    config_file = Path("config/messaging.yml")
+    if config_file.exists():
+        try:
+            with open(config_file, 'r') as f:
+                yaml_config = yaml.safe_load(f)
+                if yaml_config and 'defaults' in yaml_config:
+                    config.update(yaml_config['defaults'])
+        except Exception:
+            # Silently ignore YAML errors
+            pass
+
+    # Override with environment variables (medium precedence)
+    env_mappings = {
+        "AC_SENDER": "sender",
+        "AC_MODE": "mode",
+        "AC_NEW_TAB_METHOD": "new_tab_method",
+        "AC_PRIORITY": "priority",
+        "AC_ONBOARDING_STYLE": "onboarding_style"
+    }
+
+    for env_var, config_key in env_mappings.items():
+        env_value = os.getenv(env_var)
+        if env_value:
+            config[config_key] = env_value
+
+    return config
 
 def create_parser():
-    """Create command-line argument parser."""
-    # Import centralized configuration
-    from src.utils.config_core import get_config
-    
-    # Get default values from centralized config
-    default_sender = get_config("CAPTAIN_ID", "Captain Agent-4")
-    default_mode = get_config("DEFAULT_MODE", "pyautogui")
-    
-    parser = argparse.ArgumentParser(
-        description="Unified Messaging Service - Agent Cellphone V2",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"""
-Examples:
-  # Send message to specific agent
-  python -m src.services.messaging_cli --agent Agent-5 --message "Hello from Captain" --sender "{default_sender}"
-  
-  # Send bulk message to all agents
-  python -m src.services.messaging_cli --bulk --message "System update" --sender "{default_sender}"
-  
-  # Send onboarding to all agents
-  python -m src.services.messaging_cli --onboarding --onboarding-style friendly
-  
-  # List all agents
-  python -m src.services.messaging_cli --list-agents
-  
-  # Show coordinates
-  python -m src.services.messaging_cli --coordinates
-  
-  # Show message history
-  python -m src.services.messaging_cli --history
-        """
-    )
-    
-    # Message sending options
-    parser.add_argument("--message", "-m", help="Message content to send")
-    parser.add_argument("--sender", "-s", default=default_sender, help=f"Message sender (default: {default_sender})")
-    parser.add_argument("--agent", "-a", help="Specific agent to send message to")
-    parser.add_argument("--bulk", action="store_true", help="Send message to all agents")
-    
-    # Message properties
-    parser.add_argument("--type", "-t", default="text", choices=["text", "broadcast", "onboarding"],
-                       help="Message type (default: text)")
-    parser.add_argument("--priority", "-p", default="regular", choices=["regular", "urgent"],
-                       help="Message priority (default: regular)")
-    parser.add_argument("--high-priority", action="store_true", help="Set message as high priority (overrides --priority)")
-    
-    # Delivery options
-    parser.add_argument("--mode", default=default_mode, choices=["pyautogui", "inbox"],
-                       help=f"Delivery mode (default: {default_mode})")
-    parser.add_argument("--no-paste", action="store_true", help="Disable paste mode (use typing instead)")
-    parser.add_argument("--new-tab-method", default="ctrl_t", choices=["ctrl_t", "ctrl_n"],
-                       help="New tab method for PyAutoGUI mode (default: ctrl_t)")
-    
-    # Utility commands
-    parser.add_argument("--list-agents", action="store_true", help="List all available agents")
-    parser.add_argument("--coordinates", action="store_true", help="Show agent coordinates")
-    parser.add_argument("--history", action="store_true", help="Show message history")
-    parser.add_argument("--get-next-task", action="store_true", help="Get next task for a specific agent")
-    parser.add_argument("--check-status", action="store_true", help="Check status of all agents and contract availability")
-    
-    # Onboarding commands
-    parser.add_argument("--onboarding", action="store_true", help="Send onboarding message to all agents (SSOT template)")
-    parser.add_argument("--onboard", action="store_true", help="Send onboarding message to specific agent (SSOT template)")
-    parser.add_argument("--onboarding-style", default="friendly", choices=["friendly", "professional"],
-                       help="Onboarding message style (default: friendly)")
-    
-    # Wrapup command
-    parser.add_argument("--wrapup", action="store_true", help="Send wrapup message to all agents")
-    
-    return parser
+    """Create legacy parser for backward compatibility."""
+    return create_enhanced_parser()
 
 
 def handle_utility_commands(args, service):
@@ -109,7 +87,104 @@ def handle_utility_commands(args, service):
         service.show_message_history()
         return True
 
+    # Queue management commands
+    if args.queue_stats:
+        return handle_queue_stats(service)
+    if args.process_queue:
+        return handle_process_queue(service)
+    if args.start_queue_processor:
+        return handle_start_queue_processor(service)
+    if args.stop_queue_processor:
+        return handle_stop_queue_processor(service)
+
     return False
+
+
+def handle_queue_stats(service):
+    """Handle queue-stats command."""
+    print("📊 MESSAGE QUEUE STATISTICS")
+    print("=" * 50)
+
+    try:
+        stats = service.get_queue_stats()
+
+        print(f"📋 Pending Messages: {stats.get('pending_count', 0)}")
+        print(f"⚙️  Processing Messages: {stats.get('processing_count', 0)}")
+        print(f"✅ Delivered Messages: {stats.get('delivered_count', 0)}")
+        print(f"❌ Failed Messages: {stats.get('failed_count', 0)}")
+        print(f"📊 Total Messages: {stats.get('total_count', 0)}")
+
+        if stats.get('oldest_pending'):
+            print(f"⏰ Oldest Pending: {stats['oldest_pending']}")
+        if stats.get('newest_pending'):
+            print(f"🆕 Newest Pending: {stats['newest_pending']}")
+
+        print("\n📁 Queue Directory: message_queue/")
+        print("🔄 Processing Batch Size: 10 messages")
+        print("⏳ Retry Delay: 1-300 seconds (exponential backoff)")
+
+    except Exception as e:
+        print(f"❌ Error retrieving queue statistics: {e}")
+
+    return True
+
+
+def handle_process_queue(service):
+    """Handle process-queue command."""
+    print("🔄 PROCESSING QUEUE BATCH")
+    print("=" * 30)
+
+    try:
+        processed = service.process_queue_batch()
+        print(f"✅ Processed {processed} messages from queue")
+
+        if processed > 0:
+            print("📊 Updated queue statistics:")
+            stats = service.get_queue_stats()
+            print(f"  📋 Pending: {stats.get('pending_count', 0)}")
+            print(f"  ⚙️  Processing: {stats.get('processing_count', 0)}")
+            print(f"  ✅ Delivered: {stats.get('delivered_count', 0)}")
+            print(f"  ❌ Failed: {stats.get('failed_count', 0)}")
+        else:
+            print("📋 No messages to process (queue empty)")
+
+    except Exception as e:
+        print(f"❌ Error processing queue: {e}")
+
+    return True
+
+
+def handle_start_queue_processor(service):
+    """Handle start-queue-processor command."""
+    print("🚀 STARTING QUEUE PROCESSOR")
+    print("=" * 30)
+
+    try:
+        service.start_queue_processor()
+        print("✅ Queue processor started successfully")
+        print("🔄 Processor will run in background")
+        print("📊 Processing 10 messages per batch")
+        print("⏱️  Cleanup every hour")
+
+    except Exception as e:
+        print(f"❌ Error starting queue processor: {e}")
+
+    return True
+
+
+def handle_stop_queue_processor(service):
+    """Handle stop-queue-processor command."""
+    print("🛑 STOPPING QUEUE PROCESSOR")
+    print("=" * 30)
+
+    try:
+        service.stop_queue_processor()
+        print("✅ Queue processor stopped successfully")
+
+    except Exception as e:
+        print(f"❌ Error stopping queue processor: {e}")
+
+    return True
 
 
 def handle_contract_commands(args):
@@ -144,8 +219,16 @@ def handle_get_next_task(args):
 
 
 def get_contract_service():
-    """Get initialized contract service."""
-    return ContractService()
+    """Get initialized contract service with file locking."""
+    # Use same lock configuration as messaging core
+    lock_config = LockConfig(
+        timeout_seconds=30.0,
+        retry_interval=0.1,
+        max_retries=300,
+        cleanup_interval=60.0,
+        stale_lock_age=300.0
+    )
+    return ContractService(lock_config)
 
 
 def handle_check_status():
@@ -259,23 +342,58 @@ def handle_message_commands(args, service):
 
 
 def main():
-    """Main CLI entry point - now clean and under 30 lines."""
-    parser = create_parser()
-    args = parser.parse_args()
+    """Main CLI entry point with comprehensive validation."""
+    try:
+        # Parse and validate arguments
+        args, validator = validate_and_parse_args()
 
-    # Initialize messaging service
-    service = UnifiedMessagingCore()
+        # Load configuration with precedence
+        config = load_config_with_precedence()
 
-    # Handle commands in priority order
-    if handle_utility_commands(args, service):
-        return
-    if handle_contract_commands(args):
-        return
-    if handle_onboarding_commands(args, service):
-        return
+        # Apply configuration defaults if not overridden by CLI
+        if not getattr(args, 'sender', None) and 'sender' in config:
+            args.sender = config['sender']
+        if not getattr(args, 'mode', None) and 'mode' in config:
+            args.mode = config['mode']
+        if not getattr(args, 'new_tab_method', None) and 'new_tab_method' in config:
+            args.new_tab_method = config['new_tab_method']
+        if not getattr(args, 'priority', None) and 'priority' in config:
+            args.priority = config['priority']
+        if not getattr(args, 'onboarding_style', None) and 'onboarding_style' in config:
+            args.onboarding_style = config['onboarding_style']
 
-    # Handle message commands (requires --message)
-    handle_message_commands(args, service)
+        # Initialize messaging service
+        service = UnifiedMessagingCore()
+
+        # Handle commands in priority order
+        if handle_utility_commands(args, service):
+            return
+        if handle_contract_commands(args):
+            return
+        if handle_onboarding_commands(args, service):
+            return
+
+        # Handle message commands (requires --message)
+        handle_message_commands(args, service)
+
+    except SystemExit as e:
+        # Re-raise SystemExit to maintain exit codes
+        sys.exit(e.code)
+    except KeyboardInterrupt:
+        print("\n⚠️  Operation cancelled by user", file=sys.stderr)
+        sys.exit(130)
+    except Exception as e:
+        # Handle unexpected errors
+        error = ValidationError(
+            code=CLIValidator.EXIT_INTERNAL_ERROR,
+            message="Unexpected error in CLI execution",
+            hint="Check logs with correlation ID",
+            correlation_id=str(uuid.uuid4())[:8],
+            timestamp=datetime.now(),
+            details={"exception": str(e)}
+        )
+        validator = CLIValidator()
+        validator.exit_with_error(error)
 
 
 if __name__ == "__main__":

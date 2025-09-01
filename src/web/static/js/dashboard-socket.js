@@ -113,63 +113,18 @@ function updateConnectionStatus(status) {
     }
 }
 
-/**
- * Hide loading state
- */
-function hideLoadingState() {
-    const loadingState = document.getElementById('loadingState');
-    if (loadingState) {
-        loadingState.style.display = 'none';
-    }
-}
+// ================================
+// IMPORT DEPENDENCIES
+// ================================
 
-/**
- * Show alert message
- */
-function showAlert(type, message) {
-    const alertContainer = document.getElementById('alertContainer') || createAlertContainer();
+import { hideLoadingState, showAlert } from './dashboard-ui-helpers.js';
 
-    const alert = document.createElement('div');
-    alert.className = `alert alert-${type}`;
-    alert.innerHTML = `
-        <span class="alert-icon">${type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
-        <span class="alert-message">${message}</span>
-        <button class="alert-close" onclick="this.parentElement.remove()">×</button>
-    `;
+// ================================
+// UI HELPER FUNCTIONS
+// ================================
 
-    alertContainer.appendChild(alert);
-
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-        if (alert.parentElement) {
-            alert.remove();
-        }
-    }, 5000);
-}
-
-/**
- * Create alert container if it doesn't exist
- */
-function createAlertContainer() {
-    const container = document.createElement('div');
-    container.id = 'alertContainer';
-    container.className = 'alert-container';
-    document.body.appendChild(container);
-    return container;
-}
-
-/**
- * Show refresh indicator
- */
-function showRefreshIndicator() {
-    const indicator = document.getElementById('refreshIndicator');
-    if (indicator) {
-        indicator.style.display = 'block';
-        setTimeout(() => {
-            indicator.style.display = 'none';
-        }, 1000);
-    }
-}
+// Note: hideLoadingState and showAlert functions moved to dashboard-ui-helpers.js to eliminate duplication
+// Note: createAlertContainer and showRefreshIndicator functions centralized to eliminate duplication
 
 /**
  * Update charts with new data

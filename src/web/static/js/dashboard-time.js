@@ -19,17 +19,15 @@ const TIME_UPDATE_INTERVAL = 1000; // 1 second
 // TIME FUNCTIONS
 // ================================
 
-/**
- * Update current time display
- * EXTRACTED from dashboard.js for V2 compliance
- */
-export function updateCurrentTime() {
-    const timeElement = document.getElementById('currentTime');
-    if (timeElement) {
-        const now = new Date();
-        timeElement.textContent = now.toLocaleTimeString();
-    }
-}
+// ================================
+// IMPORT DEPENDENCIES
+// ================================
+
+import { updateCurrentTime } from './dashboard-ui-helpers.js';
+
+// ================================
+// TIME MANAGEMENT FUNCTIONS
+// ================================
 
 /**
  * Start time update interval

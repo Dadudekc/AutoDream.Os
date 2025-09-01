@@ -12,15 +12,18 @@ License: MIT
 
 import os
 import json
-from typing import Dict, Any
+from typing import Dict, Any, Optional
+
+from ..core.file_lock import FileLockManager, LockConfig
 
 
 class ContractService:
     """Dedicated service for contract operations."""
 
-    def __init__(self):
+    def __init__(self, lock_config: Optional[LockConfig] = None):
         """Initialize contract service."""
         self.contracts = self._get_contract_definitions()
+        self.lock_manager = FileLockManager(lock_config)
 
     def _get_contract_definitions(self) -> Dict[str, Dict[str, Any]]:
         """Get contract definitions from SSOT."""
@@ -112,11 +115,17 @@ class ContractService:
             status_file = f"agent_workspaces/{agent_id}/status.json"
             if os.path.exists(status_file):
                 try:
-                    with open(status_file, 'r') as f:
-                        status = json.load(f)
-                    print(f"✅ {agent_id}: {status.get('status', 'UNKNOWN')} - {status.get('current_mission', 'No mission')}")
-                except:
-                    print(f"⚠️ {agent_id}: Status file exists but unreadable")
+                    # Use direct file reading instead of atomic_read to avoid lock issues
+                    with open(status_file, 'r', encoding='utf-8') as f:
+                        status_content = f.read()
+                    
+                    if status_content:
+                        status = json.loads(status_content)
+                        print(f"✅ {agent_id}: {status.get('status', 'UNKNOWN')} - {status.get('current_mission', 'No mission')}")
+                    else:
+                        print(f"⚠️ {agent_id}: Status file exists but is empty")
+                except Exception as e:
+                    print(f"⚠️ {agent_id}: Status file exists but unreadable - {str(e)}")
             else:
                 print(f"❌ {agent_id}: No status file found")
 

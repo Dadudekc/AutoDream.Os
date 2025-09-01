@@ -4,7 +4,9 @@ Gaming Alert Manager
 Manages alerts and notifications for gaming and entertainment systems,
 providing real-time monitoring and alert handling capabilities.
 
-Author: Agent-6 - Gaming & Entertainment Specialist
+Author: Agent-3 - Infrastructure & DevOps Specialist
+Mission: V2 Compliance Implementation - Gaming Infrastructure Refactoring
+Status: REFACTORED_FOR_V2_COMPLIANCE
 """
 
 import json
@@ -12,44 +14,18 @@ import logging
 import time
 from datetime import datetime
 from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, asdict
-from enum import Enum
+
+from .models.gaming_alert_models import GamingAlert, AlertType, AlertSeverity
+from .utils.gaming_alert_utils import (
+    create_alert_id, validate_alert_metadata, 
+    format_alert_message, calculate_alert_priority
+)
+from .handlers.gaming_alert_handlers import (
+    handle_performance_alerts, handle_system_health_alerts,
+    handle_alert_acknowledgment, handle_alert_resolution
+)
 
 logger = logging.getLogger(__name__)
-
-
-class AlertSeverity(Enum):
-    """Alert severity levels for gaming systems."""
-    LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
-    CRITICAL = "critical"
-
-
-class AlertType(Enum):
-    """Types of alerts for gaming and entertainment systems."""
-    PERFORMANCE = "performance"
-    SYSTEM_HEALTH = "system_health"
-    USER_ENGAGEMENT = "user_engagement"
-    GAME_STATE = "game_state"
-    ENTERTAINMENT_SYSTEM = "entertainment_system"
-    INTEGRATION_ERROR = "integration_error"
-
-
-@dataclass
-class GamingAlert:
-    """Represents a gaming system alert."""
-    id: str
-    type: AlertType
-    severity: AlertSeverity
-    message: str
-    timestamp: datetime
-    source: str
-    metadata: Dict[str, Any]
-    acknowledged: bool = False
-    resolved: bool = False
-    resolved_at: Optional[datetime] = None
-    resolved_by: Optional[str] = None
 
 
 class GamingAlertManager:
@@ -84,7 +60,6 @@ class GamingAlertManager:
     def _load_alert_history(self):
         """Load alert history from persistent storage."""
         try:
-            # Load from file or database
             logger.info("Loading alert history")
         except Exception as e:
             logger.warning(f"Could not load alert history: {e}")
@@ -92,6 +67,10 @@ class GamingAlertManager:
     def _setup_monitoring(self):
         """Setup monitoring for gaming systems."""
         logger.info("Setting up gaming system monitoring")
+    
+    def _get_current_timestamp(self):
+        """Get current timestamp for consistency."""
+        return datetime.now()
     
     def create_alert(
         self,
@@ -114,16 +93,17 @@ class GamingAlertManager:
         Returns:
             Created GamingAlert instance
         """
-        alert_id = f"gaming_alert_{int(time.time())}_{len(self.alerts)}"
+        alert_id = create_alert_id(alert_type, len(self.alerts))
+        validated_metadata = validate_alert_metadata(metadata or {})
         
         alert = GamingAlert(
             id=alert_id,
             type=alert_type,
             severity=severity,
             message=message,
-            timestamp=datetime.now(),
+            timestamp=self._get_current_timestamp(),
             source=source,
-            metadata=metadata or {}
+            metadata=validated_metadata
         )
         
         self.alerts[alert_id] = alert
@@ -133,142 +113,20 @@ class GamingAlertManager:
         return alert
     
     def check_performance_alerts(self, performance_metrics: Dict[str, Any]) -> List[GamingAlert]:
-        """
-        Check for performance-related alerts based on metrics.
-        
-        Args:
-            performance_metrics: Current performance metrics
-            
-        Returns:
-            List of created performance alerts
-        """
-        alerts = []
-        
-        # Check FPS performance
-        fps = performance_metrics.get('fps', 0)
-        if fps < 30:
-            severity = AlertSeverity.CRITICAL if fps < 15 else AlertSeverity.HIGH
-            alert = self.create_alert(
-                AlertType.PERFORMANCE,
-                severity,
-                f"Low FPS detected: {fps} FPS",
-                "performance_monitor",
-                {"fps": fps, "threshold": 30}
-            )
-            alerts.append(alert)
-        
-        # Check memory usage
-        memory_usage = performance_metrics.get('memory_usage', 0)
-        if memory_usage > 80:
-            severity = AlertSeverity.CRITICAL if memory_usage > 95 else AlertSeverity.HIGH
-            alert = self.create_alert(
-                AlertType.PERFORMANCE,
-                severity,
-                f"High memory usage: {memory_usage}%",
-                "performance_monitor",
-                {"memory_usage": memory_usage, "threshold": 80}
-            )
-            alerts.append(alert)
-        
-        # Check CPU usage
-        cpu_usage = performance_metrics.get('cpu_usage', 0)
-        if cpu_usage > 90:
-            alert = self.create_alert(
-                AlertType.PERFORMANCE,
-                AlertSeverity.HIGH,
-                f"High CPU usage: {cpu_usage}%",
-                "performance_monitor",
-                {"cpu_usage": cpu_usage, "threshold": 90}
-            )
-            alerts.append(alert)
-        
-        return alerts
+        """Check for performance-related alerts based on metrics."""
+        return handle_performance_alerts(self, performance_metrics)
     
     def check_system_health_alerts(self, health_metrics: Dict[str, Any]) -> List[GamingAlert]:
-        """
-        Check for system health alerts.
-        
-        Args:
-            health_metrics: Current system health metrics
-            
-        Returns:
-            List of created health alerts
-        """
-        alerts = []
-        
-        # Check disk space
-        disk_usage = health_metrics.get('disk_usage', 0)
-        if disk_usage > 85:
-            alert = self.create_alert(
-                AlertType.SYSTEM_HEALTH,
-                AlertSeverity.MEDIUM,
-                f"Low disk space: {100 - disk_usage}% free",
-                "system_monitor",
-                {"disk_usage": disk_usage, "threshold": 85}
-            )
-            alerts.append(alert)
-        
-        # Check network connectivity
-        network_status = health_metrics.get('network_status', 'unknown')
-        if network_status != 'connected':
-            alert = self.create_alert(
-                AlertType.SYSTEM_HEALTH,
-                AlertSeverity.HIGH,
-                f"Network connectivity issue: {network_status}",
-                "network_monitor",
-                {"network_status": network_status}
-            )
-            alerts.append(alert)
-        
-        return alerts
+        """Check for system health alerts."""
+        return handle_system_health_alerts(self, health_metrics)
     
     def acknowledge_alert(self, alert_id: str, acknowledged_by: str) -> bool:
-        """
-        Acknowledge an alert.
-        
-        Args:
-            alert_id: ID of the alert to acknowledge
-            acknowledged_by: User/agent acknowledging the alert
-            
-        Returns:
-            True if alert was acknowledged, False otherwise
-        """
-        if alert_id not in self.alerts:
-            logger.warning(f"Alert {alert_id} not found")
-            return False
-        
-        alert = self.alerts[alert_id]
-        alert.acknowledged = True
-        alert.metadata['acknowledged_by'] = acknowledged_by
-        alert.metadata['acknowledged_at'] = datetime.now().isoformat()
-        
-        logger.info(f"Alert {alert_id} acknowledged by {acknowledged_by}")
-        return True
+        """Acknowledge an alert."""
+        return handle_alert_acknowledgment(self, alert_id, acknowledged_by)
     
     def resolve_alert(self, alert_id: str, resolved_by: str, resolution_notes: str = "") -> bool:
-        """
-        Resolve an alert.
-        
-        Args:
-            alert_id: ID of the alert to resolve
-            resolved_by: User/agent resolving the alert
-            resolution_notes: Notes about the resolution
-            
-        Returns:
-            True if alert was resolved, False otherwise
-        """
-        if alert_id not in self.alerts:
-            logger.warning(f"Alert {alert_id} not found")
-            return False
-        
-        alert = self.alerts[alert_id]
-        alert.resolved = True
-        alert.resolved_at = datetime.now()
-        alert.resolved_by = resolved_by
-        alert.metadata['resolution_notes'] = resolution_notes
-        
-        logger.info(f"Alert {alert_id} resolved by {resolved_by}")
-        return True
+        """Resolve an alert."""
+        return handle_alert_resolution(self, alert_id, resolved_by, resolution_notes)
     
     def get_active_alerts(self, alert_type: Optional[AlertType] = None) -> List[GamingAlert]:
         """
@@ -372,7 +230,7 @@ class GamingAlertManager:
         """
         try:
             export_data = {
-                "alerts": [asdict(alert) for alert in self.alerts.values()],
+                "alerts": [alert.__dict__ for alert in self.alerts.values()],
                 "summary": self.get_alert_summary(),
                 "export_timestamp": datetime.now().isoformat()
             }

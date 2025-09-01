@@ -65,8 +65,8 @@ Examples:
     # Message properties
     parser.add_argument("--type", "-t", default="text", choices=["text", "broadcast", "onboarding"],
                        help="Message type (default: text)")
-    parser.add_argument("--priority", "-p", default="normal", choices=["normal", "urgent"],
-                       help="Message priority (default: normal)")
+    parser.add_argument("--priority", "-p", default="regular", choices=["regular", "urgent"],
+                       help="Message priority (default: regular)")
     parser.add_argument("--high-priority", action="store_true", help="Set message as high priority (overrides --priority)")
     
     # Delivery options
@@ -201,7 +201,7 @@ def handle_wrapup_command(args, service):
         content=wrapup_content,
         sender="Captain Agent-4",
         message_type=UnifiedMessageType.BROADCAST,
-        priority=UnifiedMessagePriority.NORMAL,
+        priority=UnifiedMessagePriority.REGULAR,
         tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.WRAPUP],
         mode=args.mode,
         use_paste=True,

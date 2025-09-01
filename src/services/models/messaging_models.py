@@ -25,7 +25,7 @@ class UnifiedMessageType(Enum):
 
 class UnifiedMessagePriority(Enum):
     """Message priority levels."""
-    NORMAL = "normal"
+    REGULAR = "regular"
     URGENT = "urgent"
 
 
@@ -50,7 +50,7 @@ class UnifiedMessage:
     sender: str
     recipient: str
     message_type: UnifiedMessageType = UnifiedMessageType.TEXT
-    priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL
+    priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
     tags: List[UnifiedMessageTag] = None
     metadata: Dict[str, Any] = None
     timestamp: datetime = None

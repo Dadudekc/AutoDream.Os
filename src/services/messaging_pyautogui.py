@@ -104,7 +104,7 @@ class PyAutoGUIMessagingDelivery:
                         time.sleep(0.1)
                 print(f"⌨️ TYPED MESSAGE TO {recipient} WITH PROPER FORMATTING")
 
-            # Send the message - use Ctrl+Enter for high priority, regular Enter for normal
+            # Send the message - use Ctrl+Enter for urgent priority, regular Enter for regular
             from .models.messaging_models import UnifiedMessagePriority
             if message.priority == UnifiedMessagePriority.URGENT:
                 # High priority: Send with Ctrl+Enter twice

@@ -1,0 +1,68 @@
+---
+description: PyAutoGUI delivery operations and timing standards
+globs:
+  - "src/services/messaging_pyautogui.py"
+  - "**/pyautogui*.py"
+alwaysApply: true
+---
+
+## **🎯 PYAUTOGUI OPERATION SEQUENCE**
+### **Required Operation Order**:
+1. **Coordinate Navigation**: `pyautogui.moveTo(coords, duration=0.5)`
+2. **Window Focus**: `pyautogui.click()`
+3. **Stabilization Pause**: `time.sleep(0.5)`
+4. **Content Clearing**: `pyautogui.hotkey('ctrl', 'a')` → `pyautogui.press('delete')`
+5. **Tab Creation**: `pyautogui.hotkey('ctrl', 't')` or `pyautogui.hotkey('ctrl', 'n')`
+6. **Tab Load Wait**: `time.sleep(1.0)`
+7. **Content Delivery**: Paste or type content
+8. **Message Send**: `pyautogui.press('enter')`
+
+## **⏱️ TIMING REQUIREMENTS**
+### **Fixed Delays** (must be maintained):
+- **Move duration**: 0.5 seconds
+- **Focus stabilization**: 0.5 seconds
+- **Clear operations**: 0.1 seconds each
+- **Tab creation wait**: 1.0 seconds
+- **Paste preparation**: 1.0 seconds
+- **Inter-agent delay**: 1.0 seconds
+
+### **Error Handling Delays**:
+- **Retry attempts**: Maximum 3 attempts
+- **Exponential backoff**: Base delay × 2^attempt
+- **Failure timeout**: 30 seconds maximum
+
+## **🎮 PYAUTOGUI FLAGS & PARAMETERS**
+### **Core Parameters**:
+- `use_paste=True` (default): Fast clipboard delivery
+- `use_paste=False`: Character-by-character typing
+- `new_tab_method="ctrl_t"` (default): New tab creation
+- `new_tab_method="ctrl_n"`: New window creation
+
+### **Performance Settings**:
+- **Typing interval**: 0.01 seconds per character
+- **Move duration**: 0.5 seconds for smooth movement
+- **Click stabilization**: 0.5 seconds after focus
+
+## **🚨 ERROR HANDLING REQUIREMENTS**
+### **PyAutoGUI Failures**:
+- **Import errors**: Graceful fallback to inbox mode
+- **Coordinate errors**: Validate coordinates before movement
+- **Timing errors**: Implement retry with backoff
+- **Focus errors**: Re-attempt focus with delay
+
+### **Validation Checks**:
+- **PyAutoGUI availability**: Check before operations
+- **Pyperclip availability**: Verify for paste operations
+- **Coordinate validity**: Ensure within screen bounds
+- **Window focus**: Confirm target window is active
+
+## **🔧 OPTIMIZATION OPPORTUNITIES**
+### **Adaptive Timing**:
+- **System performance detection**: Adjust delays based on hardware
+- **Network latency compensation**: Add buffers for slow systems
+- **Load balancing**: Distribute operations across time slots
+
+### **Parallel Processing**:
+- **Non-urgent messages**: Allow concurrent delivery
+- **Batch operations**: Group similar operations
+- **Resource pooling**: Reuse PyAutoGUI instances

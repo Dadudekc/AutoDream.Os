@@ -3,6 +3,7 @@ import types
 from pathlib import Path
 from datetime import datetime
 import pytest
+from src.utils.config_core import get_config
 
 # Repository root used for fsm package stubbing
 ROOT = Path(__file__).resolve().parents[2]

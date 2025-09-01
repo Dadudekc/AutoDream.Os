@@ -1,0 +1,105 @@
+---
+description: CLI flag validation and combination rules
+globs:
+  - "src/services/messaging_cli.py"
+  - "**/messaging_cli.py"
+alwaysApply: true
+---
+
+## **🚩 CLI FLAG VALIDATION RULES**
+### **Mutually Exclusive Flags**:
+- `--agent/-a` **XOR** `--bulk`: Cannot use both simultaneously
+- `--onboarding` conflicts with `--agent` (onboarding is always bulk)
+- `--wrapup` conflicts with `--agent` (wrapup is always bulk)
+
+### **Required Flag Combinations**:
+- `--get-next-task` **REQUIRES** `--agent`
+- `--message/-m` required for standard message sending
+- `--onboard` **REQUIRES** `--agent`
+
+### **Conditional Requirements**:
+- `--high-priority` overrides `--priority` (warning issued)
+- `--no-paste` only affects `pyautogui` mode
+- `--new-tab-method` only affects `pyautogui` mode
+
+## **📋 FLAG PROCESSING ORDER**
+### **CLI Argument Processing**:
+1. **Parse arguments** with argparse
+2. **Validate flag combinations**
+3. **Handle utility commands** (list-agents, coordinates, history)
+4. **Process special commands** (onboarding, wrapup, get-next-task)
+5. **Validate message requirements**
+6. **Set delivery parameters**
+7. **Execute delivery operation**
+
+## **🎯 SPECIAL COMMAND BEHAVIOR**
+### **Utility Commands** (no message required):
+```bash
+--list-agents          # Lists all agents with details
+--coordinates          # Shows coordinate positions
+--history             # Shows message history
+--check-status        # Shows agent and contract status
+```
+
+### **Contract Commands**:
+```bash
+--get-next-task --agent Agent-X    # Claims next contract
+--check-status                     # Shows availability
+```
+
+### **Bulk Commands**:
+```bash
+--onboarding                       # Onboards all agents
+--wrapup                          # Sends wrapup to all
+--onboarding-style friendly       # Sets style (default: friendly)
+```
+
+## **🔄 FLAG STATE MANAGEMENT**
+### **Default Values**:
+- `sender`: "Captain Agent-4"
+- `type`: "text"
+- `priority`: "normal"
+- `mode`: "pyautogui"
+- `use_paste`: True
+- `new_tab_method`: "ctrl_t"
+
+### **Flag Override Rules**:
+- `--high-priority` → sets priority to "urgent"
+- `--no-paste` → sets use_paste to False
+- `--onboarding-style` → affects onboarding content only
+
+## **🚨 ERROR HANDLING**
+### **Common Validation Errors**:
+- **Missing --agent with --get-next-task**: "❌ ERROR: --agent is required with --get-next-task"
+- **Missing --message**: "❌ ERROR: --message/-m is required for sending messages"
+- **Invalid combinations**: "❌ ERROR: Cannot use --bulk with specific --agent"
+
+### **Recovery Actions**:
+- **Show usage examples** for common errors
+- **Suggest correct flag combinations**
+- **Provide help text** with --help flag
+
+## **📝 USAGE EXAMPLES**
+### **Valid Combinations**:
+```bash
+# Send to specific agent
+python -m src.services.messaging_cli -a Agent-5 -m "Hello"
+
+# Send bulk message
+python -m src.services.messaging_cli --bulk -m "System update"
+
+# Get contract
+python -m src.services.messaging_cli --agent Agent-7 --get-next-task
+
+# List agents
+python -m src.services.messaging_cli --list-agents
+```
+
+### **Invalid Combinations**:
+```bash
+# ERROR: Both agent and bulk
+python -m src.services.messaging_cli -a Agent-5 --bulk -m "Test"
+
+# ERROR: Missing agent for contract
+python -m src.services.messaging_cli --get-next-task
+```

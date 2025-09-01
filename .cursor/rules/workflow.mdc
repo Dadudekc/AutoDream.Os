@@ -1,0 +1,41 @@
+---
+description: Git workflow and collaboration standards
+globs:
+  - "**"
+alwaysApply: true
+---
+
+## **🔄 GIT WORKFLOW**
+- Commit messages must follow conventional format:
+  - `feat: short description` - New features
+  - `fix: short description` - Bug fixes
+  - `docs: short description` - Documentation updates
+  - `refactor: short description` - Code refactoring
+  - `test: short description` - Testing updates
+  - `chore: short description` - Maintenance tasks
+
+## **🔍 PRE-COMMIT REQUIREMENTS**
+- Run linting and tests before every commit
+- Fix all linting errors before committing
+- Ensure tests pass locally
+- Check code formatting
+
+## **🔄 PULL REQUEST PROCESS**
+- PRs must pass code review before merge
+- PRs must pass CI checks (lint, test, build)
+- Split large features into smaller, incremental PRs
+- Include clear description of changes
+- Reference related issues/tickets
+
+## **🚀 RELEASE PROCESS**
+- Use semantic versioning (major.minor.patch)
+- Update CHANGELOG.md for significant updates
+- Tag releases appropriately
+- Deploy through established CI/CD pipeline
+
+## **🔀 BRANCH STRATEGY**
+- `main`/`master`: Production-ready code
+- `develop`: Integration branch
+- Feature branches: `feat/feature-name`
+- Bugfix branches: `fix/issue-description`
+- Release branches: `release/v1.2.3`

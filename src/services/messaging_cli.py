@@ -19,6 +19,7 @@ from .models.messaging_models import (
     UnifiedMessageTag,
 )
 from .messaging_core import UnifiedMessagingCore
+from .contract_service import ContractService
 
 
 def create_parser():
@@ -65,6 +66,8 @@ Examples:
     parser.add_argument("--mode", default="pyautogui", choices=["pyautogui", "inbox"],
                        help="Delivery mode (default: pyautogui)")
     parser.add_argument("--no-paste", action="store_true", help="Disable paste mode (use typing instead)")
+    parser.add_argument("--new-tab-method", default="ctrl_t", choices=["ctrl_t", "ctrl_n"],
+                       help="New tab method for PyAutoGUI mode (default: ctrl_t)")
     
     # Utility commands
     parser.add_argument("--list-agents", action="store_true", help="List all available agents")
@@ -74,8 +77,8 @@ Examples:
     parser.add_argument("--check-status", action="store_true", help="Check status of all agents and contract availability")
     
     # Onboarding commands
-    parser.add_argument("--onboarding", action="store_true", help="Send onboarding message to all agents")
-    parser.add_argument("--onboard", action="store_true", help="Send onboarding message to specific agent")
+    parser.add_argument("--onboarding", action="store_true", help="Send onboarding message to all agents (SSOT template)")
+    parser.add_argument("--onboard", action="store_true", help="Send onboarding message to specific agent (SSOT template)")
     parser.add_argument("--onboarding-style", default="friendly", choices=["friendly", "professional"],
                        help="Onboarding message style (default: friendly)")
     
@@ -85,184 +88,91 @@ Examples:
     return parser
 
 
-def main():
-    """Main CLI entry point."""
-    parser = create_parser()
-    args = parser.parse_args()
-    
-    # Initialize messaging service
-    service = UnifiedMessagingCore()
-    
-    # Handle utility commands first
+def handle_utility_commands(args, service):
+    """Handle utility commands that don't require message content."""
     if args.list_agents:
         service.list_agents()
-        return
-    
+        return True
+
     if args.coordinates:
         service.show_coordinates()
-        return
-    
+        return True
+
     if args.history:
         service.show_message_history()
-        return
-    
-    # Handle contract system commands
+        return True
+
+    return False
+
+
+def handle_contract_commands(args):
+    """Handle contract system commands."""
     if args.get_next_task:
-        if not args.agent:
-            print("❌ ERROR: --agent is required with --get-next-task")
-            print("Usage: python -m src.services.messaging_cli --agent Agent-X --get-next-task")
-            sys.exit(1)
-        
-        print(f"🎯 CONTRACT TASK ASSIGNMENT - {args.agent}")
-        print("=" * 50)
-        
-        # Define available contracts based on agent specialization
-        contracts = {
-            "Agent-5": {
-                "name": "V2 Compliance Business Intelligence Analysis",
-                "category": "Business Intelligence",
-                "priority": "HIGH",
-                "points": 425,
-                "description": "Analyze business intelligence systems for V2 compliance optimization"
-            },
-            "Agent-7": {
-                "name": "Web Development V2 Compliance Implementation", 
-                "category": "Web Development",
-                "priority": "HIGH",
-                "points": 685,
-                "description": "Implement V2 compliance for web development components and systems"
-            },
-            "Agent-1": {
-                "name": "Integration & Core Systems V2 Compliance",
-                "category": "Integration & Core Systems",
-                "priority": "HIGH", 
-                "points": 600,
-                "description": "Implement V2 compliance for integration and core systems"
-            },
-            "Agent-2": {
-                "name": "Architecture & Design V2 Compliance",
-                "category": "Architecture & Design",
-                "priority": "HIGH",
-                "points": 550,
-                "description": "Implement V2 compliance for architecture and design systems"
-            },
-            "Agent-3": {
-                "name": "Infrastructure & DevOps V2 Compliance",
-                "category": "Infrastructure & DevOps", 
-                "priority": "HIGH",
-                "points": 575,
-                "description": "Implement V2 compliance for infrastructure and DevOps systems"
-            },
-            "Agent-6": {
-                "name": "Coordination & Communication V2 Compliance",
-                "category": "Coordination & Communication",
-                "priority": "HIGH",
-                "points": 500,
-                "description": "Implement V2 compliance for coordination and communication systems"
-            },
-            "Agent-8": {
-                "name": "SSOT Maintenance & System Integration V2 Compliance",
-                "category": "SSOT & System Integration",
-                "priority": "HIGH",
-                "points": 650,
-                "description": "Implement V2 compliance for SSOT maintenance and system integration"
-            }
-        }
-        
-        if args.agent in contracts:
-            contract = contracts[args.agent]
-            print(f"✅ CONTRACT ASSIGNED: {contract['name']}")
-            print(f"📋 Category: {contract['category']}")
-            print(f"🎯 Priority: {contract['priority']}")
-            print(f"⭐ Points: {contract['points']}")
-            print(f"📝 Description: {contract['description']}")
-            print()
-            print("🚀 IMMEDIATE ACTIONS REQUIRED:")
-            print("1. Begin task execution immediately")
-            print("2. Maintain V2 compliance standards")
-            print("3. Provide daily progress reports via inbox")
-            print("4. Coordinate with other agents as needed")
-            print()
-            print("📧 Send status updates to Captain Agent-4 via inbox")
-            print("⚡ WE. ARE. SWARM.")
-        else:
-            print(f"❌ ERROR: No contracts available for {args.agent}")
-            print("Available agents: " + ", ".join(contracts.keys()))
-        return
-    
-    if args.check_status:
-        print("📊 AGENT STATUS & CONTRACT AVAILABILITY")
-        print("=" * 50)
-        
-        # Check agent status files
-        agent_workspaces = [
-            "Agent-1", "Agent-2", "Agent-3", "Agent-5", 
-            "Agent-6", "Agent-7", "Agent-8", "Agent-4"
-        ]
-        
-        for agent_id in agent_workspaces:
-            status_file = f"agent_workspaces/{agent_id}/status.json"
-            if os.path.exists(status_file):
-                try:
-                    import json
-                    with open(status_file, 'r') as f:
-                        status = json.load(f)
-                    print(f"✅ {agent_id}: {status.get('status', 'UNKNOWN')} - {status.get('current_mission', 'No mission')}")
-                except:
-                    print(f"⚠️ {agent_id}: Status file exists but unreadable")
-            else:
-                print(f"❌ {agent_id}: No status file found")
-        
-        print()
-        print("🎯 CONTRACT SYSTEM STATUS: READY FOR ASSIGNMENT")
-        print("📋 Available contracts: 40+ contracts across all categories")
-        print("🚀 Use --get-next-task with --agent to claim assignments")
-        return
-    
-    # Handle onboarding commands
+        return handle_get_next_task(args)
+    elif args.check_status:
+        return handle_check_status()
+    return False
+
+
+def handle_get_next_task(args):
+    """Handle get-next-task command with contract assignment."""
+    if not args.agent:
+        print("❌ ERROR: --agent is required with --get-next-task")
+        print("Usage: python -m src.services.messaging_cli --agent Agent-X --get-next-task")
+        sys.exit(1)
+
+    print(f"🎯 CONTRACT TASK ASSIGNMENT - {args.agent}")
+    print("=" * 50)
+
+    contract_service = get_contract_service()
+    contract = contract_service.get_contract(args.agent)
+
+    if contract:
+        contract_service.display_contract_assignment(args.agent, contract)
+    else:
+        contracts = contract_service.contracts
+        print(f"❌ ERROR: No contracts available for {args.agent}")
+        print("Available agents: " + ", ".join(contracts.keys()))
+    return True
+
+
+def get_contract_service():
+    """Get initialized contract service."""
+    return ContractService()
+
+
+def handle_check_status():
+    """Handle check-status command."""
+    contract_service = get_contract_service()
+    contract_service.check_agent_status()
+    return True
+
+
+def handle_onboarding_commands(args, service):
+    """Handle onboarding-related commands."""
     if args.onboarding:
-        print("🚨 BULK ONBOARDING ACTIVATED")
-        onboarding_content = """🎯 **ONBOARDING - FRIENDLY MODE** 🎯
+        # Delegate to core bulk onboarding using SSOT template
+        service.send_bulk_onboarding(style=args.onboarding_style, mode=args.mode)
+        return True
 
-**Agent**: {agent_id}
-**Role**: {description}
-**Captain**: Agent-4 - Strategic Oversight & Emergency Intervention Manager
+    if args.onboard:
+        if not args.agent:
+            print("❌ ERROR: --agent is required with --onboard")
+            print("Usage: python -m src.services.messaging_cli --onboard --agent Agent-X [--onboarding-style friendly|professional] [--mode inbox|pyautogui]")
+            sys.exit(1)
+        service.send_onboarding_message(agent_id=args.agent, style=args.onboarding_style, mode=args.mode)
+        return True
 
-**WELCOME TO THE SWARM!** 🚀
-
-**MISSION OBJECTIVES**:
-1. **Active Participation**: Engage in perpetual motion workflow
-2. **Task Completion**: Efficiently complete assigned contracts
-3. **System Compliance**: Follow V2 coding standards
-4. **Team Coordination**: Maintain communication with Captain
-
-**SUPPORT SYSTEMS**:
-- ✅ **Contract System**: Use --get-next-task for immediate task claiming
-- ✅ **Messaging System**: PyAutoGUI coordination with Captain
-- ✅ **Status Tracking**: Regular progress updates
-- ✅ **Emergency Protocols**: Available for crisis intervention
-
-**READY FOR**: Cycle 1 task assignments and strategic operations
-
-**Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager**
-
-**WE. ARE. SWARM.** ⚡️🔥"""
-        
-        service.send_to_all_agents(
-            content=onboarding_content,
-            sender="Captain Agent-4",
-            message_type=UnifiedMessageType.ONBOARDING,
-            priority=UnifiedMessagePriority.URGENT,
-            tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
-            metadata={"onboarding_style": args.onboarding_style, "comprehensive": True},
-            mode=args.mode,
-            use_paste=True,
-        )
-        return
-    
     if args.wrapup:
-        print("🏁 WRAPUP SEQUENCE ACTIVATED")
-        wrapup_content = """🚨 **CAPTAIN AGENT-4 - AGENT ACTIVATION & WRAPUP** 🚨
+        return handle_wrapup_command(args, service)
+
+    return False
+
+
+def handle_wrapup_command(args, service):
+    """Handle wrapup command."""
+    print("🏁 WRAPUP SEQUENCE ACTIVATED")
+    wrapup_content = """🚨 **CAPTAIN AGENT-4 - AGENT ACTIVATION & WRAPUP** 🚨
 
 **Captain**: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 **Status**: Agent activation and system wrapup
@@ -279,31 +189,35 @@ def main():
 **Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager**
 
 **WE. ARE. SWARM.** ⚡️🔥"""
-        
-        service.send_to_all_agents(
-            content=wrapup_content,
-            sender="Captain Agent-4",
-            message_type=UnifiedMessageType.BROADCAST,
-            priority=UnifiedMessagePriority.NORMAL,
-            tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.WRAPUP],
-            mode=args.mode,
-            use_paste=True,
-        )
-        return
-    
+
+    service.send_to_all_agents(
+        content=wrapup_content,
+        sender="Captain Agent-4",
+        message_type=UnifiedMessageType.BROADCAST,
+        priority=UnifiedMessagePriority.NORMAL,
+        tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.WRAPUP],
+        mode=args.mode,
+        use_paste=True,
+    )
+    return True
+
+
+def handle_message_commands(args, service):
+    """Handle regular message sending commands."""
     # Check if message is required for sending
     if not args.message:
         print("❌ ERROR: --message/-m is required for sending messages")
         print("Use --list-agents, --coordinates, --history, --onboarding, --onboard, or --wrapup for utility commands")
         sys.exit(1)
-    
+
     # Determine message type and priority
     message_type = UnifiedMessageType(args.type)
     priority = UnifiedMessagePriority.URGENT if args.high_priority else UnifiedMessagePriority(args.priority)
-    
-    # Determine paste mode
+
+    # Determine paste mode and new tab method
     use_paste = not args.no_paste
-    
+    new_tab_method = args.new_tab_method
+
     # Send message
     if args.bulk:
         # Send to all agents
@@ -315,6 +229,8 @@ def main():
             tags=[UnifiedMessageTag.CAPTAIN],
             mode=args.mode,
             use_paste=use_paste,
+            new_tab_method=new_tab_method,
+            use_new_tab=False,  # Regular messages don't create new tabs
         )
     elif args.agent:
         # Send to specific agent
@@ -327,10 +243,32 @@ def main():
             tags=[UnifiedMessageTag.CAPTAIN],
             mode=args.mode,
             use_paste=use_paste,
+            new_tab_method=new_tab_method,
+            use_new_tab=False,  # Regular messages don't create new tabs
         )
     else:
         print("❌ ERROR: Must specify --agent or --bulk")
         sys.exit(1)
+
+
+def main():
+    """Main CLI entry point - now clean and under 30 lines."""
+    parser = create_parser()
+    args = parser.parse_args()
+
+    # Initialize messaging service
+    service = UnifiedMessagingCore()
+
+    # Handle commands in priority order
+    if handle_utility_commands(args, service):
+        return
+    if handle_contract_commands(args):
+        return
+    if handle_onboarding_commands(args, service):
+        return
+
+    # Handle message commands (requires --message)
+    handle_message_commands(args, service)
 
 
 if __name__ == "__main__":

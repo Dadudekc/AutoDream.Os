@@ -1,0 +1,214 @@
+---
+description: Comprehensive messaging system standards with error handling and optimization guidelines
+globs:
+  - "src/services/messaging*.py"
+  - "src/services/models/messaging_models.py"
+  - "**/messaging*.py"
+alwaysApply: true
+---
+
+## **📋 MESSAGE TYPES, PRIORITIES & TAGS**
+
+### **Message Types** (use UnifiedMessageType enum):
+```python
+class UnifiedMessageType(Enum):
+    TEXT = "text"            # Standard one-to-one or one-to-many text messages
+    BROADCAST = "broadcast"  # Bulk delivery to all agents simultaneously
+    ONBOARDING = "onboarding" # Special type used during initialization
+```
+- **TEXT** → Used for day-to-day communication, instructions, and feedback loops
+- **BROADCAST** → Efficient for mass announcements or synchronized commands across the swarm
+- **ONBOARDING** → Special initialization flow; ensures agents are ready before normal operations
+
+### **Message Priorities** (use UnifiedMessagePriority enum):
+```python
+class UnifiedMessagePriority(Enum):
+    NORMAL = "normal"      # Default for non-critical communication
+    URGENT = "urgent"      # Reserved for onboarding or crisis events
+```
+
+### **Message Tags** (use UnifiedMessageTag enum):
+```python
+class UnifiedMessageTag(Enum):
+    CAPTAIN = "captain"    # Marks origin as Agent-4 (the supervisory entity)
+    ONBOARDING = "onboarding" # Provides scoping context for bootstrapping messages
+    WRAPUP = "wrapup"      # Signals system closure or end-of-cycle summaries
+```
+
+## **🚀 DELIVERY MODE FLAGS**
+
+### **Core Delivery Modes**:
+- `mode="pyautogui"` → Default, using coordinate-based GUI automation
+- `mode="inbox"` → File-based messaging (writes JSON or text directly to inbox directories)
+
+### **PyAutoGUI-Specific Options**:
+- `use_paste=True` → Fast clipboard pasting (default)
+- `use_paste=False` → Falls back to keystroke-by-keystroke delivery
+- `new_tab_method="ctrl_t"` → Opens new browser tab (default)
+- `new_tab_method="ctrl_n"` → Opens a new browser window, useful for agent isolation
+
+### **Timing & Delay Parameters**:
+- **Agent order** → Hardcoded with Agent-4 (Captain) always last
+- **Inter-agent delay** → 1 second pause ensures focus switching stability
+- **Tab creation wait** → 1.0s buffer after spawning tab/window
+- **Paste wait** → 1.0s before pasting ensures clipboard propagation
+
+## **⚙️ CLI COMMAND-LINE FLAGS**
+
+### **Message Content Flags**:
+- `--message/-m` → Required. Defines the content
+- `--sender/-s` → Sets origin (default: "Captain Agent-4")
+
+### **Recipient Flags**:
+- `--agent/-a` → Directs message to specific agent
+- `--bulk` → Overrides to send to all agents
+
+### **Message Property Flags**:
+- `--type/-t` → Message type (text, broadcast, onboarding)
+- `--priority/-p` → Sets priority (normal, urgent)
+- `--high-priority` → Hard override; forces urgent regardless of other flags
+
+### **Delivery Control Flags**:
+- `--mode` → Selects between pyautogui and inbox
+- `--no-paste` → Forces typing rather than clipboard paste
+- `--new-tab-method` → Chooses between `ctrl_t` or `ctrl_n`
+
+### **Special Workflow Flags**:
+- `--onboarding` → Bulk initialization
+- `--onboard` → Single-agent initialization
+- `--onboarding-style` → Friendly vs. Professional tone
+- `--wrapup` → Send end-of-cycle system closure message
+- `--list-agents` → Enumerates available agents
+- `--coordinates` → Displays PyAutoGUI coordinate map
+- `--history` → Shows prior delivery log
+- `--get-next-task` → Queries assigned task for an agent
+- `--check-status` → Collects current status from swarm
+
+## **🔄 ORDER OF OPERATIONS (CRITICAL)**
+
+### **1. CLI Argument Resolution**:
+```
+Parse Flags → Validate Inputs → Configure Message Properties →
+Select Delivery Mode → Set PyAutoGUI Parameters → Execute Delivery
+```
+
+### **2. Message Construction**:
+```
+Instantiate UnifiedMessage → Assign Type/Priority/Tags →
+Attach Metadata (IDs, timestamps) → Persist to History
+```
+
+### **3. Execution Sequence**:
+```
+Focus Target Window → Clear Input → Open Tab/Window →
+Insert Content (paste or type) → Confirm Delivery
+```
+
+### **4. Agent Processing Flow** (must be maintained):
+```
+Agent-1 → Agent-2 → Agent-3 → Agent-5 → Agent-6 → Agent-7 → Agent-8 → Agent-4
+```
+**⚠️ Agent-4 (Captain) is ALWAYS processed LAST for supervisory closure**
+
+## **🎯 PYAUTOGUI OPERATION SEQUENCE**
+
+1. **Navigation** → `moveTo` & `click` to focus target window
+2. **Content Clearing** → `ctrl+a` → delete to clear existing input
+3. **Environment Setup** → Spawn new tab/window with hotkey
+4. **Content Delivery** → Paste from clipboard or type character-by-character
+5. **Execution** → Press enter to finalize message delivery
+
+## **🚨 SYSTEM LIMITATIONS & REQUIRED FIXES**
+
+### **Timing Rigidities** (MUST BE ADDRESSED):
+- ❌ Fixed delays not adaptive to host performance
+- ❌ Clipboard propagation is assumed constant, which may fail
+- ❌ No system performance detection or dynamic adjustment
+
+### **Error Handling Gaps** (CRITICAL):
+- ❌ Failures silently ignored with no visibility
+- ❌ No retry mechanisms for failed deliveries
+- ❌ Missing pre-flight validation (PyAutoGUI availability, coordinates)
+
+### **Flag Logic Weaknesses** (MUST FIX):
+- ❌ `--bulk` and `--agent` conflict unchecked
+- ❌ `--high-priority` doesn't consistently override `--priority`
+- ❌ Default values differ between CLI and core library
+
+### **Sequential Bottlenecks** (PERFORMANCE):
+- ❌ No concurrency for parallel delivery
+- ❌ No conditional ordering based on urgency or agent availability
+- ❌ Linear processing creates unnecessary delays
+
+## **💡 REQUIRED ENHANCEMENTS**
+
+### **1. Adaptive Timing Engine** (IMPLEMENT FIRST):
+```python
+def measure_system_speed():
+    """Benchmarks typing/paste/GUI delay dynamically"""
+    return calibrated_delay
+
+# Use: Replace hardcoded 1.0s delays with adaptive timing
+```
+
+### **2. Resilient Error Handling** (CRITICAL):
+```python
+def send_with_retry(msg, max_retries=3, base_delay=1.0):
+    for attempt in range(max_retries):
+        if send_message(msg):
+            return True
+        time.sleep(base_delay * (2 ** attempt))
+    return False
+```
+
+### **3. Comprehensive Flag Validation** (BLOCKING):
+```python
+def validate_flags(args):
+    if args.bulk and args.agent:
+        raise ValueError("Cannot use --bulk with --agent")
+    if args.high_priority:
+        args.priority = "urgent"  # Force override
+```
+
+### **4. Intelligent Agent Ordering** (PERFORMANCE):
+- **URGENT** → Captain Agent-4 first for crisis response
+- **NORMAL** → Default sequence maintained
+- **Customizable** → Allow override for special operations
+
+### **5. Parallelized Delivery** (SCALING):
+```python
+async def send_parallel(messages, concurrency_limit=3):
+    semaphore = asyncio.Semaphore(concurrency_limit)
+    async def _send(msg):
+        async with semaphore:
+            return await send_message_async(msg)
+    return await asyncio.gather(*[_send(m) for m in messages])
+```
+
+### **6. Monitoring & Logging** (OBSERVABILITY):
+- ✅ Add verbose logging for each step
+- ✅ Persist retry attempts and outcomes
+- ✅ Expose metrics (delivery time, success rate)
+- ✅ Track failure patterns for optimization
+
+## **🛡️ ENFORCEMENT RULES**
+
+### **Prohibited Patterns**:
+- ❌ Hardcoded timing delays (use adaptive system)
+- ❌ Silent error handling (always log and retry)
+- ❌ Missing flag validation (validate all combinations)
+- ❌ Sequential-only delivery (implement parallel options)
+
+### **Required Patterns**:
+- ✅ Pre-flight checks before operations
+- ✅ Comprehensive error handling with retries
+- ✅ Flag combination validation
+- ✅ Performance monitoring and logging
+- ✅ Agent-4 last in all bulk operations
+
+### **Code Review Requirements**:
+- ✅ All new messaging code must include error handling
+- ✅ Timing must be configurable/adaptive, not hardcoded
+- ✅ Flag validation must prevent invalid combinations
+- ✅ Parallel delivery options must be available
+- ✅ Comprehensive logging for debugging and monitoring

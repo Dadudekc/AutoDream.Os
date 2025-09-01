@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 🚨 BULK PYAUTOGUI TEST - Agent Cellphone V2 🚨

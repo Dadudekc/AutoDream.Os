@@ -1,0 +1,114 @@
+---
+description: Agent Swarm protocol and communication standards
+globs:
+  - "agent_workspaces/**"
+  - "**/status.json"
+alwaysApply: true
+---
+
+## **👥 AGENT HIERARCHY & ROLES**
+### **Captain Agent-4** (Strategic Oversight & Emergency Intervention):
+- **Role**: SSOT Manager, Strategic Coordinator, Emergency Response
+- **Responsibilities**: Task assignment, system monitoring, crisis intervention
+- **Authority**: Override any agent actions, reassign tasks, system resets
+
+### **Specialized Agents** (1-3, 5-8):
+- **Agent-1**: Integration & Core Systems Specialist
+- **Agent-2**: Architecture & Design Specialist
+- **Agent-3**: Infrastructure & DevOps Specialist
+- **Agent-5**: Business Intelligence Specialist
+- **Agent-6**: Coordination & Communication Specialist
+- **Agent-7**: Web Development Specialist
+- **Agent-8**: SSOT & System Integration Specialist
+
+## **🔄 AGENT CYCLE PROTOCOL**
+### **Communication Cycle** (8x Efficiency Standard):
+```
+Captain Prompt → Agent Response → Captain Review → Next Action
+```
+- Respond within **one cycle** to maintain momentum
+- Produce **measurable progress** per cycle
+- Check inbox **FIRST** before responding
+- Maintain **8x efficiency** workflow
+
+## **📊 STATUS TRACKING REQUIREMENTS**
+### **Status File Structure** (authoritative SSOT):
+```json
+{
+  "agent_id": "{agent_id}",
+  "agent_name": "{role}",
+  "status": "ACTIVE_AGENT_MODE",
+  "current_phase": "TASK_EXECUTION",
+  "last_updated": "YYYY-MM-DD HH:MM:SS",
+  "current_mission": "Current mission description",
+  "mission_priority": "HIGH/MEDIUM/LOW",
+  "current_tasks": ["Task 1"],
+  "completed_tasks": ["Done 1"],
+  "achievements": ["Milestone"],
+  "next_actions": ["Next step"]
+}
+```
+
+### **Status Update Triggers**:
+- When starting or completing tasks
+- When responding to messages
+- When receiving Captain prompts
+- On any significant progress (include timestamp)
+
+## **📬 COMMUNICATION PROTOCOLS**
+### **Inbox Management**:
+- **Primary communication channel**: `agent_workspaces/{Agent-X}/inbox/`
+- **Message format**: Markdown files with headers and metadata
+- **File naming**: `CAPTAIN_MESSAGE_{timestamp}_{message_id}.md`
+
+### **Message Headers** (required):
+```
+# 🚨 CAPTAIN MESSAGE - {TYPE}
+**From**: {sender}
+**To**: {recipient}
+**Priority**: {priority}
+**Message ID**: {message_id}
+**Timestamp**: {timestamp}
+```
+
+## **🎯 CONTRACT SYSTEM INTEGRATION**
+### **Task Assignment Flow**:
+1. Captain assigns contract via `--get-next-task`
+2. Agent claims task and updates status
+3. Agent executes task with V2 compliance
+4. Agent reports progress to Captain
+5. Captain reviews and assigns next task
+
+### **Contract Categories** (by agent specialization):
+- **Agent-1**: Integration & Core Systems (600 pts)
+- **Agent-2**: Architecture & Design (550 pts)
+- **Agent-3**: Infrastructure & DevOps (575 pts)
+- **Agent-5**: Business Intelligence (425 pts)
+- **Agent-6**: Coordination & Communication (500 pts)
+- **Agent-7**: Web Development (685 pts)
+- **Agent-8**: SSOT & System Integration (650 pts)
+
+## **🚨 EMERGENCY PROTOCOLS**
+### **Crisis Response**:
+- Captain can override any agent actions
+- Emergency broadcasts bypass normal ordering
+- System resets require Captain authorization
+- All agents must acknowledge emergency protocols
+
+### **Communication Channels**:
+- **Primary**: Inbox messaging system
+- **Backup**: Direct coordinate messaging
+- **Emergency**: Override protocols available
+
+## **⚡ PERFORMANCE STANDARDS**
+### **Efficiency Metrics**:
+- **8x efficiency**: One cycle = measurable progress
+- **Response time**: Within one communication cycle
+- **Quality standard**: V2 compliance on all deliverables
+- **Coordination**: Team communication mandatory
+
+### **Quality Gates**:
+- All code changes pass linting and tests
+- Documentation updated for new features
+- Status files kept current
+- Inbox checked regularly

@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 """
 Gaming Integration Core
 

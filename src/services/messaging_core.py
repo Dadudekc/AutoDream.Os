@@ -21,6 +21,7 @@ from .models.messaging_models import (
 )
 from .onboarding_service import OnboardingService
 from .messaging_pyautogui import PyAutoGUIMessagingDelivery
+from ..utils.logger import get_messaging_logger
 
 
 class UnifiedMessagingCore:
@@ -29,69 +30,71 @@ class UnifiedMessagingCore:
     def __init__(self):
         """Initialize the core messaging service."""
         self.messages: List[UnifiedMessage] = []
-        
-        # CORRECT ORDER: Agent-4 LAST
-        self.agents = {
-            "Agent-1": {"description": "Integration & Core Systems Specialist", "coords": (-1269, 481)},
-            "Agent-2": {"description": "Architecture & Design Specialist", "coords": (-308, 480)},
-            "Agent-3": {"description": "Infrastructure & DevOps Specialist", "coords": (-1269, 1001)},
-            "Agent-5": {"description": "Business Intelligence Specialist", "coords": (652, 421)},
-            "Agent-6": {"description": "Gaming & Entertainment Specialist", "coords": (1612, 419)},
-            "Agent-7": {"description": "Web Development Specialist", "coords": (653, 940)},
-            "Agent-8": {"description": "Integration & Performance Specialist", "coords": (1611, 941)},
-            "Agent-4": {"description": "Quality Assurance Specialist (CAPTAIN)", "coords": (-308, 1000)},
-        }
-        
-        # Agent inbox paths
-        self.inbox_paths = {
-            "Agent-1": "agent_workspaces/Agent-1/inbox",
-            "Agent-2": "agent_workspaces/Agent-2/inbox", 
-            "Agent-3": "agent_workspaces/Agent-3/inbox",
-            "Agent-4": "agent_workspaces/Agent-4/inbox",
-            "Agent-5": "agent_workspaces/Agent-5/inbox",
-            "Agent-6": "agent_workspaces/Agent-6/inbox",
-            "Agent-7": "agent_workspaces/Agent-7/inbox",
-            "Agent-8": "agent_workspaces/Agent-8/inbox",
-        }
+        self.logger = get_messaging_logger()
+
+                # Load configuration from external config files (V2 compliance)
+        self._load_configuration()
         # Initialize services
         self.pyautogui_delivery = PyAutoGUIMessagingDelivery(self.agents)
         self.onboarding_service = OnboardingService()
+
+        self.logger.info("UnifiedMessagingCore initialized successfully",
+                        extra={"agent_count": len(self.agents), "inbox_paths": len(self.inbox_paths)})
     
-    def send_message_to_inbox(self, message: UnifiedMessage) -> bool:
-        """Send message to agent's inbox file."""
-        try:
-            recipient = message.recipient
-            if recipient not in self.inbox_paths:
-                print(f"❌ ERROR: Unknown recipient {recipient}")
-                return False
-            
-            inbox_path = self.inbox_paths[recipient]
-            os.makedirs(inbox_path, exist_ok=True)
-            
-            # Create message filename with timestamp
-            timestamp = message.timestamp.strftime("%Y%m%d_%H%M%S") if message.timestamp else time.strftime("%Y%m%d_%H%M%S")
-            filename = f"CAPTAIN_MESSAGE_{timestamp}_{message.message_id}.md"
-            filepath = os.path.join(inbox_path, filename)
-            
-            # Write message to file
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(f"# 🚨 CAPTAIN MESSAGE - {message.message_type.value.upper()}\n\n")
-                f.write(f"**From**: {message.sender}\n")
-                f.write(f"**To**: {message.recipient}\n")
-                f.write(f"**Priority**: {message.priority.value}\n")
-                f.write(f"**Message ID**: {message.message_id}\n")
-                f.write(f"**Timestamp**: {message.timestamp.isoformat() if message.timestamp else 'Unknown'}\n\n")
-                f.write("---\n\n")
-                f.write(message.content)
-                f.write("\n\n---\n")
-                f.write(f"*Message delivered via Unified Messaging Service*\n")
-            
-            print(f"📬 MESSAGE DELIVERED TO INBOX: {filepath}")
-            return True
-            
-        except Exception as e:
-            print(f"❌ ERROR delivering message to inbox: {e}")
-            return False
+    def send_message_to_inbox(self, message: UnifiedMessage, max_retries: int = 3) -> bool:
+        """Send message to agent's inbox file with retry mechanism.
+
+        Args:
+            message: The UnifiedMessage to deliver
+            max_retries: Maximum number of retry attempts
+
+        Returns:
+            bool: True if delivery successful, False otherwise
+        """
+        for attempt in range(max_retries):
+            try:
+                recipient = message.recipient
+                if recipient not in self.inbox_paths:
+                    print(f"❌ ERROR: Unknown recipient {recipient}")
+                    return False
+
+                inbox_path = self.inbox_paths[recipient]
+                os.makedirs(inbox_path, exist_ok=True)
+
+                # Create message filename with timestamp
+                timestamp = message.timestamp.strftime("%Y%m%d_%H%M%S") if message.timestamp else time.strftime("%Y%m%d_%H%M%S")
+                filename = f"CAPTAIN_MESSAGE_{timestamp}_{message.message_id}.md"
+                filepath = os.path.join(inbox_path, filename)
+
+                # Write message to file with proper encoding
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(f"# 🚨 CAPTAIN MESSAGE - {message.message_type.value.upper()}\n\n")
+                    f.write(f"**From**: {message.sender}\n")
+                    f.write(f"**To**: {message.recipient}\n")
+                    f.write(f"**Priority**: {message.priority.value}\n")
+                    f.write(f"**Message ID**: {message.message_id}\n")
+                    f.write(f"**Timestamp**: {message.timestamp.isoformat() if message.timestamp else 'Unknown'}\n\n")
+                    f.write("---\n\n")
+                    f.write(message.content)
+                    f.write("\n\n---\n")
+                    f.write(f"*Message delivered via Unified Messaging Service*\n")
+
+                self.logger.info("Message delivered to inbox successfully",
+                                extra={"filepath": filepath, "recipient": recipient, "message_id": message.message_id})
+                return True
+
+            except OSError as e:
+                self.logger.error(f"Failed to deliver message to inbox (attempt {attempt + 1}/{max_retries})",
+                                extra={"recipient": recipient, "message_id": message.message_id, "error": str(e)})
+                if attempt < max_retries - 1:
+                    time.sleep(1 * (2 ** attempt))  # Exponential backoff
+            except Exception as e:
+                self.logger.critical(f"Unexpected error delivering message to inbox (attempt {attempt + 1}/{max_retries})",
+                                   extra={"recipient": recipient, "message_id": message.message_id, "error": str(e)})
+                if attempt < max_retries - 1:
+                    time.sleep(1 * (2 ** attempt))  # Exponential backoff
+
+        return False
     
     def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True, new_tab_method: str = "ctrl_t", use_new_tab: bool = None) -> bool:
         """Send message via PyAutoGUI to agent coordinates.

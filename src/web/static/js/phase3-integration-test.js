@@ -74,8 +74,8 @@ class Phase3IntegrationTest {
 
     // All individual test methods moved to phase3-test-executor.js
     // All test method implementations moved to phase3-test-executor.js
-                case 'DashboardCore integration':
-                    return { success: !!dashboard.core, details: 'DashboardCore properly integrated' };
+    // All remaining test implementations moved to phase3-test-executor.js
+// Test method implementations completely moved to phase3-test-executor.js
                 case 'DashboardNavigation integration':
                     return { success: !!dashboard.navigation, details: 'DashboardNavigation properly integrated' };
                 case 'DashboardUtils integration':

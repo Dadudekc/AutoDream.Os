@@ -14,144 +14,19 @@
 
 import { DashboardStateManager, createStateManager } from './dashboard-state.js';
 import { DashboardSocketManager, createSocketManager } from './dashboard-socket-manager.js';
+import { DashboardNavigationManager, createNavigationManager } from './dashboard-navigation-manager.js';
+import { DashboardUtils } from './dashboard-utils.js';
+import { DashboardRealTimeManager, createRealTimeManager } from './dashboard-realtime-manager.js';
 
 // ================================
-// NAVIGATION MANAGER (EXTRACTED)
+// NAVIGATION MANAGER (MOVED TO SEPARATE MODULE)
 // ================================
-
-/**
- * Consolidated navigation management
- * EXTRACTED from original consolidated file for V2 compliance
- */
-class DashboardNavigationManager {
-    constructor(stateManager) {
-        this.stateManager = stateManager;
-    }
-
-    /**
-     * Setup navigation functionality
-     */
-    initialize() {
-        console.log('🧭 Initializing consolidated navigation...');
-
-        const navElement = document.getElementById('dashboardNav');
-        if (!navElement) {
-            console.warn('⚠️ Dashboard navigation element not found');
-            return;
-        }
-
-        navElement.addEventListener('click', (e) => {
-            this.handleNavigationClick(e);
-        });
-
-        // Initialize default view
-        this.setActiveView(this.stateManager.currentView);
-    }
-
-    handleNavigationClick(event) {
-        const target = event.target.closest('.nav-link');
-        if (!target) return;
-
-        event.preventDefault();
-
-        const view = target.dataset.view;
-        if (!view) return;
-
-        // Update active states
-        this.clearActiveStates();
-        target.classList.add('active');
-
-        // Update state and load data
-        this.stateManager.updateView(view);
-        if (window.loadDashboardData) {
-            window.loadDashboardData(view);
-        }
-
-        // Dispatch custom event
-        window.dispatchEvent(new CustomEvent('dashboard:viewChanged', {
-            detail: { view, previousView: this.stateManager.currentView }
-        }));
-    }
-
-    clearActiveStates() {
-        document.querySelectorAll('#dashboardNav .nav-link').forEach(link => {
-            link.classList.remove('active');
-        });
-    }
-
-    setActiveView(view) {
-        this.clearActiveStates();
-
-        const targetLink = document.querySelector(`#dashboardNav .nav-link[data-view="${view}"]`);
-        if (targetLink) {
-            targetLink.classList.add('active');
-        }
-
-        this.stateManager.updateView(view);
-    }
-
-    navigateTo(view) {
-        this.setActiveView(view);
-        if (window.loadDashboardData) {
-            window.loadDashboardData(view);
-        }
-    }
-}
+// Navigation functionality extracted to dashboard-navigation-manager.js
 
 // ================================
-// UTILITIES (EXTRACTED)
+// UTILITIES (MOVED TO SEPARATE MODULE)
 // ================================
-
-/**
- * Consolidated utility functions
- * EXTRACTED from original consolidated file for V2 compliance
- */
-const DashboardUtils = {
-    /**
-     * Format number with suffix
-     */
-    formatNumber(num) {
-        if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'B';
-        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-        return num.toString();
-    },
-
-    /**
-     * Format percentage
-     */
-    formatPercentage(value) {
-        return `${(value * 100).toFixed(1)}%`;
-    },
-
-    /**
-     * Format date
-     */
-    formatDate(date) {
-        return new Date(date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    },
-
-    /**
-     * Get status color
-     */
-    getStatusColor(status) {
-        const colors = {
-            'success': '#28a745',
-            'warning': '#ffc107',
-            'error': '#dc3545',
-            'info': '#17a2b8',
-            'active': '#007bff',
-            'inactive': '#6c757d'
-        };
-        return colors[status] || colors.info;
-    }
-};
+// Utility functions extracted to dashboard-utils.js
 
 // ================================
 // MAIN DASHBOARD CONSOLIDATOR
@@ -165,7 +40,8 @@ class DashboardConsolidator {
     constructor() {
         this.stateManager = createStateManager();
         this.socketManager = createSocketManager(this.stateManager);
-        this.navigationManager = new DashboardNavigationManager(this.stateManager);
+        this.navigationManager = createNavigationManager(this.stateManager);
+        this.realTimeManager = createRealTimeManager(this.stateManager, this.socketManager);
         this.initialized = false;
     }
 
@@ -195,15 +71,8 @@ class DashboardConsolidator {
                 window.loadDashboardData(this.stateManager.currentView);
             }
 
-            // Setup real-time updates
-            if (this.stateManager.config.enableRealTimeUpdates) {
-                this.setupRealTimeUpdates();
-            }
-
-            // Setup notifications
-            if (this.stateManager.config.enableNotifications) {
-                this.setupNotifications();
-            }
+            // Setup real-time updates and notifications
+            this.realTimeManager.initialize();
 
             // Mark as initialized
             this.stateManager.setInitialized(true);
@@ -242,19 +111,10 @@ class DashboardConsolidator {
     }
 
     /**
-     * Setup real-time updates
+     * Get real-time manager status
      */
-    setupRealTimeUpdates() {
-        console.log('🔄 Setting up real-time updates...');
-        // Real-time update logic would go here
-    }
-
-    /**
-     * Setup notifications
-     */
-    setupNotifications() {
-        console.log('🔔 Setting up notifications...');
-        // Notification setup logic would go here
+    isRealTimeActive() {
+        return this.realTimeManager.isActive();
     }
 
     /**
@@ -311,6 +171,7 @@ window.DashboardConsolidatedAPI = {
     isOperational: () => dashboardConsolidator.isOperational(),
     initialize: () => dashboardConsolidator.initialize(),
     navigateTo: (view) => dashboardConsolidator.navigationManager.navigateTo(view),
+    isRealTimeActive: () => dashboardConsolidator.isRealTimeActive(),
     utils: DashboardUtils
 };
 
@@ -329,13 +190,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // ================================
 
 console.log('📈 DASHBOARD CONSOLIDATION REFACTORING METRICS:');
-console.log('   • Original file: 431 lines (131 over limit)');
-console.log('   • Refactored into: 4 focused modules');
-console.log('   • All modules: Under 300-line V2 compliance limit');
+console.log('   • Original file: 352 lines (52 over 300-line limit)');
+console.log('   • Refactored into: 6 focused modules');
+console.log('   • Main orchestrator: Under 300-line V2 compliance limit');
 console.log('   • State management: Centralized and persistent');
 console.log('   • Socket handling: Enhanced with monitoring');
-console.log('   • Navigation: Streamlined and event-driven');
-console.log('   • Utilities: Comprehensive and reusable');
+console.log('   • Navigation: Extracted to dedicated module');
+console.log('   • Real-time updates: Extracted to dedicated module');
+console.log('   • Utilities: Extracted to dedicated module');
 console.log('   • Backward compatibility: Fully maintained');
 
 // ================================

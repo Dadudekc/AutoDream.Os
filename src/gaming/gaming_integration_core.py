@@ -1,66 +1,26 @@
-from src.utils.config_core import get_config
 """
 Gaming Integration Core
 
 Core integration system for gaming and entertainment functionality,
 providing seamless integration with the main agent system.
 
-Author: Agent-6 - Gaming & Entertainment Specialist
+Author: Agent-3 - Infrastructure & DevOps Specialist (Refactored for V2 Compliance)
 """
 
 import json
 import logging
 import asyncio
 from typing import Dict, List, Optional, Any, Callable
-from dataclasses import dataclass, asdict
-from enum import Enum
+from dataclasses import asdict
 from datetime import datetime
 
+from src.gaming.models.gaming_models import (
+    IntegrationStatus, GameType, GameSession, EntertainmentSystem
+)
+from src.gaming.utils.gaming_monitors import GamingPerformanceMonitors
+from src.gaming.utils.gaming_handlers import GamingEventHandlers
+
 logger = logging.getLogger(__name__)
-
-
-class IntegrationStatus(Enum):
-    """Status of gaming system integration."""
-    DISCONNECTED = "disconnected"
-    CONNECTING = "connecting"
-    CONNECTED = "connected"
-    ERROR = "error"
-    MAINTENANCE = "maintenance"
-
-
-class GameType(Enum):
-    """Types of games supported by the system."""
-    ACTION = "action"
-    ADVENTURE = "adventure"
-    PUZZLE = "puzzle"
-    STRATEGY = "strategy"
-    SIMULATION = "simulation"
-    SPORTS = "sports"
-    RPG = "rpg"
-    ARCADE = "arcade"
-
-
-@dataclass
-class GameSession:
-    """Represents an active gaming session."""
-    session_id: str
-    game_type: GameType
-    player_id: str
-    start_time: datetime
-    status: str
-    metadata: Dict[str, Any]
-    performance_metrics: Dict[str, Any]
-
-
-@dataclass
-class EntertainmentSystem:
-    """Represents an entertainment system component."""
-    system_id: str
-    system_type: str
-    status: IntegrationStatus
-    capabilities: List[str]
-    configuration: Dict[str, Any]
-    last_updated: datetime
 
 
 class GamingIntegrationCore:
@@ -92,19 +52,19 @@ class GamingIntegrationCore:
     def _setup_default_handlers(self):
         """Setup default integration handlers."""
         self.integration_handlers = {
-            "session_management": self._handle_session_management,
-            "performance_monitoring": self._handle_performance_monitoring,
-            "system_health": self._handle_system_health,
-            "user_interaction": self._handle_user_interaction
+            "session_management": GamingEventHandlers.handle_session_management,
+            "performance_monitoring": GamingEventHandlers.handle_performance_monitoring,
+            "system_health": GamingEventHandlers.handle_system_health,
+            "user_interaction": GamingEventHandlers.handle_user_interaction
         }
     
     def _setup_performance_monitors(self):
         """Setup performance monitoring systems."""
         self.performance_monitors = {
-            "fps_monitor": self._monitor_fps,
-            "memory_monitor": self._monitor_memory,
-            "cpu_monitor": self._monitor_cpu,
-            "network_monitor": self._monitor_network
+            "fps_monitor": GamingPerformanceMonitors.monitor_fps,
+            "memory_monitor": GamingPerformanceMonitors.monitor_memory,
+            "cpu_monitor": GamingPerformanceMonitors.monitor_cpu,
+            "network_monitor": GamingPerformanceMonitors.monitor_network
         }
     
     def _connect_to_systems(self):
@@ -320,48 +280,8 @@ class GamingIntegrationCore:
         self.performance_monitors[monitor_name] = monitor_func
         logger.info(f"Registered performance monitor: {monitor_name}")
     
-    def _handle_session_management(self, event_data: Dict[str, Any]):
-        """Handle session management events."""
-        logger.debug(f"Handling session management event: {event_data}")
-    
-    def _handle_performance_monitoring(self, event_data: Dict[str, Any]):
-        """Handle performance monitoring events."""
-        logger.debug(f"Handling performance monitoring event: {event_data}")
-    
-    def _handle_system_health(self, event_data: Dict[str, Any]):
-        """Handle system health events."""
-        logger.debug(f"Handling system health event: {event_data}")
-    
-    def _handle_user_interaction(self, event_data: Dict[str, Any]):
-        """Handle user interaction events."""
-        logger.debug(f"Handling user interaction event: {event_data}")
-    
-    def _monitor_fps(self) -> Dict[str, Any]:
-        """Monitor FPS performance."""
-        return {"fps": 60, "frame_time": 16.67}
-    
-    def _monitor_memory(self) -> Dict[str, Any]:
-        """Monitor memory usage."""
-        return {"memory_usage": 45.2, "memory_available": 54.8}
-    
-    def _monitor_cpu(self) -> Dict[str, Any]:
-        """Monitor CPU usage."""
-        return {"cpu_usage": 23.1, "cpu_temperature": 45.0}
-    
-    def _monitor_network(self) -> Dict[str, Any]:
-        """Monitor network performance."""
-        return {"latency": 15, "bandwidth": 100}
-    
     def export_integration_data(self, filepath: str) -> bool:
-        """
-        Export integration data to JSON file.
-        
-        Args:
-            filepath: Path to export file
-            
-        Returns:
-            True if export successful, False otherwise
-        """
+        """Export integration data to JSON file."""
         try:
             export_data = {
                 "status": self.get_system_status(),
@@ -369,10 +289,8 @@ class GamingIntegrationCore:
                 "systems": [asdict(system) for system in self.entertainment_systems.values()],
                 "export_timestamp": datetime.now().isoformat()
             }
-            
             with open(filepath, 'w') as f:
                 json.dump(export_data, f, indent=2, default=str)
-            
             logger.info(f"Exported integration data to {filepath}")
             return True
         except Exception as e:

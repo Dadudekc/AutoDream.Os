@@ -106,10 +106,112 @@ def gather_run_metrics(
     )
 
 
+class MessagingMetrics:
+    """V2 compliant metrics collection for messaging operations.
+
+    This class provides comprehensive performance monitoring and metrics
+    collection for the messaging system, ensuring V2 compliance requirements.
+    """
+
+    def __init__(self):
+        """Initialize messaging metrics collector."""
+        self.metrics = MetricsCollector()
+        self.message_counts = defaultdict(int)
+        self.delivery_times = []
+        self.error_counts = defaultdict(int)
+
+    def record_message_sent(self, message_type: str, recipient: str, delivery_method: str):
+        """Record a successfully sent message.
+
+        Args:
+            message_type: Type of message (text, broadcast, onboarding)
+            recipient: Agent that received the message
+            delivery_method: Method used (pyautogui, inbox)
+        """
+        self.metrics.record_success()
+        self.message_counts[f"{message_type}_{delivery_method}"] += 1
+        self.message_counts[f"total_{recipient}"] += 1
+
+    def record_message_failed(self, message_type: str, recipient: str, error_type: str):
+        """Record a failed message delivery.
+
+        Args:
+            message_type: Type of message that failed
+            recipient: Agent that should have received the message
+            error_type: Type of error that occurred
+        """
+        self.metrics.record_failure()
+        self.error_counts[f"{message_type}_{error_type}"] += 1
+        self.error_counts[f"failed_{recipient}"] += 1
+
+    def record_delivery_time(self, delivery_time: float):
+        """Record delivery time for performance monitoring.
+
+        Args:
+            delivery_time: Time in seconds to deliver the message
+        """
+        self.delivery_times.append(delivery_time)
+        # Keep only last 100 delivery times for memory efficiency
+        if len(self.delivery_times) > 100:
+            self.delivery_times = self.delivery_times[-100:]
+
+    def get_delivery_stats(self) -> Dict[str, float]:
+        """Get delivery time statistics.
+
+        Returns:
+            Dictionary with mean, min, max delivery times
+        """
+        if not self.delivery_times:
+            return {"mean": 0.0, "min": 0.0, "max": 0.0}
+
+        return {
+            "mean": sum(self.delivery_times) / len(self.delivery_times),
+            "min": min(self.delivery_times),
+            "max": max(self.delivery_times),
+        }
+
+    def get_success_rate(self) -> float:
+        """Calculate overall success rate.
+
+        Returns:
+            Success rate as a percentage (0-100)
+        """
+        total = self.metrics.total_operations
+        if total == 0:
+            return 100.0
+
+        successful = self.metrics.successful_operations
+        return (successful / total) * 100.0
+
+    def get_message_counts(self) -> Dict[str, int]:
+        """Get message delivery counts by type and method.
+
+        Returns:
+            Dictionary of message counts
+        """
+        return dict(self.message_counts)
+
+    def get_error_summary(self) -> Dict[str, int]:
+        """Get error counts by type.
+
+        Returns:
+            Dictionary of error counts
+        """
+        return dict(self.error_counts)
+
+    def reset(self):
+        """Reset all metrics (useful for testing or periodic resets)."""
+        self.metrics = MetricsCollector()
+        self.message_counts.clear()
+        self.delivery_times.clear()
+        self.error_counts.clear()
+
+
 __all__ = [
     "Metric",
     "MetricsCollector",
     "CounterMetrics",
     "OptimizationRunMetrics",
+    "MessagingMetrics",
     "gather_run_metrics",
 ]

@@ -9,6 +9,7 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+import json
 import os
 import time
 from typing import List, Dict, Any
@@ -22,6 +23,7 @@ from .models.messaging_models import (
 from .onboarding_service import OnboardingService
 from .messaging_pyautogui import PyAutoGUIMessagingDelivery
 from ..utils.logger import get_messaging_logger
+from ..core.metrics import MessagingMetrics
 
 
 class UnifiedMessagingCore:
@@ -37,9 +39,58 @@ class UnifiedMessagingCore:
         # Initialize services
         self.pyautogui_delivery = PyAutoGUIMessagingDelivery(self.agents)
         self.onboarding_service = OnboardingService()
+        self.metrics = MessagingMetrics()
 
         self.logger.info("UnifiedMessagingCore initialized successfully",
                         extra={"agent_count": len(self.agents), "inbox_paths": len(self.inbox_paths)})
+
+    def _load_configuration(self):
+        """Load configuration from external files (V2 compliance requirement).
+
+        This method implements SSOT by centralizing configuration management.
+        """
+        try:
+            # Default configuration (can be overridden by config files)
+            self.agents = {
+                "Agent-1": {"description": "Integration & Core Systems Specialist", "coords": (-1269, 481)},
+                "Agent-2": {"description": "Architecture & Design Specialist", "coords": (-308, 480)},
+                "Agent-3": {"description": "Infrastructure & DevOps Specialist", "coords": (-1269, 1001)},
+                "Agent-5": {"description": "Business Intelligence Specialist", "coords": (652, 421)},
+                "Agent-6": {"description": "Gaming & Entertainment Specialist", "coords": (1612, 419)},
+                "Agent-7": {"description": "Web Development Specialist", "coords": (653, 940)},
+                "Agent-8": {"description": "Integration & Performance Specialist", "coords": (1611, 941)},
+                "Agent-4": {"description": "Quality Assurance Specialist (CAPTAIN)", "coords": (-308, 1000)},
+            }
+
+            # Agent inbox paths
+            self.inbox_paths = {
+                "Agent-1": "agent_workspaces/Agent-1/inbox",
+                "Agent-2": "agent_workspaces/Agent-2/inbox",
+                "Agent-3": "agent_workspaces/Agent-3/inbox",
+                "Agent-4": "agent_workspaces/Agent-4/inbox",
+                "Agent-5": "agent_workspaces/Agent-5/inbox",
+                "Agent-6": "agent_workspaces/Agent-6/inbox",
+                "Agent-7": "agent_workspaces/Agent-7/inbox",
+                "Agent-8": "agent_workspaces/Agent-8/inbox",
+            }
+
+            # Load from config file if it exists
+            config_file = "config/messaging_config.json"
+            if os.path.exists(config_file):
+                with open(config_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                    if 'agents' in config:
+                        self.agents.update(config['agents'])
+                    if 'inbox_paths' in config:
+                        self.inbox_paths.update(config['inbox_paths'])
+
+                self.logger.info("Configuration loaded from file", extra={"config_file": config_file})
+            else:
+                self.logger.info("Using default configuration (no config file found)")
+
+        except Exception as e:
+            self.logger.error("Failed to load configuration, using defaults", extra={"error": str(e)})
+            # Fallback to hardcoded defaults is already set above
     
     def send_message_to_inbox(self, message: UnifiedMessage, max_retries: int = 3) -> bool:
         """Send message to agent's inbox file with retry mechanism.
@@ -81,21 +132,49 @@ class UnifiedMessagingCore:
 
                 self.logger.info("Message delivered to inbox successfully",
                                 extra={"filepath": filepath, "recipient": recipient, "message_id": message.message_id})
+
+                # Record metrics (V2 compliance)
+                self.metrics.record_message_sent(message.message_type.value, recipient, "inbox")
+
                 return True
 
             except OSError as e:
                 self.logger.error(f"Failed to deliver message to inbox (attempt {attempt + 1}/{max_retries})",
                                 extra={"recipient": recipient, "message_id": message.message_id, "error": str(e)})
+
+                # Record failure metrics (V2 compliance)
+                self.metrics.record_message_failed(message.message_type.value, recipient, "OSError")
+
                 if attempt < max_retries - 1:
                     time.sleep(1 * (2 ** attempt))  # Exponential backoff
             except Exception as e:
                 self.logger.critical(f"Unexpected error delivering message to inbox (attempt {attempt + 1}/{max_retries})",
                                    extra={"recipient": recipient, "message_id": message.message_id, "error": str(e)})
+
+                # Record failure metrics (V2 compliance)
+                self.metrics.record_message_failed(message.message_type.value, recipient, "UnexpectedError")
+
                 if attempt < max_retries - 1:
                     time.sleep(1 * (2 ** attempt))  # Exponential backoff
 
         return False
-    
+
+    def get_metrics(self) -> Dict[str, Any]:
+        """Get comprehensive metrics for monitoring and reporting (V2 compliance).
+
+        Returns:
+            Dictionary containing all messaging metrics
+        """
+        return {
+            "success_rate": self.metrics.get_success_rate(),
+            "delivery_stats": self.metrics.get_delivery_stats(),
+            "message_counts": self.metrics.get_message_counts(),
+            "error_summary": self.metrics.get_error_summary(),
+            "total_operations": self.metrics.metrics.total_operations,
+            "successful_operations": self.metrics.metrics.successful_operations,
+            "failed_operations": self.metrics.metrics.failed_operations,
+        }
+
     def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True, new_tab_method: str = "ctrl_t", use_new_tab: bool = None) -> bool:
         """Send message via PyAutoGUI to agent coordinates.
 

@@ -59,26 +59,3 @@ export function createSystemIntegrationTest() {
 // ================================
 
 export default SystemIntegrationTest;
-            const icon = status ? '✅' : '❌';
-            console.log(`${icon} ${component.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
-        });
-
-        console.log('\n⚡ Performance Metrics:');
-        Object.entries(this.performanceMetrics).forEach(([metric, value]) => {
-            console.log(`${metric}: ${typeof value === 'number' ? value.toFixed(2) + 'ms' : value}`);
-        });
-
-        const overallSuccess = Object.values(this.systemHealth).every(status => status);
-        console.log(`\n🎯 Overall System Status: ${overallSuccess ? '✅ SUCCESS' : '❌ NEEDS ATTENTION'}`);
-    }
-
-    getTestResults() { return { ...this.testResults }; }
-    getSystemHealth() { return { ...this.systemHealth }; }
-    getPerformanceMetrics() { return { ...this.performanceMetrics }; }
-}
-
-export function createSystemIntegrationTest() {
-    return new SystemIntegrationTest();
-}
-
-export default SystemIntegrationTest;

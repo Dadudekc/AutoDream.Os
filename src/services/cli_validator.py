@@ -234,6 +234,11 @@ For detailed documentation: see docs/messaging_flags_guide_v2.md
         default="friendly",
         help="Onboarding message tone: friendly (casual) or professional (formal)"
     )
+    onboard_group.add_argument(
+        "--compliance-mode",
+        action="store_true",
+        help="🎯 AUTONOMOUS DEVELOPMENT MODE: Onboard all agents for autonomous development with compliance protocols (technical debt elimination, V2 standards, 8x efficiency)"
+    )
 
     # Contract/Task Section
     task_group = parser.add_argument_group('📋 Contract & Task Management')

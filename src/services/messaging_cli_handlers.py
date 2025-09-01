@@ -152,6 +152,9 @@ def handle_check_status() -> bool:
 
 def handle_onboarding_commands(args, service) -> bool:
     """Handle onboarding-related commands."""
+    if args.compliance_mode:
+        return handle_compliance_mode_onboarding(args, service)
+
     if args.onboarding:
         # Delegate to core bulk onboarding using SSOT template
         service.send_bulk_onboarding(style=args.onboarding_style, mode=args.mode, new_tab_method=args.new_tab_method)
@@ -169,6 +172,68 @@ def handle_onboarding_commands(args, service) -> bool:
         return handle_wrapup_command(args, service)
 
     return False
+
+
+def handle_compliance_mode_onboarding(args, service) -> bool:
+    """Handle compliance mode onboarding for autonomous development."""
+    print("🎯 AUTONOMOUS DEVELOPMENT COMPLIANCE MODE ACTIVATED")
+    print("=" * 60)
+    
+    compliance_content = """🚨 **AUTONOMOUS DEVELOPMENT COMPLIANCE MODE ACTIVATED** 🚨
+
+**Captain**: Agent-4 - Strategic Oversight & Emergency Intervention Manager
+**Mode**: AUTONOMOUS DEVELOPMENT - COMPLIANCE PROTOCOL ACTIVATED
+**Priority**: HIGH - Technical Debt Elimination & V2 Standards Implementation
+
+🎯 **AUTONOMOUS DEVELOPMENT PROTOCOLS**:
+- ✅ **Equally Capable Agents**: All agents are equally capable across domains
+- ✅ **Captain Assignment**: Captain can assign any open agent to any task
+- ✅ **Discord Devlog**: Mandatory progress reporting via devlog system
+- ✅ **Inbox Monitoring**: Check agent_workspaces/<Agent-X>/inbox/ regularly
+- ✅ **System Utilization**: Full utilization of swarm coordination system
+
+🔧 **COMPLIANCE MODE OBJECTIVES**:
+- ✅ **Technical Debt Elimination**: Zero tolerance for code duplication and monoliths
+- ✅ **V2 Standards Implementation**: Domain-specific compliance (Python 300-line limit vs JavaScript standards)
+- ✅ **8x Efficiency**: Maintain optimized workflow throughout all operations
+- ✅ **Modular Architecture**: Repository pattern, DI, clean separation of concerns
+- ✅ **Cross-Agent Validation**: Support and validate other agents' work
+
+📊 **OPERATIONAL REQUIREMENTS**:
+- ✅ **Check Inbox FIRST**: Always review inbox before responding to Captain
+- ✅ **Report Progress**: Use devlog system for all updates
+- ✅ **Claim Contracts**: Use --get-next-task to claim available work
+- ✅ **Coordinate**: Support other agents in their compliance efforts
+- ✅ **Validate**: Ensure all deliverables meet V2 compliance standards
+
+🚨 **IMMEDIATE ACTIONS**:
+1. Check your agent_workspaces/<Agent-ID>/inbox/ for messages
+2. Update your status.json with current mission and progress
+3. Claim next available contract with --get-next-task
+4. Report readiness and current compliance status
+5. Begin autonomous technical debt elimination
+
+**Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager**
+**Status**: Monitoring autonomous development compliance across all agents
+**Expectation**: Proactive, autonomous, and efficient V2 compliance achievement
+
+**WE. ARE. SWARM.** ⚡️🔥"""
+
+    print("📨 Sending compliance mode onboarding to all agents...")
+    
+    service.send_to_all_agents(
+        content=compliance_content,
+        sender="Captain Agent-4",
+        message_type=UnifiedMessageType.ONBOARDING,
+        priority=UnifiedMessagePriority.REGULAR,
+        tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
+        mode=args.mode,
+        new_tab_method=args.new_tab_method
+    )
+    
+    print("✅ COMPLIANCE MODE ONBOARDING COMPLETE")
+    print("🎯 All agents now configured for autonomous development with compliance protocols")
+    return True
 
 
 def handle_wrapup_command(args, service) -> bool:

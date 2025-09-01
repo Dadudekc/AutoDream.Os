@@ -1,4 +1,3 @@
-from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 Core Test Runner - Gaming Test Runner
@@ -6,19 +5,19 @@ Core Test Runner - Gaming Test Runner
 
 Core testing functionality for the gaming test runner system.
 
-Author: Agent-6 - Gaming & Entertainment Specialist
+Author: Agent-3 - Infrastructure & DevOps Specialist (Refactored for V2 Compliance)
 License: MIT
 """
 
 import json
 import logging
-import time
 import asyncio
 from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 
 from .models.test_models import TestResult, TestSuite, TestStatus, TestType
+from .utils.test_functions import GamingTestFunctions, GamingTestHandlers
 
 logger = logging.getLogger(__name__)
 
@@ -51,12 +50,12 @@ class GamingTestRunnerCore:
     def _setup_default_test_handlers(self):
         """Setup default test handlers."""
         self.test_handlers = {
-            "unit_test": self._run_unit_test,
-            "integration_test": self._run_integration_test,
-            "performance_test": self._run_performance_test,
-            "stress_test": self._run_stress_test,
-            "compatibility_test": self._run_compatibility_test,
-            "user_acceptance_test": self._run_user_acceptance_test
+            "unit_test": GamingTestHandlers.run_unit_test,
+            "integration_test": GamingTestHandlers.run_integration_test,
+            "performance_test": GamingTestHandlers.run_performance_test,
+            "stress_test": GamingTestHandlers.run_stress_test,
+            "compatibility_test": GamingTestHandlers.run_compatibility_test,
+            "user_acceptance_test": GamingTestHandlers.run_user_acceptance_test
         }
     
     def _load_performance_baselines(self):
@@ -207,131 +206,19 @@ class GamingTestRunnerCore:
     def _get_default_test_function(self, test_name: str) -> Callable:
         """Get default test function for common test names."""
         default_tests = {
-            "session_creation": self._test_session_creation,
-            "performance_monitoring": self._test_performance_monitoring,
-            "alert_handling": self._test_alert_handling,
-            "fps_test": self._test_fps_performance,
-            "memory_test": self._test_memory_usage,
-            "cpu_test": self._test_cpu_usage,
-            "stress_test": self._test_stress_conditions,
-            "api_integration": self._test_api_integration,
-            "database_integration": self._test_database_integration,
-            "network_integration": self._test_network_integration
+            "session_creation": GamingTestFunctions.test_session_creation,
+            "performance_monitoring": GamingTestFunctions.test_performance_monitoring,
+            "alert_handling": GamingTestFunctions.test_alert_handling,
+            "fps_test": GamingTestFunctions.test_fps_performance,
+            "memory_test": GamingTestFunctions.test_memory_usage,
+            "cpu_test": GamingTestFunctions.test_cpu_usage,
+            "stress_test": GamingTestFunctions.test_stress_conditions,
+            "api_integration": GamingTestFunctions.test_api_integration,
+            "database_integration": GamingTestFunctions.test_database_integration,
+            "network_integration": GamingTestFunctions.test_network_integration
         }
         
-        return default_tests.get(test_name, self._test_placeholder)
-    
-    def _test_session_creation(self) -> bool:
-        """Test gaming session creation."""
-        logger.info("Testing session creation")
-        time.sleep(0.1)
-        return True
-    
-    def _test_performance_monitoring(self) -> bool:
-        """Test performance monitoring."""
-        logger.info("Testing performance monitoring")
-        time.sleep(0.2)
-        return True
-    
-    def _test_alert_handling(self) -> bool:
-        """Test alert handling."""
-        logger.info("Testing alert handling")
-        time.sleep(0.15)
-        return True
-    
-    def _test_fps_performance(self) -> Dict[str, Any]:
-        """Test FPS performance."""
-        logger.info("Testing FPS performance")
-        time.sleep(1)
-        return {
-            "fps": 60,
-            "frame_time": 16.67,
-            "stability": 0.98
-        }
-    
-    def _test_memory_usage(self) -> Dict[str, Any]:
-        """Test memory usage."""
-        logger.info("Testing memory usage")
-        time.sleep(0.5)
-        return {
-            "memory_usage": 45.2,
-            "memory_leaks": 0,
-            "efficiency": 0.95
-        }
-    
-    def _test_cpu_usage(self) -> Dict[str, Any]:
-        """Test CPU usage."""
-        logger.info("Testing CPU usage")
-        time.sleep(0.5)
-        return {
-            "cpu_usage": 23.1,
-            "cpu_efficiency": 0.92,
-            "thermal_performance": "good"
-        }
-    
-    def _test_stress_conditions(self) -> Dict[str, Any]:
-        """Test stress conditions."""
-        logger.info("Testing stress conditions")
-        time.sleep(2)
-        return {
-            "stress_level": "moderate",
-            "stability": 0.85,
-            "recovery_time": 1.2
-        }
-    
-    def _test_api_integration(self) -> bool:
-        """Test API integration."""
-        logger.info("Testing API integration")
-        time.sleep(0.3)
-        return True
-    
-    def _test_database_integration(self) -> bool:
-        """Test database integration."""
-        logger.info("Testing database integration")
-        time.sleep(0.4)
-        return True
-    
-    def _test_network_integration(self) -> bool:
-        """Test network integration."""
-        logger.info("Testing network integration")
-        time.sleep(0.3)
-        return True
-    
-    def _test_placeholder(self) -> bool:
-        """Placeholder test function."""
-        logger.info("Running placeholder test")
-        time.sleep(0.1)
-        return True
-    
-    def _run_unit_test(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Run unit test."""
-        logger.info("Running unit test")
-        return {"success": True, "type": "unit"}
-    
-    def _run_integration_test(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Run integration test."""
-        logger.info("Running integration test")
-        return {"success": True, "type": "integration"}
-    
-    def _run_performance_test(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Run performance test."""
-        logger.info("Running performance test")
-        return {"success": True, "type": "performance"}
-    
-    def _run_stress_test(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Run stress test."""
-        logger.info("Running stress test")
-        return {"success": True, "type": "stress"}
-    
-    def _run_compatibility_test(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Run compatibility test."""
-        logger.info("Running compatibility test")
-        return {"success": True, "type": "compatibility"}
-    
-    def _run_user_acceptance_test(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Run user acceptance test."""
-        logger.info("Running user acceptance test")
-        return {"success": True, "type": "user_acceptance"}
+        return default_tests.get(test_name, GamingTestFunctions.test_placeholder)
     
     def get_test_results(self, test_id: Optional[str] = None) -> Dict[str, Any]:
         """

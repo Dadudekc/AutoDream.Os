@@ -12,8 +12,9 @@
 // IMPORT DEPENDENCIES
 // ================================
 
-import { getSocketConnection, connectSocket, disconnectSocket, getSocketStatus } from './dashboard-socket-connection.js';
-import { getSocketMessaging, processSocketMessage, addMessageHandler, getMessagingStatus } from './dashboard-socket-messaging.js';
+import { addMessageHandler, getMessagingStatus, getSocketMessaging, processSocketMessage } from './dashboard-socket-messaging.js';
+import { connectSocket, disconnectSocket, getSocketConnection, getSocketStatus } from './dashboard-socket-connection.js';
+
 import { showAlert } from './dashboard-ui-helpers.js';
 
 // ================================

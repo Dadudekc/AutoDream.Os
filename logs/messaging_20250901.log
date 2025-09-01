@@ -4813,3 +4813,16 @@
 2025-09-01 12:20:48,650 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
 2025-09-01 12:20:48,659 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
 2025-09-01 12:20:48,659 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:21:52,606 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:21:52,606 - messaging - ERROR - _log:127 - --message is required for standard message operations
+2025-09-01 12:22:31,855 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:22:31,855 - messaging - ERROR - _log:127 - --message is required for standard message operations
+2025-09-01 12:22:36,240 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:22:36,250 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:22:36,253 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:22:44,091 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:22:44,097 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:22:44,098 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully
+2025-09-01 12:23:00,511 - messaging - INFO - _log:129 - CLIValidatorCore initialized with modular validation components
+2025-09-01 12:23:00,533 - messaging - INFO - _log:129 - MessageQueue initialized in message_queue
+2025-09-01 12:23:00,563 - messaging - INFO - _log:129 - UnifiedMessagingCore initialized successfully

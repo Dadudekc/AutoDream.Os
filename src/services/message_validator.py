@@ -73,7 +73,7 @@ class MessageValidator:
     def _is_special_case(self, args: argparse.Namespace) -> bool:
         """Check if this is a special case that doesn't require explicit message."""
         for operation in self.special_operations:
-            if getattr(args, operation.replace('_', ''), False):
+            if getattr(args, operation, False):
                 return True
         return False
 

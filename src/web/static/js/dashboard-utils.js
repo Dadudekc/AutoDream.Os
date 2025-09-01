@@ -8,6 +8,68 @@
  */
 
 /**
+ * Get status CSS class based on status
+ * @param {string} status - Status value
+ * @returns {string} CSS class name
+ */
+function getStatusClass(status) {
+    switch (status) {
+        case 'critical': return 'critical';
+        case 'warning': return 'warning';
+        case 'normal': return 'healthy';
+        default: return 'healthy';
+    }
+}
+
+/**
+ * Get status badge color
+ * @param {string} status - Agent status
+ * @returns {string} Bootstrap color class
+ */
+function getStatusBadgeColor(status) {
+    switch (status) {
+        case 'active': return 'success';
+        case 'busy': return 'warning';
+        case 'idle': return 'secondary';
+        case 'offline': return 'danger';
+        default: return 'secondary';
+    }
+}
+
+/**
+ * Get score CSS class
+ * @param {number} score - Performance score
+ * @returns {string} CSS class name
+ */
+function getScoreClass(score) {
+    if (score >= 80) return 'high';
+    if (score >= 60) return 'medium';
+    return 'low';
+}
+
+/**
+ * Format timestamp for display
+ * @param {string} timestamp - ISO timestamp
+ * @returns {string} Formatted timestamp
+ */
+function formatTimestamp(timestamp) {
+    if (!timestamp) return 'Unknown';
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+}
+
+/**
+ * Update current time display
+ */
+function updateCurrentTime() {
+    const timeElement = document.getElementById('current-time');
+    if (timeElement) {
+        const now = new Date();
+        timeElement.textContent = now.toLocaleTimeString();
+    }
+}
+
+/**
  * Format number with appropriate suffix (K, M, B)
  * @param {number} num - Number to format
  * @returns {string} Formatted number
@@ -139,115 +201,7 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-/**
- * Sanitize HTML string to prevent XSS
- * @param {string} str - String to sanitize
- * @returns {string} Sanitized string
- */
-function sanitizeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
 
-/**
- * Get element dimensions and position
- * @param {HTMLElement} element - Element to measure
- * @returns {Object} Element dimensions and position
- */
-function getElementDimensions(element) {
-    const rect = element.getBoundingClientRect();
-    return {
-        width: rect.width,
-        height: rect.height,
-        top: rect.top + window.pageYOffset,
-        left: rect.left + window.pageXOffset,
-        right: rect.right + window.pageXOffset,
-        bottom: rect.bottom + window.pageYOffset
-    };
-}
-
-/**
- * Check if element is in viewport
- * @param {HTMLElement} element - Element to check
- * @returns {boolean} True if element is in viewport
- */
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-/**
- * Add CSS class with animation
- * @param {HTMLElement} element - Element to animate
- * @param {string} className - CSS class to add
- * @param {number} duration - Animation duration in milliseconds
- */
-function addClassWithAnimation(element, className, duration = 300) {
-    element.classList.add(className);
-    setTimeout(() => {
-        element.classList.remove(className);
-    }, duration);
-}
-
-/**
- * Smooth scroll to element
- * @param {HTMLElement} element - Element to scroll to
- * @param {number} offset - Offset from top
- */
-function smoothScrollTo(element, offset = 0) {
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-    window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-    });
-}
-
-/**
- * Copy text to clipboard
- * @param {string} text - Text to copy
- * @returns {Promise<boolean>} True if successful
- */
-async function copyToClipboard(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        return true;
-    } catch (err) {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        return true;
-    }
-}
-
-/**
- * Download data as file
- * @param {string} data - Data to download
- * @param {string} filename - Filename
- * @param {string} type - MIME type
- */
-function downloadFile(data, filename, type = 'text/plain') {
-    const blob = new Blob([data], { type });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
 
 // Export utility functions
 export {

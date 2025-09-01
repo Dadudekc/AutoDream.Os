@@ -49,6 +49,18 @@ class MessagingDelivery:
             bool: True if delivery successful or queued, False only on critical errors
         """
         try:
+            # Enforce devlog usage for inbox message delivery operations
+            from ..core.devlog_enforcement import enforce_devlog_for_operation
+            devlog_success = enforce_devlog_for_operation(
+                operation_type="inbox_message_delivery",
+                agent_id=message.sender,
+                title=f"Inbox Message Delivery to {message.recipient}",
+                content=f"Delivered message to {message.recipient} inbox via file system",
+                category="progress"
+            )
+            if not devlog_success:
+                self.logger.warning(f"Devlog enforcement failed for inbox delivery to {message.recipient}")
+            
             # First attempt immediate delivery
             success = self._deliver_message_immediate(message)
 

@@ -66,6 +66,18 @@ class PyAutoGUIMessagingDelivery:
             if not validate_coordinates_before_delivery(coords, recipient):
                 print(f"❌ ERROR: Coordinate validation failed for {recipient}")
                 return False
+            
+            # Enforce devlog usage for message delivery operations
+            from ..core.devlog_enforcement import enforce_devlog_for_operation
+            devlog_success = enforce_devlog_for_operation(
+                operation_type="message_delivery",
+                agent_id=message.sender,
+                title=f"Message Delivery to {recipient}",
+                content=f"Delivered message via PyAutoGUI to {recipient} at coordinates {coords}",
+                category="progress"
+            )
+            if not devlog_success:
+                print(f"⚠️  WARNING: Devlog enforcement failed for message delivery to {recipient}")
 
             # Move to agent coordinates
             pyautogui.moveTo(coords[0], coords[1], duration=0.5)

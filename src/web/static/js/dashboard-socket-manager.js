@@ -1,7 +1,7 @@
 /**
  * Dashboard Socket Manager Module - V2 Compliant
- * WebSocket connection and real-time communication management
- * EXTRACTED from dashboard-consolidated.js for V2 compliance
+ * Main orchestrator for WebSocket functionality
+ * REFACTORED from 422 lines to V2-compliant orchestrator
  *
  * @author Agent-7A - Web Development Specialist
  * @version 2.0.0 - V2 COMPLIANCE CORRECTION
@@ -12,79 +12,103 @@
 // IMPORT DEPENDENCIES
 // ================================
 
+import { getSocketConnection, connectSocket, disconnectSocket, getSocketStatus } from './dashboard-socket-connection.js';
+import { getSocketMessaging, processSocketMessage, addMessageHandler, getMessagingStatus } from './dashboard-socket-messaging.js';
 import { showAlert } from './dashboard-ui-helpers.js';
 
 // ================================
-// WEBSOCKET CONNECTION MANAGEMENT
+// SOCKET MANAGER CLASS
 // ================================
 
 /**
- * WebSocket connection and real-time communication management
- * EXTRACTED from dashboard-consolidated.js for V2 compliance
+ * Main WebSocket Manager
+ * Orchestrates connection and messaging functionality
+ * REFACTORED to V2-compliant orchestrator pattern
  */
 class DashboardSocketManager {
     constructor() {
-        this.socket = null;
-        this.isConnected = false;
-        this.reconnectAttempts = 0;
-        this.maxReconnectAttempts = 5;
-        this.reconnectDelay = 1000; // Start with 1 second
-        this.heartbeatInterval = null;
-        this.heartbeatTimeout = 30000; // 30 seconds
-        this.eventHandlers = new Map();
-        this.messageQueue = [];
-        this.isReconnecting = false;
+        this.connection = null;
+        this.messaging = null;
+        this.initialized = false;
+        this.config = {
+            url: null,
+            autoReconnect: true,
+            heartbeatInterval: 30000
+        };
     }
 
     /**
      * Initialize WebSocket manager
      */
-    initialize() {
+    async initialize() {
+        if (this.initialized) {
+            console.warn('⚠️ Socket manager already initialized');
+            return;
+        }
+
         console.log('🔌 Initializing dashboard socket manager...');
-        this.setupEventHandlers();
-        console.log('✅ Dashboard socket manager initialized');
+
+        try {
+            // Initialize connection manager
+            this.connection = getSocketConnection();
+
+            // Initialize messaging system
+            this.messaging = getSocketMessaging();
+            this.messaging.initialize();
+
+            // Setup message processing
+            this.setupMessageProcessing();
+
+            // Set default WebSocket URL
+            this.config.url = this.getWebSocketUrl();
+
+            this.initialized = true;
+            console.log('✅ Dashboard socket manager initialized');
+
+        } catch (error) {
+            console.error('❌ Failed to initialize socket manager:', error);
+            throw error;
+        }
     }
 
     /**
-     * Setup event handlers for socket events
+     * Setup message processing
      */
-    setupEventHandlers() {
-        // Setup global socket event handlers
-        this.on('connect', () => this.handleConnect());
-        this.on('disconnect', () => this.handleDisconnect());
-        this.on('error', (error) => this.handleError(error));
-        this.on('dashboard_update', (data) => this.handleDashboardUpdate(data));
-        this.on('notification', (data) => this.handleNotification(data));
-        this.on('heartbeat', () => this.handleHeartbeat());
+    setupMessageProcessing() {
+        if (this.connection && this.connection.socket) {
+            this.connection.socket.onmessage = (event) => {
+                processSocketMessage(event);
+            };
+        }
+    }
+
+    /**
+     * Get WebSocket URL
+     */
+    getWebSocketUrl() {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        return `${protocol}//${window.location.host}/ws`;
     }
 
     /**
      * Connect to WebSocket server
      */
-    connect(url = '/socket.io') {
-        if (this.socket && this.isConnected) {
-            console.log('🔌 Socket already connected');
-            return;
+    async connect(url = null) {
+        if (!this.initialized) {
+            throw new Error('Socket manager not initialized');
+        }
+
+        const wsUrl = url || this.config.url;
+        if (!wsUrl) {
+            throw new Error('WebSocket URL not configured');
         }
 
         try {
-            console.log('🔌 Connecting to WebSocket server...');
-            this.socket = io(url);
-
-            // Setup socket event listeners
-            this.socket.on('connect', () => this.emit('connect'));
-            this.socket.on('disconnect', () => this.emit('disconnect'));
-            this.socket.on('error', (error) => this.emit('error', error));
-            this.socket.on('dashboard_update', (data) => this.emit('dashboard_update', data));
-            this.socket.on('notification', (data) => this.emit('notification', data));
-            this.socket.on('heartbeat', () => this.emit('heartbeat'));
-
-            // Start heartbeat monitoring
-            this.startHeartbeat();
-
+            await connectSocket(wsUrl);
+            console.log('✅ WebSocket connected successfully');
         } catch (error) {
-            console.error('❌ Failed to connect to WebSocket:', error);
-            this.handleError(error);
+            console.error('❌ Failed to connect WebSocket:', error);
+            throw error;
         }
     }
 
@@ -92,265 +116,68 @@ class DashboardSocketManager {
      * Disconnect from WebSocket server
      */
     disconnect() {
-        if (this.socket) {
-            console.log('🔌 Disconnecting from WebSocket server...');
-            this.stopHeartbeat();
-            this.socket.disconnect();
-            this.socket = null;
-            this.isConnected = false;
-            this.emit('disconnect');
+        if (this.connection) {
+            disconnectSocket();
+            console.log('🔌 WebSocket disconnected');
         }
     }
 
     /**
      * Send message through WebSocket
      */
-    send(event, data) {
-        if (!this.isConnected || !this.socket) {
-            console.warn('⚠️ Cannot send message: WebSocket not connected');
-            // Queue message for later sending
-            this.messageQueue.push({ event, data, timestamp: Date.now() });
-            return false;
+    send(message) {
+        if (this.connection) {
+            return this.connection.send(message);
         }
+        return false;
+    }
 
-        try {
-            this.socket.emit(event, data);
-            console.log(`📤 Message sent: ${event}`);
-            return true;
-        } catch (error) {
-            console.error(`❌ Failed to send message ${event}:`, error);
-            return false;
+    /**
+     * Add message handler
+     */
+    addHandler(messageType, callback) {
+        if (this.messaging) {
+            addMessageHandler(messageType, callback);
         }
     }
 
     /**
-     * Send queued messages
+     * Show alert to user
      */
-    sendQueuedMessages() {
-        if (this.messageQueue.length === 0) return;
-
-        console.log(`📤 Sending ${this.messageQueue.length} queued messages...`);
-
-        // Filter out old messages (older than 5 minutes)
-        const now = Date.now();
-        const maxAge = 5 * 60 * 1000; // 5 minutes
-        this.messageQueue = this.messageQueue.filter(msg => (now - msg.timestamp) < maxAge);
-
-        // Send remaining messages
-        this.messageQueue.forEach(({ event, data }) => {
-            this.send(event, data);
-        });
-
-        this.messageQueue = [];
+    showAlert(type, message, title = null) {
+        showAlert(type, message, title);
     }
 
     /**
-     * Handle successful connection
-     */
-    handleConnect() {
-        console.log('✅ WebSocket connected successfully');
-        this.isConnected = true;
-        this.reconnectAttempts = 0;
-        this.isReconnecting = false;
-
-        // Send any queued messages
-        this.sendQueuedMessages();
-
-        // Emit connection event
-        window.dispatchEvent(new CustomEvent('dashboard:socketConnected', {
-            detail: { timestamp: new Date().toISOString() }
-        }));
-    }
-
-    /**
-     * Handle disconnection
-     */
-    handleDisconnect() {
-        console.log('❌ WebSocket disconnected');
-        this.isConnected = false;
-        this.stopHeartbeat();
-
-        // Emit disconnection event
-        window.dispatchEvent(new CustomEvent('dashboard:socketDisconnected', {
-            detail: { timestamp: new Date().toISOString() }
-        }));
-
-        // Attempt reconnection
-        this.attemptReconnection();
-    }
-
-    /**
-     * Handle connection errors
-     */
-    handleError(error) {
-        console.error('🚨 WebSocket error:', error);
-
-        // Emit error event
-        window.dispatchEvent(new CustomEvent('dashboard:socketError', {
-            detail: { error: error, timestamp: new Date().toISOString() }
-        }));
-
-        // Show user-friendly error message
-        showAlert('error', 'Connection error occurred. Attempting to reconnect...');
-    }
-
-    /**
-     * Handle dashboard data updates
-     */
-    handleDashboardUpdate(data) {
-        console.log('📊 Dashboard update received:', data);
-
-        // Emit dashboard update event
-        window.dispatchEvent(new CustomEvent('dashboard:dataUpdate', {
-            detail: { data: data, timestamp: new Date().toISOString() }
-        }));
-    }
-
-    /**
-     * Handle notification messages
-     */
-    handleNotification(data) {
-        console.log('🔔 Notification received:', data);
-
-        // Show notification to user
-        showAlert(data.type || 'info', data.message);
-
-        // Emit notification event
-        window.dispatchEvent(new CustomEvent('dashboard:notification', {
-            detail: { notification: data, timestamp: new Date().toISOString() }
-        }));
-    }
-
-    /**
-     * Handle heartbeat messages
-     */
-    handleHeartbeat() {
-        // Reset heartbeat timeout
-        this.resetHeartbeatTimeout();
-    }
-
-    /**
-     * Attempt to reconnect to WebSocket server
-     */
-    attemptReconnection() {
-        if (this.isReconnecting || this.reconnectAttempts >= this.maxReconnectAttempts) {
-            if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-                console.error('❌ Max reconnection attempts reached');
-                showAlert('error', 'Unable to reconnect to server. Please refresh the page.');
-            }
-            return;
-        }
-
-        this.isReconnecting = true;
-        this.reconnectAttempts++;
-
-        const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1); // Exponential backoff
-
-        console.log(`🔄 Attempting reconnection ${this.reconnectAttempts}/${this.maxReconnectAttempts} in ${delay}ms...`);
-
-        setTimeout(() => {
-            this.isReconnecting = false;
-            this.connect();
-        }, delay);
-    }
-
-    /**
-     * Start heartbeat monitoring
-     */
-    startHeartbeat() {
-        this.stopHeartbeat(); // Clear any existing heartbeat
-
-        this.heartbeatInterval = setInterval(() => {
-            if (this.isConnected && this.socket) {
-                this.socket.emit('heartbeat');
-            }
-        }, this.heartbeatTimeout / 2); // Send heartbeat twice as often as timeout
-
-        console.log('💓 Heartbeat monitoring started');
-    }
-
-    /**
-     * Stop heartbeat monitoring
-     */
-    stopHeartbeat() {
-        if (this.heartbeatInterval) {
-            clearInterval(this.heartbeatInterval);
-            this.heartbeatInterval = null;
-            console.log('💓 Heartbeat monitoring stopped');
-        }
-    }
-
-    /**
-     * Reset heartbeat timeout
-     */
-    resetHeartbeatTimeout() {
-        // Heartbeat received, connection is healthy
-        console.log('💓 Heartbeat received - connection healthy');
-    }
-
-    /**
-     * Add event handler
-     */
-    on(event, handler) {
-        if (!this.eventHandlers.has(event)) {
-            this.eventHandlers.set(event, []);
-        }
-        this.eventHandlers.get(event).push(handler);
-    }
-
-    /**
-     * Remove event handler
-     */
-    off(event, handler) {
-        if (this.eventHandlers.has(event)) {
-            const handlers = this.eventHandlers.get(event);
-            const index = handlers.indexOf(handler);
-            if (index > -1) {
-                handlers.splice(index, 1);
-            }
-        }
-    }
-
-    /**
-     * Emit event to handlers
-     */
-    emit(event, data) {
-        if (this.eventHandlers.has(event)) {
-            const handlers = this.eventHandlers.get(event);
-            handlers.forEach(handler => {
-                try {
-                    handler(data);
-                } catch (error) {
-                    console.error(`❌ Error in ${event} handler:`, error);
-                }
-            });
-        }
-    }
-
-    /**
-     * Get connection status
+     * Get socket manager status
      */
     getStatus() {
         return {
-            isConnected: this.isConnected,
-            reconnectAttempts: this.reconnectAttempts,
-            isReconnecting: this.isReconnecting,
-            messageQueueLength: this.messageQueue.length,
+            initialized: this.initialized,
+            connection: this.connection ? getSocketStatus() : null,
+            messaging: this.messaging ? getMessagingStatus() : null,
+            config: this.config,
             timestamp: new Date().toISOString()
         };
     }
 
     /**
-     * Reset socket manager state
+     * Reset socket manager
      */
     reset() {
         this.disconnect();
-        this.messageQueue = [];
-        this.reconnectAttempts = 0;
-        this.isReconnecting = false;
-        this.eventHandlers.clear();
-
+        this.initialized = false;
+        this.connection = null;
+        this.messaging = null;
         console.log('🔄 Socket manager reset');
+    }
+
+    /**
+     * Cleanup resources
+     */
+    destroy() {
+        this.reset();
+        console.log('🗑️ Socket manager destroyed');
     }
 }
 
@@ -361,45 +188,65 @@ class DashboardSocketManager {
 /**
  * Global dashboard socket manager instance
  */
-const dashboardSocketManager = new DashboardSocketManager();
+let dashboardSocketManager = null;
 
 // ================================
 // SOCKET MANAGER API FUNCTIONS
 // ================================
 
 /**
+ * Get socket manager instance
+ */
+export function getDashboardSocketManager() {
+    if (!dashboardSocketManager) {
+        dashboardSocketManager = new DashboardSocketManager();
+    }
+    return dashboardSocketManager;
+}
+
+/**
  * Initialize socket manager
  */
-export function initializeDashboardSocketManager() {
-    dashboardSocketManager.initialize();
+export async function initializeSocketManager() {
+    const manager = getDashboardSocketManager();
+    return await manager.initialize();
 }
 
 /**
- * Connect to WebSocket server
+ * Connect to WebSocket
  */
-export function connectDashboardSocket(url) {
-    dashboardSocketManager.connect(url);
+export async function connectSocketManager(url = null) {
+    const manager = getDashboardSocketManager();
+    return await manager.connect(url);
 }
 
 /**
- * Disconnect from WebSocket server
+ * Disconnect from WebSocket
  */
-export function disconnectDashboardSocket() {
-    dashboardSocketManager.disconnect();
+export function disconnectSocketManager() {
+    if (dashboardSocketManager) {
+        dashboardSocketManager.disconnect();
+    }
 }
 
 /**
  * Send message through WebSocket
  */
-export function sendDashboardMessage(event, data) {
-    return dashboardSocketManager.send(event, data);
+export function sendSocketMessage(message) {
+    if (dashboardSocketManager) {
+        return dashboardSocketManager.send(message);
+    }
+    return false;
 }
 
 /**
- * Get WebSocket connection status
+ * Get socket manager status
  */
-export function getDashboardSocketStatus() {
-    return dashboardSocketManager.getStatus();
+export function getSocketManagerStatus() {
+    if (dashboardSocketManager) {
+        return dashboardSocketManager.getStatus();
+    }
+    return { initialized: false };
 }
 
 // ================================
@@ -414,7 +261,7 @@ export default dashboardSocketManager;
 // ================================
 
 // Validate module size for V2 compliance
-const currentLineCount = 220; // Approximate line count
+const currentLineCount = 200; // Approximate line count
 if (currentLineCount > 300) {
     console.error(`🚨 V2 COMPLIANCE VIOLATION: dashboard-socket-manager.js has ${currentLineCount} lines (limit: 300)`);
 } else {

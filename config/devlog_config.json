@@ -1,5 +1,5 @@
 {
-  "discord_webhook_url": "",
+  "discord_webhook_url": "USE_ENV_VAR",
   "enable_discord": true,
   "agent_name": "Agent-4",
   "default_channel": "devlog",

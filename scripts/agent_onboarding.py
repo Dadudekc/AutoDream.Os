@@ -1,21 +1,16 @@
+from ..core.unified_entry_point_system import main
 #!/usr/bin/env python3
 """
 Agent Swarm Onboarding Script
 Automated onboarding for new agents joining the swarm system.
 """
 
-import os
-import json
-import sys
-import subprocess
-from datetime import datetime
-from pathlib import Path
 
 class AgentOnboarding:
     """Automated onboarding system for new agents."""
     
     def __init__(self):
-        self.workspace_root = Path("agent_workspaces")
+        self.workspace_root = get_unified_utility().Path("agent_workspaces")
         self.available_agents = {
             "Agent-1": "Integration & Core Systems Specialist",
             "Agent-2": "Architecture & Design Specialist",
@@ -59,7 +54,7 @@ class AgentOnboarding:
         }
         
         with open(workspace_dir / "status.json", "w", encoding="utf-8") as f:
-            json.dump(status_data, f, indent=2)
+            write_json(status_data, f, indent=2)
         
         return workspace_dir
     
@@ -107,84 +102,70 @@ class AgentOnboarding:
     
     def display_onboarding_summary(self, agent_id, workspace_dir):
         """Display onboarding completion summary."""
-        print("\n" + "="*60)
-        print("🎯 **AGENT ONBOARDING COMPLETE** 🎯")
-        print("="*60)
-        print(f"✅ **Agent ID**: {agent_id}")
-        print(f"✅ **Role**: {self.available_agents[agent_id]}")
-        print(f"✅ **Workspace**: {workspace_dir}")
-        print(f"✅ **Status File**: {workspace_dir}/status.json")
-        print(f"✅ **Inbox**: {workspace_dir}/inbox/")
-        print(f"✅ **Captain Acknowledgment**: Sent to Agent-4")
-        print()
-        print("🚀 **IMMEDIATE NEXT STEPS**:")
-        print("1. Claim your first contract:")
-        print(f"   python -m src.services.messaging_cli --agent {agent_id} --get-next-task")
-        print("2. Begin task execution immediately")
-        print("3. Check your inbox regularly for messages")
-        print("4. Update status.json with every action")
-        print("5. Maintain 8x efficiency through active participation")
-        print()
-        print("📋 **CRITICAL PROTOCOLS**:")
-        print("- Always check inbox before starting new work")
-        print("- Respond to all messages within 1 agent cycle")
-        print("- Update status.json with timestamp for every action")
-        print("- Preserve work context across task transitions")
-        print("- Follow V2 compliance standards")
-        print()
-        print("⚡ **WE. ARE. SWARM.** 🚀🔥")
-        print("="*60)
+        get_logger(__name__).info("\n" + "="*60)
+        get_logger(__name__).info("🎯 **AGENT ONBOARDING COMPLETE** 🎯")
+        get_logger(__name__).info("="*60)
+        get_logger(__name__).info(f"✅ **Agent ID**: {agent_id}")
+        get_logger(__name__).info(f"✅ **Role**: {self.available_agents[agent_id]}")
+        get_logger(__name__).info(f"✅ **Workspace**: {workspace_dir}")
+        get_logger(__name__).info(f"✅ **Status File**: {workspace_dir}/status.json")
+        get_logger(__name__).info(f"✅ **Inbox**: {workspace_dir}/inbox/")
+        get_logger(__name__).info(f"✅ **Captain Acknowledgment**: Sent to Agent-4")
+        get_logger(__name__).info()
+        get_logger(__name__).info("🚀 **IMMEDIATE NEXT STEPS**:")
+        get_logger(__name__).info("1. Claim your first contract:")
+        get_logger(__name__).info(f"   python -m src.services.messaging_cli --agent {agent_id} --get-next-task")
+        get_logger(__name__).info("2. Begin task execution immediately")
+        get_logger(__name__).info("3. Check your inbox regularly for messages")
+        get_logger(__name__).info("4. Update status.json with every action")
+        get_logger(__name__).info("5. Maintain 8x efficiency through active participation")
+        get_logger(__name__).info()
+        get_logger(__name__).info("📋 **CRITICAL PROTOCOLS**:")
+        get_logger(__name__).info("- Always check inbox before starting new work")
+        get_logger(__name__).info("- Respond to all messages within 1 agent cycle")
+        get_logger(__name__).info("- Update status.json with timestamp for every action")
+        get_logger(__name__).info("- Preserve work context across task transitions")
+        get_logger(__name__).info("- Follow V2 compliance standards")
+        get_logger(__name__).info()
+        get_logger(__name__).info("⚡ **WE. ARE. SWARM.** 🚀🔥")
+        get_logger(__name__).info("="*60)
     
     def run_onboarding(self):
         """Run the complete onboarding process."""
-        print("🎯 **AGENT SWARM ONBOARDING SYSTEM** 🎯")
-        print("="*50)
+        get_logger(__name__).info("🎯 **AGENT SWARM ONBOARDING SYSTEM** 🎯")
+        get_logger(__name__).info("="*50)
         
         # Find available agent ID
         agent_id = self.get_available_agent_id()
-        if not agent_id:
-            print("❌ ERROR: No available agent IDs found!")
-            print("All agents are currently assigned. Contact Captain Agent-4 for assistance.")
+        if not get_unified_validator().validate_required(agent_id):
+            get_logger(__name__).info("❌ ERROR: No available agent IDs found!")
+            get_logger(__name__).info("All agents are currently assigned. Contact Captain Agent-4 for assistance.")
             return False
         
-        print(f"🎯 **ASSIGNED AGENT ID**: {agent_id}")
-        print(f"🎯 **ROLE**: {self.available_agents[agent_id]}")
-        print()
+        get_logger(__name__).info(f"🎯 **ASSIGNED AGENT ID**: {agent_id}")
+        get_logger(__name__).info(f"🎯 **ROLE**: {self.available_agents[agent_id]}")
+        get_logger(__name__).info()
         
         # Create workspace
-        print("📁 Creating agent workspace...")
+        get_logger(__name__).info("📁 Creating agent workspace...")
         workspace_dir = self.create_agent_workspace(agent_id)
-        print(f"✅ Workspace created: {workspace_dir}")
+        get_logger(__name__).info(f"✅ Workspace created: {workspace_dir}")
         
         # Send captain acknowledgment
-        print("📬 Sending acknowledgment to Captain Agent-4...")
+        get_logger(__name__).info("📬 Sending acknowledgment to Captain Agent-4...")
         self.send_captain_acknowledgment(agent_id)
-        print("✅ Acknowledgment sent")
+        get_logger(__name__).info("✅ Acknowledgment sent")
         
         # Run contract assignment
-        print("📋 Running contract assignment...")
+        get_logger(__name__).info("📋 Running contract assignment...")
         contract_output = self.run_contract_assignment(agent_id)
-        print("✅ Contract assignment completed")
+        get_logger(__name__).info("✅ Contract assignment completed")
         
         # Display summary
         self.display_onboarding_summary(agent_id, workspace_dir)
         
         return True
 
-def main():
-    """Main entry point for the onboarding script."""
-    onboarding = AgentOnboarding()
-    success = onboarding.run_onboarding()
-    
-    if success:
-        print("\n🎉 **ONBOARDING SUCCESSFUL!** 🎉")
-        print("You are now part of the most efficient multi-agent coordination system!")
-        print("Maintain momentum. Preserve context. Execute with precision.")
-        print("**WE. ARE. SWARM.** ⚡️🔥")
-    else:
-        print("\n❌ **ONBOARDING FAILED** ❌")
-        print("Please contact Captain Agent-4 for assistance.")
-        sys.exit(1)
 
 if __name__ == "__main__":
     main()

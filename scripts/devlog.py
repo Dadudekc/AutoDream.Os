@@ -1,3 +1,4 @@
+from ..core.unified_entry_point_system import main
 #!/usr/bin/env python3
 """
 Discord Devlog System - Agent Cellphone V2
@@ -13,19 +14,10 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import sys
-import os
-import json
-import requests
-import argparse
-from datetime import datetime
-from pathlib import Path
 
 # Add src to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), '..', 'src'))
 
-from utils.logger import get_logger
-from utils.config_core import get_config
 
 class DevlogSystem:
     """Discord devlog system for team communication."""
@@ -33,12 +25,12 @@ class DevlogSystem:
     def __init__(self, agent_name=None):
         """Initialize devlog system."""
         self.logger = get_logger("devlog")
-        self.config_file = Path("config/devlog_config.json")
-        self.devlog_dir = Path("devlogs")
+        self.config_file = get_unified_utility().Path("config/devlog_config.json")
+        self.devlog_dir = get_unified_utility().Path("devlogs")
         self.devlog_dir.mkdir(exist_ok=True)
 
         # Load configuration
-        self.config = self._load_config()
+        self.config = self._get_unified_config().load_config()
         
         # Override agent name if specified
         if agent_name:
@@ -46,8 +38,8 @@ class DevlogSystem:
 
     def _load_config(self):
         """Load devlog configuration."""
-        default_config = {
-            "discord_webhook_url": os.getenv("DISCORD_WEBHOOK_URL", ""),
+        default_config = get_unified_config().get_config()
+            "discord_webhook_url": get_unified_config().get_env("DISCORD_WEBHOOK_URL", ""),
             "agent_name": "Agent-1",
             "default_channel": "devlog",
             "enable_discord": False,
@@ -57,10 +49,10 @@ class DevlogSystem:
         if self.config_file.exists():
             try:
                 with open(self.config_file, 'r') as f:
-                    loaded_config = json.load(f)
+                    loaded_config = read_json(f)
                     default_config.update(loaded_config)
             except Exception as e:
-                self.logger.error(f"Failed to load devlog config: {e}")
+                self.get_logger(__name__).error(f"Failed to load devlog config: {e}")
 
         return default_config
 
@@ -98,11 +90,11 @@ class DevlogSystem:
             if self.config["enable_discord"] and self.config["discord_webhook_url"]:
                 self._post_to_discord(devlog_entry)
 
-            self.logger.info(f"Devlog entry created: {title}")
+            self.get_logger(__name__).info(f"Devlog entry created: {title}")
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to create devlog entry: {e}")
+            self.get_logger(__name__).error(f"Failed to create devlog entry: {e}")
             return False
 
     def _save_to_file(self, entry: dict):
@@ -114,7 +106,7 @@ class DevlogSystem:
             # Load existing entries or create new list
             if filename.exists():
                 with open(filename, 'r') as f:
-                    entries = json.load(f)
+                    entries = read_json(f)
             else:
                 entries = []
 
@@ -123,16 +115,16 @@ class DevlogSystem:
 
             # Save back to file
             with open(filename, 'w') as f:
-                json.dump(entries, f, indent=2)
+                write_json(entries, f, indent=2)
 
         except Exception as e:
-            self.logger.error(f"Failed to save devlog to file: {e}")
+            self.get_logger(__name__).error(f"Failed to save devlog to file: {e}")
 
     def _post_to_discord(self, entry: dict):
         """Post devlog entry to Discord."""
         try:
             webhook_url = self.config["discord_webhook_url"]
-            if not webhook_url:
+            if not get_unified_validator().validate_required(webhook_url):
                 return
 
             # Format Discord message
@@ -165,15 +157,15 @@ class DevlogSystem:
             }
 
             # Send to Discord
-            response = requests.post(webhook_url, json=discord_message)
+            response = make_request(webhook_url, json=discord_message, "POST")
 
             if response.status_code == 204:
-                self.logger.info("Devlog posted to Discord successfully")
+                self.get_logger(__name__).info("Devlog posted to Discord successfully")
             else:
-                self.logger.error(f"Failed to post to Discord: {response.status_code}")
+                self.get_logger(__name__).error(f"Failed to post to Discord: {response.status_code}")
 
         except Exception as e:
-            self.logger.error(f"Failed to post to Discord: {e}")
+            self.get_logger(__name__).error(f"Failed to post to Discord: {e}")
 
     def _get_category_color(self, category: str) -> int:
         """Get Discord embed color for category."""
@@ -205,19 +197,14 @@ class DevlogSystem:
             count = get_config('count', 0)
             for file_path in self.devlog_dir.glob("*.json"):
                 with open(file_path, 'r') as f:
-                    entries = json.load(f)
+                    entries = read_json(f)
                     count += len(entries)
             return count
         except Exception:
             return 0
 
 
-def main():
-    """Main CLI entry point for devlog system."""
-    parser = argparse.ArgumentParser(
-        description="Discord Devlog System - V2 SWARM Communication",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+
 Examples:
   python scripts/devlog.py "Title" "Content"
   python scripts/devlog.py "Title" "Content" --category success
@@ -235,7 +222,7 @@ Categories: general, progress, issue, success, warning, info
                        help="Entry category (default: general)")
     parser.add_argument("--agent", "-a", help="Agent name (overrides config)")
     
-    args = parser.parse_args()
+    args = parser.get_unified_utility().parse_args()
 
     # Initialize devlog system with optional agent override
     devlog = DevlogSystem(agent_name=args.agent)
@@ -244,12 +231,12 @@ Categories: general, progress, issue, success, warning, info
     success = devlog.create_entry(args.title, args.content, args.category)
 
     if success:
-        print(f"✅ Devlog entry created: {args.title}")
+        get_logger(__name__).info(f"✅ Devlog entry created: {args.title}")
         if args.agent:
-            print(f"📝 Agent: {args.agent}")
-        print(f"📂 Category: {args.category}")
+            get_logger(__name__).info(f"📝 Agent: {args.agent}")
+        get_logger(__name__).info(f"📂 Category: {args.category}")
     else:
-        print(f"❌ Failed to create devlog entry: {args.title}")
+        get_logger(__name__).info(f"❌ Failed to create devlog entry: {args.title}")
         sys.exit(1)
 
 

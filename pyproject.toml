@@ -137,6 +137,9 @@ max-parents = 7
 max-public-methods = 30
 max-returns = 10
 max-statements = 60
+# Dream.OS Python Coding Standard v1.0 LOC limits
+max-module-lines = 400  # File LOC limit
+max-class-lines = 100   # Class LOC limit
 
 [tool.mypy]
 python_version = "3.8"

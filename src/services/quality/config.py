@@ -1,8 +1,6 @@
-
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for quality monitoring modules."""
 
-from __future__ import annotations
 
 # Default configuration values for quality monitoring components
 DEFAULT_CHECK_INTERVAL: float = 30.0

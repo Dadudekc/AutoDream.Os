@@ -22,29 +22,17 @@ Architecture:
 @license MIT
 """
 
-import os
-import time
-import json
-import tempfile
-import threading
-import platform
-from typing import Optional, Callable, Any, Dict
-from pathlib import Path
-from contextlib import contextmanager
-from dataclasses import dataclass, field
 
-from ..utils.logger import get_messaging_logger
 
 # Platform-specific imports
-if platform.system() == 'Windows':
-    import msvcrt
+if platform.system() == "Windows":
 else:
-    import fcntl
 
 
 @dataclass
 class LockConfig:
     """Configuration for file locking operations."""
+
     timeout_seconds: float = 30.0
     retry_interval: float = 0.1
     max_retries: int = 300
@@ -55,6 +43,7 @@ class LockConfig:
 @dataclass
 class LockInfo:
     """Information about an active file lock."""
+
     lock_file: str
     pid: int
     thread_id: str
@@ -65,16 +54,19 @@ class LockInfo:
 
 class FileLockError(Exception):
     """Base exception for file locking operations."""
+
     pass
 
 
 class LockTimeoutError(FileLockError):
     """Raised when lock acquisition times out."""
+
     pass
 
 
 class LockCleanupError(FileLockError):
     """Raised when lock cleanup fails."""
+
     pass
 
 
@@ -93,14 +85,16 @@ class FileLock:
             filepath: Path to the file to lock
             config: Lock configuration (uses defaults if None)
         """
-        self.filepath = Path(filepath)
+        self.filepath = get_unified_utility().Path(filepath)
         self.config = config or LockConfig()
-        self.lock_file = self.filepath.with_suffix(self.filepath.suffix + '.lock')
+        self.lock_file = self.filepath.with_suffix(self.filepath.suffix + ".lock")
         self.logger = get_messaging_logger()
         self._lock_fd: Optional[int] = None
         self._lock_info: Optional[LockInfo] = None
 
-    def acquire(self, operation: str = "unknown", metadata: Optional[Dict[str, Any]] = None) -> bool:
+    def acquire(
+        self, operation: str = "unknown", metadata: Optional[Dict[str, Any]] = None
+    ) -> bool:
         """Acquire exclusive lock on file.
 
         Args:
@@ -113,7 +107,7 @@ class FileLock:
         Raises:
             LockTimeoutError: If lock cannot be acquired within timeout
         """
-        start_time = time.time()
+        start_time = time_module.time()
         attempts = 0
 
         while attempts < self.config.max_retries:
@@ -126,17 +120,21 @@ class FileLock:
                 self._cleanup_stale_locks()
 
                 # Wait before retry
-                time.sleep(self.config.retry_interval)
+                time_module.sleep(self.config.retry_interval)
                 attempts += 1
 
             except Exception as e:
-                self.logger.error(f"Error acquiring lock for {self.filepath}: {e}")
-                time.sleep(self.config.retry_interval)
+                self.get_logger(__name__).error(f"Error acquiring lock for {self.filepath}: {e}")
+                time_module.sleep(self.config.retry_interval)
                 attempts += 1
 
-        elapsed = time.time() - start_time
-        self.logger.error(f"Lock acquisition timeout for {self.filepath} after {elapsed:.2f}s")
-        raise LockTimeoutError(f"Could not acquire lock for {self.filepath} within {self.config.timeout_seconds}s")
+        elapsed = time_module.time() - start_time
+        self.get_logger(__name__).error(
+            f"Lock acquisition timeout for {self.filepath} after {elapsed:.2f}s"
+        )
+        raise LockTimeoutError(
+            f"Could not acquire lock for {self.filepath} within {self.config.timeout_seconds}s"
+        )
 
     def release(self) -> bool:
         """Release the file lock.
@@ -151,7 +149,7 @@ class FileLock:
                     self.lock_file.unlink()
 
                 # Unlock file (platform-specific)
-                if platform.system() == 'Windows':
+                if platform.system() == "Windows":
                     try:
                         msvcrt.locking(self._lock_fd, msvcrt.LK_UNLCK, 1)
                     except (OSError, ValueError):
@@ -166,15 +164,17 @@ class FileLock:
                 self._lock_fd = None
                 self._lock_info = None
 
-                self.logger.debug(f"Lock released for {self.filepath}")
+                self.get_logger(__name__).debug(f"Lock released for {self.filepath}")
                 return True
 
         except Exception as e:
-            self.logger.error(f"Error releasing lock for {self.filepath}: {e}")
+            self.get_logger(__name__).error(f"Error releasing lock for {self.filepath}: {e}")
 
         return False
 
-    def _try_acquire_lock(self, operation: str, metadata: Optional[Dict[str, Any]] = None) -> bool:
+    def _try_acquire_lock(
+        self, operation: str, metadata: Optional[Dict[str, Any]] = None
+    ) -> bool:
         """Attempt to acquire lock once.
 
         Returns:
@@ -186,13 +186,15 @@ class FileLock:
                 lock_file=str(self.lock_file),
                 pid=os.getpid(),
                 thread_id=threading.current_thread().ident or "unknown",
-                timestamp=time.time(),
+                timestamp=time_module.time(),
                 operation=operation,
-                metadata=metadata or {}
+                metadata=metadata or {},
             )
 
             # Try to create and lock the lock file
-            self._lock_fd = os.open(str(self.lock_file), os.O_CREAT | os.O_EXCL | os.O_RDWR)
+            self._lock_fd = os.open(
+                str(self.lock_file), os.O_CREAT | os.O_EXCL | os.O_RDWR
+            )
 
             # Write lock info
             lock_data = {
@@ -200,14 +202,14 @@ class FileLock:
                 "thread_id": self._lock_info.thread_id,
                 "timestamp": self._lock_info.timestamp,
                 "operation": self._lock_info.operation,
-                "metadata": self._lock_info.metadata
+                "metadata": self._lock_info.metadata,
             }
-            os.write(self._lock_fd, json.dumps(lock_data).encode('utf-8'))
+            os.write(self._lock_fd, json.dumps(lock_data).encode("utf-8"))
 
             # Apply file lock (platform-specific)
-            if platform.system() == 'Windows':
+            if platform.system() == "Windows":
                 # Windows: Use msvcrt.locking with retry mechanism
-                import time
+
                 max_retries = 10
                 for attempt in range(max_retries):
                     try:
@@ -215,13 +217,15 @@ class FileLock:
                         break
                     except OSError as e:
                         if attempt == max_retries - 1:
-                            raise BlockingIOError("Lock is held by another process") from e
-                        time.sleep(0.01)  # Brief pause before retry
+                            raise BlockingIOError(
+                                "Lock is held by another process"
+                            ) from e
+                        time_module.sleep(0.01)  # Brief pause before retry
             else:
                 # Unix/Linux: Use fcntl.flock
                 fcntl.flock(self._lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
-            self.logger.debug(f"Lock acquired for {self.filepath} ({operation})")
+            self.get_logger(__name__).debug(f"Lock acquired for {self.filepath} ({operation})")
             return True
 
         except (OSError, BlockingIOError):
@@ -235,7 +239,7 @@ class FileLock:
             return False
 
         except Exception as e:
-            self.logger.error(f"Unexpected error acquiring lock: {e}")
+            self.get_logger(__name__).error(f"Unexpected error acquiring lock: {e}")
             if self._lock_fd is not None:
                 try:
                     os.close(self._lock_fd)
@@ -252,38 +256,44 @@ class FileLock:
 
             # Read lock file to check if it's stale
             try:
-                with open(self.lock_file, 'r') as f:
-                    lock_data = json.load(f)
+                with open(self.lock_file, "r") as f:
+                    lock_data = read_json(f)
 
-                lock_timestamp = lock_data.get('timestamp', 0)
-                lock_pid = lock_data.get('pid', 0)
-                current_time = time.time()
+                lock_timestamp = lock_data.get("timestamp", 0)
+                lock_pid = lock_data.get("pid", 0)
+                current_time = time_module.time()
 
                 # Check if lock is stale (old or dead process)
-                if (current_time - lock_timestamp > self.config.stale_lock_age or
-                    not self._is_process_alive(lock_pid)):
+                if (
+                    current_time - lock_timestamp > self.config.stale_lock_age
+                    or not self._is_process_alive(lock_pid)
+                ):
 
-                    self.logger.warning(f"Cleaning up stale lock file: {self.lock_file}")
+                    self.get_logger(__name__).warning(
+                        f"Cleaning up stale lock file: {self.lock_file}"
+                    )
                     try:
                         self.lock_file.unlink()
                     except OSError as e:
-                        self.logger.error(f"Failed to remove stale lock file: {e}")
+                        self.get_logger(__name__).error(f"Failed to remove stale lock file: {e}")
 
             except (json.JSONDecodeError, OSError) as e:
                 # Lock file is corrupted, remove it
-                self.logger.warning(f"Removing corrupted lock file {self.lock_file}: {e}")
+                self.get_logger(__name__).warning(
+                    f"Removing corrupted lock file {self.lock_file}: {e}"
+                )
                 try:
                     self.lock_file.unlink()
                 except (OSError, PermissionError):
                     # On Windows, we might need to wait a bit and retry
-                    time.sleep(0.1)
+                    time_module.sleep(0.1)
                     try:
                         self.lock_file.unlink()
                     except (OSError, PermissionError):
                         pass  # Give up if still can't delete
 
         except Exception as e:
-            self.logger.error(f"Error during lock cleanup: {e}")
+            self.get_logger(__name__).error(f"Error during lock cleanup: {e}")
 
     def _is_process_alive(self, pid: int) -> bool:
         """Check if a process is still alive.
@@ -302,9 +312,12 @@ class FileLock:
 
 
 @contextmanager
-def atomic_file_operation(filepath: str, operation: str = "unknown",
-                         config: Optional[LockConfig] = None,
-                         metadata: Optional[Dict[str, Any]] = None):
+def atomic_file_operation(
+    filepath: str,
+    operation: str = "unknown",
+    config: Optional[LockConfig] = None,
+    metadata: Optional[Dict[str, Any]] = None,
+):
     """Context manager for atomic file operations with locking.
 
     Args:
@@ -348,9 +361,14 @@ class FileLockManager:
         self._active_locks: Dict[str, FileLock] = {}
         self._lock = threading.RLock()
 
-    def atomic_write(self, filepath: str, content: str,
-                    operation: str = "write", encoding: str = 'utf-8',
-                    metadata: Optional[Dict[str, Any]] = None) -> bool:
+    def atomic_write(
+        self,
+        filepath: str,
+        content: str,
+        operation: str = "write",
+        encoding: str = "utf-8",
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> bool:
         """Atomically write content to file with locking.
 
         Args:
@@ -366,24 +384,28 @@ class FileLockManager:
         try:
             with atomic_file_operation(filepath, operation, self.config, metadata):
                 # Ensure directory exists
-                Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+                get_unified_utility().Path(filepath).parent.mkdir(parents=True, exist_ok=True)
 
                 # Write content atomically
-                with open(filepath, 'w', encoding=encoding) as f:
+                with open(filepath, "w", encoding=encoding) as f:
                     f.write(content)
                     f.flush()
                     os.fsync(f.fileno())  # Force write to disk
 
-                self.logger.debug(f"Atomic write completed: {filepath}")
+                self.get_logger(__name__).debug(f"Atomic write completed: {filepath}")
                 return True
 
         except Exception as e:
-            self.logger.error(f"Atomic write failed for {filepath}: {e}")
+            self.get_logger(__name__).error(f"Atomic write failed for {filepath}: {e}")
             return False
 
-    def atomic_read(self, filepath: str, operation: str = "read",
-                   encoding: str = 'utf-8',
-                   metadata: Optional[Dict[str, Any]] = None) -> Optional[str]:
+    def atomic_read(
+        self,
+        filepath: str,
+        operation: str = "read",
+        encoding: str = "utf-8",
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> Optional[str]:
         """Atomically read content from file with locking.
 
         Args:
@@ -397,22 +419,27 @@ class FileLockManager:
         """
         try:
             with atomic_file_operation(filepath, operation, self.config, metadata):
-                with open(filepath, 'r', encoding=encoding) as f:
+                with open(filepath, "r", encoding=encoding) as f:
                     content = f.read()
 
-                self.logger.debug(f"Atomic read completed: {filepath}")
+                self.get_logger(__name__).debug(f"Atomic read completed: {filepath}")
                 return content
 
         except FileNotFoundError:
-            self.logger.debug(f"File not found for atomic read: {filepath}")
+            self.get_logger(__name__).debug(f"File not found for atomic read: {filepath}")
             return None
         except Exception as e:
-            self.logger.error(f"Atomic read failed for {filepath}: {e}")
+            self.get_logger(__name__).error(f"Atomic read failed for {filepath}: {e}")
             return None
 
-    def atomic_update(self, filepath: str, update_func: Callable[[str], str],
-                     operation: str = "update", encoding: str = 'utf-8',
-                     metadata: Optional[Dict[str, Any]] = None) -> bool:
+    def atomic_update(
+        self,
+        filepath: str,
+        update_func: Callable[[str], str],
+        operation: str = "update",
+        encoding: str = "utf-8",
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> bool:
         """Atomically update file content using a function.
 
         Args:
@@ -429,24 +456,24 @@ class FileLockManager:
             with atomic_file_operation(filepath, operation, self.config, metadata):
                 # Read current content
                 current_content = ""
-                if Path(filepath).exists():
-                    with open(filepath, 'r', encoding=encoding) as f:
+                if get_unified_utility().Path(filepath).exists():
+                    with open(filepath, "r", encoding=encoding) as f:
                         current_content = f.read()
 
                 # Apply update function
                 new_content = update_func(current_content)
 
                 # Write updated content
-                with open(filepath, 'w', encoding=encoding) as f:
+                with open(filepath, "w", encoding=encoding) as f:
                     f.write(new_content)
                     f.flush()
                     os.fsync(f.fileno())
 
-                self.logger.debug(f"Atomic update completed: {filepath}")
+                self.get_logger(__name__).debug(f"Atomic update completed: {filepath}")
                 return True
 
         except Exception as e:
-            self.logger.error(f"Atomic update failed for {filepath}: {e}")
+            self.get_logger(__name__).error(f"Atomic update failed for {filepath}: {e}")
             return False
 
     def cleanup_stale_locks(self, directory: str) -> int:
@@ -460,7 +487,7 @@ class FileLockManager:
         """
         cleaned = 0
         try:
-            dir_path = Path(directory)
+            dir_path = get_unified_utility().Path(directory)
             if not dir_path.exists():
                 return 0
 
@@ -469,17 +496,17 @@ class FileLockManager:
 
             for lock_file in lock_files:
                 try:
-                    lock = FileLock(str(lock_file.with_suffix('')), self.config)
+                    lock = FileLock(str(lock_file.with_suffix("")), self.config)
                     lock._cleanup_stale_locks()
                     if not lock_file.exists():
                         cleaned += 1
                 except Exception as e:
-                    self.logger.error(f"Error cleaning lock {lock_file}: {e}")
+                    self.get_logger(__name__).error(f"Error cleaning lock {lock_file}: {e}")
 
         except Exception as e:
-            self.logger.error(f"Error during lock cleanup in {directory}: {e}")
+            self.get_logger(__name__).error(f"Error during lock cleanup in {directory}: {e}")
 
         if cleaned > 0:
-            self.logger.info(f"Cleaned up {cleaned} stale lock files in {directory}")
+            self.get_logger(__name__).info(f"Cleaned up {cleaned} stale lock files in {directory}")
 
         return cleaned

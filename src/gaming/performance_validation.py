@@ -1,3 +1,4 @@
+from ..core.unified_entry_point_system import main
 #!/usr/bin/env python3
 """
 Gaming Performance Validation
@@ -9,17 +10,8 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Implementation - Performance Validation
 """
 
-import time
-import logging
-import asyncio
-from typing import Dict, Any, List
 from datetime import datetime
-from dataclasses import dataclass
 
-from .gaming_integration_core import GamingIntegrationCore
-from .utils.gaming_monitors import GamingPerformanceMonitors
-from .utils.gaming_handlers import GamingEventHandlers
-from .utils.test_functions import GamingTestFunctions
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +43,7 @@ class GamingPerformanceValidator:
     
     async def validate_gaming_integration_core(self) -> Dict[str, Any]:
         """Validate GamingIntegrationCore performance."""
-        logger.info("Validating GamingIntegrationCore performance")
+        get_logger(__name__).info("Validating GamingIntegrationCore performance")
         
         # Initialize component
         start_time = time.time()
@@ -76,13 +68,13 @@ class GamingPerformanceValidator:
             "component": "GamingIntegrationCore",
             "initialization_time": init_time,
             "session_creation_time": session_time,
-            "status_check_time": status_time,
+            "status_get_unified_validator().check_time": status_time,
             "validation_status": "PASSED" if init_time < 100 and session_time < 50 else "FAILED"
         }
     
     async def validate_performance_monitors(self) -> Dict[str, Any]:
         """Validate GamingPerformanceMonitors performance."""
-        logger.info("Validating GamingPerformanceMonitors performance")
+        get_logger(__name__).info("Validating GamingPerformanceMonitors performance")
         
         # Test FPS monitoring
         start_time = time.time()
@@ -118,7 +110,7 @@ class GamingPerformanceValidator:
     
     async def validate_event_handlers(self) -> Dict[str, Any]:
         """Validate GamingEventHandlers performance."""
-        logger.info("Validating GamingEventHandlers performance")
+        get_logger(__name__).info("Validating GamingEventHandlers performance")
         
         test_data = {"test": "data", "timestamp": datetime.now().isoformat()}
         
@@ -156,7 +148,7 @@ class GamingPerformanceValidator:
     
     async def validate_test_functions(self) -> Dict[str, Any]:
         """Validate GamingTestFunctions performance."""
-        logger.info("Validating GamingTestFunctions performance")
+        get_logger(__name__).info("Validating GamingTestFunctions performance")
         
         # Test session creation
         start_time = time.time()
@@ -183,7 +175,7 @@ class GamingPerformanceValidator:
     
     async def run_comprehensive_validation(self) -> Dict[str, Any]:
         """Run comprehensive performance validation."""
-        logger.info("Running comprehensive performance validation")
+        get_logger(__name__).info("Running comprehensive performance validation")
         
         results = {}
         
@@ -205,7 +197,7 @@ class GamingPerformanceValidator:
             "total_components": len(results) - 1,
             "passed_components": sum(
                 1 for result in results.values() 
-                if isinstance(result, dict) and result.get("validation_status") == "PASSED"
+                if get_unified_validator().validate_type(result, dict) and result.get("validation_status") == "PASSED"
             )
         }
         
@@ -234,19 +226,6 @@ class GamingPerformanceValidator:
         return "\n".join(report)
 
 
-async def main():
-    """Main performance validation entry point."""
-    validator = GamingPerformanceValidator()
-    
-    # Run comprehensive validation
-    results = await validator.run_comprehensive_validation()
-    
-    # Generate and print report
-    report = validator.generate_performance_report(results)
-    print(report)
-    
-    return results
-
-
+async 
 if __name__ == "__main__":
     asyncio.run(main())

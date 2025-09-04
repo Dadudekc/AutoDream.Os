@@ -10,17 +10,10 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import logging
-import logging.config
-import json
-import os
-from datetime import datetime
-from typing import Dict, Any, Optional
-from pathlib import Path
+from ..core.unified_import_system import logging
 
 # Import config after path setup
 try:
-    from .config_core import get_config
 except ImportError:
     # Fallback if config_core is not available
     def get_config(key, default=None):
@@ -43,7 +36,7 @@ class StructuredFormatter(logging.Formatter):
         }
 
         # Add extra fields if present
-        if hasattr(record, 'extra_fields'):
+        if get_unified_validator().validate_hasattr(record, 'extra_fields'):
             log_entry.update(record.extra_fields)
 
         # Add exception info if present
@@ -66,7 +59,7 @@ class V2Logger:
         """
         self.name = name
         self.logger = logging.getLogger(name)
-        self.logger.setLevel(getattr(logging, log_level.upper()))
+        self.logger.setLevel(get_unified_validator().safe_getattr(logging, log_level.upper()))
 
         # Remove existing handlers to avoid duplicates
         self.logger.handlers.clear()
@@ -88,7 +81,7 @@ class V2Logger:
 
     def _setup_file_handler(self):
         """Setup file handler for persistent logging."""
-        log_dir = Path("logs")
+        log_dir = get_unified_utility().Path("logs")
         log_dir.mkdir(exist_ok=True)
 
         log_file = log_dir / f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log"

@@ -1,274 +1,312 @@
 #!/usr/bin/env python3
 """
-Core Messaging Service - Agent Cellphone V2
-=========================================
+Unified Messaging Core - Agent Cellphone V2
+===========================================
 
 Core messaging functionality for the unified messaging service.
-Refactored for V2 compliance (300-line limit).
 
-Architecture:
-- Repository Pattern: MessagingDelivery handles data persistence
-- Service Layer: UnifiedMessagingCore orchestrates operations
-- Dependency Injection: Modular components injected via constructor
-- Observer Pattern: Event-driven messaging with metrics integration
-
-Author: Agent-1 (Integration & Core Systems Specialist)
+Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-from typing import List, Dict, Any
+from .unified_messaging_imports import (
+    logging, COORDINATE_CONFIG_FILE, get_logger, get_unified_utility, 
+    load_coordinates_from_json, json
+)
+from ..core.unified_validation_system import get_unified_validator
+import time
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+from pathlib import Path
 
 from .models.messaging_models import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,
     UnifiedMessageTag,
+    UnifiedSenderType,
+    UnifiedRecipientType
 )
-from .messaging_config import MessagingConfiguration
-from .messaging_delivery import MessagingDelivery
-from .messaging_onboarding import MessagingOnboarding
-from .messaging_bulk import MessagingBulk
-from .messaging_utils import MessagingUtils
-from .messaging_pyautogui import PyAutoGUIMessagingDelivery
-from ..utils.logger import get_messaging_logger
-from ..core.metrics import MessagingMetrics
-from ..core.file_lock import LockConfig
-from ..core.message_queue import QueueConfig
+from .message_identity_clarification import message_identity_clarification
 
 
 class UnifiedMessagingCore:
     """
-    Core unified messaging service functionality.
+    Core messaging functionality for the unified messaging service.
 
-    This class implements the service layer pattern, orchestrating messaging
-    operations through dependency-injected components following V2 architecture
-    principles.
-
-    Properties:
-    - messages: List[UnifiedMessage] - Internal message storage
-    - config: MessagingConfiguration - Service configuration
-    - metrics: MessagingMetrics - Performance metrics
-    - delivery: MessagingDelivery - Message delivery service
-    - pyautogui_delivery: PyAutoGUIMessagingDelivery - GUI delivery service
-    - onboarding: MessagingOnboarding - Onboarding service
-    - bulk: MessagingBulk - Bulk messaging service
-    - utils: MessagingUtils - Utility functions
+    V2 COMPLIANCE: Single responsibility, dependency injection, proper error handling.
+    Handles message creation, validation, and delivery coordination.
     """
 
-    def __init__(self):
-        """
-        Initialize the core messaging service.
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        """Initialize the unified messaging core with V2 compliance."""
+        self.config = config or {}
+        self.message_history: List[UnifiedMessage] = []
+        self.logger = get_logger(__name__)
+        self.validator = get_unified_validator()
+        self.utility = get_unified_utility()
 
-        Sets up dependency injection for all modular components following
-        the repository/service pattern for clean architecture separation.
-        """
-        self.messages: List[UnifiedMessage] = []
-        self.logger = get_messaging_logger()
+        # Validate configuration on initialization
+        self._validate_config()
 
-        # Initialize modular components
-        self.config = MessagingConfiguration()
-        self.metrics = MessagingMetrics()
-
-        # Initialize file locking configuration
-        self.lock_config = LockConfig(
-            timeout_seconds=30.0,  # 30 second timeout for file operations
-            retry_interval=0.1,    # 100ms retry interval
-            max_retries=300,       # Maximum 300 retries (30 seconds total)
-            cleanup_interval=60.0, # Clean up stale locks every minute
-            stale_lock_age=300.0   # Consider locks stale after 5 minutes
-        )
-
-        # Initialize message queue configuration
-        self.queue_config = QueueConfig(
-            queue_directory="message_queue",  # Queue storage directory
-            max_queue_size=10000,             # Maximum queued messages
-            max_age_days=7,                   # Expire messages after 7 days
-            retry_base_delay=1.0,             # Base retry delay (1 second)
-            retry_max_delay=300.0,            # Max retry delay (5 minutes)
-            processing_batch_size=10,         # Process 10 messages per batch
-            cleanup_interval=3600.0           # Clean up expired messages hourly
-        )
-
-        self.delivery = MessagingDelivery(self.config.inbox_paths, self.metrics, self.lock_config, self.queue_config)
-
-        # Initialize delivery services
-        self.pyautogui_delivery = PyAutoGUIMessagingDelivery(self.config.agents)
-        self.onboarding = MessagingOnboarding(self.config.agents, self.pyautogui_delivery)
-        self.bulk = MessagingBulk(self.pyautogui_delivery)
-        self.utils = MessagingUtils(self.config.agents, self.config.inbox_paths, self.messages)
-
-        self.logger.info("UnifiedMessagingCore initialized successfully")
-
-    def send_message_to_inbox(self, message: UnifiedMessage, max_retries: int = 3) -> bool:
-        """
-        Send message to agent's inbox file with retry mechanism.
-
-        Implements the repository pattern for message persistence with
-        exponential backoff retry logic for reliability.
-
-        Args:
-            message (UnifiedMessage): The message to deliver
-            max_retries (int): Maximum retry attempts (default: 3)
-
-        Returns:
-            bool: True if delivery successful, False otherwise
-        """
-        return self.delivery.send_message_to_inbox(message, max_retries)
-
-    def cleanup_stale_locks(self) -> int:
-        """
-        Clean up stale lock files across all agent workspaces.
-
-        Returns:
-            int: Number of stale locks cleaned up
-        """
-        total_cleaned = 0
-
-        # Clean up inbox locks
-        for inbox_path in self.config.inbox_paths.values():
-            if os.path.exists(inbox_path):
-                cleaned = self.delivery.lock_manager.cleanup_stale_locks(inbox_path)
-                total_cleaned += cleaned
-
-        # Clean up agent workspace locks
-        agent_workspace_root = "agent_workspaces"
-        if os.path.exists(agent_workspace_root):
-            cleaned = self.delivery.lock_manager.cleanup_stale_locks(agent_workspace_root)
-            total_cleaned += cleaned
-
-        if total_cleaned > 0:
-            self.logger.info(f"Cleaned up {total_cleaned} stale lock files")
-
-        return total_cleaned
-
-    def start_queue_processor(self) -> None:
-        """Start the message queue processor."""
-        self.delivery.start_queue_processor()
-
-    def stop_queue_processor(self) -> None:
-        """Stop the message queue processor."""
-        self.delivery.stop_queue_processor()
-
-    def process_queue_batch(self) -> int:
-        """Process one batch of queued messages.
-
-        Returns:
-            int: Number of messages processed
-        """
-        return self.delivery.process_queue_batch()
-
-    def get_queue_stats(self) -> Dict[str, Any]:
-        """Get message queue statistics.
-
-        Returns:
-            Dict[str, Any]: Queue statistics
-        """
-        return self.delivery.get_queue_stats()
-
-    def enqueue_message(self, message: UnifiedMessage) -> str:
-        """Add message to queue directly.
-
-        Args:
-            message: Message to enqueue
-
-        Returns:
-            str: Queue ID for tracking
-        """
-        return self.delivery.queue.enqueue(message)
-
-    def get_metrics(self) -> Dict[str, Any]:
-        """
-        Get comprehensive metrics for monitoring and reporting.
-
-        Provides aggregated metrics across all messaging components
-        following the observer pattern for centralized monitoring.
-
-        Returns:
-            Dict[str, Any]: Metrics object with success rates, delivery stats, and error summaries
-                - success_rate: Overall delivery success rate
-                - delivery_stats: Delivery statistics by type
-                - message_counts: Message counts by type
-                - error_summary: Error counts and types
-        """
-        return {
-            "success_rate": self.metrics.get_success_rate(),
-            "delivery_stats": self.metrics.get_delivery_stats(),
-            "message_counts": self.metrics.get_message_counts(),
-            "error_summary": self.metrics.get_error_summary(),
-            "total_operations": self.metrics.metrics.total_operations,
-            "successful_operations": self.metrics.metrics.successful_operations,
-            "failed_operations": self.metrics.metrics.failed_operations,
+    def _validate_config(self) -> None:
+        """Validate configuration with V2 compliance."""
+        required_fields = ["message_history_limit", "delivery_timeout"]
+        defaults = {
+            "message_history_limit": 1000,
+            "delivery_timeout": 30,
+            "max_message_length": 10000,
+            "enable_message_validation": True
         }
 
-    def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True,
-                                  new_tab_method: str = "ctrl_t", use_new_tab: bool = None) -> bool:
-        """Send message via PyAutoGUI to agent coordinates."""
-        if use_new_tab is None:
-            use_new_tab = (message.message_type == UnifiedMessageType.ONBOARDING)
-        return self.pyautogui_delivery.send_message_via_pyautogui(message, use_paste, new_tab_method, use_new_tab)
+        for field, default in defaults.items():
+            if field not in self.config:
+                self.config[field] = default
 
-    # Onboarding methods
-    def generate_onboarding_message(self, agent_id: str, style: str = "friendly") -> str:
-        """Generate onboarding message for specific agent."""
-        return self.onboarding.generate_onboarding_message(agent_id, style)
+        missing = self.validator.validate_required_fields(self.config, required_fields)
+        if missing:
+            self.logger.warning(f"Missing config fields, using defaults: {missing}")
 
-    def send_onboarding_message(self, agent_id: str, style: str = "friendly",
-                               mode: str = "pyautogui", new_tab_method: str = "ctrl_t") -> bool:
-        """Send onboarding message to specific agent."""
-        success = self.onboarding.send_onboarding_message(agent_id, style, mode, new_tab_method)
-        if success:
-            self.messages.append(self._get_last_message())
-        return success
+    def create_message(
+        self,
+        content: str,
+        sender: str,
+        recipient: str,
+        message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+        tags: Optional[List[UnifiedMessageTag]] = None,
+        sender_type: UnifiedSenderType = UnifiedSenderType.SYSTEM,
+        recipient_type: UnifiedRecipientType = UnifiedRecipientType.AGENT
+    ) -> Optional[UnifiedMessage]:
+        """
+        Create a new unified message with V2 compliance validation.
 
-    def send_bulk_onboarding(self, style: str = "friendly", mode: str = "pyautogui",
-                            new_tab_method: str = "ctrl_t") -> List[bool]:
-        """Send onboarding messages to all agents."""
-        return self.onboarding.send_bulk_onboarding(style, mode, new_tab_method)
+        Args:
+            content: Message content
+            sender: Sender identifier
+            recipient: Recipient identifier
+            message_type: Type of message
+            priority: Message priority
+            tags: Optional message tags
+            sender_type: Type of sender
+            recipient_type: Type of recipient
 
-    # Bulk messaging methods
-    def send_message(self, content: str, sender: str, recipient: str,
-                    message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
-                    priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                    tags: List[UnifiedMessageTag] = None,
-                    metadata: Dict[str, Any] = None,
-                    mode: str = "pyautogui",
-                    use_paste: bool = True,
-                    new_tab_method: str = "ctrl_t",
-                    use_new_tab: bool = None) -> bool:
-        """Send a single message to a specific agent."""
-        success = self.bulk.send_message(content, sender, recipient, message_type, priority,
-                                       tags, metadata, mode, use_paste, new_tab_method, use_new_tab)
-        if success:
-            self.messages.append(self._get_last_message())
-        return success
+        Returns:
+            UnifiedMessage if valid, None if validation fails
+        """
+        try:
+            # Validate input parameters
+            if not self.validator.validate_required([content, sender, recipient]):
+                self.logger.error("Missing required message parameters")
+                return None
 
-    def send_to_all_agents(self, content: str, sender: str,
-                          message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
-                          priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                          tags: List[UnifiedMessageTag] = None,
-                          metadata: Dict[str, Any] = None,
-                          mode: str = "pyautogui",
-                          use_paste: bool = True,
-                          new_tab_method: str = "ctrl_t",
-                          use_new_tab: bool = None) -> List[bool]:
-        """Send message to all agents."""
-        return self.bulk.send_to_all_agents(content, sender, message_type, priority,
-                                          tags, metadata, mode, use_paste, new_tab_method, use_new_tab)
+            # Validate content length
+            if not self.validator.validate_string_length(content, max_length=self.config["max_message_length"]):
+                self.logger.error(f"Message content exceeds maximum length: {self.config['max_message_length']}")
+                return None
 
-    # Utility methods
-    def list_agents(self):
-        """List all available agents."""
-        self.utils.list_agents()
+            # Create message with validation
+            message = UnifiedMessage(
+                content=content,
+                sender=sender,
+                recipient=recipient,
+                message_type=message_type,
+                priority=priority,
+                tags=tags or [],
+                sender_type=sender_type,
+                recipient_type=recipient_type,
+                timestamp=datetime.now()
+            )
 
-    def show_coordinates(self):
-        """Show agent coordinates."""
-        self.utils.show_coordinates()
+            self.logger.info(f"✅ Created message: {message.message_id}")
+            return message
 
-    def show_message_history(self):
-        """Show message history."""
-        self.utils.show_message_history()
+        except Exception as e:
+            self.logger.error(f"❌ Error creating message: {e}")
+            return None
+    
+    def send_message(
+        self,
+        message: UnifiedMessage,
+        mode: str = "pyautogui",
+        use_onboarding_coords: bool = False
+    ) -> bool:
+        """
+        Send a message using the specified delivery method with V2 compliance.
 
-    def _get_last_message(self) -> UnifiedMessage:
-        """Helper to get the most recently created message."""
-        # This is a simplified helper - in practice, the message would be tracked
-        return self.messages[-1] if self.messages else None
+        Args:
+            message: Message to send
+            mode: Delivery mode ("pyautogui" or "inbox")
+            use_onboarding_coords: Whether to use onboarding coordinates
+
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            # Validate message before sending
+            if not self.validator.validate_required(message):
+                self.logger.error("Cannot send invalid message")
+                return False
+
+            # Manage message history with size limits
+            self.message_history.append(message)
+            if len(self.message_history) > self.config["message_history_limit"]:
+                self.message_history.pop(0)  # Remove oldest message
+
+            # Route to appropriate delivery method
+            if mode == "inbox":
+                return self._send_to_inbox(message)
+            elif mode == "pyautogui":
+                return self._send_via_pyautogui(message, use_onboarding_coords)
+            else:
+                self.logger.error(f"❌ Unknown delivery mode: {mode}")
+                return False
+
+        except Exception as e:
+            self.logger.error(f"❌ Failed to send message {message.message_id}: {e}")
+            return False
+    
+    def _send_to_inbox(self, message: UnifiedMessage) -> bool:
+        """
+        Send message to agent inbox with V2 compliance.
+
+        Args:
+            message: Message to send
+
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            # Use unified utility for path handling
+            inbox_dir = self.utility.resolve_path(f"agent_workspaces/{message.recipient}/inbox")
+            self.utility.ensure_directory(inbox_dir)
+
+            # Create unique filename
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = inbox_dir / f"message_{timestamp}_{message.message_id[:8]}.md"
+
+            # Format message with identity clarification
+            formatted_message = message_identity_clarification.format_message_with_identity_clarification(
+                message, message.recipient
+            )
+
+            # Write message using unified utility
+            success = self.utility.write_file(filename, formatted_message)
+            if success:
+                self.logger.info(f"✅ Message sent to inbox: {filename}")
+                return True
+            else:
+                self.logger.error(f"❌ Failed to write message to inbox: {filename}")
+                return False
+
+        except Exception as e:
+            self.logger.error(f"❌ Failed to send to inbox: {e}")
+            return False
+    
+    def _send_via_pyautogui(self, message: UnifiedMessage, use_onboarding_coords: bool = False) -> bool:
+        """
+        Send message via PyAutoGUI to agent coordinates with V2 compliance.
+
+        Args:
+            message: Message to send
+            use_onboarding_coords: Whether to use onboarding coordinates
+
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            # Load coordinates using unified function
+            agents = load_coordinates_from_json()
+            if message.recipient not in agents:
+                self.logger.error(f"❌ No coordinates found for {message.recipient}")
+                return False
+
+            agent_coords = agents[message.recipient].get("coords")
+            if not agent_coords or len(agent_coords) != 2:
+                self.logger.error(f"❌ Invalid coordinates for {message.recipient}: {agent_coords}")
+                return False
+
+            # Ensure coordinates are integers
+            try:
+                x, y = int(agent_coords[0]), int(agent_coords[1])
+            except (ValueError, TypeError) as e:
+                self.logger.error(f"❌ Coordinate type error for {message.recipient}: {agent_coords} - {e}")
+                return False
+
+            self.logger.info(f"📤 Sending PyAutoGUI message to {message.recipient} at ({x}, {y})")
+
+            # Import PyAutoGUI libraries (lazy loading for better performance)
+            try:
+                import pyautogui
+                import pyperclip
+            except ImportError as e:
+                self.logger.error(f"❌ PyAutoGUI not available: {e}")
+                return False
+
+            # Move to coordinates with validation
+            if not self._validate_coordinates(x, y):
+                self.logger.error(f"❌ Invalid coordinates for {message.recipient}: ({x}, {y})")
+                return False
+
+            pyautogui.moveTo(x, y, duration=0.1)
+            pyautogui.click()
+            time.sleep(0.1)
+
+            # Clear existing content
+            pyautogui.hotkey("ctrl", "a")
+            pyautogui.press("delete")
+            time.sleep(0.05)
+
+            # Format and send message
+            formatted_message = message_identity_clarification.format_message_with_identity_clarification(
+                message, message.recipient
+            )
+
+            pyperclip.copy(formatted_message)
+            pyautogui.hotkey("ctrl", "v")
+            time.sleep(0.05)
+            pyautogui.press("enter")
+
+            self.logger.info(f"✅ PyAutoGUI message sent to {message.recipient}")
+            return True
+
+        except Exception as e:
+            self.logger.error(f"❌ PyAutoGUI delivery failed: {e}")
+            return False
+
+    def _validate_coordinates(self, x: int, y: int) -> bool:
+        """
+        Validate that coordinates are within reasonable screen bounds.
+
+        Args:
+            x: X coordinate
+            y: Y coordinate
+
+        Returns:
+            True if coordinates are valid, False otherwise
+        """
+        try:
+            import pyautogui
+            screen_width, screen_height = pyautogui.size()
+            # Allow negative coordinates for multi-monitor setups (left monitor)
+            # Allow some margin for multi-monitor setups
+            return (-screen_width <= x <= screen_width * 2) and (0 <= y <= screen_height * 2)
+        except ImportError:
+            # If PyAutoGUI is not available, assume coordinates are valid
+            return True
+    
+    def get_message_history(self) -> List[UnifiedMessage]:
+        """Get the message history."""
+        return self.message_history.copy()
+    
+    def clear_message_history(self) -> None:
+        """Clear the message history."""
+        self.message_history.clear()
+    
+    def get_config(self) -> Dict[str, Any]:
+        """Get the current configuration."""
+        return self.config.copy()
+    
+    def update_config(self, new_config: Dict[str, Any]) -> None:
+        """Update the configuration."""
+        self.config.update(new_config)

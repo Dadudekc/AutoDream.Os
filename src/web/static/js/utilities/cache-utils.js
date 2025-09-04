@@ -240,3 +240,5 @@ export class CacheUtils {
 export function createCacheUtils(options = {}) {
     return new CacheUtils(options);
 }
+
+

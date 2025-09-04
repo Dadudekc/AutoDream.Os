@@ -10,30 +10,29 @@ Mission: Processing Function Consolidation
 Status: ACTIVE - Eliminating duplicate processing logic
 """
 
-from .unified_processing_system import (
-    UnifiedProcessingSystem,
     DataProcessingSystem,
     FileProcessingSystem,
     MessageProcessingSystem,
-    ProcessingType,
     ProcessingContext,
+    ProcessingType,
+    UnifiedProcessingSystem,
     data_processor,
     file_processor,
     message_processor,
-    unified_processor
+    unified_processor,
 )
 
 __all__ = [
-    'UnifiedProcessingSystem',
-    'DataProcessingSystem', 
-    'FileProcessingSystem',
-    'MessageProcessingSystem',
-    'ProcessingType',
-    'ProcessingContext',
-    'data_processor',
-    'file_processor',
-    'message_processor',
-    'unified_processor'
+    "UnifiedProcessingSystem",
+    "DataProcessingSystem",
+    "FileProcessingSystem",
+    "MessageProcessingSystem",
+    "ProcessingType",
+    "ProcessingContext",
+    "data_processor",
+    "file_processor",
+    "message_processor",
+    "unified_processor",
 ]
 
 __version__ = "1.0.0"

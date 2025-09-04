@@ -9,9 +9,7 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import os
-import yaml
-from typing import Dict, Any
+
 
 
 class ValidationRules:
@@ -28,25 +26,25 @@ class ValidationRules:
 
         try:
             # Load message validation rules
-            message_rules_path = os.path.join(self.rules_dir, "message.yaml")
-            if os.path.exists(message_rules_path):
-                with open(message_rules_path, 'r') as f:
-                    rules['message'] = yaml.safe_load(f)
+            message_rules_path = get_unified_utility().path.join(self.rules_dir, "message.yaml")
+            if get_unified_utility().path.exists(message_rules_path):
+                with open(message_rules_path, "r") as f:
+                    rules["message"] = yaml.safe_load(f)
 
             # Load quality validation rules
-            quality_rules_path = os.path.join(self.rules_dir, "quality.yaml")
-            if os.path.exists(quality_rules_path):
-                with open(quality_rules_path, 'r') as f:
-                    rules['quality'] = yaml.safe_load(f)
+            quality_rules_path = get_unified_utility().path.join(self.rules_dir, "quality.yaml")
+            if get_unified_utility().path.exists(quality_rules_path):
+                with open(quality_rules_path, "r") as f:
+                    rules["quality"] = yaml.safe_load(f)
 
             # Load security validation rules
-            security_rules_path = os.path.join(self.rules_dir, "security.yaml")
-            if os.path.exists(security_rules_path):
-                with open(security_rules_path, 'r') as f:
-                    rules['security'] = yaml.safe_load(f)
+            security_rules_path = get_unified_utility().path.join(self.rules_dir, "security.yaml")
+            if get_unified_utility().path.exists(security_rules_path):
+                with open(security_rules_path, "r") as f:
+                    rules["security"] = yaml.safe_load(f)
 
         except Exception as e:
-            print(f"⚠️ Warning: Could not load validation rules: {e}")
+            get_logger(__name__).info(f"⚠️ Warning: Could not load validation rules: {e}")
             rules = {}
 
         return rules

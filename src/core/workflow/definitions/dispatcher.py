@@ -10,11 +10,7 @@ Author: Agent-3 (Workflow Unification)
 License: MIT
 """
 
-import importlib
-import pkgutil
-from typing import Dict
 
-from ..types.workflow_models import WorkflowDefinition
 
 
 def load_workflow_definitions() -> Dict[str, WorkflowDefinition]:
@@ -25,7 +21,7 @@ def load_workflow_definitions() -> Dict[str, WorkflowDefinition]:
         if module_name == "dispatcher":
             continue
         module = importlib.import_module(f"{package.__name__}.{module_name}")
-        module_workflows = getattr(module, "get_workflows", None)
+        module_workflows = get_unified_validator().safe_getattr(module, "get_workflows", None)
         if callable(module_workflows):
             workflows.update(module_workflows())
     return workflows

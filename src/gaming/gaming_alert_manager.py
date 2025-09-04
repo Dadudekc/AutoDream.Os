@@ -9,18 +9,10 @@ Mission: V2 Compliance Implementation - Gaming Infrastructure Refactoring
 Status: REFACTORED_FOR_V2_COMPLIANCE
 """
 
-import json
-import logging
-import time
-from datetime import datetime
-from typing import Dict, List, Optional, Any
 
-from .models.gaming_alert_models import GamingAlert, AlertType, AlertSeverity
-from .utils.gaming_alert_utils import (
     create_alert_id, validate_alert_metadata, 
     format_alert_message, calculate_alert_priority
 )
-from .handlers.gaming_alert_handlers import (
     handle_performance_alerts, handle_system_health_alerts,
     handle_alert_acknowledgment, handle_alert_resolution
 )
@@ -53,20 +45,20 @@ class GamingAlertManager:
     
     def _initialize_resources(self):
         """Initialize alert manager resources."""
-        logger.info("Initializing Gaming Alert Manager resources")
+        get_logger(__name__).info("Initializing Gaming Alert Manager resources")
         self._load_alert_history()
         self._setup_monitoring()
     
     def _load_alert_history(self):
         """Load alert history from persistent storage."""
         try:
-            logger.info("Loading alert history")
+            get_logger(__name__).info("Loading alert history")
         except Exception as e:
-            logger.warning(f"Could not load alert history: {e}")
+            get_logger(__name__).warning(f"Could not load alert history: {e}")
     
     def _setup_monitoring(self):
         """Setup monitoring for gaming systems."""
-        logger.info("Setting up gaming system monitoring")
+        get_logger(__name__).info("Setting up gaming system monitoring")
     
     def _get_current_timestamp(self):
         """Get current timestamp for consistency."""
@@ -109,14 +101,14 @@ class GamingAlertManager:
         self.alerts[alert_id] = alert
         self.alert_counters[alert_type] += 1
         
-        logger.info(f"Created gaming alert: {alert_id} - {message}")
+        get_logger(__name__).info(f"Created gaming alert: {alert_id} - {message}")
         return alert
     
-    def check_performance_alerts(self, performance_metrics: Dict[str, Any]) -> List[GamingAlert]:
+    def get_unified_validator().check_performance_alerts(self, performance_metrics: Dict[str, Any]) -> List[GamingAlert]:
         """Check for performance-related alerts based on metrics."""
         return handle_performance_alerts(self, performance_metrics)
     
-    def check_system_health_alerts(self, health_metrics: Dict[str, Any]) -> List[GamingAlert]:
+    def get_unified_validator().check_system_health_alerts(self, health_metrics: Dict[str, Any]) -> List[GamingAlert]:
         """Check for system health alerts."""
         return handle_system_health_alerts(self, health_metrics)
     
@@ -203,7 +195,7 @@ class GamingAlertManager:
         for alert_id in alerts_to_remove:
             del self.alerts[alert_id]
         
-        logger.info(f"Cleared {len(alerts_to_remove)} resolved alerts")
+        get_logger(__name__).info(f"Cleared {len(alerts_to_remove)} resolved alerts")
         return len(alerts_to_remove)
     
     def set_alert_threshold(self, alert_type: AlertType, severity: AlertSeverity, threshold: int):
@@ -216,7 +208,7 @@ class GamingAlertManager:
             threshold: Threshold value
         """
         self.severity_thresholds[severity] = threshold
-        logger.info(f"Set threshold for {alert_type.value} {severity.value}: {threshold}")
+        get_logger(__name__).info(f"Set threshold for {alert_type.value} {severity.value}: {threshold}")
     
     def export_alerts(self, filepath: str) -> bool:
         """
@@ -236,10 +228,10 @@ class GamingAlertManager:
             }
             
             with open(filepath, 'w') as f:
-                json.dump(export_data, f, indent=2, default=str)
+                write_json(export_data, f, indent=2, default=str)
             
-            logger.info(f"Exported alerts to {filepath}")
+            get_logger(__name__).info(f"Exported alerts to {filepath}")
             return True
         except Exception as e:
-            logger.error(f"Failed to export alerts: {e}")
+            get_logger(__name__).error(f"Failed to export alerts: {e}")
             return False

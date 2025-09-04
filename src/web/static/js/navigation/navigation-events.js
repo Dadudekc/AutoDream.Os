@@ -1,17 +1,67 @@
 /**
- * Navigation Events Module - V2 Compliant
+ * Navigation Events Module - V2 Compliant with Unified Logging
  * Handles navigation-related events and user interactions
+ * ENHANCED: Integrated with unified-logging-system.py patterns
  * STREAMLINED: 350 lines → ~180 lines (49% reduction)
  * V2 COMPLIANCE: Under 300-line limit achieved
  *
- * @author Agent-7 - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE STREAMLINING
+ * @author Agent-7 - Web Development Specialist, Agent-8 - Integration & Performance Specialist
+ * @version 3.0.0 - V2 COMPLIANCE WITH UNIFIED LOGGING INTEGRATION
  * @license MIT
  */
+
+// ================================
+// UNIFIED LOGGING INTEGRATION
+// ================================
+
+/**
+ * Unified logging system integration for JavaScript
+ * Eliminates duplicate logging patterns across navigation services
+ */
+class UnifiedLoggingSystem {
+    constructor(name = "NavigationEvents") {
+        this.name = name;
+        this.operationTimers = new Map();
+    }
+
+    logOperationStart(operationName, extra = {}) {
+        const message = `Starting ${operationName}`;
+        console.info(`[${this.name}] ${message}`, extra);
+        this.operationTimers.set(operationName, Date.now());
+    }
+
+    logOperationComplete(operationName, extra = {}) {
+        const message = `Completed ${operationName}`;
+        console.info(`[${this.name}] ${message}`, extra);
+        
+        if (this.operationTimers.has(operationName)) {
+            const duration = Date.now() - this.operationTimers.get(operationName);
+            this.logPerformanceMetric(`${operationName}_duration`, duration);
+            this.operationTimers.delete(operationName);
+        }
+    }
+
+    logOperationFailed(operationName, error, extra = {}) {
+        const message = `Failed to ${operationName}: ${error}`;
+        console.error(`[${this.name}] ${message}`, extra);
+        this.operationTimers.delete(operationName);
+    }
+
+    logPerformanceMetric(metricName, metricValue, extra = {}) {
+        const message = `Performance metric: ${metricName} = ${metricValue}`;
+        console.info(`[${this.name}] ${message}`, extra);
+    }
+
+    logErrorGeneric(moduleName, error, extra = {}) {
+        const message = `Error in ${moduleName}: ${error}`;
+        console.error(`[${this.name}] ${message}`, extra);
+    }
+}
 
 export class NavigationEvents {
     constructor(navigationState, options = {}) {
         this.navigationState = navigationState;
+        this.logger = new UnifiedLoggingSystem("NavigationEvents");
         this.options = {
             debounceDelay: 300,
             enableKeyboardNavigation: true,
@@ -25,13 +75,13 @@ export class NavigationEvents {
 
     initialize() {
         if (this.isInitialized) return;
-        console.log('🎯 Initializing navigation events...');
+        this.logger.logOperationStart('navigationEventsInitialization');
         this.setupClickHandlers();
         this.setupKeyboardHandlers();
         this.setupTouchHandlers();
         this.setupCustomEventHandlers();
         this.isInitialized = true;
-        console.log('✅ Navigation events initialized');
+        this.logger.logOperationComplete('navigationEventsInitialization');
     }
 
     setupClickHandlers() {

@@ -1,6 +1,5 @@
 """Metric definitions for refactoring processes."""
 
-from dataclasses import dataclass
 
 
 @dataclass

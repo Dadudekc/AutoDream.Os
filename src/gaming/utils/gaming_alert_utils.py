@@ -8,11 +8,6 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Implementation - Gaming Infrastructure Refactoring
 """
 
-import time
-import logging
-from datetime import datetime
-from typing import Dict, Any, List
-from ..models.gaming_alert_models import GamingAlert, AlertType, AlertSeverity
 
 logger = logging.getLogger(__name__)
 
@@ -41,13 +36,13 @@ def validate_alert_metadata(metadata: Dict[str, Any]) -> Dict[str, Any]:
     Returns:
         Validated metadata dictionary
     """
-    if not metadata:
+    if not get_unified_validator().validate_required(metadata):
         return {}
     
     # Ensure metadata values are serializable
     validated = {}
     for key, value in metadata.items():
-        if isinstance(value, (str, int, float, bool, list, dict)):
+        if get_unified_validator().validate_type(value, (str, int, float, bool, list, dict)):
             validated[key] = value
         else:
             validated[key] = str(value)

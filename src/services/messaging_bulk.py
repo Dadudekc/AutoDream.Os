@@ -9,11 +9,14 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import time
-from typing import List, Dict, Any
 
-from .models.messaging_models import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
-from .messaging_pyautogui import PyAutoGUIMessagingDelivery
+    RecipientType,
+    SenderType,
+    UnifiedMessage,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+    UnifiedMessageType,
+)
 
 
 class MessagingBulk:
@@ -23,15 +26,22 @@ class MessagingBulk:
         """Initialize bulk messaging service."""
         self.pyautogui_delivery = pyautogui_delivery
 
-    def send_message(self, content: str, sender: str, recipient: str,
-                    message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
-                    priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                    tags: List[UnifiedMessageTag] = None,
-                    metadata: Dict[str, Any] = None,
-                    mode: str = "pyautogui",
-                    use_paste: bool = True,
-                    new_tab_method: str = "ctrl_t",
-                    use_new_tab: bool = None) -> bool:
+    def send_message(
+        self,
+        content: str,
+        sender: str,
+        recipient: str,
+        message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+        tags: List[UnifiedMessageTag] = None,
+        metadata: Dict[str, Any] = None,
+        mode: str = "pyautogui",
+        use_paste: bool = True,
+        new_tab_method: str = "ctrl_t",
+        use_new_tab: bool = None,
+        sender_type: SenderType = None,
+        recipient_type: RecipientType = None,
+    ) -> bool:
         """Send a single message to a specific agent."""
         message = UnifiedMessage(
             content=content,
@@ -40,45 +50,68 @@ class MessagingBulk:
             message_type=message_type,
             priority=priority,
             tags=tags or [],
-            metadata=metadata or {}
+            metadata=metadata or {},
+            sender_type=sender_type,
+            recipient_type=recipient_type,
         )
 
-        print(f"✅ MESSAGE CREATED: {sender} → {recipient}")
-        print(f"🎯 Type: {message_type.value}")
-        print(f"🆔 Message ID: {message.message_id}")
+        get_logger(__name__).info(f"✅ MESSAGE CREATED: {sender} → {recipient}")
+        get_logger(__name__).info(f"🎯 Type: {message_type.value}")
+        if sender_type:
+            get_logger(__name__).info(f"📤 Sender Type: {sender_type.value}")
+        if recipient_type:
+            get_logger(__name__).info(f"📥 Recipient Type: {recipient_type.value}")
+        get_logger(__name__).info(f"🆔 Message ID: {message.message_id}")
 
         # Deliver the message
         delivery_success = False
         if mode == "pyautogui":
-            delivery_success = self.pyautogui_delivery.send_message_via_pyautogui(message, use_paste, new_tab_method, use_new_tab)
+            delivery_success = self.pyautogui_delivery.send_message_via_pyautogui(
+                message, use_paste, new_tab_method, use_new_tab
+            )
         else:
             # For inbox mode, delivery will be handled by main core
             delivery_success = False  # Placeholder
 
         if delivery_success:
-            print(f"✅ MESSAGE DELIVERED TO {recipient}")
+            get_logger(__name__).info(f"✅ MESSAGE DELIVERED TO {recipient}")
         else:
-            print(f"❌ MESSAGE DELIVERY FAILED TO {recipient}")
+            get_logger(__name__).info(f"❌ MESSAGE DELIVERY FAILED TO {recipient}")
 
-        print()
+        get_logger(__name__).info()
         return delivery_success
 
-    def send_to_all_agents(self, content: str, sender: str,
-                          message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
-                          priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                          tags: List[UnifiedMessageTag] = None,
-                          metadata: Dict[str, Any] = None,
-                          mode: str = "pyautogui",
-                          use_paste: bool = True,
-                          new_tab_method: str = "ctrl_t",
-                          use_new_tab: bool = None) -> List[bool]:
+    def send_to_all_agents(
+        self,
+        content: str,
+        sender: str,
+        message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+        tags: List[UnifiedMessageTag] = None,
+        metadata: Dict[str, Any] = None,
+        mode: str = "pyautogui",
+        use_paste: bool = True,
+        new_tab_method: str = "ctrl_t",
+        use_new_tab: bool = None,
+        sender_type: SenderType = None,
+        recipient_type: RecipientType = None,
+    ) -> List[bool]:
         """Send message to all agents."""
         results = []
-        print(f"🚨 BULK MESSAGE ACTIVATED")
-        print(f"📋 SENDING TO ALL AGENTS")
+        get_logger(__name__).info(f"🚨 BULK MESSAGE ACTIVATED")
+        get_logger(__name__).info(f"📋 SENDING TO ALL AGENTS")
 
         # CORRECT ORDER: Agent-4 LAST
-        agent_order = ["Agent-1", "Agent-2", "Agent-3", "Agent-5", "Agent-6", "Agent-7", "Agent-8", "Agent-4"]
+        agent_order = [
+            "Agent-1",
+            "Agent-2",
+            "Agent-3",
+            "Agent-5",
+            "Agent-6",
+            "Agent-7",
+            "Agent-8",
+            "Agent-4",
+        ]
 
         for agent_id in agent_order:
             success = self.send_message(
@@ -92,12 +125,14 @@ class MessagingBulk:
                 mode=mode,
                 use_paste=use_paste,
                 new_tab_method=new_tab_method,
-                use_new_tab=use_new_tab
+                use_new_tab=use_new_tab,
+                sender_type=sender_type,
+                recipient_type=recipient_type,
             )
             results.append(success)
             time.sleep(1)  # Brief pause between agents
 
         success_count = sum(results)
         total_count = len(results)
-        print(f"📊 BULK MESSAGE COMPLETED: {success_count}/{total_count} successful")
+        get_logger(__name__).info(f"📊 BULK MESSAGE COMPLETED: {success_count}/{total_count} successful")
         return results

@@ -1,10 +1,7 @@
-from src.utils.config_core import get_config
 
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for error report generation."""
 
-from pathlib import Path
-from enum import Enum
 
 
 class ReportFormat(str, Enum):
@@ -18,7 +15,7 @@ class ReportFormat(str, Enum):
 
 
 # Default configuration values
-DEFAULT_REPORTS_DIR = Path("reports")
+DEFAULT_REPORTS_DIR = get_unified_utility().Path("reports")
 DEFAULT_FORMAT = ReportFormat.JSON
 INCLUDE_METADATA = get_config('INCLUDE_METADATA', True)
 INCLUDE_RECOMMENDATIONS = get_config('INCLUDE_RECOMMENDATIONS', True)

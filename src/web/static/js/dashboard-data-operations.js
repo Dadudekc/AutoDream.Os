@@ -11,12 +11,13 @@
 // IMPORT DEPENDENCIES
 // ================================
 
-import { showAlert } from './dashboard-ui-helpers.js';
-import { cacheDashboardData, getCachedDashboardData, isDashboardCacheValid } from './dashboard-cache-manager.js';
-import { handleDashboardDataError, isRecoverableDashboardError } from './dashboard-error-handler.js';
-import { setDashboardLoadingState } from './dashboard-loading-manager.js';
-import { getDashboardRetryCount, incrementDashboardRetryCount, resetDashboardRetryCount, shouldRetryDashboardOperation, getDashboardRetryDelay } from './dashboard-retry-manager.js';
 import { applyDashboardOptimisticUpdate, revertDashboardOptimisticUpdate } from './dashboard-optimistic-updates.js';
+import { cacheDashboardData, getCachedDashboardData, isDashboardCacheValid } from './dashboard-cache-manager.js';
+import { getDashboardRetryCount, getDashboardRetryDelay, incrementDashboardRetryCount, resetDashboardRetryCount, shouldRetryDashboardOperation } from './dashboard-retry-manager.js';
+import { handleDashboardDataError, isRecoverableDashboardError } from './dashboard-error-handler.js';
+
+import { setDashboardLoadingState } from './dashboard-loading-manager.js';
+import { showAlert } from './dashboard-ui-helpers.js';
 
 // ================================
 // DASHBOARD DATA OPERATIONS
@@ -31,7 +32,7 @@ class DashboardDataOperations {
     }
 
     /**
-     * Load dashboard data for specific view
+     * Load dashboard data for specific view using repository pattern
      */
     async loadDashboardData(view, options = {}) {
         const {
@@ -41,69 +42,38 @@ class DashboardDataOperations {
             retryOnFailure = true
         } = options;
 
-        const cacheKey = `dashboard_${view}`;
-
-        // Check cache first
-        if (!forceRefresh && isDashboardCacheValid(cacheKey)) {
-            const cached = getCachedDashboardData(cacheKey);
-            return cached.data;
-        }
-
         // Set loading state
         if (showLoading) {
             setDashboardLoadingState(view, true);
         }
 
         try {
-            // Make API request with timeout
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            // Use repository pattern for data access
+            const { DashboardRepository } = await import('./repositories/dashboard-repository.js');
+            const repository = new DashboardRepository();
 
-            const response = await fetch(`/api/dashboard/${view}`, {
-                signal: controller.signal,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            clearTimeout(timeoutId);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            // If force refresh, clear cache first
+            if (forceRefresh) {
+                repository.clearCache();
             }
 
-            const data = await response.json();
+            const data = await repository.getDashboardData(view);
 
-            if (data.error) {
-                throw new Error(data.error);
+            // Reset loading state on success
+            if (showLoading) {
+                setDashboardLoadingState(view, false);
             }
-
-            // Cache the data
-            cacheDashboardData(cacheKey, data);
-
-            // Reset retry count on success
-            resetDashboardRetryCount(view);
 
             return data;
 
         } catch (error) {
-            // Handle errors
+            // Handle errors using error handler
+            const { handleDashboardDataError } = await import('./dashboard-error-handler.js');
             await handleDashboardDataError(view, error, { silent: !showLoading });
 
-            // Retry logic
-            if (retryOnFailure && shouldRetryDashboardOperation(view)) {
-                const retryCount = incrementDashboardRetryCount(view);
-                const delay = getDashboardRetryDelay(view);
-
-                console.log(`🔄 Retrying ${view} data load (attempt ${retryCount}/${this.maxRetries}) in ${delay}ms`);
-
-                await new Promise(resolve => setTimeout(resolve, delay));
-
-                return this.loadDashboardData(view, {
-                    ...options,
-                    forceRefresh: true,
-                    retryOnFailure: true
-                });
+            // Reset loading state on error
+            if (showLoading) {
+                setDashboardLoadingState(view, false);
             }
 
             throw error;
@@ -282,3 +252,4 @@ export function updateDashboardViewData(view, updateData, options = {}) {
 
 export { DashboardDataOperations, dashboardDataOperations };
 export default dashboardDataOperations;
+

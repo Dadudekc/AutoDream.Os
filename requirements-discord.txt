@@ -1,0 +1,13 @@
+# Discord Commander Requirements
+# Requirements for running the Discord integration bot
+
+# Discord.py - Discord API wrapper
+discord.py==2.3.2
+
+# Additional dependencies for enhanced functionality
+python-dotenv==1.0.0
+
+# Optional: For enhanced logging
+colorlog==6.7.0
+
+# Note: Install with: pip install -r requirements-discord.txt

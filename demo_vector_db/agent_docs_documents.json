@@ -1,0 +1,82 @@
+{
+  "f9bec58c2d011e213f1cb38121bcd273": {
+    "content": "Agent-1: Need help with integration task. The messaging system needs A2A communication support.",
+    "chunks": [
+      "Agent-1: Need help with integration task. The messaging system needs A2A communication support."
+    ],
+    "metadata": {
+      "file_path": "messages/msg_1.txt",
+      "file_type": ".txt",
+      "added_at": "2025-09-03T04:51:52.089946",
+      "chunk_count": 1,
+      "agent": "Agent-1",
+      "type": "A2A",
+      "priority": "urgent",
+      "timestamp": "2025-09-02T10:00:00"
+    }
+  },
+  "b117ba8579fb494f713e703798f66f4e": {
+    "content": "Captain Agent-4: System update - Enhanced messaging system with A2A/S2A/H2A types implemented successfully.",
+    "chunks": [
+      "Captain Agent-4: System update - Enhanced messaging system with A2A/S2A/H2A types implemented successfully."
+    ],
+    "metadata": {
+      "file_path": "messages/msg_2.txt",
+      "file_type": ".txt",
+      "added_at": "2025-09-03T04:51:52.094951",
+      "chunk_count": 1,
+      "agent": "Captain Agent-4",
+      "type": "S2A",
+      "priority": "normal",
+      "timestamp": "2025-09-02T11:00:00"
+    }
+  },
+  "3d391f46922f0ec5dc382f451c959c83": {
+    "content": "Human Operator: Please check the database connection and ensure all agents can access the vector database.",
+    "chunks": [
+      "Human Operator: Please check the database connection and ensure all agents can access the vector database."
+    ],
+    "metadata": {
+      "file_path": "messages/msg_3.txt",
+      "file_type": ".txt",
+      "added_at": "2025-09-03T04:51:52.096952",
+      "chunk_count": 1,
+      "agent": "Human Operator",
+      "type": "H2A",
+      "priority": "urgent",
+      "timestamp": "2025-09-02T11:30:00"
+    }
+  },
+  "ab0c60f8afdcfb02d7ba1b974251f5a9": {
+    "content": "Agent-7: Vector database implementation completed. Ready for semantic search capabilities.",
+    "chunks": [
+      "Agent-7: Vector database implementation completed. Ready for semantic search capabilities."
+    ],
+    "metadata": {
+      "file_path": "messages/msg_4.txt",
+      "file_type": ".txt",
+      "added_at": "2025-09-03T04:51:52.106482",
+      "chunk_count": 1,
+      "agent": "Agent-7",
+      "type": "A2A",
+      "priority": "normal",
+      "timestamp": "2025-09-02T12:00:00"
+    }
+  },
+  "326bd0f8f75be3df18df716c568347ee": {
+    "content": "Agent-2: Architecture review needed for V2 compliance. Need to ensure all components follow 300-line limit.",
+    "chunks": [
+      "Agent-2: Architecture review needed for V2 compliance. Need to ensure all components follow 300-line limit."
+    ],
+    "metadata": {
+      "file_path": "messages/msg_5.txt",
+      "file_type": ".txt",
+      "added_at": "2025-09-03T04:51:52.110486",
+      "chunk_count": 1,
+      "agent": "Agent-2",
+      "type": "A2A",
+      "priority": "high",
+      "timestamp": "2025-09-02T12:30:00"
+    }
+  }
+}

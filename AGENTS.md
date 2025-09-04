@@ -45,9 +45,27 @@
   - `pyautogui` via `src/services/messaging_pyautogui.py`
   - `inbox` file drop per agent at `agent_workspaces/<Agent-X>/inbox`
 - Models and enums: `src/services/models/messaging_models.py`
-  - **types**: `text`, `broadcast`, `onboarding`
+  - **types**: `text`, `broadcast`, `onboarding`, `agent_to_agent`, `system_to_agent`, `human_to_agent`
   - **priority**: `normal`, `urgent`
   - **tags**: `captain`, `onboarding`, `wrapup`
+  - **sender/recipient types**: `agent`, `system`, `human`
+
+## Vector Database System
+- **Core Integration**: `src/core/vector_database.py` (ChromaDB-based)
+- **Simple Implementation**: `src/core/simple_vector_database.py` (TF-IDF based)
+- **Enhanced Services**: `src/services/vector_database_service.py`
+- **FSM Integration**: `src/core/vector_enhanced_fsm.py`
+- **Contract Integration**: `src/services/vector_enhanced_contracts.py`
+- **Agent Context**: `src/core/agent_context_system.py`
+- **Messaging Integration**: `src/services/vector_messaging_integration.py`
+
+### Vector Database Capabilities:
+- **Semantic Search**: Find content by meaning, not just keywords
+- **Agent Context Awareness**: Personalized recommendations based on agent history
+- **FSM Enhancement**: Context-aware state transitions
+- **Contract Optimization**: Intelligent task assignment and progress tracking
+- **Pattern Recognition**: Cross-system intelligence and optimization
+- **Real-time Integration**: Live context updates and recommendations
 
 ### CLI (Unified Messaging)
 - Entry point: `python -m src.services.messaging_cli [flags]`
@@ -235,9 +253,16 @@ python -m src.services.messaging_cli --check-status
 
 ## Agent Cycle & Communication Protocols
 
-- One cycle = Captain prompt + Agent response; respond within one cycle.
-- Maintain momentum for 8x efficiency; each cycle should produce measurable progress.
-- Always check your inbox first: `agent_workspaces/<Agent-X>/inbox/`.
+### 🚨 FUNDAMENTAL OPERATIONAL PRINCIPLE: CYCLE-BASED METHODOLOGY
+**TIME-BASED DEADLINES ARE PROHIBITED. ALL OPERATIONS ARE CYCLE-BASED.**
+
+- **Cycle Definition**: One Captain prompt + One Agent response = One complete cycle
+- **Response Protocol**: Agent acknowledgment/response = Cycle completion
+- **Escalation Criteria**: Only escalate if agent fails to respond within one cycle
+- **Timeline Format**: "Complete within X cycles" (NEVER time-based deadlines)
+- **Progress Format**: "Cycle X complete: [achievements]" (NEVER time-based progress)
+- **Maintain momentum for 8x efficiency**: Each cycle should produce measurable progress
+- **Always check your inbox first**: `agent_workspaces/<Agent-X>/inbox/`
 - Useful utilities:
   ```bash
   python -m src.services.messaging_cli --list-agents

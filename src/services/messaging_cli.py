@@ -9,19 +9,54 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import sys
-from typing import Dict, Any
-
-from .messaging_core import UnifiedMessagingCore
-from .cli_validator import CLIValidator, create_enhanced_parser
-from .validation_models import ValidationError
-from .messaging_cli_config import load_config_with_precedence
+import argparse
 from .messaging_cli_handlers import (
-    handle_utility_commands,
     handle_contract_commands,
+    handle_message_commands,
     handle_onboarding_commands,
-    handle_message_commands
+    handle_utility_commands,
 )
+
+
+def create_enhanced_parser():
+    """Create enhanced argument parser."""
+    parser = argparse.ArgumentParser(description="Unified Messaging CLI")
+    
+    # Message arguments
+    parser.add_argument("--message", "-m", help="Message content")
+    parser.add_argument("--agent", "-a", help="Target agent")
+    parser.add_argument("--sender", "-s", default="Captain Agent-4", help="Sender name")
+    parser.add_argument("--bulk", action="store_true", help="Send to all agents")
+    parser.add_argument("--mode", choices=["pyautogui", "inbox"], default="pyautogui", help="Delivery mode")
+    
+    # Message type and priority
+    parser.add_argument("--type", "-t", default="text", help="Message type")
+    parser.add_argument("--priority", "-p", default="regular", help="Message priority")
+    parser.add_argument("--high-priority", action="store_true", help="Set high priority")
+    
+    # Utility commands
+    parser.add_argument("--coordinates", action="store_true", help="Show agent coordinates")
+    parser.add_argument("--check-status", action="store_true", help="Check agent status")
+    parser.add_argument("--list-agents", action="store_true", help="List all agents")
+    parser.add_argument("--history", action="store_true", help="Show message history")
+    
+    # Onboarding commands
+    parser.add_argument("--onboarding", action="store_true", help="Send onboarding to all agents")
+    parser.add_argument("--onboard", action="store_true", help="Send onboarding to specific agent")
+    parser.add_argument("--onboarding-style", choices=["friendly", "professional"], default="friendly", help="Onboarding style")
+    parser.add_argument("--compliance-mode", action="store_true", help="Activate compliance mode")
+    parser.add_argument("--wrapup", action="store_true", help="Send wrapup message")
+    parser.add_argument("--hard-onboarding", action="store_true", help="Send hard onboarding sequence")
+    
+    # Contract commands
+    parser.add_argument("--get-next-task", action="store_true", help="Get next task for agent")
+    parser.add_argument("--check-contracts", action="store_true", help="Check contract status")
+    
+    # Additional options
+    parser.add_argument("--no-paste", action="store_true", help="Don't use paste method")
+    parser.add_argument("--new-tab-method", choices=["ctrl_t", "ctrl_n"], default="ctrl_t", help="New tab method")
+    
+    return parser
 
 
 def create_parser():
@@ -29,45 +64,8 @@ def create_parser():
     return create_enhanced_parser()
 
 
-def main():
-    """Main CLI entry point."""
-    try:
-        # Load configuration with precedence
-        config = load_config_with_precedence()
-        
-        # Create and configure parser
-        parser = create_parser()
-        args = parser.parse_args()
-        
-        # Initialize messaging service
-        service = UnifiedMessagingCore()
-        
-        # Handle utility commands first
-        if handle_utility_commands(args, service):
-            return
-        
-        # Handle contract commands
-        if handle_contract_commands(args):
-            return
-        
-        # Handle onboarding commands
-        if handle_onboarding_commands(args, service):
-            return
-        
-        # Handle regular message commands
-        if handle_message_commands(args, service):
-            return
-        
-        # If no commands were handled, show help
-        parser.print_help()
-        
-    except KeyboardInterrupt:
-        print("\n⚠️ Operation cancelled by user")
-        sys.exit(1)
-    except Exception as e:
-        print(f"❌ UNEXPECTED ERROR: {e}")
-        sys.exit(1)
-
+from ..core.unified_entry_point_system import main
 
 if __name__ == "__main__":
-    main()
+    import asyncio
+    asyncio.run(main())

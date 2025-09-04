@@ -9,15 +9,7 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import logging
-from typing import Dict, Any, List, Callable, Optional
-from datetime import datetime
 
-from .error_models import ErrorContext, ErrorSeverity, CircuitBreakerConfig, RetryConfig
-from .retry_mechanisms import RetryMechanism
-from .circuit_breaker import CircuitBreaker
-from .error_recovery import ErrorRecoveryManager
-from .error_reporting import ErrorReporter
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +28,7 @@ class ErrorHandlingOrchestrator:
         # Initialize default configurations
         self._setup_default_configurations()
 
-        logger.info("ErrorHandlingOrchestrator initialized successfully")
+        get_logger(__name__).info("ErrorHandlingOrchestrator initialized successfully")
 
     def _setup_default_configurations(self):
         """Set up default configurations for common components."""
@@ -46,14 +38,12 @@ class ErrorHandlingOrchestrator:
             base_delay=1.0,
             max_delay=60.0,
             backoff_factor=2.0,
-            jitter=True
+            jitter=True,
         )
 
         # Default circuit breaker configurations
         default_circuit_config = CircuitBreakerConfig(
-            failure_threshold=5,
-            recovery_timeout=60,
-            name="default"
+            failure_threshold=5, recovery_timeout=60, name="default"
         )
 
         # Register default configurations
@@ -72,12 +62,12 @@ class ErrorHandlingOrchestrator:
     def register_retry_mechanism(self, component: str, config: RetryConfig):
         """Register a retry mechanism for a component."""
         self.retry_mechanisms[component] = RetryMechanism(config)
-        logger.info(f"Registered retry mechanism for component: {component}")
+        get_logger(__name__).info(f"Registered retry mechanism for component: {component}")
 
     def register_circuit_breaker(self, component: str, config: CircuitBreakerConfig):
         """Register a circuit breaker for a component."""
         self.circuit_breakers[component] = CircuitBreaker(config)
-        logger.info(f"Registered circuit breaker for component: {component}")
+        get_logger(__name__).info(f"Registered circuit breaker for component: {component}")
 
     def execute_with_comprehensive_error_handling(
         self,
@@ -86,7 +76,7 @@ class ErrorHandlingOrchestrator:
         component: str = "unknown",
         use_retry: bool = True,
         use_circuit_breaker: bool = True,
-        use_recovery: bool = True
+        use_recovery: bool = True,
     ) -> Any:
         """
         Execute operation with comprehensive error handling.
@@ -100,15 +90,21 @@ class ErrorHandlingOrchestrator:
             # Execute with circuit breaker and retry if enabled
             if use_circuit_breaker and component in self.circuit_breakers:
                 result = self.circuit_breakers[component].call(
-                    lambda: self._execute_with_retry(operation, operation_name, component, use_retry),
-                    operation_name
+                    lambda: self._execute_with_retry(
+                        operation, operation_name, component, use_retry
+                    ),
+                    operation_name,
                 )
             else:
-                result = self._execute_with_retry(operation, operation_name, component, use_retry)
+                result = self._execute_with_retry(
+                    operation, operation_name, component, use_retry
+                )
 
             # Log successful execution
             execution_time = (datetime.now() - start_time).total_seconds()
-            logger.info(f"✅ Operation '{operation_name}' completed successfully in {execution_time:.2f}s")
+            get_logger(__name__).info(
+                f"✅ Operation '{operation_name}' completed successfully in {execution_time:.2f}s"
+            )
 
             return result
 
@@ -122,8 +118,8 @@ class ErrorHandlingOrchestrator:
                 details={
                     "exception": str(e),
                     "exception_type": type(e).__name__,
-                    "execution_time": (datetime.now() - start_time).total_seconds()
-                }
+                    "execution_time": (datetime.now() - start_time).total_seconds(),
+                },
             )
 
             # Store error in history
@@ -136,25 +132,32 @@ class ErrorHandlingOrchestrator:
             if use_recovery:
                 recovery_success = self.recovery_manager.attempt_recovery(error_context)
                 if recovery_success:
-                    logger.info(f"🔄 Recovery successful for {operation_name}, retrying...")
+                    get_logger(__name__).info(
+                        f"🔄 Recovery successful for {operation_name}, retrying..."
+                    )
                     try:
                         # Retry operation once after successful recovery
                         return operation()
                     except Exception as recovery_retry_error:
-                        logger.error(f"❌ Operation failed even after recovery: {recovery_retry_error}")
-                        error_context.details["recovery_retry_failed"] = str(recovery_retry_error)
+                        get_logger(__name__).error(
+                            f"❌ Operation failed even after recovery: {recovery_retry_error}"
+                        )
+                        error_context.details["recovery_retry_failed"] = str(
+                            recovery_retry_error
+                        )
                         raise recovery_retry_error
 
             # Log comprehensive error information
-            logger.error(
+            get_logger(__name__).error(
                 f"❌ Operation '{operation_name}' failed in component '{component}': {e} "
                 f"(Severity: {error_context.severity.value})"
             )
 
             raise e
 
-    def _execute_with_retry(self, operation: Callable, operation_name: str,
-                           component: str, use_retry: bool) -> Any:
+    def _execute_with_retry(
+        self, operation: Callable, operation_name: str, component: str, use_retry: bool
+    ) -> Any:
         """Execute operation with retry if enabled."""
         if use_retry and component in self.retry_mechanisms:
             return self.retry_mechanisms[component].execute_with_retry(
@@ -163,22 +166,28 @@ class ErrorHandlingOrchestrator:
         else:
             return operation()
 
-    def _determine_severity(self, exception: Exception, component: str) -> ErrorSeverity:
+    def _determine_severity(
+        self, exception: Exception, component: str
+    ) -> ErrorSeverity:
         """Determine error severity based on exception and component."""
         exception_type = type(exception).__name__
 
         # Critical errors
-        if any(critical in exception_type.lower() for critical in
-               ['connectionerror', 'timeouterror', 'configurationerror']):
+        if any(
+            critical in exception_type.lower()
+            for critical in ["connectionerror", "timeouterror", "configurationerror"]
+        ):
             return ErrorSeverity.CRITICAL
 
         # High severity errors
-        if any(high in exception_type.lower() for high in
-               ['valueerror', 'keyerror', 'attributeerror', 'ioerror']):
+        if any(
+            high in exception_type.lower()
+            for high in ["valueerror", "keyerror", "attributeerror", "ioerror"]
+        ):
             return ErrorSeverity.HIGH
 
         # Medium severity for component-specific errors
-        if 'validation' in component.lower() and 'validation' in str(exception).lower():
+        if "validation" in component.lower() and "validation" in str(exception).lower():
             return ErrorSeverity.MEDIUM
 
         # Default to medium severity
@@ -192,22 +201,28 @@ class ErrorHandlingOrchestrator:
             "components_monitored": {
                 "retry_mechanisms": list(self.retry_mechanisms.keys()),
                 "circuit_breakers": list(self.circuit_breakers.keys()),
-                "total_components": len(set(self.retry_mechanisms.keys()) | set(self.circuit_breakers.keys()))
+                "total_components": len(
+                    set(self.retry_mechanisms.keys())
+                    | set(self.circuit_breakers.keys())
+                ),
             },
             "error_statistics": {
                 "total_errors": len(self.error_history),
-                "errors_last_24h": len([
-                    e for e in self.error_history
-                    if (datetime.now() - e.timestamp).total_seconds() < 86400
-                ]),
-                "severity_breakdown": self._get_severity_breakdown()
+                "errors_last_24h": len(
+                    [
+                        e
+                        for e in self.error_history
+                        if (datetime.now() - e.timestamp).total_seconds() < 86400
+                    ]
+                ),
+                "severity_breakdown": self._get_severity_breakdown(),
             },
             "circuit_breaker_status": {
                 component: cb.get_status()
                 for component, cb in self.circuit_breakers.items()
             },
             "recovery_statistics": self.recovery_manager.get_recovery_statistics(),
-            "error_report": self.error_reporter.generate_report()
+            "error_report": self.error_reporter.generate_report(),
         }
 
     def _get_severity_breakdown(self) -> Dict[str, int]:
@@ -231,7 +246,7 @@ class ErrorHandlingOrchestrator:
         # Clean up error reporter logs
         cleaned["error_logs"] = self.error_reporter.cleanup_old_logs()
 
-        logger.info(f"Cleaned up stale data: {cleaned}")
+        get_logger(__name__).info(f"Cleaned up stale data: {cleaned}")
         return cleaned
 
     def reset_component(self, component: str) -> bool:
@@ -244,18 +259,18 @@ class ErrorHandlingOrchestrator:
                 # Create new circuit breaker instance
                 config = self.circuit_breakers[component].config
                 self.circuit_breakers[component] = CircuitBreaker(config)
-                logger.info(f"Reset circuit breaker for component: {component}")
+                get_logger(__name__).info(f"Reset circuit breaker for component: {component}")
             except Exception as e:
-                logger.error(f"Failed to reset circuit breaker for {component}: {e}")
+                get_logger(__name__).error(f"Failed to reset circuit breaker for {component}: {e}")
                 success = False
 
         # Reset retry mechanism if it exists
         if component in self.retry_mechanisms:
             try:
                 # Retry mechanisms don't need explicit reset as they're stateless
-                logger.info(f"Retry mechanism ready for component: {component}")
+                get_logger(__name__).info(f"Retry mechanism ready for component: {component}")
             except Exception as e:
-                logger.error(f"Error with retry mechanism for {component}: {e}")
+                get_logger(__name__).error(f"Error with retry mechanism for {component}: {e}")
                 success = False
 
         return success
@@ -266,11 +281,13 @@ class ErrorHandlingOrchestrator:
             "component": component,
             "timestamp": datetime.now().isoformat(),
             "retry_mechanism": component in self.retry_mechanisms,
-            "circuit_breaker": component in self.circuit_breakers
+            "circuit_breaker": component in self.circuit_breakers,
         }
 
         if component in self.circuit_breakers:
-            status["circuit_breaker_status"] = self.circuit_breakers[component].get_status()
+            status["circuit_breaker_status"] = self.circuit_breakers[
+                component
+            ].get_status()
 
         # Get recent errors for this component
         recent_errors = [
@@ -278,17 +295,23 @@ class ErrorHandlingOrchestrator:
                 "operation": error.operation,
                 "severity": error.severity.value,
                 "timestamp": error.timestamp.isoformat(),
-                "details": error.details
+                "details": error.details,
             }
             for error in self.error_history[-50:]  # Last 50 errors
             if error.component == component
         ]
 
         status["recent_errors"] = recent_errors[-10:]  # Last 10 errors
-        status["error_count_24h"] = len([
-            e for e in recent_errors
-            if (datetime.now() - datetime.fromisoformat(e["timestamp"])).total_seconds() < 86400
-        ])
+        status["error_count_24h"] = len(
+            [
+                e
+                for e in recent_errors
+                if (
+                    datetime.now() - datetime.fromisoformat(e["timestamp"])
+                ).total_seconds()
+                < 86400
+            ]
+        )
 
         return status
 
@@ -297,8 +320,12 @@ class ErrorHandlingOrchestrator:
 error_orchestrator = ErrorHandlingOrchestrator()
 
 
-def handle_operation(operation: Callable, operation_name: str = "operation",
-                    component: str = "unknown", **kwargs) -> Any:
+def handle_operation(
+    operation: Callable,
+    operation_name: str = "operation",
+    component: str = "unknown",
+    **kwargs,
+) -> Any:
     """Convenience function for comprehensive error handling."""
     return error_orchestrator.execute_with_comprehensive_error_handling(
         operation, operation_name, component, **kwargs

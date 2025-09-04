@@ -1,0 +1,23 @@
+{
+  "persist_directory": "data/vector_db",
+  "default_collection": "default",
+  "default_embedding_model": "sentence-transformers",
+  "embedding_batch_size": 32,
+  "embedding_dimension": 384,
+  "default_search_limit": 10,
+  "default_similarity_threshold": 0.0,
+  "max_search_limit": 100,
+  "enable_caching": true,
+  "cache_size": 1000,
+  "cache_ttl": 3600,
+  "openai_model": "text-embedding-ada-002",
+  "auto_create_collections": true,
+  "collection_metadata": {
+    "description": "Default collection for agent communications",
+    "version": "1.0.0",
+    "created_by": "Agent-7"
+  },
+  "log_queries": true,
+  "log_performance": true
+}
+

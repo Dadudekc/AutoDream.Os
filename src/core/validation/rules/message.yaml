@@ -24,3 +24,18 @@ rules:
     rule_type: message
     description: Validate UnifiedMessage enum values
     severity: ERROR
+  - rule_id: message_type_consistency
+    rule_name: Message Type Consistency
+    rule_type: message
+    description: Validate message type consistency with sender/recipient types (A2A, S2A, H2A)
+    severity: ERROR
+  - rule_id: sender_recipient_identification
+    rule_name: Sender/Recipient Identification
+    rule_type: message
+    description: Ensure proper sender and recipient type identification for message routing
+    severity: ERROR
+  - rule_id: agent_id_validation
+    rule_name: Agent ID Validation
+    rule_type: message
+    description: Validate agent IDs in sender/recipient fields for proper routing
+    severity: ERROR

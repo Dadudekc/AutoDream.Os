@@ -9,14 +9,7 @@ Author: Agent-6 (Gaming & Entertainment Specialist)
 License: MIT
 """
 
-import pytest
-import tempfile
-import os
-import yaml
-from datetime import datetime
-from unittest.mock import patch, MagicMock
 
-from src.core.validation.coordination_validator import (
     CoordinationValidator,
     ValidationSeverity,
     ValidationResult,
@@ -93,13 +86,13 @@ class TestCoordinationValidator:
                 ]
             }
             
-            with open(os.path.join(temp_dir, "message.yaml"), 'w') as f:
+            with open(get_unified_utility().path.join(temp_dir, "message.yaml"), 'w') as f:
                 yaml.dump(message_rules, f)
             
-            with open(os.path.join(temp_dir, "quality.yaml"), 'w') as f:
+            with open(get_unified_utility().path.join(temp_dir, "quality.yaml"), 'w') as f:
                 yaml.dump(quality_rules, f)
             
-            with open(os.path.join(temp_dir, "security.yaml"), 'w') as f:
+            with open(get_unified_utility().path.join(temp_dir, "security.yaml"), 'w') as f:
                 yaml.dump(security_rules, f)
             
             yield temp_dir
@@ -112,7 +105,7 @@ class TestCoordinationValidator:
     def test_validator_initialization(self, validator):
         """Test validator initialization."""
         assert validator.rules_dir is not None
-        assert isinstance(validator.validation_history, list)
+        assert get_unified_validator().validate_type(validator.validation_history, list)
         assert len(validator.rules) > 0
     
     def test_load_validation_rules(self, validator):

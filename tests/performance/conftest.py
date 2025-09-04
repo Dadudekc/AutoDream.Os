@@ -1,9 +1,7 @@
 """Common fixtures for performance tests."""
 
-import pytest
-from unittest.mock import Mock
 
-from tests.utils.test_data import get_performance_test_data
+sys.path.append(get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), '..'))
 
 
 @pytest.fixture

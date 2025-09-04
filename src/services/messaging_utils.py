@@ -9,15 +9,18 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Dict, Any, List
 
-from .models.messaging_models import UnifiedMessage
 
 
 class MessagingUtils:
     """Utility methods for messaging service."""
 
-    def __init__(self, agents: Dict[str, Dict[str, Any]], inbox_paths: Dict[str, str], messages: List[UnifiedMessage]):
+    def __init__(
+        self,
+        agents: Dict[str, Dict[str, Any]],
+        inbox_paths: Dict[str, str],
+        messages: List[UnifiedMessage],
+    ):
         """Initialize utility service."""
         self.agents = agents
         self.inbox_paths = inbox_paths
@@ -25,29 +28,29 @@ class MessagingUtils:
 
     def list_agents(self):
         """List all available agents."""
-        print("📋 AVAILABLE AGENTS:")
-        print("=" * 50)
+        get_logger(__name__).info("📋 AVAILABLE AGENTS:")
+        get_logger(__name__).info("=" * 50)
         for agent_id, info in self.agents.items():
-            print(f"🤖 {agent_id}: {info['description']}")
-            print(f"   📍 Coordinates: {info['coords']}")
-            print(f"   📬 Inbox: {self.inbox_paths.get(agent_id, 'N/A')}")
-            print()
+            get_logger(__name__).info(f"🤖 {agent_id}: {info['description']}")
+            get_logger(__name__).info(f"   📍 Coordinates: {info['coords']}")
+            get_logger(__name__).info(f"   📬 Inbox: {self.inbox_paths.get(agent_id, 'N/A')}")
+            get_logger(__name__).info()
 
     def show_coordinates(self):
         """Show agent coordinates."""
-        print("📍 AGENT COORDINATES:")
-        print("=" * 30)
+        get_logger(__name__).info("📍 AGENT COORDINATES:")
+        get_logger(__name__).info("=" * 30)
         for agent_id, info in self.agents.items():
-            print(f"🤖 {agent_id}: {info['coords']}")
-        print()
+            get_logger(__name__).info(f"🤖 {agent_id}: {info['coords']}")
+        get_logger(__name__).info()
 
     def show_message_history(self):
         """Show message history."""
-        print("📜 MESSAGE HISTORY:")
-        print("=" * 30)
+        get_logger(__name__).info("📜 MESSAGE HISTORY:")
+        get_logger(__name__).info("=" * 30)
         for i, message in enumerate(self.messages, 1):
-            print(f"{i}. {message.sender} → {message.recipient}")
-            print(f"   Type: {message.message_type.value}")
-            print(f"   Priority: {message.priority.value}")
-            print(f"   ID: {message.message_id}")
-            print()
+            get_logger(__name__).info(f"{i}. {message.sender} → {message.recipient}")
+            get_logger(__name__).info(f"   Type: {message.message_type.value}")
+            get_logger(__name__).info(f"   Priority: {message.priority.value}")
+            get_logger(__name__).info(f"   ID: {message.message_id}")
+            get_logger(__name__).info()

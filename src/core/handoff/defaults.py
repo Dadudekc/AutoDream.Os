@@ -1,8 +1,6 @@
 """Default handoff procedures."""
 
-from typing import List
 
-from .models import HandoffProcedure
 
 
 def get_default_procedures() -> List[HandoffProcedure]:

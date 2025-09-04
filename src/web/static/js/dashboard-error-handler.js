@@ -1,205 +1,218 @@
 /**
- * Dashboard Error Handler Module - V2 Compliant
- * Error handling functionality extracted from dashboard-data-manager.js
+ * Dashboard Error Handler - V2 Compliance Module
+ * Extracted from dashboard-consolidated-refactored.js
+ * Handles all error display and management functionality
  *
- * @author Agent-7 - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE CORRECTION
+ * @author Agent-2 - Architecture & Design Specialist
+ * @version 1.0.0 - V2 COMPLIANCE
  * @license MIT
  */
 
 // ================================
-// IMPORT DEPENDENCIES
-// ================================
-
-import { showAlert } from './dashboard-ui-helpers.js';
-
-// ================================
-// DASHBOARD ERROR HANDLER
+// ERROR HANDLER
 // ================================
 
 /**
- * Error handling for dashboard operations
+ * Dashboard Error Handler
+ * Manages error display and user notifications
  */
 class DashboardErrorHandler {
-    constructor() {
-        this.errorStates = new Map();
+    constructor(logger = null) {
+        this.logger = logger;
+        this.errorContainer = null;
     }
 
     /**
-     * Handle data operation errors
+     * Show error message to user
      */
-    async handleDataError(view, error, options = {}) {
-        const { silent = false, showRetry = true } = options;
+    showError(message, title = "🚨 Dashboard Error") {
+        // Remove existing error if any
+        this.clearError();
 
-        if (this.isRecoverableError(error)) {
-            if (!silent) {
-                console.warn(`🔄 Recoverable error for ${view}:`, error);
+        // Create error container
+        this.errorContainer = document.createElement('div');
+        this.errorContainer.id = 'dashboardError';
+        this.errorContainer.className = 'dashboard-error';
+        this.errorContainer.innerHTML = `
+            <div class="error-content">
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <button onclick="location.reload()">Refresh Page</button>
+            </div>
+        `;
+
+        // Add styles
+        this.errorContainer.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff4444;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 400px;
+        `;
+
+        this.errorContainer.querySelector('.error-content').style.cssText = `
+            margin: 0;
+        `;
+
+        this.errorContainer.querySelector('button').style.cssText = `
+            background: white;
+            color: #ff4444;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        `;
+
+        document.body.appendChild(this.errorContainer);
+
+        // Log error if logger available
+        if (this.logger) {
+            this.logger.logErrorGeneric('DashboardErrorHandler', message, {
+                title,
+                userDisplayed: true
+            });
+        }
+
+        // Auto-hide after 10 seconds
+        setTimeout(() => this.clearError(), 10000);
+    }
+
+    /**
+     * Show warning message
+     */
+    showWarning(message, title = "⚠️ Warning") {
+        // Remove existing error if any
+        this.clearError();
+
+        // Create warning container
+        this.errorContainer = document.createElement('div');
+        this.errorContainer.id = 'dashboardWarning';
+        this.errorContainer.className = 'dashboard-warning';
+        this.errorContainer.innerHTML = `
+            <div class="warning-content">
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <button onclick="this.parentElement.parentElement.remove()">Dismiss</button>
+            </div>
+        `;
+
+        // Add styles
+        this.errorContainer.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffaa00;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 400px;
+        `;
+
+        this.errorContainer.querySelector('.warning-content').style.cssText = `
+            margin: 0;
+        `;
+
+        this.errorContainer.querySelector('button').style.cssText = `
+            background: white;
+            color: #ffaa00;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        `;
+
+        document.body.appendChild(this.errorContainer);
+
+        // Log warning if logger available
+        if (this.logger) {
+            this.logger.logOperationFailed('user_warning', message, {
+                title,
+                type: 'warning'
+            });
+        }
+    }
+
+    /**
+     * Show success message
+     */
+    showSuccess(message, title = "✅ Success") {
+        const successElement = document.createElement('div');
+        successElement.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #44aa44;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 400px;
+            animation: fadeIn 0.3s ease-in;
+        `;
+
+        successElement.innerHTML = `
+            <div style="margin: 0;">
+                <h3 style="margin: 0 0 10px 0; font-size: 16px;">${title}</h3>
+                <p style="margin: 0; font-size: 14px;">${message}</p>
+            </div>
+        `;
+
+        document.body.appendChild(successElement);
+
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            if (successElement.parentElement) {
+                successElement.remove();
             }
-            // Could implement auto-retry logic here
-        } else {
-            if (!silent) {
-                console.error(`❌ Error for ${view}:`, error);
-                this.showErrorMessage(view, error);
-            }
+        }, 3000);
+    }
+
+    /**
+     * Clear current error/warning
+     */
+    clearError() {
+        if (this.errorContainer && this.errorContainer.parentElement) {
+            this.errorContainer.remove();
+            this.errorContainer = null;
+        }
+    }
+
+    /**
+     * Handle uncaught errors
+     */
+    handleGlobalError(error, source, lineno, colno) {
+        const errorMessage = `Uncaught error in ${source}:${lineno}:${colno} - ${error}`;
+
+        this.showError(errorMessage, "🚨 JavaScript Error");
+
+        // Log detailed error information
+        if (this.logger) {
+            this.logger.logErrorGeneric('GlobalErrorHandler', error, {
+                source,
+                lineno,
+                colno,
+                stack: error.stack
+            });
         }
 
-        // Store error state
-        this.setErrorState(view, error);
+        // Prevent default error handling
+        return true;
     }
-
-    /**
-     * Check if error is recoverable
-     */
-    isRecoverableError(error) {
-        // Network errors that might be temporary
-        if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            return true;
-        }
-
-        // Request aborted (user navigation)
-        if (error.name === 'AbortError') {
-            return false; // Not recoverable, user initiated
-        }
-
-        // Server errors that might be temporary
-        if (error.message.includes('HTTP 5')) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Show appropriate error message
-     */
-    showErrorMessage(view, error) {
-        let message = `An error occurred while loading ${view} data.`;
-
-        if (error.name === 'TypeError') {
-            message = 'Network error. Please check your connection and try again.';
-        } else if (error.message.includes('HTTP 4')) {
-            message = 'Data not found or access denied.';
-        } else if (error.message.includes('HTTP 5')) {
-            message = 'Server error. Please try again later.';
-        }
-
-        showAlert('error', message);
-    }
-
-    /**
-     * Set error state for view
-     */
-    setErrorState(view, error) {
-        this.errorStates.set(view, {
-            error: error,
-            timestamp: Date.now()
-        });
-    }
-
-    /**
-     * Get error state for view
-     */
-    getErrorState(view) {
-        return this.errorStates.get(view);
-    }
-
-    /**
-     * Clear error state for view
-     */
-    clearErrorState(view) {
-        this.errorStates.delete(view);
-    }
-
-    /**
-     * Clear all error states
-     */
-    clearAllErrorStates() {
-        this.errorStates.clear();
-    }
-
-    /**
-     * Get error statistics
-     */
-    getErrorStats() {
-        return {
-            errorCount: this.errorStates.size,
-            errors: Object.fromEntries(this.errorStates)
-        };
-    }
-}
-
-// ================================
-// GLOBAL ERROR HANDLER INSTANCE
-// ================================
-
-/**
- * Global error handler instance
- */
-const dashboardErrorHandler = new DashboardErrorHandler();
-
-// ================================
-// ERROR HANDLER API FUNCTIONS
-// ================================
-
-/**
- * Handle data error
- */
-export function handleDashboardDataError(view, error, options = {}) {
-    return dashboardErrorHandler.handleDataError(view, error, options);
-}
-
-/**
- * Check if error is recoverable
- */
-export function isRecoverableDashboardError(error) {
-    return dashboardErrorHandler.isRecoverableError(error);
-}
-
-/**
- * Show error message
- */
-export function showDashboardErrorMessage(view, error) {
-    dashboardErrorHandler.showErrorMessage(view, error);
-}
-
-/**
- * Set error state
- */
-export function setDashboardErrorState(view, error) {
-    dashboardErrorHandler.setErrorState(view, error);
-}
-
-/**
- * Get error state
- */
-export function getDashboardErrorState(view) {
-    return dashboardErrorHandler.getErrorState(view);
-}
-
-/**
- * Clear error state
- */
-export function clearDashboardErrorState(view) {
-    dashboardErrorHandler.clearErrorState(view);
-}
-
-/**
- * Clear all error states
- */
-export function clearAllDashboardErrorStates() {
-    dashboardErrorHandler.clearAllErrorStates();
-}
-
-/**
- * Get error statistics
- */
-export function getDashboardErrorStats() {
-    return dashboardErrorHandler.getErrorStats();
 }
 
 // ================================
 // EXPORTS
 // ================================
 
-export { DashboardErrorHandler, dashboardErrorHandler };
-export default dashboardErrorHandler;
+export { DashboardErrorHandler };
+export default DashboardErrorHandler;

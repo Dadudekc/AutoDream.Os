@@ -7,18 +7,9 @@ providing seamless integration with the main agent system.
 Author: Agent-3 - Infrastructure & DevOps Specialist (Refactored for V2 Compliance)
 """
 
-import json
-import logging
-import asyncio
-from typing import Dict, List, Optional, Any, Callable
-from dataclasses import asdict
-from datetime import datetime
 
-from src.gaming.models.gaming_models import (
     IntegrationStatus, GameType, GameSession, EntertainmentSystem
 )
-from src.gaming.utils.gaming_monitors import GamingPerformanceMonitors
-from src.gaming.utils.gaming_handlers import GamingEventHandlers
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +35,7 @@ class GamingIntegrationCore:
     
     def _initialize_integration(self):
         """Initialize the integration system."""
-        logger.info("Initializing Gaming Integration Core")
+        get_logger(__name__).info("Initializing Gaming Integration Core")
         self._setup_default_handlers()
         self._setup_performance_monitors()
         self._connect_to_systems()
@@ -70,14 +61,14 @@ class GamingIntegrationCore:
     def _connect_to_systems(self):
         """Connect to gaming and entertainment systems."""
         try:
-            logger.info("Connecting to gaming systems")
+            get_logger(__name__).info("Connecting to gaming systems")
             self.status = IntegrationStatus.CONNECTING
             
             # Simulate connection process
             asyncio.create_task(self._establish_connections())
             
         except Exception as e:
-            logger.error(f"Failed to connect to systems: {e}")
+            get_logger(__name__).error(f"Failed to connect to systems: {e}")
             self.status = IntegrationStatus.ERROR
     
     async def _establish_connections(self):
@@ -90,10 +81,10 @@ class GamingIntegrationCore:
             self._register_entertainment_systems()
             
             self.status = IntegrationStatus.CONNECTED
-            logger.info("Gaming integration core connected successfully")
+            get_logger(__name__).info("Gaming integration core connected successfully")
             
         except Exception as e:
-            logger.error(f"Connection establishment failed: {e}")
+            get_logger(__name__).error(f"Connection establishment failed: {e}")
             self.status = IntegrationStatus.ERROR
     
     def _register_entertainment_systems(self):
@@ -160,7 +151,7 @@ class GamingIntegrationCore:
         )
         
         self.game_sessions[session_id] = session
-        logger.info(f"Created game session: {session_id} for {game_type.value}")
+        get_logger(__name__).info(f"Created game session: {session_id} for {game_type.value}")
         
         return session
     
@@ -176,7 +167,7 @@ class GamingIntegrationCore:
             True if session was ended successfully, False otherwise
         """
         if session_id not in self.game_sessions:
-            logger.warning(f"Session {session_id} not found")
+            get_logger(__name__).warning(f"Session {session_id} not found")
             return False
         
         session = self.game_sessions[session_id]
@@ -188,7 +179,7 @@ class GamingIntegrationCore:
         session.metadata["end_time"] = datetime.now().isoformat()
         session.metadata["duration"] = (datetime.now() - session.start_time).total_seconds()
         
-        logger.info(f"Ended game session: {session_id}")
+        get_logger(__name__).info(f"Ended game session: {session_id}")
         return True
     
     def update_session_performance(self, session_id: str, metrics: Dict[str, Any]) -> bool:
@@ -203,14 +194,14 @@ class GamingIntegrationCore:
             True if metrics were updated successfully, False otherwise
         """
         if session_id not in self.game_sessions:
-            logger.warning(f"Session {session_id} not found")
+            get_logger(__name__).warning(f"Session {session_id} not found")
             return False
         
         session = self.game_sessions[session_id]
         session.performance_metrics.update(metrics)
         session.metadata["last_metrics_update"] = datetime.now().isoformat()
         
-        logger.debug(f"Updated performance metrics for session {session_id}")
+        get_logger(__name__).debug(f"Updated performance metrics for session {session_id}")
         return True
     
     def get_active_sessions(self, game_type: Optional[GameType] = None) -> List[GameSession]:
@@ -267,7 +258,7 @@ class GamingIntegrationCore:
             handler_func: Handler function to register
         """
         self.integration_handlers[handler_name] = handler_func
-        logger.info(f"Registered integration handler: {handler_name}")
+        get_logger(__name__).info(f"Registered integration handler: {handler_name}")
     
     def register_performance_monitor(self, monitor_name: str, monitor_func: Callable):
         """
@@ -278,7 +269,7 @@ class GamingIntegrationCore:
             monitor_func: Monitor function to register
         """
         self.performance_monitors[monitor_name] = monitor_func
-        logger.info(f"Registered performance monitor: {monitor_name}")
+        get_logger(__name__).info(f"Registered performance monitor: {monitor_name}")
     
     def export_integration_data(self, filepath: str) -> bool:
         """Export integration data to JSON file."""
@@ -290,9 +281,9 @@ class GamingIntegrationCore:
                 "export_timestamp": datetime.now().isoformat()
             }
             with open(filepath, 'w') as f:
-                json.dump(export_data, f, indent=2, default=str)
-            logger.info(f"Exported integration data to {filepath}")
+                write_json(export_data, f, indent=2, default=str)
+            get_logger(__name__).info(f"Exported integration data to {filepath}")
             return True
         except Exception as e:
-            logger.error(f"Failed to export integration data: {e}")
+            get_logger(__name__).error(f"Failed to export integration data: {e}")
             return False

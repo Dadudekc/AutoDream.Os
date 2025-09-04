@@ -1,13 +1,19 @@
-from .health_analyzer import (
-from .health_collector import (
-from .health_config import (
-from .health_core import (
-
-"""Unified Health Monitoring Core - Consolidated from monitoring/ and monitoring_new/"""
-
-# Import unified monitoring functionality from consolidated core
     AgentHealthCoreMonitor,
+    Consolidated,
+    Core,
+    Health,
     HealthMonitoringOrchestrator,
+    Monitoring,
+    """Unified,
+    -,
+    .health_collector,
+    .health_config,
+    .health_core,
+    and,
+    from,
+    import,
+    monitoring/,
+    monitoring_new/""",
 )
 
 # Import monitoring functions from shared helpers
@@ -16,7 +22,7 @@ from .health_core import (
 )
     perform_health_checks,
     update_health_scores,
-    check_alerts,
+    get_unified_validator().check_alerts,
     notify_health_updates,
     get_agent_health,
     get_all_agent_health,
@@ -44,7 +50,7 @@ __all__ = [
     "record_health_metric",
     "perform_health_checks",
     "update_health_scores",
-    "check_alerts",
+    "get_unified_validator().check_alerts",
     "notify_health_updates",
     "get_agent_health",
     "get_all_agent_health",

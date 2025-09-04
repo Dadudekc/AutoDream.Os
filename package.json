@@ -1,4 +1,38 @@
 {
   "name": "autodream-os",
-  "type": "module"
+  "type": "module",
+  "version": "2.0.0",
+  "description": "V2 Compliant Autonomous Development System",
+  "scripts": {
+    "lint": "eslint src/**/*.js --ext .js",
+    "lint:fix": "eslint src/**/*.js --ext .js --fix",
+    "lint:v2": "eslint src/**/*.js --ext .js --max-warnings 0",
+    "lint:all": "eslint src/**/*.js src/**/*.ts --ext .js,.ts",
+    "loc:check": "find src -name '*.js' -o -name '*.ts' | xargs wc -l | sort -nr | head -20",
+    "v2:audit": "npm run lint:v2 && npm run loc:check",
+    "pre-commit": "npm run v2:audit",
+    "ci": "npm run lint:v2",
+    "test:v2": "node scripts/test-v2-compliance.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/autodream-os.git"
+  },
+  "keywords": [
+    "autonomous",
+    "development",
+    "v2-compliance",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Swarm Intelligence",
+  "license": "MIT"
 }

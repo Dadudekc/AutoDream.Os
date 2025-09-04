@@ -9,11 +9,7 @@ V2 Compliance: 85%+ test coverage requirement.
 Author: Agent-6 (Gaming & Entertainment Specialist)
 """
 
-import pytest
-from datetime import datetime
-from unittest.mock import patch
 
-from src.services.models.messaging_models import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,
@@ -120,7 +116,7 @@ class TestUnifiedMessage:
         assert message.priority == UnifiedMessagePriority.REGULAR
         assert message.tags == []
         assert message.metadata == {}
-        assert isinstance(message.timestamp, datetime)
+        assert get_unified_validator().validate_type(message.timestamp, datetime)
         assert message.message_id is not None
 
     def test_message_creation_with_custom_values(self):
@@ -175,7 +171,7 @@ class TestUnifiedMessage:
 
         assert message.tags == []
         assert message.metadata == {}
-        assert isinstance(message.timestamp, datetime)
+        assert get_unified_validator().validate_type(message.timestamp, datetime)
         assert message.message_id is not None
 
     def test_message_equality(self):

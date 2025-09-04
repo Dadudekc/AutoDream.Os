@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dream.os/schemas/agent_checkin.schema.json",
+  "title": "Dream.OS Agent Check-In",
+  "type": "object",
+  "required": ["version", "agent_id", "agent_name", "status", "last_updated", "current_phase"],
+  "properties": {
+    "version": { "type": "string", "const": "1.0" },
+
+    "agent_id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+    "agent_name": { "type": "string", "minLength": 1 },
+
+    "status": { "type": "string" },
+    "current_phase": { "type": "string" },
+    "mission_status": { "type": "string" },
+
+    "last_updated": { "type": "string", "format": "date-time" },
+
+    "current_mission": { "type": "string" },
+    "mission_priority": { "type": "string" },
+    "last_milestone": { "type": "string" },
+    "next_milestone": { "type": "string" },
+
+    "current_tasks": { "type": "array", "items": { "type": "string" } },
+    "completed_tasks": { "type": "array", "items": { "type": "string" } },
+    "achievements": { "type": "array", "items": { "type": "string" } },
+
+    "strategic_capabilities": { "type": "object", "additionalProperties": { "type": "string" } },
+    "agent_status": { "type": "object", "additionalProperties": { "type": "string" } },
+    "system_status": { "type": "object", "additionalProperties": { "type": "string" } },
+
+    "syntax_fix_status": { "type": "object", "additionalProperties": true },
+    "v2_compliance_status": { "type": "object", "additionalProperties": true },
+
+    "next_actions": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

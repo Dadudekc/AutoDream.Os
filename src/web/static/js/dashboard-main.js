@@ -5,6 +5,7 @@
  */
 
 // Import modular components
+
 import { DashboardCore } from './dashboard-core.js';
 import { DashboardNavigation } from './dashboard-navigation.js';
 import { DashboardUtils } from './dashboard-utils.js';
@@ -46,13 +47,10 @@ class DashboardMain {
         this.utils.showLoading();
         
         try {
-            const response = await fetch(`/api/dashboard/${view}`);
-            const data = await response.json();
-            
-            if (data.error) {
-                this.utils.showAlert('error', data.error);
-                return;
-            }
+            // Use repository pattern for data access
+            const { DashboardRepository } = await import('./repositories/dashboard-repository.js');
+            const repository = new DashboardRepository();
+            const data = await repository.getDashboardData(view);
             
             this.updateDashboard(data);
         } catch (error) {

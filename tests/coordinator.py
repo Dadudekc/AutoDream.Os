@@ -1,11 +1,7 @@
 """Coordinator module invoking setup, execution, and teardown steps."""
 
-from pathlib import Path
-from typing import Any, Dict
 
-from src.utils.logger import get_logger
 
-from .infrastructure import executor, setup, teardown
 
 logger = get_logger(__name__)
 
@@ -16,8 +12,8 @@ class TestCoordinator:
     __test__ = False  # Prevent pytest from collecting this class
 
     def __init__(self, source_dir: Path, tests_dir: Path) -> None:
-        self.source_dir = Path(source_dir)
-        self.tests_dir = Path(tests_dir)
+        self.source_dir = get_unified_utility().Path(source_dir)
+        self.tests_dir = get_unified_utility().Path(tests_dir)
 
     def run(self) -> Dict[str, Any]:
         """Run all coordination steps and return aggregated results."""

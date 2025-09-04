@@ -1,4 +1,4 @@
-from src.utils.config_core import get_config
+
 #!/usr/bin/env python3
 """
 Onboarding Service - Agent Cellphone V2
@@ -11,14 +11,13 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import os
-from typing import Dict, Any
 
-from .models.messaging_models import (
+    RecipientType,
+    SenderType,
     UnifiedMessage,
-    UnifiedMessageType,
     UnifiedMessagePriority,
     UnifiedMessageTag,
+    UnifiedMessageType,
 )
 
 
@@ -33,7 +32,7 @@ class OnboardingService:
         """Load onboarding template content from SSOT; provide fallback if missing."""
         template_path = "prompts/agents/onboarding.md"
         try:
-            if os.path.exists(template_path):
+            if get_unified_utility().path.exists(template_path):
                 with open(template_path, "r", encoding="utf-8") as f:
                     return f.read()
         except Exception:
@@ -50,8 +49,11 @@ class OnboardingService:
             "**WE. ARE. SWARM.** ⚡️🔥"
         )
 
-    def generate_onboarding_message(self, agent_id: str, role: str, style: str = "friendly") -> str:
+    def generate_onboarding_message(
+        self, agent_id: str, role: str, style: str = "friendly"
+    ) -> str:
         """Generate onboarding message for specific agent from SSOT template."""
+
         class _SafeDict(dict):
             def __missing__(self, key):  # type: ignore[override]
                 return ""
@@ -77,7 +79,9 @@ class OnboardingService:
                 "**WE. ARE. SWARM.** ⚡️🔥"
             )
 
-    def create_onboarding_message(self, agent_id: str, role: str, style: str = "friendly") -> UnifiedMessage:
+    def create_onboarding_message(
+        self, agent_id: str, role: str, style: str = "friendly"
+    ) -> UnifiedMessage:
         """Create UnifiedMessage for onboarding."""
         message_content = self.generate_onboarding_message(agent_id, role, style)
 
@@ -85,8 +89,10 @@ class OnboardingService:
             content=message_content,
             sender="Captain Agent-4",
             recipient=agent_id,
-            message_type=UnifiedMessageType.ONBOARDING,
+            message_type=UnifiedMessageType.S2A,  # System-to-Agent message
             priority=UnifiedMessagePriority.URGENT,
             tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
-            metadata={"onboarding_style": style}
+            metadata={"onboarding_style": style, "message_category": "S2A_ONBOARDING"},
+            sender_type=SenderType.SYSTEM,
+            recipient_type=RecipientType.AGENT,
         )

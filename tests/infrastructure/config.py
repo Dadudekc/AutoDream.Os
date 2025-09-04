@@ -1,4 +1,3 @@
-from src.utils.config_core import get_config
 
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for test infrastructure."""

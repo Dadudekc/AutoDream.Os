@@ -9,12 +9,8 @@ Author: Agent-6 (Gaming & Entertainment Specialist)
 License: MIT
 """
 
-import pytest
 import time
-from datetime import datetime, timedelta
-from unittest.mock import patch, MagicMock
 
-from src.core.performance.coordination_performance_monitor import (
     CoordinationPerformanceMonitor,
     get_performance_monitor
 )
@@ -180,7 +176,7 @@ class TestGlobalPerformanceMonitor:
         monitor2 = get_performance_monitor()
         
         assert monitor1 is monitor2
-        assert isinstance(monitor1, CoordinationPerformanceMonitor)
+        assert get_unified_validator().validate_type(monitor1, CoordinationPerformanceMonitor)
     
     def test_get_performance_monitor_multiple_calls(self):
         """Test multiple calls to get_performance_monitor return same instance."""

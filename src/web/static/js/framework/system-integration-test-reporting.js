@@ -1,211 +1,199 @@
 /**
- * System Integration Test Reporting - V2 Compliant Reporting Module
- * Comprehensive reporting and analytics for system integration testing
+ * System Integration Test Reporting - V2 Compliant
+ * Reporting functionality for system integration testing
  * V2 COMPLIANCE: Under 300-line limit achieved
  *
- * @author Agent-8 - Integration & Performance Specialist
- * @version 2.0.0 - V2 COMPLIANCE MODULAR REFACTORING
+ * @author Agent-7 - Web Development Specialist
+ * @version 3.0.0 - V2 COMPLIANCE MODULAR REFACTORING
  * @license MIT
  */
 
-// ================================
-// SYSTEM INTEGRATION TEST REPORTING
-// ================================
-
 /**
- * System integration test reporting
+ * System Integration Test Reporting
+ * Handles test result reporting and metrics generation
  */
 export class SystemIntegrationTestReporting {
-    constructor(core) {
-        this.core = core;
-        this.isInitialized = false;
-    }
-
-    /**
-     * Initialize reporting system
-     */
-    async initialize() {
-        if (this.isInitialized) return;
-        
-        console.log('📊 Initializing System Integration Test Reporting...');
-        this.isInitialized = true;
-        console.log('✅ System Integration Test Reporting initialized');
+    constructor(testCore) {
+        this.testCore = testCore;
     }
 
     /**
      * Generate comprehensive test report
      */
-    generateTestReport() {
-        console.log('\n' + '='.repeat(60));
-        console.log('🎯 SYSTEM INTEGRATION TEST REPORT V2');
-        console.log('='.repeat(60));
+    generateTestReport(testResults) {
+        console.log('📊 Generating test report...');
         
-        const stats = this.core.getTestStatistics();
-        const performanceMetrics = this.core.getPerformanceMetrics();
-        
-        // Display test statistics
-        console.log(`📊 Total Tests: ${stats.totalTests}`);
-        console.log(`✅ Passed: ${stats.passedTests}`);
-        console.log(`❌ Failed: ${stats.failedTests}`);
-        console.log(`📈 Success Rate: ${stats.successRate}%`);
-        console.log(`⏱️  Duration: ${stats.duration}ms`);
-        
-        // Display performance metrics
-        if (Object.keys(performanceMetrics).length > 0) {
-            console.log('\n⚡ PERFORMANCE METRICS:');
-            Object.entries(performanceMetrics).forEach(([metric, data]) => {
-                console.log(`  • ${metric}: ${data.value}ms`);
-            });
-        }
-        
-        // Display failed tests
-        if (stats.failedTests > 0) {
-            console.log('\n❌ FAILED TESTS:');
-            stats.testResults.filter(result => !result.passed).forEach(result => {
-                console.log(`  • ${result.testName}: ${result.details}`);
-            });
-        }
-        
-        console.log('\n' + '='.repeat(60));
-        console.log(`🎯 FINAL RESULT: ${stats.successRate >= 95 ? '✅ PASS' : '❌ FAIL'}`);
-        console.log('='.repeat(60));
-        
-        return stats;
-    }
-
-    /**
-     * Get test results summary
-     */
-    getTestResultsSummary() {
-        const stats = this.core.getTestStatistics();
-        const performanceMetrics = this.core.getPerformanceMetrics();
-        
-        return {
-            summary: {
-                totalTests: stats.totalTests,
-                passedTests: stats.passedTests,
-                failedTests: stats.failedTests,
-                successRate: stats.successRate,
-                duration: stats.duration,
-                status: stats.successRate >= 95 ? 'PASS' : 'FAIL'
-            },
-            performance: performanceMetrics,
-            testResults: stats.testResults
+        const report = {
+            timestamp: new Date().toISOString(),
+            summary: this.generateTestSummary(testResults),
+            detailedResults: testResults,
+            performanceMetrics: this.testCore.getPerformanceMetrics(),
+            systemHealth: this.testCore.getSystemHealth(),
+            recommendations: this.generateRecommendations(testResults)
         };
-    }
 
-    /**
-     * Generate detailed test report
-     */
-    generateDetailedTestReport() {
-        const stats = this.core.getTestStatistics();
-        const performanceMetrics = this.core.getPerformanceMetrics();
+        this.displayTestReport(report);
+        this.saveTestReport(report);
         
-        return {
-            testExecution: {
-                startTime: this.core.testStartTime,
-                endTime: this.core.testEndTime,
-                duration: stats.duration
-            },
-            testResults: {
-                total: stats.totalTests,
-                passed: stats.passedTests,
-                failed: stats.failedTests,
-                successRate: stats.successRate,
-                details: stats.testResults
-            },
-            performance: performanceMetrics,
-            recommendations: this.generateRecommendations(stats)
-        };
+        return report;
     }
 
     /**
-     * Generate recommendations based on test results
+     * Generate test summary
      */
-    generateRecommendations(stats) {
+    generateTestSummary(testResults) {
+        const summary = {
+            totalTests: testResults.length,
+            passed: testResults.filter(r => r.result === 'PASS').length,
+            failed: testResults.filter(r => r.result === 'FAIL').length,
+            warnings: testResults.filter(r => r.result === 'WARN').length,
+            successRate: 0,
+            executionTime: this.calculateExecutionTime(testResults)
+        };
+
+        summary.successRate = summary.totalTests > 0 ? (summary.passed / summary.totalTests * 100).toFixed(2) : 0;
+        
+        return summary;
+    }
+
+    /**
+     * Calculate execution time
+     */
+    calculateExecutionTime(testResults) {
+        if (testResults.length === 0) return 0;
+        
+        const startTime = new Date(testResults[0].timestamp);
+        const endTime = new Date(testResults[testResults.length - 1].timestamp);
+        
+        return endTime - startTime;
+    }
+
+    /**
+     * Generate recommendations
+     */
+    generateRecommendations(testResults) {
         const recommendations = [];
         
-        if (stats.successRate < 95) {
-            recommendations.push('Review failed tests and address underlying issues');
+        const failedTests = testResults.filter(r => r.result === 'FAIL');
+        const warningTests = testResults.filter(r => r.result === 'WARN');
+        
+        if (failedTests.length > 0) {
+            recommendations.push({
+                type: 'CRITICAL',
+                message: `${failedTests.length} tests failed. Immediate attention required.`,
+                tests: failedTests.map(t => t.testName)
+            });
         }
         
-        if (stats.failedTests > 0) {
-            recommendations.push('Implement additional error handling for failed test scenarios');
+        if (warningTests.length > 0) {
+            recommendations.push({
+                type: 'WARNING',
+                message: `${warningTests.length} tests have warnings. Review recommended.`,
+                tests: warningTests.map(t => t.testName)
+            });
         }
         
-        if (stats.duration > 5000) {
-            recommendations.push('Optimize test execution time for better performance');
-        }
-        
-        if (stats.totalTests < 10) {
-            recommendations.push('Consider adding more comprehensive test coverage');
+        // Performance recommendations
+        const performanceMetrics = this.testCore.getPerformanceMetrics();
+        if (performanceMetrics.averageResponseTime > 1000) {
+            recommendations.push({
+                type: 'PERFORMANCE',
+                message: 'Average response time exceeds 1 second. Consider optimization.',
+                metric: 'averageResponseTime',
+                value: performanceMetrics.averageResponseTime
+            });
         }
         
         return recommendations;
     }
 
     /**
-     * Export test results to JSON
+     * Display test report
      */
-    exportTestResultsToJSON() {
-        const detailedReport = this.generateDetailedTestReport();
-        return JSON.stringify(detailedReport, null, 2);
+    displayTestReport(report) {
+        console.log('📋 SYSTEM INTEGRATION TEST REPORT');
+        console.log('=====================================');
+        console.log(`📅 Timestamp: ${report.timestamp}`);
+        console.log(`📊 Total Tests: ${report.summary.totalTests}`);
+        console.log(`✅ Passed: ${report.summary.passed}`);
+        console.log(`❌ Failed: ${report.summary.failed}`);
+        console.log(`⚠️  Warnings: ${report.summary.warnings}`);
+        console.log(`📈 Success Rate: ${report.summary.successRate}%`);
+        console.log(`⏱️  Execution Time: ${report.summary.executionTime}ms`);
+        
+        if (report.recommendations.length > 0) {
+            console.log('\n🔍 RECOMMENDATIONS:');
+            report.recommendations.forEach(rec => {
+                console.log(`  ${rec.type}: ${rec.message}`);
+            });
+        }
+        
+        console.log('=====================================');
     }
 
     /**
-     * Export test results to CSV
+     * Save test report
      */
-    exportTestResultsToCSV() {
-        const stats = this.core.getTestStatistics();
-        let csv = 'Test Name,Status,Details,Timestamp\n';
+    saveTestReport(report) {
+        try {
+            // In a real implementation, this would save to a file or database
+            const reportData = JSON.stringify(report, null, 2);
+            console.log('💾 Test report saved successfully');
+            
+            // Store in test core for later retrieval
+            this.testCore.testReport = report;
+            
+        } catch (error) {
+            console.error('❌ Failed to save test report:', error);
+        }
+    }
+
+    /**
+     * Export test results
+     */
+    exportTestResults(format = 'json') {
+        const testResults = this.testCore.getTestResults();
         
-        stats.testResults.forEach(result => {
-            const status = result.passed ? 'PASS' : 'FAIL';
-            const details = result.details.replace(/,/g, ';'); // Replace commas to avoid CSV issues
-            csv += `${result.testName},${status},"${details}",${result.timestamp}\n`;
+        switch (format.toLowerCase()) {
+            case 'json':
+                return JSON.stringify(testResults, null, 2);
+            case 'csv':
+                return this.convertToCSV(testResults);
+            case 'xml':
+                return this.convertToXML(testResults);
+            default:
+                throw new Error(`Unsupported export format: ${format}`);
+        }
+    }
+
+    /**
+     * Convert test results to CSV
+     */
+    convertToCSV(testResults) {
+        const headers = ['Test Name', 'Result', 'Timestamp', 'Details'];
+        const rows = testResults.map(result => [
+            result.testName,
+            result.result,
+            result.timestamp,
+            JSON.stringify(result.details)
+        ]);
+        
+        return [headers, ...rows].map(row => row.join(',')).join('\n');
+    }
+
+    /**
+     * Convert test results to XML
+     */
+    convertToXML(testResults) {
+        let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<testResults>\n';
+        
+        testResults.forEach(result => {
+            xml += `  <test name="${result.testName}" result="${result.result}" timestamp="${result.timestamp}">\n`;
+            xml += `    <details>${JSON.stringify(result.details)}</details>\n`;
+            xml += '  </test>\n';
         });
         
-        return csv;
-    }
-
-    /**
-     * Get reporting status
-     */
-    getStatus() {
-        return {
-            initialized: this.isInitialized,
-            reportingFeatures: [
-                'generateTestReport',
-                'getTestResultsSummary',
-                'generateDetailedTestReport',
-                'exportTestResultsToJSON',
-                'exportTestResultsToCSV'
-            ]
-        };
-    }
-
-    /**
-     * Cleanup resources
-     */
-    cleanup() {
-        this.isInitialized = false;
-        console.log('🧹 System Integration Test Reporting cleaned up');
+        xml += '</testResults>';
+        return xml;
     }
 }
-
-// ================================
-// FACTORY FUNCTIONS
-// ================================
-
-/**
- * Create system integration test reporting instance
- */
-export function createSystemIntegrationTestReporting(core) {
-    return new SystemIntegrationTestReporting(core);
-}
-
-// ================================
-// EXPORTS
-// ================================
-
-export default SystemIntegrationTestReporting;

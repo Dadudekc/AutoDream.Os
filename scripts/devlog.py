@@ -1,4 +1,3 @@
-from ..core.unified_entry_point_system import main
 #!/usr/bin/env python3
 """
 Discord Devlog System - Agent Cellphone V2
@@ -16,10 +15,11 @@ License: MIT
 
 import os
 import sys
-
-
-# Add src to path for imports
-sys.path.insert(0, get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), '..', 'src'))
+import json
+import requests
+import argparse
+from datetime import datetime
+from pathlib import Path
 
 
 class DevlogSystem:
@@ -27,13 +27,12 @@ class DevlogSystem:
 
     def __init__(self, agent_name=None):
         """Initialize devlog system."""
-        self.logger = get_logger("devlog")
-        self.config_file = get_unified_utility().Path("config/devlog_config.json")
-        self.devlog_dir = get_unified_utility().Path("devlogs")
+        self.config_file = Path("config/devlog_config.json")
+        self.devlog_dir = Path("devlogs")
         self.devlog_dir.mkdir(exist_ok=True)
 
         # Load configuration
-        self.config = self._get_unified_config().load_config()
+        self.config = self._load_config()
         
         # Override agent name if specified
         if agent_name:
@@ -41,21 +40,25 @@ class DevlogSystem:
 
     def _load_config(self):
         """Load devlog configuration."""
-        default_config = get_unified_config().get_config()
+        default_config = {
             "discord_webhook_url": os.getenv("DISCORD_WEBHOOK_URL", ""),
             "agent_name": "Agent-1",
             "default_channel": "devlog",
-            "enable_discord": False,
+            "enable_discord": True,
             "log_to_file": True
         }
 
         if self.config_file.exists():
             try:
                 with open(self.config_file, 'r') as f:
-                    loaded_config = read_json(f)
+                    loaded_config = json.load(f)
                     default_config.update(loaded_config)
             except Exception as e:
-                self.get_logger(__name__).error(f"Failed to load devlog config: {e}")
+                print(f"Failed to load devlog config: {e}")
+
+        # Handle special case where config says to use environment variable
+        if default_config.get("discord_webhook_url") in ["USE_ENV_VAR", ""]:
+            default_config["discord_webhook_url"] = os.getenv("DISCORD_WEBHOOK_URL", "")
 
         return default_config
 
@@ -63,156 +66,127 @@ class DevlogSystem:
         """Create a devlog entry and post to Discord.
 
         Args:
-            title: Devlog entry title
-            content: Devlog entry content
-            category: Entry category (general, progress, issue, success)
+            title: Entry title
+            content: Entry content
+            category: Entry category (general, progress, issue, success, warning, info)
 
         Returns:
             bool: True if successful, False otherwise
         """
         try:
-            # Create devlog entry
-            timestamp = datetime.now()
-            entry_id = f"{timestamp.strftime('%Y%m%d_%H%M%S')}"
+            # Create file entry if enabled
+            if self.config.get("log_to_file", True):
+                self._save_to_file(title, content, category)
 
-            devlog_entry = {
-                "id": entry_id,
-                "timestamp": timestamp.isoformat(),
-                "agent": self.config["agent_name"],
-                "category": category,
-                "title": title,
-                "content": content,
-                "channel": self.config["default_channel"]
-            }
-
-            # Log to file
-            if self.config["log_to_file"]:
-                self._save_to_file(devlog_entry)
-
-            # Post to Discord
-            if self.config["enable_discord"] and self.config["discord_webhook_url"]:
-                self._post_to_discord(devlog_entry)
-
-            self.get_logger(__name__).info(f"Devlog entry created: {title}")
-            return True
+            # Post to Discord if enabled and webhook URL is available
+            if (self.config.get("enable_discord", False) and 
+                self.config.get("discord_webhook_url")):
+                return self._post_to_discord(title, content, category)
+            else:
+                print(f"Discord posting disabled or webhook URL not configured")
+                print(f"Enable discord: {self.config.get('enable_discord')}")
+                print(f"Webhook URL available: {bool(self.config.get('discord_webhook_url'))}")
+                return True
 
         except Exception as e:
-            self.get_logger(__name__).error(f"Failed to create devlog entry: {e}")
+            print(f"Error creating devlog entry: {e}")
             return False
 
-    def _save_to_file(self, entry: dict):
+    def _save_to_file(self, title: str, content: str, category: str):
         """Save devlog entry to file."""
-        try:
-            date_str = datetime.fromisoformat(entry["timestamp"]).strftime("%Y-%m-%d")
-            filename = self.devlog_dir / f"devlog_{date_str}.json"
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f"{timestamp}_{category}_{title.replace(' ', '_')}.md"
+        filepath = self.devlog_dir / filename
 
-            # Load existing entries or create new list
-            if filename.exists():
-                with open(filename, 'r') as f:
-                    entries = read_json(f)
-            else:
-                entries = []
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(f"# {title}\n\n")
+            f.write(f"**Date**: {datetime.now().isoformat()}\n")
+            f.write(f"**Agent**: {self.config['agent_name']}\n")
+            f.write(f"**Category**: {category}\n\n")
+            f.write(f"---\n\n{content}\n")
 
-            # Add new entry
-            entries.append(entry)
+        print(f"Devlog saved to: {filepath}")
 
-            # Save back to file
-            with open(filename, 'w') as f:
-                write_json(entries, f, indent=2)
-
-        except Exception as e:
-            self.get_logger(__name__).error(f"Failed to save devlog to file: {e}")
-
-    def _post_to_discord(self, entry: dict):
+    def _post_to_discord(self, title: str, content: str, category: str) -> bool:
         """Post devlog entry to Discord."""
-        try:
-            webhook_url = self.config["discord_webhook_url"]
-            if not get_unified_validator().validate_required(webhook_url):
-                return
+        webhook_url = self.config["discord_webhook_url"]
+        
+        # Category emoji mapping
+        category_emojis = {
+            "general": "📝",
+            "progress": "🚀", 
+            "issue": "⚠️",
+            "success": "✅",
+            "warning": "🔶",
+            "info": "ℹ️"
+        }
 
-            # Format Discord message
-            discord_message = {
-                "embeds": [{
-                    "title": f"📝 {entry['title']}",
-                    "description": entry["content"],
-                    "color": self._get_category_color(entry["category"]),
-                    "fields": [
-                        {
-                            "name": "Agent",
-                            "value": entry["agent"],
-                            "inline": True
-                        },
-                        {
-                            "name": "Category",
-                            "value": entry["category"],
-                            "inline": True
-                        },
-                        {
-                            "name": "Timestamp",
-                            "value": entry["timestamp"],
-                            "inline": True
-                        }
-                    ],
-                    "footer": {
-                        "text": "V2 SWARM - Agent Cellphone Devlog"
-                    }
-                }]
+        emoji = category_emojis.get(category, "📝")
+        agent_name = self.config.get("agent_name", "Unknown Agent")
+        
+        # Create Discord embed
+        embed = {
+            "title": f"{emoji} {title}",
+            "description": content,
+            "color": self._get_category_color(category),
+            "fields": [
+                {
+                    "name": "Agent",
+                    "value": agent_name,
+                    "inline": True
+                },
+                {
+                    "name": "Category", 
+                    "value": category.title(),
+                    "inline": True
+                },
+                {
+                    "name": "Timestamp",
+                    "value": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "inline": True
+                }
+            ],
+            "footer": {
+                "text": "Agent Cellphone V2 - Devlog System"
             }
+        }
 
-            # Send to Discord
-            response = make_request(webhook_url, json=discord_message, "POST")
+        payload = {
+            "embeds": [embed],
+            "username": f"Agent Cellphone V2 - {agent_name}"
+        }
 
-            if response.status_code == 204:
-                self.get_logger(__name__).info("Devlog posted to Discord successfully")
-            else:
-                self.get_logger(__name__).error(f"Failed to post to Discord: {response.status_code}")
-
-        except Exception as e:
-            self.get_logger(__name__).error(f"Failed to post to Discord: {e}")
+        try:
+            response = requests.post(webhook_url, json=payload, timeout=10)
+            response.raise_for_status()
+            print(f"✅ Successfully posted to Discord: {title}")
+            return True
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Failed to post to Discord: {e}")
+            return False
 
     def _get_category_color(self, category: str) -> int:
         """Get Discord embed color for category."""
         colors = {
-            "general": 0x3498db,    # Blue
-            "progress": 0x2ecc71,  # Green
-            "issue": 0xe74c3c,     # Red
-            "success": 0x27ae60,   # Dark Green
-            "warning": 0xf39c12,   # Orange
-            "info": 0x9b59b6       # Purple
+            "general": 0x7289DA,    # Discord blurple
+            "progress": 0x00FF00,   # Green
+            "issue": 0xFF0000,      # Red
+            "success": 0x00FF00,    # Green
+            "warning": 0xFFFF00,    # Yellow
+            "info": 0x00FFFF        # Cyan
         }
-        return colors.get(category.lower(), 0x3498db)
-
-    def get_status(self) -> dict:
-        """Get devlog system status."""
-        return {
-            "system_status": "operational" if self.config["discord_webhook_url"] else "limited",
-            "discord_enabled": self.config["enable_discord"],
-            "file_logging": self.config["log_to_file"],
-            "agent_name": self.config["agent_name"],
-            "config_file_exists": self.config_file.exists(),
-            "devlog_directory": str(self.devlog_dir),
-            "entries_count": self._count_entries()
-        }
-
-    def _count_entries(self) -> int:
-        """Count total devlog entries."""
-        try:
-            count = get_config('count', 0)
-            for file_path in self.devlog_dir.glob("*.json"):
-                with open(file_path, 'r') as f:
-                    entries = read_json(f)
-                    count += len(entries)
-            return count
-        except Exception:
-            return 0
+        return colors.get(category, 0x7289DA)
 
 
-
+def main():
+    """Main entry point for devlog script."""
+    parser = argparse.ArgumentParser(
+        description="Create and post devlog entries to Discord",
+        epilog="""
 Examples:
-  python scripts/devlog.py "Title" "Content"
-  python scripts/devlog.py "Title" "Content" --category success
-  python scripts/devlog.py "Title" "Content" --agent Agent-7
-  python scripts/devlog.py "Title" "Content" --category progress --agent Agent-5
+  python scripts/devlog.py "Daily Progress" "Completed task X and Y"
+  python scripts/devlog.py "Issue Found" "Bug in module Z" --category issue
+  python scripts/devlog.py "Success!" "All tests passing" --category success --agent Agent-7
 
 Categories: general, progress, issue, success, warning, info
         """
@@ -225,7 +199,7 @@ Categories: general, progress, issue, success, warning, info
                        help="Entry category (default: general)")
     parser.add_argument("--agent", "-a", help="Agent name (overrides config)")
     
-    args = parser.get_unified_utility().parse_args()
+    args = parser.parse_args()
 
     # Initialize devlog system with optional agent override
     devlog = DevlogSystem(agent_name=args.agent)
@@ -234,12 +208,12 @@ Categories: general, progress, issue, success, warning, info
     success = devlog.create_entry(args.title, args.content, args.category)
 
     if success:
-        get_logger(__name__).info(f"✅ Devlog entry created: {args.title}")
+        print(f"✅ Devlog entry created: {args.title}")
         if args.agent:
-            get_logger(__name__).info(f"📝 Agent: {args.agent}")
-        get_logger(__name__).info(f"📂 Category: {args.category}")
+            print(f"📝 Agent: {args.agent}")
+        print(f"📂 Category: {args.category}")
     else:
-        get_logger(__name__).info(f"❌ Failed to create devlog entry: {args.title}")
+        print(f"❌ Failed to create devlog entry: {args.title}")
         sys.exit(1)
 
 

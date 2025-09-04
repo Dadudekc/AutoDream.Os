@@ -1,7 +1,6 @@
 
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Central configuration for test categories."""
-from typing import Any, Dict
 
 
 TEST_CATEGORIES: Dict[str, Dict[str, Any]] = {

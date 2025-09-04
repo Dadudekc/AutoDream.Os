@@ -9,14 +9,7 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import time
-import logging
-from typing import Callable, Any, Optional, Dict, List
-from datetime import datetime, timedelta
-from functools import wraps
 
-from .error_models import ErrorContext, ErrorSeverity, RetryConfig
-from .retry_mechanisms import RetryMechanism
 
 logger = logging.getLogger(__name__)
 
@@ -50,21 +43,24 @@ class ServiceRestartStrategy(RecoveryStrategy):
 
     def can_recover(self, error_context: ErrorContext) -> bool:
         """Check if service restart is appropriate."""
-        if self.last_restart and datetime.now() - self.last_restart < self.restart_cooldown:
+        if (
+            self.last_restart
+            and datetime.now() - self.last_restart < self.restart_cooldown
+        ):
             return False
         return error_context.severity in [ErrorSeverity.HIGH, ErrorSeverity.CRITICAL]
 
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute service restart."""
         try:
-            logger.info(f"Executing service restart for {error_context.component}")
+            get_logger(__name__).info(f"Executing service restart for {error_context.component}")
             success = self.service_manager()
             if success:
                 self.last_restart = datetime.now()
-                logger.info(f"Service restart successful for {error_context.component}")
+                get_logger(__name__).info(f"Service restart successful for {error_context.component}")
             return success
         except Exception as e:
-            logger.error(f"Service restart failed: {e}")
+            get_logger(__name__).error(f"Service restart failed: {e}")
             return False
 
 
@@ -78,18 +74,23 @@ class ConfigurationResetStrategy(RecoveryStrategy):
 
     def can_recover(self, error_context: ErrorContext) -> bool:
         """Check if configuration reset is appropriate."""
-        return "config" in error_context.operation.lower() or error_context.severity == ErrorSeverity.CRITICAL
+        return (
+            "config" in error_context.operation.lower()
+            or error_context.severity == ErrorSeverity.CRITICAL
+        )
 
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute configuration reset."""
         try:
-            logger.info(f"Executing configuration reset for {error_context.component}")
+            get_logger(__name__).info(f"Executing configuration reset for {error_context.component}")
             success = self.config_reset_func()
             if success:
-                logger.info(f"Configuration reset successful for {error_context.component}")
+                get_logger(__name__).info(
+                    f"Configuration reset successful for {error_context.component}"
+                )
             return success
         except Exception as e:
-            logger.error(f"Configuration reset failed: {e}")
+            get_logger(__name__).error(f"Configuration reset failed: {e}")
             return False
 
 
@@ -103,18 +104,23 @@ class ResourceCleanupStrategy(RecoveryStrategy):
 
     def can_recover(self, error_context: ErrorContext) -> bool:
         """Check if resource cleanup is appropriate."""
-        return "resource" in str(error_context.details).lower() or "lock" in str(error_context.details).lower()
+        return (
+            "resource" in str(error_context.details).lower()
+            or "lock" in str(error_context.details).lower()
+        )
 
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute resource cleanup."""
         try:
-            logger.info(f"Executing resource cleanup for {error_context.component}")
+            get_logger(__name__).info(f"Executing resource cleanup for {error_context.component}")
             success = self.cleanup_func()
             if success:
-                logger.info(f"Resource cleanup successful for {error_context.component}")
+                get_logger(__name__).info(
+                    f"Resource cleanup successful for {error_context.component}"
+                )
             return success
         except Exception as e:
-            logger.error(f"Resource cleanup failed: {e}")
+            get_logger(__name__).error(f"Resource cleanup failed: {e}")
             return False
 
 
@@ -129,7 +135,7 @@ class ErrorRecoveryManager:
     def add_strategy(self, strategy: RecoveryStrategy):
         """Add a recovery strategy."""
         self.strategies.append(strategy)
-        logger.info(f"Added recovery strategy: {strategy.name}")
+        get_logger(__name__).info(f"Added recovery strategy: {strategy.name}")
 
     def attempt_recovery(self, error_context: ErrorContext) -> bool:
         """Attempt to recover from an error using available strategies."""
@@ -138,23 +144,23 @@ class ErrorRecoveryManager:
             "error_context": error_context,
             "strategies_attempted": [],
             "successful_strategy": None,
-            "recovery_success": False
+            "recovery_success": False,
         }
 
         for strategy in self.strategies:
             if strategy.can_recover(error_context):
                 recovery_attempt["strategies_attempted"].append(strategy.name)
 
-                logger.info(f"Attempting recovery with strategy: {strategy.name}")
+                get_logger(__name__).info(f"Attempting recovery with strategy: {strategy.name}")
                 success = strategy.execute_recovery(error_context)
 
                 if success:
                     recovery_attempt["successful_strategy"] = strategy.name
                     recovery_attempt["recovery_success"] = True
-                    logger.info(f"Recovery successful using strategy: {strategy.name}")
+                    get_logger(__name__).info(f"Recovery successful using strategy: {strategy.name}")
                     break
                 else:
-                    logger.warning(f"Recovery failed with strategy: {strategy.name}")
+                    get_logger(__name__).warning(f"Recovery failed with strategy: {strategy.name}")
 
         self.recovery_history.append(recovery_attempt)
         return recovery_attempt["recovery_success"]
@@ -165,17 +171,24 @@ class ErrorRecoveryManager:
             return {"total_attempts": 0, "successful_recoveries": 0, "success_rate": 0}
 
         total_attempts = len(self.recovery_history)
-        successful_recoveries = len([r for r in self.recovery_history if r["recovery_success"]])
+        successful_recoveries = len(
+            [r for r in self.recovery_history if r["recovery_success"]]
+        )
 
         return {
             "total_attempts": total_attempts,
             "successful_recoveries": successful_recoveries,
-            "success_rate": (successful_recoveries / total_attempts) * 100 if total_attempts > 0 else 0
+            "success_rate": (
+                (successful_recoveries / total_attempts) * 100
+                if total_attempts > 0
+                else 0
+            ),
         }
 
 
 def with_error_recovery(recovery_manager: ErrorRecoveryManager):
     """Decorator for automatic error recovery."""
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -188,7 +201,7 @@ def with_error_recovery(recovery_manager: ErrorRecoveryManager):
                     component=func.__module__,
                     timestamp=datetime.now(),
                     severity=ErrorSeverity.HIGH,
-                    details={"exception": str(e), "exception_type": type(e).__name__}
+                    details={"exception": str(e), "exception_type": type(e).__name__},
                 )
 
                 # Attempt recovery
@@ -197,11 +210,14 @@ def with_error_recovery(recovery_manager: ErrorRecoveryManager):
                     try:
                         return func(*args, **kwargs)
                     except Exception as retry_error:
-                        logger.error(f"Operation failed even after recovery: {retry_error}")
+                        get_logger(__name__).error(
+                            f"Operation failed even after recovery: {retry_error}"
+                        )
                         raise retry_error
                 else:
-                    logger.error(f"No recovery strategy succeeded for: {e}")
+                    get_logger(__name__).error(f"No recovery strategy succeeded for: {e}")
                     raise e
 
         return wrapper
+
     return decorator

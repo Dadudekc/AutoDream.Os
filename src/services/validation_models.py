@@ -1,94 +1,50 @@
 #!/usr/bin/env python3
 """
-Validation Models Module - Agent Cellphone V2
-===========================================
+Validation Models - Agent Cellphone V2
+=====================================
 
-Data models and structures for CLI validation system.
+Validation models and exceptions for the messaging system.
 
-Author: Agent-1 (Integration & Core Systems Specialist)
+Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-import json
-from typing import Dict, Any, Optional
-from dataclasses import dataclass
-from datetime import datetime
 
 
-@dataclass
-class ValidationError:
-    """Structured validation error with correlation ID."""
-    code: int
-    message: str
-    hint: str
-    correlation_id: str
-    timestamp: datetime
-    details: Optional[Dict[str, Any]] = None
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for JSON output."""
-        return {
-            "level": "error",
-            "code": self.code,
-            "msg": self.message,
-            "hint": self.hint,
-            "corr": self.correlation_id,
-            "timestamp": self.timestamp.isoformat(),
-            "details": self.details or {}
-        }
-
-    def to_json(self) -> str:
-        """Convert to JSON string."""
-        return json.dumps(self.to_dict())
+class ValidationError(Exception):
+    """Exception raised when validation fails."""
+    
+    def __init__(self, message: str, field: Optional[str] = None, value: Optional[Any] = None):
+        """Initialize validation error."""
+        super().__init__(message)
+        self.field = field
+        self.value = value
+        self.message = message
+    
+    def __str__(self) -> str:
+        """String representation of validation error."""
+        if self.field:
+            return f"Validation error in field '{self.field}': {self.message}"
+        return f"Validation error: {self.message}"
 
 
-@dataclass
 class ValidationResult:
-    """Result of validation operation."""
-    is_valid: bool
-    error: Optional[ValidationError] = None
-
-    @classmethod
-    def success(cls) -> 'ValidationResult':
-        """Create successful validation result."""
-        return cls(is_valid=True)
-
-    @classmethod
-    def failure(cls, error: ValidationError) -> 'ValidationResult':
-        """Create failed validation result."""
-        return cls(is_valid=False, error=error)
-
-
-class ValidationExitCodes:
-    """Standard exit codes for validation errors."""
-    SUCCESS = 0
-    INVALID_FLAGS = 2
-    DEPENDENCY_MISSING = 3
-    MODE_MISMATCH = 4
-    LOCK_TIMEOUT = 7
-    QUEUE_FULL = 8
-    INTERNAL_ERROR = 9
-
-
-@dataclass
-class ValidationRules:
-    """Container for validation rules."""
-    mutual_exclusions: list = None
-    dependencies: Dict[str, list] = None
-    mode_gated_flags: list = None
-
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.mutual_exclusions is None:
-            self.mutual_exclusions = [
-                (['agent'], ['bulk', 'onboarding', 'wrapup']),
-            ]
-
-        if self.dependencies is None:
-            self.dependencies = {
-                'get_next_task': ['agent'],
-                'onboard': ['agent'],
-            }
-
-        if self.mode_gated_flags is None:
-            self.mode_gated_flags = ['no_paste', 'new_tab_method']
+    """Result of a validation operation."""
+    
+    def __init__(self, valid: bool = True, errors: Optional[List[ValidationError]] = None):
+        """Initialize validation result."""
+        self.valid = valid
+        self.errors = errors or []
+    
+    def add_error(self, error: ValidationError) -> None:
+        """Add a validation error."""
+        self.errors.append(error)
+        self.valid = False
+    
+    def has_errors(self) -> bool:
+        """Check if there are any validation errors."""
+        return len(self.errors) > 0
+    
+    def get_error_messages(self) -> List[str]:
+        """Get all error messages."""
+        return [str(error) for error in self.errors]

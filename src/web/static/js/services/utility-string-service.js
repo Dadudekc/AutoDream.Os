@@ -1,11 +1,60 @@
 /**
- * Utility String Service - V2 Compliant
+ * Utility String Service - V2 Compliant with Unified Logging
  * String manipulation utilities extracted from utility-service.js
+ * ENHANCED: Integrated with unified-logging-system.py patterns
  *
- * @author Agent-7 - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE CORRECTION
+ * @author Agent-7 - Web Development Specialist, Agent-8 - Integration & Performance Specialist
+ * @version 3.0.0 - V2 COMPLIANCE WITH UNIFIED LOGGING INTEGRATION
  * @license MIT
  */
+
+// ================================
+// UNIFIED LOGGING INTEGRATION
+// ================================
+
+/**
+ * Unified logging system integration for JavaScript
+ * Eliminates duplicate logging patterns across utility services
+ */
+class UnifiedLoggingSystem {
+    constructor(name = "UtilityStringService") {
+        this.name = name;
+        this.operationTimers = new Map();
+    }
+
+    logOperationStart(operationName, extra = {}) {
+        const message = `Starting ${operationName}`;
+        console.info(`[${this.name}] ${message}`, extra);
+        this.operationTimers.set(operationName, Date.now());
+    }
+
+    logOperationComplete(operationName, extra = {}) {
+        const message = `Completed ${operationName}`;
+        console.info(`[${this.name}] ${message}`, extra);
+        
+        if (this.operationTimers.has(operationName)) {
+            const duration = Date.now() - this.operationTimers.get(operationName);
+            this.logPerformanceMetric(`${operationName}_duration`, duration);
+            this.operationTimers.delete(operationName);
+        }
+    }
+
+    logOperationFailed(operationName, error, extra = {}) {
+        const message = `Failed to ${operationName}: ${error}`;
+        console.error(`[${this.name}] ${message}`, extra);
+        this.operationTimers.delete(operationName);
+    }
+
+    logPerformanceMetric(metricName, metricValue, extra = {}) {
+        const message = `Performance metric: ${metricName} = ${metricValue}`;
+        console.info(`[${this.name}] ${message}`, extra);
+    }
+
+    logErrorGeneric(moduleName, error, extra = {}) {
+        const message = `Error in ${moduleName}: ${error}`;
+        console.error(`[${this.name}] ${message}`, extra);
+    }
+}
 
 // ================================
 // UTILITY STRING SERVICE
@@ -13,10 +62,11 @@
 
 /**
  * String manipulation utility functions
+ * ENHANCED: Integrated with unified logging system
  */
 class UtilityStringService {
     constructor() {
-        this.logger = console;
+        this.logger = new UnifiedLoggingSystem("UtilityStringService");
     }
 
     /**
@@ -158,10 +208,10 @@ class UtilityStringService {
     }
 
     /**
-     * Log error
+     * Log error - ENHANCED: Uses unified logging system
      */
     logError(message, error) {
-        this.logger.error(`[UtilityStringService] ${message}:`, error);
+        this.logger.logErrorGeneric('UtilityStringService', `${message}: ${error.message || error}`, { originalError: error });
     }
 }
 
@@ -219,3 +269,4 @@ export function toKebabCase(str) {
 
 export { UtilityStringService, utilityStringService };
 export default utilityStringService;
+

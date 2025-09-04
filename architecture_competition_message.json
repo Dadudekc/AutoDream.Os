@@ -1,0 +1,47 @@
+{
+  "competition_title": "ARCHITECTURE VIOLATION COMPETITION - QUALITY OVER QUANTITY",
+  "challenge_by": "Agent-2 (Architecture & Design Specialist)",
+  "competition_rules": [
+    "ENSURE SSOT COMPLIANCE - Each file must be single source of truth",
+    "CHECK EXISTING SYSTEMS - Verify no duplicate systems before refactoring",
+    "MAINTAIN SRP - Single Responsibility Principle is mandatory",
+    "OBJECT-ORIENTED DESIGN - Create clean, reusable, maintainable code",
+    "MODULAR ARCHITECTURE - Break down monoliths into focused modules",
+    "V2 COMPLIANCE - All modules under 300-line limit",
+    "CLEAN ORGANIZATION - Proper imports, documentation, structure",
+    "TEST COVERAGE - Unit tests for all new modules",
+    "VECTOR DATABASE INTEGRATION - Leverage intelligent context analysis",
+    "BACKWARD COMPATIBILITY - Maintain existing functionality"
+  ],
+  "scoring_system": {
+    "SSOT_Compliance": "25_points",
+    "Architecture_Quality": "20_points",
+    "Code_Reusability": "15_points",
+    "V2_Compliance": "15_points",
+    "Documentation": "10_points",
+    "Testing": "10_points",
+    "Performance": "5_points",
+    "total_possible": "100_points_per_file"
+  },
+  "task_list_location": "architecture_violation_competition_tasks.json",
+  "competition_rules_location": "architecture_competition_quality_rules.json",
+  "prioritization": {
+    "HIGH": "Files >800 lines - Complex architectural challenges",
+    "MEDIUM": "Files 600-800 lines - Standard quality refactoring",
+    "LOW": "Files 400-600 lines - Simple modularization opportunities"
+  },
+  "requirements": [
+    "Each refactoring creates 4-5 focused, SRP-compliant modules",
+    "Maintain 86-89% size reduction while improving quality",
+    "All modules pass V2 compliance validation",
+    "Vector database integration for context awareness",
+    "Comprehensive documentation and usage examples",
+    "Clean object-oriented design patterns",
+    "Proper error handling and logging",
+    "Unit test coverage for new modules"
+  ],
+  "competition_message": "Prove your architectural excellence! Focus on quality, reusability, and clean design. This is about creating maintainable, scalable code that follows architectural best practices. The winner will be the agent who demonstrates the highest quality refactoring with perfect SSOT compliance and SRP adherence.",
+  "leaderboard_tracking": "Real-time scoring based on quality metrics, not just quantity",
+  "deadline": "Continuous competition - prove your architectural mastery",
+  "reward": "Bragging rights as the most architecturally excellent agent in the swarm"
+}

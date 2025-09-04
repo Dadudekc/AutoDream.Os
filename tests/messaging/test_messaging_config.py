@@ -9,12 +9,7 @@ V2 Compliance: SSOT implementation and centralized configuration.
 Author: Agent-6 (Gaming & Entertainment Specialist)
 """
 
-import pytest
-import os
-import json
-from unittest.mock import patch, mock_open
 
-from src.services.messaging_config import MessagingConfiguration
 
 
 class TestMessagingConfiguration:
@@ -24,10 +19,10 @@ class TestMessagingConfiguration:
         """Test that initialization creates default configuration."""
         config = MessagingConfiguration()
 
-        assert hasattr(config, 'agents')
-        assert hasattr(config, 'inbox_paths')
-        assert isinstance(config.agents, dict)
-        assert isinstance(config.inbox_paths, dict)
+        assert get_unified_validator().validate_hasattr(config, 'agents')
+        assert get_unified_validator().validate_hasattr(config, 'inbox_paths')
+        assert get_unified_validator().validate_type(config.agents, dict)
+        assert get_unified_validator().validate_type(config.inbox_paths, dict)
 
     def test_default_agents_configuration(self):
         """Test default agent configuration structure."""
@@ -56,9 +51,9 @@ class TestMessagingConfiguration:
 
         for agent, agent_config in config.agents.items():
             coords = agent_config['coords']
-            assert isinstance(coords, tuple)
+            assert get_unified_validator().validate_type(coords, tuple)
             assert len(coords) == 2
-            assert all(isinstance(coord, int) for coord in coords)
+            assert all(get_unified_validator().validate_type(coord, int) for coord in coords)
 
     @patch('src.utils.config_core.get_config')
     def test_centralized_config_integration(self, mock_get_config):
@@ -74,7 +69,7 @@ class TestMessagingConfiguration:
         # Verify that get_config was called
         assert mock_get_config.called
 
-    @patch('src.services.messaging_config.os.path.exists')
+    @patch('src.services.messaging_config.get_unified_utility().path.exists')
     @patch('src.services.messaging_config.open', new_callable=mock_open)
     @patch('src.services.messaging_config.json.load')
     def test_config_file_loading(self, mock_json_load, mock_file, mock_exists):
@@ -95,7 +90,7 @@ class TestMessagingConfiguration:
         mock_exists.assert_called_with("config/messaging_config.json")
         mock_file.assert_called()
 
-    @patch('src.services.messaging_config.os.path.exists')
+    @patch('src.services.messaging_config.get_unified_utility().path.exists')
     def test_config_file_not_found_handling(self, mock_exists):
         """Test graceful handling when config file doesn't exist."""
         mock_exists.return_value = False
@@ -106,7 +101,7 @@ class TestMessagingConfiguration:
         assert len(config.agents) == 8  # Default agent count
         assert len(config.inbox_paths) == 8
 
-    @patch('src.services.messaging_config.os.path.exists')
+    @patch('src.services.messaging_config.get_unified_utility().path.exists')
     @patch('src.services.messaging_config.open', new_callable=mock_open)
     @patch('src.services.messaging_config.json.load')
     def test_config_file_partial_override(self, mock_json_load, mock_file, mock_exists):

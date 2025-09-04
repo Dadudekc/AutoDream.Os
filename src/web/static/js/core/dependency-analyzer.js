@@ -269,3 +269,5 @@ export class DependencyAnalyzer {
 export function createDependencyAnalyzer(serviceRegistry, logger = console) {
     return new DependencyAnalyzer(serviceRegistry, logger);
 }
+
+

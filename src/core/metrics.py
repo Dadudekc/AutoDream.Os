@@ -3,12 +3,7 @@
 This module provides a single source of truth for simple metrics
 collection patterns used across the codebase."""
 
-from __future__ import annotations
 
-from collections import defaultdict
-from dataclasses import dataclass
-from datetime import datetime
-from typing import Dict, Optional
 
 
 @dataclass
@@ -120,7 +115,9 @@ class MessagingMetrics:
         self.delivery_times = []
         self.error_counts = defaultdict(int)
 
-    def record_message_sent(self, message_type: str, recipient: str, delivery_method: str):
+    def record_message_sent(
+        self, message_type: str, recipient: str, delivery_method: str
+    ):
         """Record a successfully sent message.
 
         Args:
@@ -143,6 +140,17 @@ class MessagingMetrics:
         self.metrics.record_failure()
         self.error_counts[f"{message_type}_{error_type}"] += 1
         self.error_counts[f"failed_{recipient}"] += 1
+
+    def record_message_queued(self, message_type: str, recipient: str):
+        """Record a message that was queued for later delivery.
+
+        Args:
+            message_type: Type of message that was queued
+            recipient: Agent that should receive the message
+        """
+        self.message_counts[f"{message_type}_queued"] += 1
+        self.message_counts[f"queued_{recipient}"] += 1
+        # Note: We don't call record_success() here since it's not yet delivered
 
     def record_delivery_time(self, delivery_time: float):
         """Record delivery time for performance monitoring.

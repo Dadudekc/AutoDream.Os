@@ -1,56 +1,63 @@
 /**
- * Dashboard Navigation Module - V2 Compliant
- * Navigation and routing functionality for dashboard
- * EXTRACTED from dashboard.js for V2 compliance
+ * Dashboard Navigation - Refactored Main Orchestrator
+ * Main entry point for navigation system using modular architecture
+ * V2 Compliance: Under 300-line limit achieved
  *
- * @author Agent-7 - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE CORRECTION
+ * @author Agent-3 - Infrastructure & DevOps Specialist
+ * @version 2.0.0 - Refactored Architecture
  * @license MIT
  */
 
-// ================================
-// IMPORT DEPENDENCIES
-// ================================
-
-import { getDashboardState, updateDashboardState, setDashboardView } from './dashboard-core.js';
-import { showAlert, getElement, querySelectorAll } from './dashboard-ui-helpers.js';
-
-// ================================
-// DASHBOARD NAVIGATION CORE
-// ================================
+import { getDefaultView, getNavigationElementId } from './navigation-config-manager.js';
+import { createNavigationStateManager } from './navigation-state-manager.js';
+import { createNavigationViewRenderer } from './navigation-view-renderer.js';
+import { createNavigationEventHandler } from './navigation-event-handler.js';
 
 /**
- * Dashboard navigation and routing management
- * EXTRACTED from dashboard.js for V2 compliance
+ * Dashboard Navigation - Refactored Architecture
+ * Main orchestrator for navigation system
  */
-class DashboardNavigation {
+export class DashboardNavigation {
     constructor() {
-        this.navElement = null;
-        this.currentView = 'overview';
-        this.navItems = new Map();
-        this.eventListeners = new Map();
+        this.stateManager = null;
+        this.viewRenderer = null;
+        this.eventHandler = null;
         this.isInitialized = false;
     }
 
     /**
      * Initialize navigation system
      */
-    initialize() {
+    async initialize() {
         if (this.isInitialized) {
             console.warn('⚠️ Navigation already initialized');
             return;
         }
 
-        console.log('🧭 Initializing dashboard navigation...');
+        console.log('🧭 Initializing dashboard navigation (Refactored)...');
 
         try {
-            this.setupNavigationElement();
-            this.setupNavigationItems();
-            this.setupEventHandlers();
-            this.setInitialView();
-            this.isInitialized = true;
+            // Initialize state manager
+            this.stateManager = createNavigationStateManager();
+            this.stateManager.initialize();
 
-            console.log('✅ Dashboard navigation initialized');
+            // Initialize view renderer
+            this.viewRenderer = createNavigationViewRenderer();
+            this.viewRenderer.initialize();
+
+            // Initialize event handler
+            const navElement = document.getElementById(getNavigationElementId());
+            this.eventHandler = createNavigationEventHandler();
+            this.eventHandler.initialize(navElement);
+
+            // Setup event listeners
+            this.setupEventListeners();
+
+            // Set initial view
+            await this.setInitialView();
+
+            this.isInitialized = true;
+            console.log('✅ Dashboard navigation initialized successfully');
 
         } catch (error) {
             console.error('❌ Failed to initialize navigation:', error);
@@ -59,244 +66,89 @@ class DashboardNavigation {
     }
 
     /**
-     * Setup navigation element
+     * Setup event listeners between modules
      */
-    setupNavigationElement() {
-        this.navElement = getElement('dashboardNav');
-        if (!this.navElement) {
-            console.warn('⚠️ Navigation element not found');
-            return;
-        }
-
-        // Add navigation class for styling
-        this.navElement.classList.add('dashboard-navigation');
-        console.log('📍 Navigation element configured');
-    }
-
-    /**
-     * Setup navigation items
-     */
-    setupNavigationItems() {
-        // Define navigation structure
-        this.navItems.set('overview', {
-            label: 'Overview',
-            icon: 'fas fa-home',
-            view: 'overview',
-            description: 'System overview and key metrics'
+    setupEventListeners() {
+        // Connect event handler to navigation actions
+        this.eventHandler.addEventListener('navigationClick', (data) => {
+            this.handleNavigationClick(data);
         });
 
-        this.navItems.set('agent_performance', {
-            label: 'Agent Performance',
-            icon: 'fas fa-users',
-            view: 'agent_performance',
-            description: 'Individual agent performance metrics'
+        // Connect state manager to navigation changes
+        this.stateManager.addEventListener('navigationChange', (data) => {
+            console.log(`🧭 Navigation changed: ${data.previousView} → ${data.newView}`);
         });
-
-        this.navItems.set('contract_status', {
-            label: 'Contract Status',
-            icon: 'fas fa-file-contract',
-            view: 'contract_status',
-            description: 'Active contracts and completion status'
-        });
-
-        this.navItems.set('system_health', {
-            label: 'System Health',
-            icon: 'fas fa-heartbeat',
-            view: 'system_health',
-            description: 'System health and monitoring'
-        });
-
-        console.log(`📋 Configured ${this.navItems.size} navigation items`);
-    }
-
-    /**
-     * Setup event handlers
-     */
-    setupEventHandlers() {
-        if (!this.navElement) return;
-
-        // Setup click handler for navigation items
-        const clickHandler = (event) => {
-            this.handleNavigationClick(event);
-        };
-
-        this.navElement.addEventListener('click', clickHandler);
-        this.eventListeners.set('click', clickHandler);
-
-        console.log('🎧 Navigation event handlers configured');
     }
 
     /**
      * Handle navigation click
      */
-    handleNavigationClick(event) {
-        const target = event.target.closest('.nav-link');
-        if (!target) return;
+    async handleNavigationClick(data) {
+        const { view } = data;
 
-        event.preventDefault();
-
-        const view = target.dataset.view;
-        if (!view) {
-            console.warn('⚠️ Navigation item missing view data');
-            return;
-        }
-
-        // Update navigation state
-        this.updateNavigationState(target);
-
-        // Navigate to view
-        this.navigateToView(view);
-    }
-
-    /**
-     * Update navigation state
-     */
-    updateNavigationState(activeElement) {
-        // Remove active class from all items
-        const navLinks = this.navElement.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            link.setAttribute('aria-selected', 'false');
-        });
-
-        // Add active class to selected item
-        activeElement.classList.add('active');
-        activeElement.setAttribute('aria-selected', 'true');
-    }
-
-    /**
-     * Navigate to view
-     */
-    navigateToView(view) {
-        if (!this.navItems.has(view)) {
-            console.error(`❌ Invalid navigation view: ${view}`);
-            showAlert('error', `Invalid navigation view: ${view}`);
-            return;
-        }
-
-        const previousView = this.currentView;
-        this.currentView = view;
-
-        // Update dashboard state
-        setDashboardView(view);
-
-        // Load view data
-        this.loadViewData(view);
-
-        console.log(`🧭 Navigated from ${previousView} to ${view}`);
-    }
-
-    /**
-     * Load view data
-     */
-    async loadViewData(view) {
         try {
+            // Update navigation state
+            const stateUpdated = this.stateManager.updateNavigationState(view);
+            if (!stateUpdated) return;
+
             // Show loading state
-            this.showLoadingState();
+            this.viewRenderer.showLoadingState();
 
-            // Fetch view data
-            const response = await fetch(`/api/dashboard/${view}`);
-            const data = await response.json();
-
-            if (data.error) {
-                throw new Error(data.error);
-            }
-
-            // Update dashboard with new data
-            this.updateDashboardView(data);
+            // Load and render view
+            await this.loadAndRenderView(view);
 
             // Hide loading state
-            this.hideLoadingState();
+            this.viewRenderer.hideLoadingState();
+
+            console.log(`🧭 Successfully navigated to: ${view}`);
+
+        } catch (error) {
+            console.error(`❌ Failed to navigate to ${view}:`, error);
+            this.eventHandler.handleNavigationError(error, view);
+            this.viewRenderer.hideLoadingState();
+        }
+    }
+
+    /**
+     * Load and render view
+     */
+    async loadAndRenderView(view) {
+        try {
+            // Load view data using repository pattern
+            const { DashboardRepository } = await import('./repositories/dashboard-repository.js');
+            const repository = new DashboardRepository();
+            const data = await repository.getDashboardData(view);
+
+            // Render view with data
+            this.viewRenderer.renderView(view, data);
 
         } catch (error) {
             console.error(`❌ Failed to load view data for ${view}:`, error);
-            showAlert('error', `Failed to load ${view} data`);
-            this.hideLoadingState();
+            // Render error view
+            this.viewRenderer.renderView(view, { error: error.message });
         }
-    }
-
-    /**
-     * Update dashboard view
-     */
-    updateDashboardView(data) {
-        const contentDiv = getElement('dashboardContent');
-        if (!contentDiv) return;
-
-        // Render appropriate view
-        let content = '';
-        switch (data.view) {
-            case 'overview':
-                content = this.renderOverviewView(data);
-                break;
-            case 'agent_performance':
-                content = this.renderAgentPerformanceView(data);
-                break;
-            case 'contract_status':
-                content = this.renderContractStatusView(data);
-                break;
-            case 'system_health':
-                content = this.renderSystemHealthView(data);
-                break;
-            default:
-                content = this.renderDefaultView(data);
-        }
-
-        contentDiv.innerHTML = content;
-    }
-
-    /**
-     * Show loading state
-     */
-    showLoadingState() {
-        const contentDiv = getElement('dashboardContent');
-        if (contentDiv) {
-            contentDiv.innerHTML = `
-                <div class="loading-state">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p>Loading dashboard data...</p>
-                </div>
-            `;
-        }
-    }
-
-    /**
-     * Hide loading state
-     */
-    hideLoadingState() {
-        // Loading state is replaced by content
-    }
-
-    /**
-     * Render view methods (simplified)
-     */
-    renderOverviewView(data) {
-        return `<div class="dashboard-view"><h3>Overview</h3><p>Dashboard overview content...</p></div>`;
-    }
-
-    renderAgentPerformanceView(data) {
-        return `<div class="dashboard-view"><h3>Agent Performance</h3><p>Agent performance content...</p></div>`;
-    }
-
-    renderContractStatusView(data) {
-        return `<div class="dashboard-view"><h3>Contract Status</h3><p>Contract status content...</p></div>`;
-    }
-
-    renderSystemHealthView(data) {
-        return `<div class="dashboard-view"><h3>System Health</h3><p>System health content...</p></div>`;
-    }
-
-    renderDefaultView(data) {
-        return `<div class="dashboard-view"><h3>${data.view || 'Unknown View'}</h3><p>View content...</p></div>`;
     }
 
     /**
      * Set initial view
      */
-    setInitialView() {
-        const initialView = 'overview';
-        this.navigateToView(initialView);
+    async setInitialView() {
+        const initialView = getDefaultView();
+        await this.navigateToView(initialView);
+    }
+
+    /**
+     * Navigate to view programmatically
+     */
+    async navigateToView(view) {
+        const navigationData = {
+            view,
+            element: null,
+            event: null,
+            timestamp: new Date().toISOString()
+        };
+
+        await this.handleNavigationClick(navigationData);
     }
 
     /**
@@ -304,10 +156,30 @@ class DashboardNavigation {
      */
     getNavigationState() {
         return {
-            currentView: this.currentView,
-            navItems: Array.from(this.navItems.keys()),
-            isInitialized: this.isInitialized
+            currentView: this.stateManager.getCurrentView(),
+            isInitialized: this.isInitialized,
+            modulesInitialized: {
+                stateManager: this.stateManager.isNavigationInitialized(),
+                viewRenderer: this.viewRenderer.isInitialized,
+                eventHandler: this.eventHandler.isInitialized
+            }
         };
+    }
+
+    /**
+     * Cleanup navigation system
+     */
+    cleanup() {
+        if (this.eventHandler) {
+            this.eventHandler.cleanup();
+        }
+
+        this.stateManager = null;
+        this.viewRenderer = null;
+        this.eventHandler = null;
+        this.isInitialized = false;
+
+        console.log('🧹 Navigation system cleaned up');
     }
 }
 
@@ -315,37 +187,41 @@ class DashboardNavigation {
 // EXPORTS
 // ================================
 
-export { DashboardNavigation, dashboardNavigation };
-export default dashboardNavigation;
+export { DashboardNavigation };
+export default DashboardNavigation;
 
 // ================================
-// LEGACY FUNCTION EXPORTS (for backward compatibility)
+// LEGACY COMPATIBILITY
 // ================================
 
 /**
  * Legacy setup navigation function
+ * @deprecated Use new DashboardNavigation class instead
  */
-function setupNavigation() {
-    initializeDashboardNavigation();
+export function setupNavigation() {
+    console.warn('⚠️ setupNavigation() is deprecated. Use new DashboardNavigation class.');
+    const navigation = new DashboardNavigation();
+    navigation.initialize().catch(console.error);
 }
 
 /**
  * Legacy update navigation state function
+ * @deprecated Use navigation.navigateToView() instead
  */
-function updateNavigationState(view) {
+export function updateNavigationState(view) {
+    console.warn('⚠️ updateNavigationState() is deprecated. Use navigation.navigateToView().');
     if (view) {
-        navigateToView(view);
+        const navigation = new DashboardNavigation();
+        navigation.navigateToView(view).catch(console.error);
     }
 }
 
-// ================================
-// V2 COMPLIANCE VALIDATION
-// ================================
-
-// Validate module size for V2 compliance
-const currentLineCount = 180; // Approximate line count after cleanup
-if (currentLineCount > 300) {
-    console.error(`🚨 V2 COMPLIANCE VIOLATION: dashboard-navigation.js has ${currentLineCount} lines (limit: 300)`);
-} else {
-    console.log(`✅ V2 COMPLIANCE: dashboard-navigation.js has ${currentLineCount} lines (within limit)`);
+/**
+ * Legacy navigate to view function
+ * @deprecated Use navigation.navigateToView() instead
+ */
+export function navigateToView(view) {
+    console.warn('⚠️ navigateToView() is deprecated. Use navigation.navigateToView().');
+    const navigation = new DashboardNavigation();
+    navigation.navigateToView(view).catch(console.error);
 }

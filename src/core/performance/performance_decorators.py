@@ -9,24 +9,21 @@ Author: Agent-8 (SSOT Maintenance & System Integration Specialist)
 License: MIT
 """
 
-import time
-from typing import Callable
-from functools import wraps
 
-from .coordination_performance_monitor import get_performance_monitor
 
 
 def monitor_performance(operation_name: str = None):
     """Decorator for automatic performance monitoring."""
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
             monitor = get_performance_monitor()
             op_name = operation_name or f"{func.__module__}.{func.__name__}"
-            
+
             start_time = time.time()
             monitor.record_operation_start(op_name)
-            
+
             try:
                 result = func(*args, **kwargs)
                 duration = time.time() - start_time
@@ -36,6 +33,7 @@ def monitor_performance(operation_name: str = None):
                 duration = time.time() - start_time
                 monitor.record_operation_completion(op_name, duration, success=False)
                 raise e
-        
+
         return wrapper
+
     return decorator

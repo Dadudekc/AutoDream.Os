@@ -1,4 +1,3 @@
-from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 Unit tests for Coordination Error Handler - Agent Cellphone V2
@@ -10,12 +9,7 @@ Author: Agent-6 (Gaming & Entertainment Specialist)
 License: MIT
 """
 
-import pytest
-import time
-from datetime import datetime
-from unittest.mock import patch, MagicMock
 
-from src.core.error_handling.coordination_error_handler import (
     CoordinationErrorHandler,
     RetryHandler,
     CircuitBreaker,
@@ -97,7 +91,7 @@ class TestRetryHandler:
         assert retry_handler.base_delay == 0.1
         assert retry_handler.max_delay == 60.0
         assert retry_handler.exponential_backoff is True
-        assert isinstance(retry_handler.retry_history, list)
+        assert get_unified_validator().validate_type(retry_handler.retry_history, list)
     
     def test_execute_with_retry_success_first_attempt(self, retry_handler):
         """Test retry handler with successful first attempt."""
@@ -119,7 +113,7 @@ class TestRetryHandler:
             nonlocal attempt_count
             attempt_count += 1
             if attempt_count == 1:
-                raise ValueError("First attempt fails")
+                get_unified_validator().raise_validation_error("First attempt fails")
             return "success"
         
         result = retry_handler.execute_with_retry(
@@ -133,7 +127,7 @@ class TestRetryHandler:
     def test_execute_with_retry_all_attempts_fail(self, retry_handler):
         """Test retry handler with all attempts failing."""
         def always_failing_operation():
-            raise ValueError("Always fails")
+            get_unified_validator().raise_validation_error("Always fails")
         
         with pytest.raises(ValueError, match="Always fails"):
             retry_handler.execute_with_retry(
@@ -261,7 +255,7 @@ class TestCircuitBreaker:
     def test_circuit_breaker_closed_state_failure(self, circuit_breaker):
         """Test circuit breaker in closed state with failure."""
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         with pytest.raises(ValueError):
             circuit_breaker.call(failing_operation, "test_operation")
@@ -273,7 +267,7 @@ class TestCircuitBreaker:
     def test_circuit_breaker_opens_after_threshold(self, circuit_breaker):
         """Test circuit breaker opens after failure threshold."""
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         # First failure
         with pytest.raises(ValueError):
@@ -289,7 +283,7 @@ class TestCircuitBreaker:
     def test_circuit_breaker_half_open_recovery(self, circuit_breaker):
         """Test circuit breaker recovery from open to half-open to closed."""
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         # Open the circuit
         for _ in range(2):
@@ -314,7 +308,7 @@ class TestCircuitBreaker:
     def test_circuit_breaker_half_open_failure(self, circuit_breaker):
         """Test circuit breaker stays open after half-open failure."""
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         # Open the circuit
         for _ in range(2):
@@ -358,9 +352,9 @@ class TestCoordinationErrorHandler:
     
     def test_error_handler_initialization(self, error_handler):
         """Test error handler initialization."""
-        assert isinstance(error_handler.retry_handler, RetryHandler)
-        assert isinstance(error_handler.circuit_breakers, dict)
-        assert isinstance(error_handler.error_history, list)
+        assert get_unified_validator().validate_type(error_handler.retry_handler, RetryHandler)
+        assert get_unified_validator().validate_type(error_handler.circuit_breakers, dict)
+        assert get_unified_validator().validate_type(error_handler.error_history, list)
     
     def test_register_circuit_breaker(self, error_handler):
         """Test circuit breaker registration."""
@@ -386,7 +380,7 @@ class TestCoordinationErrorHandler:
     def test_execute_with_error_handling_failure(self, error_handler):
         """Test error handler execution with failure."""
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         with pytest.raises(ValueError):
             error_handler.execute_with_error_handling(
@@ -403,7 +397,7 @@ class TestCoordinationErrorHandler:
         error_handler.register_circuit_breaker("test_component", 1, 0.1)
         
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         # First failure should open circuit
         with pytest.raises(ValueError):
@@ -421,7 +415,7 @@ class TestCoordinationErrorHandler:
         """Test error report generation."""
         # Generate some error history
         def failing_operation():
-            raise ValueError("Operation fails")
+            get_unified_validator().raise_validation_error("Operation fails")
         
         with pytest.raises(ValueError):
             error_handler.execute_with_error_handling(
@@ -486,7 +480,7 @@ class TestErrorHandlerDecorator:
         """Test error handler decorator with failure."""
         @handle_errors(component="test_component")
         def failing_function():
-            raise ValueError("Function fails")
+            get_unified_validator().raise_validation_error("Function fails")
         
         with pytest.raises(ValueError):
             failing_function()

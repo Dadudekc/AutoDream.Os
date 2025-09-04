@@ -1,55 +1,19 @@
 #!/usr/bin/env python3
 """
-Coordination Validator Core Module - Agent Cellphone V2
-====================================================
+Coordination Validator Core - Redirect to Unified System
+=======================================================
 
-Coordination system validation functionality.
+This file redirects to the unified validation system to eliminate DRY violations.
 
-Author: Agent-1 (Integration & Core Systems Specialist)
-License: MIT
+Original functionality moved to: src/core/unified-validation-system.py
 """
 
-from datetime import datetime
-from typing import Dict, Any, List
+import sys
+from pathlib import Path
 
-from .validation_models import ValidationIssue, ValidationSeverity
+# Redirect to the unified validation system
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from unified_validation_system import validate_coordination_system, ValidationIssue
 
-
-class CoordinationValidatorCore:
-    """Handles coordination system validation."""
-
-    def validate_coordination_system(self, system_data: Dict[str, Any]) -> List[ValidationIssue]:
-        """Validate coordination system configuration."""
-        issues = []
-
-        # Check agent configuration
-        if 'agents' in system_data:
-            agent_data = system_data['agents']
-            for agent_id, agent_info in agent_data.items():
-                if not isinstance(agent_info, dict):
-                    issues.append(ValidationIssue(
-                        rule_id="coordination_structure",
-                        rule_name="Coordination Structure",
-                        severity=ValidationSeverity.ERROR,
-                        message=f"Invalid agent configuration for {agent_id}",
-                        details={"agent_id": agent_id, "agent_info": agent_info},
-                        timestamp=datetime.now(),
-                        component="coordination_system"
-                    ))
-                    continue
-
-                # Check required agent fields
-                required_agent_fields = ['description', 'coords']
-                for field in required_agent_fields:
-                    if field not in agent_info:
-                        issues.append(ValidationIssue(
-                            rule_id="agent_required_fields",
-                            rule_name="Agent Required Fields",
-                            severity=ValidationSeverity.ERROR,
-                            message=f"Missing required field '{field}' for agent {agent_id}",
-                            details={"agent_id": agent_id, "field": field},
-                            timestamp=datetime.now(),
-                            component="coordination_system"
-                        ))
-
-        return issues
+# Re-export for backward compatibility
+__all__ = ['validate_coordination_system', 'ValidationIssue']

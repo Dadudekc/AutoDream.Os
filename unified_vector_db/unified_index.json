@@ -1,0 +1,18 @@
+{
+  "consolidation_info": {
+    "timestamp": "2025-09-03T12:23:38.675178",
+    "source_databases": [
+      "integration_demo",
+      "simple_vector",
+      "autonomous_dev"
+    ],
+    "successful_databases": 3,
+    "total_documents": 2431,
+    "ssot_compliance": "ACHIEVED"
+  },
+  "document_sources": {
+    "integration_demo": 6,
+    "simple_vector": 932,
+    "autonomous_dev": 1493
+  }
+}

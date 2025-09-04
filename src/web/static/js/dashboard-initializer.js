@@ -1,10 +1,11 @@
 /**
- * Dashboard Initializer Module - V2 Compliant
+ * Dashboard Initializer Module - V2 Compliant with Unified Logging
  * Initialization logic for dashboard components
+ * ENHANCED: Integrated with unified-logging-system.py patterns
  * EXTRACTED from dashboard-consolidator.js for V2 compliance
  *
- * @author Agent-7A - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE CORRECTION
+ * @author Agent-7A - Web Development Specialist, Agent-8 - Integration & Performance Specialist
+ * @version 3.0.0 - V2 COMPLIANCE WITH UNIFIED LOGGING INTEGRATION
  * @license MIT
  */
 
@@ -12,11 +13,62 @@
 // IMPORT DEPENDENCIES
 // ================================
 
+import { createNavigationManager } from './navigation/navigation-manager-v2.js';
 import { dashboardSocketManager } from './dashboard-socket-manager.js';
 import { dashboardStateManager } from './dashboard-state-manager.js';
-import { initializeDashboardNavigationManager } from './dashboard-navigation-manager.js';
 import { loadDashboardData } from './dashboard-data-manager.js';
 import { updateCurrentTime } from './dashboard-ui-helpers.js';
+
+// ================================
+// UNIFIED LOGGING INTEGRATION
+// ================================
+
+/**
+ * Unified logging system integration for JavaScript
+ * Eliminates duplicate logging patterns across dashboard initialization services
+ */
+class UnifiedLoggingSystem {
+    constructor(name = "DashboardInitializer") {
+        this.name = name;
+        this.operationTimers = new Map();
+    }
+
+    logOperationStart(operationName, extra = {}) {
+        const message = `Starting ${operationName}`;
+        console.info(`[${this.name}] ${message}`, extra);
+        this.operationTimers.set(operationName, Date.now());
+    }
+
+    logOperationComplete(operationName, extra = {}) {
+        const message = `Completed ${operationName}`;
+        console.info(`[${this.name}] ${message}`, extra);
+        
+        if (this.operationTimers.has(operationName)) {
+            const duration = Date.now() - this.operationTimers.get(operationName);
+            this.logPerformanceMetric(`${operationName}_duration`, duration);
+            this.operationTimers.delete(operationName);
+        }
+    }
+
+    logOperationFailed(operationName, error, extra = {}) {
+        const message = `Failed to ${operationName}: ${error}`;
+        console.error(`[${this.name}] ${message}`, extra);
+        this.operationTimers.delete(operationName);
+    }
+
+    logPerformanceMetric(metricName, metricValue, extra = {}) {
+        const message = `Performance metric: ${metricName} = ${metricValue}`;
+        console.info(`[${this.name}] ${message}`, extra);
+    }
+
+    logErrorGeneric(moduleName, error, extra = {}) {
+        const message = `Error in ${moduleName}: ${error}`;
+        console.error(`[${this.name}] ${message}`, extra);
+    }
+}
+
+// Create shared logger instance
+const logger = new UnifiedLoggingSystem("DashboardInitializer");
 
 // ================================
 // INITIALIZATION FUNCTIONS
@@ -26,26 +78,45 @@ import { updateCurrentTime } from './dashboard-ui-helpers.js';
  * Initialize state manager
  */
 export async function initializeStateManager() {
-    console.log('📊 Initializing state manager...');
-    await dashboardStateManager.initialize();
-    return dashboardStateManager;
+    logger.logOperationStart('stateManagerInitialization');
+    try {
+        await dashboardStateManager.initialize();
+        logger.logOperationComplete('stateManagerInitialization');
+        return dashboardStateManager;
+    } catch (error) {
+        logger.logOperationFailed('stateManagerInitialization', error.message);
+        throw error;
+    }
 }
 
 /**
  * Initialize socket manager
  */
 export async function initializeSocketManager() {
-    console.log('🔌 Initializing socket manager...');
-    await dashboardSocketManager.initialize();
-    return dashboardSocketManager;
+    logger.logOperationStart('socketManagerInitialization');
+    try {
+        await dashboardSocketManager.initialize();
+        logger.logOperationComplete('socketManagerInitialization');
+        return dashboardSocketManager;
+    } catch (error) {
+        logger.logOperationFailed('socketManagerInitialization', error.message);
+        throw error;
+    }
 }
 
 /**
  * Initialize navigation manager
  */
 export function initializeNavigationManager(stateManager) {
-    console.log('🧭 Initializing navigation manager...');
-    return initializeDashboardNavigationManager(stateManager);
+    logger.logOperationStart('navigationManagerInitialization');
+    try {
+        const result = initializeDashboardNavigationManager(stateManager);
+        logger.logOperationComplete('navigationManagerInitialization');
+        return result;
+    } catch (error) {
+        logger.logOperationFailed('navigationManagerInitialization', error.message);
+        throw error;
+    }
 }
 
 /**

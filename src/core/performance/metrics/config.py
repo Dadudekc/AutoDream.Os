@@ -1,13 +1,10 @@
-from src.utils.config_core import get_config
 
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Configuration constants for performance metrics."""
 
-from __future__ import annotations
 
-from .benchmarks import BenchmarkType
 
-DEFAULT_COLLECTION_INTERVAL = get_config('DEFAULT_COLLECTION_INTERVAL', 60)
+DEFAULT_COLLECTION_INTERVAL = get_config("DEFAULT_COLLECTION_INTERVAL", 60)
 
 DEFAULT_BENCHMARK_TARGETS = {
     BenchmarkType.RESPONSE_TIME: {"target": 100, "unit": "ms"},

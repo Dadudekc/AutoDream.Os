@@ -84,6 +84,12 @@ plotly>=5.15.0 ; extra == "ai_ml"
 scipy>=1.10.0 ; extra == "ai_ml"
 textblob>=0.17.1 ; extra == "ai_ml"
 
+# Vector Database & Embeddings
+chromadb>=0.4.0 ; extra == "vector_db"
+sentence-transformers>=2.2.0 ; extra == "vector_db"
+langchain>=0.1.0 ; extra == "vector_db"
+langchain-community>=0.0.10 ; extra == "vector_db"
+
 # Optional - Gaming
 pygame>=2.1.0 ; extra == "gaming"
 pynput>=1.7.0 ; extra == "gaming"

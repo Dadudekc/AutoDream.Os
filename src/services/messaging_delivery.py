@@ -9,23 +9,19 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import os
-import time
-from typing import Dict, Any, Optional
 
-from .models.messaging_models import UnifiedMessage
-from ..utils.logger import get_messaging_logger
-from ..core.metrics import MessagingMetrics
-from ..core.file_lock import FileLockManager, LockConfig
-from ..core.message_queue import MessageQueue, QueueConfig, QueueProcessor
 
 
 class MessagingDelivery:
     """Handles message delivery to agent inboxes."""
 
-    def __init__(self, inbox_paths: Dict[str, str], metrics: MessagingMetrics,
-                 lock_config: Optional[LockConfig] = None,
-                 queue_config: Optional[QueueConfig] = None):
+    def __init__(
+        self,
+        inbox_paths: Dict[str, str],
+        metrics: MessagingMetrics,
+        lock_config: Optional[LockConfig] = None,
+        queue_config: Optional[QueueConfig] = None,
+    ):
         """Initialize delivery service."""
         self.inbox_paths = inbox_paths
         self.metrics = metrics
@@ -34,10 +30,13 @@ class MessagingDelivery:
 
         # Initialize message queue
         self.queue = MessageQueue(queue_config, lock_config)
-        self.queue_processor = QueueProcessor(self.queue, self._deliver_message_immediate)
+        self.queue_processor = QueueProcessor(
+            self.queue, self._deliver_message_immediate
+        )
 
-    def send_message_to_inbox(self, message: UnifiedMessage, max_retries: int = 3,
-                             use_queue: bool = True) -> bool:
+    def send_message_to_inbox(
+        self, message: UnifiedMessage, max_retries: int = 3, use_queue: bool = True
+    ) -> bool:
         """Send message to agent's inbox file with queuing support.
 
         Args:
@@ -50,38 +49,49 @@ class MessagingDelivery:
         """
         try:
             # Enforce devlog usage for inbox message delivery operations
-            from ..core.devlog_enforcement import enforce_devlog_for_operation
+
             devlog_success = enforce_devlog_for_operation(
                 operation_type="inbox_message_delivery",
                 agent_id=message.sender,
                 title=f"Inbox Message Delivery to {message.recipient}",
                 content=f"Delivered message to {message.recipient} inbox via file system",
-                category="progress"
+                category="progress",
             )
-            if not devlog_success:
-                self.logger.warning(f"Devlog enforcement failed for inbox delivery to {message.recipient}")
-            
+            if not get_unified_validator().validate_required(devlog_success):
+                self.get_logger(__name__).warning(
+                    f"Devlog enforcement failed for inbox delivery to {message.recipient}"
+                )
+
             # First attempt immediate delivery
             success = self._deliver_message_immediate(message)
 
             if success:
-                self.logger.info(f"Message delivered immediately: {message.message_id}")
+                self.get_logger(__name__).info(f"Message delivered immediately: {message.message_id}")
                 return True
 
             # If immediate delivery failed and queuing is enabled
             if use_queue:
                 queue_id = self.queue.enqueue(message)
-                self.logger.info(f"Message queued for later delivery: {message.message_id} (queue_id: {queue_id})")
+                self.get_logger(__name__).info(
+                    f"Message queued for later delivery: {message.message_id} (queue_id: {queue_id})"
+                )
 
-                # Record queue metrics (V2 compliance)
-                self.metrics.record_message_queued(message.message_type.value, message.recipient)
+                # Record queue metrics (V2 compliance) with safe enum handling
+                queue_message_type = (
+                    message.message_type.value
+                    if get_unified_validator().validate_hasattr(message.message_type, "value")
+                    else str(message.message_type)
+                )
+                self.metrics.record_message_queued(
+                    queue_message_type, message.recipient
+                )
 
                 return True  # Message successfully queued
 
             return False
 
         except Exception as e:
-            self.logger.error(f"Critical error in message delivery: {e}")
+            self.get_logger(__name__).error(f"Critical error in message delivery: {e}")
             return False
 
     def _deliver_message_immediate(self, message: UnifiedMessage) -> bool:
@@ -96,23 +106,38 @@ class MessagingDelivery:
         try:
             recipient = message.recipient
             if recipient not in self.inbox_paths:
-                self.logger.error(f"Unknown recipient: {recipient}")
+                self.get_logger(__name__).error(f"Unknown recipient: {recipient}")
                 return False
 
             inbox_path = self.inbox_paths[recipient]
-            os.makedirs(inbox_path, exist_ok=True)
+            get_unified_utility().makedirs(inbox_path, exist_ok=True)
 
             # Create message filename with timestamp
-            timestamp = message.timestamp.strftime("%Y%m%d_%H%M%S") if message.timestamp else time.strftime("%Y%m%d_%H%M%S")
+            timestamp = (
+                message.timestamp.strftime("%Y%m%d_%H%M%S")
+                if message.timestamp
+                else time.strftime("%Y%m%d_%H%M%S")
+            )
             filename = f"CAPTAIN_MESSAGE_{timestamp}_{message.message_id}.md"
-            filepath = os.path.join(inbox_path, filename)
+            filepath = get_unified_utility().path.join(inbox_path, filename)
 
-            # Prepare message content
+            # Prepare message content with safe enum handling
+            message_type_str = (
+                message.message_type.value
+                if get_unified_validator().validate_hasattr(message.message_type, "value")
+                else str(message.message_type)
+            )
+            priority_str = (
+                message.priority.value
+                if get_unified_validator().validate_hasattr(message.priority, "value")
+                else str(message.priority)
+            )
+
             message_content = (
-                f"# 🚨 CAPTAIN MESSAGE - {message.message_type.value.upper()}\n\n"
+                f"# 🚨 CAPTAIN MESSAGE - {message_type_str.upper()}\n\n"
                 f"**From**: {message.sender}\n"
                 f"**To**: {message.recipient}\n"
-                f"**Priority**: {message.priority.value}\n"
+                f"**Priority**: {priority_str}\n"
                 f"**Message ID**: {message.message_id}\n"
                 f"**Timestamp**: {message.timestamp.isoformat() if message.timestamp else 'Unknown'}\n\n"
                 "---\n\n"
@@ -130,37 +155,50 @@ class MessagingDelivery:
                     "recipient": recipient,
                     "message_id": message.message_id,
                     "sender": message.sender,
-                    "priority": message.priority.value
-                }
+                    "priority": priority_str,
+                },
             )
 
-            if not success:
+            if not get_unified_validator().validate_required(success):
                 return False
 
-            self.logger.info("Message delivered to inbox successfully",
-                            extra={"filepath": filepath, "recipient": recipient, "message_id": message.message_id})
+            self.get_logger(__name__).info(
+                "Message delivered to inbox successfully",
+                extra={
+                    "filepath": filepath,
+                    "recipient": recipient,
+                    "message_id": message.message_id,
+                },
+            )
 
-            # Record metrics (V2 compliance)
-            self.metrics.record_message_sent(message.message_type.value, recipient, "inbox")
+            # Record metrics (V2 compliance) with safe enum handling
+            self.metrics.record_message_sent(message_type_str, recipient, "inbox")
 
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to deliver message to inbox: {e}",
-                            extra={"recipient": message.recipient, "message_id": message.message_id})
+            self.get_logger(__name__).error(
+                f"Failed to deliver message to inbox: {e}",
+                extra={
+                    "recipient": message.recipient,
+                    "message_id": message.message_id,
+                },
+            )
             return False
 
     def start_queue_processor(self) -> None:
         """Start the queue processor in a background thread."""
-        import threading
-        processor_thread = threading.Thread(target=self.queue_processor.start_processing, daemon=True)
+
+        processor_thread = threading.Thread(
+            target=self.queue_processor.start_processing, daemon=True
+        )
         processor_thread.start()
-        self.logger.info("Message queue processor started in background")
+        self.get_logger(__name__).info("Message queue processor started in background")
 
     def stop_queue_processor(self) -> None:
         """Stop the queue processor."""
         self.queue_processor.stop_processing()
-        self.logger.info("Message queue processor stopped")
+        self.get_logger(__name__).info("Message queue processor stopped")
 
     def process_queue_batch(self) -> int:
         """Process one batch of queued messages.

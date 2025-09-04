@@ -1,12 +1,7 @@
-import sys
-import types
-from pathlib import Path
-from datetime import datetime
-import pytest
-from src.utils.config_core import get_config
+sys.path.append(get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), '..'))
 
 # Repository root used for fsm package stubbing
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = get_unified_utility().Path(__file__).resolve().parents[2]
 
 # Mock the fsm package to avoid importing heavy dependencies in __init__
 fsm_pkg = types.ModuleType("src.core.fsm")
@@ -15,7 +10,6 @@ sys.modules.setdefault("src", types.ModuleType("src"))
 sys.modules.setdefault("src.core", types.ModuleType("src.core"))
 sys.modules["src.core.fsm"] = fsm_pkg
 
-from src.core.fsm.models import (
     WorkflowInstance,
     StateDefinition,
     TransitionDefinition,
@@ -97,7 +91,6 @@ def states_and_transitions():
 @pytest.fixture
 def state_handler():
     """Provide a basic ConcreteStateHandler used in multiple tests."""
-    from src.core.fsm.handlers import ConcreteStateHandler
 
     return ConcreteStateHandler(
         action=lambda ctx: ctx["actions"].append("processed"),

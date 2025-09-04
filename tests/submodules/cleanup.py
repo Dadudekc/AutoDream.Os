@@ -1,6 +1,5 @@
 """Utilities for cleaning up test artifacts."""
 
-from tests.testing_config import RESULTS_DIR, COVERAGE_DIR
 
 
 def cleanup_artifacts() -> None:

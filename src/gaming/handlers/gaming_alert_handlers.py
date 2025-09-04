@@ -8,10 +8,6 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Implementation - Gaming Infrastructure Refactoring
 """
 
-import logging
-from typing import Dict, Any, List
-from ..models.gaming_alert_models import AlertType, AlertSeverity
-from ..utils.gaming_alert_utils import format_alert_message
 
 logger = logging.getLogger(__name__)
 
@@ -123,7 +119,7 @@ def handle_alert_acknowledgment(manager, alert_id: str, acknowledged_by: str) ->
         True if alert was acknowledged, False otherwise
     """
     if alert_id not in manager.alerts:
-        logger.warning(f"Alert {alert_id} not found")
+        get_logger(__name__).warning(f"Alert {alert_id} not found")
         return False
     
     alert = manager.alerts[alert_id]
@@ -131,7 +127,7 @@ def handle_alert_acknowledgment(manager, alert_id: str, acknowledged_by: str) ->
     alert.metadata['acknowledged_by'] = acknowledged_by
     alert.metadata['acknowledged_at'] = manager._get_current_timestamp()
     
-    logger.info(f"Alert {alert_id} acknowledged by {acknowledged_by}")
+    get_logger(__name__).info(f"Alert {alert_id} acknowledged by {acknowledged_by}")
     return True
 
 
@@ -149,7 +145,7 @@ def handle_alert_resolution(manager, alert_id: str, resolved_by: str, resolution
         True if alert was resolved, False otherwise
     """
     if alert_id not in manager.alerts:
-        logger.warning(f"Alert {alert_id} not found")
+        get_logger(__name__).warning(f"Alert {alert_id} not found")
         return False
     
     alert = manager.alerts[alert_id]
@@ -158,5 +154,5 @@ def handle_alert_resolution(manager, alert_id: str, resolved_by: str, resolution
     alert.resolved_by = resolved_by
     alert.metadata['resolution_notes'] = resolution_notes
     
-    logger.info(f"Alert {alert_id} resolved by {resolved_by}")
+    get_logger(__name__).info(f"Alert {alert_id} resolved by {resolved_by}")
     return True

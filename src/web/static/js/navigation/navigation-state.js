@@ -241,3 +241,5 @@ export class NavigationState {
 export function createNavigationState(initialView = 'overview') {
     return new NavigationState(initialView);
 }
+
+

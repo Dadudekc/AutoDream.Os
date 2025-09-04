@@ -267,3 +267,5 @@ export class DashboardDataService {
 export function createDashboardDataService(dashboardRepository, utilityService) {
     return new DashboardDataService(dashboardRepository, utilityService);
 }
+
+

@@ -2,10 +2,12 @@
  * Deployment Phase Service - V2 Compliant
  * Phase management functionality extracted from deployment-service.js
  *
- * @author Agent-7 - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE CORRECTION
+ * @author Agent-3 - Infrastructure & DevOps Specialist
+ * @version 2.0.0 - V2 COMPLIANCE EXTRACTION
  * @license MIT
  */
+
+import { createPhaseActionMethods } from './phase-action-methods.js';
 
 // ================================
 // DEPLOYMENT PHASE SERVICE
@@ -18,6 +20,7 @@ class DeploymentPhaseService {
     constructor() {
         this.deploymentPhases = new Map();
         this.phaseHistory = new Map();
+        this.phaseActionMethods = createPhaseActionMethods();
     }
 
     /**
@@ -37,7 +40,7 @@ class DeploymentPhaseService {
             };
 
             // Execute phase action
-            const actionResult = await this.executePhaseAction(phase, action, currentStatus, data);
+            const actionResult = await this.phaseActionMethods.executePhaseAction(phase, action, currentStatus, data);
 
             // Update phase status
             const updatedStatus = {
@@ -75,197 +78,7 @@ class DeploymentPhaseService {
         return validPhases.includes(phase) && validActions.includes(action);
     }
 
-    /**
-     * Execute phase action
-     */
-    async executePhaseAction(phase, action, currentStatus, data) {
-        const result = {
-            phase: phase,
-            action: action,
-            previousStatus: currentStatus.status,
-            newStatus: currentStatus.status,
-            success: false,
-            timestamp: new Date().toISOString()
-        };
 
-        switch (action) {
-            case 'start':
-                if (currentStatus.status === 'not_started' || currentStatus.status === 'stopped') {
-                    result.newStatus = 'running';
-                    result.success = true;
-                    result.message = `${phase} deployment started successfully`;
-
-                    // Production safety check
-                    if (phase === 'production' && !data.productionApproval) {
-                        result.success = false;
-                        result.newStatus = 'blocked';
-                        result.message = 'Production deployment requires approval';
-                        result.error = 'Missing production approval';
-                    }
-                } else {
-                    result.error = `Cannot start ${phase} - current status: ${currentStatus.status}`;
-                }
-                break;
-
-            case 'stop':
-                if (currentStatus.status === 'running' || currentStatus.status === 'paused') {
-                    result.newStatus = 'stopped';
-                    result.success = true;
-                    result.message = `${phase} deployment stopped`;
-                } else {
-                    result.error = `Cannot stop ${phase} - current status: ${currentStatus.status}`;
-                }
-                break;
-
-            case 'pause':
-                if (currentStatus.status === 'running') {
-                    result.newStatus = 'paused';
-                    result.success = true;
-                    result.message = `${phase} deployment paused`;
-                } else {
-                    result.error = `Cannot pause ${phase} - current status: ${currentStatus.status}`;
-                }
-                break;
-
-            case 'resume':
-                if (currentStatus.status === 'paused') {
-                    result.newStatus = 'running';
-                    result.success = true;
-                    result.message = `${phase} deployment resumed`;
-                } else {
-                    result.error = `Cannot resume ${phase} - current status: ${currentStatus.status}`;
-                }
-                break;
-
-            case 'rollback':
-                result.newStatus = 'rolling_back';
-                result.success = true;
-                result.message = `${phase} rollback initiated`;
-                // Rollback would typically trigger rollback procedures
-                setTimeout(() => {
-                    this.deploymentPhases.set(phase, {
-                        ...this.deploymentPhases.get(phase),
-                        status: 'rolled_back'
-                    });
-                }, 5000); // Simulate rollback completion
-                break;
-
-            case 'validate':
-                result.newStatus = currentStatus.status; // Status unchanged
-                result.success = true;
-                result.message = `${phase} validation completed`;
-                result.validationResult = this.performPhaseValidation(phase, data);
-                break;
-
-            case 'promote':
-                if (phase === 'staging' && currentStatus.status === 'running') {
-                    result.newStatus = 'promoted';
-                    result.success = true;
-                    result.message = `${phase} promoted to production`;
-                } else {
-                    result.error = `Cannot promote ${phase} - invalid state`;
-                }
-                break;
-
-            default:
-                result.error = `Unknown action: ${action}`;
-        }
-
-        return result;
-    }
-
-    /**
-     * Perform phase validation
-     */
-    performPhaseValidation(phase, data) {
-        const validation = {
-            phase: phase,
-            valid: true,
-            checks: [],
-            timestamp: new Date().toISOString()
-        };
-
-        // Phase-specific validation
-        switch (phase) {
-            case 'development':
-                validation.checks.push({
-                    check: 'code_quality',
-                    passed: Math.random() > 0.2, // 80% pass rate
-                    message: 'Code quality standards met'
-                });
-                break;
-
-            case 'staging':
-                validation.checks.push({
-                    check: 'integration_tests',
-                    passed: Math.random() > 0.1, // 90% pass rate
-                    message: 'Integration tests passed'
-                });
-                validation.checks.push({
-                    check: 'performance_tests',
-                    passed: Math.random() > 0.15, // 85% pass rate
-                    message: 'Performance requirements met'
-                });
-                break;
-
-            case 'production':
-                validation.checks.push({
-                    check: 'security_audit',
-                    passed: Math.random() > 0.05, // 95% pass rate
-                    message: 'Security audit passed'
-                });
-                validation.checks.push({
-                    check: 'production_readiness',
-                    passed: Math.random() > 0.1, // 90% pass rate
-                    message: 'Production readiness confirmed'
-                });
-                break;
-        }
-
-        // Overall validation result
-        validation.valid = validation.checks.every(check => check.passed);
-
-        return validation;
-    }
-
-    /**
-     * Generate phase report
-     */
-    generatePhaseReport(phase, action, actionResult) {
-        const report = {
-            phase: phase,
-            action: action,
-            timestamp: new Date().toISOString(),
-            success: actionResult.success,
-            statusChange: {
-                from: actionResult.previousStatus,
-                to: actionResult.newStatus
-            },
-            message: actionResult.message,
-            duration: actionResult.duration || 0,
-            recommendations: []
-        };
-
-        // Generate recommendations based on action result
-        if (!actionResult.success) {
-            report.recommendations.push('Review action prerequisites and try again');
-            if (actionResult.error) {
-                report.recommendations.push(`Address error: ${actionResult.error}`);
-            }
-        }
-
-        if (action === 'start' && phase === 'production') {
-            report.recommendations.push('Monitor production deployment closely');
-            report.recommendations.push('Prepare rollback plan');
-        }
-
-        if (action === 'rollback') {
-            report.recommendations.push('Verify rollback completion');
-            report.recommendations.push('Test system stability after rollback');
-        }
-
-        return report;
-    }
 
     /**
      * Get phase status
@@ -373,3 +186,4 @@ export function getPhaseHistory(phase, limit = 10) {
 
 export { DeploymentPhaseService, deploymentPhaseService };
 export default deploymentPhaseService;
+

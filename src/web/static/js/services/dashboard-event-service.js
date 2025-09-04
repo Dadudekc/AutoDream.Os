@@ -2,10 +2,12 @@
  * Dashboard Event Service - V2 Compliant
  * Handles dashboard event management and socket communication
  *
- * @author Agent-7 - Web Development Specialist
+ * @author Agent-3 - Infrastructure & DevOps Specialist
  * @version 1.0.0 - V2 COMPLIANCE EXTRACTION
  * @license MIT
  */
+
+import { createSocketEventHandlers } from './socket-event-handlers.js';
 
 export class DashboardEventService {
     constructor(utilityService) {
@@ -14,6 +16,7 @@ export class DashboardEventService {
         this.eventListeners = new Map();
         this.eventQueue = [];
         this.isProcessing = false;
+        this.socketEventHandlers = createSocketEventHandlers(utilityService);
     }
 
     /**
@@ -30,7 +33,7 @@ export class DashboardEventService {
             this.initializeSocket(socketConfig);
 
             // Setup event handlers
-            this.setupSocketEventHandlers();
+            this.socketEventHandlers.setupSocketEventHandlers(this.socketHandlers);
 
             // Setup heartbeat monitoring
             this.setupHeartbeatMonitoring();
@@ -65,24 +68,6 @@ export class DashboardEventService {
     }
 
     /**
-     * Setup socket event handlers
-     */
-    setupSocketEventHandlers() {
-        try {
-            // Register core event handlers
-            this.registerSocketHandler('connect', () => this.handleSocketConnect());
-            this.registerSocketHandler('disconnect', () => this.handleSocketDisconnect());
-            this.registerSocketHandler('error', (error) => this.handleSocketError(error));
-            this.registerSocketHandler('dataUpdate', (data) => this.handleDataUpdate(data));
-            this.registerSocketHandler('statusChange', (status) => this.handleStatusChange(status));
-
-            this.utilityService.logInfo('Socket event handlers configured');
-        } catch (error) {
-            this.utilityService.logError('Socket event handler setup failed', error);
-        }
-    }
-
-    /**
      * Setup heartbeat monitoring
      */
     setupHeartbeatMonitoring() {
@@ -96,122 +81,6 @@ export class DashboardEventService {
             this.utilityService.logInfo('Heartbeat monitoring activated');
         } catch (error) {
             this.utilityService.logError('Heartbeat monitoring setup failed', error);
-        }
-    }
-
-    /**
-     * Register socket event handler
-     */
-    registerSocketHandler(event, handler) {
-        try {
-            if (!this.socketHandlers.has(event)) {
-                this.socketHandlers.set(event, []);
-            }
-            this.socketHandlers.get(event).push(handler);
-            this.utilityService.logDebug(`Socket handler registered for event: ${event}`);
-        } catch (error) {
-            this.utilityService.logError(`Failed to register socket handler for event: ${event}`, error);
-        }
-    }
-
-    /**
-     * Unregister socket event handler
-     */
-    unregisterSocketHandler(event, handler) {
-        try {
-            const handlers = this.socketHandlers.get(event);
-            if (handlers) {
-                const index = handlers.indexOf(handler);
-                if (index > -1) {
-                    handlers.splice(index, 1);
-                    this.utilityService.logDebug(`Socket handler unregistered for event: ${event}`);
-                }
-            }
-        } catch (error) {
-            this.utilityService.logError(`Failed to unregister socket handler for event: ${event}`, error);
-        }
-    }
-
-    /**
-     * Handle socket emit
-     */
-    handleSocketEmit(event, data) {
-        try {
-            this.utilityService.logDebug(`Socket emit: ${event}`, data);
-            // Actual socket emit logic would go here
-        } catch (error) {
-            this.utilityService.logError(`Socket emit failed for event: ${event}`, error);
-        }
-    }
-
-    /**
-     * Handle socket connect
-     */
-    handleSocketConnect() {
-        try {
-            this.utilityService.logInfo('Socket connected');
-            // Dispatch custom event
-            this.dispatchEvent('socket:connected', { timestamp: Date.now() });
-        } catch (error) {
-            this.utilityService.logError('Socket connect handler failed', error);
-        }
-    }
-
-    /**
-     * Handle socket disconnect
-     */
-    handleSocketDisconnect() {
-        try {
-            this.utilityService.logInfo('Socket disconnected');
-            // Dispatch custom event
-            this.dispatchEvent('socket:disconnected', { timestamp: Date.now() });
-        } catch (error) {
-            this.utilityService.logError('Socket disconnect handler failed', error);
-        }
-    }
-
-    /**
-     * Handle socket error
-     */
-    handleSocketError(error) {
-        try {
-            this.utilityService.logError('Socket error occurred', error);
-            // Dispatch custom event
-            this.dispatchEvent('socket:error', { error: error.message, timestamp: Date.now() });
-        } catch (handlerError) {
-            this.utilityService.logError('Socket error handler failed', handlerError);
-        }
-    }
-
-    /**
-     * Handle data update from socket
-     */
-    handleDataUpdate(data) {
-        try {
-            this.utilityService.logDebug('Data update received', data);
-            // Process data update
-            this.dispatchEvent('dashboard:dataUpdate', {
-                data,
-                timestamp: Date.now()
-            });
-        } catch (error) {
-            this.utilityService.logError('Data update handler failed', error);
-        }
-    }
-
-    /**
-     * Handle status change from socket
-     */
-    handleStatusChange(status) {
-        try {
-            this.utilityService.logInfo('Status change received', status);
-            // Process status change
-            this.dispatchEvent('dashboard:statusChange', {
-                status,
-                timestamp: Date.now()
-            });
-        } catch (error) {
-            this.utilityService.logError('Status change handler failed', error);
         }
     }
 
@@ -346,3 +215,5 @@ export class DashboardEventService {
 export function createDashboardEventService(utilityService) {
     return new DashboardEventService(utilityService);
 }
+
+

@@ -9,12 +9,12 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import time
-import logging
-from typing import Callable, Any, Optional
-from datetime import datetime, timedelta
 
-from .error_models import CircuitState, CircuitBreakerConfig, ErrorContext, ErrorSeverity
+    CircuitBreakerConfig,
+    CircuitState,
+    ErrorContext,
+    ErrorSeverity,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ class CircuitBreaker:
             self.failure_count = 0
             self.last_failure_time = None
             self.next_attempt_time = None
-            logger.info(f"Circuit breaker '{self.config.name}' reset to CLOSED state")
+            get_logger(__name__).info(f"Circuit breaker '{self.config.name}' reset to CLOSED state")
 
     def _record_failure(self, exception: Exception):
         """Record a failed operation."""
@@ -56,12 +56,20 @@ class CircuitBreaker:
 
         if self.state == CircuitState.HALF_OPEN:
             self.state = CircuitState.OPEN
-            self.next_attempt_time = datetime.now() + timedelta(seconds=self.config.recovery_timeout)
-            logger.warning(f"Circuit breaker '{self.config.name}' moved to OPEN state after half-open failure")
+            self.next_attempt_time = datetime.now() + timedelta(
+                seconds=self.config.recovery_timeout
+            )
+            get_logger(__name__).warning(
+                f"Circuit breaker '{self.config.name}' moved to OPEN state after half-open failure"
+            )
         elif self.failure_count >= self.config.failure_threshold:
             self.state = CircuitState.OPEN
-            self.next_attempt_time = datetime.now() + timedelta(seconds=self.config.recovery_timeout)
-            logger.warning(f"Circuit breaker '{self.config.name}' opened after {self.failure_count} failures")
+            self.next_attempt_time = datetime.now() + timedelta(
+                seconds=self.config.recovery_timeout
+            )
+            get_logger(__name__).warning(
+                f"Circuit breaker '{self.config.name}' opened after {self.failure_count} failures"
+            )
 
     def call(self, func: Callable, *args, **kwargs) -> Any:
         """Execute function with circuit breaker protection."""
@@ -69,11 +77,13 @@ class CircuitBreaker:
             if not self._should_attempt_reset():
                 raise CircuitBreakerOpenException(
                     f"Circuit breaker '{self.config.name}' is OPEN",
-                    retry_after=self.next_attempt_time
+                    retry_after=self.next_attempt_time,
                 )
 
             self.state = CircuitState.HALF_OPEN
-            logger.info(f"Circuit breaker '{self.config.name}' testing recovery (HALF_OPEN)")
+            get_logger(__name__).info(
+                f"Circuit breaker '{self.config.name}' testing recovery (HALF_OPEN)"
+            )
 
         try:
             result = func(*args, **kwargs)
@@ -92,8 +102,12 @@ class CircuitBreaker:
             "failure_count": self.failure_count,
             "failure_threshold": self.config.failure_threshold,
             "recovery_timeout": self.config.recovery_timeout,
-            "last_failure_time": self.last_failure_time.isoformat() if self.last_failure_time else None,
-            "next_attempt_time": self.next_attempt_time.isoformat() if self.next_attempt_time else None
+            "last_failure_time": (
+                self.last_failure_time.isoformat() if self.last_failure_time else None
+            ),
+            "next_attempt_time": (
+                self.next_attempt_time.isoformat() if self.next_attempt_time else None
+            ),
         }
 
 
@@ -118,6 +132,7 @@ def circuit_breaker(config: CircuitBreakerConfig):
     def decorator(func: Callable) -> Callable:
         def wrapper(*args, **kwargs):
             return breaker.call(func, *args, **kwargs)
+
         return wrapper
 
     return decorator

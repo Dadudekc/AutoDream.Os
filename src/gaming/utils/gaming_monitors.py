@@ -6,8 +6,6 @@ Performance monitoring utilities for gaming integration system.
 Author: Agent-3 - Infrastructure & DevOps Specialist
 """
 
-import logging
-from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 

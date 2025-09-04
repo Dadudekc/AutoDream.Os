@@ -9,14 +9,8 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import json
-import logging
-from typing import Dict, List, Any, Optional
-from datetime import datetime, timedelta
-from pathlib import Path
-from collections import defaultdict
+from ..core.unified_import_system import logging
 
-from .error_models import ErrorContext, ErrorSeverity
 
 logger = logging.getLogger(__name__)
 
@@ -49,10 +43,8 @@ class ErrorReport:
             "unique_operations": len(self.error_counts),
             "severity_breakdown": dict(self.severity_counts),
             "most_common_operations": sorted(
-                self.error_counts.items(),
-                key=lambda x: x[1],
-                reverse=True
-            )[:5]
+                self.error_counts.items(), key=lambda x: x[1], reverse=True
+            )[:5],
         }
 
     def get_detailed_report(self) -> Dict[str, Any]:
@@ -65,11 +57,13 @@ class ErrorReport:
                     "severity": error.severity.value,
                     "timestamp": error.timestamp.isoformat(),
                     "retry_count": error.retry_count,
-                    "details": error.details
+                    "details": error.details,
                 }
-                for error in sorted(self.errors, key=lambda x: x.timestamp, reverse=True)[:10]
+                for error in sorted(
+                    self.errors, key=lambda x: x.timestamp, reverse=True
+                )[:10]
             ],
-            "error_patterns": self._analyze_patterns()
+            "error_patterns": self._analyze_patterns(),
         }
 
     def _analyze_patterns(self) -> Dict[str, Any]:
@@ -88,19 +82,19 @@ class ErrorReport:
         for operation, severity_counts in patterns.items():
             total_for_operation = sum(severity_counts.values())
             if total_for_operation >= 3:  # Consider it a pattern if >= 3 occurrences
-                significant_patterns.append({
-                    "operation": operation,
-                    "total_occurrences": total_for_operation,
-                    "severity_distribution": dict(severity_counts)
-                })
+                significant_patterns.append(
+                    {
+                        "operation": operation,
+                        "total_occurrences": total_for_operation,
+                        "severity_distribution": dict(severity_counts),
+                    }
+                )
 
         return {
             "patterns_found": len(significant_patterns),
             "significant_patterns": sorted(
-                significant_patterns,
-                key=lambda x: x["total_occurrences"],
-                reverse=True
-            )
+                significant_patterns, key=lambda x: x["total_occurrences"], reverse=True
+            ),
         }
 
 
@@ -109,7 +103,7 @@ class ErrorReporter:
 
     def __init__(self, log_directory: str = "logs/errors"):
         """Initialize error reporter."""
-        self.log_directory = Path(log_directory)
+        self.log_directory = get_unified_utility().Path(log_directory)
         self.log_directory.mkdir(parents=True, exist_ok=True)
         self.reports: Dict[str, ErrorReport] = {}
         self.error_buffer: List[ErrorContext] = []
@@ -139,16 +133,17 @@ class ErrorReporter:
         )
 
         if error.severity == ErrorSeverity.CRITICAL:
-            logger.critical(log_message)
+            get_logger(__name__).critical(log_message)
         elif error.severity == ErrorSeverity.HIGH:
-            logger.error(log_message)
+            get_logger(__name__).error(log_message)
         elif error.severity == ErrorSeverity.MEDIUM:
-            logger.warning(log_message)
+            get_logger(__name__).warning(log_message)
         else:
-            logger.info(log_message)
+            get_logger(__name__).info(log_message)
 
-    def generate_report(self, component: str = None,
-                       time_range: timedelta = timedelta(hours=24)) -> Dict[str, Any]:
+    def generate_report(
+        self, component: str = None, time_range: timedelta = timedelta(hours=24)
+    ) -> Dict[str, Any]:
         """Generate error report."""
         if component and component in self.reports:
             # Update the report with any new errors in buffer
@@ -164,8 +159,10 @@ class ErrorReporter:
                 "components": {},
                 "system_summary": {
                     "total_components": len(self.reports),
-                    "total_errors": sum(len(report.errors) for report in self.reports.values())
-                }
+                    "total_errors": sum(
+                        len(report.errors) for report in self.reports.values()
+                    ),
+                },
             }
 
             for comp_name, report in self.reports.items():
@@ -183,27 +180,30 @@ class ErrorReporter:
         buffer_file = self.log_directory / f"error_buffer_{timestamp}.json"
 
         try:
-            with open(buffer_file, 'w') as f:
-                json.dump({
-                    "timestamp": datetime.now().isoformat(),
-                    "errors": [
-                        {
-                            "operation": error.operation,
-                            "component": error.component,
-                            "severity": error.severity.value,
-                            "timestamp": error.timestamp.isoformat(),
-                            "retry_count": error.retry_count,
-                            "details": error.details
-                        }
-                        for error in self.error_buffer
-                    ]
-                }, f, indent=2)
+            with open(buffer_file, "w") as f:
+                write_json(
+                    {
+                        "timestamp": datetime.now().isoformat(), "errors": [
+                            {
+                                "operation": error.operation,
+                                "component": error.component,
+                                "severity": error.severity.value,
+                                "timestamp": error.timestamp.isoformat(),
+                                "retry_count": error.retry_count,
+                                "details": error.details,
+                            }
+                            for error in self.error_buffer
+                        ],
+                    },
+                    f,
+                    indent=2,
+                )
 
-            logger.info(f"Flushed {len(self.error_buffer)} errors to {buffer_file}")
+            get_logger(__name__).info(f"Flushed {len(self.error_buffer)} errors to {buffer_file}")
             self.error_buffer.clear()
 
         except Exception as e:
-            logger.error(f"Failed to flush error buffer: {e}")
+            get_logger(__name__).error(f"Failed to flush error buffer: {e}")
 
     def cleanup_old_logs(self, max_age_days: int = 30):
         """Clean up old error log files."""
@@ -216,7 +216,7 @@ class ErrorReporter:
                 cleaned_count += 1
 
         if cleaned_count > 0:
-            logger.info(f"Cleaned up {cleaned_count} old error log files")
+            get_logger(__name__).info(f"Cleaned up {cleaned_count} old error log files")
 
         return cleaned_count
 
@@ -245,12 +245,12 @@ class ErrorReporter:
             "component": component or "system_wide",
             "days_analyzed": days,
             "daily_trends": dict(trends),
-            "trend_summary": self._summarize_trends(dict(trends))
+            "trend_summary": self._summarize_trends(dict(trends)),
         }
 
     def _summarize_trends(self, trends: Dict[str, Dict[str, int]]) -> Dict[str, Any]:
         """Summarize error trends."""
-        if not trends:
+        if not get_unified_validator().validate_required(trends):
             return {"trend": "stable", "change_percent": 0}
 
         # Calculate trend direction
@@ -276,9 +276,11 @@ class ErrorReporter:
         )
 
         if first_half_total == 0:
-            change_percent = float('inf') if second_half_total > 0 else 0
+            change_percent = float("inf") if second_half_total > 0 else 0
         else:
-            change_percent = ((second_half_total - first_half_total) / first_half_total) * 100
+            change_percent = (
+                (second_half_total - first_half_total) / first_half_total
+            ) * 100
 
         if change_percent > 20:
             trend = "increasing"
@@ -291,7 +293,7 @@ class ErrorReporter:
             "trend": trend,
             "change_percent": round(change_percent, 2),
             "first_half_total": first_half_total,
-            "second_half_total": second_half_total
+            "second_half_total": second_half_total,
         }
 
 

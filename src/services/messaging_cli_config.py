@@ -9,31 +9,33 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import os
-import yaml
-from typing import Dict, Any
+from typing import Any, Dict
 from pathlib import Path
+import yaml
+
+import os
 
 
 def load_config_with_precedence() -> Dict[str, Any]:
     """Load configuration with precedence: CLI → ENV → YAML → defaults."""
-    config = {
+    config = {}
+    config.update({
         "sender": "Captain Agent-4",
         "mode": "pyautogui",
         "new_tab_method": "ctrl_t",
         "priority": "regular",
         "paste": True,
-        "onboarding_style": "friendly"
-    }
+        "onboarding_style": "friendly",
+    })
 
     # Load from YAML config file (lowest precedence)
     config_file = Path("config/messaging.yml")
     if config_file.exists():
         try:
-            with open(config_file, 'r') as f:
+            with open(config_file, "r") as f:
                 yaml_config = yaml.safe_load(f)
-                if yaml_config and 'defaults' in yaml_config:
-                    config.update(yaml_config['defaults'])
+                if yaml_config and "defaults" in yaml_config:
+                    config.update(yaml_config["defaults"])
         except Exception:
             # Silently ignore YAML errors
             pass
@@ -44,7 +46,7 @@ def load_config_with_precedence() -> Dict[str, Any]:
         "AC_MODE": "mode",
         "AC_NEW_TAB_METHOD": "new_tab_method",
         "AC_PRIORITY": "priority",
-        "AC_ONBOARDING_STYLE": "onboarding_style"
+        "AC_ONBOARDING_STYLE": "onboarding_style",
     }
 
     for env_var, config_key in env_mappings.items():
@@ -63,5 +65,5 @@ def get_default_config() -> Dict[str, Any]:
         "new_tab_method": "ctrl_t",
         "priority": "regular",
         "paste": True,
-        "onboarding_style": "friendly"
+        "onboarding_style": "friendly",
     }

@@ -19,8 +19,34 @@
 🚨 **IMMEDIATE ACTIONS REQUIRED:**
 1. **Check your inbox** for any pending messages
 2. **Update your status.json** with current timestamp
-3. **Create next round of tasks** for agents
-4. **Begin system oversight** and momentum maintenance
+3. **Check agent statuses** using captain snapshot
+4. **Create next round of tasks** for agents
+5. **Begin system oversight** and momentum maintenance
+
+### **🛰️ CAPTAIN'S MULTI-AGENT COORDINATION:**
+1. **Monitor all agents** using the captain snapshot system
+2. **Track agent staleness** and intervene when needed
+3. **Coordinate swarm operations** through check-in system
+4. **Maintain swarm momentum** with regular status monitoring
+
+#### **📡 CAPTAIN MONITORING COMMANDS:**
+```bash
+# View complete agent status overview
+python tools/captain_snapshot.py
+
+# Check specific agent status
+python tools/agent_checkin.py examples/agent_checkins/Agent-X_checkin.json
+
+# Monitor agent logs for patterns
+ls runtime/agent_logs/
+tail -f runtime/agent_logs/Agent-1.log.jsonl
+```
+
+#### **📊 CAPTAIN RESPONSIBILITIES:**
+- **Monitor agent staleness** - Intervene if agents go silent >15 minutes
+- **Coordinate task assignments** - Ensure all agents have work
+- **Maintain swarm momentum** - Keep all agents active and productive
+- **Track progress metrics** - Monitor completion rates and quality
 
 🎯 **SUCCESS CRITERIA:** All agents actively working, system momentum maintained, stall prevention active, 8x efficiency maintained
 

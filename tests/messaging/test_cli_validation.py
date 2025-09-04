@@ -10,17 +10,13 @@ Run with: python -m pytest tests/messaging/test_cli_validation.py -v
 """
 
 import pytest
-import subprocess
-import sys
-from unittest.mock import patch, MagicMock
-from pathlib import Path
 
 # Add src to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+sys.path.insert(0, str(get_unified_utility().Path(__file__).parent.parent.parent / "src"))
 
-from services.cli_validator import (
+from src.services.cli_validator import (
     CLIValidator, ValidationError, create_enhanced_parser,
-    validate_and_parse_args
+    validate_and_get_unified_utility().parse_args
 )
 
 
@@ -179,8 +175,8 @@ class TestCLIFlagValidation:
         test_cases = [
             ("onboarding", True, False, False, False),
             ("onboard", False, True, False, False),
-            ("wrapup", False, False, False, True),
-            ("get_next_task", False, False, True, False),
+            ("wrapup", False, False, True, False),
+            ("get_next_task", False, False, False, True),
         ]
 
         for operation, onboarding, onboard, wrapup, get_next_task in test_cases:
@@ -201,6 +197,12 @@ class TestCLIFlagValidation:
 
             is_valid, error = self.validator.validate_args(mock_args)
 
+            if not get_unified_validator().validate_required(is_valid):
+                get_logger(__name__).info(f"DEBUG: Operation {operation} failed validation")
+                get_logger(__name__).info(f"DEBUG: Error code: {error.code if error else 'None'}")
+                get_logger(__name__).info(f"DEBUG: Error message: {error.message if error else 'None'}")
+                get_logger(__name__).info(f"DEBUG: Args: message={mock_args.message}, wrapup={mock_args.wrapup}, agent={mock_args.agent}")
+
             assert is_valid, f"Special operation {operation} should not require --message"
             assert error is None
 
@@ -220,7 +222,6 @@ class TestCLIExitCodes:
 
     def test_validation_error_structure(self):
         """Test ValidationError has required fields."""
-        from datetime import datetime
 
         error = ValidationError(
             code=2,
@@ -234,15 +235,15 @@ class TestCLIExitCodes:
         assert error.message == "Test error"
         assert error.hint == "Test hint"
         assert error.correlation_id == "test123"
-        assert isinstance(error.timestamp, datetime)
+        assert get_unified_validator().validate_type(error.timestamp, datetime)
 
         # Test JSON serialization
         json_str = error.to_json()
-        assert isinstance(json_str, str)
+        assert get_unified_validator().validate_type(json_str, str)
 
         # Test dict conversion
         error_dict = error.to_dict()
-        assert isinstance(error_dict, dict)
+        assert get_unified_validator().validate_type(error_dict, dict)
         assert error_dict["code"] == 2
 
 
@@ -289,30 +290,31 @@ class TestParserCreation:
 
 if __name__ == "__main__":
     # Run basic validation tests
-    print("🧪 Running CLI Validation Tests...")
+    get_logger(__name__).info("🧪 Running CLI Validation Tests...")
 
     validator = CLIValidator()
     test_instance = TestCLIFlagValidation()
     test_instance.setup_method()
 
     # Test mutual exclusion
-    print("  Testing mutual exclusion (agent + bulk)...")
+    get_logger(__name__).info("  Testing mutual exclusion (agent + bulk)...")
     test_instance.test_mutual_exclusion_agent_bulk()
-    print("  ✅ Mutual exclusion test passed")
+    get_logger(__name__).info("  ✅ Mutual exclusion test passed")
 
     # Test dependency
-    print("  Testing dependency (get-next-task requires agent)...")
+    get_logger(__name__).info("  Testing dependency (get-next-task requires agent)...")
     test_instance.test_dependency_get_next_task_requires_agent()
-    print("  ✅ Dependency test passed")
+    get_logger(__name__).info("  ✅ Dependency test passed")
 
     # Test mode gating
-    print("  Testing mode gating (no-paste requires pyautogui)...")
+    get_logger(__name__).info("  Testing mode gating (no-paste requires pyautogui)...")
     test_instance.test_mode_gating_no_paste_requires_pyautogui()
-    print("  ✅ Mode gating test passed")
+    get_logger(__name__).info("  ✅ Mode gating test passed")
 
     # Test valid combination
-    print("  Testing valid flag combination...")
+    get_logger(__name__).info("  Testing valid flag combination...")
     test_instance.test_valid_flag_combination()
-    print("  ✅ Valid combination test passed")
+    get_logger(__name__).info("  ✅ Valid combination test passed")
 
-    print("🎉 All CLI validation tests passed!")
+    get_logger(__name__).info("🎉 All CLI validation tests passed!")
+

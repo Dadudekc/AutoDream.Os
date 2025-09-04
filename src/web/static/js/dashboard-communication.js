@@ -3,16 +3,12 @@
  * WebSocket communication and real-time updates for dashboard
  * EXTRACTED from dashboard.js for V2 compliance
  *
- * @author Agent-7 - Web Development Specialist
- * @version 2.0.0 - V2 COMPLIANCE CORRECTION
+ * @author Agent-3 - Infrastructure & DevOps Specialist
+ * @version 2.0.0 - V2 COMPLIANCE EXTRACTION
  * @license MIT
  */
 
-// ================================
-// IMPORT UI HELPERS
-// ================================
-
-import { showConnectionMessage, showRefreshIndicator, hideLoadingState } from './dashboard-ui-helpers.js';
+import { createWebSocketEventHandlers } from './websocket-event-handlers.js';
 
 // ================================
 // DASHBOARD COMMUNICATION CORE
@@ -30,6 +26,7 @@ class DashboardCommunication {
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
         this.eventListeners = new Map();
+        this.webSocketEventHandlers = createWebSocketEventHandlers();
     }
 
     /**
@@ -52,31 +49,7 @@ class DashboardCommunication {
     setupWebSocket() {
         try {
             this.socket = io();
-
-            this.socket.on('connect', () => {
-                this.handleConnect();
-            });
-
-            this.socket.on('disconnect', (reason) => {
-                this.handleDisconnect(reason);
-            });
-
-            this.socket.on('dashboard_update', (data) => {
-                this.handleDashboardUpdate(data);
-            });
-
-            this.socket.on('error', (error) => {
-                this.handleError(error);
-            });
-
-            this.socket.on('reconnect', (attemptNumber) => {
-                this.handleReconnect(attemptNumber);
-            });
-
-            this.socket.on('reconnect_error', (error) => {
-                this.handleReconnectError(error);
-            });
-
+            this.webSocketEventHandlers.setupWebSocketEventHandlers(this.socket, this);
         } catch (error) {
             console.error('❌ Failed to setup WebSocket:', error);
             this.emit('error', { message: 'Failed to setup WebSocket connection' });
@@ -87,104 +60,8 @@ class DashboardCommunication {
      * Setup reconnection logic
      */
     setupReconnection() {
-        this.socket.on('reconnect_attempt', (attemptNumber) => {
-            console.log(`🔄 Reconnection attempt ${attemptNumber}/${this.maxReconnectAttempts}`);
-            this.reconnectAttempts = attemptNumber;
-        });
-    }
-
-    /**
-     * Handle WebSocket connection
-     */
-    handleConnect() {
-        console.log('✅ Connected to dashboard server');
-        this.isConnected = true;
-        this.reconnectAttempts = 0;
-
-        // Hide loading state if it exists
-        hideLoadingState();
-
-        // Emit connection event
-        this.emit('connected', { timestamp: new Date().toISOString() });
-
-        // Show connection success message
-        showConnectionMessage('success', 'Connected to dashboard server');
-    }
-
-    /**
-     * Handle WebSocket disconnection
-     */
-    handleDisconnect(reason) {
-        console.log('🔌 Disconnected from dashboard server:', reason);
-        this.isConnected = false;
-
-        // Emit disconnection event
-        this.emit('disconnected', { reason, timestamp: new Date().toISOString() });
-
-        // Show disconnection message
-        if (reason === 'io server disconnect') {
-            showConnectionMessage('warning', 'Server disconnected. Attempting to reconnect...');
-        } else if (reason === 'io client disconnect') {
-            showConnectionMessage('info', 'Client disconnected');
-        } else {
-            showConnectionMessage('warning', 'Connection lost. Attempting to reconnect...');
-        }
-    }
-
-    /**
-     * Handle dashboard update from WebSocket
-     */
-    handleDashboardUpdate(data) {
-        console.log('📡 Dashboard update received:', data);
-
-        // Emit update event
-        this.emit('dashboardUpdate', data);
-
-        // Show refresh indicator
-        showRefreshIndicator();
-    }
-
-    /**
-     * Handle WebSocket error
-     */
-    handleError(error) {
-        console.error('🚨 Dashboard WebSocket error:', error);
-
-        // Emit error event
-        this.emit('error', error);
-
-        // Show error message
-        showConnectionMessage('error', error.message || 'Connection error occurred');
-    }
-
-    /**
-     * Handle reconnection
-     */
-    handleReconnect(attemptNumber) {
-        console.log(`🔄 Successfully reconnected on attempt ${attemptNumber}`);
-        this.isConnected = true;
-        this.reconnectAttempts = 0;
-
-        // Emit reconnection event
-        this.emit('reconnected', {
-            attemptNumber,
-            timestamp: new Date().toISOString()
-        });
-
-        // Show reconnection success message
-        showConnectionMessage('success', 'Reconnected to dashboard server');
-    }
-
-    /**
-     * Handle reconnection error
-     */
-    handleReconnectError(error) {
-        console.error('❌ Reconnection failed:', error);
-
-        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-            showConnectionMessage('error', 'Failed to reconnect. Please refresh the page.');
-            this.emit('reconnectFailed', { attempts: this.reconnectAttempts });
-        }
+        // Reconnection logic is now handled by the WebSocket event handlers
+        console.log('🔄 Reconnection logic configured');
     }
 
     /**

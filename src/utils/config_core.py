@@ -11,14 +11,8 @@ Mission: Configuration Pattern Consolidation
 Status: SSOT Implementation - Configuration Core System
 """
 
-from __future__ import annotations
 
-import os
-import logging
-from pathlib import Path
-from typing import Dict, Any, Optional, Union
-from enum import Enum
-from dataclasses import dataclass, field
+from ..core.unified_import_system import logging
 
 
 class ConfigEnvironment(str, Enum):
@@ -52,7 +46,7 @@ class ConfigurationManager:
     
     def __init__(self):
         self._config: Dict[str, ConfigValue] = {}
-        self._environment = ConfigEnvironment(os.getenv("ENVIRONMENT", "development"))
+        self._environment = ConfigEnvironment(get_unified_config().get_env("ENVIRONMENT", "development"))
         self._initialized = False
         
     def initialize(self) -> None:
@@ -71,7 +65,7 @@ class ConfigurationManager:
         """Load core system configuration."""
         # Logging configuration
         self.set_config("LOG_LEVEL", 
-                       getattr(logging, os.getenv("LOG_LEVEL", "INFO").upper(), logging.INFO),
+                       get_unified_validator().safe_getattr(logging, get_unified_config().get_env("LOG_LEVEL", "INFO").upper(), logging.INFO),
                        ConfigSource.ENVIRONMENT,
                        "Global logging level for the application")
         
@@ -107,7 +101,7 @@ class ConfigurationManager:
         """Load application-specific configuration."""
         # Security configuration
         self.set_config("SECRET_KEY", 
-                       os.getenv("PORTAL_SECRET_KEY", "change-me"),
+                       get_unified_config().get_env("PORTAL_SECRET_KEY", "change-me"),
                        ConfigSource.ENVIRONMENT,
                        "Application secret key",
                        required=True)

@@ -1,15 +1,9 @@
 """Execution engine for running tests with coverage."""
 
-import io
-from pathlib import Path
-from typing import Any, Dict, List
 
 import coverage
-import pytest
 
-from src.utils.logger import get_logger
 
-from .config import COVERAGE_REPORT_PRECISION
 
 logger = get_logger(__name__)
 
@@ -28,7 +22,7 @@ def run_tests(test_files: List[Path], source_dir: Path) -> Dict[str, Any]:
         )
     except coverage.CoverageException:
         coverage_pct = 100.0
-    logger.info(
+    get_logger(__name__).info(
         "Test execution finished with exit code %s and coverage %.2f",
         exit_code,
         coverage_pct,

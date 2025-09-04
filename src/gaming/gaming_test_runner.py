@@ -1,3 +1,4 @@
+from ..core.unified_entry_point_system import main
 #!/usr/bin/env python3
 """
 Gaming Test Runner (V2 Compliant)
@@ -10,8 +11,6 @@ License: MIT
 """
 
 # Import modularized components
-from .test_runner_core import GamingTestRunnerCore
-from .test_runner_cli import create_parser, main as cli_main
 
 
 class GamingTestRunner(GamingTestRunnerCore):
@@ -22,11 +21,6 @@ class GamingTestRunner(GamingTestRunnerCore):
         super().__init__(config)
 
 
-async def main():
-    """Main entry point for backward compatibility."""
-    await cli_main()
-
-
+async 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())

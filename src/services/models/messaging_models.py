@@ -9,53 +9,106 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-from dataclasses import dataclass
+import uuid
 from datetime import datetime
 from enum import Enum
-from typing import List, Dict, Any
-import uuid
+from dataclasses import dataclass
+from typing import List, Optional, Dict, Any
 
 
 class UnifiedMessageType(Enum):
     """Message types for unified messaging."""
+
     TEXT = "text"
     BROADCAST = "broadcast"
     ONBOARDING = "onboarding"
+    A2A = "agent_to_agent"  # Agent-to-Agent communication
+    S2A = "system_to_agent"  # System-to-Agent communication (onboarding, pre-made messages)
+    H2A = "human_to_agent"  # Human-to-Agent communication (Discord messages)
+    C2A = "captain_to_agent"  # Captain-to-Agent communication (custom onboarding, directives)
 
 
 class UnifiedMessagePriority(Enum):
     """Message priority levels."""
+
     REGULAR = "regular"
     URGENT = "urgent"
 
 
 class UnifiedMessageStatus(Enum):
     """Message delivery status."""
+
+    PENDING = "pending"
     SENT = "sent"
     DELIVERED = "delivered"
 
 
+class UnifiedSenderType(Enum):
+    """Sender types for unified messaging."""
+
+    AGENT = "agent"
+    SYSTEM = "system"
+    HUMAN = "human"
+
+
+class UnifiedRecipientType(Enum):
+    """Recipient types for unified messaging."""
+
+    AGENT = "agent"
+    SYSTEM = "system"
+    HUMAN = "human"
+
+
 class UnifiedMessageTag(Enum):
     """Message tags for categorization."""
+
     CAPTAIN = "captain"
     ONBOARDING = "onboarding"
     WRAPUP = "wrapup"
 
 
+class DeliveryMethod(Enum):
+    """Delivery method for messages."""
+
+    PYAUTOGUI = "pyautogui"
+    INBOX = "inbox"
+
+
+class SenderType(Enum):
+    """Sender type classification for message routing."""
+
+    AGENT = "agent"
+    SYSTEM = "system"
+    HUMAN = "human"
+
+
+class RecipientType(Enum):
+    """Recipient type classification for message routing."""
+
+    AGENT = "agent"
+    SYSTEM = "system"
+    HUMAN = "human"
+
+
 @dataclass
 class UnifiedMessage:
     """Unified message model for all messaging scenarios."""
-    
+
     content: str
     sender: str
     recipient: str
     message_type: UnifiedMessageType = UnifiedMessageType.TEXT
     priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
+    delivery_method: DeliveryMethod = DeliveryMethod.PYAUTOGUI
     tags: List[UnifiedMessageTag] = None
     metadata: Dict[str, Any] = None
     timestamp: datetime = None
+    created_at: datetime = None  # Alias for timestamp for backward compatibility
     message_id: str = None
-    
+    sender_type: SenderType = None
+    recipient_type: RecipientType = None
+    status: UnifiedMessageStatus = None
+
     def __post_init__(self):
         """Initialize default values after object creation."""
         if self.tags is None:
@@ -64,5 +117,31 @@ class UnifiedMessage:
             self.metadata = {}
         if self.timestamp is None:
             self.timestamp = datetime.now()
+        if self.created_at is None:
+            self.created_at = self.timestamp
         if self.message_id is None:
             self.message_id = f"msg_{self.timestamp.strftime('%Y%m%d_%H%M%S')}_{str(uuid.uuid4())[:6]}"
+        if self.sender_type is None:
+            self.sender_type = self._infer_sender_type()
+        if self.recipient_type is None:
+            self.recipient_type = self._infer_recipient_type()
+        if self.status is None:
+            self.status = UnifiedMessageStatus.PENDING
+
+    def _infer_sender_type(self) -> SenderType:
+        """Infer sender type based on sender name and message type."""
+        if self.sender.startswith("Agent-"):
+            return SenderType.AGENT
+        elif self.sender in ["Captain Agent-4", "System"]:
+            return SenderType.SYSTEM
+        else:
+            return SenderType.HUMAN
+
+    def _infer_recipient_type(self) -> RecipientType:
+        """Infer recipient type based on recipient name."""
+        if self.recipient.startswith("Agent-"):
+            return RecipientType.AGENT
+        elif self.recipient in ["System", "All Agents"]:
+            return RecipientType.SYSTEM
+        else:
+            return RecipientType.HUMAN

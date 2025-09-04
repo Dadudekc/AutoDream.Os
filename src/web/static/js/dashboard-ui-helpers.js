@@ -262,17 +262,14 @@ export function setupNavigation(navElement, handler) {
 // ================================
 
 /**
- * Fetch dashboard data with error handling
+ * Fetch dashboard data using repository pattern
  */
 export async function fetchDashboardData(view) {
-    const response = await fetch(`/api/dashboard/${view}`);
-    const data = await response.json();
+    // Import dashboard repository dynamically to avoid circular dependencies
+    const { DashboardRepository } = await import('./repositories/dashboard-repository.js');
+    const repository = new DashboardRepository();
 
-    if (data.error) {
-        throw new Error(data.error);
-    }
-
-    return data;
+    return repository.getDashboardData(view);
 }
 
 /**

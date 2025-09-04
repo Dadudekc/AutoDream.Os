@@ -14,6 +14,9 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+import os
+import sys
+
 
 # Add src to path for imports
 sys.path.insert(0, get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), '..', 'src'))
@@ -39,7 +42,7 @@ class DevlogSystem:
     def _load_config(self):
         """Load devlog configuration."""
         default_config = get_unified_config().get_config()
-            "discord_webhook_url": get_unified_config().get_env("DISCORD_WEBHOOK_URL", ""),
+            "discord_webhook_url": os.getenv("DISCORD_WEBHOOK_URL", ""),
             "agent_name": "Agent-1",
             "default_channel": "devlog",
             "enable_discord": False,

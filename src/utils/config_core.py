@@ -12,7 +12,7 @@ Status: SSOT Implementation - Configuration Core System
 """
 
 
-from ..core.unified_import_system import logging
+import logging
 
 
 class ConfigEnvironment(str, Enum):

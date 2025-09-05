@@ -13,7 +13,7 @@ License: MIT
 """
 
 from typing import Optional, Dict, Any, List
-from ..core.unified_import_system import logging
+import logging
 
 
 class AgentVectorIntegration:

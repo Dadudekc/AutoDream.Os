@@ -258,27 +258,6 @@ class PatternAnalysisEngine:
         
         return sequences
     
-    def _detect_behavioral_anomalies(self, data: List[Any]) -> List[Dict[str, Any]]:
-        """Detect behavioral anomalies"""
-        anomalies = []
-        
-        if len(data) < 3:
-            return anomalies
-        
-        # Simple anomaly detection based on frequency
-        counter = Counter(data)
-        total_count = len(data)
-        
-        for item, count in counter.items():
-            frequency = count / total_count
-            if frequency < 0.05:  # Less than 5% frequency
-                anomalies.append({
-                    'item': item,
-                    'frequency': frequency,
-                    'severity_score': 1.0 - frequency
-                })
-        
-        return anomalies
     
     def _calculate_pearson_correlation(self, x: List[float], y: List[float]) -> float:
         """Calculate Pearson correlation coefficient"""

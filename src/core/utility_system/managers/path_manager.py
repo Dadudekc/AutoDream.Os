@@ -18,7 +18,7 @@ from typing import Union, List, Dict, Any, Optional, Callable
 from dataclasses import dataclass
 
 from ..utility_system_models import UtilityOperationType, PathOperationResult
-from ..interfaces.path_interface import IPathManager
+# Interface removed - KISS compliance
 from ..validators.path_validator import PathValidator
 
 
@@ -33,7 +33,7 @@ class PathOperationConfig:
     project_root: Optional[Path] = None
 
 
-class PathManager(IPathManager):
+class PathManager:
     """Enhanced path manager with validation and cross-platform support."""
 
     def __init__(self, config: PathOperationConfig = None):
@@ -268,15 +268,6 @@ class PathManager(IPathManager):
         
         return results
 
-    async def async_resolve_path(self, relative_path: Union[str, Path]) -> Path:
-        """Async path resolution."""
-        loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(None, self.resolve_path, relative_path)
-
-    async def async_normalize_path(self, path: Union[str, Path]) -> str:
-        """Async path normalization."""
-        loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(None, self.normalize_path, path)
 
     def _find_project_root(self) -> Path:
         """Find project root directory."""

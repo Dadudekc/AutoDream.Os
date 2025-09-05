@@ -11,7 +11,7 @@ Purpose: V2 compliant vector messaging orchestration
 """
 
 from typing import Optional, Dict, Any, List
-from ...core.unified_import_system import logging
+import logging
 from ..vector_database_service import VectorDatabaseService
 from ..models.messaging_models import UnifiedMessage
 from ..models.vector_models import SearchResult, CollectionConfig

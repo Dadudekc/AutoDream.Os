@@ -9,7 +9,7 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from ..core.unified_import_system import logging
+import logging
 
 
 logger = logging.getLogger(__name__)

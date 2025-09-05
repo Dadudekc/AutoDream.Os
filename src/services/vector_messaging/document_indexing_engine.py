@@ -13,7 +13,7 @@ Purpose: V2 compliant document indexing functionality
 from typing import Optional, Dict, Any, List
 import time
 from pathlib import Path
-from ...core.unified_import_system import logging
+import logging
 from ..models.vector_models import DocumentType, VectorDocument
 from ..models.messaging_models import UnifiedMessage
 from .vector_messaging_models import (

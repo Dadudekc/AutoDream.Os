@@ -12,7 +12,7 @@ Purpose: V2 compliant agent enhancement pattern integration
 
 from typing import Dict, Any, List
 from datetime import datetime
-from ...core.unified_import_system import logging
+import logging
 from ..models.vector_models import DocumentType, VectorDocument, SearchQuery, SearchType, SearchResult
 
 

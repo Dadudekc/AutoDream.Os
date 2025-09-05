@@ -7,7 +7,7 @@ V2 COMPLIANCE: Under 300-line limit
 @version 1.0.0
 """
 
-from ..core.unified_import_system import logging
+import logging
 # Temporarily commented out until unified logging system is properly configured
 # from src.core.consolidation.unified_logging_system import UnifiedLoggingSystem
 # UnifiedLogger = UnifiedLoggingSystem

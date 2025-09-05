@@ -18,7 +18,7 @@ Status: V2 COMPLIANT - FSM Constants Optimized
 from typing import List, Optional, Dict, Any, Final
 from dataclasses import dataclass
 from enum import Enum
-from ..unified_configuration_system import get_unified_config, get_config
+# Configuration simplified - KISS compliance
 
 # ================================
 # FSM TYPE DEFINITIONS

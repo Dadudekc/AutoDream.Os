@@ -18,7 +18,7 @@ from datetime import datetime
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, Any, Optional, Type, List
-from ..unified_configuration_system import get_unified_config, get_config
+# Configuration simplified - KISS compliance
 
 # ================================
 # ERROR SEVERITY LEVELS

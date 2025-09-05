@@ -18,7 +18,7 @@ from typing import Any, Dict, List, Optional, Union, Callable
 from dataclasses import dataclass
 
 from ..utility_system_models import UtilityOperationType, StringOperationResult
-from ..interfaces.string_interface import IStringManager
+# Interface removed - KISS compliance
 from ..validators.string_validator import StringValidator
 from ..transformers.string_transformer import StringTransformer
 
@@ -34,7 +34,7 @@ class StringOperationConfig:
     transformation_timeout_ms: int = 5000
 
 
-class StringManager(IStringManager):
+class StringManager:
     """Enhanced string manager with validation, transformation, and caching."""
 
     def __init__(self, config: StringOperationConfig = None):

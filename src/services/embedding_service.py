@@ -24,7 +24,7 @@ try:
 except ImportError:
     SentenceTransformer = None
 
-from ..core.unified_import_system import logging
+import logging
 from ..services.models.vector_models import EmbeddingModel
 from typing import List, Optional
 

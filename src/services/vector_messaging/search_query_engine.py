@@ -12,7 +12,7 @@ Purpose: V2 compliant search functionality
 
 from typing import Optional, Dict, Any, List
 import time
-from ...core.unified_import_system import logging
+import logging
 from ..models.vector_models import SearchQuery, SearchType, SearchResult, DocumentType
 from .vector_messaging_models import VectorDatabaseValidator, SearchResultSummary, VectorMessagingMetrics
 

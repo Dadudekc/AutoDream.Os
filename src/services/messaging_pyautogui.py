@@ -24,7 +24,7 @@ from .models.messaging_models import (
 )
 
 # Import validation system
-from ..core.unified_validation_system import get_unified_validator
+from ..core.simple_validation_system import get_unified_validator
 
 # Import centralized configuration
 

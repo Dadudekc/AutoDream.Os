@@ -10,7 +10,7 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-from ..core.unified_import_system import logging
+import logging
 
 # Import config after path setup
 try:

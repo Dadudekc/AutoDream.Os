@@ -11,7 +11,7 @@ Purpose: V2 compliant error handling orchestration
 """
 
 from typing import Dict, Any, Optional, List, Callable
-from ..unified_import_system import logging
+import logging
 from .error_handling_models import RetryConfiguration
 from .retry_safety_engine import RetrySafetyEngine
 from .specialized_handlers import SpecializedErrorHandlers

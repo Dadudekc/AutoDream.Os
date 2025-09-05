@@ -262,20 +262,6 @@ class FeatureAnalysisEngine:
         else:
             return 1.0
     
-    def _calculate_entropy(self, counter: Counter) -> float:
-        """Calculate entropy of a counter"""
-        total = sum(counter.values())
-        if total == 0:
-            return 0.0
-        
-        entropy = 0.0
-        for count in counter.values():
-            probability = count / total
-            if probability > 0:
-                entropy -= probability * (probability.bit_length() - 1)
-        
-        return entropy
-    
     def get_feature_importance(self, features: Dict[str, Any]) -> Dict[str, float]:
         """Calculate importance scores for features"""
         importance = {}

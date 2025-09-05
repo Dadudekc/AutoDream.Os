@@ -4,7 +4,7 @@ Discord Commander Devlog Integrator Module
 Provides devlog integration functionality for the Discord commander system.
 """
 
-from ..core.unified_import_system import logging
+import logging
 
 
 class DiscordCommanderDevlogIntegrator:

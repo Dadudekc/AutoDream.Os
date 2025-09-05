@@ -24,7 +24,7 @@ from typing import List, Union, Optional, Dict, Any, Callable
 from dataclasses import dataclass
 
 from ..utility_system_models import UtilityOperationType, FileOperationResult
-from ..interfaces.file_interface import IFileManager
+# Interface removed - KISS compliance
 from ..validators.file_validator import FileValidator
 from ..cache.file_cache import FileCache
 
@@ -48,7 +48,7 @@ class FileOperationConfig:
     retry_delay_ms: int = 100
 
 
-class FileManager(IFileManager):
+class FileManager:
     """
     V2 Compliant File Manager.
     

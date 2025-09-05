@@ -13,7 +13,7 @@ Purpose: Modular engine for messaging CLI handlers
 import logging
 from typing import Any, Dict, List, Optional
 
-from .agent_registry import COORDINATES, format_agent_list
+from .utils.agent_registry import AGENTS, list_agents
 from .messaging_handlers_models import CLICommand, CommandResult, CoordinateConfig
 
 
@@ -33,11 +33,11 @@ class MessagingHandlersEngine:
             self.coordinates = {
                 agent_id: CoordinateConfig(
                     agent_id,
-                    coord["x"],
-                    coord["y"],
-                    coord.get("description", f"{agent_id} coordinates"),
+                    info["coords"]["x"],
+                    info["coords"]["y"],
+                    info.get("description", f"{agent_id} coordinates"),
                 )
-                for agent_id, coord in COORDINATES.items()
+                for agent_id, info in AGENTS.items()
             }
         except Exception as e:
             self.logger.warning(f"Could not load coordinates: {e}")
@@ -48,7 +48,7 @@ class MessagingHandlersEngine:
 
     def list_agents(self) -> List[str]:
         """List all available agents."""
-        return list(self.coordinates.keys())
+        return list_agents()
 
     def validate_command(self, command: CLICommand) -> CommandResult:
         """Validate a CLI command."""
@@ -84,12 +84,11 @@ class MessagingHandlersEngine:
             if command.command == "coordinates":
                 return self._handle_coordinates_command()
             elif command.command == "list_agents":
-                agents = self.list_agents()
-                formatted = format_agent_list(agents)
+                agents = list_agents()
                 return CommandResult(
-                    formatted["success"],
-                    formatted["message"],
-                    data=formatted["data"],
+                    True,
+                    f"Available agents: {', '.join(agents)}",
+                    data={"agents": agents, "agent_count": len(agents)},
                 )
             elif command.command == "send":
                 return self._handle_send_command(command)

@@ -31,7 +31,7 @@ class UtilityHandler:
         """Handle utility-related commands."""
         try:
             if args.list_agents:
-                print("🤖 Available Agents:")
+                print("Available Agents:")
                 print("=" * 40)
                 print("Agent-1: Integration & Core Systems")
                 print("Agent-2: Architecture & Design")
@@ -44,20 +44,20 @@ class UtilityHandler:
                 return True
                 
             if args.coordinates:
-                print("📍 Agent Coordinates:")
+                print("Agent Coordinates:")
                 print("=" * 40)
                 print("Agent coordinates loaded from configuration")
                 print("Use --agent to send messages to specific agents")
                 return True
                 
             if args.history:
-                print("📜 Message History:")
+                print("Message History:")
                 print("=" * 40)
                 print("No message history available yet.")
                 return True
                 
         except Exception as e:
-            print(f"❌ Error handling utility command: {e}")
+            print(f"Error handling utility command: {e}")
             return False
         
         return False

@@ -14,10 +14,38 @@ import logging
 
 # Import config after path setup
 try:
+    from src.core.unified_configuration_system import get_config
+    from src.core.unified_validation_system import get_unified_validator
+    from src.core.unified_utility_system import get_unified_utility
+    from datetime import datetime
+    import json
+    from typing import Optional, Dict, Any
 except ImportError:
     # Fallback if config_core is not available
     def get_config(key, default=None):
         return default
+    
+    def get_unified_validator():
+        class MockValidator:
+            def validate_hasattr(self, obj, attr):
+                return hasattr(obj, attr)
+            def safe_getattr(self, obj, attr):
+                return getattr(obj, attr, None)
+        return MockValidator()
+    
+    def get_unified_utility():
+        class MockUtility:
+            class Path:
+                def __init__(self, path):
+                    self.path = path
+                def mkdir(self, exist_ok=True):
+                    import os
+                    os.makedirs(self.path, exist_ok=exist_ok)
+        return MockUtility()
+    
+    from datetime import datetime
+    import json
+    from typing import Optional, Dict, Any
 
 
 class StructuredFormatter(logging.Formatter):
@@ -81,10 +109,11 @@ class V2Logger:
 
     def _setup_file_handler(self):
         """Setup file handler for persistent logging."""
-        log_dir = get_unified_utility().Path("logs")
-        log_dir.mkdir(exist_ok=True)
+        import os
+        log_dir = "logs"
+        os.makedirs(log_dir, exist_ok=True)
 
-        log_file = log_dir / f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log"
+        log_file = os.path.join(log_dir, f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log")
         file_handler = logging.FileHandler(log_file, encoding='utf-8')
         file_formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'

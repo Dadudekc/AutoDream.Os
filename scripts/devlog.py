@@ -95,7 +95,9 @@ class DevlogSystem:
     def _save_to_file(self, title: str, content: str, category: str):
         """Save devlog entry to file."""
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filename = f"{timestamp}_{category}_{title.replace(' ', '_')}.md"
+        # Replace problematic characters for Windows filenames
+        safe_title = title.replace(' ', '_').replace(':', '').replace('*', '').replace('?', '').replace('"', '').replace('<', '').replace('>', '').replace('|', '')
+        filename = f"{timestamp}_{category}_{safe_title}.md"
         filepath = self.devlog_dir / filename
 
         with open(filepath, 'w', encoding='utf-8') as f:

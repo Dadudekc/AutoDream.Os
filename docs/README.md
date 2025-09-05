@@ -43,8 +43,7 @@
 - `PYAUTOGUI_TEST_GUIDE.md` - **PyAutoGUI testing guide**
 
 ### **📋 Onboarding & Training**
-- `ONBOARDING_GUIDE.md` - **Agent onboarding guide**
-- `AGENT_ONBOARDING_COMPLETE_GUIDE.md` - **Complete onboarding process**
+- `onboarding/README.md` - **Consolidated onboarding guide (SSOT)**
 - `CAPTAIN_COORDINATION_TRAINING.md` - **Captain coordination training**
 
 ---
@@ -63,13 +62,11 @@ docs/
 │   ├── DISCORD_BOT_SETUP.md
 │   ├── DISCORD_COMMANDER_README.md
 │   ├── HOW_TO_RUN_DISCORD_GUI.md
-│   ├── ONBOARDING_GUIDE.md
 │   ├── PYAUTOGUI_TEST_GUIDE.md
 │   └── messaging_system_briefing.md
 ├── integration/
 │   └── coordination_integration_patterns.md
 ├── onboarding/
-│   ├── AGENT_ONBOARDING_COMPLETE_GUIDE.md
 │   └── README.md
 ├── reports/
 │   ├── AGENT_1_*_REPORT.md           # Agent-1 integration reports

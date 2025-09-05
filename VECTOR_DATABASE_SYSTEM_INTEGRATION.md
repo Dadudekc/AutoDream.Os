@@ -397,7 +397,7 @@ python -c "from src.core.agent_context_system import AgentContextSystem; print('
 
 ### Files to Update:
 1. **AGENTS.md** - Add vector database capabilities section
-2. **ONBOARDING_GUIDE.md** - Include vector database usage
+2. **docs/onboarding/README.md** - Include vector database usage
 3. **README.md** - Add vector database integration overview
 4. **docs/architecture/** - Add vector database architecture diagrams
 5. **docs/user_guides/** - Add vector database user guide

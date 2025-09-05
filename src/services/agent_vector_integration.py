@@ -15,6 +15,12 @@ License: MIT
 from typing import Optional, Dict, Any, List
 import logging
 
+from .agent_vector_utils import (
+    format_search_result,
+    generate_agent_recommendations,
+    generate_recommendations,
+)
+
 
 class AgentVectorIntegration:
     """
@@ -74,14 +80,14 @@ class AgentVectorIntegration:
 
             return {
                 "task_description": task_description,
-                "similar_tasks": [self._format_search_result(r) for r in similar_tasks],
+                "similar_tasks": [format_search_result(r) for r in similar_tasks],
                 "related_messages": [
-                    self._format_search_result(r) for r in related_messages
+                    format_search_result(r) for r in related_messages
                 ],
                 "devlog_insights": [
-                    self._format_search_result(r) for r in devlog_insights
+                    format_search_result(r) for r in devlog_insights
                 ],
-                "recommendations": self._generate_recommendations(similar_tasks),
+                "recommendations": generate_recommendations(similar_tasks),
                 "context_loaded": True,
             }
 
@@ -243,81 +249,18 @@ class AgentVectorIntegration:
                 "high_quality_work": high_similarity_work,
                 "work_quality_score": high_similarity_work / max(total_work, 1),
                 "recent_work": [
-                    self._format_search_result(w) for w in work_history[:3]
+                    format_search_result(w) for w in work_history[:3]
                 ],
                 "communication_patterns": [
-                    self._format_search_result(c) for c in comm_patterns
+                    format_search_result(c) for c in comm_patterns
                 ],
-                "recommendations": self._generate_agent_recommendations(work_history),
+                "recommendations": generate_agent_recommendations(work_history),
             }
 
         except Exception as e:
             self.get_logger(__name__).error(f"Error getting agent insights: {e}")
             return {"agent_id": self.agent_id, "error": str(e)}
 
-    def _format_search_result(self, result) -> Dict[str, Any]:
-        """Format search result for agent consumption."""
-        return {
-            "similarity": result.similarity_score,
-            "content": (
-                result.document.content[:150] + "..."
-                if len(result.document.content) > 150
-                else result.document.content
-            ),
-            "type": result.document.document_type.value,
-            "source": result.document.source_file,
-            "tags": result.document.tags,
-        }
-
-    def _generate_recommendations(self, similar_tasks) -> List[str]:
-        """Generate recommendations based on similar tasks."""
-        recommendations = []
-
-        if similar_tasks:
-            # Extract common patterns
-            tags = []
-            for task in similar_tasks:
-                if get_unified_validator().validate_hasattr(task, "document") and task.document.tags:
-                    tags.extend(task.document.tags)
-
-            if tags:
-
-                common_tags = Counter(tags).most_common(3)
-                for tag, count in common_tags:
-                    recommendations.append(
-                        f"Consider using {tag} approach (used in {count} similar tasks)"
-                    )
-
-        if not get_unified_validator().validate_required(recommendations):
-            recommendations.append(
-                "No specific patterns found - proceed with standard approach"
-            )
-
-        return recommendations
-
-    def _generate_agent_recommendations(self, work_history) -> List[str]:
-        """Generate agent-specific recommendations."""
-        recommendations = []
-
-        if work_history:
-            avg_similarity = sum(w.similarity_score for w in work_history) / len(
-                work_history
-            )
-
-            if avg_similarity > 0.8:
-                recommendations.append(
-                    "Excellent work quality - maintain current approach"
-                )
-            elif avg_similarity > 0.6:
-                recommendations.append(
-                    "Good work quality - consider improving consistency"
-                )
-            else:
-                recommendations.append(
-                    "Focus on improving work quality and consistency"
-                )
-
-        return recommendations
 
 
 def create_agent_vector_integration(agent_id: str) -> AgentVectorIntegration:

@@ -2,7 +2,7 @@
 """Find Python files exceeding line limits."""
 
 
-def find_large_python_files(directory="src", min_lines=300):
+def find_large_python_files(directory="src", min_lines=400):
     """Find Python files exceeding the specified line count."""
     large_files = []
     
@@ -21,10 +21,10 @@ def find_large_python_files(directory="src", min_lines=300):
     return sorted(large_files, key=lambda x: x[1], reverse=True)
 
 if __name__ == "__main__":
-    get_logger(__name__).info("Python files over 300 lines:")
+    get_logger(__name__).info("Python files over 400 lines:")
     large_files = find_large_python_files()
     
     for file_path, line_count in large_files[:15]:
         get_logger(__name__).info(f"{file_path}: {line_count} lines")
     
-    get_logger(__name__).info(f"\nTotal files over 300 lines: {len(large_files)}")
+    get_logger(__name__).info(f"\nTotal files over 400 lines: {len(large_files)}")

@@ -1,31 +1,41 @@
-#!/usr/bin/env python3
 """
-Pattern Analysis Engine - KISS Compliant
-========================================
+Pattern Analysis Engine - V2 Compliance Refactored
+=================================================
 
 Simple pattern analysis for analytics.
+Refactored into modular architecture for V2 compliance.
 
-Author: Agent-5 - Business Intelligence Specialist
+V2 Compliance: < 300 lines, single responsibility, modular design.
+
+Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import statistics
 import logging
 from typing import Dict, List, Any, Optional
 from datetime import datetime
-from collections import Counter
+
+# Import modular components
+from .pattern_analysis.pattern_extractor import PatternExtractor
+from .pattern_analysis.trend_analyzer import TrendAnalyzer
+from .pattern_analysis.anomaly_detector import AnomalyDetector
 
 logger = logging.getLogger(__name__)
 
+
 class PatternAnalysisEngine:
-    """Simple pattern analysis engine."""
+    """Simple pattern analysis engine - V2 compliant."""
     
     def __init__(self, config=None):
         """Initialize pattern analysis engine."""
         self.config = config or {}
         self.logger = logger
-        self.patterns = {}
         self.analysis_history = []
+        
+        # Initialize modular components
+        self.pattern_extractor = PatternExtractor()
+        self.trend_analyzer = TrendAnalyzer()
+        self.anomaly_detector = AnomalyDetector()
     
     def analyze_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Analyze patterns in data."""
@@ -33,10 +43,10 @@ class PatternAnalysisEngine:
             if not data:
                 return {"error": "No data provided"}
             
-            # Simple pattern analysis
-            patterns = self._extract_patterns(data)
-            trends = self._analyze_trends(data)
-            anomalies = self._detect_anomalies(data)
+            # Use modular components for analysis
+            patterns = self.pattern_extractor.extract_patterns(data)
+            trends = self.trend_analyzer.analyze_trends(data)
+            anomalies = self.anomaly_detector.detect_anomalies(data)
             
             analysis_result = {
                 "patterns": patterns,
@@ -48,120 +58,11 @@ class PatternAnalysisEngine:
             
             # Store in history
             self.analysis_history.append(analysis_result)
-            if len(self.analysis_history) > 100:  # Keep only last 100
-                self.analysis_history.pop(0)
             
-            self.logger.info(f"Pattern analysis completed: {len(patterns)} patterns found")
             return analysis_result
-            
         except Exception as e:
             self.logger.error(f"Error analyzing patterns: {e}")
             return {"error": str(e)}
-    
-    def _extract_patterns(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Extract patterns from data."""
-        try:
-            patterns = []
-            
-            # Simple pattern extraction
-            for item in data:
-                if isinstance(item, dict):
-                    for key, value in item.items():
-                        if isinstance(value, (int, float)):
-                            patterns.append({
-                                "field": key,
-                                "value": value,
-                                "type": "numeric"
-                            })
-                        elif isinstance(value, str):
-                            patterns.append({
-                                "field": key,
-                                "value": value,
-                                "type": "text"
-                            })
-            
-            return patterns[:10]  # Limit to 10 patterns
-        except Exception as e:
-            self.logger.error(f"Error extracting patterns: {e}")
-            return []
-    
-    def _analyze_trends(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Analyze trends in data."""
-        try:
-            if not data:
-                return {"trend": "no_data"}
-            
-            # Simple trend analysis
-            numeric_values = []
-            for item in data:
-                if isinstance(item, dict):
-                    for value in item.values():
-                        if isinstance(value, (int, float)):
-                            numeric_values.append(value)
-            
-            if not numeric_values:
-                return {"trend": "no_numeric_data"}
-            
-            # Calculate simple trend
-            if len(numeric_values) >= 2:
-                first_half = numeric_values[:len(numeric_values)//2]
-                second_half = numeric_values[len(numeric_values)//2:]
-                
-                first_avg = statistics.mean(first_half)
-                second_avg = statistics.mean(second_half)
-                
-                if second_avg > first_avg * 1.1:
-                    trend = "increasing"
-                elif second_avg < first_avg * 0.9:
-                    trend = "decreasing"
-                else:
-                    trend = "stable"
-            else:
-                trend = "insufficient_data"
-            
-            return {
-                "trend": trend,
-                "data_points": len(numeric_values),
-                "avg_value": round(statistics.mean(numeric_values), 3)
-            }
-        except Exception as e:
-            self.logger.error(f"Error analyzing trends: {e}")
-            return {"trend": "error"}
-    
-    def _detect_anomalies(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """Detect anomalies in data."""
-        try:
-            anomalies = []
-            
-            # Simple anomaly detection
-            numeric_values = []
-            for item in data:
-                if isinstance(item, dict):
-                    for value in item.values():
-                        if isinstance(value, (int, float)):
-                            numeric_values.append(value)
-            
-            if len(numeric_values) < 3:
-                return anomalies
-            
-            # Calculate mean and standard deviation
-            mean_val = statistics.mean(numeric_values)
-            stdev_val = statistics.stdev(numeric_values) if len(numeric_values) > 1 else 0
-            
-            # Find values that are more than 2 standard deviations from mean
-            threshold = 2 * stdev_val
-            for i, value in enumerate(numeric_values):
-                if abs(value - mean_val) > threshold:
-                    anomalies.append({
-                        "index": i,
-                        "value": value,
-                        "deviation": round(abs(value - mean_val), 3)
-                    })
-            
-            return anomalies[:5]  # Limit to 5 anomalies
-        except Exception as e:
-            self.logger.error(f"Error detecting anomalies: {e}")
-            return []
     
     def get_analysis_summary(self) -> Dict[str, Any]:
         """Get analysis summary."""
@@ -193,10 +94,26 @@ class PatternAnalysisEngine:
             "analyses_count": len(self.analysis_history),
             "timestamp": datetime.now().isoformat()
         }
+    
+    # Delegate methods to modular components
+    def extract_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Extract patterns from data."""
+        return self.pattern_extractor.extract_patterns(data)
+    
+    def analyze_trends(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyze trends in data."""
+        return self.trend_analyzer.analyze_trends(data)
+    
+    def detect_anomalies(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Detect anomalies in data."""
+        return self.anomaly_detector.detect_anomalies(data)
+    
+    def detect_outliers(self, values: List[float], method: str = "iqr") -> List[Dict[str, Any]]:
+        """Detect outliers using different methods."""
+        return self.anomaly_detector.detect_outliers(values, method)
+
 
 # Simple factory function
 def create_pattern_analysis_engine(config=None) -> PatternAnalysisEngine:
     """Create pattern analysis engine."""
     return PatternAnalysisEngine(config)
-
-__all__ = ["PatternAnalysisEngine", "create_pattern_analysis_engine"]

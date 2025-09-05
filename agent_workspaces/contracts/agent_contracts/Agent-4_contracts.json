@@ -10,5 +10,17 @@
     "tasks": [],
     "total_points": 0,
     "completed_points": 0
+  },
+  "contract_Agent-4_b0fe79ff": {
+    "contract_id": "contract_Agent-4_b0fe79ff",
+    "title": "Agent-4 Default Contract",
+    "description": "Default contract for Agent-4",
+    "agent_id": "Agent-4",
+    "created_at": "2025-09-05T15:54:07.616295",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
   }
 }

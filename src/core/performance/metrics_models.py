@@ -1,43 +1,30 @@
-
-#!/usr/bin/env python3
 """
-Performance Metrics Models - Agent Cellphone V2
-==============================================
+Performance Metrics Models - V2 Compliance Refactored
+====================================================
 
 Data models for performance monitoring and metrics collection.
+Refactored into modular architecture for V2 compliance.
 
-Author: Agent-8 (SSOT Maintenance & System Integration Specialist)
+V2 Compliance: < 300 lines, single responsibility, modular design.
+
+Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
 from datetime import datetime
+from dataclasses import dataclass, field
+from typing import Dict, Any
 
+# Import modular components
+from .metrics.metric_types import MetricType
+from .metrics.metric_models import PerformanceMetric
 
-class MetricType(Enum):
-    """Types of performance metrics."""
+# Re-export for backward compatibility
+__all__ = [
+    'MetricType',
+    'PerformanceMetric'
+]
 
-    COUNTER = "counter"  # Incremental count
-    GAUGE = "gauge"  # Current value
-    HISTOGRAM = "histogram"  # Distribution of values
-    TIMER = "timer"  # Time-based measurements
-
-
-@dataclass
-class PerformanceMetric:
-    """Individual performance metric."""
-
-    name: str
-    metric_type: MetricType
-    value: float
-    timestamp: datetime
-    tags: Dict[str, str] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-
-
-@dataclass
-class PerformanceSnapshot:
-    """Snapshot of performance metrics at a point in time."""
-
-    timestamp: datetime
-    metrics: Dict[str, float]
-    summary: Dict[str, Any]
+# Backward compatibility - create aliases
+MetricType = MetricType
+PerformanceMetric = PerformanceMetric

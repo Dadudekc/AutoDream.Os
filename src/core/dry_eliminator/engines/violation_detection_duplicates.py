@@ -41,7 +41,7 @@ class ViolationDetectionDuplicates:
                 violation_id = f"import_{hash(import_name) % 10000}"
                 violation = create_dry_violation(
                     violation_id=violation_id,
-                    violation_type=DRYViolationType.DUPLICATE_IMPORTS,
+                    violation_type=DRYViolationType.DUPLICATE_IMPORT,
                     severity=ViolationSeverity.LOW,
                     file_path=str(primary_location[0]),
                     line_number=primary_location[1],
@@ -67,7 +67,7 @@ class ViolationDetectionDuplicates:
                 violation_id = f"method_{hash(method_name) % 10000}"
                 violation = create_dry_violation(
                     violation_id=violation_id,
-                    violation_type=DRYViolationType.DUPLICATE_METHODS,
+                    violation_type=DRYViolationType.DUPLICATE_FUNCTION,
                     severity=ViolationSeverity.MEDIUM,
                     file_path=str(primary_location[0]),
                     line_number=primary_location[1],
@@ -93,7 +93,7 @@ class ViolationDetectionDuplicates:
                 violation_id = f"constant_{hash(constant_name) % 10000}"
                 violation = create_dry_violation(
                     violation_id=violation_id,
-                    violation_type=DRYViolationType.DUPLICATE_CONSTANTS,
+                    violation_type=DRYViolationType.DUPLICATE_CODE,
                     severity=ViolationSeverity.LOW,
                     file_path=str(primary_location[0]),
                     line_number=primary_location[1],
@@ -119,7 +119,7 @@ class ViolationDetectionDuplicates:
                 violation_id = f"block_{hash(primary_block['content']) % 10000}"
                 violation = create_dry_violation(
                     violation_id=violation_id,
-                    violation_type=DRYViolationType.DUPLICATE_CODE_BLOCKS,
+                    violation_type=DRYViolationType.DUPLICATE_CODE,
                     severity=ViolationSeverity.HIGH,
                     file_path=primary_block['file'],
                     line_number=primary_block['line'],

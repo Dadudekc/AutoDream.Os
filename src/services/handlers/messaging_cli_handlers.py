@@ -11,9 +11,7 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import asyncio
-import sys
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 from .overnight_handler import OvernightHandler
 from .utility_handler import UtilityHandler
@@ -61,7 +59,7 @@ class MessagingCLIHandlers:
     def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status."""
         return {
-            "overnight": self.overnight_handler.get_cycle_status(),
+            "overnight": self.overnight_handler.get_status(),
             "utility": self.utility_handler.get_utility_status(),
             "contract": self.contract_handler.get_contract_status(),
             "onboarding": self.onboarding_handler.get_onboarding_status(),
@@ -70,7 +68,6 @@ class MessagingCLIHandlers:
     
     def reset_all_handlers(self):
         """Reset all handlers to initial state."""
-        self.overnight_handler.reset_cycle()
         self.utility_handler.clear_history()
         self.contract_handler.reset_contracts()
         self.onboarding_handler.reset_onboarding()
@@ -79,11 +76,11 @@ class MessagingCLIHandlers:
     def get_handler_metrics(self) -> Dict[str, Any]:
         """Get metrics from all handlers."""
         return {
-            "overnight_cycles": self.overnight_handler.cycle_count,
+            "overnight_active": self.overnight_handler.is_running,
             "utility_agents": len(self.utility_handler.list_agents()),
             "contract_tasks": self.contract_handler.get_contract_metrics(),
             "onboarded_agents": len(self.onboarding_handler.get_onboarded_agents()),
-            "message_stats": self.message_handler.get_message_stats()
+            "message_stats": self.message_handler.get_message_stats(),
         }
 
 

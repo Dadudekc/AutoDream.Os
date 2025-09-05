@@ -14,7 +14,7 @@ License: MIT
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
 
 class OvernightHandler:
@@ -27,7 +27,6 @@ class OvernightHandler:
     def __init__(self):
         """Initialize overnight handler."""
         self.is_running = False
-        self.cycle_count = 0
     
     def handle_overnight_commands(self, args) -> bool:
         """Handle overnight autonomous system commands."""
@@ -37,51 +36,28 @@ class OvernightHandler:
                 print("⏰ Will send work cycle messages every 10 minutes")
                 print("🔄 Press Ctrl+C to stop the system")
                 print("-" * 60)
-                
-                # Run the overnight autonomous system
-                script_path = Path(__file__).parent.parent.parent.parent / "scripts" / "overnight_autonomous_system.py"
-                subprocess.run([sys.executable, str(script_path)])
+
+                self.is_running = True
+                script_path = (
+                    Path(__file__).parent.parent.parent.parent
+                    / "scripts"
+                    / "overnight_autonomous_system.py"
+                )
+                try:
+                    subprocess.run([sys.executable, str(script_path)], check=False)
+                finally:
+                    self.is_running = False
                 return True
-                
+
         except Exception as e:
             print(f"❌ Error with overnight system: {e}")
             return False
-        
+
         return False
     
-    def start_overnight_cycle(self) -> bool:
-        """Start overnight work cycle."""
-        try:
-            self.is_running = True
-            self.cycle_count = 0
-            print("🌙 Overnight cycle started")
-            return True
-        except Exception as e:
-            print(f"❌ Error starting overnight cycle: {e}")
-            return False
-    
-    def stop_overnight_cycle(self) -> bool:
-        """Stop overnight work cycle."""
-        try:
-            self.is_running = False
-            print("🌙 Overnight cycle stopped")
-            return True
-        except Exception as e:
-            print(f"❌ Error stopping overnight cycle: {e}")
-            return False
-    
-    def get_cycle_status(self) -> Dict[str, Any]:
-        """Get current cycle status."""
+    def get_status(self) -> Dict[str, Any]:
+        """Get current overnight system status."""
         return {
             "is_running": self.is_running,
-            "cycle_count": self.cycle_count,
             "status": "active" if self.is_running else "stopped"
         }
-    
-    def increment_cycle(self):
-        """Increment cycle count."""
-        self.cycle_count += 1
-    
-    def reset_cycle(self):
-        """Reset cycle count."""
-        self.cycle_count = 0

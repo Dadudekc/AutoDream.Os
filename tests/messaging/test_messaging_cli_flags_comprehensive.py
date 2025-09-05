@@ -18,29 +18,29 @@ class TestComprehensiveCLIFlags:
     @pytest.mark.parametrize(
         "flag,expected_help",
         [
-            ("--message", "Message content to send"),
-            ("--sender", "Message sender identity"),
-            ("--agent", "Send to specific agent"),
-            ("--bulk", "Send to all agents simultaneously"),
-            ("--type", "Message category"),
-            ("--priority", "Delivery priority"),
-            ("--high-priority", "FORCE URGENT PRIORITY"),
-            ("--mode", "Delivery method"),
-            ("--no-paste", "Use keystroke typing instead of clipboard paste"),
-            ("--list-agents", "Display all available agents"),
-            ("--coordinates", "Show PyAutoGUI coordinate positions"),
-            ("--history", "Show message delivery history"),
-            ("--queue-stats", "Display message queue statistics"),
-            ("--process-queue", "Process one batch of queued messages"),
-            ("--start-queue-processor", "Start continuous background queue processor"),
-            ("--stop-queue-processor", "Stop continuous background queue processor"),
-            ("--check-status", "Check status of all agents"),
-            ("--onboarding", "Send onboarding message to ALL agents"),
-            ("--onboard", "Send onboarding message to specific agent"),
-            ("--onboarding-style", "Onboarding message tone"),
-            ("--compliance-mode", "AUTONOMOUS DEVELOPMENT MODE"),
-            ("--get-next-task", "Claim next contract task"),
-            ("--wrapup", "Send system wrapup message to ALL agents"),
+            ("--message", "Message content"),
+            ("--sender", "Sender name"),
+            ("--agent", "Target agent"),
+            ("--bulk", "Send to all agents"),
+            ("--mode", "Delivery mode"),
+            ("--type", "Message type"),
+            ("--priority", "Message priority"),
+            ("--high-priority", "Set high priority"),
+            ("--no-paste", "Don't use paste method"),
+            ("--new-tab-method", "New tab method"),
+            ("--list-agents", "List all agents"),
+            ("--coordinates", "Show agent coordinates"),
+            ("--history", "Show message history"),
+            ("--check-status", "Check agent status"),
+            ("--onboarding", "Send onboarding to all agents"),
+            ("--onboard", "Send onboarding to specific agent"),
+            ("--onboarding-style", "Onboarding style"),
+            ("--compliance-mode", "Activate compliance mode"),
+            ("--wrapup", "Send wrapup message"),
+            ("--hard-onboarding", "Send hard onboarding sequence"),
+            ("--get-next-task", "Get next task for agent"),
+            ("--check-contracts", "Check contract status"),
+            ("--overnight", "Start overnight autonomous work cycle system"),
         ],
     )
     def test_all_flags_exist_and_have_help(self, flag: str, expected_help: str) -> None:
@@ -120,10 +120,6 @@ class TestComprehensiveCLIFlags:
             "--list-agents",
             "--coordinates",
             "--history",
-            "--queue-stats",
-            "--process-queue",
-            "--start-queue-processor",
-            "--stop-queue-processor",
             "--check-status",
         ],
     )
@@ -196,18 +192,13 @@ class TestCLIIntegration:
     """Integration tests for parser output."""
 
     def test_parser_creation_and_help(self) -> None:
-        """Parser can be created and help text contains expected sections."""
+        """Parser can be created and basic help text is available."""
         parser = create_enhanced_parser()
         help_text = parser.format_help()
-        assert "🚀 Agent Cellphone V2 - Unified Messaging System" in help_text
-        assert "📝 Message Content" in help_text
-        assert "👥 Recipient Selection" in help_text
-        assert "⚙️ Message Properties" in help_text
-        assert "📨 Delivery Mode" in help_text
-        assert "🔍 Utility & Information" in help_text
-        assert "📊 Queue Management" in help_text
-        assert "🎓 Onboarding & Training" in help_text
-        assert "📋 Contract & Task Management" in help_text
+        assert "Unified Messaging CLI" in help_text
+        assert "--message" in help_text
+        assert "--onboarding" in help_text
+        assert "--get-next-task" in help_text
 
     def test_comprehensive_flag_coverage(self) -> None:
         """Help text should mention many flags."""

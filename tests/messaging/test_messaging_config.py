@@ -9,7 +9,7 @@ V2 Compliance: SSOT implementation and centralized configuration.
 Author: Agent-6 (Gaming & Entertainment Specialist)
 """
 
-
+from src.services.utils.agent_registry import AGENTS, list_agents
 
 
 class TestMessagingConfiguration:
@@ -29,7 +29,7 @@ class TestMessagingConfiguration:
         config = MessagingConfiguration()
 
         # Check that all expected agents are present
-        expected_agents = ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4', 'Agent-5', 'Agent-6', 'Agent-7', 'Agent-8']
+        expected_agents = list_agents()
         for agent in expected_agents:
             assert agent in config.agents
             assert 'description' in config.agents[agent]
@@ -40,7 +40,7 @@ class TestMessagingConfiguration:
         config = MessagingConfiguration()
 
         # Check that inbox paths are configured for all agents
-        expected_agents = ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4', 'Agent-5', 'Agent-6', 'Agent-7', 'Agent-8']
+        expected_agents = list_agents()
         for agent in expected_agents:
             expected_path = f"agent_workspaces/{agent}/inbox"
             assert config.inbox_paths[agent] == expected_path
@@ -126,16 +126,7 @@ class TestMessagingConfiguration:
         """Test that agent descriptions are accurate."""
         config = MessagingConfiguration()
 
-        expected_descriptions = {
-            'Agent-1': 'Integration & Core Systems Specialist',
-            'Agent-2': 'Architecture & Design Specialist',
-            'Agent-3': 'Infrastructure & DevOps Specialist',
-            'Agent-4': 'Quality Assurance Specialist (CAPTAIN)',
-            'Agent-5': 'Business Intelligence Specialist',
-            'Agent-6': 'Gaming & Entertainment Specialist',
-            'Agent-7': 'Web Development Specialist',
-            'Agent-8': 'Integration & Performance Specialist'
-        }
+        expected_descriptions = {agent: info['description'] for agent, info in AGENTS.items()}
 
         for agent, expected_desc in expected_descriptions.items():
             assert config.agents[agent]['description'] == expected_desc

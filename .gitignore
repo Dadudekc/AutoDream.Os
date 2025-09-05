@@ -17,7 +17,7 @@ config/devlog_config.json
 **/credentials/
 
 # Python
-__pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so

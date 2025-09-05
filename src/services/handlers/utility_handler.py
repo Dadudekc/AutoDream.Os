@@ -13,6 +13,8 @@ License: MIT
 
 from typing import Any, Dict, List, Optional
 
+from ..agent_registry import COORDINATES
+
 
 class UtilityHandler:
     """
@@ -24,7 +26,6 @@ class UtilityHandler:
     def __init__(self):
         """Initialize utility handler."""
         self.agent_list = []
-        self.coordinates = {}
         self.history = []
     
     def handle_utility_commands(self, args) -> bool:
@@ -46,7 +47,9 @@ class UtilityHandler:
             if args.coordinates:
                 print("Agent Coordinates:")
                 print("=" * 40)
-                print("Agent coordinates loaded from configuration")
+                for agent_id, coords in COORDINATES.items():
+                    x, y = coords["x"], coords["y"]
+                    print(f"{agent_id}: ({x}, {y})")
                 print("Use --agent to send messages to specific agents")
                 return True
                 
@@ -77,16 +80,7 @@ class UtilityHandler:
     
     def get_coordinates(self) -> Dict[str, Any]:
         """Get agent coordinates."""
-        return {
-            "Agent-1": {"x": -100, "y": 1000},
-            "Agent-2": {"x": -200, "y": 1000},
-            "Agent-3": {"x": -300, "y": 1000},
-            "Agent-4": {"x": -400, "y": 1000},
-            "Agent-5": {"x": -500, "y": 1000},
-            "Agent-6": {"x": -600, "y": 1000},
-            "Agent-7": {"x": -700, "y": 1000},
-            "Agent-8": {"x": -800, "y": 1000}
-        }
+        return COORDINATES
     
     def get_history(self) -> List[Dict[str, Any]]:
         """Get message history."""

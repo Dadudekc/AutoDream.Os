@@ -13,7 +13,7 @@ License: MIT
 
 from typing import Any, Dict, List, Optional
 
-from ..agent_registry import COORDINATES
+from ..utils.agent_registry import AGENTS, list_agents
 
 
 class UtilityHandler:
@@ -34,20 +34,16 @@ class UtilityHandler:
             if args.list_agents:
                 print("Available Agents:")
                 print("=" * 40)
-                print("Agent-1: Integration & Core Systems")
-                print("Agent-2: Architecture & Design")
-                print("Agent-3: Infrastructure & DevOps")
-                print("Agent-4: Strategic Oversight & Emergency Intervention")
-                print("Agent-5: Business Intelligence")
-                print("Agent-6: Coordination & Communication")
-                print("Agent-7: Web Development")
-                print("Agent-8: SSOT & System Integration")
+                for agent_id in list_agents():
+                    desc = AGENTS[agent_id]["description"]
+                    print(f"{agent_id}: {desc}")
                 return True
                 
             if args.coordinates:
                 print("Agent Coordinates:")
                 print("=" * 40)
-                for agent_id, coords in COORDINATES.items():
+                for agent_id in list_agents():
+                    coords = AGENTS[agent_id]["coords"]
                     x, y = coords["x"], coords["y"]
                     print(f"{agent_id}: ({x}, {y})")
                 print("Use --agent to send messages to specific agents")
@@ -68,19 +64,12 @@ class UtilityHandler:
     def list_agents(self) -> List[str]:
         """Get list of available agents."""
         return [
-            "Agent-1: Integration & Core Systems",
-            "Agent-2: Architecture & Design", 
-            "Agent-3: Infrastructure & DevOps",
-            "Agent-4: Strategic Oversight & Emergency Intervention",
-            "Agent-5: Business Intelligence",
-            "Agent-6: Coordination & Communication",
-            "Agent-7: Web Development",
-            "Agent-8: SSOT & System Integration"
+            f"{agent_id}: {AGENTS[agent_id]['description']}" for agent_id in list_agents()
         ]
     
     def get_coordinates(self) -> Dict[str, Any]:
         """Get agent coordinates."""
-        return COORDINATES
+        return {agent_id: info["coords"] for agent_id, info in AGENTS.items()}
     
     def get_history(self) -> List[Dict[str, Any]]:
         """Get message history."""

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-Vector Database Models - Agent Cellphone V2
-==========================================
+Vector Database Models - KISS Simplified
+========================================
 
-Data models for vector database operations including documents, searches, and configurations.
+Simplified data models for vector database operations.
+KISS PRINCIPLE: Keep It Simple, Stupid - streamlined vector models.
 
-Author: Agent-7 (Web Development Specialist)
+Author: Agent-8 (SSOT & System Integration Specialist) - KISS Simplification
+Original: Agent-7 - Web Development Specialist
 License: MIT
 """
 
@@ -18,7 +20,6 @@ import uuid
 
 class DocumentType(Enum):
     """Types of documents that can be stored in the vector database."""
-
     MESSAGE = "message"
     DEVLOG = "devlog"
     CONTRACT = "contract"
@@ -31,7 +32,6 @@ class DocumentType(Enum):
 
 class SearchType(Enum):
     """Types of search operations."""
-
     SIMILARITY = "similarity"
     SEMANTIC = "semantic"
     KEYWORD = "keyword"
@@ -42,283 +42,194 @@ class SearchType(Enum):
 
 class EmbeddingModel(Enum):
     """Supported embedding models."""
-
     SENTENCE_TRANSFORMERS = "sentence-transformers"
     OPENAI = "openai"
     OPENAI_ADA = "openai-ada-002"
     OPENAI_3_SMALL = "text-embedding-3-small"
     OPENAI_3_LARGE = "text-embedding-3-large"
-    HUGGINGFACE = "huggingface"
+
+
+class VectorDatabaseType(Enum):
+    """Types of vector databases."""
+    CHROMA = "chroma"
+    PINECONE = "pinecone"
+    WEAVIATE = "weaviate"
+    QDRANT = "qdrant"
+    SIMPLE = "simple"
 
 
 @dataclass
 class VectorDocument:
-    """Document model for vector database storage."""
-
+    """Simplified vector document model."""
+    id: str
     content: str
-    document_type: DocumentType
-    id: str = ""
     metadata: Dict[str, Any] = field(default_factory=dict)
-    embedding: Optional[List[float]] = None
+    document_type: DocumentType = DocumentType.MESSAGE
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
-    timestamp: datetime = field(
-        default_factory=datetime.now
-    )  # Alias for created_at for backward compatibility
-    source: Optional[str] = None
-    agent_id: Optional[str] = None
-    tags: List[str] = field(default_factory=list)
-    source_file: Optional[str] = None  # For file-based documents
-
-    def __post_init__(self):
-        """Initialize default values after object creation."""
-        if not self.id:
-            self.id = f"doc_{self.created_at.strftime('%Y%m%d_%H%M%S')}_{str(uuid.uuid4())[:8]}"
-
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "VectorDocument":
-        """Create VectorDocument from dictionary."""
-        return cls(
-            id=data.get("id", ""),
-            content=data["content"],
-            document_type=DocumentType(data["document_type"]),
-            metadata=data.get("metadata", {}),
-            embedding=data.get("embedding"),
-            created_at=(
-                datetime.fromisoformat(data["created_at"])
-                if get_unified_validator().validate_type(data.get("created_at"), str)
-                else data.get("created_at", datetime.now())
-            ),
-            updated_at=(
-                datetime.fromisoformat(data["updated_at"])
-                if get_unified_validator().validate_type(data.get("updated_at"), str)
-                else data.get("updated_at", datetime.now())
-            ),
-            timestamp=(
-                datetime.fromisoformat(data["timestamp"])
-                if get_unified_validator().validate_type(data.get("timestamp"), str)
-                else data.get("timestamp", datetime.now())
-            ),
-            source=data.get("source"),
-            agent_id=data.get("agent_id"),
-            tags=data.get("tags", []),
-            source_file=data.get("source_file"),
-        )
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert VectorDocument to dictionary."""
-        return {
-            "id": self.id,
-            "content": self.content,
-            "document_type": self.document_type.value,
-            "metadata": self.metadata,
-            "embedding": self.embedding,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
-            "source": self.source,
-            "agent_id": self.agent_id,
-            "tags": self.tags,
-            "source_file": self.source_file,
-        }
+    embedding: Optional[List[float]] = None
+    vector_id: Optional[str] = None
 
 
 @dataclass
 class SearchQuery:
-    """Search query model for vector database operations."""
-
-    query_text: str
+    """Simplified search query model."""
+    query: str
     search_type: SearchType = SearchType.SIMILARITY
     limit: int = 10
-    threshold: float = 0.7
     filters: Dict[str, Any] = field(default_factory=dict)
-    document_types: List[DocumentType] = field(default_factory=list)
-    agent_ids: List[str] = field(default_factory=list)
-    agent_id: Optional[str] = None  # Single agent filter for backward compatibility
-    document_type: Optional[DocumentType] = (
-        None  # Single document type filter for backward compatibility
-    )
-    tags: List[str] = field(default_factory=list)
-    date_range: Optional[Dict[str, datetime]] = None
-    similarity_threshold: float = 0.7  # Alias for threshold for backward compatibility
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert SearchQuery to dictionary."""
-        return {
-            "query_text": self.query_text,
-            "search_type": self.search_type.value,
-            "limit": self.limit,
-            "threshold": self.threshold,
-            "filters": self.filters,
-            "document_types": [dt.value for dt in self.document_types],
-            "agent_ids": self.agent_ids,
-            "agent_id": self.agent_id,
-            "document_type": self.document_type.value if self.document_type else None,
-            "tags": self.tags,
-            "date_range": (
-                {
-                    k: v.isoformat() if v else None
-                    for k, v in (self.date_range or {}).items()
-                }
-                if self.date_range
-                else None
-            ),
-            "similarity_threshold": self.similarity_threshold,
-        }
+    threshold: float = 0.0
 
 
 @dataclass
 class SearchResult:
-    """Search result model for vector database queries."""
-
+    """Simplified search result model."""
     document: VectorDocument
-    similarity_score: float
-    rank: int
-    matched_content: Optional[str] = None
-    highlights: List[str] = field(default_factory=list)
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert SearchResult to dictionary."""
-        return {
-            "document": self.document.to_dict(),
-            "similarity_score": self.similarity_score,
-            "rank": self.rank,
-            "matched_content": self.matched_content,
-            "highlights": self.highlights,
-        }
-
-
-@dataclass
-class CollectionConfig:
-    """Configuration for a vector database collection."""
-
-    name: str
-    description: str = ""
-    embedding_model: EmbeddingModel = EmbeddingModel.SENTENCE_TRANSFORMERS
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    similarity_threshold: float = 0.7
-    max_results: int = 50
-    distance_metric: str = "cosine"  # Distance metric for similarity search
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert CollectionConfig to dictionary."""
-        return {
-            "name": self.name,
-            "description": self.description,
-            "embedding_model": self.embedding_model.value,
-            "metadata": self.metadata,
-            "similarity_threshold": self.similarity_threshold,
-            "max_results": self.max_results,
-            "distance_metric": self.distance_metric,
-        }
+    score: float
+    distance: float = 0.0
 
 
 @dataclass
 class VectorDatabaseConfig:
-    """Configuration model for vector database operations."""
-
-    collection_name: str = "agent_documents"
-    default_collection: str = "agent_documents"  # Alias for backward compatibility
+    """Simplified vector database configuration."""
+    db_type: VectorDatabaseType = VectorDatabaseType.CHROMA
+    collection_name: str = "default"
     embedding_model: EmbeddingModel = EmbeddingModel.SENTENCE_TRANSFORMERS
-    embedding_model_name: str = "all-MiniLM-L6-v2"
-    chunk_size: int = 1000
-    chunk_overlap: int = 200
-    persist_directory: str = "vector_db"
-    similarity_threshold: float = 0.7
-    max_results: int = 50
-    auto_index: bool = True
-    batch_size: int = 100
-
-    # OpenAI specific settings
-    openai_api_key: Optional[str] = None
-    openai_model: str = "text-embedding-ada-002"
-
-    # ChromaDB specific settings
-    chroma_host: str = "localhost"
-    chroma_port: int = 8000
-    chroma_ssl: bool = False
+    persist_directory: str = "./vector_db"
+    api_key: Optional[str] = None
+    host: str = "localhost"
+    port: int = 8000
+    dimension: int = 384
+    distance_metric: str = "cosine"
 
 
 @dataclass
-class IndexingStats:
-    """Statistics for indexing operations."""
-
+class VectorDatabaseMetrics:
+    """Simplified vector database metrics."""
     total_documents: int = 0
-    indexed_documents: int = 0
-    failed_documents: int = 0
-    processing_time: float = 0.0
-    average_embedding_time: float = 0.0
-    collection_size: int = 0
-    last_indexed: Optional[datetime] = None
-
-    @property
-    def success_rate(self) -> float:
-        """Calculate success rate of indexing."""
-        if self.total_documents == 0:
-            return 0.0
-        return self.indexed_documents / self.total_documents
-
-
-@dataclass
-class VectorDatabaseStats:
-    """Statistics for vector database operations."""
-
     total_collections: int = 0
-    total_documents: int = 0
-    total_embeddings: int = 0
-    storage_size: int = 0
-    last_updated: Optional[datetime] = field(default_factory=datetime.now)
-    indexing_stats: IndexingStats = field(default_factory=IndexingStats)
-    collections: List[str] = field(default_factory=list)  # List of collection names
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert stats to dictionary for serialization."""
-        return {
-            "total_collections": self.total_collections,
-            "total_documents": self.total_documents,
-            "total_embeddings": self.total_embeddings,
-            "storage_size": self.storage_size,
-            "last_updated": (
-                self.last_updated.isoformat() if self.last_updated else None
-            ),
-            "collections": {
-                name: count
-                for name, count in zip(
-                    self.collections,
-                    [self.total_documents // max(1, len(self.collections))]
-                    * len(self.collections),
-                )
-            },
-            "indexing_stats": {
-                "total_documents": self.indexing_stats.total_documents,
-                "indexed_documents": self.indexing_stats.indexed_documents,
-                "failed_documents": self.indexing_stats.failed_documents,
-                "success_rate": self.indexing_stats.success_rate,
-                "processing_time": self.indexing_stats.processing_time,
-                "last_indexed": (
-                    self.indexing_stats.last_indexed.isoformat()
-                    if self.indexing_stats.last_indexed
-                    else None
-                ),
-            },
-        }
+    total_searches: int = 0
+    avg_search_time: float = 0.0
+    last_updated: datetime = field(default_factory=datetime.now)
 
 
 @dataclass
-class EmbeddingRequest:
-    """Request for generating embeddings."""
-
-    texts: List[str]
-    model: EmbeddingModel = EmbeddingModel.SENTENCE_TRANSFORMERS
-    metadata: Optional[Dict[str, Any]] = None
+class CollectionInfo:
+    """Simplified collection information."""
+    name: str
+    document_count: int = 0
+    created_at: datetime = field(default_factory=datetime.now)
+    last_updated: datetime = field(default_factory=datetime.now)
+    metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
-class EmbeddingResponse:
-    """Response containing generated embeddings."""
+class EmbeddingConfig:
+    """Simplified embedding configuration."""
+    model_name: str = "all-MiniLM-L6-v2"
+    model_type: EmbeddingModel = EmbeddingModel.SENTENCE_TRANSFORMERS
+    dimension: int = 384
+    batch_size: int = 100
+    max_length: int = 512
 
-    embeddings: List[List[float]]
-    model: EmbeddingModel
-    processing_time: float
-    metadata: Optional[Dict[str, Any]] = None
 
+@dataclass
+class VectorSearchConfig:
+    """Simplified vector search configuration."""
+    search_type: SearchType = SearchType.SIMILARITY
+    limit: int = 10
+    threshold: float = 0.0
+    filters: Dict[str, Any] = field(default_factory=dict)
+    include_metadata: bool = True
+
+
+@dataclass
+class VectorDatabaseStatus:
+    """Simplified vector database status."""
+    is_connected: bool = False
+    is_initialized: bool = False
+    last_health_check: datetime = field(default_factory=datetime.now)
+    error_message: Optional[str] = None
+    metrics: VectorDatabaseMetrics = field(default_factory=VectorDatabaseMetrics)
+
+
+@dataclass
+class DocumentBatch:
+    """Simplified document batch for bulk operations."""
+    documents: List[VectorDocument]
+    batch_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = field(default_factory=datetime.now)
+    status: str = "pending"
+
+
+@dataclass
+class VectorDatabaseError:
+    """Simplified vector database error."""
+    error_code: str
+    error_message: str
+    timestamp: datetime = field(default_factory=datetime.now)
+    context: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class VectorDatabaseHealth:
+    """Simplified vector database health check."""
+    is_healthy: bool = False
+    response_time: float = 0.0
+    last_check: datetime = field(default_factory=datetime.now)
+    issues: List[str] = field(default_factory=list)
+    metrics: VectorDatabaseMetrics = field(default_factory=VectorDatabaseMetrics)
+
+
+@dataclass
+class VectorDatabaseBackup:
+    """Simplified vector database backup."""
+    backup_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = field(default_factory=datetime.now)
+    collection_name: str = "default"
+    document_count: int = 0
+    backup_path: str = ""
+    status: str = "pending"
+
+
+@dataclass
+class VectorDatabaseRestore:
+    """Simplified vector database restore."""
+    restore_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = field(default_factory=datetime.now)
+    backup_id: str = ""
+    collection_name: str = "default"
+    status: str = "pending"
+
+
+@dataclass
+class VectorDatabaseMigration:
+    """Simplified vector database migration."""
+    migration_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = field(default_factory=datetime.now)
+    source_type: VectorDatabaseType = VectorDatabaseType.CHROMA
+    target_type: VectorDatabaseType = VectorDatabaseType.CHROMA
+    status: str = "pending"
+    progress: float = 0.0
+
+
+@dataclass
+class VectorDatabaseSync:
+    """Simplified vector database synchronization."""
+    sync_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    created_at: datetime = field(default_factory=datetime.now)
+    source_collection: str = "default"
+    target_collection: str = "default"
+    status: str = "pending"
+    last_sync: Optional[datetime] = None
+
+
+@dataclass
+class VectorDatabaseIndex:
+    """Simplified vector database index."""
+    index_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    collection_name: str = "default"
+    index_type: str = "vector"
+    created_at: datetime = field(default_factory=datetime.now)
+    status: str = "active"
+    metadata: Dict[str, Any] = field(default_factory=dict)

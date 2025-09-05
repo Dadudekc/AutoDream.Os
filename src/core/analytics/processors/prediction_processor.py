@@ -1,174 +1,128 @@
+#!/usr/bin/env python3
 """
-Prediction Processor - V2 Compliant Module
-=========================================
+Prediction Processor - KISS Compliant
+=====================================
 
-Main prediction processor that coordinates all prediction components.
-Refactored from monolithic prediction_processor.py for V2 compliance.
+Simple prediction processor.
 
-V2 Compliance: < 300 lines, single responsibility.
-
-Author: Agent-7 - Web Development Specialist
+Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-import time
 import logging
-from typing import Any, Dict, Optional
-from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+from datetime import datetime
 
-from ...vector_analytics_models import (
-    PredictionResult, create_prediction_result, validate_prediction_result
-)
-from .prediction_validator import PredictionValidator
-from .prediction_calculator import PredictionCalculator
-from .prediction_analyzer import PredictionAnalyzer
-
+logger = logging.getLogger(__name__)
 
 class PredictionProcessor:
-    """
-    Main prediction generation and analysis processing engine.
+    """Simple prediction processor."""
     
-    Coordinates validation, calculation, and analysis components.
-    """
-    
-    def __init__(self, config):
+    def __init__(self, config=None):
         """Initialize prediction processor."""
-        self.config = config
-        self.logger = logging.getLogger(__name__)
+        self.config = config or {}
+        self.logger = logger
         
-        # Initialize components
-        self.validator = PredictionValidator(config)
-        self.calculator = PredictionCalculator(config)
-        self.analyzer = PredictionAnalyzer(config)
-        
-        # Processing statistics
-        self.processing_stats = {
+        # Simple processing state
+        self.stats = {
             'predictions_generated': 0,
             'validation_errors': 0,
-            'processing_errors': 0,
-            'average_processing_time': 0.0
+            'processing_errors': 0
         }
     
-    def generate_prediction(self, data: Dict[str, Any]) -> Optional[PredictionResult]:
-        """Generate prediction from input data."""
-        start_time = time.time()
-        
+    def process_prediction(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Process prediction data."""
         try:
-            # Validate input data
-            if not self.validator.validate_input_data(data):
-                self._record_validation_error("Input data validation failed")
-                return None
+            self.stats['predictions_generated'] += 1
             
-            # Generate prediction ID
-            prediction_id = self.calculator.generate_prediction_id()
+            # Simple prediction processing
+            prediction = {
+                'prediction_id': f"pred_{datetime.now().timestamp()}",
+                'predicted_value': data.get('value', 0),
+                'confidence': data.get('confidence', 0.8),
+                'timestamp': datetime.now().isoformat(),
+                'metadata': data.get('metadata', {})
+            }
             
-            # Calculate predicted value
-            predicted_value = self.calculator.calculate_predicted_value(data)
-            
-            # Calculate confidence
-            confidence = self.calculator.calculate_confidence(data)
-            
-            # Calculate expiration time
-            expires_at = self.calculator.calculate_expiration_time(data)
-            
-            # Generate metadata
-            metadata = self.calculator.generate_metadata(data)
-            
-            # Create prediction result
-            prediction = create_prediction_result(
-                prediction_id=prediction_id,
-                prediction_type=data.get('type', 'general'),
-                predicted_value=predicted_value,
-                confidence=confidence,
-                expires_at=expires_at,
-                metadata=metadata
-            )
-            
-            # Validate prediction result
-            if not self.validator.validate_prediction_result(prediction):
-                self._record_validation_error("Prediction result validation failed")
-                return None
-            
-            # Apply post-processing
-            prediction = self.analyzer.apply_post_processing(prediction)
-            
-            # Update statistics
-            processing_time = time.time() - start_time
-            self._update_processing_stats(processing_time, True)
-            
-            self.logger.info(f"Prediction generated: {prediction_id}")
-            return prediction
-            
+            # Validate prediction
+            if self._validate_prediction(prediction):
+                self.logger.info(f"Processed prediction: {prediction['prediction_id']}")
+                return prediction
+            else:
+                self.stats['validation_errors'] += 1
+                return {"error": "validation_failed", "prediction_id": prediction['prediction_id']}
+                
         except Exception as e:
-            self.logger.error(f"Error generating prediction: {e}")
-            self._record_processing_error(str(e))
-            processing_time = time.time() - start_time
-            self._update_processing_stats(processing_time, False)
-            return None
+            self.stats['processing_errors'] += 1
+            self.logger.error(f"Error processing prediction: {e}")
+            return {"error": str(e)}
     
-    def analyze_prediction(self, prediction: PredictionResult) -> Dict[str, Any]:
-        """Analyze prediction result."""
-        return self.analyzer.analyze_prediction(prediction)
+    def _validate_prediction(self, prediction: Dict[str, Any]) -> bool:
+        """Validate prediction data."""
+        try:
+            # Simple validation
+            required_fields = ['prediction_id', 'predicted_value', 'confidence']
+            for field in required_fields:
+                if field not in prediction:
+                    return False
+            
+            # Validate confidence
+            confidence = prediction.get('confidence', 0)
+            if not isinstance(confidence, (int, float)) or confidence < 0 or confidence > 1:
+                return False
+            
+            return True
+        except Exception as e:
+            self.logger.error(f"Error validating prediction: {e}")
+            return False
     
-    def get_prediction_summary(self, prediction: PredictionResult) -> Dict[str, Any]:
-        """Get summary information for a prediction."""
-        return self.analyzer.get_prediction_summary(prediction)
-    
-    def validate_prediction_data(self, data: Dict[str, Any]) -> bool:
-        """Validate prediction data without processing."""
-        return self.validator.validate_prediction_data(data)
+    def batch_process_predictions(self, predictions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Process multiple predictions in batch."""
+        try:
+            results = []
+            for prediction in predictions:
+                result = self.process_prediction(prediction)
+                results.append(result)
+            
+            self.logger.info(f"Batch processed {len(predictions)} predictions")
+            return results
+        except Exception as e:
+            self.logger.error(f"Error in batch processing: {e}")
+            return []
     
     def get_processing_stats(self) -> Dict[str, Any]:
-        """Get comprehensive processing statistics."""
-        stats = self.processing_stats.copy()
+        """Get processing statistics."""
+        total = self.stats['predictions_generated']
+        success_rate = ((total - self.stats['validation_errors'] - self.stats['processing_errors']) / total * 100) if total > 0 else 0
         
-        # Add component statistics
-        stats['validator_stats'] = self.validator.get_validation_stats()
-        stats['calculator_stats'] = self.calculator.get_calculation_stats()
-        stats['analyzer_stats'] = self.analyzer.get_analysis_stats()
-        
-        return stats
+        return {
+            "predictions_generated": total,
+            "validation_errors": self.stats['validation_errors'],
+            "processing_errors": self.stats['processing_errors'],
+            "success_rate": success_rate,
+            "timestamp": datetime.now().isoformat()
+        }
     
-    def reset_stats(self):
-        """Reset all processing statistics."""
-        self.processing_stats = {
+    def reset_stats(self) -> None:
+        """Reset processing statistics."""
+        self.stats = {
             'predictions_generated': 0,
             'validation_errors': 0,
-            'processing_errors': 0,
-            'average_processing_time': 0.0
+            'processing_errors': 0
         }
-        
-        # Reset component statistics
-        self.validator.reset_validation_stats()
-        self.calculator.reset_calculation_stats()
-        self.analyzer.reset_analysis_stats()
-        
-        self.logger.info("Prediction processor statistics reset")
+        self.logger.info("Processing statistics reset")
     
-    def _record_validation_error(self, error_message: str):
-        """Record validation error."""
-        self.processing_stats['validation_errors'] += 1
-        self.logger.warning(f"Validation error: {error_message}")
-    
-    def _record_processing_error(self, error_message: str):
-        """Record processing error."""
-        self.processing_stats['processing_errors'] += 1
-        self.logger.error(f"Processing error: {error_message}")
-    
-    def _update_processing_stats(self, processing_time: float, success: bool):
-        """Update processing statistics."""
-        if success:
-            self.processing_stats['predictions_generated'] += 1
-            
-            # Update average processing time
-            if self.processing_stats['average_processing_time'] == 0:
-                self.processing_stats['average_processing_time'] = processing_time
-            else:
-                # Exponential moving average
-                alpha = 0.1
-                self.processing_stats['average_processing_time'] = (
-                    alpha * processing_time + 
-                    (1 - alpha) * self.processing_stats['average_processing_time']
-                )
-        else:
-            self.processing_stats['processing_errors'] += 1
+    def get_status(self) -> Dict[str, Any]:
+        """Get processor status."""
+        return {
+            "active": True,
+            "stats": self.get_processing_stats(),
+            "timestamp": datetime.now().isoformat()
+        }
+
+# Simple factory function
+def create_prediction_processor(config=None) -> PredictionProcessor:
+    """Create prediction processor."""
+    return PredictionProcessor(config)
+
+__all__ = ["PredictionProcessor", "create_prediction_processor"]

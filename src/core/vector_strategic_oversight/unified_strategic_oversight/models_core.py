@@ -1,33 +1,33 @@
-#!/usr/bin/env python3
 """
-Strategic Oversight Models Core - V2 Compliance Module
-=====================================================
+Strategic Oversight Core Models
+===============================
 
-Core data models for vector strategic oversight operations.
+Core data structures and enums for strategic oversight operations.
+V2 Compliance: < 150 lines, single responsibility, core data modeling.
 
-Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
-License: MIT
+Author: Agent-2 - Architecture & Design Specialist
+Mission: V2 Compliance Refactoring
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Any, Optional
 from datetime import datetime
 from enum import Enum
 import uuid
 
 
 class InsightType(Enum):
-    """Insight types."""
+    """Insight type."""
     PERFORMANCE = "performance"
     COORDINATION = "coordination"
     EFFICIENCY = "efficiency"
-    RISK = "risk"
-    OPPORTUNITY = "opportunity"
-    EMERGENCY = "emergency"
+    RESOURCE = "resource"
+    TIMING = "timing"
+    PATTERN = "pattern"
 
 
 class ConfidenceLevel(Enum):
-    """Confidence levels."""
+    """Confidence level."""
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -35,8 +35,7 @@ class ConfidenceLevel(Enum):
 
 
 class ImpactLevel(Enum):
-    """Impact levels."""
-    MINIMAL = "minimal"
+    """Impact level."""
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -44,143 +43,71 @@ class ImpactLevel(Enum):
 
 
 class MissionStatus(Enum):
-    """Mission status types."""
-    PLANNING = "planning"
+    """Mission status."""
+    PENDING = "pending"
     ACTIVE = "active"
-    PAUSED = "paused"
     COMPLETED = "completed"
     FAILED = "failed"
     CANCELLED = "cancelled"
+
+
+class PriorityLevel(Enum):
+    """Priority level."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    URGENT = "urgent"
+    CRITICAL = "critical"
 
 
 @dataclass
 class StrategicInsight:
     """Strategic insight data."""
     insight_id: str
-    insight_type: InsightType
     title: str
     description: str
+    insight_type: InsightType
     confidence_level: ConfidenceLevel
     impact_level: ImpactLevel
+    context: Dict[str, Any]
     created_at: datetime
     updated_at: datetime
-    source_agent: str
-    target_agents: List[str] = None
-    metadata: Dict[str, Any] = None
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.target_agents is None:
-            self.target_agents = []
-        if self.metadata is None:
-            self.metadata = {}
+        if self.created_at is None:
+            self.created_at = datetime.now()
+        if self.updated_at is None:
+            self.updated_at = datetime.now()
 
 
 @dataclass
-class MissionContext:
-    """Mission context data."""
+class MissionObjective:
+    """Mission objective data."""
+    objective_id: str
     mission_id: str
-    mission_name: str
-    description: str
-    status: MissionStatus
-    priority: int
-    created_at: datetime
-    updated_at: datetime
-    assigned_agents: List[str] = None
-    success_criteria: List[str] = None
-    risk_factors: List[str] = None
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.assigned_agents is None:
-            self.assigned_agents = []
-        if self.success_criteria is None:
-            self.success_criteria = []
-        if self.risk_factors is None:
-            self.risk_factors = []
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class AgentCapability:
-    """Agent capability data."""
-    agent_id: str
-    agent_name: str
-    primary_role: str
-    skills: List[str]
-    experience_level: str
-    availability_status: str
-    current_workload: int
-    max_workload: int
-    success_rate: float
-    last_active: datetime
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.skills is None:
-            self.skills = []
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class PerformanceMetrics:
-    """Performance metrics data."""
-    metric_id: str
-    metric_name: str
-    value: float
-    unit: str
-    timestamp: datetime
-    source_agent: str
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class RiskAssessment:
-    """Risk assessment data."""
-    risk_id: str
-    risk_type: str
-    risk_level: str
-    description: str
-    probability: float
-    impact: float
-    mitigation_strategies: List[str]
-    created_at: datetime
-    updated_at: datetime
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.mitigation_strategies is None:
-            self.mitigation_strategies = []
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class OptimizationRecommendation:
-    """Optimization recommendation data."""
-    recommendation_id: str
-    category: str
-    priority: str
     title: str
     description: str
-    expected_impact: str
-    implementation_effort: str
-    estimated_improvement: float
+    priority: PriorityLevel
+    status: MissionStatus
+    target_date: Optional[datetime]
     created_at: datetime
-    updated_at: datetime
-    metadata: Dict[str, Any] = None
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
+
+@dataclass
+class ResourceAllocation:
+    """Resource allocation data."""
+    allocation_id: str
+    resource_type: str
+    allocated_amount: float
+    used_amount: float
+    available_amount: float
+    efficiency_score: float
+    created_at: datetime
+    
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()

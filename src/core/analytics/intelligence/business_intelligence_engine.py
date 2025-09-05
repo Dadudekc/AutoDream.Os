@@ -22,111 +22,189 @@ class BusinessIntelligenceEngine:
     def __init__(self, config=None):
         """Initialize business intelligence engine."""
         self.config = config or {}
-        self.thresholds = {
-            'trend_significance': 0.05,
-            'performance_threshold': 0.8,
-            'efficiency_target': 0.85
-        }
         self.logger = logger
+        self.insights = []
+        self.metrics = {}
     
-    def analyze_trends(self, data: List[float]) -> Dict[str, Any]:
-        """Analyze trends in data."""
-        if not data or len(data) < 2:
-            return {"trend": "insufficient_data", "slope": 0, "confidence": 0}
-        
+    def generate_insights(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Generate business insights from data."""
         try:
-            # Simple linear trend calculation
-            n = len(data)
-            x = list(range(n))
-            y = data
+            if not data:
+                return {"error": "No data provided"}
             
-            # Calculate slope
-            slope = self._calculate_slope(x, y)
+            # Simple insight generation
+            insights = self._analyze_data(data)
+            recommendations = self._generate_recommendations(insights)
+            kpis = self._calculate_kpis(data)
             
-            # Determine trend
-            if abs(slope) < self.thresholds['trend_significance']:
-                trend = "stable"
-            elif slope > 0:
-                trend = "increasing"
-            else:
-                trend = "decreasing"
+            insight_result = {
+                "insights": insights,
+                "recommendations": recommendations,
+                "kpis": kpis,
+                "data_points": len(data),
+                "timestamp": datetime.now().isoformat()
+            }
             
-            # Calculate confidence
-            confidence = min(abs(slope) * 10, 1.0)
+            # Store insights
+            self.insights.append(insight_result)
+            if len(self.insights) > 50:  # Keep only last 50
+                self.insights.pop(0)
+            
+            self.logger.info(f"Business insights generated: {len(insights)} insights")
+            return insight_result
+            
+        except Exception as e:
+            self.logger.error(f"Error generating insights: {e}")
+            return {"error": str(e)}
+    
+    def _analyze_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Analyze data for insights."""
+        try:
+            insights = []
+            
+            # Simple data analysis
+            numeric_fields = {}
+            text_fields = {}
+            
+            for item in data:
+                if isinstance(item, dict):
+                    for key, value in item.items():
+                        if isinstance(value, (int, float)):
+                            if key not in numeric_fields:
+                                numeric_fields[key] = []
+                            numeric_fields[key].append(value)
+                        elif isinstance(value, str):
+                            if key not in text_fields:
+                                text_fields[key] = []
+                            text_fields[key].append(value)
+            
+            # Generate insights for numeric fields
+            for field, values in numeric_fields.items():
+                if len(values) > 1:
+                    avg_val = statistics.mean(values)
+                    max_val = max(values)
+                    min_val = min(values)
+                    
+                    insights.append({
+                        "field": field,
+                        "type": "numeric",
+                        "average": round(avg_val, 3),
+                        "max": max_val,
+                        "min": min_val,
+                        "count": len(values)
+                    })
+            
+            # Generate insights for text fields
+            for field, values in text_fields.items():
+                if values:
+                    unique_count = len(set(values))
+                    most_common = max(set(values), key=values.count) if values else None
+                    
+                    insights.append({
+                        "field": field,
+                        "type": "text",
+                        "unique_values": unique_count,
+                        "most_common": most_common,
+                        "count": len(values)
+                    })
+            
+            return insights[:10]  # Limit to 10 insights
+        except Exception as e:
+            self.logger.error(f"Error analyzing data: {e}")
+            return []
+    
+    def _generate_recommendations(self, insights: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Generate recommendations based on insights."""
+        try:
+            recommendations = []
+            
+            for insight in insights:
+                if insight.get("type") == "numeric":
+                    field = insight.get("field", "")
+                    avg_val = insight.get("average", 0)
+                    
+                    if avg_val > 100:
+                        recommendations.append({
+                            "field": field,
+                            "type": "optimization",
+                            "message": f"Consider optimizing {field} - high average value detected"
+                        })
+                    elif avg_val < 10:
+                        recommendations.append({
+                            "field": field,
+                            "type": "improvement",
+                            "message": f"Consider improving {field} - low average value detected"
+                        })
+            
+            return recommendations[:5]  # Limit to 5 recommendations
+        except Exception as e:
+            self.logger.error(f"Error generating recommendations: {e}")
+            return []
+    
+    def _calculate_kpis(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Calculate key performance indicators."""
+        try:
+            kpis = {
+                "total_records": len(data),
+                "timestamp": datetime.now().isoformat()
+            }
+            
+            # Simple KPI calculations
+            if data:
+                numeric_values = []
+                for item in data:
+                    if isinstance(item, dict):
+                        for value in item.values():
+                            if isinstance(value, (int, float)):
+                                numeric_values.append(value)
+                
+                if numeric_values:
+                    kpis.update({
+                        "numeric_fields": len(numeric_values),
+                        "average_value": round(statistics.mean(numeric_values), 3),
+                        "max_value": max(numeric_values),
+                        "min_value": min(numeric_values)
+                    })
+            
+            return kpis
+        except Exception as e:
+            self.logger.error(f"Error calculating KPIs: {e}")
+            return {"error": str(e)}
+    
+    def get_insights_summary(self) -> Dict[str, Any]:
+        """Get insights summary."""
+        try:
+            if not self.insights:
+                return {"message": "No insights available"}
+            
+            total_insights = len(self.insights)
+            recent_insights = self.insights[-1] if self.insights else {}
             
             return {
-                "trend": trend,
-                "slope": slope,
-                "confidence": confidence,
-                "data_points": n
+                "total_insights": total_insights,
+                "recent_insights": recent_insights,
+                "timestamp": datetime.now().isoformat()
             }
         except Exception as e:
-            self.logger.error(f"Error in trend analysis: {e}")
-            return {"trend": "error", "slope": 0, "confidence": 0}
+            self.logger.error(f"Error getting insights summary: {e}")
+            return {"error": str(e)}
     
-    def calculate_efficiency(self, input_data: List[float], output_data: List[float]) -> Dict[str, Any]:
-        """Calculate efficiency metrics."""
-        if not input_data or not output_data or len(input_data) != len(output_data):
-            return {"efficiency": 0, "status": "invalid_data"}
-        
-        try:
-            # Simple efficiency calculation
-            total_input = sum(input_data)
-            total_output = sum(output_data)
-            
-            if total_input == 0:
-                return {"efficiency": 0, "status": "zero_input"}
-            
-            efficiency = total_output / total_input
-            status = "good" if efficiency >= self.thresholds['efficiency_target'] else "needs_improvement"
-            
-            return {
-                "efficiency": efficiency,
-                "status": status,
-                "input_total": total_input,
-                "output_total": total_output
-            }
-        except Exception as e:
-            self.logger.error(f"Error in efficiency calculation: {e}")
-            return {"efficiency": 0, "status": "error"}
+    def clear_insights(self) -> None:
+        """Clear insights history."""
+        self.insights.clear()
+        self.logger.info("Insights history cleared")
     
-    def generate_insights(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Generate business insights."""
-        insights = []
-        
-        # Trend insight
-        if 'trend_data' in data:
-            trend = self.analyze_trends(data['trend_data'])
-            if trend['trend'] != 'stable':
-                insights.append({
-                    'type': 'trend',
-                    'message': f"Data shows {trend['trend']} trend with {trend['confidence']:.2f} confidence",
-                    'priority': 'medium'
-                })
-        
-        # Efficiency insight
-        if 'input_data' in data and 'output_data' in data:
-            efficiency = self.calculate_efficiency(data['input_data'], data['output_data'])
-            if efficiency['status'] == 'needs_improvement':
-                insights.append({
-                    'type': 'efficiency',
-                    'message': f"Efficiency is {efficiency['efficiency']:.2f}, below target of {self.thresholds['efficiency_target']}",
-                    'priority': 'high'
-                })
-        
-        return insights
-    
-    def _calculate_slope(self, x: List[float], y: List[float]) -> float:
-        """Calculate slope of linear regression."""
-        n = len(x)
-        if n < 2:
-            return 0
-        
-        sum_x = sum(x)
-        sum_y = sum(y)
-        sum_xy = sum(x[i] * y[i] for i in range(n))
-        sum_x2 = sum(x[i] ** 2 for i in range(n))
-        
-        return (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x ** 2)
+    def get_status(self) -> Dict[str, Any]:
+        """Get engine status."""
+        return {
+            "active": True,
+            "insights_count": len(self.insights),
+            "timestamp": datetime.now().isoformat()
+        }
 
-__all__ = ["BusinessIntelligenceEngine"]
+# Simple factory function
+def create_business_intelligence_engine(config=None) -> BusinessIntelligenceEngine:
+    """Create business intelligence engine."""
+    return BusinessIntelligenceEngine(config)
+
+__all__ = ["BusinessIntelligenceEngine", "create_business_intelligence_engine"]

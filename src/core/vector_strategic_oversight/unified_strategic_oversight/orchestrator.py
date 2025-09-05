@@ -2,7 +2,7 @@
 Strategic Oversight Orchestrator
 ================================
 
-Main orchestrator for vector strategic oversight operations.
+Main orchestrator for strategic oversight operations.
 V2 Compliance: < 300 lines, single responsibility, orchestration logic.
 
 Author: Agent-3 - Infrastructure & DevOps Specialist
@@ -10,222 +10,249 @@ Mission: V2 Compliance Refactoring
 """
 
 import asyncio
-from typing import Dict, List, Optional, Any
-from datetime import datetime
 import logging
-from .data_models import (
+from typing import Dict, List, Any, Optional
+from datetime import datetime
+from .models import (
     StrategicOversightReport, SwarmCoordinationInsight, StrategicRecommendation,
     AgentPerformanceMetrics, SwarmCoordinationStatus, StrategicMission,
-    VectorDatabaseMetrics, SystemHealthMetrics
+    VectorDatabaseMetrics, SystemHealthMetrics, StrategicOversightModels,
+    InsightType, ConfidenceLevel, ImpactLevel, MissionStatus, ReportType,
+    PriorityLevel, AgentRole
 )
-from .enums import (
-    InsightType, ConfidenceLevel, ImpactLevel, MissionStatus,
-    ReportType, PriorityLevel, AgentRole
-)
-from .factory_methods import StrategicOversightFactory
-from .validators import StrategicOversightValidator
 from .engine import StrategicOversightEngine
 from .analyzer import StrategicOversightAnalyzer
 
 
-class VectorStrategicOversightOrchestrator:
-    """Main orchestrator for vector strategic oversight operations."""
+class StrategicOversightOrchestrator:
+    """Main orchestrator for strategic oversight system."""
     
     def __init__(self):
         """Initialize strategic oversight orchestrator."""
         self.engine = StrategicOversightEngine()
-        self.analyzer = StrategicOversightAnalyzer()
+        self.analyzer = StrategicOversightAnalyzer(self.engine)
         self.logger = logging.getLogger(__name__)
         self.is_initialized = False
     
     async def initialize(self) -> bool:
         """Initialize the orchestrator."""
         try:
-            self.logger.info("Initializing Vector Strategic Oversight Orchestrator")
+            self.logger.info("Initializing Strategic Oversight Orchestrator")
             
-            # Initialize with default data
-            await self._load_default_data()
+            # Initialize engine
+            if not self.engine.initialize():
+                raise Exception("Failed to initialize engine")
+            
+            # Initialize analyzer
+            if not self.analyzer.initialize():
+                raise Exception("Failed to initialize analyzer")
             
             self.is_initialized = True
-            self.logger.info("Vector Strategic Oversight Orchestrator initialized successfully")
+            self.logger.info("Strategic Oversight Orchestrator initialized successfully")
             return True
             
         except Exception as e:
-            self.logger.error(f"Failed to initialize Vector Strategic Oversight Orchestrator: {e}")
+            self.logger.error(f"Failed to initialize Strategic Oversight Orchestrator: {e}")
             return False
     
-    async def _load_default_data(self):
-        """Load default data for initialization."""
-        # Load default agent capabilities
-        default_agent = AgentCapabilities(
-            agent_id="Agent-3",
-            capabilities=["infrastructure", "devops", "v2_compliance"],
-            proficiency_scores={"infrastructure": 0.9, "devops": 0.8, "v2_compliance": 0.95},
-            availability=True,
-            current_workload=0.3
-        )
-        await self.engine.add_agent_capabilities(default_agent)
-        
-        # Load default mission status
-        default_mission = MissionStatus(
-            mission_id="default_mission",
-            mission_name="V2 Compliance Refactoring",
-            status=MissionStatus.ACTIVE,
-            progress_percentage=75.0,
-            assigned_agents=["Agent-3"],
-            current_phase="refactoring"
-        )
-        await self.engine.add_mission_status(default_mission)
-    
-    async def generate_oversight_report(
-        self,
-        report_type: str = "comprehensive",
-        title: str = "Strategic Oversight Report",
-        include_insights: bool = True,
-        include_recommendations: bool = True
-    ) -> StrategicOversightReport:
-        """Generate strategic oversight report."""
+    async def add_report(self, title: str, description: str, report_type: ReportType,
+                        insights: List[SwarmCoordinationInsight],
+                        recommendations: List[StrategicRecommendation],
+                        metrics: Dict[str, Any]) -> bool:
+        """Add strategic oversight report."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.engine.generate_oversight_report(
-            report_type=report_type,
+        report = StrategicOversightModels.create_strategic_oversight_report(
             title=title,
-            include_insights=include_insights,
-            include_recommendations=include_recommendations
+            description=description,
+            report_type=report_type,
+            insights=insights,
+            recommendations=recommendations,
+            metrics=metrics
         )
+        
+        return self.engine.add_report(report)
     
-    async def analyze_swarm_coordination(
-        self,
-        agent_data: List[Dict[str, Any]] = None,
-        mission_data: List[Dict[str, Any]] = None,
-        time_window_hours: int = 24
-    ) -> List[SwarmCoordinationInsight]:
-        """Analyze swarm coordination patterns."""
+    async def add_insight(self, insight_type: InsightType, title: str, description: str,
+                         confidence: ConfidenceLevel, impact: ImpactLevel,
+                         evidence: List[str], recommendations: List[str]) -> bool:
+        """Add swarm coordination insight."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        # Use default data if not provided
-        if agent_data is None:
-            agent_data = [{"id": "Agent-3", "active": True, "workload": 0.3}]
-        
-        if mission_data is None:
-            mission_data = [{"id": "mission_1", "status": "active"}]
-        
-        return await self.analyzer.analyze_swarm_coordination(
-            agent_data=agent_data,
-            mission_data=mission_data,
-            time_window_hours=time_window_hours
+        insight = StrategicOversightModels.create_swarm_coordination_insight(
+            insight_type=insight_type,
+            title=title,
+            description=description,
+            confidence=confidence,
+            impact=impact,
+            evidence=evidence,
+            recommendations=recommendations
         )
+        
+        return self.engine.add_insight(insight)
     
-    async def detect_patterns(
-        self,
-        data: List[Dict[str, Any]],
-        pattern_types: List[str] = None
-    ) -> List[PatternAnalysis]:
-        """Detect patterns in data."""
+    async def add_recommendation(self, title: str, description: str,
+                               priority: PriorityLevel, impact: ImpactLevel,
+                               implementation_effort: str, expected_benefits: List[str],
+                               risks: List[str]) -> bool:
+        """Add strategic recommendation."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.analyzer.detect_patterns(data, pattern_types)
+        recommendation = StrategicOversightModels.create_strategic_recommendation(
+            title=title,
+            description=description,
+            priority=priority,
+            impact=impact,
+            implementation_effort=implementation_effort,
+            expected_benefits=expected_benefits,
+            risks=risks
+        )
+        
+        return self.engine.add_recommendation(recommendation)
     
-    async def predict_success(
-        self,
-        task_data: Dict[str, Any],
-        historical_data: List[Dict[str, Any]] = None
-    ) -> SuccessPrediction:
-        """Predict task success probability."""
+    async def add_agent_metrics(self, agent_id: str, agent_role: AgentRole,
+                              performance_score: float, efficiency: float,
+                              coordination_score: float, task_completion_rate: float,
+                              response_time: float) -> bool:
+        """Add agent performance metrics."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.analyzer.predict_success(task_data, historical_data)
+        metrics = StrategicOversightModels.create_agent_performance_metrics(
+            agent_id=agent_id,
+            agent_role=agent_role,
+            performance_score=performance_score,
+            efficiency=efficiency,
+            coordination_score=coordination_score,
+            task_completion_rate=task_completion_rate,
+            response_time=response_time
+        )
+        
+        return self.engine.add_agent_metrics(metrics)
     
-    async def add_mission_status(self, mission: MissionStatus) -> bool:
-        """Add mission status."""
+    async def add_mission(self, title: str, description: str, status: MissionStatus,
+                         priority: PriorityLevel, assigned_agents: List[str],
+                         objectives: List[str], success_criteria: List[str]) -> bool:
+        """Add strategic mission."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.engine.add_mission_status(mission)
+        mission = StrategicOversightModels.create_strategic_mission(
+            title=title,
+            description=description,
+            status=status,
+            priority=priority,
+            assigned_agents=assigned_agents,
+            objectives=objectives,
+            success_criteria=success_criteria
+        )
+        
+        return self.engine.add_mission(mission)
     
-    async def add_agent_capabilities(self, capabilities: AgentCapabilities) -> bool:
-        """Add agent capabilities."""
+    async def analyze_swarm_coordination(self, swarm_id: str = None) -> List[SwarmCoordinationInsight]:
+        """Analyze swarm coordination."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.engine.add_agent_capabilities(capabilities)
+        return self.analyzer.analyze_swarm_coordination(swarm_id)
     
-    async def add_emergency_status(self, emergency: EmergencyStatus) -> bool:
-        """Add emergency status."""
+    async def analyze_agent_performance(self, agent_id: str = None) -> List[SwarmCoordinationInsight]:
+        """Analyze agent performance."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.engine.add_emergency_status(emergency)
+        return self.analyzer.analyze_agent_performance(agent_id)
     
-    async def add_risk_assessment(self, risk: RiskAssessment) -> bool:
-        """Add risk assessment."""
+    async def analyze_mission_efficiency(self, mission_id: str = None) -> List[SwarmCoordinationInsight]:
+        """Analyze mission efficiency."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.engine.add_risk_assessment(risk)
+        return self.analyzer.analyze_mission_efficiency(mission_id)
     
-    async def add_intervention_history(self, intervention: InterventionHistory) -> bool:
-        """Add intervention history."""
+    async def generate_comprehensive_report(self, report_type: ReportType = ReportType.SUMMARY) -> Optional[StrategicOversightReport]:
+        """Generate comprehensive strategic oversight report."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return await self.engine.add_intervention_history(intervention)
+        return self.engine.generate_comprehensive_report(report_type)
     
-    def get_oversight_summary(self) -> Dict[str, Any]:
-        """Get oversight summary."""
+    async def get_reports(self, report_type: ReportType = None) -> List[StrategicOversightReport]:
+        """Get reports."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        engine_summary = self.engine.get_oversight_summary()
+        if report_type:
+            return self.engine.get_reports_by_type(report_type)
+        else:
+            return list(self.engine.reports.values())
+    
+    async def get_insights(self, insight_type: InsightType = None) -> List[SwarmCoordinationInsight]:
+        """Get insights."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        if insight_type:
+            return self.engine.get_insights_by_type(insight_type)
+        else:
+            return list(self.engine.insights.values())
+    
+    async def get_recommendations(self) -> List[StrategicRecommendation]:
+        """Get recommendations."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        return list(self.engine.recommendations.values())
+    
+    async def get_agent_metrics(self, agent_id: str = None) -> List[AgentPerformanceMetrics]:
+        """Get agent metrics."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        return self.engine.get_agent_metrics(agent_id)
+    
+    async def get_missions(self, status: MissionStatus = None) -> List[StrategicMission]:
+        """Get missions."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        if status:
+            return self.engine.get_missions_by_status(status)
+        else:
+            return list(self.engine.missions.values())
+    
+    async def get_orchestrator_status(self) -> Dict[str, Any]:
+        """Get orchestrator status."""
+        if not self.is_initialized:
+            return {'status': 'not_initialized'}
+        
+        engine_status = self.engine.get_engine_status()
         analyzer_summary = self.analyzer.get_analysis_summary()
         
         return {
-            **engine_summary,
-            "analysis_summary": analyzer_summary
+            'status': 'initialized',
+            'engine': engine_status,
+            'analyzer': analyzer_summary,
+            'last_updated': datetime.now().isoformat()
         }
     
-    def get_mission_status(self, mission_id: str) -> Optional[MissionStatus]:
-        """Get mission status by ID."""
+    async def cleanup_old_data(self, days: int = 30):
+        """Cleanup old data."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return self.engine.missions.get(mission_id)
+        self.engine.cleanup_old_data(days)
     
-    def get_agent_capabilities(self, agent_id: str) -> Optional[AgentCapabilities]:
-        """Get agent capabilities by ID."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        return self.engine.agent_capabilities.get(agent_id)
-    
-    def get_emergency_status(self, emergency_id: str) -> Optional[EmergencyStatus]:
-        """Get emergency status by ID."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        return self.engine.emergencies.get(emergency_id)
-    
-    def get_risk_assessment(self, assessment_id: str) -> Optional[RiskAssessment]:
-        """Get risk assessment by ID."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        return self.engine.risks.get(assessment_id)
-    
-    def clear_all_data(self):
-        """Clear all data."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        self.engine.clear_all_data()
-        self.analyzer.clear_analysis_data()
-        self.logger.info("All data cleared")
-    
-    def shutdown(self):
+    async def shutdown(self):
         """Shutdown orchestrator."""
-        self.logger.info("Shutting down Vector Strategic Oversight Orchestrator")
+        if not self.is_initialized:
+            return
+        
+        self.logger.info("Shutting down Strategic Oversight Orchestrator")
+        self.analyzer.shutdown()
+        self.engine.shutdown()
         self.is_initialized = False
+        self.logger.info("Strategic Oversight Orchestrator shutdown complete")

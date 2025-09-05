@@ -89,53 +89,31 @@ class ErrorAnalysisEngine:
             return ErrorSeverity.LOW.value
     
     def analyze_error_patterns(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        Analyze error patterns from error list.
-        
-        Args:
-            errors: List of error dictionaries
-            
-        Returns:
-            Dict[str, Any]: Pattern analysis results
-        """
+        """Analyze error patterns - simplified."""
         if not errors:
-            return {
-                "patterns": {},
-                "recommendations": [],
-                "critical_issues": []
-            }
+            return {"patterns": {}, "recommendations": [], "critical_issues": []}
         
-        patterns = {}
-        recommendations = []
-        critical_issues = []
-        
-        # Analyze error frequency by type
+        # Count error types
         error_counts = {}
         for error in errors:
             error_type = error.get("error_type", "Unknown")
             error_counts[error_type] = error_counts.get(error_type, 0) + 1
         
-        # Identify high-frequency errors
+        # Find frequent errors (>30%)
+        patterns = {}
+        recommendations = []
         total_errors = len(errors)
+        
         for error_type, count in error_counts.items():
-            frequency = count / total_errors
-            if frequency > 0.3:  # More than 30% of errors
-                patterns[error_type] = {
-                    "count": count,
-                    "frequency": frequency,
-                    "severity": "high"
-                }
+            if count / total_errors > 0.3:
+                patterns[error_type] = {"count": count, "frequency": count / total_errors}
                 recommendations.append(f"Address frequent {error_type} errors ({count} occurrences)")
         
-        # Identify critical issues
-        for error in errors:
-            error_type = error.get("error_type")
-            if error_type in ["SystemError", "MemoryError", "KeyboardInterrupt"]:
-                critical_issues.append({
-                    "error_type": error_type,
-                    "operation": error.get("operation", "Unknown"),
-                    "timestamp": error.get("timestamp", "Unknown")
-                })
+        # Find critical errors
+        critical_issues = [
+            {"error_type": e.get("error_type"), "operation": e.get("operation", "Unknown")}
+            for e in errors if e.get("error_type") in ["SystemError", "MemoryError", "KeyboardInterrupt"]
+        ]
         
         return {
             "patterns": patterns,
@@ -145,28 +123,13 @@ class ErrorAnalysisEngine:
         }
     
     def calculate_error_trends(self, errors: List[Dict[str, Any]], time_window_hours: int = 24) -> Dict[str, Any]:
-        """
-        Calculate error trends over time.
-        
-        Args:
-            errors: List of error dictionaries
-            time_window_hours: Time window for trend analysis
-            
-        Returns:
-            Dict[str, Any]: Trend analysis results
-        """
+        """Calculate error trends - simplified."""
         if not errors:
-            return {
-                "trend": "stable",
-                "error_rate": 0.0,
-                "peak_hours": [],
-                "declining_errors": [],
-                "increasing_errors": []
-            }
+            return {"trend": "stable", "error_rate": 0.0}
         
-        # Simple trend analysis - would be more sophisticated in production
-        recent_errors = len([e for e in errors[-100:]])  # Last 100 errors as proxy
-        older_errors = len([e for e in errors[-200:-100]])  # Previous 100 errors
+        # Simple trend analysis
+        recent_errors = len(errors[-100:]) if len(errors) > 100 else len(errors)
+        older_errors = len(errors[-200:-100]) if len(errors) > 200 else 0
         
         if recent_errors > older_errors * 1.2:
             trend = "increasing"
@@ -179,84 +142,40 @@ class ErrorAnalysisEngine:
             "trend": trend,
             "error_rate": recent_errors / max(1, time_window_hours),
             "recent_count": recent_errors,
-            "previous_count": older_errors,
-            "change_percentage": ((recent_errors - older_errors) / max(1, older_errors)) * 100
+            "change_percentage": ((recent_errors - older_errors) / max(1, older_errors)) * 100 if older_errors > 0 else 0
         }
     
     def get_recovery_recommendations(self, error: Exception, context: Dict[str, Any] = None) -> List[str]:
-        """
-        Get recovery recommendations for specific error.
-        
-        Args:
-            error: Exception to analyze
-            context: Additional context information
-            
-        Returns:
-            List[str]: Recovery recommendations
-        """
+        """Get recovery recommendations - simplified."""
         recommendations = []
-        error_type = type(error).__name__
         
-        # General recommendations based on error type
+        # Basic error type recommendations
         if isinstance(error, FileNotFoundError):
-            recommendations.extend([
-                "Verify file path exists",
-                "Check file permissions",
-                "Ensure directory structure is created"
-            ])
+            recommendations = ["Verify file path exists", "Check file permissions"]
         elif isinstance(error, PermissionError):
-            recommendations.extend([
-                "Check file/directory permissions",
-                "Run with appropriate privileges",
-                "Verify user access rights"
-            ])
+            recommendations = ["Check permissions", "Run with appropriate privileges"]
         elif isinstance(error, ConnectionError):
-            recommendations.extend([
-                "Check network connectivity",
-                "Verify service endpoint availability",
-                "Consider retry with exponential backoff"
-            ])
+            recommendations = ["Check network connectivity", "Verify service availability"]
         elif isinstance(error, TimeoutError):
-            recommendations.extend([
-                "Increase timeout duration",
-                "Check service response time",
-                "Consider breaking operation into smaller chunks"
-            ])
+            recommendations = ["Increase timeout duration", "Check service response time"]
         elif isinstance(error, ValueError):
-            recommendations.extend([
-                "Validate input parameters",
-                "Check data format and types",
-                "Review function arguments"
-            ])
+            recommendations = ["Validate input parameters", "Check data format"]
         else:
-            recommendations.append("Review error details and context for specific resolution")
+            recommendations = ["Review error details for specific resolution"]
         
-        # Add severity-based recommendations
+        # Add severity priority
         severity = self.get_error_severity(error)
         if severity == ErrorSeverity.CRITICAL.value:
             recommendations.insert(0, "CRITICAL: Immediate attention required")
         elif severity == ErrorSeverity.HIGH.value:
-            recommendations.insert(0, "HIGH PRIORITY: Address as soon as possible")
+            recommendations.insert(0, "HIGH PRIORITY: Address soon")
         
         return recommendations
     
     def assess_system_health(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        Assess overall system health based on error patterns.
-        
-        Args:
-            errors: List of recent error dictionaries
-            
-        Returns:
-            Dict[str, Any]: System health assessment
-        """
+        """Assess system health - simplified."""
         if not errors:
-            return {
-                "health_score": 100,
-                "status": "excellent",
-                "concerns": [],
-                "recommendations": ["Continue monitoring"]
-            }
+            return {"health_score": 100, "status": "excellent", "concerns": []}
         
         total_errors = len(errors)
         critical_errors = len([e for e in errors if e.get("error_type") in ["SystemError", "MemoryError"]])
@@ -276,21 +195,15 @@ class ErrorAnalysisEngine:
             status = "good"
         
         concerns = []
-        recommendations = []
-        
         if critical_errors > 0:
             concerns.append(f"{critical_errors} critical errors detected")
-            recommendations.append("Investigate critical errors immediately")
-        
         if total_errors > 30:
             concerns.append(f"High error volume: {total_errors} errors")
-            recommendations.append("Review error patterns and implement preventive measures")
         
         return {
             "health_score": health_score,
             "status": status,
             "total_errors": total_errors,
             "critical_errors": critical_errors,
-            "concerns": concerns,
-            "recommendations": recommendations
+            "concerns": concerns
         }

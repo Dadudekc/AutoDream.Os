@@ -10,11 +10,13 @@ Mission: V2 Compliance Refactoring
 """
 
 from .orchestrator import PatternAnalysisOrchestrator
+from .models import PatternAnalysisModels
 from .engine import PatternAnalysisEngine
 from .analyzer import PatternAnalyzer
 
 __all__ = [
     'PatternAnalysisOrchestrator',
+    'PatternAnalysisModels',
     'PatternAnalysisEngine',
     'PatternAnalyzer'
 ]

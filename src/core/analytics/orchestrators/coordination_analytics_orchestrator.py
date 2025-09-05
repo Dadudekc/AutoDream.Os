@@ -1,194 +1,140 @@
 #!/usr/bin/env python3
 """
-Coordination Analytics Orchestrator - V2 Compliance Module
-=========================================================
+Coordination Analytics Orchestrator - KISS Compliant
+====================================================
 
-Main orchestrator for coordination analytics operations.
-Refactored from 350-line monolithic file into focused modules.
+Simple coordination analytics orchestrator.
 
-Author: Agent-7 - Web Development Specialist
+Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-import time
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
 import logging
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
-from ..models.coordination_analytics_models import (
-    AnalyticsMetric, OptimizationRecommendation, CoordinationAnalyticsData,
-    AnalyticsReport, AnalyticsConfig
-)
-from ..engines.coordination_analytics_engine import CoordinationAnalyticsEngine
-
-# Import coordination components with fallback
-try:
-    from ...coordination.swarm_coordination_enhancer import SwarmCoordinationEnhancer
-    from ...utils.coordination_utils import CoordinationUtils
-    from ...utils.performance_metrics import PerformanceMetricsUtils
-    from ...utils.vector_insights import VectorInsightsUtils
-except ImportError:
-    # Fallback implementations for testing
-    class SwarmCoordinationEnhancer:
-        def get_coordination_summary(self): return {}
-    class CoordinationUtils:
-        @staticmethod
-        def calculate_efficiency(*args): return 0.8
-    class PerformanceMetricsUtils:
-        @staticmethod
-        def get_metrics(*args): return {}
-    class VectorInsightsUtils:
-        @staticmethod
-        def analyze(*args): return {}
-
+logger = logging.getLogger(__name__)
 
 class CoordinationAnalyticsSystem:
-    """
-    Main orchestrator for coordination analytics operations.
+    """Simple coordination analytics orchestrator."""
     
-    Provides unified interface to all analytics capabilities while
-    maintaining V2 compliance through modular architecture.
-    """
-    
-    def __init__(self, config: Optional[AnalyticsConfig] = None):
+    def __init__(self, config=None):
         """Initialize coordination analytics system."""
-        self.logger = logging.getLogger(__name__)
-        self.config = config or AnalyticsConfig()
+        self.config = config or {}
+        self.logger = logger
         
-        # Validate configuration
-        try:
-            self.config.validate()
-        except Exception as e:
-            self.logger.error(f"Invalid configuration: {e}")
-            raise
-        
-        # Initialize engine
-        self.analytics_engine = CoordinationAnalyticsEngine(self.config)
-        
-        # Initialize components
-        try:
-            self.coordination_enhancer = SwarmCoordinationEnhancer()
-            self.coordination_utils = CoordinationUtils()
-            self.performance_metrics = PerformanceMetricsUtils()
-            self.vector_insights = VectorInsightsUtils()
-        except Exception as e:
-            self.logger.warning(f"Using fallback implementations: {e}")
-            self.coordination_enhancer = SwarmCoordinationEnhancer()
-            self.coordination_utils = CoordinationUtils()
-            self.performance_metrics = PerformanceMetricsUtils()
-            self.vector_insights = VectorInsightsUtils()
-        
-        # System state
-        self.is_active = False
-        self.target_efficiency = self.config.target_efficiency
-        
-        self.logger.info("🚀 Coordination Analytics System initialized")
+        # Simple state
+        self.active = False
+        self.stats = {
+            'analytics_processed': 0,
+            'recommendations_generated': 0,
+            'errors': 0
+        }
     
-    def start_analytics(self) -> bool:
-        """Start analytics system."""
+    def start(self) -> Dict[str, Any]:
+        """Start coordination analytics system."""
         try:
-            self.is_active = True
+            self.active = True
             self.logger.info("Coordination analytics system started")
-            return True
+            return {"status": "started", "timestamp": datetime.now().isoformat()}
         except Exception as e:
-            self.logger.error(f"Failed to start analytics: {e}")
-            return False
+            self.logger.error(f"Error starting system: {e}")
+            return {"status": "error", "error": str(e)}
     
-    def stop_analytics(self) -> bool:
-        """Stop analytics system."""
+    def stop(self) -> Dict[str, Any]:
+        """Stop coordination analytics system."""
         try:
-            self.is_active = False
+            self.active = False
             self.logger.info("Coordination analytics system stopped")
-            return True
+            return {"status": "stopped", "timestamp": datetime.now().isoformat()}
         except Exception as e:
-            self.logger.error(f"Failed to stop analytics: {e}")
-            return False
+            self.logger.error(f"Error stopping system: {e}")
+            return {"status": "error", "error": str(e)}
     
-    def collect_coordination_analytics(self) -> CoordinationAnalyticsData:
-        """Collect comprehensive coordination analytics."""
+    def process_analytics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Process coordination analytics data."""
         try:
-            # Get coordination summary
-            coord_summary = self.coordination_enhancer.get_coordination_summary()
+            if not self.active:
+                return {"error": "System not active"}
             
-            # Collect analytics through engine
-            analytics_data = self.analytics_engine.collect_coordination_analytics(coord_summary)
+            self.stats['analytics_processed'] += 1
             
-            return analytics_data
-            
-        except Exception as e:
-            self.logger.error(f"Failed to collect coordination analytics: {e}")
-            return self.analytics_engine._create_default_analytics_data()
-    
-    def generate_analytics_report(self) -> AnalyticsReport:
-        """Generate comprehensive analytics report."""
-        try:
-            # Collect current analytics
-            analytics_data = self.collect_coordination_analytics()
-            
-            # Get analytics summary
-            summary = self.analytics_engine.get_analytics_summary()
-            
-            # Create report
-            report = AnalyticsReport(
-                report_id=f"analytics_report_{int(time.time())}",
-                generated_at=datetime.now(),
-                data=analytics_data,
-                trends=summary.get("trends", {}),
-                recommendations=analytics_data.recommendations,
-                summary=analytics_data.get_summary()
-            )
-            
-            return report
-            
-        except Exception as e:
-            self.logger.error(f"Failed to generate analytics report: {e}")
-            # Return minimal report
-            return AnalyticsReport(
-                report_id=f"error_report_{int(time.time())}",
-                generated_at=datetime.now(),
-                data=self.analytics_engine._create_default_analytics_data(),
-                trends={},
-                recommendations=["System error - check logs"],
-                summary={"error": str(e)}
-            )
-    
-    def get_analytics_summary(self) -> Dict[str, Any]:
-        """Get comprehensive analytics summary."""
-        try:
-            if not self.is_active:
-                return {"error": "Analytics system not active"}
-            
-            # Get engine summary
-            engine_summary = self.analytics_engine.get_analytics_summary()
-            
-            return {
-                "system_info": {
-                    "is_active": self.is_active,
-                    "target_efficiency": self.target_efficiency,
-                    "config": {
-                        "enable_real_time_monitoring": self.config.enable_real_time_monitoring,
-                        "analysis_interval_seconds": self.config.analysis_interval_seconds,
-                        "history_retention_hours": self.config.history_retention_hours
-                    }
-                },
-                "analytics_engine": engine_summary
+            # Simple analytics processing
+            result = {
+                'analysis_id': f"analysis_{datetime.now().timestamp()}",
+                'data_processed': len(data),
+                'timestamp': datetime.now().isoformat(),
+                'recommendations': self._generate_recommendations(data)
             }
             
-        except Exception as e:
-            self.logger.error(f"Failed to get analytics summary: {e}")
-            return {"error": str(e)}
-    
-    def clear_analytics_data(self) -> None:
-        """Clear all analytics data."""
-        self.analytics_engine.clear_analytics_history()
-        self.logger.info("All analytics data cleared")
-    
-    def get_recommendations(self) -> List[str]:
-        """Get current optimization recommendations."""
-        try:
-            analytics_data = self.collect_coordination_analytics()
-            return analytics_data.recommendations
+            self.logger.info(f"Processed analytics: {result['analysis_id']}")
+            return result
             
         except Exception as e:
-            self.logger.error(f"Failed to get recommendations: {e}")
-            return ["System error - check logs"]
+            self.stats['errors'] += 1
+            self.logger.error(f"Error processing analytics: {e}")
+            return {"error": str(e)}
+    
+    def _generate_recommendations(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """Generate simple recommendations."""
+        try:
+            recommendations = []
+            
+            # Simple recommendation logic
+            if data.get('efficiency', 0) < 0.8:
+                recommendations.append({
+                    'type': 'efficiency_improvement',
+                    'priority': 'high',
+                    'message': 'Consider optimizing coordination efficiency'
+                })
+            
+            if data.get('coordination_score', 0) < 0.7:
+                recommendations.append({
+                    'type': 'coordination_enhancement',
+                    'priority': 'medium',
+                    'message': 'Enhance coordination mechanisms'
+                })
+            
+            self.stats['recommendations_generated'] += len(recommendations)
+            return recommendations
+            
+        except Exception as e:
+            self.logger.error(f"Error generating recommendations: {e}")
+            return []
+    
+    def get_analytics_report(self) -> Dict[str, Any]:
+        """Get analytics report."""
+        try:
+            return {
+                'system_status': 'active' if self.active else 'inactive',
+                'stats': self.stats.copy(),
+                'timestamp': datetime.now().isoformat(),
+                'uptime': datetime.now().isoformat()
+            }
+        except Exception as e:
+            self.logger.error(f"Error generating report: {e}")
+            return {"error": str(e)}
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get system status."""
+        return {
+            "active": self.active,
+            "stats": self.stats,
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    def reset_stats(self) -> None:
+        """Reset statistics."""
+        self.stats = {
+            'analytics_processed': 0,
+            'recommendations_generated': 0,
+            'errors': 0
+        }
+        self.logger.info("Statistics reset")
+
+# Simple factory function
+def create_coordination_analytics_system(config=None) -> CoordinationAnalyticsSystem:
+    """Create coordination analytics system."""
+    return CoordinationAnalyticsSystem(config)
+
+__all__ = ["CoordinationAnalyticsSystem", "create_coordination_analytics_system"]

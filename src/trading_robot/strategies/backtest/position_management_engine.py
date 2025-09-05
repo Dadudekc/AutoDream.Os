@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Trading Backtest Position Management Engine
-==========================================
+Trading Backtest Position Management Engine - KISS Simplified
+============================================================
 
-Position management engine for trading strategy backtesting.
-Handles position sizing, entry/exit execution, and trade tracking.
-V2 COMPLIANT: Focused position management under 300 lines.
+Simplified position management engine for trading strategy backtesting.
+KISS PRINCIPLE: Keep It Simple, Stupid - streamlined position management.
 
-@version 1.0.0 - V2 COMPLIANCE MODULAR POSITION MANAGEMENT
-@license MIT
+Author: Agent-8 (SSOT & System Integration Specialist) - KISS Simplification
+Original: V2 SWARM CAPTAIN
+License: MIT
 """
 
 import pandas as pd
@@ -20,7 +20,7 @@ from .signal_detection_engine import TradeSide
 
 @dataclass
 class Trade:
-    """Individual trade record"""
+    """Individual trade record - simplified."""
     entry_time: datetime
     exit_time: Optional[datetime]
     side: TradeSide
@@ -37,7 +37,7 @@ class Trade:
 
 @dataclass
 class PositionConfig:
-    """Configuration for position management"""
+    """Configuration for position management - simplified."""
     initial_capital: float = 100000.0
     risk_percent: float = 0.5
     commission_bps: float = 2.0
@@ -46,245 +46,214 @@ class PositionConfig:
 
 
 class PositionManagementEngine:
-    """Position management engine for trading backtesting"""
+    """Simplified position management engine for trading backtesting."""
     
-    def __init__(self, config: PositionConfig):
-        """Initialize position management engine with configuration"""
-        self.config = config
+    def __init__(self, config: PositionConfig = None):
+        """Initialize position management engine - simplified."""
+        self.config = config or PositionConfig()
         self.trades: List[Trade] = []
-        self.current_capital = config.initial_capital
-        self.position_size = 0.0
-        self.position_avg_price = 0.0
-        self.position_side: Optional[TradeSide] = None
-        self.current_trade: Optional[Trade] = None
+        self.current_position: Optional[Trade] = None
+        self.capital = self.config.initial_capital
+        self.is_initialized = False
     
-    def calculate_position_size(self, entry_price: float, stop_distance: float, 
-                              point_value: float = 1.0) -> float:
-        """Calculate position size based on risk management"""
+    def initialize(self) -> bool:
+        """Initialize engine - simplified."""
         try:
-            risk_amount = self.current_capital * (self.config.risk_percent / 100)
-            qty_raw = risk_amount / (stop_distance * point_value)
-            qty = max(self.config.min_position_size, qty_raw)
-            return qty
-        except (ZeroDivisionError, ValueError):
+            self.is_initialized = True
+            return True
+        except Exception:
+            return False
+    
+    def calculate_position_size(self, entry_price: float, stop_price: float) -> float:
+        """Calculate position size - simplified."""
+        try:
+            risk_amount = self.capital * (self.config.risk_percent / 100)
+            price_diff = abs(entry_price - stop_price)
+            if price_diff == 0:
+                return self.config.min_position_size
+            
+            position_size = risk_amount / price_diff
+            return max(position_size, self.config.min_position_size)
+        except Exception:
             return self.config.min_position_size
     
-    def enter_position(self, side: TradeSide, entry_price: float, stop_distance: float,
-                      target_distance: float, bar_time: datetime, point_value: float = 1.0) -> bool:
-        """Enter a new position"""
+    def open_position(self, side: TradeSide, entry_price: float, stop_price: float, 
+                     target_price: float, timestamp: datetime) -> Optional[Trade]:
+        """Open new position - simplified."""
         try:
-            # Calculate position size
-            qty = self.calculate_position_size(entry_price, stop_distance, point_value)
+            if self.current_position:
+                return None  # Already have open position
             
-            # Check if we have enough capital
-            cost = qty * entry_price
-            if cost > self.current_capital:
-                qty = self.current_capital / entry_price
-                if qty < self.config.min_position_size:
-                    return False
+            quantity = self.calculate_position_size(entry_price, stop_price)
             
-            # Calculate stop and target prices
-            if side == TradeSide.LONG:
-                stop_price = entry_price - stop_distance
-                target_price = entry_price + target_distance
-                position_qty = qty
-            else:
-                stop_price = entry_price + stop_distance
-                target_price = entry_price - target_distance
-                position_qty = -qty
-            
-            # Update position state
-            self.position_size = position_qty
-            self.position_avg_price = entry_price
-            self.position_side = side
-            
-            # Create trade record
             trade = Trade(
-                entry_time=bar_time,
+                entry_time=timestamp,
                 exit_time=None,
                 side=side,
                 entry_price=entry_price,
                 exit_price=None,
-                quantity=abs(position_qty),
+                quantity=quantity,
                 stop_price=stop_price,
                 target_price=target_price,
                 status="open"
             )
             
+            self.current_position = trade
             self.trades.append(trade)
-            self.current_trade = trade
+            return trade
             
-            return True
-            
-        except Exception as e:
-            print(f"Error entering position: {e}")
-            return False
+        except Exception:
+            return None
     
-    def exit_position(self, exit_price: float, exit_reason: str, bar_time: datetime) -> bool:
-        """Exit current position"""
+    def close_position(self, exit_price: float, timestamp: datetime) -> Optional[Trade]:
+        """Close current position - simplified."""
         try:
-            if self.position_size == 0 or not self.current_trade:
-                return False
+            if not self.current_position:
+                return None
+            
+            trade = self.current_position
+            trade.exit_time = timestamp
+            trade.exit_price = exit_price
+            trade.status = "closed"
             
             # Calculate P&L
-            if self.position_side == TradeSide.LONG:
-                pnl = (exit_price - self.position_avg_price) * abs(self.position_size)
+            if trade.side == TradeSide.BUY:
+                trade.pnl = (exit_price - trade.entry_price) * trade.quantity
             else:
-                pnl = (self.position_avg_price - exit_price) * abs(self.position_size)
+                trade.pnl = (trade.entry_price - exit_price) * trade.quantity
             
-            # Calculate commission
-            commission = self._calculate_commission(exit_price, abs(self.position_size))
-            pnl -= commission
-            
-            # Calculate P&L percentage
-            pnl_percent = (pnl / (self.position_avg_price * abs(self.position_size))) * 100
-            
-            # Update trade record
-            self.current_trade.exit_time = bar_time
-            self.current_trade.exit_price = exit_price
-            self.current_trade.pnl = pnl
-            self.current_trade.pnl_percent = pnl_percent
-            self.current_trade.commission = commission
-            self.current_trade.status = "closed"
+            trade.pnl_percent = (trade.pnl / (trade.entry_price * trade.quantity)) * 100
             
             # Update capital
-            self.current_capital += pnl
+            self.capital += trade.pnl
             
-            # Reset position state
-            self.position_size = 0.0
-            self.position_avg_price = 0.0
-            self.position_side = None
-            self.current_trade = None
+            self.current_position = None
+            return trade
             
-            return True
+        except Exception:
+            return None
+    
+    def check_stop_loss(self, current_price: float, timestamp: datetime) -> Optional[Trade]:
+        """Check stop loss - simplified."""
+        try:
+            if not self.current_position:
+                return None
             
-        except Exception as e:
-            print(f"Error exiting position: {e}")
-            return False
+            trade = self.current_position
+            should_close = False
+            
+            if trade.side == TradeSide.BUY and current_price <= trade.stop_price:
+                should_close = True
+            elif trade.side == TradeSide.SELL and current_price >= trade.stop_price:
+                should_close = True
+            
+            if should_close:
+                return self.close_position(trade.stop_price, timestamp)
+            
+            return None
+            
+        except Exception:
+            return None
     
-    def _calculate_commission(self, price: float, quantity: float) -> float:
-        """Calculate commission for a trade"""
-        trade_value = price * quantity
-        commission = trade_value * (self.config.commission_bps / 10000)
-        return commission
+    def check_take_profit(self, current_price: float, timestamp: datetime) -> Optional[Trade]:
+        """Check take profit - simplified."""
+        try:
+            if not self.current_position:
+                return None
+            
+            trade = self.current_position
+            should_close = False
+            
+            if trade.side == TradeSide.BUY and current_price >= trade.target_price:
+                should_close = True
+            elif trade.side == TradeSide.SELL and current_price <= trade.target_price:
+                should_close = True
+            
+            if should_close:
+                return self.close_position(trade.target_price, timestamp)
+            
+            return None
+            
+        except Exception:
+            return None
     
-    def get_position_status(self) -> Dict[str, Any]:
-        """Get current position status"""
-        return {
-            'has_position': self.position_size != 0,
-            'position_size': self.position_size,
-            'position_side': self.position_side.value if self.position_side else None,
-            'position_avg_price': self.position_avg_price,
-            'current_capital': self.current_capital,
-            'current_trade_id': len(self.trades) if self.current_trade else None
-        }
+    def get_open_position(self) -> Optional[Trade]:
+        """Get current open position - simplified."""
+        return self.current_position
     
-    def get_trade_statistics(self) -> Dict[str, Any]:
-        """Get comprehensive trade statistics"""
-        if not self.trades:
-            return {"error": "No trades executed"}
-        
-        closed_trades = [t for t in self.trades if t.status == "closed"]
-        open_trades = [t for t in self.trades if t.status == "open"]
-        
+    def get_trade_history(self) -> List[Trade]:
+        """Get trade history - simplified."""
+        return self.trades.copy()
+    
+    def get_closed_trades(self) -> List[Trade]:
+        """Get closed trades - simplified."""
+        return [trade for trade in self.trades if trade.status == "closed"]
+    
+    def get_open_trades(self) -> List[Trade]:
+        """Get open trades - simplified."""
+        return [trade for trade in self.trades if trade.status == "open"]
+    
+    def calculate_total_pnl(self) -> float:
+        """Calculate total P&L - simplified."""
+        return sum(trade.pnl for trade in self.get_closed_trades())
+    
+    def calculate_win_rate(self) -> float:
+        """Calculate win rate - simplified."""
+        closed_trades = self.get_closed_trades()
         if not closed_trades:
-            return {
-                "total_trades": len(self.trades),
-                "closed_trades": 0,
-                "open_trades": len(open_trades),
-                "current_capital": self.current_capital
-            }
+            return 0.0
         
-        # Basic statistics
-        total_trades = len(closed_trades)
-        winning_trades = [t for t in closed_trades if t.pnl > 0]
-        losing_trades = [t for t in closed_trades if t.pnl < 0]
-        
-        # P&L metrics
-        total_pnl = sum(t.pnl for t in closed_trades)
-        gross_profit = sum(t.pnl for t in winning_trades)
-        gross_loss = abs(sum(t.pnl for t in losing_trades))
-        
-        # Win rate and profit factor
-        win_rate = len(winning_trades) / total_trades if total_trades > 0 else 0
-        profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
-        
-        # Average metrics
-        avg_win = gross_profit / len(winning_trades) if winning_trades else 0
-        avg_loss = gross_loss / len(losing_trades) if losing_trades else 0
-        avg_trade = total_pnl / total_trades if total_trades > 0 else 0
-        
-        return {
-            "total_trades": total_trades,
-            "winning_trades": len(winning_trades),
-            "losing_trades": len(losing_trades),
-            "open_trades": len(open_trades),
-            "win_rate": win_rate,
-            "total_pnl": total_pnl,
-            "gross_profit": gross_profit,
-            "gross_loss": gross_loss,
-            "profit_factor": profit_factor,
-            "avg_win": avg_win,
-            "avg_loss": avg_loss,
-            "avg_trade": avg_trade,
-            "current_capital": self.current_capital,
-            "total_return_pct": ((self.current_capital - self.config.initial_capital) / self.config.initial_capital) * 100
-        }
+        winning_trades = [trade for trade in closed_trades if trade.pnl > 0]
+        return len(winning_trades) / len(closed_trades) * 100
     
-    def get_trade_log(self) -> List[Dict[str, Any]]:
-        """Get detailed trade log"""
-        trade_log = []
+    def calculate_max_drawdown(self) -> float:
+        """Calculate maximum drawdown - simplified."""
+        if not self.trades:
+            return 0.0
         
-        for i, trade in enumerate(self.trades):
-            trade_data = {
-                'trade_id': i + 1,
-                'entry_time': trade.entry_time.isoformat() if trade.entry_time else None,
-                'exit_time': trade.exit_time.isoformat() if trade.exit_time else None,
-                'side': trade.side.value,
-                'entry_price': trade.entry_price,
-                'exit_price': trade.exit_price,
-                'quantity': trade.quantity,
-                'stop_price': trade.stop_price,
-                'target_price': trade.target_price,
-                'pnl': trade.pnl,
-                'pnl_percent': trade.pnl_percent,
-                'commission': trade.commission,
-                'status': trade.status
-            }
-            trade_log.append(trade_data)
-        
-        return trade_log
-    
-    def clear_trades(self):
-        """Clear all trade history"""
-        self.trades.clear()
-        self.current_trade = None
-        self.position_size = 0.0
-        self.position_avg_price = 0.0
-        self.position_side = None
-    
-    def reset_capital(self, new_capital: Optional[float] = None):
-        """Reset capital to initial or specified amount"""
-        self.current_capital = new_capital or self.config.initial_capital
-    
-    def get_equity_curve(self) -> List[float]:
-        """Get equity curve data"""
-        equity_curve = [self.config.initial_capital]
-        running_capital = self.config.initial_capital
+        peak = self.config.initial_capital
+        max_dd = 0.0
+        current_capital = self.config.initial_capital
         
         for trade in self.trades:
             if trade.status == "closed":
-                running_capital += trade.pnl
-                equity_curve.append(running_capital)
+                current_capital += trade.pnl
+                if current_capital > peak:
+                    peak = current_capital
+                drawdown = (peak - current_capital) / peak * 100
+                max_dd = max(max_dd, drawdown)
         
-        return equity_curve
-
-
-# Factory function for dependency injection
-def create_position_management_engine(config: PositionConfig) -> PositionManagementEngine:
-    """Factory function to create position management engine with configuration"""
-    return PositionManagementEngine(config)
-
-
-# Export for DI
-__all__ = ['PositionManagementEngine', 'PositionConfig', 'Trade', 'create_position_management_engine']
+        return max_dd
+    
+    def get_performance_metrics(self) -> Dict[str, Any]:
+        """Get performance metrics - simplified."""
+        closed_trades = self.get_closed_trades()
+        
+        return {
+            "total_trades": len(closed_trades),
+            "win_rate": self.calculate_win_rate(),
+            "total_pnl": self.calculate_total_pnl(),
+            "max_drawdown": self.calculate_max_drawdown(),
+            "current_capital": self.capital,
+            "open_positions": len(self.get_open_trades())
+        }
+    
+    def reset(self) -> bool:
+        """Reset engine - simplified."""
+        try:
+            self.trades.clear()
+            self.current_position = None
+            self.capital = self.config.initial_capital
+            return True
+        except Exception:
+            return False
+    
+    def get_engine_status(self) -> Dict[str, Any]:
+        """Get engine status - simplified."""
+        return {
+            "engine_type": "position_management",
+            "initialized": self.is_initialized,
+            "current_capital": self.capital,
+            "total_trades": len(self.trades),
+            "open_position": self.current_position is not None
+        }

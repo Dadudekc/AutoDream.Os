@@ -25,7 +25,7 @@ from .vector_enhanced_contracts_models import (
     PerformanceTrend,
     OptimizationResult,
 )
-from .vector_enhanced_contracts_engine import VectorEnhancedContractEngine
+from .vector_enhanced_contracts_engine import VectorEnhancedContractsEngine
 
 
 class VectorEnhancedContractService:
@@ -35,7 +35,7 @@ class VectorEnhancedContractService:
         """Initialize vector enhanced contract service."""
         self.vector_db = vector_db
         self.lock_config = lock_config
-        self.engine = VectorEnhancedContractEngine()
+        self.engine = VectorEnhancedContractsEngine()
 
     # ================================
     # CORE CONTRACT OPERATIONS

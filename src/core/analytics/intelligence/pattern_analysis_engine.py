@@ -1,290 +1,202 @@
 #!/usr/bin/env python3
 """
-Vector Analytics Pattern Analysis Engine
+Pattern Analysis Engine - KISS Compliant
 ========================================
 
-Pattern analysis engine for vector analytics system.
-Handles behavioral patterns, temporal patterns, frequency analysis, and correlation detection.
-V2 COMPLIANT: Focused pattern analysis under 300 lines.
+Simple pattern analysis for analytics.
 
-@version 1.0.0 - V2 COMPLIANCE MODULAR PATTERN ANALYSIS
-@license MIT
+Author: Agent-5 - Business Intelligence Specialist
+License: MIT
 """
 
 import statistics
+import logging
 from typing import Dict, List, Any, Optional
-from datetime import datetime, timedelta
-from collections import Counter, defaultdict
+from datetime import datetime
+from collections import Counter
 
-from ..vector_analytics_models import PatternMatch, VectorAnalyticsConfig
-
+logger = logging.getLogger(__name__)
 
 class PatternAnalysisEngine:
-    """Pattern analysis engine for vector analytics"""
+    """Simple pattern analysis engine."""
     
-    def __init__(self, config: VectorAnalyticsConfig):
-        """Initialize pattern analysis engine with configuration"""
-        self.config = config
-        self.pattern_cache: Dict[str, List[PatternMatch]] = {}
+    def __init__(self, config=None):
+        """Initialize pattern analysis engine."""
+        self.config = config or {}
+        self.logger = logger
+        self.patterns = {}
+        self.analysis_history = []
     
-    def create_pattern_analysis_model(self) -> Dict[str, Any]:
-        """Create pattern analysis processing model"""
-        return {
-            'model_type': 'pattern_analysis',
-            'version': '1.0',
-            'capabilities': [
-                'behavioral_patterns',
-                'temporal_patterns',
-                'frequency_analysis',
-                'correlation_detection',
-                'clustering_analysis'
-            ],
-            'algorithms': {
-                'pattern_detection': self.detect_patterns,
-                'frequency_analysis': self.analyze_frequencies,
-                'correlation_analysis': self.analyze_correlations,
-                'clustering_analysis': self.perform_clustering
+    def analyze_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyze patterns in data."""
+        try:
+            if not data:
+                return {"error": "No data provided"}
+            
+            # Simple pattern analysis
+            patterns = self._extract_patterns(data)
+            trends = self._analyze_trends(data)
+            anomalies = self._detect_anomalies(data)
+            
+            analysis_result = {
+                "patterns": patterns,
+                "trends": trends,
+                "anomalies": anomalies,
+                "data_points": len(data),
+                "timestamp": datetime.now().isoformat()
             }
-        }
+            
+            # Store in history
+            self.analysis_history.append(analysis_result)
+            if len(self.analysis_history) > 100:  # Keep only last 100
+                self.analysis_history.pop(0)
+            
+            self.logger.info(f"Pattern analysis completed: {len(patterns)} patterns found")
+            return analysis_result
+            
+        except Exception as e:
+            self.logger.error(f"Error analyzing patterns: {e}")
+            return {"error": str(e)}
     
-    def detect_patterns(self, data: List[Any], pattern_type: str = 'behavioral') -> List[PatternMatch]:
-        """Detect patterns in data"""
-        patterns = []
-        
-        if pattern_type == 'frequency':
-            patterns.extend(self.detect_frequency_patterns(data))
-        elif pattern_type == 'temporal':
-            patterns.extend(self.detect_temporal_patterns(data))
-        elif pattern_type == 'behavioral':
-            patterns.extend(self.detect_behavioral_patterns(data))
-        
-        return patterns
+    def _extract_patterns(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Extract patterns from data."""
+        try:
+            patterns = []
+            
+            # Simple pattern extraction
+            for item in data:
+                if isinstance(item, dict):
+                    for key, value in item.items():
+                        if isinstance(value, (int, float)):
+                            patterns.append({
+                                "field": key,
+                                "value": value,
+                                "type": "numeric"
+                            })
+                        elif isinstance(value, str):
+                            patterns.append({
+                                "field": key,
+                                "value": value,
+                                "type": "text"
+                            })
+            
+            return patterns[:10]  # Limit to 10 patterns
+        except Exception as e:
+            self.logger.error(f"Error extracting patterns: {e}")
+            return []
     
-    def detect_frequency_patterns(self, data: List[Any]) -> List[PatternMatch]:
-        """Detect frequency-based patterns"""
-        counter = Counter(data)
-        patterns = []
-        
-        # Find most common patterns
-        most_common = counter.most_common(5)
-        for item, count in most_common:
-            frequency = count / len(data)
-            if frequency > 0.1:  # 10% threshold
-                patterns.append(PatternMatch(
-                    pattern_type='frequency',
-                    pattern_data=item,
-                    confidence=frequency,
-                    metadata={'count': count, 'total': len(data)}
-                ))
-        
-        return patterns
-    
-    def detect_temporal_patterns(self, data: List[Any]) -> List[PatternMatch]:
-        """Detect temporal patterns in time-series data"""
-        patterns = []
-        
-        if len(data) < 3:
-            return patterns
-        
-        # Detect trends
-        trend = self._calculate_trend(data)
-        if abs(trend) > 0.1:  # 10% change threshold
-            patterns.append(PatternMatch(
-                pattern_type='temporal_trend',
-                pattern_data=trend,
-                confidence=min(abs(trend), 1.0),
-                metadata={'direction': 'increasing' if trend > 0 else 'decreasing'}
-            ))
-        
-        # Detect cycles (simplified)
-        cycle_length = self._detect_cycle_length(data)
-        if cycle_length > 0:
-            patterns.append(PatternMatch(
-                pattern_type='temporal_cycle',
-                pattern_data=cycle_length,
-                confidence=0.7,  # Simplified confidence
-                metadata={'cycle_length': cycle_length}
-            ))
-        
-        return patterns
-    
-    def detect_behavioral_patterns(self, data: List[Any]) -> List[PatternMatch]:
-        """Detect behavioral patterns in data"""
-        patterns = []
-        
-        if not data:
-            return patterns
-        
-        # Detect sequences
-        sequences = self._find_sequences(data)
-        for sequence in sequences:
-            if len(sequence) >= 3:  # Minimum sequence length
-                patterns.append(PatternMatch(
-                    pattern_type='behavioral_sequence',
-                    pattern_data=sequence,
-                    confidence=len(sequence) / 10.0,  # Normalized confidence
-                    metadata={'sequence_length': len(sequence)}
-                ))
-        
-        # Detect anomalies
-        anomalies = self._detect_behavioral_anomalies(data)
-        for anomaly in anomalies:
-            patterns.append(PatternMatch(
-                pattern_type='behavioral_anomaly',
-                pattern_data=anomaly,
-                confidence=anomaly.get('severity_score', 0.5),
-                metadata={'anomaly_type': 'behavioral'}
-            ))
-        
-        return patterns
-    
-    def analyze_frequencies(self, data: List[Any]) -> Dict[str, Any]:
-        """Analyze frequency patterns"""
-        counter = Counter(data)
-        return {
-            'frequencies': dict(counter.most_common(10)),
-            'unique_count': len(counter),
-            'total_count': len(data),
-            'most_common': counter.most_common(1)[0] if counter else None
-        }
-    
-    def analyze_correlations(self, data1: List[float], data2: List[float]) -> Dict[str, Any]:
-        """Analyze correlations between two datasets"""
-        if len(data1) != len(data2) or len(data1) < 2:
-            return {'correlation': 0.0, 'strength': 'none', 'confidence': 0.0}
-        
-        # Calculate Pearson correlation coefficient
-        correlation = self._calculate_pearson_correlation(data1, data2)
-        
-        # Determine strength
-        if abs(correlation) > 0.7:
-            strength = 'strong'
-        elif abs(correlation) > 0.4:
-            strength = 'moderate'
-        elif abs(correlation) > 0.2:
-            strength = 'weak'
-        else:
-            strength = 'none'
-        
-        return {
-            'correlation': correlation,
-            'strength': strength,
-            'confidence': min(abs(correlation), 1.0),
-            'sample_size': len(data1)
-        }
-    
-    def perform_clustering(self, data: List[Any], num_clusters: int = 3) -> Dict[str, Any]:
-        """Perform clustering analysis (simplified)"""
-        if len(data) < num_clusters:
-            return {'clusters': [], 'error': 'insufficient_data'}
-        
-        # Simple clustering based on value ranges
-        clusters = defaultdict(list)
-        data_sorted = sorted(data)
-        
-        # Divide data into clusters
-        cluster_size = len(data_sorted) // num_clusters
-        for i, value in enumerate(data_sorted):
-            cluster_id = min(i // cluster_size, num_clusters - 1)
-            clusters[cluster_id].append(value)
-        
-        # Calculate cluster statistics
-        cluster_stats = {}
-        for cluster_id, values in clusters.items():
-            if values:
-                cluster_stats[cluster_id] = {
-                    'size': len(values),
-                    'mean': statistics.mean(values),
-                    'min': min(values),
-                    'max': max(values)
-                }
-        
-        return {
-            'clusters': dict(clusters),
-            'cluster_stats': cluster_stats,
-            'num_clusters': num_clusters
-        }
-    
-    def _calculate_trend(self, data: List[float]) -> float:
-        """Calculate trend in data"""
-        if len(data) < 2:
-            return 0.0
-        
-        first_half = data[:len(data)//2]
-        second_half = data[len(data)//2:]
-        
-        first_avg = statistics.mean(first_half)
-        second_avg = statistics.mean(second_half)
-        
-        if first_avg == 0:
-            return 0.0
-        
-        return (second_avg - first_avg) / first_avg
-    
-    def _detect_cycle_length(self, data: List[Any]) -> int:
-        """Detect cycle length in data (simplified)"""
-        if len(data) < 6:
-            return 0
-        
-        # Look for repeating patterns
-        for cycle_len in range(2, len(data) // 2):
-            if self._is_cyclic(data, cycle_len):
-                return cycle_len
-        
-        return 0
-    
-    def _is_cyclic(self, data: List[Any], cycle_len: int) -> bool:
-        """Check if data is cyclic with given cycle length"""
-        if len(data) < cycle_len * 2:
-            return False
-        
-        # Check if first cycle matches second cycle
-        first_cycle = data[:cycle_len]
-        second_cycle = data[cycle_len:cycle_len * 2]
-        
-        return first_cycle == second_cycle
-    
-    def _find_sequences(self, data: List[Any]) -> List[List[Any]]:
-        """Find repeating sequences in data"""
-        sequences = []
-        
-        for seq_len in range(2, min(len(data) // 2, 10)):
-            for i in range(len(data) - seq_len * 2 + 1):
-                sequence = data[i:i + seq_len]
-                next_sequence = data[i + seq_len:i + seq_len * 2]
+    def _analyze_trends(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyze trends in data."""
+        try:
+            if not data:
+                return {"trend": "no_data"}
+            
+            # Simple trend analysis
+            numeric_values = []
+            for item in data:
+                if isinstance(item, dict):
+                    for value in item.values():
+                        if isinstance(value, (int, float)):
+                            numeric_values.append(value)
+            
+            if not numeric_values:
+                return {"trend": "no_numeric_data"}
+            
+            # Calculate simple trend
+            if len(numeric_values) >= 2:
+                first_half = numeric_values[:len(numeric_values)//2]
+                second_half = numeric_values[len(numeric_values)//2:]
                 
-                if sequence == next_sequence:
-                    sequences.append(sequence)
-        
-        return sequences
+                first_avg = statistics.mean(first_half)
+                second_avg = statistics.mean(second_half)
+                
+                if second_avg > first_avg * 1.1:
+                    trend = "increasing"
+                elif second_avg < first_avg * 0.9:
+                    trend = "decreasing"
+                else:
+                    trend = "stable"
+            else:
+                trend = "insufficient_data"
+            
+            return {
+                "trend": trend,
+                "data_points": len(numeric_values),
+                "avg_value": round(statistics.mean(numeric_values), 3)
+            }
+        except Exception as e:
+            self.logger.error(f"Error analyzing trends: {e}")
+            return {"trend": "error"}
     
+    def _detect_anomalies(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Detect anomalies in data."""
+        try:
+            anomalies = []
+            
+            # Simple anomaly detection
+            numeric_values = []
+            for item in data:
+                if isinstance(item, dict):
+                    for value in item.values():
+                        if isinstance(value, (int, float)):
+                            numeric_values.append(value)
+            
+            if len(numeric_values) < 3:
+                return anomalies
+            
+            # Calculate mean and standard deviation
+            mean_val = statistics.mean(numeric_values)
+            stdev_val = statistics.stdev(numeric_values) if len(numeric_values) > 1 else 0
+            
+            # Find values that are more than 2 standard deviations from mean
+            threshold = 2 * stdev_val
+            for i, value in enumerate(numeric_values):
+                if abs(value - mean_val) > threshold:
+                    anomalies.append({
+                        "index": i,
+                        "value": value,
+                        "deviation": round(abs(value - mean_val), 3)
+                    })
+            
+            return anomalies[:5]  # Limit to 5 anomalies
+        except Exception as e:
+            self.logger.error(f"Error detecting anomalies: {e}")
+            return []
     
-    def _calculate_pearson_correlation(self, x: List[float], y: List[float]) -> float:
-        """Calculate Pearson correlation coefficient"""
-        if len(x) != len(y) or len(x) < 2:
-            return 0.0
-        
-        n = len(x)
-        sum_x = sum(x)
-        sum_y = sum(y)
-        sum_xy = sum(x[i] * y[i] for i in range(n))
-        sum_x2 = sum(x[i] ** 2 for i in range(n))
-        sum_y2 = sum(y[i] ** 2 for i in range(n))
-        
-        numerator = n * sum_xy - sum_x * sum_y
-        denominator = ((n * sum_x2 - sum_x ** 2) * (n * sum_y2 - sum_y ** 2)) ** 0.5
-        
-        if denominator == 0:
-            return 0.0
-        
-        return numerator / denominator
+    def get_analysis_summary(self) -> Dict[str, Any]:
+        """Get analysis summary."""
+        try:
+            if not self.analysis_history:
+                return {"message": "No analysis data available"}
+            
+            total_analyses = len(self.analysis_history)
+            recent_analysis = self.analysis_history[-1] if self.analysis_history else {}
+            
+            return {
+                "total_analyses": total_analyses,
+                "recent_analysis": recent_analysis,
+                "timestamp": datetime.now().isoformat()
+            }
+        except Exception as e:
+            self.logger.error(f"Error getting analysis summary: {e}")
+            return {"error": str(e)}
+    
+    def clear_analysis_history(self) -> None:
+        """Clear analysis history."""
+        self.analysis_history.clear()
+        self.logger.info("Analysis history cleared")
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get engine status."""
+        return {
+            "active": True,
+            "analyses_count": len(self.analysis_history),
+            "timestamp": datetime.now().isoformat()
+        }
 
-
-# Factory function for dependency injection
-def create_pattern_analysis_engine(config: VectorAnalyticsConfig) -> PatternAnalysisEngine:
-    """Factory function to create pattern analysis engine with configuration"""
+# Simple factory function
+def create_pattern_analysis_engine(config=None) -> PatternAnalysisEngine:
+    """Create pattern analysis engine."""
     return PatternAnalysisEngine(config)
 
-
-# Export for DI
-__all__ = ['PatternAnalysisEngine', 'create_pattern_analysis_engine']
+__all__ = ["PatternAnalysisEngine", "create_pattern_analysis_engine"]

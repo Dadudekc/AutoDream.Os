@@ -15,17 +15,12 @@ import asyncio
 import time
 from typing import Any, Dict, List
 from queue import Queue, Empty
-import logging
 
 from .messaging_optimizer_models import (
     MessagingConfig, MessagingMetrics, OptimizationResult
 )
 
-# Import systems with fallback
-try:
-    from .unified_logging_system import get_logger
-except ImportError:
-    def get_logger(name): return logging.getLogger(name)
+from src.utils.logger import get_logger
 
 
 class BatchProcessor:

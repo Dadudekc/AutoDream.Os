@@ -15,7 +15,6 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List, Optional
 from datetime import datetime
-import logging
 
 from ..integration_models import (
     EnhancedOptimizationConfig, IntegrationStatus, create_default_optimization_config,
@@ -24,18 +23,20 @@ from ..integration_models import (
 from ..engines.integration_task_engine import IntegrationTaskEngine
 from ..engines.integration_performance_engine import IntegrationPerformanceEngine
 
-# Import system components with fallback
+from src.utils.logger import get_logger
+
 try:
-    from ...unified_logging_system import get_logger
     from ...unified_validation_system import validate_required_fields
     from ...vector_database_enhanced_integration import EnhancedVectorDatabaseIntegration
 except ImportError:
     # Fallback implementations
-    def get_logger(name): return logging.getLogger(name)
     def validate_required_fields(*args): return True
     class EnhancedVectorDatabaseIntegration:
-        def __init__(self, *args, **kwargs): pass
-        def optimize_performance(self): return {}
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def optimize_performance(self):
+            return {}
 
 
 class EnhancedIntegrationCoordinator:

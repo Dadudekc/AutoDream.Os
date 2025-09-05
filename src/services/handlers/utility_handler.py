@@ -1,6 +1,4 @@
-"""
-Utility Handler - V2 Compliant Module
-====================================
+"""Utility Handler - V2 Compliant Module.
 
 Handles utility commands for messaging CLI.
 Extracted from messaging_cli_handlers.py for V2 compliance.
@@ -12,6 +10,8 @@ License: MIT
 """
 
 from typing import Any, Dict, List, Optional
+
+from ..utils.agent_registry import list_agents
 
 
 class UtilityHandler:
@@ -31,23 +31,20 @@ class UtilityHandler:
         """Handle utility-related commands."""
         try:
             if args.list_agents:
+                agents = list_agents()
                 print("Available Agents:")
                 print("=" * 40)
-                print("Agent-1: Integration & Core Systems")
-                print("Agent-2: Architecture & Design")
-                print("Agent-3: Infrastructure & DevOps")
-                print("Agent-4: Strategic Oversight & Emergency Intervention")
-                print("Agent-5: Business Intelligence")
-                print("Agent-6: Coordination & Communication")
-                print("Agent-7: Web Development")
-                print("Agent-8: SSOT & System Integration")
+                for agent_id, info in agents.items():
+                    print(f"{agent_id}: {info['description']}")
                 return True
-                
+
             if args.coordinates:
+                agents = list_agents()
                 print("Agent Coordinates:")
                 print("=" * 40)
-                print("Agent coordinates loaded from configuration")
-                print("Use --agent to send messages to specific agents")
+                for agent_id, info in agents.items():
+                    coords = info.get("coords", {})
+                    print(f"{agent_id}: {coords}")
                 return True
                 
             if args.history:
@@ -64,29 +61,13 @@ class UtilityHandler:
     
     def list_agents(self) -> List[str]:
         """Get list of available agents."""
-        return [
-            "Agent-1: Integration & Core Systems",
-            "Agent-2: Architecture & Design", 
-            "Agent-3: Infrastructure & DevOps",
-            "Agent-4: Strategic Oversight & Emergency Intervention",
-            "Agent-5: Business Intelligence",
-            "Agent-6: Coordination & Communication",
-            "Agent-7: Web Development",
-            "Agent-8: SSOT & System Integration"
-        ]
-    
+        agents = list_agents()
+        return [f"{aid}: {info['description']}" for aid, info in agents.items()]
+
     def get_coordinates(self) -> Dict[str, Any]:
         """Get agent coordinates."""
-        return {
-            "Agent-1": {"x": -100, "y": 1000},
-            "Agent-2": {"x": -200, "y": 1000},
-            "Agent-3": {"x": -300, "y": 1000},
-            "Agent-4": {"x": -400, "y": 1000},
-            "Agent-5": {"x": -500, "y": 1000},
-            "Agent-6": {"x": -600, "y": 1000},
-            "Agent-7": {"x": -700, "y": 1000},
-            "Agent-8": {"x": -800, "y": 1000}
-        }
+        agents = list_agents()
+        return {aid: info.get("coords", {}) for aid, info in agents.items()}
     
     def get_history(self) -> List[Dict[str, Any]]:
         """Get message history."""

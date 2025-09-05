@@ -15,6 +15,8 @@ import time
 from typing import Any, Dict, List, Optional
 import logging
 
+from ..utils.agent_registry import list_agents
+
 
 class CommandHandler:
     """Handler for CLI command processing and response handling."""
@@ -99,16 +101,14 @@ class CommandHandler:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    async def _handle_list_agents_command(self, coordinate_handler) -> Dict[str, Any]:
+    async def _handle_list_agents_command(self, _coordinate_handler) -> Dict[str, Any]:
         """Handle list agents command."""
         try:
-            result = await coordinate_handler.load_coordinates_async()
-            if result.get("success", False):
-                agents = list(result["coordinates"].keys())
-                print(f"\n🤖 Available Agents ({len(agents)}):")
-                for agent in sorted(agents):
-                    print(f"  - {agent}")
-            return result
+            agents = sorted(list(list_agents().keys()))
+            print(f"\n🤖 Available Agents ({len(agents)}):")
+            for agent in agents:
+                print(f"  - {agent}")
+            return {"success": True, "agents": agents}
         except Exception as e:
             return {"success": False, "error": str(e)}
 

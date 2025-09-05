@@ -1,18 +1,22 @@
-"""Shared test fixtures and utilities"""
+"""Shared test fixtures and utilities."""
+
+import pytest
+from unittest.mock import Mock
 
 
 @pytest.fixture
 def mock_service():
-    """Mock service for testing"""
+    """Mock service for testing."""
     service = Mock()
     service.process.return_value = {"status": "success"}
     return service
 
+
 @pytest.fixture
 def test_data():
-    """Sample test data"""
+    """Sample test data."""
     return {
         "agent_id": "test_agent",
         "operation": "test_operation",
-        "timestamp": "2025-01-01T00:00:00Z"
+        "timestamp": "2025-01-01T00:00:00Z",
     }

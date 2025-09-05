@@ -388,6 +388,7 @@
   "tests/test_vector_analytics_processor_v2.py::TestVectorAnalyticsProcessorV2Integration::test_end_to_end_processing",
   "tests/test_vector_analytics_processor_v2.py::TestVectorAnalyticsProcessorV2Integration::test_performance_metrics",
   "tests/test_vector_analytics_processor_v2.py::TestVectorAnalyticsProcessorV2Integration::test_system_health_monitoring",
+  "tests/utils/test_agent_registry.py::test_list_agents_contains_expected_agents",
   "tests/vector_database/test_embedding_service.py::TestEmbeddingService::test_embedding_service_initialization",
   "tests/vector_database/test_embedding_service.py::TestEmbeddingService::test_generate_embedding_openai",
   "tests/vector_database/test_embedding_service.py::TestEmbeddingService::test_generate_embedding_sentence_transformers",

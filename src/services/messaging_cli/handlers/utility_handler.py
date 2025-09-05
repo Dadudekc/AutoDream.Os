@@ -14,21 +14,23 @@ import logging
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
-try:
-    from ...models.messaging_models import UnifiedMessage
-    from ....core.unified_data_processing_system import read_json, write_json
-except ImportError:
-    # Fallback implementations
-    class UnifiedMessage:
-        def __init__(self, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
-    
-    def read_json(file_path: str) -> Dict[str, Any]:
-        return {}
-    
-    def write_json(file_path: str, data: Dict[str, Any]) -> bool:
-        return True
+    try:
+        from ...models.messaging_models import UnifiedMessage
+        from ....core.unified_data_processing_system import read_json, write_json
+    except ImportError:
+        # Fallback implementations
+        class UnifiedMessage:  # type: ignore
+            def __init__(self, **kwargs):
+                for key, value in kwargs.items():
+                    setattr(self, key, value)
+
+        def read_json(file_path: str) -> Dict[str, Any]:  # type: ignore
+            return {}
+
+        def write_json(file_path: str, data: Dict[str, Any]) -> bool:  # type: ignore
+            return True
+
+    from ...utils.agent_registry import list_agents
 
 
 class UtilityHandler:
@@ -83,9 +85,8 @@ class UtilityHandler:
     def _check_all_agents_status(self) -> Dict[str, Any]:
         """Check status of all agents."""
         try:
-            agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", 
-                     "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
-            
+            agents = list(list_agents().keys())
+
             status_results = {}
             active_count = 0
             

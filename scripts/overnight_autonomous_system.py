@@ -19,12 +19,13 @@ from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
+from services.utils.agent_registry import list_agents
 
 class OvernightAutonomousSystem:
     """Manages overnight autonomous work cycles for all agents."""
     
     def __init__(self):
-        self.agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+        self.agents = list_agents()
         self.cycle_interval = 600  # 10 minutes in seconds
         self.work_cycle_message = self._create_work_cycle_message()
         

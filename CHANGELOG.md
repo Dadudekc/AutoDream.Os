@@ -54,5 +54,9 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Changed
+- Consolidated captain documentation into `docs/guides/captain_handbook.md`.
+
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
+- Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.

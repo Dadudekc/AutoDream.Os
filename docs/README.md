@@ -22,7 +22,7 @@
 - `CHANGELOG.md` - **Project changelog and updates**
 
 ### **📖 Guides & Implementation**
-- `CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md` - **Captain's strategic operations guide**
+- `captain_handbook.md` - **Captain's strategic operations guide**
 - `QUICK_START.md` - **Quick start guide**
 - `README.md` - **Main project README**
 
@@ -57,7 +57,7 @@ docs/
 ├── architecture/
 │   └── system_architecture.md         # System architecture docs
 ├── guides/
-│   ├── CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md
+│   ├── captain_handbook.md
 │   ├── ADMIN_COMMANDER_SETUP.md
 │   ├── BOT_INVITE_SETUP.md
 │   ├── DISCORD_BOT_SETUP.md

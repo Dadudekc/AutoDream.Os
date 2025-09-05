@@ -2118,3 +2118,402 @@
 2025-09-04 05:53:40 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
 2025-09-04 05:54:43 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
 2025-09-04 05:55:46 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 05:56:51 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 05:57:53 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 05:58:56 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:00:01 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:01:03 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:02:05 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:03:06 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:04:08 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:05:10 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:06:12 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:07:14 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:08:16 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:09:18 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:10:19 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:11:21 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:12:23 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:13:25 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:14:28 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:15:30 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:16:32 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:17:33 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:18:35 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:19:37 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:20:39 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:21:41 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:22:44 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:23:47 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:24:49 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 06:25:51 - src.core.pr_monitoring_system - INFO - Found 1 open pull requests
+2025-09-04 17:59:02 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 17:59:42 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:00:15 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:00:15 - src.core.analytics.vector_analytics_processor - INFO - Real-time analytics processing configured (will start when async loop available)
+2025-09-04 18:00:15 - src.core.analytics.vector_analytics_processor - INFO - Batch analytics processing activated
+2025-09-04 18:00:15 - src.core.analytics.vector_analytics_processor - INFO - Analytics processor initialized with hybrid mode
+2025-09-04 18:00:15 - src.core.analytics.vector_analytics_orchestrator - INFO - Vector Analytics Orchestrator initialized with advanced intelligence
+2025-09-04 18:09:06 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:09:06 - src.core.integration.vector_integration_monitor - INFO - Vector Integration Monitor initialized
+2025-09-04 18:09:06 - src.core.integration.vector_integration_analytics_engine - INFO - Vector Integration Analytics Engine initialized
+2025-09-04 18:09:06 - src.core.integration.vector_integration_analytics_orchestrator - INFO - Vector Integration Analytics Orchestrator initialized
+2025-09-04 18:09:11 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:09:11 - src.core.integration.vector_integration_monitor - INFO - Vector Integration Monitor initialized
+2025-09-04 18:09:11 - src.core.integration.vector_integration_analytics_engine - INFO - Vector Integration Analytics Engine initialized
+2025-09-04 18:09:11 - src.core.integration.vector_integration_analytics_orchestrator - INFO - Vector Integration Analytics Orchestrator initialized
+2025-09-04 18:09:11 - src.core.integration.vector_integration_analytics_orchestrator - INFO - Starting Vector Integration Analytics System...
+2025-09-04 18:09:11 - src.core.integration.vector_integration_monitor - WARNING - WARNING: response_time_ms is 139.94 milliseconds, exceeding warning threshold
+2025-09-04 18:09:11 - src.core.integration.vector_integration_monitor - INFO - Real-time monitoring started
+2025-09-04 18:09:11 - src.core.integration.vector_integration_monitor - WARNING - WARNING: throughput_ops_sec is 1002.27 operations/second, exceeding warning threshold
+2025-09-04 18:09:11 - src.core.integration.vector_integration_analytics_orchestrator - INFO - Vector Integration Analytics System started successfully
+2025-09-04 18:09:11 - src.core.integration.vector_integration_analytics_orchestrator - INFO - Stopping Vector Integration Analytics System...
+2025-09-04 18:09:12 - src.core.integration.vector_integration_monitor - INFO - Real-time monitoring stopped
+2025-09-04 18:09:12 - src.core.integration.vector_integration_analytics_orchestrator - INFO - Vector Integration Analytics System stopped successfully
+2025-09-04 18:21:57 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:21:57 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 18:22:17 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:22:17 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 18:22:17 - src.services.protocol.messaging_protocol_router - INFO - Messaging Protocol Router initialized
+2025-09-04 18:22:17 - src.services.protocol.messaging_protocol_batch_manager - INFO - Messaging Protocol Batch Manager initialized
+2025-09-04 18:22:17 - src.services.protocol.messaging_protocol_orchestrator - INFO - 🚀 Messaging Protocol Orchestrator initialized
+2025-09-04 18:22:23 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:22:23 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 18:22:23 - src.services.protocol.messaging_protocol_router - INFO - Messaging Protocol Router initialized
+2025-09-04 18:22:23 - src.services.protocol.messaging_protocol_batch_manager - INFO - Messaging Protocol Batch Manager initialized
+2025-09-04 18:22:23 - src.services.protocol.messaging_protocol_orchestrator - INFO - 🚀 Messaging Protocol Orchestrator initialized
+2025-09-04 18:22:23 - src.services.protocol.messaging_protocol_orchestrator - INFO - Messaging protocol optimization started
+2025-09-04 18:44:24 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 18:44:24 - src.core.ml_optimizer.ml_learning_engine - INFO - ML Learning Engine initialized
+2025-09-04 18:44:24 - src.core.vector_database_optimizer - INFO - Vector database optimizer initialized with caching: True
+2025-09-04 18:44:24 - src.core.messaging_integration_optimizer - INFO - Messaging integration optimizer initialized with batching: True
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - INFO - Advanced caching system initialized
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - INFO - Intelligent connection pooling initialized
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - ERROR - Performance monitoring error: 'EnhancedVectorDatabaseIntegration' object has no attribute 'metrics'
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - INFO - Real-time monitoring initialized
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - ERROR - Auto-optimization error: 'EnhancedVectorDatabaseIntegration' object has no attribute 'performance_history'
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - INFO - Auto-optimization system initialized
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - INFO - Cross-system coordination initialized
+2025-09-04 18:44:24 - src.core.vector_database_enhanced_integration - INFO - Enhanced Vector Database Integration initialized successfully
+2025-09-04 18:44:24 - src.core.ml_optimizer.ml_optimizer_orchestrator - INFO - 🚀 Vector Database ML Optimizer initialized
+2025-09-04 18:44:24 - src.core.ml_optimizer.ml_optimizer_orchestrator - INFO - Background optimization started
+2025-09-04 18:44:24 - src.core.ml_optimizer.ml_learning_engine - INFO - Models loaded from models/ml_optimizer
+2025-09-04 18:44:24 - src.core.ml_optimizer.ml_optimizer_orchestrator - INFO - ML optimization started with strategies: ['predictive_caching', 'adaptive_tuning', 'pattern_learning']
+2025-09-04 21:56:23 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 21:56:23 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: cannot import name 'MessagingCoreOrchestrator' from 'src.services.messaging_core_orchestrator' (D:\Agent_Cellphone_V2_Repository\src\services\messaging_core_orchestrator.py)
+2025-09-04 21:56:27 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 21:56:27 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: cannot import name 'MessagingCoreOrchestrator' from 'src.services.messaging_core_orchestrator' (D:\Agent_Cellphone_V2_Repository\src\services\messaging_core_orchestrator.py)
+2025-09-04 21:56:49 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 21:56:49 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: cannot import name 'MessagingCoreOrchestrator' from 'src.services.messaging_core_orchestrator' (D:\Agent_Cellphone_V2_Repository\src\services\messaging_core_orchestrator.py)
+2025-09-04 21:57:01 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 21:57:01 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: MessagingCoreOrchestrator.__init__() got an unexpected keyword argument 'config'
+2025-09-04 21:57:18 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 21:57:18 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: handle_utility_commands() takes 1 positional argument but 2 were given
+2025-09-04 21:57:36 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 21:57:36 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: handle_utility_commands() takes 1 positional argument but 2 were given
+2025-09-04 22:10:42 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:10:42 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:10:42 - src.services.messaging_core_orchestrator_v2 - INFO - 🚀 Messaging Core Orchestrator V2 initialized
+2025-09-04 22:10:48 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:10:48 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:10:48 - src.services.messaging_core_orchestrator_v2 - INFO - 🚀 Messaging Core Orchestrator V2 initialized
+2025-09-04 22:10:55 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:10:55 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:10:55 - src.services.messaging_core_orchestrator_v2 - INFO - 🚀 Messaging Core Orchestrator V2 initialized
+2025-09-04 22:10:55 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:10:55 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221055_d3f236
+2025-09-04 22:10:55 - src.services.messaging_core - ERROR - ❌ Failed to send to inbox: 'NoneType' object has no attribute 'resolve_path'
+2025-09-04 22:11:13 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:11:13 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:13 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221113_b2771c
+2025-09-04 22:11:13 - src.services.messaging_core - ERROR - ❌ Failed to send to inbox: 'NoneType' object has no attribute 'resolve_path'
+2025-09-04 22:11:30 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:11:30 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:30 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221130_790310
+2025-09-04 22:11:30 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-4\inbox\message_20250904_221130_msg_2025.md
+2025-09-04 22:11:37 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:11:37 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:37 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221137_8cb374
+2025-09-04 22:11:37 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:11:38 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:11:42 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:11:42 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:42 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:11:42 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:42 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:11:45 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:11:45 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:45 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221145_f7e94e
+2025-09-04 22:11:45 - src.services.messaging_core - ERROR - ❌ Failed to send to inbox: name 'message_identity_clarification' is not defined
+2025-09-04 22:11:58 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:11:58 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:11:58 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221158_df5fba
+2025-09-04 22:11:58 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-4\inbox\message_20250904_221158_msg_2025.md
+2025-09-04 22:12:02 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_bc7ee0
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-1\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_ba4395
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-2\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_4a0001
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-3\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_9974b2
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-5\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_4205c2
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-6\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_1e83af
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-7\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_c2cddd
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-8\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221202_fc8d69
+2025-09-04 22:12:02 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-4\inbox\message_20250904_221202_msg_2025.md
+2025-09-04 22:12:11 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:12:11 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:11 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:12:11 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:12:11 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:13:30 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:13:30 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:30 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221330_3ddc3a
+2025-09-04 22:13:30 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-4\inbox\message_20250904_221330_msg_2025.md
+2025-09-04 22:13:33 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:13:33 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:33 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221333_bba361
+2025-09-04 22:13:33 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:13:35 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:13:39 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_daa03e
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-1\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_91ccde
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-2\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_d385b4
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-3\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_068b2d
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-5\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_8a2f27
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-6\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_a834e3
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-7\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_1d02b9
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-8\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221339_357860
+2025-09-04 22:13:39 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-4\inbox\message_20250904_221339_msg_2025.md
+2025-09-04 22:13:44 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:13:44 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:13:44 - src.services.messaging_core - INFO - ✅ Created message: msg_20250904_221344_bb4a4d
+2025-09-04 22:13:44 - src.services.messaging_core - INFO - ✅ Message sent to inbox: agent_workspaces\Agent-4\inbox\message_20250904_221344_msg_2025.md
+2025-09-04 22:17:48 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:17:48 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:17:48 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:17:48 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:17:48 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:17:55 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:17:55 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:17:55 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:17:55 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:17:55 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:18:02 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:18:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:18:02 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:18:02 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:18:02 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:18:09 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:18:09 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:18:09 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:18:09 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:18:09 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:20:03 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:20:03 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:20:03 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:20:03 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:20:03 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:20:12 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:20:12 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:20:12 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:20:12 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:20:12 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:20:18 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:20:18 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:20:18 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:20:18 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:20:18 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:20:37 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:20:37 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:14 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:21:14 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:14 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:21:14 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:14 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:21:24 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:21:24 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:24 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:21:24 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:24 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:21:34 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:21:34 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:34 - src.services.messaging_core_orchestrator_v2 - WARNING - Using fallback implementations: CAPTAIN
+2025-09-04 22:21:34 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:21:34 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: CAPTAIN
+2025-09-04 22:27:04 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:27:04 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: No module named 'src.services.messaging_core_orchestrator'
+2025-09-04 22:27:55 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:27:55 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:28:07 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:28:07 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:28:07 - src.services.messaging_core - ERROR - ❌ PyAutoGUI delivery failed: 'dict' object has no attribute 'recipient'
+2025-09-04 22:28:18 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:28:18 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:28:18 - src.services.messaging_core - ERROR - ❌ PyAutoGUI delivery failed: 'dict' object has no attribute 'recipient'
+2025-09-04 22:28:26 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:28:26 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:28:58 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:28:58 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:23 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:29:23 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:27 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:29:27 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:31 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:29:31 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:35 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:29:35 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:35 - src.services.messaging_core - ERROR - ❌ PyAutoGUI delivery failed: 'dict' object has no attribute 'recipient'
+2025-09-04 22:29:44 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:29:44 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:44 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:29:45 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:29:54 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:29:54 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:29:54 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:29:55 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:35:06 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:35:06 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:35:06 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-1 at (-1269, 481)
+2025-09-04 22:35:08 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-1
+2025-09-04 22:35:15 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:35:15 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:35:15 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-2 at (-308, 480)
+2025-09-04 22:35:16 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-2
+2025-09-04 22:35:27 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:35:27 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:35:27 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-3 at (-1269, 1001)
+2025-09-04 22:35:29 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-3
+2025-09-04 22:35:41 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:35:41 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:35:41 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:35:42 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:35:54 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:35:54 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:35:54 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-5 at (652, 421)
+2025-09-04 22:35:57 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-5
+2025-09-04 22:36:18 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:36:18 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:36:18 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-6 at (1612, 419)
+2025-09-04 22:36:27 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-6
+2025-09-04 22:36:59 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:36:59 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:36:59 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-7 at (653, 940)
+2025-09-04 22:37:06 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-7
+2025-09-04 22:37:33 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:37:33 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:37:33 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-8 at (1611, 941)
+2025-09-04 22:37:50 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-8
+2025-09-04 22:40:16 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:40:16 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:40:17 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:40:36 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:40:36 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:40:37 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:40:39 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:40:43 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:42:04 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:42:04 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:42:04 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-8 at (1611, 941)
+2025-09-04 22:42:17 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-8
+2025-09-04 22:43:15 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:43:15 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:43:15 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:43:18 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:44:03 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:44:03 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:45:37 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:45:37 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:45:37 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-8 at (1611, 941)
+2025-09-04 22:45:40 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-8
+2025-09-04 22:46:37 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:46:37 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:46:37 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:46:41 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:48:10 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:48:10 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:48:10 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:48:11 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:53:19 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:53:19 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:53:19 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-1 at (-1269, 481)
+2025-09-04 22:53:23 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-1
+2025-09-04 22:54:13 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:54:13 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:54:13 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-2 at (-308, 480)
+2025-09-04 22:54:14 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-2
+2025-09-04 22:55:03 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:55:03 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:55:05 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:55:05 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:55:05 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-3 at (-1269, 1001)
+2025-09-04 22:55:06 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-3
+2025-09-04 22:55:33 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:55:33 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:55:33 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:55:34 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 22:56:00 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:56:00 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:56:00 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-5 at (652, 421)
+2025-09-04 22:56:10 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-5
+2025-09-04 22:56:59 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:56:59 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:56:59 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-6 at (1612, 419)
+2025-09-04 22:57:11 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-6
+2025-09-04 22:58:39 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 22:58:39 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
+2025-09-04 22:58:39 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 22:58:42 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 23:08:13 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:08:13 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: name 'ValidationPatterns' is not defined
+2025-09-04 23:11:43 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:11:43 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: 'SimpleValidator' object has no attribute 'validate_required_fields'
+2025-09-04 23:13:05 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:13:05 - src.services.messaging_core - ERROR - ❌ Failed to send message msg_20250904_231305_ec7553: 'SimpleValidator' object has no attribute 'validate_required'
+2025-09-04 23:13:09 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:13:09 - src.services.messaging_core - ERROR - ❌ Failed to send message msg_20250904_231309_341d30: 'SimpleValidator' object has no attribute 'validate_required'
+2025-09-04 23:14:35 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:14:35 - src.services.messaging_core - ERROR - ❌ Failed to send message msg_20250904_231435_b27e80: 'UnifiedMessage' object is not iterable
+2025-09-04 23:16:22 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:16:22 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-7 at (653, 940)
+2025-09-04 23:16:24 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-7
+2025-09-04 23:20:08 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:20:08 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 23:20:09 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 23:23:20 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:24:19 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:24:36 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:24:36 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 23:24:37 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 23:24:45 - UnifiedLoggingSystem - INFO - Unified logging system initialized
+2025-09-04 23:24:45 - src.services.messaging_core - INFO - 📤 Sending PyAutoGUI message to Agent-4 at (-308, 1000)
+2025-09-04 23:24:47 - src.services.messaging_core - INFO - ✅ PyAutoGUI message sent to Agent-4
+2025-09-04 23:28:43 - UnifiedLoggingSystem - INFO - Unified logging system initialized

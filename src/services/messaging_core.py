@@ -13,7 +13,7 @@ from .unified_messaging_imports import (
     logging, COORDINATE_CONFIG_FILE, get_logger, get_unified_utility, 
     load_coordinates_from_json, json
 )
-from ..core.unified_validation_system import get_unified_validator
+from ..core.simple_validation_system import get_simple_validator
 import time
 from datetime import datetime
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ from .models.messaging_models import (
     UnifiedSenderType,
     UnifiedRecipientType
 )
-from .message_identity_clarification import message_identity_clarification
+from .message_identity_clarification import format_message_with_identity_clarification
 
 
 class UnifiedMessagingCore:
@@ -43,7 +43,7 @@ class UnifiedMessagingCore:
         self.config = config or {}
         self.message_history: List[UnifiedMessage] = []
         self.logger = get_logger(__name__)
-        self.validator = get_unified_validator()
+        self.validator = get_simple_validator()
         self.utility = get_unified_utility()
 
         # Validate configuration on initialization
@@ -144,7 +144,7 @@ class UnifiedMessagingCore:
         """
         try:
             # Validate message before sending
-            if not self.validator.validate_required(message):
+            if not self.validator.validate_required([message.content, message.sender, message.recipient]):
                 self.logger.error("Cannot send invalid message")
                 return False
 
@@ -177,21 +177,24 @@ class UnifiedMessagingCore:
             True if successful, False otherwise
         """
         try:
-            # Use unified utility for path handling
-            inbox_dir = self.utility.resolve_path(f"agent_workspaces/{message.recipient}/inbox")
-            self.utility.ensure_directory(inbox_dir)
+            # Use pathlib for path handling
+            from pathlib import Path
+            inbox_dir = Path(f"agent_workspaces/{message.recipient}/inbox")
+            inbox_dir.mkdir(parents=True, exist_ok=True)
 
             # Create unique filename
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = inbox_dir / f"message_{timestamp}_{message.message_id[:8]}.md"
 
             # Format message with identity clarification
-            formatted_message = message_identity_clarification.format_message_with_identity_clarification(
+            formatted_message = format_message_with_identity_clarification(
                 message, message.recipient
             )
 
-            # Write message using unified utility
-            success = self.utility.write_file(filename, formatted_message)
+            # Write message using standard file operations
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(formatted_message)
+            success = True
             if success:
                 self.logger.info(f"✅ Message sent to inbox: {filename}")
                 return True
@@ -258,7 +261,7 @@ class UnifiedMessagingCore:
             time.sleep(0.05)
 
             # Format and send message
-            formatted_message = message_identity_clarification.format_message_with_identity_clarification(
+            formatted_message = format_message_with_identity_clarification(
                 message, message.recipient
             )
 

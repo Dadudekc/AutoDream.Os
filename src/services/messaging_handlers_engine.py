@@ -15,6 +15,7 @@ from typing import Any, Dict, List, Optional
 
 from .agent_registry import format_agent_list
 from .messaging_handlers_models import CLICommand, CommandResult, CoordinateConfig
+from .utils.agent_registry import AGENTS, list_agents
 
 
 class MessagingHandlersEngine:
@@ -30,32 +31,14 @@ class MessagingHandlersEngine:
     def _load_coordinates(self) -> None:
         """Load agent coordinates from configuration."""
         try:
-            # Simplified coordinate loading
             self.coordinates = {
-                "Agent-1": CoordinateConfig(
-                    "Agent-1", -30, 1000, "Agent-1 coordinates"
-                ),
-                "Agent-2": CoordinateConfig(
-                    "Agent-2", -30, 1000, "Agent-2 coordinates"
-                ),
-                "Agent-3": CoordinateConfig(
-                    "Agent-3", -30, 1000, "Agent-3 coordinates"
-                ),
-                "Agent-4": CoordinateConfig(
-                    "Agent-4", -30, 1000, "Agent-4 coordinates"
-                ),
-                "Agent-5": CoordinateConfig(
-                    "Agent-5", -30, 1000, "Agent-5 coordinates"
-                ),
-                "Agent-6": CoordinateConfig(
-                    "Agent-6", -30, 1000, "Agent-6 coordinates"
-                ),
-                "Agent-7": CoordinateConfig(
-                    "Agent-7", -30, 1000, "Agent-7 coordinates"
-                ),
-                "Agent-8": CoordinateConfig(
-                    "Agent-8", -30, 1000, "Agent-8 coordinates"
-                ),
+                agent_id: CoordinateConfig(
+                    agent_id,
+                    info["coords"]["x"],
+                    info["coords"]["y"],
+                    f"{agent_id} coordinates",
+                )
+                for agent_id, info in AGENTS.items()
             }
         except Exception as e:
             self.logger.warning(f"Could not load coordinates: {e}")
@@ -66,7 +49,7 @@ class MessagingHandlersEngine:
 
     def list_agents(self) -> List[str]:
         """List all available agents."""
-        return list(self.coordinates.keys())
+        return list_agents()
 
     def validate_command(self, command: CLICommand) -> CommandResult:
         """Validate a CLI command."""

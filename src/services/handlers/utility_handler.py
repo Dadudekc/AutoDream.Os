@@ -13,6 +13,8 @@ License: MIT
 
 from typing import Any, Dict, List, Optional
 
+from ..utils.agent_registry import AGENTS, list_agents
+
 
 class UtilityHandler:
     """
@@ -33,14 +35,9 @@ class UtilityHandler:
             if args.list_agents:
                 print("Available Agents:")
                 print("=" * 40)
-                print("Agent-1: Integration & Core Systems")
-                print("Agent-2: Architecture & Design")
-                print("Agent-3: Infrastructure & DevOps")
-                print("Agent-4: Strategic Oversight & Emergency Intervention")
-                print("Agent-5: Business Intelligence")
-                print("Agent-6: Coordination & Communication")
-                print("Agent-7: Web Development")
-                print("Agent-8: SSOT & System Integration")
+                for agent_id in list_agents():
+                    desc = AGENTS[agent_id]["description"]
+                    print(f"{agent_id}: {desc}")
                 return True
                 
             if args.coordinates:
@@ -65,28 +62,12 @@ class UtilityHandler:
     def list_agents(self) -> List[str]:
         """Get list of available agents."""
         return [
-            "Agent-1: Integration & Core Systems",
-            "Agent-2: Architecture & Design", 
-            "Agent-3: Infrastructure & DevOps",
-            "Agent-4: Strategic Oversight & Emergency Intervention",
-            "Agent-5: Business Intelligence",
-            "Agent-6: Coordination & Communication",
-            "Agent-7: Web Development",
-            "Agent-8: SSOT & System Integration"
+            f"{agent_id}: {info['description']}" for agent_id, info in AGENTS.items()
         ]
     
     def get_coordinates(self) -> Dict[str, Any]:
         """Get agent coordinates."""
-        return {
-            "Agent-1": {"x": -100, "y": 1000},
-            "Agent-2": {"x": -200, "y": 1000},
-            "Agent-3": {"x": -300, "y": 1000},
-            "Agent-4": {"x": -400, "y": 1000},
-            "Agent-5": {"x": -500, "y": 1000},
-            "Agent-6": {"x": -600, "y": 1000},
-            "Agent-7": {"x": -700, "y": 1000},
-            "Agent-8": {"x": -800, "y": 1000}
-        }
+        return {agent_id: info["coords"] for agent_id, info in AGENTS.items()}
     
     def get_history(self) -> List[Dict[str, Any]]:
         """Get message history."""

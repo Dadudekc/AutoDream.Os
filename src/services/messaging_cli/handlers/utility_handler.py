@@ -14,6 +14,8 @@ import logging
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 
+from ...utils.agent_registry import list_agents as registry_list_agents
+
 try:
     from ...models.messaging_models import UnifiedMessage
     from ....core.unified_data_processing_system import read_json, write_json
@@ -83,8 +85,7 @@ class UtilityHandler:
     def _check_all_agents_status(self) -> Dict[str, Any]:
         """Check status of all agents."""
         try:
-            agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", 
-                     "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+            agents = registry_list_agents()
             
             status_results = {}
             active_count = 0

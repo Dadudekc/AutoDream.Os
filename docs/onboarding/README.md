@@ -199,6 +199,44 @@ python scripts/devlog.py "Training Test" "Testing devlog system" --agent "test-a
 - **Troubleshooting**: `docs/onboarding/troubleshooting_guide.md`
 - **Best Practices**: `docs/onboarding/universal_development_principles.md`
 
+## 🚨 **CAPTAIN PROTOCOLS & RESPONSIBILITIES**
+
+### **CAPTAIN AGENT-4 CORE DUTIES**
+- **Strategic Oversight**: Monitor all agent activities and system health
+- **Emergency Intervention**: Immediate response to system failures or agent issues
+- **Agent Coordination**: Regular status checks and task assignments
+- **Protocol Enforcement**: Ensure all agents follow established procedures
+- **System Maintenance**: Keep messaging system and coordination tools operational
+
+### **MANDATORY CAPTAIN ACTIONS**
+1. **Daily Status Checks**: Check all agent statuses every cycle
+2. **Regular Messaging**: Send status requests and coordination messages
+3. **Protocol Monitoring**: Ensure agents follow V2 compliance and messaging protocols
+4. **Emergency Response**: Immediate action on system failures or agent stoppage
+5. **Documentation Updates**: Maintain Captain Log and Handbook
+
+### **CAPTAIN MESSAGING PROTOCOLS**
+```bash
+# Status check to all agents
+python -m src.services.messaging_cli --check-status
+
+# Individual agent status request
+python -m src.services.messaging_cli --agent Agent-X --message "Status check request" --type captain_to_agent --sender "Captain Agent-4"
+
+# Emergency activation (when agents stop working)
+python -m src.services.messaging_cli --agent Agent-X --message "EMERGENCY ACTIVATION" --type captain_to_agent --sender "Captain Agent-4" --priority urgent
+
+# Task assignment
+python -m src.services.messaging_cli --agent Agent-X --message "Task assignment details" --type captain_to_agent --sender "Captain Agent-4" --priority regular
+```
+
+### **CAPTAIN RESPONSIBILITY VIOLATIONS**
+- ❌ **FORBIDDEN**: Not checking agent statuses regularly
+- ❌ **FORBIDDEN**: Not maintaining Captain Log entries
+- ❌ **FORBIDDEN**: Not responding to agent reports
+- ❌ **FORBIDDEN**: Not enforcing protocols
+- ❌ **FORBIDDEN**: Not coordinating swarm operations
+
 ## Next Steps
 
 ### **Immediate Actions**

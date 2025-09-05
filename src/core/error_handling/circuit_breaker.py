@@ -9,14 +9,25 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-
-    CircuitBreakerConfig,
-    CircuitState,
-    ErrorContext,
-    ErrorSeverity,
-)
+import logging
+from typing import Optional, Callable, Any
+from datetime import datetime, timedelta
+from enum import Enum
 
 logger = logging.getLogger(__name__)
+
+class CircuitState(Enum):
+    """Circuit breaker states."""
+    CLOSED = "closed"
+    OPEN = "open"
+    HALF_OPEN = "half_open"
+
+class CircuitBreakerConfig:
+    """Configuration for circuit breaker."""
+    def __init__(self, name: str, failure_threshold: int = 5, timeout_seconds: int = 60):
+        self.name = name
+        self.failure_threshold = failure_threshold
+        self.timeout_seconds = timeout_seconds
 
 
 class CircuitBreaker:
@@ -47,7 +58,7 @@ class CircuitBreaker:
             self.failure_count = 0
             self.last_failure_time = None
             self.next_attempt_time = None
-            get_logger(__name__).info(f"Circuit breaker '{self.config.name}' reset to CLOSED state")
+            logger.info(f"Circuit breaker '{self.config.name}' reset to CLOSED state")
 
     def _record_failure(self, exception: Exception):
         """Record a failed operation."""
@@ -59,7 +70,7 @@ class CircuitBreaker:
             self.next_attempt_time = datetime.now() + timedelta(
                 seconds=self.config.recovery_timeout
             )
-            get_logger(__name__).warning(
+            logger.warning(
                 f"Circuit breaker '{self.config.name}' moved to OPEN state after half-open failure"
             )
         elif self.failure_count >= self.config.failure_threshold:
@@ -67,7 +78,7 @@ class CircuitBreaker:
             self.next_attempt_time = datetime.now() + timedelta(
                 seconds=self.config.recovery_timeout
             )
-            get_logger(__name__).warning(
+            logger.warning(
                 f"Circuit breaker '{self.config.name}' opened after {self.failure_count} failures"
             )
 
@@ -81,7 +92,7 @@ class CircuitBreaker:
                 )
 
             self.state = CircuitState.HALF_OPEN
-            get_logger(__name__).info(
+            logger.info(
                 f"Circuit breaker '{self.config.name}' testing recovery (HALF_OPEN)"
             )
 

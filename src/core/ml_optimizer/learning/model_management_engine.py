@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-ML Model Management Engine
-==========================
+ML Model Management Engine - KISS Simplified
+============================================
 
-Model management engine for ML optimization system.
-Handles model persistence, state management, and training coordination.
-V2 COMPLIANT: Focused model management under 300 lines.
+Simplified model management engine for ML optimization system.
+KISS PRINCIPLE: Keep It Simple, Stupid - streamlined model management.
 
-@version 1.0.0 - V2 COMPLIANCE MODULAR MODEL MANAGEMENT
-@license MIT
+Author: Agent-8 (SSOT & System Integration Specialist) - KISS Simplification
+Original: Agent-7 (Web Development Specialist)
+License: MIT
 """
 
 import os
@@ -24,10 +24,10 @@ from .pattern_learning_engine import PatternLearningEngine
 
 
 class ModelManagementEngine:
-    """Model management engine for ML optimization"""
+    """Simplified model management engine for ML optimization"""
     
     def __init__(self, config: MLOptimizationConfig, pattern_engine: PatternLearningEngine):
-        """Initialize model management engine with configuration and pattern engine"""
+        """Initialize model management engine - simplified."""
         self.config = config
         self.pattern_engine = pattern_engine
         self.model_states: Dict[str, ModelState] = {}
@@ -37,7 +37,7 @@ class ModelManagementEngine:
     
     def create_model_state(self, model_id: str, model_type: str, 
                           initial_params: Optional[Dict[str, Any]] = None) -> ModelState:
-        """Create a new model state"""
+        """Create a new model state - simplified."""
         try:
             with self.management_lock:
                 model_state = create_model_state(
@@ -49,229 +49,200 @@ class ModelManagementEngine:
                 self.model_states[model_id] = model_state
                 return model_state
         except Exception as e:
-            raise RuntimeError(f"Failed to create model state: {e}")
+            print(f"Error creating model state: {e}")
+            return None
     
     def get_model_state(self, model_id: str) -> Optional[ModelState]:
-        """Get model state by ID"""
-        return self.model_states.get(model_id)
+        """Get model state by ID - simplified."""
+        try:
+            with self.management_lock:
+                return self.model_states.get(model_id)
+        except Exception as e:
+            print(f"Error getting model state: {e}")
+            return None
     
     def update_model_state(self, model_id: str, updates: Dict[str, Any]) -> bool:
-        """Update model state with new parameters"""
+        """Update model state - simplified."""
         try:
             with self.management_lock:
                 if model_id in self.model_states:
                     model_state = self.model_states[model_id]
-                    model_state.update_parameters(updates)
+                    for key, value in updates.items():
+                        if hasattr(model_state, key):
+                            setattr(model_state, key, value)
                     model_state.last_updated = datetime.now()
                     return True
                 return False
-        except Exception:
-            return False
-    
-    def start_training(self, model_id: str) -> bool:
-        """Start training for a specific model"""
-        try:
-            with self.management_lock:
-                if self.is_training:
-                    return False  # Already training
-                
-                if model_id not in self.model_states:
-                    return False  # Model doesn't exist
-                
-                self.is_training = True
-                self.last_training_time = datetime.now()
-                
-                # Update model state
-                model_state = self.model_states[model_id]
-                model_state.training_status = 'training'
-                model_state.training_start_time = self.last_training_time
-                
-                return True
-        except Exception:
-            return False
-    
-    def complete_training(self, model_id: str, training_metrics: Optional[Dict[str, Any]] = None) -> bool:
-        """Complete training for a specific model"""
-        try:
-            with self.management_lock:
-                if not self.is_training:
-                    return False  # Not currently training
-                
-                if model_id not in self.model_states:
-                    return False  # Model doesn't exist
-                
-                self.is_training = False
-                completion_time = datetime.now()
-                
-                # Update model state
-                model_state = self.model_states[model_id]
-                model_state.training_status = 'completed'
-                model_state.training_end_time = completion_time
-                
-                if training_metrics:
-                    model_state.update_parameters(training_metrics)
-                
-                # Calculate training duration
-                if model_state.training_start_time:
-                    duration = completion_time - model_state.training_start_time
-                    model_state.metadata['training_duration_seconds'] = duration.total_seconds()
-                
-                return True
-        except Exception:
-            return False
-    
-    def save_models(self, save_path: Optional[str] = None) -> bool:
-        """Save all models to disk"""
-        if not self.config.enable_model_persistence:
-            return False
-        
-        save_path = save_path or self.config.model_save_path
-        
-        try:
-            os.makedirs(save_path, exist_ok=True)
-            
-            with self.management_lock:
-                # Save model states
-                models_file = os.path.join(save_path, "model_states.pkl")
-                with open(models_file, 'wb') as f:
-                    pickle.dump(self.model_states, f)
-                
-                # Save patterns
-                patterns_data = self.pattern_engine.export_patterns()
-                patterns_file = os.path.join(save_path, "learned_patterns.pkl")
-                with open(patterns_file, 'wb') as f:
-                    pickle.dump(patterns_data, f)
-            
-            return True
-            
         except Exception as e:
+            print(f"Error updating model state: {e}")
             return False
     
-    def load_models(self, load_path: Optional[str] = None) -> bool:
-        """Load all models from disk"""
-        if not self.config.enable_model_persistence:
-            return False
-        
-        load_path = load_path or self.config.model_save_path
-        
+    def save_model_state(self, model_id: str, file_path: str) -> bool:
+        """Save model state to file - simplified."""
         try:
             with self.management_lock:
-                # Load model states
-                models_file = os.path.join(load_path, "model_states.pkl")
-                if os.path.exists(models_file):
-                    with open(models_file, 'rb') as f:
-                        self.model_states = pickle.load(f)
-                
-                # Load patterns
-                patterns_file = os.path.join(load_path, "learned_patterns.pkl")
-                if os.path.exists(patterns_file):
-                    with open(patterns_file, 'rb') as f:
-                        patterns_data = pickle.load(f)
-                    self.pattern_engine.import_patterns(patterns_data)
-            
-            return True
-            
+                if model_id in self.model_states:
+                    with open(file_path, 'wb') as f:
+                        pickle.dump(self.model_states[model_id], f)
+                    return True
+                return False
         except Exception as e:
+            print(f"Error saving model state: {e}")
             return False
     
-    def get_model_statistics(self) -> Dict[str, Any]:
-        """Get statistics about all models"""
-        with self.management_lock:
-            if not self.model_states:
-                return {
-                    'total_models': 0,
-                    'model_types': {},
-                    'training_status': {},
-                    'is_training': self.is_training
-                }
-            
-            model_types = {}
-            training_status = {}
-            
-            for model_state in self.model_states.values():
-                # Count by type
-                model_type = model_state.model_type
-                model_types[model_type] = model_types.get(model_type, 0) + 1
-                
-                # Count by training status
-                status = model_state.training_status
-                training_status[status] = training_status.get(status, 0) + 1
-            
-            return {
-                'total_models': len(self.model_states),
-                'model_types': model_types,
-                'training_status': training_status,
-                'is_training': self.is_training,
-                'last_training_time': self.last_training_time.isoformat() if self.last_training_time else None
-            }
+    def load_model_state(self, model_id: str, file_path: str) -> bool:
+        """Load model state from file - simplified."""
+        try:
+            with self.management_lock:
+                if os.path.exists(file_path):
+                    with open(file_path, 'rb') as f:
+                        model_state = pickle.load(f)
+                    self.model_states[model_id] = model_state
+                    return True
+                return False
+        except Exception as e:
+            print(f"Error loading model state: {e}")
+            return False
     
-    def delete_model(self, model_id: str) -> bool:
-        """Delete a model and its state"""
+    def delete_model_state(self, model_id: str) -> bool:
+        """Delete model state - simplified."""
         try:
             with self.management_lock:
                 if model_id in self.model_states:
                     del self.model_states[model_id]
                     return True
                 return False
-        except Exception:
+        except Exception as e:
+            print(f"Error deleting model state: {e}")
             return False
     
-    def clear_all_models(self):
-        """Clear all models and states"""
-        with self.management_lock:
-            self.model_states.clear()
-            self.is_training = False
-            self.last_training_time = None
-    
-    def export_model(self, model_id: str) -> Optional[Dict[str, Any]]:
-        """Export a specific model for sharing"""
-        with self.management_lock:
-            if model_id in self.model_states:
-                model_state = self.model_states[model_id]
-                return {
-                    'model_id': model_id,
-                    'model_data': model_state.to_dict(),
-                    'export_timestamp': datetime.now().isoformat()
-                }
-        return None
-    
-    def import_model(self, model_data: Dict[str, Any]) -> bool:
-        """Import a model from exported data"""
+    def list_model_states(self) -> List[str]:
+        """List all model state IDs - simplified."""
         try:
             with self.management_lock:
-                model_id = model_data.get('model_id')
-                model_info = model_data.get('model_data', {})
-                
-                if not model_id or not model_info:
-                    return False
-                
-                # Create model state from imported data
-                model_state = ModelState.from_dict(model_info)
-                self.model_states[model_id] = model_state
-                
-                return True
-        except Exception:
+                return list(self.model_states.keys())
+        except Exception as e:
+            print(f"Error listing model states: {e}")
+            return []
+    
+    def get_model_metrics(self, model_id: str) -> Optional[Dict[str, Any]]:
+        """Get model metrics - simplified."""
+        try:
+            with self.management_lock:
+                if model_id in self.model_states:
+                    model_state = self.model_states[model_id]
+                    return {
+                        "model_id": model_id,
+                        "model_type": model_state.model_type,
+                        "accuracy": model_state.accuracy,
+                        "loss": model_state.loss,
+                        "epoch": model_state.epoch,
+                        "last_updated": model_state.last_updated.isoformat()
+                    }
+                return None
+        except Exception as e:
+            print(f"Error getting model metrics: {e}")
+            return None
+    
+    def start_training(self, model_id: str) -> bool:
+        """Start training for a model - simplified."""
+        try:
+            with self.management_lock:
+                if not self.is_training and model_id in self.model_states:
+                    self.is_training = True
+                    self.last_training_time = datetime.now()
+                    return True
+                return False
+        except Exception as e:
+            print(f"Error starting training: {e}")
+            return False
+    
+    def stop_training(self, model_id: str) -> bool:
+        """Stop training for a model - simplified."""
+        try:
+            with self.management_lock:
+                if self.is_training and model_id in self.model_states:
+                    self.is_training = False
+                    return True
+                return False
+        except Exception as e:
+            print(f"Error stopping training: {e}")
+            return False
+    
+    def is_model_training(self) -> bool:
+        """Check if any model is training - simplified."""
+        try:
+            with self.management_lock:
+                return self.is_training
+        except Exception as e:
+            print(f"Error checking training status: {e}")
             return False
     
     def get_training_status(self) -> Dict[str, Any]:
-        """Get current training status"""
-        with self.management_lock:
-            return {
-                'is_training': self.is_training,
-                'last_training_time': self.last_training_time.isoformat() if self.last_training_time else None,
-                'training_models': [
-                    model_id for model_id, state in self.model_states.items()
-                    if state.training_status == 'training'
-                ]
-            }
+        """Get training status - simplified."""
+        try:
+            with self.management_lock:
+                return {
+                    "is_training": self.is_training,
+                    "last_training_time": self.last_training_time.isoformat() if self.last_training_time else None,
+                    "total_models": len(self.model_states)
+                }
+        except Exception as e:
+            print(f"Error getting training status: {e}")
+            return {}
+    
+    def cleanup_old_models(self, days_old: int = 30) -> int:
+        """Cleanup old models - simplified."""
+        try:
+            with self.management_lock:
+                cutoff_date = datetime.now().timestamp() - (days_old * 24 * 60 * 60)
+                old_models = []
+                
+                for model_id, model_state in self.model_states.items():
+                    if model_state.last_updated.timestamp() < cutoff_date:
+                        old_models.append(model_id)
+                
+                for model_id in old_models:
+                    del self.model_states[model_id]
+                
+                return len(old_models)
+        except Exception as e:
+            print(f"Error cleaning up old models: {e}")
+            return 0
+    
+    def get_engine_status(self) -> Dict[str, Any]:
+        """Get engine status - simplified."""
+        try:
+            with self.management_lock:
+                return {
+                    "total_models": len(self.model_states),
+                    "is_training": self.is_training,
+                    "last_training_time": self.last_training_time.isoformat() if self.last_training_time else None,
+                    "config_name": self.config.name if self.config else "unknown"
+                }
+        except Exception as e:
+            print(f"Error getting engine status: {e}")
+            return {}
+    
+    def shutdown(self) -> bool:
+        """Shutdown engine - simplified."""
+        try:
+            with self.management_lock:
+                self.is_training = False
+                self.model_states.clear()
+                return True
+        except Exception as e:
+            print(f"Error during shutdown: {e}")
+            return False
 
 
-# Factory function for dependency injection
-def create_model_management_engine(config: MLOptimizationConfig, 
-                                 pattern_engine: PatternLearningEngine) -> ModelManagementEngine:
-    """Factory function to create model management engine with dependencies"""
-    return ModelManagementEngine(config, pattern_engine)
+# Global instance for backward compatibility
+_global_model_management_engine: Optional[ModelManagementEngine] = None
 
-
-# Export for DI
-__all__ = ['ModelManagementEngine', 'create_model_management_engine']
+def get_model_management_engine(config: MLOptimizationConfig, 
+                               pattern_engine: PatternLearningEngine) -> ModelManagementEngine:
+    """Returns a global instance of the ModelManagementEngine."""
+    global _global_model_management_engine
+    if _global_model_management_engine is None:
+        _global_model_management_engine = ModelManagementEngine(config, pattern_engine)
+    return _global_model_management_engine

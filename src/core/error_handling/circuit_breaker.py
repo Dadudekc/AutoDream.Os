@@ -1,9 +1,11 @@
-#!/usr/bin/env python3
 """
-Circuit Breaker Module - Agent Cellphone V2
-==========================================
+Circuit Breaker Module - V2 Compliance Refactored
+================================================
 
 Circuit breaker pattern implementation for error handling.
+Refactored into modular architecture for V2 compliance.
+
+V2 Compliance: < 300 lines, single responsibility, modular design.
 
 Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
@@ -11,139 +13,92 @@ License: MIT
 
 import logging
 from typing import Optional, Callable, Any
-from datetime import datetime, timedelta
-from enum import Enum
+from datetime import datetime
+
+# Import modular components
+from .circuit_breaker.core import CircuitState, CircuitBreakerConfig, CircuitBreakerCore
+from .circuit_breaker.executor import CircuitBreakerExecutor, CircuitBreakerOpenException
 
 logger = logging.getLogger(__name__)
 
-class CircuitState(Enum):
-    """Circuit breaker states."""
-    CLOSED = "closed"
-    OPEN = "open"
-    HALF_OPEN = "half_open"
-
-class CircuitBreakerConfig:
-    """Configuration for circuit breaker."""
-    def __init__(self, name: str, failure_threshold: int = 5, timeout_seconds: int = 60):
-        self.name = name
-        self.failure_threshold = failure_threshold
-        self.timeout_seconds = timeout_seconds
-
 
 class CircuitBreaker:
-    """Circuit breaker implementation for fault tolerance."""
-
+    """Circuit breaker implementation for fault tolerance - V2 compliant."""
+    
     def __init__(self, config: CircuitBreakerConfig):
         """Initialize circuit breaker."""
         self.config = config
-        self.state = CircuitState.CLOSED
-        self.failure_count = 0
-        self.last_failure_time: Optional[datetime] = None
-        self.next_attempt_time: Optional[datetime] = None
-
-    def _should_attempt_reset(self) -> bool:
-        """Check if we should attempt to reset the circuit."""
-        if self.state != CircuitState.OPEN:
-            return False
-
-        if self.next_attempt_time is None:
-            return True
-
-        return datetime.now() >= self.next_attempt_time
-
-    def _record_success(self):
-        """Record a successful operation."""
-        if self.state == CircuitState.HALF_OPEN:
-            self.state = CircuitState.CLOSED
-            self.failure_count = 0
-            self.last_failure_time = None
-            self.next_attempt_time = None
-            logger.info(f"Circuit breaker '{self.config.name}' reset to CLOSED state")
-
-    def _record_failure(self, exception: Exception):
-        """Record a failed operation."""
-        self.failure_count += 1
-        self.last_failure_time = datetime.now()
-
-        if self.state == CircuitState.HALF_OPEN:
-            self.state = CircuitState.OPEN
-            self.next_attempt_time = datetime.now() + timedelta(
-                seconds=self.config.recovery_timeout
-            )
-            logger.warning(
-                f"Circuit breaker '{self.config.name}' moved to OPEN state after half-open failure"
-            )
-        elif self.failure_count >= self.config.failure_threshold:
-            self.state = CircuitState.OPEN
-            self.next_attempt_time = datetime.now() + timedelta(
-                seconds=self.config.recovery_timeout
-            )
-            logger.warning(
-                f"Circuit breaker '{self.config.name}' opened after {self.failure_count} failures"
-            )
-
+        self.core = CircuitBreakerCore(config)
+        self.executor = CircuitBreakerExecutor(self.core)
+    
     def call(self, func: Callable, *args, **kwargs) -> Any:
         """Execute function with circuit breaker protection."""
-        if self.state == CircuitState.OPEN:
-            if not self._should_attempt_reset():
-                raise CircuitBreakerOpenException(
-                    f"Circuit breaker '{self.config.name}' is OPEN",
-                    retry_after=self.next_attempt_time,
-                )
-
-            self.state = CircuitState.HALF_OPEN
-            logger.info(
-                f"Circuit breaker '{self.config.name}' testing recovery (HALF_OPEN)"
-            )
-
-        try:
-            result = func(*args, **kwargs)
-            self._record_success()
-            return result
-
-        except self.config.expected_exception as e:
-            self._record_failure(e)
-            raise
-
+        return self.executor.call(func, *args, **kwargs)
+    
+    def call_with_fallback(self, func: Callable, fallback_func: Callable, *args, **kwargs) -> Any:
+        """Execute function with fallback if circuit breaker is open."""
+        return self.executor.call_with_fallback(func, fallback_func, *args, **kwargs)
+    
+    def call_with_retry(self, func: Callable, max_retries: int = 3, *args, **kwargs) -> Any:
+        """Execute function with retry logic."""
+        return self.executor.call_with_retry(func, max_retries, *args, **kwargs)
+    
+    def is_available(self) -> bool:
+        """Check if circuit breaker is available for calls."""
+        return self.executor.is_available()
+    
+    def get_retry_after(self) -> Optional[datetime]:
+        """Get the time when the circuit breaker will be available again."""
+        return self.executor.get_retry_after()
+    
     def get_status(self) -> dict:
         """Get current circuit breaker status."""
-        return {
-            "name": self.config.name,
-            "state": self.state.value,
-            "failure_count": self.failure_count,
-            "failure_threshold": self.config.failure_threshold,
-            "recovery_timeout": self.config.recovery_timeout,
-            "last_failure_time": (
-                self.last_failure_time.isoformat() if self.last_failure_time else None
-            ),
-            "next_attempt_time": (
-                self.next_attempt_time.isoformat() if self.next_attempt_time else None
-            ),
-        }
+        return self.core.get_status()
+    
+    # Backward compatibility properties
+    @property
+    def state(self) -> CircuitState:
+        """Get current circuit state."""
+        return self.core.state
+    
+    @property
+    def failure_count(self) -> int:
+        """Get current failure count."""
+        return self.core.failure_count
+    
+    @property
+    def last_failure_time(self) -> Optional[datetime]:
+        """Get last failure time."""
+        return self.core.last_failure_time
+    
+    @property
+    def next_attempt_time(self) -> Optional[datetime]:
+        """Get next attempt time."""
+        return self.core.next_attempt_time
 
 
-class CircuitBreakerOpenException(Exception):
-    """Exception raised when circuit breaker is open."""
+# Global circuit breaker registry
+_circuit_breakers = {}
 
-    def __init__(self, message: str, retry_after: Optional[datetime] = None):
-        super().__init__(message)
-        self.retry_after = retry_after
+def get_circuit_breaker(name: str, config: CircuitBreakerConfig = None) -> CircuitBreaker:
+    """Get or create circuit breaker by name."""
+    if name not in _circuit_breakers:
+        if config is None:
+            config = CircuitBreakerConfig(name)
+        _circuit_breakers[name] = CircuitBreaker(config)
+    
+    return _circuit_breakers[name]
 
-    def retry_in_seconds(self) -> Optional[float]:
-        """Get seconds until retry is allowed."""
-        if self.retry_after is None:
-            return None
-        return max(0, (self.retry_after - datetime.now()).total_seconds())
+def list_circuit_breakers() -> dict:
+    """List all circuit breakers and their status."""
+    return {name: breaker.get_status() for name, breaker in _circuit_breakers.items()}
 
-
-def circuit_breaker(config: CircuitBreakerConfig):
-    """Decorator for applying circuit breaker pattern to functions."""
-    breaker = CircuitBreaker(config)
-
-    def decorator(func: Callable) -> Callable:
-        def wrapper(*args, **kwargs):
-            return breaker.call(func, *args, **kwargs)
-
-        return wrapper
-
-    return decorator
+def reset_circuit_breaker(name: str) -> bool:
+    """Reset circuit breaker by name."""
+    if name in _circuit_breakers:
+        breaker = _circuit_breakers[name]
+        breaker.core.failure_count = 0
+        breaker.core.state = CircuitState.CLOSED
+        breaker.core.next_attempt_time = None
+        return True
+    return False

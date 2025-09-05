@@ -1,10 +1,11 @@
 """
-Strategic Oversight Factory Methods - V2 Compliance Module
-=========================================================
+Strategic Oversight Factory Methods - V2 Compliance Refactored
+=============================================================
 
 Factory methods for creating strategic oversight data models.
+Refactored into modular architecture for V2 compliance.
 
-V2 Compliance: < 300 lines, single responsibility, factory pattern.
+V2 Compliance: < 300 lines, single responsibility, modular design.
 
 Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
@@ -21,12 +22,24 @@ from .data_models import (
     VectorDatabaseMetrics, SystemHealthMetrics
 )
 
+# Import modular factory components
+from .factories.report_factory import ReportFactory
+from .factories.metrics_factory import MetricsFactory
+from .factories.mission_factory import MissionFactory
+
 
 class StrategicOversightFactory:
-    """Factory class for creating strategic oversight data models."""
+    """Factory class for creating strategic oversight data models - V2 compliant."""
     
-    @staticmethod
+    def __init__(self):
+        """Initialize factory with modular components."""
+        self.report_factory = ReportFactory()
+        self.metrics_factory = MetricsFactory()
+        self.mission_factory = MissionFactory()
+    
+    # Delegate report creation to ReportFactory
     def create_oversight_report(
+        self,
         report_type: ReportType,
         title: str,
         summary: str,
@@ -36,64 +49,44 @@ class StrategicOversightFactory:
         impact_level: ImpactLevel = ImpactLevel.MEDIUM
     ) -> StrategicOversightReport:
         """Create strategic oversight report."""
-        return StrategicOversightReport(
-            report_id=str(uuid.uuid4()),
-            report_type=report_type,
-            title=title,
-            summary=summary,
-            insights=insights or [],
-            recommendations=recommendations or [],
-            confidence_level=confidence_level,
-            impact_level=impact_level,
-            generated_at=datetime.now()
+        return self.report_factory.create_oversight_report(
+            report_type, title, summary, insights, recommendations,
+            confidence_level, impact_level
         )
     
-    @staticmethod
     def create_swarm_insight(
-        insight_type: InsightType,
+        self,
+        insight_type: str,
         description: str,
-        confidence: float,
+        confidence_score: float,
         impact_score: float,
-        affected_agents: List[str] = None,
-        recommendations: List[str] = None
+        source_agent: str = None,
+        related_metrics: dict = None
     ) -> SwarmCoordinationInsight:
         """Create swarm coordination insight."""
-        return SwarmCoordinationInsight(
-            insight_id=str(uuid.uuid4()),
-            insight_type=insight_type,
-            description=description,
-            confidence=confidence,
-            impact_score=impact_score,
-            affected_agents=affected_agents or [],
-            recommendations=recommendations or [],
-            generated_at=datetime.now()
+        return self.report_factory.create_swarm_insight(
+            insight_type, description, confidence_score, impact_score,
+            source_agent, related_metrics
         )
     
-    @staticmethod
     def create_strategic_recommendation(
+        self,
         title: str,
         description: str,
-        priority: int,
-        expected_impact: ImpactLevel,
-        implementation_effort: str,
-        success_probability: float,
-        dependencies: List[str] = None
+        priority: str,
+        implementation_steps: List[str],
+        expected_impact: str,
+        resource_requirements: str = None
     ) -> StrategicRecommendation:
         """Create strategic recommendation."""
-        return StrategicRecommendation(
-            recommendation_id=str(uuid.uuid4()),
-            title=title,
-            description=description,
-            priority=priority,
-            expected_impact=expected_impact,
-            implementation_effort=implementation_effort,
-            success_probability=success_probability,
-            dependencies=dependencies or [],
-            created_at=datetime.now()
+        return self.report_factory.create_strategic_recommendation(
+            title, description, priority, implementation_steps,
+            expected_impact, resource_requirements
         )
     
-    @staticmethod
+    # Delegate metrics creation to MetricsFactory
     def create_agent_performance_metrics(
+        self,
         agent_id: str,
         agent_name: str,
         role: AgentRole,
@@ -104,20 +97,13 @@ class StrategicOversightFactory:
         response_time_avg: float
     ) -> AgentPerformanceMetrics:
         """Create agent performance metrics."""
-        return AgentPerformanceMetrics(
-            agent_id=agent_id,
-            agent_name=agent_name,
-            role=role,
-            performance_score=performance_score,
-            efficiency_rating=efficiency_rating,
-            coordination_effectiveness=coordination_effectiveness,
-            task_completion_rate=task_completion_rate,
-            response_time_avg=response_time_avg,
-            last_updated=datetime.now()
+        return self.metrics_factory.create_agent_performance_metrics(
+            agent_id, agent_name, role, performance_score, efficiency_rating,
+            coordination_effectiveness, task_completion_rate, response_time_avg
         )
     
-    @staticmethod
     def create_swarm_coordination_status(
+        self,
         total_agents: int,
         active_agents: int,
         coordination_health: float,
@@ -127,80 +113,125 @@ class StrategicOversightFactory:
         status_notes: str = None
     ) -> SwarmCoordinationStatus:
         """Create swarm coordination status."""
-        return SwarmCoordinationStatus(
-            status_id=str(uuid.uuid4()),
-            total_agents=total_agents,
-            active_agents=active_agents,
-            coordination_health=coordination_health,
-            communication_efficiency=communication_efficiency,
-            task_distribution_balance=task_distribution_balance,
-            overall_swarm_effectiveness=overall_swarm_effectiveness,
-            last_updated=datetime.now(),
-            status_notes=status_notes
+        return self.metrics_factory.create_swarm_coordination_status(
+            total_agents, active_agents, coordination_health, communication_efficiency,
+            task_distribution_balance, overall_swarm_effectiveness, status_notes
         )
     
-    @staticmethod
-    def create_strategic_mission(
-        title: str,
-        description: str,
-        priority: PriorityLevel,
-        assigned_agents: List[str],
-        objectives: List[str],
-        success_criteria: List[str]
-    ) -> StrategicMission:
-        """Create strategic mission."""
-        return StrategicMission(
-            mission_id=str(uuid.uuid4()),
-            title=title,
-            description=description,
-            status=MissionStatus.PLANNING,
-            priority=priority,
-            assigned_agents=assigned_agents,
-            objectives=objectives,
-            success_criteria=success_criteria,
-            created_at=datetime.now()
-        )
-    
-    @staticmethod
     def create_vector_database_metrics(
+        self,
         total_vectors: int,
         query_performance: float,
-        indexing_efficiency: float,
-        search_accuracy: float,
+        index_efficiency: float,
         memory_usage: float,
-        optimization_recommendations: List[str] = None
+        cache_hit_rate: float,
+        search_accuracy: float
     ) -> VectorDatabaseMetrics:
         """Create vector database metrics."""
-        return VectorDatabaseMetrics(
-            metrics_id=str(uuid.uuid4()),
-            total_vectors=total_vectors,
-            query_performance=query_performance,
-            indexing_efficiency=indexing_efficiency,
-            search_accuracy=search_accuracy,
-            memory_usage=memory_usage,
-            last_optimization=datetime.now(),
-            optimization_recommendations=optimization_recommendations or []
+        return self.metrics_factory.create_vector_database_metrics(
+            total_vectors, query_performance, index_efficiency,
+            memory_usage, cache_hit_rate, search_accuracy
         )
     
-    @staticmethod
     def create_system_health_metrics(
-        overall_health_score: float,
+        self,
         cpu_usage: float,
         memory_usage: float,
         disk_usage: float,
         network_latency: float,
         error_rate: float,
-        uptime_percentage: float
+        uptime: float
     ) -> SystemHealthMetrics:
         """Create system health metrics."""
-        return SystemHealthMetrics(
-            health_id=str(uuid.uuid4()),
-            overall_health_score=overall_health_score,
-            cpu_usage=cpu_usage,
-            memory_usage=memory_usage,
-            disk_usage=disk_usage,
-            network_latency=network_latency,
-            error_rate=error_rate,
-            uptime_percentage=uptime_percentage,
-            last_updated=datetime.now()
+        return self.metrics_factory.create_system_health_metrics(
+            cpu_usage, memory_usage, disk_usage, network_latency, error_rate, uptime
         )
+    
+    # Delegate mission creation to MissionFactory
+    def create_strategic_mission(
+        self,
+        title: str,
+        description: str,
+        priority: PriorityLevel,
+        assigned_agents: List[str],
+        objectives: List[str],
+        success_criteria: List[str],
+        deadline: Optional[datetime] = None,
+        dependencies: List[str] = None
+    ) -> StrategicMission:
+        """Create strategic mission."""
+        return self.mission_factory.create_strategic_mission(
+            title, description, priority, assigned_agents, objectives,
+            success_criteria, deadline, dependencies
+        )
+    
+    def create_quick_mission(
+        self,
+        title: str,
+        description: str,
+        assigned_agent: str,
+        objective: str
+    ) -> StrategicMission:
+        """Create quick mission with minimal parameters."""
+        return self.mission_factory.create_quick_mission(
+            title, description, assigned_agent, objective
+        )
+    
+    def create_emergency_mission(
+        self,
+        title: str,
+        description: str,
+        assigned_agents: List[str],
+        objectives: List[str]
+    ) -> StrategicMission:
+        """Create emergency mission with high priority."""
+        return self.mission_factory.create_emergency_mission(
+            title, description, assigned_agents, objectives
+        )
+
+
+# Global factory instance for backward compatibility
+_global_factory = None
+
+def get_strategic_oversight_factory() -> StrategicOversightFactory:
+    """Get global strategic oversight factory instance."""
+    global _global_factory
+    
+    if _global_factory is None:
+        _global_factory = StrategicOversightFactory()
+    
+    return _global_factory
+
+
+# Backward compatibility functions
+def create_oversight_report(*args, **kwargs) -> StrategicOversightReport:
+    """Create strategic oversight report."""
+    return get_strategic_oversight_factory().create_oversight_report(*args, **kwargs)
+
+def create_swarm_insight(*args, **kwargs) -> SwarmCoordinationInsight:
+    """Create swarm coordination insight."""
+    return get_strategic_oversight_factory().create_swarm_insight(*args, **kwargs)
+
+def create_strategic_recommendation(*args, **kwargs) -> StrategicRecommendation:
+    """Create strategic recommendation."""
+    return get_strategic_oversight_factory().create_strategic_recommendation(*args, **kwargs)
+
+def create_agent_performance_metrics(*args, **kwargs) -> AgentPerformanceMetrics:
+    """Create agent performance metrics."""
+    return get_strategic_oversight_factory().create_agent_performance_metrics(*args, **kwargs)
+
+def create_swarm_coordination_status(*args, **kwargs) -> SwarmCoordinationStatus:
+    """Create swarm coordination status."""
+    return get_strategic_oversight_factory().create_swarm_coordination_status(*args, **kwargs)
+
+def create_strategic_mission(*args, **kwargs) -> StrategicMission:
+    """Create strategic mission."""
+    return get_strategic_oversight_factory().create_strategic_mission(*args, **kwargs)
+
+def create_vector_database_metrics(*args, **kwargs) -> VectorDatabaseMetrics:
+    """Create vector database metrics."""
+    return get_strategic_oversight_factory().create_vector_database_metrics(*args, **kwargs)
+
+def create_system_health_metrics(*args, **kwargs) -> SystemHealthMetrics:
+    """Create system health metrics."""
+    return get_strategic_oversight_factory().create_system_health_metrics(*args, **kwargs)

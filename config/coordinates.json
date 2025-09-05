@@ -1,0 +1,65 @@
+{
+  "description": "Agent coordinate configuration for messaging system",
+  "version": "2.0.0",
+  "last_updated": "2025-09-05T11:25:00Z",
+  "coordinate_system": {
+    "origin": "top-left",
+    "unit": "pixels",
+    "max_resolution": "1920x1080",
+    "note": "Coordinates are screen-relative (0,0 = top-left corner)"
+  },
+  "agents": {
+    "Agent-1": {
+      "chat_input_coordinates": [100, 100],
+      "description": "Integration & Core Systems Specialist",
+      "active": true
+    },
+    "Agent-2": {
+      "chat_input_coordinates": [200, 100],
+      "description": "Architecture & Design Specialist",
+      "active": true
+    },
+    "Agent-3": {
+      "chat_input_coordinates": [300, 100],
+      "description": "Infrastructure & DevOps Specialist",
+      "active": true
+    },
+    "Agent-4": {
+      "chat_input_coordinates": [400, 100],
+      "description": "Strategic Oversight & Emergency Intervention Manager (CAPTAIN)",
+      "active": true
+    },
+    "Agent-5": {
+      "chat_input_coordinates": [100, 200],
+      "description": "Business Intelligence Specialist",
+      "active": true
+    },
+    "Agent-6": {
+      "chat_input_coordinates": [200, 200],
+      "description": "Coordination & Communication Specialist",
+      "active": true
+    },
+    "Agent-7": {
+      "chat_input_coordinates": [300, 200],
+      "description": "Web Development Specialist",
+      "active": true
+    },
+    "Agent-8": {
+      "chat_input_coordinates": [400, 200],
+      "description": "SSOT & System Integration Specialist",
+      "active": true
+    }
+  },
+  "fallback_behavior": {
+    "on_coordinate_failure": "fallback_to_inbox",
+    "inbox_delivery": true,
+    "notification_on_fallback": true
+  },
+  "validation_rules": {
+    "min_x": 0,
+    "min_y": 0,
+    "max_x": 1920,
+    "max_y": 1080,
+    "require_positive": true
+  }
+}

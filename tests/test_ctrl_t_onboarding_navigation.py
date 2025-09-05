@@ -21,6 +21,7 @@ from src.services.models.messaging_models import (
     UnifiedMessagePriority, 
     UnifiedMessageTag
 )
+from src.services.utils.agent_registry import list_agents
 
 
 def test_ctrl_t_onboarding_navigation():
@@ -109,7 +110,9 @@ def test_ctrl_t_onboarding_navigation():
     
     # Show detailed results
     get_logger(__name__).info("📍 DETAILED NAVIGATION RESULTS:")
-    agent_order = ["Agent-1", "Agent-2", "Agent-3", "Agent-5", "Agent-6", "Agent-7", "Agent-8", "Agent-4"]
+    agent_order = list_agents()
+    agent_order.remove("Agent-4")
+    agent_order.append("Agent-4")
     for i, (agent_id, success) in enumerate(zip(agent_order, bulk_results)):
         status = "✅ SUCCESS" if success else "❌ FAILED"
         coords = service.agents.get(agent_id, {}).get("coords", "Unknown")

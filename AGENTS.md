@@ -139,7 +139,7 @@ python -m src.services.messaging_cli --wrapup
 ## Discord Devlog System
 - SSOT for team communication; updates post to Discord.
 - Usage guidance is documented in onboarding:
-  - `docs/onboarding/README.md` (Devlog requirements and commands)
+  - `docs/AGENT_ONBOARDING_GUIDE.md` (Devlog requirements and commands)
 - Typical usage:
 ```
 # Check devlog system status
@@ -177,7 +177,7 @@ python -m src.services.messaging_cli --check-status
 - Messaging CLI: `src/services/messaging_cli.py`
 - Message rules: `src/core/validation/rules/message.yaml`
 - Contract rules: `src/core/validation/rules/contract.yaml`
-- Onboarding doc: `docs/onboarding/README.md`
+- Onboarding doc: `docs/AGENT_ONBOARDING_GUIDE.md`
 
 ## Examples
 - TypeScript functional React component (prefer functional components):
@@ -229,7 +229,7 @@ python -m src.services.messaging_cli --check-status
 
 ## Cross-References
 - Onboarding flow, messaging, and contract commands: see
-  [docs/onboarding/README.md](docs/onboarding/README.md)
+[docs/AGENT_ONBOARDING_GUIDE.md](docs/AGENT_ONBOARDING_GUIDE.md)
 
 ---
 
@@ -311,7 +311,7 @@ python -m src.services.messaging_cli --check-status
   - Agent-7: Web Development — 685 pts
   - Agent-8: SSOT & System Integration — 650 pts
 - Note on titles: if labels differ across outputs, prefer
-  `docs/onboarding/README.md` and `src/services/messaging_cli.py` as SSOT.
+  `docs/AGENT_ONBOARDING_GUIDE.md` and `src/services/messaging_cli.py` as SSOT.
 
 ## V2 Compliance Enforcement Checklist - UPDATED 2025-01-27
 

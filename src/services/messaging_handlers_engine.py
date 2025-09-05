@@ -13,7 +13,18 @@ Purpose: Modular engine for messaging CLI handlers
 import json
 import logging
 from typing import Any, Dict, List, Optional
-from .messaging_handlers_models import CoordinateConfig, CLICommand, CommandResult, RecipientType, SenderType, UnifiedMessagePriority, UnifiedMessageTag, UnifiedMessageType
+
+from .messaging_handlers_models import (
+    CoordinateConfig,
+    CLICommand,
+    CommandResult,
+    RecipientType,
+    SenderType,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+    UnifiedMessageType,
+)
+from .utils.agent_registry import list_agents
 
 
 class MessagingHandlersEngine:
@@ -29,16 +40,15 @@ class MessagingHandlersEngine:
     def _load_coordinates(self) -> None:
         """Load agent coordinates from configuration."""
         try:
-            # Simplified coordinate loading
+            agents = list_agents()
             self.coordinates = {
-                "Agent-1": CoordinateConfig("Agent-1", -30, 1000, "Agent-1 coordinates"),
-                "Agent-2": CoordinateConfig("Agent-2", -30, 1000, "Agent-2 coordinates"),
-                "Agent-3": CoordinateConfig("Agent-3", -30, 1000, "Agent-3 coordinates"),
-                "Agent-4": CoordinateConfig("Agent-4", -30, 1000, "Agent-4 coordinates"),
-                "Agent-5": CoordinateConfig("Agent-5", -30, 1000, "Agent-5 coordinates"),
-                "Agent-6": CoordinateConfig("Agent-6", -30, 1000, "Agent-6 coordinates"),
-                "Agent-7": CoordinateConfig("Agent-7", -30, 1000, "Agent-7 coordinates"),
-                "Agent-8": CoordinateConfig("Agent-8", -30, 1000, "Agent-8 coordinates"),
+                aid: CoordinateConfig(
+                    aid,
+                    info.get("coords", {}).get("x", 0),
+                    info.get("coords", {}).get("y", 0),
+                    f"{aid} coordinates",
+                )
+                for aid, info in agents.items()
             }
         except Exception as e:
             self.logger.warning(f"Could not load coordinates: {e}")

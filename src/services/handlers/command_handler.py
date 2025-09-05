@@ -15,6 +15,7 @@ import time
 from typing import Any, Dict, List
 
 from ..agent_registry import format_agent_list
+from ..utils.agent_registry import list_agents as registry_list_agents
 
 
 class CommandHandler:
@@ -57,16 +58,12 @@ class CommandHandler:
             if command == "coordinates":
                 result = await self._handle_coordinates_command(coordinate_handler)
             elif command == "list_agents":
-                result = await coordinate_handler.load_coordinates_async()
-                if result.get("success", False):
-                    agents = list(result["coordinates"].keys())
-                    formatted = format_agent_list(agents)
-                    print(
-                        f"\n🤖 Available Agents ({formatted['data']['agent_count']}):"
-                    )
-                    for agent in formatted["data"]["agents"]:
-                        print(f"  - {agent}")
-                    result = formatted
+                agents = registry_list_agents()
+                formatted = format_agent_list(agents)
+                print(f"\n🤖 Available Agents ({formatted['data']['agent_count']}):")
+                for agent in formatted["data"]["agents"]:
+                    print(f"  - {agent}")
+                result = formatted
             elif command == "send_message":
                 result = await self._handle_send_message_command(
                     args, message_handler, service

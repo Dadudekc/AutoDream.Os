@@ -54,7 +54,7 @@ class ViolationDetectionAnalysis:
                         violation_id = f"unused_import_{hash(str(file_path) + import_name) % 10000}"
                         violation = create_dry_violation(
                             violation_id=violation_id,
-                            violation_type=DRYViolationType.UNUSED_IMPORTS,
+                            violation_type=DRYViolationType.DUPLICATE_IMPORT,
                             severity=ViolationSeverity.LOW,
                             file_path=str(file_path),
                             line_number=0,  # Will be updated with actual line number
@@ -113,7 +113,7 @@ class ViolationDetectionAnalysis:
                             violation_id = f"long_params_{hash(str(file_path) + function_name) % 10000}"
                             violation = create_dry_violation(
                                 violation_id=violation_id,
-                                violation_type=DRYViolationType.LONG_PARAMETER_LISTS,
+                                violation_type=DRYViolationType.DUPLICATE_CODE,
                                 severity=ViolationSeverity.MEDIUM,
                                 file_path=str(file_path),
                                 line_number=line_number,

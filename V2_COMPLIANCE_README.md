@@ -18,12 +18,12 @@ This project enforces **V2 Compliance Standards** for JavaScript/TypeScript file
 ### 📏 **FILE SIZE THRESHOLDS (Updated Strategy)**
 
 #### **Strategic V2 Compliance Levels**
-- 🚨 **CRITICAL VIOLATION**: >500 lines (immediate refactoring required)
-- ⚠️ **MAJOR VIOLATION**: 400-500 lines (strategic refactoring target)  
-- 📋 **MINOR VIOLATION**: 300-400 lines (acceptable with justification)
-- ✅ **COMPLIANT**: <300 lines (ideal target)
+- 🚨 **CRITICAL VIOLATION**: >600 lines (immediate refactoring required)
+- ⚠️ **MAJOR VIOLATION**: 400-600 lines (strategic refactoring target)
+- ✅ **GUIDELINE**: ≤400 lines per file (LOC flexible; prioritize clean, tested, reusable code)
 
-**Rationale**: Focus development resources on eliminating truly problematic files (>400 lines) while maintaining code quality. Strategic efficiency over micro-optimization.
+**Rationale**: LOC is a guideline. The strict requirement is clean, tested, reusable, scalable code
+following KISS, SOLID, SSOT, SRP, and object-oriented class-based design.
 
 ### Per Function
 - **Maximum**: 30 lines (hard limit)
@@ -91,7 +91,7 @@ Shows the 20 largest files by line count:
 ## 🔧 Configuration
 
 ### ESLint Rules Summary (Updated)
-- `max-lines`: 400 lines per file (strategic threshold, 300 ideal)
+- `max-lines`: 400 lines per file (guideline; emphasis on clean, tested, reusable code)
 - `max-lines-per-function`: 30 lines per function
 - `complexity`: Maximum 10
 - `max-params`: Maximum 4 parameters
@@ -139,8 +139,9 @@ Shows the 20 largest files by line count:
 // src/services/user/index.js (50 lines) - Public interface
 ```
 
-### Files 300-400 Lines (Minor Violations)
-**Acceptable with justification** - Focus on code quality over line count:
+### Files Over 400 Lines
+**Requires justification** – LOC is flexible, but code must remain clean, tested, reusable,
+scalable, and class-based:
 - Clean, well-structured code with clear responsibilities
 - Comprehensive test coverage (>85%)
 - Clear class-based design with dependency injection
@@ -190,7 +191,7 @@ function processUserData(user) {
 - [ ] Maximum 4 levels of nesting
 
 ### 📋 **ACCEPTABLE WITH JUSTIFICATION**
-- [ ] Files 300-400 lines (minor violations, monitor and improve)
+- [ ] Files over 400 lines (monitor and refactor when feasible)
 - [ ] Legacy code with migration plan to modular architecture
 
 ## 📞 Support

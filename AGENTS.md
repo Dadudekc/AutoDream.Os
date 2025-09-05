@@ -45,12 +45,12 @@
 ### 📏 **V2 COMPLIANCE THRESHOLDS (Updated)**
 
 #### **File Size Limits**
-- 🚨 **CRITICAL VIOLATION**: >500 lines (immediate refactoring required)
-- ⚠️ **MAJOR VIOLATION**: 400-500 lines (strategic refactoring target)
-- 📋 **MINOR VIOLATION**: 300-400 lines (acceptable with justification)
-- ✅ **COMPLIANT**: <300 lines (ideal target)
+- 🚨 **CRITICAL VIOLATION**: >600 lines (immediate refactoring required)
+- ⚠️ **MAJOR VIOLATION**: 400-600 lines (strategic refactoring target)
+- ✅ **GUIDELINE**: ≤400 lines per file (LOC flexible; prioritize clean, tested, reusable code)
 
-**Rationale**: Focus resources on eliminating truly problematic files (>400 lines) while maintaining high code quality standards. Strategic efficiency over micro-optimization.
+**Rationale**: LOC count is a guideline. The strict requirement is writing clean, tested, reusable code
+that scales and follows KISS, SOLID, SSOT, SRP, and object-oriented principles.
 
 #### **Architecture Requirements**
 - Follow existing architecture before proposing or implementing new patterns
@@ -325,10 +325,9 @@ python -m src.services.messaging_cli --check-status
 - ✅ Prefer dependency injection for shared utilities; avoid circular dependencies
 
 #### **File Size Management (Updated Thresholds)**
-- 🚨 **CRITICAL**: Eliminate files >500 lines immediately
-- ⚠️ **MAJOR**: Refactor files 400-500 lines strategically  
-- 📋 **MINOR**: Monitor files 300-400 lines (acceptable with justification)
-- ✅ **COMPLIANT**: Maintain files <300 lines as ideal
+- 🚨 **CRITICAL**: Eliminate files >600 lines immediately
+- ⚠️ **MAJOR**: Refactor files 400-600 lines strategically
+- ✅ **GUIDELINE**: Keep files ≤400 lines while focusing on clean, tested, reusable, scalable code
 
 #### **Code Quality Standards**
 - ✅ **Testing**: Unit tests for all new features, Jest naming clarity, mock externals

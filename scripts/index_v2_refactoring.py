@@ -190,9 +190,9 @@ class V2RefactoringIndexer:
         This document captures the proven revolutionary pattern for transforming monolithic code into V2 compliant modular architecture.
 
         PATTERN OVERVIEW:
-        1. IDENTIFY: Scan for violations (>300 lines) using systematic analysis
+        1. IDENTIFY: Scan for violations (>400 lines) using systematic analysis
         2. ANALYZE: Understand monolithic responsibilities and coupling points
-        3. BREAKDOWN: Extract focused modules with single responsibilities (<300 lines each)
+        3. BREAKDOWN: Extract focused modules with single responsibilities (<400 lines each)
         4. SPECIALIZE: Create dedicated engines for specific functionality (load, stress, endurance testing)
         5. ORCHESTRATE: Build main coordinator using dependency injection pattern
         6. INTEGRATE: Implement clean interfaces and factory functions for testability
@@ -212,7 +212,7 @@ class V2RefactoringIndexer:
         - Revolutionary efficiency gains
 
         APPLICABILITY:
-        - Any monolithic file exceeding 300 lines
+        - Any monolithic file exceeding 400 lines
         - Complex systems with multiple responsibilities
         - Legacy code requiring modernization
         - Systems needing improved testability and maintainability
@@ -236,7 +236,7 @@ class V2RefactoringIndexer:
                 'author': 'Agent-2',
                 'timestamp': datetime.now().isoformat(),
                 'efficiency_gain': '90-95%',
-                'applicability': 'monolithic_files_over_300_lines',
+                'applicability': 'monolithic_files_over_400_lines',
                 'success_rate': '100%'
             },
             'source': 'V2_compliance_refactoring'

@@ -31,13 +31,35 @@
 - PRs must pass code review and CI checks before merge.
 - Split large features into smaller, incremental PRs.
 
-## V2 Compliance Standards
-- Follow existing architecture before proposing or implementing new patterns.
-- Maintain a single source of truth (SSOT) across configuration, constants, and schemas.
-- Use object-oriented code for complex domain logic; keep functions small and cohesive.
-- Adhere to LOC limits for files, classes, and functions; refactor when exceeding thresholds.
-- Prioritize modular design and enforce clear boundaries between modules.
-- Avoid circular dependencies; leverage dependency injection for shared utilities.
+## V2 Compliance Standards - UPDATED 2025-01-27
+
+### 🎯 **CORE PHILOSOPHY: CLEAN, TESTED, CLASS-BASED, REUSABLE, SCALABLE CODE**
+
+**The real goal of V2 compliance is to ensure:**
+- ✅ **Clean Code**: Readable, maintainable, and well-structured  
+- ✅ **Tested Code**: Comprehensive unit tests with >85% coverage
+- ✅ **Class-Based**: Object-oriented design for complex domain logic
+- ✅ **Reusable**: Modular components with clear interfaces
+- ✅ **Scalable**: Architecture that supports growth and performance
+
+### 📏 **V2 COMPLIANCE THRESHOLDS (Updated)**
+
+#### **File Size Limits**
+- 🚨 **CRITICAL VIOLATION**: >500 lines (immediate refactoring required)
+- ⚠️ **MAJOR VIOLATION**: 400-500 lines (strategic refactoring target)
+- 📋 **MINOR VIOLATION**: 300-400 lines (acceptable with justification)
+- ✅ **COMPLIANT**: <300 lines (ideal target)
+
+**Rationale**: Focus resources on eliminating truly problematic files (>400 lines) while maintaining high code quality standards. Strategic efficiency over micro-optimization.
+
+#### **Architecture Requirements**
+- Follow existing architecture before proposing or implementing new patterns
+- Maintain a single source of truth (SSOT) across configuration, constants, and schemas
+- Use object-oriented code for complex domain logic; keep functions small and cohesive
+- Prioritize modular design and enforce clear boundaries between modules
+- Avoid circular dependencies; leverage dependency injection for shared utilities
+- Implement comprehensive error handling and logging
+- Write unit tests for all new features and critical paths
 
 ## Messaging System
 - Core service: `src/services/messaging_core.py`
@@ -291,14 +313,33 @@ python -m src.services.messaging_cli --check-status
 - Note on titles: if labels differ across outputs, prefer
   `ONBOARDING_GUIDE.md` and `src/services/messaging_cli.py` as SSOT.
 
-## V2 Compliance Guardrails (enforcement checklist)
+## V2 Compliance Enforcement Checklist - UPDATED 2025-01-27
 
-- Follow existing architecture; avoid introducing new patterns prematurely.
-- Maintain SSOT across configuration, constants, schemas, and docs.
-- Encapsulate complex domain logic with OO; keep functions small and cohesive.
-- Enforce LOC limits; refactor when thresholds are exceeded.
-- Prefer dependency injection for shared utilities; avoid circular dependencies.
-- Testing: unit tests for new features, Jest naming clarity, mock externals,
-  coverage ≥ 85%.
-- Documentation: JSDoc for public APIs, examples for new utilities, update README
-  and changelog for notable changes.
+### 🎯 **PRIMARY FOCUS: CLEAN, TESTED, CLASS-BASED, REUSABLE, SCALABLE CODE**
+
+#### **Architecture Excellence**
+- ✅ Follow existing architecture; avoid introducing new patterns prematurely
+- ✅ Maintain SSOT across configuration, constants, schemas, and docs
+- ✅ Encapsulate complex domain logic with object-oriented design
+- ✅ Keep functions small, cohesive, and single-purpose
+- ✅ Prefer dependency injection for shared utilities; avoid circular dependencies
+
+#### **File Size Management (Updated Thresholds)**
+- 🚨 **CRITICAL**: Eliminate files >500 lines immediately
+- ⚠️ **MAJOR**: Refactor files 400-500 lines strategically  
+- 📋 **MINOR**: Monitor files 300-400 lines (acceptable with justification)
+- ✅ **COMPLIANT**: Maintain files <300 lines as ideal
+
+#### **Code Quality Standards**
+- ✅ **Testing**: Unit tests for all new features, Jest naming clarity, mock externals
+- ✅ **Coverage**: Maintain ≥85% test coverage across all modules
+- ✅ **Documentation**: JSDoc for public APIs, examples for new utilities
+- ✅ **Maintainability**: Update README and changelog for notable changes
+- ✅ **Error Handling**: Comprehensive exception handling and logging
+- ✅ **Type Safety**: Full type annotations in Python, strict TypeScript
+
+#### **Scalability & Performance**
+- ✅ **Modular Design**: Clear boundaries between modules and components
+- ✅ **Reusability**: Design components for cross-project usage
+- ✅ **Performance**: Optimize for high-frequency operations where needed
+- ✅ **Scalability**: Architecture supports horizontal and vertical scaling

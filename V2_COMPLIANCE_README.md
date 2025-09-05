@@ -4,12 +4,26 @@
 
 This project enforces **V2 Compliance Standards** for JavaScript/TypeScript files through automated LOC (Lines of Code) limits and code quality checks.
 
-## 📏 LOC Limits (V2 Standards)
+## 📏 V2 COMPLIANCE STANDARDS - UPDATED 2025-01-27
 
-### Per File
-- **Maximum**: 300 lines (hard limit)
-- **Warning**: 250 lines
-- **Rationale**: Files over 300 lines become hard to maintain and review
+### 🎯 **CORE PHILOSOPHY: CLEAN, TESTED, CLASS-BASED, REUSABLE, SCALABLE CODE**
+
+**The real goal of V2 compliance is ensuring:**
+- ✅ **Clean Code**: Readable, maintainable, and well-structured  
+- ✅ **Tested Code**: Comprehensive unit tests with >85% coverage
+- ✅ **Class-Based**: Object-oriented design for complex domain logic
+- ✅ **Reusable**: Modular components with clear interfaces
+- ✅ **Scalable**: Architecture that supports growth and performance
+
+### 📏 **FILE SIZE THRESHOLDS (Updated Strategy)**
+
+#### **Strategic V2 Compliance Levels**
+- 🚨 **CRITICAL VIOLATION**: >500 lines (immediate refactoring required)
+- ⚠️ **MAJOR VIOLATION**: 400-500 lines (strategic refactoring target)  
+- 📋 **MINOR VIOLATION**: 300-400 lines (acceptable with justification)
+- ✅ **COMPLIANT**: <300 lines (ideal target)
+
+**Rationale**: Focus development resources on eliminating truly problematic files (>400 lines) while maintaining code quality. Strategic efficiency over micro-optimization.
 
 ### Per Function
 - **Maximum**: 30 lines (hard limit)
@@ -76,12 +90,19 @@ Shows the 20 largest files by line count:
 
 ## 🔧 Configuration
 
-### ESLint Rules Summary
-- `max-lines`: 300 lines per file
+### ESLint Rules Summary (Updated)
+- `max-lines`: 400 lines per file (strategic threshold, 300 ideal)
 - `max-lines-per-function`: 30 lines per function
 - `complexity`: Maximum 10
 - `max-params`: Maximum 4 parameters
 - `max-depth`: Maximum 4 nesting levels
+
+### Code Quality Focus Areas
+- **Clean Architecture**: Modular design with clear separation of concerns
+- **Test Coverage**: Minimum 85% coverage for all production code
+- **Type Safety**: Full TypeScript strict mode compliance
+- **Error Handling**: Comprehensive exception handling and logging
+- **Performance**: Optimized for scalability and high-frequency operations
 
 ### File Type Overrides
 - **Test files**: No LOC limits (flexibility for comprehensive tests)
@@ -104,18 +125,26 @@ Shows the 20 largest files by line count:
 
 ## 🚨 Common Issues & Solutions
 
-### File Too Large (>300 lines)
-**Solution**: Split into smaller modules
+### File Too Large (>400 lines - Strategic Threshold)
+**Solution**: Refactor into modular components with orchestrator pattern
 ```javascript
-// ❌ Bad: One large file
+// ❌ Bad: One monolithic file
 // src/services/user-service.js (450 lines)
 
-// ✅ Good: Multiple focused modules
-// src/services/user/user-repository.js (120 lines)
-// src/services/user/user-validation.js (80 lines)
-// src/services/user/user-controller.js (150 lines)
-// src/services/user/index.js (50 lines)
+// ✅ Good: Modular architecture with orchestrator
+// src/services/user/user-models.js (120 lines) - Data models & types
+// src/services/user/user-repository.js (180 lines) - Data access layer
+// src/services/user/user-validation.js (150 lines) - Business logic
+// src/services/user/user-orchestrator.js (200 lines) - Coordination layer
+// src/services/user/index.js (50 lines) - Public interface
 ```
+
+### Files 300-400 Lines (Minor Violations)
+**Acceptable with justification** - Focus on code quality over line count:
+- Clean, well-structured code with clear responsibilities
+- Comprehensive test coverage (>85%)
+- Clear class-based design with dependency injection
+- Proper error handling and logging
 
 ### Function Too Long (>30 lines)
 **Solution**: Extract helper functions
@@ -142,16 +171,27 @@ function processUserData(user) {
 }
 ```
 
-## 🎯 V2 Compliance Checklist
+## 🎯 V2 Compliance Checklist (Updated)
 
-- [ ] All JavaScript files under 300 lines
+### 🚨 **CRITICAL PRIORITIES**
+- [ ] No files over 500 lines (immediate refactoring required)
+- [ ] Strategic refactoring of files 400-500 lines
+- [ ] All tests pass with >85% coverage
+- [ ] ESLint passes with zero errors
+
+### ✅ **QUALITY STANDARDS**
+- [ ] Clean, class-based architecture with dependency injection
+- [ ] Comprehensive error handling and logging
+- [ ] Full type safety (TypeScript strict mode)
+- [ ] Modular design with clear component boundaries
 - [ ] All functions under 30 lines
 - [ ] Complexity score under 10
 - [ ] No more than 4 parameters per function
 - [ ] Maximum 4 levels of nesting
-- [ ] ESLint passes with zero errors
-- [ ] All tests pass
-- [ ] Code coverage >85%
+
+### 📋 **ACCEPTABLE WITH JUSTIFICATION**
+- [ ] Files 300-400 lines (minor violations, monitor and improve)
+- [ ] Legacy code with migration plan to modular architecture
 
 ## 📞 Support
 

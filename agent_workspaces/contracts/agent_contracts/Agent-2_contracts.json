@@ -1,0 +1,14 @@
+{
+  "contract_Agent-2_009e7a3c": {
+    "contract_id": "contract_Agent-2_009e7a3c",
+    "title": "Agent-2 Default Contract",
+    "description": "Default contract for Agent-2",
+    "agent_id": "Agent-2",
+    "created_at": "2025-09-05T15:45:43.700190",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  }
+}

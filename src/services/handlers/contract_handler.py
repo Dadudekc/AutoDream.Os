@@ -7,11 +7,14 @@ Extracted from messaging_cli_handlers.py for V2 compliance.
 
 V2 Compliance: < 300 lines, single responsibility.
 
-Author: Agent-7 - Web Development Specialist
+Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
 from typing import Any, Dict, List, Optional
+
+from ..contract_system.manager import ContractManager
+from ..contract_system.storage import ContractStorage
 
 
 class ContractHandler:
@@ -23,9 +26,9 @@ class ContractHandler:
     
     def __init__(self):
         """Initialize contract handler."""
-        self.contracts = {}
-        self.assigned_tasks = {}
-        self.completed_tasks = {}
+        self.storage = ContractStorage()
+        self.manager = ContractManager(self.storage)
+        self._initialize_default_tasks()
     
     def handle_contract_commands(self, args) -> bool:
         """Handle contract-related commands."""
@@ -36,13 +39,42 @@ class ContractHandler:
                     return True
                 
                 print(f"📋 Getting next task for {args.agent}...")
-                print("Contract system not fully implemented yet.")
+                task = self.manager.get_next_task(args.agent)
+                
+                if task:
+                    print(f"✅ Task assigned: {task['title']}")
+                    print(f"📝 Description: {task['description']}")
+                    print(f"🎯 Type: {task['task_type']}")
+                    print(f"⚡ Priority: {task['priority']}")
+                    print(f"⏱️ Duration: {task['estimated_duration']}")
+                    print(f"🆔 Task ID: {task['task_id']}")
+                else:
+                    print("❌ No available tasks for this agent")
                 return True
                 
             if args.check_contracts:
                 print("📊 Contract Status:")
                 print("=" * 40)
-                print("Contract system not fully implemented yet.")
+                status = self.manager.get_system_status()
+                
+                print(f"📈 Total Contracts: {status.get('total_contracts', 0)}")
+                print(f"🔄 Active Contracts: {status.get('active_contracts', 0)}")
+                print(f"✅ Completed Contracts: {status.get('completed_contracts', 0)}")
+                print(f"📋 Total Tasks: {status.get('total_tasks', 0)}")
+                print(f"✅ Completed Tasks: {status.get('completed_tasks', 0)}")
+                print(f"📊 Completion Rate: {status.get('completion_rate', 0)}%")
+                print(f"🎯 Total Points: {status.get('total_points', 0)}")
+                print(f"✅ Completed Points: {status.get('completed_points', 0)}")
+                
+                # Show agent summaries
+                agent_summaries = status.get('agent_summaries', {})
+                if agent_summaries:
+                    print("\n👥 Agent Status:")
+                    print("-" * 30)
+                    for agent_id, summary in agent_summaries.items():
+                        print(f"{agent_id}: {summary.get('completion_rate', 0)}% complete "
+                              f"({summary.get('completed_points', 0)}/{summary.get('total_points', 0)} pts)")
+                
                 return True
                 
         except Exception as e:
@@ -53,87 +85,72 @@ class ContractHandler:
     
     def get_next_task(self, agent_id: str) -> Optional[Dict[str, Any]]:
         """Get next available task for agent."""
-        try:
-            # This would normally fetch from contract system
-            return {
-                "task_id": f"task_{agent_id}_{len(self.assigned_tasks)}",
-                "description": "Contract system not fully implemented yet",
-                "priority": "medium",
-                "estimated_duration": "1 cycle"
-            }
-        except Exception as e:
-            print(f"❌ Error getting next task: {e}")
-            return None
+        return self.manager.get_next_task(agent_id)
     
     def check_contract_status(self) -> Dict[str, Any]:
         """Check overall contract status."""
-        return {
-            "total_contracts": len(self.contracts),
-            "assigned_tasks": len(self.assigned_tasks),
-            "completed_tasks": len(self.completed_tasks),
-            "completion_rate": len(self.completed_tasks) / max(len(self.assigned_tasks), 1) * 100,
-            "status": "Contract system not fully implemented yet"
-        }
+        return self.manager.get_system_status()
     
     def assign_task(self, agent_id: str, task: Dict[str, Any]) -> bool:
         """Assign task to agent."""
-        try:
-            task_id = task.get("task_id", f"task_{agent_id}_{len(self.assigned_tasks)}")
-            self.assigned_tasks[task_id] = {
-                "agent_id": agent_id,
-                "task": task,
-                "assigned_at": "now",
-                "status": "assigned"
-            }
-            return True
-        except Exception as e:
-            print(f"❌ Error assigning task: {e}")
-            return False
+        task_id = task.get("task_id")
+        if task_id:
+            return self.manager.complete_task(task_id)
+        return False
     
-    def complete_task(self, task_id: str) -> bool:
+    def complete_task(self, task_id: str, completion_notes: str = "") -> bool:
         """Mark task as completed."""
-        try:
-            if task_id in self.assigned_tasks:
-                task = self.assigned_tasks[task_id]
-                task["status"] = "completed"
-                task["completed_at"] = "now"
-                
-                self.completed_tasks[task_id] = task
-                del self.assigned_tasks[task_id]
-                return True
-            return False
-        except Exception as e:
-            print(f"❌ Error completing task: {e}")
-            return False
+        return self.manager.complete_task(task_id, completion_notes)
     
     def get_agent_tasks(self, agent_id: str) -> List[Dict[str, Any]]:
         """Get tasks assigned to specific agent."""
-        return [
-            task for task in self.assigned_tasks.values()
-            if task["agent_id"] == agent_id
-        ]
+        status = self.manager.get_agent_status(agent_id)
+        return status.get("current_tasks", [])
     
     def get_contract_metrics(self) -> Dict[str, Any]:
         """Get contract system metrics."""
+        status = self.manager.get_system_status()
         return {
-            "total_contracts": len(self.contracts),
-            "assigned_tasks": len(self.assigned_tasks),
-            "completed_tasks": len(self.completed_tasks),
-            "completion_rate": len(self.completed_tasks) / max(len(self.assigned_tasks) + len(self.completed_tasks), 1) * 100,
-            "active_agents": len(set(task["agent_id"] for task in self.assigned_tasks.values()))
+            "total_contracts": status.get("total_contracts", 0),
+            "assigned_tasks": status.get("active_contracts", 0),
+            "completed_tasks": status.get("completed_contracts", 0),
+            "completion_rate": status.get("completion_rate", 0),
+            "active_agents": len(status.get("agent_summaries", {}))
         }
     
     def reset_contracts(self):
         """Reset all contract data."""
-        self.contracts.clear()
-        self.assigned_tasks.clear()
-        self.completed_tasks.clear()
+        # Clear storage files
+        import os
+        import shutil
+        contracts_dir = "agent_workspaces/contracts"
+        if os.path.exists(contracts_dir):
+            shutil.rmtree(contracts_dir)
+        os.makedirs(contracts_dir, exist_ok=True)
+        
+        # Reinitialize
+        self.storage = ContractStorage()
+        self.manager = ContractManager(self.storage)
+        self._initialize_default_tasks()
     
     def get_contract_status(self) -> Dict[str, Any]:
         """Get contract handler status."""
+        status = self.manager.get_system_status()
         return {
-            "is_implemented": False,
-            "contracts": len(self.contracts),
-            "assigned_tasks": len(self.assigned_tasks),
-            "completed_tasks": len(self.completed_tasks)
+            "is_implemented": True,
+            "contracts": status.get("total_contracts", 0),
+            "assigned_tasks": status.get("active_contracts", 0),
+            "completed_tasks": status.get("completed_contracts", 0)
         }
+    
+    def _initialize_default_tasks(self):
+        """Initialize default tasks if none exist."""
+        try:
+            # Check if contracts already exist
+            all_contracts = self.storage.load_all_contracts()
+            if not all_contracts:
+                print("🚀 Initializing contract system with default tasks...")
+                self.manager.create_default_tasks()
+                print("✅ Contract system initialized successfully!")
+        except Exception as e:
+            print(f"❌ Error initializing default tasks: {e}")

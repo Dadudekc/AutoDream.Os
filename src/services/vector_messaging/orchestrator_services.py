@@ -12,7 +12,7 @@ Mission: V2 Compliance Refactoring
 from typing import Optional, Dict, Any, List
 import logging
 from ..models.messaging_models import UnifiedMessage
-from ..models.vector_models import SearchResult, CollectionConfig
+from ..models.vector_models import SearchResult, CollectionInfo
 from .vector_messaging_models import VectorDatabaseConfig
 from .orchestrator_core import VectorMessagingOrchestratorCore
 

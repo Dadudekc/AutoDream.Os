@@ -11,9 +11,9 @@ Mission: V2 Compliance Refactoring
 
 from typing import Optional, Dict, Any, List
 import logging
-from ..vector_database_service import VectorDatabaseService
+from ..vector_database.vector_database_orchestrator import VectorDatabaseService
 from ..models.messaging_models import UnifiedMessage
-from ..models.vector_models import SearchResult, CollectionConfig
+from ..models.vector_models import SearchResult, CollectionInfo
 from .vector_messaging_models import VectorDatabaseConfig, VectorDatabaseValidator
 from .agent_enhancement_integrator import AgentEnhancementIntegrator
 from .document_indexing_engine import DocumentIndexingEngine
@@ -74,7 +74,7 @@ class VectorMessagingOrchestratorCore:
             self.logger.error(f"Failed to initialize Vector Messaging Orchestrator Core: {e}")
             return False
     
-    def create_collection(self, collection_name: str, config: Optional[CollectionConfig] = None) -> bool:
+    def create_collection(self, collection_name: str, config: Optional[CollectionInfo] = None) -> bool:
         """Create a new vector collection."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator core not initialized")

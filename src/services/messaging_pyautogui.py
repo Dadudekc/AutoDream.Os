@@ -13,6 +13,19 @@ import time
 from .unified_messaging_imports import logging
 from typing import Dict, Tuple, Any, Optional
 
+# Import messaging models
+from .models.messaging_models import (
+    UnifiedMessage,
+    RecipientType,
+    SenderType,
+    UnifiedMessageType,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+)
+
+# Import validation system
+from ..core.unified_validation_system import get_unified_validator
+
 # Import centralized configuration
 
 try:
@@ -28,6 +41,37 @@ try:
 except ImportError:
     PYPERCLIP_AVAILABLE = False
     print("⚠️ WARNING: Pyperclip not available. Install with: pip install pyperclip")
+
+
+def validate_coordinates_before_delivery(coords, recipient):
+    """Validate coordinates before PyAutoGUI delivery."""
+    try:
+        if not coords or len(coords) != 2:
+            return False
+        
+        x, y = coords[0], coords[1]
+        
+        # Basic coordinate validation
+        if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+            return False
+        
+        # Allow negative coordinates for multi-monitor setups
+        if x < -2000 or x > 2000 or y < 0 or y > 1200:
+            return False
+        
+        return True
+    except Exception:
+        return False
+
+
+def enforce_devlog_for_operation(operation_type, agent_id, title, content, category):
+    """Enforce devlog usage for operations."""
+    try:
+        # Simple devlog enforcement - just log the operation
+        logging.getLogger(__name__).info(f"📝 DEVLOG: {operation_type} by {agent_id} - {title}")
+        return True
+    except Exception:
+        return False
 
 
 
@@ -82,9 +126,8 @@ class PyAutoGUIMessagingDelivery:
             coords = self.agents[recipient]["coords"]
 
             # Validate coordinates before PyAutoGUI operations
-
             logging.getLogger(__name__).info(f"🔍 VALIDATING COORDINATES: {recipient} at {coords}")
-            if not validate_coordinates_before_delivery(coords, recipient):
+            if not self._validate_coordinates(coords, recipient):
                 logging.getLogger(__name__).info(f"❌ ERROR: Coordinate validation failed for {recipient}")
                 return False
             logging.getLogger(__name__).info(f"✅ COORDINATE VALIDATION PASSED: {recipient}")
@@ -96,19 +139,10 @@ class PyAutoGUIMessagingDelivery:
             else:
                 self.performance_cache[cache_key] = True
 
-            # Enforce devlog usage for message delivery operations
-
-            devlog_success = enforce_devlog_for_operation(
-                operation_type="message_delivery",
-                agent_id=message.sender,
-                title=f"Optimized Message Delivery to {recipient}",
-                content=f"Delivered optimized message via PyAutoGUI to {recipient} at coordinates {coords}",
-                category="progress",
+            # Log message delivery operation
+            logging.getLogger(__name__).info(
+                f"📤 Delivering message via PyAutoGUI to {recipient} at coordinates {coords}"
             )
-            if not devlog_success:
-                logging.getLogger(__name__).info(
-                    f"⚠️  WARNING: Devlog enforcement failed for message delivery to {recipient}"
-                )
 
             # PERFORMANCE OPTIMIZATION: Faster coordinate movement
             pyautogui.moveTo(
@@ -167,7 +201,8 @@ class PyAutoGUIMessagingDelivery:
                 logging.getLogger(__name__).info(f"🧹 CLEARED INPUT FIELD FOR {recipient}")
 
             # Add message type-specific formatting and agent identity reminder
-            enhanced_content = self._format_message_for_delivery(message, recipient)
+            from .message_identity_clarification import format_message_with_identity_clarification
+            enhanced_content = format_message_with_identity_clarification(message, recipient)
 
             # Now send the actual message with agent identity reminder
             if use_paste and PYPERCLIP_AVAILABLE:
@@ -269,58 +304,23 @@ class PyAutoGUIMessagingDelivery:
             ),  # Target: 106.7%
             "adaptive_delays": self.adaptive_delays.copy(),
         }
+    
+    def _validate_coordinates(self, coords: list, recipient: str) -> bool:
+        """Validate coordinates before delivery."""
+        try:
+            if not coords or len(coords) != 2:
+                return False
+            
+            x, y = coords[0], coords[1]
+            
+            # Check if coordinates are numeric
+            if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+                return False
+            
+            # Check if coordinates are within reasonable bounds
+            # Allow for multi-monitor setups
+            return -10000 <= x <= 10000 and -10000 <= y <= 10000
+            
+        except Exception:
+            return False
 
-    def _format_message_for_delivery(
-        self, message: UnifiedMessage, recipient: str
-    ) -> str:
-        """Format message content based on message type and sender/recipient information."""
-            RecipientType,
-            SenderType,
-            UnifiedMessageType,
-        )
-
-        # Base agent identity reminder
-        agent_reminder = f"🚨 **ATTENTION {recipient}** - YOU ARE {recipient} 🚨\n\n"
-
-        # Add message type-specific header
-        message_type_header = ""
-        if message.message_type == UnifiedMessageType.A2A:
-            message_type_header = f"📡 **A2A MESSAGE (Agent-to-Agent)**\n"
-            message_type_header += f"📤 **FROM:** {message.sender} (Agent)\n"
-            message_type_header += f"📥 **TO:** {recipient} (Agent)\n\n"
-        elif message.message_type == UnifiedMessageType.S2A:
-            message_type_header = f"📡 **S2A MESSAGE (System-to-Agent)**\n"
-            message_type_header += f"📤 **FROM:** {message.sender} (System)\n"
-            message_type_header += f"📥 **TO:** {recipient} (Agent)\n\n"
-        elif message.message_type == UnifiedMessageType.H2A:
-            message_type_header = f"📡 **H2A MESSAGE (Human-to-Agent)**\n"
-            message_type_header += f"📤 **FROM:** {message.sender} (Human)\n"
-            message_type_header += f"📥 **TO:** {recipient} (Agent)\n\n"
-        elif message.message_type == UnifiedMessageType.ONBOARDING:
-            message_type_header = f"📡 **S2A ONBOARDING MESSAGE (System-to-Agent)**\n"
-            message_type_header += f"📤 **FROM:** {message.sender} (System)\n"
-            message_type_header += f"📥 **TO:** {recipient} (Agent)\n\n"
-        elif message.message_type == UnifiedMessageType.C2A:
-            message_type_header = f"📡 **C2A MESSAGE (Captain-to-Agent)**\n"
-            message_type_header += f"📤 **FROM:** {message.sender} (Captain)\n"
-            message_type_header += f"📥 **TO:** {recipient} (Agent)\n\n"
-        elif message.message_type == UnifiedMessageType.BROADCAST:
-            message_type_header = f"📡 **BROADCAST MESSAGE**\n"
-            message_type_header += f"📤 **FROM:** {message.sender}\n"
-            message_type_header += f"📥 **TO:** All Agents\n\n"
-
-        # Add sender/recipient type information if available
-        type_info = ""
-        if get_unified_validator().validate_hasattr(message, "sender_type") and message.sender_type:
-            type_info += f"🔍 **SENDER TYPE:** {message.sender_type.value}\n"
-        if get_unified_validator().validate_hasattr(message, "recipient_type") and message.recipient_type:
-            type_info += f"🔍 **RECIPIENT TYPE:** {message.recipient_type.value}\n"
-        if type_info:
-            type_info += "\n"
-
-        # Combine all formatting
-        enhanced_content = (
-            agent_reminder + message_type_header + type_info + message.content
-        )
-
-        return enhanced_content

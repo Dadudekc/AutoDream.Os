@@ -397,7 +397,7 @@ class PerformanceBenchmarkSuite:
 
         return regressions
 
-    def validate_performance_compliance(self) -> List[ValidationIssue]:
+    def validate_performance_compliance(self) -> List[ValidationResult]:
         """Validate performance compliance and return validation issues."""
         issues = []
 
@@ -410,7 +410,7 @@ class PerformanceBenchmarkSuite:
                 )
 
                 issues.append(
-                    ValidationIssue(
+                    ValidationResult(
                         rule_id=f"performance_{result.benchmark_type.value}",
                         rule_name=f"Performance {result.benchmark_type.value.replace('_', ' ').title()}",
                         severity=severity,

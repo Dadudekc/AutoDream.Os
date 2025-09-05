@@ -1,143 +1,84 @@
 /**
- * Cache Utilities Module - V2 Compliant
- * Intelligent caching with TTL and size management
- *
- * @author Agent-7 - Web Development Specialist
- * @version 1.0.0 - V2 COMPLIANCE EXTRACTION
- * @license MIT
+ * Cache Utilities - V2 Compliant Module
+ * ====================================
+ * 
+ * Caching utilities with LRU eviction and performance optimization.
+ * 
+ * V2 Compliance: < 300 lines, single responsibility.
+ * 
+ * Author: Agent-7 - Web Development Specialist
+ * License: MIT
  */
 
 export class CacheUtils {
-    constructor(options = {}) {
+    constructor(maxSize = 1000) {
+        this.maxSize = maxSize;
         this.cache = new Map();
-        this.logger = options.logger || console;
-        this.config = {
-            defaultTimeout: options.defaultTimeout || 30000, // 30 seconds
-            maxSize: options.maxSize || 1000,
-            enableStats: options.enableStats || true,
-            ...options
-        };
-        this.stats = {
-            hits: 0,
-            misses: 0,
-            evictions: 0,
-            sets: 0
-        };
+        this.accessOrder = new Map();
+        this.logger = console;
     }
 
     /**
-     * Set cache entry with optional TTL
+     * Set cache entry
      */
     set(key, value, ttl = null) {
-        try {
-            // Check cache size limit
-            if (this.cache.size >= this.config.maxSize) {
-                this.evictOldest();
-            }
-
-            const timeout = ttl || this.config.defaultTimeout;
-            const entry = {
-                value,
-                timestamp: Date.now(),
-                ttl: timeout,
-                expires: Date.now() + timeout
-            };
-
-            this.cache.set(key, entry);
-            this.stats.sets++;
-
-            if (this.config.enableStats) {
-                this.logger.debug(`Cache set: ${key}, expires: ${new Date(entry.expires).toISOString()}`);
-            }
-
-            return true;
-        } catch (error) {
-            this.logger.error('Cache set failed', error);
-            return false;
+        // Remove oldest entries if cache is full
+        if (this.cache.size >= this.maxSize) {
+            this.evictOldest();
         }
+
+        const entry = {
+            value,
+            ttl,
+            createdAt: Date.now()
+        };
+
+        this.cache.set(key, entry);
+        this.updateAccessOrder(key);
     }
 
     /**
-     * Get cache entry with TTL validation
+     * Get cache entry
      */
     get(key) {
-        try {
-            const entry = this.cache.get(key);
-
-            if (!entry) {
-                this.stats.misses++;
-                return null;
-            }
-
-            // Check if entry has expired
-            if (Date.now() > entry.expires) {
-                this.cache.delete(key);
-                this.stats.misses++;
-                this.stats.evictions++;
-                return null;
-            }
-
-            this.stats.hits++;
-            return entry.value;
-        } catch (error) {
-            this.logger.error('Cache get failed', error);
+        const entry = this.cache.get(key);
+        
+        if (!entry) {
             return null;
         }
+
+        // Check TTL
+        if (entry.ttl && Date.now() - entry.createdAt > entry.ttl) {
+            this.delete(key);
+            return null;
+        }
+
+        this.updateAccessOrder(key);
+        return entry.value;
+    }
+
+    /**
+     * Check if key exists in cache
+     */
+    has(key) {
+        return this.get(key) !== null;
     }
 
     /**
      * Delete cache entry
      */
     delete(key) {
-        try {
-            const deleted = this.cache.delete(key);
-            if (deleted && this.config.enableStats) {
-                this.logger.debug(`Cache deleted: ${key}`);
-            }
-            return deleted;
-        } catch (error) {
-            this.logger.error('Cache delete failed', error);
-            return false;
-        }
+        this.cache.delete(key);
+        this.accessOrder.delete(key);
     }
 
     /**
-     * Clear entire cache
+     * Clear all cache entries
      */
     clear() {
-        try {
-            const size = this.cache.size;
-            this.cache.clear();
-            this.resetStats();
-            if (this.config.enableStats) {
-                this.logger.debug(`Cache cleared: ${size} entries removed`);
-            }
-            return true;
-        } catch (error) {
-            this.logger.error('Cache clear failed', error);
-            return false;
-        }
-    }
-
-    /**
-     * Check if key exists and is not expired
-     */
-    has(key) {
-        try {
-            const entry = this.cache.get(key);
-            if (!entry) return false;
-
-            if (Date.now() > entry.expires) {
-                this.cache.delete(key);
-                this.stats.evictions++;
-                return false;
-            }
-
-            return true;
-        } catch (error) {
-            this.logger.error('Cache has check failed', error);
-            return false;
-        }
+        this.cache.clear();
+        this.accessOrder.clear();
+        this.logger.log('🧹 Cache cleared');
     }
 
     /**
@@ -151,94 +92,150 @@ export class CacheUtils {
      * Get cache statistics
      */
     getStats() {
-        const total = this.stats.hits + this.stats.misses;
-        const hitRate = total > 0 ? (this.stats.hits / total * 100).toFixed(2) : 0;
+        const now = Date.now();
+        let expiredCount = 0;
+        let totalAge = 0;
+
+        for (const [key, entry] of this.cache.entries()) {
+            if (entry.ttl && now - entry.createdAt > entry.ttl) {
+                expiredCount++;
+            }
+            totalAge += now - entry.createdAt;
+        }
 
         return {
-            ...this.stats,
             size: this.cache.size,
-            hitRate: `${hitRate}%`,
-            maxSize: this.config.maxSize
+            maxSize: this.maxSize,
+            utilization: (this.cache.size / this.maxSize) * 100,
+            expiredCount,
+            averageAge: this.cache.size > 0 ? totalAge / this.cache.size : 0
         };
+    }
+
+    /**
+     * Update access order for LRU
+     */
+    updateAccessOrder(key) {
+        this.accessOrder.set(key, Date.now());
+    }
+
+    /**
+     * Evict oldest entry
+     */
+    evictOldest() {
+        let oldestKey = null;
+        let oldestTime = Infinity;
+
+        for (const [key, time] of this.accessOrder.entries()) {
+            if (time < oldestTime) {
+                oldestTime = time;
+                oldestKey = key;
+            }
+        }
+
+        if (oldestKey) {
+            this.delete(oldestKey);
+        }
     }
 
     /**
      * Clean expired entries
      */
-    clean() {
-        try {
-            const now = Date.now();
-            let cleaned = 0;
+    cleanExpired() {
+        const now = Date.now();
+        const expiredKeys = [];
 
-            for (const [key, entry] of this.cache.entries()) {
-                if (now > entry.expires) {
-                    this.cache.delete(key);
-                    cleaned++;
-                    this.stats.evictions++;
-                }
+        for (const [key, entry] of this.cache.entries()) {
+            if (entry.ttl && now - entry.createdAt > entry.ttl) {
+                expiredKeys.push(key);
             }
+        }
 
-            if (this.config.enableStats && cleaned > 0) {
-                this.logger.debug(`Cache cleaned: ${cleaned} expired entries removed`);
-            }
-
-            return cleaned;
-        } catch (error) {
-            this.logger.error('Cache clean failed', error);
-            return 0;
+        expiredKeys.forEach(key => this.delete(key));
+        
+        if (expiredKeys.length > 0) {
+            this.logger.log(`🧹 Cleaned ${expiredKeys.length} expired cache entries`);
         }
     }
 
     /**
-     * Evict oldest entry (LRU-style)
+     * Get all cache keys
      */
-    evictOldest() {
-        try {
-            let oldestKey = null;
-            let oldestTime = Date.now();
+    keys() {
+        return Array.from(this.cache.keys());
+    }
 
-            for (const [key, entry] of this.cache.entries()) {
-                if (entry.timestamp < oldestTime) {
-                    oldestTime = entry.timestamp;
-                    oldestKey = key;
-                }
-            }
+    /**
+     * Get all cache values
+     */
+    values() {
+        return Array.from(this.cache.values()).map(entry => entry.value);
+    }
 
-            if (oldestKey) {
-                this.cache.delete(oldestKey);
-                this.stats.evictions++;
-                if (this.config.enableStats) {
-                    this.logger.debug(`Cache eviction: ${oldestKey} (oldest entry)`);
-                }
-            }
-        } catch (error) {
-            this.logger.error('Cache eviction failed', error);
+    /**
+     * Get all cache entries
+     */
+    entries() {
+        const result = [];
+        for (const [key, entry] of this.cache.entries()) {
+            result.push([key, entry.value]);
         }
+        return result;
     }
 
     /**
-     * Reset statistics
+     * Set multiple entries
      */
-    resetStats() {
-        this.stats = {
-            hits: 0,
-            misses: 0,
-            evictions: 0,
-            sets: 0
-        };
+    setMultiple(entries, ttl = null) {
+        entries.forEach(([key, value]) => {
+            this.set(key, value, ttl);
+        });
     }
 
     /**
-     * Set cache configuration
+     * Get multiple entries
      */
-    setConfig(options = {}) {
-        this.config = { ...this.config, ...options };
+    getMultiple(keys) {
+        const result = {};
+        keys.forEach(key => {
+            const value = this.get(key);
+            if (value !== null) {
+                result[key] = value;
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Delete multiple entries
+     */
+    deleteMultiple(keys) {
+        keys.forEach(key => this.delete(key));
+    }
+
+    /**
+     * Export cache data
+     */
+    export() {
+        const data = {};
+        for (const [key, entry] of this.cache.entries()) {
+            data[key] = {
+                value: entry.value,
+                ttl: entry.ttl,
+                createdAt: entry.createdAt
+            };
+        }
+        return data;
+    }
+
+    /**
+     * Import cache data
+     */
+    import(data) {
+        this.clear();
+        Object.entries(data).forEach(([key, entry]) => {
+            this.cache.set(key, entry);
+            this.updateAccessOrder(key);
+        });
     }
 }
-
-// Factory function for creating cache utils instance
-export function createCacheUtils(options = {}) {
-    return new CacheUtils(options);
-}
-
-

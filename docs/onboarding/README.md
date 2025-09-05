@@ -1,7 +1,8 @@
 # Agent Swarm Onboarding (SSOT)
 
 Welcome to Agent Cellphone V2. This README is the **single source of truth** for
-agent onboarding. All other onboarding guides have been removed.
+agent onboarding. All other onboarding guides have been archived.
+Any onboarding updates must be reflected here to maintain SSOT.
 
 ## Cycle-Based Workflow
 - One Captain prompt + one Agent response = **one cycle**
@@ -32,6 +33,31 @@ agent onboarding. All other onboarding guides have been removed.
    ```
 4. Update `agent_workspaces/<Agent-X>/status.json` when starting or completing
    tasks and on any major progress.
+
+## Multi-Agent Check-In System
+- Templates for all agents live in `examples/agent_checkins/`.
+- Check in with current status:
+  ```bash
+  python tools/agent_checkin.py examples/agent_checkins/{agent_id}_checkin.json
+  echo '{"agent_id":"{agent_id}","agent_name":"{role}",\
+"status":"ACTIVE","current_phase":"TASK_EXECUTION"}' | \
+python tools/agent_checkin.py -
+  ```
+- Monitor swarm status:
+  ```bash
+  python tools/captain_snapshot.py
+  ```
+- Check-in frequency:
+  - After every task completion
+  - After each Captain prompt
+  - Every 15 minutes during active work
+  - Before starting new work
+- Captain monitoring tools:
+  ```bash
+  python tools/captain_snapshot.py
+  python tools/agent_checkin.py examples/agent_checkins/Agent-X_checkin.json
+  ls runtime/agent_logs/
+  ```
 
 ## Training Path
 ### Phase 1 – Foundations

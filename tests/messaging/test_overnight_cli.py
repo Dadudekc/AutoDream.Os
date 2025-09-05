@@ -9,14 +9,14 @@ from src.services import messaging_cli
 
 def test_overnight_flag_runs_overnight_system(monkeypatch):
     """Ensure --overnight dispatches the overnight system script."""
-    called = {}
+    from unittest.mock import MagicMock
 
-    def fake_run(cmd, *args, **kwargs):
-        called["cmd"] = cmd
-
-    monkeypatch.setattr(subprocess, "run", fake_run)
+    mock_run = MagicMock()
+    monkeypatch.setattr(subprocess, "run", mock_run)
     monkeypatch.setattr(sys, "argv", ["messaging_cli", "--overnight"])
 
     messaging_cli.main()
 
-    assert Path(called["cmd"][1]).name == "overnight_autonomous_system.py"
+    mock_run.assert_called_once()
+    called_cmd = mock_run.call_args.args[0]
+    assert Path(called_cmd[1]).name == "overnight_autonomous_system.py"

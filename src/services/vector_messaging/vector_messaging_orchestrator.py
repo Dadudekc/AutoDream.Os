@@ -85,9 +85,15 @@ class VectorMessagingOrchestrator:
         self.core.shutdown()
         self.is_initialized = False
 
+# Factory function for backward compatibility
+def get_vector_messaging_orchestrator(config=None):
+    """Get vector messaging orchestrator instance."""
+    return VectorMessagingOrchestrator(config)
+
 # Re-export for backward compatibility
 __all__ = [
     'VectorMessagingOrchestrator',
     'VectorMessagingOrchestratorCore',
-    'VectorMessagingOrchestratorServices'
+    'VectorMessagingOrchestratorServices',
+    'get_vector_messaging_orchestrator'
 ]

@@ -1,26 +1,18 @@
-#!/usr/bin/env python3
 """
-Unified Utility System Package - V2 Compliance Module
-====================================================
+Utility System Package
+=====================
 
-Modular utility system for V2 compliance.
-Refactored from monolithic implementation.
+KISS Simplified utility system package.
+Restored after deletion to maintain functionality.
 
-Author: Agent-3 - Infrastructure & DevOps Specialist
-Mission: V2 Compliance Refactoring
+Author: Agent-8 (SSOT & System Integration Specialist) - KISS Restoration
+License: MIT
 """
 
-from .unified_utility import (
-    UnifiedUtilitySystem,
-    UtilitySystemModels,
-    UtilityCoordinator,
-    UtilityFactory
-)
+from .managers.file_manager import FileManager, create_file_manager, get_file_manager
 
-# Re-export for backward compatibility
 __all__ = [
-    'UnifiedUtilitySystem',
-    'UtilitySystemModels',
-    'UtilityCoordinator', 
-    'UtilityFactory'
+    'FileManager',
+    'create_file_manager',
+    'get_file_manager'
 ]

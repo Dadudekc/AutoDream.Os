@@ -11,7 +11,7 @@ License: MIT
 
 import asyncio
 import logging
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any, Dict, List, Optional
 from datetime import datetime
 from collections import deque
 
@@ -20,16 +20,19 @@ logger = logging.getLogger(__name__)
 class RealtimeAnalyticsEngine:
     """Simple real-time analytics processing engine."""
     
-    def __init__(self, config=None, processing_callbacks=None):
+    def __init__(self, config=None):
         """Initialize real-time analytics engine."""
         self.config = config or {}
-        self.processing_callbacks = processing_callbacks or {}
         self.logger = logger
         
         # Simple processing state
         self.queue = deque()
         self.active = False
         self.task = None
+        self.stats = {
+            'processed': 0,
+            'errors': 0
+        }
     
     async def start_processing(self) -> Dict[str, Any]:
         """Start real-time processing."""
@@ -40,7 +43,7 @@ class RealtimeAnalyticsEngine:
             return {"status": "started", "timestamp": datetime.now().isoformat()}
         except Exception as e:
             self.logger.error(f"Failed to start processing: {e}")
-            raise
+            return {"status": "error", "error": str(e)}
     
     async def stop_processing(self) -> Dict[str, Any]:
         """Stop real-time processing."""
@@ -52,52 +55,72 @@ class RealtimeAnalyticsEngine:
             return {"status": "stopped", "timestamp": datetime.now().isoformat()}
         except Exception as e:
             self.logger.error(f"Failed to stop processing: {e}")
-            raise
+            return {"status": "error", "error": str(e)}
     
-    def add_item(self, item: Dict[str, Any]) -> bool:
-        """Add item to processing queue."""
-        try:
-            self.queue.append(item)
-            self.logger.debug(f"Added item to queue: {item.get('id', 'unknown')}")
-            return True
-        except Exception as e:
-            self.logger.error(f"Failed to add item: {e}")
-            return False
-    
-    async def _processing_loop(self):
+    async def _processing_loop(self) -> None:
         """Main processing loop."""
         while self.active:
             try:
                 if self.queue:
-                    item = self.queue.popleft()
-                    await self._process_item(item)
+                    data = self.queue.popleft()
+                    await self._process_data(data)
                 else:
-                    await asyncio.sleep(0.1)
+                    await asyncio.sleep(0.1)  # Small delay when queue is empty
             except Exception as e:
+                self.stats['errors'] += 1
                 self.logger.error(f"Error in processing loop: {e}")
                 await asyncio.sleep(1)
     
-    async def _process_item(self, item: Dict[str, Any]):
-        """Process a single item."""
+    async def _process_data(self, data: Dict[str, Any]) -> None:
+        """Process a single data item."""
         try:
-            item_type = item.get('type', 'unknown')
-            if item_type in self.processing_callbacks:
-                await self.processing_callbacks[item_type](item)
-            else:
-                self.logger.warning(f"No callback for item type: {item_type}")
+            self.stats['processed'] += 1
+            self.logger.debug(f"Processed data: {data.get('id', 'unknown')}")
         except Exception as e:
-            self.logger.error(f"Failed to process item: {e}")
+            self.stats['errors'] += 1
+            self.logger.error(f"Error processing data: {e}")
+    
+    def add_data(self, data: Dict[str, Any]) -> None:
+        """Add data to processing queue."""
+        try:
+            self.queue.append(data)
+            self.logger.debug(f"Added data to queue: {data.get('id', 'unknown')}")
+        except Exception as e:
+            self.logger.error(f"Error adding data to queue: {e}")
     
     def get_queue_size(self) -> int:
         """Get current queue size."""
         return len(self.queue)
     
+    def get_stats(self) -> Dict[str, Any]:
+        """Get processing statistics."""
+        return {
+            "active": self.active,
+            "queue_size": self.get_queue_size(),
+            "processed": self.stats['processed'],
+            "errors": self.stats['errors'],
+            "timestamp": datetime.now().isoformat()
+        }
+    
+    def reset_stats(self) -> None:
+        """Reset processing statistics."""
+        self.stats = {
+            'processed': 0,
+            'errors': 0
+        }
+        self.logger.info("Processing statistics reset")
+    
     def get_status(self) -> Dict[str, Any]:
         """Get engine status."""
         return {
             "active": self.active,
-            "queue_size": self.get_queue_size(),
+            "stats": self.get_stats(),
             "timestamp": datetime.now().isoformat()
         }
 
-__all__ = ["RealtimeAnalyticsEngine"]
+# Simple factory function
+def create_realtime_analytics_engine(config=None) -> RealtimeAnalyticsEngine:
+    """Create real-time analytics engine."""
+    return RealtimeAnalyticsEngine(config)
+
+__all__ = ["RealtimeAnalyticsEngine", "create_realtime_analytics_engine"]

@@ -22,7 +22,7 @@ from .vector_enhanced_contracts_models import (
     PerformanceTrend,
     OptimizationResult,
 )
-from .vector_enhanced_contracts_engine import VectorEnhancedContractEngine
+from .vector_enhanced_contracts_engine import VectorEnhancedContractsEngine
 from .vector_enhanced_contracts_orchestrator import (
     VectorEnhancedContractService,
     get_vector_enhanced_contract_service,
@@ -47,7 +47,7 @@ __all__ = [
     'AssignmentStrategy',
     'PerformanceTrend',
     'OptimizationResult',
-    'VectorEnhancedContractEngine',
+    'VectorEnhancedContractsEngine',
     'VectorEnhancedContractService',
     'get_vector_enhanced_contract_service',
     'get_optimal_task_assignment',

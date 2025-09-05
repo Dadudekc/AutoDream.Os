@@ -1,12 +1,13 @@
 """
-Emergency Intervention Models
-============================
+Emergency Intervention Models - KISS Simplified
+==============================================
 
-Data models for emergency intervention operations.
-V2 Compliance: < 300 lines, single responsibility, data modeling.
+Simplified data models for emergency intervention operations.
+KISS PRINCIPLE: Keep It Simple, Stupid - streamlined emergency models.
 
-Author: Agent-3 - Infrastructure & DevOps Specialist
-Mission: V2 Compliance Refactoring
+Author: Agent-8 (SSOT & System Integration Specialist) - KISS Simplification
+Original: Agent-3 - Infrastructure & DevOps Specialist
+License: MIT
 """
 
 from dataclasses import dataclass
@@ -48,254 +49,244 @@ class InterventionAction(Enum):
     """Types of intervention actions."""
     RESTART_SERVICE = "restart_service"
     SCALE_RESOURCES = "scale_resources"
-    ISOLATE_SYSTEM = "isolate_system"
+    ISOLATE_COMPONENT = "isolate_component"
     ROLLBACK_CHANGES = "rollback_changes"
     NOTIFY_ADMIN = "notify_admin"
     EXECUTE_SCRIPT = "execute_script"
 
 
 @dataclass
-class Emergency:
-    """Emergency incident data."""
-    emergency_id: str
+class EmergencyEvent:
+    """Simplified emergency event model."""
+    event_id: str
     emergency_type: EmergencyType
     severity: EmergencySeverity
-    status: EmergencyStatus
     description: str
     detected_at: datetime
-    resolved_at: Optional[datetime] = None
-    context: Dict[str, Any] = None
-    metrics: Dict[str, Any] = None
+    status: EmergencyStatus = EmergencyStatus.DETECTED
+    affected_components: List[str] = None
+    metadata: Dict[str, Any] = None
+    
+    def __post_init__(self):
+        if self.affected_components is None:
+            self.affected_components = []
+        if self.metadata is None:
+            self.metadata = {}
 
 
 @dataclass
-class InterventionProtocol:
-    """Emergency intervention protocol."""
-    protocol_id: str
-    emergency_type: EmergencyType
-    severity_threshold: EmergencySeverity
+class InterventionPlan:
+    """Simplified intervention plan model."""
+    plan_id: str
+    emergency_id: str
     actions: List[InterventionAction]
-    priority: int
-    timeout_seconds: int
-    auto_execute: bool = False
+    priority: int = 1
+    created_at: datetime = None
+    status: str = "pending"
+    estimated_duration: int = 300  # seconds
+    
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()
 
 
 @dataclass
 class InterventionResult:
-    """Result of intervention action."""
+    """Simplified intervention result model."""
+    result_id: str
+    plan_id: str
     action: InterventionAction
     success: bool
-    execution_time: float
+    executed_at: datetime
+    duration: float = 0.0
     error_message: Optional[str] = None
     metadata: Dict[str, Any] = None
-
-
-@dataclass
-class EmergencyResponse:
-    """Emergency response data."""
-    emergency_id: str
-    response_time: float
-    interventions: List[InterventionResult]
-    resolution_time: Optional[float] = None
-    escalated: bool = False
-
-
-@dataclass
-class EmergencyContext:
-    """Context data for emergency."""
-    system_metrics: Dict[str, Any]
-    recent_events: List[Dict[str, Any]]
-    user_impact: Dict[str, Any]
-    resource_usage: Dict[str, Any]
-
-
-@dataclass
-class EmergencyPattern:
-    """Pattern for emergency detection."""
-    pattern_id: str
-    name: str
-    conditions: Dict[str, Any]
-    severity: EmergencySeverity
-    confidence: float
+    
+    def __post_init__(self):
+        if self.metadata is None:
+            self.metadata = {}
 
 
 @dataclass
 class EmergencyMetrics:
-    """Emergency system metrics."""
+    """Simplified emergency metrics model."""
     total_emergencies: int = 0
     resolved_emergencies: int = 0
-    active_emergencies: int = 0
-    average_response_time: float = 0.0
-    average_resolution_time: float = 0.0
-    escalation_rate: float = 0.0
+    avg_resolution_time: float = 0.0
+    critical_emergencies: int = 0
     last_updated: datetime = None
+    
+    def __post_init__(self):
+        if self.last_updated is None:
+            self.last_updated = datetime.now()
 
 
 @dataclass
-class EmergencyHistory:
-    """Historical emergency data."""
+class EmergencyConfig:
+    """Simplified emergency configuration model."""
+    auto_intervention_enabled: bool = True
+    escalation_threshold: int = 5
+    max_intervention_time: int = 1800  # 30 minutes
+    notification_recipients: List[str] = None
+    monitoring_interval: int = 60  # seconds
+    
+    def __post_init__(self):
+        if self.notification_recipients is None:
+            self.notification_recipients = []
+
+
+@dataclass
+class EmergencyAlert:
+    """Simplified emergency alert model."""
+    alert_id: str
     emergency_id: str
-    events: List[Dict[str, Any]]
-    timeline: List[datetime]
-    resolution_notes: Optional[str] = None
+    message: str
+    severity: EmergencySeverity
+    created_at: datetime
+    acknowledged: bool = False
+    acknowledged_by: Optional[str] = None
+    acknowledged_at: Optional[datetime] = None
 
 
-class EmergencyInterventionModels:
-    """Emergency intervention models and validation."""
+@dataclass
+class EmergencyLog:
+    """Simplified emergency log model."""
+    log_id: str
+    emergency_id: str
+    action: str
+    details: str
+    timestamp: datetime
+    user_id: Optional[str] = None
+    metadata: Dict[str, Any] = None
     
-    @staticmethod
-    def create_emergency(
-        emergency_type: EmergencyType,
-        severity: EmergencySeverity,
-        description: str,
-        context: Dict[str, Any] = None,
-        metrics: Dict[str, Any] = None
-    ) -> Emergency:
-        """Create emergency incident."""
-        return Emergency(
-            emergency_id=str(uuid.uuid4()),
-            emergency_type=emergency_type,
-            severity=severity,
-            status=EmergencyStatus.DETECTED,
-            description=description,
-            detected_at=datetime.now(),
-            context=context or {},
-            metrics=metrics or {}
-        )
+    def __post_init__(self):
+        if self.metadata is None:
+            self.metadata = {}
+
+
+@dataclass
+class EmergencyReport:
+    """Simplified emergency report model."""
+    report_id: str
+    emergency_id: str
+    title: str
+    summary: str
+    created_at: datetime
+    status: str = "draft"
+    findings: List[str] = None
+    recommendations: List[str] = None
     
-    @staticmethod
-    def create_intervention_protocol(
-        emergency_type: EmergencyType,
-        severity_threshold: EmergencySeverity,
-        actions: List[InterventionAction],
-        priority: int = 1,
-        timeout_seconds: int = 300,
-        auto_execute: bool = False
-    ) -> InterventionProtocol:
-        """Create intervention protocol."""
-        return InterventionProtocol(
-            protocol_id=str(uuid.uuid4()),
-            emergency_type=emergency_type,
-            severity_threshold=severity_threshold,
-            actions=actions,
-            priority=priority,
-            timeout_seconds=timeout_seconds,
-            auto_execute=auto_execute
-        )
+    def __post_init__(self):
+        if self.findings is None:
+            self.findings = []
+        if self.recommendations is None:
+            self.recommendations = []
+
+
+@dataclass
+class EmergencyTemplate:
+    """Simplified emergency template model."""
+    template_id: str
+    name: str
+    emergency_type: EmergencyType
+    severity: EmergencySeverity
+    actions: List[InterventionAction]
+    description: str = ""
+    is_active: bool = True
+    created_at: datetime = None
     
-    @staticmethod
-    def create_intervention_result(
-        action: InterventionAction,
-        success: bool,
-        execution_time: float,
-        error_message: str = None,
-        metadata: Dict[str, Any] = None
-    ) -> InterventionResult:
-        """Create intervention result."""
-        return InterventionResult(
-            action=action,
-            success=success,
-            execution_time=execution_time,
-            error_message=error_message,
-            metadata=metadata or {}
-        )
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
+
+@dataclass
+class EmergencyEscalation:
+    """Simplified emergency escalation model."""
+    escalation_id: str
+    emergency_id: str
+    escalated_to: str
+    reason: str
+    escalated_at: datetime
+    status: str = "pending"
+    resolved_at: Optional[datetime] = None
+
+
+@dataclass
+class EmergencyRecovery:
+    """Simplified emergency recovery model."""
+    recovery_id: str
+    emergency_id: str
+    recovery_plan: str
+    started_at: datetime
+    completed_at: Optional[datetime] = None
+    status: str = "in_progress"
+    success: bool = False
+    notes: str = ""
+
+
+@dataclass
+class EmergencyAudit:
+    """Simplified emergency audit model."""
+    audit_id: str
+    emergency_id: str
+    audit_type: str
+    performed_by: str
+    performed_at: datetime
+    findings: List[str] = None
+    recommendations: List[str] = None
+    status: str = "completed"
     
-    @staticmethod
-    def create_emergency_response(
-        emergency_id: str,
-        response_time: float,
-        interventions: List[InterventionResult],
-        resolution_time: float = None,
-        escalated: bool = False
-    ) -> EmergencyResponse:
-        """Create emergency response."""
-        return EmergencyResponse(
-            emergency_id=emergency_id,
-            response_time=response_time,
-            interventions=interventions,
-            resolution_time=resolution_time,
-            escalated=escalated
-        )
+    def __post_init__(self):
+        if self.findings is None:
+            self.findings = []
+        if self.recommendations is None:
+            self.recommendations = []
+
+
+@dataclass
+class EmergencyNotification:
+    """Simplified emergency notification model."""
+    notification_id: str
+    emergency_id: str
+    recipient: str
+    message: str
+    sent_at: datetime
+    delivery_status: str = "sent"
+    delivery_method: str = "email"
+    retry_count: int = 0
+
+
+@dataclass
+class EmergencyWorkflow:
+    """Simplified emergency workflow model."""
+    workflow_id: str
+    name: str
+    emergency_type: EmergencyType
+    steps: List[str]
+    is_active: bool = True
+    created_at: datetime = None
+    updated_at: datetime = None
     
-    @staticmethod
-    def create_emergency_context(
-        system_metrics: Dict[str, Any] = None,
-        recent_events: List[Dict[str, Any]] = None,
-        user_impact: Dict[str, Any] = None,
-        resource_usage: Dict[str, Any] = None
-    ) -> EmergencyContext:
-        """Create emergency context."""
-        return EmergencyContext(
-            system_metrics=system_metrics or {},
-            recent_events=recent_events or [],
-            user_impact=user_impact or {},
-            resource_usage=resource_usage or {}
-        )
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()
+        if self.updated_at is None:
+            self.updated_at = datetime.now()
+
+
+@dataclass
+class EmergencyDashboard:
+    """Simplified emergency dashboard model."""
+    dashboard_id: str
+    name: str
+    widgets: List[str]
+    is_public: bool = False
+    created_at: datetime = None
+    updated_at: datetime = None
     
-    @staticmethod
-    def create_emergency_pattern(
-        name: str,
-        conditions: Dict[str, Any],
-        severity: EmergencySeverity,
-        confidence: float
-    ) -> EmergencyPattern:
-        """Create emergency pattern."""
-        return EmergencyPattern(
-            pattern_id=str(uuid.uuid4()),
-            name=name,
-            conditions=conditions,
-            severity=severity,
-            confidence=confidence
-        )
-    
-    @staticmethod
-    def create_emergency_metrics() -> EmergencyMetrics:
-        """Create emergency metrics."""
-        return EmergencyMetrics(
-            total_emergencies=0,
-            resolved_emergencies=0,
-            active_emergencies=0,
-            average_response_time=0.0,
-            average_resolution_time=0.0,
-            escalation_rate=0.0,
-            last_updated=datetime.now()
-        )
-    
-    @staticmethod
-    def create_emergency_history(emergency_id: str) -> EmergencyHistory:
-        """Create emergency history."""
-        return EmergencyHistory(
-            emergency_id=emergency_id,
-            events=[],
-            timeline=[],
-            resolution_notes=None
-        )
-    
-    @staticmethod
-    def update_emergency_metrics(
-        metrics: EmergencyMetrics,
-        emergency: Emergency,
-        response: EmergencyResponse
-    ) -> EmergencyMetrics:
-        """Update emergency metrics."""
-        metrics.total_emergencies += 1
-        
-        if emergency.status == EmergencyStatus.RESOLVED:
-            metrics.resolved_emergencies += 1
-            if response.resolution_time:
-                total_time = metrics.average_resolution_time * (metrics.resolved_emergencies - 1)
-                metrics.average_resolution_time = (total_time + response.resolution_time) / metrics.resolved_emergencies
-        else:
-            metrics.active_emergencies += 1
-        
-        # Update response time
-        total_response_time = metrics.average_response_time * (metrics.total_emergencies - 1)
-        metrics.average_response_time = (total_response_time + response.response_time) / metrics.total_emergencies
-        
-        # Update escalation rate
-        if response.escalated:
-            escalated_count = metrics.escalation_rate * metrics.total_emergencies
-            metrics.escalation_rate = (escalated_count + 1) / metrics.total_emergencies
-        
-        metrics.last_updated = datetime.now()
-        return metrics
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()
+        if self.updated_at is None:
+            self.updated_at = datetime.now()

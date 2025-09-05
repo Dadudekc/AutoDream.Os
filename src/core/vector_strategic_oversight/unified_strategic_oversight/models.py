@@ -1,26 +1,36 @@
-#!/usr/bin/env python3
 """
-Strategic Oversight Models - V2 Compliance Module
-================================================
+Strategic Oversight Models - Backward Compatibility Wrapper
+===========================================================
 
 Backward compatibility wrapper for strategic oversight models.
+V2 Compliance: < 30 lines, single responsibility, compatibility layer.
 
-Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
-License: MIT
+Author: Agent-2 - Architecture & Design Specialist
+Mission: V2 Compliance Refactoring
 """
 
-# Import all components from modular architecture
-from .models_core import *
-from .models_extended import *
+# Import everything from the refactored modules
+from .models_refactored import *
 
-# Backward compatibility - export all classes and enums
+# Re-export everything for backward compatibility
 __all__ = [
-    # Core models
-    'InsightType', 'ConfidenceLevel', 'ImpactLevel', 'MissionStatus',
-    'StrategicInsight', 'MissionContext', 'AgentCapability', 'PerformanceMetrics',
-    'RiskAssessment', 'OptimizationRecommendation',
-    # Extended models
-    'AlertSeverity', 'ActionType', 'StrategicAlert', 'StrategicAction',
-    'StrategicReport', 'StrategicMetrics', 'StrategicConfiguration',
-    'StrategicEvent', 'StrategicPattern', 'StrategicTrend'
+    # Enums
+    'InsightType', 'ConfidenceLevel', 'ImpactLevel', 'MissionStatus', 'PriorityLevel',
+    'ReportType', 'AgentRole', 'EmergencyStatus',
+    
+    # Core Models
+    'StrategicInsight', 'MissionObjective', 'ResourceAllocation',
+    
+    # Extended Models
+    'StrategicRecommendation', 'OversightReport', 'PerformanceMetrics',
+    'CoordinationPattern', 'StrategicContext', 'OversightConfig',
+    
+    # Additional Models
+    'SwarmCoordinationInsight', 'StrategicOversightReport', 'AgentPerformanceMetrics',
+    'SwarmCoordinationStatus', 'StrategicMission', 'VectorDatabaseMetrics', 'SystemHealthMetrics',
+    'AgentCapabilities', 'PatternAnalysis', 'SuccessPrediction', 'RiskAssessment',
+    'InterventionHistory', 'EmergencyAlert', 'PerformanceTrend',
+    
+    # Factory
+    'StrategicOversightModels'
 ]

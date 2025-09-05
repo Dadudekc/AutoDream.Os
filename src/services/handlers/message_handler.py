@@ -89,7 +89,7 @@ class MessageHandler:
                 )
                 
                 if message:
-                    success = self.messaging_core.send_message(message, mode=args.mode)
+                    success = self.messaging_core.send_message(message)
                     if success:
                         success_count += 1
                         self.sent_count += 1
@@ -123,7 +123,7 @@ class MessageHandler:
             )
             
             if message:
-                success = self.messaging_core.send_message(message, mode=args.mode)
+                success = self.messaging_core.send_message(message)
                 if success:
                     self.sent_count += 1
                     print(f"✅ Message sent to {args.agent}")

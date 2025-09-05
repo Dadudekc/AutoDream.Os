@@ -10,47 +10,41 @@ Mission: V2 Compliance Refactoring
 """
 
 import asyncio
-from typing import List, Dict, Any, Optional
-from datetime import datetime
 import logging
+from typing import Dict, List, Any, Optional
+from datetime import datetime
 from .models import (
     MissionPattern, PatternCorrelation, MissionContext,
     StrategicRecommendation, PatternAnalysisResult, PerformanceMetrics,
-    PatternType, RecommendationType, ImpactLevel
+    PatternType, RecommendationType, ImpactLevel, PatternAnalysisConfig,
+    PatternAnalysisModels
 )
-from .engine import PatternAnalysisEngine, PatternAnalysisConfig
+from .engine_core import PatternAnalysisEngine
 from .analyzer import PatternAnalyzer
 
 
 class PatternAnalysisOrchestrator:
-    """Main orchestrator for pattern analysis operations."""
+    """Main orchestrator for pattern analysis system."""
     
     def __init__(self):
         """Initialize pattern analysis orchestrator."""
         self.engine = PatternAnalysisEngine()
-        self.analyzer = PatternAnalyzer()
+        self.analyzer = PatternAnalyzer(self.engine)
         self.logger = logging.getLogger(__name__)
         self.is_initialized = False
-        self.config: Optional[PatternAnalysisConfig] = None
     
     async def initialize(self, config: PatternAnalysisConfig = None) -> bool:
         """Initialize the orchestrator."""
         try:
             self.logger.info("Initializing Pattern Analysis Orchestrator")
             
-            # Set default config if not provided
-            if config is None:
-                config = PatternAnalysisConfig(
-                    config_id="default",
-                    name="Default Pattern Analysis Config",
-                    description="Default pattern analysis configuration"
-                )
-            
-            self.config = config
-            
             # Initialize engine
             if not self.engine.initialize(config):
                 raise Exception("Failed to initialize engine")
+            
+            # Initialize analyzer
+            if not self.analyzer.initialize():
+                raise Exception("Failed to initialize analyzer")
             
             self.is_initialized = True
             self.logger.info("Pattern Analysis Orchestrator initialized successfully")
@@ -60,175 +54,166 @@ class PatternAnalysisOrchestrator:
             self.logger.error(f"Failed to initialize Pattern Analysis Orchestrator: {e}")
             return False
     
-    async def add_pattern(self, pattern: MissionPattern) -> bool:
-        """Add pattern to analysis."""
+    async def add_pattern(self, name: str, description: str, pattern_type: PatternType,
+                         frequency: float, confidence: float, context: Dict[str, Any]) -> bool:
+        """Add mission pattern."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
+        pattern = PatternAnalysisModels.create_mission_pattern(
+            name=name,
+            description=description,
+            pattern_type=pattern_type,
+            frequency=frequency,
+            confidence=confidence,
+            context=context
+        )
+        
         return self.engine.add_pattern(pattern)
     
-    async def add_correlation(self, correlation: PatternCorrelation) -> bool:
+    async def add_correlation(self, pattern1_id: str, pattern2_id: str,
+                             correlation_score: float, significance: float,
+                             relationship_type: str) -> bool:
         """Add pattern correlation."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
+        correlation = PatternAnalysisModels.create_pattern_correlation(
+            pattern1_id=pattern1_id,
+            pattern2_id=pattern2_id,
+            correlation_score=correlation_score,
+            significance=significance,
+            relationship_type=relationship_type
+        )
+        
         return self.engine.add_correlation(correlation)
     
-    async def add_context(self, context: MissionContext) -> bool:
+    async def add_context(self, mission_id: str, phase: str, priority: str,
+                         resources: Dict[str, Any], constraints: List[str],
+                         objectives: List[str]) -> bool:
         """Add mission context."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
+        context = PatternAnalysisModels.create_mission_context(
+            mission_id=mission_id,
+            phase=phase,
+            priority=priority,
+            resources=resources,
+            constraints=constraints,
+            objectives=objectives
+        )
+        
         return self.engine.add_context(context)
     
-    async def analyze_patterns(self, analysis_type: str = "comprehensive") -> PatternAnalysisResult:
-        """Analyze patterns and generate results."""
+    async def add_metrics(self, mission_id: str, phase: str, efficiency: float,
+                         completion_time: float, resource_utilization: float,
+                         quality_score: float, metrics_data: Dict[str, Any]) -> bool:
+        """Add performance metrics."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        metrics = PatternAnalysisModels.create_performance_metrics(
+            mission_id=mission_id,
+            phase=phase,
+            efficiency=efficiency,
+            completion_time=completion_time,
+            resource_utilization=resource_utilization,
+            quality_score=quality_score,
+            metrics_data=metrics_data
+        )
+        
+        return self.engine.add_metrics(metrics)
+    
+    async def analyze_patterns(self, analysis_type: str = "comprehensive") -> Optional[PatternAnalysisResult]:
+        """Analyze patterns."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
         return self.engine.analyze_patterns(analysis_type)
     
-    async def analyze_pattern_type(self, pattern_type: PatternType) -> List[StrategicRecommendation]:
-        """Analyze patterns of specific type."""
+    async def analyze_performance_patterns(self, mission_id: str = None) -> List[MissionPattern]:
+        """Analyze performance patterns."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        patterns = [p for p in self.engine.patterns.values() if p.pattern_type == pattern_type]
-        return self.analyzer.analyze_pattern_type(pattern_type, patterns)
+        return self.analyzer.analyze_performance_patterns(mission_id)
     
-    async def get_pattern_metrics(self) -> PerformanceMetrics:
-        """Get pattern analysis metrics."""
+    async def analyze_coordination_patterns(self, mission_id: str = None) -> List[MissionPattern]:
+        """Analyze coordination patterns."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return self.engine.get_pattern_metrics()
+        return self.analyzer.analyze_coordination_patterns(mission_id)
     
-    async def get_recent_results(self, limit: int = 10) -> List[PatternAnalysisResult]:
-        """Get recent analysis results."""
+    async def generate_recommendations(self, patterns: List[MissionPattern]) -> List[StrategicRecommendation]:
+        """Generate strategic recommendations."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        return self.analyzer.generate_optimization_recommendations(patterns)
+    
+    async def get_patterns(self, pattern_type: PatternType = None) -> List[MissionPattern]:
+        """Get patterns."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        if pattern_type:
+            return self.engine.get_patterns_by_type(pattern_type)
+        else:
+            return list(self.engine.patterns.values())
+    
+    async def get_correlations(self) -> List[PatternCorrelation]:
+        """Get correlations."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        return list(self.engine.correlations.values())
+    
+    async def get_recommendations(self) -> List[StrategicRecommendation]:
+        """Get recommendations."""
+        if not self.is_initialized:
+            raise RuntimeError("Orchestrator not initialized")
+        
+        return list(self.engine.recommendations.values())
+    
+    async def get_analysis_results(self, limit: int = 10) -> List[PatternAnalysisResult]:
+        """Get analysis results."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
         return self.engine.get_recent_results(limit)
     
-    async def get_patterns_by_type(self, pattern_type: PatternType) -> List[MissionPattern]:
-        """Get patterns by type."""
+    async def get_orchestrator_status(self) -> Dict[str, Any]:
+        """Get orchestrator status."""
+        if not self.is_initialized:
+            return {'status': 'not_initialized'}
+        
+        engine_status = self.engine.get_engine_status()
+        analyzer_summary = self.analyzer.get_analysis_summary()
+        
+        return {
+            'status': 'initialized',
+            'engine': engine_status,
+            'analyzer': analyzer_summary,
+            'last_updated': datetime.now().isoformat()
+        }
+    
+    async def cleanup_old_data(self, days: int = 30):
+        """Cleanup old data."""
         if not self.is_initialized:
             raise RuntimeError("Orchestrator not initialized")
         
-        return [p for p in self.engine.patterns.values() if p.pattern_type == pattern_type]
+        self.engine.cleanup_old_data(days)
+        self.analyzer.cleanup_old_analysis(days)
     
-    async def get_high_confidence_patterns(self, threshold: float = 0.8) -> List[MissionPattern]:
-        """Get high confidence patterns."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        return [p for p in self.engine.patterns.values() if p.confidence_score >= threshold]
-    
-    async def get_success_patterns(self, threshold: float = 0.7) -> List[MissionPattern]:
-        """Get high success rate patterns."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        return [p for p in self.engine.patterns.values() if p.success_rate >= threshold]
-    
-    async def get_failure_patterns(self, threshold: float = 0.3) -> List[MissionPattern]:
-        """Get low success rate patterns."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        return [p for p in self.engine.patterns.values() if p.success_rate <= threshold]
-    
-    async def get_pattern_quality_analysis(self, pattern_id: str) -> Dict[str, Any]:
-        """Get pattern quality analysis."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        if pattern_id not in self.engine.patterns:
-            raise ValueError(f"Pattern {pattern_id} not found")
-        
-        pattern = self.engine.patterns[pattern_id]
-        return self.analyzer.analyze_pattern_quality(pattern)
-    
-    async def get_correlation_analysis(self) -> List[StrategicRecommendation]:
-        """Get correlation analysis recommendations."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        correlations = list(self.engine.correlations.values())
-        return self.analyzer.analyze_correlations(correlations)
-    
-    async def get_strategic_recommendations(self, limit: int = 20) -> List[StrategicRecommendation]:
-        """Get strategic recommendations."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        # Get recommendations from all pattern types
-        all_recommendations = []
-        
-        for pattern_type in PatternType:
-            patterns = await self.get_patterns_by_type(pattern_type)
-            recommendations = self.analyzer.analyze_pattern_type(pattern_type, patterns)
-            all_recommendations.extend(recommendations)
-        
-        # Add correlation-based recommendations
-        correlation_recommendations = await self.get_correlation_analysis()
-        all_recommendations.extend(correlation_recommendations)
-        
-        # Sort by priority score and return top recommendations
-        all_recommendations.sort(key=lambda x: x.priority_score, reverse=True)
-        return all_recommendations[:limit]
-    
-    async def clear_old_data(self, days: int = 30):
-        """Clear old analysis data."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        self.engine.clear_old_data(days)
-        self.logger.info(f"Cleared pattern analysis data older than {days} days")
-    
-    def shutdown(self):
+    async def shutdown(self):
         """Shutdown orchestrator."""
         if not self.is_initialized:
             return
         
         self.logger.info("Shutting down Pattern Analysis Orchestrator")
+        self.analyzer.shutdown()
+        self.engine.shutdown()
         self.is_initialized = False
-    
-    def get_config(self) -> Optional[PatternAnalysisConfig]:
-        """Get current configuration."""
-        return self.config
-    
-    async def update_config(self, config: PatternAnalysisConfig) -> bool:
-        """Update configuration."""
-        try:
-            self.config = config
-            
-            # Reinitialize engine with new config
-            if not self.engine.initialize(config):
-                raise Exception("Failed to reinitialize engine with new config")
-            
-            self.logger.info("Configuration updated successfully")
-            return True
-        except Exception as e:
-            self.logger.error(f"Error updating configuration: {e}")
-            return False
-    
-    async def get_analysis_summary(self) -> Dict[str, Any]:
-        """Get analysis summary."""
-        if not self.is_initialized:
-            raise RuntimeError("Orchestrator not initialized")
-        
-        metrics = await self.get_pattern_metrics()
-        recent_results = await self.get_recent_results(5)
-        
-        return {
-            'status': 'active',
-            'metrics': metrics.to_dict(),
-            'recent_results_count': len(recent_results),
-            'config': {
-                'name': self.config.name if self.config else 'Unknown',
-                'enabled': self.config.enabled if self.config else False,
-                'analysis_interval': self.config.analysis_interval if self.config else 0
-            },
-            'last_updated': datetime.now().isoformat()
-        }
+        self.logger.info("Pattern Analysis Orchestrator shutdown complete")

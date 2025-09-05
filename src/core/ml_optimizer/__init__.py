@@ -20,21 +20,16 @@ License: MIT
 
 # Import main classes for easy access
 from .ml_optimizer_models import (
-    MLOptimizationConfig,
-    MLPrediction,
-    LearningPattern,
-    ModelState,
-    MLOptimizationMetrics,
+    MLConfiguration,
+    MLModel,
+    OptimizationMetrics,
     MLStrategy,
-    LearningMode,
-    OptimizationType,
-    create_default_config,
-    create_ml_prediction,
+    LearningPhase,
+    OptimizationStatus,
+    create_ml_model,
     create_learning_pattern,
-    create_model_state,
     create_optimization_metrics,
-    DEFAULT_ML_STRATEGIES,
-    LEARNING_MODE_CONFIGS
+    create_ml_configuration
 )
 
 from .ml_learning_engine import MLLearningEngine

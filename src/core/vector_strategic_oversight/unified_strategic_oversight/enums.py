@@ -1,30 +1,29 @@
 """
-Strategic Oversight Enums - V2 Compliance Module
-===============================================
+Strategic Oversight Enums
+========================
 
-Enums for vector strategic oversight operations.
-
+Enums for strategic oversight operations.
 V2 Compliance: < 300 lines, single responsibility, enum definitions.
 
-Author: Agent-1 (Integration & Core Systems Specialist)
-License: MIT
+Author: Agent-3 - Infrastructure & DevOps Specialist
+Mission: V2 Compliance Refactoring
 """
 
 from enum import Enum
 
 
 class InsightType(Enum):
-    """Insight types."""
+    """Insight type."""
     PERFORMANCE = "performance"
     COORDINATION = "coordination"
     EFFICIENCY = "efficiency"
-    RISK = "risk"
-    OPPORTUNITY = "opportunity"
-    EMERGENCY = "emergency"
+    RESOURCE = "resource"
+    TIMING = "timing"
+    PATTERN = "pattern"
 
 
 class ConfidenceLevel(Enum):
-    """Confidence levels."""
+    """Confidence level."""
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -32,8 +31,7 @@ class ConfidenceLevel(Enum):
 
 
 class ImpactLevel(Enum):
-    """Impact levels."""
-    MINIMAL = "minimal"
+    """Impact level."""
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -41,39 +39,41 @@ class ImpactLevel(Enum):
 
 
 class MissionStatus(Enum):
-    """Mission status types."""
-    PLANNING = "planning"
+    """Mission status."""
+    PENDING = "pending"
     ACTIVE = "active"
-    PAUSED = "paused"
     COMPLETED = "completed"
-    CANCELLED = "cancelled"
     FAILED = "failed"
+    CANCELLED = "cancelled"
 
 
 class ReportType(Enum):
-    """Report types."""
-    DAILY = "daily"
-    WEEKLY = "weekly"
-    MONTHLY = "monthly"
-    QUARTERLY = "quarterly"
-    ANNUAL = "annual"
-    AD_HOC = "ad_hoc"
-    EMERGENCY = "emergency"
+    """Report type."""
+    SUMMARY = "summary"
+    DETAILED = "detailed"
+    EXECUTIVE = "executive"
+    TECHNICAL = "technical"
 
 
 class PriorityLevel(Enum):
-    """Priority levels."""
-    LOW = 1
-    MEDIUM = 2
-    HIGH = 3
-    URGENT = 4
-    CRITICAL = 5
+    """Priority level."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    URGENT = "urgent"
 
 
 class AgentRole(Enum):
-    """Agent roles."""
-    CAPTAIN = "captain"
-    SPECIALIST = "specialist"
+    """Agent role."""
     COORDINATOR = "coordinator"
-    ANALYST = "analyst"
     EXECUTOR = "executor"
+    ANALYZER = "analyzer"
+    OVERSIGHT = "oversight"
+
+
+class EmergencyStatus(Enum):
+    """Emergency status."""
+    NORMAL = "normal"
+    WARNING = "warning"
+    CRITICAL = "critical"
+    EMERGENCY = "emergency"

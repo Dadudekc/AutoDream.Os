@@ -7,7 +7,7 @@ This script addresses the character encoding issues in the existing vector datab
 and ensures proper ingestion of all project documentation for autonomous development.
 """
 
-from ..core.unified_import_system import logging
+import logging
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

@@ -1,193 +1,126 @@
-#!/usr/bin/env python3
 """
-Strategic Oversight Models Extended - V2 Compliance Module
-=========================================================
+Strategic Oversight Extended Models
+===================================
 
-Extended data models for vector strategic oversight operations.
+Extended data structures and complex business logic for strategic oversight operations.
+V2 Compliance: < 200 lines, single responsibility, extended data modeling.
 
-Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
-License: MIT
+Author: Agent-2 - Architecture & Design Specialist
+Mission: V2 Compliance Refactoring
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Any, Optional
 from datetime import datetime
-from enum import Enum
 import uuid
-from .models_core import InsightType, ConfidenceLevel, ImpactLevel, MissionStatus
 
-
-class AlertSeverity(Enum):
-    """Alert severity levels."""
-    INFO = "info"
-    WARNING = "warning"
-    ERROR = "error"
-    CRITICAL = "critical"
-
-
-class ActionType(Enum):
-    """Action types."""
-    IMMEDIATE = "immediate"
-    SCHEDULED = "scheduled"
-    MONITORING = "monitoring"
-    INVESTIGATION = "investigation"
+from .models_core import (
+    StrategicInsight, MissionObjective, ResourceAllocation,
+    InsightType, ConfidenceLevel, ImpactLevel, MissionStatus, PriorityLevel
+)
 
 
 @dataclass
-class StrategicAlert:
-    """Strategic alert data."""
-    alert_id: str
-    alert_type: str
-    severity: AlertSeverity
+class StrategicRecommendation:
+    """Strategic recommendation data."""
+    recommendation_id: str
     title: str
     description: str
-    source_agent: str
-    target_agents: List[str]
+    insight_id: str
+    priority: PriorityLevel
+    impact_level: ImpactLevel
+    implementation_effort: str
+    expected_benefits: List[str]
+    risks: List[str]
     created_at: datetime
-    resolved_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = None
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.target_agents is None:
-            self.target_agents = []
-        if self.metadata is None:
-            self.metadata = {}
+        if self.created_at is None:
+            self.created_at = datetime.now()
 
 
 @dataclass
-class StrategicAction:
-    """Strategic action data."""
-    action_id: str
-    action_type: ActionType
-    title: str
-    description: str
-    assigned_agent: str
-    priority: int
-    status: str
-    created_at: datetime
-    updated_at: datetime
-    due_date: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class StrategicReport:
-    """Strategic report data."""
+class OversightReport:
+    """Oversight report data."""
     report_id: str
-    report_type: str
     title: str
-    content: str
-    author_agent: str
+    report_type: str
+    insights: List[StrategicInsight]
+    recommendations: List[StrategicRecommendation]
+    objectives: List[MissionObjective]
+    resource_allocations: List[ResourceAllocation]
+    summary: str
     created_at: datetime
-    updated_at: datetime
-    target_agents: List[str] = None
-    metadata: Dict[str, Any] = None
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.target_agents is None:
-            self.target_agents = []
-        if self.metadata is None:
-            self.metadata = {}
+        if self.created_at is None:
+            self.created_at = datetime.now()
 
 
 @dataclass
-class StrategicMetrics:
-    """Strategic metrics data."""
+class PerformanceMetrics:
+    """Performance metrics data."""
     metrics_id: str
-    period_start: datetime
-    period_end: datetime
-    total_insights: int
-    total_alerts: int
-    total_actions: int
-    success_rate: float
-    efficiency_score: float
-    coordination_score: float
-    created_at: datetime
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class StrategicConfiguration:
-    """Strategic configuration data."""
-    config_id: str
-    config_name: str
-    config_value: Any
-    config_type: str
-    description: str
-    created_at: datetime
-    updated_at: datetime
-    metadata: Dict[str, Any] = None
-    
-    def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
-
-
-@dataclass
-class StrategicEvent:
-    """Strategic event data."""
-    event_id: str
-    event_type: str
-    event_name: str
-    description: str
-    source_agent: str
+    mission_id: str
+    agent_id: str
     timestamp: datetime
-    severity: str
-    metadata: Dict[str, Any] = None
+    cpu_usage: float
+    memory_usage: float
+    execution_time: float
+    success_rate: float
+    error_count: int
+    throughput: float
+    latency: float
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
+        if self.timestamp is None:
+            self.timestamp = datetime.now()
 
 
 @dataclass
-class StrategicPattern:
-    """Strategic pattern data."""
+class CoordinationPattern:
+    """Coordination pattern data."""
     pattern_id: str
     pattern_name: str
-    pattern_type: str
-    description: str
-    frequency: int
-    confidence: float
+    agents_involved: List[str]
+    coordination_type: str
+    success_rate: float
+    efficiency_score: float
     created_at: datetime
-    updated_at: datetime
-    metadata: Dict[str, Any] = None
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
+        if self.created_at is None:
+            self.created_at = datetime.now()
 
 
 @dataclass
-class StrategicTrend:
-    """Strategic trend data."""
-    trend_id: str
-    trend_name: str
-    trend_direction: str
-    trend_strength: float
-    confidence: float
-    data_points: int
-    time_window: int
+class StrategicContext:
+    """Strategic context data."""
+    context_id: str
+    mission_id: str
+    phase: str
+    priority: PriorityLevel
+    resources: Dict[str, Any]
+    constraints: List[str]
+    objectives: List[str]
     created_at: datetime
-    metadata: Dict[str, Any] = None
     
     def __post_init__(self):
-        """Initialize default values."""
-        if self.metadata is None:
-            self.metadata = {}
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
+
+@dataclass
+class OversightConfig:
+    """Oversight configuration data."""
+    config_id: str
+    analysis_interval: float
+    confidence_threshold: float
+    impact_threshold: float
+    max_insights: int
+    report_frequency: str
+    created_at: datetime
+    
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()

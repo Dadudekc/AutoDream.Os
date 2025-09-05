@@ -13,7 +13,7 @@ Usage:
 Author: Agent-7 - V2 SWARM CAPTAIN
 """
 
-from ..core.unified_import_system import logging
+import logging
 
 # Load environment variables from .env file
 try:

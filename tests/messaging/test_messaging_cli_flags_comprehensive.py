@@ -18,29 +18,29 @@ class TestComprehensiveCLIFlags:
     @pytest.mark.parametrize(
         "flag,expected_help",
         [
-            ("--message", "Message content to send"),
-            ("--sender", "Message sender identity"),
-            ("--agent", "Send to specific agent"),
-            ("--bulk", "Send to all agents simultaneously"),
-            ("--type", "Message category"),
-            ("--priority", "Delivery priority"),
-            ("--high-priority", "FORCE URGENT PRIORITY"),
-            ("--mode", "Delivery method"),
-            ("--no-paste", "Use keystroke typing instead of clipboard paste"),
-            ("--list-agents", "Display all available agents"),
-            ("--coordinates", "Show PyAutoGUI coordinate positions"),
-            ("--history", "Show message delivery history"),
-            ("--queue-stats", "Display message queue statistics"),
-            ("--process-queue", "Process one batch of queued messages"),
-            ("--start-queue-processor", "Start continuous background queue processor"),
-            ("--stop-queue-processor", "Stop continuous background queue processor"),
-            ("--check-status", "Check status of all agents"),
-            ("--onboarding", "Send onboarding message to ALL agents"),
-            ("--onboard", "Send onboarding message to specific agent"),
-            ("--onboarding-style", "Onboarding message tone"),
-            ("--compliance-mode", "AUTONOMOUS DEVELOPMENT MODE"),
-            ("--get-next-task", "Claim next contract task"),
-            ("--wrapup", "Send system wrapup message to ALL agents"),
+            ("--message", "Message content"),
+            ("--agent", "Target agent"),
+            ("--sender", "Sender name"),
+            ("--bulk", "Send to all agents"),
+            ("--mode", "Delivery mode"),
+            ("--type", "Message type"),
+            ("--priority", "Message priority"),
+            ("--high-priority", "Set high priority"),
+            ("--coordinates", "Show agent coordinates"),
+            ("--check-status", "Check agent status"),
+            ("--list-agents", "List all agents"),
+            ("--history", "Show message history"),
+            ("--onboarding", "Send onboarding to all agents"),
+            ("--onboard", "Send onboarding to specific agent"),
+            ("--onboarding-style", "Onboarding style"),
+            ("--compliance-mode", "Activate compliance mode"),
+            ("--wrapup", "Send wrapup message"),
+            ("--hard-onboarding", "Send hard onboarding sequence"),
+            ("--get-next-task", "Get next task for agent"),
+            ("--check-contracts", "Check contract status"),
+            ("--no-paste", "Don't use paste method"),
+            ("--new-tab-method", "New tab method"),
+            ("--overnight", "Start overnight autonomous work cycle system"),
         ],
     )
     def test_all_flags_exist_and_have_help(self, flag: str, expected_help: str) -> None:
@@ -120,11 +120,8 @@ class TestComprehensiveCLIFlags:
             "--list-agents",
             "--coordinates",
             "--history",
-            "--queue-stats",
-            "--process-queue",
-            "--start-queue-processor",
-            "--stop-queue-processor",
             "--check-status",
+            "--overnight",
         ],
     )
     def test_utility_flags(self, flag: str) -> None:
@@ -148,6 +145,9 @@ class TestComprehensiveCLIFlags:
         args = parse_flags(["--compliance-mode"])
         assert args.compliance_mode
 
+        args = parse_flags(["--hard-onboarding"])
+        assert args.hard_onboarding
+
     def test_contract_flags(self) -> None:
         """Contract flags require agents when necessary."""
         args = parse_flags(["--get-next-task", "--agent", "Agent-7"])
@@ -156,6 +156,9 @@ class TestComprehensiveCLIFlags:
 
         args = parse_flags(["--wrapup"])
         assert args.wrapup
+
+        args = parse_flags(["--check-contracts"])
+        assert args.check_contracts
 
     @pytest.mark.parametrize(
         "combo",

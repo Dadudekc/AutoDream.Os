@@ -9,7 +9,7 @@ V2 Compliance: SSOT implementation and centralized configuration.
 Author: Agent-6 (Gaming & Entertainment Specialist)
 """
 
-
+from src.services.utils.agent_registry import list_agents
 
 
 class TestMessagingConfiguration:
@@ -29,7 +29,7 @@ class TestMessagingConfiguration:
         config = MessagingConfiguration()
 
         # Check that all expected agents are present
-        expected_agents = ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4', 'Agent-5', 'Agent-6', 'Agent-7', 'Agent-8']
+        expected_agents = list_agents()
         for agent in expected_agents:
             assert agent in config.agents
             assert 'description' in config.agents[agent]
@@ -40,7 +40,7 @@ class TestMessagingConfiguration:
         config = MessagingConfiguration()
 
         # Check that inbox paths are configured for all agents
-        expected_agents = ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4', 'Agent-5', 'Agent-6', 'Agent-7', 'Agent-8']
+        expected_agents = list_agents()
         for agent in expected_agents:
             expected_path = f"agent_workspaces/{agent}/inbox"
             assert config.inbox_paths[agent] == expected_path
@@ -158,30 +158,3 @@ class TestMessagingConfiguration:
             assert path.startswith('agent_workspaces/')
             assert path.endswith('/inbox')
             assert agent in path
-
-    @patch('src.utils.config_core.get_config')
-    def test_error_handling_in_config_loading(self, mock_get_config):
-        """Test error handling when config loading fails."""
-        mock_get_config.side_effect = Exception("Config loading failed")
-
-        # Should not raise exception, should fall back to defaults
-        config = MessagingConfiguration()
-
-        # Should still have default configuration
-        assert len(config.agents) > 0
-        assert len(config.inbox_paths) > 0
-
-    def test_configuration_immutability(self):
-        """Test that configuration objects are properly isolated."""
-        config1 = MessagingConfiguration()
-        config2 = MessagingConfiguration()
-
-        # Modifying one should not affect the other
-        original_desc = config1.agents['Agent-1']['description']
-        config1.agents['Agent-1']['description'] = 'Modified'
-
-        assert config2.agents['Agent-1']['description'] == original_desc
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

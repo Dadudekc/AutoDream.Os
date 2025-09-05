@@ -177,7 +177,7 @@ python -m src.services.messaging_cli --check-status
 - Messaging CLI: `src/services/messaging_cli.py`
 - Message rules: `src/core/validation/rules/message.yaml`
 - Contract rules: `src/core/validation/rules/contract.yaml`
-- Onboarding docs: `docs/onboarding/README.md`, `ONBOARDING_GUIDE.md`
+- Onboarding doc: `docs/onboarding/README.md`
 
 ## Examples
 - TypeScript functional React component (prefer functional components):
@@ -229,7 +229,7 @@ python -m src.services.messaging_cli --check-status
 
 ## Cross-References
 - Onboarding flow, messaging, and contract commands: see
-  [ONBOARDING_GUIDE.md](ONBOARDING_GUIDE.md)
+  [docs/onboarding/README.md](docs/onboarding/README.md)
 
 ---
 
@@ -311,7 +311,7 @@ python -m src.services.messaging_cli --check-status
   - Agent-7: Web Development — 685 pts
   - Agent-8: SSOT & System Integration — 650 pts
 - Note on titles: if labels differ across outputs, prefer
-  `ONBOARDING_GUIDE.md` and `src/services/messaging_cli.py` as SSOT.
+  `docs/onboarding/README.md` and `src/services/messaging_cli.py` as SSOT.
 
 ## V2 Compliance Enforcement Checklist - UPDATED 2025-01-27
 

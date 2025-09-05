@@ -9,9 +9,23 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-
+import logging
+import random
+import time
+from typing import Callable, Any, Optional, Union, Type
+from functools import wraps
+from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
+
+@dataclass
+class RetryConfig:
+    """Configuration for retry mechanism."""
+    max_attempts: int = 3
+    base_delay: float = 1.0
+    backoff_factor: float = 2.0
+    max_delay: float = 60.0
+    jitter: bool = True
 
 
 class RetryMechanism:
@@ -48,14 +62,14 @@ class RetryMechanism:
 
                 if attempt == self.config.max_attempts - 1:
                     # Last attempt failed
-                    get_logger(__name__).error(
+                    logger.error(
                         f"Function failed after {self.config.max_attempts} attempts",
                         exc_info=True,
                     )
                     raise e
 
                 delay = self._calculate_delay(attempt)
-                get_logger(__name__).warning(
+                logger.warning(
                     f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}"
                 )
 
@@ -166,7 +180,7 @@ def with_exponential_backoff(
                         raise e
 
                     delay = backoff.get_delay(attempt)
-                    get_logger(__name__).warning(
+                    logger.warning(
                         f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}"
                     )
                     time.sleep(delay)

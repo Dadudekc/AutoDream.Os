@@ -56,6 +56,9 @@ def create_enhanced_parser():
     parser.add_argument("--no-paste", action="store_true", help="Don't use paste method")
     parser.add_argument("--new-tab-method", choices=["ctrl_t", "ctrl_n"], default="ctrl_t", help="New tab method")
     
+    # Overnight autonomous system
+    parser.add_argument("--overnight", action="store_true", help="Start overnight autonomous work cycle system")
+    
     return parser
 
 
@@ -64,8 +67,31 @@ def create_parser():
     return create_enhanced_parser()
 
 
-from ..core.unified_entry_point_system import main
+def main():
+    """Main entry point for messaging CLI."""
+    parser = create_enhanced_parser()
+    args = parser.parse_args()
+    
+    # Handle utility commands first
+    if handle_utility_commands(args):
+        return
+    
+    # Handle contract commands
+    if handle_contract_commands(args):
+        return
+    
+    # Handle onboarding commands
+    if handle_onboarding_commands(args):
+        return
+    
+    # Handle regular message commands (only if message is provided)
+    if args.message:
+        if handle_message_commands(args):
+            return
+    
+    # If no specific command was handled, show help
+    parser.print_help()
+
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    main()

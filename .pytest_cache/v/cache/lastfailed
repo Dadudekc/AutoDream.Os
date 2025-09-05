@@ -9,5 +9,6 @@
   "tests/messaging/test_messaging_integration.py::TestMessagingSystemIntegration::test_message_persistence_integration": true,
   "tests/messaging/test_messaging_integration.py::TestMessagingSystemIntegration::test_priority_message_handling": true,
   "tests/messaging/test_messaging_integration.py::TestMessagingSystemIntegration::test_message_type_handling_integration": true,
-  "src/core/tests/test_agent6_v2_compliance.py": true
+  "src/core/tests/test_agent6_v2_compliance.py": true,
+  "tests/integration/test_messaging_vector_integration.py": true
 }

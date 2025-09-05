@@ -1,18 +1,33 @@
+#!/usr/bin/env python3
 """
-Agent Documentation Integration
+Agent Documentation Integration - V2 Compliance Module
+=====================================================
 
 Simple integration module for AI agents to access vectorized documentation.
+
+V2 Compliance: < 300 lines, single responsibility, modular design.
+
+Author: Agent-5 - Business Intelligence Specialist
+License: MIT
 """
 
+import sys
+import logging
+from pathlib import Path
+from typing import List, Dict, Any, Optional
 
 # Add current directory to path for imports
-current_dir = get_unified_utility().Path(__file__).parent
+current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
+logger = logging.getLogger(__name__)
+
 try:
+    from .vector_database import create_vector_database
+    from .agent_documentation_service import create_agent_documentation_service
 except ImportError as e:
-    get_logger(__name__).info(f"Warning: Could not import vector database modules: {e}")
-    get_logger(__name__).info("Make sure to install requirements: pip install -r requirements-vector.txt")
+    logger.info(f"Warning: Could not import vector database modules: {e}")
+    logger.info("Make sure to install requirements: pip install -r requirements-vector.txt")
 
 
 class AgentDocs:
@@ -39,7 +54,7 @@ class AgentDocs:
             vector_db = create_vector_database(self.db_path)
             self.doc_service = create_agent_documentation_service(vector_db)
         except Exception as e:
-            get_logger(__name__).info(f"Warning: Could not initialize documentation service: {e}")
+            logger.info(f"Warning: Could not initialize documentation service: {e}")
             self.doc_service = None
 
     def set_context(self, role: str = "", domain: str = "", task: str = ""):
@@ -52,7 +67,7 @@ class AgentDocs:
             task: Current task description
         """
         if not self.doc_service:
-            get_logger(__name__).info("Documentation service not available")
+            logger.info("Documentation service not available")
             return
 
         context = {}
@@ -64,7 +79,7 @@ class AgentDocs:
             context["current_task"] = task
 
         self.doc_service.set_agent_context(self.agent_id, context)
-        get_logger(__name__).info(f"✅ Context set for {self.agent_id}")
+        logger.info(f"✅ Context set for {self.agent_id}")
 
     def search(self, query: str, max_results: int = 5) -> List[Dict[str, Any]]:
         """
@@ -78,14 +93,14 @@ class AgentDocs:
             List of search results with content and metadata
         """
         if not self.doc_service:
-            get_logger(__name__).info("Documentation service not available")
+            logger.info("Documentation service not available")
             return []
 
         results = self.doc_service.search_documentation(
             self.agent_id, query, max_results
         )
 
-        get_logger(__name__).info(f"🔍 Found {len(results)} results for '{query}'")
+        logger.info(f"🔍 Found {len(results)} results for '{query}'")
         return results
 
     def get_relevant_docs(self, doc_types: List[str] = None) -> List[Dict[str, Any]]:
@@ -99,11 +114,11 @@ class AgentDocs:
             List of relevant documents
         """
         if not self.doc_service:
-            get_logger(__name__).info("Documentation service not available")
+            logger.info("Documentation service not available")
             return []
 
         results = self.doc_service.get_agent_relevant_docs(self.agent_id, doc_types)
-        get_logger(__name__).info(f"📚 Found {len(results)} relevant documents")
+        logger.info(f"📚 Found {len(results)} relevant documents")
         return results
 
     def get_summary(self) -> Dict[str, Any]:
@@ -114,7 +129,7 @@ class AgentDocs:
             Dictionary with documentation summary
         """
         if not self.doc_service:
-            get_logger(__name__).info("Documentation service not available")
+            logger.info("Documentation service not available")
             return {}
 
         return self.doc_service.get_documentation_summary(self.agent_id)
@@ -130,7 +145,7 @@ class AgentDocs:
             List of suggested search terms
         """
         if not self.doc_service:
-            get_logger(__name__).info("Documentation service not available")
+            logger.info("Documentation service not available")
             return []
 
         return self.doc_service.get_search_suggestions(self.agent_id, partial_query)
@@ -186,13 +201,13 @@ if __name__ == "__main__":
 
         # Get summary
         summary = agent_docs.get_summary()
-        get_logger(__name__).info(f"📊 Documentation summary: {summary}")
+        logger.info(f"📊 Documentation summary: {summary}")
 
         # Get search suggestions
         suggestions = agent_docs.get_suggestions("V2")
-        get_logger(__name__).info(f"💡 Search suggestions: {suggestions}")
+        logger.info(f"💡 Search suggestions: {suggestions}")
     else:
-        get_logger(__name__).info(
+        logger.info(
             "❌ Documentation service not available. Run setup_vector_database.py first."
         )
 

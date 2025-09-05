@@ -11,6 +11,8 @@ License: MIT
 """
 
 import time
+from dataclasses import dataclass
+from typing import Any, Dict, Optional, List
 
 
 @dataclass
@@ -30,7 +32,7 @@ class DevlogComplianceChecker:
         """Initialize compliance checker."""
         self.enforcement_config = enforcement_config
 
-    def get_unified_validator().check_operation_compliance(
+    def check_operation_compliance(
         self, operation_type: str, agent_id: str, details: str = ""
     ) -> DevlogEnforcementResult:
         """
@@ -54,7 +56,7 @@ class DevlogComplianceChecker:
         # Check if devlog entry exists for this operation
         recent_entries = self._get_recent_devlog_entries(agent_id, minutes=5)
 
-        if not get_unified_validator().validate_required(recent_entries):
+        if not recent_entries:
             violation_details = (
                 f"Operation '{operation_type}' requires devlog entry but none found"
             )

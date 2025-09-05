@@ -1,9 +1,21 @@
+#!/usr/bin/env python3
 """
-Agent Context Manager
+Agent Context Manager - V2 Compliance Module
+===========================================
 
 Manages agent-specific context and preferences for personalized documentation access.
+
+V2 Compliance: < 300 lines, single responsibility, modular design.
+
+Author: Agent-5 - Business Intelligence Specialist
+License: MIT
 """
 
+import logging
+from typing import Dict, Any, List
+from datetime import datetime
+from pathlib import Path
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +39,7 @@ class AgentContextManager:
             **context,
             "last_updated": datetime.now().isoformat()
         }
-        get_logger(__name__).info(f"Set context for agent {agent_id}: {context}")
+        logger.info(f"Set context for agent {agent_id}: {context}")
 
     def get_agent_context(self, agent_id: str) -> Dict[str, Any]:
         """
@@ -52,7 +64,7 @@ class AgentContextManager:
         if agent_id in self.agent_contexts:
             self.agent_contexts[agent_id]["current_task"] = task
             self.agent_contexts[agent_id]["last_updated"] = datetime.now().isoformat()
-            get_logger(__name__).info(f"Updated task for agent {agent_id}: {task}")
+            logger.info(f"Updated task for agent {agent_id}: {task}")
 
     def get_agent_role(self, agent_id: str) -> str:
         """
@@ -131,7 +143,7 @@ class AgentContextManager:
         """
         if agent_id in self.agent_contexts:
             del self.agent_contexts[agent_id]
-            get_logger(__name__).info(f"Removed context for agent {agent_id}")
+            logger.info(f"Removed context for agent {agent_id}")
             return True
         return False
 
@@ -140,7 +152,7 @@ class AgentContextManager:
         Clear all agent contexts.
         """
         self.agent_contexts = {}
-        get_logger(__name__).info("Cleared all agent contexts")
+        logger.info("Cleared all agent contexts")
 
     def get_context_summary(self) -> Dict[str, Any]:
         """
@@ -188,11 +200,11 @@ class AgentContextManager:
         """
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
-                write_json(self.agent_contexts, f, indent=2, ensure_ascii=False)
-            get_logger(__name__).info(f"Exported agent contexts to {file_path}")
+                json.dump(self.agent_contexts, f, indent=2, ensure_ascii=False)
+            logger.info(f"Exported agent contexts to {file_path}")
             return True
         except Exception as e:
-            get_logger(__name__).error(f"Error exporting contexts: {e}")
+            logger.error(f"Error exporting contexts: {e}")
             return False
 
     def import_contexts(self, file_path: str) -> bool:
@@ -207,10 +219,10 @@ class AgentContextManager:
         """
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
-                self.agent_contexts = read_json(f)
-            get_logger(__name__).info(f"Imported agent contexts from {file_path}")
+                self.agent_contexts = json.load(f)
+            logger.info(f"Imported agent contexts from {file_path}")
             return True
         except Exception as e:
-            get_logger(__name__).error(f"Error importing contexts: {e}")
+            logger.error(f"Error importing contexts: {e}")
             return False
 

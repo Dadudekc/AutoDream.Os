@@ -1,4 +1,3 @@
-from ..core.unified_entry_point_system import main
 #!/usr/bin/env python3
 """
 Discord Devlog CLI - Agent Cellphone V2
@@ -16,17 +15,18 @@ License: MIT
 """
 
 import sys
+import os
+import argparse
 from ..core.unified_utility_system import get_unified_utility
 
 # Add scripts directory to path for devlog import
-import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "scripts"))
 
 try:
     from devlog import DevlogSystem
 except ImportError:
-    get_logger(__name__).info("❌ ERROR: devlog.py script not found in scripts directory")
-    get_logger(__name__).info("Please ensure scripts/devlog.py exists")
+    print("❌ ERROR: devlog.py script not found in scripts directory")
+    print("Please ensure scripts/devlog.py exists")
     sys.exit(1)
 
 
@@ -39,59 +39,59 @@ class DevlogCLI:
 
     def status(self):
         """Show devlog system status."""
-        get_logger(__name__).info("🎯 DISCORD DEVLOG SYSTEM STATUS")
-        get_logger(__name__).info("=" * 50)
+        print("🎯 DISCORD DEVLOG SYSTEM STATUS")
+        print("=" * 50)
 
         status = self.devlog.get_status()
 
-        get_logger(__name__).info(f"📊 System Status: {status['system_status'].upper()}")
-        get_logger(__name__).info(f"🤖 Agent: {status['agent_name']}")
-        get_logger(__name__).info(f"📁 Devlog Directory: {status['devlog_directory']}")
-        get_logger(__name__).info(f"📝 Total Entries: {status['entries_count']}")
-        get_logger(__name__).info(
+        print(f"📊 System Status: {status['system_status'].upper()}")
+        print(f"🤖 Agent: {status['agent_name']}")
+        print(f"📁 Devlog Directory: {status['devlog_directory']}")
+        print(f"📝 Total Entries: {status['entries_count']}")
+        print(
             f"💾 File Logging: {'✅ Enabled' if status['file_logging'] else '❌ Disabled'}"
         )
-        get_logger(__name__).info(
+        print(
             f"📡 Discord Integration: {'✅ Enabled' if status['discord_enabled'] else '❌ Disabled'}"
         )
-        get_logger(__name__).info(
+        print(
             f"⚙️  Config File: {'✅ Found' if status['config_file_exists'] else '❌ Not Found'}"
         )
 
-        get_logger(__name__).info("\n📋 AVAILABLE COMMANDS:")
-        get_logger(__name__).info("  status                    Show system status")
-        get_logger(__name__).info('  create "Title" "Content"   Create devlog entry')
-        get_logger(__name__).info('  create "Title" "Content" category   Create categorized entry')
-        get_logger(__name__).info("\n📂 Categories: general, progress, issue, success, warning, info")
+        print("\n📋 AVAILABLE COMMANDS:")
+        print("  status                    Show system status")
+        print('  create "Title" "Content"   Create devlog entry')
+        print('  create "Title" "Content" category   Create categorized entry')
+        print("\n📂 Categories: general, progress, issue, success, warning, info")
 
         if not status["discord_enabled"]:
-            get_logger(__name__).info("\n⚠️  WARNING: Discord integration is disabled")
-            get_logger(__name__).info("   To enable: Set DISCORD_WEBHOOK_URL environment variable")
-            get_logger(__name__).info("   Or configure config/devlog_config.json")
+            print("\n⚠️  WARNING: Discord integration is disabled")
+            print("   To enable: Set DISCORD_WEBHOOK_URL environment variable")
+            print("   Or configure config/devlog_config.json")
 
     def create(self, title: str, content: str, category: str = "general"):
         """Create a devlog entry."""
-        get_logger(__name__).info(f"📝 Creating devlog entry: {title}")
-        get_logger(__name__).info(f"🏷️  Category: {category}")
+        print(f"📝 Creating devlog entry: {title}")
+        print(f"🏷️  Category: {category}")
 
         success = self.devlog.create_entry(title, content, category)
 
         if success:
-            get_logger(__name__).info("✅ Devlog entry created successfully!")
+            print("✅ Devlog entry created successfully!")
             if self.devlog.config["log_to_file"]:
-                get_logger(__name__).info(f"💾 Saved to: {self.devlog.devlog_dir}")
+                print(f"💾 Saved to: {self.devlog.devlog_dir}")
             if self.devlog.config["enable_discord"]:
-                get_logger(__name__).info("📡 Posted to Discord")
+                print("📡 Posted to Discord")
         else:
-            get_logger(__name__).info("❌ Failed to create devlog entry")
+            print("❌ Failed to create devlog entry")
             return False
 
         return True
 
     def list_entries(self, limit: int = 10):
         """List recent devlog entries."""
-        get_logger(__name__).info("📜 RECENT DEVLOG ENTRIES")
-        get_logger(__name__).info("=" * 50)
+        print("📜 RECENT DEVLOG ENTRIES")
+        print("=" * 50)
 
         try:
             entries = []
@@ -99,27 +99,27 @@ class DevlogCLI:
                 self.devlog.devlog_dir.glob("*.json"), reverse=True
             ):
                 with open(file_path, "r") as f:
-                    file_entries = read_json(f)
+                    file_entries = get_unified_utility().read_json(f)
                     entries.extend(file_entries)
 
             # Sort by timestamp and limit
             entries.sort(key=lambda x: x["timestamp"], reverse=True)
             entries = entries[:limit]
 
-            if not get_unified_validator().validate_required(entries):
-                get_logger(__name__).info("No devlog entries found.")
+            if not get_unified_utility().validate_required(entries):
+                print("No devlog entries found.")
                 return
 
             for i, entry in enumerate(entries, 1):
                 timestamp = entry["timestamp"][:19]  # YYYY-MM-DDTHH:MM:SS
-                get_logger(__name__).info(f"{i}. [{timestamp}] {entry['agent']}: {entry['title']}")
-                get_logger(__name__).info(
+                print(f"{i}. [{timestamp}] {entry['agent']}: {entry['title']}")
+                print(
                     f"   📂 {entry['category']} | 💬 {entry['content'][:100]}{'...' if len(entry['content']) > 100 else ''}"
                 )
-                get_logger(__name__).info()
+                print()
 
         except Exception as e:
-            get_logger(__name__).info(f"❌ Error listing entries: {e}")
+            print(f"❌ Error listing entries: {e}")
 
 
 def create_parser():
@@ -172,6 +172,35 @@ Categories:
     return parser
 
 
+
+def main():
+    """Main entry point for devlog CLI."""
+    cli = DevlogCLI()
+    
+    if len(sys.argv) < 2:
+        cli.help()
+        return
+    
+    command = sys.argv[1].lower()
+    
+    if command == "status":
+        cli.status()
+    elif command == "create":
+        if len(sys.argv) < 4:
+            print("Usage: python -m src.core.devlog_cli create \"Title\" \"Content\" [category]")
+            return
+        title = sys.argv[2]
+        content = sys.argv[3]
+        category = sys.argv[4] if len(sys.argv) > 4 else "general"
+        cli.create(title, content, category)
+    elif command == "list":
+        limit = int(sys.argv[2]) if len(sys.argv) > 2 else 10
+        cli.list_entries(limit)
+    elif command == "help":
+        cli.help()
+    else:
+        print(f"Unknown command: {command}")
+        cli.help()
 
 if __name__ == "__main__":
     main()

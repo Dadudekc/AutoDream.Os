@@ -10,14 +10,7 @@ License: MIT
 """
 
 # Core unified system imports
-import logging
-
-try:
-    from src.core.unified_logging_system import get_logger
-except ImportError:
-    # Fallback if unified logging system not available
-    def get_logger(name: str) -> logging.Logger:
-        return logging.getLogger(name)
+from src.utils.logger import get_logger
 
 def get_timestamp():
     return datetime.now().isoformat()
@@ -53,11 +46,8 @@ from .models.messaging_models import (
 
 # Utility functions for common patterns
 def get_messaging_logger(name: str = __name__) -> logging.Logger:
-    """Get logger with unified logging system fallback."""
-    try:
-        return get_logger(name)
-    except:
-        return logging.getLogger(name)
+    """Get messaging logger using unified logging system."""
+    return get_logger(name)
 
 def load_coordinates_from_json():
     """Load agent coordinates from JSON file with error handling."""

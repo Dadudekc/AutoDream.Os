@@ -15,6 +15,7 @@ from .messaging_cli_handlers import (
     handle_message_commands,
     handle_onboarding_commands,
     handle_utility_commands,
+    handle_overnight_commands,
 )
 
 
@@ -71,7 +72,10 @@ def main():
     """Main entry point for messaging CLI."""
     parser = create_enhanced_parser()
     args = parser.parse_args()
-    
+
+    if handle_overnight_commands(args):
+        return
+
     # Handle utility commands first
     if handle_utility_commands(args):
         return

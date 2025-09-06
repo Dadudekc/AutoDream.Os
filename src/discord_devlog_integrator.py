@@ -20,14 +20,20 @@ class DiscordDevlogIntegrator:
         self.config_manager = config_manager
         self.devlog_history: Dict[str, Dict[str, Any]] = {}
 
-    def post_devlog(self, title: str, content: str, category: str = "general",
-                   author: str = "Agent-3", priority: str = "normal") -> Dict[str, Any]:
+    def post_devlog(
+        self,
+        title: str,
+        content: str,
+        category: str = "general",
+        author: str = "Agent-3",
+        priority: str = "normal",
+    ) -> Dict[str, Any]:
         """Post a devlog entry to Discord webhook."""
         result = {
             "success": False,
             "devlog_id": None,
             "error": None,
-            "webhook_response": None
+            "webhook_response": None,
         }
 
         if not self.config_manager.is_devlog_enabled():
@@ -40,7 +46,9 @@ class DiscordDevlogIntegrator:
             return result
 
         # Create devlog entry
-        devlog_entry = self._create_devlog_entry(title, content, category, author, priority)
+        devlog_entry = self._create_devlog_entry(
+            title, content, category, author, priority
+        )
 
         # Post to Discord webhook
         webhook_result = self._post_to_webhook(devlog_entry, webhook_url)
@@ -55,8 +63,9 @@ class DiscordDevlogIntegrator:
 
         return result
 
-    def _create_devlog_entry(self, title: str, content: str, category: str,
-                           author: str, priority: str) -> Dict[str, Any]:
+    def _create_devlog_entry(
+        self, title: str, content: str, category: str, author: str, priority: str
+    ) -> Dict[str, Any]:
         """Create a formatted devlog entry."""
         devlog_id = f"devlog_{int(datetime.now().timestamp())}_{hash(title) % 10000}"
 
@@ -68,16 +77,14 @@ class DiscordDevlogIntegrator:
             "author": author,
             "priority": priority,
             "timestamp": datetime.now().isoformat(),
-            "formatted_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "formatted_timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
 
-    def _post_to_webhook(self, devlog_entry: Dict[str, Any], webhook_url: str) -> Dict[str, Any]:
+    def _post_to_webhook(
+        self, devlog_entry: Dict[str, Any], webhook_url: str
+    ) -> Dict[str, Any]:
         """Post devlog entry to Discord webhook."""
-        result = {
-            "success": False,
-            "response": None,
-            "error": None
-        }
+        result = {"success": False, "response": None, "error": None}
 
         try:
             # Create Discord embed payload
@@ -86,11 +93,12 @@ class DiscordDevlogIntegrator:
 
             # Post to webhook
             response = make_request(
+                "POST",
                 webhook_url,
                 json=payload,
                 headers={"Content-Type": "application/json"},
-                timeout=10
-            , "POST")
+                timeout=10,
+            )
 
             if response.status_code in [200, 204]:
                 result["success"] = True
@@ -115,30 +123,34 @@ class DiscordDevlogIntegrator:
             "color": color,
             "timestamp": devlog_entry["timestamp"],
             "footer": {
-                "text": f"Author: {devlog_entry['author']} | Category: {devlog_entry['category']} | Priority: {devlog_entry['priority']}"
+                "text": (
+                    f"Author: {devlog_entry['author']} | Category: {devlog_entry['category']} | Priority: {devlog_entry['priority']}"
+                )
             },
-            "fields": []
+            "fields": [],
         }
 
         # Add additional fields if content is long
         if len(devlog_entry["content"]) > 2048:
-            embed["fields"].append({
-                "name": "Full Content",
-                "value": devlog_entry["content"][2048:4096],
-                "inline": False
-            })
+            embed["fields"].append(
+                {
+                    "name": "Full Content",
+                    "value": devlog_entry["content"][2048:4096],
+                    "inline": False,
+                }
+            )
 
         return embed
 
     def _get_priority_color(self, priority: str) -> int:
         """Get color code for priority level."""
         colors = {
-            "low": 0x3498db,      # Blue
-            "normal": 0x2ecc71,  # Green
-            "high": 0xf39c12,    # Orange
-            "urgent": 0xe74c3c   # Red
+            "low": 0x3498DB,  # Blue
+            "normal": 0x2ECC71,  # Green
+            "high": 0xF39C12,  # Orange
+            "urgent": 0xE74C3C,  # Red
         }
-        return colors.get(priority.lower(), 0x3498db)
+        return colors.get(priority.lower(), 0x3498DB)
 
     def get_devlog_history(self, limit: int = 10) -> Dict[str, Any]:
         """Get recent devlog history."""
@@ -147,7 +159,7 @@ class DiscordDevlogIntegrator:
         return {
             "total_entries": len(self.devlog_history),
             "recent_entries": recent_entries,
-            "categories": self._get_category_summary()
+            "categories": self._get_category_summary(),
         }
 
     def _get_category_summary(self) -> Dict[str, int]:
@@ -158,7 +170,9 @@ class DiscordDevlogIntegrator:
             categories[category] = categories.get(category, 0) + 1
         return categories
 
-    def search_devlogs(self, query: str, category: Optional[str] = None) -> List[Dict[str, Any]]:
+    def search_devlogs(
+        self, query: str, category: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """Search devlog entries."""
         results = []
 
@@ -199,7 +213,7 @@ class DiscordDevlogIntegrator:
             "total_entries": len(self.devlog_history),
             "categories": categories,
             "priorities": priorities,
-            "recent_activity": recent_activity[-5:]
+            "recent_activity": recent_activity[-5:],
         }
 
     def export_devlogs(self, file_path: str) -> bool:
@@ -208,10 +222,10 @@ class DiscordDevlogIntegrator:
             export_data = {
                 "export_timestamp": datetime.now().isoformat(),
                 "total_entries": len(self.devlog_history),
-                "entries": list(self.devlog_history.values())
+                "entries": list(self.devlog_history.values()),
             }
 
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 write_json(export_data, f, indent=2, default=str)
 
             return True
@@ -222,7 +236,7 @@ class DiscordDevlogIntegrator:
     def import_devlogs(self, file_path: str) -> bool:
         """Import devlog history from file."""
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 import_data = read_json(f)
 
             for entry in import_data.get("entries", []):
@@ -247,26 +261,23 @@ class DiscordDevlogIntegrator:
 
     def test_webhook_connection(self, webhook_url: str) -> Dict[str, Any]:
         """Test webhook connection with a simple message."""
-        result = {
-            "success": False,
-            "response_time": None,
-            "error": None
-        }
+        result = {"success": False, "response_time": None, "error": None}
 
         try:
             start_time = datetime.now()
 
             payload = {
                 "content": "🧪 **Webhook Test** - Connection successful!",
-                "embeds": []
+                "embeds": [],
             }
 
             response = make_request(
                 webhook_url,
                 json=payload,
                 headers={"Content-Type": "application/json"},
-                timeout=5
-            , "POST")
+                timeout=5,
+                method="POST",
+            )
 
             end_time = datetime.now()
             result["response_time"] = (end_time - start_time).total_seconds()

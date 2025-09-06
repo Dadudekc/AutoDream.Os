@@ -20,7 +20,7 @@ def check_git_bash():
     git_bash_paths = [
         r"C:\Program Files\Git\bin\bash.exe",
         r"C:\Program Files (x86)\Git\bin\bash.exe",
-        r"C:\Git\bin\bash.exe"
+        r"C:\Git\bin\bash.exe",
     ]
 
     for path in git_bash_paths:
@@ -30,8 +30,9 @@ def check_git_bash():
 
     # Check if git-bash.exe is in PATH
     try:
-        result = subprocess.run(["where", "git-bash.exe"],
-                              capture_output=True, text=True)
+        result = subprocess.run(
+            ["where", "git-bash.exe"], capture_output=True, text=True
+        )
         if result.returncode == 0:
             print("✅ Git Bash found in PATH")
             return "git-bash.exe"
@@ -44,9 +45,9 @@ def check_git_bash():
 
 def demonstrate_workflow():
     """Demonstrate the Git Bash workflow."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🎯 GIT BASH WORKFLOW DEMONSTRATION")
-    print("="*60)
+    print("=" * 60)
 
     git_bash_path = check_git_bash()
     if not git_bash_path:
@@ -60,7 +61,8 @@ def demonstrate_workflow():
     print("5. Commit with: git commit -m 'your message'")
     print("6. Push with: git push origin agent")
 
-    print("\n🛠️ Git Bash Commands:"    print("  cd /d/Agent_Cellphone_V2_Repository")
+    print("\n🛠️ Git Bash Commands:")
+    print("  cd /d/Agent_Cellphone_V2_Repository")
     print("  pre-commit run --all-files")
     print("  git add .")
     print("  git commit -m 'feat: new feature'")
@@ -76,7 +78,7 @@ def demonstrate_workflow():
     # Test our onboarding roles code
     print("\n🧪 Testing our onboarding roles code...")
     try:
-        sys.path.append('src')
+        sys.path.append("src")
         from templates.onboarding_roles import build_role_message, ROLES
 
         message = build_role_message("Agent-1", "SOLID")
@@ -97,13 +99,13 @@ def create_git_bash_shortcut():
     """Create a desktop shortcut for Git Bash."""
     print("\n📁 Creating Git Bash Project Shortcut...")
 
-    desktop = os.path.join(os.environ.get('USERPROFILE', ''), 'Desktop')
-    shortcut_path = os.path.join(desktop, 'Agent V2 Git Bash.lnk')
+    desktop = os.path.join(os.environ.get("USERPROFILE", ""), "Desktop")
+    shortcut_path = os.path.join(desktop, "Agent V2 Git Bash.lnk")
 
     # This is a simplified version - in practice, you'd use winshell or similar
     print(f"Shortcut would be created at: {shortcut_path}")
     print("Target: C:\\Program Files\\Git\\bin\\bash.exe")
-    print("Arguments: --cd=\"D:\\Agent_Cellphone_V2_Repository\"")
+    print('Arguments: --cd="D:\\Agent_Cellphone_V2_Repository"')
 
 
 if __name__ == "__main__":
@@ -113,9 +115,9 @@ if __name__ == "__main__":
     demonstrate_workflow()
     create_git_bash_shortcut()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🎯 SUMMARY")
-    print("="*60)
+    print("=" * 60)
     print("✅ Git Bash provides the Unix environment pre-commit needs")
     print("✅ No more --no-verify bypasses")
     print("✅ Professional code quality maintained")

@@ -149,7 +149,7 @@ repos:
       - id: black
         language_version: python3
         entry: bash -c "python -m black"
-        
+
   - repo: https://github.com/pycqa/isort
     rev: 6.0.1
     hooks:

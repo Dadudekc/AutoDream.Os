@@ -52,7 +52,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def get_unified_validator().check_environment():
+def check_environment():
     """Check if required environment variables are set."""
     required_vars = ["DISCORD_BOT_TOKEN"]
     missing_vars = []

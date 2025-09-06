@@ -6,14 +6,27 @@ echo.
 
 echo Checking for Git Bash...
 where git-bash.exe >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    echo ❌ Git Bash not found in PATH
-    echo Please install Git with Git Bash
-    pause
-    exit /b 1
+if %ERRORLEVEL% EQU 0 (
+    echo ✅ Git Bash found in PATH
+    set GIT_BASH=git-bash.exe
+) else (
+    REM Check common Git installation paths
+    if exist "C:\Program Files\Git\bin\bash.exe" (
+        echo ✅ Git Bash found at C:\Program Files\Git\bin\bash.exe
+        set GIT_BASH="C:\Program Files\Git\bin\bash.exe"
+    ) else (
+        if exist "C:\Program Files (x86)\Git\bin\bash.exe" (
+            echo ✅ Git Bash found at C:\Program Files (x86)\Git\bin\bash.exe
+            set GIT_BASH="C:\Program Files (x86)\Git\bin\bash.exe"
+        ) else (
+            echo ❌ Git Bash not found
+            echo Please install Git from https://git-scm.com/
+            echo Make sure to select "Git Bash Here" during installation
+            pause
+            exit /b 1
+        )
+    )
 )
-
-echo ✅ Git Bash found
 echo.
 
 echo Opening Git Bash for commit...
@@ -28,7 +41,7 @@ echo   git push origin agent
 echo.
 
 REM Launch Git Bash in the project directory
-start "" "C:\Program Files\Git\bin\bash.exe" --cd="%~dp0"
+start "" %GIT_BASH% --cd="%~dp0"
 
 echo Git Bash opened! Use the commands above to commit.
 pause

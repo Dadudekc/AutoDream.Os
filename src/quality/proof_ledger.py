@@ -4,15 +4,17 @@ import json, os, subprocess, time
 from datetime import datetime
 from typing import Dict, List, Tuple
 
+
 def _git_head() -> str:
     try:
         return subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     except Exception:
         return "unknown"
 
+
 def run_tdd_proof(mode: str, role_map: Dict[str, str]) -> str:
-    """
-    Executes pytest if available and writes a JSON proof artifact.
+    """Executes pytest if available and writes a JSON proof artifact.
+
     Returns path to the proof file.
     """
     ts = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
@@ -30,7 +32,13 @@ def run_tdd_proof(mode: str, role_map: Dict[str, str]) -> str:
         "roles": role_map,
         "pytest_available": True,
         "pytest_exit_code": None,
-        "tests": {"collected": None, "passed": None, "failed": None, "errors": None, "skipped": None},
+        "tests": {
+            "collected": None,
+            "passed": None,
+            "failed": None,
+            "errors": None,
+            "skipped": None,
+        },
         "duration_sec": None,
         "notes": "",
     }
@@ -43,13 +51,15 @@ def run_tdd_proof(mode: str, role_map: Dict[str, str]) -> str:
         tail = (proc.stdout or "") + "\n" + (proc.stderr or "")
         # naive parse (robust enough for proof artifact)
         import re
+
         m = re.search(r"(\d+)\s+passed.*?(\d+)\s+failed|(\d+)\s+failed", tail)
         passed = None
         failed = None
         if m:
             groups = [g for g in m.groups() if g]
             if len(groups) == 2:
-                passed = int(groups[0]); failed = int(groups[1])
+                passed = int(groups[0])
+                failed = int(groups[1])
             elif len(groups) == 1:
                 failed = int(groups[0])
         result["tests"]["passed"] = passed

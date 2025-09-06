@@ -1,4 +1,3 @@
-from src.utils.config_core import get_config
 #!/usr/bin/env python3
 """
 🚨 BULK PYAUTOGUI TEST - Agent Cellphone V2 🚨
@@ -10,10 +9,17 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+from src.utils.config_core import get_config
 
 # Add src to path for imports
-sys.path.insert(0, get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), 'src'))
+sys.path.insert(
+    0,
+    get_unified_utility().path.join(
+        get_unified_utility().path.dirname(__file__), "src"
+    ),
+)
 
+from src.services.models.messaging_models import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,
@@ -75,10 +81,10 @@ The system is testing coordinate-based navigation and automated messaging.
             "test_type": "bulk_pyautogui",
             "timestamp": datetime.now().isoformat(),
             "mode": "coordinate_based",
-            "onboarding_used": False
+            "onboarding_used": False,
         },
         mode="pyautogui",
-        use_paste=True
+        use_paste=True,
     )
 
     get_logger(__name__).info()
@@ -86,7 +92,16 @@ The system is testing coordinate-based navigation and automated messaging.
     get_logger(__name__).info("=" * 30)
 
     # CORRECT ORDER: Agent-4 LAST
-    agent_order = ["Agent-1", "Agent-2", "Agent-3", "Agent-5", "Agent-6", "Agent-7", "Agent-8", "Agent-4"]
+    agent_order = [
+        "Agent-1",
+        "Agent-2",
+        "Agent-3",
+        "Agent-5",
+        "Agent-6",
+        "Agent-7",
+        "Agent-8",
+        "Agent-4",
+    ]
 
     success_count = sum(results)
     total_count = len(results)
@@ -96,18 +111,28 @@ The system is testing coordinate-based navigation and automated messaging.
         get_logger(__name__).info(f"{i+1:2d}. {agent_id}: {status}")
 
     get_logger(__name__).info()
-    get_logger(__name__).info(f"📈 OVERALL RESULTS: {success_count}/{total_count} successful deliveries")
+    get_logger(__name__).info(
+        f"📈 OVERALL RESULTS: {success_count}/{total_count} successful deliveries"
+    )
 
     if success_count == total_count:
-        get_logger(__name__).info("🎉 **ALL AGENTS RECEIVED BULK PYAUTOGUI TEST MESSAGE** 🎉")
+        get_logger(__name__).info(
+            "🎉 **ALL AGENTS RECEIVED BULK PYAUTOGUI TEST MESSAGE** 🎉"
+        )
     else:
-        get_logger(__name__).info(f"⚠️  **PARTIAL SUCCESS**: {total_count - success_count} agents failed to receive message")
+        get_logger(__name__).info(
+            f"⚠️  **PARTIAL SUCCESS**: {total_count - success_count} agents failed to receive message"
+        )
 
     get_logger(__name__).info()
     get_logger(__name__).info("🔍 VERIFICATION:")
     get_logger(__name__).info("   • Check each agent's interface for the test message")
-    get_logger(__name__).info("   • Verify coordinate-based navigation worked correctly")
-    get_logger(__name__).info("   • Confirm PyAutoGUI automation completed successfully")
+    get_logger(__name__).info(
+        "   • Verify coordinate-based navigation worked correctly"
+    )
+    get_logger(__name__).info(
+        "   • Confirm PyAutoGUI automation completed successfully"
+    )
     get_logger(__name__).info()
     get_logger(__name__).info("**BULK PYAUTOGUI TEST COMPLETED** 🚨")
 

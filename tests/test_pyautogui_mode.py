@@ -1,5 +1,3 @@
-from src.utils.config_core import get_config
-
 #!/usr/bin/env python3
 """
 Test PyAutoGUI Mode Without Onboarding - Agent Cellphone V2
@@ -13,6 +11,7 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+from src.utils.config_core import get_config
 
 # Add the src directory to the path so we can import the messaging modules
 sys.path.insert(

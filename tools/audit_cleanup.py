@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-Authoritative cleanup auditor.
+"""Authoritative cleanup auditor.
+
 - Scans working tree (ignoring .git and common caches)
 - Reports totals by type, duplicate groups (by SHA256), temp/versioned patterns
 - Compares against last commit (if git available)
@@ -15,6 +15,7 @@ from typing import Dict, List, Tuple
 CONFIG_PATH = os.path.join("tools", "audit_config.json")
 AUDITIGNORE_PATH = ".auditignore"
 
+
 def load_config():
     cfg = {}
     try:
@@ -23,6 +24,7 @@ def load_config():
     except Exception:
         pass
     return cfg
+
 
 def load_ignores():
     pats = []
@@ -36,6 +38,7 @@ def load_ignores():
         pass
     return pats
 
+
 def path_ignored_by_patterns(path: str, pats: list[str]) -> bool:
     # allow glob-like and substring fallback
     for p in pats:
@@ -43,25 +46,50 @@ def path_ignored_by_patterns(path: str, pats: list[str]) -> bool:
             return True
     return False
 
+
 # Load config and set defaults
 cfg = load_config()
-IGNORE_DIRS = set(cfg.get("ignore_dirs", [
-    ".git", ".venv", "venv", "node_modules", ".mypy_cache", "__pycache__",
-    ".pytest_cache", ".ruff_cache", ".cache", "dist", "build", ".idea", ".vscode"
-]))
+IGNORE_DIRS = set(
+    cfg.get(
+        "ignore_dirs",
+        [
+            ".git",
+            ".venv",
+            "venv",
+            "node_modules",
+            ".mypy_cache",
+            "__pycache__",
+            ".pytest_cache",
+            ".ruff_cache",
+            ".cache",
+            "dist",
+            "build",
+            ".idea",
+            ".vscode",
+        ],
+    )
+)
 TEMP_PATTERNS = [
-    r".*\.tmp$", r".*~$", r"^~.*", r".*\.bak$", r".*\.swp$", r".*\.log$",
-    r".*\.DS_Store$", r".*\.orig$"
+    r".*\.tmp$",
+    r".*~$",
+    r"^~.*",
+    r".*\.bak$",
+    r".*\.swp$",
+    r".*\.log$",
+    r".*\.DS_Store$",
+    r".*\.orig$",
 ]
 VERSIONED_PATTERNS = [
     r".*[_\-\.]v\d{1,4}(\.\d+)?\.[A-Za-z0-9]+$",  # foo_v12.py, bar-v2.1.txt
-    r".*copy\s*\(\d+\)\.[A-Za-z0-9]+$"            # file copy (2).js
+    r".*copy\s*\(\d+\)\.[A-Za-z0-9]+$",  # file copy (2).js
 ]
-RISK_MIN_PY = int(cfg.get("min_py", 10))        # hard minimum allowed .py files
+RISK_MIN_PY = int(cfg.get("min_py", 10))  # hard minimum allowed .py files
 RISK_MAX_PY_DROP = float(cfg.get("max_py_drop", 0.8))  # 80% drop triggers warning/fail
+
 
 def is_ignored_dir(name: str) -> bool:
     return name in IGNORE_DIRS
+
 
 def sha256_file(path: str) -> str:
     h = hashlib.sha256()
@@ -69,6 +97,7 @@ def sha256_file(path: str) -> str:
         for chunk in iter(lambda: f.read(1 << 16), b""):
             h.update(chunk)
     return h.hexdigest()
+
 
 def list_files(root: str) -> List[str]:
     acc = []
@@ -84,9 +113,11 @@ def list_files(root: str) -> List[str]:
             acc.append(fp)
     return acc
 
+
 def ext_of(path: str) -> str:
     _, ext = os.path.splitext(path)
     return (ext or "").lower()
+
 
 def match_any(patterns: List[str], path: str) -> bool:
     b = os.path.basename(path)
@@ -95,12 +126,16 @@ def match_any(patterns: List[str], path: str) -> bool:
             return True
     return False
 
+
 def git_available() -> bool:
     try:
-        subprocess.check_output(["git", "rev-parse", "--is-inside-work-tree"], stderr=subprocess.DEVNULL)
+        subprocess.check_output(
+            ["git", "rev-parse", "--is-inside-work-tree"], stderr=subprocess.DEVNULL
+        )
         return True
     except Exception:
         return False
+
 
 def git_head_stats() -> Dict[str, List[str]]:
     """Returns changed/added/deleted vs HEAD (working tree)."""
@@ -124,14 +159,21 @@ def git_head_stats() -> Dict[str, List[str]]:
         pass
     return stats
 
+
 def percent(n: int, d: int) -> float:
     return (100.0 * n / d) if d else 0.0
+
 
 def main():
     ap = argparse.ArgumentParser(description="Authoritative cleanup auditor")
     ap.add_argument("--repo", default=".", help="Repo root")
     ap.add_argument("--force", action="store_true", help="Override loss guards")
-    ap.add_argument("--dup-limit", type=int, default=int(cfg.get("dup_limit", 50)), help="Max files to hash for duplicates (0=no limit)")
+    ap.add_argument(
+        "--dup-limit",
+        type=int,
+        default=int(cfg.get("dup_limit", 50)),
+        help="Max files to hash for duplicates (0=no limit)",
+    )
     args = ap.parse_args()
     root = os.path.abspath(args.repo)
     os.chdir(root)
@@ -190,7 +232,9 @@ def main():
             if py_head and py_count < (1.0 - RISK_MAX_PY_DROP) * py_head:
                 risk_flag = True
                 drop = 1.0 - (py_count / max(py_head, 1))
-                risk_msgs.append(f".py drop {drop:.1%} exceeds {int(RISK_MAX_PY_DROP*100)}% threshold (HEAD={py_head}, now={py_count})")
+                risk_msgs.append(
+                    f".py drop {drop:.1%} exceeds {int(RISK_MAX_PY_DROP*100)}% threshold (HEAD={py_head}, now={py_count})"
+                )
         except Exception:
             pass
 
@@ -209,7 +253,7 @@ def main():
         "duplicates": {
             "groups": dup_groups,
             "file_count_in_groups": dup_count,
-            "sampled": (args.dup_limit != 0),
+            "sampled": args.dup_limit != 0,
             "sample_size": len(dup_sample),
         },
         "git": git_stats,
@@ -241,15 +285,19 @@ def main():
     md.append(f"- Root: `{root}`")
     md.append(f"- Total files: **{total}**  |  Python files: **{py_count}**")
     if git_stats is not None:
-        a, m, d = len(git_stats['A']), len(git_stats['M']), len(git_stats['D'])
-        md.append(f"- Working tree vs HEAD → Added: **{a}**, Modified: **{m}**, Deleted: **{d}**")
+        a, m, d = len(git_stats["A"]), len(git_stats["M"]), len(git_stats["D"])
+        md.append(
+            f"- Working tree vs HEAD → Added: **{a}**, Modified: **{m}**, Deleted: **{d}**"
+        )
     md.append("\n## Top File Types")
     md.append(top_exts())
     md.append("\n## Pattern Matches")
     md.append(f"- Temporary files: **{len(temps)}**")
     md.append(f"- Versioned files: **{len(versioned)}**")
     md.append("\n## Duplicate Summary")
-    md.append(f"- Groups: **{len(dup_groups)}**, Files in groups: **{dup_count}** (sample={len(dup_sample)})")
+    md.append(
+        f"- Groups: **{len(dup_groups)}**, Files in groups: **{dup_count}** (sample={len(dup_sample)})"
+    )
     if report["risk"]["flagged"]:
         md.append("\n## ⚠️ Risk Alerts")
         for msg in risk_msgs:
@@ -268,6 +316,7 @@ def main():
     print(f"✅ Audit OK → {md_path}")
     print(json_path)
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

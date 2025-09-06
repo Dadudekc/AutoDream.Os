@@ -56,13 +56,8 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        entry: python -c "
-import sys
-for line in sys.stdin:
-    if line.rstrip('\r\n').endswith(' '):
-        print(f'Trailing whitespace found: {line.rstrip()!r}')
-        sys.exit(1)
-"
+        entry: python -c "import sys; [print(f'Trailing whitespace found: {line.rstrip()!r}') or sys.exit(1) for line in sys.stdin if line.rstrip('\r\n').endswith(' ')]"
+          "
       - id: end-of-file-fixer
         entry: python -c "
 import sys

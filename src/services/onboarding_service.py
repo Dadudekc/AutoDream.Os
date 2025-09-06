@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """
 Onboarding Service - Agent Cellphone V2
@@ -10,8 +9,7 @@ Extracted from messaging_core.py to maintain LOC compliance.
 Author: V2 SWARM CAPTAIN
 License: MIT
 """
-
-
+from src.services.models.messaging_models import (
     RecipientType,
     SenderType,
     UnifiedMessage,

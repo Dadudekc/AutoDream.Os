@@ -1,4 +1,5 @@
 from ..core.unified_entry_point_system import main
+
 """
 Discord Administrator Commander
 Advanced Discord server management tool with Administrator privileges
@@ -10,9 +11,9 @@ License: MIT
 """
 
 
-
 # Set up logger
 logger = logging.getLogger(__name__)
+
 
 class DiscordAdminCommander(commands.Bot):
     """
@@ -42,7 +43,9 @@ class DiscordAdminCommander(commands.Bot):
         # Initialize modules
         self.moderation = ModerationModules(self.config)
         self.analytics = AnalyticsModules(self.config)
-        self.commands_handler = DiscordAdminCommands(self, self.moderation, self.analytics)
+        self.commands_handler = DiscordAdminCommands(
+            self, self.moderation, self.analytics
+        )
 
         # Setup commands
         self._setup_commands()
@@ -60,30 +63,37 @@ class DiscordAdminCommander(commands.Bot):
                 "token": discord_config.token,
                 "guild_id": discord_config.guild_id,
                 "admin_channel_id": discord_config.command_channel_id,
-                "log_channel_id": get_unified_config().get_env("DISCORD_LOG_CHANNEL_ID", ""),
+                "log_channel_id": (
+                    get_unified_config().get_env("DISCORD_LOG_CHANNEL_ID", "")
+                ),
                 "admin_role": discord_config.admin_role,
-                "moderator_role": "Moderator"
+                "moderator_role": "Moderator",
             },
             "moderation": {
                 "auto_moderation": True,
                 "spam_threshold": 5,
                 "profanity_filter": True,
-                "raid_protection": True
+                "raid_protection": True,
             },
             "analytics": {
                 "track_member_activity": True,
                 "track_message_stats": True,
-                "generate_reports": True
-            }
+                "generate_reports": True,
+            },
         }
 
     def _setup_commands(self):
         """Setup command handlers."""
+
         # Channel Management Commands
         @self.command(name="create_channel")
         @commands.has_permissions(administrator=True)
-        async def create_channel(ctx, channel_type: str, name: str, *, topic: str = None):
-            await self.commands_handler.create_channel(ctx, channel_type, name, topic=topic)
+        async def create_channel(
+            ctx, channel_type: str, name: str, *, topic: str = None
+        ):
+            await self.commands_handler.create_channel(
+                ctx, channel_type, name, topic=topic
+            )
 
         @self.command(name="delete_channel")
         @commands.has_permissions(administrator=True)
@@ -114,8 +124,12 @@ class DiscordAdminCommander(commands.Bot):
 
         @self.command(name="mute")
         @commands.has_permissions(moderate_members=True)
-        async def mute_member(ctx, member: discord.Member, duration: int, *, reason: str = None):
-            await self.commands_handler.mute_member(ctx, member, duration, reason=reason)
+        async def mute_member(
+            ctx, member: discord.Member, duration: int, *, reason: str = None
+        ):
+            await self.commands_handler.mute_member(
+                ctx, member, duration, reason=reason
+            )
 
         # Analytics Commands
         @self.command(name="server_stats")
@@ -140,12 +154,16 @@ class DiscordAdminCommander(commands.Bot):
 
     async def on_ready(self):
         """Bot ready event."""
-        get_logger(__name__).info(f"Discord Administrator Commander ready as {self.user}")
+        get_logger(__name__).info(
+            f"Discord Administrator Commander ready as {self.user}"
+        )
         get_logger(__name__).info(f"Connected to {len(self.guilds)} guilds")
 
         # Initialize server stats for all guilds
         for guild in self.guilds:
-            self.server_stats[guild.id] = ServerManagementModules.get_server_stats(guild)
+            self.server_stats[guild.id] = ServerManagementModules.get_server_stats(
+                guild
+            )
             await self.analytics.track_server_growth(guild)
 
     async def on_message(self, message):
@@ -159,7 +177,9 @@ class DiscordAdminCommander(commands.Bot):
         # Check for moderation violations
         if await self.moderation.get_unified_validator().check_spam(message):
             await self.moderation.handle_spam(message)
-        elif await self.moderation.get_unified_validator().check_profanity(message.content):
+        elif await self.moderation.get_unified_validator().check_profanity(
+            message.content
+        ):
             await self.moderation.handle_profanity(message)
 
         # Process commands
@@ -171,7 +191,9 @@ class DiscordAdminCommander(commands.Bot):
         await self.analytics.track_server_growth(member.guild)
 
         # Check for raid protection
-        if await self.moderation.get_unified_validator().check_raid_protection(member.guild):
+        if await self.moderation.get_unified_validator().check_raid_protection(
+            member.guild
+        ):
             await self.moderation.handle_raid_protection(member.guild)
 
     async def on_member_remove(self, member):
@@ -185,10 +207,11 @@ class DiscordAdminCommander(commands.Bot):
             action = "joined_voice" if after.channel else "left_voice"
             await self.analytics.track_member_activity(member, action)
 
+
 def create_discord_admin_commander() -> DiscordAdminCommander:
     """Create and return a DiscordAdminCommander instance."""
     return DiscordAdminCommander()
 
-async
+
 if __name__ == "__main__":
     asyncio.run(main())

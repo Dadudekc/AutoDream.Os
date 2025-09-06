@@ -2,7 +2,7 @@
 *.log
 *.tmp
 *.bak
-*~ 
+*~
 *.orig
 runtime/reports/*
 runtime/quality/proofs/*

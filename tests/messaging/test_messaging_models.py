@@ -9,7 +9,7 @@ V2 Compliance: 85%+ test coverage requirement.
 Author: Agent-6 (Gaming & Entertainment Specialist)
 """
 
-
+from src.services.models.messaging_models import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,
@@ -104,9 +104,7 @@ class TestUnifiedMessage:
     def test_message_creation_with_defaults(self):
         """Test creating message with default values."""
         message = UnifiedMessage(
-            content="Test message",
-            sender="Agent-1",
-            recipient="Agent-2"
+            content="Test message", sender="Agent-1", recipient="Agent-2"
         )
 
         assert message.content == "Test message"
@@ -133,7 +131,7 @@ class TestUnifiedMessage:
             priority=UnifiedMessagePriority.URGENT,
             tags=custom_tags,
             metadata=custom_metadata,
-            timestamp=custom_timestamp
+            timestamp=custom_timestamp,
         )
 
         assert message.message_type == UnifiedMessageType.BROADCAST
@@ -142,17 +140,13 @@ class TestUnifiedMessage:
         assert message.metadata == custom_metadata
         assert message.timestamp == custom_timestamp
 
-    @patch('src.services.models.messaging_models.datetime')
+    @patch("src.services.models.messaging_models.datetime")
     def test_message_id_generation(self, mock_datetime):
         """Test message ID generation with timestamp."""
         mock_now = datetime(2024, 1, 1, 12, 0, 0)
         mock_datetime.now.return_value = mock_now
 
-        message = UnifiedMessage(
-            content="Test",
-            sender="Agent-1",
-            recipient="Agent-2"
-        )
+        message = UnifiedMessage(content="Test", sender="Agent-1", recipient="Agent-2")
 
         expected_prefix = "msg_20240101_120000"
         assert message.message_id.startswith(expected_prefix)
@@ -166,7 +160,7 @@ class TestUnifiedMessage:
             tags=None,
             metadata=None,
             timestamp=None,
-            message_id=None
+            message_id=None,
         )
 
         assert message.tags == []
@@ -176,17 +170,9 @@ class TestUnifiedMessage:
 
     def test_message_equality(self):
         """Test message equality comparison."""
-        message1 = UnifiedMessage(
-            content="Test",
-            sender="Agent-1",
-            recipient="Agent-2"
-        )
+        message1 = UnifiedMessage(content="Test", sender="Agent-1", recipient="Agent-2")
 
-        message2 = UnifiedMessage(
-            content="Test",
-            sender="Agent-1",
-            recipient="Agent-2"
-        )
+        message2 = UnifiedMessage(content="Test", sender="Agent-1", recipient="Agent-2")
 
         # Different instances should not be equal due to different timestamps/message_ids
         assert message1 != message2
@@ -200,7 +186,7 @@ class TestUnifiedMessage:
             content="Test message",
             sender="Agent-1",
             recipient="Agent-2",
-            message_type=UnifiedMessageType.BROADCAST
+            message_type=UnifiedMessageType.BROADCAST,
         )
 
         str_repr = str(message)

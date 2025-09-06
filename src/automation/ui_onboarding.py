@@ -4,9 +4,12 @@ import time
 import pyperclip
 from typing import Tuple
 
+
 class UIUnavailableError(Exception):
     """Raised when UI automation is not available."""
+
     pass
+
 
 class UIOnboarder:
     """Handles UI-based onboarding automation using PyAutoGUI."""
@@ -15,6 +18,7 @@ class UIOnboarder:
         """Initialize UI onboarder with configuration."""
         try:
             import pyautogui
+
             self.pyautogui = pyautogui
         except ImportError:
             raise UIUnavailableError("PyAutoGUI not available for UI automation")
@@ -24,8 +28,7 @@ class UIOnboarder:
         self.dry_run = dry_run
 
     def perform(self, agent_id: str, coords: dict, message: str) -> bool:
-        """
-        Perform UI onboarding sequence for an agent.
+        """Perform UI onboarding sequence for an agent.
 
         Args:
             agent_id: The agent identifier
@@ -48,7 +51,7 @@ class UIOnboarder:
             time.sleep(0.5)
 
             # 2. Press ctrl+n to create new tab/window (if needed)
-            self.pyautogui.hotkey('ctrl', 'n')
+            self.pyautogui.hotkey("ctrl", "n")
             time.sleep(0.5)
 
             # 3. Click onboarding input coordinates again
@@ -59,12 +62,14 @@ class UIOnboarder:
             # 4. Validate mouse position with retries
             for attempt in range(self.retries + 1):
                 current_pos = self.pyautogui.position()
-                if (abs(current_pos.x - x) <= self.tolerance and
-                    abs(current_pos.y - y) <= self.tolerance):
+                if (
+                    abs(current_pos.x - x) <= self.tolerance
+                    and abs(current_pos.y - y) <= self.tolerance
+                ):
                     # Position is correct - paste message
                     pyperclip.copy(message)
-                    self.pyautogui.hotkey('ctrl', 'v')
-                    self.pyautogui.press('enter')
+                    self.pyautogui.hotkey("ctrl", "v")
+                    self.pyautogui.press("enter")
                     time.sleep(1)
                     return True
                 else:

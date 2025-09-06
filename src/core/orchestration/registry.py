@@ -2,8 +2,10 @@ from __future__ import annotations
 from typing import Dict, Callable, List
 from .contracts import Step
 
+
 class StepRegistry:
     """DIP registry: high-level depends on abstraction, not concretion."""
+
     def __init__(self) -> None:
         self._steps: Dict[str, Callable[[], Step]] = {}
 

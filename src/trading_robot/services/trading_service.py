@@ -9,24 +9,26 @@ V2 COMPLIANCE: Under 300-line limit, comprehensive error handling, modular desig
 @license MIT
 """
 
+from typing import Dict, Any, List, Optional
 
+from src.trading_robot.repositories.trading_repository import (
     TradingRepositoryInterface, Trade, Position, create_trading_repository
 )
 
 
 class TradingService:
-    """Service layer for trading business logic"""
+    """Service layer for trading business logic."""
 
     def __init__(self, repository: Optional[TradingRepositoryInterface] = None):
-        """Initialize with dependency injection"""
+        """Initialize with dependency injection."""
         self.repository = repository or create_trading_repository()
         self.logger = UnifiedLoggingSystem("TradingService")
 
     async def execute_trade(self, symbol: str, side: str, quantity: float,
                           price: float, order_type: str = 'market') -> Optional[str]:
-        """Execute a trade and return trade ID"""
+        """Execute a trade and return trade ID."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("execute_trade", {
+            self.logger.get_unified_logger().log_operation_start("execute_trade")
                 "symbol": symbol, "side": side, "quantity": quantity, "price": price
             })
 
@@ -67,7 +69,7 @@ class TradingService:
 
     async def get_trade_history(self, symbol: Optional[str] = None,
                               limit: int = 100) -> List[Trade]:
-        """Get trade history, optionally filtered by symbol"""
+        """Get trade history, optionally filtered by symbol."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("get_trade_history", {
                 "symbol": symbol, "limit": limit
@@ -88,7 +90,7 @@ class TradingService:
             return []
 
     async def get_positions(self) -> List[Position]:
-        """Get all current positions"""
+        """Get all current positions."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("get_positions")
             positions = await self.repository.get_all_positions()
@@ -99,7 +101,7 @@ class TradingService:
             return []
 
     async def get_position(self, symbol: str) -> Optional[Position]:
-        """Get position for specific symbol"""
+        """Get position for specific symbol."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("get_position", {"symbol": symbol})
             position = await self.repository.get_position(symbol.upper())
@@ -112,7 +114,7 @@ class TradingService:
             return None
 
     async def calculate_portfolio_pnl(self) -> Dict[str, Any]:
-        """Calculate portfolio P&L"""
+        """Calculate portfolio P&L."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("calculate_portfolio_pnl")
 
@@ -137,7 +139,7 @@ class TradingService:
             return {"error": str(e), "timestamp": datetime.now()}
 
     async def cancel_trade(self, trade_id: str) -> bool:
-        """Cancel a pending trade"""
+        """Cancel a pending trade."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("cancel_trade", {"trade_id": trade_id})
 
@@ -166,7 +168,7 @@ class TradingService:
 
     def _validate_trade_inputs(self, symbol: str, side: str,
                              quantity: float, price: float) -> bool:
-        """Validate trade input parameters"""
+        """Validate trade input parameters."""
         if not symbol or not get_unified_validator().validate_type(symbol, str):
             return False
         if side not in ['buy', 'sell']:
@@ -178,7 +180,7 @@ class TradingService:
         return True
 
     async def _update_position_from_trade(self, trade: Trade) -> None:
-        """Update position based on executed trade"""
+        """Update position based on executed trade."""
         try:
             symbol = trade.symbol
             current_position = await self.repository.get_position(symbol)
@@ -243,7 +245,7 @@ class TradingService:
 
 # Factory function for dependency injection
 def create_trading_service(repository: Optional[TradingRepositoryInterface] = None) -> TradingService:
-    """Factory function to create trading service with optional repository injection"""
+    """Factory function to create trading service with optional repository injection."""
     return TradingService(repository)
 
 

@@ -33,7 +33,7 @@ class TradingDependencyContainer:
     def _register_defaults(self) -> None:
         """Register default trading services."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("register_defaults")
+            self.logger.get_unified_logger().log_operation_start("register_defaults")
 
             # Register repository factory
             self.register_factory("trading_repository",
@@ -45,7 +45,7 @@ class TradingDependencyContainer:
                                 lambda repo: create_trading_service(repo),
                                 singleton=True)
 
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("register_defaults", {
+            self.logger.get_unified_logger().log_operation_complete("register_defaults", {
                 "services_registered": 2
             })
 
@@ -57,7 +57,7 @@ class TradingDependencyContainer:
                         singleton: bool = False) -> None:
         """Register a service factory."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("register_factory", {
+            self.logger.get_unified_logger().log_operation_start("register_factory", {
                 "service_name": name, "singleton": singleton
             })
 
@@ -68,7 +68,7 @@ class TradingDependencyContainer:
             if singleton:
                 self._services[name] = None  # Mark as singleton but not yet instantiated
 
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("register_factory", {
+            self.logger.get_unified_logger().log_operation_complete("register_factory", {
                 "service_name": name, "factory_registered": True
             })
 

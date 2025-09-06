@@ -44,7 +44,7 @@ Get-ChildItem -Recurse -File -Name "*.py" | Measure-Object | Select-Object -Expa
 
 ## Auditor Integration
 
-- Install local guard:  
+- Install local guard:
   ```bash
   make hooks
   ```

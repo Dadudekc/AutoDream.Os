@@ -10,8 +10,8 @@ License: MIT
 """
 
 from datetime import datetime
-# Removed circular import - using datetime directly
 
+# Removed circular import - using datetime directly
 
 
 class QueueStatus(Enum):
@@ -86,6 +86,8 @@ class QueueEntry:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "QueueEntry":
         """Create from dictionary."""
+
+        from src.services.models.messaging_models import (
             UnifiedMessage,
             UnifiedMessageTag,
             UnifiedMessageType,

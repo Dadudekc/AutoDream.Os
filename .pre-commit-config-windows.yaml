@@ -1,0 +1,149 @@
+# Windows-specific pre-commit configuration (alternative to Git Bash)
+# Use this if you want to run hooks directly in PowerShell/CMD
+# Activate with: pre-commit install --config .pre-commit-config-windows.yaml
+
+repos:
+  # Black code formatter (works on Windows)
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        language_version: python3
+        entry: python -m black
+        args: [--line-length=88, --target-version=py38, --target-version=py39, --target-version=py310, --target-version=py311]
+
+  # isort import organizer (works on Windows)
+  - repo: https://github.com/pycqa/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+        entry: python -m isort
+        args: ["--profile", "black", "--check-only", "--diff"]
+
+  # Flake8 linter (works on Windows)
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.2
+    hooks:
+      - id: flake8
+        entry: python -m flake8
+        args: [--max-line-length=88, --extend-ignore=E203,W503,E501]
+
+  # MyPy type checker (works on Windows)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        entry: python -m mypy
+        args: [--ignore-missing-imports, --no-strict-optional]
+
+  # Bandit security linter (works on Windows)
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.3
+    hooks:
+      - id: bandit
+        entry: python -m bandit
+        args: [--skip=B101,B601]
+
+  # Safety dependency scanner (works on Windows)
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.3
+    hooks:
+      - id: python-safety-dependencies-check
+        entry: python -m safety
+
+  # Pre-commit-hooks (works on Windows)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        entry: python -c "
+import sys
+for line in sys.stdin:
+    if line.rstrip('\r\n').endswith(' '):
+        print(f'Trailing whitespace found: {line.rstrip()!r}')
+        sys.exit(1)
+"
+      - id: end-of-file-fixer
+        entry: python -c "
+import sys
+content = sys.stdin.read()
+if not content.endswith('\n'):
+    sys.stdout.write(content + '\n')
+else:
+    sys.stdout.write(content)
+"
+      - id: check-yaml
+        entry: python -c "
+import sys, yaml
+try:
+    yaml.safe_load(sys.stdin)
+    print('YAML syntax is valid')
+except yaml.YAMLError as e:
+    print(f'YAML syntax error: {e}')
+    sys.exit(1)
+"
+      - id: check-added-large-files
+        entry: python -c "
+import sys, os
+for file in sys.argv[1:]:
+    if os.path.exists(file) and os.path.getsize(file) > 1000000:  # 1MB
+        print(f'Large file added: {file}')
+        sys.exit(1)
+"
+      - id: check-merge-conflict
+        entry: python -c "
+import sys
+for line in sys.stdin:
+    if any(marker in line for marker in ['<<<<<<< ', '=======', '>>>>>>> ']):
+        print(f'Merge conflict marker found: {line.strip()}')
+        sys.exit(1)
+"
+      - id: debug-statements
+        entry: python -c "
+import sys, ast
+content = sys.stdin.read()
+try:
+    tree = ast.parse(content)
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
+            if isinstance(node.value.func, ast.Name) and node.value.func.id in ['print', 'pdb.set_trace']:
+                print(f'Debug statement found: {node.value.func.id}')
+                sys.exit(1)
+except SyntaxError:
+    pass  # Skip files with syntax errors
+"
+      - id: check-docstring-first
+        entry: python -c "
+import sys, ast
+content = sys.stdin.read()
+try:
+    tree = ast.parse(content)
+    if tree.body and isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
+        pass  # Docstring is first
+    elif tree.body:
+        print('Module docstring should be first')
+        sys.exit(1)
+except SyntaxError:
+    pass
+"
+      - id: requirements-txt-fixer
+        entry: python -c "
+import sys
+lines = sys.stdin.readlines()
+# Sort requirements (basic implementation)
+sorted_lines = sorted([line for line in lines if line.strip() and not line.startswith('#')])
+comment_lines = [line for line in lines if line.startswith('#') or not line.strip()]
+sys.stdout.writelines(comment_lines + sorted_lines)
+"
+
+  # Docstring formatter (works on Windows)
+  - repo: https://github.com/pycqa/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+        entry: python -m docformatter
+        args: [--in-place, --wrap-summaries=88, --wrap-descriptions=88]
+
+# Windows-specific settings
+default_install_hook_types: [pre-commit, commit-msg]
+default_stages: [pre-commit]

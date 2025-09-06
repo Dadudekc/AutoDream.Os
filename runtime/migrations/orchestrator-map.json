@@ -1,0 +1,23 @@
+{
+  "from src.core.file_locking.file_locking_orchestrator import FileLockingOrchestrator":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as FileLockingOrchestrator",
+  "from src.core.ml_optimizer.ml_optimizer_orchestrator import VectorDatabaseMLOptimizer":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as VectorDatabaseMLOptimizer",
+  "from src.core.deployment.deployment_orchestrator_engine import DeploymentOrchestratorEngine":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as DeploymentOrchestratorEngine",
+  "from src.core.enhanced_integration.enhanced_integration_orchestrator_v2 import EnhancedIntegrationOrchestrator":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as EnhancedIntegrationOrchestrator",
+  "from src.core.coordination.swarm.orchestrators.swarm_coordination_orchestrator import SwarmCoordinationEnhancer":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as SwarmCoordinationEnhancer",
+  "from src.core.emergency_intervention.unified_emergency.orchestrator import EmergencyInterventionOrchestrator":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as EmergencyInterventionOrchestrator",
+  "from src.core.messaging_optimizer_orchestrator import MessagingOptimizationOrchestrator":
+    "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as MessagingOptimizationOrchestrator",
+  "class FileLockingOrchestrator(": "class FileLockingOrchestrator(LegacyOrchestratorAdapter):",
+  "class VectorDatabaseMLOptimizer(": "class VectorDatabaseMLOptimizer(LegacyOrchestratorAdapter):",
+  "class DeploymentOrchestratorEngine(": "class DeploymentOrchestratorEngine(LegacyOrchestratorAdapter):",
+  "class EnhancedIntegrationOrchestrator(": "class EnhancedIntegrationOrchestrator(LegacyOrchestratorAdapter):",
+  "class SwarmCoordinationEnhancer(": "class SwarmCoordinationEnhancer(LegacyOrchestratorAdapter):",
+  "class EmergencyInterventionOrchestrator(": "class EmergencyInterventionOrchestrator(LegacyOrchestratorAdapter):",
+  "class MessagingOptimizationOrchestrator(": "class MessagingOptimizationOrchestrator(LegacyOrchestratorAdapter):"
+}

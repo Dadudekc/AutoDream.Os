@@ -61,6 +61,10 @@ repos:
       - id: docformatter
         args: [--in-place, --wrap-summaries=88, --wrap-descriptions=88]
 
+# Windows-specific configuration
+default_install_hook_types: [pre-commit, commit-msg]
+default_stages: [pre-commit]
+
 # Configuration for V2 compliance formatting standards
 ci:
   autofix_commit_msg: |

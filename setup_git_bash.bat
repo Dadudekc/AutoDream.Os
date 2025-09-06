@@ -1,39 +1,46 @@
 @echo off
-REM Git Bash Setup for Agent Cellphone V2 Project
-REM This script configures pre-commit to use Git Bash
+echo ====================================
+echo  Git Bash Setup for Pre-commit Hooks
+echo ====================================
+echo.
 
-echo 🚀 Setting up Git Bash for pre-commit hooks...
-
-REM Check if Git Bash exists
-if not exist "C:\Program Files\Git\bin\bash.exe" (
-    echo ❌ Git Bash not found! Please install Git for Windows first.
-    echo Download from: https://git-scm.com/download/win
-    pause
-    exit /b 1
+echo Checking for Git Bash...
+where git-bash.exe >nul 2>&1
+if %ERRORLEVEL% EQU 0 (
+    echo ✅ Git Bash found in PATH
+    goto :setup
+) else (
+    echo Checking common Git Bash locations...
+    if exist "C:\Program Files\Git\bin\bash.exe" (
+        echo ✅ Git Bash found at C:\Program Files\Git\bin\bash.exe
+        goto :setup
+    ) else if exist "C:\Program Files (x86)\Git\bin\bash.exe" (
+        echo ✅ Git Bash found at C:\Program Files (x86)\Git\bin\bash.exe
+        goto :setup
+    ) else (
+        echo ❌ Git Bash not found. Please install Git from https://git-scm.com/
+        echo Make sure to select "Git Bash Here" during installation
+        goto :end
+    )
 )
 
-echo ✅ Git Bash found!
-
-REM Configure pre-commit to use Git Bash
-echo 🔧 Configuring pre-commit to use Git Bash...
-
-REM Set environment variable for pre-commit
-setx PRE_COMMIT_USE_SYSTEM_GIT "1"
-setx GIT_BASH_PATH "C:\Program Files\Git\bin\bash.exe"
-
-echo ✅ Environment variables set!
-
-REM Test pre-commit with Git Bash
-echo 🧪 Testing pre-commit with Git Bash...
-"C:\Program Files\Git\bin\bash.exe" -c "cd /d/Agent_Cellphone_V2_Repository && pre-commit run --all-files"
-
+:setup
 echo.
-echo ✅ Git Bash setup complete!
+echo ====================================
+echo  Git Bash Setup Complete!
+echo ====================================
 echo.
-echo 🎯 Next steps:
-echo 1. Close and reopen your terminal
-echo 2. Test: git commit -m "test: Git Bash setup"
-echo 3. No more --no-verify flag needed! 🎉
+echo 🎯 Your new workflow:
 echo.
-echo WE. ARE. SWARM. ⚡️🔥🏆
+echo 1. Right-click in project folder
+echo 2. Select "Git Bash Here"
+echo 3. Make your changes
+echo 4. Test: pre-commit run --all-files
+echo 5. Commit: git commit -m "message"
+echo 6. Push: git push
+echo.
+echo ✅ No more --no-verify needed!
+echo.
+echo ====================================
 pause
+:end

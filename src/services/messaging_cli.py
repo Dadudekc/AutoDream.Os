@@ -50,8 +50,22 @@ def create_enhanced_parser():
     )
     parser.add_argument("--compliance-mode", action="store_true", help="Activate compliance mode")
     parser.add_argument("--wrapup", action="store_true", help="Send wrapup message")
+
+    # Hard onboarding with safety options
     parser.add_argument(
-        "--hard-onboarding", action="store_true", help="Send hard onboarding sequence"
+        "--hard-onboarding", action="store_true", help="Run hard onboarding sequence for agents"
+    )
+    parser.add_argument(
+        "--agents", type=str, default="", help="Comma-separated agent IDs to scope the operation"
+    )
+    parser.add_argument(
+        "--yes", action="store_true", help="Skip confirmation prompts"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Simulate without making changes"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=30, help="Per-agent timeout seconds"
     )
 
     # Contract commands

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-Zero-dep codemod to migrate legacy orchestrator imports/usages.
+"""Zero-dep codemod to migrate legacy orchestrator imports/usages.
+
 - Dry-run by default; print unified diffs
 - --write to apply in-place
 - Uses simple token/line replace (safe subset) — review diff before commit
@@ -13,11 +13,13 @@ MAP = {
     #     "from src.core.orchestration.adapters.legacy_adapter import LegacyOrchestratorAdapter as FileLockingOrchestrator",
 }
 
+
 def load_map(path: str) -> dict:
     try:
         return json.load(open(path, "r", encoding="utf-8"))
     except Exception:
         return {}
+
 
 def transform(text: str, m: dict) -> str:
     out = text
@@ -25,13 +27,19 @@ def transform(text: str, m: dict) -> str:
         out = out.replace(old, new)
     return out
 
+
 def iter_py(root: str):
     for d, _, files in os.walk(root):
-        if any(part in {".git","venv",".venv","node_modules","dist","build","__pycache__"} for part in d.split(os.sep)):
+        if any(
+            part
+            in {".git", "venv", ".venv", "node_modules", "dist", "build", "__pycache__"}
+            for part in d.split(os.sep)
+        ):
             continue
         for f in files:
             if f.endswith(".py"):
                 yield os.path.join(d, f)
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -54,10 +62,13 @@ def main():
                 open(p, "w", encoding="utf-8").write(dst)
                 print(f"[codemod] updated: {p}")
             else:
-                diff = difflib.unified_diff(src.splitlines(True), dst.splitlines(True), fromfile=p, tofile=p)
+                diff = difflib.unified_diff(
+                    src.splitlines(True), dst.splitlines(True), fromfile=p, tofile=p
+                )
                 sys.stdout.writelines(diff)
                 rc = 2
     return rc
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

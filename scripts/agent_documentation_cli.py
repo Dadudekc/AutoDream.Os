@@ -1,11 +1,11 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
 """
 Agent Documentation CLI
 
 Command-line interface for AI agents to interact with the vectorized documentation system.
 """
+
+from ..core.unified_entry_point_system import main
 
 import logging
 

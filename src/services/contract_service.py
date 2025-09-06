@@ -11,8 +11,6 @@ License: MIT
 """
 
 
-
-
 class ContractService:
     """Dedicated service for contract operations."""
 
@@ -112,7 +110,7 @@ class ContractService:
         get_logger(__name__).info("📧 Send status updates to Captain Agent-4 via inbox")
         get_logger(__name__).info("⚡ WE. ARE. SWARM.")
 
-    def get_unified_validator().check_agent_status(self) -> None:
+    def check_agent_status(self) -> None:
         """Check and display status of all agents."""
         get_logger(__name__).info("📊 AGENT STATUS & CONTRACT AVAILABILITY")
         get_logger(__name__).info("=" * 50)
@@ -143,13 +141,21 @@ class ContractService:
                             f"✅ {agent_id}: {status.get('status', 'UNKNOWN')} - {status.get('current_mission', 'No mission')}"
                         )
                     else:
-                        get_logger(__name__).info(f"⚠️ {agent_id}: Status file exists but is empty")
+                        get_logger(__name__).info(
+                            f"⚠️ {agent_id}: Status file exists but is empty"
+                        )
                 except Exception as e:
-                    get_logger(__name__).info(f"⚠️ {agent_id}: Status file exists but unreadable - {str(e)}")
+                    get_logger(__name__).info(
+                        f"⚠️ {agent_id}: Status file exists but unreadable - {str(e)}"
+                    )
             else:
                 get_logger(__name__).info(f"❌ {agent_id}: No status file found")
 
         get_logger(__name__).info()
         get_logger(__name__).info("🎯 CONTRACT SYSTEM STATUS: READY FOR ASSIGNMENT")
-        get_logger(__name__).info("📋 Available contracts: 40+ contracts across all categories")
-        get_logger(__name__).info("🚀 Use --get-next-task with --agent to claim assignments")
+        get_logger(__name__).info(
+            "📋 Available contracts: 40+ contracts across all categories"
+        )
+        get_logger(__name__).info(
+            "🚀 Use --get-next-task with --agent to claim assignments"
+        )

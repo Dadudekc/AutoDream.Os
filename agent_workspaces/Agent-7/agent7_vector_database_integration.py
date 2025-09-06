@@ -17,15 +17,22 @@ License: MIT
 try:
     from ...services.vector_database_service import VectorDatabaseService
     from ...core.unified_logging_system import get_logger
-    from ...core.unified_validation_system import validate_required_fields, validate_data_types
+    from ...core.unified_validation_system import (
+        validate_required_fields,
+        validate_data_types,
+    )
 except ImportError:
     # Fallback classes for development/testing
     class VectorDatabaseService:
         def __init__(self):
             self.documents = []
 
-        def add_document(self, doc_id: str, content: str, metadata: Dict[str, Any]) -> bool:
-            self.documents.append({"id": doc_id, "content": content, "metadata": metadata})
+        def add_document(
+            self, doc_id: str, content: str, metadata: Dict[str, Any]
+        ) -> bool:
+            self.documents.append(
+                {"id": doc_id, "content": content, "metadata": metadata}
+            )
             return True
 
         def search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
@@ -69,7 +76,7 @@ class Agent7VectorDatabaseIntegration:
             return {"error": "Agent-7 status file not found", "indexed": 0}
 
         try:
-            with open(status_file, 'r', encoding='utf-8') as f:
+            with open(status_file, "r", encoding="utf-8") as f:
                 status_data = read_json(f)
 
             # Index main status document
@@ -78,7 +85,9 @@ class Agent7VectorDatabaseIntegration:
                 content=json.dumps(status_data, indent=2),
                 metadata={
                     "title": f"{self.agent_id} Current Status",
-                    "description": f"Real-time status and mission progress for {self.agent_id}",
+                    "description": (
+                        f"Real-time status and mission progress for {self.agent_id}"
+                    ),
                     "document_type": DocumentType.STATUS,
                     "agent": self.agent_id,
                     "category": "agent_status",
@@ -86,14 +95,12 @@ class Agent7VectorDatabaseIntegration:
                     "status": status_data.get("status", "unknown"),
                     "current_mission": status_data.get("current_mission", ""),
                     "mission_priority": status_data.get("mission_priority", ""),
-                    "agent_name": status_data.get("agent_name", "")
-                }
+                    "agent_name": status_data.get("agent_name", ""),
+                },
             )
 
             success = self.vector_service.add_document(
-                status_doc.id,
-                status_doc.content,
-                status_doc.metadata
+                status_doc.id, status_doc.content, status_doc.metadata
             )
 
             if success:
@@ -107,19 +114,21 @@ class Agent7VectorDatabaseIntegration:
                     content=json.dumps(achievements, indent=2),
                     metadata={
                         "title": f"{self.agent_id} Achievements",
-                        "description": f"Comprehensive achievement record for {self.agent_id}",
+                        "description": (
+                            f"Comprehensive achievement record for {self.agent_id}"
+                        ),
                         "document_type": DocumentType.ACHIEVEMENT,
                         "agent": self.agent_id,
                         "category": "agent_achievements",
                         "timestamp": datetime.now().isoformat(),
-                        "achievement_count": len(achievements)
-                    }
+                        "achievement_count": len(achievements),
+                    },
                 )
 
                 success = self.vector_service.add_document(
                     achievements_doc.id,
                     achievements_doc.content,
-                    achievements_doc.metadata
+                    achievements_doc.metadata,
                 )
 
                 if success:
@@ -133,19 +142,19 @@ class Agent7VectorDatabaseIntegration:
                     content=json.dumps(next_actions, indent=2),
                     metadata={
                         "title": f"{self.agent_id} Next Actions",
-                        "description": f"Upcoming tasks and objectives for {self.agent_id}",
+                        "description": (
+                            f"Upcoming tasks and objectives for {self.agent_id}"
+                        ),
                         "document_type": DocumentType.STATUS,
                         "agent": self.agent_id,
                         "category": "agent_actions",
                         "timestamp": datetime.now().isoformat(),
-                        "action_count": len(next_actions)
-                    }
+                        "action_count": len(next_actions),
+                    },
                 )
 
                 success = self.vector_service.add_document(
-                    actions_doc.id,
-                    actions_doc.content,
-                    actions_doc.metadata
+                    actions_doc.id, actions_doc.content, actions_doc.metadata
                 )
 
                 if success:
@@ -154,7 +163,7 @@ class Agent7VectorDatabaseIntegration:
             return {
                 "success": True,
                 "indexed": len(self.documents_indexed),
-                "documents": self.documents_indexed.copy()
+                "documents": self.documents_indexed.copy(),
             }
 
         except Exception as e:
@@ -163,13 +172,15 @@ class Agent7VectorDatabaseIntegration:
     def index_agent7_capabilities(self) -> Dict[str, Any]:
         """Index Agent-7's technical capabilities and expertise."""
         capabilities = {
-            "primary_role": "Web Development Specialist - Comprehensive Testing & Quality Assurance Execution",
+            "primary_role": (
+                "Web Development Specialist - Comprehensive Testing & Quality Assurance Execution"
+            ),
             "specializations": [
                 "JavaScript V2 Compliance Refactoring",
                 "Web Component Architecture",
                 "Testing Framework Integration",
                 "Performance Optimization",
-                "Modular System Design"
+                "Modular System Design",
             ],
             "technical_skills": [
                 "JavaScript/TypeScript",
@@ -178,21 +189,21 @@ class Agent7VectorDatabaseIntegration:
                 "Web Performance",
                 "Testing (Jest, Cypress)",
                 "Modular Architecture",
-                "V2 Compliance Standards"
+                "V2 Compliance Standards",
             ],
             "recent_achievements": [
                 "Successfully refactored 19 JavaScript files (7,200+ lines eliminated)",
                 "Created 90+ modular V2-compliant components",
                 "Achieved 100% V2 compliance for web development systems",
                 "Implemented modular orchestrator pattern for monolithic structures",
-                "Broke down 852-line monolithic file into 4 V2-compliant modules"
+                "Broke down 852-line monolithic file into 4 V2-compliant modules",
             ],
             "coordination_readiness": [
                 "Phase 6 Integration Ready",
                 "Trading Robot Frontend Components Prepared",
                 "Repository→Service→Business Logic Pattern Implemented",
-                "Cross-agent coordination protocols active"
-            ]
+                "Cross-agent coordination protocols active",
+            ],
         }
 
         capabilities_doc = VectorDocument(
@@ -200,32 +211,28 @@ class Agent7VectorDatabaseIntegration:
             content=json.dumps(capabilities, indent=2),
             metadata={
                 "title": f"{self.agent_id} Technical Capabilities",
-                "description": f"Comprehensive technical capabilities and expertise of {self.agent_id}",
+                "description": (
+                    f"Comprehensive technical capabilities and expertise of {self.agent_id}"
+                ),
                 "document_type": DocumentType.CAPABILITY,
                 "agent": self.agent_id,
                 "category": "agent_capabilities",
                 "timestamp": datetime.now().isoformat(),
                 "primary_role": capabilities["primary_role"],
                 "specialization_count": len(capabilities["specializations"]),
-                "skill_count": len(capabilities["technical_skills"])
-            }
+                "skill_count": len(capabilities["technical_skills"]),
+            },
         )
 
         try:
             success = self.vector_service.add_document(
-                capabilities_doc.id,
-                capabilities_doc.content,
-                capabilities_doc.metadata
+                capabilities_doc.id, capabilities_doc.content, capabilities_doc.metadata
             )
 
             if success:
                 self.documents_indexed.append(capabilities_doc.id)
 
-            return {
-                "success": True,
-                "indexed": 1,
-                "documents": [capabilities_doc.id]
-            }
+            return {"success": True, "indexed": 1, "documents": [capabilities_doc.id]}
 
         except Exception as e:
             return {"error": f"Failed to index capabilities: {e}", "indexed": 0}
@@ -237,7 +244,8 @@ class Agent7VectorDatabaseIntegration:
 
             # Filter results to Agent-7 specific documents
             agent7_results = [
-                result for result in results
+                result
+                for result in results
                 if result.get("metadata", {}).get("agent") == self.agent_id
             ]
 
@@ -245,7 +253,7 @@ class Agent7VectorDatabaseIntegration:
                 "success": True,
                 "query": query,
                 "results_count": len(agent7_results),
-                "results": agent7_results
+                "results": agent7_results,
             }
 
         except Exception as e:
@@ -259,7 +267,7 @@ class Agent7VectorDatabaseIntegration:
             "indexed_documents": self.documents_indexed.copy(),
             "last_integration": datetime.now().isoformat(),
             "vector_service_status": "active" if self.vector_service else "fallback",
-            "integration_ready": True
+            "integration_ready": True,
         }
 
 
@@ -274,33 +282,49 @@ def integrate_agent7_vector_database() -> Dict[str, Any]:
     get_logger(__name__).info("📊 Indexing Agent-7 status...")
     status_result = integration.index_agent7_status()
     if status_result.get("success"):
-        get_logger(__name__).info(f"✅ Status indexed: {status_result.get('indexed', 0)} documents")
+        get_logger(__name__).info(
+            f"✅ Status indexed: {status_result.get('indexed', 0)} documents"
+        )
     else:
-        get_logger(__name__).info(f"❌ Status indexing failed: {status_result.get('error', 'Unknown error')}")
+        get_logger(__name__).info(
+            f"❌ Status indexing failed: {status_result.get('error', 'Unknown error')}"
+        )
 
     # Index capabilities
     get_logger(__name__).info("🛠️ Indexing Agent-7 capabilities...")
     capabilities_result = integration.index_agent7_capabilities()
     if capabilities_result.get("success"):
-        get_logger(__name__).info(f"✅ Capabilities indexed: {capabilities_result.get('indexed', 0)} documents")
+        get_logger(__name__).info(
+            f"✅ Capabilities indexed: {capabilities_result.get('indexed', 0)} documents"
+        )
     else:
-        get_logger(__name__).info(f"❌ Capabilities indexing failed: {capabilities_result.get('error', 'Unknown error')}")
+        get_logger(__name__).info(
+            f"❌ Capabilities indexing failed: {capabilities_result.get('error', 'Unknown error')}"
+        )
 
     # Get final status
     final_status = integration.get_integration_status()
-    get_logger(__name__).info("
-📈 Integration Complete:"    get_logger(__name__).info(f"   Total documents indexed: {final_status['documents_indexed']}")
-    get_logger(__name__).info(f"   Vector service: {final_status['vector_service_status']}")
-    get_logger(__name__).info(f"   Integration status: {'✅ Ready' if final_status['integration_ready'] else '❌ Failed'}")
+    get_logger(__name__).info("📈 Integration Complete:")
+    get_logger(__name__).info(
+        f"   Total documents indexed: {final_status['documents_indexed']}"
+    )
+    get_logger(__name__).info(
+        f"   Vector service: {final_status['vector_service_status']}"
+    )
+    get_logger(__name__).info(
+        f"   Integration status: {'✅ Ready' if final_status['integration_ready'] else '❌ Failed'}"
+    )
 
     return {
         "integration_status": final_status,
         "status_result": status_result,
-        "capabilities_result": capabilities_result
+        "capabilities_result": capabilities_result,
     }
 
 
 if __name__ == "__main__":
     result = integrate_agent7_vector_database()
     get_logger(__name__).info("\n🎯 Vector Database Integration Complete!")
-    get_logger(__name__).info("Agent-7 is now indexed for intelligent swarm coordination.")
+    get_logger(__name__).info(
+        "Agent-7 is now indexed for intelligent swarm coordination."
+    )

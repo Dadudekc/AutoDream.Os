@@ -8,18 +8,18 @@ V2 Compliance: Under 300-line limit with focused functionality
 @License: MIT
 """
 
+from src.services.models.messaging_models import (
     UnifiedMessage,
     UnifiedMessageType,
     UnifiedMessagePriority,
     UnifiedMessageTag,
     SenderType,
-    RecipientType
+    RecipientType,
 )
 
 
 class MessagingValidationUtils:
-    """
-    Shared messaging validation utilities to eliminate DRY violations.
+    """Shared messaging validation utilities to eliminate DRY violations.
 
     Provides common validation functionality for:
     - Message structure validation
@@ -30,8 +30,7 @@ class MessagingValidationUtils:
 
     @staticmethod
     def validate_message_structure(message: UnifiedMessage) -> Dict[str, Any]:
-        """
-        Validate UnifiedMessage structure and content.
+        """Validate UnifiedMessage structure and content.
 
         Args:
             message: Message to validate
@@ -55,11 +54,18 @@ class MessagingValidationUtils:
             errors.append("Message content too long (max 10KB)")
 
         # Validate message type
-        if message.message_type and not MessagingValidationUtils._is_valid_message_type(message.message_type):
+        if (
+            message.message_type
+            and not MessagingValidationUtils._is_valid_message_type(
+                message.message_type
+            )
+        ):
             errors.append(f"Invalid message type: {message.message_type}")
 
         # Validate priority
-        if message.priority and not MessagingValidationUtils._is_valid_priority(message.priority):
+        if message.priority and not MessagingValidationUtils._is_valid_priority(
+            message.priority
+        ):
             errors.append(f"Invalid priority: {message.priority}")
 
         # Validate tags
@@ -73,13 +79,12 @@ class MessagingValidationUtils:
             "errors": errors,
             "warnings": warnings,
             "error_count": len(errors),
-            "warning_count": len(warnings)
+            "warning_count": len(warnings),
         }
 
     @staticmethod
     def validate_message_config(message_config: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Validate message configuration parameters.
+        """Validate message configuration parameters.
 
         Args:
             message_config: Message configuration to validate
@@ -102,17 +107,23 @@ class MessagingValidationUtils:
                 errors.append(f"Invalid sender: {message_config['sender']}")
 
         if "recipient" in message_config:
-            if not MessagingValidationUtils.validate_agent_id(message_config["recipient"]):
+            if not MessagingValidationUtils.validate_agent_id(
+                message_config["recipient"]
+            ):
                 errors.append(f"Invalid recipient: {message_config['recipient']}")
 
         # Validate message type
         if "message_type" in message_config:
-            if not MessagingValidationUtils._is_valid_message_type(message_config["message_type"]):
+            if not MessagingValidationUtils._is_valid_message_type(
+                message_config["message_type"]
+            ):
                 errors.append(f"Invalid message type: {message_config['message_type']}")
 
         # Validate priority
         if "priority" in message_config:
-            if not MessagingValidationUtils._is_valid_priority(message_config["priority"]):
+            if not MessagingValidationUtils._is_valid_priority(
+                message_config["priority"]
+            ):
                 errors.append(f"Invalid priority: {message_config['priority']}")
 
         return {
@@ -120,13 +131,12 @@ class MessagingValidationUtils:
             "errors": errors,
             "warnings": warnings,
             "error_count": len(errors),
-            "warning_count": len(warnings)
+            "warning_count": len(warnings),
         }
 
     @staticmethod
     def validate_agent_id(agent_id: str) -> bool:
-        """
-        Validate agent ID format and existence.
+        """Validate agent ID format and existence.
 
         Args:
             agent_id: Agent ID to validate
@@ -139,16 +149,23 @@ class MessagingValidationUtils:
 
         # Check if it's a valid agent format (Agent-X or system)
         valid_agents = [
-            "Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5",
-            "Agent-6", "Agent-7", "Agent-8", "system", "Captain Agent-4"
+            "Agent-1",
+            "Agent-2",
+            "Agent-3",
+            "Agent-4",
+            "Agent-5",
+            "Agent-6",
+            "Agent-7",
+            "Agent-8",
+            "system",
+            "Captain Agent-4",
         ]
 
         return agent_id in valid_agents
 
     @staticmethod
     def validate_content_length(content: str, max_length: int = 10000) -> bool:
-        """
-        Validate content length.
+        """Validate content length.
 
         Args:
             content: Content to validate
@@ -165,9 +182,16 @@ class MessagingValidationUtils:
     def _is_valid_message_type(message_type: Any) -> bool:
         """Check if message type is valid."""
         if get_unified_validator().validate_type(message_type, str):
-            valid_types = ["text", "broadcast", "onboarding", "agent_to_agent", "system_to_agent", "human_to_agent"]
+            valid_types = [
+                "text",
+                "broadcast",
+                "onboarding",
+                "agent_to_agent",
+                "system_to_agent",
+                "human_to_agent",
+            ]
             return message_type in valid_types
-        elif get_unified_validator().validate_hasattr(message_type, 'value'):
+        elif get_unified_validator().validate_hasattr(message_type, "value"):
             return message_type in UnifiedMessageType
         return False
 
@@ -177,7 +201,7 @@ class MessagingValidationUtils:
         if get_unified_validator().validate_type(priority, str):
             valid_priorities = ["normal", "urgent"]
             return priority in valid_priorities
-        elif get_unified_validator().validate_hasattr(priority, 'value'):
+        elif get_unified_validator().validate_hasattr(priority, "value"):
             return priority in UnifiedMessagePriority
         return False
 
@@ -187,14 +211,13 @@ class MessagingValidationUtils:
         if get_unified_validator().validate_type(tag, str):
             valid_tags = ["captain", "onboarding", "wrapup", "coordination", "swarm"]
             return tag in valid_tags
-        elif get_unified_validator().validate_hasattr(tag, 'value'):
+        elif get_unified_validator().validate_hasattr(tag, "value"):
             return tag in UnifiedMessageTag
         return False
 
     @staticmethod
     def get_validation_summary(validation_result: Dict[str, Any]) -> str:
-        """
-        Get a human-readable validation summary.
+        """Get a human-readable validation summary.
 
         Args:
             validation_result: Result from validation methods
@@ -212,8 +235,7 @@ class MessagingValidationUtils:
 
     @staticmethod
     def validate_coordinates_async(service) -> Dict[str, Any]:
-        """
-        Reusable helper function for async coordinate loading.
+        """Reusable helper function for async coordinate loading.
 
         Eliminates DRY violation by providing a single implementation
         for the async coordinate loading pattern used in multiple places.
@@ -246,20 +268,16 @@ class MessagingValidationUtils:
                 return {
                     "success": False,
                     "error": f"Failed to load coordinates: {str(e)}",
-                    "coordinates": {}
+                    "coordinates": {},
                 }
         except Exception as e:
             return {
                 "success": False,
                 "error": f"Failed to load coordinates: {str(e)}",
-                "coordinates": {}
+                "coordinates": {},
             }
 
-        return {
-            "success": True,
-            "coordinates": result,
-            "error": None
-        }
+        return {"success": True, "coordinates": result, "error": None}
 
 
 # Export main interface

@@ -8,9 +8,15 @@ Unit tests for vector database models and schemas.
 Author: Agent-7 - Web Development Specialist
 License: MIT
 """
-
-    VectorDocument, SearchQuery, SearchResult, CollectionConfig,
-    VectorDatabaseStats, DocumentType, EmbeddingModel, SearchType
+from src.core.vector_database import (
+    VectorDocument,
+    SearchQuery,
+    SearchResult,
+    CollectionConfig,
+    VectorDatabaseStats,
+    DocumentType,
+    EmbeddingModel,
+    SearchType,
 )
 
 
@@ -22,7 +28,7 @@ class TestVectorDocument:
         doc = VectorDocument(
             content="Test content",
             document_type=DocumentType.MESSAGE,
-            agent_id="Agent-1"
+            agent_id="Agent-1",
         )
 
         assert doc.content == "Test content"
@@ -37,7 +43,7 @@ class TestVectorDocument:
             content="Test content",
             document_type=DocumentType.MESSAGE,
             agent_id="Agent-1",
-            tags=["test", "message"]
+            tags=["test", "message"],
         )
 
         data = doc.to_dict()
@@ -57,7 +63,7 @@ class TestVectorDocument:
             "document_type": "message",
             "agent_id": "Agent-1",
             "timestamp": "2024-01-01T12:00:00",
-            "tags": ["test", "message"]
+            "tags": ["test", "message"],
         }
 
         doc = VectorDocument.from_dict(data)
@@ -75,9 +81,7 @@ class TestSearchQuery:
     def test_search_query_creation(self):
         """Test basic search query creation."""
         query = SearchQuery(
-            query_text="test query",
-            search_type=SearchType.SIMILARITY,
-            limit=10
+            query_text="test query", search_type=SearchType.SIMILARITY, limit=10
         )
 
         assert query.query_text == "test query"
@@ -91,7 +95,7 @@ class TestSearchQuery:
             query_text="test query",
             agent_id="Agent-1",
             document_type=DocumentType.MESSAGE,
-            tags=["urgent"]
+            tags=["urgent"],
         )
 
         assert query.agent_id == "Agent-1"
@@ -104,7 +108,7 @@ class TestSearchQuery:
             query_text="test query",
             search_type=SearchType.SIMILARITY,
             limit=5,
-            agent_id="Agent-1"
+            agent_id="Agent-1",
         )
 
         data = query.to_dict()
@@ -123,13 +127,9 @@ class TestSearchResult:
         doc = VectorDocument(
             content="Test content",
             document_type=DocumentType.MESSAGE,
-            agent_id="Agent-1"
+            agent_id="Agent-1",
         )
-        result = SearchResult(
-            document=doc,
-            similarity_score=0.85,
-            rank=1
-        )
+        result = SearchResult(document=doc, similarity_score=0.85, rank=1)
 
         assert result.document == doc
         assert result.similarity_score == 0.85
@@ -140,13 +140,9 @@ class TestSearchResult:
         doc = VectorDocument(
             content="Test content",
             document_type=DocumentType.MESSAGE,
-            agent_id="Agent-1"
+            agent_id="Agent-1",
         )
-        result = SearchResult(
-            document=doc,
-            similarity_score=0.85,
-            rank=1
-        )
+        result = SearchResult(document=doc, similarity_score=0.85, rank=1)
 
         data = result.to_dict()
 
@@ -163,7 +159,7 @@ class TestCollectionConfig:
         config = CollectionConfig(
             name="test_collection",
             description="Test collection",
-            embedding_model=EmbeddingModel.SENTENCE_TRANSFORMERS
+            embedding_model=EmbeddingModel.SENTENCE_TRANSFORMERS,
         )
 
         assert config.name == "test_collection"
@@ -173,10 +169,7 @@ class TestCollectionConfig:
 
     def test_collection_config_to_dict(self):
         """Test collection config serialization."""
-        config = CollectionConfig(
-            name="test_collection",
-            description="Test collection"
-        )
+        config = CollectionConfig(name="test_collection", description="Test collection")
 
         data = config.to_dict()
 
@@ -193,7 +186,7 @@ class TestVectorDatabaseStats:
         stats = VectorDatabaseStats(
             total_documents=100,
             total_collections=5,
-            storage_size=10485760  # 10MB in bytes
+            storage_size=10485760,  # 10MB in bytes
         )
 
         assert stats.total_documents == 100
@@ -206,7 +199,7 @@ class TestVectorDatabaseStats:
         stats = VectorDatabaseStats(
             total_documents=50,
             total_collections=3,
-            collections=["default", "messages", "config"]
+            collections=["default", "messages", "config"],
         )
 
         data = stats.to_dict()

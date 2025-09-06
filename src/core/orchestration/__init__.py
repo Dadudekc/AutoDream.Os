@@ -8,12 +8,12 @@ from .adapters.legacy_adapter import LegacyOrchestratorAdapter
 
 __all__ = [
     "OrchestrationContext",
-    "OrchestrationResult", 
+    "OrchestrationResult",
     "Step",
     "Orchestrator",
     "StepRegistry",
     "CoreOrchestrator",
-    "ServiceOrchestrator", 
+    "ServiceOrchestrator",
     "IntegrationOrchestrator",
     "LegacyOrchestratorAdapter",
 ]

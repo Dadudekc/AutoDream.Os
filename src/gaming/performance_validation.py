@@ -1,4 +1,5 @@
 from ..core.unified_entry_point_system import main
+
 #!/usr/bin/env python3
 """
 Gaming Performance Validation
@@ -12,13 +13,13 @@ Mission: V2 Compliance Implementation - Performance Validation
 
 from datetime import datetime
 
-
 logger = logging.getLogger(__name__)
 
 
 @dataclass
 class PerformanceMetrics:
     """Performance metrics for validation."""
+
     component: str
     operation: str
     response_time: float
@@ -38,7 +39,7 @@ class GamingPerformanceValidator:
             "response_time": {"target": 50, "threshold": 100, "critical": 200},
             "memory_usage": {"target": 50, "threshold": 100, "critical": 200},
             "cpu_usage": {"target": 30, "threshold": 60, "critical": 90},
-            "error_rate": {"target": 0.1, "threshold": 1.0, "critical": 5.0}
+            "error_rate": {"target": 0.1, "threshold": 1.0, "critical": 5.0},
         }
 
     async def validate_gaming_integration_core(self) -> Dict[str, Any]:
@@ -55,7 +56,7 @@ class GamingPerformanceValidator:
         session = core.create_game_session(
             game_type=core.GameType.ACTION,
             player_id="test_player",
-            metadata={"test": True}
+            metadata={"test": True},
         )
         session_time = (time.time() - start_time) * 1000
 
@@ -69,7 +70,9 @@ class GamingPerformanceValidator:
             "initialization_time": init_time,
             "session_creation_time": session_time,
             "status_get_unified_validator().check_time": status_time,
-            "validation_status": "PASSED" if init_time < 100 and session_time < 50 else "FAILED"
+            "validation_status": (
+                "PASSED" if init_time < 100 and session_time < 50 else "FAILED"
+            ),
         }
 
     async def validate_performance_monitors(self) -> Dict[str, Any]:
@@ -105,7 +108,7 @@ class GamingPerformanceValidator:
             "cpu_monitoring_time": cpu_time,
             "network_monitoring_time": network_time,
             "total_monitoring_time": total_time,
-            "validation_status": "PASSED" if total_time < 15 else "FAILED"
+            "validation_status": "PASSED" if total_time < 15 else "FAILED",
         }
 
     async def validate_event_handlers(self) -> Dict[str, Any]:
@@ -143,7 +146,7 @@ class GamingPerformanceValidator:
             "system_health_time": health_time,
             "user_interaction_time": interaction_time,
             "total_handler_time": total_time,
-            "validation_status": "PASSED" if total_time < 90 else "FAILED"
+            "validation_status": "PASSED" if total_time < 90 else "FAILED",
         }
 
     async def validate_test_functions(self) -> Dict[str, Any]:
@@ -170,7 +173,9 @@ class GamingPerformanceValidator:
             "session_creation_time": session_time,
             "fps_performance_time": fps_time,
             "memory_usage_time": memory_time,
-            "validation_status": "PASSED" if session_time < 200 and fps_time < 1200 else "FAILED"
+            "validation_status": (
+                "PASSED" if session_time < 200 and fps_time < 1200 else "FAILED"
+            ),
         }
 
     async def run_comprehensive_validation(self) -> Dict[str, Any]:
@@ -180,15 +185,16 @@ class GamingPerformanceValidator:
         results = {}
 
         # Validate all components
-        results["gaming_integration_core"] = await self.validate_gaming_integration_core()
+        results["gaming_integration_core"] = (
+            await self.validate_gaming_integration_core()
+        )
         results["performance_monitors"] = await self.validate_performance_monitors()
         results["event_handlers"] = await self.validate_event_handlers()
         results["test_functions"] = await self.validate_test_functions()
 
         # Calculate overall validation status
         all_passed = all(
-            result["validation_status"] == "PASSED"
-            for result in results.values()
+            result["validation_status"] == "PASSED" for result in results.values()
         )
 
         results["overall_validation"] = {
@@ -196,9 +202,11 @@ class GamingPerformanceValidator:
             "timestamp": datetime.now().isoformat(),
             "total_components": len(results) - 1,
             "passed_components": sum(
-                1 for result in results.values()
-                if get_unified_validator().validate_type(result, dict) and result.get("validation_status") == "PASSED"
-            )
+                1
+                for result in results.values()
+                if get_unified_validator().validate_type(result, dict)
+                and result.get("validation_status") == "PASSED"
+            ),
         }
 
         return results
@@ -226,6 +234,5 @@ class GamingPerformanceValidator:
         return "\n".join(report)
 
 
-async
 if __name__ == "__main__":
     asyncio.run(main())

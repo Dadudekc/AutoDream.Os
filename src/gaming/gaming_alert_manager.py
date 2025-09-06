@@ -9,10 +9,16 @@ Mission: V2 Compliance Implementation - Gaming Infrastructure Refactoring
 Status: REFACTORED_FOR_V2_COMPLIANCE
 """
 
+import logging
+from typing import Dict, List, Optional, Any
+from datetime import datetime, timedelta
+from enum import Enum
 
+from src.core.alert_system import (
     create_alert_id, validate_alert_metadata,
     format_alert_message, calculate_alert_priority
 )
+from src.services.alert_handlers import (
     handle_performance_alerts, handle_system_health_alerts,
     handle_alert_acknowledgment, handle_alert_resolution
 )
@@ -104,11 +110,11 @@ class GamingAlertManager:
         get_logger(__name__).info(f"Created gaming alert: {alert_id} - {message}")
         return alert
 
-    def get_unified_validator().check_performance_alerts(self, performance_metrics: Dict[str, Any]) -> List[GamingAlert]:
+    def check_performance_alerts(self, performance_metrics: Dict[str, Any]) -> List[GamingAlert]:
         """Check for performance-related alerts based on metrics."""
         return handle_performance_alerts(self, performance_metrics)
 
-    def get_unified_validator().check_system_health_alerts(self, health_metrics: Dict[str, Any]) -> List[GamingAlert]:
+    def check_system_health_alerts(self, health_metrics: Dict[str, Any]) -> List[GamingAlert]:
         """Check for system health alerts."""
         return handle_system_health_alerts(self, health_metrics)
 

@@ -1,5 +1,3 @@
-from ..core.unified_entry_point_system import main
-sys.path.append(get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), '..'))
 #!/usr/bin/env python3
 """
 CLI Interface for Gaming Test Runner
@@ -11,7 +9,15 @@ Author: Agent-6 - Gaming & Entertainment Specialist
 License: MIT
 """
 
+import asyncio
+import argparse
+import sys
+from pathlib import Path
 
+# Add src to path
+sys.path.append(str(Path(__file__).parent.parent))
+
+from src.core.unified_entry_point_system import main
 
 
 def create_parser():
@@ -38,7 +44,7 @@ Examples:
 
   # List available tests
   python -m src.gaming.test_runner_cli --list-tests
-        """
+        """,
     )
 
     # Test execution options
@@ -49,16 +55,21 @@ Examples:
     # Output options
     parser.add_argument("--results", action="store_true", help="Show test results")
     parser.add_argument("--export", "-e", help="Export results to JSON file")
-    parser.add_argument("--list-tests", action="store_true", help="List available tests")
-    parser.add_argument("--list-suites", action="store_true", help="List available test suites")
+    parser.add_argument(
+        "--list-tests", action="store_true", help="List available tests"
+    )
+    parser.add_argument(
+        "--list-suites", action="store_true", help="List available test suites"
+    )
 
     # Configuration options
     parser.add_argument("--config", "-c", help="Configuration file path")
-    parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose output")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Enable verbose output"
+    )
 
     return parser
 
 
-async
 if __name__ == "__main__":
     asyncio.run(main())

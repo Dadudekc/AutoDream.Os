@@ -10,7 +10,6 @@ License: MIT
 """
 
 
-
 class TestEmbeddingService:
     """Test EmbeddingService functionality."""
 
@@ -24,7 +23,7 @@ class TestEmbeddingService:
         assert self.service._sentence_transformer is None
         assert self.service._openai_client is None
 
-    @patch('src.services.embedding_service.SentenceTransformer')
+    @patch("src.services.embedding_service.SentenceTransformer")
     def test_get_sentence_transformer(self, mock_transformer):
         """Test lazy loading of sentence transformer."""
         mock_model = Mock()
@@ -34,9 +33,9 @@ class TestEmbeddingService:
         result = self.service._get_sentence_transformer()
 
         assert result == mock_model
-        mock_transformer.assert_called_once_with('all-MiniLM-L6-v2')
+        mock_transformer.assert_called_once_with("all-MiniLM-L6-v2")
 
-    @patch('src.services.embedding_service.openai.OpenAI')
+    @patch("src.services.embedding_service.openai.OpenAI")
     def test_get_openai_client(self, mock_openai):
         """Test lazy loading of OpenAI client."""
         mock_client = Mock()
@@ -54,7 +53,7 @@ class TestEmbeddingService:
             "This is a valid text",
             "Short text",
             "Text with numbers 123 and symbols !@#",
-            "A" * 1000  # Long but reasonable text
+            "A" * 1000,  # Long but reasonable text
         ]
 
         for text in valid_texts:
@@ -62,14 +61,7 @@ class TestEmbeddingService:
 
     def test_validate_text_invalid(self):
         """Test text validation with invalid input."""
-        invalid_texts = [
-            "",
-            None,
-            123,
-            [],
-            {},
-            "A" * 10000  # Too long
-        ]
+        invalid_texts = ["", None, 123, [], {}, "A" * 10000]  # Too long
 
         for text in invalid_texts:
             assert self.service.validate_text(text) is False
@@ -81,7 +73,7 @@ class TestEmbeddingService:
             ("hello\n\nworld", "hello world"),
             ("hello    world", "hello world"),
             ("", ""),
-            ("normal text", "normal text")
+            ("normal text", "normal text"),
         ]
 
         for input_text, expected in test_cases:
@@ -90,7 +82,9 @@ class TestEmbeddingService:
 
     def test_get_embedding_dimension_sentence_transformers(self):
         """Test embedding dimension for sentence transformers."""
-        dimension = self.service.get_embedding_dimension(EmbeddingModel.SENTENCE_TRANSFORMERS)
+        dimension = self.service.get_embedding_dimension(
+            EmbeddingModel.SENTENCE_TRANSFORMERS
+        )
         assert dimension == 384
 
     def test_get_embedding_dimension_openai_ada(self):
@@ -113,7 +107,7 @@ class TestEmbeddingService:
         with pytest.raises(ValueError, match="Unknown model dimension"):
             self.service.get_embedding_dimension("unknown_model")
 
-    @patch('src.services.embedding_service.SentenceTransformer')
+    @patch("src.services.embedding_service.SentenceTransformer")
     def test_generate_sentence_transformer_embedding(self, mock_transformer):
         """Test sentence transformer embedding generation."""
         # Setup mock
@@ -127,9 +121,9 @@ class TestEmbeddingService:
         result = self.service._generate_sentence_transformer_embedding("test text")
 
         assert result == [0.1, 0.2, 0.3]
-        mock_model.encode.assert_called_once_with("test text", get_unified_utility().convert_to_tensor=False)
+        mock_model.encode.assert_called_once_with("test text", convert_to_tensor=False)
 
-    @patch('src.services.embedding_service.SentenceTransformer')
+    @patch("src.services.embedding_service.SentenceTransformer")
     def test_generate_sentence_transformer_batch(self, mock_transformer):
         """Test sentence transformer batch embedding generation."""
         # Setup mock
@@ -147,9 +141,11 @@ class TestEmbeddingService:
         assert len(result) == 2
         assert result[0] == [0.1, 0.2, 0.3]
         assert result[1] == [0.4, 0.5, 0.6]
-        mock_model.encode.assert_called_once_with(texts, batch_size=32, get_unified_utility().convert_to_tensor=False)
+        mock_model.encode.assert_called_once_with(
+            texts, batch_size=32, convert_to_tensor=False
+        )
 
-    @patch('src.services.embedding_service.openai.OpenAI')
+    @patch("src.services.embedding_service.openai.OpenAI")
     def test_generate_openai_embedding(self, mock_openai):
         """Test OpenAI embedding generation."""
         # Setup mock
@@ -161,15 +157,16 @@ class TestEmbeddingService:
         mock_openai.return_value = mock_client
 
         # Test embedding generation
-        result = self.service._generate_openai_embedding("test text", EmbeddingModel.OPENAI_ADA)
+        result = self.service._generate_openai_embedding(
+            "test text", EmbeddingModel.OPENAI_ADA
+        )
 
         assert result == [0.1, 0.2, 0.3]
         mock_client.embeddings.create.assert_called_once_with(
-            input="test text",
-            model="text-embedding-ada-002"
+            input="test text", model="text-embedding-ada-002"
         )
 
-    @patch('src.services.embedding_service.openai.OpenAI')
+    @patch("src.services.embedding_service.openai.OpenAI")
     def test_generate_openai_batch(self, mock_openai):
         """Test OpenAI batch embedding generation."""
         # Setup mock
@@ -189,11 +186,10 @@ class TestEmbeddingService:
         assert result[0] == [0.1, 0.2, 0.3]
         assert result[1] == [0.4, 0.5, 0.6]
         mock_client.embeddings.create.assert_called_once_with(
-            input=texts,
-            model="text-embedding-ada-002"
+            input=texts, model="text-embedding-ada-002"
         )
 
-    @patch.object(EmbeddingService, '_generate_sentence_transformer_embedding')
+    @patch.object(EmbeddingService, "_generate_sentence_transformer_embedding")
     def test_generate_embedding_sentence_transformers(self, mock_generate):
         """Test embedding generation with sentence transformers."""
         mock_generate.return_value = [0.1, 0.2, 0.3]
@@ -203,7 +199,7 @@ class TestEmbeddingService:
         assert result == [0.1, 0.2, 0.3]
         mock_generate.assert_called_once_with("test text")
 
-    @patch.object(EmbeddingService, '_generate_openai_embedding')
+    @patch.object(EmbeddingService, "_generate_openai_embedding")
     def test_generate_embedding_openai(self, mock_generate):
         """Test embedding generation with OpenAI."""
         mock_generate.return_value = [0.1, 0.2, 0.3]
@@ -218,7 +214,7 @@ class TestEmbeddingService:
         with pytest.raises(ValueError, match="Unsupported model"):
             self.service.generate_embedding("test text", "unsupported_model")
 
-    @patch.object(EmbeddingService, '_generate_sentence_transformer_batch')
+    @patch.object(EmbeddingService, "_generate_sentence_transformer_batch")
     def test_generate_embeddings_batch(self, mock_generate):
         """Test batch embedding generation."""
         mock_generate.return_value = [[0.1, 0.2], [0.3, 0.4]]

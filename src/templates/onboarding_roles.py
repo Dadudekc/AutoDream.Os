@@ -6,10 +6,10 @@ ROLES = ["SOLID", "SSOT", "DRY", "KISS", "TDD"]
 
 ROLE_TITLE = {
     "SOLID": "SOLID Sentinel",
-    "SSOT":  "SSOT Warden",
-    "DRY":   "DRY Hunter",
-    "KISS":  "KISS Guard",
-    "TDD":   "TDD Architect",
+    "SSOT": "SSOT Warden",
+    "DRY": "DRY Hunter",
+    "KISS": "KISS Guard",
+    "TDD": "TDD Architect",
 }
 
 CHECKLIST: Dict[str, List[str]] = {
@@ -44,6 +44,7 @@ CHECKLIST: Dict[str, List[str]] = {
         "Ensure coverage threshold met (e.g., 80%+ key modules)",
     ],
 }
+
 
 def build_role_message(agent_id: str, role: str) -> str:
     title = ROLE_TITLE[role]

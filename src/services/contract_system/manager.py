@@ -242,6 +242,61 @@ class ContractManager:
         except Exception as e:
             print(f"Error getting manager status: {e}")
             return {}
+    
+    def get_system_status(self) -> Dict[str, Any]:
+        """Get system status - simplified."""
+        try:
+            all_contracts = self.get_all_contracts()
+            total_tasks = 0
+            completed_tasks = 0
+            active_contracts = 0
+            completed_contracts = 0
+            
+            for contract in all_contracts:
+                total_tasks += len(contract.tasks)
+                completed_tasks += len([t for t in contract.tasks if t.status == TaskStatus.COMPLETED])
+                if contract.status in [TaskStatus.ASSIGNED, TaskStatus.IN_PROGRESS]:
+                    active_contracts += 1
+                elif contract.status == TaskStatus.COMPLETED:
+                    completed_contracts += 1
+            
+            completion_rate = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+            
+            return {
+                "total_contracts": len(all_contracts),
+                "active_contracts": active_contracts,
+                "completed_contracts": completed_contracts,
+                "total_tasks": total_tasks,
+                "completed_tasks": completed_tasks,
+                "completion_rate": round(completion_rate, 2),
+                "agent_summaries": {}
+            }
+        except Exception as e:
+            print(f"Error getting system status: {e}")
+            return {}
+    
+    def get_agent_status(self, agent_id: str) -> Dict[str, Any]:
+        """Get agent status - simplified."""
+        try:
+            return self.storage.get_agent_summary(agent_id)
+        except Exception as e:
+            print(f"Error getting agent status: {e}")
+            return {}
+    
+    def add_task_to_contract(self, contract_id: str, task_data: Dict[str, Any]) -> bool:
+        """Add task to contract - simplified."""
+        try:
+            contract = self.get_contract(contract_id)
+            if not contract:
+                return False
+            
+            task = self._create_task_from_data(task_data, contract_id)
+            contract.add_task(task)
+            
+            return self.storage.save_contract(contract)
+        except Exception as e:
+            print(f"Error adding task to contract: {e}")
+            return False
 
 
     def create_default_tasks(self) -> None:

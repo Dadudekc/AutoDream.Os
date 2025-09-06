@@ -44,9 +44,14 @@ def create_enhanced_parser():
     parser.add_argument("--onboard", action="store_true", help="Send onboarding to specific agent")
     parser.add_argument(
         "--onboarding-style",
-        choices=["friendly", "professional"],
+        choices=["friendly", "professional", "architectural"],
         default="friendly",
-        help="Onboarding style",
+        help="Onboarding style (architectural enables principle-based onboarding)",
+    )
+    parser.add_argument(
+        "--architectural-principle",
+        choices=["SRP", "OCP", "LSP", "ISP", "DIP", "SSOT", "DRY", "KISS", "TDD"],
+        help="Specific architectural principle for onboarding (overrides agent assignment)",
     )
     parser.add_argument("--compliance-mode", action="store_true", help="Activate compliance mode")
     parser.add_argument("--wrapup", action="store_true", help="Send wrapup message")

@@ -22,5 +22,17 @@
     "tasks": [],
     "total_points": 0,
     "completed_points": 0
+  },
+  "contract_Agent-6_724ae0dc": {
+    "contract_id": "contract_Agent-6_724ae0dc",
+    "title": "Agent-6 Default Contract",
+    "description": "Default contract for Agent-6",
+    "agent_id": "Agent-6",
+    "created_at": "2025-09-06T15:32:16.326107",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
   }
 }

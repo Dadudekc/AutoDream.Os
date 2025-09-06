@@ -62,6 +62,10 @@ class ContractStorage:
             print(f"❌ Error loading contract: {e}")
             return None
     
+    def get_contract(self, contract_id: str) -> Optional[Contract]:
+        """Get contract by ID - alias for load_contract."""
+        return self.load_contract(contract_id)
+    
     def load_all_contracts(self) -> Dict[str, Dict[str, Any]]:
         """Load all contracts."""
         try:
@@ -82,6 +86,19 @@ class ContractStorage:
         except Exception as e:
             print(f"❌ Error loading agent contracts: {e}")
             return {}
+    
+    def get_agent_contracts(self, agent_id: str) -> List[Contract]:
+        """Get contracts for specific agent as Contract objects."""
+        try:
+            agent_contracts_data = self.load_agent_contracts(agent_id)
+            contracts = []
+            for contract_data in agent_contracts_data.values():
+                contract = Contract.from_dict(contract_data)
+                contracts.append(contract)
+            return contracts
+        except Exception as e:
+            print(f"❌ Error getting agent contracts: {e}")
+            return []
     
     def get_available_tasks(self, agent_id: str) -> List[Task]:
         """Get available tasks for agent."""

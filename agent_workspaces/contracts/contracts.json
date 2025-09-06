@@ -190,5 +190,101 @@
     "tasks": [],
     "total_points": 0,
     "completed_points": 0
+  },
+  "contract_Agent-1_6b4fddd4": {
+    "contract_id": "contract_Agent-1_6b4fddd4",
+    "title": "Agent-1 Default Contract",
+    "description": "Default contract for Agent-1",
+    "agent_id": "Agent-1",
+    "created_at": "2025-09-06T15:32:16.220005",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-2_04e2b37c": {
+    "contract_id": "contract_Agent-2_04e2b37c",
+    "title": "Agent-2 Default Contract",
+    "description": "Default contract for Agent-2",
+    "agent_id": "Agent-2",
+    "created_at": "2025-09-06T15:32:16.225010",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-3_5385b30c": {
+    "contract_id": "contract_Agent-3_5385b30c",
+    "title": "Agent-3 Default Contract",
+    "description": "Default contract for Agent-3",
+    "agent_id": "Agent-3",
+    "created_at": "2025-09-06T15:32:16.247030",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-4_7b5c33b4": {
+    "contract_id": "contract_Agent-4_7b5c33b4",
+    "title": "Agent-4 Default Contract",
+    "description": "Default contract for Agent-4",
+    "agent_id": "Agent-4",
+    "created_at": "2025-09-06T15:32:16.277060",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-5_49e7b925": {
+    "contract_id": "contract_Agent-5_49e7b925",
+    "title": "Agent-5 Default Contract",
+    "description": "Default contract for Agent-5",
+    "agent_id": "Agent-5",
+    "created_at": "2025-09-06T15:32:16.303081",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-6_724ae0dc": {
+    "contract_id": "contract_Agent-6_724ae0dc",
+    "title": "Agent-6 Default Contract",
+    "description": "Default contract for Agent-6",
+    "agent_id": "Agent-6",
+    "created_at": "2025-09-06T15:32:16.326107",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-7_3daa5d56": {
+    "contract_id": "contract_Agent-7_3daa5d56",
+    "title": "Agent-7 Default Contract",
+    "description": "Default contract for Agent-7",
+    "agent_id": "Agent-7",
+    "created_at": "2025-09-06T15:32:16.356131",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
+  },
+  "contract_Agent-8_a9a7ca4b": {
+    "contract_id": "contract_Agent-8_a9a7ca4b",
+    "title": "Agent-8 Default Contract",
+    "description": "Default contract for Agent-8",
+    "agent_id": "Agent-8",
+    "created_at": "2025-09-06T15:32:16.385156",
+    "completed_at": null,
+    "status": "pending",
+    "tasks": [],
+    "total_points": 0,
+    "completed_points": 0
   }
 }

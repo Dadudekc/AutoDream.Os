@@ -22,6 +22,7 @@ from ..models.messaging_models import (
 )
 from ..unified_messaging_imports import load_coordinates_from_json
 from ..utils.agent_registry import AGENTS
+from ..architectural_onboarding import architectural_manager, ArchitecturalPrinciple
 from ...utils.backup import BackupManager
 from ...utils.confirm import confirm
 
@@ -83,8 +84,14 @@ class OnboardingHandler:
             success_count = 0
             
             for agent_id in agents.keys():
+                # Create architectural onboarding message if style is set to architectural
+                if getattr(args, 'onboarding_style', 'friendly') == 'architectural':
+                    content = architectural_manager.create_onboarding_message(agent_id)
+                else:
+                    content = f"Welcome to the team, {agent_id}! You are now part of the V2 SWARM."
+
                 message = self.messaging_core.create_message(
-                    content=f"Welcome to the team, {agent_id}! You are now part of the V2 SWARM.",
+                    content=content,
                     sender="Captain Agent-4",
                     recipient=agent_id,
                     message_type=UnifiedMessageType.ONBOARDING,
@@ -116,9 +123,43 @@ class OnboardingHandler:
         """Handle single agent onboarding."""
         try:
             print(f"🚀 Onboarding {args.agent}...")
-            
+
+            # Create architectural onboarding message if style is set to architectural
+            if getattr(args, 'onboarding_style', 'friendly') == 'architectural':
+                # Check if a specific principle was requested
+                if hasattr(args, 'architectural_principle') and args.architectural_principle:
+                    principle_map = {
+                        'SRP': ArchitecturalPrinciple.SINGLE_RESPONSIBILITY,
+                        'OCP': ArchitecturalPrinciple.OPEN_CLOSED,
+                        'LSP': ArchitecturalPrinciple.LISKOV_SUBSTITUTION,
+                        'ISP': ArchitecturalPrinciple.INTERFACE_SEGREGATION,
+                        'DIP': ArchitecturalPrinciple.DEPENDENCY_INVERSION,
+                        'SSOT': ArchitecturalPrinciple.SINGLE_SOURCE_OF_TRUTH,
+                        'DRY': ArchitecturalPrinciple.DONT_REPEAT_YOURSELF,
+                        'KISS': ArchitecturalPrinciple.KEEP_IT_SIMPLE_STUPID,
+                        'TDD': ArchitecturalPrinciple.TEST_DRIVEN_DEVELOPMENT,
+                    }
+                    principle = principle_map.get(args.architectural_principle)
+                    if principle:
+                        content = architectural_manager.create_onboarding_message(args.agent)
+                        # Temporarily assign the specific principle for this onboarding
+                        original_principle = architectural_manager.get_agent_principle(args.agent)
+                        architectural_manager.assign_principle_to_agent(args.agent, principle)
+                        try:
+                            content = architectural_manager.create_onboarding_message(args.agent)
+                        finally:
+                            # Restore original assignment
+                            if original_principle:
+                                architectural_manager.assign_principle_to_agent(args.agent, original_principle)
+                    else:
+                        content = architectural_manager.create_onboarding_message(args.agent)
+                else:
+                    content = architectural_manager.create_onboarding_message(args.agent)
+            else:
+                content = f"Welcome to the team, {args.agent}! You are now part of the V2 SWARM."
+
             message = self.messaging_core.create_message(
-                content=f"Welcome to the team, {args.agent}! You are now part of the V2 SWARM.",
+                content=content,
                 sender="Captain Agent-4",
                 recipient=args.agent,
                 message_type=UnifiedMessageType.ONBOARDING,

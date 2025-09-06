@@ -4,6 +4,7 @@ import os
 import json
 from typing import List
 
+
 class AgentRegistry:
     def __init__(self, root: str = "runtime/agent_state") -> None:
         self.root = root
@@ -12,7 +13,13 @@ class AgentRegistry:
     def list_agents(self) -> List[str]:
         if not os.path.isdir(self.root):
             return []
-        return sorted([d for d in os.listdir(self.root) if d.startswith("Agent-") and os.path.isdir(os.path.join(self.root, d))])
+        return sorted(
+            [
+                d
+                for d in os.listdir(self.root)
+                if d.startswith("Agent-") and os.path.isdir(os.path.join(self.root, d))
+            ]
+        )
 
     def _status_path(self, agent_id: str) -> str:
         return os.path.join(self.root, agent_id, "status.json")
@@ -36,8 +43,8 @@ class AgentRegistry:
                 json.dump({"onboarded": False, "hard_onboarding": True}, f)
 
     def force_onboard(self, agent_id: str, timeout: int = 30) -> None:
-        """
-        Send aggressive onboarding messages via your existing messaging bus.
+        """Send aggressive onboarding messages via your existing messaging bus.
+
         Here we simulate by marking onboarded=True. Replace with real bus call.
         """
         p = self._onboard_path(agent_id)
@@ -56,9 +63,18 @@ class AgentRegistry:
             return False
 
     def synchronize(self) -> None:
-        """
-        Force a global sync across agents. Stub for now; integrate your real sync.
+        """Force a global sync across agents.
+
+        Stub for now; integrate your real sync.
         """
         # e.g., touch a sync marker file
         with open(os.path.join(self.root, "_sync.ok"), "w", encoding="utf-8") as f:
             f.write("ok")
+
+    # NEW: persist last onboarding message for programmatic path
+    def save_last_onboarding_message(self, agent_id: str, message: str) -> None:
+        agent_dir = os.path.join(self.root, agent_id)
+        os.makedirs(agent_dir, exist_ok=True)
+        p = os.path.join(agent_dir, "last_onboarding_message.txt")
+        with open(p, "w", encoding="utf-8") as f:
+            f.write(message)

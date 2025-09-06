@@ -30,11 +30,11 @@ class ErrorReport:
 
     def add_error(self, error: Any):
         """Add an error to the report."""
-        if hasattr(error, 'timestamp') and error.timestamp >= self.start_time:
+        if hasattr(error, "timestamp") and error.timestamp >= self.start_time:
             self.errors.append(error)
-            if hasattr(error, 'operation'):
+            if hasattr(error, "operation"):
                 self.error_counts[error.operation] += 1
-            if hasattr(error, 'severity'):
+            if hasattr(error, "severity"):
                 self.severity_counts[str(error.severity)] += 1
 
     def get_summary(self) -> Dict[str, Any]:
@@ -56,11 +56,13 @@ class ErrorReport:
             "summary": self.get_summary(),
             "errors": [
                 {
-                    "error_id": getattr(error, 'error_id', 'unknown'),
-                    "message": getattr(error, 'message', 'unknown'),
-                    "severity": str(getattr(error, 'severity', 'unknown')),
-                    "timestamp": getattr(error, 'timestamp', datetime.now()).isoformat(),
-                    "source": getattr(error, 'source', 'unknown'),
+                    "error_id": getattr(error, "error_id", "unknown"),
+                    "message": getattr(error, "message", "unknown"),
+                    "severity": str(getattr(error, "severity", "unknown")),
+                    "timestamp": (
+                        getattr(error, "timestamp", datetime.now()).isoformat()
+                    ),
+                    "source": getattr(error, "source", "unknown"),
                 }
                 for error in self.errors
             ],
@@ -80,6 +82,7 @@ class ErrorReport:
     def get_errors_by_severity(self, severity: str) -> List[Any]:
         """Get errors filtered by severity."""
         return [
-            error for error in self.errors
-            if hasattr(error, 'severity') and str(error.severity) == severity
+            error
+            for error in self.errors
+            if hasattr(error, "severity") and str(error.severity) == severity
         ]

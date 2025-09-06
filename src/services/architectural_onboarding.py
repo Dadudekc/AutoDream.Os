@@ -50,8 +50,7 @@ class ArchitecturalGuidance:
 
 
 class ArchitecturalOnboardingManager:
-    """
-    Manages architectural onboarding for agents based on professional principles.
+    """Manages architectural onboarding for agents based on professional principles.
 
     This system ensures that each agent is onboarded with specific architectural
     responsibilities and validation rules to maintain professional code quality.
@@ -73,28 +72,27 @@ class ArchitecturalOnboardingManager:
                     "Ensure each class/module has single, well-defined purpose",
                     "Identify and eliminate classes with multiple responsibilities",
                     "Create focused, cohesive units of functionality",
-                    "Maintain clear separation of concerns"
+                    "Maintain clear separation of concerns",
                 ],
                 guidelines=[
                     "Classes should have 1-3 public methods maximum",
                     "Methods should perform one specific task",
                     "Avoid 'God classes' that do everything",
-                    "Use composition over inheritance for complex behaviors"
+                    "Use composition over inheritance for complex behaviors",
                 ],
                 examples=[
                     "Separate data access from business logic",
                     "Extract validation logic into dedicated classes",
                     "Create specific handlers for different message types",
-                    "Isolate configuration from application logic"
+                    "Isolate configuration from application logic",
                 ],
                 validation_rules=[
                     "No class should have more than 3 public methods",
                     "Methods should be under 30 lines",
                     "Classes should be under 200 lines",
-                    "Circular dependencies must be eliminated"
-                ]
+                    "Circular dependencies must be eliminated",
+                ],
             ),
-
             ArchitecturalPrinciple.OPEN_CLOSED: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.OPEN_CLOSED,
                 display_name="Open-Closed Principle (OCP)",
@@ -103,28 +101,27 @@ class ArchitecturalOnboardingManager:
                     "Design extensible systems without modifying existing code",
                     "Implement plugin architectures and extension points",
                     "Use abstraction to enable future enhancements",
-                    "Create frameworks that support new features"
+                    "Create frameworks that support new features",
                 ],
                 guidelines=[
                     "Use abstract base classes for extension points",
                     "Implement strategy pattern for algorithm variations",
                     "Create configuration-driven behavior",
-                    "Use dependency injection for flexibility"
+                    "Use dependency injection for flexibility",
                 ],
                 examples=[
                     "Message handlers that can be extended without modification",
                     "Plugin system for different delivery backends",
                     "Configurable validation rules",
-                    "Extensible command pattern implementation"
+                    "Extensible command pattern implementation",
                 ],
                 validation_rules=[
                     "New features should not require code changes",
                     "Extension points must be clearly defined",
                     "Configuration should drive behavior, not code",
-                    "Abstract interfaces must be stable"
-                ]
+                    "Abstract interfaces must be stable",
+                ],
             ),
-
             ArchitecturalPrinciple.LISKOV_SUBSTITUTION: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.LISKOV_SUBSTITUTION,
                 display_name="Liskov Substitution Principle (LSP)",
@@ -133,28 +130,27 @@ class ArchitecturalOnboardingManager:
                     "Ensure inheritance hierarchies maintain behavioral contracts",
                     "Validate that derived classes can replace base classes",
                     "Maintain consistent interfaces across inheritance",
-                    "Prevent violation of expected behavior in subtypes"
+                    "Prevent violation of expected behavior in subtypes",
                 ],
                 guidelines=[
                     "Derived classes must implement all base class methods",
                     "Method signatures must remain compatible",
                     "Preconditions cannot be strengthened in subtypes",
-                    "Postconditions cannot be weakened in subtypes"
+                    "Postconditions cannot be weakened in subtypes",
                 ],
                 examples=[
                     "Message types that can be used interchangeably",
                     "Handler implementations that maintain base contracts",
                     "Repository implementations with consistent interfaces",
-                    "Service classes with substitutable behavior"
+                    "Service classes with substitutable behavior",
                 ],
                 validation_rules=[
                     "All inherited methods must be implemented",
                     "Method signatures must match base class",
                     "Exception types must be compatible",
-                    "Behavioral contracts must be preserved"
-                ]
+                    "Behavioral contracts must be preserved",
+                ],
             ),
-
             ArchitecturalPrinciple.INTERFACE_SEGREGATION: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.INTERFACE_SEGREGATION,
                 display_name="Interface Segregation Principle (ISP)",
@@ -163,28 +159,27 @@ class ArchitecturalOnboardingManager:
                     "Create focused, client-specific interfaces",
                     "Avoid 'fat' interfaces with unnecessary methods",
                     "Design interfaces based on client needs",
-                    "Maintain clean, minimal interface contracts"
+                    "Maintain clean, minimal interface contracts",
                 ],
                 guidelines=[
                     "Split large interfaces into smaller, focused ones",
                     "Create role-specific interfaces",
                     "Use composition over large inheritance hierarchies",
-                    "Implement interface segregation through adapters"
+                    "Implement interface segregation through adapters",
                 ],
                 examples=[
                     "Separate read/write repository interfaces",
                     "Create specific handler interfaces for different operations",
                     "Split messaging interfaces by functionality",
-                    "Use adapter pattern for interface compatibility"
+                    "Use adapter pattern for interface compatibility",
                 ],
                 validation_rules=[
                     "Interfaces should have 3-5 methods maximum",
                     "Clients should only implement needed methods",
                     "No unused method implementations allowed",
-                    "Interface dependencies must be explicit"
-                ]
+                    "Interface dependencies must be explicit",
+                ],
             ),
-
             ArchitecturalPrinciple.DEPENDENCY_INVERSION: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.DEPENDENCY_INVERSION,
                 display_name="Dependency Inversion Principle (DIP)",
@@ -193,28 +188,27 @@ class ArchitecturalOnboardingManager:
                     "Create abstraction layers between high-level and low-level modules",
                     "Implement dependency injection for loose coupling",
                     "Design systems that depend on interfaces, not implementations",
-                    "Enable testability through abstraction"
+                    "Enable testability through abstraction",
                 ],
                 guidelines=[
                     "Use dependency injection containers",
                     "Create abstract interfaces for all dependencies",
                     "Avoid direct instantiation of concrete classes",
-                    "Implement factory patterns for object creation"
+                    "Implement factory patterns for object creation",
                 ],
                 examples=[
                     "Inject repository abstractions into services",
                     "Use interfaces for messaging backends",
                     "Create abstract factories for component creation",
-                    "Implement plugin architecture with interfaces"
+                    "Implement plugin architecture with interfaces",
                 ],
                 validation_rules=[
                     "No direct instantiation of concrete classes in business logic",
                     "All dependencies must be injected",
                     "Interfaces must be used instead of implementations",
-                    "Circular dependencies must be eliminated"
-                ]
+                    "Circular dependencies must be eliminated",
+                ],
             ),
-
             ArchitecturalPrinciple.SINGLE_SOURCE_OF_TRUTH: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.SINGLE_SOURCE_OF_TRUTH,
                 display_name="Single Source of Truth (SSOT)",
@@ -223,28 +217,27 @@ class ArchitecturalOnboardingManager:
                     "Eliminate data duplication across the system",
                     "Create centralized configuration management",
                     "Maintain consistent data schemas",
-                    "Ensure data integrity through centralization"
+                    "Ensure data integrity through centralization",
                 ],
                 guidelines=[
                     "Use centralized configuration files",
                     "Implement shared constants and enums",
                     "Create centralized data access layers",
-                    "Maintain single schema definitions"
+                    "Maintain single schema definitions",
                 ],
                 examples=[
                     "Centralized agent registry and coordinates",
                     "Shared configuration management",
                     "Common data models and schemas",
-                    "Unified error handling and logging"
+                    "Unified error handling and logging",
                 ],
                 validation_rules=[
                     "No duplicate configuration values",
                     "Single source for all data definitions",
                     "Configuration must be centralized",
-                    "Data consistency must be maintained"
-                ]
+                    "Data consistency must be maintained",
+                ],
             ),
-
             ArchitecturalPrinciple.DONT_REPEAT_YOURSELF: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.DONT_REPEAT_YOURSELF,
                 display_name="Don't Repeat Yourself (DRY)",
@@ -253,28 +246,27 @@ class ArchitecturalOnboardingManager:
                     "Identify and eliminate code duplication",
                     "Create reusable utilities and helpers",
                     "Implement common patterns and abstractions",
-                    "Maintain consistency across similar code"
+                    "Maintain consistency across similar code",
                 ],
                 guidelines=[
                     "Extract common functionality into shared modules",
                     "Create base classes for common behavior",
                     "Use configuration to eliminate hardcoded values",
-                    "Implement utility functions for repetitive tasks"
+                    "Implement utility functions for repetitive tasks",
                 ],
                 examples=[
                     "Shared validation utilities",
                     "Common error handling patterns",
                     "Reusable component abstractions",
-                    "Configuration-driven behavior"
+                    "Configuration-driven behavior",
                 ],
                 validation_rules=[
                     "No duplicate code blocks over 5 lines",
                     "Common functionality must be abstracted",
                     "Configuration should eliminate hardcoded values",
-                    "Utility functions must be used consistently"
-                ]
+                    "Utility functions must be used consistently",
+                ],
             ),
-
             ArchitecturalPrinciple.KEEP_IT_SIMPLE_STUPID: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.KEEP_IT_SIMPLE_STUPID,
                 display_name="Keep It Simple, Stupid (KISS)",
@@ -283,28 +275,27 @@ class ArchitecturalOnboardingManager:
                     "Avoid over-engineering and unnecessary complexity",
                     "Implement the simplest solution that works",
                     "Maintain clear, understandable code",
-                    "Eliminate unnecessary abstractions"
+                    "Eliminate unnecessary abstractions",
                 ],
                 guidelines=[
                     "Prefer simple solutions over complex ones",
                     "Avoid premature optimization",
                     "Use clear, descriptive naming",
-                    "Implement only what's needed"
+                    "Implement only what's needed",
                 ],
                 examples=[
                     "Simple, direct function implementations",
                     "Clear method names and documentation",
                     "Minimal abstraction layers",
-                    "Straightforward error handling"
+                    "Straightforward error handling",
                 ],
                 validation_rules=[
                     "Code should be readable without comments",
                     "Methods should be under 30 lines",
                     "Class hierarchies should be shallow",
-                    "Complex logic must be well-documented"
-                ]
+                    "Complex logic must be well-documented",
+                ],
             ),
-
             ArchitecturalPrinciple.TEST_DRIVEN_DEVELOPMENT: ArchitecturalGuidance(
                 principle=ArchitecturalPrinciple.TEST_DRIVEN_DEVELOPMENT,
                 display_name="Test-Driven Development (TDD)",
@@ -313,27 +304,27 @@ class ArchitecturalOnboardingManager:
                     "Create comprehensive test suites for all functionality",
                     "Implement red-green-refactor development cycle",
                     "Maintain high test coverage (>85%)",
-                    "Ensure tests validate architectural decisions"
+                    "Ensure tests validate architectural decisions",
                 ],
                 guidelines=[
                     "Write tests before implementation",
                     "Create tests for all public methods",
                     "Implement comprehensive edge case testing",
-                    "Maintain test documentation and examples"
+                    "Maintain test documentation and examples",
                 ],
                 examples=[
                     "Unit tests for all business logic",
                     "Integration tests for system components",
                     "Architecture validation tests",
-                    "Comprehensive test documentation"
+                    "Comprehensive test documentation",
                 ],
                 validation_rules=[
                     "All public methods must have tests",
                     "Test coverage must be >85%",
                     "Tests must validate architectural contracts",
-                    "Edge cases must be covered"
-                ]
-            )
+                    "Edge cases must be covered",
+                ],
+            ),
         }
 
     def _load_agent_assignments(self) -> Dict[str, ArchitecturalPrinciple]:
@@ -354,7 +345,7 @@ class ArchitecturalOnboardingManager:
         config_path = "src/config/architectural_assignments.json"
         if os.path.exists(config_path):
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path, "r") as f:
                     config = json.load(f)
                     # Convert string principles back to enum
                     for agent, principle_str in config.items():
@@ -369,12 +360,15 @@ class ArchitecturalOnboardingManager:
         """Get the architectural principle assigned to an agent."""
         return self.agent_assignments.get(agent_id)
 
-    def get_principle_guidance(self, principle: ArchitecturalPrinciple) -> ArchitecturalGuidance:
+    def get_principle_guidance(
+        self, principle: ArchitecturalPrinciple
+    ) -> ArchitecturalGuidance:
         """Get detailed guidance for a specific principle."""
         return self.principles[principle]
 
     def create_onboarding_message(self, agent_id: str) -> str:
-        """Create a customized onboarding message for an agent based on their principle."""
+        """Create a customized onboarding message for an agent based on their
+        principle."""
         principle = self.get_agent_principle(agent_id)
         if not principle:
             return f"Welcome to the team, {agent_id}! You are now part of the V2 SWARM."
@@ -403,7 +397,9 @@ Welcome aboard! Let's build something architecturally sound! 🚀
 
         return message
 
-    def validate_agent_compliance(self, agent_id: str, code_changes: List[str]) -> Dict[str, Any]:
+    def validate_agent_compliance(
+        self, agent_id: str, code_changes: List[str]
+    ) -> Dict[str, Any]:
         """Validate that an agent's changes comply with their assigned principle."""
         principle = self.get_agent_principle(agent_id)
         if not principle:
@@ -423,21 +419,23 @@ Welcome aboard! Let's build something architecturally sound! 🚀
                 if change.count("def ") > 5:
                     issues.append("Multiple similar function definitions detected")
             elif principle == ArchitecturalPrinciple.KEEP_IT_SIMPLE_STUPID:
-                if len(change.split('\n')) > 50:
+                if len(change.split("\n")) > 50:
                     issues.append("Complex method detected - consider simplification")
 
         return {
             "compliant": len(issues) == 0,
             "principle": principle.value,
             "issues": issues,
-            "guidance": guidance.description
+            "guidance": guidance.description,
         }
 
     def get_all_principles(self) -> List[ArchitecturalPrinciple]:
         """Get all available architectural principles."""
         return list(self.principles.keys())
 
-    def assign_principle_to_agent(self, agent_id: str, principle: ArchitecturalPrinciple) -> bool:
+    def assign_principle_to_agent(
+        self, agent_id: str, principle: ArchitecturalPrinciple
+    ) -> bool:
         """Assign an architectural principle to an agent."""
         self.agent_assignments[agent_id] = principle
 
@@ -446,10 +444,13 @@ Welcome aboard! Let's build something architecturally sound! 🚀
         os.makedirs(os.path.dirname(config_path), exist_ok=True)
 
         # Convert enum values to strings for JSON
-        config_data = {agent: principle.value for agent, principle in self.agent_assignments.items()}
+        config_data = {
+            agent: principle.value
+            for agent, principle in self.agent_assignments.items()
+        }
 
         try:
-            with open(config_path, 'w') as f:
+            with open(config_path, "w") as f:
                 json.dump(config_data, f, indent=2)
             return True
         except Exception:
@@ -457,8 +458,11 @@ Welcome aboard! Let's build something architecturally sound! 🚀
 
     def get_agents_by_principle(self, principle: ArchitecturalPrinciple) -> List[str]:
         """Get all agents assigned to a specific principle."""
-        return [agent for agent, assigned_principle in self.agent_assignments.items()
-                if assigned_principle == principle]
+        return [
+            agent
+            for agent, assigned_principle in self.agent_assignments.items()
+            if assigned_principle == principle
+        ]
 
 
 # Global instance for easy access

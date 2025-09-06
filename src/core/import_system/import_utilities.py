@@ -18,21 +18,21 @@ from typing import Any, Dict, List, Optional, Union
 
 class ImportUtilities:
     """Utility functions for import system."""
-    
+
     def __init__(self):
         """Initialize import utilities."""
         self._cache = {}
-    
+
     def get_module_path(self, module_name: str) -> Optional[str]:
         """Get the path to a module."""
         try:
             module = sys.modules.get(module_name)
-            if module and hasattr(module, '__file__'):
+            if module and hasattr(module, "__file__"):
                 return module.__file__
             return None
         except Exception:
             return None
-    
+
     def is_module_available(self, module_name: str) -> bool:
         """Check if a module is available."""
         try:
@@ -40,21 +40,21 @@ class ImportUtilities:
             return True
         except ImportError:
             return False
-    
+
     def get_import_path(self, module_name: str) -> Optional[str]:
         """Get the import path for a module."""
         if module_name in self._cache:
             return self._cache[module_name]
-        
+
         try:
             module = __import__(module_name)
-            path = getattr(module, '__file__', None)
+            path = getattr(module, "__file__", None)
             if path:
                 self._cache[module_name] = path
             return path
         except ImportError:
             return None
-    
+
     def resolve_relative_import(self, base_module: str, relative_path: str) -> str:
         """Resolve a relative import path."""
         try:
@@ -63,60 +63,60 @@ class ImportUtilities:
             return str(target_path.resolve())
         except Exception:
             return relative_path
-    
+
     def get_package_root(self, module_name: str) -> Optional[str]:
         """Get the root package directory for a module."""
         try:
             module = __import__(module_name)
-            if hasattr(module, '__file__'):
+            if hasattr(module, "__file__"):
                 path = Path(module.__file__)
                 # Walk up to find __init__.py
                 for parent in path.parents:
-                    if (parent / '__init__.py').exists():
+                    if (parent / "__init__.py").exists():
                         return str(parent)
             return None
         except Exception:
             return None
-    
+
     def list_module_contents(self, module_name: str) -> List[str]:
         """List the contents of a module."""
         try:
             module = __import__(module_name)
-            return [name for name in dir(module) if not name.startswith('_')]
+            return [name for name in dir(module) if not name.startswith("_")]
         except ImportError:
             return []
-    
+
     def get_module_docstring(self, module_name: str) -> Optional[str]:
         """Get the docstring of a module."""
         try:
             module = __import__(module_name)
-            return getattr(module, '__doc__', None)
+            return getattr(module, "__doc__", None)
         except ImportError:
             return None
-    
+
     def validate_import_syntax(self, import_statement: str) -> bool:
         """Validate import statement syntax."""
         try:
-            compile(import_statement, '<string>', 'exec')
+            compile(import_statement, "<string>", "exec")
             return True
         except SyntaxError:
             return False
-    
+
     def get_import_dependencies(self, module_name: str) -> List[str]:
         """Get the dependencies of a module."""
         try:
             module = __import__(module_name)
-            if hasattr(module, '__file__'):
+            if hasattr(module, "__file__"):
                 # This is a simplified version - in practice, you'd parse the AST
                 return []
             return []
         except ImportError:
             return []
-    
+
     def create_import_alias(self, module_name: str, alias: str) -> str:
         """Create an import alias statement."""
         return f"import {module_name} as {alias}"
-    
+
     def create_from_import(self, module_name: str, item: str, alias: str = None) -> str:
         """Create a from import statement."""
         if alias:

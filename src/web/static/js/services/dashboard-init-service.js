@@ -163,5 +163,3 @@ export class DashboardInitService {
 export function createDashboardInitService(dashboardRepository, utilityService) {
     return new DashboardInitService(dashboardRepository, utilityService);
 }
-
-

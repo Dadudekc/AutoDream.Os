@@ -19,14 +19,16 @@ import os
 def load_config_with_precedence() -> Dict[str, Any]:
     """Load configuration with precedence: CLI → ENV → YAML → defaults."""
     config = {}
-    config.update({
-        "sender": "Captain Agent-4",
-        "mode": "pyautogui",
-        "new_tab_method": "ctrl_t",
-        "priority": "regular",
-        "paste": True,
-        "onboarding_style": "friendly",
-    })
+    config.update(
+        {
+            "sender": "Captain Agent-4",
+            "mode": "pyautogui",
+            "new_tab_method": "ctrl_t",
+            "priority": "regular",
+            "paste": True,
+            "onboarding_style": "friendly",
+        }
+    )
 
     # Load from YAML config file (lowest precedence)
     config_file = Path("config/messaging.yml")

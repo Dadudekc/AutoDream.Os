@@ -247,4 +247,3 @@ export class PerformanceRecommendationModule {
 export function createPerformanceRecommendationModule() {
     return new PerformanceRecommendationModule();
 }
-

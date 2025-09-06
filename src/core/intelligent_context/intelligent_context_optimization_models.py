@@ -16,6 +16,7 @@ from dataclasses import dataclass
 @dataclass
 class OptimizationResult:
     """Result of optimization operation."""
+
     success: bool
     data: Dict[str, Any]
     execution_time: float
@@ -25,6 +26,7 @@ class OptimizationResult:
 @dataclass
 class AgentScore:
     """Agent scoring data."""
+
     agent_id: str
     score: float
     specialization_match: str
@@ -35,6 +37,7 @@ class AgentScore:
 @dataclass
 class MissionAnalysis:
     """Mission analysis data."""
+
     similar_missions_count: int
     success_factors: List[str]
     potential_pitfalls: List[str]
@@ -44,6 +47,7 @@ class MissionAnalysis:
 @dataclass
 class RiskMitigation:
     """Risk mitigation strategy."""
+
     strategy: str
     priority: str
     effectiveness: float
@@ -52,6 +56,7 @@ class RiskMitigation:
 @dataclass
 class SuccessFactor:
     """Success factor analysis."""
+
     factor: str
     importance: float
     confidence: float

@@ -1,11 +1,11 @@
 /**
  * DOM Utilities - V2 Compliant Module
  * ==================================
- * 
+ *
  * DOM manipulation utilities with caching and performance optimization.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -21,16 +21,16 @@ export class DOMUtils {
      */
     selectElement(selector, context = document) {
         const cacheKey = `${selector}-${context === document ? 'doc' : 'ctx'}`;
-        
+
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const element = context.querySelector(selector);
         if (element) {
             this.cache.set(cacheKey, element);
         }
-        
+
         return element;
     }
 
@@ -39,14 +39,14 @@ export class DOMUtils {
      */
     selectElements(selector, context = document) {
         const cacheKey = `multi-${selector}-${context === document ? 'doc' : 'ctx'}`;
-        
+
         if (this.cache.has(cacheKey)) {
             return this.cache.get(cacheKey);
         }
-        
+
         const elements = context.querySelectorAll(selector);
         this.cache.set(cacheKey, elements);
-        
+
         return elements;
     }
 
@@ -55,19 +55,19 @@ export class DOMUtils {
      */
     createElement(tag, className = '', attributes = {}, content = '') {
         const element = document.createElement(tag);
-        
+
         if (className) {
             element.className = className;
         }
-        
+
         Object.entries(attributes).forEach(([key, value]) => {
             element.setAttribute(key, value);
         });
-        
+
         if (content) {
             element.innerHTML = content;
         }
-        
+
         return element;
     }
 
@@ -227,7 +227,7 @@ export class DOMUtils {
      */
     getPosition(element) {
         if (!element) return null;
-        
+
         const rect = element.getBoundingClientRect();
         return {
             top: rect.top,

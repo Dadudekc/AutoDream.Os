@@ -138,4 +138,3 @@ export class AgentCoordinationModule {
 export function createAgentCoordinationModule() {
     return new AgentCoordinationModule();
 }
-

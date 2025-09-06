@@ -1,5 +1,4 @@
-"""
-Gaming Alert Models
+"""Gaming Alert Models.
 
 Extracted models for gaming alert system to achieve V2 compliance.
 Contains AlertSeverity, AlertType, and GamingAlert classes.
@@ -13,6 +12,7 @@ from datetime import datetime
 
 class AlertSeverity(Enum):
     """Alert severity levels for gaming systems."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -21,6 +21,7 @@ class AlertSeverity(Enum):
 
 class AlertType(Enum):
     """Types of alerts for gaming and entertainment systems."""
+
     PERFORMANCE = "performance"
     SYSTEM_HEALTH = "system_health"
     USER_ENGAGEMENT = "user_engagement"
@@ -32,6 +33,7 @@ class AlertType(Enum):
 @dataclass
 class GamingAlert:
     """Represents a gaming system alert."""
+
     id: str
     type: AlertType
     severity: AlertSeverity

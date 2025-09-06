@@ -1,12 +1,12 @@
 /**
  * Unified Frontend Utilities - V2 Compliant Module
  * ===============================================
- * 
+ *
  * Main utility coordinator that combines all utility modules.
  * Provides unified API for frontend utilities.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */

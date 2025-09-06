@@ -216,4 +216,3 @@ export function getMetricsHistory(metricType, limit = 10) {
 
 export { DeploymentMetricsService, deploymentMetricsService };
 export default deploymentMetricsService;
-

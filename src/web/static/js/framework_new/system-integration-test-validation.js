@@ -22,7 +22,7 @@ export class SystemIntegrationTestValidation {
      */
     validateTestResults(testResults) {
         console.log('🔍 Validating test results...');
-        
+
         const validationResults = {
             totalTests: testResults.length,
             passedTests: 0,
@@ -66,7 +66,7 @@ export class SystemIntegrationTestValidation {
         };
 
         const overallHealth = Object.values(healthChecks).every(check => check === true) ? 'HEALTHY' : 'ISSUES_DETECTED';
-        
+
         this.testCore.updateSystemHealth(componentName, {
             status: overallHealth,
             checks: healthChecks
@@ -115,7 +115,7 @@ export class SystemIntegrationTestValidation {
         };
 
         const overallIntegration = Object.values(integrationChecks).every(check => check === true) ? 'INTEGRATED' : 'INTEGRATION_ISSUES';
-        
+
         this.testCore.updateSystemHealth('system_integration', {
             status: overallIntegration,
             checks: integrationChecks

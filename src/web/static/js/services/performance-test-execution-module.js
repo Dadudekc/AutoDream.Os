@@ -112,4 +112,3 @@ export class PerformanceTestExecutionModule {
 export function createPerformanceTestExecutionModule() {
     return new PerformanceTestExecutionModule();
 }
-

@@ -13,4 +13,4 @@ License: MIT
 from .agent_enhancement_integrator_refactored import *
 
 # Re-export all components for backward compatibility
-__all__ = ['AgentEnhancementIntegrator']
+__all__ = ["AgentEnhancementIntegrator"]

@@ -15,7 +15,7 @@ from .backtest import (
     TSLAATRBacktestOrchestrator,
     create_tsla_atr_backtest_orchestrator,
     BacktestConfig,
-    TradeSide
+    TradeSide,
 )
 
 # Re-export for backward compatibility
@@ -23,9 +23,9 @@ TSLA_ATR_Pullback_Backtest = TSLAATRBacktestOrchestrator
 
 # Export all public interfaces
 __all__ = [
-    'TSLA_ATR_Pullback_Backtest',
-    'TSLAATRBacktestOrchestrator',
-    'create_tsla_atr_backtest_orchestrator',
-    'BacktestConfig',
-    'TradeSide'
+    "TSLA_ATR_Pullback_Backtest",
+    "TSLAATRBacktestOrchestrator",
+    "create_tsla_atr_backtest_orchestrator",
+    "BacktestConfig",
+    "TradeSide",
 ]

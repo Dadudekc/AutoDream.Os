@@ -14,19 +14,30 @@ from datetime import datetime
 import uuid
 
 from .enums import (
-    InsightType, ConfidenceLevel, ImpactLevel, MissionStatus, ReportType,
-    PriorityLevel, AgentRole, EmergencyStatus
+    InsightType,
+    ConfidenceLevel,
+    ImpactLevel,
+    MissionStatus,
+    ReportType,
+    PriorityLevel,
+    AgentRole,
+    EmergencyStatus,
 )
 from .core_models import (
-    StrategicOversightReport, SwarmCoordinationInsight, StrategicRecommendation,
-    AgentPerformanceMetrics, SwarmCoordinationStatus, StrategicMission,
-    VectorDatabaseMetrics, SystemHealthMetrics
+    StrategicOversightReport,
+    SwarmCoordinationInsight,
+    StrategicRecommendation,
+    AgentPerformanceMetrics,
+    SwarmCoordinationStatus,
+    StrategicMission,
+    VectorDatabaseMetrics,
+    SystemHealthMetrics,
 )
 
 
 class StrategicOversightFactoryCore:
     """Core factory methods for strategic oversight models."""
-    
+
     @staticmethod
     def create_strategic_oversight_report(
         title: str,
@@ -34,7 +45,7 @@ class StrategicOversightFactoryCore:
         report_type: ReportType,
         insights: List[Any] = None,
         recommendations: List[Any] = None,
-        metrics: Dict[str, Any] = None
+        metrics: Dict[str, Any] = None,
     ) -> StrategicOversightReport:
         """Create strategic oversight report."""
         return StrategicOversightReport(
@@ -46,9 +57,9 @@ class StrategicOversightFactoryCore:
             recommendations=recommendations or [],
             metrics=metrics or {},
             generated_at=datetime.now(),
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_swarm_coordination_insight(
         insight_type: InsightType,
@@ -57,7 +68,7 @@ class StrategicOversightFactoryCore:
         confidence: ConfidenceLevel = ConfidenceLevel.HIGH,
         impact: ImpactLevel = ImpactLevel.MEDIUM,
         evidence: List[str] = None,
-        recommendations: List[str] = None
+        recommendations: List[str] = None,
     ) -> SwarmCoordinationInsight:
         """Create swarm coordination insight."""
         return SwarmCoordinationInsight(
@@ -69,9 +80,9 @@ class StrategicOversightFactoryCore:
             impact=impact,
             evidence=evidence or [],
             recommendations=recommendations or [],
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_strategic_recommendation(
         title: str,
@@ -80,7 +91,7 @@ class StrategicOversightFactoryCore:
         impact: ImpactLevel = ImpactLevel.MEDIUM,
         implementation_effort: str = "medium",
         expected_benefits: List[str] = None,
-        risks: List[str] = None
+        risks: List[str] = None,
     ) -> StrategicRecommendation:
         """Create strategic recommendation."""
         return StrategicRecommendation(
@@ -92,9 +103,9 @@ class StrategicOversightFactoryCore:
             implementation_effort=implementation_effort,
             expected_benefits=expected_benefits or [],
             risks=risks or [],
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_agent_performance_metrics(
         agent_id: str,
@@ -103,7 +114,7 @@ class StrategicOversightFactoryCore:
         efficiency: float = 0.8,
         coordination_score: float = 0.8,
         task_completion_rate: float = 0.8,
-        response_time: float = 0.1
+        response_time: float = 0.1,
     ) -> AgentPerformanceMetrics:
         """Create agent performance metrics."""
         return AgentPerformanceMetrics(
@@ -115,16 +126,16 @@ class StrategicOversightFactoryCore:
             coordination_score=coordination_score,
             task_completion_rate=task_completion_rate,
             response_time=response_time,
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_swarm_coordination_status(
         status_name: str,
         description: str,
         active_agents: List[str] = None,
         coordination_level: str = "medium",
-        efficiency_score: float = 0.8
+        efficiency_score: float = 0.8,
     ) -> SwarmCoordinationStatus:
         """Create swarm coordination status."""
         return SwarmCoordinationStatus(
@@ -134,9 +145,9 @@ class StrategicOversightFactoryCore:
             active_agents=active_agents or [],
             coordination_level=coordination_level,
             efficiency_score=efficiency_score,
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_strategic_mission(
         mission_name: str,
@@ -144,7 +155,7 @@ class StrategicOversightFactoryCore:
         priority: PriorityLevel = PriorityLevel.MEDIUM,
         status: MissionStatus = MissionStatus.PENDING,
         assigned_agents: List[str] = None,
-        target_date: Optional[datetime] = None
+        target_date: Optional[datetime] = None,
     ) -> StrategicMission:
         """Create strategic mission."""
         return StrategicMission(
@@ -155,5 +166,5 @@ class StrategicOversightFactoryCore:
             status=status,
             assigned_agents=assigned_agents or [],
             target_date=target_date,
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )

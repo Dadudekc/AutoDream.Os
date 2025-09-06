@@ -232,7 +232,7 @@ python -m src.services.messaging_cli \
 
 ### **YOUR SPECIFIC V2 COMPLIANCE ROLE:**
 - **Agent-1**: Fix 176 syntax violations in `discord_commander_utils.py`
-- **Agent-2**: Address 126 files with architecture violations  
+- **Agent-2**: Address 126 files with architecture violations
 - **Agent-3**: Implement automated formatting with Black and isort
 - **Agent-4**: Strategic oversight and emergency intervention (CAPTAIN)
 - **Agent-5**: Business intelligence and compliance metrics

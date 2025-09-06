@@ -56,5 +56,3 @@ export class StringUtils {
         return str.replace(/\s+/g, ' ').trim();
     }
 }
-
-

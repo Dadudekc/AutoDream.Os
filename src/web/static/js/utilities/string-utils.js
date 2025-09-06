@@ -107,5 +107,3 @@ export class StringUtils {
 export function createStringUtils(logger = console) {
     return new StringUtils(logger);
 }
-
-

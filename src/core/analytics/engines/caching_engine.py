@@ -15,16 +15,17 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
+
 class CachingEngine:
     """Simple caching engine for analytics processing."""
-    
+
     def __init__(self, config=None):
         """Initialize caching engine."""
         self.config = config or {}
         self.logger = logger
         self.cache = {}
         self.stats = {"hits": 0, "misses": 0, "sets": 0}
-    
+
     def get(self, key: str) -> Optional[Any]:
         """Get value from cache."""
         try:
@@ -39,7 +40,7 @@ class CachingEngine:
         except Exception as e:
             self.logger.error(f"Error getting from cache: {e}")
             return None
-    
+
     def set(self, key: str, value: Any) -> bool:
         """Set value in cache."""
         try:
@@ -50,7 +51,7 @@ class CachingEngine:
         except Exception as e:
             self.logger.error(f"Error setting cache: {e}")
             return False
-    
+
     def delete(self, key: str) -> bool:
         """Delete value from cache."""
         try:
@@ -62,7 +63,7 @@ class CachingEngine:
         except Exception as e:
             self.logger.error(f"Error deleting from cache: {e}")
             return False
-    
+
     def clear(self) -> None:
         """Clear all cache entries."""
         try:
@@ -70,25 +71,25 @@ class CachingEngine:
             self.logger.info("Cache cleared")
         except Exception as e:
             self.logger.error(f"Error clearing cache: {e}")
-    
+
     def get_stats(self) -> Dict[str, Any]:
         """Get cache statistics."""
         try:
             total_requests = self.stats["hits"] + self.stats["misses"]
             hit_rate = self.stats["hits"] / total_requests if total_requests > 0 else 0
-            
+
             return {
                 "hits": self.stats["hits"],
                 "misses": self.stats["misses"],
                 "sets": self.stats["sets"],
                 "hit_rate": hit_rate,
                 "cache_size": len(self.cache),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error(f"Error getting cache stats: {e}")
             return {}
-    
+
     def get_status(self) -> Dict[str, Any]:
         """Get engine status."""
         return {
@@ -96,12 +97,14 @@ class CachingEngine:
             "cache_size": len(self.cache),
             "hits": self.stats["hits"],
             "misses": self.stats["misses"],
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
+
 
 # Simple factory function
 def create_caching_engine(config=None) -> CachingEngine:
     """Create caching engine."""
     return CachingEngine(config)
+
 
 __all__ = ["CachingEngine", "create_caching_engine"]

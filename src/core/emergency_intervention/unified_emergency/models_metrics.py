@@ -19,6 +19,7 @@ from .models_enums import EmergencySeverity, EmergencyType, EmergencyStatus, Ale
 @dataclass
 class EmergencyMetrics:
     """Emergency response metrics."""
+
     metrics_id: str = ""
     time_period: str = ""
     total_emergencies: int = 0
@@ -36,6 +37,7 @@ class EmergencyMetrics:
 @dataclass
 class EmergencyConfig:
     """Emergency intervention configuration."""
+
     config_id: str = ""
     name: str = ""
     description: str = ""
@@ -55,6 +57,7 @@ class EmergencyConfig:
 @dataclass
 class EmergencyAlert:
     """Emergency alert data structure."""
+
     alert_id: str = ""
     emergency_id: str = ""
     alert_level: AlertLevel = AlertLevel.WARNING
@@ -71,6 +74,7 @@ class EmergencyAlert:
 @dataclass
 class EmergencyLog:
     """Emergency log entry."""
+
     log_id: str = ""
     emergency_id: str = ""
     level: str = "info"
@@ -84,6 +88,7 @@ class EmergencyLog:
 @dataclass
 class EmergencyReport:
     """Emergency incident report."""
+
     report_id: str = ""
     emergency_id: str = ""
     title: str = ""

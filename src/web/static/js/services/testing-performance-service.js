@@ -123,5 +123,3 @@ export function getPerformanceThreshold(componentName) {
 
 export { testingPerformanceService };
 export default testingPerformanceService;
-
-

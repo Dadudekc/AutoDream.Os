@@ -1,8 +1,5 @@
 """Environment setup utilities for collecting test files."""
 
-
-
-
 logger = get_logger(__name__)
 
 

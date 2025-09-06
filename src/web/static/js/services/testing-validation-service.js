@@ -124,5 +124,3 @@ export function validateTestScenario(scenario) {
 
 export { testingValidationService };
 export default testingValidationService;
-
-

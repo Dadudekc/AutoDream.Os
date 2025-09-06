@@ -19,8 +19,8 @@ from .analyzer import StrategicOversightAnalyzer
 
 # Re-export for backward compatibility
 __all__ = [
-    'StrategicOversightOrchestrator',
-    'StrategicOversightModels',
-    'StrategicOversightEngine',
-    'StrategicOversightAnalyzer'
+    "StrategicOversightOrchestrator",
+    "StrategicOversightModels",
+    "StrategicOversightEngine",
+    "StrategicOversightAnalyzer",
 ]

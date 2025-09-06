@@ -249,4 +249,3 @@ def create_trading_service(repository: Optional[TradingRepositoryInterface] = No
 
 # Export for DI
 __all__ = ['TradingService', 'create_trading_service']
-

@@ -19,24 +19,23 @@ from .models.messaging_models import (
     UnifiedMessagePriority,
     UnifiedMessageTag,
     SenderType,
-    RecipientType
+    RecipientType,
 )
 
 
 class MessagingMessageBuilder:
+    """Message building system for creating properly formatted messages.
+
+    Provides comprehensive message construction capabilities while maintaining all
+    original functionality through efficient design.
     """
-    Message building system for creating properly formatted messages.
-    
-    Provides comprehensive message construction capabilities while maintaining
-    all original functionality through efficient design.
-    """
-    
+
     def __init__(self):
         """Initialize message builder."""
         self.default_sender = "Captain Agent-4"
         self.default_priority = UnifiedMessagePriority.REGULAR
         self.default_type = UnifiedMessageType.TEXT
-    
+
     def build_message(
         self,
         message: str,
@@ -47,11 +46,10 @@ class MessagingMessageBuilder:
         tags: Optional[list] = None,
         sender_type: Optional[SenderType] = None,
         recipient_type: Optional[RecipientType] = None,
-        **kwargs
+        **kwargs,
     ) -> UnifiedMessage:
-        """
-        Build a unified message with proper defaults and validation.
-        
+        """Build a unified message with proper defaults and validation.
+
         Args:
             message: Message content
             recipient: Target recipient
@@ -62,7 +60,7 @@ class MessagingMessageBuilder:
             sender_type: Type of sender
             recipient_type: Type of recipient
             **kwargs: Additional message parameters
-            
+
         Returns:
             Properly constructed UnifiedMessage
         """
@@ -71,14 +69,14 @@ class MessagingMessageBuilder:
         message_type = message_type or self.default_type
         priority = priority or self.default_priority
         tags = tags or []
-        
+
         # Infer types if not provided
         if not sender_type:
             sender_type = self._infer_sender_type(sender)
-        
+
         if not recipient_type:
             recipient_type = self._infer_recipient_type(recipient)
-        
+
         # Create message
         unified_message = UnifiedMessage(
             content=message,
@@ -89,11 +87,11 @@ class MessagingMessageBuilder:
             tags=tags,
             sender_type=sender_type,
             recipient_type=recipient_type,
-            **kwargs
+            **kwargs,
         )
-        
+
         return unified_message
-    
+
     def build_bulk_message(
         self,
         message: str,
@@ -101,11 +99,10 @@ class MessagingMessageBuilder:
         sender: Optional[str] = None,
         message_type: Optional[UnifiedMessageType] = None,
         priority: Optional[UnifiedMessagePriority] = None,
-        **kwargs
+        **kwargs,
     ) -> list:
-        """
-        Build multiple messages for bulk sending.
-        
+        """Build multiple messages for bulk sending.
+
         Args:
             message: Message content
             recipients: List of recipient names
@@ -113,12 +110,12 @@ class MessagingMessageBuilder:
             message_type: Type of message
             priority: Message priority
             **kwargs: Additional message parameters
-            
+
         Returns:
             List of UnifiedMessage objects
         """
         messages = []
-        
+
         for recipient in recipients:
             msg = self.build_message(
                 message=message,
@@ -126,26 +123,22 @@ class MessagingMessageBuilder:
                 sender=sender,
                 message_type=message_type,
                 priority=priority,
-                **kwargs
+                **kwargs,
             )
             messages.append(msg)
-        
+
         return messages
-    
+
     def build_onboarding_message(
-        self,
-        recipient: str,
-        style: str = "friendly",
-        sender: Optional[str] = None
+        self, recipient: str, style: str = "friendly", sender: Optional[str] = None
     ) -> UnifiedMessage:
-        """
-        Build an onboarding message.
-        
+        """Build an onboarding message.
+
         Args:
             recipient: Target recipient
             style: Onboarding style (friendly/professional)
             sender: Sender name
-            
+
         Returns:
             Onboarding UnifiedMessage
         """
@@ -153,30 +146,29 @@ class MessagingMessageBuilder:
             content = self._get_professional_onboarding_content(recipient)
         else:
             content = self._get_friendly_onboarding_content(recipient)
-        
+
         return self.build_message(
             message=content,
             recipient=recipient,
             sender=sender or self.default_sender,
             message_type=UnifiedMessageType.ONBOARDING,
             priority=UnifiedMessagePriority.REGULAR,
-            tags=[UnifiedMessageTag.ONBOARDING]
+            tags=[UnifiedMessageTag.ONBOARDING],
         )
-    
+
     def build_broadcast_message(
         self,
         message: str,
         sender: Optional[str] = None,
-        priority: Optional[UnifiedMessagePriority] = None
+        priority: Optional[UnifiedMessagePriority] = None,
     ) -> UnifiedMessage:
-        """
-        Build a broadcast message for all agents.
-        
+        """Build a broadcast message for all agents.
+
         Args:
             message: Message content
             sender: Sender name
             priority: Message priority
-            
+
         Returns:
             Broadcast UnifiedMessage
         """
@@ -186,9 +178,9 @@ class MessagingMessageBuilder:
             sender=sender or self.default_sender,
             message_type=UnifiedMessageType.BROADCAST,
             priority=priority or self.default_priority,
-            tags=[UnifiedMessageTag.CAPTAIN]
+            tags=[UnifiedMessageTag.CAPTAIN],
         )
-    
+
     def _infer_sender_type(self, sender: str) -> SenderType:
         """Infer sender type from sender name."""
         if sender.startswith("Agent-"):
@@ -197,7 +189,7 @@ class MessagingMessageBuilder:
             return SenderType.SYSTEM
         else:
             return SenderType.HUMAN
-    
+
     def _infer_recipient_type(self, recipient: str) -> RecipientType:
         """Infer recipient type from recipient name."""
         if recipient.startswith("Agent-"):
@@ -206,12 +198,12 @@ class MessagingMessageBuilder:
             return RecipientType.SYSTEM
         else:
             return RecipientType.HUMAN
-    
+
     def _get_friendly_onboarding_content(self, recipient: str) -> str:
         """Get friendly onboarding message content."""
         return f"""🚀 Welcome to the Agent Swarm, {recipient}!
 
-I'm Captain Agent-4, your Strategic Oversight & Emergency Intervention Manager. 
+I'm Captain Agent-4, your Strategic Oversight & Emergency Intervention Manager.
 
 Here's what you need to know:
 • You are {recipient} - remember your identity!
@@ -221,7 +213,7 @@ Here's what you need to know:
 • Report status updates to me when completing tasks
 
 Ready to get started? Let me know when you're online! 🎯"""
-    
+
     def _get_professional_onboarding_content(self, recipient: str) -> str:
         """Get professional onboarding message content."""
         return f"""AGENT ONBOARDING NOTICE - {recipient}

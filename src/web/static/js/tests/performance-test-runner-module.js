@@ -322,4 +322,3 @@ export class PerformanceTestRunnerModule {
 export function createPerformanceTestRunnerModule(systemHealth, testResults, performanceMetrics) {
     return new PerformanceTestRunnerModule(systemHealth, testResults, performanceMetrics);
 }
-

@@ -163,4 +163,3 @@ export class ReportGenerationModule {
 export function createReportGenerationModule() {
     return new ReportGenerationModule();
 }
-

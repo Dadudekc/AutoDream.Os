@@ -339,4 +339,3 @@ export function createWebSocketSubscriptionModule(messageSender) {
     }
     return module;
 }
-

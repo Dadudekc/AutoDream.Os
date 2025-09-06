@@ -28,7 +28,7 @@ import { SystemIntegrationTestMethodsUI, createSystemIntegrationTestMethodsUI } 
 export class SystemIntegrationTestMethods {
     constructor(testCore) {
         this.testCore = testCore;
-        
+
         // Initialize modular components
         this.core = createSystemIntegrationTestMethodsCore(testCore);
         this.ui = createSystemIntegrationTestMethodsUI(testCore);
@@ -40,21 +40,21 @@ export class SystemIntegrationTestMethods {
      */
     async runAllTests() {
         console.log('🚀 Starting System Integration Tests...');
-        
+
         try {
             // Run core component tests
             await this.core.testComponentImports();
             await this.core.testNavigationModule();
             await this.core.testModalModule();
-            
+
             // Run UI component tests
             await this.ui.testUIComponents();
-            
+
             // Run form component tests
             await this.forms.testFormComponents();
-            
+
             console.log('✅ All System Integration Tests completed successfully');
-            
+
         } catch (error) {
             console.error('❌ System Integration Tests failed:', error);
             this.testCore.logTestResult('ALL_TESTS', false, `Test execution error: ${error.message}`);

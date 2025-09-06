@@ -63,5 +63,3 @@ export class UnifiedLoggingSystem {
         console.error(`[${this.name}] ${message}`, extra);
     }
 }
-
-

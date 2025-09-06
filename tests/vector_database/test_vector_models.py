@@ -16,7 +16,7 @@ License: MIT
 
 class TestVectorDocument:
     """Test VectorDocument model."""
-    
+
     def test_vector_document_creation(self):
         """Test basic document creation."""
         doc = VectorDocument(
@@ -24,13 +24,13 @@ class TestVectorDocument:
             document_type=DocumentType.MESSAGE,
             agent_id="Agent-1"
         )
-        
+
         assert doc.content == "Test content"
         assert doc.document_type == DocumentType.MESSAGE
         assert doc.agent_id == "Agent-1"
         assert doc.id is not None
         assert get_unified_validator().validate_type(doc.timestamp, datetime)
-    
+
     def test_vector_document_to_dict(self):
         """Test document serialization."""
         doc = VectorDocument(
@@ -39,16 +39,16 @@ class TestVectorDocument:
             agent_id="Agent-1",
             tags=["test", "message"]
         )
-        
+
         data = doc.to_dict()
-        
+
         assert data["content"] == "Test content"
         assert data["document_type"] == "message"
         assert data["agent_id"] == "Agent-1"
         assert data["tags"] == ["test", "message"]
         assert "id" in data
         assert "timestamp" in data
-    
+
     def test_vector_document_from_dict(self):
         """Test document deserialization."""
         data = {
@@ -59,9 +59,9 @@ class TestVectorDocument:
             "timestamp": "2024-01-01T12:00:00",
             "tags": ["test", "message"]
         }
-        
+
         doc = VectorDocument.from_dict(data)
-        
+
         assert doc.id == "test-id"
         assert doc.content == "Test content"
         assert doc.document_type == DocumentType.MESSAGE
@@ -71,7 +71,7 @@ class TestVectorDocument:
 
 class TestSearchQuery:
     """Test SearchQuery model."""
-    
+
     def test_search_query_creation(self):
         """Test basic search query creation."""
         query = SearchQuery(
@@ -79,12 +79,12 @@ class TestSearchQuery:
             search_type=SearchType.SIMILARITY,
             limit=10
         )
-        
+
         assert query.query_text == "test query"
         assert query.search_type == SearchType.SIMILARITY
         assert query.limit == 10
         assert query.similarity_threshold == 0.7  # Default threshold value
-    
+
     def test_search_query_with_filters(self):
         """Test search query with filters."""
         query = SearchQuery(
@@ -93,11 +93,11 @@ class TestSearchQuery:
             document_type=DocumentType.MESSAGE,
             tags=["urgent"]
         )
-        
+
         assert query.agent_id == "Agent-1"
         assert query.document_type == DocumentType.MESSAGE
         assert query.tags == ["urgent"]
-    
+
     def test_search_query_to_dict(self):
         """Test search query serialization."""
         query = SearchQuery(
@@ -106,9 +106,9 @@ class TestSearchQuery:
             limit=5,
             agent_id="Agent-1"
         )
-        
+
         data = query.to_dict()
-        
+
         assert data["query_text"] == "test query"
         assert data["search_type"] == "similarity"
         assert data["limit"] == 5
@@ -117,7 +117,7 @@ class TestSearchQuery:
 
 class TestSearchResult:
     """Test SearchResult model."""
-    
+
     def test_search_result_creation(self):
         """Test search result creation."""
         doc = VectorDocument(
@@ -147,9 +147,9 @@ class TestSearchResult:
             similarity_score=0.85,
             rank=1
         )
-        
+
         data = result.to_dict()
-        
+
         assert data["similarity_score"] == 0.85
         assert data["rank"] == 1
         assert "document" in data
@@ -157,7 +157,7 @@ class TestSearchResult:
 
 class TestCollectionConfig:
     """Test CollectionConfig model."""
-    
+
     def test_collection_config_creation(self):
         """Test collection config creation."""
         config = CollectionConfig(
@@ -165,21 +165,21 @@ class TestCollectionConfig:
             description="Test collection",
             embedding_model=EmbeddingModel.SENTENCE_TRANSFORMERS
         )
-        
+
         assert config.name == "test_collection"
         assert config.description == "Test collection"
         assert config.embedding_model == EmbeddingModel.SENTENCE_TRANSFORMERS
         assert config.distance_metric == "cosine"
-    
+
     def test_collection_config_to_dict(self):
         """Test collection config serialization."""
         config = CollectionConfig(
             name="test_collection",
             description="Test collection"
         )
-        
+
         data = config.to_dict()
-        
+
         assert data["name"] == "test_collection"
         assert data["description"] == "Test collection"
         assert data["embedding_model"] == "sentence-transformers"
@@ -187,7 +187,7 @@ class TestCollectionConfig:
 
 class TestVectorDatabaseStats:
     """Test VectorDatabaseStats model."""
-    
+
     def test_stats_creation(self):
         """Test stats creation."""
         stats = VectorDatabaseStats(
@@ -200,7 +200,7 @@ class TestVectorDatabaseStats:
         assert stats.total_collections == 5
         assert stats.storage_size == 10485760
         assert get_unified_validator().validate_type(stats.last_updated, datetime)
-    
+
     def test_stats_to_dict(self):
         """Test stats serialization."""
         stats = VectorDatabaseStats(
@@ -221,18 +221,18 @@ class TestVectorDatabaseStats:
 
 class TestEnums:
     """Test enum types."""
-    
+
     def test_document_type_enum(self):
         """Test DocumentType enum."""
         assert DocumentType.MESSAGE.value == "message"
         assert DocumentType.DEVLOG.value == "devlog"
         assert DocumentType.CONTRACT.value == "contract"
-    
+
     def test_embedding_model_enum(self):
         """Test EmbeddingModel enum."""
         assert EmbeddingModel.SENTENCE_TRANSFORMERS.value == "sentence-transformers"
         assert EmbeddingModel.OPENAI_ADA.value == "openai-ada-002"
-    
+
     def test_search_type_enum(self):
         """Test SearchType enum."""
         assert SearchType.SIMILARITY.value == "similarity"
@@ -242,4 +242,3 @@ class TestEnums:
 
 if __name__ == "__main__":
     pytest.main([__file__])
-

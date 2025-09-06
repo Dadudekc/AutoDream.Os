@@ -20,6 +20,7 @@ from ..error_models_enums import ErrorSeverity
 @dataclass
 class ErrorAlert:
     """Error alert with V2 compliance."""
+
     alert_id: str
     error_id: str
     severity: ErrorSeverity
@@ -39,27 +40,27 @@ class ErrorAlert:
             raise ValueError("error_id is required")
         if not self.message:
             raise ValueError("message is required")
-    
+
     def acknowledge(self, acknowledged_by: str) -> None:
         """Acknowledge the alert."""
         self.acknowledged = True
         self.acknowledged_by = acknowledged_by
         self.acknowledged_at = datetime.now()
-    
+
     def add_recipient(self, recipient: str) -> None:
         """Add recipient to alert."""
         if recipient not in self.recipients:
             self.recipients.append(recipient)
-    
+
     def remove_recipient(self, recipient: str) -> None:
         """Remove recipient from alert."""
         if recipient in self.recipients:
             self.recipients.remove(recipient)
-    
+
     def is_high_priority(self) -> bool:
         """Check if alert is high priority."""
         return self.severity in [ErrorSeverity.CRITICAL, ErrorSeverity.HIGH]
-    
+
     def get_summary(self) -> Dict[str, Any]:
         """Get alert summary."""
         return {
@@ -69,5 +70,5 @@ class ErrorAlert:
             "message": self.message,
             "acknowledged": self.acknowledged,
             "recipients_count": len(self.recipients),
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
         }

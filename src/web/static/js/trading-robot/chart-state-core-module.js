@@ -171,4 +171,3 @@ export class ChartStateCoreModule {
 export function createChartStateCoreModule() {
     return new ChartStateCoreModule();
 }
-

@@ -214,7 +214,7 @@ export class PatternCoordinationMethods {
         const totalFiles = 32; // Total web layer files
         const compliantFiles = totalFiles - violations.length;
         const progress = (compliantFiles / totalFiles) * 100;
-        
+
         return {
             totalFiles,
             compliantFiles,

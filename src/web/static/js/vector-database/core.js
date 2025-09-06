@@ -1,12 +1,12 @@
 /**
  * Vector Database Core - V2 Compliant Module
  * =========================================
- * 
+ *
  * Core functionality for vector database operations.
  * Handles initialization, configuration, and basic operations.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -34,7 +34,7 @@ export class VectorDatabaseCore {
                 collections: [],
                 lastUpdate: Date.now()
             };
-            
+
             this.logger.log('✅ Vector Database connection initialized');
             return true;
         } catch (error) {
@@ -67,7 +67,7 @@ export class VectorDatabaseCore {
 
             // Simulate vector search
             const results = await this.performVectorSearch(query, searchOptions);
-            
+
             this.logger.log(`🔍 Search completed: ${results.length} results`);
             return results;
         } catch (error) {
@@ -99,7 +99,7 @@ export class VectorDatabaseCore {
         ];
 
         // Filter results based on query
-        const filteredResults = mockResults.filter(doc => 
+        const filteredResults = mockResults.filter(doc =>
             doc.title.toLowerCase().includes(query.toLowerCase()) ||
             doc.content.toLowerCase().includes(query.toLowerCase())
         );
@@ -121,7 +121,7 @@ export class VectorDatabaseCore {
 
             // Add to cache
             this.cache.set(docId, newDoc);
-            
+
             this.logger.log(`📄 Document added: ${docId}`);
             return newDoc;
         } catch (error) {
@@ -147,7 +147,7 @@ export class VectorDatabaseCore {
             };
 
             this.cache.set(docId, updatedDoc);
-            
+
             this.logger.log(`📝 Document updated: ${docId}`);
             return updatedDoc;
         } catch (error) {

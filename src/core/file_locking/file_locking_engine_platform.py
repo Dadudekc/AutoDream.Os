@@ -16,7 +16,7 @@ from typing import Optional
 
 class FileLockEnginePlatform:
     """Platform-specific operations for file locking engine."""
-    
+
     def __init__(self, base_engine, logger=None):
         """Initialize platform operations with base engine reference."""
         self.base_engine = base_engine
@@ -27,19 +27,21 @@ class FileLockEnginePlatform:
         try:
             if not self.base_engine._msvcrt:
                 return False
-            
+
             # Create lock file if it doesn't exist
             lock_file.touch()
-            
+
             # Open file for exclusive access
-            with open(lock_file, 'r+b') as f:
+            with open(lock_file, "r+b") as f:
                 # Try to lock the file
                 try:
-                    self.base_engine._msvcrt.locking(f.fileno(), self.base_engine._msvcrt.LK_NBLCK, 1)
+                    self.base_engine._msvcrt.locking(
+                        f.fileno(), self.base_engine._msvcrt.LK_NBLCK, 1
+                    )
                     return True
                 except OSError:
                     return False
-                    
+
         except Exception as e:
             if self.logger:
                 self.logger.error(f"Windows lock acquisition failed: {e}")
@@ -50,19 +52,23 @@ class FileLockEnginePlatform:
         try:
             if not self.base_engine._fcntl:
                 return False
-            
+
             # Create lock file if it doesn't exist
             lock_file.touch()
-            
+
             # Open file for exclusive access
-            with open(lock_file, 'r+b') as f:
+            with open(lock_file, "r+b") as f:
                 # Try to lock the file
                 try:
-                    self.base_engine._fcntl.flock(f.fileno(), self.base_engine._fcntl.LOCK_EX | self.base_engine._fcntl.LOCK_NB)
+                    self.base_engine._fcntl.flock(
+                        f.fileno(),
+                        self.base_engine._fcntl.LOCK_EX
+                        | self.base_engine._fcntl.LOCK_NB,
+                    )
                     return True
                 except OSError:
                     return False
-                    
+
         except Exception as e:
             if self.logger:
                 self.logger.error(f"Unix lock acquisition failed: {e}")
@@ -73,13 +79,15 @@ class FileLockEnginePlatform:
         try:
             if not lock_file.exists():
                 return False
-            
+
             # Check file age
             file_age = time.time() - lock_file.stat().st_mtime
-            stale_threshold = getattr(self.base_engine.config, 'stale_lock_threshold', 3600)  # 1 hour default
-            
+            stale_threshold = getattr(
+                self.base_engine.config, "stale_lock_threshold", 3600
+            )  # 1 hour default
+
             return file_age > stale_threshold
-            
+
         except Exception as e:
             if self.logger:
                 self.logger.error(f"Error checking lock staleness: {e}")

@@ -1,7 +1,7 @@
 /**
  * Order Processing Modules - V2 Compliant Order Processing Utilities
  * Handles all order processing and validation operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -62,7 +62,7 @@ export class OrderProcessingModules {
         if (order.type === 'market') {
             await new Promise(resolve => setTimeout(resolve, 2000));
             order.status = 'filled';
-            order.filledPrice = order.side === 'buy' ? 
+            order.filledPrice = order.side === 'buy' ?
                 order.price * 1.001 : order.price * 0.999; // Simulate slippage
             order.filledQuantity = order.quantity;
         }
@@ -108,7 +108,7 @@ export class OrderProcessingModules {
 
         // Add to orders list
         orders.unshift(order);
-        
+
         // Simulate order submission
         console.log('📤 Submitting order:', order);
         await this.simulateOrderExecution(order);
@@ -135,7 +135,7 @@ export class OrderProcessingModules {
                     ${order.filledPrice ? `<span class="filled-price">Filled: $${order.filledPrice.toFixed(2)}</span>` : ''}
                 </div>
                 <div class="order-actions">
-                    ${order.status === 'pending' || order.status === 'submitted' ? 
+                    ${order.status === 'pending' || order.status === 'submitted' ?
                         `<button onclick="tradingOrderManager.cancelOrder(${order.id})" class="cancel-btn">Cancel</button>` : ''}
                 </div>
             </div>
@@ -158,12 +158,12 @@ export class OrderProcessingModules {
     static showOrderError(errors) {
         const errorMessage = errors.join(', ');
         console.error('❌ Order error:', errorMessage);
-        
+
         // Show error in UI
         const errorDiv = document.createElement('div');
         errorDiv.className = 'order-error';
         errorDiv.textContent = errorMessage;
-        
+
         const form = document.getElementById('trading-order-form');
         if (form) {
             form.appendChild(errorDiv);

@@ -1,7 +1,7 @@
 /**
  * Chart Calculation Modules - V2 Compliant Chart Calculation Utilities
  * Handles all chart calculation operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -33,7 +33,7 @@ export class ChartCalculationModules {
     static calculateEMA(data, period) {
         const ema = [];
         const multiplier = 2 / (period + 1);
-        
+
         for (let i = 0; i < data.length; i++) {
             if (i === 0) {
                 ema.push(data[i].close);
@@ -108,7 +108,7 @@ export class ChartCalculationModules {
      */
     static calculateBollingerBands(data, period = 20, stdDev = 2) {
         const bb = [];
-        
+
         for (let i = 0; i < data.length; i++) {
             if (i < period - 1) {
                 bb.push({ upper: null, middle: null, lower: null });
@@ -117,7 +117,7 @@ export class ChartCalculationModules {
                 const sma = slice.reduce((sum, d) => sum + d.close, 0) / period;
                 const variance = slice.reduce((sum, d) => sum + Math.pow(d.close - sma, 2), 0) / period;
                 const stdDeviation = Math.sqrt(variance);
-                
+
                 bb.push({
                     upper: sma + (stdDev * stdDeviation),
                     middle: sma,
@@ -125,7 +125,7 @@ export class ChartCalculationModules {
                 });
             }
         }
-        
+
         return bb;
     }
 
@@ -134,7 +134,7 @@ export class ChartCalculationModules {
      */
     static calculateStochastic(data, kPeriod = 14, dPeriod = 3) {
         const stoch = [];
-        
+
         for (let i = 0; i < data.length; i++) {
             if (i < kPeriod - 1) {
                 stoch.push({ k: null, d: null });
@@ -146,7 +146,7 @@ export class ChartCalculationModules {
                 stoch.push({ k: k, d: null });
             }
         }
-        
+
         // Calculate %D (3-period SMA of %K)
         for (let i = 0; i < stoch.length; i++) {
             if (i >= dPeriod - 1) {
@@ -154,7 +154,7 @@ export class ChartCalculationModules {
                 stoch[i].d = kValues.reduce((sum, k) => sum + k, 0) / dPeriod;
             }
         }
-        
+
         return stoch;
     }
 
@@ -163,7 +163,7 @@ export class ChartCalculationModules {
      */
     static calculateWilliamsR(data, period = 14) {
         const williamsR = [];
-        
+
         for (let i = 0; i < data.length; i++) {
             if (i < period - 1) {
                 williamsR.push(null);
@@ -175,7 +175,7 @@ export class ChartCalculationModules {
                 williamsR.push(wr);
             }
         }
-        
+
         return williamsR;
     }
 
@@ -185,14 +185,14 @@ export class ChartCalculationModules {
     static calculateATR(data, period = 14) {
         const atr = [];
         const trueRanges = [];
-        
+
         for (let i = 1; i < data.length; i++) {
             const tr1 = data[i].high - data[i].low;
             const tr2 = Math.abs(data[i].high - data[i - 1].close);
             const tr3 = Math.abs(data[i].low - data[i - 1].close);
             trueRanges.push(Math.max(tr1, tr2, tr3));
         }
-        
+
         for (let i = 0; i < data.length; i++) {
             if (i < period) {
                 atr.push(null);
@@ -201,7 +201,7 @@ export class ChartCalculationModules {
                 atr.push(atrValue);
             }
         }
-        
+
         return atr;
     }
 
@@ -210,7 +210,7 @@ export class ChartCalculationModules {
      */
     static calculateCCI(data, period = 20) {
         const cci = [];
-        
+
         for (let i = 0; i < data.length; i++) {
             if (i < period - 1) {
                 cci.push(null);
@@ -223,7 +223,7 @@ export class ChartCalculationModules {
                 cci.push(cciValue);
             }
         }
-        
+
         return cci;
     }
 }

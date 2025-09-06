@@ -187,4 +187,3 @@ export class CoordinationReportingModule {
 export function createCoordinationReportingModule() {
     return new CoordinationReportingModule();
 }
-

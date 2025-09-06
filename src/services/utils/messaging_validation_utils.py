@@ -20,7 +20,7 @@ V2 Compliance: Under 300-line limit with focused functionality
 class MessagingValidationUtils:
     """
     Shared messaging validation utilities to eliminate DRY violations.
-    
+
     Provides common validation functionality for:
     - Message structure validation
     - Configuration validation
@@ -32,10 +32,10 @@ class MessagingValidationUtils:
     def validate_message_structure(message: UnifiedMessage) -> Dict[str, Any]:
         """
         Validate UnifiedMessage structure and content.
-        
+
         Args:
             message: Message to validate
-            
+
         Returns:
             Dict containing validation results with errors and warnings
         """
@@ -80,10 +80,10 @@ class MessagingValidationUtils:
     def validate_message_config(message_config: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate message configuration parameters.
-        
+
         Args:
             message_config: Message configuration to validate
-            
+
         Returns:
             Dict containing validation results
         """
@@ -127,10 +127,10 @@ class MessagingValidationUtils:
     def validate_agent_id(agent_id: str) -> bool:
         """
         Validate agent ID format and existence.
-        
+
         Args:
             agent_id: Agent ID to validate
-            
+
         Returns:
             True if valid, False otherwise
         """
@@ -139,21 +139,21 @@ class MessagingValidationUtils:
 
         # Check if it's a valid agent format (Agent-X or system)
         valid_agents = [
-            "Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", 
+            "Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5",
             "Agent-6", "Agent-7", "Agent-8", "system", "Captain Agent-4"
         ]
-        
+
         return agent_id in valid_agents
 
     @staticmethod
     def validate_content_length(content: str, max_length: int = 10000) -> bool:
         """
         Validate content length.
-        
+
         Args:
             content: Content to validate
             max_length: Maximum allowed length
-            
+
         Returns:
             True if valid, False otherwise
         """
@@ -195,10 +195,10 @@ class MessagingValidationUtils:
     def get_validation_summary(validation_result: Dict[str, Any]) -> str:
         """
         Get a human-readable validation summary.
-        
+
         Args:
             validation_result: Result from validation methods
-            
+
         Returns:
             Summary string
         """
@@ -214,13 +214,13 @@ class MessagingValidationUtils:
     def validate_coordinates_async(service) -> Dict[str, Any]:
         """
         Reusable helper function for async coordinate loading.
-        
+
         Eliminates DRY violation by providing a single implementation
         for the async coordinate loading pattern used in multiple places.
-        
+
         Args:
             service: Messaging service instance
-            
+
         Returns:
             Dict containing coordinate data and success status
         """

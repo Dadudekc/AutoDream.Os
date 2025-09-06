@@ -18,6 +18,7 @@ from enum import Enum
 
 class AnalyticsMetric(Enum):
     """Analytics metric types."""
+
     EFFICIENCY = "efficiency"
     THROUGHPUT = "throughput"
     SUCCESS_RATE = "success_rate"
@@ -28,6 +29,7 @@ class AnalyticsMetric(Enum):
 
 class OptimizationRecommendation(Enum):
     """Optimization recommendation types."""
+
     ROUTE_OPTIMIZATION = "route_optimization"
     BATCH_PROCESSING = "batch_processing"
     PRIORITY_QUEUING = "priority_queuing"
@@ -39,6 +41,7 @@ class OptimizationRecommendation(Enum):
 @dataclass
 class CoordinationAnalyticsData:
     """Coordination analytics data structure."""
+
     timestamp: datetime
     efficiency_score: float
     throughput: int
@@ -62,13 +65,14 @@ class CoordinationAnalyticsData:
             "success_rate": self.success_rate,
             "active_agents": self.active_agents,
             "total_tasks": self.total_tasks,
-            "recommendations_count": len(self.recommendations)
+            "recommendations_count": len(self.recommendations),
         }
 
 
 @dataclass
 class AnalyticsReport:
     """Analytics report structure."""
+
     report_id: str
     generated_at: datetime
     data: CoordinationAnalyticsData
@@ -84,13 +88,14 @@ class AnalyticsReport:
             "data": self.data.to_dict(),
             "trends": self.trends,
             "recommendations": self.recommendations,
-            "summary": self.summary
+            "summary": self.summary,
         }
 
 
 @dataclass
 class AnalyticsConfig:
     """Analytics configuration."""
+
     enable_real_time_monitoring: bool = True
     analysis_interval_seconds: int = 60
     history_retention_hours: int = 24

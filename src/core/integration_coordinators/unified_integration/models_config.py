@@ -20,13 +20,14 @@ from .enums import (
     OptimizationLevel,
     IntegrationStatus,
     IntegrationPriority,
-    IntegrationMode
+    IntegrationMode,
 )
 
 
 @dataclass
 class IntegrationConfig:
     """Integration configuration."""
+
     config_id: str
     integration_type: IntegrationType
     name: str
@@ -57,6 +58,7 @@ class IntegrationConfig:
 @dataclass
 class IntegrationTask:
     """Integration task definition."""
+
     task_id: str
     integration_type: IntegrationType
     name: str
@@ -89,6 +91,7 @@ class IntegrationTask:
 @dataclass
 class IntegrationRequest:
     """Integration request data."""
+
     request_id: str
     integration_type: IntegrationType
     task_id: str
@@ -114,6 +117,7 @@ class IntegrationRequest:
 @dataclass
 class IntegrationResponse:
     """Integration response data."""
+
     response_id: str
     request_id: str
     integration_type: IntegrationType

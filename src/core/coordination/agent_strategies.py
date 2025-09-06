@@ -9,9 +9,9 @@ V2 Compliance: Under 300-line limit with strategy pattern
 """
 
 
-
 class AgentType(Enum):
     """Enumeration of supported agent types."""
+
     AGENT_1 = "agent_1"
     AGENT_5 = "agent_5"
     AGENT_6 = "agent_6"
@@ -48,7 +48,7 @@ class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
             "integration_targets": agent_data.get("integration_targets", []),
             "core_systems_status": "optimized",
             "v2_compliance": 100,
-            "vector_insights": self.get_vector_insights("integration")
+            "vector_insights": self.get_vector_insights("integration"),
         }
 
     def get_agent_metrics(self) -> Dict[str, Any]:
@@ -57,7 +57,7 @@ class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
             "integration_efficiency": 90,
             "core_systems_coverage": 85,
             "consolidation_impact": 75,
-            "v2_compliance_score": 100
+            "v2_compliance_score": 100,
         }
 
     def get_vector_insights(self, context: str) -> List[str]:
@@ -65,7 +65,7 @@ class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
         return [
             "Integration patterns show 85% success rate with modular architecture",
             "Core systems benefit from dependency injection patterns",
-            "V2 compliance achieved through strategic refactoring"
+            "V2 compliance achieved through strategic refactoring",
         ]
 
 
@@ -79,7 +79,7 @@ class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
             "coordination_systems": agent_data.get("coordination_systems", []),
             "communication_protocols": "optimized",
             "v2_compliance": 100,
-            "vector_insights": self.get_vector_insights("coordination")
+            "vector_insights": self.get_vector_insights("coordination"),
         }
 
     def get_agent_metrics(self) -> Dict[str, Any]:
@@ -88,7 +88,7 @@ class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
             "coordination_efficiency": 95,
             "communication_coverage": 90,
             "v2_compliance_impact": 100,
-            "vector_integration_score": 95
+            "vector_integration_score": 95,
         }
 
     def get_vector_insights(self, context: str) -> List[str]:
@@ -96,7 +96,7 @@ class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
         return [
             "Coordination patterns show 95% success rate with vector enhancement",
             "Communication protocols benefit from intelligent context retrieval",
-            "V2 compliance achieved through strategic oversight integration"
+            "V2 compliance achieved through strategic oversight integration",
         ]
 
 
@@ -110,7 +110,7 @@ class Agent7CoordinatorStrategy(AgentCoordinatorStrategy):
             "frontend_components": agent_data.get("frontend_components", []),
             "react_implementation": "optimized",
             "v2_compliance": 100,
-            "vector_insights": self.get_vector_insights("web_development")
+            "vector_insights": self.get_vector_insights("web_development"),
         }
 
     def get_agent_metrics(self) -> Dict[str, Any]:
@@ -119,7 +119,7 @@ class Agent7CoordinatorStrategy(AgentCoordinatorStrategy):
             "frontend_coverage": 95,
             "react_best_practices": 90,
             "component_reusability": 85,
-            "v2_compliance_score": 100
+            "v2_compliance_score": 100,
         }
 
     def get_vector_insights(self, context: str) -> List[str]:
@@ -127,7 +127,7 @@ class Agent7CoordinatorStrategy(AgentCoordinatorStrategy):
         return [
             "Web development patterns show 90% success rate with component architecture",
             "React implementation benefits from modular design patterns",
-            "V2 compliance achieved through strategic refactoring"
+            "V2 compliance achieved through strategic refactoring",
         ]
 
 
@@ -136,12 +136,11 @@ class AgentStrategyFactory:
 
     @staticmethod
     def create_strategy(agent_type: AgentType) -> AgentCoordinatorStrategy:
-        """
-        Create appropriate strategy for agent type.
-        
+        """Create appropriate strategy for agent type.
+
         Args:
             agent_type: Type of agent to create strategy for
-            
+
         Returns:
             Agent coordinator strategy instance
         """
@@ -150,17 +149,18 @@ class AgentStrategyFactory:
             AgentType.AGENT_6: Agent6CoordinatorStrategy(),
             AgentType.AGENT_7: Agent7CoordinatorStrategy(),
         }
-        
+
         if agent_type not in strategy_map:
-            get_unified_validator().raise_validation_error(f"No strategy available for agent type: {agent_type}")
-        
+            get_unified_validator().raise_validation_error(
+                f"No strategy available for agent type: {agent_type}"
+            )
+
         return strategy_map[agent_type]
 
     @staticmethod
     def get_all_strategies() -> Dict[AgentType, AgentCoordinatorStrategy]:
-        """
-        Get all available strategies.
-        
+        """Get all available strategies.
+
         Returns:
             Dictionary mapping agent types to their strategies
         """
@@ -174,9 +174,9 @@ class AgentStrategyFactory:
 # Export main interface
 __all__ = [
     "AgentType",
-    "AgentCoordinatorStrategy", 
+    "AgentCoordinatorStrategy",
     "Agent1CoordinatorStrategy",
     "Agent6CoordinatorStrategy",
     "Agent7CoordinatorStrategy",
-    "AgentStrategyFactory"
+    "AgentStrategyFactory",
 ]

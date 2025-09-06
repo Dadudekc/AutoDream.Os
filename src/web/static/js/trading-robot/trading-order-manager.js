@@ -62,8 +62,8 @@ export class TradingOrderManager {
     async submitOrder(orderData) {
         try {
             const result = await OrderProcessingModules.processOrderSubmission(
-                orderData, 
-                this.orderIdCounter++, 
+                orderData,
+                this.orderIdCounter++,
                 this.orders
             );
 
@@ -74,10 +74,10 @@ export class TradingOrderManager {
 
             // Notify callbacks
             this.notifyOrderCallbacks(result.order);
-            
+
             // Update UI
             this.updateOrderHistory();
-            
+
         } catch (error) {
             console.error('❌ Error submitting order:', error);
             OrderProcessingModules.showOrderError(['Failed to submit order']);
@@ -90,7 +90,7 @@ export class TradingOrderManager {
     async cancelOrder(orderId) {
         const order = this.orders.find(o => o.id === orderId);
         const success = await OrderProcessingModules.cancelOrder(order, orderId);
-        
+
         if (success) {
             this.notifyOrderCallbacks(order);
             this.updateOrderHistory();
@@ -214,12 +214,12 @@ export class TradingOrderManager {
         const dataStr = JSON.stringify(this.orders, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(dataBlob);
-        
+
         const link = document.createElement('a');
         link.href = url;
         link.download = 'order-history.json';
         link.click();
-        
+
         URL.revokeObjectURL(url);
     }
 
@@ -230,7 +230,7 @@ export class TradingOrderManager {
         try {
             const text = await file.text();
             const importedOrders = JSON.parse(text);
-            
+
             if (Array.isArray(importedOrders)) {
                 this.orders = importedOrders;
                 this.updateOrderHistory();

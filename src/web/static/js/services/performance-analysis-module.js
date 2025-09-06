@@ -160,4 +160,3 @@ export class PerformanceAnalysisModule {
 export function createPerformanceAnalysisModule() {
     return new PerformanceAnalysisModule();
 }
-

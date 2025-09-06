@@ -1,4 +1,5 @@
 from src.utils.config_core import get_config
+
 #!/usr/bin/env python3
 """
 Test PyAutoGUI Mode Without Onboarding - Agent Cellphone V2
@@ -14,39 +15,44 @@ License: MIT
 
 
 # Add the src directory to the path so we can import the messaging modules
-sys.path.insert(0, get_unified_utility().path.join(get_unified_utility().path.dirname(__file__), 'src'))
+sys.path.insert(
+    0,
+    get_unified_utility().path.join(
+        get_unified_utility().path.dirname(__file__), "src"
+    ),
+)
 
 from src.services.messaging_core import UnifiedMessagingCore
 from src.services.models.messaging_models import (
     UnifiedMessageType,
     UnifiedMessagePriority,
-    UnifiedMessageTag
+    UnifiedMessageTag,
 )
 
 
 def test_pyautogui_mode():
     """Test PyAutoGUI messaging mode without onboarding."""
-    
+
     get_logger(__name__).info("🧪 TESTING PYAUTOGUI MODE WITHOUT ONBOARDING")
     get_logger(__name__).info("=" * 60)
-    
+
     # Initialize the messaging service
     service = UnifiedMessagingCore()
-    
+
     # Test 1: List available agents
     get_logger(__name__).info("\n📋 TEST 1: LISTING AVAILABLE AGENTS")
     get_logger(__name__).info("-" * 40)
     service.list_agents()
-    
+
     # Test 2: Show agent coordinates
     get_logger(__name__).info("\n📍 TEST 2: SHOWING AGENT COORDINATES")
     get_logger(__name__).info("-" * 40)
     service.show_coordinates()
-    
+
     # Test 3: Send a test message to a specific agent
     get_logger(__name__).info("\n📤 TEST 3: SENDING TEST MESSAGE TO AGENT-1")
     get_logger(__name__).info("-" * 40)
-    
+
     test_message = """🧪 **PYAUTOGUI MODE TEST** 🧪
 
 **From**: Test System
@@ -65,7 +71,7 @@ This is a test message sent via PyAutoGUI mode without using the onboarding syst
 **STATUS**: Test successful if you receive this message!
 
 **Test System - PyAutoGUI Mode Verification**"""
-    
+
     success = service.send_message(
         content=test_message,
         sender="Test System",
@@ -74,18 +80,20 @@ This is a test message sent via PyAutoGUI mode without using the onboarding syst
         priority=UnifiedMessagePriority.NORMAL,
         tags=[UnifiedMessageTag.CAPTAIN],
         mode="pyautogui",
-        use_paste=True
+        use_paste=True,
     )
-    
+
     if success:
-        get_logger(__name__).info("✅ TEST 3 PASSED: Message sent successfully via PyAutoGUI")
+        get_logger(__name__).info(
+            "✅ TEST 3 PASSED: Message sent successfully via PyAutoGUI"
+        )
     else:
         get_logger(__name__).info("❌ TEST 3 FAILED: Message delivery failed")
-    
+
     # Test 4: Send a bulk message to all agents (without onboarding)
     get_logger(__name__).info("\n📤 TEST 4: SENDING BULK MESSAGE TO ALL AGENTS")
     get_logger(__name__).info("-" * 40)
-    
+
     bulk_message = """🚨 **BULK PYAUTOGUI TEST** 🚨
 
 **From**: Test System
@@ -104,7 +112,7 @@ The system is testing coordinate-based navigation and automated messaging.
 **EXPECTED RESULT**: All agents should receive this message via their coordinates.
 
 **Test System - Bulk PyAutoGUI Verification**"""
-    
+
     results = service.send_to_all_agents(
         content=bulk_message,
         sender="Test System",
@@ -112,23 +120,29 @@ The system is testing coordinate-based navigation and automated messaging.
         priority=UnifiedMessagePriority.NORMAL,
         tags=[UnifiedMessageTag.CAPTAIN],
         mode="pyautogui",
-        use_paste=True
+        use_paste=True,
     )
-    
+
     success_count = sum(results)
     total_count = len(results)
-    get_logger(__name__).info(f"📊 BULK TEST RESULTS: {success_count}/{total_count} successful deliveries")
-    
+    get_logger(__name__).info(
+        f"📊 BULK TEST RESULTS: {success_count}/{total_count} successful deliveries"
+    )
+
     if success_count == total_count:
-        get_logger(__name__).info("✅ TEST 4 PASSED: All bulk messages sent successfully")
+        get_logger(__name__).info(
+            "✅ TEST 4 PASSED: All bulk messages sent successfully"
+        )
     else:
-        get_logger(__name__).info(f"⚠️ TEST 4 PARTIAL: {success_count}/{total_count} messages delivered")
-    
+        get_logger(__name__).info(
+            f"⚠️ TEST 4 PARTIAL: {success_count}/{total_count} messages delivered"
+        )
+
     # Test 5: Show message history
     get_logger(__name__).info("\n📜 TEST 5: SHOWING MESSAGE HISTORY")
     get_logger(__name__).info("-" * 40)
     service.show_message_history()
-    
+
     get_logger(__name__).info("\n🎉 PYAUTOGUI MODE TEST COMPLETED!")
     get_logger(__name__).info("=" * 60)
     get_logger(__name__).info("✅ All tests executed without onboarding system")
@@ -139,28 +153,37 @@ The system is testing coordinate-based navigation and automated messaging.
 
 def test_cli_commands():
     """Test CLI commands for PyAutoGUI mode."""
-    
+
     get_logger(__name__).info("\n🖥️ TESTING CLI COMMANDS FOR PYAUTOGUI MODE")
     get_logger(__name__).info("=" * 60)
-    
+
     get_logger(__name__).info("\n📋 Available CLI commands for PyAutoGUI mode:")
     get_logger(__name__).info("-" * 50)
-    
+
     commands = [
         ("List agents", "python -m src.services.messaging_cli --list-agents"),
         ("Show coordinates", "python -m src.services.messaging_cli --coordinates"),
-        ("Send to specific agent", "python -m src.services.messaging_cli --agent Agent-1 --message 'Test message' --mode pyautogui"),
-        ("Send bulk message", "python -m src.services.messaging_cli --bulk --message 'Bulk test' --mode pyautogui"),
+        (
+            "Send to specific agent",
+            "python -m src.services.messaging_cli --agent Agent-1 --message 'Test message' --mode pyautogui",
+        ),
+        (
+            "Send bulk message",
+            "python -m src.services.messaging_cli --bulk --message 'Bulk test' --mode pyautogui",
+        ),
         ("Show message history", "python -m src.services.messaging_cli --history"),
         ("Check agent status", "python -m src.services.messaging_cli --check-status"),
-        ("Get next task", "python -m src.services.messaging_cli --agent Agent-1 --get-next-task"),
+        (
+            "Get next task",
+            "python -m src.services.messaging_cli --agent Agent-1 --get-next-task",
+        ),
     ]
-    
+
     for description, command in commands:
         get_logger(__name__).info(f"• {description}:")
         get_logger(__name__).info(f"  {command}")
         get_logger(__name__).info()
-    
+
     get_logger(__name__).info("✅ All CLI commands support PyAutoGUI mode")
     get_logger(__name__).info("✅ No onboarding dependency required")
 
@@ -169,7 +192,7 @@ if __name__ == "__main__":
     try:
         test_pyautogui_mode()
         test_cli_commands()
-        
+
         get_logger(__name__).info("\n🎯 SUMMARY:")
         get_logger(__name__).info("=" * 30)
         get_logger(__name__).info("✅ PyAutoGUI mode works without onboarding")
@@ -178,7 +201,7 @@ if __name__ == "__main__":
         get_logger(__name__).info("✅ Coordinate-based navigation operational")
         get_logger(__name__).info("✅ CLI interface fully supported")
         get_logger(__name__).info("✅ No onboarding system dependency")
-        
+
     except Exception as e:
         get_logger(__name__).info(f"❌ TEST FAILED: {e}")
         sys.exit(1)

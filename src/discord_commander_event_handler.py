@@ -1,20 +1,19 @@
-"""
-Discord Commander Event Handler Module
+"""Discord Commander Event Handler Module.
 
 Provides Discord event handling functionality for the commander system.
 """
 
 
-
 class DiscordCommanderEventHandler:
-    """
-    Event handler for Discord Commander.
+    """Event handler for Discord Commander.
 
-    Manages Discord events like on_ready, on_message, and provides
-    initialization and startup functionality.
+    Manages Discord events like on_ready, on_message, and provides initialization and
+    startup functionality.
     """
 
-    def __init__(self, bot: commands.Bot, config_manager, swarm_status, devlog_integrator):
+    def __init__(
+        self, bot: commands.Bot, config_manager, swarm_status, devlog_integrator
+    ):
         self.bot = bot
         self.config_manager = config_manager
         self.swarm_status = swarm_status
@@ -26,6 +25,7 @@ class DiscordCommanderEventHandler:
 
     def _setup_event_handlers(self):
         """Setup Discord event handlers."""
+
         @self.bot.event
         async def on_ready():
             await self._handle_on_ready()
@@ -36,7 +36,7 @@ class DiscordCommanderEventHandler:
 
     async def _handle_on_ready(self):
         """Handle bot ready event."""
-        self.get_logger(__name__).info(f'Bot logged in as {self.bot.user}')
+        self.get_logger(__name__).info(f"Bot logged in as {self.bot.user}")
 
         # Initialize channels and send startup message
         await self._initialize_channels()
@@ -47,30 +47,34 @@ class DiscordCommanderEventHandler:
             title="Discord Commander Startup",
             content=f"Discord Commander bot started successfully as {self.bot.user}",
             category="success",
-            agent_id="DiscordCommander"
+            agent_id="DiscordCommander",
         )
 
     async def _initialize_channels(self):
         """Initialize required Discord channels."""
         config = self.config_manager.get_unified_config().load_config()
 
-        if config.get('auto_startup_message', True):
+        if config.get("auto_startup_message", True):
             # Ensure we have access to the devlog channel
-            if config.get('devlog_channel_id'):
+            if config.get("devlog_channel_id"):
                 try:
-                    channel = self.bot.get_channel(int(config['devlog_channel_id']))
+                    channel = self.bot.get_channel(int(config["devlog_channel_id"]))
                     if channel:
-                        self.get_logger(__name__).info(f"Devlog channel initialized: {channel.name}")
+                        self.get_logger(__name__).info(
+                            f"Devlog channel initialized: {channel.name}"
+                        )
                     else:
                         self.get_logger(__name__).warning("Devlog channel not found")
                 except Exception as e:
-                    self.get_logger(__name__).error(f"Error initializing devlog channel: {e}")
+                    self.get_logger(__name__).error(
+                        f"Error initializing devlog channel: {e}"
+                    )
 
     async def _send_startup_message(self):
         """Send startup message to devlog channel."""
         config = self.config_manager.get_unified_config().load_config()
 
-        if config.get('auto_startup_message', True):
+        if config.get("auto_startup_message", True):
             startup_content = f"""
 🚀 **Discord Commander Online**
 
@@ -92,7 +96,7 @@ Ready for swarm coordination commands.
                 title="System Startup",
                 content=startup_content,
                 category="success",
-                agent_id="DiscordCommander"
+                agent_id="DiscordCommander",
             )
 
     async def _handle_on_message(self, message):
@@ -110,24 +114,24 @@ Ready for swarm coordination commands.
     async def _log_message(self, message):
         """Log incoming messages for monitoring."""
         log_entry = {
-            'timestamp': message.created_at.isoformat(),
-            'author': str(message.author),
-            'channel': str(message.channel),
-            'content': message.content[:500],  # Truncate long messages
-            'has_attachments': len(message.attachments) > 0,
-            'is_command': message.content.startswith(self.bot.command_prefix)
+            "timestamp": message.created_at.isoformat(),
+            "author": str(message.author),
+            "channel": str(message.channel),
+            "content": message.content[:500],  # Truncate long messages
+            "has_attachments": len(message.attachments) > 0,
+            "is_command": message.content.startswith(self.bot.command_prefix),
         }
 
         # Store in swarm status for monitoring
         self.swarm_status.log_message(log_entry)
 
         # Log to devlog if it's a command
-        if log_entry['is_command']:
+        if log_entry["is_command"]:
             await self.devlog_integrator.create_devlog_entry(
                 title="Command Received",
                 content=f"Command from {message.author}: {message.content[:200]}...",
                 category="info",
-                agent_id="DiscordCommander"
+                agent_id="DiscordCommander",
             )
 
     async def get_bot_status(self) -> Dict[str, Any]:
@@ -135,13 +139,12 @@ Ready for swarm coordination commands.
         config = self.config_manager.get_unified_config().load_config()
 
         return {
-            'bot_user': str(self.bot.user) if self.bot.user else None,
-            'guild_name': self.bot.guilds[0].name if self.bot.guilds else None,
-            'guild_count': len(self.bot.guilds),
-            'command_prefix': config.get('command_prefix', '!'),
-            'captain_agent': config.get('captain_agent', 'Agent-4'),
-            'latency': self.bot.latency * 1000 if self.bot.latency else None,
-            'is_ready': self.bot.is_ready(),
-            'uptime': get_unified_validator().safe_getattr(self.bot, '_uptime', None)
+            "bot_user": str(self.bot.user) if self.bot.user else None,
+            "guild_name": self.bot.guilds[0].name if self.bot.guilds else None,
+            "guild_count": len(self.bot.guilds),
+            "command_prefix": config.get("command_prefix", "!"),
+            "captain_agent": config.get("captain_agent", "Agent-4"),
+            "latency": self.bot.latency * 1000 if self.bot.latency else None,
+            "is_ready": self.bot.is_ready(),
+            "uptime": get_unified_validator().safe_getattr(self.bot, "_uptime", None),
         }
-

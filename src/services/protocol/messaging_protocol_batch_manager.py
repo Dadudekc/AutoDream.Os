@@ -14,4 +14,4 @@ Purpose: V2 compliant modular messaging protocol batch manager
 from .messaging_protocol_batch_manager_refactored import MessagingProtocolBatchManager
 
 # Backward compatibility - re-export everything
-__all__ = ['MessagingProtocolBatchManager']
+__all__ = ["MessagingProtocolBatchManager"]

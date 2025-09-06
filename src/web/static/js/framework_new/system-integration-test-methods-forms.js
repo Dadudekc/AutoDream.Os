@@ -30,10 +30,10 @@ export class SystemIntegrationTestMethodsForms {
         try {
             // Test form enhancement initialization
             await this.testFormEnhancement();
-            
+
             // Test form validation
             await this.testFormValidation();
-            
+
             // Test form submission
             await this.testFormSubmission();
 

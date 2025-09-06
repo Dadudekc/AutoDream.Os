@@ -41,7 +41,7 @@ class IntelligentContextEngine:
         self.active_missions: Dict[str, MissionContext] = {}
         self.agent_capabilities: Dict[str, AgentCapability] = {}
         self.metrics = ContextMetrics()
-        
+
         # Initialize operation modules
         self.search = IntelligentContextSearch(self)
         self.emergency = IntelligentContextEmergency(self)
@@ -50,7 +50,7 @@ class IntelligentContextEngine:
     # ================================
     # CORE CONTEXT OPERATIONS
     # ================================
-    
+
     def update_mission_context(self, mission_context: MissionContext) -> bool:
         """Update mission context."""
         try:
@@ -82,19 +82,21 @@ class IntelligentContextEngine:
     # ================================
     # EMERGENCY OPERATIONS
     # ================================
-    
+
     def get_emergency_context(self, mission: MissionContext) -> EmergencyContext:
         """Get emergency context for mission."""
         return self.emergency.get_emergency_context(mission)
 
-    def get_intervention_protocols(self, mission: MissionContext) -> List[InterventionProtocol]:
+    def get_intervention_protocols(
+        self, mission: MissionContext
+    ) -> List[InterventionProtocol]:
         """Get intervention protocols for mission."""
         return self.emergency.get_intervention_protocols(mission)
 
     # ================================
     # OPTIMIZATION OPERATIONS
     # ================================
-    
+
     def optimize_agent_assignment(self, mission: MissionContext) -> Dict[str, Any]:
         """Optimize agent assignment for mission."""
         return self.optimization.optimize_agent_assignment(mission)
@@ -107,32 +109,36 @@ class IntelligentContextEngine:
         """Assess mission risks."""
         return self.optimization.assess_mission_risks(mission)
 
-    def generate_success_predictions(self, mission: MissionContext) -> SuccessPrediction:
+    def generate_success_predictions(
+        self, mission: MissionContext
+    ) -> SuccessPrediction:
         """Generate success predictions for mission."""
         return self.optimization.generate_success_predictions(mission)
 
     # ================================
     # METRICS AND MONITORING
     # ================================
-    
+
     def get_metrics(self) -> ContextMetrics:
         """Get context retrieval metrics."""
         return self.metrics
 
-    def _update_metrics(self, operation: str, success: bool, execution_time: float) -> None:
+    def _update_metrics(
+        self, operation: str, success: bool, execution_time: float
+    ) -> None:
         """Update metrics."""
         self.metrics.total_retrievals += 1
-        
+
         if success:
             self.metrics.successful_retrievals += 1
         else:
             self.metrics.failed_retrievals += 1
-        
+
         self.metrics.total_execution_time_ms += execution_time
         self.metrics.average_execution_time_ms = (
             self.metrics.total_execution_time_ms / self.metrics.total_retrievals
         )
-        
+
         if operation == "emergency":
             self.metrics.emergency_interventions += 1
         elif operation == "optimization":
@@ -141,5 +147,5 @@ class IntelligentContextEngine:
             self.metrics.risk_assessments += 1
         elif operation == "prediction":
             self.metrics.success_predictions += 1
-        
+
         self.metrics.last_updated = datetime.now()

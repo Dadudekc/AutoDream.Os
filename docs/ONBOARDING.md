@@ -9,6 +9,59 @@ python -m src.services.messaging_cli --onboarding
 python -m src.services.messaging_cli --onboard --agent Agent-1
 ```
 
+## Onboarding Modes (Roles)
+
+Assign quality roles to agents during hard onboarding:
+
+```bash
+# Full suite, round-robin roles across agents
+python -m src.services.messaging_cli --hard-onboarding --mode quality-suite --yes
+
+# Focus on a single doctrine
+python -m src.services.messaging_cli --hard-onboarding --mode solid --yes
+
+# Explicit mapping
+python -m src.services.messaging_cli --hard-onboarding --mode quality-suite \
+  --assign-roles "Agent-1:SOLID,Agent-2:SSOT,Agent-3:DRY" --yes
+
+# UI delivery with role-tailored messages
+python -m src.services.messaging_cli --hard-onboarding --ui --mode quality-suite --yes
+```
+
+**Roles**
+
+* **SOLID Sentinel** — enforces SOLID across code structure.
+* **SSOT Warden** — guards single-source-of-truth and anti-duplication of facts.
+* **DRY Hunter** — eliminates duplicate logic via consolidation.
+* **KISS Guard** — reduces complexity and size, favors clarity.
+* **TDD Architect** — drives red/green/refactor and coverage thresholds.
+
+## TDD Proof Ledger
+
+Emit a test-run proof artifact:
+
+```bash
+python -m src.services.messaging_cli --hard-onboarding --mode quality-suite --proof --yes
+```
+
+Writes JSON to `runtime/quality/proofs/tdd/proof-<UTCSTAMP>.json`:
+
+```json
+{
+  "schema": "tdd_proof/v1",
+  "timestamp_utc": "20250906-000000",
+  "git_commit": "abc123...",
+  "mode": "quality-suite",
+  "roles": {"Agent-1":"SOLID", "...":"..."},
+  "pytest_available": true,
+  "pytest_exit_code": 0,
+  "tests": {"passed": 42, "failed": 0, "errors": 0, "skipped": 3},
+  "duration_sec": 2.317
+}
+```
+
+If `pytest` is unavailable, the artifact still records `pytest_available: false` with notes.
+
 ## Hard Onboarding (Safe, Reversible)
 
 Run a full reset + forced re-onboarding across agents. **High risk** — creates backups and prompts for confirmation.

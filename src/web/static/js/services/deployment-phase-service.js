@@ -186,4 +186,3 @@ export function getPhaseHistory(phase, limit = 10) {
 
 export { DeploymentPhaseService, deploymentPhaseService };
 export default deploymentPhaseService;
-

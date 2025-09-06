@@ -1,25 +1,30 @@
-"""
-Documentation Indexing Service
+"""Documentation Indexing Service.
 
 Handles indexing of project documentation into the vector database.
 """
 
-
 logger = logging.getLogger(__name__)
 
+
 class DocumentationIndexingService:
-    """
-    Service for indexing project documentation.
-    """
+    """Service for indexing project documentation."""
 
     def __init__(self, vector_db, indexer):
         self.vector_db = vector_db
         self.indexer = indexer
-        self.supported_extensions = {'.md', '.txt', '.py', '.js', '.ts', '.json', '.yaml', '.yml'}
+        self.supported_extensions = {
+            ".md",
+            ".txt",
+            ".py",
+            ".js",
+            ".ts",
+            ".json",
+            ".yaml",
+            ".yml",
+        }
 
     def index_project_documentation(self, project_root: str = ".") -> Dict[str, Any]:
-        """
-        Index all project documentation.
+        """Index all project documentation.
 
         Args:
             project_root: Root directory of the project
@@ -29,19 +34,9 @@ class DocumentationIndexingService:
         """
         try:
             # Define directories to index
-            directories_to_index = [
-                "docs",
-                "src",
-                "scripts",
-                "tests"
-            ]
+            directories_to_index = ["docs", "src", "scripts", "tests"]
 
-            total_results = {
-                "indexed": 0,
-                "failed": 0,
-                "skipped": 0,
-                "errors": []
-            }
+            total_results = {"indexed": 0, "failed": 0, "skipped": 0, "errors": []}
 
             for directory in directories_to_index:
                 dir_path = get_unified_utility().Path(project_root) / directory
@@ -54,7 +49,9 @@ class DocumentationIndexingService:
                     total_results["skipped"] += results["skipped"]
                     total_results["errors"].extend(results["errors"])
 
-                    get_logger(__name__).info(f"Indexed {directory}: {results['indexed']} files")
+                    get_logger(__name__).info(
+                        f"Indexed {directory}: {results['indexed']} files"
+                    )
 
             # Also index key files in root
             key_files = [
@@ -62,7 +59,7 @@ class DocumentationIndexingService:
                 "AGENTS.md",
                 "QUICK_START.md",
                 "V2_COMPLIANCE_README.md",
-                "CHANGELOG.md"
+                "CHANGELOG.md",
             ]
 
             for file_name in key_files:
@@ -81,8 +78,7 @@ class DocumentationIndexingService:
             return {"error": str(e)}
 
     def index_specific_files(self, file_paths: List[str]) -> Dict[str, Any]:
-        """
-        Index specific files.
+        """Index specific files.
 
         Args:
             file_paths: List of file paths to index
@@ -90,11 +86,7 @@ class DocumentationIndexingService:
         Returns:
             Dictionary with indexing results
         """
-        results = {
-            "indexed": 0,
-            "failed": 0,
-            "errors": []
-        }
+        results = {"indexed": 0, "failed": 0, "errors": []}
 
         for file_path in file_paths:
             try:
@@ -110,13 +102,15 @@ class DocumentationIndexingService:
                     continue
 
                 # Read file content
-                content = path.read_text(encoding='utf-8', errors='ignore')
+                content = path.read_text(encoding="utf-8", errors="ignore")
 
                 # Prepare metadata
                 metadata = {
                     "file_size": path.stat().st_size,
-                    "last_modified": datetime.fromtimestamp(path.stat().st_mtime).isoformat(),
-                    "directory": str(path.parent)
+                    "last_modified": (
+                        datetime.fromtimestamp(path.stat().st_mtime).isoformat()
+                    ),
+                    "directory": str(path.parent),
                 }
 
                 # Add to vector database
@@ -131,9 +125,10 @@ class DocumentationIndexingService:
 
         return results
 
-    def index_directory(self, directory_path: str, recursive: bool = True) -> Dict[str, Any]:
-        """
-        Index all supported files in a directory.
+    def index_directory(
+        self, directory_path: str, recursive: bool = True
+    ) -> Dict[str, Any]:
+        """Index all supported files in a directory.
 
         Args:
             directory_path: Path to directory to index
@@ -145,8 +140,7 @@ class DocumentationIndexingService:
         return self.indexer.index_directory(directory_path, recursive)
 
     def reindex_file(self, file_path: str) -> bool:
-        """
-        Re-index a specific file (remove and re-add).
+        """Re-index a specific file (remove and re-add).
 
         Args:
             file_path: Path to the file to re-index
@@ -173,8 +167,7 @@ class DocumentationIndexingService:
             return False
 
     def get_indexing_status(self) -> Dict[str, Any]:
-        """
-        Get current indexing status.
+        """Get current indexing status.
 
         Returns:
             Dictionary with indexing statistics
@@ -184,9 +177,8 @@ class DocumentationIndexingService:
             return {
                 "collection_stats": stats,
                 "supported_extensions": list(self.supported_extensions),
-                "last_indexing_attempt": datetime.now().isoformat()
+                "last_indexing_attempt": datetime.now().isoformat(),
             }
         except Exception as e:
             get_logger(__name__).error(f"Error getting indexing status: {e}")
             return {"error": str(e)}
-

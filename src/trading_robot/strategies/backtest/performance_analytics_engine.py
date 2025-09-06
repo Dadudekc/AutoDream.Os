@@ -11,7 +11,10 @@ Purpose: V2 compliant modular performance analytics engine
 """
 
 # V2 COMPLIANCE REDIRECT - see refactored modular system
-from .performance_analytics_engine_refactored import PerformanceAnalyticsEngine, PerformanceMetrics
+from .performance_analytics_engine_refactored import (
+    PerformanceAnalyticsEngine,
+    PerformanceMetrics,
+)
 
 # Backward compatibility - re-export everything
-__all__ = ['PerformanceAnalyticsEngine', 'PerformanceMetrics']
+__all__ = ["PerformanceAnalyticsEngine", "PerformanceMetrics"]

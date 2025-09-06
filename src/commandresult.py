@@ -1,7 +1,7 @@
-
 @dataclass
 class CommandResult:
-    """Represents the result of a command execution"""
+    """Represents the result of a command execution."""
+
     success: bool
     message: str
     data: Optional[Any] = None

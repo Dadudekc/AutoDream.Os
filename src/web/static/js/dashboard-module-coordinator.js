@@ -186,4 +186,3 @@ export function getDashboardModuleCoordinator(orchestrator) {
     }
     return dashboardModuleCoordinator;
 }
-

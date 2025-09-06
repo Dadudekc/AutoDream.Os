@@ -16,13 +16,15 @@ import uuid
 
 from ..enums import ReportType, ConfidenceLevel, ImpactLevel
 from ..data_models import (
-    SwarmCoordinationInsight, StrategicRecommendation, StrategicOversightReport
+    SwarmCoordinationInsight,
+    StrategicRecommendation,
+    StrategicOversightReport,
 )
 
 
 class ReportFactory:
     """Factory class for creating strategic oversight reports."""
-    
+
     @staticmethod
     def create_oversight_report(
         report_type: ReportType,
@@ -31,7 +33,7 @@ class ReportFactory:
         insights: List[SwarmCoordinationInsight] = None,
         recommendations: List[StrategicRecommendation] = None,
         confidence_level: ConfidenceLevel = ConfidenceLevel.MEDIUM,
-        impact_level: ImpactLevel = ImpactLevel.MEDIUM
+        impact_level: ImpactLevel = ImpactLevel.MEDIUM,
     ) -> StrategicOversightReport:
         """Create strategic oversight report."""
         return StrategicOversightReport(
@@ -43,9 +45,9 @@ class ReportFactory:
             recommendations=recommendations or [],
             confidence_level=confidence_level,
             impact_level=impact_level,
-            generated_at=datetime.now()
+            generated_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_swarm_insight(
         insight_type: str,
@@ -53,7 +55,7 @@ class ReportFactory:
         confidence_score: float,
         impact_score: float,
         source_agent: str = None,
-        related_metrics: dict = None
+        related_metrics: dict = None,
     ) -> SwarmCoordinationInsight:
         """Create swarm coordination insight."""
         return SwarmCoordinationInsight(
@@ -64,9 +66,9 @@ class ReportFactory:
             impact_score=impact_score,
             source_agent=source_agent,
             related_metrics=related_metrics or {},
-            generated_at=datetime.now()
+            generated_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_strategic_recommendation(
         title: str,
@@ -74,7 +76,7 @@ class ReportFactory:
         priority: str,
         implementation_steps: List[str],
         expected_impact: str,
-        resource_requirements: str = None
+        resource_requirements: str = None,
     ) -> StrategicRecommendation:
         """Create strategic recommendation."""
         return StrategicRecommendation(
@@ -85,5 +87,5 @@ class ReportFactory:
             implementation_steps=implementation_steps,
             expected_impact=expected_impact,
             resource_requirements=resource_requirements,
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )

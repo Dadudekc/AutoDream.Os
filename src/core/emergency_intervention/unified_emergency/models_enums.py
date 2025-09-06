@@ -15,6 +15,7 @@ from enum import Enum
 
 class EmergencySeverity(Enum):
     """Emergency severity levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -23,6 +24,7 @@ class EmergencySeverity(Enum):
 
 class EmergencyType(Enum):
     """Types of emergencies."""
+
     SYSTEM_FAILURE = "system_failure"
     PERFORMANCE_DEGRADATION = "performance_degradation"
     SECURITY_BREACH = "security_breach"
@@ -33,6 +35,7 @@ class EmergencyType(Enum):
 
 class EmergencyStatus(Enum):
     """Emergency status states."""
+
     DETECTED = "detected"
     ANALYZING = "analyzing"
     INTERVENING = "intervening"
@@ -43,6 +46,7 @@ class EmergencyStatus(Enum):
 
 class InterventionAction(Enum):
     """Types of intervention actions."""
+
     RESTART_SERVICE = "restart_service"
     SCALE_RESOURCES = "scale_resources"
     ISOLATE_SYSTEM = "isolate_system"
@@ -55,6 +59,7 @@ class InterventionAction(Enum):
 
 class InterventionPriority(Enum):
     """Intervention priority levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -64,6 +69,7 @@ class InterventionPriority(Enum):
 
 class AlertLevel(Enum):
     """Alert severity levels."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"

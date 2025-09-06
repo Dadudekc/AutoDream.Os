@@ -19,6 +19,7 @@ from ..fsm_enums import StateStatus
 @dataclass
 class StateDefinition:
     """FSM state definition with V2 compliance."""
+
     name: str
     description: str
     entry_actions: List[str]
@@ -36,11 +37,11 @@ class StateDefinition:
             raise ValueError("State name is required")
         if not self.description:
             raise ValueError("State description is required")
-    
+
     def is_valid(self) -> bool:
         """Check if state definition is valid."""
         return bool(self.name and self.description)
-    
+
     def get_summary(self) -> Dict[str, Any]:
         """Get state summary."""
         return {
@@ -51,5 +52,5 @@ class StateDefinition:
             "timeout_seconds": self.timeout_seconds,
             "retry_count": self.retry_count,
             "required_resources_count": len(self.required_resources),
-            "dependencies_count": len(self.dependencies)
+            "dependencies_count": len(self.dependencies),
         }

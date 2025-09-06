@@ -29,17 +29,14 @@ from ..services.models.vector_models import EmbeddingModel
 from typing import List, Optional
 
 
-
 class EmbeddingService:
-    """
-    Service for generating text embeddings.
+    """Service for generating text embeddings.
 
     Supports multiple embedding models with fallback mechanisms.
     """
 
     def __init__(self, model: EmbeddingModel = EmbeddingModel.SENTENCE_TRANSFORMERS):
-        """
-        Initialize embedding service.
+        """Initialize embedding service.
 
         Args:
             model: Default embedding model to use
@@ -58,7 +55,9 @@ class EmbeddingService:
                 self._sentence_transformer = SentenceTransformer("all-MiniLM-L6-v2")
                 self.get_logger(__name__).info("✅ Sentence transformer model loaded")
             except Exception as e:
-                self.get_logger(__name__).error(f"❌ Failed to load sentence transformer: {e}")
+                self.get_logger(__name__).error(
+                    f"❌ Failed to load sentence transformer: {e}"
+                )
                 raise
         return self._sentence_transformer
 
@@ -71,15 +70,16 @@ class EmbeddingService:
                 self._openai_client = openai.OpenAI()
                 self.get_logger(__name__).info("✅ OpenAI client initialized")
             except Exception as e:
-                self.get_logger(__name__).error(f"❌ Failed to initialize OpenAI client: {e}")
+                self.get_logger(__name__).error(
+                    f"❌ Failed to initialize OpenAI client: {e}"
+                )
                 raise
         return self._openai_client
 
     def generate_embedding(
         self, text: str, model: Optional[EmbeddingModel] = None
     ) -> List[float]:
-        """
-        Generate embedding for a single text.
+        """Generate embedding for a single text.
 
         Args:
             text: Text to embed
@@ -94,9 +94,13 @@ class EmbeddingService:
         try:
             if model == EmbeddingModel.SENTENCE_TRANSFORMERS:
                 embedding = self._generate_sentence_transformer_embedding(text)
-            elif get_unified_validator().validate_type(model, EmbeddingModel) and model.value.startswith("openai"):
+            elif get_unified_validator().validate_type(
+                model, EmbeddingModel
+            ) and model.value.startswith("openai"):
                 embedding = self._generate_openai_embedding(text, model)
-            elif get_unified_validator().validate_type(model, str) and model.startswith("openai"):
+            elif get_unified_validator().validate_type(model, str) and model.startswith(
+                "openai"
+            ):
                 # Handle string model names
                 embedding_model = (
                     EmbeddingModel(model)
@@ -105,10 +109,14 @@ class EmbeddingService:
                 )
                 embedding = self._generate_openai_embedding(text, embedding_model)
             else:
-                get_unified_validator().raise_validation_error(f"Unsupported model: {model}")
+                get_unified_validator().raise_validation_error(
+                    f"Unsupported model: {model}"
+                )
 
             processing_time = time.time() - start_time
-            self.get_logger(__name__).debug(f"Generated embedding in {processing_time:.3f}s")
+            self.get_logger(__name__).debug(
+                f"Generated embedding in {processing_time:.3f}s"
+            )
 
             return embedding
 
@@ -122,8 +130,7 @@ class EmbeddingService:
         model: Optional[EmbeddingModel] = None,
         batch_size: int = 32,
     ) -> List[List[float]]:
-        """
-        Generate embeddings for multiple texts.
+        """Generate embeddings for multiple texts.
 
         Args:
             texts: List of texts to embed
@@ -144,7 +151,9 @@ class EmbeddingService:
             elif model.value.startswith("openai"):
                 embeddings = self._generate_openai_batch(texts, model)
             else:
-                get_unified_validator().raise_validation_error(f"Unsupported model: {model}")
+                get_unified_validator().raise_validation_error(
+                    f"Unsupported model: {model}"
+                )
 
             processing_time = time.time() - start_time
             self.get_logger(__name__).info(
@@ -154,7 +163,9 @@ class EmbeddingService:
             return embeddings
 
         except Exception as e:
-            self.get_logger(__name__).error(f"❌ Error generating batch embeddings: {e}")
+            self.get_logger(__name__).error(
+                f"❌ Error generating batch embeddings: {e}"
+            )
             raise
 
     def _generate_sentence_transformer_embedding(self, text: str) -> List[float]:
@@ -210,8 +221,7 @@ class EmbeddingService:
         return [data.embedding for data in response.data]
 
     def get_embedding_dimension(self, model: Optional[EmbeddingModel] = None) -> int:
-        """
-        Get the dimension of embeddings for a model.
+        """Get the dimension of embeddings for a model.
 
         Args:
             model: Model to check (defaults to service model)
@@ -230,11 +240,12 @@ class EmbeddingService:
         elif model == EmbeddingModel.OPENAI_3_LARGE:
             return 3072
         else:
-            get_unified_validator().raise_validation_error(f"Unknown model dimension: {model}")
+            get_unified_validator().raise_validation_error(
+                f"Unknown model dimension: {model}"
+            )
 
     def validate_text(self, text: str) -> bool:
-        """
-        Validate text for embedding generation.
+        """Validate text for embedding generation.
 
         Args:
             text: Text to validate
@@ -247,14 +258,15 @@ class EmbeddingService:
 
         # Check for reasonable length (OpenAI has token limits)
         if len(text) > 8000:  # Conservative limit
-            self.get_logger(__name__).warning(f"Text length {len(text)} may exceed token limits")
+            self.get_logger(__name__).warning(
+                f"Text length {len(text)} may exceed token limits"
+            )
             return False
 
         return True
 
     def preprocess_text(self, text: str) -> str:
-        """
-        Preprocess text before embedding generation.
+        """Preprocess text before embedding generation.
 
         Args:
             text: Raw text
@@ -270,4 +282,3 @@ class EmbeddingService:
         text = re.sub(r"\s+", " ", text)
 
         return text
-

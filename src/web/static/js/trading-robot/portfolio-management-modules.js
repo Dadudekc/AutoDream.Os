@@ -1,7 +1,7 @@
 /**
  * Portfolio Management Modules - V2 Compliant Portfolio Management Utilities
  * Handles all portfolio calculations and management operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -17,7 +17,7 @@ export class PortfolioManagementModules {
     static calculatePortfolioMetrics(portfolio) {
         let totalMarketValue = 0;
         let totalPnl = 0;
-        
+
         portfolio.positions.forEach(position => {
             totalMarketValue += position.marketValue;
             totalPnl += position.pnl;
@@ -36,11 +36,11 @@ export class PortfolioManagementModules {
         if (order.status !== 'filled') return;
 
         const existingPosition = portfolio.positions.find(p => p.symbol === order.symbol);
-        
+
         if (existingPosition) {
             if (order.side === 'buy') {
                 const totalQuantity = existingPosition.quantity + order.filledQuantity;
-                const totalCost = (existingPosition.quantity * existingPosition.avgPrice) + 
+                const totalCost = (existingPosition.quantity * existingPosition.avgPrice) +
                                  (order.filledQuantity * order.filledPrice);
                 existingPosition.quantity = totalQuantity;
                 existingPosition.avgPrice = totalCost / totalQuantity;
@@ -215,12 +215,12 @@ export class PortfolioManagementModules {
         const dataStr = JSON.stringify(portfolio, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(dataBlob);
-        
+
         const link = document.createElement('a');
         link.href = url;
         link.download = 'portfolio-data.json';
         link.click();
-        
+
         URL.revokeObjectURL(url);
     }
 
@@ -231,7 +231,7 @@ export class PortfolioManagementModules {
         try {
             const text = await file.text();
             const importedPortfolio = JSON.parse(text);
-            
+
             if (importedPortfolio && importedPortfolio.positions) {
                 this.calculatePortfolioMetrics(importedPortfolio);
                 return importedPortfolio;

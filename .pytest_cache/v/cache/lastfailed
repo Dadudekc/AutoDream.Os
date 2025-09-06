@@ -1,3 +1,17 @@
 {
-  "tests/test_messaging_smoke.py::TestMessagingSmoke::test_agent_listing": true
+  "tests/test_messaging_smoke.py::TestMessagingSmoke::test_agent_listing": true,
+  "tests/test_onboarding_modes.py": true,
+  "tests/messaging/test_agent_registry.py": true,
+  "tests/messaging/test_messaging_cli_flags_comprehensive.py": true,
+  "tests/messaging/test_messaging_config.py": true,
+  "tests/messaging/test_messaging_models.py": true,
+  "tests/models/test_models.py": true,
+  "tests/test_pyautogui_mode.py": true,
+  "tests/test_runner_cli.py": true,
+  "tests/utils/test_data.py": true,
+  "tests/vector_database/test_embedding_service.py": true,
+  "tests/vector_database/test_vector_models.py": true,
+  "tests/test_architectural_compliance.py::TestArchitecturalCompliance": true,
+  "tests/test_architectural_compliance.py::TestCodeAnalysis": true,
+  "tests/test_architectural_compliance.py::TestArchitecturalProof": true
 }

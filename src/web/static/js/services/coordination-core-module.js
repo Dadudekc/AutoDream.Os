@@ -104,4 +104,3 @@ export class CoordinationCoreModule {
 export function createCoordinationCoreModule() {
     return new CoordinationCoreModule();
 }
-

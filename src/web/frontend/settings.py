@@ -1,12 +1,9 @@
-
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for frontend modules.
 
-This module centralizes configuration values used across the frontend
-application to provide a single source of truth (SSOT).
+This module centralizes configuration values used across the frontend application to
+provide a single source of truth (SSOT).
 """
-
-
 
 
 @dataclass(frozen=True)

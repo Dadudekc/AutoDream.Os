@@ -127,10 +127,10 @@ python tools/captain_snapshot.py
 - Preserve work context and update status.json immediately
 
 ## Training Path
-Phase 1 – Foundations: system orientation and role training  
-Phase 2 – SSOT & Etiquette: SSOT compliance, devlog, messaging etiquette  
-Phase 3 – Integration: system integration and performance validation  
-Phase 4 – Contract Automation: contract claiming and automated workflow  
+Phase 1 – Foundations: system orientation and role training
+Phase 2 – SSOT & Etiquette: SSOT compliance, devlog, messaging etiquette
+Phase 3 – Integration: system integration and performance validation
+Phase 4 – Contract Automation: contract claiming and automated workflow
 Training materials: `docs/onboarding/training_documents/`
 
 ## Captain Protocols
@@ -148,4 +148,3 @@ Training materials: `docs/onboarding/training_documents/`
 ---
 
 **WE. ARE. SWARM.**
-

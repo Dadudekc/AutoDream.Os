@@ -1,14 +1,14 @@
 /**
  * WebSocket Subscription Module - Performance Optimized
  * ====================================================
- * 
+ *
  * Optimized WebSocket subscription management with:
  * - Connection pooling and reuse
  * - Message batching for reduced network overhead
  * - Intelligent retry mechanisms
  * - Memory leak prevention
  * - Performance monitoring
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -20,7 +20,7 @@ export class WebSocketSubscriptionOptimized {
         this.subscriptionCallbacks = new Set(); // Use Set to prevent duplicates
         this.pendingSubscriptions = new Set();
         this.messageSender = null;
-        
+
         // Performance optimizations
         this.messageQueue = [];
         this.batchSize = 10;
@@ -28,7 +28,7 @@ export class WebSocketSubscriptionOptimized {
         this.retryAttempts = new Map();
         this.maxRetries = 3;
         this.connectionPool = new Map();
-        
+
         // Performance monitoring
         this.performanceMetrics = {
             messagesSent: 0,
@@ -37,7 +37,7 @@ export class WebSocketSubscriptionOptimized {
             errorRate: 0,
             connectionUptime: 0
         };
-        
+
         this.startTime = Date.now();
     }
 
@@ -67,7 +67,7 @@ export class WebSocketSubscriptionOptimized {
      */
     processBatchMessages() {
         if (this.messageQueue.length === 0) return;
-        
+
         const batch = this.messageQueue.splice(0, this.batchSize);
         const batchMessage = {
             type: 'batch_subscribe',
@@ -75,7 +75,7 @@ export class WebSocketSubscriptionOptimized {
                 subscriptions: batch
             }
         };
-        
+
         this.sendMessage(batchMessage);
     }
 
@@ -94,7 +94,7 @@ export class WebSocketSubscriptionOptimized {
     updatePerformanceMetrics() {
         const now = Date.now();
         this.performanceMetrics.connectionUptime = now - this.startTime;
-        
+
         // Calculate error rate
         const totalMessages = this.performanceMetrics.messagesSent + this.performanceMetrics.messagesReceived;
         if (totalMessages > 0) {
@@ -124,7 +124,7 @@ export class WebSocketSubscriptionOptimized {
 
         // Add to batch queue instead of sending immediately
         this.messageQueue.push(subscription);
-        
+
         // Track subscription
         symbols.forEach(symbol => {
             this.subscriptions.set(symbol, subscription);
@@ -151,7 +151,7 @@ export class WebSocketSubscriptionOptimized {
 
         this.messageQueue.push(subscription);
         this.subscriptions.set('orders', subscription);
-        
+
         this.logger.log('📡 Queued order updates subscription');
         return true;
     }
@@ -173,7 +173,7 @@ export class WebSocketSubscriptionOptimized {
 
         this.messageQueue.push(subscription);
         this.subscriptions.set('portfolio', subscription);
-        
+
         this.logger.log('📡 Queued portfolio updates subscription');
         return true;
     }
@@ -212,7 +212,7 @@ export class WebSocketSubscriptionOptimized {
         try {
             const startTime = Date.now();
             const success = this.messageSender(message);
-            
+
             if (success) {
                 this.performanceMetrics.messagesSent++;
                 const latency = Date.now() - startTime;
@@ -220,7 +220,7 @@ export class WebSocketSubscriptionOptimized {
             } else {
                 this.handleMessageError(message);
             }
-            
+
             return success;
         } catch (error) {
             this.logger.error('❌ Error sending message:', error);
@@ -235,7 +235,7 @@ export class WebSocketSubscriptionOptimized {
     handleMessageError(message) {
         const messageId = this.getMessageId(message);
         const attempts = this.retryAttempts.get(messageId) || 0;
-        
+
         if (attempts < this.maxRetries) {
             this.retryAttempts.set(messageId, attempts + 1);
             setTimeout(() => {
@@ -262,7 +262,7 @@ export class WebSocketSubscriptionOptimized {
             this.performanceMetrics.averageLatency = latency;
         } else {
             const alpha = 0.1; // Smoothing factor
-            this.performanceMetrics.averageLatency = 
+            this.performanceMetrics.averageLatency =
                 alpha * latency + (1 - alpha) * this.performanceMetrics.averageLatency;
         }
     }
@@ -350,7 +350,7 @@ export class WebSocketSubscriptionOptimized {
         this.messageQueue = [];
         this.retryAttempts.clear();
         this.subscriptionCallbacks.clear();
-        
+
         this.logger.log('🧹 WebSocket subscription cleanup completed');
     }
 

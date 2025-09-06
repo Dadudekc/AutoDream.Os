@@ -1,12 +1,12 @@
 /**
  * Vector Database Search - V2 Compliant Module
  * ===========================================
- * 
+ *
  * Search functionality for vector database operations.
  * Handles search queries, filtering, and result processing.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -36,20 +36,20 @@ export class VectorDatabaseSearch {
 
             // Perform search
             const results = await this.core.searchDocuments(query, options);
-            
+
             // Process results
             const processedResults = this.processSearchResults(results, options);
-            
+
             // Update search history
             this.updateSearchHistory(query, processedResults);
-            
+
             // Cache results
             this.searchCache.set(cacheKey, processedResults);
-            
+
             // Log performance
             const searchTime = Date.now() - startTime;
             this.logger.log(`🔍 Search completed in ${searchTime}ms: ${processedResults.length} results`);
-            
+
             return processedResults;
         } catch (error) {
             this.logger.error('❌ Search failed:', error);
@@ -75,19 +75,19 @@ export class VectorDatabaseSearch {
      */
     calculateRelevanceScore(result, options) {
         let score = result.score || 0;
-        
+
         // Boost score for exact matches
         if (result.title && result.title.toLowerCase().includes(options.query?.toLowerCase())) {
             score += 0.2;
         }
-        
+
         // Boost score for recent documents
         if (result.metadata?.created) {
             const age = Date.now() - result.metadata.created;
             const ageInDays = age / (1000 * 60 * 60 * 24);
             if (ageInDays < 7) score += 0.1;
         }
-        
+
         return Math.min(score, 1.0);
     }
 
@@ -96,15 +96,15 @@ export class VectorDatabaseSearch {
      */
     highlightSearchTerms(content, query) {
         if (!query || !content) return content;
-        
+
         const terms = query.toLowerCase().split(' ').filter(term => term.length > 2);
         let highlighted = content;
-        
+
         terms.forEach(term => {
             const regex = new RegExp(`(${term})`, 'gi');
             highlighted = highlighted.replace(regex, '<mark>$1</mark>');
         });
-        
+
         return highlighted;
     }
 
@@ -113,17 +113,17 @@ export class VectorDatabaseSearch {
      */
     categorizeResult(result) {
         const categories = [];
-        
+
         if (result.metadata?.type) {
             categories.push(result.metadata.type);
         }
-        
+
         if (result.content?.length > 500) {
             categories.push('long-form');
         } else if (result.content?.length < 100) {
             categories.push('short-form');
         }
-        
+
         return categories;
     }
 
@@ -132,32 +132,32 @@ export class VectorDatabaseSearch {
      */
     extractTags(result) {
         const tags = [];
-        
+
         // Extract tags from metadata
         if (result.metadata?.tags) {
             tags.push(...result.metadata.tags);
         }
-        
+
         // Extract potential tags from content
         const content = result.content || '';
         const words = content.toLowerCase().split(/\s+/);
         const commonWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by']);
-        
+
         const wordCount = {};
         words.forEach(word => {
             if (word.length > 3 && !commonWords.has(word)) {
                 wordCount[word] = (wordCount[word] || 0) + 1;
             }
         });
-        
+
         // Get top 3 most frequent words as tags
         const topWords = Object.entries(wordCount)
             .sort(([,a], [,b]) => b - a)
             .slice(0, 3)
             .map(([word]) => word);
-        
+
         tags.push(...topWords);
-        
+
         return [...new Set(tags)]; // Remove duplicates
     }
 
@@ -171,9 +171,9 @@ export class VectorDatabaseSearch {
             timestamp: Date.now(),
             results: results.slice(0, 5) // Store only first 5 results
         };
-        
+
         this.searchHistory.unshift(searchEntry);
-        
+
         // Keep only last 50 searches
         if (this.searchHistory.length > 50) {
             this.searchHistory = this.searchHistory.slice(0, 50);
@@ -192,11 +192,11 @@ export class VectorDatabaseSearch {
      */
     getPopularSearches() {
         const queryCount = {};
-        
+
         this.searchHistory.forEach(entry => {
             queryCount[entry.query] = (queryCount[entry.query] || 0) + 1;
         });
-        
+
         return Object.entries(queryCount)
             .sort(([,a], [,b]) => b - a)
             .slice(0, 10)
@@ -208,16 +208,16 @@ export class VectorDatabaseSearch {
      */
     getSearchSuggestions(partialQuery) {
         if (!partialQuery || partialQuery.length < 2) return [];
-        
+
         const suggestions = new Set();
-        
+
         // Get suggestions from search history
         this.searchHistory.forEach(entry => {
             if (entry.query.toLowerCase().startsWith(partialQuery.toLowerCase())) {
                 suggestions.add(entry.query);
             }
         });
-        
+
         // Get suggestions from document titles
         // This would typically come from the core database
         const mockSuggestions = [
@@ -227,13 +227,13 @@ export class VectorDatabaseSearch {
             'web development',
             'vector database'
         ];
-        
+
         mockSuggestions.forEach(suggestion => {
             if (suggestion.toLowerCase().startsWith(partialQuery.toLowerCase())) {
                 suggestions.add(suggestion);
             }
         });
-        
+
         return Array.from(suggestions).slice(0, 5);
     }
 
@@ -259,8 +259,8 @@ export class VectorDatabaseSearch {
         return {
             totalSearches: this.searchHistory.length,
             cacheSize: this.searchCache.size,
-            averageResults: this.searchHistory.length > 0 
-                ? this.searchHistory.reduce((sum, entry) => sum + entry.resultCount, 0) / this.searchHistory.length 
+            averageResults: this.searchHistory.length > 0
+                ? this.searchHistory.reduce((sum, entry) => sum + entry.resultCount, 0) / this.searchHistory.length
                 : 0
         };
     }

@@ -46,10 +46,8 @@ except ImportError:
 
 
 class Agent7VectorDatabaseIntegration:
-    """
-    Integrates Agent-7's comprehensive status and capabilities into vector database
-    for intelligent swarm coordination and strategic oversight.
-    """
+    """Integrates Agent-7's comprehensive status and capabilities into vector database
+    for intelligent swarm coordination and strategic oversight."""
 
     def __init__(self):
         """Initialize Agent-7 vector database integration."""
@@ -306,4 +304,3 @@ if __name__ == "__main__":
     result = integrate_agent7_vector_database()
     get_logger(__name__).info("\n🎯 Vector Database Integration Complete!")
     get_logger(__name__).info("Agent-7 is now indexed for intelligent swarm coordination.")
-

@@ -16,23 +16,25 @@ from .unified_dashboard import (
     PerformanceDashboardOrchestrator,
     DashboardModels,
     DashboardEngine,
-    DashboardReporter
+    DashboardReporter,
 )
 
 # Backward compatibility aliases
 PerformanceDashboard = PerformanceDashboardOrchestrator
+
 
 # Factory function for backward compatibility
 def get_performance_dashboard():
     """Get performance dashboard instance."""
     return PerformanceDashboardOrchestrator()
 
+
 # Re-export for backward compatibility
 __all__ = [
-    'PerformanceDashboardOrchestrator',
-    'DashboardModels',
-    'DashboardEngine',
-    'DashboardReporter',
-    'PerformanceDashboard',
-    'get_performance_dashboard'
+    "PerformanceDashboardOrchestrator",
+    "DashboardModels",
+    "DashboardEngine",
+    "DashboardReporter",
+    "PerformanceDashboard",
+    "get_performance_dashboard",
 ]

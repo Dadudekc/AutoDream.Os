@@ -231,4 +231,3 @@ export class ChartStateCallbacksModule {
 export function createChartStateCallbacksModule() {
     return new ChartStateCallbacksModule();
 }
-

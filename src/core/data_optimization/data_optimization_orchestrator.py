@@ -31,19 +31,15 @@ class DataProcessingOptimizer:
         self.engine = DataOptimizationEngine(self.config)
 
     async def optimize_processing(
-        self, 
-        data: Any, 
-        operation: str, 
-        **kwargs
+        self, data: Any, operation: str, **kwargs
     ) -> OptimizationResult:
-        """
-        Optimize data processing operation.
-        
+        """Optimize data processing operation.
+
         Args:
             data: Data to process
             operation: Operation type
             **kwargs: Additional parameters
-            
+
         Returns:
             Optimization result with metrics
         """
@@ -68,24 +64,32 @@ class DataProcessingOptimizer:
     # ================================
     # CONVENIENCE METHODS
     # ================================
-    
-    async def optimize_csv_processing(self, data: List[Dict[str, Any]], **kwargs) -> OptimizationResult:
+
+    async def optimize_csv_processing(
+        self, data: List[Dict[str, Any]], **kwargs
+    ) -> OptimizationResult:
         """Optimize CSV data processing."""
         return await self.optimize_processing(data, "csv_processing", **kwargs)
-    
+
     async def optimize_json_processing(self, data: Any, **kwargs) -> OptimizationResult:
         """Optimize JSON data processing."""
         return await self.optimize_processing(data, "json_processing", **kwargs)
-    
-    async def optimize_database_processing(self, data: List[Dict[str, Any]], **kwargs) -> OptimizationResult:
+
+    async def optimize_database_processing(
+        self, data: List[Dict[str, Any]], **kwargs
+    ) -> OptimizationResult:
         """Optimize database data processing."""
         return await self.optimize_processing(data, "database_processing", **kwargs)
-    
-    async def optimize_vector_processing(self, data: List[Dict[str, Any]], **kwargs) -> OptimizationResult:
+
+    async def optimize_vector_processing(
+        self, data: List[Dict[str, Any]], **kwargs
+    ) -> OptimizationResult:
         """Optimize vector data processing."""
         return await self.optimize_processing(data, "vector_processing", **kwargs)
-    
-    async def optimize_analytics_processing(self, data: List[Dict[str, Any]], **kwargs) -> OptimizationResult:
+
+    async def optimize_analytics_processing(
+        self, data: List[Dict[str, Any]], **kwargs
+    ) -> OptimizationResult:
         """Optimize analytics data processing."""
         return await self.optimize_processing(data, "analytics_processing", **kwargs)
 
@@ -96,13 +100,14 @@ class DataProcessingOptimizer:
 
 _global_optimizer = None
 
+
 def get_data_processing_optimizer() -> DataProcessingOptimizer:
     """Get global data processing optimizer instance."""
     global _global_optimizer
-    
+
     if _global_optimizer is None:
         _global_optimizer = DataProcessingOptimizer()
-    
+
     return _global_optimizer
 
 
@@ -110,20 +115,26 @@ def get_data_processing_optimizer() -> DataProcessingOptimizer:
 # CONVENIENCE FUNCTIONS
 # ================================
 
-async def optimize_data_processing(data: Any, operation: str, **kwargs) -> OptimizationResult:
+
+async def optimize_data_processing(
+    data: Any, operation: str, **kwargs
+) -> OptimizationResult:
     """Convenience function to optimize data processing."""
     optimizer = get_data_processing_optimizer()
     return await optimizer.optimize_processing(data, operation, **kwargs)
+
 
 def get_optimization_metrics() -> Dict[str, Any]:
     """Convenience function to get optimization metrics."""
     optimizer = get_data_processing_optimizer()
     return optimizer.get_optimization_summary()
 
+
 def clear_optimization_cache() -> None:
     """Convenience function to clear optimization cache."""
     optimizer = get_data_processing_optimizer()
     optimizer.clear_cache()
+
 
 def reset_optimization_metrics() -> None:
     """Convenience function to reset optimization metrics."""

@@ -158,4 +158,3 @@ export class ElementCreationModule {
 export function createElementCreationModule() {
     return new ElementCreationModule();
 }
-

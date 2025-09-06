@@ -19,6 +19,7 @@ from typing import Any, Dict
 
 class DeliveryStrategy(Enum):
     """Delivery strategies for messaging."""
+
     IMMEDIATE = "immediate"
     BATCH = "batch"
     ASYNC = "async"
@@ -27,6 +28,7 @@ class DeliveryStrategy(Enum):
 
 class OptimizationMode(Enum):
     """Optimization modes."""
+
     THROUGHPUT = "throughput"
     LATENCY = "latency"
     BALANCED = "balanced"
@@ -36,31 +38,31 @@ class OptimizationMode(Enum):
 @dataclass
 class MessagingConfig:
     """Configuration for messaging optimization."""
-    
+
     # Core settings
     delivery_strategy: DeliveryStrategy = DeliveryStrategy.HYBRID
     optimization_mode: OptimizationMode = OptimizationMode.BALANCED
     target_improvement: float = 0.25  # 25%
-    
+
     # Batching settings
     batch_size: int = 100
     batch_timeout_ms: float = 1000.0
     enable_batching: bool = True
-    
+
     # Async settings
     max_concurrent_deliveries: int = 50
     enable_async_delivery: bool = True
-    
+
     # Retry settings
     max_retries: int = 3
     retry_delay_ms: float = 100.0
     backoff_multiplier: float = 2.0
-    
+
     # Performance settings
     connection_pool_size: int = 10
     queue_size: int = 1000
     monitoring_interval: float = 30.0
-    
+
     def validate(self) -> bool:
         """Validate configuration."""
         if not 0.0 <= self.target_improvement <= 1.0:
@@ -87,6 +89,7 @@ class MessagingConfig:
 @dataclass
 class MessagingMetrics:
     """Metrics for messaging performance."""
+
     timestamp: datetime = field(default_factory=datetime.now)
     messages_processed: int = 0
     messages_per_second: float = 0.0
@@ -96,25 +99,26 @@ class MessagingMetrics:
     batch_efficiency: float = 0.0
     queue_utilization: float = 0.0
     connection_pool_usage: float = 0.0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
-            'timestamp': self.timestamp.isoformat(),
-            'messages_processed': self.messages_processed,
-            'messages_per_second': self.messages_per_second,
-            'average_latency_ms': self.average_latency_ms,
-            'success_rate': self.success_rate,
-            'retry_rate': self.retry_rate,
-            'batch_efficiency': self.batch_efficiency,
-            'queue_utilization': self.queue_utilization,
-            'connection_pool_usage': self.connection_pool_usage
+            "timestamp": self.timestamp.isoformat(),
+            "messages_processed": self.messages_processed,
+            "messages_per_second": self.messages_per_second,
+            "average_latency_ms": self.average_latency_ms,
+            "success_rate": self.success_rate,
+            "retry_rate": self.retry_rate,
+            "batch_efficiency": self.batch_efficiency,
+            "queue_utilization": self.queue_utilization,
+            "connection_pool_usage": self.connection_pool_usage,
         }
 
 
 @dataclass
 class OptimizationResult:
     """Result of an optimization operation."""
+
     status: str
     execution_time_ms: float
     optimization_count: int
@@ -129,6 +133,7 @@ class OptimizationResult:
 @dataclass
 class SystemInfo:
     """System information for optimization summary."""
+
     is_active: bool
     uptime_seconds: float = None
     optimization_count: int = 0
@@ -140,6 +145,7 @@ class SystemInfo:
 @dataclass
 class ConfigurationInfo:
     """Configuration information for optimization summary."""
+
     delivery_strategy: str
     optimization_mode: str
     target_improvement: float

@@ -229,4 +229,3 @@ export class MetricsAggregationModule {
 export function createMetricsAggregationModule() {
     return new MetricsAggregationModule();
 }
-

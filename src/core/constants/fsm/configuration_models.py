@@ -17,6 +17,7 @@ from dataclasses import dataclass
 @dataclass
 class FSMConfiguration:
     """FSM configuration with V2 compliance."""
+
     state_timeout_seconds: Optional[int]
     state_retry_count: int
     state_retry_delay: float
@@ -37,16 +38,16 @@ class FSMConfiguration:
             raise ValueError("Max states must be at least 1")
         if self.max_transitions < 1:
             raise ValueError("Max transitions must be at least 1")
-    
+
     def is_valid(self) -> bool:
         """Check if configuration is valid."""
         return (
-            self.state_retry_count >= 0 and
-            self.state_retry_delay >= 0 and
-            self.max_states >= 1 and
-            self.max_transitions >= 1
+            self.state_retry_count >= 0
+            and self.state_retry_delay >= 0
+            and self.max_states >= 1
+            and self.max_transitions >= 1
         )
-    
+
     def get_summary(self) -> Dict[str, Any]:
         """Get configuration summary."""
         return {
@@ -57,5 +58,5 @@ class FSMConfiguration:
             "transition_timeout_seconds": self.transition_timeout_seconds,
             "max_states": self.max_states,
             "max_transitions": self.max_transitions,
-            "validation_enabled": self.validation_enabled
+            "validation_enabled": self.validation_enabled,
         }

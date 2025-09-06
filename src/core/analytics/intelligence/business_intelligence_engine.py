@@ -11,16 +11,22 @@ License: MIT
 
 # Import all components from core and operations modules
 from .business_intelligence_engine_core import BusinessIntelligenceEngineCore
-from .business_intelligence_engine_operations import BusinessIntelligenceEngineOperations
+from .business_intelligence_engine_operations import (
+    BusinessIntelligenceEngineOperations,
+)
+
 
 # Create unified class
-class BusinessIntelligenceEngine(BusinessIntelligenceEngineCore, BusinessIntelligenceEngineOperations):
+class BusinessIntelligenceEngine(
+    BusinessIntelligenceEngineCore, BusinessIntelligenceEngineOperations
+):
     """Unified business intelligence engine with core and operations functionality."""
-    
+
     def __init__(self, config=None):
         """Initialize unified business intelligence engine."""
         BusinessIntelligenceEngineCore.__init__(self, config)
         BusinessIntelligenceEngineOperations.__init__(self, config)
 
+
 # Re-export all components for backward compatibility
-__all__ = ['BusinessIntelligenceEngine']
+__all__ = ["BusinessIntelligenceEngine"]

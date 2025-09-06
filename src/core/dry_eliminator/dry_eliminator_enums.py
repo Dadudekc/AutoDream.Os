@@ -14,6 +14,7 @@ from enum import Enum
 
 class DRYViolationType(Enum):
     """Types of DRY violations."""
+
     DUPLICATE_IMPORTS = "duplicate_imports"
     DUPLICATE_METHODS = "duplicate_methods"
     DUPLICATE_CLASSES = "duplicate_classes"
@@ -29,6 +30,7 @@ class DRYViolationType(Enum):
 
 class EliminationStrategy(Enum):
     """DRY elimination strategies."""
+
     CONSOLIDATE = "consolidate"
     EXTRACT = "extract"
     REFACTOR = "refactor"
@@ -38,6 +40,7 @@ class EliminationStrategy(Enum):
 
 class DRYScanMode(Enum):
     """DRY scanning modes."""
+
     FAST = "fast"
     THOROUGH = "thorough"
     DEEP = "deep"
@@ -46,6 +49,7 @@ class DRYScanMode(Enum):
 
 class ViolationSeverity(Enum):
     """Severity levels for DRY violations."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"

@@ -31,10 +31,10 @@ class DashboardMain {
             this.navigation.setup();
             this.utils.updateCurrentTime();
             await this.loadDashboardData(this.currentView);
-            
+
             // Update time every second
             setInterval(() => this.utils.updateCurrentTime(), 1000);
-            
+
             console.log('Dashboard initialized successfully with modular architecture');
         } catch (error) {
             console.error('Dashboard initialization failed:', error);
@@ -45,13 +45,13 @@ class DashboardMain {
     // Load dashboard data
     async loadDashboardData(view) {
         this.utils.showLoading();
-        
+
         try {
             // Use repository pattern for data access
             const { DashboardRepository } = await import('./repositories/dashboard-repository.js');
             const repository = new DashboardRepository();
             const data = await repository.getDashboardData(view);
-            
+
             this.updateDashboard(data);
         } catch (error) {
             console.error('Failed to load dashboard data:', error);
@@ -64,7 +64,7 @@ class DashboardMain {
     // Update dashboard with new data
     updateDashboard(data) {
         const contentDiv = document.getElementById('dashboardContent');
-        
+
         if (data.view === 'overview') {
             contentDiv.innerHTML = this.v2.renderOverviewView(data);
         } else if (data.view === 'agent_performance') {

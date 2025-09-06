@@ -22,6 +22,7 @@ def get_config(key: str, default: Any) -> Any:
     """Get configuration value with fallback."""
     # Simplified configuration - KISS compliance
     import os
+
     return os.getenv(key, default)
 
 
@@ -30,7 +31,9 @@ def get_config(key: str, default: Any) -> Any:
 # ================================
 
 # State timeouts and retries
-FSM_STATE_TIMEOUT_SECONDS: Final[Optional[int]] = get_config("FSM_STATE_TIMEOUT_SECONDS", 300)
+FSM_STATE_TIMEOUT_SECONDS: Final[Optional[int]] = get_config(
+    "FSM_STATE_TIMEOUT_SECONDS", 300
+)
 """Default timeout for FSM states in seconds."""
 
 FSM_STATE_RETRY_COUNT: Final[int] = get_config("FSM_STATE_RETRY_COUNT", 3)
@@ -40,10 +43,14 @@ FSM_STATE_RETRY_DELAY: Final[float] = get_config("FSM_STATE_RETRY_DELAY", 1.0)
 """Default retry delay in seconds between state transition attempts."""
 
 # Transition settings
-FSM_TRANSITION_PRIORITY_DEFAULT: Final[int] = get_config("FSM_TRANSITION_PRIORITY_DEFAULT", 1)
+FSM_TRANSITION_PRIORITY_DEFAULT: Final[int] = get_config(
+    "FSM_TRANSITION_PRIORITY_DEFAULT", 1
+)
 """Default priority for FSM transitions."""
 
-FSM_TRANSITION_TIMEOUT_SECONDS: Final[Optional[int]] = get_config("FSM_TRANSITION_TIMEOUT_SECONDS", 60)
+FSM_TRANSITION_TIMEOUT_SECONDS: Final[Optional[int]] = get_config(
+    "FSM_TRANSITION_TIMEOUT_SECONDS", 60
+)
 """Default timeout for FSM transitions in seconds."""
 
 # ================================
@@ -60,7 +67,7 @@ CORE_FSM_START_STATE: Final[StateDefinition] = StateDefinition(
     retry_delay=FSM_STATE_RETRY_DELAY,
     required_resources=["fsm_context"],
     dependencies=[],
-    metadata={"category": "core", "critical": True}
+    metadata={"category": "core", "critical": True},
 )
 
 CORE_FSM_PROCESS_STATE: Final[StateDefinition] = StateDefinition(
@@ -73,7 +80,7 @@ CORE_FSM_PROCESS_STATE: Final[StateDefinition] = StateDefinition(
     retry_delay=FSM_STATE_RETRY_DELAY,
     required_resources=["processing_context", "input_data"],
     dependencies=["start"],
-    metadata={"category": "core", "critical": True}
+    metadata={"category": "core", "critical": True},
 )
 
 CORE_FSM_COMPLETE_STATE: Final[StateDefinition] = StateDefinition(
@@ -86,7 +93,7 @@ CORE_FSM_COMPLETE_STATE: Final[StateDefinition] = StateDefinition(
     retry_delay=FSM_STATE_RETRY_DELAY,
     required_resources=["completion_context"],
     dependencies=["process"],
-    metadata={"category": "core", "critical": True}
+    metadata={"category": "core", "critical": True},
 )
 
 CORE_FSM_ERROR_STATE: Final[StateDefinition] = StateDefinition(
@@ -99,5 +106,5 @@ CORE_FSM_ERROR_STATE: Final[StateDefinition] = StateDefinition(
     retry_delay=FSM_STATE_RETRY_DELAY,
     required_resources=["error_context"],
     dependencies=[],
-    metadata={"category": "core", "critical": True}
+    metadata={"category": "core", "critical": True},
 )

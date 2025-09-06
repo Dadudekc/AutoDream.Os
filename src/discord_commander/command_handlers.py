@@ -13,4 +13,4 @@ License: MIT
 from .command_handlers_refactored import *
 
 # Re-export all components for backward compatibility
-__all__ = ['DiscordCommandHandlers']
+__all__ = ["DiscordCommandHandlers"]

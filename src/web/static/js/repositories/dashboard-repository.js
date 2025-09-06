@@ -15,7 +15,7 @@ export class DashboardRepository {
     async getDashboardData(view) {
         const cacheKey = `dashboard_${view}`;
         const cached = this.getFromCache(cacheKey);
-        
+
         if (cached) {
             return cached;
         }
@@ -23,7 +23,7 @@ export class DashboardRepository {
         try {
             const response = await fetch(`${this.baseUrl}/${view}`);
             const data = await response.json();
-            
+
             if (data.error) {
                 throw new Error(data.error);
             }
@@ -86,7 +86,7 @@ export class DashboardRepository {
         // Clear cache for updated view
         const cacheKey = `dashboard_${data.view}`;
         this.cache.delete(cacheKey);
-        
+
         return data;
     }
 }

@@ -16,8 +16,10 @@ from typing import Any, Dict, List
 from datetime import datetime
 
 from ..integration_models import (
-    IntegrationPerformanceMetrics, IntegrationPerformanceReport,
-    create_performance_metrics, create_performance_report
+    IntegrationPerformanceMetrics,
+    IntegrationPerformanceReport,
+    create_performance_metrics,
+    create_performance_report,
 )
 
 
@@ -38,11 +40,13 @@ class IntegrationPerformanceEngine:
         """Start performance monitoring."""
         if self.is_monitoring:
             return
-        
+
         self.is_monitoring = True
-        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self.monitoring_thread = threading.Thread(
+            target=self._monitoring_loop, daemon=True
+        )
         self.monitoring_thread.start()
-        
+
         if self.logger:
             self.logger.info("Performance monitoring started")
 
@@ -51,38 +55,46 @@ class IntegrationPerformanceEngine:
         self.is_monitoring = False
         if self.monitoring_thread:
             self.monitoring_thread.join(timeout=5.0)
-        
+
         if self.logger:
             self.logger.info("Performance monitoring stopped")
 
-    def update_metrics(self, execution_time_ms: float, success: bool, active_tasks: int, queue_size: int):
+    def update_metrics(
+        self,
+        execution_time_ms: float,
+        success: bool,
+        active_tasks: int,
+        queue_size: int,
+    ):
         """Update performance metrics."""
         # Update current metrics
         if success:
             self.metrics.operations_per_second += 1
-        
+
         # Update average latency (exponential moving average)
         alpha = 0.1
         self.metrics.average_latency_ms = (
             alpha * execution_time_ms + (1 - alpha) * self.metrics.average_latency_ms
         )
-        
+
         # Update success/error rates
         total_ops = self.metrics.operations_per_second
         if total_ops > 0:
-            self.metrics.success_rate = 0.9 if success else 0.8  # Simplified calculation
+            self.metrics.success_rate = (
+                0.9 if success else 0.8
+            )  # Simplified calculation
             self.metrics.error_rate = 1.0 - self.metrics.success_rate
-        
+
         # Update efficiency score
         self.metrics.efficiency_score = self._calculate_efficiency_score()
-        
+
         # Update resource utilization
         self.metrics.resource_utilization = {
             "active_tasks": active_tasks,
             "queue_size": queue_size,
-            "thread_pool_active": 1  # Simplified
+            "thread_pool_active": 1,  # Simplified
         }
-        
+
         self.metrics.active_integrations = active_tasks
         self.metrics.queue_size = queue_size
 
@@ -92,8 +104,10 @@ class IntegrationPerformanceEngine:
         success_factor = self.metrics.success_rate
         latency_factor = max(0, 1.0 - (self.metrics.average_latency_ms / 1000.0))
         throughput_factor = min(1.0, self.metrics.operations_per_second / 100.0)
-        
-        efficiency = (success_factor * 0.4 + latency_factor * 0.3 + throughput_factor * 0.3)
+
+        efficiency = (
+            success_factor * 0.4 + latency_factor * 0.3 + throughput_factor * 0.3
+        )
         return min(efficiency, 1.0)
 
     def _monitoring_loop(self):
@@ -103,14 +117,14 @@ class IntegrationPerformanceEngine:
                 # Store current metrics in history
                 if len(self.metrics_history) >= self.config.max_metrics_history:
                     self.metrics_history.pop(0)
-                
+
                 self.metrics_history.append(self.metrics)
-                
+
                 # Reset per-second counters
                 self.metrics.operations_per_second = 0
-                
+
                 time.sleep(self.config.performance_check_interval)
-                
+
             except Exception as e:
                 if self.logger:
                     self.logger.error(f"Error in monitoring loop: {e}")
@@ -123,7 +137,7 @@ class IntegrationPerformanceEngine:
         report.end_time = datetime.now()
         report.metrics = self.metrics
         report.metrics_history = self.metrics_history.copy()
-        
+
         return report
 
     def get_performance_summary(self) -> Dict[str, Any]:
@@ -133,5 +147,5 @@ class IntegrationPerformanceEngine:
             "monitoring_active": self.is_monitoring,
             "history_size": len(self.metrics_history),
             "efficiency_score": self.metrics.efficiency_score,
-            "resource_utilization": self.metrics.resource_utilization
+            "resource_utilization": self.metrics.resource_utilization,
         }

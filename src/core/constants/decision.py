@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """
 Decision Constants - V2 Compliance Decision Module Definitions
@@ -16,6 +15,7 @@ Status: V2 COMPLIANT - Decision Constants Optimized
 """
 
 from typing import Final
+
 # Configuration simplified - KISS compliance
 
 # ================================
@@ -23,18 +23,24 @@ from typing import Final
 # ================================
 
 # Decision processing limits
-DEFAULT_MAX_CONCURRENT_DECISIONS: Final[int] = get_config("DEFAULT_MAX_CONCURRENT_DECISIONS", 100)
+DEFAULT_MAX_CONCURRENT_DECISIONS: Final[int] = get_config(
+    "DEFAULT_MAX_CONCURRENT_DECISIONS", 100
+)
 """Maximum number of concurrent decisions that can be processed simultaneously."""
 
 DECISION_TIMEOUT_SECONDS: Final[int] = get_config("DECISION_TIMEOUT_SECONDS", 300)
 """Timeout in seconds for individual decision processing operations."""
 
 # Decision quality thresholds
-DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = get_config("DEFAULT_CONFIDENCE_THRESHOLD", 0.7)
+DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = get_config(
+    "DEFAULT_CONFIDENCE_THRESHOLD", 0.7
+)
 """Minimum confidence threshold required for decision acceptance (0.0 to 1.0)."""
 
 # Cleanup and maintenance
-AUTO_CLEANUP_COMPLETED_DECISIONS: Final[bool] = get_config("AUTO_CLEANUP_COMPLETED_DECISIONS", True)
+AUTO_CLEANUP_COMPLETED_DECISIONS: Final[bool] = get_config(
+    "AUTO_CLEANUP_COMPLETED_DECISIONS", True
+)
 """Enable automatic cleanup of completed decision records."""
 
 CLEANUP_INTERVAL_MINUTES: Final[int] = get_config("CLEANUP_INTERVAL_MINUTES", 15)
@@ -77,12 +83,17 @@ MAX_CLEANUP_INTERVAL: Final[int] = 1440
 # UTILITY FUNCTIONS
 # ================================
 
+
 def validate_decision_constants() -> bool:
     """Validate that all decision constants are within acceptable ranges."""
     config = get_unified_config()
 
     # Validate confidence threshold
-    if not (MIN_CONFIDENCE_THRESHOLD <= DEFAULT_CONFIDENCE_THRESHOLD <= MAX_CONFIDENCE_THRESHOLD):
+    if not (
+        MIN_CONFIDENCE_THRESHOLD
+        <= DEFAULT_CONFIDENCE_THRESHOLD
+        <= MAX_CONFIDENCE_THRESHOLD
+    ):
         config.get_logger(__name__).error(
             f"Invalid confidence threshold: {DEFAULT_CONFIDENCE_THRESHOLD} "
             f"(must be between {MIN_CONFIDENCE_THRESHOLD} and {MAX_CONFIDENCE_THRESHOLD})"
@@ -90,7 +101,11 @@ def validate_decision_constants() -> bool:
         return False
 
     # Validate concurrent decisions
-    if not (MIN_CONCURRENT_DECISIONS <= DEFAULT_MAX_CONCURRENT_DECISIONS <= MAX_CONCURRENT_DECISIONS):
+    if not (
+        MIN_CONCURRENT_DECISIONS
+        <= DEFAULT_MAX_CONCURRENT_DECISIONS
+        <= MAX_CONCURRENT_DECISIONS
+    ):
         config.get_logger(__name__).error(
             f"Invalid max concurrent decisions: {DEFAULT_MAX_CONCURRENT_DECISIONS} "
             f"(must be between {MIN_CONCURRENT_DECISIONS} and {MAX_CONCURRENT_DECISIONS})"
@@ -115,6 +130,7 @@ def validate_decision_constants() -> bool:
 
     return True
 
+
 def get_decision_config_summary() -> dict:
     """Get a summary of all decision configuration values."""
     return {
@@ -128,9 +144,10 @@ def get_decision_config_summary() -> dict:
             "confidence": f"{MIN_CONFIDENCE_THRESHOLD}-{MAX_CONFIDENCE_THRESHOLD}",
             "concurrent": f"{MIN_CONCURRENT_DECISIONS}-{MAX_CONCURRENT_DECISIONS}",
             "timeout": f"{MIN_TIMEOUT_SECONDS}-{MAX_TIMEOUT_SECONDS}",
-            "cleanup": f"{MIN_CLEANUP_INTERVAL}-{MAX_CLEANUP_INTERVAL}"
-        }
+            "cleanup": f"{MIN_CLEANUP_INTERVAL}-{MAX_CLEANUP_INTERVAL}",
+        },
     }
+
 
 # ================================
 # INITIALIZATION
@@ -138,4 +155,6 @@ def get_decision_config_summary() -> dict:
 
 # Validate constants on import
 if not validate_decision_constants():
-    raise ValueError("Decision constants validation failed - check configuration values")
+    raise ValueError(
+        "Decision constants validation failed - check configuration values"
+    )

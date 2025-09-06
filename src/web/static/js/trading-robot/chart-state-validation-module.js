@@ -1,11 +1,11 @@
 /**
  * Chart State Validation Module - V2 Compliant Module
  * ==================================================
- * 
+ *
  * Main chart state validation module that coordinates all validation components.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -19,7 +19,7 @@ export class ChartStateValidationModule {
         this.validator = new ChartStateValidator();
         this.rules = new ChartStateRules();
         this.logger = new ChartStateLogger();
-        
+
         this.initializeRules();
     }
 
@@ -28,14 +28,14 @@ export class ChartStateValidationModule {
      */
     initializeRules() {
         const allRules = this.rules.getAllRules();
-        
+
         // Add all rules to validator
         Object.values(allRules).forEach(category => {
             Object.entries(category).forEach(([name, rule]) => {
                 this.validator.addRule(name, rule);
             });
         });
-        
+
         this.logger.info('Chart state validation rules initialized', {
             ruleCount: this.validator.getRuleCount()
         });
@@ -46,25 +46,25 @@ export class ChartStateValidationModule {
      */
     validateState(state) {
         this.logger.debug('Starting chart state validation', { state });
-        
+
         const startTime = Date.now();
         const result = this.validator.validateState(state);
         const validationTime = Date.now() - startTime;
-        
+
         this.logger.info('Chart state validation completed', {
             isValid: result.isValid,
             errorCount: result.errors.length,
             warningCount: result.warnings.length,
             validationTime
         });
-        
+
         if (!result.isValid) {
             this.logger.warn('Chart state validation failed', {
                 errors: result.errors,
                 warnings: result.warnings
             });
         }
-        
+
         return result;
     }
 
@@ -73,16 +73,16 @@ export class ChartStateValidationModule {
      */
     validateField(state, fieldName) {
         this.logger.debug('Validating chart state field', { fieldName });
-        
+
         const result = this.validator.validateField(state, fieldName);
-        
+
         this.logger.info('Field validation completed', {
             field: fieldName,
             isValid: result.isValid,
             errorCount: result.errors.length,
             warningCount: result.warnings.length
         });
-        
+
         return result;
     }
 
@@ -98,7 +98,7 @@ export class ChartStateValidationModule {
      */
     addCustomRule(name, rule) {
         const validation = this.rules.validateRuleDefinition(rule);
-        
+
         if (!validation.isValid) {
             this.logger.error('Failed to add custom rule', {
                 name,
@@ -106,7 +106,7 @@ export class ChartStateValidationModule {
             });
             return false;
         }
-        
+
         this.validator.addRule(name, rule);
         this.logger.info('Custom rule added', { name });
         return true;
@@ -171,7 +171,7 @@ export class ChartStateValidationModule {
         this.validator.clearRules();
         this.logger.clearLogs();
         this.initializeRules();
-        
+
         this.logger.info('Chart state validation module reset');
     }
 

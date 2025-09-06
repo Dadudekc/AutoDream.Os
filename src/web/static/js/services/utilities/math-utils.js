@@ -49,5 +49,3 @@ export class MathUtils {
         return start + (end - start) * factor;
     }
 }
-
-

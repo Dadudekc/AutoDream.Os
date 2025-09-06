@@ -15,6 +15,7 @@ from enum import Enum
 
 class SSOTExecutionPhase(Enum):
     """SSOT execution phases."""
+
     INITIALIZATION = "initialization"
     VALIDATION = "validation"
     EXECUTION = "execution"
@@ -25,6 +26,7 @@ class SSOTExecutionPhase(Enum):
 
 class SSOTValidationLevel(Enum):
     """SSOT validation levels."""
+
     BASIC = "basic"
     STANDARD = "standard"
     STRICT = "strict"
@@ -33,6 +35,7 @@ class SSOTValidationLevel(Enum):
 
 class SSOTComponentType(Enum):
     """SSOT component types."""
+
     EXECUTION = "execution"
     VALIDATION = "validation"
     INTEGRATION = "integration"
@@ -42,6 +45,7 @@ class SSOTComponentType(Enum):
 
 class SSOTStatus(Enum):
     """SSOT status states."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     ERROR = "error"
@@ -50,6 +54,7 @@ class SSOTStatus(Enum):
 
 class SSOTPriority(Enum):
     """SSOT priority levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"

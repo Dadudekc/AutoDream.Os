@@ -22,8 +22,12 @@ try:
 except ImportError:
     # Fallback implementations
     COORDINATE_CONFIG_FILE = "config/coordinates.json"
-    def read_json(path): return {}
-    def write_json(path, data): pass
+
+    def read_json(path):
+        return {}
+
+    def write_json(path, data):
+        pass
 
 
 class CoordinateHandler:
@@ -37,48 +41,51 @@ class CoordinateHandler:
         self.cache_ttl_seconds = 300  # 5 minutes
 
     async def load_coordinates_async(self, service=None) -> Dict[str, Any]:
-        """
-        Load agent coordinates asynchronously with caching.
-        
+        """Load agent coordinates asynchronously with caching.
+
         Args:
             service: Messaging service instance (optional)
-        
+
         Returns:
             Dict containing coordinate data and success status
         """
         try:
             # Check cache validity
             current_time = time.time()
-            if (self.last_coordinate_load and 
-                self.coordinates_cache and 
-                (current_time - self.last_coordinate_load) < self.cache_ttl_seconds):
-                
+            if (
+                self.last_coordinate_load
+                and self.coordinates_cache
+                and (current_time - self.last_coordinate_load) < self.cache_ttl_seconds
+            ):
+
                 return {
                     "success": True,
                     "coordinates": self.coordinates_cache,
                     "agent_count": len(self.coordinates_cache),
-                    "cached": True
+                    "cached": True,
                 }
-            
+
             # Load fresh coordinates
             coords_data = read_json(COORDINATE_CONFIG_FILE)
             coordinates = {}
-            
+
             if "agents" in coords_data:
                 for agent_id, agent_data in coords_data["agents"].items():
-                    coordinates[agent_id] = agent_data.get("chat_input_coordinates", [0, 0])
-            
+                    coordinates[agent_id] = agent_data.get(
+                        "chat_input_coordinates", [0, 0]
+                    )
+
             # Update cache
             self.coordinates_cache = coordinates
             self.last_coordinate_load = current_time
-            
+
             return {
                 "success": True,
                 "coordinates": coordinates,
                 "agent_count": len(coordinates),
-                "cached": False
+                "cached": False,
             }
-            
+
         except Exception as e:
             self.logger.error(f"Error loading coordinates: {e}")
             return {"success": False, "error": str(e)}
@@ -90,14 +97,14 @@ class CoordinateHandler:
             print("=" * 40)
             print(f"{'Agent':<12} {'X':<8} {'Y':<8}")
             print("-" * 40)
-            
+
             for agent_id, coords in sorted(coordinates.items()):
                 x, y = coords if len(coords) >= 2 else [0, 0]
                 print(f"{agent_id:<12} {x:<8} {y:<8}")
-            
+
             print("=" * 40)
             print(f"Total agents: {len(coordinates)}")
-            
+
         except Exception as e:
             self.logger.error(f"Error printing coordinates table: {e}")
 
@@ -107,9 +114,11 @@ class CoordinateHandler:
 
     def validate_coordinates(self, coordinates: List[int]) -> bool:
         """Validate coordinate format."""
-        return (isinstance(coordinates, list) and 
-                len(coordinates) >= 2 and 
-                all(isinstance(coord, (int, float)) for coord in coordinates[:2]))
+        return (
+            isinstance(coordinates, list)
+            and len(coordinates) >= 2
+            and all(isinstance(coord, (int, float)) for coord in coordinates[:2])
+        )
 
     def clear_cache(self) -> None:
         """Clear coordinate cache."""

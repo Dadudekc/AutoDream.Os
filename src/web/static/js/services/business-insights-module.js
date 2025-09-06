@@ -202,4 +202,3 @@ export class BusinessInsightsModule {
 export function createBusinessInsightsModule() {
     return new BusinessInsightsModule();
 }
-

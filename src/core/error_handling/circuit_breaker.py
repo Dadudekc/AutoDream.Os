@@ -17,60 +17,67 @@ from datetime import datetime
 
 # Import modular components
 from .circuit_breaker.core import CircuitState, CircuitBreakerConfig, CircuitBreakerCore
-from .circuit_breaker.executor import CircuitBreakerExecutor, CircuitBreakerOpenException
+from .circuit_breaker.executor import (
+    CircuitBreakerExecutor,
+    CircuitBreakerOpenException,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class CircuitBreaker:
     """Circuit breaker implementation for fault tolerance - V2 compliant."""
-    
+
     def __init__(self, config: CircuitBreakerConfig):
         """Initialize circuit breaker."""
         self.config = config
         self.core = CircuitBreakerCore(config)
         self.executor = CircuitBreakerExecutor(self.core)
-    
+
     def call(self, func: Callable, *args, **kwargs) -> Any:
         """Execute function with circuit breaker protection."""
         return self.executor.call(func, *args, **kwargs)
-    
-    def call_with_fallback(self, func: Callable, fallback_func: Callable, *args, **kwargs) -> Any:
+
+    def call_with_fallback(
+        self, func: Callable, fallback_func: Callable, *args, **kwargs
+    ) -> Any:
         """Execute function with fallback if circuit breaker is open."""
         return self.executor.call_with_fallback(func, fallback_func, *args, **kwargs)
-    
-    def call_with_retry(self, func: Callable, max_retries: int = 3, *args, **kwargs) -> Any:
+
+    def call_with_retry(
+        self, func: Callable, max_retries: int = 3, *args, **kwargs
+    ) -> Any:
         """Execute function with retry logic."""
         return self.executor.call_with_retry(func, max_retries, *args, **kwargs)
-    
+
     def is_available(self) -> bool:
         """Check if circuit breaker is available for calls."""
         return self.executor.is_available()
-    
+
     def get_retry_after(self) -> Optional[datetime]:
         """Get the time when the circuit breaker will be available again."""
         return self.executor.get_retry_after()
-    
+
     def get_status(self) -> dict:
         """Get current circuit breaker status."""
         return self.core.get_status()
-    
+
     # Backward compatibility properties
     @property
     def state(self) -> CircuitState:
         """Get current circuit state."""
         return self.core.state
-    
+
     @property
     def failure_count(self) -> int:
         """Get current failure count."""
         return self.core.failure_count
-    
+
     @property
     def last_failure_time(self) -> Optional[datetime]:
         """Get last failure time."""
         return self.core.last_failure_time
-    
+
     @property
     def next_attempt_time(self) -> Optional[datetime]:
         """Get next attempt time."""
@@ -80,18 +87,23 @@ class CircuitBreaker:
 # Global circuit breaker registry
 _circuit_breakers = {}
 
-def get_circuit_breaker(name: str, config: CircuitBreakerConfig = None) -> CircuitBreaker:
+
+def get_circuit_breaker(
+    name: str, config: CircuitBreakerConfig = None
+) -> CircuitBreaker:
     """Get or create circuit breaker by name."""
     if name not in _circuit_breakers:
         if config is None:
             config = CircuitBreakerConfig(name)
         _circuit_breakers[name] = CircuitBreaker(config)
-    
+
     return _circuit_breakers[name]
+
 
 def list_circuit_breakers() -> dict:
     """List all circuit breakers and their status."""
     return {name: breaker.get_status() for name, breaker in _circuit_breakers.items()}
+
 
 def reset_circuit_breaker(name: str) -> bool:
     """Reset circuit breaker by name."""

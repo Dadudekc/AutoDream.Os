@@ -22,7 +22,7 @@ def create_enhanced_parser():
     parser.add_argument("--sender", "-s", default="Captain Agent-4", help="Sender name")
     parser.add_argument("--bulk", action="store_true", help="Send to all agents")
     parser.add_argument(
-        "--mode",
+        "--delivery-mode",
         choices=["pyautogui", "inbox"],
         default="pyautogui",
         help="Delivery mode",
@@ -31,17 +31,27 @@ def create_enhanced_parser():
     # Message type and priority
     parser.add_argument("--type", "-t", default="text", help="Message type")
     parser.add_argument("--priority", "-p", default="regular", help="Message priority")
-    parser.add_argument("--high-priority", action="store_true", help="Set high priority")
+    parser.add_argument(
+        "--high-priority", action="store_true", help="Set high priority"
+    )
 
     # Utility commands
-    parser.add_argument("--coordinates", action="store_true", help="Show agent coordinates")
-    parser.add_argument("--check-status", action="store_true", help="Check agent status")
+    parser.add_argument(
+        "--coordinates", action="store_true", help="Show agent coordinates"
+    )
+    parser.add_argument(
+        "--check-status", action="store_true", help="Check agent status"
+    )
     parser.add_argument("--list-agents", action="store_true", help="List all agents")
     parser.add_argument("--history", action="store_true", help="Show message history")
 
     # Onboarding commands
-    parser.add_argument("--onboarding", action="store_true", help="Send onboarding to all agents")
-    parser.add_argument("--onboard", action="store_true", help="Send onboarding to specific agent")
+    parser.add_argument(
+        "--onboarding", action="store_true", help="Send onboarding to all agents"
+    )
+    parser.add_argument(
+        "--onboard", action="store_true", help="Send onboarding to specific agent"
+    )
     parser.add_argument(
         "--onboarding-style",
         choices=["friendly", "professional", "architectural"],
@@ -53,19 +63,29 @@ def create_enhanced_parser():
         choices=["SRP", "OCP", "LSP", "ISP", "DIP", "SSOT", "DRY", "KISS", "TDD"],
         help="Specific architectural principle for onboarding (overrides agent assignment)",
     )
-    parser.add_argument("--compliance-mode", action="store_true", help="Activate compliance mode")
+    parser.add_argument(
+        "--compliance-mode", action="store_true", help="Activate compliance mode"
+    )
     parser.add_argument("--wrapup", action="store_true", help="Send wrapup message")
 
     # Hard onboarding with safety options
     parser.add_argument(
-        "--hard-onboarding", action="store_true", help="Run hard onboarding sequence for agents"
+        "--hard-onboarding",
+        action="store_true",
+        help="Run hard onboarding sequence for agents",
     )
     parser.add_argument(
-        "--agents", type=str, default="", help="Comma-separated agent IDs to scope the operation"
+        "--audit-cleanup",
+        action="store_true",
+        help="After onboarding, run cleanup auditor and fail on guard",
     )
     parser.add_argument(
-        "--yes", action="store_true", help="Skip confirmation prompts"
+        "--agents",
+        type=str,
+        default="",
+        help="Comma-separated agent IDs to scope the operation",
     )
+    parser.add_argument("--yes", action="store_true", help="Skip confirmation prompts")
     parser.add_argument(
         "--dry-run", action="store_true", help="Simulate without making changes"
     )
@@ -73,12 +93,49 @@ def create_enhanced_parser():
         "--timeout", type=int, default=30, help="Per-agent timeout seconds"
     )
 
+    # UI mode
+    parser.add_argument(
+        "--ui",
+        action="store_true",
+        help="Use PyAutoGUI to deliver onboarding via UI automation",
+    )
+    parser.add_argument(
+        "--ui-retries", type=int, default=1, help="UI validation retries"
+    )
+    parser.add_argument(
+        "--ui-tolerance", type=int, default=3, help="Pixel tolerance for UI validation"
+    )
+
+    # NEW: Onboarding Modes & Proof
+    parser.add_argument(
+        "--onboarding-mode",
+        type=str,
+        default="quality-suite",
+        choices=["quality-suite", "solid", "ssot", "dry", "kiss", "tdd"],
+        help="Role assignment mode for onboarding",
+    )
+    parser.add_argument(
+        "--assign-roles",
+        type=str,
+        default="",
+        help="Explicit role map: 'Agent-1:SOLID,Agent-2:DRY'",
+    )
+    parser.add_argument(
+        "--proof", action="store_true", help="Emit TDD proof ledger after onboarding"
+    )
+
     # Contract commands
-    parser.add_argument("--get-next-task", action="store_true", help="Get next task for agent")
-    parser.add_argument("--check-contracts", action="store_true", help="Check contract status")
+    parser.add_argument(
+        "--get-next-task", action="store_true", help="Get next task for agent"
+    )
+    parser.add_argument(
+        "--check-contracts", action="store_true", help="Check contract status"
+    )
 
     # Additional options
-    parser.add_argument("--no-paste", action="store_true", help="Don't use paste method")
+    parser.add_argument(
+        "--no-paste", action="store_true", help="Don't use paste method"
+    )
     parser.add_argument(
         "--new-tab-method",
         choices=["ctrl_t", "ctrl_n"],
@@ -103,35 +160,45 @@ def create_parser():
 
 def handle_contract_commands(args):
     """Lazy import wrapper for contract commands."""
-    from .messaging_cli_handlers import handle_contract_commands as _handle_contract_commands
+    from .messaging_cli_handlers import (
+        handle_contract_commands as _handle_contract_commands,
+    )
 
     return _handle_contract_commands(args)
 
 
 def handle_message_commands(args):
     """Lazy import wrapper for message commands."""
-    from .messaging_cli_handlers import handle_message_commands as _handle_message_commands
+    from .messaging_cli_handlers import (
+        handle_message_commands as _handle_message_commands,
+    )
 
     return _handle_message_commands(args)
 
 
 def handle_onboarding_commands(args):
     """Lazy import wrapper for onboarding commands."""
-    from .messaging_cli_handlers import handle_onboarding_commands as _handle_onboarding_commands
+    from .messaging_cli_handlers import (
+        handle_onboarding_commands as _handle_onboarding_commands,
+    )
 
     return _handle_onboarding_commands(args)
 
 
 def handle_utility_commands(args):
     """Lazy import wrapper for utility commands."""
-    from .messaging_cli_handlers import handle_utility_commands as _handle_utility_commands
+    from .messaging_cli_handlers import (
+        handle_utility_commands as _handle_utility_commands,
+    )
 
     return _handle_utility_commands(args)
 
 
 def handle_overnight_commands(args):
     """Lazy import wrapper for overnight commands."""
-    from .messaging_cli_handlers import handle_overnight_commands as _handle_overnight_commands
+    from .messaging_cli_handlers import (
+        handle_overnight_commands as _handle_overnight_commands,
+    )
 
     return _handle_overnight_commands(args)
 

@@ -1,5 +1,4 @@
-"""
-Gaming Models
+"""Gaming Models.
 
 Data models and enums for gaming integration system.
 
@@ -11,6 +10,7 @@ from datetime import datetime
 
 class IntegrationStatus(Enum):
     """Status of gaming system integration."""
+
     DISCONNECTED = "disconnected"
     CONNECTING = "connecting"
     CONNECTED = "connected"
@@ -20,6 +20,7 @@ class IntegrationStatus(Enum):
 
 class GameType(Enum):
     """Types of games supported by the system."""
+
     ACTION = "action"
     ADVENTURE = "adventure"
     PUZZLE = "puzzle"
@@ -33,6 +34,7 @@ class GameType(Enum):
 @dataclass
 class GameSession:
     """Represents an active gaming session."""
+
     session_id: str
     game_type: GameType
     player_id: str
@@ -45,6 +47,7 @@ class GameSession:
 @dataclass
 class EntertainmentSystem:
     """Represents an entertainment system component."""
+
     system_id: str
     system_type: str
     status: IntegrationStatus

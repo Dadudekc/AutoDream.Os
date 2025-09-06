@@ -30,13 +30,13 @@ export class SystemIntegrationTestMethodsUI {
         try {
             // Test Accordion component
             await this.testAccordionComponent();
-            
+
             // Test Breakpoint Handler
             await this.testBreakpointHandler();
-            
+
             // Test Lazy Loading
             await this.testLazyLoading();
-            
+
             // Test Touch Support
             await this.testTouchSupport();
 

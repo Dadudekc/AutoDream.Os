@@ -166,4 +166,3 @@ export class ComponentValidationModule {
 export function createComponentValidationModule() {
     return new ComponentValidationModule();
 }
-

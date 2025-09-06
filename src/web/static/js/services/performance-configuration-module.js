@@ -224,4 +224,3 @@ export class PerformanceConfigurationModule {
 export function createPerformanceConfigurationModule() {
     return new PerformanceConfigurationModule();
 }
-

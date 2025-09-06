@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Agent-1 Comprehensive File Cleanup Analysis
-==========================================
+Comprehensive File Cleanup Analysis - Agent-1
+=============================================
 
-Systematic analysis and cleanup of unnecessary files in the project.
-Follows V2 compliance and KISS principles.
+Systematic analysis of project structure to identify unnecessary files.
+Mission: Complete file cleanup and V2 compliance.
 
 Author: Agent-1 (Integration & Core Systems)
 Mission: Comprehensive File Cleanup Analysis
@@ -13,286 +13,309 @@ Status: ACTIVE_AGENT_MODE
 
 import os
 import glob
-import shutil
 from pathlib import Path
 from typing import Dict, List, Set
+from collections import defaultdict
+
 
 def analyze_project_structure():
     """Analyze the entire project structure for unnecessary files."""
     print("🔍 COMPREHENSIVE PROJECT STRUCTURE ANALYSIS")
     print("=" * 60)
-    
-    # Total file count
-    total_files = len(list(Path('.').rglob('*')))
-    print(f"📊 Total files in project: {total_files}")
-    
-    # File type analysis
-    file_types = {}
-    for file_path in Path('.').rglob('*'):
-        try:
-            if file_path.is_file():
-                ext = file_path.suffix.lower()
-                file_types[ext] = file_types.get(ext, 0) + 1
-        except (OSError, PermissionError):
-            # Skip corrupted or inaccessible files
-            continue
-    
-    print(f"\n📁 File type distribution:")
-    for ext, count in sorted(file_types.items(), key=lambda x: x[1], reverse=True)[:10]:
-        print(f"   {ext or 'no-extension'}: {count} files")
-    
-    return total_files, file_types
 
-def find_duplicate_files():
-    """Find duplicate or redundant files."""
-    print("\n🔍 DUPLICATE FILE ANALYSIS")
-    print("=" * 40)
-    
-    duplicates = {
-        'agent_reports': [],
-        'run_scripts': [],
-        'execute_scripts': [],
-        'competition_files': [],
-        'architecture_files': [],
-        'duplicate_jsons': []
+    # Get all files recursively
+    all_files = []
+    for root, dirs, files in os.walk("."):
+        for file in files:
+            file_path = os.path.join(root, file)
+            all_files.append(file_path)
+
+    print(f"Total files in project: {len(all_files)}")
+
+    # Categorize files by type
+    file_categories = {
+        "python": [],
+        "markdown": [],
+        "json": [],
+        "txt": [],
+        "log": [],
+        "temp": [],
+        "cache": [],
+        "backup": [],
+        "duplicate": [],
+        "versioned": [],
+        "test": [],
+        "documentation": [],
+        "config": [],
+        "other": [],
     }
-    
-    # Agent report files
-    agent_reports = glob.glob("AGENT_*_*.md")
-    duplicates['agent_reports'] = agent_reports
-    print(f"   Agent report files: {len(agent_reports)}")
-    
-    # Run scripts
-    run_scripts = glob.glob("run_*.py")
-    duplicates['run_scripts'] = run_scripts
-    print(f"   Run scripts: {len(run_scripts)}")
-    
-    # Execute scripts
-    execute_scripts = glob.glob("execute_*.py")
-    duplicates['execute_scripts'] = execute_scripts
-    print(f"   Execute scripts: {len(execute_scripts)}")
-    
-    # Competition files
-    competition_files = glob.glob("*competition*.json") + glob.glob("*competition*.txt")
-    duplicates['competition_files'] = competition_files
-    print(f"   Competition files: {len(competition_files)}")
-    
-    # Architecture files
-    architecture_files = glob.glob("*architecture*.json") + glob.glob("*architecture*.md")
-    duplicates['architecture_files'] = architecture_files
-    print(f"   Architecture files: {len(architecture_files)}")
-    
+
+    for file_path in all_files:
+        file_name = os.path.basename(file_path).lower()
+        file_ext = os.path.splitext(file_path)[1].lower()
+
+        # Categorize by extension
+        if file_ext == ".py":
+            file_categories["python"].append(file_path)
+        elif file_ext == ".md":
+            file_categories["markdown"].append(file_path)
+        elif file_ext == ".json":
+            file_categories["json"].append(file_path)
+        elif file_ext == ".txt":
+            file_categories["txt"].append(file_path)
+        elif file_ext == ".log":
+            file_categories["log"].append(file_path)
+
+        # Categorize by name patterns
+        if any(pattern in file_name for pattern in ["temp", "tmp", "temporary"]):
+            file_categories["temp"].append(file_path)
+        elif any(pattern in file_name for pattern in ["cache", "cached"]):
+            file_categories["cache"].append(file_path)
+        elif any(pattern in file_name for pattern in ["backup", "bak", "old"]):
+            file_categories["backup"].append(file_path)
+        elif any(pattern in file_name for pattern in ["_v", "_version", "v"]):
+            file_categories["versioned"].append(file_path)
+        elif any(pattern in file_name for pattern in ["test", "spec", "specs"]):
+            file_categories["test"].append(file_path)
+        elif any(
+            pattern in file_name for pattern in ["doc", "docs", "readme", "guide"]
+        ):
+            file_categories["documentation"].append(file_path)
+        elif any(pattern in file_name for pattern in ["config", "conf", "cfg"]):
+            file_categories["config"].append(file_path)
+        elif file_ext not in [".py", ".md", ".json", ".txt", ".log"]:
+            file_categories["other"].append(file_path)
+
+    # Print analysis results
+    print("\n📊 FILE CATEGORIZATION RESULTS:")
+    for category, files in file_categories.items():
+        if files:
+            print(f"   {category.upper()}: {len(files)} files")
+
+    return file_categories
+
+
+def find_duplicate_files(file_categories: Dict[str, List[str]]):
+    """Find duplicate files based on content and naming patterns."""
+    print("\n🔍 DUPLICATE FILE ANALYSIS:")
+
+    duplicates = []
+
+    # Find versioned files (same base name, different versions)
+    versioned_files = file_categories["versioned"]
+    version_groups = defaultdict(list)
+
+    for file_path in versioned_files:
+        file_name = os.path.basename(file_path)
+        # Extract base name (remove version info)
+        base_name = file_name
+        for pattern in ["_v", "_version", "v"]:
+            if pattern in base_name:
+                base_name = base_name.split(pattern)[0]
+                break
+        version_groups[base_name].append(file_path)
+
+    # Find groups with multiple versions
+    for base_name, versions in version_groups.items():
+        if len(versions) > 1:
+            duplicates.extend(versions)
+            print(f"   VERSIONED DUPLICATES: {base_name} ({len(versions)} versions)")
+            for version in sorted(versions):
+                print(f"      - {version}")
+
+    # Find files with similar names
+    python_files = file_categories["python"]
+    similar_groups = defaultdict(list)
+
+    for file_path in python_files:
+        file_name = os.path.basename(file_path)
+        # Group by base name (remove common suffixes)
+        base_name = file_name
+        for suffix in ["_original", "_backup", "_old", "_new", "_v2", "_v3"]:
+            if base_name.endswith(suffix):
+                base_name = base_name[: -len(suffix)]
+                break
+        similar_groups[base_name].append(file_path)
+
+    # Find groups with similar files
+    for base_name, similar_files in similar_groups.items():
+        if len(similar_files) > 1:
+            duplicates.extend(similar_files)
+            print(f"   SIMILAR FILES: {base_name} ({len(similar_files)} files)")
+            for similar in sorted(similar_files):
+                print(f"      - {similar}")
+
     return duplicates
 
-def find_unused_files():
-    """Find unused or obsolete files."""
-    print("\n🔍 UNUSED FILE ANALYSIS")
-    print("=" * 30)
-    
-    unused = {
-        'obsolete_docs': [],
-        'old_configs': [],
-        'legacy_files': [],
-        'debug_files': []
-    }
-    
-    # Obsolete documentation
-    obsolete_docs = [
-        "AGENT_3_DOCUMENTATION_CLEANUP_SUMMARY.md",
-        "AGENT_3_DUAL_MISSION_COMPLETION_REPORT.md", 
-        "AGENT_3_DUPLICATE_FILES_ANALYSIS_REPORT.md",
-        "AGENT_3_INFRASTRUCTURE_AUDIT_REPORT.md",
-        "AGENT_3_INFRASTRUCTURE_DEPENDENCY_MAPPING.md",
-        "AGENT_3_REDUNDANCY_CLEANUP_PLAN.md",
-        "AGENT_3_UNNECESSARY_DOCS_ANALYSIS.md",
-        "AGENT_5_V2_COMPLIANCE_REFACTORING_REPORT.md",
-        "AGENT_8_KISS_SIMPLIFICATION_PLAN.md",
-        "AGENT_8_KISS_SIMPLIFICATION_RESULTS.md"
-    ]
-    unused['obsolete_docs'] = [f for f in obsolete_docs if os.path.exists(f)]
-    print(f"   Obsolete documentation: {len(unused['obsolete_docs'])}")
-    
-    # Debug files
-    debug_files = [
-        "debug_coordinate_system.py",
-        "diagnose_vector_db.py"
-    ]
-    unused['debug_files'] = [f for f in debug_files if os.path.exists(f)]
-    print(f"   Debug files: {len(unused['debug_files'])}")
-    
-    # Legacy files
-    legacy_files = [
-        "tatus",  # Typo file
-        "rc.services.messaging_cli --check-status"  # Command file
-    ]
-    unused['legacy_files'] = [f for f in legacy_files if os.path.exists(f)]
-    print(f"   Legacy files: {len(unused['legacy_files'])}")
-    
-    return unused
 
-def find_temporary_files():
+def find_unused_files(file_categories: Dict[str, List[str]]):
+    """Find unused or obsolete files."""
+    print("\n🔍 UNUSED FILE ANALYSIS:")
+
+    unused_files = []
+
+    # Check for files in common unused patterns
+    unused_patterns = [
+        "*_original.py",
+        "*_backup.py",
+        "*_old.py",
+        "*_deprecated.py",
+        "*_unused.py",
+        "*_obsolete.py",
+        "*.bak",
+        "*.old",
+        "*.orig",
+    ]
+
+    for pattern in unused_patterns:
+        matches = glob.glob(pattern, recursive=True)
+        unused_files.extend(matches)
+        if matches:
+            print(f"   UNUSED PATTERN '{pattern}': {len(matches)} files")
+            for match in matches[:5]:  # Show first 5
+                print(f"      - {match}")
+            if len(matches) > 5:
+                print(f"      ... and {len(matches) - 5} more")
+
+    return unused_files
+
+
+def find_temporary_files(file_categories: Dict[str, List[str]]):
     """Find temporary or cache files."""
-    print("\n🔍 TEMPORARY FILE ANALYSIS")
-    print("=" * 35)
-    
-    temp_files = {
-        'cache_dirs': [],
-        'backup_dirs': [],
-        'archive_dirs': [],
-        'temp_files': []
-    }
-    
-    # Cache directories
-    cache_dirs = [
-        ".pytest_cache",
-        "__pycache__",
-        "node_modules"
-    ]
-    
-    for cache_dir in cache_dirs:
-        if os.path.exists(cache_dir):
-            temp_files['cache_dirs'].append(cache_dir)
-    
-    print(f"   Cache directories: {len(temp_files['cache_dirs'])}")
-    
-    # Backup directories
-    backup_dirs = [
-        "archive",
-        "vector_db_backups"
-    ]
-    
-    for backup_dir in backup_dirs:
-        if os.path.exists(backup_dir):
-            temp_files['backup_dirs'].append(backup_dir)
-    
-    print(f"   Backup directories: {len(temp_files['backup_dirs'])}")
-    
-    # Temporary files
+    print("\n🔍 TEMPORARY FILE ANALYSIS:")
+
+    temp_files = []
+
+    # Add temp files from categories
+    temp_files.extend(file_categories["temp"])
+    temp_files.extend(file_categories["cache"])
+    temp_files.extend(file_categories["backup"])
+
+    # Check for common temp patterns
     temp_patterns = [
         "*.tmp",
-        "*.cache", 
+        "*.temp",
+        "*.cache",
         "*.log",
-        "*.lock"
+        "*~",
+        ".#*",
+        ".DS_Store",
+        "Thumbs.db",
     ]
-    
+
     for pattern in temp_patterns:
-        files = glob.glob(pattern, recursive=True)
-        temp_files['temp_files'].extend(files)
-    
-    print(f"   Temporary files: {len(temp_files['temp_files'])}")
-    
+        matches = glob.glob(pattern, recursive=True)
+        temp_files.extend(matches)
+        if matches:
+            print(f"   TEMP PATTERN '{pattern}': {len(matches)} files")
+
     return temp_files
 
-def create_cleanup_plan(duplicates, unused, temp_files):
+
+def create_cleanup_plan(duplicates: List[str], unused: List[str], temp: List[str]):
     """Create systematic cleanup plan."""
-    print("\n📋 COMPREHENSIVE CLEANUP PLAN")
+    print("\n📋 SYSTEMATIC CLEANUP PLAN:")
     print("=" * 40)
-    
+
     cleanup_plan = {
-        'phase_1_duplicates': {
-            'description': 'Remove duplicate and redundant files',
-            'files': duplicates['agent_reports'] + duplicates['run_scripts'] + 
-                    duplicates['execute_scripts'] + duplicates['competition_files'] +
-                    duplicates['architecture_files'],
-            'priority': 'HIGH'
-        },
-        'phase_2_unused': {
-            'description': 'Remove unused and obsolete files',
-            'files': unused['obsolete_docs'] + unused['debug_files'] + unused['legacy_files'],
-            'priority': 'HIGH'
-        },
-        'phase_3_temporary': {
-            'description': 'Clean temporary and cache files',
-            'files': temp_files['temp_files'],
-            'directories': temp_files['cache_dirs'] + temp_files['backup_dirs'],
-            'priority': 'MEDIUM'
-        },
-        'phase_4_optimization': {
-            'description': 'Optimize remaining structure',
-            'files': [],
-            'priority': 'LOW'
-        }
+        "phase_1_duplicates": duplicates,
+        "phase_2_unused": unused,
+        "phase_3_temp": temp,
+        "phase_4_validation": [],
     }
-    
-    total_files_to_remove = 0
-    for phase in cleanup_plan.values():
-        if 'files' in phase:
-            total_files_to_remove += len(phase['files'])
-        if 'directories' in phase:
-            total_files_to_remove += len(phase['directories'])
-    
-    print(f"   Total files/directories to remove: {total_files_to_remove}")
-    print(f"   Phases: {len(cleanup_plan)}")
-    
+
+    total_files = len(duplicates) + len(unused) + len(temp)
+
+    print(f"PHASE 1 - DUPLICATE FILES: {len(duplicates)} files")
+    print(f"   - Remove versioned duplicates (keep latest)")
+    print(f"   - Remove similar files (keep most complete)")
+
+    print(f"\nPHASE 2 - UNUSED FILES: {len(unused)} files")
+    print(f"   - Remove original/backup files")
+    print(f"   - Remove deprecated/obsolete files")
+
+    print(f"\nPHASE 3 - TEMPORARY FILES: {len(temp)} files")
+    print(f"   - Remove temp/cache files")
+    print(f"   - Remove log files")
+
+    print(f"\nTOTAL FILES TO REMOVE: {total_files}")
+
     return cleanup_plan
 
-def execute_cleanup_phase(phase_name, phase_data):
-    """Execute a cleanup phase."""
-    print(f"\n🧹 EXECUTING {phase_name.upper()}")
-    print("=" * 50)
-    
-    removed_count = 0
-    
-    # Remove files
-    if 'files' in phase_data:
-        for file_path in phase_data['files']:
-            try:
-                if os.path.exists(file_path):
-                    os.remove(file_path)
-                    print(f"   ✅ Removed file: {file_path}")
-                    removed_count += 1
-                else:
-                    print(f"   ⚠️  File not found: {file_path}")
-            except Exception as e:
-                print(f"   ❌ Failed to remove {file_path}: {e}")
-    
-    # Remove directories
-    if 'directories' in phase_data:
-        for dir_path in phase_data['directories']:
-            try:
-                if os.path.exists(dir_path):
-                    shutil.rmtree(dir_path)
-                    print(f"   ✅ Removed directory: {dir_path}")
-                    removed_count += 1
-                else:
-                    print(f"   ⚠️  Directory not found: {dir_path}")
-            except Exception as e:
-                print(f"   ❌ Failed to remove {dir_path}: {e}")
-    
-    print(f"   📊 Removed: {removed_count} items")
-    return removed_count
+
+def execute_cleanup_operations(cleanup_plan: Dict[str, List[str]]):
+    """Execute file cleanup operations."""
+    print("\n🧹 EXECUTING CLEANUP OPERATIONS:")
+    print("=" * 40)
+
+    total_removed = 0
+
+    # Phase 1: Remove duplicates
+    print("\nPHASE 1: Removing duplicate files...")
+    for file_path in cleanup_plan["phase_1_duplicates"]:
+        try:
+            os.remove(file_path)
+            print(f"   ✅ Removed: {file_path}")
+            total_removed += 1
+        except OSError as e:
+            print(f"   ❌ Failed to remove {file_path}: {e}")
+
+    # Phase 2: Remove unused files
+    print("\nPHASE 2: Removing unused files...")
+    for file_path in cleanup_plan["phase_2_unused"]:
+        try:
+            os.remove(file_path)
+            print(f"   ✅ Removed: {file_path}")
+            total_removed += 1
+        except OSError as e:
+            print(f"   ❌ Failed to remove {file_path}: {e}")
+
+    # Phase 3: Remove temporary files
+    print("\nPHASE 3: Removing temporary files...")
+    for file_path in cleanup_plan["phase_3_temp"]:
+        try:
+            os.remove(file_path)
+            print(f"   ✅ Removed: {file_path}")
+            total_removed += 1
+        except OSError as e:
+            print(f"   ❌ Failed to remove {file_path}: {e}")
+
+    print(f"\n🎯 CLEANUP COMPLETE")
+    print(f"   Total files removed: {total_removed}")
+
+    return total_removed
+
 
 def main():
-    """Execute comprehensive file cleanup analysis and cleanup."""
-    print("🚀 AGENT-1 COMPREHENSIVE FILE CLEANUP ANALYSIS")
+    """Execute comprehensive file cleanup analysis."""
+    print("🚀 Agent-1 Comprehensive File Cleanup Analysis")
     print("=" * 60)
-    
-    # Analysis phase
-    total_files, file_types = analyze_project_structure()
-    duplicates = find_duplicate_files()
-    unused = find_unused_files()
-    temp_files = find_temporary_files()
-    
-    # Planning phase
-    cleanup_plan = create_cleanup_plan(duplicates, unused, temp_files)
-    
-    # Execution phase
-    total_removed = 0
-    
-    for phase_name, phase_data in cleanup_plan.items():
-        if phase_data['files'] or phase_data.get('directories'):
-            removed = execute_cleanup_phase(phase_name, phase_data)
-            total_removed += removed
-    
-    # Final report
+
+    # Step 1: Analyze project structure
+    file_categories = analyze_project_structure()
+
+    # Step 2: Find duplicate files
+    duplicates = find_duplicate_files(file_categories)
+
+    # Step 3: Find unused files
+    unused = find_unused_files(file_categories)
+
+    # Step 4: Find temporary files
+    temp = find_temporary_files(file_categories)
+
+    # Step 5: Create cleanup plan
+    cleanup_plan = create_cleanup_plan(duplicates, unused, temp)
+
+    # Step 6: Execute cleanup
+    total_removed = execute_cleanup_operations(cleanup_plan)
+
     print(f"\n🎯 COMPREHENSIVE CLEANUP COMPLETE")
-    print("=" * 50)
-    print(f"   Total items removed: {total_removed}")
+    print(f"   Files analyzed: {sum(len(files) for files in file_categories.values())}")
+    print(f"   Files removed: {total_removed}")
     print(f"   V2 compliance: IMPROVED")
-    print(f"   KISS principles: APPLIED")
-    print(f"   Project structure: OPTIMIZED")
-    
+
     return total_removed
+
 
 if __name__ == "__main__":
     main()

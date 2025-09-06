@@ -8,6 +8,7 @@ V2 COMPLIANCE: Under 300-line limit
 """
 
 import logging
+
 # Temporarily commented out until unified logging system is properly configured
 # from src.core.consolidation.unified_logging_system import UnifiedLoggingSystem
 # UnifiedLogger = UnifiedLoggingSystem

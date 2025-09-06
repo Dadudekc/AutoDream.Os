@@ -22,7 +22,7 @@ export class SystemIntegrationTestReporting {
      */
     generateTestReport(testResults) {
         console.log('📊 Generating test report...');
-        
+
         const report = {
             timestamp: new Date().toISOString(),
             summary: this.generateTestSummary(testResults),
@@ -34,7 +34,7 @@ export class SystemIntegrationTestReporting {
 
         this.displayTestReport(report);
         this.saveTestReport(report);
-        
+
         return report;
     }
 
@@ -52,7 +52,7 @@ export class SystemIntegrationTestReporting {
         };
 
         summary.successRate = summary.totalTests > 0 ? (summary.passed / summary.totalTests * 100).toFixed(2) : 0;
-        
+
         return summary;
     }
 
@@ -61,10 +61,10 @@ export class SystemIntegrationTestReporting {
      */
     calculateExecutionTime(testResults) {
         if (testResults.length === 0) return 0;
-        
+
         const startTime = new Date(testResults[0].timestamp);
         const endTime = new Date(testResults[testResults.length - 1].timestamp);
-        
+
         return endTime - startTime;
     }
 
@@ -73,10 +73,10 @@ export class SystemIntegrationTestReporting {
      */
     generateRecommendations(testResults) {
         const recommendations = [];
-        
+
         const failedTests = testResults.filter(r => r.result === 'FAIL');
         const warningTests = testResults.filter(r => r.result === 'WARN');
-        
+
         if (failedTests.length > 0) {
             recommendations.push({
                 type: 'CRITICAL',
@@ -84,7 +84,7 @@ export class SystemIntegrationTestReporting {
                 tests: failedTests.map(t => t.testName)
             });
         }
-        
+
         if (warningTests.length > 0) {
             recommendations.push({
                 type: 'WARNING',
@@ -92,7 +92,7 @@ export class SystemIntegrationTestReporting {
                 tests: warningTests.map(t => t.testName)
             });
         }
-        
+
         // Performance recommendations
         const performanceMetrics = this.testCore.getPerformanceMetrics();
         if (performanceMetrics.averageResponseTime > 1000) {
@@ -103,7 +103,7 @@ export class SystemIntegrationTestReporting {
                 value: performanceMetrics.averageResponseTime
             });
         }
-        
+
         return recommendations;
     }
 
@@ -120,14 +120,14 @@ export class SystemIntegrationTestReporting {
         console.log(`⚠️  Warnings: ${report.summary.warnings}`);
         console.log(`📈 Success Rate: ${report.summary.successRate}%`);
         console.log(`⏱️  Execution Time: ${report.summary.executionTime}ms`);
-        
+
         if (report.recommendations.length > 0) {
             console.log('\n🔍 RECOMMENDATIONS:');
             report.recommendations.forEach(rec => {
                 console.log(`  ${rec.type}: ${rec.message}`);
             });
         }
-        
+
         console.log('=====================================');
     }
 
@@ -139,10 +139,10 @@ export class SystemIntegrationTestReporting {
             // In a real implementation, this would save to a file or database
             const reportData = JSON.stringify(report, null, 2);
             console.log('💾 Test report saved successfully');
-            
+
             // Store in test core for later retrieval
             this.testCore.testReport = report;
-            
+
         } catch (error) {
             console.error('❌ Failed to save test report:', error);
         }
@@ -153,7 +153,7 @@ export class SystemIntegrationTestReporting {
      */
     exportTestResults(format = 'json') {
         const testResults = this.testCore.getTestResults();
-        
+
         switch (format.toLowerCase()) {
             case 'json':
                 return JSON.stringify(testResults, null, 2);
@@ -177,7 +177,7 @@ export class SystemIntegrationTestReporting {
             result.timestamp,
             JSON.stringify(result.details)
         ]);
-        
+
         return [headers, ...rows].map(row => row.join(',')).join('\n');
     }
 
@@ -186,13 +186,13 @@ export class SystemIntegrationTestReporting {
      */
     convertToXML(testResults) {
         let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<testResults>\n';
-        
+
         testResults.forEach(result => {
             xml += `  <test name="${result.testName}" result="${result.result}" timestamp="${result.timestamp}">\n`;
             xml += `    <details>${JSON.stringify(result.details)}</details>\n`;
             xml += '  </test>\n';
         });
-        
+
         xml += '</testResults>';
         return xml;
     }

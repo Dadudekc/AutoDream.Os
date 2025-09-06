@@ -193,4 +193,3 @@ export class ElementVisibilityModule {
 export function createElementVisibilityModule() {
     return new ElementVisibilityModule();
 }
-

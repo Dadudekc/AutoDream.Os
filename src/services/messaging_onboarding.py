@@ -9,7 +9,9 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
+from typing import Dict, List, Optional
 
+from ..models.messaging_models import (
     RecipientType,
     SenderType,
     UnifiedMessage,
@@ -82,7 +84,9 @@ class MessagingOnboarding:
             recipient_type=RecipientType.AGENT,
         )
 
-        get_logger(__name__).info(f"✅ ONBOARDING MESSAGE CREATED: Captain Agent-4 → {agent_id}")
+        get_logger(__name__).info(
+            f"✅ ONBOARDING MESSAGE CREATED: Captain Agent-4 → {agent_id}"
+        )
         get_logger(__name__).info(f"🎯 Style: {style}")
         get_logger(__name__).info(f"🆔 Message ID: {message.message_id}")
 
@@ -99,7 +103,9 @@ class MessagingOnboarding:
         if delivery_success:
             get_logger(__name__).info(f"✅ ONBOARDING MESSAGE DELIVERED TO {agent_id}")
         else:
-            get_logger(__name__).info(f"❌ ONBOARDING MESSAGE DELIVERY FAILED TO {agent_id}")
+            get_logger(__name__).info(
+                f"❌ ONBOARDING MESSAGE DELIVERY FAILED TO {agent_id}"
+            )
 
         get_logger(__name__).info()
         return delivery_success
@@ -112,7 +118,9 @@ class MessagingOnboarding:
     ) -> List[bool]:
         """Send onboarding messages to all agents."""
         results = []
-        get_logger(__name__).info(f"🚨 BULK ONBOARDING ACTIVATED - {style.upper()} MODE")
+        get_logger(__name__).info(
+            f"🚨 BULK ONBOARDING ACTIVATED - {style.upper()} MODE"
+        )
         get_logger(__name__).info(f"📋 CORRECT ORDER: Agent-4 will be onboarded LAST")
 
         # CORRECT ORDER: Agent-4 LAST
@@ -137,5 +145,7 @@ class MessagingOnboarding:
 
         success_count = sum(results)
         total_count = len(results)
-        get_logger(__name__).info(f"📊 BULK ONBOARDING COMPLETED: {success_count}/{total_count} successful")
+        get_logger(__name__).info(
+            f"📊 BULK ONBOARDING COMPLETED: {success_count}/{total_count} successful"
+        )
         return results

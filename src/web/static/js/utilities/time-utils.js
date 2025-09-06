@@ -240,5 +240,3 @@ export class TimeUtils {
 export function createTimeUtils(logger = console) {
     return new TimeUtils(logger);
 }
-
-

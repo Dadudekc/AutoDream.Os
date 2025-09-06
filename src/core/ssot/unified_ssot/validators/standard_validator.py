@@ -17,113 +17,132 @@ from ..models import SSOTComponent, SSOTComponentType
 
 class StandardValidator:
     """Handles standard SSOT component validation."""
-    
+
     def __init__(self):
         """Initialize standard validator."""
         self.validation_rules = {
-            'valid_priorities': ['low', 'medium', 'high', 'critical'],
-            'valid_statuses': ['active', 'inactive', 'deprecated', 'maintenance'],
-            'max_age_days': 365,  # Components shouldn't be older than 1 year without updates
-            'min_update_frequency_days': 30
+            "valid_priorities": ["low", "medium", "high", "critical"],
+            "valid_statuses": ["active", "inactive", "deprecated", "maintenance"],
+            "max_age_days": (
+                365
+            ),  # Components shouldn't be older than 1 year without updates
+            "min_update_frequency_days": 30,
         }
-    
+
     def validate_standard_fields(self, component: SSOTComponent) -> List[str]:
         """Validate standard component fields."""
         issues = []
-        
+
         try:
             # Check priority if present
-            if hasattr(component, 'priority') and component.priority:
-                if component.priority.lower() not in self.validation_rules['valid_priorities']:
+            if hasattr(component, "priority") and component.priority:
+                if (
+                    component.priority.lower()
+                    not in self.validation_rules["valid_priorities"]
+                ):
                     issues.append(f"Invalid priority: {component.priority}")
-            
+
             # Check status if present
-            if hasattr(component, 'status') and component.status:
-                if component.status.lower() not in self.validation_rules['valid_statuses']:
+            if hasattr(component, "status") and component.status:
+                if (
+                    component.status.lower()
+                    not in self.validation_rules["valid_statuses"]
+                ):
                     issues.append(f"Invalid status: {component.status}")
-            
+
             # Check component age
-            if hasattr(component, 'created_at') and component.created_at:
+            if hasattr(component, "created_at") and component.created_at:
                 age = datetime.now() - component.created_at
-                if age.days > self.validation_rules['max_age_days']:
+                if age.days > self.validation_rules["max_age_days"]:
                     issues.append(f"Component is too old ({age.days} days)")
-            
+
             # Check update frequency
-            if hasattr(component, 'updated_at') and component.updated_at:
+            if hasattr(component, "updated_at") and component.updated_at:
                 days_since_update = (datetime.now() - component.updated_at).days
-                if days_since_update > self.validation_rules['min_update_frequency_days']:
-                    issues.append(f"Component not updated recently ({days_since_update} days)")
-            
+                if (
+                    days_since_update
+                    > self.validation_rules["min_update_frequency_days"]
+                ):
+                    issues.append(
+                        f"Component not updated recently ({days_since_update} days)"
+                    )
+
             # Check configuration if present
-            if hasattr(component, 'configuration') and component.configuration:
+            if hasattr(component, "configuration") and component.configuration:
                 config_issues = self._validate_configuration(component.configuration)
                 issues.extend(config_issues)
-            
+
         except Exception as e:
             issues.append(f"Standard validation error: {str(e)}")
-        
+
         return issues
-    
+
     def validate_component_relationships(self, component: SSOTComponent) -> List[str]:
         """Validate component relationships."""
         issues = []
-        
+
         try:
             # Check parent-child relationships
-            if hasattr(component, 'parent_id') and hasattr(component, 'children'):
+            if hasattr(component, "parent_id") and hasattr(component, "children"):
                 if component.parent_id and component.children:
                     issues.append("Component cannot have both parent and children")
-            
+
             # Check circular dependencies
-            if hasattr(component, 'dependencies') and component.dependencies:
-                if hasattr(component, 'component_id') and component.component_id in component.dependencies:
+            if hasattr(component, "dependencies") and component.dependencies:
+                if (
+                    hasattr(component, "component_id")
+                    and component.component_id in component.dependencies
+                ):
                     issues.append("Component cannot depend on itself")
-            
+
             # Check component type consistency
-            if hasattr(component, 'component_type') and hasattr(component, 'parent_id'):
-                if component.component_type == SSOTComponentType.ROOT and component.parent_id:
+            if hasattr(component, "component_type") and hasattr(component, "parent_id"):
+                if (
+                    component.component_type == SSOTComponentType.ROOT
+                    and component.parent_id
+                ):
                     issues.append("Root component cannot have a parent")
-            
+
         except Exception as e:
             issues.append(f"Relationship validation error: {str(e)}")
-        
+
         return issues
-    
+
     def _validate_configuration(self, configuration: Dict[str, Any]) -> List[str]:
         """Validate component configuration."""
         issues = []
-        
+
         try:
             if not isinstance(configuration, dict):
                 issues.append("Configuration must be a dictionary")
                 return issues
-            
+
             # Check for required configuration keys based on component type
-            required_keys = ['enabled', 'settings']
+            required_keys = ["enabled", "settings"]
             for key in required_keys:
                 if key not in configuration:
                     issues.append(f"Missing required configuration key: {key}")
-            
+
             # Validate settings if present
-            if 'settings' in configuration:
-                settings = configuration['settings']
+            if "settings" in configuration:
+                settings = configuration["settings"]
                 if not isinstance(settings, dict):
                     issues.append("Configuration settings must be a dictionary")
                 else:
                     # Check for circular references in settings
                     if self._has_circular_reference(settings):
                         issues.append("Configuration has circular references")
-            
+
         except Exception as e:
             issues.append(f"Configuration validation error: {str(e)}")
-        
+
         return issues
-    
+
     def _has_circular_reference(self, data: Any, visited: set = None) -> bool:
         """Check for circular references in configuration data."""
         if visited is None:
             visited = set()
-        
+
         try:
             if isinstance(data, dict):
                 for key, value in data.items():
@@ -141,12 +160,12 @@ class StandardValidator:
                     if self._has_circular_reference(item, visited):
                         return True
                     visited.remove(id(item))
-            
+
             return False
-            
+
         except Exception:
             return False
-    
+
     def get_validation_score(self, issues: List[str]) -> float:
         """Calculate validation score based on issues."""
         try:

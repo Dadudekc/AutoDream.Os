@@ -213,4 +213,3 @@ export class WebSocketConnectionCallbacks {
 export function createWebSocketConnectionCallbacks() {
     return new WebSocketConnectionCallbacks();
 }
-

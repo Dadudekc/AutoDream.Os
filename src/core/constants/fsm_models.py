@@ -23,13 +23,13 @@ from .fsm.configuration_models import FSMConfiguration
 
 # Re-export for backward compatibility
 __all__ = [
-    'StateDefinition',
-    'TransitionDefinition',
-    'FSMConfiguration',
-    'TransitionType',
-    'StateStatus',
-    'TransitionStatus',
-    'FSMErrorType'
+    "StateDefinition",
+    "TransitionDefinition",
+    "FSMConfiguration",
+    "TransitionType",
+    "StateStatus",
+    "TransitionStatus",
+    "FSMErrorType",
 ]
 
 # Backward compatibility - create aliases

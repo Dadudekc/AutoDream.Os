@@ -18,7 +18,7 @@ from .models.validation_models import (
     ValidationType,
     ValidationSeverity,
     ValidationResult,
-    ValidationRule
+    ValidationRule,
 )
 
 from .validation_coordinator import ValidationCoordinator
@@ -31,7 +31,7 @@ from .utils.validation_utils import (
     validate_string_length,
     validate_numeric_range,
     validate_regex_pattern,
-    validate_custom
+    validate_custom,
 )
 
 # Backward compatibility alias
@@ -39,6 +39,7 @@ UnifiedValidationSystem = ValidationCoordinator
 
 # Global instance for backward compatibility
 _unified_validator = None
+
 
 def get_unified_validator() -> ValidationCoordinator:
     """Get global unified validation instance."""

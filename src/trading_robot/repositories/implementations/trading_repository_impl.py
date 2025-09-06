@@ -21,8 +21,7 @@ from ..models import Trade
 
 
 class TradingRepositoryImpl(TradingRepositoryInterface):
-    """
-    In-memory implementation of trading repository with V2 compliance.
+    """In-memory implementation of trading repository with V2 compliance.
 
     V2 COMPLIANCE: Repository pattern with async operations and comprehensive error handling.
     DESIGN PATTERN: Repository pattern providing clean data access abstraction.
@@ -35,8 +34,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
         self._lock = asyncio.Lock()
 
     async def save_trade(self, trade: Trade) -> bool:
-        """
-        Save trade with V2 compliance.
+        """Save trade with V2 compliance.
 
         Args:
             trade: Trade object to save
@@ -60,8 +58,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return False
 
     async def get_trade(self, trade_id: str) -> Optional[Trade]:
-        """
-        Get trade by ID with V2 compliance.
+        """Get trade by ID with V2 compliance.
 
         Args:
             trade_id: Unique identifier for the trade
@@ -87,8 +84,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return None
 
     async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> List[Trade]:
-        """
-        Get trades for symbol with V2 compliance.
+        """Get trades for symbol with V2 compliance.
 
         Args:
             symbol: Trading symbol
@@ -118,8 +114,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return []
 
     async def get_all_trades(self, limit: int = 1000) -> List[Trade]:
-        """
-        Get all trades with V2 compliance.
+        """Get all trades with V2 compliance.
 
         Args:
             limit: Maximum number of trades to return
@@ -144,8 +139,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return []
 
     async def update_trade_status(self, trade_id: str, status: str) -> bool:
-        """
-        Update trade status with V2 compliance.
+        """Update trade status with V2 compliance.
 
         Args:
             trade_id: Unique identifier for the trade
@@ -159,7 +153,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
                 self.logger.error("Trade ID cannot be empty")
                 return False
 
-            if status not in ['pending', 'executed', 'cancelled']:
+            if status not in ["pending", "executed", "cancelled"]:
                 self.logger.error(f"Invalid status: {status}")
                 return False
 
@@ -177,8 +171,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return False
 
     async def delete_trade(self, trade_id: str) -> bool:
-        """
-        Delete trade with V2 compliance.
+        """Delete trade with V2 compliance.
 
         Args:
             trade_id: Unique identifier for the trade
@@ -205,8 +198,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return False
 
     async def get_trades_by_status(self, status: str, limit: int = 100) -> List[Trade]:
-        """
-        Get trades by status with V2 compliance.
+        """Get trades by status with V2 compliance.
 
         Args:
             status: Trade status ('pending', 'executed', 'cancelled')
@@ -216,7 +208,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             List of Trade objects with specified status
         """
         try:
-            if status not in ['pending', 'executed', 'cancelled']:
+            if status not in ["pending", "executed", "cancelled"]:
                 self.logger.error(f"Invalid status: {status}")
                 return []
 
@@ -235,9 +227,10 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             self.logger.error(f"Failed to get trades by status {status}: {e}")
             return []
 
-    async def get_trades_by_date_range(self, start_date, end_date, limit: int = 100) -> List[Trade]:
-        """
-        Get trades within date range with V2 compliance.
+    async def get_trades_by_date_range(
+        self, start_date, end_date, limit: int = 100
+    ) -> List[Trade]:
+        """Get trades within date range with V2 compliance.
 
         Args:
             start_date: Start date for filtering
@@ -253,8 +246,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
                 return []
 
             trades = [
-                t for t in self.trades.values()
-                if start_date <= t.timestamp <= end_date
+                t for t in self.trades.values() if start_date <= t.timestamp <= end_date
             ]
             trades.sort(key=lambda x: x.timestamp, reverse=True)
             result = trades[:limit]
@@ -267,8 +259,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return []
 
     async def get_trade_count(self) -> int:
-        """
-        Get total number of trades with V2 compliance.
+        """Get total number of trades with V2 compliance.
 
         Returns:
             Total number of trades in storage
@@ -283,8 +274,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             return 0
 
     async def clear_all_trades(self) -> bool:
-        """
-        Clear all trades with V2 compliance.
+        """Clear all trades with V2 compliance.
 
         Returns:
             True if successful, False otherwise

@@ -19,8 +19,7 @@ from ..models.trading_models import Trade, Position
 
 
 class InMemoryTradingRepository(TradingRepositoryInterface):
-    """
-    In-memory implementation of trading repository with V2 compliance.
+    """In-memory implementation of trading repository with V2 compliance.
 
     V2 COMPLIANCE: Thread-safe async operations, comprehensive error handling, proper logging.
     """
@@ -34,8 +33,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
         self._lock = asyncio.Lock()
 
     async def save_trade(self, trade: Trade) -> bool:
-        """
-        Save trade to memory with V2 compliance.
+        """Save trade to memory with V2 compliance.
 
         Args:
             trade: Trade object to save
@@ -59,8 +57,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return False
 
     async def get_trade(self, trade_id: str) -> Optional[Trade]:
-        """
-        Get trade by ID with V2 compliance.
+        """Get trade by ID with V2 compliance.
 
         Args:
             trade_id: Unique identifier for the trade
@@ -74,7 +71,9 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
                 return None
 
             trade = self.trades.get(trade_id)
-            self.logger.debug(f"Trade lookup: {trade_id} - {'found' if trade else 'not found'}")
+            self.logger.debug(
+                f"Trade lookup: {trade_id} - {'found' if trade else 'not found'}"
+            )
             return trade
 
         except Exception as e:
@@ -82,8 +81,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return None
 
     async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> List[Trade]:
-        """
-        Get trades by symbol with V2 compliance.
+        """Get trades by symbol with V2 compliance.
 
         Args:
             symbol: Trading symbol
@@ -97,9 +95,11 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
                 self.logger.error("Symbol cannot be empty")
                 return []
 
-            symbol_trades = [trade for trade in self.trades.values() if trade.symbol == symbol]
+            symbol_trades = [
+                trade for trade in self.trades.values() if trade.symbol == symbol
+            ]
             symbol_trades.sort(key=lambda t: t.timestamp, reverse=True)
-            
+
             result = symbol_trades[:limit]
             self.logger.debug(f"Found {len(result)} trades for symbol {symbol}")
             return result
@@ -109,8 +109,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return []
 
     async def get_trades_by_status(self, status: str, limit: int = 100) -> List[Trade]:
-        """
-        Get trades by status with V2 compliance.
+        """Get trades by status with V2 compliance.
 
         Args:
             status: Trade status
@@ -124,9 +123,11 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
                 self.logger.error("Status cannot be empty")
                 return []
 
-            status_trades = [trade for trade in self.trades.values() if trade.status == status]
+            status_trades = [
+                trade for trade in self.trades.values() if trade.status == status
+            ]
             status_trades.sort(key=lambda t: t.timestamp, reverse=True)
-            
+
             result = status_trades[:limit]
             self.logger.debug(f"Found {len(result)} trades with status {status}")
             return result
@@ -136,8 +137,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return []
 
     async def get_all_trades(self, limit: int = 1000) -> List[Trade]:
-        """
-        Get all trades with V2 compliance.
+        """Get all trades with V2 compliance.
 
         Args:
             limit: Maximum number of trades to return
@@ -148,7 +148,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
         try:
             all_trades = list(self.trades.values())
             all_trades.sort(key=lambda t: t.timestamp, reverse=True)
-            
+
             result = all_trades[:limit]
             self.logger.debug(f"Retrieved {len(result)} trades")
             return result
@@ -158,8 +158,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return []
 
     async def update_trade_status(self, trade_id: str, status: str) -> bool:
-        """
-        Update trade status with V2 compliance.
+        """Update trade status with V2 compliance.
 
         Args:
             trade_id: Unique identifier for the trade
@@ -173,7 +172,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
                 self.logger.error("Trade ID cannot be empty")
                 return False
 
-            if status not in ['pending', 'executed', 'cancelled']:
+            if status not in ["pending", "executed", "cancelled"]:
                 self.logger.error("Invalid status")
                 return False
 
@@ -191,8 +190,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return False
 
     async def delete_trade(self, trade_id: str) -> bool:
-        """
-        Delete trade with V2 compliance.
+        """Delete trade with V2 compliance.
 
         Args:
             trade_id: Unique identifier for the trade
@@ -219,8 +217,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return False
 
     async def save_position(self, position: Position) -> bool:
-        """
-        Save position with V2 compliance.
+        """Save position with V2 compliance.
 
         Args:
             position: Position object to save
@@ -244,8 +241,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return False
 
     async def get_position(self, symbol: str) -> Optional[Position]:
-        """
-        Get position by symbol with V2 compliance.
+        """Get position by symbol with V2 compliance.
 
         Args:
             symbol: Trading symbol
@@ -259,7 +255,9 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
                 return None
 
             position = self.positions.get(symbol)
-            self.logger.debug(f"Position lookup: {symbol} - {'found' if position else 'not found'}")
+            self.logger.debug(
+                f"Position lookup: {symbol} - {'found' if position else 'not found'}"
+            )
             return position
 
         except Exception as e:
@@ -267,8 +265,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return None
 
     async def get_all_positions(self) -> List[Position]:
-        """
-        Get all positions with V2 compliance.
+        """Get all positions with V2 compliance.
 
         Returns:
             List of Position objects
@@ -283,8 +280,7 @@ class InMemoryTradingRepository(TradingRepositoryInterface):
             return []
 
     async def delete_position(self, symbol: str) -> bool:
-        """
-        Delete position with V2 compliance.
+        """Delete position with V2 compliance.
 
         Args:
             symbol: Trading symbol

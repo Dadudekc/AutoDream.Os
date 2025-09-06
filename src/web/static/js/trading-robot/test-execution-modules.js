@@ -1,7 +1,7 @@
 /**
  * Test Execution Modules - V2 Compliant Testing Utilities
  * Handles all test execution and measurement operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT

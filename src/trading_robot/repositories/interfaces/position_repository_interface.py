@@ -17,8 +17,7 @@ from ..models import Position
 
 
 class PositionRepositoryInterface(ABC):
-    """
-    Abstract interface for position data access with V2 compliance.
+    """Abstract interface for position data access with V2 compliance.
 
     V2 COMPLIANCE: Repository pattern with async operations and comprehensive error handling.
     DESIGN PATTERN: Repository pattern providing clean data access abstraction.
@@ -26,8 +25,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def save_position(self, position: Position) -> bool:
-        """
-        Save position to storage.
+        """Save position to storage.
 
         Args:
             position: Position object to save
@@ -39,8 +37,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_position(self, symbol: str) -> Optional[Position]:
-        """
-        Retrieve position by symbol.
+        """Retrieve position by symbol.
 
         Args:
             symbol: Trading symbol
@@ -52,8 +49,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_all_positions(self) -> List[Position]:
-        """
-        Get all positions.
+        """Get all positions.
 
         Returns:
             List of Position objects
@@ -62,8 +58,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def update_position(self, position: Position) -> bool:
-        """
-        Update existing position.
+        """Update existing position.
 
         Args:
             position: Position object to update
@@ -75,8 +70,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def delete_position(self, symbol: str) -> bool:
-        """
-        Delete position by symbol.
+        """Delete position by symbol.
 
         Args:
             symbol: Trading symbol
@@ -88,8 +82,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_long_positions(self) -> List[Position]:
-        """
-        Get all long positions.
+        """Get all long positions.
 
         Returns:
             List of long Position objects
@@ -98,8 +91,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_short_positions(self) -> List[Position]:
-        """
-        Get all short positions.
+        """Get all short positions.
 
         Returns:
             List of short Position objects
@@ -108,8 +100,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_flat_positions(self) -> List[Position]:
-        """
-        Get all flat positions.
+        """Get all flat positions.
 
         Returns:
             List of flat Position objects
@@ -118,8 +109,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_profitable_positions(self) -> List[Position]:
-        """
-        Get all profitable positions.
+        """Get all profitable positions.
 
         Returns:
             List of profitable Position objects
@@ -128,8 +118,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_losing_positions(self) -> List[Position]:
-        """
-        Get all losing positions.
+        """Get all losing positions.
 
         Returns:
             List of losing Position objects
@@ -138,8 +127,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def update_position_prices(self, price_updates: dict) -> bool:
-        """
-        Update current prices for positions.
+        """Update current prices for positions.
 
         Args:
             price_updates: Dictionary of symbol -> price mappings
@@ -151,8 +139,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_position_count(self) -> int:
-        """
-        Get total number of positions.
+        """Get total number of positions.
 
         Returns:
             Total number of positions in storage
@@ -161,8 +148,7 @@ class PositionRepositoryInterface(ABC):
 
     @abstractmethod
     async def clear_all_positions(self) -> bool:
-        """
-        Clear all positions from storage.
+        """Clear all positions from storage.
 
         Returns:
             True if successful, False otherwise

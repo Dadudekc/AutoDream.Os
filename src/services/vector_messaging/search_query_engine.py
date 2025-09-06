@@ -14,25 +14,38 @@ from typing import Optional, Dict, Any, List
 import time
 import logging
 from ..models.vector_models import SearchQuery, SearchType, SearchResult, DocumentType
-from .vector_messaging_models import VectorDatabaseValidator, SearchResultSummary, VectorMessagingMetrics
+from .vector_messaging_models import (
+    VectorDatabaseValidator,
+    SearchResultSummary,
+    VectorMessagingMetrics,
+)
 
 
 class SearchQueryEngine:
     """Engine for performing search operations on vector database."""
-    
-    def __init__(self, vector_db_service, validator: VectorDatabaseValidator, 
-                 default_collection: str, logger: logging.Logger = None):
+
+    def __init__(
+        self,
+        vector_db_service,
+        validator: VectorDatabaseValidator,
+        default_collection: str,
+        logger: logging.Logger = None,
+    ):
         """Initialize search engine."""
         self.vector_db = vector_db_service
         self.validator = validator
         self.default_collection = default_collection
         self.logger = logger or logging.getLogger(__name__)
         self.metrics = VectorMessagingMetrics()
-    
-    def search_messages(self, query_text: str, agent_id: Optional[str] = None,
-                       limit: int = 10, similarity_threshold: float = 0.0) -> List[SearchResult]:
-        """
-        Search for similar messages.
+
+    def search_messages(
+        self,
+        query_text: str,
+        agent_id: Optional[str] = None,
+        limit: int = 10,
+        similarity_threshold: float = 0.0,
+    ) -> List[SearchResult]:
+        """Search for similar messages.
 
         Args:
             query_text: Search query
@@ -44,11 +57,13 @@ class SearchQueryEngine:
             List of search results
         """
         start_time = time.time()
-        
+
         try:
             # Validate search parameters
             if not self.validator.validate_search_query(query_text, limit):
-                self.logger.warning(f"Invalid search parameters: query='{query_text}', limit={limit}")
+                self.logger.warning(
+                    f"Invalid search parameters: query='{query_text}', limit={limit}"
+                )
                 return []
 
             # Create search query
@@ -63,7 +78,7 @@ class SearchQueryEngine:
 
             # Perform search
             results = self.vector_db.search(search_query, self.default_collection)
-            
+
             # Record metrics
             search_time = (time.time() - start_time) * 1000
             self.metrics.record_search(search_time)
@@ -77,11 +92,15 @@ class SearchQueryEngine:
             self.logger.error(f"❌ Error searching messages: {e}")
             return []
 
-    def search_devlogs(self, query_text: str, agent_id: Optional[str] = None,
-                      category: Optional[str] = None, limit: int = 10, 
-                      similarity_threshold: float = 0.0) -> List[SearchResult]:
-        """
-        Search for similar devlog entries.
+    def search_devlogs(
+        self,
+        query_text: str,
+        agent_id: Optional[str] = None,
+        category: Optional[str] = None,
+        limit: int = 10,
+        similarity_threshold: float = 0.0,
+    ) -> List[SearchResult]:
+        """Search for similar devlog entries.
 
         Args:
             query_text: Search query
@@ -94,11 +113,13 @@ class SearchQueryEngine:
             List of search results
         """
         start_time = time.time()
-        
+
         try:
             # Validate search parameters
             if not self.validator.validate_search_query(query_text, limit):
-                self.logger.warning(f"Invalid search parameters: query='{query_text}', limit={limit}")
+                self.logger.warning(
+                    f"Invalid search parameters: query='{query_text}', limit={limit}"
+                )
                 return []
 
             # Prepare filters
@@ -119,7 +140,7 @@ class SearchQueryEngine:
 
             # Perform search
             results = self.vector_db.search(search_query, self.default_collection)
-            
+
             # Record metrics
             search_time = (time.time() - start_time) * 1000
             self.metrics.record_search(search_time)
@@ -133,10 +154,14 @@ class SearchQueryEngine:
             self.logger.error(f"❌ Error searching devlogs: {e}")
             return []
 
-    def search_all(self, query_text: str, agent_id: Optional[str] = None,
-                  limit: int = 10, similarity_threshold: float = 0.0) -> List[SearchResult]:
-        """
-        Search across all document types.
+    def search_all(
+        self,
+        query_text: str,
+        agent_id: Optional[str] = None,
+        limit: int = 10,
+        similarity_threshold: float = 0.0,
+    ) -> List[SearchResult]:
+        """Search across all document types.
 
         Args:
             query_text: Search query
@@ -148,11 +173,13 @@ class SearchQueryEngine:
             List of search results
         """
         start_time = time.time()
-        
+
         try:
             # Validate search parameters
             if not self.validator.validate_search_query(query_text, limit):
-                self.logger.warning(f"Invalid search parameters: query='{query_text}', limit={limit}")
+                self.logger.warning(
+                    f"Invalid search parameters: query='{query_text}', limit={limit}"
+                )
                 return []
 
             # Create search query (no document type filter)
@@ -166,7 +193,7 @@ class SearchQueryEngine:
 
             # Perform search
             results = self.vector_db.search(search_query, self.default_collection)
-            
+
             # Record metrics
             search_time = (time.time() - start_time) * 1000
             self.metrics.record_search(search_time)
@@ -180,9 +207,10 @@ class SearchQueryEngine:
             self.logger.error(f"❌ Error searching all: {e}")
             return []
 
-    def get_related_messages(self, message_id: str, limit: int = 5) -> List[SearchResult]:
-        """
-        Find messages related to a specific message.
+    def get_related_messages(
+        self, message_id: str, limit: int = 5
+    ) -> List[SearchResult]:
+        """Find messages related to a specific message.
 
         Args:
             message_id: ID of the reference message
@@ -192,10 +220,12 @@ class SearchQueryEngine:
             List of related messages
         """
         start_time = time.time()
-        
+
         try:
             # Get the original message
-            original_doc = self.vector_db.get_document(message_id, self.default_collection)
+            original_doc = self.vector_db.get_document(
+                message_id, self.default_collection
+            )
             if not original_doc:
                 self.logger.warning(f"Message {message_id} not found")
                 return []
@@ -213,7 +243,7 @@ class SearchQueryEngine:
 
             # Filter out the original message
             related_results = [r for r in results if r.document.id != message_id]
-            
+
             # Record metrics
             search_time = (time.time() - start_time) * 1000
             self.metrics.record_search(search_time)
@@ -227,20 +257,20 @@ class SearchQueryEngine:
             self.logger.error(f"❌ Error finding related messages: {e}")
             return []
 
-    def search_by_metadata(self, metadata_filters: Dict[str, Any], 
-                          limit: int = 10) -> List[SearchResult]:
-        """
-        Search documents by metadata filters.
-        
+    def search_by_metadata(
+        self, metadata_filters: Dict[str, Any], limit: int = 10
+    ) -> List[SearchResult]:
+        """Search documents by metadata filters.
+
         Args:
             metadata_filters: Dictionary of metadata key-value pairs to filter by
             limit: Maximum number of results
-            
+
         Returns:
             List of search results
         """
         start_time = time.time()
-        
+
         try:
             # Create search query with metadata filters
             search_query = SearchQuery(
@@ -252,7 +282,7 @@ class SearchQueryEngine:
 
             # Perform search
             results = self.vector_db.search(search_query, self.default_collection)
-            
+
             # Record metrics
             search_time = (time.time() - start_time) * 1000
             self.metrics.record_search(search_time)
@@ -266,19 +296,23 @@ class SearchQueryEngine:
             self.logger.error(f"❌ Error searching by metadata: {e}")
             return []
 
-    def get_search_summary(self, query_text: str, results: List[SearchResult], 
-                          execution_time_ms: float, agent_filter: Optional[str] = None,
-                          document_type_filter: Optional[str] = None) -> SearchResultSummary:
-        """
-        Create a summary of search results.
-        
+    def get_search_summary(
+        self,
+        query_text: str,
+        results: List[SearchResult],
+        execution_time_ms: float,
+        agent_filter: Optional[str] = None,
+        document_type_filter: Optional[str] = None,
+    ) -> SearchResultSummary:
+        """Create a summary of search results.
+
         Args:
             query_text: Original search query
             results: Search results
             execution_time_ms: Search execution time in milliseconds
             agent_filter: Agent filter applied (if any)
             document_type_filter: Document type filter applied (if any)
-            
+
         Returns:
             SearchResultSummary object
         """
@@ -288,7 +322,7 @@ class SearchQueryEngine:
             collection_name=self.default_collection,
             execution_time_ms=execution_time_ms,
             agent_filter=agent_filter,
-            document_type_filter=document_type_filter
+            document_type_filter=document_type_filter,
         )
 
     def get_search_metrics(self) -> Dict[str, Any]:

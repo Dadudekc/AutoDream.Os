@@ -42,7 +42,7 @@ class UnifiedLoggingSystem {
     logOperationComplete(operationName, extra = {}) {
         const message = `Completed ${operationName}`;
         console.info(`[${this.name}] ${message}`, extra);
-        
+
         if (this.operationTimers.has(operationName)) {
             const duration = Date.now() - this.operationTimers.get(operationName);
             this.logPerformanceMetric(`${operationName}_duration`, duration);
@@ -201,7 +201,7 @@ export async function setupPerformanceMonitoring(eventEmitter) {
  */
 export function setupEventListeners(eventEmitter) {
     console.log('👂 Setting up event listeners...');
-    
+
     // Listen for dashboard events
     window.addEventListener('dashboard:viewChanged', (event) => {
         eventEmitter.handleViewChange(event.detail);

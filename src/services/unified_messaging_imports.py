@@ -12,16 +12,20 @@ License: MIT
 # Core unified system imports
 from src.utils.logger import get_logger
 
+
 def get_timestamp():
     return datetime.now().isoformat()
+
 
 try:
     pass  # Placeholder for future imports
 except ImportError:
     pass
 
+
 def get_unified_utility():
     return None
+
 
 # Standard library imports
 import logging
@@ -41,18 +45,21 @@ from .models.messaging_models import (
     UnifiedMessageStatus as MessageStatus,
     UnifiedSenderType as SenderType,
     UnifiedRecipientType as RecipientType,
-    DeliveryMethod
+    DeliveryMethod,
 )
+
 
 # Utility functions for common patterns
 def get_messaging_logger(name: str = __name__) -> logging.Logger:
     """Get messaging logger using unified logging system."""
     return get_logger(name)
 
+
 def load_coordinates_from_json():
     """Load agent coordinates from JSON file with error handling."""
     try:
         from pathlib import Path
+
         coord_file = Path(COORDINATE_CONFIG_FILE)
         if not coord_file.exists():
             return {}
@@ -68,6 +75,7 @@ def load_coordinates_from_json():
         print(f"Error loading coordinates: {e}")
         return {}
 
+
 def get_current_timestamp() -> str:
     """Get current timestamp with unified configuration system fallback."""
     try:
@@ -75,14 +83,16 @@ def get_current_timestamp() -> str:
     except:
         return datetime.now().isoformat()
 
+
 def read_json(file_path: Path) -> Dict[str, Any]:
     """Read JSON file with error handling."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"Error reading JSON file {file_path}: {e}")
         return {}
+
 
 # Constants to eliminate DRY violations
 COORDINATE_CONFIG_FILE = "cursor_agent_coords.json"
@@ -90,29 +100,34 @@ COORDINATE_CONFIG_FILE = "cursor_agent_coords.json"
 # Export all commonly used imports and constants
 __all__ = [
     # Constants
-    'COORDINATE_CONFIG_FILE',
-
+    "COORDINATE_CONFIG_FILE",
     # Unified system imports
-    'get_logger',
-    'get_timestamp',
-    'get_unified_utility',
-
+    "get_logger",
+    "get_timestamp",
+    "get_unified_utility",
     # Standard library imports
-    'json',
-    'logging',
-    'datetime',
-    'Path',
-
+    "json",
+    "logging",
+    "datetime",
+    "Path",
     # Type hints
-    'Any', 'Dict', 'List', 'Optional', 'Tuple',
-
+    "Any",
+    "Dict",
+    "List",
+    "Optional",
+    "Tuple",
     # Messaging models
-    'Message', 'MessagePriority', 'MessageType', 'MessageTag', 'MessageStatus',
-    'SenderType', 'RecipientType', 'DeliveryMethod',
-
+    "Message",
+    "MessagePriority",
+    "MessageType",
+    "MessageTag",
+    "MessageStatus",
+    "SenderType",
+    "RecipientType",
+    "DeliveryMethod",
     # Utility functions
-    'get_messaging_logger',
-    'load_coordinates_from_json',
-    'get_current_timestamp',
-    'read_json'
+    "get_messaging_logger",
+    "load_coordinates_from_json",
+    "get_current_timestamp",
+    "read_json",
 ]

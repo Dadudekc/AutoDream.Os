@@ -17,8 +17,7 @@ from ..models import Portfolio
 
 
 class PortfolioRepositoryInterface(ABC):
-    """
-    Abstract interface for portfolio data access with V2 compliance.
+    """Abstract interface for portfolio data access with V2 compliance.
 
     V2 COMPLIANCE: Repository pattern with async operations and comprehensive error handling.
     DESIGN PATTERN: Repository pattern providing clean data access abstraction.
@@ -26,8 +25,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def save_portfolio(self, portfolio: Portfolio) -> bool:
-        """
-        Save portfolio to storage.
+        """Save portfolio to storage.
 
         Args:
             portfolio: Portfolio object to save
@@ -39,8 +37,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_portfolio(self, portfolio_id: str) -> Optional[Portfolio]:
-        """
-        Retrieve portfolio by ID.
+        """Retrieve portfolio by ID.
 
         Args:
             portfolio_id: Unique identifier for the portfolio
@@ -52,8 +49,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_all_portfolios(self) -> List[Portfolio]:
-        """
-        Get all portfolios.
+        """Get all portfolios.
 
         Returns:
             List of Portfolio objects
@@ -62,8 +58,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def update_portfolio(self, portfolio: Portfolio) -> bool:
-        """
-        Update existing portfolio.
+        """Update existing portfolio.
 
         Args:
             portfolio: Portfolio object to update
@@ -75,8 +70,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def delete_portfolio(self, portfolio_id: str) -> bool:
-        """
-        Delete portfolio by ID.
+        """Delete portfolio by ID.
 
         Args:
             portfolio_id: Unique identifier for the portfolio
@@ -88,8 +82,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_portfolio_by_name(self, name: str) -> Optional[Portfolio]:
-        """
-        Retrieve portfolio by name.
+        """Retrieve portfolio by name.
 
         Args:
             name: Portfolio name
@@ -101,8 +94,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_portfolio_count(self) -> int:
-        """
-        Get total number of portfolios.
+        """Get total number of portfolios.
 
         Returns:
             Total number of portfolios in storage
@@ -111,8 +103,7 @@ class PortfolioRepositoryInterface(ABC):
 
     @abstractmethod
     async def clear_all_portfolios(self) -> bool:
-        """
-        Clear all portfolios from storage.
+        """Clear all portfolios from storage.
 
         Returns:
             True if successful, False otherwise

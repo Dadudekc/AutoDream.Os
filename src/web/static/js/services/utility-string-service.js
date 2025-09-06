@@ -31,7 +31,7 @@ class UnifiedLoggingSystem {
     logOperationComplete(operationName, extra = {}) {
         const message = `Completed ${operationName}`;
         console.info(`[${this.name}] ${message}`, extra);
-        
+
         if (this.operationTimers.has(operationName)) {
             const duration = Date.now() - this.operationTimers.get(operationName);
             this.logPerformanceMetric(`${operationName}_duration`, duration);
@@ -269,4 +269,3 @@ export function toKebabCase(str) {
 
 export { UtilityStringService, utilityStringService };
 export default utilityStringService;
-

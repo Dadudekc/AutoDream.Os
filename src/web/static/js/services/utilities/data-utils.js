@@ -75,5 +75,3 @@ export class DataUtils {
             .replace('YYYY', year);
     }
 }
-
-

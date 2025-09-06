@@ -13,4 +13,3 @@ export const config = {
     enableLazyLoading: true,
     enableAnimations: true
 };
-

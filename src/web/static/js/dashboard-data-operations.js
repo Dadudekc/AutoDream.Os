@@ -252,4 +252,3 @@ export function updateDashboardViewData(view, updateData, options = {}) {
 
 export { DashboardDataOperations, dashboardDataOperations };
 export default dashboardDataOperations;
-

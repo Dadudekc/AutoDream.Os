@@ -17,6 +17,7 @@ import time
 
 class ProcessingStrategy(Enum):
     """Data processing strategies."""
+
     SEQUENTIAL = "sequential"
     PARALLEL = "parallel"
     STREAMING = "streaming"
@@ -26,6 +27,7 @@ class ProcessingStrategy(Enum):
 
 class OptimizationLevel(Enum):
     """Optimization levels."""
+
     BASIC = "basic"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
@@ -35,14 +37,14 @@ class OptimizationLevel(Enum):
 @dataclass
 class ProcessingMetrics:
     """Processing performance metrics."""
-    
+
     operations_processed: int = 0
     processing_time_ms: float = 0.0
     memory_usage_mb: float = 0.0
     cache_hit_rate: float = 0.0
     parallel_efficiency: float = 0.0
     throughput_ops_per_sec: float = 0.0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
@@ -51,9 +53,9 @@ class ProcessingMetrics:
             "memory_usage_mb": self.memory_usage_mb,
             "cache_hit_rate": self.cache_hit_rate,
             "parallel_efficiency": self.parallel_efficiency,
-            "throughput_ops_per_sec": self.throughput_ops_per_sec
+            "throughput_ops_per_sec": self.throughput_ops_per_sec,
         }
-    
+
     def reset(self) -> None:
         """Reset all metrics to zero."""
         self.operations_processed = 0
@@ -67,7 +69,7 @@ class ProcessingMetrics:
 @dataclass
 class OptimizationConfig:
     """Configuration for data processing optimization."""
-    
+
     strategy: ProcessingStrategy = ProcessingStrategy.ADAPTIVE
     optimization_level: OptimizationLevel = OptimizationLevel.INTERMEDIATE
     target_improvement: float = 25.0  # Target 25% improvement
@@ -87,7 +89,7 @@ class OptimizationConfig:
 @dataclass
 class OptimizationResult:
     """Result of optimization operation."""
-    
+
     success: bool
     strategy_used: str
     execution_time_ms: float
@@ -101,12 +103,12 @@ class OptimizationResult:
 @dataclass
 class CacheEntry:
     """Cache entry for optimization results."""
-    
+
     key: str
     value: Any
     timestamp: float = field(default_factory=time.time)
     ttl_seconds: int = 3600
-    
+
     def is_expired(self) -> bool:
         """Check if cache entry is expired."""
         return time.time() - self.timestamp > self.ttl_seconds
@@ -115,7 +117,7 @@ class CacheEntry:
 @dataclass
 class PerformanceProfile:
     """Performance profile for optimization decisions."""
-    
+
     data_size: int
     operation_type: str
     recommended_strategy: ProcessingStrategy

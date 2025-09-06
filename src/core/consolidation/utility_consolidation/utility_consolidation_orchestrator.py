@@ -32,17 +32,17 @@ class UtilityConsolidationOrchestrator:
     def run_consolidation_analysis(self, source_directory: str) -> Dict[str, Any]:
         """Run complete consolidation analysis."""
         print("🔍 Starting utility consolidation analysis...")
-        
+
         # Analyze codebase
         analysis_results = self.engine.analyze_codebase(source_directory)
-        
+
         # Generate report
         report = self.generate_consolidation_report()
-        
+
         return {
             "analysis_results": analysis_results,
             "report": report,
-            "status": "completed"
+            "status": "completed",
         }
 
     def generate_consolidation_report(self) -> Dict[str, Any]:
@@ -54,15 +54,19 @@ class UtilityConsolidationOrchestrator:
             "consolidation_summary": {
                 "total_opportunities": len(self.engine.consolidation_opportunities),
                 "estimated_lines_reduced": sum(
-                    opp.estimated_reduction for opp in self.engine.consolidation_opportunities
+                    opp.estimated_reduction
+                    for opp in self.engine.consolidation_opportunities
                 ),
-                "high_priority_count": len([
-                    opp for opp in self.engine.consolidation_opportunities
-                    if opp.priority == "HIGH"
-                ]),
+                "high_priority_count": len(
+                    [
+                        opp
+                        for opp in self.engine.consolidation_opportunities
+                        if opp.priority == "HIGH"
+                    ]
+                ),
                 "consolidation_types": {},
             },
-            "detailed_opportunities": []
+            "detailed_opportunities": [],
         }
 
         # Group by consolidation type
@@ -94,72 +98,74 @@ class UtilityConsolidationOrchestrator:
                 success=False,
                 functions_consolidated=0,
                 lines_reduced=0,
-                error_message="Invalid opportunity index"
+                error_message="Invalid opportunity index",
             )
 
         opportunity = self.engine.consolidation_opportunities[opportunity_index]
-        
+
         try:
-            print(f"🔧 Executing consolidation for {opportunity.primary_function.name}...")
-            
+            print(
+                f"🔧 Executing consolidation for {opportunity.primary_function.name}..."
+            )
+
             # Create consolidated utility file
             consolidated_content = self._create_consolidated_function(opportunity)
-            
+
             # Write consolidated file
             consolidated_path = self._write_consolidated_file(
-                opportunity.primary_function.name,
-                consolidated_content
+                opportunity.primary_function.name, consolidated_content
             )
-            
+
             # Update references (simplified - would need more complex logic in practice)
             self._update_references(opportunity)
-            
+
             return ConsolidationResult(
                 success=True,
                 functions_consolidated=len(opportunity.duplicate_functions) + 1,
                 lines_reduced=opportunity.estimated_reduction,
-                new_file_path=consolidated_path
+                new_file_path=consolidated_path,
             )
-            
+
         except Exception as e:
             return ConsolidationResult(
                 success=False,
                 functions_consolidated=0,
                 lines_reduced=0,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     def _create_consolidated_function(self, opportunity) -> str:
         """Create consolidated function content."""
         primary = opportunity.primary_function
-        
+
         # Start with primary function
         consolidated = f"# Consolidated utility function: {primary.name}\n"
         consolidated += f"# Original file: {primary.file_path}\n"
         consolidated += f"# Consolidated from {len(opportunity.duplicate_functions) + 1} functions\n\n"
         consolidated += primary.content
-        
+
         # Add documentation about consolidation
         consolidated += f"\n# This function consolidates the following duplicates:\n"
         for dup in opportunity.duplicate_functions:
-            consolidated += f"# - {dup.file_path} (lines {dup.line_start}-{dup.line_end})\n"
-        
+            consolidated += (
+                f"# - {dup.file_path} (lines {dup.line_start}-{dup.line_end})\n"
+            )
+
         return consolidated
 
     def _write_consolidated_file(self, function_name: str, content: str) -> str:
         """Write consolidated function to file."""
         # Create target directory
         os.makedirs(self.config.target_directory, exist_ok=True)
-        
+
         # Write file
         file_path = os.path.join(
-            self.config.target_directory,
-            f"consolidated_{function_name}.py"
+            self.config.target_directory, f"consolidated_{function_name}.py"
         )
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
+
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)
-        
+
         return file_path
 
     def _update_references(self, opportunity) -> None:
@@ -173,9 +179,9 @@ class UtilityConsolidationOrchestrator:
 
     def save_report(self, report: Dict[str, Any], file_path: str) -> None:
         """Save consolidation report to file."""
-        with open(file_path, 'w', encoding='utf-8') as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, default=str)
-        
+
         print(f"💾 Report saved to {file_path}")
 
     def get_opportunities_summary(self) -> List[Dict[str, Any]]:

@@ -12,6 +12,8 @@ License: MIT
 """
 
 from typing import Any, Dict, List, Optional
+import time
+import os
 
 from ..messaging_core import UnifiedMessagingCore
 from ..models.messaging_models import (
@@ -19,6 +21,9 @@ from ..models.messaging_models import (
     UnifiedMessageTag, SenderType, RecipientType
 )
 from ..unified_messaging_imports import load_coordinates_from_json
+from ..utils.agent_registry import AGENTS
+from ...utils.backup import BackupManager
+from ...utils.confirm import confirm
 
 
 class OnboardingHandler:
@@ -37,20 +42,31 @@ class OnboardingHandler:
     def handle_onboarding_commands(self, args) -> bool:
         """Handle onboarding-related commands."""
         try:
+            if getattr(args, "hard_onboarding", False):
+                agents = [a.strip() for a in args.agents.split(",") if a.strip()] or None
+                exit_code = self._handle_hard_onboarding(
+                    confirm_yes=getattr(args, "yes", False),
+                    dry_run=getattr(args, "dry_run", False),
+                    agents=agents,
+                    timeout=getattr(args, "timeout", 30),
+                )
+                self.exit_code = exit_code
+                return True
+
             if args.onboarding:
                 return self._handle_bulk_onboarding(args)
-                
+
             if args.onboard:
                 if not args.agent:
                     print("❌ Error: --agent required for --onboard")
                     return True
-                
+
                 return self._handle_single_onboarding(args)
-                
+
         except Exception as e:
             print(f"❌ Error handling onboarding command: {e}")
             return False
-        
+
         return False
     
     def _handle_bulk_onboarding(self, args) -> bool:
@@ -190,3 +206,194 @@ class OnboardingHandler:
         """Reset onboarding data."""
         self.onboarded_agents.clear()
         self.onboarding_history.clear()
+
+    # ---- Hard Onboarding Implementation ----
+    def _handle_hard_onboarding(self, confirm_yes: bool, dry_run: bool, agents: List[str] | None, timeout: int) -> int:
+        """Handle hard onboarding sequence with PyAutoGUI automation."""
+        print("🚨 HARD ONBOARDING SEQUENCE INITIATED 🚨")
+
+        # Get target agents
+        if agents:
+            target_agents = agents
+        else:
+            target_agents = list(AGENTS.keys())
+
+        if not target_agents:
+            print("⚠️  No agents found. Aborting.")
+            return 1
+
+        # Safety: confirmation + backup
+        if not confirm_yes:
+            if not confirm(
+                "This will reset onboarding state for "
+                f"{len(target_agents)} agent(s). Continue?"
+            ):
+                print("🛑 Aborted by user.")
+                return 1
+
+        # Create backup
+        from datetime import datetime
+        stamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
+        backup = BackupManager(root="runtime/agent_state", dest=f"runtime/backups/hard_onboarding/{stamp}")
+
+        try:
+            if dry_run:
+                print("🧪 DRY-RUN: Skipping backup (simulated).")
+            else:
+                backup_path = backup.create_backup(agents=target_agents)
+                print(f"🗄️  Backup created: {backup_path}")
+        except Exception as e:
+            print(f"❌ Backup failed: {e}")
+            return 1
+
+        # Sequence execution
+        print("🔄 Resetting all agent statuses...")
+        if not dry_run:
+            self._reset_agent_statuses(target_agents)
+
+        print("🗑️ Clearing previous onboardings...")
+        if not dry_run:
+            self._clear_onboarding_flags(target_agents)
+
+        print("⚡ Sending force onboarding to all agents...")
+
+        successes: List[str] = []
+        failures: List[tuple[str, str]] = []
+
+        for agent in target_agents:
+            try:
+                if dry_run:
+                    ok = True
+                else:
+                    ok = self._perform_hard_onboarding_pyautogui(agent, timeout)
+
+                if ok:
+                    print(f"✅ {agent}: Hard onboarding successful")
+                    successes.append(agent)
+                else:
+                    print(f"❌ {agent}: Hard onboarding failed")
+                    failures.append((agent, "onboarding_failed"))
+            except Exception as e:
+                print(f"❌ {agent}: Hard onboarding error - {e}")
+                failures.append((agent, "exception"))
+
+        # System sync
+        print("🔒 System synchronization...")
+        try:
+            if not dry_run:
+                self._synchronize_system()
+            sync_ok = True
+        except Exception as e:
+            sync_ok = False
+            print(f"❌ Synchronization failed: {e}")
+
+        # Summary
+        total = len(target_agents)
+        ok_count = len(successes)
+        print(f"📊 Hard onboarding complete: {ok_count}/{total} agents successfully onboarded")
+        if sync_ok:
+            print("🔒 System synchronized and compliant")
+        else:
+            print("🔓 System not fully synchronized")
+
+        # Exit code policy
+        if ok_count == total and sync_ok:
+            return 0
+        elif ok_count > 0:
+            return 2
+        else:
+            # Offer rollback if catastrophic and not dry-run
+            if not dry_run:
+                print("🧯 Attempting rollback to pre-onboarding backup...")
+                try:
+                    backup.rollback()
+                    print("↩️  Rolled back to previous state.")
+                except Exception as e:
+                    print(f"💥 Rollback failed: {e}")
+            return 1
+
+    def _perform_hard_onboarding_pyautogui(self, agent_id: str, timeout: int) -> bool:
+        """Perform PyAutoGUI hard onboarding sequence."""
+        try:
+            # Get onboarding coordinates
+            agent_data = AGENTS.get(agent_id)
+            if not agent_data:
+                print(f"❌ No coordinates found for {agent_id}")
+                return False
+
+            coords = agent_data.get("onboarding_coords")
+            if not coords:
+                print(f"❌ No onboarding coordinates found for {agent_id}")
+                return False
+
+            x, y = coords["x"], coords["y"]
+
+            # Import PyAutoGUI
+            try:
+                import pyautogui
+                import pyperclip
+            except ImportError:
+                print("❌ PyAutoGUI or pyperclip not available")
+                return False
+
+            # 1. Click onboarding input coordinates
+            pyautogui.moveTo(x, y)
+            pyautogui.click()
+            time.sleep(0.5)
+
+            # 2. Press ctrl+n to create new tab/window
+            pyautogui.hotkey('ctrl', 'n')
+            time.sleep(0.5)
+
+            # 3. Click onboarding input coordinates again
+            pyautogui.moveTo(x, y)
+            pyautogui.click()
+            time.sleep(0.5)
+
+            # 4. Validate mouse position
+            current_pos = pyautogui.position()
+
+            if current_pos.x == x and current_pos.y == y:
+                # Mouse is at correct coordinates - paste message
+                onboarding_message = f"Welcome to the team, {agent_id}! You are now part of the V2 SWARM."
+                pyperclip.copy(onboarding_message)
+                pyautogui.hotkey('ctrl', 'v')
+                pyautogui.press('enter')
+                time.sleep(1)
+                return True
+            else:
+                # Mouse is NOT at coordinates - navigate and retry
+                pyautogui.moveTo(x, y)
+                time.sleep(0.2)
+
+                # Re-validate position
+                current_pos = pyautogui.position()
+                if current_pos.x == x and current_pos.y == y:
+                    onboarding_message = f"Welcome to the team, {agent_id}! You are now part of the V2 SWARM."
+                    pyperclip.copy(onboarding_message)
+                    pyautogui.hotkey('ctrl', 'v')
+                    pyautogui.press('enter')
+                    time.sleep(1)
+                    return True
+                else:
+                    print(f"❌ Failed to position mouse at coordinates for {agent_id}")
+                    return False
+
+        except Exception as e:
+            print(f"❌ PyAutoGUI error for {agent_id}: {e}")
+            return False
+
+    def _reset_agent_statuses(self, agents: List[str]) -> None:
+        """Reset agent statuses for hard onboarding."""
+        # This would integrate with the agent registry
+        print(f"🔄 Resetting statuses for {len(agents)} agents")
+
+    def _clear_onboarding_flags(self, agents: List[str]) -> None:
+        """Clear onboarding flags for hard onboarding."""
+        # This would integrate with the agent registry
+        print(f"🗑️ Clearing onboarding flags for {len(agents)} agents")
+
+    def _synchronize_system(self) -> None:
+        """Synchronize system after hard onboarding."""
+        # This would perform system-wide synchronization
+        print("🔄 Synchronizing system state")

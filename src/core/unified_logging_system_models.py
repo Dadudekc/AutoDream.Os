@@ -17,6 +17,7 @@ from datetime import datetime
 
 class LogLevel(Enum):
     """Standardized log levels."""
+
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"
@@ -27,13 +28,14 @@ class LogLevel(Enum):
 @dataclass
 class LogEntry:
     """Log entry data structure."""
+
     level: LogLevel
     message: str
     timestamp: datetime
     module: str
     function: str
     metadata: Dict[str, Any] = None
-    
+
     def __post_init__(self):
         """Initialize metadata if not provided."""
         if self.metadata is None:
@@ -43,6 +45,7 @@ class LogEntry:
 @dataclass
 class LoggingConfig:
     """Logging configuration."""
+
     level: LogLevel = LogLevel.INFO
     format_string: str = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     enable_file_logging: bool = True

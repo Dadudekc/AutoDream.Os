@@ -15,9 +15,12 @@ from typing import Dict, Any, Optional, List
 from datetime import datetime
 
 from .enums import DeploymentStatus, PatternType, DeploymentPriority
-from .data_models import MassDeploymentTarget, MaximumEfficiencyDeploymentStatus, DeploymentMetrics
+from .data_models import (
+    MassDeploymentTarget,
+    MaximumEfficiencyDeploymentStatus,
+    DeploymentMetrics,
+)
 from .config_models import DeploymentConfig
-
 
 # Constants
 DEFAULT_AGENT_DOMAINS = {
@@ -28,7 +31,7 @@ DEFAULT_AGENT_DOMAINS = {
     "Agent-5": "Business Intelligence",
     "Agent-6": "Gaming & Entertainment",
     "Agent-7": "Web Development",
-    "Agent-8": "SSOT & System Integration"
+    "Agent-8": "SSOT & System Integration",
 }
 
 DEPLOYMENT_TARGET_PRIORITIES = {
@@ -36,7 +39,7 @@ DEPLOYMENT_TARGET_PRIORITIES = {
     PatternType.MANAGER: DeploymentPriority.CRITICAL,
     PatternType.CONFIG: DeploymentPriority.MEDIUM,
     PatternType.INTEGRATION: DeploymentPriority.HIGH,
-    PatternType.ANALYTICS: DeploymentPriority.LOW
+    PatternType.ANALYTICS: DeploymentPriority.LOW,
 }
 
 
@@ -45,28 +48,26 @@ def create_default_config() -> DeploymentConfig:
     return DeploymentConfig()
 
 
-def create_deployment_target(file_path: str, pattern_type: str, 
-                           priority: str = DeploymentPriority.MEDIUM.value) -> MassDeploymentTarget:
+def create_deployment_target(
+    file_path: str, pattern_type: str, priority: str = DeploymentPriority.MEDIUM.value
+) -> MassDeploymentTarget:
     """Create deployment target with validation."""
     target = MassDeploymentTarget(
-        file_path=file_path,
-        pattern_type=pattern_type,
-        priority=priority
+        file_path=file_path, pattern_type=pattern_type, priority=priority
     )
     # Validation happens in __post_init__
     return target
 
 
-def create_deployment_status(agent_id: str, agent_name: str, 
-                           domain: str = "") -> MaximumEfficiencyDeploymentStatus:
+def create_deployment_status(
+    agent_id: str, agent_name: str, domain: str = ""
+) -> MaximumEfficiencyDeploymentStatus:
     """Create deployment status with validation."""
     if not domain:
         domain = DEFAULT_AGENT_DOMAINS.get(agent_id, "Unknown Domain")
-    
+
     status = MaximumEfficiencyDeploymentStatus(
-        agent_id=agent_id,
-        agent_name=agent_name,
-        domain=domain
+        agent_id=agent_id, agent_name=agent_name, domain=domain
     )
     # Validation happens in __post_init__
     return status
@@ -77,14 +78,19 @@ def create_deployment_metrics() -> DeploymentMetrics:
     return DeploymentMetrics(start_time=datetime.now())
 
 
-def create_deployment_target_from_pattern(file_path: str, pattern_type: PatternType) -> MassDeploymentTarget:
+def create_deployment_target_from_pattern(
+    file_path: str, pattern_type: PatternType
+) -> MassDeploymentTarget:
     """Create deployment target from pattern type."""
     priority = DEPLOYMENT_TARGET_PRIORITIES.get(pattern_type, DeploymentPriority.MEDIUM)
     return create_deployment_target(file_path, pattern_type.value, priority.value)
 
 
-def create_batch_deployment_targets(file_paths: List[str], pattern_type: str, 
-                                  priority: str = DeploymentPriority.MEDIUM.value) -> List[MassDeploymentTarget]:
+def create_batch_deployment_targets(
+    file_paths: List[str],
+    pattern_type: str,
+    priority: str = DeploymentPriority.MEDIUM.value,
+) -> List[MassDeploymentTarget]:
     """Create multiple deployment targets."""
     return [
         create_deployment_target(file_path, pattern_type, priority)
@@ -92,14 +98,20 @@ def create_batch_deployment_targets(file_paths: List[str], pattern_type: str,
     ]
 
 
-def create_deployment_status_for_agent(agent_id: str) -> MaximumEfficiencyDeploymentStatus:
+def create_deployment_status_for_agent(
+    agent_id: str,
+) -> MaximumEfficiencyDeploymentStatus:
     """Create deployment status for specific agent."""
-    agent_name = f"Agent {agent_id.split('-')[1]}" if '-' in agent_id else agent_id
+    agent_name = f"Agent {agent_id.split('-')[1]}" if "-" in agent_id else agent_id
     return create_deployment_status(agent_id, agent_name)
 
 
-def create_custom_config(max_concurrent: int = 5, timeout: int = 300, 
-                        retry_attempts: int = 3, target_efficiency: float = 0.85) -> DeploymentConfig:
+def create_custom_config(
+    max_concurrent: int = 5,
+    timeout: int = 300,
+    retry_attempts: int = 3,
+    target_efficiency: float = 0.85,
+) -> DeploymentConfig:
     """Create custom deployment configuration."""
     config = DeploymentConfig()
     config.max_concurrent_deployments = max_concurrent

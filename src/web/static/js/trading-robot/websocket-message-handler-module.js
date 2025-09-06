@@ -259,4 +259,3 @@ export function createWebSocketMessageHandlerModule(eventDispatcher) {
     }
     return module;
 }
-

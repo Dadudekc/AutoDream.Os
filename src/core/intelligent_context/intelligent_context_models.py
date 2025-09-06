@@ -17,6 +17,7 @@ from datetime import datetime
 
 class MissionPhase(Enum):
     """Mission phases."""
+
     PLANNING = "planning"
     EXECUTION = "execution"
     MONITORING = "monitoring"
@@ -26,6 +27,7 @@ class MissionPhase(Enum):
 
 class AgentStatus(Enum):
     """Agent availability status."""
+
     AVAILABLE = "available"
     BUSY = "busy"
     OFFLINE = "offline"
@@ -34,6 +36,7 @@ class AgentStatus(Enum):
 
 class RiskLevel(Enum):
     """Risk levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -43,7 +46,7 @@ class RiskLevel(Enum):
 @dataclass
 class MissionContext:
     """Mission context structure for intelligent retrieval."""
-    
+
     mission_id: str
     mission_type: str
     current_phase: str
@@ -54,7 +57,7 @@ class MissionContext:
     created_at: datetime = field(default_factory=datetime.now)
     last_updated: datetime = field(default_factory=datetime.now)
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -67,14 +70,14 @@ class MissionContext:
             "success_criteria": self.success_criteria,
             "created_at": self.created_at.isoformat(),
             "last_updated": self.last_updated.isoformat(),
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class AgentCapability:
     """Agent capability structure for matching and optimization."""
-    
+
     agent_id: str
     primary_role: str
     skills: Set[str] = field(default_factory=set)
@@ -85,7 +88,7 @@ class AgentCapability:
     availability_status: str = "available"
     last_active: datetime = field(default_factory=datetime.now)
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -98,14 +101,14 @@ class AgentCapability:
             "specialization": self.specialization,
             "availability_status": self.availability_status,
             "last_active": self.last_active.isoformat(),
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class SearchResult:
     """Search result structure."""
-    
+
     result_id: str
     content: str
     relevance_score: float
@@ -113,7 +116,7 @@ class SearchResult:
     source_id: str
     metadata: Dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -123,14 +126,14 @@ class SearchResult:
             "source_type": self.source_type,
             "source_id": self.source_id,
             "metadata": self.metadata,
-            "timestamp": self.timestamp.isoformat()
+            "timestamp": self.timestamp.isoformat(),
         }
 
 
 @dataclass
 class ContextRetrievalResult:
     """Result of context retrieval operation."""
-    
+
     success: bool
     mission_context: Optional[MissionContext] = None
     search_results: List[SearchResult] = field(default_factory=list)
@@ -139,25 +142,27 @@ class ContextRetrievalResult:
     success_prediction: Optional[Dict[str, Any]] = None
     execution_time_ms: float = 0.0
     error_message: Optional[str] = None
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
             "success": self.success,
-            "mission_context": self.mission_context.to_dict() if self.mission_context else None,
+            "mission_context": (
+                self.mission_context.to_dict() if self.mission_context else None
+            ),
             "search_results": [r.to_dict() for r in self.search_results],
             "agent_recommendations": self.agent_recommendations,
             "risk_assessment": self.risk_assessment,
             "success_prediction": self.success_prediction,
             "execution_time_ms": self.execution_time_ms,
-            "error_message": self.error_message
+            "error_message": self.error_message,
         }
 
 
 @dataclass
 class EmergencyContext:
     """Emergency context structure."""
-    
+
     emergency_id: str
     mission_id: str
     emergency_type: str
@@ -172,7 +177,7 @@ class EmergencyContext:
 @dataclass
 class InterventionProtocol:
     """Intervention protocol structure."""
-    
+
     protocol_id: str
     protocol_name: str
     trigger_conditions: List[str] = field(default_factory=list)
@@ -186,7 +191,7 @@ class InterventionProtocol:
 @dataclass
 class AgentRecommendation:
     """Agent recommendation structure."""
-    
+
     agent_id: str
     recommendation_score: float
     reasoning: List[str] = field(default_factory=list)
@@ -199,7 +204,7 @@ class AgentRecommendation:
 @dataclass
 class RiskAssessment:
     """Risk assessment structure."""
-    
+
     risk_id: str
     risk_level: str
     risk_factors: List[str] = field(default_factory=list)
@@ -212,7 +217,7 @@ class RiskAssessment:
 @dataclass
 class SuccessPrediction:
     """Success prediction structure."""
-    
+
     prediction_id: str
     success_probability: float
     confidence_level: float
@@ -225,7 +230,7 @@ class SuccessPrediction:
 @dataclass
 class ContextMetrics:
     """Metrics for context retrieval operations."""
-    
+
     total_retrievals: int = 0
     successful_retrievals: int = 0
     failed_retrievals: int = 0
@@ -236,7 +241,7 @@ class ContextMetrics:
     risk_assessments: int = 0
     success_predictions: int = 0
     last_updated: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
@@ -249,5 +254,5 @@ class ContextMetrics:
             "agent_optimizations": self.agent_optimizations,
             "risk_assessments": self.risk_assessments,
             "success_predictions": self.success_predictions,
-            "last_updated": self.last_updated.isoformat()
+            "last_updated": self.last_updated.isoformat(),
         }

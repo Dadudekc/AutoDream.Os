@@ -18,6 +18,7 @@ from datetime import datetime
 
 class ProtocolStrategy(Enum):
     """Simple protocol optimization strategies."""
+
     BATCH = "batch"
     STREAM = "stream"
     ADAPTIVE = "adaptive"
@@ -25,6 +26,7 @@ class ProtocolStrategy(Enum):
 
 class MessagePriority(Enum):
     """Simple message priority levels."""
+
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -33,6 +35,7 @@ class MessagePriority(Enum):
 
 class ProtocolStatus(Enum):
     """Simple protocol status."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     MAINTENANCE = "maintenance"
@@ -41,13 +44,14 @@ class ProtocolStatus(Enum):
 @dataclass
 class ProtocolConfiguration:
     """Simple protocol configuration."""
+
     config_id: str
     strategy: ProtocolStrategy
     batch_size: int = 100
     timeout: float = 30.0
     retry_attempts: int = 3
     created_at: datetime = None
-    
+
     def __post_init__(self):
         """Initialize default values."""
         if self.created_at is None:
@@ -57,22 +61,23 @@ class ProtocolConfiguration:
 @dataclass
 class MessageBatch:
     """Simple message batch model."""
+
     batch_id: str
     messages: List[Dict[str, Any]]
     priority: MessagePriority
     created_at: datetime = None
     processed_at: Optional[datetime] = None
-    
+
     def __post_init__(self):
         """Initialize default values."""
         if self.created_at is None:
             self.created_at = datetime.now()
-    
+
     @property
     def size(self) -> int:
         """Get batch size."""
         return len(self.messages)
-    
+
     def is_processed(self) -> bool:
         """Check if batch is processed."""
         return self.processed_at is not None
@@ -81,17 +86,18 @@ class MessageBatch:
 @dataclass
 class ProtocolMetrics:
     """Simple protocol metrics."""
+
     total_messages: int = 0
     processed_messages: int = 0
     failed_messages: int = 0
     average_processing_time: float = 0.0
     last_updated: datetime = None
-    
+
     def __post_init__(self):
         """Initialize default values."""
         if self.last_updated is None:
             self.last_updated = datetime.now()
-    
+
     @property
     def success_rate(self) -> float:
         """Calculate success rate."""
@@ -103,13 +109,14 @@ class ProtocolMetrics:
 @dataclass
 class RoutingRule:
     """Simple routing rule."""
+
     rule_id: str
     pattern: str
     destination: str
     priority: MessagePriority = MessagePriority.NORMAL
     active: bool = True
     created_at: datetime = None
-    
+
     def __post_init__(self):
         """Initialize default values."""
         if self.created_at is None:
@@ -119,17 +126,18 @@ class RoutingRule:
 @dataclass
 class ProtocolStatus:
     """Simple protocol status."""
+
     protocol_id: str
     status: ProtocolStatus
     last_activity: datetime = None
     message_count: int = 0
     error_count: int = 0
-    
+
     def __post_init__(self):
         """Initialize default values."""
         if self.last_activity is None:
             self.last_activity = datetime.now()
-    
+
     @property
     def is_healthy(self) -> bool:
         """Check if protocol is healthy."""
@@ -137,21 +145,20 @@ class ProtocolStatus:
 
 
 # Factory functions for backward compatibility
-def create_protocol_configuration(config_id: str, strategy: ProtocolStrategy = ProtocolStrategy.BATCH) -> ProtocolConfiguration:
+def create_protocol_configuration(
+    config_id: str, strategy: ProtocolStrategy = ProtocolStrategy.BATCH
+) -> ProtocolConfiguration:
     """Create a protocol configuration."""
-    return ProtocolConfiguration(
-        config_id=config_id,
-        strategy=strategy
-    )
+    return ProtocolConfiguration(config_id=config_id, strategy=strategy)
 
 
-def create_message_batch(batch_id: str, messages: List[Dict[str, Any]], priority: MessagePriority = MessagePriority.NORMAL) -> MessageBatch:
+def create_message_batch(
+    batch_id: str,
+    messages: List[Dict[str, Any]],
+    priority: MessagePriority = MessagePriority.NORMAL,
+) -> MessageBatch:
     """Create a message batch."""
-    return MessageBatch(
-        batch_id=batch_id,
-        messages=messages,
-        priority=priority
-    )
+    return MessageBatch(batch_id=batch_id, messages=messages, priority=priority)
 
 
 def create_protocol_metrics() -> ProtocolMetrics:
@@ -161,16 +168,11 @@ def create_protocol_metrics() -> ProtocolMetrics:
 
 def create_routing_rule(rule_id: str, pattern: str, destination: str) -> RoutingRule:
     """Create a routing rule."""
-    return RoutingRule(
-        rule_id=rule_id,
-        pattern=pattern,
-        destination=destination
-    )
+    return RoutingRule(rule_id=rule_id, pattern=pattern, destination=destination)
 
 
-def create_protocol_status(protocol_id: str, status: ProtocolStatus = ProtocolStatus.ACTIVE) -> ProtocolStatus:
+def create_protocol_status(
+    protocol_id: str, status: ProtocolStatus = ProtocolStatus.ACTIVE
+) -> ProtocolStatus:
     """Create protocol status."""
-    return ProtocolStatus(
-        protocol_id=protocol_id,
-        status=status
-    )
+    return ProtocolStatus(protocol_id=protocol_id, status=status)

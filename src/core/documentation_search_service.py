@@ -1,25 +1,26 @@
-"""
-Documentation Search Service
+"""Documentation Search Service.
 
 Handles semantic search functionality for the documentation system.
 """
 
-
 logger = logging.getLogger(__name__)
 
+
 class DocumentationSearchService:
-    """
-    Service for searching documentation with semantic similarity.
-    """
+    """Service for searching documentation with semantic similarity."""
 
     def __init__(self, vector_db):
         self.vector_db = vector_db
 
-    def search(self, query: str, agent_id: str = None,
-              n_results: int = 5, context_boost: bool = True,
-              agent_context: Dict[str, Any] = None) -> List[Dict[str, Any]]:
-        """
-        Search documentation with optional context enhancement.
+    def search(
+        self,
+        query: str,
+        agent_id: str = None,
+        n_results: int = 5,
+        context_boost: bool = True,
+        agent_context: Dict[str, Any] = None,
+    ) -> List[Dict[str, Any]]:
+        """Search documentation with optional context enhancement.
 
         Args:
             query: Search query
@@ -34,9 +35,9 @@ class DocumentationSearchService:
         enhanced_query = query
 
         if context_boost and agent_context:
-            role = agent_context.get('role', '')
-            domain = agent_context.get('domain', '')
-            current_task = agent_context.get('current_task', '')
+            role = agent_context.get("role", "")
+            domain = agent_context.get("domain", "")
+            current_task = agent_context.get("current_task", "")
 
             context_parts = [part for part in [role, domain, current_task] if part]
             if context_parts:
@@ -46,18 +47,20 @@ class DocumentationSearchService:
 
         # Add search metadata
         for result in results:
-            result['agent_id'] = agent_id
-            result['search_timestamp'] = datetime.now().isoformat()
-            result['original_query'] = query
-            result['enhanced_query'] = enhanced_query
+            result["agent_id"] = agent_id
+            result["search_timestamp"] = datetime.now().isoformat()
+            result["original_query"] = query
+            result["enhanced_query"] = enhanced_query
 
-        get_logger(__name__).info(f"Search completed: '{query}' -> {len(results)} results")
+        get_logger(__name__).info(
+            f"Search completed: '{query}' -> {len(results)} results"
+        )
         return results
 
-    def get_relevant_docs(self, agent_context: Dict[str, Any],
-                         doc_types: List[str] = None) -> List[Dict[str, Any]]:
-        """
-        Get documentation relevant to agent context.
+    def get_relevant_docs(
+        self, agent_context: Dict[str, Any], doc_types: List[str] = None
+    ) -> List[Dict[str, Any]]:
+        """Get documentation relevant to agent context.
 
         Args:
             agent_context: Agent context information
@@ -66,8 +69,8 @@ class DocumentationSearchService:
         Returns:
             List of relevant documents
         """
-        role = agent_context.get('role', '')
-        domain = agent_context.get('domain', '')
+        role = agent_context.get("role", "")
+        domain = agent_context.get("domain", "")
 
         search_terms = []
         if role:
@@ -85,10 +88,9 @@ class DocumentationSearchService:
         if doc_types:
             filtered_results = []
             for result in results:
-                file_type = result['metadata'].get('file_type', '')
+                file_type = result["metadata"].get("file_type", "")
                 if any(doc_type in file_type for doc_type in doc_types):
                     filtered_results.append(result)
             results = filtered_results
 
         return results
-

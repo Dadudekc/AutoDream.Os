@@ -17,7 +17,8 @@ from typing import Optional, List, Dict, Any
 
 
 class RiskLevel(Enum):
-    """Risk assessment levels for trading positions"""
+    """Risk assessment levels for trading positions."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -26,7 +27,8 @@ class RiskLevel(Enum):
 
 @dataclass
 class PerformanceMetrics:
-    """Performance metrics data structure for trading analysis"""
+    """Performance metrics data structure for trading analysis."""
+
     total_return: float
     sharpe_ratio: float
     max_drawdown: float
@@ -39,7 +41,8 @@ class PerformanceMetrics:
 
 @dataclass
 class RiskMetrics:
-    """Risk assessment metrics for portfolio analysis"""
+    """Risk assessment metrics for portfolio analysis."""
+
     portfolio_volatility: float
     value_at_risk: float
     expected_shortfall: float
@@ -51,7 +54,8 @@ class RiskMetrics:
 
 @dataclass
 class MarketTrend:
-    """Market trend analysis data structure"""
+    """Market trend analysis data structure."""
+
     direction: str  # 'bullish', 'bearish', 'sideways'
     strength: float  # 0-1 scale
     confidence: float  # 0-1 scale
@@ -62,7 +66,8 @@ class MarketTrend:
 
 @dataclass
 class PnLResult:
-    """P&L calculation result structure"""
+    """P&L calculation result structure."""
+
     symbol: str
     pnl: float
     pnl_percentage: float
@@ -72,24 +77,22 @@ class PnLResult:
 
 @dataclass
 class TrendAnalysisConfig:
-    """Configuration for trend analysis"""
+    """Configuration for trend analysis."""
+
     min_trades_for_analysis: int = 10
     confidence_threshold: float = 0.7
     strength_threshold: float = 0.5
     timeframe_mapping: Dict[str, int] = None
-    
+
     def __post_init__(self):
         if self.timeframe_mapping is None:
-            self.timeframe_mapping = {
-                "short": 5,
-                "medium": 20,
-                "long": 50
-            }
+            self.timeframe_mapping = {"short": 5, "medium": 20, "long": 50}
 
 
 @dataclass
 class RiskAssessmentConfig:
-    """Configuration for risk assessment"""
+    """Configuration for risk assessment."""
+
     var_confidence_level: float = 0.95
     critical_var_threshold: float = 0.05
     critical_volatility_threshold: float = 0.03
@@ -101,7 +104,8 @@ class RiskAssessmentConfig:
 
 @dataclass
 class PerformanceConfig:
-    """Configuration for performance metrics calculation"""
+    """Configuration for performance metrics calculation."""
+
     risk_free_rate: float = 0.02  # Annual risk-free rate
     min_trades_for_metrics: int = 5
     drawdown_calculation_method: str = "peak_to_trough"  # or "rolling"
@@ -109,12 +113,12 @@ class PerformanceConfig:
 
 # Export all models
 __all__ = [
-    'RiskLevel',
-    'PerformanceMetrics', 
-    'RiskMetrics',
-    'MarketTrend',
-    'PnLResult',
-    'TrendAnalysisConfig',
-    'RiskAssessmentConfig',
-    'PerformanceConfig'
+    "RiskLevel",
+    "PerformanceMetrics",
+    "RiskMetrics",
+    "MarketTrend",
+    "PnLResult",
+    "TrendAnalysisConfig",
+    "RiskAssessmentConfig",
+    "PerformanceConfig",
 ]

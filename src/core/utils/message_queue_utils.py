@@ -10,8 +10,6 @@ License: MIT
 """
 
 
-
-
 class MessageQueueUtils:
     """Utility functions for message queue operations."""
 

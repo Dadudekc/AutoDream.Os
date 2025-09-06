@@ -97,5 +97,3 @@ export const DashboardFormatters = {
 export function createDashboardFormatters() {
     return { ...DashboardFormatters };
 }
-
-

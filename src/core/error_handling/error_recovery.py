@@ -10,7 +10,6 @@ License: MIT
 """
 
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -53,11 +52,15 @@ class ServiceRestartStrategy(RecoveryStrategy):
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute service restart."""
         try:
-            get_logger(__name__).info(f"Executing service restart for {error_context.component}")
+            get_logger(__name__).info(
+                f"Executing service restart for {error_context.component}"
+            )
             success = self.service_manager()
             if success:
                 self.last_restart = datetime.now()
-                get_logger(__name__).info(f"Service restart successful for {error_context.component}")
+                get_logger(__name__).info(
+                    f"Service restart successful for {error_context.component}"
+                )
             return success
         except Exception as e:
             get_logger(__name__).error(f"Service restart failed: {e}")
@@ -82,7 +85,9 @@ class ConfigurationResetStrategy(RecoveryStrategy):
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute configuration reset."""
         try:
-            get_logger(__name__).info(f"Executing configuration reset for {error_context.component}")
+            get_logger(__name__).info(
+                f"Executing configuration reset for {error_context.component}"
+            )
             success = self.config_reset_func()
             if success:
                 get_logger(__name__).info(
@@ -112,7 +117,9 @@ class ResourceCleanupStrategy(RecoveryStrategy):
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute resource cleanup."""
         try:
-            get_logger(__name__).info(f"Executing resource cleanup for {error_context.component}")
+            get_logger(__name__).info(
+                f"Executing resource cleanup for {error_context.component}"
+            )
             success = self.cleanup_func()
             if success:
                 get_logger(__name__).info(
@@ -151,16 +158,22 @@ class ErrorRecoveryManager:
             if strategy.can_recover(error_context):
                 recovery_attempt["strategies_attempted"].append(strategy.name)
 
-                get_logger(__name__).info(f"Attempting recovery with strategy: {strategy.name}")
+                get_logger(__name__).info(
+                    f"Attempting recovery with strategy: {strategy.name}"
+                )
                 success = strategy.execute_recovery(error_context)
 
                 if success:
                     recovery_attempt["successful_strategy"] = strategy.name
                     recovery_attempt["recovery_success"] = True
-                    get_logger(__name__).info(f"Recovery successful using strategy: {strategy.name}")
+                    get_logger(__name__).info(
+                        f"Recovery successful using strategy: {strategy.name}"
+                    )
                     break
                 else:
-                    get_logger(__name__).warning(f"Recovery failed with strategy: {strategy.name}")
+                    get_logger(__name__).warning(
+                        f"Recovery failed with strategy: {strategy.name}"
+                    )
 
         self.recovery_history.append(recovery_attempt)
         return recovery_attempt["recovery_success"]
@@ -215,7 +228,9 @@ def with_error_recovery(recovery_manager: ErrorRecoveryManager):
                         )
                         raise retry_error
                 else:
-                    get_logger(__name__).error(f"No recovery strategy succeeded for: {e}")
+                    get_logger(__name__).error(
+                        f"No recovery strategy succeeded for: {e}"
+                    )
                     raise e
 
         return wrapper

@@ -1,7 +1,7 @@
 /**
  * Order Form Modules - V2 Compliant Order Form Utilities
  * Handles all order form creation and management operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -32,7 +32,7 @@ export class OrderFormModules {
                     <label for="order-symbol">Symbol:</label>
                     <input type="text" id="order-symbol" name="symbol" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="order-side">Side:</label>
                     <select id="order-side" name="side" required>
@@ -40,7 +40,7 @@ export class OrderFormModules {
                         <option value="sell">Sell</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="order-type">Type:</label>
                     <select id="order-type" name="type" required>
@@ -50,22 +50,22 @@ export class OrderFormModules {
                         <option value="stop_limit">Stop Limit</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="order-quantity">Quantity:</label>
                     <input type="number" id="order-quantity" name="quantity" min="1" required>
                 </div>
-                
+
                 <div class="form-group" id="price-group">
                     <label for="order-price">Price:</label>
                     <input type="number" id="order-price" name="price" step="0.01" min="0">
                 </div>
-                
+
                 <div class="form-group" id="stop-price-group" style="display: none;">
                     <label for="order-stop-price">Stop Price:</label>
                     <input type="number" id="order-stop-price" name="stopPrice" step="0.01" min="0">
                 </div>
-                
+
                 <button type="submit" class="submit-order-btn">Submit Order</button>
             </form>
         `;
@@ -99,7 +99,7 @@ export class OrderFormModules {
      */
     static handleOrderTypeChange(event, priceGroup, stopPriceGroup) {
         const orderType = event.target.value;
-        
+
         if (orderType === 'market') {
             priceGroup.style.display = 'none';
             stopPriceGroup.style.display = 'none';

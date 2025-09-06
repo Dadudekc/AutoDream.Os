@@ -259,5 +259,3 @@ export class ArrayUtils {
 export function createArrayUtils(logger = console) {
     return new ArrayUtils(logger);
 }
-
-

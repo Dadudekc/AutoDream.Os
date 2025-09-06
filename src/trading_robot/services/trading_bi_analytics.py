@@ -21,7 +21,7 @@ from .analytics import (
     PnLResult,
     TrendAnalysisConfig,
     RiskAssessmentConfig,
-    PerformanceConfig
+    PerformanceConfig,
 )
 
 # Re-export for backward compatibility
@@ -30,16 +30,16 @@ create_trading_bi_analytics_service = create_trading_bi_analytics_orchestrator
 
 # Export all public interfaces
 __all__ = [
-    'TradingBiAnalyticsService',
-    'TradingBiAnalyticsOrchestrator', 
-    'create_trading_bi_analytics_service',
-    'create_trading_bi_analytics_orchestrator',
-    'RiskLevel',
-    'PerformanceMetrics',
-    'RiskMetrics', 
-    'MarketTrend',
-    'PnLResult',
-    'TrendAnalysisConfig',
-    'RiskAssessmentConfig',
-    'PerformanceConfig'
+    "TradingBiAnalyticsService",
+    "TradingBiAnalyticsOrchestrator",
+    "create_trading_bi_analytics_service",
+    "create_trading_bi_analytics_orchestrator",
+    "RiskLevel",
+    "PerformanceMetrics",
+    "RiskMetrics",
+    "MarketTrend",
+    "PnLResult",
+    "TrendAnalysisConfig",
+    "RiskAssessmentConfig",
+    "PerformanceConfig",
 ]

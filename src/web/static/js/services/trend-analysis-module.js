@@ -252,4 +252,3 @@ export class TrendAnalysisModule {
 export function createTrendAnalysisModule() {
     return new TrendAnalysisModule();
 }
-

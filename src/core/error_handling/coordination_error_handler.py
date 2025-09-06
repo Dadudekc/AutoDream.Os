@@ -10,7 +10,6 @@ License: MIT
 """
 
 
-
 # Type variable for generic return types
 T = TypeVar("T")
 
@@ -18,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class CircuitState(Enum):
-    """Circuit breaker states"""
+    """Circuit breaker states."""
 
     CLOSED = "closed"
     OPEN = "open"
@@ -26,14 +25,14 @@ class CircuitState(Enum):
 
 
 class RetryHandler:
-    """Retry handler for failed operations"""
+    """Retry handler for failed operations."""
 
     def __init__(self, max_retries: int = 3, backoff_factor: float = 1.0):
         self.max_retries = max_retries
         self.backoff_factor = backoff_factor
 
     def execute_with_retry(self, operation: Callable, *args, **kwargs):
-        """Execute operation with retry logic"""
+        """Execute operation with retry logic."""
         last_exception = None
 
         for attempt in range(self.max_retries + 1):
@@ -56,7 +55,7 @@ class RetryHandler:
 
 
 class CircuitBreaker:
-    """Circuit breaker for fault tolerance"""
+    """Circuit breaker for fault tolerance."""
 
     def __init__(self, failure_threshold: int = 5, recovery_timeout: int = 60):
         self.failure_threshold = failure_threshold
@@ -66,7 +65,7 @@ class CircuitBreaker:
         self.state = CircuitState.CLOSED
 
     def call(self, operation: Callable, *args, **kwargs):
-        """Execute operation through circuit breaker"""
+        """Execute operation through circuit breaker."""
         if self.state == CircuitState.OPEN:
             if self._should_attempt_reset():
                 self.state = CircuitState.HALF_OPEN
@@ -82,7 +81,7 @@ class CircuitBreaker:
             raise e
 
     def _should_attempt_reset(self) -> bool:
-        """Check if circuit should attempt to reset"""
+        """Check if circuit should attempt to reset."""
         if self.last_failure_time is None:
             return True
         return (
@@ -90,14 +89,14 @@ class CircuitBreaker:
         ).total_seconds() >= self.recovery_timeout
 
     def _on_success(self):
-        """Handle successful operation"""
+        """Handle successful operation."""
         if self.state == CircuitState.HALF_OPEN:
             self.state = CircuitState.CLOSED
             self.failure_count = 0
             get_logger(__name__).info("Circuit breaker reset to CLOSED state")
 
     def _on_failure(self):
-        """Handle failed operation"""
+        """Handle failed operation."""
         self.failure_count += 1
         self.last_failure_time = datetime.now()
 
@@ -109,13 +108,15 @@ class CircuitBreaker:
 
 
 def handle_errors(operation: Callable, error_handler: Optional[Callable] = None):
-    """Decorator for error handling"""
+    """Decorator for error handling."""
 
     def wrapper(*args, **kwargs):
         try:
             return operation(*args, **kwargs)
         except Exception as e:
-            get_logger(__name__).error(f"Error in operation {operation.__name__}: {str(e)}")
+            get_logger(__name__).error(
+                f"Error in operation {operation.__name__}: {str(e)}"
+            )
             if error_handler:
                 return error_handler(e, *args, **kwargs)
             else:
@@ -125,8 +126,7 @@ def handle_errors(operation: Callable, error_handler: Optional[Callable] = None)
 
 
 class CoordinationErrorHandler:
-    """
-    Main error handler for coordination and communication systems.
+    """Main error handler for coordination and communication systems.
 
     This class now serves as a lightweight facade over the modular error handling
     system, achieving V2 compliance through component orchestration.
@@ -141,7 +141,9 @@ class CoordinationErrorHandler:
         # Register coordination-specific recovery strategies
         self._register_coordination_strategies()
 
-        get_logger(__name__).info("CoordinationErrorHandler initialized with modular architecture")
+        get_logger(__name__).info(
+            "CoordinationErrorHandler initialized with modular architecture"
+        )
 
     def _register_coordination_strategies(self):
         """Register coordination-specific recovery strategies."""
@@ -179,8 +181,7 @@ class CoordinationErrorHandler:
         use_circuit_breaker: bool = True,
         use_recovery: bool = True,
     ) -> T:
-        """
-        Execute operation with comprehensive error handling.
+        """Execute operation with comprehensive error handling.
 
         Delegates to the orchestrator for complete error management.
         """
@@ -248,8 +249,7 @@ def handle_coordination_errors(
     use_circuit_breaker: bool = True,
     use_recovery: bool = True,
 ):
-    """
-    Decorator for coordination-specific error handling.
+    """Decorator for coordination-specific error handling.
 
     Provides comprehensive error management for coordination operations.
     """

@@ -23,16 +23,14 @@ Architecture:
 """
 
 
-
 logger = get_messaging_logger()
 
 
 class MessageQueue:
-    """
-    Persistent message queue with atomic operations and priority processing.
+    """Persistent message queue with atomic operations and priority processing.
 
-    Provides reliable message queuing with automatic retry and cleanup.
-    Integrates with file locking system for thread-safe operations.
+    Provides reliable message queuing with automatic retry and cleanup. Integrates with
+    file locking system for thread-safe operations.
     """
 
     def __init__(
@@ -44,21 +42,24 @@ class MessageQueue:
         self.config = config or QueueConfig()
         self.lock_config = lock_config or LockConfig()
         self.lock_manager = FileLockManager(self.lock_config)
-        self.queue_file = get_unified_utility().Path(self.config.queue_directory) / "queue.json"
+        self.queue_file = (
+            get_unified_utility().Path(self.config.queue_directory) / "queue.json"
+        )
         self.queue_file.parent.mkdir(parents=True, exist_ok=True)
 
         # Validate configuration
         config_issues = MessageQueueUtils.validate_queue_config(self.config)
         if config_issues:
-            get_unified_validator().raise_validation_error(f"Invalid queue configuration: {', '.join(config_issues)}")
+            get_unified_validator().raise_validation_error(
+                f"Invalid queue configuration: {', '.join(config_issues)}"
+            )
 
     def enqueue(
         self,
         message: UnifiedMessage,
         delivery_callback: Optional[Callable[[UnifiedMessage], bool]] = None,
     ) -> str:
-        """
-        Add message to queue with priority-based ordering.
+        """Add message to queue with priority-based ordering.
 
         Args:
             message: Message to queue
@@ -109,8 +110,7 @@ class MessageQueue:
         )
 
     def dequeue(self, batch_size: Optional[int] = None) -> List[QueueEntry]:
-        """
-        Get next messages for processing based on priority.
+        """Get next messages for processing based on priority.
 
         Args:
             batch_size: Number of messages to retrieve (defaults to config)
@@ -138,7 +138,9 @@ class MessageQueue:
             # Save updated entries
             self._save_entries(entries)
 
-            get_logger(__name__).info(f"Dequeued {len(entries_to_process)} messages for processing")
+            get_logger(__name__).info(
+                f"Dequeued {len(entries_to_process)} messages for processing"
+            )
             return entries_to_process
 
         return atomic_file_operation(
@@ -155,7 +157,9 @@ class MessageQueue:
                 if entry.queue_id == queue_id:
                     MessageQueueUtils.mark_entry_delivered(entry)
                     self._save_entries(entries)
-                    get_logger(__name__).info(f"Message marked as delivered: {queue_id}")
+                    get_logger(__name__).info(
+                        f"Message marked as delivered: {queue_id}"
+                    )
                     return True
 
             get_logger(__name__).warning(f"Queue entry not found: {queue_id}")
@@ -184,7 +188,9 @@ class MessageQueue:
                         )
 
                     self._save_entries(entries)
-                    get_logger(__name__).warning(f"Message marked as failed: {queue_id} - {error}")
+                    get_logger(__name__).warning(
+                        f"Message marked as failed: {queue_id} - {error}"
+                    )
                     return True
 
             get_logger(__name__).warning(f"Queue entry not found: {queue_id}")
@@ -259,8 +265,7 @@ class MessageQueue:
 
 
 class QueueProcessor:
-    """
-    Asynchronous queue processor for message delivery.
+    """Asynchronous queue processor for message delivery.
 
     Processes queued messages with retry logic and error handling.
     """

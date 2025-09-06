@@ -12,6 +12,7 @@ import sys
 import subprocess
 from pathlib import Path
 
+
 def run_test(name, command, expected_success=True):
     """Run a test command and report results."""
     print(f"\n🧪 Testing: {name}")
@@ -44,6 +45,7 @@ def run_test(name, command, expected_success=True):
         print(f"❌ ERROR: {e}")
         return False
 
+
 def main():
     """Run manual smoke tests."""
     print("🚀 MESSAGING SYSTEM SMOKE TESTS")
@@ -55,10 +57,38 @@ def main():
     # Test commands
     tests = [
         ("CLI Help", ["python", "-m", "src.services.messaging_cli", "--help"]),
-        ("Agent Listing", ["python", "-m", "src.services.messaging_cli", "--list-agents"]),
-        ("Coordinates Display", ["python", "-m", "src.services.messaging_cli", "--coordinates"]),
-        ("Hard Onboarding Dry Run", ["python", "-m", "src.services.messaging_cli", "--hard-onboarding", "--dry-run", "--yes"]),
-        ("Hard Onboarding Subset", ["python", "-m", "src.services.messaging_cli", "--hard-onboarding", "--agents", "Agent-1,Agent-2", "--dry-run", "--yes"]),
+        (
+            "Agent Listing",
+            ["python", "-m", "src.services.messaging_cli", "--list-agents"],
+        ),
+        (
+            "Coordinates Display",
+            ["python", "-m", "src.services.messaging_cli", "--coordinates"],
+        ),
+        (
+            "Hard Onboarding Dry Run",
+            [
+                "python",
+                "-m",
+                "src.services.messaging_cli",
+                "--hard-onboarding",
+                "--dry-run",
+                "--yes",
+            ],
+        ),
+        (
+            "Hard Onboarding Subset",
+            [
+                "python",
+                "-m",
+                "src.services.messaging_cli",
+                "--hard-onboarding",
+                "--agents",
+                "Agent-1,Agent-2",
+                "--dry-run",
+                "--yes",
+            ],
+        ),
     ]
 
     passed = 0
@@ -76,6 +106,7 @@ def main():
     else:
         print("⚠️  SOME TESTS FAILED")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

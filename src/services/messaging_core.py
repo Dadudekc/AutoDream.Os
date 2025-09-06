@@ -12,8 +12,12 @@ License: MIT
 """
 
 from .unified_messaging_imports import (
-    logging, COORDINATE_CONFIG_FILE, get_logger, get_unified_utility, 
-    load_coordinates_from_json, json
+    logging,
+    COORDINATE_CONFIG_FILE,
+    get_logger,
+    get_unified_utility,
+    load_coordinates_from_json,
+    json,
 )
 from ..core.simple_validation_system import get_simple_validator
 import time
@@ -27,15 +31,14 @@ from .models.messaging_models import (
     UnifiedMessagePriority,
     UnifiedMessageTag,
     UnifiedSenderType,
-    UnifiedRecipientType
+    UnifiedRecipientType,
 )
 from .message_identity_clarification import format_message_with_identity_clarification
 
 
 class UnifiedMessagingCore:
-    """
-    Simplified core messaging functionality for the unified messaging service.
-    
+    """Simplified core messaging functionality for the unified messaging service.
+
     KISS PRINCIPLE: Streamlined message creation, validation, and delivery coordination.
     """
 
@@ -58,12 +61,17 @@ class UnifiedMessagingCore:
         except Exception as e:
             self.logger.error(f"Configuration validation error: {e}")
 
-    def create_message(self, content: str, message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
-                      priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                      sender_type: UnifiedSenderType = UnifiedSenderType.AGENT,
-                      recipient_type: UnifiedRecipientType = UnifiedRecipientType.AGENT,
-                      sender: str = "system", recipient: str = "all",
-                      tags: List[UnifiedMessageTag] = None) -> UnifiedMessage:
+    def create_message(
+        self,
+        content: str,
+        message_type: UnifiedMessageType = UnifiedMessageType.TEXT,
+        priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+        sender_type: UnifiedSenderType = UnifiedSenderType.AGENT,
+        recipient_type: UnifiedRecipientType = UnifiedRecipientType.AGENT,
+        sender: str = "system",
+        recipient: str = "all",
+        tags: List[UnifiedMessageTag] = None,
+    ) -> UnifiedMessage:
         """Create a unified message - simplified."""
         try:
             if tags is None:
@@ -79,7 +87,7 @@ class UnifiedMessagingCore:
                 sender=sender,
                 recipient=recipient,
                 tags=tags,
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
             self.logger.info(f"Created message: {message.message_id}")
@@ -104,21 +112,25 @@ class UnifiedMessagingCore:
             self.logger.error(f"Error validating message: {e}")
             return False
 
-    def send_message(self, message: UnifiedMessage, delivery_method: str = "pyautogui") -> bool:
+    def send_message(
+        self, message: UnifiedMessage, delivery_method: str = "pyautogui"
+    ) -> bool:
         """Send message - simplified."""
         try:
             if not self.validate_message(message):
                 return False
 
             # Simplified delivery logic
-            self.logger.info(f"Sending message via {delivery_method}: {message.message_id}")
-            
+            self.logger.info(
+                f"Sending message via {delivery_method}: {message.message_id}"
+            )
+
             # Add to history
             self.message_history.append(message)
-            
+
             # Simulate delivery
             time.sleep(0.1)
-            
+
             self.logger.info(f"Message sent successfully: {message.message_id}")
             return True
         except Exception as e:
@@ -177,19 +189,19 @@ class UnifiedMessagingCore:
             total_messages = len(self.message_history)
             message_types = {}
             priorities = {}
-            
+
             for message in self.message_history:
                 msg_type = message.message_type.value
                 priority = message.priority.value
-                
+
                 message_types[msg_type] = message_types.get(msg_type, 0) + 1
                 priorities[priority] = priorities.get(priority, 0) + 1
-            
+
             return {
                 "total_messages": total_messages,
                 "message_types": message_types,
                 "priorities": priorities,
-                "last_updated": datetime.now().isoformat()
+                "last_updated": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error(f"Error getting message stats: {e}")
@@ -212,7 +224,7 @@ class UnifiedMessagingCore:
             "total_messages": len(self.message_history),
             "validator_available": self.validator is not None,
             "utility_available": self.utility is not None,
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
     def shutdown(self) -> bool:
@@ -228,7 +240,10 @@ class UnifiedMessagingCore:
 # Global instance for backward compatibility
 _global_messaging_core: Optional[UnifiedMessagingCore] = None
 
-def get_unified_messaging_core(config: Optional[Dict[str, Any]] = None) -> UnifiedMessagingCore:
+
+def get_unified_messaging_core(
+    config: Optional[Dict[str, Any]] = None,
+) -> UnifiedMessagingCore:
     """Returns a global instance of the UnifiedMessagingCore."""
     global _global_messaging_core
     if _global_messaging_core is None:

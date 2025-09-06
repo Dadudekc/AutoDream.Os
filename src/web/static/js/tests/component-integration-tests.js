@@ -289,5 +289,3 @@ export class ComponentIntegrationTests {
 export function createComponentIntegrationTests(systemHealth, testResults) {
     return new ComponentIntegrationTests(systemHealth, testResults);
 }
-
-

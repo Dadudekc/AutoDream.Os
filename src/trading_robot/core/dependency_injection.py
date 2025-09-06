@@ -12,15 +12,15 @@ V2 COMPLIANCE: Under 300-line limit, comprehensive error handling, modular desig
 
 
 class DependencyInjectionError(Exception):
-    """Custom exception for dependency injection errors"""
+    """Custom exception for dependency injection errors."""
     pass
 
 
 class TradingDependencyContainer:
-    """Dependency injection container for trading robot components"""
+    """Dependency injection container for trading robot components."""
 
     def __init__(self):
-        """Initialize DI container"""
+        """Initialize DI container."""
         self.logger = UnifiedLoggingSystem("TradingDependencyContainer")
         self._services: Dict[str, Any] = {}
         self._factories: Dict[str, Callable] = {}
@@ -31,7 +31,7 @@ class TradingDependencyContainer:
         self._register_defaults()
 
     def _register_defaults(self) -> None:
-        """Register default trading services"""
+        """Register default trading services."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("register_defaults")
 
@@ -55,7 +55,7 @@ class TradingDependencyContainer:
 
     def register_factory(self, name: str, factory: Callable,
                         singleton: bool = False) -> None:
-        """Register a service factory"""
+        """Register a service factory."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("register_factory", {
                 "service_name": name, "singleton": singleton
@@ -78,7 +78,7 @@ class TradingDependencyContainer:
 
     def register_instance(self, name: str, instance: Any,
                         singleton: bool = True) -> None:
-        """Register a service instance directly"""
+        """Register a service instance directly."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("register_instance", {
                 "service_name": name, "singleton": singleton
@@ -98,7 +98,7 @@ class TradingDependencyContainer:
             raise DependencyInjectionError(f"Failed to register instance {name}: {e}")
 
     def resolve(self, name: str, scope: Optional[str] = None) -> Any:
-        """Resolve a service by name"""
+        """Resolve a service by name."""
         try:
             self.logger.get_unified_logger().log_operation_start(operation)_start("resolve", {
                 "service_name": name, "scope": scope
@@ -156,7 +156,7 @@ class TradingDependencyContainer:
             raise DependencyInjectionError(f"Failed to resolve service {name}: {e}")
 
     def _create_from_factory(self, name: str, factory: Callable) -> Any:
-        """Create instance from factory with dependency resolution"""
+        """Create instance from factory with dependency resolution."""
         try:
             sig = inspect.signature(factory)
             params = {}
@@ -183,13 +183,13 @@ class TradingDependencyContainer:
             raise DependencyInjectionError(f"Failed to create {name} from factory: {e}")
 
     def has_service(self, name: str) -> bool:
-        """Check if a service is registered"""
+        """Check if a service is registered."""
         return (name in self._services or
                 name in self._factories or
                 name in self._singletons)
 
     def clear_scope(self, scope: str) -> None:
-        """Clear all scoped instances for a scope"""
+        """Clear all scoped instances for a scope."""
         try:
             if scope in self._scoped_instances:
                 self.logger.get_unified_logger().log_operation_start(operation)_start("clear_scope", {"scope": scope})
@@ -199,7 +199,7 @@ class TradingDependencyContainer:
             self.logger.log_error("clear_scope", str(e), {"scope": scope})
 
     def get_registered_services(self) -> Dict[str, str]:
-        """Get list of all registered services with their types"""
+        """Get list of all registered services with their types."""
         services = {}
 
         for name in self._singletons:
@@ -217,7 +217,7 @@ _trading_container = None
 
 
 def get_trading_container() -> TradingDependencyContainer:
-    """Get the global trading dependency container"""
+    """Get the global trading dependency container."""
     global _trading_container
     if _trading_container is None:
         _trading_container = TradingDependencyContainer()
@@ -232,12 +232,12 @@ def reset_trading_container() -> None:
 
 # Convenience functions for service resolution
 def get_trading_repository() -> TradingRepositoryInterface:
-    """Get trading repository from DI container"""
+    """Get trading repository from DI container."""
     return get_trading_container().resolve("trading_repository")
 
 
 def get_trading_service() -> TradingService:
-    """Get trading service from DI container"""
+    """Get trading service from DI container."""
     return get_trading_container().resolve("trading_service")
 
 
@@ -250,4 +250,3 @@ __all__ = [
     'get_trading_repository',
     'get_trading_service'
 ]
-

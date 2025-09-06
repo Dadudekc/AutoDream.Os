@@ -24,25 +24,30 @@ except ImportError:
     # Fallback if config_core is not available
     def get_config(key, default=None):
         return default
-    
+
     def get_unified_validator():
         class MockValidator:
             def validate_hasattr(self, obj, attr):
                 return hasattr(obj, attr)
+
             def safe_getattr(self, obj, attr):
                 return getattr(obj, attr, None)
+
         return MockValidator()
-    
+
     def get_unified_utility():
         class MockUtility:
             class Path:
                 def __init__(self, path):
                     self.path = path
+
                 def mkdir(self, exist_ok=True):
                     import os
+
                     os.makedirs(self.path, exist_ok=exist_ok)
+
         return MockUtility()
-    
+
     from datetime import datetime
     import json
     from typing import Optional, Dict, Any
@@ -60,11 +65,11 @@ class StructuredFormatter(logging.Formatter):
             "message": record.getMessage(),
             "module": record.module,
             "function": record.funcName,
-            "line": record.lineno
+            "line": record.lineno,
         }
 
         # Add extra fields if present
-        if get_unified_validator().validate_hasattr(record, 'extra_fields'):
+        if get_unified_validator().validate_hasattr(record, "extra_fields"):
             log_entry.update(record.extra_fields)
 
         # Add exception info if present
@@ -87,7 +92,9 @@ class V2Logger:
         """
         self.name = name
         self.logger = logging.getLogger(name)
-        self.logger.setLevel(get_unified_validator().safe_getattr(logging, log_level.upper()))
+        self.logger.setLevel(
+            get_unified_validator().safe_getattr(logging, log_level.upper())
+        )
 
         # Remove existing handlers to avoid duplicates
         self.logger.handlers.clear()
@@ -95,7 +102,7 @@ class V2Logger:
         # Console handler with structured format
         console_handler = logging.StreamHandler()
         console_formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         console_handler.setFormatter(console_formatter)
         self.logger.addHandler(console_handler)
@@ -110,13 +117,16 @@ class V2Logger:
     def _setup_file_handler(self):
         """Setup file handler for persistent logging."""
         import os
+
         log_dir = "logs"
         os.makedirs(log_dir, exist_ok=True)
 
-        log_file = os.path.join(log_dir, f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log")
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        log_file = os.path.join(
+            log_dir, f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log"
+        )
+        file_handler = logging.FileHandler(log_file, encoding="utf-8")
         file_formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
         )
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
@@ -145,7 +155,7 @@ class V2Logger:
         """Internal logging method."""
         if extra:
             # Add extra fields to log record
-            extra_fields = {'extra_fields': extra}
+            extra_fields = {"extra_fields": extra}
             self.logger.log(level, message, extra=extra_fields)
         else:
             self.logger.log(level, message)

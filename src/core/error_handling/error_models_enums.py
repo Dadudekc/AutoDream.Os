@@ -29,7 +29,12 @@ class ErrorSeverity(Enum):
 
     def __lt__(self, other) -> bool:
         """Compare severity levels."""
-        order = [ErrorSeverity.LOW, ErrorSeverity.MEDIUM, ErrorSeverity.HIGH, ErrorSeverity.CRITICAL]
+        order = [
+            ErrorSeverity.LOW,
+            ErrorSeverity.MEDIUM,
+            ErrorSeverity.HIGH,
+            ErrorSeverity.CRITICAL,
+        ]
         return order.index(self) < order.index(other)
 
     def __le__(self, other) -> bool:

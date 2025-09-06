@@ -15,7 +15,7 @@ from pathlib import Path
 from src.services.architectural_onboarding import (
     architectural_manager,
     ArchitecturalPrinciple,
-    ArchitecturalOnboardingManager
+    ArchitecturalOnboardingManager,
 )
 
 
@@ -27,7 +27,16 @@ def demo_architectural_principles():
     print("\n📋 Agent Principle Assignments:")
     print("-" * 40)
 
-    for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]:
+    for agent_id in [
+        "Agent-1",
+        "Agent-2",
+        "Agent-3",
+        "Agent-4",
+        "Agent-5",
+        "Agent-6",
+        "Agent-7",
+        "Agent-8",
+    ]:
         principle = architectural_manager.get_agent_principle(agent_id)
         guidance = architectural_manager.get_principle_guidance(principle)
         print(f"{agent_id}: {guidance.display_name}")
@@ -35,7 +44,9 @@ def demo_architectural_principles():
     print("\n📚 Sample Architectural Guidance (SRP):")
     print("-" * 40)
 
-    srp_guidance = architectural_manager.get_principle_guidance(ArchitecturalPrinciple.SINGLE_RESPONSIBILITY)
+    srp_guidance = architectural_manager.get_principle_guidance(
+        ArchitecturalPrinciple.SINGLE_RESPONSIBILITY
+    )
     print(f"Principle: {srp_guidance.display_name}")
     print(f"Description: {srp_guidance.description}")
     print(f"Key Responsibilities: {srp_guidance.responsibilities[0]}")
@@ -52,7 +63,7 @@ def demo_onboarding_messages():
         print(f"\n{agent_id} Onboarding Message:")
         print("-" * 30)
         # Show first few lines of the message
-        lines = message.split('\n')[:5]
+        lines = message.split("\n")[:5]
         for line in lines:
             print(f"  {line}")
         print("  ...")
@@ -65,9 +76,27 @@ def demo_compliance_validation():
 
     # Mock code changes for different agents
     test_cases = [
-        ("Agent-1", ["class BigClass:", "    def method1(self): pass", "    def method2(self): pass", "    def method3(self): pass", "    def method4(self): pass"]),
-        ("Agent-7", ["def func1(): pass", "def func1(): pass", "def func1(): pass"]),  # DRY violation
-        ("Agent-8", ["def complex_function(param1, param2, param3, param4, param5):", "    " * 100 + "pass"]),  # KISS violation
+        (
+            "Agent-1",
+            [
+                "class BigClass:",
+                "    def method1(self): pass",
+                "    def method2(self): pass",
+                "    def method3(self): pass",
+                "    def method4(self): pass",
+            ],
+        ),
+        (
+            "Agent-7",
+            ["def func1(): pass", "def func1(): pass", "def func1(): pass"],
+        ),  # DRY violation
+        (
+            "Agent-8",
+            [
+                "def complex_function(param1, param2, param3, param4, param5):",
+                "    " * 100 + "pass",
+            ],
+        ),  # KISS violation
     ]
 
     for agent_id, changes in test_cases:
@@ -75,9 +104,9 @@ def demo_compliance_validation():
         print(f"\n{agent_id} Compliance Check:")
         print(f"  Principle: {result['principle']}")
         print(f"  Compliant: {result['compliant']}")
-        if result['issues']:
+        if result["issues"]:
             print(f"  Issues: {len(result['issues'])}")
-            for issue in result['issues'][:2]:  # Show first 2 issues
+            for issue in result["issues"][:2]:  # Show first 2 issues
                 print(f"    - {issue}")
 
 
@@ -89,10 +118,14 @@ def demo_cli_integration():
     print("Available CLI commands:")
     print("  --onboarding --onboarding-style architectural")
     print("  --onboard --agent Agent-1 --onboarding-style architectural")
-    print("  --onboard --agent Agent-1 --onboarding-style architectural --architectural-principle TDD")
+    print(
+        "  --onboard --agent Agent-1 --onboarding-style architectural --architectural-principle TDD"
+    )
 
     print("\nExample usage:")
-    print("  python -m src.services.messaging_cli --onboard --agent Agent-1 --onboarding-style architectural")
+    print(
+        "  python -m src.services.messaging_cli --onboard --agent Agent-1 --onboarding-style architectural"
+    )
 
 
 def demo_principle_queries():
@@ -101,7 +134,10 @@ def demo_principle_queries():
     print("-" * 40)
 
     # Show agents by principle
-    for principle in [ArchitecturalPrinciple.SINGLE_RESPONSIBILITY, ArchitecturalPrinciple.DONT_REPEAT_YOURSELF]:
+    for principle in [
+        ArchitecturalPrinciple.SINGLE_RESPONSIBILITY,
+        ArchitecturalPrinciple.DONT_REPEAT_YOURSELF,
+    ]:
         agents = architectural_manager.get_agents_by_principle(principle)
         guidance = architectural_manager.get_principle_guidance(principle)
         print(f"{guidance.display_name}: {', '.join(agents)}")
@@ -121,7 +157,9 @@ def demo_architecture_validation():
     print(f"Analyzed {len(analyzer.files)} Python files")
 
     # Check for basic architectural metrics
-    total_lines = sum(analyzer.analyze_file(f)["line_count"] for f in analyzer.files[:5])  # Sample first 5
+    total_lines = sum(
+        analyzer.analyze_file(f)["line_count"] for f in analyzer.files[:5]
+    )  # Sample first 5
     print(f"Sample code metrics: ~{total_lines} lines analyzed")
 
     print("\nArchitectural validation capabilities:")

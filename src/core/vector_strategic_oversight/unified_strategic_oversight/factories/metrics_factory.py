@@ -16,14 +16,16 @@ import uuid
 
 from ..enums import AgentRole
 from ..data_models import (
-    AgentPerformanceMetrics, SwarmCoordinationStatus, VectorDatabaseMetrics,
-    SystemHealthMetrics
+    AgentPerformanceMetrics,
+    SwarmCoordinationStatus,
+    VectorDatabaseMetrics,
+    SystemHealthMetrics,
 )
 
 
 class MetricsFactory:
     """Factory class for creating strategic oversight metrics."""
-    
+
     @staticmethod
     def create_agent_performance_metrics(
         agent_id: str,
@@ -33,7 +35,7 @@ class MetricsFactory:
         efficiency_rating: float,
         coordination_effectiveness: float,
         task_completion_rate: float,
-        response_time_avg: float
+        response_time_avg: float,
     ) -> AgentPerformanceMetrics:
         """Create agent performance metrics."""
         return AgentPerformanceMetrics(
@@ -45,9 +47,9 @@ class MetricsFactory:
             coordination_effectiveness=coordination_effectiveness,
             task_completion_rate=task_completion_rate,
             response_time_avg=response_time_avg,
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )
-    
+
     @staticmethod
     def create_swarm_coordination_status(
         total_agents: int,
@@ -56,7 +58,7 @@ class MetricsFactory:
         communication_efficiency: float,
         task_distribution_balance: float,
         overall_swarm_effectiveness: float,
-        status_notes: str = None
+        status_notes: str = None,
     ) -> SwarmCoordinationStatus:
         """Create swarm coordination status."""
         return SwarmCoordinationStatus(
@@ -68,9 +70,9 @@ class MetricsFactory:
             task_distribution_balance=task_distribution_balance,
             overall_swarm_effectiveness=overall_swarm_effectiveness,
             last_updated=datetime.now(),
-            status_notes=status_notes
+            status_notes=status_notes,
         )
-    
+
     @staticmethod
     def create_vector_database_metrics(
         total_vectors: int,
@@ -78,7 +80,7 @@ class MetricsFactory:
         index_efficiency: float,
         memory_usage: float,
         cache_hit_rate: float,
-        search_accuracy: float
+        search_accuracy: float,
     ) -> VectorDatabaseMetrics:
         """Create vector database metrics."""
         return VectorDatabaseMetrics(
@@ -89,9 +91,9 @@ class MetricsFactory:
             memory_usage=memory_usage,
             cache_hit_rate=cache_hit_rate,
             search_accuracy=search_accuracy,
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )
-    
+
     @staticmethod
     def create_system_health_metrics(
         cpu_usage: float,
@@ -99,7 +101,7 @@ class MetricsFactory:
         disk_usage: float,
         network_latency: float,
         error_rate: float,
-        uptime: float
+        uptime: float,
     ) -> SystemHealthMetrics:
         """Create system health metrics."""
         return SystemHealthMetrics(
@@ -110,5 +112,5 @@ class MetricsFactory:
             network_latency=network_latency,
             error_rate=error_rate,
             uptime=uptime,
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )

@@ -24,7 +24,7 @@ import pytest
 from src.services.architectural_onboarding import (
     ArchitecturalPrinciple,
     ArchitecturalOnboardingManager,
-    architectural_manager
+    architectural_manager,
 )
 
 
@@ -42,19 +42,19 @@ class CodeAnalyzer:
     def analyze_file(self, file_path: Path) -> Dict[str, Any]:
         """Analyze a single Python file for architectural metrics."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
 
             return {
                 "file_path": str(file_path),
-                "line_count": len(content.split('\n')),
+                "line_count": len(content.split("\n")),
                 "classes": self._extract_classes(tree),
                 "functions": self._extract_functions(tree),
                 "imports": self._extract_imports(tree),
                 "complexity": self._calculate_complexity(content),
-                "duplication_score": self._calculate_duplication_score(content)
+                "duplication_score": self._calculate_duplication_score(content),
             }
         except Exception as e:
             return {
@@ -65,7 +65,7 @@ class CodeAnalyzer:
                 "functions": [],
                 "imports": [],
                 "complexity": 0,
-                "duplication_score": 0
+                "duplication_score": 0,
             }
 
     def _extract_classes(self, tree: ast.AST) -> List[Dict[str, Any]]:
@@ -74,13 +74,21 @@ class CodeAnalyzer:
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
                 methods = [n for n in node.body if isinstance(n, ast.FunctionDef)]
-                classes.append({
-                    "name": node.name,
-                    "line_number": node.lineno,
-                    "method_count": len(methods),
-                    "public_methods": len([m for m in methods if not m.name.startswith('_')]),
-                    "line_count": node.end_lineno - node.lineno if hasattr(node, 'end_lineno') else 0
-                })
+                classes.append(
+                    {
+                        "name": node.name,
+                        "line_number": node.lineno,
+                        "method_count": len(methods),
+                        "public_methods": len(
+                            [m for m in methods if not m.name.startswith("_")]
+                        ),
+                        "line_count": (
+                            node.end_lineno - node.lineno
+                            if hasattr(node, "end_lineno")
+                            else 0
+                        ),
+                    }
+                )
         return classes
 
     def _extract_functions(self, tree: ast.AST) -> List[Dict[str, Any]]:
@@ -88,12 +96,18 @@ class CodeAnalyzer:
         functions = []
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef):
-                functions.append({
-                    "name": node.name,
-                    "line_number": node.lineno,
-                    "arg_count": len(node.args.args),
-                    "line_count": node.end_lineno - node.lineno if hasattr(node, 'end_lineno') else 0
-                })
+                functions.append(
+                    {
+                        "name": node.name,
+                        "line_number": node.lineno,
+                        "arg_count": len(node.args.args),
+                        "line_count": (
+                            node.end_lineno - node.lineno
+                            if hasattr(node, "end_lineno")
+                            else 0
+                        ),
+                    }
+                )
         return functions
 
     def _extract_imports(self, tree: ast.AST) -> List[str]:
@@ -110,14 +124,23 @@ class CodeAnalyzer:
     def _calculate_complexity(self, content: str) -> int:
         """Calculate cyclomatic complexity approximation."""
         complexity = 1  # Base complexity
-        keywords = ['if ', 'elif ', 'else:', 'for ', 'while ', 'try:', 'except ', 'with ']
+        keywords = [
+            "if ",
+            "elif ",
+            "else:",
+            "for ",
+            "while ",
+            "try:",
+            "except ",
+            "with ",
+        ]
         for keyword in keywords:
             complexity += content.count(keyword)
         return complexity
 
     def _calculate_duplication_score(self, content: str) -> float:
         """Calculate code duplication score."""
-        lines = content.split('\n')
+        lines = content.split("\n")
         duplicates = 0
         seen_lines = set()
 
@@ -178,12 +201,12 @@ class ArchitecturalValidator:
             analysis = self.analyzer.analyze_file(file_path)
 
             # Look for hardcoded values that should be configurable
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 content = f.read()
 
             # Check for hardcoded configuration
             hardcoded_patterns = [
-                r'\b\d{2,}\b',  # Magic numbers
+                r"\b\d{2,}\b",  # Magic numbers
                 r'".*config.*"',  # Hardcoded config strings
                 r"'.*config.*'",  # Hardcoded config strings
             ]
@@ -207,9 +230,7 @@ class ArchitecturalValidator:
 
             # Check duplication score
             if analysis["duplication_score"] > 0.1:  # 10% duplication threshold
-                violations.append(
-                    ".1%"
-                )
+                violations.append(".1%")
 
             # Check for duplicate function names
             functions = [f["name"] for f in analysis.get("functions", [])]
@@ -269,13 +290,13 @@ class ArchitecturalValidator:
             analysis = self.analyzer.analyze_file(file_path)
 
             # Check for direct instantiation that should be injected
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 content = f.read()
 
             # Look for direct instantiation patterns
             instantiation_patterns = [
-                r'\b\w+\([^)]*\)\s*#.*instantiate',
-                r'=\s*\w+\(',
+                r"\b\w+\([^)]*\)\s*#.*instantiate",
+                r"=\s*\w+\(",
             ]
 
             for pattern in instantiation_patterns:
@@ -378,7 +399,9 @@ class TestArchitecturalCompliance:
 
     def test_principle_guidance_content(self, onboarding_manager):
         """Test that principle guidance contains required content."""
-        guidance = onboarding_manager.get_principle_guidance(ArchitecturalPrinciple.SINGLE_RESPONSIBILITY)
+        guidance = onboarding_manager.get_principle_guidance(
+            ArchitecturalPrinciple.SINGLE_RESPONSIBILITY
+        )
 
         assert guidance.display_name == "Single Responsibility Principle (SRP)"
         assert len(guidance.responsibilities) > 0
@@ -397,7 +420,11 @@ class TestArchitecturalCompliance:
     def test_compliance_validation(self, onboarding_manager):
         """Test agent compliance validation."""
         # Mock code changes
-        changes = ["class BigClass:", "    def method1(self): pass", "    def method2(self): pass"]
+        changes = [
+            "class BigClass:",
+            "    def method1(self): pass",
+            "    def method2(self): pass",
+        ]
 
         result = onboarding_manager.validate_agent_compliance("Agent-1", changes)
 
@@ -414,8 +441,7 @@ class TestArchitecturalCompliance:
         try:
             # Assign a principle
             success = onboarding_manager.assign_principle_to_agent(
-                "TestAgent",
-                ArchitecturalPrinciple.TEST_DRIVEN_DEVELOPMENT
+                "TestAgent", ArchitecturalPrinciple.TEST_DRIVEN_DEVELOPMENT
             )
 
             # Should work even if config file creation fails
@@ -426,7 +452,9 @@ class TestArchitecturalCompliance:
 
     def test_agents_by_principle_query(self, onboarding_manager):
         """Test querying agents by principle."""
-        agents = onboarding_manager.get_agents_by_principle(ArchitecturalPrinciple.SINGLE_RESPONSIBILITY)
+        agents = onboarding_manager.get_agents_by_principle(
+            ArchitecturalPrinciple.SINGLE_RESPONSIBILITY
+        )
         assert "Agent-1" in agents
 
     def test_all_principles_coverage(self, onboarding_manager):
@@ -460,14 +488,20 @@ class TestCodeAnalysis:
         """Test that Python files are properly collected."""
         files = analyzer.files
         assert len(files) > 0
-        assert all(f.suffix == '.py' for f in files)
+        assert all(f.suffix == ".py" for f in files)
 
     def test_file_analysis_structure(self, analyzer):
         """Test that file analysis returns expected structure."""
         if analyzer.files:
             analysis = analyzer.analyze_file(analyzer.files[0])
 
-            required_keys = ["file_path", "line_count", "classes", "functions", "imports"]
+            required_keys = [
+                "file_path",
+                "line_count",
+                "classes",
+                "functions",
+                "imports",
+            ]
             for key in required_keys:
                 assert key in analysis
 

@@ -255,4 +255,3 @@ export class WebSocketErrorCallbacks {
 export function createWebSocketErrorCallbacks() {
     return new WebSocketErrorCallbacks();
 }
-

@@ -17,24 +17,28 @@ from enum import Enum
 
 class RecipientType(Enum):
     """Recipient type enumeration."""
+
     AGENT = "agent"
     SYSTEM = "system"
 
 
 class SenderType(Enum):
     """Sender type enumeration."""
+
     AGENT = "agent"
     SYSTEM = "system"
 
 
 class UnifiedMessagePriority(Enum):
     """Message priority enumeration."""
+
     REGULAR = "regular"
     URGENT = "urgent"
 
 
 class UnifiedMessageTag(Enum):
     """Message tag enumeration."""
+
     CAPTAIN = "captain"
     ONBOARDING = "onboarding"
     WRAPUP = "wrapup"
@@ -42,6 +46,7 @@ class UnifiedMessageTag(Enum):
 
 class UnifiedMessageType(Enum):
     """Message type enumeration."""
+
     TEXT = "text"
     BROADCAST = "broadcast"
     ONBOARDING = "onboarding"
@@ -50,6 +55,7 @@ class UnifiedMessageType(Enum):
 @dataclass
 class CoordinateConfig:
     """Coordinate configuration data structure."""
+
     agent_id: str
     x: int
     y: int
@@ -59,6 +65,7 @@ class CoordinateConfig:
 @dataclass
 class CLICommand:
     """CLI command data structure."""
+
     command: str
     args: Dict[str, Any]
     agent: Optional[str] = None
@@ -71,6 +78,7 @@ class CLICommand:
 @dataclass
 class CommandResult:
     """Command execution result."""
+
     success: bool
     message: str
     data: Optional[Dict[str, Any]] = None

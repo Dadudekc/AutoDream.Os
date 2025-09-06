@@ -180,12 +180,12 @@ export class SystemIntegrationTestMethodsCore {
                 </div>
             </div>
         `;
-        
+
         const trigger = document.createElement('button');
         trigger.setAttribute('data-bs-toggle', 'modal');
         trigger.setAttribute('data-bs-target', '#testModal');
         trigger.textContent = 'Open Modal';
-        
+
         document.body.appendChild(modal);
         document.body.appendChild(trigger);
         return modal;

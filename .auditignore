@@ -1,0 +1,8 @@
+# one pattern per line; matched against basename or path (substring OK)
+*.log
+*.tmp
+*.bak
+*~ 
+*.orig
+runtime/reports/*
+runtime/quality/proofs/*

@@ -23,42 +23,42 @@ def create_parser():
 Examples:
   # Run a single test
   python -m src.gaming.test_runner_cli --test session_creation
-  
+
   # Run a test suite
   python -m src.gaming.test_runner_cli --suite unit_tests
-  
+
   # Run all tests
   python -m src.gaming.test_runner_cli --all
-  
+
   # Export results
   python -m src.gaming.test_runner_cli --export results.json
-  
+
   # Show test results
   python -m src.gaming.test_runner_cli --results
-  
+
   # List available tests
   python -m src.gaming.test_runner_cli --list-tests
         """
     )
-    
+
     # Test execution options
     parser.add_argument("--test", "-t", help="Run a specific test by ID")
     parser.add_argument("--suite", "-s", help="Run a test suite by ID")
     parser.add_argument("--all", action="store_true", help="Run all available tests")
-    
+
     # Output options
     parser.add_argument("--results", action="store_true", help="Show test results")
     parser.add_argument("--export", "-e", help="Export results to JSON file")
     parser.add_argument("--list-tests", action="store_true", help="List available tests")
     parser.add_argument("--list-suites", action="store_true", help="List available test suites")
-    
+
     # Configuration options
     parser.add_argument("--config", "-c", help="Configuration file path")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose output")
-    
+
     return parser
 
 
-async 
+async
 if __name__ == "__main__":
     asyncio.run(main())

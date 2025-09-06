@@ -18,6 +18,7 @@ from enum import Enum
 
 class TransitionType(Enum):
     """Types of FSM transitions."""
+
     AUTOMATIC = "automatic"
     MANUAL = "manual"
     CONDITIONAL = "conditional"
@@ -26,6 +27,7 @@ class TransitionType(Enum):
 
 class StateStatus(Enum):
     """FSM state status values."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     PENDING = "pending"
@@ -36,6 +38,7 @@ class StateStatus(Enum):
 
 class TransitionStatus(Enum):
     """FSM transition status values."""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
@@ -45,6 +48,7 @@ class TransitionStatus(Enum):
 
 class FSMErrorType(Enum):
     """FSM error types."""
+
     STATE_ERROR = "state_error"
     TRANSITION_ERROR = "transition_error"
     TIMEOUT_ERROR = "timeout_error"

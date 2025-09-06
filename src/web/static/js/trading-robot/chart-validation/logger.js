@@ -1,11 +1,11 @@
 /**
  * Chart State Logger - V2 Compliant Module
  * =======================================
- * 
+ *
  * Logging utilities for chart state validation.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -102,7 +102,7 @@ export class ChartStateLogger {
     outputToConsole(level, message, context) {
         const timestamp = new Date().toISOString();
         const prefix = `[${timestamp}] CHART-VALIDATION-${level.toUpperCase()}:`;
-        
+
         switch (level) {
             case 'debug':
                 console.debug(prefix, message, context);
@@ -203,7 +203,7 @@ export class ChartStateLogger {
      */
     searchLogs(query) {
         const lowerQuery = query.toLowerCase();
-        return this.logs.filter(log => 
+        return this.logs.filter(log =>
             log.message.toLowerCase().includes(lowerQuery) ||
             log.level.toLowerCase().includes(lowerQuery) ||
             JSON.stringify(log.context).toLowerCase().includes(lowerQuery)
@@ -228,8 +228,8 @@ export class ChartStateLogger {
      * Get validation logs
      */
     getValidationLogs() {
-        return this.logs.filter(log => 
-            log.message.includes('validation') || 
+        return this.logs.filter(log =>
+            log.message.includes('validation') ||
             log.message.includes('rule') ||
             log.message.includes('error')
         );

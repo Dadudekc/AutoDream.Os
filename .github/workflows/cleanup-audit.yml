@@ -1,0 +1,39 @@
+name: Cleanup Audit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run auditor
+        run: |
+          python tools/audit_cleanup.py || EXIT=$?
+          echo "AUDIT_EXIT=$EXIT" >> $GITHUB_ENV
+          # Always collect artifacts even on fail
+          echo "::group::Report paths"
+          ls -l runtime/reports || true
+          echo "::endgroup::"
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleanup-reports
+          path: runtime/reports/*
+
+      - name: Fail on guard
+        run: |
+          test "${AUDIT_EXIT:-0}" -eq 0 || exit 1

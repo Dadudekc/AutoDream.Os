@@ -19,11 +19,11 @@ from .position import Position
 
 @dataclass
 class Portfolio:
-    """
-    Portfolio data structure with V2 compliance validation.
+    """Portfolio data structure with V2 compliance validation.
 
     V2 COMPLIANCE: Type-safe data structure with validation and metadata.
     """
+
     id: str
     name: str
     positions: Dict[str, Position] = field(default_factory=dict)
@@ -45,7 +45,7 @@ class Portfolio:
         """Add or update position in portfolio."""
         if not isinstance(position, Position):
             raise ValueError("Position must be a Position object")
-        
+
         self.positions[position.symbol] = position
         self._update_total_value()
 
@@ -80,7 +80,7 @@ class Portfolio:
         cost_basis = self.get_total_cost_basis()
         if cost_basis == 0:
             return 0.0
-        
+
         return (self.get_total_unrealized_pnl() / cost_basis) * 100
 
     def get_portfolio_value(self) -> float:
@@ -116,7 +116,7 @@ class Portfolio:
         for symbol, price in price_updates.items():
             if symbol in self.positions:
                 self.positions[symbol].update_price(price)
-        
+
         self._update_total_value()
 
     def _update_total_value(self):
@@ -126,49 +126,51 @@ class Portfolio:
     def get_portfolio_summary(self) -> Dict[str, Any]:
         """Get comprehensive portfolio summary."""
         return {
-            'id': self.id,
-            'name': self.name,
-            'total_value': self.get_portfolio_value(),
-            'cash_balance': self.cash_balance,
-            'market_value': self.get_total_market_value(),
-            'cost_basis': self.get_total_cost_basis(),
-            'unrealized_pnl': self.get_total_unrealized_pnl(),
-            'unrealized_pnl_percentage': self.get_total_unrealized_pnl_percentage(),
-            'position_count': self.get_position_count(),
-            'long_positions': len(self.get_long_positions()),
-            'short_positions': len(self.get_short_positions()),
-            'profitable_positions': len(self.get_profitable_positions()),
-            'losing_positions': len(self.get_losing_positions()),
-            'timestamp': self.timestamp.isoformat()
+            "id": self.id,
+            "name": self.name,
+            "total_value": self.get_portfolio_value(),
+            "cash_balance": self.cash_balance,
+            "market_value": self.get_total_market_value(),
+            "cost_basis": self.get_total_cost_basis(),
+            "unrealized_pnl": self.get_total_unrealized_pnl(),
+            "unrealized_pnl_percentage": self.get_total_unrealized_pnl_percentage(),
+            "position_count": self.get_position_count(),
+            "long_positions": len(self.get_long_positions()),
+            "short_positions": len(self.get_short_positions()),
+            "profitable_positions": len(self.get_profitable_positions()),
+            "losing_positions": len(self.get_losing_positions()),
+            "timestamp": self.timestamp.isoformat(),
         }
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert portfolio to dictionary."""
         return {
-            'id': self.id,
-            'name': self.name,
-            'positions': {symbol: pos.to_dict() for symbol, pos in self.positions.items()},
-            'cash_balance': self.cash_balance,
-            'total_value': self.total_value,
-            'timestamp': self.timestamp.isoformat(),
-            'metadata': self.metadata
+            "id": self.id,
+            "name": self.name,
+            "positions": {
+                symbol: pos.to_dict() for symbol, pos in self.positions.items()
+            },
+            "cash_balance": self.cash_balance,
+            "total_value": self.total_value,
+            "timestamp": self.timestamp.isoformat(),
+            "metadata": self.metadata,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Portfolio':
+    def from_dict(cls, data: Dict[str, Any]) -> "Portfolio":
         """Create portfolio from dictionary."""
         positions = {}
-        for symbol, pos_data in data.get('positions', {}).items():
+        for symbol, pos_data in data.get("positions", {}).items():
             positions[symbol] = Position.from_dict(pos_data)
-        
+
         return cls(
-            id=data['id'],
-            name=data['name'],
+            id=data["id"],
+            name=data["name"],
             positions=positions,
-            cash_balance=data.get('cash_balance', 0.0),
-            total_value=data.get('total_value', 0.0),
-            timestamp=datetime.fromisoformat(data['timestamp']),
-            metadata=data.get('metadata', {})
+            cash_balance=data.get("cash_balance", 0.0),
+            total_value=data.get("total_value", 0.0),
+            timestamp=datetime.fromisoformat(data["timestamp"]),
+            metadata=data.get("metadata", {}),
         )
 
     def __str__(self) -> str:
@@ -177,5 +179,7 @@ class Portfolio:
 
     def __repr__(self) -> str:
         """Detailed string representation of portfolio."""
-        return (f"Portfolio(id='{self.id}', name='{self.name}', "
-                f"positions={len(self.positions)}, value={self.get_portfolio_value()})")
+        return (
+            f"Portfolio(id='{self.id}', name='{self.name}', "
+            f"positions={len(self.positions)}, value={self.get_portfolio_value()})"
+        )

@@ -19,7 +19,7 @@ class DiscordAdminCommander(commands.Bot):
     Discord Administrator Commander - Advanced server management tool
     V2 COMPLIANT: Modular architecture with extracted components
     """
-    
+
     def __init__(self, command_prefix: str = "!", intents: discord.Intents = None):
         if intents is None:
             intents = discord.Intents.default()
@@ -32,29 +32,29 @@ class DiscordAdminCommander(commands.Bot):
             intents.presences = True
 
         super().__init__(command_prefix=command_prefix, intents=intents)
-        
+
         # Server management data
         self.server_stats: Dict[int, ServerStats] = {}
-        
+
         # Configuration
         self.config = self._get_unified_config().load_config()
-        
+
         # Initialize modules
         self.moderation = ModerationModules(self.config)
         self.analytics = AnalyticsModules(self.config)
         self.commands_handler = DiscordAdminCommands(self, self.moderation, self.analytics)
-        
+
         # Setup commands
         self._setup_commands()
-        
+
         get_logger(__name__).info("Discord Administrator Commander initialized")
 
     def _load_config(self) -> Dict[str, Any]:
-        """Load administrator configuration"""
-        
+        """Load administrator configuration."""
+
         config_manager = get_discord_config_manager()
         discord_config = config_manager.get_discord_config()
-        
+
         return {
             "discord": {
                 "token": discord_config.token,
@@ -78,7 +78,7 @@ class DiscordAdminCommander(commands.Bot):
         }
 
     def _setup_commands(self):
-        """Setup command handlers"""
+        """Setup command handlers."""
         # Channel Management Commands
         @self.command(name="create_channel")
         @commands.has_permissions(administrator=True)
@@ -139,56 +139,56 @@ class DiscordAdminCommander(commands.Bot):
             await self.commands_handler.handle_command_error(ctx, error)
 
     async def on_ready(self):
-        """Bot ready event"""
+        """Bot ready event."""
         get_logger(__name__).info(f"Discord Administrator Commander ready as {self.user}")
         get_logger(__name__).info(f"Connected to {len(self.guilds)} guilds")
-        
+
         # Initialize server stats for all guilds
         for guild in self.guilds:
             self.server_stats[guild.id] = ServerManagementModules.get_server_stats(guild)
             await self.analytics.track_server_growth(guild)
 
     async def on_message(self, message):
-        """Handle incoming messages"""
+        """Handle incoming messages."""
         if message.author.bot:
             return
-        
+
         # Track message analytics
         await self.analytics.track_message_stats(message)
-        
+
         # Check for moderation violations
         if await self.moderation.get_unified_validator().check_spam(message):
             await self.moderation.handle_spam(message)
         elif await self.moderation.get_unified_validator().check_profanity(message.content):
             await self.moderation.handle_profanity(message)
-        
+
         # Process commands
         await self.process_commands(message)
 
     async def on_member_join(self, member):
-        """Handle member join events"""
+        """Handle member join events."""
         await self.analytics.track_member_activity(member, "joined")
         await self.analytics.track_server_growth(member.guild)
-        
+
         # Check for raid protection
         if await self.moderation.get_unified_validator().check_raid_protection(member.guild):
             await self.moderation.handle_raid_protection(member.guild)
 
     async def on_member_remove(self, member):
-        """Handle member leave events"""
+        """Handle member leave events."""
         await self.analytics.track_member_activity(member, "left")
         await self.analytics.track_server_growth(member.guild)
 
     async def on_voice_state_update(self, member, before, after):
-        """Handle voice state updates"""
+        """Handle voice state updates."""
         if before.channel != after.channel:
             action = "joined_voice" if after.channel else "left_voice"
             await self.analytics.track_member_activity(member, action)
 
 def create_discord_admin_commander() -> DiscordAdminCommander:
-    """Create and return a DiscordAdminCommander instance"""
+    """Create and return a DiscordAdminCommander instance."""
     return DiscordAdminCommander()
 
-async 
+async
 if __name__ == "__main__":
     asyncio.run(main())

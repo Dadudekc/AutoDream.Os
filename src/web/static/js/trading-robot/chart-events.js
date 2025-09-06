@@ -1,7 +1,7 @@
 /**
  * Chart Events - V2 Compliant Event Management Module
  * Handles all chart event listeners and interactions
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -86,7 +86,7 @@ export class ChartEvents {
 
         // Find closest data point
         const dataPoint = this.findClosestDataPoint(x, y, chartManager.chartData, canvas);
-        
+
         if (dataPoint) {
             this.showPriceTooltip(x, y, dataPoint, canvas);
         }
@@ -110,7 +110,7 @@ export class ChartEvents {
      */
     static handleChartZoom(event, chartManager) {
         event.preventDefault();
-        
+
         const delta = event.deltaY > 0 ? 0.9 : 1.1;
         chartManager.zoomChart(delta);
     }
@@ -136,9 +136,9 @@ export class ChartEvents {
         chartData.forEach((data, index) => {
             const dataX = padding + (index / (chartData.length - 1)) * chartWidth;
             const dataY = padding + ((maxPrice - data.close) / priceRange) * chartHeight;
-            
+
             const distance = Math.sqrt(Math.pow(x - dataX, 2) + Math.pow(y - dataY, 2));
-            
+
             if (distance < minDistance) {
                 minDistance = distance;
                 closestIndex = index;

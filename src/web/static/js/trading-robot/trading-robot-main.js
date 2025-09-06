@@ -71,28 +71,28 @@ export class TradingRobotApp {
 
         try {
             this.logger.log('🚀 Initializing Trading Robot Application...');
-            
+
             // Initialize all components
             await this.initializeComponents();
-            
+
             // Set up cross-component communication
             this.setupComponentCommunication();
-            
+
             // Initialize dashboard
             await this.dashboard.initialize();
-            
+
             // Start application services
             this.startApplicationServices();
-            
+
             this.isInitialized = true;
             this.logger.log('✅ Trading Robot Application initialized successfully');
-            
+
             // Dispatch initialization complete event
             AppManagementModules.dispatchEvent('tradingRobot:initialized', {
                 version: this.appConfig.version,
                 timestamp: new Date()
             });
-            
+
         } catch (error) {
             this.logger.error('❌ Trading Robot Application initialization failed:', error);
             AppManagementModules.handleInitializationError(error);

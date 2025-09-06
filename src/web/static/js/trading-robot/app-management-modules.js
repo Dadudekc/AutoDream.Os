@@ -1,7 +1,7 @@
 /**
  * App Management Modules - V2 Compliant Application Management Utilities
  * Handles all application lifecycle and management operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -88,7 +88,7 @@ export class AppManagementModules {
             timestamp: new Date(),
             isConnected: websocketManager.isConnected(),
             portfolioValue: portfolioManager.getCurrentPortfolio().totalValue,
-            activeOrders: orderManager.getOrderHistory().filter(o => 
+            activeOrders: orderManager.getOrderHistory().filter(o =>
                 o.status === 'pending' || o.status === 'submitted'
             ).length,
             chartDataPoints: chartManager.getCurrentChartData().length
@@ -118,10 +118,10 @@ export class AppManagementModules {
      */
     static handleInitializationError(error) {
         console.error('❌ Trading Robot initialization failed:', error);
-        
+
         // Show user-friendly error message
         this.showErrorMessage('Failed to initialize Trading Robot. Please refresh the page.');
-        
+
         // Dispatch error event
         this.dispatchEvent('tradingRobot:error', {
             type: 'initialization',
@@ -135,7 +135,7 @@ export class AppManagementModules {
      */
     static handleError(type, error) {
         console.error(`❌ ${type}:`, error);
-        
+
         // Dispatch error event
         this.dispatchEvent('tradingRobot:error', {
             type: type,
@@ -158,10 +158,10 @@ export class AppManagementModules {
                 <button class="error-close" onclick="this.parentElement.parentElement.remove()">×</button>
             </div>
         `;
-        
+
         // Add to page
         document.body.appendChild(errorDiv);
-        
+
         // Auto-remove after 10 seconds
         setTimeout(() => {
             if (errorDiv.parentElement) {
@@ -203,11 +203,11 @@ export class AppManagementModules {
      */
     static shutdown(websocketManager) {
         console.log('🛑 Shutting down Trading Robot Application...');
-        
+
         if (websocketManager) {
             websocketManager.disconnect();
         }
-        
+
         console.log('✅ Trading Robot Application shutdown complete');
     }
 }

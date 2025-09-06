@@ -10,22 +10,28 @@ Mission: V2 Compliance Refactoring
 """
 
 from flask import Blueprint, render_template
-from .handlers import SearchHandler, DocumentHandler, AnalyticsHandler, CollectionHandler, ExportHandler
+from .handlers import (
+    SearchHandler,
+    DocumentHandler,
+    AnalyticsHandler,
+    CollectionHandler,
+    ExportHandler,
+)
 from .middleware import VectorDatabaseMiddleware
 
 # Create blueprint
-vector_db_bp = Blueprint('vector_db', __name__, url_prefix='/vector-db')
+vector_db_bp = Blueprint("vector_db", __name__, url_prefix="/vector-db")
 
 
-@vector_db_bp.route('/')
+@vector_db_bp.route("/")
 @VectorDatabaseMiddleware.add_cors_headers
 def index():
     """Main vector database interface page."""
-    return render_template('vector_database_interface.html')
+    return render_template("vector_database_interface.html")
 
 
 # Search routes
-@vector_db_bp.route('/search', methods=['POST'])
+@vector_db_bp.route("/search", methods=["POST"])
 @VectorDatabaseMiddleware.add_cors_headers
 def search():
     """Perform semantic search on vector database."""
@@ -33,35 +39,35 @@ def search():
 
 
 # Document routes
-@vector_db_bp.route('/documents', methods=['GET'])
+@vector_db_bp.route("/documents", methods=["GET"])
 @VectorDatabaseMiddleware.add_cors_headers
 def get_documents():
     """Get documents with pagination and filtering."""
     return DocumentHandler.handle_get_documents()
 
 
-@vector_db_bp.route('/documents', methods=['POST'])
+@vector_db_bp.route("/documents", methods=["POST"])
 @VectorDatabaseMiddleware.add_cors_headers
 def add_document():
     """Add a new document to the vector database."""
     return DocumentHandler.handle_add_document()
 
 
-@vector_db_bp.route('/documents/<document_id>', methods=['GET'])
+@vector_db_bp.route("/documents/<document_id>", methods=["GET"])
 @VectorDatabaseMiddleware.add_cors_headers
 def get_document(document_id):
     """Get a specific document by ID."""
     return DocumentHandler.handle_get_document(document_id)
 
 
-@vector_db_bp.route('/documents/<document_id>', methods=['PUT'])
+@vector_db_bp.route("/documents/<document_id>", methods=["PUT"])
 @VectorDatabaseMiddleware.add_cors_headers
 def update_document(document_id):
     """Update a document."""
     return DocumentHandler.handle_update_document(document_id)
 
 
-@vector_db_bp.route('/documents/<document_id>', methods=['DELETE'])
+@vector_db_bp.route("/documents/<document_id>", methods=["DELETE"])
 @VectorDatabaseMiddleware.add_cors_headers
 def delete_document(document_id):
     """Delete a document."""
@@ -69,7 +75,7 @@ def delete_document(document_id):
 
 
 # Analytics routes
-@vector_db_bp.route('/analytics', methods=['GET'])
+@vector_db_bp.route("/analytics", methods=["GET"])
 @VectorDatabaseMiddleware.add_cors_headers
 def get_analytics():
     """Get analytics data for the dashboard."""
@@ -77,7 +83,7 @@ def get_analytics():
 
 
 # Collection routes
-@vector_db_bp.route('/collections', methods=['GET'])
+@vector_db_bp.route("/collections", methods=["GET"])
 @VectorDatabaseMiddleware.add_cors_headers
 def get_collections():
     """Get available collections."""
@@ -85,7 +91,7 @@ def get_collections():
 
 
 # Export routes
-@vector_db_bp.route('/export', methods=['POST'])
+@vector_db_bp.route("/export", methods=["POST"])
 @VectorDatabaseMiddleware.add_cors_headers
 def export_data():
     """Export data in various formats."""

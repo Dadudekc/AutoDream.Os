@@ -1,11 +1,8 @@
-
 """Base utilities for consolidation tasks.
 
-Provides common helpers for consolidating scattered files into a
-central single source of truth (SSOT).
+Provides common helpers for consolidating scattered files into a central single source
+of truth (SSOT).
 """
-
-
 
 
 class ConsolidationBase:
@@ -64,5 +61,7 @@ class ConsolidationBase:
 
     def _consolidate_file(self, source_path: str, target_path: str) -> None:
         """Copy ``source_path`` to ``target_path`` ensuring directories exist."""
-        get_unified_utility().Path(target_path).parent.mkdir(parents=True, exist_ok=True)
+        get_unified_utility().Path(target_path).parent.mkdir(
+            parents=True, exist_ok=True
+        )
         shutil.copy2(source_path, target_path)

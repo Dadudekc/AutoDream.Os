@@ -26,9 +26,12 @@ class ErrorReporter:
         self.error_history: List[Any] = []  # ErrorContext type
         self.logger = logging.getLogger(__name__)
 
-    def create_report(self, component: str, time_range: timedelta = timedelta(hours=24)) -> Any:
+    def create_report(
+        self, component: str, time_range: timedelta = timedelta(hours=24)
+    ) -> Any:
         """Create a new error report for a component."""
         from .error_reporting_core import ErrorReport
+
         report = ErrorReport(component, time_range)
         self.reports[component] = report
         self.logger.info(f"Created error report for component: {component}")
@@ -49,7 +52,7 @@ class ErrorReporter:
         else:
             # Create report if it doesn't exist
             self.create_report(component).add_error(error)
-        
+
         self.global_error_count += 1
         self.error_history.append(error)
         self.logger.debug(f"Added error to {component} report")
@@ -58,16 +61,16 @@ class ErrorReporter:
         """Get global error summary across all components."""
         total_errors = sum(report.get_error_count() for report in self.reports.values())
         component_summaries = {
-            component: report.get_summary() 
+            component: report.get_summary()
             for component, report in self.reports.items()
         }
-        
+
         return {
             "total_components": len(self.reports),
             "total_errors": total_errors,
             "global_error_count": self.global_error_count,
             "component_summaries": component_summaries,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def clear_all_reports(self):
@@ -88,17 +91,20 @@ class ErrorReporter:
         """Get comprehensive error statistics."""
         if not self.reports:
             return {"message": "No error reports available"}
-        
+
         total_errors = sum(report.get_error_count() for report in self.reports.values())
-        avg_errors_per_component = total_errors / len(self.reports) if self.reports else 0
-        
+        avg_errors_per_component = (
+            total_errors / len(self.reports) if self.reports else 0
+        )
+
         return {
             "total_components": len(self.reports),
             "total_errors": total_errors,
             "average_errors_per_component": avg_errors_per_component,
-            "most_error_prone_component": max(
-                self.reports.items(), 
-                key=lambda x: x[1].get_error_count()
-            )[0] if self.reports else None,
-            "timestamp": datetime.now().isoformat()
+            "most_error_prone_component": (
+                max(self.reports.items(), key=lambda x: x[1].get_error_count())[0]
+                if self.reports
+                else None
+            ),
+            "timestamp": datetime.now().isoformat(),
         }

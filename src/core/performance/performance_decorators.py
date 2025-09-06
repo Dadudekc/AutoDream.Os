@@ -10,8 +10,6 @@ License: MIT
 """
 
 
-
-
 def monitor_performance(operation_name: str = None):
     """Decorator for automatic performance monitoring."""
 

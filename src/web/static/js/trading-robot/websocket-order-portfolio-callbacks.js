@@ -293,4 +293,3 @@ export class WebSocketOrderPortfolioCallbacks {
 export function createWebSocketOrderPortfolioCallbacks() {
     return new WebSocketOrderPortfolioCallbacks();
 }
-

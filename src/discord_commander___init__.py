@@ -18,7 +18,7 @@ from .discord_commander import (
     SwarmStatus,
     DiscordConfig,
     AgentMessage,
-    DiscordEmbed
+    DiscordEmbed,
 )
 
 # Re-export for backward compatibility
@@ -26,12 +26,12 @@ DiscordCommander = DiscordCommanderOrchestrator
 
 # Export all public interfaces
 __all__ = [
-    'DiscordCommander',
-    'DiscordCommanderOrchestrator',
-    'create_discord_commander_orchestrator',
-    'CommandResult',
-    'SwarmStatus',
-    'DiscordConfig',
-    'AgentMessage',
-    'DiscordEmbed'
+    "DiscordCommander",
+    "DiscordCommanderOrchestrator",
+    "create_discord_commander_orchestrator",
+    "CommandResult",
+    "SwarmStatus",
+    "DiscordConfig",
+    "AgentMessage",
+    "DiscordEmbed",
 ]

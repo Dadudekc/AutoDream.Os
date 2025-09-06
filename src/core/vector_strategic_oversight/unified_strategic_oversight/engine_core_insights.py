@@ -18,12 +18,14 @@ from .enums import InsightType
 
 class StrategicOversightEngineCoreInsights:
     """Insight management for strategic oversight engine."""
-    
-    def __init__(self, insights: Dict[str, SwarmCoordinationInsight], logger: logging.Logger):
+
+    def __init__(
+        self, insights: Dict[str, SwarmCoordinationInsight], logger: logging.Logger
+    ):
         """Initialize insight management."""
         self.insights = insights
         self.logger = logger
-    
+
     def add_insight(self, insight: SwarmCoordinationInsight) -> bool:
         """Add a swarm coordination insight - simplified."""
         try:
@@ -33,7 +35,7 @@ class StrategicOversightEngineCoreInsights:
         except Exception as e:
             self.logger.error(f"Failed to add swarm coordination insight: {e}")
             return False
-    
+
     def get_insight(self, insight_id: str) -> Optional[SwarmCoordinationInsight]:
         """Get a swarm coordination insight by ID - simplified."""
         try:
@@ -41,18 +43,20 @@ class StrategicOversightEngineCoreInsights:
         except Exception as e:
             self.logger.error(f"Failed to get swarm coordination insight: {e}")
             return None
-    
-    def get_insights(self, insight_type: InsightType = None, limit: int = 10) -> List[SwarmCoordinationInsight]:
+
+    def get_insights(
+        self, insight_type: InsightType = None, limit: int = 10
+    ) -> List[SwarmCoordinationInsight]:
         """Get swarm coordination insights - simplified."""
         try:
             insights = list(self.insights.values())
-            
+
             if insight_type:
                 insights = [i for i in insights if i.insight_type == insight_type]
-            
+
             # Sort by creation date (newest first)
             insights.sort(key=lambda x: x.created_at, reverse=True)
-            
+
             return insights[:limit]
         except Exception as e:
             self.logger.error(f"Failed to get swarm coordination insights: {e}")

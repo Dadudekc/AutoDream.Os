@@ -192,4 +192,3 @@ export class WebSocketMarketDataCallbacks {
 export function createWebSocketMarketDataCallbacks() {
     return new WebSocketMarketDataCallbacks();
 }
-

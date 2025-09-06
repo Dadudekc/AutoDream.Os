@@ -17,11 +17,11 @@ from typing import Dict, Any
 
 @dataclass
 class Trade:
-    """
-    Trade data structure with V2 compliance validation.
+    """Trade data structure with V2 compliance validation.
 
     V2 COMPLIANCE: Type-safe data structure with validation and metadata.
     """
+
     id: str
     symbol: str
     side: str  # 'buy' or 'sell'
@@ -38,20 +38,20 @@ class Trade:
             raise ValueError("Trade ID cannot be empty")
         if not self.symbol or not self.symbol.strip():
             raise ValueError("Symbol cannot be empty")
-        if self.side not in ['buy', 'sell']:
+        if self.side not in ["buy", "sell"]:
             raise ValueError("Side must be 'buy' or 'sell'")
         if self.quantity <= 0:
             raise ValueError("Quantity must be positive")
         if self.price <= 0:
             raise ValueError("Price must be positive")
-        if self.status not in ['pending', 'executed', 'cancelled']:
+        if self.status not in ["pending", "executed", "cancelled"]:
             raise ValueError("Invalid status")
-        if self.order_type not in ['market', 'limit', 'stop']:
+        if self.order_type not in ["market", "limit", "stop"]:
             raise ValueError("Invalid order type")
 
     def is_completed(self) -> bool:
         """Check if trade is completed."""
-        return self.status in ['executed', 'cancelled']
+        return self.status in ["executed", "cancelled"]
 
     def calculate_value(self) -> float:
         """Calculate total trade value."""
@@ -60,11 +60,11 @@ class Trade:
 
 @dataclass
 class Position:
-    """
-    Position data structure with V2 compliance validation.
+    """Position data structure with V2 compliance validation.
 
     V2 COMPLIANCE: Type-safe data structure with validation and performance metrics.
     """
+
     symbol: str
     quantity: float
     average_price: float

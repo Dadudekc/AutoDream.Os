@@ -45,21 +45,26 @@ DATA_DIR = ROOT_DIR / "data"
 # UTILITY FUNCTIONS
 # ================================
 
+
 def get_agent_workspace(agent_id: str) -> Path:
     """Get agent workspace directory path."""
     return AGENT_WORKSPACES_DIR / f"Agent-{agent_id}"
+
 
 def get_agent_inbox(agent_id: str) -> Path:
     """Get agent inbox directory path."""
     return get_agent_workspace(agent_id) / "inbox"
 
+
 def get_agent_status_file(agent_id: str) -> Path:
     """Get agent status file path."""
     return get_agent_workspace(agent_id) / "status.json"
 
+
 def ensure_path_exists(path: Path) -> bool:
     """Ensure path exists, create if necessary."""
     return get_unified_utility().ensure_directory(path)
+
 
 # ================================
 # LEGACY COMPATIBILITY

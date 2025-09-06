@@ -215,4 +215,3 @@ export function createUnifiedLoggingSystem(name) {
 export function getDefaultLoggingSystem() {
     return createUnifiedLoggingSystem("TradingRobotDefault");
 }
-

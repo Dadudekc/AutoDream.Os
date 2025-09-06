@@ -13,4 +13,4 @@ Mission: V2 Compliance Refactoring
 from .messaging_status import MessagingStatusTracker
 
 # Re-export for backward compatibility
-__all__ = ['MessagingStatusTracker']
+__all__ = ["MessagingStatusTracker"]

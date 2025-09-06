@@ -18,6 +18,7 @@ from datetime import datetime
 
 class CommandStatus(Enum):
     """Command execution status."""
+
     PENDING = "pending"
     EXECUTING = "executing"
     COMPLETED = "completed"
@@ -27,6 +28,7 @@ class CommandStatus(Enum):
 
 class AgentStatus(Enum):
     """Agent status levels."""
+
     ACTIVE = "ACTIVE"
     INACTIVE = "INACTIVE"
     PENDING = "PENDING"
@@ -37,13 +39,14 @@ class AgentStatus(Enum):
 @dataclass
 class CommandResult:
     """Result of a command execution."""
+
     success: bool
     message: str
     data: Optional[Dict[str, Any]] = None
     execution_time: Optional[float] = None
     agent: Optional[str] = None
     timestamp: Optional[str] = None
-    
+
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.utcnow().isoformat()
@@ -52,6 +55,7 @@ class CommandResult:
 @dataclass
 class SwarmStatus:
     """Swarm coordination status."""
+
     active_agents: List[str] = None
     total_agents: int = 8
     current_cycle: int = 1
@@ -60,7 +64,7 @@ class SwarmStatus:
     active_missions: List[str] = None
     pending_tasks: List[str] = None
     last_update: str = None
-    
+
     def __post_init__(self):
         if self.active_agents is None:
             self.active_agents = [f"Agent-{i}" for i in range(1, 9)]
@@ -75,6 +79,7 @@ class SwarmStatus:
 @dataclass
 class DiscordConfig:
     """Discord configuration data."""
+
     token: str
     guild_id: str
     command_channel: str = "swarm-commands"
@@ -82,7 +87,7 @@ class DiscordConfig:
     log_channel: str = "swarm-logs"
     admin_role: str = "Captain"
     agent_roles: List[str] = None
-    
+
     def __post_init__(self):
         if self.agent_roles is None:
             self.agent_roles = [f"Agent-{i}" for i in range(1, 9)]
@@ -91,13 +96,14 @@ class DiscordConfig:
 @dataclass
 class AgentMessage:
     """Message to be sent to an agent."""
+
     agent: str
     content: str
     sender: str
     priority: str = "normal"
     message_type: str = "text"
     timestamp: str = None
-    
+
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.utcnow().isoformat()
@@ -106,13 +112,14 @@ class AgentMessage:
 @dataclass
 class DiscordEmbed:
     """Discord embed data structure."""
+
     title: str
     description: str = None
-    color: int = 0x3498db
+    color: int = 0x3498DB
     fields: List[Dict[str, Any]] = None
     footer: str = None
     timestamp: str = None
-    
+
     def __post_init__(self):
         if self.fields is None:
             self.fields = []
@@ -122,6 +129,7 @@ class DiscordEmbed:
 
 class DiscordCommanderState(Enum):
     """Discord commander state."""
+
     INITIALIZING = "initializing"
     CONNECTING = "connecting"
     READY = "ready"
@@ -134,13 +142,14 @@ class DiscordCommanderState(Enum):
 @dataclass
 class CommandHistory:
     """Command execution history entry."""
+
     command_id: str
     agent: str
     command: str
     result: CommandResult
     timestamp: str
     user: str = None
-    
+
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.utcnow().isoformat()
@@ -149,11 +158,12 @@ class CommandHistory:
 @dataclass
 class ChannelConfig:
     """Discord channel configuration."""
+
     name: str
     channel_type: str = "text"
     topic: str = None
     permissions: Dict[str, Any] = None
-    
+
     def __post_init__(self):
         if self.permissions is None:
             self.permissions = {}
@@ -175,7 +185,9 @@ def create_discord_config(token: str, guild_id: str, **kwargs) -> DiscordConfig:
     return DiscordConfig(token=token, guild_id=guild_id, **kwargs)
 
 
-def create_agent_message(agent: str, content: str, sender: str, **kwargs) -> AgentMessage:
+def create_agent_message(
+    agent: str, content: str, sender: str, **kwargs
+) -> AgentMessage:
     """Create agent message."""
     return AgentMessage(agent=agent, content=content, sender=sender, **kwargs)
 
@@ -185,27 +197,31 @@ def create_discord_embed(title: str, **kwargs) -> DiscordEmbed:
     return DiscordEmbed(title=title, **kwargs)
 
 
-def create_command_history(command_id: str, agent: str, command: str, result: CommandResult, **kwargs) -> CommandHistory:
+def create_command_history(
+    command_id: str, agent: str, command: str, result: CommandResult, **kwargs
+) -> CommandHistory:
     """Create command history entry."""
-    return CommandHistory(command_id=command_id, agent=agent, command=command, result=result, **kwargs)
+    return CommandHistory(
+        command_id=command_id, agent=agent, command=command, result=result, **kwargs
+    )
 
 
 # Export for DI
 __all__ = [
-    'CommandStatus',
-    'AgentStatus',
-    'CommandResult',
-    'SwarmStatus',
-    'DiscordConfig',
-    'AgentMessage',
-    'DiscordEmbed',
-    'DiscordCommanderState',
-    'CommandHistory',
-    'ChannelConfig',
-    'create_command_result',
-    'create_swarm_status',
-    'create_discord_config',
-    'create_agent_message',
-    'create_discord_embed',
-    'create_command_history'
+    "CommandStatus",
+    "AgentStatus",
+    "CommandResult",
+    "SwarmStatus",
+    "DiscordConfig",
+    "AgentMessage",
+    "DiscordEmbed",
+    "DiscordCommanderState",
+    "CommandHistory",
+    "ChannelConfig",
+    "create_command_result",
+    "create_swarm_status",
+    "create_discord_config",
+    "create_agent_message",
+    "create_discord_embed",
+    "create_command_history",
 ]

@@ -1,7 +1,5 @@
 """Teardown utilities for summarizing test results."""
 
-
-
 logger = get_logger(__name__)
 
 

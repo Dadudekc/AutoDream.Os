@@ -20,7 +20,7 @@ from ..data_models import StrategicMission
 
 class MissionFactory:
     """Factory class for creating strategic missions."""
-    
+
     @staticmethod
     def create_strategic_mission(
         title: str,
@@ -30,7 +30,7 @@ class MissionFactory:
         objectives: List[str],
         success_criteria: List[str],
         deadline: Optional[datetime] = None,
-        dependencies: List[str] = None
+        dependencies: List[str] = None,
     ) -> StrategicMission:
         """Create strategic mission."""
         return StrategicMission(
@@ -44,15 +44,12 @@ class MissionFactory:
             deadline=deadline,
             dependencies=dependencies or [],
             created_at=datetime.now(),
-            status="PENDING"
+            status="PENDING",
         )
-    
+
     @staticmethod
     def create_quick_mission(
-        title: str,
-        description: str,
-        assigned_agent: str,
-        objective: str
+        title: str, description: str, assigned_agent: str, objective: str
     ) -> StrategicMission:
         """Create quick mission with minimal parameters."""
         return StrategicMission(
@@ -64,15 +61,12 @@ class MissionFactory:
             objectives=[objective],
             success_criteria=["Complete objective"],
             created_at=datetime.now(),
-            status="PENDING"
+            status="PENDING",
         )
-    
+
     @staticmethod
     def create_emergency_mission(
-        title: str,
-        description: str,
-        assigned_agents: List[str],
-        objectives: List[str]
+        title: str, description: str, assigned_agents: List[str], objectives: List[str]
     ) -> StrategicMission:
         """Create emergency mission with high priority."""
         return StrategicMission(
@@ -84,5 +78,5 @@ class MissionFactory:
             objectives=objectives,
             success_criteria=["Resolve emergency"],
             created_at=datetime.now(),
-            status="ACTIVE"
+            status="ACTIVE",
         )

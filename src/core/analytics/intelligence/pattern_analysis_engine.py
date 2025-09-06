@@ -25,90 +25,92 @@ logger = logging.getLogger(__name__)
 
 class PatternAnalysisEngine:
     """Simple pattern analysis engine - V2 compliant."""
-    
+
     def __init__(self, config=None):
         """Initialize pattern analysis engine."""
         self.config = config or {}
         self.logger = logger
         self.analysis_history = []
-        
+
         # Initialize modular components
         self.pattern_extractor = PatternExtractor()
         self.trend_analyzer = TrendAnalyzer()
         self.anomaly_detector = AnomalyDetector()
-    
+
     def analyze_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Analyze patterns in data."""
         try:
             if not data:
                 return {"error": "No data provided"}
-            
+
             # Use modular components for analysis
             patterns = self.pattern_extractor.extract_patterns(data)
             trends = self.trend_analyzer.analyze_trends(data)
             anomalies = self.anomaly_detector.detect_anomalies(data)
-            
+
             analysis_result = {
                 "patterns": patterns,
                 "trends": trends,
                 "anomalies": anomalies,
                 "data_points": len(data),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
-            
+
             # Store in history
             self.analysis_history.append(analysis_result)
-            
+
             return analysis_result
         except Exception as e:
             self.logger.error(f"Error analyzing patterns: {e}")
             return {"error": str(e)}
-    
+
     def get_analysis_summary(self) -> Dict[str, Any]:
         """Get analysis summary."""
         try:
             if not self.analysis_history:
                 return {"message": "No analysis data available"}
-            
+
             total_analyses = len(self.analysis_history)
             recent_analysis = self.analysis_history[-1] if self.analysis_history else {}
-            
+
             return {
                 "total_analyses": total_analyses,
                 "recent_analysis": recent_analysis,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error(f"Error getting analysis summary: {e}")
             return {"error": str(e)}
-    
+
     def clear_analysis_history(self) -> None:
         """Clear analysis history."""
         self.analysis_history.clear()
         self.logger.info("Analysis history cleared")
-    
+
     def get_status(self) -> Dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,
             "analyses_count": len(self.analysis_history),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
-    
+
     # Delegate methods to modular components
     def extract_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Extract patterns from data."""
         return self.pattern_extractor.extract_patterns(data)
-    
+
     def analyze_trends(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Analyze trends in data."""
         return self.trend_analyzer.analyze_trends(data)
-    
+
     def detect_anomalies(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Detect anomalies in data."""
         return self.anomaly_detector.detect_anomalies(data)
-    
-    def detect_outliers(self, values: List[float], method: str = "iqr") -> List[Dict[str, Any]]:
+
+    def detect_outliers(
+        self, values: List[float], method: str = "iqr"
+    ) -> List[Dict[str, Any]]:
         """Detect outliers using different methods."""
         return self.anomaly_detector.detect_outliers(values, method)
 

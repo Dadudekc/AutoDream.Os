@@ -16,6 +16,7 @@ from typing import List, Dict, Any, Optional, Tuple
 @dataclass
 class ArchitecturePattern:
     """Represents an identified architecture pattern - simplified."""
+
     name: str
     pattern_type: str
     files: List[str]
@@ -26,6 +27,7 @@ class ArchitecturePattern:
 @dataclass
 class FileAnalysis:
     """Analysis results for a single file - simplified."""
+
     file_path: str
     line_count: int
     classes: List[str]
@@ -38,6 +40,7 @@ class FileAnalysis:
 @dataclass
 class DuplicateFile:
     """Represents duplicate file information - simplified."""
+
     original_file: str
     duplicate_files: List[str]
     similarity_score: float
@@ -46,6 +49,7 @@ class DuplicateFile:
 @dataclass
 class RefactoringSuggestion:
     """Represents a refactoring suggestion - simplified."""
+
     file_path: str
     suggestion_type: str
     description: str
@@ -56,6 +60,7 @@ class RefactoringSuggestion:
 @dataclass
 class AnalysisReport:
     """Complete analysis report - simplified."""
+
     total_files: int
     v2_compliant_files: int
     patterns_found: List[ArchitecturePattern]

@@ -108,5 +108,3 @@ export function getTestingService(testingRepository = null) {
 
 export { TestingService, testingService };
 export default testingService;
-
-

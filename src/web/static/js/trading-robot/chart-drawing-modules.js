@@ -1,7 +1,7 @@
 /**
  * Chart Drawing Modules - V2 Compliant Chart Drawing Utilities
  * Handles all chart drawing and rendering operations
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT
@@ -37,7 +37,7 @@ export class ChartDrawingModules {
             if (value !== null) {
                 const x = padding + (index / (chartData.length - 1)) * chartWidth;
                 const y = padding + ((maxPrice - value) / priceRange) * chartHeight;
-                
+
                 if (index === 0 || smaData[index - 1] === null) {
                     ctx.moveTo(x, y);
                 } else {
@@ -73,7 +73,7 @@ export class ChartDrawingModules {
             if (value !== null) {
                 const x = padding + (index / (chartData.length - 1)) * chartWidth;
                 const y = padding + ((maxPrice - value) / priceRange) * chartHeight;
-                
+
                 if (index === 0 || emaData[index - 1] === null) {
                     ctx.moveTo(x, y);
                 } else {
@@ -104,7 +104,7 @@ export class ChartDrawingModules {
             if (value !== null) {
                 const x = padding + (index / (chartData.length - 1)) * chartWidth;
                 const y = padding + ((100 - value) / 100) * chartHeight;
-                
+
                 if (index === 0 || rsiData[index - 1] === null) {
                     ctx.moveTo(x, y);
                 } else {
@@ -119,7 +119,7 @@ export class ChartDrawingModules {
         ctx.strokeStyle = '#666';
         ctx.lineWidth = 1;
         ctx.setLineDash([5, 5]);
-        
+
         // 70 level
         const y70 = padding + ((100 - 70) / 100) * chartHeight;
         ctx.beginPath();
@@ -157,7 +157,7 @@ export class ChartDrawingModules {
             if (value.macd !== null) {
                 const x = padding + (index / (chartData.length - 1)) * chartWidth;
                 const y = padding + ((0 - value.macd) / 0.1) * chartHeight;
-                
+
                 if (index === 0 || macdData[index - 1].macd === null) {
                     ctx.moveTo(x, y);
                 } else {
@@ -177,7 +177,7 @@ export class ChartDrawingModules {
             if (value.signal !== null) {
                 const x = padding + (index / (chartData.length - 1)) * chartWidth;
                 const y = padding + ((0 - value.signal) / 0.1) * chartHeight;
-                
+
                 if (index === 0 || macdData[index - 1].signal === null) {
                     ctx.moveTo(x, y);
                 } else {
@@ -193,7 +193,7 @@ export class ChartDrawingModules {
             if (value.histogram !== null) {
                 const x = padding + (index / (chartData.length - 1)) * chartWidth;
                 const y = padding + ((0 - value.histogram) / 0.1) * chartHeight;
-                
+
                 ctx.fillStyle = value.histogram >= 0 ? '#4CAF50' : '#F44336';
                 ctx.fillRect(x - 1, y, 2, chartHeight - (y - padding));
             }
@@ -227,7 +227,7 @@ export class ChartDrawingModules {
             // Draw body
             const bodyHeight = Math.abs(closeY - openY);
             const bodyY = Math.min(openY, closeY);
-            
+
             ctx.fillStyle = data.close >= data.open ? '#4CAF50' : '#F44336';
             ctx.fillRect(x - 2, bodyY, 4, Math.max(bodyHeight, 1));
         });
@@ -257,7 +257,7 @@ export class ChartDrawingModules {
         chartData.forEach((data, index) => {
             const x = padding + (index / (chartData.length - 1)) * chartWidth;
             const y = padding + ((maxPrice - data.close) / priceRange) * chartHeight;
-            
+
             if (index === 0) {
                 ctx.moveTo(x, y);
             } else {

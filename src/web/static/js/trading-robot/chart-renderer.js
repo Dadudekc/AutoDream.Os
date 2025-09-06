@@ -2,7 +2,7 @@
  * Chart Renderer - V2 Compliant Chart Rendering Module
  * Handles all chart drawing and rendering operations
  * V2 COMPLIANCE: Under 300-line limit achieved
- * 
+ *
  * @author Agent-1 - Integration & Core Systems Specialist
  * @version 1.0.0 - Trading Robot Frontend V2 Compliance
  * @license MIT

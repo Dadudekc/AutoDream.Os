@@ -279,4 +279,3 @@ export class ChartControlsModule {
 export function createChartControlsModule() {
     return new ChartControlsModule();
 }
-

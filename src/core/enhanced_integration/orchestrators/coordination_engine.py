@@ -13,4 +13,4 @@ License: MIT
 from .coordination_engine_refactored import *
 
 # Re-export all components for backward compatibility
-__all__ = ['CoordinationEngine']
+__all__ = ["CoordinationEngine"]

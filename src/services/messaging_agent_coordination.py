@@ -11,7 +11,6 @@ License: MIT
 """
 
 
-
 # Import unified logger with fallback
 try:
 
@@ -36,8 +35,7 @@ class MessagingAgentCoordination:
         message: str,
         context: Optional[Dict[str, Any]] = None,
     ) -> bool:
-        """
-        Enhanced cross-agent coordination with optional unified logging.
+        """Enhanced cross-agent coordination with optional unified logging.
 
         Args:
             target_agent: The agent to coordinate with
@@ -129,9 +127,13 @@ class MessagingAgentCoordination:
 
             if self.logger:
                 if success:
-                    self.get_logger(__name__).info(f"✅ Coordination successful with {target_agent}")
+                    self.get_logger(__name__).info(
+                        f"✅ Coordination successful with {target_agent}"
+                    )
                 else:
-                    self.get_logger(__name__).error(f"❌ Coordination failed with {target_agent}")
+                    self.get_logger(__name__).error(
+                        f"❌ Coordination failed with {target_agent}"
+                    )
 
             return success
 
@@ -163,8 +165,7 @@ class MessagingAgentCoordination:
     async def report_status_to_captain(
         self, status_message: str, context: Optional[Dict[str, Any]] = None
     ) -> bool:
-        """
-        Report status update to Captain Agent-4 with enhanced coordination tracking.
+        """Report status update to Captain Agent-4 with enhanced coordination tracking.
 
         Args:
             status_message: Status message to report
@@ -187,8 +188,7 @@ class MessagingAgentCoordination:
     async def broadcast_to_swarm(
         self, message: str, exclude_agents: Optional[list] = None
     ) -> Dict[str, bool]:
-        """
-        Broadcast message to all swarm agents.
+        """Broadcast message to all swarm agents.
 
         Args:
             message: Message to broadcast

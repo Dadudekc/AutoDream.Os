@@ -13,9 +13,11 @@ from .command_handlers_core import DiscordCommandHandlersCore
 from .command_handlers_operations import DiscordCommandHandlersOperations
 
 
-class DiscordCommandHandlers(DiscordCommandHandlersCore, DiscordCommandHandlersOperations):
+class DiscordCommandHandlers(
+    DiscordCommandHandlersCore, DiscordCommandHandlersOperations
+):
     """Unified Discord command handlers with core and operations functionality."""
-    
+
     def __init__(self, swarm_status: SwarmStatus):
         """Initialize unified Discord command handlers."""
         DiscordCommandHandlersCore.__init__(self, swarm_status)

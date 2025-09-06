@@ -30,7 +30,7 @@ src_dir = current_dir / "src"
 sys.path.insert(0, str(src_dir))
 
 def load_env_file():
-    """Load environment variables from .env file manually if dotenv not available"""
+    """Load environment variables from .env file manually if dotenv not available."""
     env_file = get_unified_utility().Path(".env")
     if env_file.exists():
         with open(env_file, 'r') as f:
@@ -53,46 +53,46 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def get_unified_validator().check_environment():
-    """Check if required environment variables are set"""
+    """Check if required environment variables are set."""
     required_vars = ["DISCORD_BOT_TOKEN"]
     missing_vars = []
-    
+
     for var in required_vars:
         if not get_unified_config().get_env(var):
             missing_vars.append(var)
-    
+
     if missing_vars:
         get_logger(__name__).error(f"Missing required environment variables: {', '.join(missing_vars)}")
         get_logger(__name__).error("Please set these environment variables before running the bot.")
         return False
-    
+
     return True
 
 def get_unified_validator().check_dependencies():
-    """Check if required packages are installed"""
+    """Check if required packages are installed."""
     required_packages = [
         "discord",
         "requests",
         "pyautogui",
         "pyperclip"
     ]
-    
+
     missing_packages = []
-    
+
     for package in required_packages:
         try:
             __import__(package)
         except ImportError:
             missing_packages.append(package)
-    
+
     if missing_packages:
         get_logger(__name__).error(f"Missing required packages: {', '.join(missing_packages)}")
         get_logger(__name__).error("Please install them with: pip install " + " ".join(missing_packages))
         return False
-    
+
     return True
 
-async 
+async
 if __name__ == "__main__":
     try:
         asyncio.run(main())

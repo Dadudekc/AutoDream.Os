@@ -133,8 +133,8 @@ scripts/
 
 Once you've captured coordinates, the messaging system will automatically use them for PyAutoGUI-based message delivery to the correct agent chat windows.
 
-**Agent-3 - Infrastructure & DevOps Specialist**  
-**Mission**: Coordinate Capture System Implementation  
+**Agent-3 - Infrastructure & DevOps Specialist**
+**Mission**: Coordinate Capture System Implementation
 **Status**: **COMPLETED** ✅
 
 **WE. ARE. SWARM.** 🚀

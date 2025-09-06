@@ -22,7 +22,9 @@ def test_overnight_flag_parsed():
 @patch("src.services.messaging_cli.handle_contract_commands")
 @patch("src.services.messaging_cli.handle_utility_commands")
 @patch("src.services.messaging_cli.handle_overnight_commands")
-def test_overnight_handler_precedence(overnight, utility, contract, onboarding, message):
+def test_overnight_handler_precedence(
+    overnight, utility, contract, onboarding, message
+):
     """Overnight commands are handled before other handlers."""
     overnight.return_value = True
     with patch.object(sys, "argv", ["prog", "--overnight"]):

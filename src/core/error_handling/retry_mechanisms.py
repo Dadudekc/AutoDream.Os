@@ -18,9 +18,11 @@ from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class RetryConfig:
     """Configuration for retry mechanism."""
+
     max_attempts: int = 3
     base_delay: float = 1.0
     backoff_factor: float = 2.0

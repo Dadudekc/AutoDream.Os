@@ -59,22 +59,22 @@ export class TradingDashboard {
 
         try {
             this.logger.log('🚀 Initializing Trading Dashboard...');
-            
+
             // Initialize all components
             await this.websocketManager.initialize();
             await this.portfolioManager.initialize();
             await this.orderManager.initialize();
             await this.chartManager.initialize();
-            
+
             // Set up real-time data connections
             this.setupRealTimeConnections();
-            
+
             // Initialize UI components
             this.initializeUI();
-            
+
             this.isInitialized = true;
             this.logger.log('✅ Trading Dashboard initialized successfully');
-            
+
         } catch (error) {
             this.logger.error('❌ Trading Dashboard initialization failed:', error);
             throw error;
@@ -108,10 +108,10 @@ export class TradingDashboard {
     initializeUI() {
         // Create dashboard layout
         this.createDashboardLayout();
-        
+
         // Set up event listeners
         this.setupEventListeners();
-        
+
         // Start real-time updates
         this.startRealTimeUpdates();
     }
@@ -129,18 +129,18 @@ export class TradingDashboard {
                     <h1>Trading Robot Dashboard</h1>
                     <div class="connection-status" id="connection-status">Connecting...</div>
                 </div>
-                
+
                 <div class="trading-content">
                     <div class="portfolio-panel">
                         <h2>Portfolio</h2>
                         <div id="portfolio-summary"></div>
                     </div>
-                    
+
                     <div class="chart-panel">
                         <h2>Price Chart</h2>
                         <div id="trading-chart"></div>
                     </div>
-                    
+
                     <div class="order-panel">
                         <h2>Orders</h2>
                         <div id="order-form"></div>
@@ -186,7 +186,7 @@ export class TradingDashboard {
     updateDashboardMetrics() {
         const portfolio = this.portfolioManager.getCurrentPortfolio();
         const marketData = this.websocketManager.getLatestMarketData();
-        
+
         this.updatePortfolioDisplay(portfolio);
         this.updateConnectionStatus();
     }
@@ -236,7 +236,7 @@ export class TradingDashboard {
                 <span class="status">${order.status}</span>
             </div>
         `;
-        
+
         orderHistory.insertBefore(orderElement, orderHistory.firstChild);
     }
 

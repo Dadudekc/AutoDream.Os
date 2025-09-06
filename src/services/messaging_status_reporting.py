@@ -40,9 +40,8 @@ class MessagingStatusReporting:
         self.logger = logger or FallbackLogger()
 
     async def show_coordinates(self) -> Dict[str, Any]:
-        """
-        Display current agent coordinates configuration.
-        Uses Discord Commander coordinates as primary source.
+        """Display current agent coordinates configuration. Uses Discord Commander
+        coordinates as primary source.
 
         Returns:
             Dict containing coordinate information
@@ -59,7 +58,9 @@ class MessagingStatusReporting:
                         "📍 Current Agent Coordinates (Discord Commander):"
                     )
                 else:
-                    get_logger(__name__).info("📍 Current Agent Coordinates (Discord Commander):")
+                    get_logger(__name__).info(
+                        "📍 Current Agent Coordinates (Discord Commander):"
+                    )
 
                 for agent, coords in coordinates.items():
                     coord_info = f"{agent}: [{coords[0]}, {coords[1]}]"
@@ -119,8 +120,7 @@ class MessagingStatusReporting:
     def get_system_status(
         self, inbox_paths: Optional[Dict[str, str]] = None
     ) -> Dict[str, Any]:
-        """
-        Get comprehensive messaging system status.
+        """Get comprehensive messaging system status.
 
         Args:
             inbox_paths: Optional inbox paths for status checking
@@ -189,8 +189,7 @@ class MessagingStatusReporting:
     def generate_status_report(
         self, inbox_paths: Optional[Dict[str, str]] = None
     ) -> str:
-        """
-        Generate a formatted status report.
+        """Generate a formatted status report.
 
         Args:
             inbox_paths: Optional inbox paths for status checking

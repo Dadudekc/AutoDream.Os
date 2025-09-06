@@ -199,4 +199,3 @@ export class WebLayerServiceRegistry {
 export function createWebLayerServiceRegistry() {
     return new WebLayerServiceRegistry();
 }
-

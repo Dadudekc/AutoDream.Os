@@ -18,7 +18,7 @@ from .engines import (
     CodeAnalysisEngine,
     ViolationDetectionEngine,
     EliminationStrategyEngine,
-    MetricsReportingEngine
+    MetricsReportingEngine,
 )
 
 # Re-export for backward compatibility
@@ -26,12 +26,12 @@ DRYEliminationEngine = DRYEliminationEngineOrchestrator
 
 # Export all public interfaces
 __all__ = [
-    'DRYEliminationEngine',
-    'DRYEliminationEngineOrchestrator',
-    'create_dry_elimination_engine_orchestrator',
-    'FileDiscoveryEngine',
-    'CodeAnalysisEngine',
-    'ViolationDetectionEngine',
-    'EliminationStrategyEngine',
-    'MetricsReportingEngine'
+    "DRYEliminationEngine",
+    "DRYEliminationEngineOrchestrator",
+    "create_dry_elimination_engine_orchestrator",
+    "FileDiscoveryEngine",
+    "CodeAnalysisEngine",
+    "ViolationDetectionEngine",
+    "EliminationStrategyEngine",
+    "MetricsReportingEngine",
 ]

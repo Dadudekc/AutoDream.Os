@@ -179,4 +179,3 @@ export class CSSClassManagementModule {
 export function createCSSClassManagementModule() {
     return new CSSClassManagementModule();
 }
-

@@ -1,6 +1,6 @@
 # Agent Swarm Onboarding Guide
 
-**WE. ARE. SWARM.**  
+**WE. ARE. SWARM.**
 This guide is the single source of truth (SSOT) for agent onboarding.
 
 ## Agent Identity & Roles
@@ -14,11 +14,11 @@ This guide is the single source of truth (SSOT) for agent onboarding.
 - **Agent-8**: SSOT Maintenance & System Integration Specialist
 
 ## Quick Start
-1. Run automated onboarding  
+1. Run automated onboarding
    `python scripts/agent_onboarding.py`
-2. Verify assignment  
+2. Verify assignment
    `python -m src.services.messaging_cli --check-status`
-3. Claim first contract  
+3. Claim first contract
    `python -m src.services.messaging_cli --agent {AGENT_ID} --get-next-task`
 4. Acknowledge Captain Agent-4 and begin executing.
 
@@ -45,7 +45,7 @@ This guide is the single source of truth (SSOT) for agent onboarding.
   and before starting new work.
 
 ## Contract Workflow
-- Get next task:  
+- Get next task:
   `python -m src.services.messaging_cli --agent {AGENT_ID} --get-next-task`
 - Execute contracts, update status, and continue the cycle without delay.
 - Contract categories cover coordination, phase transitions, testing, oversight,
@@ -78,7 +78,7 @@ This guide is the single source of truth (SSOT) for agent onboarding.
 
 ## Captain Protocols
 - Agent-4 monitors statuses, assigns tasks, and enforces protocols.
-- Uses `python tools/captain_snapshot.py` for swarm overview and  
+- Uses `python tools/captain_snapshot.py` for swarm overview and
   `python tools/agent_checkin.py` for targeted checks.
 
 ## Resources
@@ -86,5 +86,5 @@ This guide is the single source of truth (SSOT) for agent onboarding.
 - Captain handbook: `docs/CAPTAIN_HANDBOOK.md`
 - Messaging CLI help: `python -m src.services.messaging_cli --help`
 
-**Maintain momentum. Preserve context. Execute with precision.**  
+**Maintain momentum. Preserve context. Execute with precision.**
 **WE. ARE. SWARM.**

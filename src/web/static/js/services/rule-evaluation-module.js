@@ -265,4 +265,3 @@ export class RuleEvaluationModule {
 export function createRuleEvaluationModule() {
     return new RuleEvaluationModule();
 }
-

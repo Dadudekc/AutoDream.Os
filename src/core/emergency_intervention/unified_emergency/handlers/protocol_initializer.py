@@ -11,19 +11,22 @@ License: MIT
 
 from typing import List
 from ..models import (
-    EmergencyType, EmergencySeverity, InterventionAction,
-    InterventionProtocol, EmergencyInterventionModels
+    EmergencyType,
+    EmergencySeverity,
+    InterventionAction,
+    InterventionProtocol,
+    EmergencyInterventionModels,
 )
 from .protocol_registry import ProtocolRegistry
 
 
 class ProtocolInitializer:
     """Initializes default emergency protocols."""
-    
+
     def __init__(self, registry: ProtocolRegistry):
         """Initialize with protocol registry."""
         self.registry = registry
-    
+
     def initialize_default_protocols(self) -> None:
         """Initialize all default emergency protocols."""
         self._initialize_system_failure_protocols()
@@ -32,7 +35,7 @@ class ProtocolInitializer:
         self._initialize_data_protocols()
         self._initialize_network_protocols()
         self._initialize_resource_protocols()
-    
+
     def _initialize_system_failure_protocols(self) -> None:
         """Initialize system failure protocols."""
         # System Failure - Medium Severity
@@ -43,14 +46,14 @@ class ProtocolInitializer:
                 actions=[
                     InterventionAction.RESTART_SERVICE,
                     InterventionAction.SCALE_RESOURCES,
-                    InterventionAction.NOTIFY_ADMIN
+                    InterventionAction.NOTIFY_ADMIN,
                 ],
                 priority=1,
                 timeout_seconds=300,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-        
+
         # System Failure - High Severity
         self.registry.register_protocol(
             EmergencyInterventionModels.create_intervention_protocol(
@@ -60,14 +63,14 @@ class ProtocolInitializer:
                     InterventionAction.IMMEDIATE_SHUTDOWN,
                     InterventionAction.BACKUP_RESTORE,
                     InterventionAction.ESCALATE_TO_HUMAN,
-                    InterventionAction.NOTIFY_ADMIN
+                    InterventionAction.NOTIFY_ADMIN,
                 ],
                 priority=0,
                 timeout_seconds=120,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-    
+
     def _initialize_security_protocols(self) -> None:
         """Initialize security breach protocols."""
         # Security Breach - Any Severity
@@ -79,14 +82,14 @@ class ProtocolInitializer:
                     InterventionAction.ISOLATE_SYSTEM,
                     InterventionAction.LOG_INCIDENT,
                     InterventionAction.ESCALATE_TO_HUMAN,
-                    InterventionAction.NOTIFY_ADMIN
+                    InterventionAction.NOTIFY_ADMIN,
                 ],
                 priority=0,
                 timeout_seconds=60,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-    
+
     def _initialize_performance_protocols(self) -> None:
         """Initialize performance degradation protocols."""
         # Performance Degradation - Medium Severity
@@ -97,14 +100,14 @@ class ProtocolInitializer:
                 actions=[
                     InterventionAction.SCALE_RESOURCES,
                     InterventionAction.OPTIMIZE_QUERIES,
-                    InterventionAction.CLEAR_CACHE
+                    InterventionAction.CLEAR_CACHE,
                 ],
                 priority=2,
                 timeout_seconds=180,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-        
+
         # Performance Degradation - High Severity
         self.registry.register_protocol(
             EmergencyInterventionModels.create_intervention_protocol(
@@ -113,14 +116,14 @@ class ProtocolInitializer:
                 actions=[
                     InterventionAction.RESTART_SERVICE,
                     InterventionAction.SCALE_RESOURCES,
-                    InterventionAction.NOTIFY_ADMIN
+                    InterventionAction.NOTIFY_ADMIN,
                 ],
                 priority=1,
                 timeout_seconds=120,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-    
+
     def _initialize_data_protocols(self) -> None:
         """Initialize data corruption protocols."""
         # Data Corruption - Any Severity
@@ -132,14 +135,14 @@ class ProtocolInitializer:
                     InterventionAction.BACKUP_RESTORE,
                     InterventionAction.VALIDATE_DATA,
                     InterventionAction.LOG_INCIDENT,
-                    InterventionAction.ESCALATE_TO_HUMAN
+                    InterventionAction.ESCALATE_TO_HUMAN,
                 ],
                 priority=0,
                 timeout_seconds=300,
-                auto_execute=False  # Require human approval for data operations
+                auto_execute=False,  # Require human approval for data operations
             )
         )
-    
+
     def _initialize_network_protocols(self) -> None:
         """Initialize network failure protocols."""
         # Network Failure - Medium Severity
@@ -150,14 +153,14 @@ class ProtocolInitializer:
                 actions=[
                     InterventionAction.RETRY_CONNECTION,
                     InterventionAction.SWITCH_ENDPOINT,
-                    InterventionAction.LOG_INCIDENT
+                    InterventionAction.LOG_INCIDENT,
                 ],
                 priority=2,
                 timeout_seconds=60,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-        
+
         # Network Failure - High Severity
         self.registry.register_protocol(
             EmergencyInterventionModels.create_intervention_protocol(
@@ -166,14 +169,14 @@ class ProtocolInitializer:
                 actions=[
                     InterventionAction.ISOLATE_SYSTEM,
                     InterventionAction.ACTIVATE_BACKUP,
-                    InterventionAction.NOTIFY_ADMIN
+                    InterventionAction.NOTIFY_ADMIN,
                 ],
                 priority=1,
                 timeout_seconds=120,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-    
+
     def _initialize_resource_protocols(self) -> None:
         """Initialize resource exhaustion protocols."""
         # Resource Exhaustion - Medium Severity
@@ -184,14 +187,14 @@ class ProtocolInitializer:
                 actions=[
                     InterventionAction.SCALE_RESOURCES,
                     InterventionAction.CLEAR_CACHE,
-                    InterventionAction.OPTIMIZE_QUERIES
+                    InterventionAction.OPTIMIZE_QUERIES,
                 ],
                 priority=2,
                 timeout_seconds=180,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-        
+
         # Resource Exhaustion - High Severity
         self.registry.register_protocol(
             EmergencyInterventionModels.create_intervention_protocol(
@@ -201,18 +204,18 @@ class ProtocolInitializer:
                     InterventionAction.IMMEDIATE_SHUTDOWN,
                     InterventionAction.SCALE_RESOURCES,
                     InterventionAction.RESTART_SERVICE,
-                    InterventionAction.ESCALATE_TO_HUMAN
+                    InterventionAction.ESCALATE_TO_HUMAN,
                 ],
                 priority=0,
                 timeout_seconds=60,
-                auto_execute=True
+                auto_execute=True,
             )
         )
-    
+
     def get_initialized_protocol_count(self) -> int:
         """Get count of initialized protocols."""
         return self.registry.get_protocol_count()
-    
+
     def reinitialize_protocols(self) -> None:
         """Clear and reinitialize all protocols."""
         self.registry.clear_protocols()

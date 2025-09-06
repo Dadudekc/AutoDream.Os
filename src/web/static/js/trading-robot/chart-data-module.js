@@ -201,4 +201,3 @@ export class ChartDataModule {
 export function createChartDataModule() {
     return new ChartDataModule();
 }
-

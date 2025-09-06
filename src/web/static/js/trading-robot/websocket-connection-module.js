@@ -219,4 +219,3 @@ export function createWebSocketConnectionModule(wsUrl) {
     }
     return module;
 }
-

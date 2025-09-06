@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """
 Coordination & Communication Performance Monitor - Agent Cellphone V2
@@ -11,7 +10,6 @@ License: MIT
 """
 
 import time
-
 
 
 class CoordinationPerformanceMonitor:

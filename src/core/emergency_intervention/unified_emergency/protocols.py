@@ -14,12 +14,12 @@ License: MIT
 from .protocols_v2 import (
     EmergencyProtocols,
     create_emergency_protocols,
-    get_emergency_protocols
+    get_emergency_protocols,
 )
 
 # Re-export for backward compatibility
 __all__ = [
-    'EmergencyProtocols',
-    'create_emergency_protocols',
-    'get_emergency_protocols'
+    "EmergencyProtocols",
+    "create_emergency_protocols",
+    "get_emergency_protocols",
 ]

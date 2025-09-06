@@ -10,7 +10,6 @@ License: MIT
 """
 
 
-
 from typing import Any, Dict, List
 
 from .models.messaging_models import UnifiedMessage
@@ -39,7 +38,9 @@ class MessagingUtils:
             info = self.agents[agent_id]
             get_logger(__name__).info(f"🤖 {agent_id}: {info['description']}")
             get_logger(__name__).info(f"   📍 Coordinates: {info['coords']}")
-            get_logger(__name__).info(f"   📬 Inbox: {self.inbox_paths.get(agent_id, 'N/A')}")
+            get_logger(__name__).info(
+                f"   📬 Inbox: {self.inbox_paths.get(agent_id, 'N/A')}"
+            )
             get_logger(__name__).info()
 
     def show_coordinates(self):

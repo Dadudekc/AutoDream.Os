@@ -22,6 +22,7 @@ from .error_models_enums import ErrorSeverity, CircuitState, ErrorType, RetryStr
 @dataclass
 class ErrorContext:
     """Error context with V2 compliance."""
+
     error_id: str
     error_type: ErrorType
     severity: ErrorSeverity
@@ -46,6 +47,7 @@ class ErrorContext:
 @dataclass
 class CircuitBreakerConfig:
     """Circuit breaker configuration with V2 compliance."""
+
     name: str
     failure_threshold: int = 5
     recovery_timeout: int = 60
@@ -69,6 +71,7 @@ class CircuitBreakerConfig:
 @dataclass
 class RetryConfig:
     """Retry configuration with V2 compliance."""
+
     max_attempts: int = 3
     base_delay: float = 1.0
     max_delay: float = 60.0

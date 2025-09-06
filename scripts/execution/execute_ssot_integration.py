@@ -1,4 +1,5 @@
 from ..core.unified_entry_point_system import main
+
 #!/usr/bin/env python3
 """
 SSOT Integration Execution Script - Agent-8 Integration & Performance Specialist
@@ -22,12 +23,17 @@ sys.path.insert(0, str(project_root))
 # Import unified systems
 
 # Import unified logging system
-spec = importlib.util.spec_from_file_location("unified_logging_system", "src/core/consolidation/unified-logging-system.py")
+spec = importlib.util.spec_from_file_location(
+    "unified_logging_system", "src/core/consolidation/unified-logging-system.py"
+)
 unified_logging_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(unified_logging_module)
 
-# Import unified configuration system  
-spec = importlib.util.spec_from_file_location("unified_configuration_system", "src/core/consolidation/unified-configuration-system.py")
+# Import unified configuration system
+spec = importlib.util.spec_from_file_location(
+    "unified_configuration_system",
+    "src/core/consolidation/unified-configuration-system.py",
+)
 unified_config_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(unified_config_module)
 

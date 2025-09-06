@@ -18,11 +18,11 @@ from typing import Dict, Any
 
 @dataclass
 class Position:
-    """
-    Position data structure with V2 compliance validation.
+    """Position data structure with V2 compliance validation.
 
     V2 COMPLIANCE: Type-safe data structure with validation and metadata.
     """
+
     symbol: str
     quantity: float
     average_price: float
@@ -53,7 +53,7 @@ class Position:
         """Calculate unrealized profit/loss."""
         if self.quantity == 0:
             return 0.0
-        
+
         if self.quantity > 0:  # Long position
             return (self.current_price - self.average_price) * self.quantity
         else:  # Short position
@@ -64,7 +64,7 @@ class Position:
         cost_basis = self.get_cost_basis()
         if cost_basis == 0:
             return 0.0
-        
+
         return (self.get_unrealized_pnl() / cost_basis) * 100
 
     def is_long(self) -> bool:
@@ -93,10 +93,10 @@ class Position:
         """Add quantity to position and update average price."""
         if quantity == 0:
             return
-        
+
         if price <= 0:
             raise ValueError("Price must be positive")
-        
+
         # Calculate new average price
         total_quantity = self.quantity + quantity
         if total_quantity == 0:
@@ -110,24 +110,24 @@ class Position:
     def to_dict(self) -> Dict[str, Any]:
         """Convert position to dictionary."""
         return {
-            'symbol': self.symbol,
-            'quantity': self.quantity,
-            'average_price': self.average_price,
-            'current_price': self.current_price,
-            'timestamp': self.timestamp.isoformat(),
-            'metadata': self.metadata
+            "symbol": self.symbol,
+            "quantity": self.quantity,
+            "average_price": self.average_price,
+            "current_price": self.current_price,
+            "timestamp": self.timestamp.isoformat(),
+            "metadata": self.metadata,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Position':
+    def from_dict(cls, data: Dict[str, Any]) -> "Position":
         """Create position from dictionary."""
         return cls(
-            symbol=data['symbol'],
-            quantity=data['quantity'],
-            average_price=data['average_price'],
-            current_price=data.get('current_price', 0.0),
-            timestamp=datetime.fromisoformat(data['timestamp']),
-            metadata=data.get('metadata', {})
+            symbol=data["symbol"],
+            quantity=data["quantity"],
+            average_price=data["average_price"],
+            current_price=data.get("current_price", 0.0),
+            timestamp=datetime.fromisoformat(data["timestamp"]),
+            metadata=data.get("metadata", {}),
         )
 
     def __str__(self) -> str:
@@ -136,5 +136,7 @@ class Position:
 
     def __repr__(self) -> str:
         """Detailed string representation of position."""
-        return (f"Position(symbol='{self.symbol}', quantity={self.quantity}, "
-                f"average_price={self.average_price}, current_price={self.current_price})")
+        return (
+            f"Position(symbol='{self.symbol}', quantity={self.quantity}, "
+            f"average_price={self.average_price}, current_price={self.current_price})"
+        )

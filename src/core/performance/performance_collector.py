@@ -12,7 +12,6 @@ License: MIT
 from datetime import datetime
 
 
-
 class PerformanceCollector:
     """Collects and stores performance metrics."""
 

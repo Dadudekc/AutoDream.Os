@@ -57,5 +57,3 @@ export function createPerformanceTests(systemHealth, testResults, performanceMet
 
 export { globalPerformanceTests as performanceTests };
 export default PerformanceTestsV2;
-
-

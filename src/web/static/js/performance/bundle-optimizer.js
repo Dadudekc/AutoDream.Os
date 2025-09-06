@@ -1,12 +1,12 @@
 /**
  * Bundle Optimizer - V2 Compliant
  * ===============================
- * 
+ *
  * JavaScript bundle optimization and analysis.
  * Provides code splitting, lazy loading, and bundle size optimization.
- * 
+ *
  * V2 Compliance: < 300 lines, single responsibility.
- * 
+ *
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
@@ -35,7 +35,7 @@ export class BundleOptimizer {
             loaded: false,
             size: 0
         });
-        
+
         this.bundleMetrics.moduleCount++;
         this.logger.log(`📦 Registered module: ${name}`);
     }
@@ -106,11 +106,11 @@ export class BundleOptimizer {
         if (typeof module === 'string') {
             return module.length * 2; // Rough estimate
         }
-        
+
         if (typeof module === 'object' && module !== null) {
             return JSON.stringify(module).length * 2;
         }
-        
+
         return 1000; // Default estimate
     }
 
@@ -129,11 +129,11 @@ export class BundleOptimizer {
     createLazyLoader(name, trigger) {
         return async (...args) => {
             const module = await this.loadModule(name);
-            
+
             if (typeof module[trigger] === 'function') {
                 return module[trigger](...args);
             }
-            
+
             return module;
         };
     }
@@ -147,9 +147,9 @@ export class BundleOptimizer {
                 const fullName = `${moduleName}_${chunkName}`;
                 return this.loadModule(fullName);
             },
-            
+
             loadAllChunks: async () => {
-                const chunkPromises = chunks.map(chunk => 
+                const chunkPromises = chunks.map(chunk =>
                     this.loadModule(`${moduleName}_${chunk}`)
                 );
                 return Promise.all(chunkPromises);
@@ -162,19 +162,19 @@ export class BundleOptimizer {
      */
     optimizeBundle(usedModules) {
         const unusedModules = [];
-        
+
         this.modules.forEach((module, name) => {
             if (!usedModules.includes(name) && !module.loaded) {
                 unusedModules.push(name);
             }
         });
-        
+
         // Remove unused modules
         unusedModules.forEach(name => {
             this.modules.delete(name);
             this.bundleMetrics.moduleCount--;
         });
-        
+
         this.logger.log(`🧹 Removed ${unusedModules.length} unused modules`);
         return unusedModules;
     }
@@ -197,7 +197,7 @@ export class BundleOptimizer {
     analyzeBundlePerformance() {
         const metrics = this.getBundleMetrics();
         const recommendations = [];
-        
+
         // Check bundle size
         if (metrics.totalSize > 500 * 1024) { // 500KB
             recommendations.push({
@@ -206,7 +206,7 @@ export class BundleOptimizer {
                 suggestion: 'Consider code splitting and lazy loading'
             });
         }
-        
+
         // Check load time
         if (metrics.averageLoadTime > 100) { // 100ms
             recommendations.push({
@@ -215,7 +215,7 @@ export class BundleOptimizer {
                 suggestion: 'Optimize module size and dependencies'
             });
         }
-        
+
         // Check module count
         if (metrics.moduleCount > 50) {
             recommendations.push({
@@ -224,7 +224,7 @@ export class BundleOptimizer {
                 suggestion: 'Consider consolidating related modules'
             });
         }
-        
+
         return {
             metrics,
             recommendations
@@ -240,15 +240,15 @@ export class BundleOptimizer {
                 const startTime = performance.now();
                 const module = await this.loadModule(name);
                 const loadTime = performance.now() - startTime;
-                
+
                 this.logger.log(`⚡ Module ${name} loaded in ${loadTime.toFixed(2)}ms`);
                 return module;
             },
-            
+
             preload: (names) => this.preloadCriticalModules(names),
-            
+
             getMetrics: () => this.getBundleMetrics(),
-            
+
             analyze: () => this.analyzeBundlePerformance()
         };
     }
@@ -266,7 +266,7 @@ export class BundleOptimizer {
             loadTime: 0,
             moduleCount: 0
         };
-        
+
         this.logger.log('🧹 Bundle optimizer cleanup completed');
     }
 }

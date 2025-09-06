@@ -15,7 +15,7 @@ from .coordination_engine_operations import CoordinationEngineOperations
 
 class CoordinationEngine(CoordinationEngineCore, CoordinationEngineOperations):
     """Unified coordination engine with core and operations functionality."""
-    
+
     def __init__(self, config):
         """Initialize unified coordination engine."""
         CoordinationEngineCore.__init__(self, config)

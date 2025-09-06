@@ -20,6 +20,7 @@ from ..error_models_enums import ErrorSeverity
 @dataclass
 class ErrorReport:
     """Error report with V2 compliance."""
+
     report_id: str
     title: str
     summary: str
@@ -41,28 +42,34 @@ class ErrorReport:
             raise ValueError("title is required")
         if not self.summary:
             raise ValueError("summary is required")
-    
-    def add_error_data(self, severity: str, error_type: str, source: str, resolution_time: float = None) -> None:
+
+    def add_error_data(
+        self, severity: str, error_type: str, source: str, resolution_time: float = None
+    ) -> None:
         """Add error data to report."""
         self.error_count += 1
-        self.severity_distribution[severity] = self.severity_distribution.get(severity, 0) + 1
-        self.type_distribution[error_type] = self.type_distribution.get(error_type, 0) + 1
+        self.severity_distribution[severity] = (
+            self.severity_distribution.get(severity, 0) + 1
+        )
+        self.type_distribution[error_type] = (
+            self.type_distribution.get(error_type, 0) + 1
+        )
         self.source_distribution[source] = self.source_distribution.get(source, 0) + 1
-        
+
         if resolution_time is not None:
             self.resolution_times.append(resolution_time)
-    
+
     def add_recommendation(self, recommendation: str) -> None:
         """Add recommendation to report."""
         if recommendation not in self.recommendations:
             self.recommendations.append(recommendation)
-    
+
     def get_average_resolution_time(self) -> float:
         """Get average resolution time."""
         if self.resolution_times:
             return sum(self.resolution_times) / len(self.resolution_times)
         return 0.0
-    
+
     def get_summary(self) -> Dict[str, Any]:
         """Get report summary."""
         return {
@@ -71,5 +78,5 @@ class ErrorReport:
             "error_count": self.error_count,
             "average_resolution_time": self.get_average_resolution_time(),
             "recommendations_count": len(self.recommendations),
-            "created_at": self.created_at.isoformat()
+            "created_at": self.created_at.isoformat(),
         }

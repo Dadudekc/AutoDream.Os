@@ -250,4 +250,3 @@ export class ReportHistoryModule {
 export function createReportHistoryModule() {
     return new ReportHistoryModule();
 }
-

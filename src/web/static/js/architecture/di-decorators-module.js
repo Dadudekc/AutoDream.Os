@@ -105,4 +105,3 @@ export function isInjectable(target) {
 export function getServiceConfig(target) {
     return target.serviceOptions || {};
 }
-

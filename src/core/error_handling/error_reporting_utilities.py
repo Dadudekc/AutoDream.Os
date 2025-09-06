@@ -23,6 +23,7 @@ def get_error_reporter() -> Any:
     global _error_reporter
     if _error_reporter is None:
         from .error_reporting_reporter import ErrorReporter
+
         _error_reporter = ErrorReporter()
     return _error_reporter
 
@@ -32,7 +33,9 @@ def report_error(error: Any, component: str = "unknown"):
     try:
         reporter = get_error_reporter()
         reporter.add_error_to_report(component, error)
-        logger.info(f"Reported error to {component}: {getattr(error, 'error_id', 'unknown')}")
+        logger.info(
+            f"Reported error to {component}: {getattr(error, 'error_id', 'unknown')}"
+        )
     except Exception as e:
         logger.error(f"Failed to report error: {e}")
 
@@ -41,7 +44,7 @@ def get_error_report(component: str = None) -> Dict[str, Any]:
     """Get error report for a component or global summary."""
     try:
         reporter = get_error_reporter()
-        
+
         if component:
             report = reporter.get_report(component)
             if report:
@@ -59,7 +62,7 @@ def clear_error_reports(component: str = None):
     """Clear error reports for a component or all components."""
     try:
         reporter = get_error_reporter()
-        
+
         if component:
             if component in reporter.reports:
                 reporter.reports[component].clear_errors()
@@ -83,7 +86,9 @@ def get_error_statistics() -> Dict[str, Any]:
         return {"error": str(e)}
 
 
-def create_component_report(component: str, time_range: timedelta = timedelta(hours=24)) -> Any:
+def create_component_report(
+    component: str, time_range: timedelta = timedelta(hours=24)
+) -> Any:
     """Create a new error report for a component."""
     try:
         reporter = get_error_reporter()

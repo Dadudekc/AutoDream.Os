@@ -40,8 +40,7 @@ class PythonStandardEnforcer:
         self.max_function_loc = 50
 
     def enforce_standards(self, root_path: str = "src") -> bool:
-        """
-        Enforce Python coding standards on all Python files.
+        """Enforce Python coding standards on all Python files.
 
         Args:
             root_path: Root path to scan for Python files

@@ -17,6 +17,7 @@ from datetime import datetime
 
 class PatternType(Enum):
     """Types of mission patterns."""
+
     SUCCESS = "success"
     FAILURE = "failure"
     COORDINATION = "coordination"
@@ -27,6 +28,7 @@ class PatternType(Enum):
 
 class RecommendationType(Enum):
     """Types of strategic recommendations."""
+
     PATTERN_ADOPTION = "pattern_adoption"
     RISK_MITIGATION = "risk_mitigation"
     RESOURCE_OPTIMIZATION = "resource_optimization"
@@ -36,6 +38,7 @@ class RecommendationType(Enum):
 
 class ImpactLevel(Enum):
     """Impact levels for recommendations."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -45,7 +48,7 @@ class ImpactLevel(Enum):
 @dataclass
 class MissionPattern:
     """Mission pattern structure for analysis."""
-    
+
     pattern_id: str
     pattern_type: str
     mission_type: str
@@ -63,7 +66,7 @@ class MissionPattern:
 @dataclass
 class PatternCorrelation:
     """Pattern correlation structure."""
-    
+
     correlation_id: str
     pattern_a: str
     pattern_b: str
@@ -77,7 +80,7 @@ class PatternCorrelation:
 @dataclass
 class MissionContext:
     """Mission context for pattern analysis."""
-    
+
     mission_id: str
     mission_type: str
     agent_assignments: List[str] = field(default_factory=list)
@@ -94,7 +97,7 @@ class MissionContext:
 @dataclass
 class StrategicRecommendation:
     """Strategic recommendation structure."""
-    
+
     recommendation_id: str
     mission_context: str
     recommendation_type: str
@@ -110,7 +113,7 @@ class StrategicRecommendation:
 @dataclass
 class PatternAnalysisResult:
     """Result of pattern analysis operation."""
-    
+
     success: bool
     pattern_success_probability: float
     analysis_confidence: float
@@ -125,7 +128,7 @@ class PatternAnalysisResult:
 @dataclass
 class PatternMetrics:
     """Metrics for pattern analysis performance."""
-    
+
     total_patterns: int = 0
     successful_analyses: int = 0
     average_confidence: float = 0.0
@@ -133,7 +136,7 @@ class PatternMetrics:
     correlation_count: int = 0
     recommendation_count: int = 0
     last_updated: datetime = field(default_factory=datetime.now)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
@@ -143,14 +146,14 @@ class PatternMetrics:
             "pattern_usage_count": self.pattern_usage_count,
             "correlation_count": self.correlation_count,
             "recommendation_count": self.recommendation_count,
-            "last_updated": self.last_updated.isoformat()
+            "last_updated": self.last_updated.isoformat(),
         }
 
 
 @dataclass
 class PatternAnalysisConfig:
     """Configuration for pattern analysis operations."""
-    
+
     min_confidence_threshold: float = 0.7
     max_patterns_per_analysis: int = 10
     correlation_threshold: float = 0.3

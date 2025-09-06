@@ -23,6 +23,7 @@ import pytest
 
 CLI = ["python", "-m", "src.services.messaging_cli"]
 
+
 def run_cli(tmp, *args, env_vars=None):
     """Run CLI command with temporary directory and optional environment variables."""
     env = os.environ.copy()
@@ -37,15 +38,21 @@ def run_cli(tmp, *args, env_vars=None):
     if env_vars:
         env.update(env_vars)
     cwd = tmp
-    return subprocess.run(CLI + list(args), cwd=cwd, env=env, capture_output=True, text=True)
+    return subprocess.run(
+        CLI + list(args), cwd=cwd, env=env, capture_output=True, text=True
+    )
+
 
 def setup_agents(root, n=8):
     """Set up agent directories and status files."""
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
         agent_dir = Path(root) / f"runtime/agent_state/Agent-{i}"
         agent_dir.mkdir(parents=True, exist_ok=True)
         (agent_dir / "status.json").write_text('{"state": "ACTIVE"}', encoding="utf-8")
-        (agent_dir / "onboarding.json").write_text('{"onboarded": false}', encoding="utf-8")
+        (agent_dir / "onboarding.json").write_text(
+            '{"onboarded": false}', encoding="utf-8"
+        )
+
 
 class TestMessagingSmoke:
     """Smoke tests for messaging system functionality."""
@@ -120,7 +127,14 @@ class TestMessagingSmoke:
 
     def test_hard_onboarding_subset(self):
         """Test hard onboarding with agent subset."""
-        result = run_cli(self.tmp_path, "--hard-onboarding", "--agents", "Agent-1,Agent-2", "--dry-run", "--yes")
+        result = run_cli(
+            self.tmp_path,
+            "--hard-onboarding",
+            "--agents",
+            "Agent-1,Agent-2",
+            "--dry-run",
+            "--yes",
+        )
         assert result.returncode == 0
         assert "DRY-RUN" in result.stdout
 
@@ -184,10 +198,14 @@ class TestMessagingSmoke:
         result = run_cli(self.tmp_path, "--message", "Test", "--no-paste")
         assert result.returncode == 0
 
-        result = run_cli(self.tmp_path, "--message", "Test", "--new-tab-method", "ctrl_t")
+        result = run_cli(
+            self.tmp_path, "--message", "Test", "--new-tab-method", "ctrl_t"
+        )
         assert result.returncode == 0
 
-        result = run_cli(self.tmp_path, "--message", "Test", "--new-tab-method", "ctrl_n")
+        result = run_cli(
+            self.tmp_path, "--message", "Test", "--new-tab-method", "ctrl_n"
+        )
         assert result.returncode == 0
 
     def test_error_handling_missing_agent(self):
@@ -198,9 +216,12 @@ class TestMessagingSmoke:
 
     def test_error_handling_invalid_combination(self):
         """Test error handling for invalid flag combinations."""
-        result = run_cli(self.tmp_path, "--bulk", "--agent", "Agent-1", "--message", "Test")
+        result = run_cli(
+            self.tmp_path, "--bulk", "--agent", "Agent-1", "--message", "Test"
+        )
         assert result.returncode == 0  # CLI handles gracefully
         # This combination might be invalid, but CLI should handle it gracefully
+
 
 class TestMessagingIntegration:
     """Integration tests for messaging system."""
@@ -232,19 +253,29 @@ class TestMessagingIntegration:
     def test_environment_variable_override(self):
         """Test environment variable overrides."""
         env_vars = {"NONINTERACTIVE_YES": "1"}
-        result = run_cli(self.tmp_path, "--hard-onboarding", "--dry-run", env_vars=env_vars)
+        result = run_cli(
+            self.tmp_path, "--hard-onboarding", "--dry-run", env_vars=env_vars
+        )
         assert result.returncode == 0
 
     def test_multiple_flag_combination(self):
         """Test complex flag combinations."""
-        result = run_cli(self.tmp_path,
-                        "--message", "Complex test",
-                        "--agent", "Agent-1",
-                        "--type", "broadcast",
-                        "--priority", "urgent",
-                        "--mode", "inbox",
-                        "--no-paste")
+        result = run_cli(
+            self.tmp_path,
+            "--message",
+            "Complex test",
+            "--agent",
+            "Agent-1",
+            "--type",
+            "broadcast",
+            "--priority",
+            "urgent",
+            "--mode",
+            "inbox",
+            "--no-paste",
+        )
         assert result.returncode == 0
+
 
 class TestMessagingEdgeCases:
     """Edge case tests for messaging system."""
@@ -272,6 +303,7 @@ class TestMessagingEdgeCases:
         """Test referencing non-existent agent."""
         result = run_cli(self.tmp_path, "--onboard", "--agent", "NonExistentAgent")
         assert result.returncode == 0  # Should handle gracefully
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

@@ -16,13 +16,13 @@ from .unified_intelligent_context import (
     IntelligentContextRetrieval,
     IntelligentContextModels,
     IntelligentContextEngine,
-    IntelligentContextSearch
+    IntelligentContextSearch,
 )
 
 # Re-export for backward compatibility
 __all__ = [
-    'IntelligentContextRetrieval',
-    'IntelligentContextModels',
-    'IntelligentContextEngine',
-    'IntelligentContextSearch'
+    "IntelligentContextRetrieval",
+    "IntelligentContextModels",
+    "IntelligentContextEngine",
+    "IntelligentContextSearch",
 ]

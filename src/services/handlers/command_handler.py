@@ -36,8 +36,7 @@ class CommandHandler:
         message_handler,
         service,
     ) -> Dict[str, Any]:
-        """
-        Process CLI command.
+        """Process CLI command.
 
         Args:
             command: Command name

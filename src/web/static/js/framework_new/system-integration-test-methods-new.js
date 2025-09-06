@@ -51,7 +51,7 @@ export class SystemIntegrationTestMethods {
     async testComponentInitialization() {
         try {
             const initResults = [];
-            
+
             // Test Navigation initialization
             try {
                 Navigation.init();
@@ -93,7 +93,7 @@ export class SystemIntegrationTestMethods {
     async testComponentInteractions() {
         try {
             const interactionResults = [];
-            
+
             // Test Navigation-Modal interaction
             try {
                 const navElement = document.querySelector('[data-bs-toggle="modal"]');
@@ -135,15 +135,15 @@ export class SystemIntegrationTestMethods {
     async testPerformance() {
         try {
             const startTime = performance.now();
-            
+
             // Simulate component operations
             await this.simulateComponentOperations();
-            
+
             const endTime = performance.now();
             const executionTime = endTime - startTime;
-            
+
             this.testCore.updatePerformanceMetrics('componentOperations', executionTime);
-            
+
             if (executionTime < 1000) {
                 this.testCore.addTestResult('testPerformance', 'PASS', { message: 'Performance acceptable', executionTime });
             } else {
@@ -160,7 +160,7 @@ export class SystemIntegrationTestMethods {
     async testErrorHandling() {
         try {
             const errorTests = [];
-            
+
             // Test component error handling
             try {
                 // Simulate error condition

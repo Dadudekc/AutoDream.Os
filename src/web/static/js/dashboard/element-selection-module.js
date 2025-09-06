@@ -104,4 +104,3 @@ export class ElementSelectionModule {
 export function createElementSelectionModule() {
     return new ElementSelectionModule();
 }
-

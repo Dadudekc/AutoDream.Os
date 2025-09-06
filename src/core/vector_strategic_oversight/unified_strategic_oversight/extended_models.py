@@ -19,13 +19,14 @@ from .enums import ConfidenceLevel, ImpactLevel, EmergencyStatus
 @dataclass
 class AgentCapabilities:
     """Agent capabilities data."""
+
     capabilities_id: str
     agent_id: str
     capabilities: List[str]
     proficiency_levels: Dict[str, float]
     specializations: List[str]
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -34,6 +35,7 @@ class AgentCapabilities:
 @dataclass
 class PatternAnalysis:
     """Pattern analysis data."""
+
     analysis_id: str
     pattern_type: str
     confidence: float
@@ -41,7 +43,7 @@ class PatternAnalysis:
     impact: ImpactLevel
     recommendations: List[str]
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -50,6 +52,7 @@ class PatternAnalysis:
 @dataclass
 class SuccessPrediction:
     """Success prediction data."""
+
     prediction_id: str
     mission_id: str
     success_probability: float
@@ -57,7 +60,7 @@ class SuccessPrediction:
     factors: List[str]
     recommendations: List[str]
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -66,6 +69,7 @@ class SuccessPrediction:
 @dataclass
 class RiskAssessment:
     """Risk assessment data."""
+
     assessment_id: str
     risk_type: str
     severity: ImpactLevel
@@ -73,7 +77,7 @@ class RiskAssessment:
     impact: str
     mitigation_strategies: List[str]
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -82,6 +86,7 @@ class RiskAssessment:
 @dataclass
 class InterventionHistory:
     """Intervention history data."""
+
     intervention_id: str
     intervention_type: str
     target_agent: str
@@ -89,7 +94,7 @@ class InterventionHistory:
     outcome: str
     timestamp: datetime
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -98,6 +103,7 @@ class InterventionHistory:
 @dataclass
 class EmergencyAlert:
     """Emergency alert data."""
+
     alert_id: str
     alert_type: EmergencyStatus
     severity: ImpactLevel
@@ -105,7 +111,7 @@ class EmergencyAlert:
     affected_agents: List[str]
     resolution_actions: List[str]
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -114,6 +120,7 @@ class EmergencyAlert:
 @dataclass
 class PerformanceTrend:
     """Performance trend data."""
+
     trend_id: str
     metric_name: str
     trend_direction: str
@@ -121,7 +128,7 @@ class PerformanceTrend:
     confidence: ConfidenceLevel
     time_period: str
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()
@@ -130,6 +137,7 @@ class PerformanceTrend:
 @dataclass
 class CoordinationPattern:
     """Coordination pattern data."""
+
     pattern_id: str
     pattern_name: str
     pattern_type: str
@@ -137,7 +145,7 @@ class CoordinationPattern:
     effectiveness: float
     agents_involved: List[str]
     created_at: datetime
-    
+
     def __post_init__(self):
         if self.created_at is None:
             self.created_at = datetime.now()

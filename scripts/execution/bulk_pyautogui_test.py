@@ -23,14 +23,14 @@ sys.path.insert(0, get_unified_utility().path.join(get_unified_utility().path.di
 
 def run_bulk_pyautogui_test():
     """Execute bulk PyAutoGUI test to all agents."""
-    
+
     get_logger(__name__).info("🚨 **BULK PYAUTOGUI TEST** 🚨")
     get_logger(__name__).info("=" * 50)
     get_logger(__name__).info()
-    
+
     # Initialize messaging core
     messaging_core = UnifiedMessagingCore()
-    
+
     # Test message content
     test_message = """🚨 **BULK PYAUTOGUI TEST** 🚨
 
@@ -50,20 +50,20 @@ The system is testing coordinate-based navigation and automated messaging.
 **EXPECTED RESULT**: All agents should receive this message via their coordinates.
 
 **Test System - Bulk PyAutoGUI Verification**"""
-    
+
     get_logger(__name__).info("📋 TEST PARAMETERS:")
     get_logger(__name__).info(f"   • Bulk delivery to all agents: ✅")
     get_logger(__name__).info(f"   • PyAutoGUI automation: ✅")
     get_logger(__name__).info(f"   • No onboarding system used: ✅")
     get_logger(__name__).info(f"   • Direct message routing: ✅")
     get_logger(__name__).info()
-    
+
     get_logger(__name__).info("📍 AGENT COORDINATES:")
     messaging_core.show_coordinates()
-    
+
     get_logger(__name__).info("🚀 STARTING BULK PYAUTOGUI DELIVERY...")
     get_logger(__name__).info("=" * 50)
-    
+
     # Send bulk message to all agents
     results = messaging_core.send_to_all_agents(
         content=test_message,
@@ -80,29 +80,29 @@ The system is testing coordinate-based navigation and automated messaging.
         mode="pyautogui",
         use_paste=True
     )
-    
+
     get_logger(__name__).info()
     get_logger(__name__).info("📊 TEST RESULTS:")
     get_logger(__name__).info("=" * 30)
-    
+
     # CORRECT ORDER: Agent-4 LAST
     agent_order = ["Agent-1", "Agent-2", "Agent-3", "Agent-5", "Agent-6", "Agent-7", "Agent-8", "Agent-4"]
-    
+
     success_count = sum(results)
     total_count = len(results)
-    
+
     for i, (agent_id, success) in enumerate(zip(agent_order, results)):
         status = "✅ SUCCESS" if success else "❌ FAILED"
         get_logger(__name__).info(f"{i+1:2d}. {agent_id}: {status}")
-    
+
     get_logger(__name__).info()
     get_logger(__name__).info(f"📈 OVERALL RESULTS: {success_count}/{total_count} successful deliveries")
-    
+
     if success_count == total_count:
         get_logger(__name__).info("🎉 **ALL AGENTS RECEIVED BULK PYAUTOGUI TEST MESSAGE** 🎉")
     else:
         get_logger(__name__).info(f"⚠️  **PARTIAL SUCCESS**: {total_count - success_count} agents failed to receive message")
-    
+
     get_logger(__name__).info()
     get_logger(__name__).info("🔍 VERIFICATION:")
     get_logger(__name__).info("   • Check each agent's interface for the test message")

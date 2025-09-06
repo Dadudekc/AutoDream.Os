@@ -307,5 +307,3 @@ The current messaging system suffers from:
 ---
 
 **WE. ARE. SWARM.** ⚡🔥
-
-

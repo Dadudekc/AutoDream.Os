@@ -14,19 +14,30 @@ from datetime import datetime
 import uuid
 
 from .enums import (
-    InsightType, ConfidenceLevel, ImpactLevel, MissionStatus, ReportType,
-    PriorityLevel, AgentRole, EmergencyStatus
+    InsightType,
+    ConfidenceLevel,
+    ImpactLevel,
+    MissionStatus,
+    ReportType,
+    PriorityLevel,
+    AgentRole,
+    EmergencyStatus,
 )
 from .core_models import (
-    StrategicOversightReport, SwarmCoordinationInsight, StrategicRecommendation,
-    AgentPerformanceMetrics, SwarmCoordinationStatus, StrategicMission,
-    VectorDatabaseMetrics, SystemHealthMetrics
+    StrategicOversightReport,
+    SwarmCoordinationInsight,
+    StrategicRecommendation,
+    AgentPerformanceMetrics,
+    SwarmCoordinationStatus,
+    StrategicMission,
+    VectorDatabaseMetrics,
+    SystemHealthMetrics,
 )
 
 
 class StrategicOversightFactoryExtended:
     """Extended factory methods for strategic oversight models."""
-    
+
     @staticmethod
     def create_vector_database_metrics(
         database_id: str,
@@ -34,7 +45,7 @@ class StrategicOversightFactoryExtended:
         response_time: float = 0.0,
         accuracy: float = 1.0,
         memory_usage: float = 0.0,
-        index_size: int = 0
+        index_size: int = 0,
     ) -> VectorDatabaseMetrics:
         """Create vector database metrics."""
         return VectorDatabaseMetrics(
@@ -45,9 +56,9 @@ class StrategicOversightFactoryExtended:
             accuracy=accuracy,
             memory_usage=memory_usage,
             index_size=index_size,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
-    
+
     @staticmethod
     def create_system_health_metrics(
         system_id: str,
@@ -56,7 +67,7 @@ class StrategicOversightFactoryExtended:
         disk_usage: float = 0.0,
         network_latency: float = 0.0,
         error_rate: float = 0.0,
-        uptime: float = 0.0
+        uptime: float = 0.0,
     ) -> SystemHealthMetrics:
         """Create system health metrics."""
         return SystemHealthMetrics(
@@ -68,9 +79,9 @@ class StrategicOversightFactoryExtended:
             network_latency=network_latency,
             error_rate=error_rate,
             uptime=uptime,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
-    
+
     @staticmethod
     def create_comprehensive_report(
         title: str,
@@ -78,7 +89,7 @@ class StrategicOversightFactoryExtended:
         insights: List[SwarmCoordinationInsight] = None,
         recommendations: List[StrategicRecommendation] = None,
         performance_metrics: List[AgentPerformanceMetrics] = None,
-        system_metrics: List[SystemHealthMetrics] = None
+        system_metrics: List[SystemHealthMetrics] = None,
     ) -> StrategicOversightReport:
         """Create comprehensive strategic oversight report."""
         return StrategicOversightReport(
@@ -89,21 +100,21 @@ class StrategicOversightFactoryExtended:
             insights=insights or [],
             recommendations=recommendations or [],
             metrics={
-                'performance_metrics': performance_metrics or [],
-                'system_metrics': system_metrics or [],
-                'total_insights': len(insights or []),
-                'total_recommendations': len(recommendations or [])
+                "performance_metrics": performance_metrics or [],
+                "system_metrics": system_metrics or [],
+                "total_insights": len(insights or []),
+                "total_recommendations": len(recommendations or []),
             },
             created_at=datetime.now(),
-            status=MissionStatus.ACTIVE
+            status=MissionStatus.ACTIVE,
         )
-    
+
     @staticmethod
     def create_emergency_insight(
         description: str,
         affected_agents: List[str] = None,
         emergency_level: EmergencyStatus = EmergencyStatus.WARNING,
-        immediate_actions: List[str] = None
+        immediate_actions: List[str] = None,
     ) -> SwarmCoordinationInsight:
         """Create emergency coordination insight."""
         return SwarmCoordinationInsight(
@@ -114,9 +125,9 @@ class StrategicOversightFactoryExtended:
             impact_score=0.8,  # High impact for emergencies
             affected_agents=affected_agents or [],
             recommendations=immediate_actions or [],
-            generated_at=datetime.now()
+            generated_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_high_priority_recommendation(
         title: str,
@@ -124,7 +135,7 @@ class StrategicOversightFactoryExtended:
         expected_impact: ImpactLevel = ImpactLevel.HIGH,
         implementation_effort: str = "high",
         success_probability: float = 0.9,
-        dependencies: List[str] = None
+        dependencies: List[str] = None,
     ) -> StrategicRecommendation:
         """Create high priority strategic recommendation."""
         return StrategicRecommendation(
@@ -136,15 +147,15 @@ class StrategicOversightFactoryExtended:
             implementation_effort=implementation_effort,
             success_probability=success_probability,
             dependencies=dependencies or [],
-            created_at=datetime.now()
+            created_at=datetime.now(),
         )
-    
+
     @staticmethod
     def create_mission_batch(
         mission_names: List[str],
         descriptions: List[str],
         priorities: List[PriorityLevel] = None,
-        assigned_agents: List[List[str]] = None
+        assigned_agents: List[List[str]] = None,
     ) -> List[StrategicMission]:
         """Create batch of strategic missions."""
         missions = []
@@ -153,10 +164,18 @@ class StrategicOversightFactoryExtended:
                 mission_id=str(uuid.uuid4()),
                 mission_name=name,
                 description=descriptions[i] if i < len(descriptions) else "",
-                priority=priorities[i] if priorities and i < len(priorities) else PriorityLevel.MEDIUM,
+                priority=(
+                    priorities[i]
+                    if priorities and i < len(priorities)
+                    else PriorityLevel.MEDIUM
+                ),
                 status=MissionStatus.PENDING,
-                assigned_agents=assigned_agents[i] if assigned_agents and i < len(assigned_agents) else [],
-                created_at=datetime.now()
+                assigned_agents=(
+                    assigned_agents[i]
+                    if assigned_agents and i < len(assigned_agents)
+                    else []
+                ),
+                created_at=datetime.now(),
             )
             missions.append(mission)
         return missions

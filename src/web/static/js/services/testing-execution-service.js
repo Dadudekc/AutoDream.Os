@@ -236,6 +236,3 @@ export function getTestSuiteStatus(suiteName) {
 
 export { TestingExecutionService, testingExecutionService };
 export default testingExecutionService;
-
-
-

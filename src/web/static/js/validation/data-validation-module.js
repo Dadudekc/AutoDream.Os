@@ -198,4 +198,3 @@ export class DataValidationModule {
 export function createDataValidationModule() {
     return new DataValidationModule();
 }
-

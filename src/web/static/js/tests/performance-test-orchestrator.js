@@ -247,4 +247,3 @@ export function createPerformanceTestOrchestrator(systemHealth, testResults, per
 export function createPerformanceTests(systemHealth, testResults, performanceMetrics) {
     return new PerformanceTests(systemHealth, testResults, performanceMetrics);
 }
-

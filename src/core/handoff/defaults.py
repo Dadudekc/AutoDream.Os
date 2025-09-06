@@ -1,8 +1,6 @@
 """Default handoff procedures."""
 
 
-
-
 def get_default_procedures() -> List[HandoffProcedure]:
     """Return built-in handoff procedures."""
     return [

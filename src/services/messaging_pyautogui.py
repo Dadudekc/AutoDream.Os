@@ -43,14 +43,14 @@ except ImportError:
 
 
 def load_coordinates_from_json() -> Dict[str, Tuple[int, int]]:
-    """Load agent coordinates from config/coordinates.json."""
+    """Load agent coordinates from cursor_agent_coords.json."""
     try:
-        config_path = os.path.join("config", "coordinates.json")
+        config_path = "cursor_agent_coords.json"
         if not os.path.exists(config_path):
             logging.warning(f"Coordinates file not found: {config_path}")
             return {}
-        
-        with open(config_path, 'r', encoding='utf-8') as f:
+
+        with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
         
         coordinates = {}

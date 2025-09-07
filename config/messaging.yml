@@ -1,6 +1,8 @@
 # Agent Cellphone V2 - Messaging System Configuration
 # Precedence: CLI flags → ENV vars → this file → hardcoded defaults
 
+COMPLETION_SIGNAL: "<unique-marker>"
+
 defaults:
   # Message sender identity
   sender: "Captain Agent-4"

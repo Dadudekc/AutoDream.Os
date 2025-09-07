@@ -33,6 +33,7 @@
 - `MESSAGING_SYSTEM_PRD.md` - **Product requirements**
 - `MESSAGING_TEST_PLAN.md` - **Testing plans**
 - `MESSAGING_SYSTEM_V2_ENHANCED_TYPES.md` - **Enhanced type definitions**
+- `COMPLETION_SIGNAL` in `config/messaging.yml` - **SSOT for task completion**
 
 ### **🛠️ User Guides**
 - `ADMIN_COMMANDER_SETUP.md` - **Admin setup guide**

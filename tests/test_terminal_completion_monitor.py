@@ -1,25 +1,23 @@
 """Tests for TerminalCompletionMonitor cross-checking."""
 
 import queue
+import sqlite3
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from terminal_completion_monitor import (
-    COMPLETION_SIGNAL,
-    TerminalCompletionMonitor,
-)
-from services.cursor_db import CursorTaskRepository
-
-import sqlite3
+from terminal_completion_monitor import TerminalCompletionMonitor  # noqa: E402
+from src.core.constants.manager import COMPLETION_SIGNAL  # noqa: E402
+from services.cursor_db import CursorTaskRepository  # noqa: E402
 
 
 def _init_db(path: Path) -> None:
     conn = sqlite3.connect(path)
     conn.execute(
-        "CREATE TABLE tasks (task_id TEXT PRIMARY KEY, agent_id TEXT, status TEXT)"
+        "CREATE TABLE tasks (task_id TEXT PRIMARY KEY, agent_id TEXT, "
+        "status TEXT)"
     )
     conn.execute(
         "INSERT INTO tasks (task_id, agent_id, status) VALUES (?, ?, ?)",

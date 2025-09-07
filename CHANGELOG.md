@@ -54,6 +54,8 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- Utility status queries via `--status-query` for `--check-status` command.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

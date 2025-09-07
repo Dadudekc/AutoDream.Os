@@ -36,6 +36,7 @@ def create_enhanced_parser():
     # Utility commands
     parser.add_argument("--coordinates", action="store_true", help="Show agent coordinates")
     parser.add_argument("--check-status", action="store_true", help="Check agent status")
+    parser.add_argument("--status-query", help="Status search query")
     parser.add_argument("--list-agents", action="store_true", help="List all agents")
     parser.add_argument("--history", action="store_true", help="Show message history")
 

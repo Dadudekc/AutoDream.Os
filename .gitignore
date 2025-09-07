@@ -112,3 +112,6 @@ reporting_archive/*
 
 # Audit heavy artifacts (keep diffs slim)
 reports/metrics/
+
+# Corrupted/unreadable files
+src/web/static/js/framework/system-integration-test-core.js

@@ -54,8 +54,13 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- Introduced `ui-common.js` with reusable UI helpers enforcing SSOT for search and
+  document management interfaces.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
+- Refactored `ui.js` and `ui-optimized.js` to consume shared helpers, reducing
+  duplication and LOC.
 
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.

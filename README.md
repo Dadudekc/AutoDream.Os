@@ -11,6 +11,7 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **CI/CD templates** for Jenkins, GitLab CI and Docker
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
+- **Shared UI helpers** providing SSOT for vector search and document management
 
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware

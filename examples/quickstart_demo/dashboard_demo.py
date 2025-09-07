@@ -5,14 +5,23 @@ Shows how agent status might be displayed."""
 from __future__ import annotations
 
 from typing import Dict
+from enum import Enum
 
 
-def get_agent_status() -> Dict[str, str]:
-    """Return a mapping of agent names to status strings."""
+class AgentStatus(Enum):
+    """Represents the possible statuses of an agent."""
+
+    ONLINE = "online"
+    IDLE = "idle"
+    OFFLINE = "offline"
+
+
+def get_agent_status() -> Dict[str, AgentStatus]:
+    """Return a mapping of agent names to their statuses."""
     return {
-        "Agent-1": "online",
-        "Agent-2": "idle",
-        "Agent-3": "offline",
+        "Agent-1": AgentStatus.ONLINE,
+        "Agent-2": AgentStatus.IDLE,
+        "Agent-3": AgentStatus.OFFLINE,
     }
 
 
@@ -21,7 +30,7 @@ def display_dashboard() -> None:
     status = get_agent_status()
     print("Agent Status Dashboard")
     for name, state in status.items():
-        print(f"{name}: {state}")
+        print(f"{name}: {state.value}")
 
 
 if __name__ == "__main__":

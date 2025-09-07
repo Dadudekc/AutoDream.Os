@@ -1,0 +1,8 @@
+# Agent_Cellphone_V2 Basic Dependencies
+# Minimal requirements for core functionality
+
+# Core dependencies
+PyYAML>=6.0
+
+# Note: This is the minimal set for basic functionality
+# For full features, use requirements.txt instead

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """Gaming Alert Manager.
 
 Manages alerts and notifications for gaming and entertainment systems,
@@ -246,3 +247,9 @@ class GamingAlertManager:
         except Exception as e:
             get_logger(__name__).error(f"Failed to export alerts: {e}")
             return False
+=======
+"""Backward compatible import for GamingAlertManager."""
+from .alerts.orchestrator import GamingAlertManager
+
+__all__ = ["GamingAlertManager"]
+>>>>>>> origin/codex/catalog-functions-in-utils-directories

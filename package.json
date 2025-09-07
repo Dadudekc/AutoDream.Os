@@ -1,5 +1,6 @@
 {
   "name": "autodream-os",
+<<<<<<< HEAD
   "type": "module",
   "version": "2.0.0",
   "description": "V2 Compliant Autonomous Development System",
@@ -35,4 +36,7 @@
   ],
   "author": "Swarm Intelligence",
   "license": "MIT"
+=======
+  "type": "module"
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 }

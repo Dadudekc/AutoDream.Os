@@ -1,0 +1,79 @@
+{
+  "unified_manager_system": {
+    "version": "2.0.0",
+    "enabled": "ENABLE_TRUE",
+    "health_check_interval": 300,
+    "auto_recovery": "ENABLE_TRUE",
+    "max_recovery_attempts": "VALUE_THREE",
+    "startup_timeout": 60,
+    "shutdown_timeout": 30,
+    "categories": {
+      "core": {
+        "enabled": "ENABLE_TRUE",
+        "priority": "critical",
+        "startup_order": [
+          "system_manager",
+          "config_manager",
+          "status_manager",
+          "task_manager",
+          "data_manager",
+          "communication_manager",
+          "health_manager"
+        ]
+      },
+      "extended": {
+        "enabled": "ENABLE_TRUE",
+        "priority": "high",
+        "startup_order": [
+          "ai_manager",
+          "model_manager",
+          "api_key_manager",
+          "ai_agent_manager",
+          "workflow_manager",
+          "reporting_manager",
+          "dev_workflow_manager",
+          "portfolio_manager",
+          "risk_manager"
+        ]
+      },
+      "specialized": {
+        "enabled": "ENABLE_TRUE",
+        "priority": "medium",
+        "startup_order": [
+          "performance_alert_manager",
+          "autonomous_task_manager",
+          "autonomous_workflow_manager",
+          "autonomous_reporting_manager"
+        ]
+      }
+    },
+    "health_monitoring": {
+      "enabled": "ENABLE_TRUE",
+      "check_interval": 300,
+      "timeout": 10,
+      "failure_threshold": "VALUE_THREE",
+      "auto_restart": "ENABLE_TRUE",
+      "health_score_threshold": 80
+    },
+    "performance": {
+      "metrics_collection": "ENABLE_TRUE",
+      "performance_tracking": "ENABLE_TRUE",
+      "resource_monitoring": "ENABLE_TRUE",
+      "alerting": "ENABLE_TRUE"
+    },
+    "logging": {
+      "level": "INFO",
+      "format": "json",
+      "output": "file",
+      "file_path": "logs/unified_manager_system.log",
+      "max_file_size": "10MB",
+      "backup_count": 5
+    },
+    "dependencies": {
+      "strict_mode": "ENABLE_TRUE",
+      "circular_dependency_check": "ENABLE_TRUE",
+      "dependency_timeout": 30,
+      "retry_failed_dependencies": "ENABLE_TRUE"
+    }
+  }
+}

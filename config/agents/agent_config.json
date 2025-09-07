@@ -1,0 +1,133 @@
+{
+  "8_agent_config": {
+    "max_queue_size": "VALUE_THOUSAND",
+    "high_priority_timeout": "URGENT_TIMEOUT",
+    "message_retry_attempts": "VALUE_THREE",
+    "retry_delay": 2.0,
+    "enable_pyautogui": "ENABLE_TRUE",
+    "enable_keyboard_monitoring": "ENABLE_TRUE",
+    "ctrl_enter_double_timeout": "SECONDS_ONE",
+    "message_persistence": "ENABLE_TRUE",
+    "persistence_file": "8_agent_message_history.json",
+    "agent_coordinates": {
+      "agent_1": {
+        "x": 400,
+        "y": 300,
+        "role": "Foundation & Testing Specialist",
+        "monitor": "primary"
+      },
+      "agent_2": {
+        "x": 1200,
+        "y": 300,
+        "role": "AI/ML Specialist",
+        "monitor": "primary"
+      },
+      "agent_3": {
+        "x": 400,
+        "y": 900,
+        "role": "Web Development Specialist",
+        "monitor": "primary"
+      },
+      "agent_4": {
+        "x": 1200,
+        "y": 900,
+        "role": "Multimedia & Gaming Specialist",
+        "monitor": "primary"
+      },
+      "agent_5": {
+        "x": 2000,
+        "y": 300,
+        "role": "Security & Compliance Specialist",
+        "monitor": "secondary"
+      },
+      "agent_6": {
+        "x": 2000,
+        "y": 900,
+        "role": "Data & Analytics Specialist",
+        "monitor": "secondary"
+      },
+      "agent_7": {
+        "x": 2800,
+        "y": 300,
+        "role": "Infrastructure & DevOps Specialist",
+        "monitor": "secondary"
+      },
+      "agent_8": {
+        "x": 2800,
+        "y": 900,
+        "role": "Business Logic & Workflows Specialist",
+        "monitor": "secondary"
+      }
+    },
+    "agent_capabilities": {
+      "agent_1": [
+        "TASK_EXECUTION",
+        "MONITORING",
+        "TESTING",
+        "VALIDATION"
+      ],
+      "agent_2": [
+        "AI_ML",
+        "AUTOMATION",
+        "INTELLIGENCE",
+        "LEARNING"
+      ],
+      "agent_3": [
+        "WEB_DEV",
+        "FRONTEND",
+        "BACKEND",
+        "APIS"
+      ],
+      "agent_4": [
+        "GAMING",
+        "MULTIMEDIA",
+        "INTERACTIVE",
+        "CONTENT"
+      ],
+      "agent_5": [
+        "SECURITY",
+        "COMPLIANCE",
+        "THREAT_PROTECTION",
+        "AUDITING"
+      ],
+      "agent_6": [
+        "DATA_ANALYTICS",
+        "BI",
+        "PROCESSING",
+        "VISUALIZATION"
+      ],
+      "agent_7": [
+        "INFRASTRUCTURE",
+        "DEVOPS",
+        "DEPLOYMENT",
+        "OPERATIONS"
+      ],
+      "agent_8": [
+        "BUSINESS_LOGIC",
+        "WORKFLOWS",
+        "INTEGRATION",
+        "PROCESSES"
+      ]
+    },
+    "priority_levels": {
+      "low": "VALUE_ONE",
+      "normal": "VALUE_TWO",
+      "high": "VALUE_THREE",
+      "urgent": 4,
+      "critical": 5
+    },
+    "message_types": [
+      "text",
+      "image",
+      "file",
+      "command",
+      "status"
+    ],
+    "system_features": {
+      "auto_recovery": "ENABLE_TRUE",
+      "load_balancing": "ENABLE_TRUE",
+      "failover_support": "ENABLE_TRUE",
+      "performance_monitoring": "ENABLE_TRUE"
+    }
+  }
+}

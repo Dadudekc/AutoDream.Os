@@ -1,0 +1,6 @@
+rules:
+  - rule_id: performance_metrics
+    rule_name: Performance Metrics Validation
+    rule_type: workflow
+    description: Validate workflow performance and optimization
+    severity: WARNING

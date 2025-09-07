@@ -1,0 +1,40 @@
+{
+  "report_id": "health_report_daily_summary_1756008757",
+  "report_type": "daily_summary",
+  "format": "json",
+  "generated_at": "2025-08-23T23:12:37.361673",
+  "time_range": {
+    "start": "2025-08-22T23:12:37.361673",
+    "end": "2025-08-23T23:12:37.361673"
+  },
+  "summary": {
+    "overall_health": "critical",
+    "total_agents": 0,
+    "agents_by_status": {},
+    "average_health_score": 0.0,
+    "total_alerts": 0,
+    "alerts_by_severity": {},
+    "time_range": {
+      "start": "2025-08-22T23:12:37.361673",
+      "end": "2025-08-23T23:12:37.361673",
+      "duration_hours": 24.0
+    },
+    "generated_at": "2025-08-23T23:12:37.361673"
+  },
+  "metrics_data": {},
+  "alerts_data": {
+    "total_alerts": 0,
+    "alerts_by_severity": {},
+    "alerts_by_agent": {},
+    "recent_alerts": [],
+    "escalated_alerts": []
+  },
+  "charts": [],
+  "recommendations": [
+    "Overall system health is poor. Immediate attention required.",
+    "Review alert thresholds and adjust if necessary.",
+    "Schedule regular health checkups and maintenance."
+  ],
+  "metadata": {
+    "config": {
+      "report_type": 

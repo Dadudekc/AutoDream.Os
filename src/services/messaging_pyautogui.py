@@ -25,8 +25,7 @@ from .models.messaging_models import (
     UnifiedMessageTag,
 )
 
-# Import validation system
-from ..core.simple_validation_system import get_unified_validator
+# Import validation system - removed for now
 
 try:
     import pyautogui
@@ -88,7 +87,7 @@ def deliver_message_pyautogui(
             logging.error("PyAutoGUI not available")
             return False
 
-        if not validate_coordinates_before_delivery(coords, message.recipient_id):
+        if not validate_coordinates_before_delivery(coords, message.recipient):
             logging.error("Invalid coordinates")
             return False
 
@@ -131,7 +130,7 @@ def deliver_message_pyautogui(
                 pyautogui.typewrite(message.content)
                 pyautogui.press("enter")
 
-        logging.info(f"Message delivered to {message.recipient_id} at {coords}")
+        logging.info(f"Message delivered to {message.recipient} at {coords}")
         return True
 
     except Exception as e:
@@ -145,7 +144,7 @@ def format_message_for_delivery(message: UnifiedMessage) -> str:
         # Basic message formatting
         formatted = f"📨 {message.message_type.value.upper()}\n"
         formatted += f"From: {message.sender_id}\n"
-        formatted += f"To: {message.recipient_id}\n"
+        formatted += f"To: {message.recipient}\n"
         formatted += f"Priority: {message.priority.value}\n"
         if message.tags:
             formatted += f"Tags: {', '.join(tag.value for tag in message.tags)}\n"
@@ -169,8 +168,8 @@ def deliver_bulk_messages_pyautogui(
         results = {}
 
         for message in messages:
-            if message.recipient_id in agent_order:
-                coords = get_agent_coordinates(message.recipient_id)
+            if message.recipient in agent_order:
+                coords = get_agent_coordinates(message.recipient)
                 if coords:
                     success = deliver_message_pyautogui(message, coords)
                     results[message.recipient_id] = success

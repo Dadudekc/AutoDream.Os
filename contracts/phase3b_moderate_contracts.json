@@ -1,0 +1,209 @@
+{
+  "phase": "3B",
+  "name": "Moderate Violations Refactoring",
+  "description": "Refactoring of moderate priority files (400-599 LOC) for improved maintainability and SRP compliance",
+  "total_contracts": 10,
+  "completed_contracts": 1,
+  "remaining_contracts": 9,
+  "priority": "MEDIUM",
+  "estimated_effort": "2 weeks",
+  "target_compliance_improvement": "93.0% → 94.0%",
+  "current_status": "IN_PROGRESS - 1/10 completed",
+  "contracts": [
+    {
+      "contract_id": "MODERATE-001",
+      "file_path": "src/services/financial/portfolio/rebalancing.py",
+      "current_lines": 199,
+      "target_lines": 400,
+      "reduction_target": "68%",
+      "priority": "HIGH",
+      "category": "Portfolio Management",
+      "status": "COMPLETED",
+      "assigned_to": "Agent-1",
+      "start_date": "2025-08-25",
+      "completion_date": "2025-08-25",
+      "actual_lines": 199,
+      "actual_reduction": "68%",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Rebalancing logic mixed with portfolio analysis",
+        "Multiple concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "rebalancing_core.py",
+          "portfolio_analysis.py",
+          "rebalancing_executor.py"
+        ],
+        "main_class": "PortfolioRebalancing",
+        "responsibilities": "Coordinate portfolio rebalancing workflow"
+      },
+      "dependencies": [
+        "src/services/financial/portfolio/",
+        "src/utils/stability_improvements"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8,
+      "actual_hours": 2,
+      "notes": "Successfully refactored into 3 focused modules following SRP. Main file reduced from 624 to 199 lines (68% reduction). All functionality maintained with improved modularity."
+    },
+    {
+      "contract_id": "MODERATE-002",
+      "file_path": "src/core/performance/performance_orchestrator.py",
+      "current_lines": 573,
+      "target_lines": 400,
+      "reduction_target": "30%",
+      "priority": "HIGH",
+      "category": "Performance Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Performance orchestration mixed with metrics collection",
+        "Multiple concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "performance_core.py",
+          "metrics_collector.py",
+          "performance_coordinator.py"
+        ],
+        "main_class": "PerformanceOrchestrator",
+        "responsibilities": "Coordinate performance management workflow"
+      },
+      "dependencies": [
+        "src/core/performance/",
+        "src/utils/stability_improvements"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-003",
+      "file_path": "src/services/financial/portfolio/risk_models.py",
+      "current_lines": 541,
+      "target_lines": 400,
+      "reduction_target": "26%",
+      "priority": "HIGH",
+      "category": "Risk Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Risk calculation mixed with model management",
+        "Multiple concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "risk_calculator.py",
+          "model_manager.py",
+          "risk_analyzer.py"
+        ],
+        "main_class": "RiskModelsOrchestrator",
+        "responsibilities": "Coordinate risk model workflow"
+      },
+      "dependencies": [
+        "src/services/financial/portfolio/",
+        "src/utils/stability_improvements"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-004",
+      "file_path": "src/services/dashboard_backend.py",
+      "current_lines": 540,
+      "target_lines": 400,
+      "reduction_target": "26%",
+      "priority": "MEDIUM",
+      "category": "Dashboard Services",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Dashboard logic mixed with data processing",
+        "Multiple concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "dashboard_core.py",
+          "data_processor.py",
+          "dashboard_coordinator.py"
+        ],
+        "main_class": "DashboardBackendOrchestrator",
+        "responsibilities": "Coordinate dashboard backend workflow"
+      },
+      "dependencies": [
+        "src/services/",
+        "src/utils/stability_improvements"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "contract_id": "MODERATE-005",
+      "file_path": "src/services/middleware_orchestrator.py",
+      "current_lines": 535,
+      "target_lines": 400,
+      "reduction_target": "25%",
+      "priority": "MEDIUM",
+      "category": "Middleware Services",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Middleware logic mixed with orchestration",
+        "Multiple concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "middleware_core.py",
+          "orchestration_engine.py",
+          "middleware_coordinator.py"
+        ],
+        "main_class": "MiddlewareOrchestrator",
+        "responsibilities": "Coordinate middleware workflow"
+      },
+      "dependencies": [
+        "src/services/",
+        "src/utils/stability_improvements"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 8
+    }
+  ],
+  "summary": {
+    "total_estimated_hours": 40,
+    "expected_compliance_improvement": "1.0%",
+    "files_to_refactor": 5,
+    "priority_distribution": {
+      "HIGH": 3,
+      "MEDIUM": 2,
+      "LOW": 0
+    },
+    "risk_level": "LOW",
+    "success_probability": "HIGH"
+  }
+}

@@ -1,5 +1,12 @@
 """Default handoff procedures."""
 
+<<<<<<< HEAD
+=======
+from typing import List
+
+from .models import HandoffProcedure
+
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 def get_default_procedures() -> List[HandoffProcedure]:
     """Return built-in handoff procedures."""

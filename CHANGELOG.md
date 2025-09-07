@@ -54,6 +54,8 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- Agent status indexing into `agent_status_embeddings` table.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

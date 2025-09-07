@@ -164,6 +164,7 @@ The project includes comprehensive TDD tests and smoke tests for validation (see
 - **Documentation**: ✅ Comprehensive Coverage
 
 ## Usage Examples
+See [quickstart demo](examples/quickstart_demo/) for a minimal agent workflow and dashboard.
 ### Basic Coordinate Operations
 ```python
 from src.services.messaging import CoordinateManager
@@ -244,10 +245,9 @@ examples/ # examples and demos
 - Provide CLI entrypoints and smoke tests for new modules
 
 ## Links
-- [Examples](examples/)
+- [Examples](examples/) – includes [quickstart demo](examples/quickstart_demo/)
 - [Tests](tests/)
 - [Configuration](config/)
-
 ## Achievements
 ### What's Been Accomplished
 - 180+ lines of duplicate code eliminated

@@ -8,20 +8,21 @@ Coordinates vector database integration optimization.
 from typing import Any, Dict, List, Optional
 from ..integration_utilities.integration_interfaces import IIntegrationCoordinator
 from ..integration_utilities.integration_models import IntegrationType, OptimizationConfig
-from ..integration_engines.vector_database_engine import VectorDatabaseEngine
+# Import engine from SSOT module
+from ...services.vector_database.vector_database_engine import VectorDatabaseEngine
 from ..unified_logging_system import get_logger
 
 
 class VectorDatabaseCoordinator(IIntegrationCoordinator):
     """Coordinates vector database integration optimization."""
-    
+
     def __init__(self, config: Optional[OptimizationConfig] = None):
         """Initialize the vector database coordinator."""
         self.logger = get_logger(__name__)
         self.config = config or OptimizationConfig()
         self.engine = VectorDatabaseEngine()
         self.logger.info("Vector Database Coordinator initialized")
-    
+
     def get_unified_performance_report(self) -> Dict[str, Any]:
         """Get unified performance report for vector database integration."""
         report = self.engine.get_performance_report()
@@ -33,12 +34,12 @@ class VectorDatabaseCoordinator(IIntegrationCoordinator):
                 "auto_optimization": self.config.enable_auto_optimization
             }
         }
-    
+
     def get_optimization_recommendations(self) -> List[Dict[str, Any]]:
         """Get optimization recommendations for vector database."""
         recommendations = []
         report = self.engine.get_performance_report()
-        
+
         if report.get("average_execution_time", 0) > 0.5:
             recommendations.append({
                 "integration": "vector_database",
@@ -47,7 +48,7 @@ class VectorDatabaseCoordinator(IIntegrationCoordinator):
                 "recommendation": "Enable caching and connection pooling",
                 "priority": "high"
             })
-        
+
         if report.get("cache_hit_rate", 0) < 0.5:
             recommendations.append({
                 "integration": "vector_database",
@@ -56,17 +57,20 @@ class VectorDatabaseCoordinator(IIntegrationCoordinator):
                 "recommendation": "Optimize cache strategy and TTL settings",
                 "priority": "medium"
             })
-        
+
         return recommendations
-    
+
     def optimize_integration(self, integration_type: IntegrationType, **kwargs) -> bool:
         """Optimize vector database integration."""
         if integration_type != IntegrationType.VECTOR_DATABASE:
-            self.logger.error(f"Invalid integration type for vector database coordinator: {integration_type}")
+            self.logger.error(
+                "Invalid integration type for vector database coordinator: %s",
+                integration_type,
+            )
             return False
-        
+
         return self.engine.optimize(**kwargs)
-    
+
     def get_integration_status(self) -> Dict[str, Any]:
         """Get current status of vector database integration."""
         return {

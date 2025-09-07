@@ -1,0 +1,51 @@
+{
+  "agent": "Agent-7",
+  "mission": "Project Cleaning and Backend Smoke Testing",
+  "timestamp": "2025-09-06T22:31:59.984968",
+  "results": {
+    "total": 6,
+    "passed": 2,
+    "failed": 4,
+    "tests": [
+      {
+        "name": "Messaging Core",
+        "status": "FAILED",
+        "error": "cannot import name 'UnifiedMessaging' from 'services.messaging_core' (D:\\Agent_Cellphone_V2_Repository\\tests\\..\\src\\services\\messaging_core.py)",
+        "duration": 3145.5602645874023
+      },
+      {
+        "name": "Messaging CLI",
+        "status": "FAILED",
+        "error": "cannot import name 'MessagingCLI' from 'services.messaging_cli' (D:\\Agent_Cellphone_V2_Repository\\tests\\..\\src\\services\\messaging_cli.py)",
+        "duration": 70.06311416625977
+      },
+      {
+        "name": "PyAutoGUI Integration",
+        "status": "PASSED",
+        "error": null,
+        "duration": 0.0
+      },
+      {
+        "name": "Contract System",
+        "status": "FAILED",
+        "error": "'ContractManager' object has no attribute 'get_available_contracts'",
+        "duration": 164.14785385131836
+      },
+      {
+        "name": "Vector Database Services",
+        "status": "PASSED",
+        "error": null,
+        "duration": 116648.37431907654
+      },
+      {
+        "name": "Agent Coordination",
+        "status": "FAILED",
+        "error": "No module named 'utils.agent_registry'",
+        "duration": 54.04996871948242
+      }
+    ],
+    "start_time": "2025-09-06 22:29:59.660467",
+    "success_rate": 33.33333333333333,
+    "total_duration": 120193.817
+  }
+}

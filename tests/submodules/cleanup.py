@@ -1,10 +1,7 @@
 """Utilities for cleaning up test artifacts."""
 
-<<<<<<< HEAD
-=======
-from tests.testing_config import RESULTS_DIR, COVERAGE_DIR
+from ..testing_config import RESULTS_DIR, COVERAGE_DIR
 
->>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 def cleanup_artifacts() -> None:
     """Remove files generated during test runs."""

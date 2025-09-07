@@ -148,7 +148,10 @@ def demo_architecture_validation():
     print("\n🏗️  Architectural Validation:")
     print("-" * 40)
 
-    from tests.test_architectural_compliance import CodeAnalyzer, ArchitecturalValidator
+    from .test_architectural_compliance import (
+        CodeAnalyzer,
+        ArchitecturalValidator,
+    )
 
     # Analyze current codebase
     analyzer = CodeAnalyzer()

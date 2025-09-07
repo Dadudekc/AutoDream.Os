@@ -41,6 +41,15 @@ def create_enhanced_parser():
     parser.add_argument("--list-agents", action="store_true", help="List all agents")
     parser.add_argument("--history", action="store_true", help="Show message history")
     
+    # Coordinate management commands
+    parser.add_argument("--set-onboarding-coords", help="Set onboarding coordinates for agent (format: agent_id,x,y)")
+    parser.add_argument("--set-chat-coords", help="Set chat coordinates for agent (format: agent_id,x,y)")
+    parser.add_argument("--update-coords", help="Update coordinates from file")
+    parser.add_argument("--capture-coords", action="store_true", help="Interactive coordinate capture mode")
+    parser.add_argument("--capture-agent", help="Capture coordinates for specific agent")
+    parser.add_argument("--capture-onboarding", action="store_true", help="Capture only onboarding coordinates")
+    parser.add_argument("--capture-chat", action="store_true", help="Capture only chat coordinates")
+    
     # Onboarding commands
     parser.add_argument("--onboarding", action="store_true", help="Send onboarding to all agents")
     parser.add_argument("--onboard", action="store_true", help="Send onboarding to specific agent")
@@ -56,6 +65,7 @@ def create_enhanced_parser():
     # Additional options
     parser.add_argument("--no-paste", action="store_true", help="Don't use paste method")
     parser.add_argument("--new-tab-method", choices=["ctrl_t", "ctrl_n"], default="ctrl_t", help="New tab method")
+    parser.add_argument("--dry-run", action="store_true", help="Dry run mode - no actual UI actions")
     
     # Overnight autonomous system
     parser.add_argument("--overnight", action="store_true", help="Start overnight autonomous work cycle system")

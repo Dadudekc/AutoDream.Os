@@ -211,3 +211,23 @@ def cleanup_pyautogui_resources():
     except Exception as e:
         logging.error(f"Error during cleanup: {e}")
         return False
+
+
+class PyAutoGUIMessagingDelivery:
+    """Simple wrapper class for PyAutoGUI messaging functions."""
+
+    def __init__(self, agents=None):
+        """Initialize the delivery service."""
+        self.agents = agents or {}
+
+    def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True,
+                                  new_tab_method: str = "ctrl_t", use_new_tab: bool = None) -> bool:
+        """Send message via PyAutoGUI."""
+        try:
+            coords = get_agent_coordinates(message.recipient)
+            if coords:
+                return deliver_message_pyautogui(message, coords)
+            return False
+        except Exception as e:
+            logging.error(f"Error sending message via PyAutoGUI: {e}")
+            return False

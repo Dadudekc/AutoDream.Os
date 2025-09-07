@@ -1,5 +1,4 @@
 # AutoDream OS
-
 AutoDream OS is a modular, V2 standards compliant platform for building agent-driven applications. It enforces strict coding standards and provides convenient command line interfaces for development and testing.
 
 ## Features
@@ -13,14 +12,15 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
 - **Base engine abstraction** centralizing initialization, status reporting, and cleanup
-
+- **Overnight consistency enhancements** with rotating validation prompts,
+  optional QA agent, and completion signals
+  ([spec](docs/specifications/OVERNIGHT_CONSISTENCY_ENHANCEMENTS_PRD.md))
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware
 components are listed. Each component receives the `DataPacket` returned by the
 previous one, allowing earlier middleware to mutate the packet before later
 components execute. Disabled middleware or components whose conditions fail are
 skipped.
-
 ## Getting Started
 ### Installation
 ```bash

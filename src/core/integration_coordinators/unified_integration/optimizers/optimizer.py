@@ -12,7 +12,7 @@ License: MIT
 """
 
 import time
-from typing import Dict, List, Optional, Any, Callable
+from typing import Any, Callable, Dict, List
 from datetime import datetime, timedelta
 
 from ..models import (
@@ -23,9 +23,10 @@ from ..models import (
 from .basic_optimizer import BasicOptimizer
 from .advanced_optimizer import AdvancedOptimizer
 from .maximum_optimizer import MaximumOptimizer
+from .base_optimization_history import BaseOptimizationHistory
 
 
-class IntegrationOptimizer:
+class IntegrationOptimizer(BaseOptimizationHistory):
     """
     Main optimizer for integration coordination.
     
@@ -33,13 +34,11 @@ class IntegrationOptimizer:
     strategies for integration performance.
     """
     
-    def __init__(self):
-        """Initialize integration optimizer."""
+    def __init__(self) -> None:
+        super().__init__()
         self.optimization_configs: Dict[IntegrationType, OptimizationConfig] = {}
         self.optimization_handlers: Dict[IntegrationType, Callable] = {}
-        self.optimization_history: List[Dict[str, Any]] = []
-        
-        # Initialize component optimizers
+
         self.basic_optimizer = BasicOptimizer()
         self.advanced_optimizer = AdvancedOptimizer()
         self.maximum_optimizer = MaximumOptimizer()
@@ -126,52 +125,10 @@ class IntegrationOptimizer:
             'component_status': {
                 'basic_optimizer': self.basic_optimizer.get_optimizer_status(),
                 'advanced_optimizer': self.advanced_optimizer.get_optimizer_status(),
-                'maximum_optimizer': self.maximum_optimizer.get_optimizer_status()
-            }
+                'maximum_optimizer': self.maximum_optimizer.get_optimizer_status(),
+            },
         }
     
-    def _record_optimization(
-        self, 
-        integration_type: IntegrationType,
-        improvements: List[Dict[str, Any]],
-        execution_time: float
-    ) -> None:
-        """Record optimization execution."""
-        self.optimization_history.append({
-            'timestamp': datetime.now().isoformat(),
-            'integration_type': integration_type.value,
-            'improvements_count': len(improvements),
-            'execution_time': execution_time,
-            'improvements': improvements
-        })
-        
-        # Keep only last 100 optimizations
-        if len(self.optimization_history) > 100:
-            self.optimization_history = self.optimization_history[-100:]
-    
-    def get_optimization_history(
-        self, 
-        integration_type: Optional[IntegrationType] = None,
-        hours: int = 24
-    ) -> List[Dict[str, Any]]:
-        """Get optimization history."""
-        cutoff_time = datetime.now() - timedelta(hours=hours)
-        
-        history = self.optimization_history
-        
-        if integration_type:
-            history = [
-                record for record in history
-                if record['integration_type'] == integration_type.value
-            ]
-        
-        # Filter by time
-        history = [
-            record for record in history
-            if datetime.fromisoformat(record['timestamp']) >= cutoff_time
-        ]
-        
-        return history
     
     def clear_optimization_history(self, days_to_keep: int = 7) -> int:
         """Clear old optimization history."""

@@ -1,41 +1,23 @@
-"""
-Maximum Optimizer - V2 Compliant Module
-======================================
+"""Maximum optimizer providing advanced optimization techniques."""
 
-Handles maximum optimization strategies.
-Extracted from optimizer.py for V2 compliance.
-
-V2 Compliance: < 300 lines, single responsibility.
-
-Author: Agent-7 - Web Development Specialist
-License: MIT
-"""
-
-import time
-from typing import Dict, List, Optional, Any, Callable
-from datetime import datetime, timedelta
+from typing import Any, Callable, Dict, List
 
 from ..models import (
-    IntegrationType, OptimizationLevel, IntegrationMetrics,
+    IntegrationType, IntegrationMetrics,
     OptimizationConfig, PerformanceReport, OptimizationRecommendation,
     IntegrationModels
 )
 from .advanced_optimizer import AdvancedOptimizer
+from .base_optimization_history import BaseOptimizationHistory
 
 
-class MaximumOptimizer:
-    """
-    Handles maximum optimization strategies.
-    
-    Manages maximum optimization techniques like circuit breakers,
-    asynchronous processing, and custom optimizations.
-    """
-    
-    def __init__(self):
-        """Initialize maximum optimizer."""
+class MaximumOptimizer(BaseOptimizationHistory):
+    """Handles maximum optimization strategies and custom optimizations."""
+
+    def __init__(self) -> None:
+        super().__init__()
         self.advanced_optimizer = AdvancedOptimizer()
         self.optimization_handlers: Dict[IntegrationType, Callable] = {}
-        self.optimization_history: List[Dict[str, Any]] = []
     
     def register_optimization_handler(
         self, 
@@ -138,47 +120,17 @@ class MaximumOptimizer:
             'registered_handlers': len(self.optimization_handlers),
             'advanced_optimizer_status': self.advanced_optimizer.get_optimizer_status()
         }
-    
+
     def _record_optimization(
-        self, 
+        self,
         integration_type: IntegrationType,
         improvements: List[Dict[str, Any]],
-        execution_time: float
+        execution_time: float,
     ) -> None:
-        """Record optimization execution."""
-        self.optimization_history.append({
-            'timestamp': datetime.now().isoformat(),
-            'integration_type': integration_type.value,
-            'optimization_level': 'maximum',
-            'improvements_count': len(improvements),
-            'execution_time': execution_time,
-            'improvements': improvements
-        })
-        
-        # Keep only last 100 optimizations
-        if len(self.optimization_history) > 100:
-            self.optimization_history = self.optimization_history[-100:]
-    
-    def get_optimization_history(
-        self, 
-        integration_type: Optional[IntegrationType] = None,
-        hours: int = 24
-    ) -> List[Dict[str, Any]]:
-        """Get optimization history."""
-        cutoff_time = datetime.now() - timedelta(hours=hours)
-        
-        history = self.optimization_history
-        
-        if integration_type:
-            history = [
-                record for record in history
-                if record['integration_type'] == integration_type.value
-            ]
-        
-        # Filter by time
-        history = [
-            record for record in history
-            if datetime.fromisoformat(record['timestamp']) >= cutoff_time
-        ]
-        
-        return history
+        """Record optimization execution with level metadata."""
+        super()._record_optimization(
+            integration_type,
+            improvements,
+            execution_time,
+            extra_fields={'optimization_level': 'maximum'},
+        )

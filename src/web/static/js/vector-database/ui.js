@@ -1,15 +1,16 @@
 /**
  * Vector Database UI - V2 Compliant Module
- * =======================================
- *
- * UI components and interface management for vector database.
- * Handles DOM manipulation, event handling, and user interactions.
- *
- * V2 Compliance: < 300 lines, single responsibility.
- *
+ * UI components and interactions for vector database.
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
+
+import {
+    setupSearchInterface as setupSearchInterfaceCommon,
+    setupDocumentManagement as setupDocumentManagementCommon,
+    showError as showErrorCommon,
+    showSuccess as showSuccessCommon
+} from './ui-common.js';
 
 export class VectorDatabaseUI {
     constructor() {
@@ -27,7 +28,7 @@ export class VectorDatabaseUI {
             this.setupDocumentManagement();
             this.setupAnalyticsDashboard();
             this.setupRealTimeUpdates();
-
+            
             this.logger.log('✅ Vector Database UI initialized');
         } catch (error) {
             this.logger.error('❌ Failed to initialize UI:', error);
@@ -39,27 +40,11 @@ export class VectorDatabaseUI {
      * Setup search interface
      */
     setupSearchInterface() {
-        const searchContainer = this.createElement('div', 'search-container');
-        const searchInput = this.createElement('input', 'search-input', {
-            type: 'text',
-            placeholder: 'Search documents...',
-            id: 'vector-search-input'
-        });
-        const searchButton = this.createElement('button', 'search-button', {
-            id: 'vector-search-button'
-        }, 'Search');
-
-        searchContainer.appendChild(searchInput);
-        searchContainer.appendChild(searchButton);
-
-        this.elements.searchContainer = searchContainer;
-        this.elements.searchInput = searchInput;
-        this.elements.searchButton = searchButton;
-
-        // Add event listeners
-        this.addEventListener(searchButton, 'click', () => this.handleSearch());
-        this.addEventListener(searchInput, 'keypress', (e) => {
-            if (e.key === 'Enter') this.handleSearch();
+        setupSearchInterfaceCommon({
+            createElement: this.createElement.bind(this),
+            elements: this.elements,
+            addEventListener: this.addEventListener.bind(this),
+            handleSearch: this.handleSearch.bind(this)
         });
     }
 
@@ -67,21 +52,12 @@ export class VectorDatabaseUI {
      * Setup document management interface
      */
     setupDocumentManagement() {
-        const docContainer = this.createElement('div', 'document-container');
-        const docList = this.createElement('div', 'document-list', { id: 'document-list' });
-        const addButton = this.createElement('button', 'add-document-button', {
-            id: 'add-document-button'
-        }, 'Add Document');
-
-        docContainer.appendChild(docList);
-        docContainer.appendChild(addButton);
-
-        this.elements.docContainer = docContainer;
-        this.elements.docList = docList;
-        this.elements.addButton = addButton;
-
-        // Add event listeners
-        this.addEventListener(addButton, 'click', () => this.handleAddDocument());
+        setupDocumentManagementCommon({
+            createElement: this.createElement.bind(this),
+            elements: this.elements,
+            addEventListener: this.addEventListener.bind(this),
+            handleAddDocument: this.handleAddDocument.bind(this)
+        });
     }
 
     /**
@@ -94,7 +70,7 @@ export class VectorDatabaseUI {
 
         analyticsContainer.appendChild(metricsDisplay);
         analyticsContainer.appendChild(chartsContainer);
-
+        
         this.elements.analyticsContainer = analyticsContainer;
         this.elements.metricsDisplay = metricsDisplay;
         this.elements.chartsContainer = chartsContainer;
@@ -110,7 +86,7 @@ export class VectorDatabaseUI {
 
         updateContainer.appendChild(statusIndicator);
         updateContainer.appendChild(lastUpdate);
-
+        
         this.elements.updateContainer = updateContainer;
         this.elements.statusIndicator = statusIndicator;
         this.elements.lastUpdate = lastUpdate;
@@ -122,15 +98,15 @@ export class VectorDatabaseUI {
     createElement(tag, className, attributes = {}, textContent = '') {
         const element = document.createElement(tag);
         element.className = className;
-
+        
         Object.entries(attributes).forEach(([key, value]) => {
             element.setAttribute(key, value);
         });
-
+        
         if (textContent) {
             element.textContent = textContent;
         }
-
+        
         return element;
     }
 
@@ -187,7 +163,7 @@ export class VectorDatabaseUI {
      */
     displaySearchResults(results) {
         const resultsContainer = this.createElement('div', 'search-results');
-
+        
         results.forEach(result => {
             const resultElement = this.createElement('div', 'search-result');
             resultElement.innerHTML = `
@@ -206,7 +182,7 @@ export class VectorDatabaseUI {
         if (existingResults) {
             existingResults.remove();
         }
-
+        
         document.body.appendChild(resultsContainer);
     }
 
@@ -215,7 +191,7 @@ export class VectorDatabaseUI {
      */
     displayDocuments(documents) {
         this.elements.docList.innerHTML = '';
-
+        
         documents.forEach(doc => {
             const docElement = this.createElement('div', 'document-item');
             docElement.innerHTML = `
@@ -254,54 +230,20 @@ export class VectorDatabaseUI {
      * Show error message
      */
     showError(message) {
-        const errorElement = this.createElement('div', 'error-message');
-        errorElement.textContent = message;
-        errorElement.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff4444;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-        `;
-
-        document.body.appendChild(errorElement);
-
-        // Remove after 5 seconds
-        setTimeout(() => {
-            if (errorElement.parentNode) {
-                errorElement.parentNode.removeChild(errorElement);
-            }
-        }, 5000);
+        showErrorCommon({
+            createElement: this.createElement.bind(this),
+            message
+        });
     }
 
     /**
      * Show success message
      */
     showSuccess(message) {
-        const successElement = this.createElement('div', 'success-message');
-        successElement.textContent = message;
-        successElement.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #44ff44;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-        `;
-
-        document.body.appendChild(successElement);
-
-        // Remove after 3 seconds
-        setTimeout(() => {
-            if (successElement.parentNode) {
-                successElement.parentNode.removeChild(successElement);
-            }
-        }, 3000);
+        showSuccessCommon({
+            createElement: this.createElement.bind(this),
+            message
+        });
     }
 
     /**

@@ -6,6 +6,7 @@
 - Centralized prediction analytics utility `BasePredictionAnalyzer` for shared
   probability and confidence computations (SSOT).
 - Terminal completion monitor to detect completion signals from logs.
+- Cursor task repository with env-configurable path and monitor cross-checking.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 ### Removed

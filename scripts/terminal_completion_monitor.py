@@ -17,11 +17,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import queue
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Optional
+
+# Ensure src is on the path for repository imports
+sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
+
+from services.cursor_db import CursorTaskRepository
 
 COMPLETION_SIGNAL = "COMPLETION_SIGNAL"
 
@@ -33,6 +40,8 @@ class CompletionEvent:
     timestamp: float
     source: str
     line: str
+    task_id: Optional[str] = None
+    task_found: Optional[bool] = None
 
     def to_json(self) -> str:
         """Return the event serialized as a JSON string."""
@@ -40,6 +49,8 @@ class CompletionEvent:
             "timestamp": self.timestamp,
             "source": self.source,
             "line": self.line,
+            "task_id": self.task_id,
+            "task_found": self.task_found,
         })
 
 
@@ -52,11 +63,13 @@ class TerminalCompletionMonitor:
         output_path: Optional[Path] = None,
         event_queue: Optional[queue.Queue] = None,
         verbose: bool = False,
+        task_repo: Optional[CursorTaskRepository] = None,
     ) -> None:
         self.sources: List[Path] = [Path(s) for s in sources]
         self.output_path = Path(output_path) if output_path else None
         self.event_queue = event_queue
         self.verbose = verbose
+        self.task_repo = task_repo
         self._positions: dict[Path, int] = {p: 0 for p in self.sources}
 
     def _emit(self, event: CompletionEvent) -> None:
@@ -79,10 +92,18 @@ class TerminalCompletionMonitor:
                 fh.seek(position)
                 for line in fh:
                     if COMPLETION_SIGNAL in line:
+                        task_id = line.split(COMPLETION_SIGNAL, 1)[1].strip() or None
+                        task_found = None
+                        if task_id and self.task_repo:
+                            task_found = self.task_repo.task_exists(task_id)
+                            if not task_found and self.verbose:
+                                print(f"Mismatch: unknown task {task_id}")
                         event = CompletionEvent(
                             time.time(),
                             str(source),
                             line.strip(),
+                            task_id,
+                            task_found,
                         )
                         self._emit(event)
                 self._positions[source] = fh.tell()
@@ -132,10 +153,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    repo: Optional[CursorTaskRepository] = None
+    db_path = os.getenv("CURSOR_DB_PATH")
+    if db_path:
+        repo = CursorTaskRepository(Path(db_path))
     monitor = TerminalCompletionMonitor(
         sources=[Path(p) for p in args.source],
         output_path=Path(args.output) if args.output else None,
         verbose=args.verbose,
+        task_repo=repo,
     )
     monitor.watch(interval=args.interval)
 

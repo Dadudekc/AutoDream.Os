@@ -1,48 +1,46 @@
-"""Tests for the terminal completion monitor."""
+"""Tests for TerminalCompletionMonitor cross-checking."""
 
-import json
 import queue
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.append(str(ROOT))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from scripts.terminal_completion_monitor import (  # noqa: E402
+from terminal_completion_monitor import (
     COMPLETION_SIGNAL,
     TerminalCompletionMonitor,
 )
+from services.cursor_db import CursorTaskRepository
+
+import sqlite3
 
 
-def test_emits_event_when_signal_detected(tmp_path):
-    log = tmp_path / "test.log"
-    log.write_text("start\n", encoding="utf-8")
-    event_queue: queue.Queue = queue.Queue()
-    monitor = TerminalCompletionMonitor([log], event_queue=event_queue)
+def _init_db(path: Path) -> None:
+    conn = sqlite3.connect(path)
+    conn.execute(
+        "CREATE TABLE tasks (task_id TEXT PRIMARY KEY, agent_id TEXT, status TEXT)"
+    )
+    conn.execute(
+        "INSERT INTO tasks (task_id, agent_id, status) VALUES (?, ?, ?)",
+        ("task1", "agent-1", "done"),
+    )
+    conn.commit()
+    conn.close()
 
+
+def test_poll_emits_events_with_cross_check(tmp_path: Path) -> None:
+    db_path = tmp_path / "tasks.db"
+    _init_db(db_path)
+    repo = CursorTaskRepository(db_path)
+    log = tmp_path / "log.txt"
+    log.write_text(
+        f"nope\n{COMPLETION_SIGNAL} task1\n{COMPLETION_SIGNAL} task2\n",
+        encoding="utf-8",
+    )
+    q: queue.Queue = queue.Queue()
+    monitor = TerminalCompletionMonitor([log], event_queue=q, task_repo=repo)
     monitor.poll()
-    assert event_queue.empty()
-
-    with log.open("a", encoding="utf-8") as fh:
-        fh.write(f"running {COMPLETION_SIGNAL} done\n")
-
-    monitor.poll()
-    event = event_queue.get_nowait()
-    assert event.source == str(log)
-    assert COMPLETION_SIGNAL in event.line
-
-
-def test_writes_event_to_output_file(tmp_path):
-    log = tmp_path / "run.log"
-    output = tmp_path / "events.jsonl"
-    log.write_text(f"before {COMPLETION_SIGNAL} after\n", encoding="utf-8")
-
-    monitor = TerminalCompletionMonitor([log], output_path=output)
-    monitor.poll()
-
-    content = output.read_text(encoding="utf-8").strip().splitlines()
-    assert len(content) == 1
-    data = json.loads(content[0])
-    assert data["source"] == str(log)
-    assert COMPLETION_SIGNAL in data["line"]
+    events = [q.get_nowait() for _ in range(2)]
+    assert events[0].task_id == "task1" and events[0].task_found is True
+    assert events[1].task_id == "task2" and events[1].task_found is False

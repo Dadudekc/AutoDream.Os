@@ -1,5 +1,10 @@
 # AutoDream OS
-AutoDream OS is a modular, V2 standards compliant platform for building agent-driven applications. It enforces strict coding standards and provides convenient command line interfaces for development and testing.
+AutoDream OS is a modular, V2 compliant platform for building agent-driven applications
+for AI developers and ops teams.
+It streamlines agent orchestration, speeds prototyping, and enables reliable deployment.
+### Who is this for?
+- AI developers creating multi-agent workflows
+- Ops teams managing automated infrastructure
 
 ## Features
 - **V2 coding standards** with line-count limits and object-oriented design
@@ -12,8 +17,8 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
 - **Base engine abstraction** centralizing initialization, status reporting, and cleanup
-- **Overnight consistency enhancements** with rotating validation prompts,
-  optional QA agent, and completion signals
+- **Overnight consistency enhancements** with rotating validation prompts and optional QA agent
+  delivering completion signals
   ([spec](docs/specifications/OVERNIGHT_CONSISTENCY_ENHANCEMENTS_PRD.md))
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware
@@ -26,16 +31,11 @@ skipped.
 ```bash
 pip install -r requirements.txt
 ```
-
 ### Quick status check
 ```bash
-# Run comprehensive TDD tests
-python tests/test_messaging_system_tdd.py
-
-# Run quick smoke tests
-python tests/smoke_test_messaging_system.py
+python tests/test_messaging_system_tdd.py  # comprehensive TDD tests
+python tests/smoke_test_messaging_system.py  # quick smoke tests
 ```
-
 ### Launch web module
 ```bash
 python -m src.web --start

@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Dict
 
+from src.core.constants.manager import COMPLETION_SIGNAL
 from .contracts import Manager, ManagerContext, ManagerResult
 
 
@@ -48,7 +49,9 @@ class CoreOnboardingManager(Manager):
         }
         handler = handlers.get(operation)
         if not handler:
-            return ManagerResult(False, {}, {}, f"Unknown operation: {operation}")
+            return ManagerResult(
+                False, {}, {}, f"Unknown operation: {operation}"
+            )
         return handler(context, payload)
 
     def cleanup(self, context: ManagerContext) -> bool:
@@ -64,7 +67,7 @@ class CoreOnboardingManager(Manager):
             "total_sessions": len(self._sessions),
         }
 
-    # Handlers -----------------------------------------------------------------
+    # Handlers ---------------------------------------------------------------
     def onboard_agent(
         self, context: ManagerContext, payload: Dict[str, Any]
     ) -> ManagerResult:
@@ -78,7 +81,9 @@ class CoreOnboardingManager(Manager):
         )
         self._sessions[session_id] = session
         context.logger(f"Onboarding session created: {session_id}")
-        return ManagerResult(True, {"session_id": session_id, "agent_id": agent_id}, {})
+        return ManagerResult(
+            True, {"session_id": session_id, "agent_id": agent_id}, {}
+        )
 
     def start_onboarding(
         self, context: ManagerContext, payload: Dict[str, Any]
@@ -97,11 +102,20 @@ class CoreOnboardingManager(Manager):
         session = self._sessions.get(payload["session_id"])
         if not session:
             return ManagerResult(False, {}, {}, "Session not found")
-        session.status = "completed" if payload.get("success", True) else "failed"
+        session.status = (
+            "completed" if payload.get("success", True) else "failed"
+        )
         session.end_time = datetime.utcnow()
         session.notes = payload.get("notes")
-        context.logger(f"Onboarding session completed: {payload['session_id']}")
-        return ManagerResult(True, {"session_id": payload["session_id"], "status": session.status}, {})
+        context.logger(
+            f"Onboarding session completed: {payload['session_id']} "
+            f"{COMPLETION_SIGNAL}"
+        )
+        return ManagerResult(
+            True,
+            {"session_id": payload["session_id"], "status": session.status},
+            {},
+        )
 
     def get_onboarding_status(
         self, context: ManagerContext, payload: Dict[str, Any]

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🚀 **Agent Cellphone V2 - Unified Documentation Hub**
 
 ## **🎯 Current Status: Documentation Consolidation Complete**
@@ -23,7 +22,7 @@
 - `CHANGELOG.md` - **Project changelog and updates**
 
 ### **📖 Guides & Implementation**
-- `captain_handbook.md` - **Captain's strategic operations guide**
+- `CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md` - **Captain's strategic operations guide**
 - `QUICK_START.md` - **Quick start guide**
 - `README.md` - **Main project README**
 
@@ -44,7 +43,7 @@
 - `PYAUTOGUI_TEST_GUIDE.md` - **PyAutoGUI testing guide**
 
 ### **📋 Onboarding & Training**
-- `onboarding/README.md` - **Consolidated onboarding guide (SSOT)**
+- `ONBOARDING_GUIDE.md` - **Agent onboarding guide (SSOT)**
 - `CAPTAIN_COORDINATION_TRAINING.md` - **Captain coordination training**
 
 ---
@@ -54,19 +53,31 @@
 ```
 docs/
 ├── README.md                           # This comprehensive index
-├── AGENT_ONBOARDING_GUIDE.md          # Single source of truth for agent onboarding
-├── CAPTAIN_LOG.md                      # Captain operational log
+├── ONBOARDING_GUIDE.md                 # Agent onboarding guide (SSOT)
 ├── architecture/
 │   └── system_architecture.md         # System architecture docs
 ├── guides/
-│   ├── captain_handbook.md            # Captain's strategic operations guide
-│   ├── ADMIN_COMMANDER_SETUP.md       # Admin setup guide
-│   ├── BOT_INVITE_SETUP.md            # Bot invitation setup
-│   ├── DISCORD_BOT_SETUP.md           # Discord bot configuration
-│   ├── DISCORD_COMMANDER_README.md    # Discord commander usage
-│   └── HOW_TO_RUN_DISCORD_GUI.md      # GUI operation guide
+│   ├── CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md
+│   ├── ADMIN_COMMANDER_SETUP.md
+│   ├── BOT_INVITE_SETUP.md
+│   ├── DISCORD_BOT_SETUP.md
+│   ├── DISCORD_COMMANDER_README.md
+│   ├── HOW_TO_RUN_DISCORD_GUI.md
+│   ├── PYAUTOGUI_TEST_GUIDE.md
+│   └── messaging_system_briefing.md
+├── integration/
+│   └── coordination_integration_patterns.md
+├── reports/
+│   ├── AGENT_1_*_REPORT.md           # Agent-1 integration reports
+│   ├── AGENT_2_*_REPORT.md           # Agent-2 architecture reports
+│   ├── AGENT_3_*_REPORT.md           # Agent-3 infrastructure reports
+│   ├── AGENT_4_*_REPORT.md           # Agent-4 strategic reports
+│   ├── AGENT_5_*_REPORT.md           # Agent-5 business intelligence
+│   ├── AGENT_6_*_REPORT.md           # Agent-6 coordination reports
+│   ├── AGENT_7_*_REPORT.md           # Agent-7 web development reports
+│   ├── AGENT_8_*_REPORT.md           # Agent-8 SSOT reports
+│   └── *_REPORT.md                   # General project reports
 ├── specifications/
-│   ├── README.md                      # Specifications index
 │   ├── CHANNEL_RESTRICTION_FEATURES.md
 │   ├── MESSAGING_API_SPECIFICATIONS.md
 │   ├── MESSAGING_ARCHITECTURE_DIAGRAM.md
@@ -74,72 +85,14 @@ docs/
 │   ├── MESSAGING_SYSTEM_PRD.md
 │   ├── MESSAGING_SYSTEM_V2_ENHANCED_TYPES.md
 │   └── MESSAGING_TEST_PLAN.md
-├── standards/
-│   └── python_coding_standard.md      # Python coding standards
-└── vector_database/
-    └── README.md                      # Vector database documentation
-=======
-# 🚀 **Agent Cellphone V2 - Clean Documentation Hub**
-
-## **🎯 Current Status: Documentation Cleanup Complete**
-
-**Progress:** 100% Cleaned ✅  
-**Status:** **DOCUMENTATION CLEANUP COMPLETE** ✅  
-**Next:** **FOCUS ON V2 COMPLIANCE** 🚀
-
----
-
-## **📚 Essential Documentation (Keep These)**
-
-### **🏗️ Architecture & Standards**
-- `V2_CODING_STANDARDS.md` - **V2 coding standards**
-- `SINGLE_SOURCE_OF_TRUTH_GUIDE.md` - **Repository structure**
-- `CODING_STANDARDS_QUICK_REFERENCE.md` - **Quick reference**
-
-### **🔧 Implementation Guides**
-- `V2_COORDINATION_SYSTEM_API.md` - **Coordination system API**
-- `V2_COORDINATION_TROUBLESHOOTING.md` - **Troubleshooting guide**
-- `API_KEY_SETUP_GUIDE.md` - **API setup guide**
-
----
-
-## **🧹 Cleanup Completed**
-
-### **❌ Deleted (100+ redundant files eliminated):**
-- All `*_COMPLETE.md` files (completed work)
-- All `*_COMPLETION_*` files (redundant reports)
-- All `*_MIGRATION_*` files (migration done)
-- All `*_ANALYSIS_*` files (analysis complete)
-- All `*_STATUS_*` files (outdated status)
-- All duplicate plans and reports
-- All deprecated system documentation
-- All outdated progress trackers
-- All redundant implementation summaries
-- All completed assessment reports
-- All outdated integration plans
-
-### **✅ Kept (Essential files only):**
-- Current standards documentation
-- Active implementation guides
-- Core architecture documents
-- Essential feature documentation
-
----
-
-## **📁 Clean Directory Structure**
-
-```
-docs/
-├── README.md                           # This file (clean overview)
-├── standards/                          # V2 coding standards
-├── features/                           # Feature documentation
-└── ai_ml/                             # AI/ML specific docs
->>>>>>> origin/codex/catalog-functions-in-utils-directories
+├── technical/
+│   └── coordination_systems.md
+└── user_guides/
+    └── coordination_systems_guide.md
 ```
 
 ---
 
-<<<<<<< HEAD
 ## **🧹 Consolidation Achievements**
 
 ### **✅ Successfully Consolidated:**
@@ -172,8 +125,3 @@ docs/
 **Last Updated:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
 **Status:** **DOCUMENTATION CONSOLIDATION COMPLETE** ✅
 **Next:** **V2 COMPLIANCE ENHANCEMENT** 🚀
-=======
-**Last Updated:** $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")  
-**Status:** **DOCUMENTATION CLEANUP COMPLETE** ✅  
-**Next:** **FOCUS ON V2 COMPLIANCE** 🚀
->>>>>>> origin/codex/catalog-functions-in-utils-directories

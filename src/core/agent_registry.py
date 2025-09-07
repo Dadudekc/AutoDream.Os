@@ -6,7 +6,7 @@ from typing import List
 
 
 class AgentRegistry:
-    def __init__(self, root: str = "runtime/agent_state") -> None:
+    def __init__(self, root: str = "agent_workspaces") -> None:
         self.root = root
         os.makedirs(self.root, exist_ok=True)
 
@@ -78,3 +78,21 @@ class AgentRegistry:
         p = os.path.join(agent_dir, "last_onboarding_message.txt")
         with open(p, "w", encoding="utf-8") as f:
             f.write(message)
+    
+    def get_onboarding_coords(self, agent_id: str) -> tuple[int, int]:
+        """Get onboarding coordinates for an agent.
+
+        Uses SSOT coordinate loader for consistency across the system.
+
+        Args:
+            agent_id: Agent identifier
+
+        Returns:
+            Tuple of (x, y) coordinates
+        """
+        try:
+            from src.core.coordinate_loader import get_coordinate_loader
+            loader = get_coordinate_loader()
+            return loader.get_onboarding_coordinates(agent_id)
+        except Exception:
+            return (0, 0)

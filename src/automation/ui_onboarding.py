@@ -27,12 +27,12 @@ class UIOnboarder:
         self.retries = retries
         self.dry_run = dry_run
 
-    def perform(self, agent_id: str, coords: dict, message: str) -> bool:
+    def perform(self, agent_id: str, coords: Tuple[int, int], message: str) -> bool:
         """Perform UI onboarding sequence for an agent.
 
         Args:
             agent_id: The agent identifier
-            coords: Dictionary with 'x' and 'y' coordinates
+            coords: Tuple of (x, y) coordinates
             message: The onboarding message to paste
 
         Returns:
@@ -43,7 +43,17 @@ class UIOnboarder:
             return True
 
         try:
-            x, y = coords["x"], coords["y"]
+            x, y = coords
+
+            # Validate coordinates are reasonable
+            if not self._validate_coordinates(x, y):
+                print(f"❌ Invalid coordinates for {agent_id}: ({x}, {y})")
+                return False
+
+            # Validate message format
+            if not self._validate_message_format(agent_id, message):
+                print(f"❌ Invalid message format for {agent_id}")
+                return False
 
             # 1. Click onboarding input coordinates
             self.pyautogui.moveTo(x, y)
@@ -84,3 +94,56 @@ class UIOnboarder:
         except Exception as e:
             print(f"❌ UI automation error for {agent_id}: {e}")
             return False
+
+    def _validate_coordinates(self, x: int, y: int) -> bool:
+        """Validate that coordinates are reasonable for screen interaction.
+        
+        Args:
+            x: X coordinate
+            y: Y coordinate
+            
+        Returns:
+            True if coordinates are valid, False otherwise
+        """
+        # Check if coordinates are within reasonable screen bounds
+        # Most screens are at least 800x600, so reject obviously invalid coords
+        if x < 0 or y < 0:
+            return False
+        if x > 5000 or y > 5000:  # Reasonable upper bound
+            return False
+        if x == 0 and y == 0:  # Default/fallback coordinates
+            print("⚠️  Using default coordinates (0,0) - may not be accurate")
+            return True
+        return True
+
+    def _validate_message_format(self, agent_id: str, message: str) -> bool:
+        """Validate that the message has the correct format.
+        
+        Args:
+            agent_id: The agent identifier
+            message: The message to validate
+            
+        Returns:
+            True if message format is valid, False otherwise
+        """
+        # Check for proper agent identification format
+        if not message.startswith(f"YOU ARE {agent_id}"):
+            print(f"❌ Message does not start with 'YOU ARE {agent_id}'")
+            return False
+        
+        # Check for [S2A] format (should not be present)
+        if "[S2A]" in message:
+            print("❌ Message contains [S2A] format - should use 'YOU ARE AGENT X' format")
+            return False
+        
+        # Check for role information
+        if "ROLE:" not in message:
+            print("❌ Message missing ROLE information")
+            return False
+        
+        # Check for responsibilities
+        if "PRIMARY RESPONSIBILITIES:" not in message:
+            print("❌ Message missing PRIMARY RESPONSIBILITIES")
+            return False
+        
+        return True

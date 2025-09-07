@@ -95,7 +95,7 @@ def read_json(file_path: Path) -> Dict[str, Any]:
 
 
 # Constants to eliminate DRY violations
-COORDINATE_CONFIG_FILE = "cursor_agent_coords.json"
+COORDINATE_CONFIG_FILE = "config/coordinates.json"
 
 # Export all commonly used imports and constants
 __all__ = [

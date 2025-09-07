@@ -33,6 +33,7 @@ dependencies = [
     "mypy>=1.0.0",
     "bandit>=1.7.0",
     "safety>=2.0.0",
+    "pyyaml>=6.0",  # Added for role management YAML support
 ]
 
 [project.scripts]
@@ -89,6 +90,7 @@ default_section = "THIRDPARTY"
 
 [tool.ruff]
 line-length = 100
+select = ["E","F","I","B"]
 
 [tool.flake8]
 max-line-length = 88

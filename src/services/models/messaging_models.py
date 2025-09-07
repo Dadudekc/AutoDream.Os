@@ -67,7 +67,8 @@ class UnifiedMessage:
     tags: List[UnifiedMessageTag] = None
     message_id: str = None
     timestamp: str = None
-    
+    metadata: Dict[str, Any] = None
+
     def __post_init__(self):
         """Initialize default values after dataclass creation."""
         if self.message_id is None:
@@ -76,6 +77,8 @@ class UnifiedMessage:
             self.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if self.tags is None:
             self.tags = []
+        if self.metadata is None:
+            self.metadata = {}
 
 
 @dataclass

@@ -10,13 +10,18 @@ Author: Agent-2 (Architecture & Design)
 License: MIT
 """
 
-import pytest
+import sys
+import os
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 import argparse
 from unittest.mock import Mock, patch, MagicMock
 from io import StringIO
-import sys
 import json
-from pathlib import Path
 import tempfile
 
 # Import CLI components
@@ -27,34 +32,34 @@ import src.services.messaging_cli_handlers as handlers
 class TestMessagingCLISmoke:
     """Smoke tests for messaging CLI functionality."""
 
-    @pytest.fixture
     def temp_workspace_dir(self):
         """Create temporary workspace directory for testing."""
-        with tempfile.TemporaryDirectory() as temp_dir:
-            # Create agent workspaces
-            for agent_id in ["Agent-1", "Agent-2", "Agent-4"]:
-                agent_dir = Path(temp_dir) / "agent_workspaces" / agent_id
-                agent_dir.mkdir(parents=True, exist_ok=True)
+        temp_dir = tempfile.mkdtemp()
 
-                # Create inbox directory
-                inbox_dir = agent_dir / "inbox"
-                inbox_dir.mkdir(exist_ok=True)
+        # Create agent workspaces
+        for agent_id in ["Agent-1", "Agent-2", "Agent-4"]:
+            agent_dir = Path(temp_dir) / "agent_workspaces" / agent_id
+            agent_dir.mkdir(parents=True, exist_ok=True)
 
-                # Create status.json
-                status_file = agent_dir / "status.json"
-                status_data = {
-                    "agent_id": agent_id,
-                    "agent_name": f"Test {agent_id}",
-                    "status": "ACTIVE_AGENT_MODE",
-                    "current_phase": "TASK_EXECUTION",
-                    "last_updated": "2025-01-27 12:00:00",
-                    "current_mission": "Testing messaging CLI",
-                    "mission_priority": "HIGH"
-                }
-                with open(status_file, 'w') as f:
-                    json.dump(status_data, f)
+            # Create inbox directory
+            inbox_dir = agent_dir / "inbox"
+            inbox_dir.mkdir(exist_ok=True)
 
-            yield temp_dir
+            # Create status.json
+            status_file = agent_dir / "status.json"
+            status_data = {
+                "agent_id": agent_id,
+                "agent_name": f"Test {agent_id}",
+                "status": "ACTIVE_AGENT_MODE",
+                "current_phase": "TASK_EXECUTION",
+                "last_updated": "2025-01-27 12:00:00",
+                "current_mission": "Testing messaging CLI",
+                "mission_priority": "HIGH"
+            }
+            with open(status_file, 'w') as f:
+                json.dump(status_data, f)
+
+        return temp_dir
 
     def test_parser_creation(self):
         """Test that the enhanced parser is created correctly."""
@@ -355,4 +360,28 @@ class TestMessagingCLISmoke:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    # Run tests directly
+    import sys
+    print("Running Messaging CLI Smoke Tests...")
+
+    # Create test instance
+    test_instance = TestMessagingCLISmoke()
+
+    # Run basic tests
+    try:
+        test_instance.test_parser_creation()
+        print("[PASS] Parser creation test passed")
+
+        test_instance.test_parser_message_flags()
+        print("[PASS] Parser message flags test passed")
+
+        test_instance.test_parser_bulk_flags()
+        print("[PASS] Parser bulk flags test passed")
+
+        print("[SUCCESS] All basic smoke tests passed!")
+
+    except Exception as e:
+        print(f"[FAIL] Test failed: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)

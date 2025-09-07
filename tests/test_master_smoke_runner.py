@@ -10,7 +10,7 @@ Author: Agent-2 (Architecture & Design)
 License: MIT
 """
 
-import pytest
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -31,22 +31,15 @@ class SmokeTestRunner:
         """Discover all smoke test files."""
         test_files = []
 
-        # Core smoke test files
-        smoke_tests = [
-            "test_messaging_core_smoke.py",
-            "test_messaging_cli_smoke.py",
-            "test_vector_database_smoke.py",
-            # Add more as they are created
-        ]
-
-        # Check if files exist
+        # Find all smoke test files
         tests_dir = Path(__file__).parent
-        for test_file in smoke_tests:
-            test_path = tests_dir / test_file
-            if test_path.exists():
-                test_files.append(str(test_path))
+        smoke_pattern = "test_*_smoke.py"
 
-        return test_files
+        for test_file in tests_dir.glob(smoke_pattern):
+            if test_file.is_file():
+                test_files.append(str(test_file))
+
+        return sorted(test_files)
 
     def run_smoke_tests(self, test_files: List[str], verbose: bool = False) -> Dict[str, Any]:
         """Run all smoke tests and collect results."""
@@ -61,12 +54,31 @@ class SmokeTestRunner:
             test_name = Path(test_file).stem
             print(f"\n📋 Running {test_name}...")
 
-            # Run pytest on individual test file
-            args = [test_file, "-v"] if verbose else [test_file]
-            if not verbose:
-                args.extend(["--tb=short", "-q"])
+            # Run Python directly on test file
+            cmd = [sys.executable, test_file]
 
-            result_code = pytest.main(args)
+            try:
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=60  # 1 minute timeout per test
+                )
+                result_code = result.returncode
+
+                # Print output if verbose or if there was an error
+                if verbose or result_code != 0:
+                    if result.stdout:
+                        print(f"   Output: {result.stdout.strip()}")
+                    if result.stderr:
+                        print(f"   Error: {result.stderr.strip()}")
+
+            except subprocess.TimeoutExpired:
+                print("   Result: ⏰ TIMEOUT (1 minute)")
+                result_code = -1
+            except Exception as e:
+                print(f"   Result: 💥 ERROR ({e})")
+                result_code = -1
 
             # Store results
             all_results[test_name] = {

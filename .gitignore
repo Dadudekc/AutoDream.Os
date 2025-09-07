@@ -1,26 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Discord tokens and sensitive configs
-config/devlog_config.json
-**/discord_config*.json
-**/discord_commander_coordinates.json
-
-# API keys and secrets
-*.key
-*.pem
-**/secrets/
-**/credentials/
-
-# Python
-**/__pycache__/
-=======
 # Environment variables and secrets
 .env
 .env.local
@@ -31,9 +8,8 @@ config/devlog_config.json
 
 # Python
 __pycache__/
->>>>>>> origin/codex/catalog-functions-in-utils-directories
 *.py[cod]
-*$py.class
+*.class
 *.so
 .Python
 build/
@@ -48,19 +24,12 @@ parts/
 sdist/
 var/
 wheels/
-<<<<<<< HEAD
-pip-wheel-metadata/
-=======
->>>>>>> origin/codex/catalog-functions-in-utils-directories
 share/python-wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 MANIFEST
 
-<<<<<<< HEAD
 # Virtual environments
-.env
 .venv
 env/
 venv/
@@ -85,8 +54,8 @@ ehthumbs.db
 Thumbs.db
 
 # Logs
-*.log
 logs/
+*.log
 *.log.*
 
 # Node.js
@@ -121,306 +90,14 @@ backup_*/
 .pytest_cache/
 .tox/
 .nox/
-=======
-# PyInstaller
-*.manifest
-*.spec
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
->>>>>>> origin/codex/catalog-functions-in-utils-directories
+# Coverage
 coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
-<<<<<<< HEAD
-=======
-.pytest_cache/
-cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
->>>>>>> origin/codex/catalog-functions-in-utils-directories
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-<<<<<<< HEAD
-=======
-# IPython
-profile_default/
-ipython_config.py
-
->>>>>>> origin/codex/catalog-functions-in-utils-directories
-# pyenv
-.python-version
-
-# pipenv
-Pipfile.lock
-
-<<<<<<< HEAD
-# PEP 582
-__pypackages__/
-
-# Celery
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath
-*.sage.py
-
-# Spyder
-.spyderproject
-.spyproject
-
-# Rope
-.ropeproject
-
-# mkdocs
-=======
-# poetry
-poetry.lock
-
-# pdm
-.pdm.toml
-
-# PEP 582
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
->>>>>>> origin/codex/catalog-functions-in-utils-directories
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-<<<<<<< HEAD
-# Pyre
-.pyre/
-
-# Git filter-repo cleanup
-token_replacements.txtsrc/web/static/js/framework/system-integration-test-core.js
-src/web/static/js/framework/system-integration-test-core.js
-=======
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-.idea/
-
-# VS Code
-.vscode/
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
-# Vim
-*.swp
-*.swo
-*~
-
-# Emacs
-*~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
-*.elc
-auto-save-list
-tramp
-.\#*
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-._*
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-*.tmp
-*.temp
-Desktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
-
-# Backup directories
-*_backup_*/
-
-# Linux
-*~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output
-
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env.test.local
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Gatsby files
-.cache/
-public
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary folders
-tmp/
-temp/
-
-# Editor directories and files
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
 # Project-specific
-*.db
-*.sqlite
-*.sqlite3
 devlog_knowledge.db
 security.db
 compliance.db
@@ -435,6 +112,3 @@ reporting_archive/*
 
 # Audit heavy artifacts (keep diffs slim)
 reports/metrics/
->>>>>>> origin/codex/catalog-functions-in-utils-directories
-=======
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

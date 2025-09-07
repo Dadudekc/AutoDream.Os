@@ -13,6 +13,7 @@
     "v2:audit": "npm run lint:v2 && npm run loc:check",
     "pre-commit": "npm run v2:audit",
     "ci": "npm run lint:v2",
+    "test": "node --test",
     "test:v2": "node scripts/test-v2-compliance.js"
   },
   "devDependencies": {

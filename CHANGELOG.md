@@ -1,6 +1,5 @@
 # Changelog
 
-<<<<<<< HEAD
 ## [2.1.0] - 2025-09-01
 ### 🚀 Major Release: 100% V2 Compliance Achievement
 
@@ -55,15 +54,14 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- Introduced `ui-common.js` with reusable UI helpers enforcing SSOT for search and
+  document management interfaces.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
-- Merged `utility-service.js` and `utility-service-v2.js` into a single `utility-service.js` for SSOT.
+- Refactored `ui.js` and `ui-optimized.js` to consume shared helpers, reducing
+  duplication and LOC.
 
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
 - Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.
-=======
-## Unreleased
-### Removed
-- Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

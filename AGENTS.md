@@ -30,7 +30,7 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
 
 ## Workflow
 - Commit messages must follow the convention:
-  `feat: short description` | `fix: short description` | `docs: short description`.
+  `feat: short description` | `fix: short description` | `docs: short description`
 - Pull requests must pass code review and CI checks before merge.
 - Split large features into smaller, incremental PRs.
 

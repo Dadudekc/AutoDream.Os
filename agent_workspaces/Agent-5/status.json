@@ -155,7 +155,7 @@
   "v2_compliance_status": "100% COMPLIANT",
   "autonomous_operation": "READY",
   "efficiency_demonstration": "OPERATIONAL",
-  "coordinates": "(652, 421)",
+  "coordinates_source": "cursor_agent_coords.json",
   "fsm_state": "active",
   "contract_status": "ACTIVE - V2 Compliance Business Intelligence Analysis",
   "next_actions": [
@@ -167,4 +167,3 @@
   ],
   "mission_status": "CONTRACT_EXECUTION_ACTIVE"
 }
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

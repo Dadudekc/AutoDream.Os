@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 sys.path.append(os.path.abspath("."))
 
@@ -23,3 +24,12 @@ def test_messaging_engine_coordinates():
         assert coord.x == data["x"]
         assert coord.y == data["y"]
         assert coord.description == data.get("description", "")
+
+
+def test_registry_matches_ssot():
+    with open("cursor_agent_coords.json", "r", encoding="utf-8") as f:
+        ssot = json.load(f)["agents"]
+    for agent_id, info in ssot.items():
+        chat = info.get("chat_input_coordinates", [0, 0])
+        assert COORDINATES[agent_id]["x"] == chat[0]
+        assert COORDINATES[agent_id]["y"] == chat[1]

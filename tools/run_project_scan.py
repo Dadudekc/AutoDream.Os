@@ -8,14 +8,15 @@ import sys
 import subprocess
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 # Import your scanner implementation from its module location.
-# If this file sits alongside the provided code, adjust the import accordingly.
-# Example assumes the scanner is in projectscanner.py.
 try:
-    from projectscanner import ProjectScanner  # <- change to actual module if different
+    from tools.projectscanner import ProjectScanner
 except Exception:  # pragma: no cover - import failure path
     # Fallback: try relative import if the class is defined in this same file.
-    # If your ProjectScanner is in another path, fix the import above.
     print(
         "ERROR: Unable to import ProjectScanner. Update import path in tools/run_project_scan.py.",
         file=sys.stderr,
@@ -23,7 +24,7 @@ except Exception:  # pragma: no cover - import failure path
     sys.exit(2)
 
 def run() -> None:
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = REPO_ROOT
     # Ensure we execute from repo root (so output lands at project root)
     try:
         import os

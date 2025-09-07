@@ -107,18 +107,12 @@ python -m src.services.messaging --mode pyautogui --agent Agent-1 --message "Hel
 
 # Broadcast to all agents
 python -m src.services.messaging --mode campaign --message "System broadcast"
-
-# Activate YOLO mode
-python -m src.services.messaging --mode yolo --message "YOLO activation"
 ```
 
 ### 3. System Status
 ```bash
-# Validate coordinates
-python -m src.services.messaging --validate
-
-# View available modes
-python -m src.services.messaging --help
+# Semantic status query
+python -m src.services.messaging_cli --check-status "progress on data ingestion"
 ```
 
 ## Coordinate System

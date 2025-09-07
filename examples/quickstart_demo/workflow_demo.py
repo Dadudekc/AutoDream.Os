@@ -1,6 +1,6 @@
 """Quickstart agent workflow demo.
 
-This script demonstrates a minimal agent workflow using AutoDream OS services."""
+This script demonstrates a minimal, self-contained agent representation."""
 
 from __future__ import annotations
 

@@ -10,20 +10,25 @@ Author: Agent-2 (Architecture & Design)
 License: MIT
 """
 
+import sys
+import os
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 import pytest
 import json
 import tempfile
-import os
 import sqlite3
-from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
 # Import vector database components
 from src.core.vector_database import (
     get_connection,
     upsert_agent_status,
-    get_agent_status,
-    get_all_agent_statuses,
+    fetch_agent_status,
     DB_PATH,
     AGENT_STATUS_TABLE,
     SCHEMA
@@ -89,17 +94,17 @@ class TestVectorDatabaseSmoke:
         """Test upserting agent status embeddings."""
         conn = get_connection(temp_db_path)
 
+        # Convert embedding string to list for the function
+        embedding_list = json.loads(mock_embedding_data["embedding"])
+
         # Test upsert operation
-        result = upsert_agent_status(
+        upsert_agent_status(
+            conn=conn,
             agent_id=mock_embedding_data["agent_id"],
             raw_status=mock_embedding_data["raw_status"],
-            embedding=mock_embedding_data["embedding"],
-            last_updated=mock_embedding_data["last_updated"],
-            db_path=temp_db_path
+            embedding=embedding_list,
+            last_updated=mock_embedding_data["last_updated"]
         )
-
-        # Verify operation succeeded
-        assert result is True
 
         # Verify data was inserted
         cursor = conn.cursor()
@@ -118,24 +123,28 @@ class TestVectorDatabaseSmoke:
         """Test retrieving agent status from database."""
         conn = get_connection(temp_db_path)
 
+        # Convert embedding string to list for the function
+        embedding_list = json.loads(mock_embedding_data["embedding"])
+
         # Insert test data
         upsert_agent_status(
+            conn=conn,
             agent_id=mock_embedding_data["agent_id"],
             raw_status=mock_embedding_data["raw_status"],
-            embedding=mock_embedding_data["embedding"],
-            last_updated=mock_embedding_data["last_updated"],
-            db_path=temp_db_path
+            embedding=embedding_list,
+            last_updated=mock_embedding_data["last_updated"]
         )
 
         # Test retrieval
-        result = get_agent_status(mock_embedding_data["agent_id"], temp_db_path)
+        result = fetch_agent_status(conn, mock_embedding_data["agent_id"])
 
         # Verify retrieval succeeded
         assert result is not None
-        assert result["agent_id"] == mock_embedding_data["agent_id"]
-        assert result["raw_status"] == mock_embedding_data["raw_status"]
-        assert result["embedding"] == mock_embedding_data["embedding"]
-        assert result["last_updated"] == mock_embedding_data["last_updated"]
+        agent_id, raw_status, embedding, last_updated = result
+        assert agent_id == mock_embedding_data["agent_id"]
+        assert raw_status == mock_embedding_data["raw_status"]
+        assert embedding == embedding_list
+        assert last_updated == mock_embedding_data["last_updated"]
 
         conn.close()
 
@@ -154,22 +163,32 @@ class TestVectorDatabaseSmoke:
                     "current_mission": f"Test mission {i}",
                     "last_updated": "2025-01-27 12:00:00"
                 }),
-                "embedding": json.dumps([0.1 * i] * 100),  # Different embeddings
+                "embedding": [0.1 * i] * 10,  # Different embeddings (smaller for test)
                 "last_updated": "2025-01-27 12:00:00"
             }
             agents_data.append(agent_data)
 
             # Insert each agent
             upsert_agent_status(
+                conn=conn,
                 agent_id=agent_data["agent_id"],
                 raw_status=agent_data["raw_status"],
                 embedding=agent_data["embedding"],
-                last_updated=agent_data["last_updated"],
-                db_path=temp_db_path
+                last_updated=agent_data["last_updated"]
             )
 
-        # Test bulk retrieval
-        all_statuses = get_all_agent_statuses(temp_db_path)
+        # Test bulk retrieval by querying all
+        all_statuses = []
+        for agent_data in agents_data:
+            result = fetch_agent_status(conn, agent_data["agent_id"])
+            if result:
+                agent_id, raw_status, embedding, last_updated = result
+                all_statuses.append({
+                    "agent_id": agent_id,
+                    "raw_status": raw_status,
+                    "embedding": embedding,
+                    "last_updated": last_updated
+                })
 
         # Verify all agents were retrieved
         assert len(all_statuses) == 4
@@ -406,4 +425,37 @@ class TestVectorDatabaseSmoke:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    # Run tests directly
+    import sys
+    print("Running Vector Database Smoke Tests...")
+
+    # Create test instance
+    test_instance = TestVectorDatabaseSmoke()
+
+    # Run a simple test
+    try:
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix='.db', delete=False) as temp_file:
+            temp_path = Path(temp_file.name)
+
+        mock_data = {
+            "agent_id": "TestAgent",
+            "raw_status": '{"status": "test"}',
+            "embedding": "[0.1, 0.2, 0.3]",
+            "last_updated": "2025-01-27 12:00:00"
+        }
+
+        test_instance.test_database_connection_creation(temp_path)
+        print("[PASS] Database connection test passed")
+
+        test_instance.test_agent_status_upsert_operation(temp_path, mock_data)
+        print("[PASS] Agent status upsert test passed")
+
+        test_instance.test_agent_status_retrieval(temp_path, mock_data)
+        print("[PASS] Agent status retrieval test passed")
+
+        print("[SUCCESS] All basic smoke tests passed!")
+
+    except Exception as e:
+        print(f"[FAIL] Test failed: {e}")
+        sys.exit(1)

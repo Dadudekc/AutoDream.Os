@@ -43,6 +43,7 @@ except ImportError:
 
 
 def load_coordinates_from_json() -> Dict[str, Tuple[int, int]]:
+<<<<<<< Updated upstream
     """Load agent coordinates from cursor_agent_coords.json."""
     try:
         config_path = "cursor_agent_coords.json"
@@ -53,15 +54,23 @@ def load_coordinates_from_json() -> Dict[str, Tuple[int, int]]:
         with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
         
+=======
+    """Load agent coordinates using SSOT coordinate loader."""
+    try:
+        from src.core.coordinate_loader import get_coordinate_loader
+        loader = get_coordinate_loader()
+
+>>>>>>> Stashed changes
         coordinates = {}
-        agents = config.get('agents', {})
-        for agent_id, agent_data in agents.items():
-            if agent_data.get('active', False):
-                coords = agent_data.get('chat_input_coordinates', [0, 0])
-                if len(coords) == 2:
-                    coordinates[agent_id] = (coords[0], coords[1])
+        for agent_id in loader.get_all_agents():
+            if loader.is_agent_active(agent_id):
+                try:
+                    coords = loader.get_chat_coordinates(agent_id)
+                    coordinates[agent_id] = coords
                     logging.debug(f"Loaded coordinates for {agent_id}: {coords}")
-        
+                except ValueError:
+                    logging.warning(f"Invalid coordinates for {agent_id}")
+
         return coordinates
     except Exception as e:
         logging.error(f"Error loading coordinates: {e}")
@@ -69,9 +78,14 @@ def load_coordinates_from_json() -> Dict[str, Tuple[int, int]]:
 
 
 def get_agent_coordinates(agent_id: str) -> Optional[Tuple[int, int]]:
-    """Get coordinates for a specific agent."""
-    coordinates = load_coordinates_from_json()
-    return coordinates.get(agent_id)
+    """Get coordinates for a specific agent using SSOT loader."""
+    try:
+        from src.core.coordinate_loader import get_coordinate_loader
+        loader = get_coordinate_loader()
+        return loader.get_chat_coordinates(agent_id)
+    except ValueError:
+        logging.warning(f"Invalid coordinates for {agent_id}")
+        return None
 
 
 def validate_coordinates_before_delivery(coords, recipient):
@@ -115,7 +129,7 @@ def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) 
 
         # Format and send message
         formatted_message = format_message_for_delivery(message)
-        
+
         if PYPERCLIP_AVAILABLE:
             # Fast paste method
             pyperclip.copy(formatted_message)
@@ -124,7 +138,10 @@ def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) 
         else:
             # Fallback to typing
             pyautogui.typewrite(formatted_message)
-            pyautogui.press("enter")
+
+        # Press Enter to send the message
+        time.sleep(0.2)
+        pyautogui.press('enter')
 
         logging.info(f"Message delivered to {message.recipient} at {coords}")
         return True

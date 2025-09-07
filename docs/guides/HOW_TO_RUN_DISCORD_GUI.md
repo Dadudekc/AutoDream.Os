@@ -90,7 +90,7 @@ This shows a dropdown to select agents and send messages.
 3. **Create Channels**: Bot will auto-create channels if they don't exist
 
 ### Coordinate Configuration
-The system uses pre-configured coordinates from `src/discord_commander_coordinates.json`:
+The system uses pre-configured coordinates from the SSOT file `config/coordinates.json`:
 ```json
 {
   "agents": {

@@ -50,8 +50,12 @@ def build_role_message(agent_id: str, role: str) -> str:
     title = ROLE_TITLE[role]
     checks = "\n".join(f"- [ ] {item}" for item in CHECKLIST[role])
     return (
-        f"🚨 AGENT ROLE ASSIGNMENT: {agent_id} → {title}\n\n"
-        f"Mission: Enforce **{role}** across assigned scope.\n\n"
+        f"YOU ARE {agent_id} - {title}\n\n"
+        f"🎯 ROLE: {role}\n"
+        f"📋 PRIMARY RESPONSIBILITIES:\n"
+        f"1) Enforce **{role}** across assigned scope\n"
+        f"2) --get-next-task  3) Update status.json  4) Check inbox  5) Respond to agents\n"
+        f"6) Maintain continuous workflow  7) Report with --captain  8) Use enhanced help\n\n"
         f"Checklist:\n{checks}\n\n"
         "Acceptance:\n"
         "- Submit a summary to captain with files touched & decisions.\n"

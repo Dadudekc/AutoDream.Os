@@ -1,4 +1,5 @@
 repos:
+<<<<<<< Updated upstream
   - repo: local
     hooks:
       # 1) Generate/refresh snapshots BEFORE the commit is created.
@@ -20,3 +21,17 @@ repos:
         pass_filenames: false
         stages: [pre-push]
         always_run: true
+=======
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks: [{ id: black }]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.6.8
+    hooks: [{ id: ruff }]
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks: [{ id: isort }]
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks: [{ id: detect-secrets }]
+>>>>>>> Stashed changes

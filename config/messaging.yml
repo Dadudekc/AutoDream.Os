@@ -57,18 +57,9 @@ metrics:
   retention_days: 30
   reporting_interval: 300  # 5 minutes
 
-# Agent coordinates for PyAutoGUI messaging (copied from cursor_agent_coords.json)
-# These coordinates represent where each agent's input field is located on screen
-# Format: [x, y] where x is horizontal position, y is vertical position
-coordinates:
-  Agent-1: [-1269, 481]   # Integration & Core Systems Specialist
-  Agent-2: [-308, 480]    # Architecture & Design Specialist
-  Agent-3: [-1269, 1001]  # Infrastructure & DevOps Specialist
-  Agent-4: [-308, 1000]   # Quality Assurance Specialist (CAPTAIN)
-  Agent-5: [652, 421]     # Business Intelligence Specialist
-  Agent-6: [1612, 419]    # Coordination & Communication Specialist
-  Agent-7: [653, 940]     # Web Development Specialist
-  Agent-8: [1611, 941]    # SSOT & System Integration Specialist
+# Agent coordinates are managed by SSOT at config/coordinates.json
+# Use src.core.coordinate_loader.CoordinateLoader for programmatic access
+# DO NOT modify coordinates here - update the SSOT file instead
 
 # V2 Compliance Standards - Cycle-Based Tracking
 v2_compliance:

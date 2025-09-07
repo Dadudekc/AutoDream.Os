@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {
   "agent_id": "Agent-5",
 <<<<<<< HEAD
@@ -167,3 +168,6 @@
   ],
   "mission_status": "CONTRACT_EXECUTION_ACTIVE"
 }
+=======
+{"state": "RESET", "updated": true}
+>>>>>>> Stashed changes

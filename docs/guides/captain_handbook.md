@@ -56,7 +56,7 @@ python -m src.services.messaging_cli --check-status
 
 ## System Recovery Protocols
 1. Switch immediately to PyAutoGUI mode.
-2. Verify coordinate system (`cursor_agent_coords.json`) and restore backups if needed.
+2. Verify coordinate system (`config/coordinates.json` - SSOT) and restore backups if needed.
 3. Notify agents of recovery actions and confirm operational status.
 
 ## Messaging Hierarchy & Delivery

@@ -50,13 +50,27 @@ def create_enhanced_parser():
     parser.add_argument("--capture-onboarding", action="store_true", help="Capture only onboarding coordinates")
     parser.add_argument("--capture-chat", action="store_true", help="Capture only chat coordinates")
     
-    # Onboarding commands
+    # Onboarding commands (Mode QA Pack Enhanced)
     parser.add_argument("--onboarding", action="store_true", help="Send onboarding to all agents")
     parser.add_argument("--onboard", action="store_true", help="Send onboarding to specific agent")
     parser.add_argument("--onboarding-style", choices=["friendly", "professional"], default="friendly", help="Onboarding style")
+    parser.add_argument("--role-map", help="Path to role map YAML file (e.g., roles/mode_production_ready.yaml)")
     parser.add_argument("--compliance-mode", action="store_true", help="Activate compliance mode")
     parser.add_argument("--wrapup", action="store_true", help="Send wrapup message")
     parser.add_argument("--hard-onboarding", action="store_true", help="Send hard onboarding sequence")
+
+    # ✨ Mode QA Pack Features
+    parser.add_argument("--agent-subset", type=str, default=None,
+                       help="Comma-separated agents to act on, e.g. Agent-1,Agent-2")
+    parser.add_argument("--wrapup-only", action="store_true",
+                       help="Only paste Wrap-Up message (skip onboarding)")
+    parser.add_argument("--onboarding-only", action="store_true",
+                       help="Only paste Onboarding message (skip wrap-up)")
+
+    # Role management (simplified)
+    parser.add_argument("--roles", action="store_true", help="Show available role modes")
+    parser.add_argument("--role-mode", help="Set role mode for onboarding (e.g., production_ready, bootstrap_cli)")
+    parser.add_argument("--smart-onboard", action="store_true", help="Auto-select best role mode and onboard")
     
     # Contract commands
     parser.add_argument("--get-next-task", action="store_true", help="Get next task for agent")
@@ -90,11 +104,11 @@ def main():
     # Handle utility commands first
     if handle_utility_commands(args):
         return
-    
+
     # Handle contract commands
     if handle_contract_commands(args):
         return
-    
+
     # Handle onboarding commands
     if handle_onboarding_commands(args):
         return

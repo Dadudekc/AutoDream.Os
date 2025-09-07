@@ -41,6 +41,10 @@ class V2ComplianceChecker:
 
         for py_file in src_dir.rglob("*.py"):
             try:
+                # Skip corrupted files
+                if py_file.stat().st_size == 0:
+                    continue
+
                 with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
                     lines = f.readlines()
                     line_count = len(lines)
@@ -70,6 +74,7 @@ class V2ComplianceChecker:
 
             except Exception as e:
                 self.issues.append(f"Error reading {py_file}: {e}")
+                continue
 
         # Sort by line count descending
         large_files.sort(key=lambda x: x["lines"], reverse=True)
@@ -87,24 +92,32 @@ class V2ComplianceChecker:
 
         # Check for missing __init__.py files
         for dir_path in src_dir.rglob("*"):
-            if dir_path.is_dir():
-                init_file = dir_path / "__init__.py"
-                if not init_file.exists():
-                    # Check if directory has Python files
-                    has_py_files = list(dir_path.glob("*.py"))
-                    if has_py_files:
-                        structure_issues["missing_init_files"].append(
-                            str(dir_path.relative_to(self.project_root))
-                        )
+            try:
+                if dir_path.is_dir():
+                    init_file = dir_path / "__init__.py"
+                    if not init_file.exists():
+                        # Check if directory has Python files
+                        has_py_files = list(dir_path.glob("*.py"))
+                        if has_py_files:
+                            structure_issues["missing_init_files"].append(
+                                str(dir_path.relative_to(self.project_root))
+                            )
+            except Exception:
+                # Skip corrupted directories
+                continue
 
         # Check for empty directories
         for dir_path in src_dir.rglob("*"):
-            if dir_path.is_dir():
-                contents = list(dir_path.iterdir())
-                if not contents:
-                    structure_issues["empty_directories"].append(
-                        str(dir_path.relative_to(self.project_root))
-                    )
+            try:
+                if dir_path.is_dir():
+                    contents = list(dir_path.iterdir())
+                    if not contents:
+                        structure_issues["empty_directories"].append(
+                            str(dir_path.relative_to(self.project_root))
+                        )
+            except Exception:
+                # Skip corrupted directories
+                continue
 
         return structure_issues
 

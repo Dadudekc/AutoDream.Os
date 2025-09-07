@@ -78,6 +78,15 @@ class ContractStorage:
             print(f"ERROR: Error loading contracts: {e}")
             return {}
 
+    def get_all_contracts(self) -> List[Dict[str, Any]]:
+        """Get all contracts as list of dictionaries (for compatibility)."""
+        try:
+            contracts_data = self.load_all_contracts()
+            return list(contracts_data.values())
+        except Exception as e:
+            print(f"ERROR: Error getting all contracts: {e}")
+            return []
+
     def load_agent_contracts(self, agent_id: str) -> Dict[str, Dict[str, Any]]:
         """Load contracts for specific agent."""
         try:

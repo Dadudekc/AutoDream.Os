@@ -29,28 +29,66 @@ def get_messaging_logger():
     return logging.getLogger(__name__)
 
 
-class UnifiedMessagingCore:
-    """Core unified messaging service functionality."""
+# DIP: Abstract interfaces for delivery and onboarding
+from abc import ABC, abstractmethod
+from typing import Protocol
 
-    def __init__(self):
-        """Initialize the core messaging service."""
+class IMessageDelivery(Protocol):
+    """Interface for message delivery mechanisms."""
+    def send_message(self, message: UnifiedMessage) -> bool:
+        """Send a message."""
+        ...
+
+class IOnboardingService(Protocol):
+    """Interface for onboarding operations."""
+    def generate_onboarding_message(self, agent_id: str, style: str) -> str:
+        """Generate onboarding message."""
+        ...
+
+class UnifiedMessagingCore:
+    """Core unified messaging service functionality - SOLID Compliant."""
+
+    def __init__(self, delivery_service: IMessageDelivery = None, onboarding_service: IOnboardingService = None):
+        """Initialize the core messaging service with dependency injection."""
         self.messages: List[UnifiedMessage] = []
         self.logger = get_messaging_logger()
 
+        # DIP: Depend on abstractions, not concretions
+        self.delivery_service = delivery_service or PyAutoGUIMessagingDelivery({})
+        self.onboarding_service = onboarding_service or OnboardingService()
+
         # Load configuration from external config files (V2 compliance)
         self._load_configuration()
-        # Initialize services
-        self.pyautogui_delivery = PyAutoGUIMessagingDelivery(self.agents)
-        self.onboarding_service = OnboardingService()
 
-        self.logger.info("UnifiedMessagingCore initialized successfully",
-                        extra={"agent_count": len(self.agents), "inbox_paths": len(self.inbox_paths)})
+        self.logger.info("UnifiedMessagingCore initialized successfully")
 
     def _load_configuration(self):
         """Load configuration from external config files (V2 compliance)."""
-        # Implementation to be added
-        self.agents = {}
-        self.inbox_paths = {}
+        try:
+            # Load agent registry
+            from agent_registry import COORDINATES
+
+            # Set up agents configuration
+            self.agents = COORDINATES.copy()
+
+            # Set up inbox paths for all agents
+            self.inbox_paths = {}
+            for agent_id in self.agents.keys():
+                inbox_path = os.path.join("agent_workspaces", agent_id, "inbox")
+                self.inbox_paths[agent_id] = inbox_path
+
+            self.logger.info(f"Configuration loaded successfully: {len(self.agents)} agents, {len(self.inbox_paths)} inbox paths")
+
+        except ImportError as e:
+            self.logger.warning(f"Could not load agent registry: {e}")
+            # Fallback to empty configuration
+            self.agents = {}
+            self.inbox_paths = {}
+        except Exception as e:
+            self.logger.error(f"Error loading configuration: {e}")
+            # Fallback to empty configuration
+            self.agents = {}
+            self.inbox_paths = {}
 
     def send_message_to_inbox(self, message: UnifiedMessage, max_retries: int = 3) -> bool:
         """Send message to agent's inbox file with retry mechanism."""
@@ -65,7 +103,15 @@ class UnifiedMessagingCore:
                 os.makedirs(inbox_path, exist_ok=True)
 
                 # Create message filename with timestamp
-                timestamp = message.timestamp.strftime("%Y%m%d_%H%M%S") if message.timestamp else time.strftime("%Y%m%d_%H%M%S")
+                if message.timestamp and isinstance(message.timestamp, str):
+                    # Convert string timestamp to filename format
+                    timestamp = message.timestamp.replace(" ", "_").replace("-", "").replace(":", "")
+                elif message.timestamp:
+                    # Handle datetime object
+                    timestamp = message.timestamp.strftime("%Y%m%d_%H%M%S")
+                else:
+                    # Fallback to current time
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
                 filename = f"CAPTAIN_MESSAGE_{timestamp}_{message.message_id}.md"
                 filepath = os.path.join(inbox_path, filename)
 
@@ -76,7 +122,7 @@ class UnifiedMessagingCore:
                     f.write(f"**To**: {message.recipient}\n")
                     f.write(f"**Priority**: {message.priority.value}\n")
                     f.write(f"**Message ID**: {message.message_id}\n")
-                    f.write(f"**Timestamp**: {message.timestamp.isoformat() if message.timestamp else 'Unknown'}\n\n")
+                    f.write(f"**Timestamp**: {message.timestamp if message.timestamp else 'Unknown'}\n\n")
                     f.write("---\n\n")
                     f.write(message.content)
                     f.write("\n\n---\n")
@@ -99,20 +145,15 @@ class UnifiedMessagingCore:
 
         return False
 
-    def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True, new_tab_method: str = "ctrl_t", use_new_tab: bool = None) -> bool:
-        """Send message via PyAutoGUI to agent coordinates."""
-        # Determine whether to use new tab based on message type if not explicitly set
-        if use_new_tab is None:
-            # Onboarding messages should use new tab/window
-            use_new_tab = (message.message_type == UnifiedMessageType.ONBOARDING)
-
-        return self.pyautogui_delivery.send_message_via_pyautogui(message, use_paste, new_tab_method, use_new_tab)
+    def send_message_via_delivery_service(self, message: UnifiedMessage, **kwargs) -> bool:
+        """Send message via the configured delivery service."""
+        # OCP: Extension point for different delivery mechanisms
+        return self.delivery_service.send_message(message)
 
     def generate_onboarding_message(self, agent_id: str, style: str = "friendly") -> str:
         """Generate onboarding message for specific agent using onboarding service."""
-        agent_info = self.agents.get(agent_id, {})
-        role = agent_info.get("description", "Specialist")
-        return self.onboarding_service.generate_onboarding_message(agent_id, role, style)
+        # ISP: Focused interface usage
+        return self.onboarding_service.generate_onboarding_message(agent_id, style)
 
     def send_onboarding_message(self, agent_id: str, style: str = "friendly", mode: str = "pyautogui", new_tab_method: str = "ctrl_t") -> bool:
         """Send onboarding message to specific agent."""
@@ -121,7 +162,9 @@ class UnifiedMessagingCore:
         message = UnifiedMessage(
             content=message_content,
             sender="Captain Agent-4",
+            sender_type=SenderType.AGENT,
             recipient=agent_id,
+            recipient_type=RecipientType.AGENT,
             message_type=UnifiedMessageType.ONBOARDING,
             priority=UnifiedMessagePriority.URGENT,
             tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
@@ -133,12 +176,8 @@ class UnifiedMessagingCore:
         print(f"🎯 Style: {style}")
         print(f"🆔 Message ID: {message.message_id}")
 
-        # Deliver the message
-        delivery_success = False
-        if mode == "pyautogui":
-            delivery_success = self.send_message_via_pyautogui(message, use_paste=True, new_tab_method=new_tab_method)
-        else:
-            delivery_success = self.send_message_to_inbox(message)
+        # SRP: Use abstracted delivery service
+        delivery_success = self.send_message_via_delivery_service(message)
 
         if delivery_success:
             print(f"✅ ONBOARDING MESSAGE DELIVERED TO {agent_id}")
@@ -180,7 +219,9 @@ class UnifiedMessagingCore:
         message = UnifiedMessage(
             content=content,
             sender=sender,
+            sender_type=SenderType.AGENT,
             recipient=recipient,
+            recipient_type=RecipientType.AGENT,
             message_type=message_type,
             priority=priority,
             tags=tags or [],
@@ -192,12 +233,8 @@ class UnifiedMessagingCore:
         print(f"🎯 Type: {message_type.value}")
         print(f"🆔 Message ID: {message.message_id}")
 
-        # Deliver the message
-        delivery_success = False
-        if mode == "pyautogui":
-            delivery_success = self.send_message_via_pyautogui(message, use_paste, new_tab_method, use_new_tab)
-        else:
-            delivery_success = self.send_message_to_inbox(message)
+        # SRP: Use abstracted delivery service
+        delivery_success = self.send_message_via_delivery_service(message)
 
         if delivery_success:
             print(f"✅ MESSAGE DELIVERED TO {recipient}")
@@ -232,11 +269,7 @@ class UnifiedMessagingCore:
                 message_type=message_type,
                 priority=priority,
                 tags=tags or [],
-                metadata=metadata or {},
-                mode=mode,
-                use_paste=use_paste,
-                new_tab_method=new_tab_method,
-                use_new_tab=use_new_tab
+                metadata=metadata or {}
             )
             results.append(success)
             time.sleep(1)  # Brief pause between agents

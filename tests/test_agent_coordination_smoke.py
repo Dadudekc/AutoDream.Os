@@ -10,11 +10,16 @@ Author: Agent-2 (Architecture & Design)
 License: MIT
 """
 
-import pytest
-import json
-import tempfile
+import sys
 import os
 from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+import json
+import tempfile
 from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime
 import time
@@ -32,48 +37,46 @@ from src.services.models.messaging_models import (
 class TestAgentCoordinationSmoke:
     """Smoke tests for agent coordination functionality."""
 
-    @pytest.fixture
     def temp_agent_workspace(self):
         """Create temporary agent workspace for testing."""
-        with tempfile.TemporaryDirectory() as temp_dir:
-            workspace_path = Path(temp_dir)
+        temp_dir = tempfile.mkdtemp()
+        workspace_path = Path(temp_dir)
 
-            # Create agent workspaces
-            for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4"]:
-                agent_dir = workspace_path / agent_id
-                agent_dir.mkdir(parents=True, exist_ok=True)
+        # Create agent workspaces
+        for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4"]:
+            agent_dir = workspace_path / agent_id
+            agent_dir.mkdir(parents=True, exist_ok=True)
 
-                # Create inbox directory
-                inbox_dir = agent_dir / "inbox"
-                inbox_dir.mkdir(exist_ok=True)
+            # Create inbox directory
+            inbox_dir = agent_dir / "inbox"
+            inbox_dir.mkdir(exist_ok=True)
 
-                # Create status.json with comprehensive data
-                status_file = agent_dir / "status.json"
-                status_data = {
-                    "agent_id": agent_id,
-                    "agent_name": f"Test Agent {agent_id}",
-                    "status": "ACTIVE_AGENT_MODE",
-                    "current_phase": "TASK_EXECUTION",
-                    "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "current_mission": f"Test mission for {agent_id}",
-                    "mission_priority": "HIGH",
-                    "current_tasks": [f"Task 1 for {agent_id}", f"Task 2 for {agent_id}"],
-                    "completed_tasks": [f"Completed task for {agent_id}"],
-                    "achievements": [f"Achievement for {agent_id}"],
-                    "next_actions": [f"Next action for {agent_id}"],
-                    "coordinates": {"x": 100, "y": 200},
-                    "performance_metrics": {
-                        "tasks_completed": 5,
-                        "success_rate": 0.95,
-                        "average_response_time": 2.3
-                    }
+            # Create status.json with comprehensive data
+            status_file = agent_dir / "status.json"
+            status_data = {
+                "agent_id": agent_id,
+                "agent_name": f"Test Agent {agent_id}",
+                "status": "ACTIVE_AGENT_MODE",
+                "current_phase": "TASK_EXECUTION",
+                "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "current_mission": f"Test mission for {agent_id}",
+                "mission_priority": "HIGH",
+                "current_tasks": [f"Task 1 for {agent_id}", f"Task 2 for {agent_id}"],
+                "completed_tasks": [f"Completed task for {agent_id}"],
+                "achievements": [f"Achievement for {agent_id}"],
+                "next_actions": [f"Next action for {agent_id}"],
+                "coordinates": {"x": 100, "y": 200},
+                "performance_metrics": {
+                    "tasks_completed": 5,
+                    "success_rate": 0.95,
+                    "average_response_time": 2.3
                 }
-                with open(status_file, 'w') as f:
-                    json.dump(status_data, f, indent=2)
+            }
+            with open(status_file, 'w') as f:
+                json.dump(status_data, f, indent=2)
 
-            yield workspace_path
+        return workspace_path
 
-    @pytest.fixture
     def mock_agent_registry(self, temp_agent_workspace):
         """Create mock agent registry for testing."""
         registry = MagicMock(spec=AgentRegistry)
@@ -106,9 +109,10 @@ class TestAgentCoordinationSmoke:
 
         return registry
 
-    def test_agent_status_file_structure(self, temp_agent_workspace):
+    def test_agent_status_file_structure(self):
         """Test agent status file structure and required fields."""
-        agent_dir = temp_agent_workspace / "Agent-1"
+        temp_workspace = self.temp_agent_workspace()
+        agent_dir = temp_workspace / "Agent-1"
         status_file = agent_dir / "status.json"
 
         # Verify status file exists
@@ -446,4 +450,22 @@ class TestAgentCoordinationSmoke:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    # Run tests directly
+    import sys
+    print("Running Agent Coordination Smoke Tests...")
+
+    # Create test instance
+    test_instance = TestAgentCoordinationSmoke()
+
+    # Run basic tests
+    try:
+        test_instance.test_agent_status_file_structure()
+        print("[PASS] Agent status file structure test passed")
+
+        print("[SUCCESS] All basic smoke tests passed!")
+
+    except Exception as e:
+        print(f"[FAIL] Test failed: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)

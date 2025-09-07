@@ -17,11 +17,16 @@ import logging
 # Import messaging models and utilities with fallback
 try:
     from ..models.messaging_models import RecipientType, SenderType
-    from ..unified_messaging_imports import COORDINATE_CONFIG_FILE
+    # SSOT: Use coordinate loader instead of direct file access
+    # from ..unified_messaging_imports import COORDINATE_CONFIG_FILE
     from ...core.unified_data_processing_system import read_json, write_json
 except ImportError:
     # Fallback implementations
+<<<<<<< Updated upstream
     COORDINATE_CONFIG_FILE = "cursor_agent_coords.json"
+=======
+    # COORDINATE_CONFIG_FILE = "config/coordinates.json"  # Deprecated
+>>>>>>> Stashed changes
 
     def read_json(path):
         return {}

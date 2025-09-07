@@ -29,7 +29,9 @@ class OnboardingHandler:
 
     def handle_onboarding_commands(self, args) -> bool:
         if getattr(args, "hard_onboarding", False):
-            agents = [a.strip() for a in args.agents.split(",") if a.strip()] or None
+            agents = None
+            if hasattr(args, 'agents') and args.agents:
+                agents = [a.strip() for a in args.agents.split(",") if a.strip()] or None
             self.exit_code = self._handle_hard_onboarding(
                 confirm_yes=args.yes,
                 dry_run=args.dry_run,

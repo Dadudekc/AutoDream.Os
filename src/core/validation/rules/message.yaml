@@ -24,7 +24,6 @@ rules:
     rule_type: message
     description: Validate UnifiedMessage enum values
     severity: ERROR
-<<<<<<< HEAD
   - rule_id: message_type_consistency
     rule_name: Message Type Consistency
     rule_type: message
@@ -40,5 +39,3 @@ rules:
     rule_type: message
     description: Validate agent IDs in sender/recipient fields for proper routing
     severity: ERROR
-=======
->>>>>>> origin/codex/catalog-functions-in-utils-directories

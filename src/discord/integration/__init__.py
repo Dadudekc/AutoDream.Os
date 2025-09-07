@@ -7,7 +7,7 @@ devlog posting, webhook management, and third-party integrations.
 V2 Compliance: Clean integration patterns with error handling.
 """
 
-from .discord_devlog_integrator import *
+from .discord_devlog_integrator import DiscordDevlogIntegrator
 
 __all__ = [
     "DiscordDevlogIntegrator",

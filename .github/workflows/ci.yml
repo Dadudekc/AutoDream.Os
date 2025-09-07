@@ -1,31 +1,35 @@
 name: ci
 on:
-  push:
-    branches: [ "**" ]
+  push: { branches: [main] }
   pull_request:
-    branches: [ "**" ]
-
+    branches: [main]
 jobs:
-  test:
+  test-validate:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - name: Install system deps (optional)
-        run: sudo apt-get update
-      - name: Install Python deps
+        with: { python-version: ${{ matrix.python-version }} }
+      - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest
-      - name: Lint (best-effort)
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt || true
+      - name: V2 compliance rules
         run: |
-          pip install ruff || true
-          ruff check src || true
-      - name: Run tests
-        run: python -m src --test
-      - name: Status snapshot
-        if: always()
-        run: python -m src --status
+          echo "Using config/v2_rules.yaml"
+          python scripts/validate_v2_compliance.py --rules config/v2_rules.yaml
+      - name: Lint
+        run: |
+          ruff check .
+          black --check .
+          isort --check-only .
+      - name: Tests
+        run: |
+          pytest -q --maxfail=1 --disable-warnings --cov=scripts --cov=src --cov=agentcore --cov-report=xml --cov-fail-under=85
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with: { name: coverage-xml, path: coverage.xml }

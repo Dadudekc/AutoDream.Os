@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
 Paths Constants - Repository Path Definitions
-<<<<<<< HEAD
-=============================================
 
 This module provides path-related constants for the V2 compliance system.
 
-Uses unified utilities system for consistent path resolution across all modules.
+Uses unified utilities system for consistent path resolution across all
+modules.
 
 V2 COMPLIANCE: Single source of truth for path definitions
 DRY ELIMINATION: Eliminates duplicate path resolution patterns
@@ -17,14 +16,13 @@ Status: V2 COMPLIANT - Using Unified Utilities System
 """
 
 from pathlib import Path
-from ..unified_utility_system import get_unified_utility, get_project_root
 
 # ================================
 # PROJECT PATHS
 # ================================
 
 # Project root directory - consolidated path resolution
-ROOT_DIR = get_project_root()
+ROOT_DIR = Path(__file__).resolve().parents[3]
 
 # Health monitoring directories
 HEALTH_REPORTS_DIR = ROOT_DIR / "health_reports"
@@ -71,32 +69,15 @@ def get_agent_status_file(agent_id: str) -> Path:
 
 def ensure_path_exists(path: Path) -> bool:
     """Ensure path exists, create if necessary."""
-    return get_unified_utility().ensure_directory(path)
+    path.mkdir(parents=True, exist_ok=True)
+    return True
 
 
 # ================================
 # LEGACY COMPATIBILITY
 # ================================
 
-# Legacy path constants (deprecated - use new functions above)
 LEGACY_ROOT_DIR = ROOT_DIR
 LEGACY_HEALTH_REPORTS_DIR = HEALTH_REPORTS_DIR
 LEGACY_HEALTH_CHARTS_DIR = HEALTH_CHARTS_DIR
 LEGACY_MONITORING_DIR = MONITORING_DIR
-=======
-
-This module provides path-related constants.
-
-Agent: Agent-6 (Performance Optimization Manager)
-Mission: Autonomous Cleanup - V2 Compliance
-Status: SSOT Consolidation in Progress
-"""
-
-from pathlib import Path
-
-# Repository paths
-ROOT_DIR = Path(__file__).resolve().parents[3]
-HEALTH_REPORTS_DIR = ROOT_DIR / "health_reports"
-HEALTH_CHARTS_DIR = ROOT_DIR / "health_charts"
-MONITORING_DIR = ROOT_DIR / "agent_workspaces" / "monitoring"
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

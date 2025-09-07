@@ -264,13 +264,6 @@ examples/ # examples and demos
 - Better Performance: Optimized coordinate loading and caching
 - Future-Proof Design: Easy to extend and modify
 
-## Next Steps
-The coordinate system is now 100% unified and V2 compliant! Future enhancements could include:
-1. **Performance Testing** - Validate coordinate loading improvements
-2. **Advanced Validation** - Add coordinate validation rules
-3. **Coordinate Analytics** - Track coordinate usage patterns
-4. **Automated Calibration** - AI-powered coordinate optimization
-
 ## License
 MIT License - See [LICENSE](LICENSE) file for details.
 
@@ -284,6 +277,13 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 This repository is the single source of truth for AutoDream OS. It maintains V2 standards to ensure high-quality, agent-friendly code.
 
+## DRY Analysis Runner
+Run project analysis or elimination tasks:
+```bash
+python run_dry_analysis.py --mode advanced_analysis
+```
+Modes: advanced_analysis, advanced_elimination, comprehensive_analysis, focused_analysis, mass_elimination.
+
 ## Logging
 
 Use the unified logging manager to configure loggers:
@@ -295,10 +295,3 @@ logger = get_logger(__name__)
 ```
 
 This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.
-
-## Backup Policy
-
-Temporary backup directories (e.g., names matching `*_backup_*`) may be
-created for short-term local use during development. These directories are
-ignored by Git and should never be committed to the repository. Remove or move
-backups outside the project before submitting changes to keep history clean.

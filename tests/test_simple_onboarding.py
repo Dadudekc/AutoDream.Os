@@ -9,10 +9,13 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import sys
+import json
 import os
+import sys
+import tempfile
 import unittest
-from unittest.mock import patch, MagicMock
+from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 # Add src to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -122,6 +125,45 @@ class TestSimpleOnboarding(unittest.TestCase):
             # Should fail due to missing coordinates
             self.assertFalse(result["success"])
             self.assertEqual(result["success_count"], 0)
+
+    def test_reset_agent_statuses(self):
+        """Reset should write PENDING status for all agents to SSOT file."""
+        with tempfile.TemporaryDirectory() as tmp:
+            status_path = Path(tmp) / "status.json"
+            onboarding = SimpleOnboarding(
+                role_map={"Agent-1": "SSOT"}, status_file=status_path
+            )
+            onboarding._reset_agent_statuses()
+
+            data = json.loads(status_path.read_text())
+            self.assertEqual(data["agent_status"], {"Agent-1": "PENDING"})
+
+    @patch("services.simple_onboarding.pg")
+    def test_ensure_tab_activation(self, mock_pg):
+        """Ensure window activation uses pygetwindow when available."""
+        mock_window = MagicMock()
+        mock_gw = MagicMock(getWindowsWithTitle=MagicMock(return_value=[mock_window]))
+        with patch("services.simple_onboarding.gw", mock_gw):
+            onboarding = SimpleOnboarding(dry_run=False)
+            onboarding._ensure_tab("Agent-1")
+        mock_window.activate.assert_called_once()
+        mock_pg.hotkey.assert_not_called()
+
+    @patch("services.simple_onboarding.pg")
+    def test_ensure_tab_fallback(self, mock_pg):
+        """Ensure alt+tab fallback triggers when window missing."""
+        mock_gw = MagicMock(getWindowsWithTitle=MagicMock(return_value=[]))
+        with patch("services.simple_onboarding.gw", mock_gw):
+            onboarding = SimpleOnboarding(dry_run=False)
+            onboarding._ensure_tab("Agent-1")
+        mock_pg.hotkey.assert_any_call("alt", "tab")
+
+    def test_get_wrapup_template_from_file(self):
+        """Template loader returns content from SSOT file."""
+        onboarding = SimpleOnboarding()
+        template = onboarding._get_wrapup_template()
+        ssot = Path("prompts/agents/wrapup.md").read_text(encoding="utf-8")
+        self.assertEqual(template, ssot)
 
 
 class TestSimpleOnboardingIntegration(unittest.TestCase):

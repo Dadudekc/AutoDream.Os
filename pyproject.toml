@@ -40,11 +40,17 @@ dependencies = [
 ]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 [project.scripts]
 ssot-cli = "core.unified_coordination_cli:main"
 
 =======
 >>>>>>> origin/codex/catalog-functions-in-utils-directories
+=======
+[project.scripts]
+ssot-cli = "core.unified_coordination_cli:main"
+
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",

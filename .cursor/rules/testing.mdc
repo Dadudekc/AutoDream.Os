@@ -58,4 +58,8 @@ describe('Feature Under Test', () => {
 - Minimum coverage: **85%**
 - Cover both success and error paths
 - Include edge cases and boundary conditions
+<<<<<<< HEAD
 - Run coverage reports in CI/CD pipeline
+=======
+- Run coverage reports in CI/CD pipeline
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

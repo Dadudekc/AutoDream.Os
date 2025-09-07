@@ -9,6 +9,7 @@ Extracted from messaging_core.py to maintain LOC compliance.
 Author: V2 SWARM CAPTAIN
 License: MIT
 """
+<<<<<<< HEAD
 from src.services.models.messaging_models import (
     RecipientType,
     SenderType,
@@ -16,6 +17,17 @@ from src.services.models.messaging_models import (
     UnifiedMessagePriority,
     UnifiedMessageTag,
     UnifiedMessageType,
+=======
+
+import os
+from typing import Dict, Any
+
+from .models.messaging_models import (
+    UnifiedMessage,
+    UnifiedMessageType,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 )
 
 
@@ -30,11 +42,18 @@ class OnboardingService:
         """Load onboarding template content from SSOT; provide fallback if missing."""
         template_path = "prompts/agents/onboarding.md"
         try:
+<<<<<<< HEAD
             if get_unified_utility().path.exists(template_path):
                 with open(template_path, "r", encoding="utf-8") as f:
                     return f.read()
         except Exception as e:
             get_logger(__name__).warning(f"Error loading onboarding template: {e}")
+=======
+            if os.path.exists(template_path):
+                with open(template_path, "r", encoding="utf-8") as f:
+                    return f.read()
+        except Exception:
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
             pass
 
         # Fallback minimal template to ensure continuity if SSOT missing
@@ -48,11 +67,16 @@ class OnboardingService:
             "**WE. ARE. SWARM.** ⚡️🔥"
         )
 
+<<<<<<< HEAD
     def generate_onboarding_message(
         self, agent_id: str, role: str, style: str = "friendly"
     ) -> str:
         """Generate onboarding message for specific agent from SSOT template."""
 
+=======
+    def generate_onboarding_message(self, agent_id: str, role: str, style: str = "friendly") -> str:
+        """Generate onboarding message for specific agent from SSOT template."""
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         class _SafeDict(dict):
             def __missing__(self, key):  # type: ignore[override]
                 return ""
@@ -78,9 +102,13 @@ class OnboardingService:
                 "**WE. ARE. SWARM.** ⚡️🔥"
             )
 
+<<<<<<< HEAD
     def create_onboarding_message(
         self, agent_id: str, role: str, style: str = "friendly"
     ) -> UnifiedMessage:
+=======
+    def create_onboarding_message(self, agent_id: str, role: str, style: str = "friendly") -> UnifiedMessage:
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         """Create UnifiedMessage for onboarding."""
         message_content = self.generate_onboarding_message(agent_id, role, style)
 
@@ -88,10 +116,17 @@ class OnboardingService:
             content=message_content,
             sender="Captain Agent-4",
             recipient=agent_id,
+<<<<<<< HEAD
             message_type=UnifiedMessageType.S2A,  # System-to-Agent message
             priority=UnifiedMessagePriority.URGENT,
             tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
             metadata={"onboarding_style": style, "message_category": "S2A_ONBOARDING"},
             sender_type=SenderType.SYSTEM,
             recipient_type=RecipientType.AGENT,
+=======
+            message_type=UnifiedMessageType.ONBOARDING,
+            priority=UnifiedMessagePriority.URGENT,
+            tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
+            metadata={"onboarding_style": style}
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         )

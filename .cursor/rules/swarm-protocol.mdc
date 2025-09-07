@@ -111,4 +111,8 @@ Captain Prompt → Agent Response → Captain Review → Next Action
 - All code changes pass linting and tests
 - Documentation updated for new features
 - Status files kept current
+<<<<<<< HEAD
 - Inbox checked regularly
+=======
+- Inbox checked regularly
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

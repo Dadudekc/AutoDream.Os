@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/usr/bin/env python3
 """
 PyAutoGUI Messaging Delivery - KISS Simplified
@@ -8,10 +9,22 @@ KISS PRINCIPLE: Keep It Simple, Stupid - streamlined message delivery.
 
 Author: Agent-8 (SSOT & System Integration Specialist) - KISS Simplification
 Original: V2 SWARM CAPTAIN
+=======
+from src.utils.config_core import get_config
+#!/usr/bin/env python3
+"""
+PyAutoGUI Messaging Delivery - Agent Cellphone V2
+===============================================
+
+PyAutoGUI-based message delivery for the unified messaging service.
+
+Author: V2 SWARM CAPTAIN
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 License: MIT
 """
 
 import time
+<<<<<<< HEAD
 import logging
 from typing import Dict, Tuple, Any, Optional
 
@@ -30,6 +43,12 @@ from .models.messaging_models import (
 try:
     import pyautogui
 
+=======
+from typing import Dict, Tuple
+
+try:
+    import pyautogui
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     PYAUTOGUI_AVAILABLE = True
 except ImportError:
     PYAUTOGUI_AVAILABLE = False
@@ -37,12 +56,16 @@ except ImportError:
 
 try:
     import pyperclip
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     PYPERCLIP_AVAILABLE = True
 except ImportError:
     PYPERCLIP_AVAILABLE = False
     print("⚠️ WARNING: Pyperclip not available. Install with: pip install pyperclip")
 
+<<<<<<< HEAD
 
 def validate_coordinates_before_delivery(coords, recipient):
     """Validate coordinates before PyAutoGUI delivery - simplified."""
@@ -220,3 +243,98 @@ def cleanup_pyautogui() -> bool:
     except Exception as e:
         logging.error(f"Error during cleanup: {e}")
         return False
+=======
+from .models.messaging_models import UnifiedMessage
+
+
+class PyAutoGUIMessagingDelivery:
+    """PyAutoGUI-based message delivery system."""
+    
+    def __init__(self, agents: Dict[str, Dict[str, any]]):
+        """Initialize PyAutoGUI delivery with agent coordinates."""
+        self.agents = agents
+    
+    def send_message_via_pyautogui(self, message: UnifiedMessage, use_paste: bool = True,
+                                   new_tab_method: str = "ctrl_t", use_new_tab: bool = True) -> bool:
+        """Send message via PyAutoGUI to agent coordinates.
+
+        Args:
+            message: The message to send
+            use_paste: Whether to use clipboard paste (faster) or typing
+            new_tab_method: "ctrl_t" for Ctrl+T or "ctrl_n" for Ctrl+N
+            use_new_tab: Whether to create new tab/window (True for onboarding, False for regular messages)
+        """
+        if not PYAUTOGUI_AVAILABLE:
+            print("❌ ERROR: PyAutoGUI not available for coordinate delivery")
+            return False
+
+        try:
+            recipient = message.recipient
+            if recipient not in self.agents:
+                print(f"❌ ERROR: Unknown recipient {recipient}")
+                return False
+
+            coords = self.agents[recipient]["coords"]
+
+            # Move to agent coordinates
+            pyautogui.moveTo(coords[0], coords[1], duration=0.5)
+            print(f"📍 MOVED TO {recipient} COORDINATES: {coords}")
+
+            # Click to focus
+            pyautogui.click()
+            time.sleep(0.5)
+
+            # Clear any existing content (Ctrl+A, Delete)
+            pyautogui.hotkey('ctrl', 'a')
+            time.sleep(0.1)
+            pyautogui.press('delete')
+            time.sleep(0.1)
+
+            # Create new tab/window ONLY for onboarding messages or when explicitly requested
+            if use_new_tab:
+                if new_tab_method == "ctrl_n":
+                    pyautogui.hotkey('ctrl', 'n')
+                    print(f"🆕 NEW WINDOW CREATED FOR {recipient} (Ctrl+N)")
+                else:  # default to ctrl_t
+                    pyautogui.hotkey('ctrl', 't')
+                    print(f"🆕 NEW TAB CREATED FOR {recipient} (Ctrl+T)")
+
+                time.sleep(1.0)  # WAIT FOR NEW TAB/WINDOW
+
+            # Now send the actual message
+            if use_paste and PYPERCLIP_AVAILABLE:
+                # Fast paste method - copy to clipboard and paste
+                pyperclip.copy(message.content)
+                time.sleep(0.5 if use_new_tab else 0.1)  # Shorter wait for direct messaging
+                pyautogui.hotkey('ctrl', 'v')
+                print(f"📋 FAST PASTED MESSAGE TO {recipient}")
+            else:
+                # Slow type method for special formatting
+                content = message.content
+                lines = content.split('\n')
+                for i, line in enumerate(lines):
+                    pyautogui.write(line, interval=0.01)
+                    if i < len(lines) - 1:
+                        pyautogui.hotkey('shift', 'enter')
+                        time.sleep(0.1)
+                print(f"⌨️ TYPED MESSAGE TO {recipient} WITH PROPER FORMATTING")
+
+            # Send the message - use Ctrl+Enter for high priority, regular Enter for normal
+            from .models.messaging_models import UnifiedMessagePriority
+            if message.priority == UnifiedMessagePriority.URGENT:
+                # High priority: Send with Ctrl+Enter twice
+                pyautogui.hotkey('ctrl', 'enter')
+                time.sleep(0.1)
+                pyautogui.hotkey('ctrl', 'enter')
+                print(f"🚨 HIGH PRIORITY MESSAGE SENT TO {recipient} (Ctrl+Enter x2)")
+            else:
+                # Normal priority: Send with regular Enter
+                pyautogui.press('enter')
+                print(f"📤 MESSAGE SENT VIA PYAUTOGUI TO {recipient}")
+
+            return True
+
+        except Exception as e:
+            print(f"❌ ERROR sending via PyAutoGUI: {e}")
+            return False
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

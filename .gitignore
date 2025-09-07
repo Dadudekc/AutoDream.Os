@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Environment variables
 .env
 .env.local
@@ -435,3 +436,5 @@ reporting_archive/*
 # Audit heavy artifacts (keep diffs slim)
 reports/metrics/
 >>>>>>> origin/codex/catalog-functions-in-utils-directories
+=======
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

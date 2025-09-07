@@ -32,4 +32,8 @@ alwaysApply: true
 - Use JSDoc for public functions and classes
 - Add usage examples for new utilities
 - Document complex business logic
+<<<<<<< HEAD
 - Include type hints for Python functions
+=======
+- Include type hints for Python functions
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

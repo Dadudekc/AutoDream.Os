@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /**
  * DASHBOARD.JS - MODULAR V2 COMPLIANT REPLACEMENT
  *
@@ -236,49 +237,156 @@ export default dashboardOrchestrator;
         let socket = null;
         let charts = {};
         let updateTimer = null;
+=======
+/**
+ * Dashboard Main Module - V2 Compliant
+ * Core dashboard functionality with modular imports
+ * 
+ * @author Agent-7 - Web Development Specialist
+ * @version 2.0.0
+ * @license MIT
+ */
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeSocket();
-            setupNavigation();
-            updateCurrentTime();
-            loadDashboardData(currentView);
+// Dashboard state
+let currentView = 'overview';
+let socket = null;
+let charts = {};
+let updateTimer = null;
 
-            // Update time every second
-            setInterval(updateCurrentTime, 1000);
+// Initialize dashboard
+document.addEventListener('DOMContentLoaded', function() {
+    initializeSocket();
+    setupNavigation();
+    updateCurrentTime();
+    loadDashboardData(currentView);
+
+    // Update time every second
+    setInterval(updateCurrentTime, 1000);
+    
+    // Initialize refresh schedule
+    scheduleRefresh();
+});
+
+// Initialize WebSocket connection
+function initializeSocket() {
+    socket = io();
+
+    socket.on('connect', function() {
+        console.log('Connected to dashboard server');
+        hideLoading();
+    });
+
+    socket.on('dashboard_update', function(data) {
+        updateDashboard(data);
+        showRefreshIndicator();
+    });
+
+    socket.on('error', function(data) {
+        console.error('Dashboard error:', data.message);
+        showAlert('error', data.message);
+    });
+
+    socket.on('disconnect', function() {
+        console.log('Disconnected from dashboard server');
+        showAlert('warning', 'Connection lost. Attempting to reconnect...');
+    });
+}
+
+// Setup navigation
+function setupNavigation() {
+    const nav = document.getElementById('dashboardNav');
+    if (nav) {
+        nav.addEventListener('click', function(e) {
+            if (e.target.classList.contains('nav-link')) {
+                e.preventDefault();
+
+                // Update active state
+                document.querySelectorAll('#dashboardNav .nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                e.target.classList.add('active');
+
+                // Get view from data attribute
+                const newView = e.target.getAttribute('data-view');
+                if (newView && newView !== currentView) {
+                    currentView = newView;
+                    loadDashboardData(currentView);
+                }
+            }
         });
+    }
+}
 
-        // Initialize WebSocket connection
-        function initializeSocket() {
-            socket = io();
+// Load dashboard data
+function loadDashboardData(view) {
+    showLoading();
+    
+    fetch(`/api/dashboard/${view}`)
+        .then(response => response.json())
+        .then(data => {
+            updateDashboard(data);
+            hideLoading();
+        })
+        .catch(error => {
+            console.error('Failed to load dashboard data:', error);
+            showAlert('error', 'Failed to load dashboard data');
+            hideLoading();
+        });
+}
 
-            socket.on('connect', function() {
-                console.log('Connected to dashboard server');
-                document.getElementById('loadingState').style.display = 'none';
-            });
+// Update dashboard content
+function updateDashboard(data) {
+    const contentDiv = document.getElementById('dashboardContent');
+    if (!contentDiv) return;
 
-            socket.on('dashboard_update', function(data) {
-                updateDashboard(data);
-                showRefreshIndicator();
-            });
+    // Render appropriate view based on current view
+    switch (currentView) {
+        case 'overview':
+            contentDiv.innerHTML = renderOverviewView(data);
+            break;
+        case 'agents':
+            contentDiv.innerHTML = renderAgentPerformanceView(data);
+            break;
+        case 'contracts':
+            contentDiv.innerHTML = renderContractStatusView(data);
+            break;
+        case 'health':
+            contentDiv.innerHTML = renderSystemHealthView(data);
+            break;
+        case 'performance':
+            contentDiv.innerHTML = renderPerformanceMetricsView(data);
+            break;
+        case 'workload':
+            contentDiv.innerHTML = renderWorkloadDistributionView(data);
+            break;
+        default:
+            contentDiv.innerHTML = renderOverviewView(data);
+    }
 
-            socket.on('error', function(data) {
-                console.error('Dashboard error:', data.message);
-                showAlert('error', data.message);
-            });
+    // Initialize charts after rendering
+    requestAnimationFrame(() => initializeCharts(data));
+}
 
-            socket.on('disconnect', function() {
-                console.log('Disconnected from dashboard server');
-                showAlert('warning', 'Connection lost. Attempting to reconnect...');
-            });
-        }
+// Data refresh management
+function scheduleRefresh() {
+    if (updateTimer) {
+        clearTimeout(updateTimer);
+    }
+    
+    updateTimer = setTimeout(() => {
+        loadDashboardData(currentView);
+        scheduleRefresh();
+    }, 30000); // Refresh every 30 seconds
+}
 
-        // Setup navigation
-        function setupNavigation() {
-            document.getElementById('dashboardNav').addEventListener('click', function(e) {
-                if (e.target.classList.contains('nav-link')) {
-                    e.preventDefault();
+// Manual refresh
+function refreshDashboard() {
+    loadDashboardData(currentView);
+    showAlert('info', 'Dashboard refreshed');
+}
 
+<<<<<<< HEAD
                     // Update active state
                     document.querySelectorAll('#dashboardNav .nav-link').forEach(link => {
                         link.classList.remove('active');
@@ -894,3 +1002,10 @@ export default dashboardOrchestrator;
             });
         }
 >>>>>>> origin/codex/catalog-functions-in-utils-directories
+=======
+// Global functions for onclick handlers
+window.acknowledgeAlert = acknowledgeAlert;
+window.resolveAlert = resolveAlert;
+window.requestUpdate = requestUpdate;
+window.refreshDashboard = refreshDashboard;
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

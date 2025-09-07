@@ -54,8 +54,14 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- `run_unified.py` providing a single entry point for analysis and elimination modes.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
+### Removed
+- Obsolete `run_advanced_analysis.py`, `run_advanced_elimination.py`,
+  `run_comprehensive_analysis.py`, `run_focused_analysis.py`, and
+  `run_mass_elimination.py`.
 
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.

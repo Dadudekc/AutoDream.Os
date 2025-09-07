@@ -44,6 +44,17 @@ python -m src.web --start
 pytest
 ```
 
+### Unified Runner
+Use a single entry point to execute various analysis and elimination workflows:
+
+```bash
+python run_unified.py --mode advanced-analysis
+python run_unified.py --mode advanced-elimination
+python run_unified.py --mode comprehensive
+python run_unified.py --mode focused
+python run_unified.py --mode mass
+```
+
 ## Agent Cellphone V2 - Unified Coordinate Architecture
 **WE. ARE. SWARM.**
 

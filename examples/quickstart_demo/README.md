@@ -10,8 +10,8 @@ This directory contains minimal examples to help you explore AutoDream OS.
 Run the scripts directly:
 
 ```bash
-python workflow_demo.py
-python dashboard_demo.py
+python examples/quickstart_demo/workflow_demo.py
+python examples/quickstart_demo/dashboard_demo.py
 ```
 
 These examples are self-contained and intended as starting points for your own experiments.

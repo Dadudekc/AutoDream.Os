@@ -1,5 +1,3 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
 """
 V2 Compliance Refactoring Indexer
@@ -12,6 +10,7 @@ Author: Agent-2 - Architecture & Design Specialist
 License: MIT
 """
 
+from ..core.unified_entry_point_system import main
 
 # Add src to path for imports
 sys.path.insert(0, str(get_unified_utility().Path(__file__).parent.parent / "src"))

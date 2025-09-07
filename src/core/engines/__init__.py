@@ -1,5 +1,14 @@
 # Core Engines Package - Phase-2 Consolidation
-from .contracts import Engine, EngineContext, EngineResult, MLEngine, AnalysisEngine, IntegrationEngine, CoordinationEngine, UtilityEngine
+from .contracts import (
+    Engine,
+    EngineContext,
+    EngineResult,
+    MLEngine,
+    AnalysisEngine,
+    IntegrationEngine,
+    CoordinationEngine,
+    UtilityEngine,
+)
 from .registry import EngineRegistry
 from .ml_core_engine import MLCoreEngine
 from .analysis_core_engine import AnalysisCoreEngine
@@ -20,7 +29,7 @@ from .orchestration_core_engine import OrchestrationCoreEngine
 __all__ = [
     # Contracts
     "Engine",
-    "EngineContext", 
+    "EngineContext",
     "EngineResult",
     "MLEngine",
     "AnalysisEngine",

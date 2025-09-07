@@ -8,7 +8,7 @@ V2 COMPLIANCE: Under 300-line limit, minimal configuration
 """
 
 # Django settings
-SECRET_KEY = "test-secret-key-for-testing-only"
+SECRET_KEY = "django-insecure-test-key-for-development-only"
 
 DEBUG = True
 

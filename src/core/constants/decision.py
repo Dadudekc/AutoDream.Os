@@ -15,6 +15,7 @@ Status: V2 COMPLIANT - Decision Constants Optimized
 """
 
 from typing import Final
+from ..unified_config_system import get_config, get_unified_config
 
 # Configuration simplified - KISS compliance
 
@@ -26,16 +27,13 @@ from typing import Final
 DEFAULT_MAX_CONCURRENT_DECISIONS: Final[int] = get_config(
     "DEFAULT_MAX_CONCURRENT_DECISIONS", 100
 )
-"""Maximum number of concurrent decisions that can be processed simultaneously."""
 
 DECISION_TIMEOUT_SECONDS: Final[int] = get_config("DECISION_TIMEOUT_SECONDS", 300)
-"""Timeout in seconds for individual decision processing operations."""
 
 # Decision quality thresholds
 DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = get_config(
     "DEFAULT_CONFIDENCE_THRESHOLD", 0.7
 )
-"""Minimum confidence threshold required for decision acceptance (0.0 to 1.0)."""
 
 # Cleanup and maintenance
 AUTO_CLEANUP_COMPLETED_DECISIONS: Final[bool] = get_config(

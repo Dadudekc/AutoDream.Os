@@ -1,8 +1,5 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
-"""
-Gaming Performance Validation
+"""Gaming Performance Validation.
 
 Performance validation script for refactored gaming infrastructure components.
 Integrates with Agent-1 performance benchmarking suite.
@@ -11,6 +8,7 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Implementation - Performance Validation
 """
 
+from ..core.unified_entry_point_system import main
 from datetime import datetime
 
 logger = logging.getLogger(__name__)

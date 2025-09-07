@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 FSM Constants - V2 Compliance Finite State Machine Constants
 ===========================================================
@@ -34,13 +35,10 @@ def get_config(key: str, default: Any) -> Any:
 FSM_STATE_TIMEOUT_SECONDS: Final[Optional[int]] = get_config(
     "FSM_STATE_TIMEOUT_SECONDS", 300
 )
-"""Default timeout for FSM states in seconds."""
 
 FSM_STATE_RETRY_COUNT: Final[int] = get_config("FSM_STATE_RETRY_COUNT", 3)
-"""Default retry count for failed state transitions."""
 
 FSM_STATE_RETRY_DELAY: Final[float] = get_config("FSM_STATE_RETRY_DELAY", 1.0)
-"""Default retry delay in seconds between state transition attempts."""
 
 # Transition settings
 FSM_TRANSITION_PRIORITY_DEFAULT: Final[int] = get_config(

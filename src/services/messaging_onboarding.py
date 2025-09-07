@@ -55,7 +55,10 @@ class MessagingOnboarding:
                     elif "Business Intelligence" in agent_name:
                         return "Business Intelligence Specialist"
                     # Add more role mappings as needed
-            except Exception:
+            except Exception as e:
+                get_logger(__name__).warning(
+                    f"Error determining role for {agent_id}: {e}"
+                )
                 pass
 
         # Fallback to agent configuration

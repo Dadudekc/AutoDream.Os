@@ -1,5 +1,3 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
 """
 Captain Snapshot Tool - Multi-Agent Status Overview
@@ -11,8 +9,14 @@ Reads from runtime/agents_index.json and presents a concise table.
 Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 """
 
+from datetime import datetime, timezone
+from typing import Dict, Any, Tuple
+from pathlib import Path
 
-ROOT = get_unified_utility().Path(__file__).resolve().parents[1]
+# Import unified utilities
+from src.core.unified_utilities import read_json, get_logger
+
+ROOT = Path(__file__).resolve().parents[1]
 INDEX_FILE = ROOT / "runtime" / "agents_index.json"
 
 
@@ -83,6 +87,28 @@ def format_agent_row(agent_id: str, agent_data: Dict[str, Any]) -> str:
         next_milestone = next_milestone[:27] + "..."
 
     return f"{agent_id:<10} {status:<12} {staleness_status:<12} {current_phase:<25} {next_milestone:<30} {staleness_min:>3}m"
+
+
+def main():
+    """Main function to display agent status snapshot."""
+    agents = load_agents_index()
+
+    if not agents:
+        print("❌ No agent data available")
+        return
+
+    print("📊 AGENT STATUS SNAPSHOT")
+    print("=" * 120)
+    print(
+        f"{'Agent ID':<10} {'Status':<12} {'Staleness':<12} {'Current Phase':<25} {'Next Milestone':<30} {'Age':>3}"
+    )
+    print("-" * 120)
+
+    for agent_id, data in agents.items():
+        print(format_agent_row(agent_id, data))
+
+    print("=" * 120)
+    print(f"Total agents: {len(agents)}")
 
 
 if __name__ == "__main__":

@@ -17,14 +17,15 @@ from .storage_core_engine import StorageCoreEngine
 from .processing_core_engine import ProcessingCoreEngine
 from .orchestration_core_engine import OrchestrationCoreEngine
 
+
 class EngineRegistry:
     """Registry for all core engines - SSOT for engine management."""
-    
+
     def __init__(self):
         self._engines: Dict[str, Type[Engine]] = {}
         self._instances: Dict[str, Engine] = {}
         self._initialize_engines()
-    
+
     def _initialize_engines(self) -> None:
         """Initialize all core engines."""
         self._engines = {
@@ -44,21 +45,21 @@ class EngineRegistry:
             "processing": ProcessingCoreEngine,
             "orchestration": OrchestrationCoreEngine,
         }
-    
+
     def get_engine(self, engine_type: str) -> Engine:
         """Get engine instance by type."""
         if engine_type not in self._engines:
             raise ValueError(f"Unknown engine type: {engine_type}")
-        
+
         if engine_type not in self._instances:
             self._instances[engine_type] = self._engines[engine_type]()
-        
+
         return self._instances[engine_type]
-    
+
     def get_engine_types(self) -> list[str]:
         """Get all available engine types."""
         return list(self._engines.keys())
-    
+
     def initialize_all(self, context: EngineContext) -> Dict[str, bool]:
         """Initialize all engines."""
         results = {}
@@ -70,7 +71,7 @@ class EngineRegistry:
                 results[engine_type] = False
                 context.logger.error(f"Failed to initialize {engine_type} engine: {e}")
         return results
-    
+
     def cleanup_all(self, context: EngineContext) -> Dict[str, bool]:
         """Cleanup all engines."""
         results = {}
@@ -81,7 +82,7 @@ class EngineRegistry:
                 results[engine_type] = False
                 context.logger.error(f"Failed to cleanup {engine_type} engine: {e}")
         return results
-    
+
     def get_all_status(self) -> Dict[str, Dict[str, Any]]:
         """Get status of all engines."""
         status = {}

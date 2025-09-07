@@ -1,5 +1,3 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
 """
 SSOT Integration Execution Script - Agent-8 Integration & Performance Specialist
@@ -13,6 +11,7 @@ Status: ACTIVE - SSOT Integration & System Validation
 Priority: HIGH (650 points)
 """
 
+from ..core.unified_entry_point_system import main
 
 # Add project root to path
 project_root = get_unified_utility().Path(__file__).parent.parent.parent.parent

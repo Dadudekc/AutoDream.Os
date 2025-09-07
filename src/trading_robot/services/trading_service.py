@@ -9,10 +9,17 @@ V2 COMPLIANCE: Under 300-line limit, comprehensive error handling, modular desig
 @license MIT
 """
 
+import uuid
+from datetime import datetime
 from typing import Dict, Any, List, Optional
 
+from src.core.unified_utilities import get_unified_validator
+from src.core.unified_logging_system import UnifiedLoggingSystem
 from src.trading_robot.repositories.trading_repository import (
-    TradingRepositoryInterface, Trade, Position, create_trading_repository
+    TradingRepositoryInterface,
+    Trade,
+    Position,
+    create_trading_repository,
 )
 
 
@@ -24,17 +31,26 @@ class TradingService:
         self.repository = repository or create_trading_repository()
         self.logger = UnifiedLoggingSystem("TradingService")
 
-    async def execute_trade(self, symbol: str, side: str, quantity: float,
-                          price: float, order_type: str = 'market') -> Optional[str]:
+    async def execute_trade(
+        self,
+        symbol: str,
+        side: str,
+        quantity: float,
+        price: float,
+        order_type: str = "market",
+    ) -> Optional[str]:
         """Execute a trade and return trade ID."""
         try:
-            self.logger.get_unified_logger().log_operation_start("execute_trade")
-                "symbol": symbol, "side": side, "quantity": quantity, "price": price
-            })
+            self.logger.get_unified_logger().log_operation_start(
+                "execute_trade",
+                {"symbol": symbol, "side": side, "quantity": quantity, "price": price},
+            )
 
             # Validate inputs
             if not self._validate_trade_inputs(symbol, side, quantity, price):
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("execute_trade", {"success": False, "reason": "validation_failed"})
+                self.logger.get_unified_logger().log_operation_complete(
+                    "execute_trade", {"success": False, "reason": "validation_failed"}
+                )
                 return None
 
             # Create trade object
@@ -46,8 +62,8 @@ class TradingService:
                 quantity=quantity,
                 price=price,
                 timestamp=datetime.now(),
-                status='executed',
-                order_type=order_type
+                status="executed",
+                order_type=order_type,
             )
 
             # Save trade
@@ -55,34 +71,41 @@ class TradingService:
             if success:
                 # Update position
                 await self._update_position_from_trade(trade)
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("execute_trade", {"success": True, "trade_id": trade_id})
+                self.logger.get_unified_logger().log_operation_complete(
+                    "execute_trade", {"success": True, "trade_id": trade_id}
+                )
                 return trade_id
             else:
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("execute_trade", {"success": False, "reason": "save_failed"})
+                self.logger.get_unified_logger().log_operation_complete(
+                    "execute_trade", {"success": False, "reason": "save_failed"}
+                )
                 return None
 
         except Exception as e:
-            self.logger.log_error("execute_trade", str(e), {
-                "symbol": symbol, "side": side, "quantity": quantity
-            })
+            self.logger.log_error(
+                "execute_trade",
+                str(e),
+                {"symbol": symbol, "side": side, "quantity": quantity},
+            )
             return None
 
-    async def get_trade_history(self, symbol: Optional[str] = None,
-                              limit: int = 100) -> List[Trade]:
+    async def get_trade_history(
+        self, symbol: Optional[str] = None, limit: int = 100
+    ) -> List[Trade]:
         """Get trade history, optionally filtered by symbol."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("get_trade_history", {
-                "symbol": symbol, "limit": limit
-            })
+            self.logger.get_unified_logger().log_operation_start(
+                "get_trade_history", {"symbol": symbol, "limit": limit}
+            )
 
             if symbol:
                 trades = await self.repository.get_trades_by_symbol(symbol, limit)
             else:
                 trades = await self.repository.get_all_trades(limit)
 
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("get_trade_history", {
-                "count": len(trades), "symbol": symbol
-            })
+            self.logger.get_unified_logger().log_operation_complete(
+                "get_trade_history", {"count": len(trades), "symbol": symbol}
+            )
             return trades
 
         except Exception as e:
@@ -92,9 +115,11 @@ class TradingService:
     async def get_positions(self) -> List[Position]:
         """Get all current positions."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("get_positions")
+            self.logger.get_unified_logger().log_operation_start("get_positions")
             positions = await self.repository.get_all_positions()
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("get_positions", {"count": len(positions)})
+            self.logger.get_unified_logger().log_operation_complete(
+                "get_positions", {"count": len(positions)}
+            )
             return positions
         except Exception as e:
             self.logger.log_error("get_positions", str(e))
@@ -103,11 +128,13 @@ class TradingService:
     async def get_position(self, symbol: str) -> Optional[Position]:
         """Get position for specific symbol."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("get_position", {"symbol": symbol})
+            self.logger.get_unified_logger().log_operation_start(
+                "get_position", {"symbol": symbol}
+            )
             position = await self.repository.get_position(symbol.upper())
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("get_position", {
-                "symbol": symbol, "found": position is not None
-            })
+            self.logger.get_unified_logger().log_operation_complete(
+                "get_position", {"symbol": symbol, "found": position is not None}
+            )
             return position
         except Exception as e:
             self.logger.log_error("get_position", str(e), {"symbol": symbol})
@@ -116,7 +143,9 @@ class TradingService:
     async def calculate_portfolio_pnl(self) -> Dict[str, Any]:
         """Calculate portfolio P&L."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("calculate_portfolio_pnl")
+            self.logger.get_unified_logger().log_operation_start(
+                "calculate_portfolio_pnl"
+            )
 
             positions = await self.get_positions()
             total_pnl = sum(pos.pnl for pos in positions)
@@ -126,12 +155,13 @@ class TradingService:
                 "total_pnl": total_pnl,
                 "total_value": total_value,
                 "positions_count": len(positions),
-                "timestamp": datetime.now()
+                "timestamp": datetime.now(),
             }
 
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("calculate_portfolio_pnl", {
-                "total_pnl": total_pnl, "positions_count": len(positions)
-            })
+            self.logger.get_unified_logger().log_operation_complete(
+                "calculate_portfolio_pnl",
+                {"total_pnl": total_pnl, "positions_count": len(positions)},
+            )
             return result
 
         except Exception as e:
@@ -141,39 +171,47 @@ class TradingService:
     async def cancel_trade(self, trade_id: str) -> bool:
         """Cancel a pending trade."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("cancel_trade", {"trade_id": trade_id})
+            self.logger.get_unified_logger().log_operation_start(
+                "cancel_trade", {"trade_id": trade_id}
+            )
 
             # Get current trade
             trade = await self.repository.get_trade(trade_id)
             if not get_unified_validator().validate_required(trade):
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("cancel_trade", {
-                    "success": False, "reason": "trade_not_found"
-                })
+                self.logger.get_unified_logger().log_operation_complete(
+                    "cancel_trade", {"success": False, "reason": "trade_not_found"}
+                )
                 return False
 
-            if trade.status != 'pending':
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("cancel_trade", {
-                    "success": False, "reason": "trade_not_pending"
-                })
+            if trade.status != "pending":
+                self.logger.get_unified_logger().log_operation_complete(
+                    "cancel_trade", {"success": False, "reason": "trade_not_pending"}
+                )
                 return False
 
             # Update status
-            success = await self.repository.update_trade_status(trade_id, 'cancelled')
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("cancel_trade", {"success": success})
+            success = await self.repository.update_trade_status(trade_id, "cancelled")
+            self.logger.get_unified_logger().log_operation_complete(
+                "cancel_trade", {"success": success}
+            )
             return success
 
         except Exception as e:
             self.logger.log_error("cancel_trade", str(e), {"trade_id": trade_id})
             return False
 
-    def _validate_trade_inputs(self, symbol: str, side: str,
-                             quantity: float, price: float) -> bool:
+    def _validate_trade_inputs(
+        self, symbol: str, side: str, quantity: float, price: float
+    ) -> bool:
         """Validate trade input parameters."""
         if not symbol or not get_unified_validator().validate_type(symbol, str):
             return False
-        if side not in ['buy', 'sell']:
+        if side not in ["buy", "sell"]:
             return False
-        if not get_unified_validator().validate_type(quantity, (int, float)) or quantity <= 0:
+        if (
+            not get_unified_validator().validate_type(quantity, (int, float))
+            or quantity <= 0
+        ):
             return False
         if not get_unified_validator().validate_type(price, (int, float)) or price <= 0:
             return False
@@ -185,11 +223,13 @@ class TradingService:
             symbol = trade.symbol
             current_position = await self.repository.get_position(symbol)
 
-            if trade.side == 'buy':
+            if trade.side == "buy":
                 if current_position:
                     # Update existing position
                     total_quantity = current_position.quantity + trade.quantity
-                    total_cost = (current_position.quantity * current_position.average_price) + (trade.quantity * trade.price)
+                    total_cost = (
+                        current_position.quantity * current_position.average_price
+                    ) + (trade.quantity * trade.price)
                     new_avg_price = total_cost / total_quantity
 
                     updated_position = Position(
@@ -198,7 +238,7 @@ class TradingService:
                         average_price=new_avg_price,
                         current_price=trade.price,
                         pnl=(trade.price - new_avg_price) * total_quantity,
-                        timestamp=datetime.now()
+                        timestamp=datetime.now(),
                     )
                 else:
                     # Create new position
@@ -208,7 +248,7 @@ class TradingService:
                         average_price=trade.price,
                         current_price=trade.price,
                         pnl=0.0,
-                        timestamp=datetime.now()
+                        timestamp=datetime.now(),
                     )
             else:  # sell
                 if current_position:
@@ -216,18 +256,22 @@ class TradingService:
                     new_quantity = current_position.quantity - trade.quantity
                     if new_quantity > 0:
                         # Partial sell
-                        pnl = (trade.price - current_position.average_price) * trade.quantity
+                        pnl = (
+                            trade.price - current_position.average_price
+                        ) * trade.quantity
                         updated_position = Position(
                             symbol=symbol,
                             quantity=new_quantity,
                             average_price=current_position.average_price,
                             current_price=trade.price,
                             pnl=current_position.pnl + pnl,
-                            timestamp=datetime.now()
+                            timestamp=datetime.now(),
                         )
                     else:
                         # Complete sell
-                        pnl = (trade.price - current_position.average_price) * current_position.quantity
+                        pnl = (
+                            trade.price - current_position.average_price
+                        ) * current_position.quantity
                         # Position will be deleted
                         await self.repository.delete_position(symbol)
                         return
@@ -238,16 +282,20 @@ class TradingService:
             await self.repository.save_position(updated_position)
 
         except Exception as e:
-            self.logger.log_error("_update_position_from_trade", str(e), {
-                "symbol": trade.symbol, "side": trade.side
-            })
+            self.logger.log_error(
+                "_update_position_from_trade",
+                str(e),
+                {"symbol": trade.symbol, "side": trade.side},
+            )
 
 
 # Factory function for dependency injection
-def create_trading_service(repository: Optional[TradingRepositoryInterface] = None) -> TradingService:
+def create_trading_service(
+    repository: Optional[TradingRepositoryInterface] = None,
+) -> TradingService:
     """Factory function to create trading service with optional repository injection."""
     return TradingService(repository)
 
 
 # Export for DI
-__all__ = ['TradingService', 'create_trading_service']
+__all__ = ["TradingService", "create_trading_service"]

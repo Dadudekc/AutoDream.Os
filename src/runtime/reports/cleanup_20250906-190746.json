@@ -1,0 +1,178 @@
+{
+  "timestamp": "20250906-190746",
+  "root": "D:\\Agent_Cellphone_V2_Repository\\src",
+  "totals": {
+    "files": 612,
+    "by_ext": {
+      ".py": 419,
+      ".js": 163,
+      ".json": 12,
+      ".yaml": 9,
+      ".css": 5,
+      ".md": 2,
+      ".log": 1,
+      ".pine": 1
+    },
+    "py_files": 419
+  },
+  "patterns": {
+    "temporary_files": [
+      ".\\core\\logs\\unified_system.log"
+    ],
+    "versioned_files": [
+      ".\\core\\analytics\\vector_analytics_processor_v2.py",
+      ".\\core\\enhanced_integration\\enhanced_integration_orchestrator_v2.py",
+      ".\\core\\emergency_intervention\\unified_emergency\\protocols_v2.py",
+      ".\\core\\managers\\core_results_manager_v2.py",
+      ".\\core\\managers\\core_execution_manager_v2.py",
+      ".\\trading_robot\\repositories\\trading_repository_v2.py",
+      ".\\trading_robot\\strategies\\TSLA_ATR_Pullback_v2.pine"
+    ]
+  },
+  "duplicates": {
+    "groups": [],
+    "file_count_in_groups": 0,
+    "sampled": true,
+    "sample_size": 50
+  },
+  "git": {
+    "A": [
+      "AGENT_3_PHASE_2_MANAGER_ANALYSIS.md",
+      "AGENT_3_PHASE_2_MANAGER_COMPLETION_REPORT.md",
+      "PRE_COMMIT_DEBUG_REPORT.md",
+      "devlogs/2025-09-06_17-52-16_general_Agent-7_Critical_Pre-commit_Fixes_Completed.md",
+      "runtime/migrations/manager-map.json",
+      "runtime/reports/pre_commit_debug_report.md",
+      "runtime/resource_locks.json",
+      "src/core/managers/__init__.py",
+      "src/core/managers/adapters/__init__.py",
+      "src/core/managers/adapters/legacy_manager_adapter.py",
+      "src/core/managers/contracts.py",
+      "src/core/managers/core_configuration_manager.py",
+      "src/core/managers/core_execution_manager.py",
+      "src/core/managers/core_monitoring_manager.py",
+      "src/core/managers/core_resource_manager.py",
+      "src/core/managers/core_service_manager.py",
+      "src/core/managers/registry.py",
+      "test_file.txt",
+      "tests/test_core_managers.py",
+      "tools/codemods/migrate_managers.py"
+    ],
+    "M": [
+      ".pre-commit-config-windows.yaml",
+      ".pytest_cache/v/cache/lastfailed",
+      ".pytest_cache/v/randomly_seed",
+      "AGENT_3_PHASE_2_ANALYSIS.md",
+      "devlogs/2025-09-06_17-15-20_general_Agent-7_Code_Formatting_Quality_Assessment_Completed.md",
+      "devlogs/2025-09-06_17-22-48_general_Agent-7_Pre-commit_Hook_Debug_Fix_Completed.md",
+      "scripts/agent_documentation_cli.py",
+      "scripts/agent_onboarding.py",
+      "scripts/enforce_python_standards.py",
+      "scripts/execution/execute_ssot_integration.py",
+      "scripts/execution/run_admin_commander.py",
+      "scripts/execution/run_discord_bot.py",
+      "scripts/fix_and_ingest_vector_database.py",
+      "scripts/index_v2_refactoring.py",
+      "scripts/utilities/setup_discord_bot.py",
+      "src/core/constants/decision.py",
+      "src/core/constants/fsm_constants.py",
+      "src/core/engines/__init__.py",
+      "src/core/engines/analysis_core_engine.py",
+      "src/core/engines/communication_core_engine.py",
+      "src/core/engines/configuration_core_engine.py",
+      "src/core/engines/contracts.py",
+      "src/core/engines/coordination_core_engine.py",
+      "src/core/engines/data_core_engine.py",
+      "src/core/engines/integration_core_engine.py",
+      "src/core/engines/ml_core_engine.py",
+      "src/core/engines/monitoring_core_engine.py",
+      "src/core/engines/orchestration_core_engine.py",
+      "src/core/engines/performance_core_engine.py",
+      "src/core/engines/processing_core_engine.py",
+      "src/core/engines/registry.py",
+      "src/core/engines/security_core_engine.py",
+      "src/core/engines/storage_core_engine.py",
+      "src/core/engines/utility_core_engine.py",
+      "src/core/engines/validation_core_engine.py",
+      "src/discord_admin_commander.py",
+      "src/gaming/gaming_alert_manager.py",
+      "src/gaming/performance_validation.py",
+      "src/services/messaging_onboarding.py",
+      "src/services/onboarding_service.py",
+      "src/trading_robot/core/dependency_injection.py",
+      "src/trading_robot/services/trading_service.py",
+      "tests/django_settings.py",
+      "tests/test_core_engines.py",
+      "tools/agent_checkin.py",
+      "tools/captain_snapshot.py",
+      "validation_results_v98_20250906_172248.json"
+    ],
+    "D": [
+      "src/discord_admin_analytics.py",
+      "src/discord_admin_commands.py",
+      "src/discord_admin_moderation.py",
+      "src/discord_admin_server_management.py",
+      "ultimate_system_validation_suite_v94.py",
+      "ultimate_system_validation_suite_v95.py",
+      "ultimate_system_validation_suite_v96.py",
+      "ultimate_system_validation_suite_v97.py",
+      "ultimate_system_validation_suite_v98.py"
+    ],
+    "R": [],
+    "?": [
+      "AGENT_3_PHASE_2_V2_COMPLIANCE_ANALYSIS.md",
+      "AGENT_3_PHASE_2_V2_COMPLIANCE_PROGRESS.md",
+      "AGENT_3_PHASE_2_V2_COMPLIANCE_UPDATE.md",
+      "src/core/managers/core_execution_manager_v2.py",
+      "src/core/managers/core_onboarding_manager.py",
+      "src/core/managers/core_recovery_manager.py",
+      "src/core/managers/core_results_manager.py",
+      "src/core/managers/core_results_manager_v2.py",
+      "src/core/managers/core_service_coordinator.py",
+      "src/core/managers/execution/",
+      "src/core/managers/monitoring/",
+      "src/core/managers/results/",
+      "src/discord/",
+      "tests/test_specialized_managers.py",
+      "validation_results_v99_20250906_175216.json"
+    ]
+  },
+  "risk": {
+    "flagged": false,
+    "messages": [],
+    "min_py": 10,
+    "max_py_drop": 0.8,
+    "py_head": 399
+  },
+  "notes": {
+    "ignore_dirs": [
+      ".cache",
+      ".git",
+      ".idea",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".venv",
+      ".vscode",
+      "__pycache__",
+      "build",
+      "dist",
+      "node_modules",
+      "venv"
+    ],
+    "temp_patterns": [
+      ".*\\.tmp$",
+      ".*~$",
+      "^~.*",
+      ".*\\.bak$",
+      ".*\\.swp$",
+      ".*\\.log$",
+      ".*\\.DS_Store$",
+      ".*\\.orig$"
+    ],
+    "versioned_patterns": [
+      ".*[_\\-\\.]v\\d{1,4}(\\.\\d+)?\\.[A-Za-z0-9]+$",
+      ".*copy\\s*\\(\\d+\\)\\.[A-Za-z0-9]+$"
+    ]
+  }
+}

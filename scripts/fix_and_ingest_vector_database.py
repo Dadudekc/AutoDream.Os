@@ -1,12 +1,12 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
-"""
-Fix Vector Database Encoding Issues and Ingest Documentation for Autonomous Development
+"""Fix Vector Database Encoding Issues and Ingest Documentation for Autonomous
+Development.
 
-This script addresses the character encoding issues in the existing vector database
-and ensures proper ingestion of all project documentation for autonomous development.
+This script addresses the character encoding issues in the existing vector database and
+ensures proper ingestion of all project documentation for autonomous development.
 """
+
+from ..core.unified_entry_point_system import main
 
 import logging
 

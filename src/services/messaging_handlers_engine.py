@@ -13,12 +13,9 @@ Purpose: Modular engine for messaging CLI handlers
 import logging
 from typing import Any, Dict, List, Optional
 
-from .utils.agent_registry import (
-    AGENTS,
-    list_agents as registry_list_agents,
-    format_agent_list,
-)
+from .agent_registry import format_agent_list
 from .messaging_handlers_models import CLICommand, CommandResult, CoordinateConfig
+from .utils.agent_registry import AGENTS, list_agents as registry_list_agents
 
 
 class MessagingHandlersEngine:
@@ -37,13 +34,13 @@ class MessagingHandlersEngine:
             self.coordinates = {
                 agent_id: CoordinateConfig(
                     agent_id,
-                    info["coords"][0],
-                    info["coords"][1],
+                    data["coords"]["x"],
+                    data["coords"]["y"],
                     f"{agent_id} coordinates",
                 )
-                for agent_id, info in AGENTS.items()
+                for agent_id, data in AGENTS.items()
             }
-        except Exception as e:  # pragma: no cover - error path
+        except Exception as e:
             self.logger.warning(f"Could not load coordinates: {e}")
 
     def get_agent_coordinates(self, agent_id: str) -> Optional[CoordinateConfig]:
@@ -109,18 +106,17 @@ class MessagingHandlersEngine:
     def _handle_coordinates_command(self) -> CommandResult:
         """Handle coordinates command."""
         coords_data = {
-            agent_id: {
-                "x": coord.x,
-                "y": coord.y,
-                "description": coord.description,
-            }
+            agent_id: {"x": coord.x, "y": coord.y, "description": coord.description}
             for agent_id, coord in self.coordinates.items()
         }
         return CommandResult(True, "Coordinates retrieved", data=coords_data)
 
     def _handle_send_command(self, command: CLICommand) -> CommandResult:
         """Handle send command."""
-        return CommandResult(True, f"Message sent to {command.agent}: {command.message}")
+        # Simplified send command handling
+        return CommandResult(
+            True, f"Message sent to {command.agent}: {command.message}"
+        )
 
     def get_system_status(self) -> Dict[str, Any]:
         """Get system status."""

@@ -56,6 +56,7 @@
 ## Unreleased
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
+- Merged `utility-service.js` and `utility-service-v2.js` into a single `utility-service.js` for SSOT.
 
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.

@@ -1,0 +1,62 @@
+logging:
+  date_format: '%Y-%m-%d %H:%M:%S'
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  formatters:
+    detailed:
+      date_format: '%Y-%m-%d %H:%M:%S'
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d -
+        %(message)s'
+    standard:
+      date_format: '%Y-%m-%d %H:%M:%S'
+      format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  handlers:
+    console:
+      enabled: ENABLE_TRUE
+      formatter: standard
+      level: INFO
+    error_file:
+      backup_count: VALUE_THREE
+      enabled: ENABLE_TRUE
+      filename: logs/error.log
+      formatter: detailed
+      level: ERROR
+      max_bytes: 10485760
+    file:
+      backup_count: 5
+      enabled: ENABLE_TRUE
+      filename: ${LOG_FILE:logs/app.log}
+      formatter: detailed
+      level: DEBUG
+      max_bytes: 10485760
+  level: ${LOG_LEVEL:INFO}
+  loggers:
+    agents:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    config:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    root:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    services:
+      handlers:
+      - console
+      - file
+      level: INFO
+      propagate: ENABLE_FALSE
+    src:
+      handlers:
+      - console
+      - file
+      level: DEBUG
+      propagate: ENABLE_FALSE

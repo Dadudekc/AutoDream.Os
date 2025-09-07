@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 repos:
   # Black code formatter
   - repo: https://github.com/psf/black
@@ -44,10 +45,119 @@ repos:
   # Trailing whitespace remover
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
+=======
+# Pre-commit configuration for Agent Cellphone V2
+# Enforces code quality standards automatically on every commit
+repos:
+  # Black code formatter
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3
+        args: [--line-length=88, --target-version=py38]
+        types: [python]
+        additional_dependencies: [black[jupyter]]
+
+  # isort import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile=black, --line-length=88]
+        types: [python]
+
+  # Flake8 linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=88, --extend-ignore=E203,W503,E501]
+        types: [python]
+        additional_dependencies: [
+          flake8-docstrings,
+          flake8-import-order,
+          flake8-bugbear,
+          flake8-comprehensions,
+          flake8-simplify
+        ]
+
+  # Autoflake - remove unused imports
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.2.1
+    hooks:
+      - id: autoflake
+        args: [
+          --remove-all-unused-imports,
+          --remove-unused-variables,
+          --remove-duplicate-keys,
+          --in-place
+        ]
+        types: [python]
+
+  # Autopep8 - PEP 8 compliance
+  - repo: https://github.com/hhatto/autopep8
+    rev: v2.0.4
+    hooks:
+      - id: autopep8
+        args: [
+          --max-line-length=88,
+          --aggressive,
+          --aggressive,
+          --in-place
+        ]
+        types: [python]
+
+  # Pylint - comprehensive code analysis
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.0.3
+    hooks:
+      - id: pylint
+        args: [
+          --max-line-length=88,
+          --disable=C0114,C0115,C0116,R0903,R0913,R0914,R0915,W0621,W0622,W0703
+        ]
+        types: [python]
+
+  # MyPy - static type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        args: [
+          --python-version=3.8,
+          --warn-return-any,
+          --disallow-untyped-defs,
+          --check-untyped-defs
+        ]
+        types: [python]
+        additional_dependencies: [types-all]
+
+  # Bandit - security linting
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: [--skip=B101,B601]
+        types: [python]
+
+  # Safety - dependency vulnerability scanning
+  - repo: https://github.com/PyUP/safety
+    rev: 2.3.5
+    hooks:
+      - id: safety
+        args: [--full-report]
+        types: [python]
+
+  # Trailing whitespace removal
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+<<<<<<< HEAD
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: debug-statements
@@ -80,3 +190,131 @@ ci:
 
     - Updated pre-commit hook versions
     - Ensured V2 compliance standards maintained
+=======
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-ast
+      - id: debug-statements
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+      - id: fix-byte-order-marker
+
+  # Python-specific hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: debug-statements
+      - id: check-docstring-first
+      - id: check-ast
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+      - id: fix-byte-order-marker
+
+  # Git hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-merge-conflict
+
+  # Commit message formatting
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.13.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+        additional_dependencies: [commitizen[cz_conventional_commits]]
+
+  # Conventional commit message validation
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.13.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+        additional_dependencies: [commitizen[cz_conventional_commits]]
+
+  # Pre-commit hooks for emergency database recovery system
+  - repo: local
+    hooks:
+      - id: emergency-db-recovery-check
+        name: Emergency DB Recovery Check
+        entry: python -m emergency_database_recovery.quality_checker
+        language: python
+        types: [python]
+        pass_filenames: false
+        always_run: true
+        stages: [commit, push]
+
+  # Custom quality enforcement
+  - repo: local
+    hooks:
+      - id: code-quality-enforcement
+        name: Code Quality Enforcement
+        entry: python -m scripts.code_quality_enforcer
+        language: python
+        types: [python]
+        pass_filenames: false
+        always_run: true
+        stages: [commit, push]
+
+# Global configuration
+default_language_version:
+  python: python3.8
+
+# Hook execution order
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-ast
+      - id: debug-statements
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+      - id: fix-byte-order-marker
+
+# Quality gates
+quality_gates:
+  - name: "Code Formatting"
+    hooks: ["black", "isort", "autopep8"]
+    required: true
+  
+  - name: "Linting"
+    hooks: ["flake8", "pylint"]
+    required: true
+  
+  - name: "Type Checking"
+    hooks: ["mypy"]
+    required: false
+  
+  - name: "Security"
+    hooks: ["bandit", "safety"]
+    required: true
+  
+  - name: "Import Management"
+    hooks: ["autoflake"]
+    required: true
+
+# Failure handling
+fail_fast: false
+require_serial: false
+>>>>>>> origin/codex/catalog-functions-in-utils-directories

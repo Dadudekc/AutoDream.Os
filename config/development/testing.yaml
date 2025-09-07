@@ -1,0 +1,38 @@
+testing:
+  coverage:
+    enable: ENABLE_TRUE
+    exclude_patterns:
+    - '*/tests/*'
+    - '*/test_*'
+    - '*/__pycache__/*'
+    - '*/venv/*'
+    - '*/env/*'
+    output_file: coverage.json
+    output_format: json
+    threshold: 0.8
+  enable_fast_fail: ENABLE_TRUE
+  enable_parallel_execution: ENABLE_TRUE
+  framework: pytest
+  linting:
+    enable_bandit: ENABLE_TRUE
+    enable_flake8: ENABLE_TRUE
+    enable_mypy: ENABLE_TRUE
+    enable_pylint: ENABLE_TRUE
+    enable_safety: ENABLE_TRUE
+  max_workers: 4
+  output:
+    coverage_output: test-results/coverage.json
+    junit_output: test-results/junit.xml
+    linting_output: test-results/
+  performance:
+    benchmark_threshold: 1.5
+    enable_benchmarking: ENABLE_TRUE
+    enable_profiling: ENABLE_FALSE
+  pytest:
+    addopts: -v --tb=short --strict-markers
+    config_file: pytest.ini
+    markers:
+      fast: Fast running tests
+      integration: Integration tests
+      slow: Slow running tests
+      unit: Unit tests

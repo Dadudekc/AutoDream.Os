@@ -1,0 +1,381 @@
+{
+  "phase": "3F",
+  "name": "Final Phase 3 Refactoring",
+  "description": "Complete coverage of remaining files over 400 LOC for final V2 coding standards compliance",
+  "total_contracts": 32,
+  "priority": "MEDIUM",
+  "estimated_effort": "4 weeks",
+  "target_compliance_improvement": "97.0% → 100.0%",
+  "focus": "Final coding standards compliance across all remaining modules",
+  "contracts": [
+    {
+      "contract_id": "MODERATE-031",
+      "file_path": "src/services/contract_lifecycle_service.py",
+      "current_lines": 486,
+      "target_lines": 400,
+      "reduction_target": "18%",
+      "priority": "MEDIUM",
+      "category": "Contract Lifecycle",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Lifecycle logic mixed with contract logic",
+        "Multiple lifecycle concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "lifecycle_core.py",
+          "lifecycle_coordinator.py",
+          "lifecycle_interface.py"
+        ],
+        "main_class": "ContractLifecycleOrchestrator",
+        "responsibilities": "Coordinate contract lifecycle only"
+      },
+      "dependencies": [
+        "src/services/",
+        "src/utils/lifecycle_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + lifecycle integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-032",
+      "file_path": "src/services/quality_validation_orchestrator.py",
+      "current_lines": 484,
+      "target_lines": 400,
+      "reduction_target": "17%",
+      "priority": "MEDIUM",
+      "category": "Quality Validation",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Quality validation mixed with orchestration logic",
+        "Multiple quality concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "validation_core.py",
+          "validation_coordinator.py",
+          "validation_interface.py"
+        ],
+        "main_class": "QualityValidationOrchestrator",
+        "responsibilities": "Coordinate quality validation only"
+      },
+      "dependencies": [
+        "src/services/quality/",
+        "src/utils/validation_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + validation integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-033",
+      "file_path": "src/core/managers/status_manager.py",
+      "current_lines": 483,
+      "target_lines": 400,
+      "reduction_target": "17%",
+      "priority": "MEDIUM",
+      "category": "Status Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Status logic mixed with management logic",
+        "Multiple status concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "status_core.py",
+          "status_coordinator.py",
+          "status_interface.py"
+        ],
+        "main_class": "StatusManagerOrchestrator",
+        "responsibilities": "Coordinate status management only"
+      },
+      "dependencies": [
+        "src/core/status/",
+        "src/utils/status_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + status integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-034",
+      "file_path": "src/services/unified_contract_manager.py",
+      "current_lines": 482,
+      "target_lines": 400,
+      "reduction_target": "17%",
+      "priority": "MEDIUM",
+      "category": "Unified Contract Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Contract logic mixed with unification logic",
+        "Multiple contract concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "contract_core.py",
+          "unification_coordinator.py",
+          "contract_interface.py"
+        ],
+        "main_class": "UnifiedContractOrchestrator",
+        "responsibilities": "Coordinate unified contract management only"
+      },
+      "dependencies": [
+        "src/services/",
+        "src/utils/contract_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + contract integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-035",
+      "file_path": "src/core/health/test_health_refactoring.py",
+      "current_lines": 477,
+      "target_lines": 400,
+      "reduction_target": "16%",
+      "priority": "LOW",
+      "category": "Health Testing",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Test logic mixed with health logic",
+        "Multiple testing concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "health_test_core.py",
+          "health_test_coordinator.py",
+          "health_test_interface.py"
+        ],
+        "main_class": "HealthTestOrchestrator",
+        "responsibilities": "Coordinate health testing only"
+      },
+      "dependencies": [
+        "src/core/health/",
+        "src/utils/testing_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + health testing integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 4
+    },
+    {
+      "contract_id": "MODERATE-036",
+      "file_path": "src/services/financial/risk_management_service.py",
+      "current_lines": 475,
+      "target_lines": 400,
+      "reduction_target": "16%",
+      "priority": "MEDIUM",
+      "category": "Risk Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Risk logic mixed with management logic",
+        "Multiple risk concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "risk_core.py",
+          "risk_coordinator.py",
+          "risk_interface.py"
+        ],
+        "main_class": "RiskManagementOrchestrator",
+        "responsibilities": "Coordinate risk management only"
+      },
+      "dependencies": [
+        "src/services/financial/",
+        "src/utils/risk_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + risk integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-037",
+      "file_path": "src/services/multimedia/content_management_service.py",
+      "current_lines": 475,
+      "target_lines": 400,
+      "reduction_target": "16%",
+      "priority": "MEDIUM",
+      "category": "Content Management",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Content logic mixed with management logic",
+        "Multiple content concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "content_core.py",
+          "content_coordinator.py",
+          "content_interface.py"
+        ],
+        "main_class": "ContentManagementOrchestrator",
+        "responsibilities": "Coordinate content management only"
+      },
+      "dependencies": [
+        "src/services/multimedia/",
+        "src/utils/content_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + content integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-038",
+      "file_path": "src/core/performance/performance_config.py",
+      "current_lines": 474,
+      "target_lines": 400,
+      "reduction_target": "16%",
+      "priority": "MEDIUM",
+      "category": "Performance Configuration",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Configuration logic mixed with performance logic",
+        "Multiple configuration concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "config_core.py",
+          "config_coordinator.py",
+          "config_interface.py"
+        ],
+        "main_class": "PerformanceConfigOrchestrator",
+        "responsibilities": "Coordinate performance configuration only"
+      },
+      "dependencies": [
+        "src/core/performance/",
+        "src/utils/config_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + configuration integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-039",
+      "file_path": "src/services/error_analytics/correlation_analyzer.py",
+      "current_lines": 471,
+      "target_lines": 400,
+      "reduction_target": "15%",
+      "priority": "MEDIUM",
+      "category": "Error Analytics",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Correlation logic mixed with analysis logic",
+        "Multiple analytics concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "correlation_core.py",
+          "analysis_coordinator.py",
+          "analytics_interface.py"
+        ],
+        "main_class": "CorrelationAnalyzerOrchestrator",
+        "responsibilities": "Coordinate correlation analysis only"
+      },
+      "dependencies": [
+        "src/services/error_analytics/",
+        "src/utils/analytics_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + analytics integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    },
+    {
+      "contract_id": "MODERATE-040",
+      "file_path": "src/core/v2_comprehensive_messaging_system.py",
+      "current_lines": 470,
+      "target_lines": 400,
+      "reduction_target": "15%",
+      "priority": "MEDIUM",
+      "category": "V2 Messaging System",
+      "violations": [
+        "Single Responsibility Principle violation",
+        "Messaging logic mixed with system logic",
+        "Multiple messaging concerns in single class"
+      ],
+      "refactoring_plan": {
+        "extract_modules": [
+          "messaging_core.py",
+          "messaging_coordinator.py",
+          "messaging_interface.py"
+        ],
+        "main_class": "V2MessagingOrchestrator",
+        "responsibilities": "Coordinate V2 messaging only"
+      },
+      "dependencies": [
+        "src/core/messaging/",
+        "src/utils/messaging_helpers"
+      ],
+      "testing_strategy": "Unit tests for each extracted module + messaging integration tests",
+      "success_criteria": [
+        "File under 400 lines",
+        "Each module has single responsibility",
+        "All tests pass",
+        "No functionality regression"
+      ],
+      "estimated_hours": 6
+    }
+  ],
+  "summary": {
+    "total_estimated_hours": 192,
+    "expected_compliance_improvement": "3.0%",
+    "files_to_refactor": 32,
+    "priority_distribution": {
+      "HIGH": 0,
+      "MEDIUM": 25,
+      "LOW": 7
+    },
+    "risk_level": "LOW",
+    "success_probability": "HIGH",
+    "focus_areas": [
+      "Final coding standards compliance",
+      "Single Responsibility Principle implementation",
+      "Clean architecture across remaining modules",
+      "Modular design and maintainability",
+      "Production-ready code quality"
+    ]
+  }
+}

@@ -9,9 +9,24 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **Smoke tests and test suites** to validate components
 - **Structured logging and error handling**
 - **CI/CD templates** for Jenkins, GitLab CI and Docker
+<<<<<<< HEAD
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
 - **Agent status embedding indexer** for semantic status search
+=======
+<<<<<<< HEAD
+- **Refactored middleware pipeline** split into SRP modules under
+  `src/services/middleware`
+- **Unified workspace management** via `UnifiedWorkspaceSystem`
+
+## Middleware Execution Order
+Middleware chains process packets sequentially in the order that middleware
+components are listed. Each component receives the `DataPacket` returned by the
+previous one, allowing earlier middleware to mutate the packet before later
+components execute. Disabled middleware or components whose conditions fail are
+skipped.
+>>>>>>> origin/codex/consolidate-workspace-management-modules
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 ## Getting Started
 ### Installation
@@ -28,6 +43,7 @@ python tests/test_messaging_system_tdd.py
 python tests/smoke_test_messaging_system.py
 ```
 
+<<<<<<< HEAD
 ### Running Tests
 ```bash
 pytest
@@ -36,6 +52,16 @@ pytest
 ### Index agent statuses
 ```bash
 python -m src.services.vector_database.status_indexer
+=======
+### Launch web module
+```bash
+python -m src.web --start
+```
+
+### Running Tests
+```bash
+pytest
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 ```
 
 ## Agent Cellphone V2 - Unified Coordinate Architecture
@@ -101,12 +127,27 @@ python -m src.services.messaging --mode pyautogui --agent Agent-1 --message "Hel
 
 # Broadcast to all agents
 python -m src.services.messaging --mode campaign --message "System broadcast"
+<<<<<<< HEAD
 ```
 
 ### 3. System Status
 ```bash
 # Semantic status query
 python -m src.services.messaging_cli --check-status "progress on data ingestion"
+=======
+
+# Activate YOLO mode
+python -m src.services.messaging --mode yolo --message "YOLO activation"
+```
+
+### 3. System Status
+```bash
+# Validate coordinates
+python -m src.services.messaging --validate
+
+# View available modes
+python -m src.services.messaging --help
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 ```
 
 ## Coordinate System

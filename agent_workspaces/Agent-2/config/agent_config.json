@@ -1,0 +1,64 @@
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+{
+  "agent_id": "Agent-2",
+  "agent_name": "Manager Specialization Agent",
+  "agent_type": "manager_specialization",
+  "capabilities": [
+    "project_management",
+    "team_coordination",
+    "workflow_optimization",
+    "resource_allocation",
+    "performance_monitoring"
+  ],
+  "specializations": [
+    "manager_operations",
+    "system_coordination",
+    "workflow_management"
+  ],
+  "performance_metrics": {
+    "task_completion_rate": 0.95,
+    "response_time_ms": 170,
+    "accuracy_score": 0.92,
+    "efficiency_rating": 0.88
+  },
+  "workflow_preferences": {
+    "max_concurrent_tasks": 4,
+    "preferred_task_types": [
+      "management",
+      "coordination",
+      "optimization",
+      "planning"
+    ],
+    "task_priority_strategy": "priority_based_with_workload_balancing"
+  },
+  "communication_settings": {
+    "protocol": "v2_messaging",
+    "message_format": "json",
+    "response_timeout_ms": 5000,
+    "retry_attempts": 3
+  },
+  "resource_limits": {
+    "max_memory_mb": 512,
+    "max_cpu_percent": 25,
+    "max_disk_mb": 100,
+    "max_network_mb": 50
+  },
+  "integration_config": {
+    "messaging_system": "v2_message_queue",
+    "task_manager": "v2_task_manager",
+    "monitoring": "v2_performance_monitor",
+    "logging": "v2_logging_system"
+  },
+  "security_settings": {
+    "authentication_required": true,
+    "encryption_level": "standard",
+    "access_control": "role_based",
+    "audit_logging": true
+  },
+  "phase2_role": "Manager Specialization",
+  "current_tasks": ["TASK 2", "TASK 2A", "TASK 2B", "TASK 2C"],
+  "total_workload_hours": "8-12",
+  "last_updated": "2025-08-23T19:30:00Z",
+  "version": "2.0.0"
+}

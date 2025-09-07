@@ -1,0 +1,38 @@
+[
+  {
+    "system_id": "fsm_core",
+    "name": "FSM Core System",
+    "protocol": "http",
+    "host": "localhost",
+    "port": 8080,
+    "path": "/fsm",
+    "timeout": "DEFAULT_TIMEOUT"
+  },
+  {
+    "system_id": "onboarding_service",
+    "name": "Agent Onboarding Service",
+    "protocol": "http",
+    "host": "localhost",
+    "port": 8081,
+    "path": "/onboarding",
+    "timeout": "DEFAULT_TIMEOUT"
+  },
+  {
+    "system_id": "cdp_service",
+    "name": "CDP Message Delivery",
+    "protocol": "websocket",
+    "host": "localhost",
+    "port": 9222,
+    "path": "/json",
+    "timeout": "DEFAULT_TIMEOUT"
+  },
+  {
+    "system_id": "cross_system_manager",
+    "name": "Cross-System Communication Manager",
+    "protocol": "tcp",
+    "host": "localhost",
+    "port": 8082,
+    "path": "",
+    "timeout": "DEFAULT_TIMEOUT"
+  }
+]

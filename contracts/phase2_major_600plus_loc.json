@@ -1,0 +1,28 @@
+{
+  "phase": "Phase 2 - Major Violations (600+ LOC)",
+  "description": "High priority refactoring contracts for files exceeding 600 lines - Focus on high-impact modularization",
+  "total_files": 0,
+  "estimated_effort": "2-3 days per file",
+  "priority": "HIGH",
+  "standards": {
+    "target_loc": "400 LOC (standard), 600 LOC (GUI)",
+    "focus": "SRP compliance, modular architecture, production-ready code"
+  },
+  "contracts": [],
+  "completion_criteria": [
+    "All files reduced to \u2264400 LOC (standard) or \u2264600 LOC (GUI)",
+    "SRP compliance achieved",
+    "All tests pass",
+    "Original monolithic files deleted",
+    "Compliance tracker updated",
+    "Modular architecture established"
+  ],
+  "success_metrics": {
+    "target_compliance": "100% for Phase 2",
+    "lines_reduced": "Target: 60%+ reduction",
+    "modules_created": "4-5 focused modules per file",
+    "maintainability": "High (\u2264400 LOC per module)"
+  },
+  "priority_focus": "High-impact modularization for files over 600 lines",
+  "estimated_impact": "Significant improvement in code maintainability and SRP compliance"
+}

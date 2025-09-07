@@ -1,0 +1,69 @@
+{
+  "timestamp": "2025-08-29T22:59:35.638882",
+  "demonstration_status": "MOSTLY_SUCCESSFUL",
+  "tests_performed": 5,
+  "tests_passed": 4,
+  "tests_failed": 1,
+  "system_functionality": {
+    "help_command": {
+      "success": true,
+      "command": "--help",
+      "output": "usage: contract_claiming_system.py [-h] [--list] [--claim CLAIM]\n                                   [--update-progress UPDATE_PROGRESS]\n                                   [--complete COMPLETE] [--status STATUS]\n                                   [--stats] [--agent AGENT]\n                                   [--category CATEGORY] [--progress PROGRESS]\n                                   [--deliverables DELIVERABLES]\n                                   [--task-list TASK_LIST]\n\nContract Claiming System - Emergency Restoration Component\n\noptions:\n  -h, --help            show this help message and exit\n  --list                List available contracts\n  --claim CLAIM         Claim a contract by ID\n  --update-progress UPDATE_PROGRESS\n                        Update progress for a contract by ID\n  --complete COMPLETE   Complete a contract by ID\n  --status STATUS       Check status of a specific contract\n  --stats               Show contract statistics\n  --agent AGENT         Agent ID (required for claim, update-progress,\n                        complete)\n  --category CATEGORY   Filter contracts by category\n  --progress PROGRESS   Progress update text\n  --deliverables DELIVERABLES\n                        Comma-separated list of deliverables\n  --task-list TASK_LIST\n                        Path to task list file (default:\n                        agent_workspaces/meeting/task_list.json)\n\nExamples:\n  # List all available contracts\n  python contract_claiming_system.py --list\n  \n  # List contracts by category\n  python contract_claiming_system.py --list --category SSOT_Resolution\n  \n  # Claim a contract\n  python contract_claiming_system.py --claim SSOT-001 --agent Agent-1\n  \n  # Update progress\n  python contract_claiming_system.py --update-progress SSOT-001 --agent Agent-1 --progress \"50% Complete\"\n  \n  # Complete a contract\n  python contract_claiming_system.py --complete SSOT-001 --agent Agent-1 --deliverables \"Analysis report, Resolution plan\"\n  \n  # Check contract status\n  python contract_claiming_system.py --status SSOT-001\n  \n  # Show statistics\n  python contract_claiming_system.py --stats",
+      "status": "HELP_COMMAND_FUNCTIONAL",
+      "details": "Help command executed successfully"
+    },
+    "stats_command": {
+      "success": true,
+      "command": "--stats",
+      "output": "CONTRACT CLAIMING SYSTEM - Statistics\n============================================================\nCONTRACT Total Contracts: 139\nAVAILABLE Available: 9\nCLAIMED Claimed: 68\nCOMPLETED Completed: 47\nPOINTS Total Points: 31615",
+      "parsed_stats": {
+        "total_contracts": 139,
+        "available_contracts": 9,
+        "claimed_contracts": 68,
+        "completed_contracts": 47,
+        "total_points": 31615
+      },
+      "status": "STATS_COMMAND_FUNCTIONAL",
+      "details": "Stats command executed successfully"
+    },
+    "contract_listing": {
+      "success": true,
+      "command": "--list",
+      "output": "CONTRACT CLAIMING SYSTEM - Available Contracts\n============================================================\nERROR No available contracts found",
+      "contracts_found": {
+        "total_contracts": 0,
+        "contracts": []
+      },
+      "status": "LISTING_COMMAND_FUNCTIONAL",
+      "details": "Contract listing command executed successfully"
+    },
+    "contract_claiming": {
+      "success": false,
+      "error": "No contracts available for claiming simulation",
+      "status": "CLAIMING_SIMULATION_FAILED",
+      "details": "No contracts found to simulate claiming"
+    }
+  },
+  "contract_availability": {
+    "success": true,
+    "available_contracts": 9,
+    "total_contracts": 139,
+    "contract_details": {
+      "total_contracts": 0,
+      "contracts": []
+    },
+    "status": "AVAILABILITY_ANALYSIS_COMPLETE",
+    "details": "Contract availability analysis completed successfully"
+  },
+  "demonstration_summary": "Most system functionality tests passed - contract system mostly restored",
+  "success_rate": 80.0,
+  "summary": {
+    "total_tests": 5,
+    "tests_passed": 4,
+    "tests_failed": 1,
+    "success_rate": 80.0,
+    "system_status": "MOSTLY_SUCCESSFUL",
+    "demonstration_complete": true
+  },
+  "report_generated": "2025-08-29T22:59:36.521685"
+}

@@ -4,7 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-cellphone-v2"
+<<<<<<< HEAD
 version = "2.1.0"
+=======
+version = "2.0.0"
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 description = "Agent Cellphone V2 - Advanced AI Agent System with Code Quality Standards"
 authors = [
     {name = "Agent-2", email = "agent-2@v2-compliance.system"}
@@ -35,9 +39,12 @@ dependencies = [
     "safety>=2.0.0",
 ]
 
+<<<<<<< HEAD
 [project.scripts]
 ssot-cli = "core.unified_coordination_cli:main"
 
+=======
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
@@ -137,9 +144,12 @@ max-parents = 7
 max-public-methods = 30
 max-returns = 10
 max-statements = 60
+<<<<<<< HEAD
 # Dream.OS Python Coding Standard v1.0 LOC limits
 max-module-lines = 400  # File LOC limit
 max-class-lines = 100   # Class LOC limit
+=======
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 [tool.mypy]
 python_version = "3.8"

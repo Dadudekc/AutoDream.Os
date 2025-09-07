@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 🚨 **CAPTAIN AGENT-4 - AGENT ACTIVATION SEQUENCE** 🚨
 
 **Agent Activation Required** - Please respond to confirm you are active and ready for task assignment.
@@ -28,3 +29,21 @@
 **Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager**
 
 **WE. ARE. SWARM.** ⚡️🔥
+=======
+# Contracts Workspace - Agent Cellphone V2
+
+This workspace contains contracts system artifacts and configurations.
+
+## V2 Artifacts
+
+- Configuration files
+- Templates and definitions
+- Operational data
+- Performance metrics
+
+## Status
+
+- **Status**: Active
+- **Version**: 2.0.0
+- **Last Updated**: 2025-08-23T19:30:00Z
+>>>>>>> origin/codex/catalog-functions-in-utils-directories

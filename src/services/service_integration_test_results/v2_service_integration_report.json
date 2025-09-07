@@ -1,0 +1,17 @@
+{
+  "timestamp": 1755655539.5283692,
+  "total_tests": 15,
+  "failures": 0,
+  "errors": 0,
+  "success_rate": 100.0,
+  "integration_results": [],
+  "service_coverage": {
+    "core_services": 3,
+    "agent_management": 2,
+    "analysis_scanning": 2,
+    "sprint_workflow": 2,
+    "integration_compatibility": 2,
+    "external_integration": 1,
+    "comprehensive_system": 3
+  }
+}

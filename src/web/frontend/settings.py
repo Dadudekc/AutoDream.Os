@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for frontend modules.
 
@@ -5,6 +6,21 @@ This module centralizes configuration values used across the frontend applicatio
 provide a single source of truth (SSOT).
 """
 
+=======
+
+# MIGRATED: This file has been migrated to the centralized configuration system
+"""Shared configuration for frontend modules.
+
+This module centralizes configuration values used across the frontend
+application to provide a single source of truth (SSOT).
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+import secrets
+
+>>>>>>> origin/codex/catalog-functions-in-utils-directories
 
 @dataclass(frozen=True)
 class FrontendSettings:

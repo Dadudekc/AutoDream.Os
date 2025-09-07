@@ -1,0 +1,237 @@
+{% extends "portal/portal_base.html" %}
+{% from "portal/macros.html" import status_card, action_card, metric_card %}
+
+{% block title %}Portal Dashboard - Agent_Cellphone_V2{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="{{ url_for('portal_dashboard') }}">Dashboard</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="portal-dashboard">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="dashboard-title">
+            <h1><i class="fas fa-tachometer-alt"></i> Portal Dashboard</h1>
+            <p class="dashboard-subtitle">Real-time overview of all agent systems and coordination status</p>
+        </div>
+        <div class="dashboard-actions">
+            <button class="btn btn-primary" onclick="refreshDashboard()">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <button class="btn btn-secondary" onclick="exportDashboard()">
+                <i class="fas fa-download"></i> Export
+            </button>
+        </div>
+    </div>
+
+    <!-- System Status Overview -->
+    <div class="dashboard-section">
+        <h2 class="section-title"><i class="fas fa-shield-alt"></i> System Status</h2>
+        <div class="status-grid">
+            {{ status_card('online', 'check-circle', 'Portal Status', 'Operational', 'All systems running normally') }}
+            {{ status_card('online' if system_health.overall == 'healthy' else 'warning' if system_health.overall == 'degraded' else 'offline', 'heartbeat', 'System Health', system_health.overall|title, system_health.message) }}
+            {{ status_card('online', 'network-wired', 'Communication', 'Active', connected_agents|length ~ ' agents connected') }}
+            {{ status_card('online' if automation_status.overall == 'active' else 'warning' if automation_status.overall == 'partial' else 'offline', 'cogs', 'Automation', automation_status.overall|title, automation_status.active_workflows ~ ' active workflows') }}
+        </div>
+    </div>
+
+    <!-- Agent Status Grid -->
+    <div class="dashboard-section">
+        <h2 class="section-title"><i class="fas fa-robot"></i> Agent Status</h2>
+        <div class="agent-status-grid">
+            {% for agent in portal_agents %}
+            <div class="agent-status-card {{ agent.status }}">
+                <div class="agent-header">
+                    <div class="agent-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="agent-info">
+                        <h3 class="agent-name">{{ agent.name }}</h3>
+                        <p class="agent-id">{{ agent.agent_id }}</p>
+                    </div>
+                    <div class="agent-status-badge {{ agent.status }}">
+                        <span class="status-dot"></span>
+                        {{ agent.status|title }}
+                    </div>
+                </div>
+
+                <div class="agent-details">
+                    <div class="agent-capabilities">
+                        <h4>Capabilities</h4>
+                        <div class="capability-tags">
+                            {% for capability in agent.capabilities[:3] %}
+                            <span class="capability-tag">{{ capability }}</span>
+                            {% endfor %}
+                            {% if agent.capabilities|length > 3 %}
+                            <span class="capability-tag more">+{{ agent.capabilities|length - 3 }} more</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="agent-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Last Seen:</span>
+                            <span class="metric-value">{{ agent.last_seen|timeago }}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Integration:</span>
+                            <span class="metric-value {{ agent.integration_status }}">{{ agent.integration_status|title }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="agent-actions">
+                    <a href="{{ url_for('portal_agent_details', agent_id=agent.agent_id) }}" class="btn btn-sm btn-outline">
+                        <i class="fas fa-info-circle"></i> Details
+                    </a>
+                    {% if agent.web_interface_url %}
+                    <a href="{{ agent.web_interface_url }}" class="btn btn-sm btn-primary" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Open
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="dashboard-section">
+        <h2 class="section-title"><i class="fas fa-clock"></i> Recent Activity</h2>
+        <div class="activity-timeline">
+            {% for activity in recent_activities %}
+            <div class="activity-item {{ activity.type }}">
+                <div class="activity-icon">
+                    <i class="fas fa-{{ activity.icon }}"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-header">
+                        <h4 class="activity-title">{{ activity.title }}</h4>
+                        <span class="activity-time">{{ activity.timestamp|timeago }}</span>
+                    </div>
+                    <p class="activity-description">{{ activity.description }}</p>
+                    {% if activity.agent_id %}
+                    <span class="activity-agent">by {{ activity.agent_id }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="dashboard-section">
+        <h2 class="section-title"><i class="fas fa-bolt"></i> Quick Actions</h2>
+        <div class="quick-actions-grid">
+            {{ action_card('plus-circle', 'Add Agent', 'Register a new agent system', 'plus', 'Add Agent', 'showAddAgentModal()') }}
+            {{ action_card('play-circle', 'Start Workflow', 'Launch automation workflow', 'play', 'Start Workflow', 'showWorkflowModal()') }}
+            {{ action_card('chart-line', 'View Reports', 'Access system reports', 'chart-bar', 'View Reports', 'showReportsModal()') }}
+            {{ action_card('cog', 'Portal Settings', 'Configure portal options', 'cog', 'Settings', 'showSettingsModal()') }}
+        </div>
+    </div>
+
+    <!-- System Metrics -->
+    <div class="dashboard-section">
+        <h2 class="section-title"><i class="fas fa-chart-area"></i> System Metrics</h2>
+        <div class="metrics-grid">
+            {{ metric_card('Active Agents', 'users', active_agents_count, active_agents_change) }}
+            {{ metric_card('Workflows', 'project-diagram', active_workflows_count, workflows_change|abs, 'up' if workflows_change >= 0 else 'down', 'positive' if workflows_change >= 0 else 'negative') }}
+            {{ metric_card('Response Time', 'tachometer-alt', avg_response_time ~ 'ms', response_time_change|abs, 'down' if response_time_change <= 0 else 'up', 'positive' if response_time_change <= 0 else 'negative') }}
+            {{ metric_card('Uptime', 'clock', system_uptime ~ '%', 99.9) }}
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div id="addAgentModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Add New Agent</h3>
+            <span class="close" onclick="closeModal('addAgentModal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="addAgentForm">
+                <div class="form-group">
+                    <label for="agentId">Agent ID</label>
+                    <input type="text" id="agentId" name="agentId" required>
+                </div>
+                <div class="form-group">
+                    <label for="agentName">Agent Name</label>
+                    <input type="text" id="agentName" name="agentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="agentDescription">Description</label>
+                    <textarea id="agentDescription" name="agentDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="agentType">Dashboard Type</label>
+                    <select id="agentType" name="agentType" required>
+                        <option value="project_management">Project Management</option>
+                        <option value="coordination">Coordination</option>
+                        <option value="web_development">Web Development</option>
+                        <option value="automation">Automation</option>
+                        <option value="data_analysis">Data Analysis</option>
+                        <option value="system_admin">System Admin</option>
+                        <option value="user_interface">User Interface</option>
+                        <option value="integration">Integration</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('addAgentModal')">Cancel</button>
+            <button type="submit" form="addAgentForm" class="btn btn-primary">Add Agent</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Dashboard functionality
+function refreshDashboard() {
+    // Implement dashboard refresh logic
+    location.reload();
+}
+
+function exportDashboard() {
+    // Implement dashboard export logic
+    console.log('Exporting dashboard data...');
+}
+
+function showAddAgentModal() {
+    document.getElementById('addAgentModal').style.display = 'block';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+}
+
+// Form submission
+document.getElementById('addAgentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Implement agent addition logic
+    console.log('Adding new agent...');
+    closeModal('addAgentModal');
+});
+
+// Auto-refresh every 30 seconds
+setInterval(function() {
+    // Update agent status without full page reload
+    updateAgentStatus();
+}, 30000);
+
+function updateAgentStatus() {
+    // Implement AJAX call to update agent status
+    console.log('Updating agent status...');
+}
+</script>
+{% endblock %}

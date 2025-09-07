@@ -10,12 +10,17 @@
 - SSOT `COMPLETION_SIGNAL` defined in `config/messaging.yml` and exposed via
   `src.core.constants`.
 - Managers append `COMPLETION_SIGNAL` to terminal outputs upon task completion.
+- Automated project snapshots via pre-commit (generation) and pre-push (enforcement).
+- Artifacts: project_analysis.json, test_analysis.json, chatgpt_project_context.json, dependency_cache.json.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 - Updated `AGENTS.md` to emphasize Python-first guidelines and exempt the monitoring component from language restrictions.
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
 - Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.
+
+### Notes
+- If pre-commit modifies files, commit again to include refreshed snapshots.
 
 ## [2.1.0] - 2025-09-01
 ### 🚀 Major Release: 100% V2 Compliance Achievement

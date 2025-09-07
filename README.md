@@ -11,13 +11,7 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **CI/CD templates** for Jenkins, GitLab CI and Docker
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
-
-## Middleware Execution Order
-Middleware chains process packets sequentially in the order that middleware
-components are listed. Each component receives the `DataPacket` returned by the
-previous one, allowing earlier middleware to mutate the packet before later
-components execute. Disabled middleware or components whose conditions fail are
-skipped.
+- **Agent status embedding indexer** for semantic status search
 
 ## Getting Started
 ### Installation
@@ -34,14 +28,14 @@ python tests/test_messaging_system_tdd.py
 python tests/smoke_test_messaging_system.py
 ```
 
-### Launch web module
-```bash
-python -m src.web --start
-```
-
 ### Running Tests
 ```bash
 pytest
+```
+
+### Index agent statuses
+```bash
+python -m src.services.vector_database.status_indexer
 ```
 
 ## Agent Cellphone V2 - Unified Coordinate Architecture

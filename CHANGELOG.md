@@ -5,6 +5,7 @@
 - Shared `load_simple_config` helper for agent vector integration modules.
 - Centralized prediction analytics utility `BasePredictionAnalyzer` for shared
   probability and confidence computations (SSOT).
+- Added vector database case study and README examples section.
 - Terminal completion monitor to detect completion signals from logs.
 - Cursor task repository with env-configurable path and monitor cross-checking.
 - SSOT `COMPLETION_SIGNAL` defined in `config/messaging.yml` and exposed via

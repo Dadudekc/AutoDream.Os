@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Paths Constants - Repository Path Definitions
+<<<<<<< HEAD
 =============================================
 
 This module provides path-related constants for the V2 compliance system.
@@ -75,3 +76,20 @@ LEGACY_ROOT_DIR = ROOT_DIR
 LEGACY_HEALTH_REPORTS_DIR = HEALTH_REPORTS_DIR
 LEGACY_HEALTH_CHARTS_DIR = HEALTH_CHARTS_DIR
 LEGACY_MONITORING_DIR = MONITORING_DIR
+=======
+
+This module provides path-related constants.
+
+Agent: Agent-6 (Performance Optimization Manager)
+Mission: Autonomous Cleanup - V2 Compliance
+Status: SSOT Consolidation in Progress
+"""
+
+from pathlib import Path
+
+# Repository paths
+ROOT_DIR = Path(__file__).resolve().parents[3]
+HEALTH_REPORTS_DIR = ROOT_DIR / "health_reports"
+HEALTH_CHARTS_DIR = ROOT_DIR / "health_charts"
+MONITORING_DIR = ROOT_DIR / "agent_workspaces" / "monitoring"
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

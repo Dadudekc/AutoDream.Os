@@ -94,4 +94,8 @@ class ClassName:
 - **Architecture diagrams** and flowcharts
 - **API documentation** with examples
 - **Configuration guides** for different environments
+<<<<<<< HEAD
 - **Troubleshooting guides** for common issues
+=======
+- **Troubleshooting guides** for common issues
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

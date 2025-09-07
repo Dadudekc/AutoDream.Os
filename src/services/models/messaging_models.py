@@ -9,15 +9,24 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+<<<<<<< HEAD
 import uuid
 from datetime import datetime
 from enum import Enum
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Any
+=======
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import List, Dict, Any
+import uuid
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 
 class UnifiedMessageType(Enum):
     """Message types for unified messaging."""
+<<<<<<< HEAD
 
     TEXT = "text"
     BROADCAST = "broadcast"
@@ -26,23 +35,36 @@ class UnifiedMessageType(Enum):
     S2A = "system_to_agent"  # System-to-Agent communication (onboarding, pre-made messages)
     H2A = "human_to_agent"  # Human-to-Agent communication (Discord messages)
     C2A = "captain_to_agent"  # Captain-to-Agent communication (custom onboarding, directives)
+=======
+    TEXT = "text"
+    BROADCAST = "broadcast"
+    ONBOARDING = "onboarding"
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 
 class UnifiedMessagePriority(Enum):
     """Message priority levels."""
+<<<<<<< HEAD
 
     REGULAR = "regular"
+=======
+    NORMAL = "normal"
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     URGENT = "urgent"
 
 
 class UnifiedMessageStatus(Enum):
     """Message delivery status."""
+<<<<<<< HEAD
 
     PENDING = "pending"
+=======
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     SENT = "sent"
     DELIVERED = "delivered"
 
 
+<<<<<<< HEAD
 class UnifiedSenderType(Enum):
     """Sender types for unified messaging."""
 
@@ -62,11 +84,16 @@ class UnifiedRecipientType(Enum):
 class UnifiedMessageTag(Enum):
     """Message tags for categorization."""
 
+=======
+class UnifiedMessageTag(Enum):
+    """Message tags for categorization."""
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     CAPTAIN = "captain"
     ONBOARDING = "onboarding"
     WRAPUP = "wrapup"
 
 
+<<<<<<< HEAD
 class DeliveryMethod(Enum):
     """Delivery method for messages."""
 
@@ -94,10 +121,17 @@ class RecipientType(Enum):
 class UnifiedMessage:
     """Unified message model for all messaging scenarios."""
 
+=======
+@dataclass
+class UnifiedMessage:
+    """Unified message model for all messaging scenarios."""
+    
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     content: str
     sender: str
     recipient: str
     message_type: UnifiedMessageType = UnifiedMessageType.TEXT
+<<<<<<< HEAD
     priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
     delivery_method: DeliveryMethod = DeliveryMethod.PYAUTOGUI
     tags: List[UnifiedMessageTag] = None
@@ -109,6 +143,14 @@ class UnifiedMessage:
     recipient_type: RecipientType = None
     status: UnifiedMessageStatus = None
 
+=======
+    priority: UnifiedMessagePriority = UnifiedMessagePriority.NORMAL
+    tags: List[UnifiedMessageTag] = None
+    metadata: Dict[str, Any] = None
+    timestamp: datetime = None
+    message_id: str = None
+    
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     def __post_init__(self):
         """Initialize default values after object creation."""
         if self.tags is None:
@@ -117,6 +159,7 @@ class UnifiedMessage:
             self.metadata = {}
         if self.timestamp is None:
             self.timestamp = datetime.now()
+<<<<<<< HEAD
         if self.created_at is None:
             self.created_at = self.timestamp
         if self.message_id is None:
@@ -145,3 +188,7 @@ class UnifiedMessage:
             return RecipientType.SYSTEM
         else:
             return RecipientType.HUMAN
+=======
+        if self.message_id is None:
+            self.message_id = f"msg_{self.timestamp.strftime('%Y%m%d_%H%M%S')}_{str(uuid.uuid4())[:6]}"
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

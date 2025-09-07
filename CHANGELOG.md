@@ -1,5 +1,6 @@
 # Changelog
 
+<<<<<<< HEAD
 ## [2.1.0] - 2025-09-01
 ### 🚀 Major Release: 100% V2 Compliance Achievement
 
@@ -61,3 +62,8 @@
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
 - Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.
+=======
+## Unreleased
+### Removed
+- Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

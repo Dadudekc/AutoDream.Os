@@ -1,7 +1,0 @@
-{
-  "report_id": "health_report_daily_summary_1756009202",
-  "report_type": "ReportType.DAILY_SUMMARY",
-  "format": "ReportFormat.JSON",
-  "generated_at": "2025-08-23 23:20:02.405606",
-  "error": "Full report could not be serialized"
-}

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 """
 Gaming Integration Core - KISS Simplified
 =========================================
@@ -298,240 +299,387 @@ class GamingIntegrationCore:
             return False
 =======
 #!/usr/bin/env python3
+=======
+from src.utils.config_core import get_config
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 """
-Gaming Integration Core - Agent Cellphone V2
+Gaming Integration Core
 
-Core integration module connecting gaming systems with unified infrastructure.
-Handles gaming performance monitoring, alert integration, and testing framework connectivity.
+Core integration system for gaming and entertainment functionality,
+providing seamless integration with the main agent system.
 
-Author: Agent-3 Integration & Testing Specialist
-Task: TASK 3C - Gaming Systems Integration
-V2 Standards: ≤200 LOC, SRP, OOP principles
+Author: Agent-6 - Gaming & Entertainment Specialist
 """
 
+import json
 import logging
-import time
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass, field
+import asyncio
+from typing import Dict, List, Optional, Any, Callable
+from dataclasses import dataclass, asdict
+from enum import Enum
 from datetime import datetime
 
-# Core infrastructure imports
-from ..core.managers.performance_manager import PerformanceManager
-from ..core.performance.alerts import AlertSeverity, AlertType
-from ..core.testing.test_categories import TestCategories
+logger = logging.getLogger(__name__)
+
+
+class IntegrationStatus(Enum):
+    """Status of gaming system integration."""
+    DISCONNECTED = "disconnected"
+    CONNECTING = "connecting"
+    CONNECTED = "connected"
+    ERROR = "error"
+    MAINTENANCE = "maintenance"
+
+
+class GameType(Enum):
+    """Types of games supported by the system."""
+    ACTION = "action"
+    ADVENTURE = "adventure"
+    PUZZLE = "puzzle"
+    STRATEGY = "strategy"
+    SIMULATION = "simulation"
+    SPORTS = "sports"
+    RPG = "rpg"
+    ARCADE = "arcade"
 
 
 @dataclass
-class GamingSystemInfo:
-    """Gaming system information for integration"""
-    system_name: str
+class GameSession:
+    """Represents an active gaming session."""
+    session_id: str
+    game_type: GameType
+    player_id: str
+    start_time: datetime
+    status: str
+    metadata: Dict[str, Any]
+    performance_metrics: Dict[str, Any]
+
+
+@dataclass
+class EntertainmentSystem:
+    """Represents an entertainment system component."""
+    system_id: str
     system_type: str
-    version: str
-    integration_status: str
-    last_health_check: str = field(default_factory=lambda: datetime.now().isoformat())
-    performance_score: float = 0.0
+    status: IntegrationStatus
+    capabilities: List[str]
+    configuration: Dict[str, Any]
+    last_updated: datetime
 
 
 class GamingIntegrationCore:
     """
-    Gaming Integration Core - TASK 3C
+    Core integration system for gaming and entertainment functionality.
     
-    Core integration manager connecting gaming systems with:
-    - Performance monitoring infrastructure
-    - Alert management system  
-    - Testing framework
-    - Workspace management
+    Provides seamless integration between gaming systems and the main
+    agent system, including session management, performance monitoring,
+    and system coordination.
     """
     
-    def __init__(self, performance_manager: PerformanceManager):
-        self.performance_manager = performance_manager
-        self.logger = logging.getLogger(f"{__name__}.GamingIntegrationCore")
-        
-        # Gaming systems tracking
-        self.gaming_systems: Dict[str, GamingSystemInfo] = {}
-        self.integration_active = False
-        self.last_integration_check = None
-        
-        # Initialize gaming systems registry
-        self._initialize_gaming_systems()
-        
-        self.logger.info("Gaming Integration Core initialized for TASK 3C")
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
+        """Initialize the gaming integration core."""
+        self.config = config or {}
+        self.status = IntegrationStatus.DISCONNECTED
+        self.game_sessions: Dict[str, GameSession] = {}
+        self.entertainment_systems: Dict[str, EntertainmentSystem] = {}
+        self.integration_handlers: Dict[str, Callable] = {}
+        self.performance_monitors: Dict[str, Callable] = {}
+        self._initialize_integration()
     
-    def _initialize_gaming_systems(self):
-        """Initialize gaming systems registry"""
+    def _initialize_integration(self):
+        """Initialize the integration system."""
+        logger.info("Initializing Gaming Integration Core")
+        self._setup_default_handlers()
+        self._setup_performance_monitors()
+        self._connect_to_systems()
+    
+    def _setup_default_handlers(self):
+        """Setup default integration handlers."""
+        self.integration_handlers = {
+            "session_management": self._handle_session_management,
+            "performance_monitoring": self._handle_performance_monitoring,
+            "system_health": self._handle_system_health,
+            "user_interaction": self._handle_user_interaction
+        }
+    
+    def _setup_performance_monitors(self):
+        """Setup performance monitoring systems."""
+        self.performance_monitors = {
+            "fps_monitor": self._monitor_fps,
+            "memory_monitor": self._monitor_memory,
+            "cpu_monitor": self._monitor_cpu,
+            "network_monitor": self._monitor_network
+        }
+    
+    def _connect_to_systems(self):
+        """Connect to gaming and entertainment systems."""
         try:
-            # Register known gaming systems
-            self.gaming_systems = {
-                "osrs": GamingSystemInfo(
-                    system_name="OSRS AI Agent",
-                    system_type="MMORPG Automation",
-                    version="2.0",
-                    integration_status="pending"
-                ),
-                "ai_framework": GamingSystemInfo(
-                    system_name="AI Gaming Agent Framework", 
-                    system_type="Behavior Tree Engine",
-                    version="2.0",
-                    integration_status="pending"
-                ),
-                "pygame": GamingSystemInfo(
-                    system_name="PyGame Integration",
-                    system_type="Game Development",
-                    version="2.0", 
-                    integration_status="pending"
-                ),
-                "real_time": GamingSystemInfo(
-                    system_name="Real-time Gaming State",
-                    system_type="State Management",
-                    version="2.0",
-                    integration_status="pending"
-                )
+            logger.info("Connecting to gaming systems")
+            self.status = IntegrationStatus.CONNECTING
+            
+            # Simulate connection process
+            asyncio.create_task(self._establish_connections())
+            
+        except Exception as e:
+            logger.error(f"Failed to connect to systems: {e}")
+            self.status = IntegrationStatus.ERROR
+    
+    async def _establish_connections(self):
+        """Establish connections to gaming systems."""
+        try:
+            # Simulate connection delay
+            await asyncio.sleep(1)
+            
+            # Register entertainment systems
+            self._register_entertainment_systems()
+            
+            self.status = IntegrationStatus.CONNECTED
+            logger.info("Gaming integration core connected successfully")
+            
+        except Exception as e:
+            logger.error(f"Connection establishment failed: {e}")
+            self.status = IntegrationStatus.ERROR
+    
+    def _register_entertainment_systems(self):
+        """Register available entertainment systems."""
+        systems = [
+            {
+                "system_id": "gaming_engine_1",
+                "system_type": "game_engine",
+                "capabilities": ["3d_rendering", "physics", "audio", "networking"],
+                "configuration": {"max_fps": 60, "resolution": "1920x1080"}
+            },
+            {
+                "system_id": "media_player_1",
+                "system_type": "media_player",
+                "capabilities": ["video_playback", "audio_playback", "streaming"],
+                "configuration": {"supported_formats": ["mp4", "avi", "mkv"]}
+            },
+            {
+                "system_id": "interactive_display_1",
+                "system_type": "interactive_display",
+                "capabilities": ["touch_input", "gesture_recognition", "display_output"],
+                "configuration": {"resolution": "4k", "refresh_rate": 120}
             }
-            
-            self.logger.info(f"Initialized {len(self.gaming_systems)} gaming systems")
-            
-        except Exception as e:
-            self.logger.error(f"Failed to initialize gaming systems: {e}")
+        ]
+        
+        for system_data in systems:
+            system = EntertainmentSystem(
+                system_id=system_data["system_id"],
+                system_type=system_data["system_type"],
+                status=IntegrationStatus.CONNECTED,
+                capabilities=system_data["capabilities"],
+                configuration=system_data["configuration"],
+                last_updated=datetime.now()
+            )
+            self.entertainment_systems[system.system_id] = system
     
-    def start_integration(self):
-        """Start gaming systems integration"""
-        try:
-            self.integration_active = True
-            self.last_integration_check = datetime.now()
+    def create_game_session(
+        self,
+        game_type: GameType,
+        player_id: str,
+        metadata: Optional[Dict[str, Any]] = None
+    ) -> GameSession:
+        """
+        Create a new gaming session.
+        
+        Args:
+            game_type: Type of game
+            player_id: ID of the player
+            metadata: Additional session metadata
             
-            # Setup performance monitoring for gaming
-            self._setup_gaming_performance_monitoring()
+        Returns:
+            Created GameSession instance
+        """
+        session_id = f"session_{int(datetime.now().timestamp())}_{player_id}"
+        
+        session = GameSession(
+            session_id=session_id,
+            game_type=game_type,
+            player_id=player_id,
+            start_time=datetime.now(),
+            status="active",
+            metadata=metadata or {},
+            performance_metrics={}
+        )
+        
+        self.game_sessions[session_id] = session
+        logger.info(f"Created game session: {session_id} for {game_type.value}")
+        
+        return session
+    
+    def end_game_session(self, session_id: str, end_metadata: Optional[Dict[str, Any]] = None) -> bool:
+        """
+        End a gaming session.
+        
+        Args:
+            session_id: ID of the session to end
+            end_metadata: Metadata about the session end
             
-            # Register gaming metrics with performance manager
-            self._register_gaming_metrics()
-            
-            # Update system statuses
-            for system_id, system_info in self.gaming_systems.items():
-                system_info.integration_status = "active"
-                system_info.last_health_check = datetime.now().isoformat()
-            
-            self.logger.info("Gaming systems integration started successfully")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to start gaming integration: {e}")
-            self.integration_active = False
+        Returns:
+            True if session was ended successfully, False otherwise
+        """
+        if session_id not in self.game_sessions:
+            logger.warning(f"Session {session_id} not found")
             return False
+        
+        session = self.game_sessions[session_id]
+        session.status = "ended"
+        
+        if end_metadata:
+            session.metadata.update(end_metadata)
+        
+        session.metadata["end_time"] = datetime.now().isoformat()
+        session.metadata["duration"] = (datetime.now() - session.start_time).total_seconds()
+        
+        logger.info(f"Ended game session: {session_id}")
+        return True
     
-    def stop_integration(self):
-        """Stop gaming systems integration"""
-        try:
-            self.integration_active = False
+    def update_session_performance(self, session_id: str, metrics: Dict[str, Any]) -> bool:
+        """
+        Update performance metrics for a gaming session.
+        
+        Args:
+            session_id: ID of the session
+            metrics: Performance metrics to update
             
-            # Update system statuses
-            for system_id, system_info in self.gaming_systems.items():
-                system_info.integration_status = "inactive"
-            
-            self.logger.info("Gaming systems integration stopped")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to stop gaming integration: {e}")
+        Returns:
+            True if metrics were updated successfully, False otherwise
+        """
+        if session_id not in self.game_sessions:
+            logger.warning(f"Session {session_id} not found")
             return False
+        
+        session = self.game_sessions[session_id]
+        session.performance_metrics.update(metrics)
+        session.metadata["last_metrics_update"] = datetime.now().isoformat()
+        
+        logger.debug(f"Updated performance metrics for session {session_id}")
+        return True
     
-    def _setup_gaming_performance_monitoring(self):
-        """Setup gaming-specific performance monitoring"""
-        try:
-            # Add gaming system metrics to performance manager
-            self.performance_manager.add_metric("gaming_systems_active", 0, "count", "gaming")
-            self.performance_manager.add_metric("gaming_performance_score", 0.0, "score", "gaming")
-            self.performance_manager.add_metric("gaming_integration_health", 100.0, "percent", "gaming")
+    def get_active_sessions(self, game_type: Optional[GameType] = None) -> List[GameSession]:
+        """
+        Get all active gaming sessions.
+        
+        Args:
+            game_type: Optional filter by game type
             
-            self.logger.info("Gaming performance monitoring setup completed")
-            
-        except Exception as e:
-            self.logger.error(f"Failed to setup gaming performance monitoring: {e}")
+        Returns:
+            List of active sessions
+        """
+        active_sessions = [
+            session for session in self.game_sessions.values()
+            if session.status == "active"
+        ]
+        
+        if game_type:
+            active_sessions = [
+                session for session in active_sessions
+                if session.game_type == game_type
+            ]
+        
+        return active_sessions
     
-    def _register_gaming_metrics(self):
-        """Register gaming metrics with performance manager"""
-        try:
-            # Register custom gaming metrics
-            self.performance_manager.add_metric("gaming_system_health_checks", 0, "count", "gaming")
-            self.performance_manager.add_metric("gaming_integration_events", 0, "count", "gaming")
-            self.performance_manager.add_metric("gaming_performance_alerts", 0, "count", "gaming")
-            
-            self.logger.info("Gaming metrics registration completed")
-            
-        except Exception as e:
-            self.logger.error(f"Failed to register gaming metrics: {e}")
-    
-    def register_gaming_system(self, system_id: str, system_info: GamingSystemInfo):
-        """Register a new gaming system"""
-        try:
-            if not self.integration_active:
-                self.logger.warning("Gaming integration not active, skipping system registration")
-                return False
-            
-            self.gaming_systems[system_id] = system_info
-            system_info.integration_status = "active"
-            system_info.last_health_check = datetime.now().isoformat()
-            
-            # Update performance metrics
-            self.performance_manager.add_metric("gaming_systems_active", len(self.gaming_systems), "count", "gaming")
-            
-            self.logger.info(f"Registered gaming system: {system_id}")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to register gaming system {system_id}: {e}")
-            return False
-    
-    def update_system_health(self, system_id: str, health_score: float):
-        """Update gaming system health score"""
-        try:
-            if system_id not in self.gaming_systems:
-                self.logger.warning(f"Gaming system not found: {system_id}")
-                return False
-            
-            system_info = self.gaming_systems[system_id]
-            system_info.performance_score = health_score
-            system_info.last_health_check = datetime.now().isoformat()
-            
-            # Update performance metrics
-            self.performance_manager.add_metric("gaming_performance_score", health_score, "score", "gaming")
-            
-            self.logger.debug(f"Updated health for {system_id}: {health_score}")
-            return True
-            
-        except Exception as e:
-            self.logger.error(f"Failed to update health for {system_id}: {e}")
-            return False
-    
-    def get_integration_status(self) -> Dict[str, Any]:
-        """Get gaming integration status"""
-        try:
-            active_systems = sum(1 for s in self.gaming_systems.values() if s.integration_status == "active")
-            total_systems = len(self.gaming_systems)
-            
-            # Calculate overall health score
-            health_scores = [s.performance_score for s in self.gaming_systems.values()]
-            overall_health = sum(health_scores) / len(health_scores) if health_scores else 0.0
-            
-            return {
-                "integration_active": self.integration_active,
-                "total_systems": total_systems,
-                "active_systems": active_systems,
-                "overall_health_score": overall_health,
-                "last_check": self.last_integration_check.isoformat() if self.last_integration_check else None,
-                "systems": {
-                    system_id: {
-                        "name": info.system_name,
-                        "type": info.system_type,
-                        "version": info.version,
-                        "status": info.integration_status,
-                        "health_score": info.performance_score,
-                        "last_health_check": info.last_health_check
-                    }
-                    for system_id, info in self.gaming_systems.items()
+    def get_system_status(self) -> Dict[str, Any]:
+        """
+        Get the status of all entertainment systems.
+        
+        Returns:
+            Dictionary containing system status information
+        """
+        return {
+            "integration_status": self.status.value,
+            "total_sessions": len(self.game_sessions),
+            "active_sessions": len(self.get_active_sessions()),
+            "entertainment_systems": {
+                system_id: {
+                    "type": system.system_type,
+                    "status": system.status.value,
+                    "capabilities": system.capabilities,
+                    "last_updated": system.last_updated.isoformat()
                 }
+                for system_id, system in self.entertainment_systems.items()
+            }
+        }
+    
+    def register_integration_handler(self, handler_name: str, handler_func: Callable):
+        """
+        Register a custom integration handler.
+        
+        Args:
+            handler_name: Name of the handler
+            handler_func: Handler function to register
+        """
+        self.integration_handlers[handler_name] = handler_func
+        logger.info(f"Registered integration handler: {handler_name}")
+    
+    def register_performance_monitor(self, monitor_name: str, monitor_func: Callable):
+        """
+        Register a custom performance monitor.
+        
+        Args:
+            monitor_name: Name of the monitor
+            monitor_func: Monitor function to register
+        """
+        self.performance_monitors[monitor_name] = monitor_func
+        logger.info(f"Registered performance monitor: {monitor_name}")
+    
+    def _handle_session_management(self, event_data: Dict[str, Any]):
+        """Handle session management events."""
+        logger.debug(f"Handling session management event: {event_data}")
+    
+    def _handle_performance_monitoring(self, event_data: Dict[str, Any]):
+        """Handle performance monitoring events."""
+        logger.debug(f"Handling performance monitoring event: {event_data}")
+    
+    def _handle_system_health(self, event_data: Dict[str, Any]):
+        """Handle system health events."""
+        logger.debug(f"Handling system health event: {event_data}")
+    
+    def _handle_user_interaction(self, event_data: Dict[str, Any]):
+        """Handle user interaction events."""
+        logger.debug(f"Handling user interaction event: {event_data}")
+    
+    def _monitor_fps(self) -> Dict[str, Any]:
+        """Monitor FPS performance."""
+        return {"fps": 60, "frame_time": 16.67}
+    
+    def _monitor_memory(self) -> Dict[str, Any]:
+        """Monitor memory usage."""
+        return {"memory_usage": 45.2, "memory_available": 54.8}
+    
+    def _monitor_cpu(self) -> Dict[str, Any]:
+        """Monitor CPU usage."""
+        return {"cpu_usage": 23.1, "cpu_temperature": 45.0}
+    
+    def _monitor_network(self) -> Dict[str, Any]:
+        """Monitor network performance."""
+        return {"latency": 15, "bandwidth": 100}
+    
+    def export_integration_data(self, filepath: str) -> bool:
+        """
+        Export integration data to JSON file.
+        
+        Args:
+            filepath: Path to export file
+            
+        Returns:
+            True if export successful, False otherwise
+        """
+        try:
+            export_data = {
+                "status": self.get_system_status(),
+                "sessions": [asdict(session) for session in self.game_sessions.values()],
+                "systems": [asdict(system) for system in self.entertainment_systems.values()],
+                "export_timestamp": datetime.now().isoformat()
             }
             
+            with open(filepath, 'w') as f:
+                json.dump(export_data, f, indent=2, default=str)
+            
+            logger.info(f"Exported integration data to {filepath}")
+            return True
         except Exception as e:
+<<<<<<< HEAD
             self.logger.error(f"Failed to get integration status: {e}")
             return {"error": str(e)}
     
@@ -589,3 +737,7 @@ class GamingIntegrationCore:
             return 0.0
 
 >>>>>>> origin/codex/catalog-functions-in-utils-directories
+=======
+            logger.error(f"Failed to export integration data: {e}")
+            return False
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

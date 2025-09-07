@@ -31,6 +31,7 @@
 - PRs must pass code review and CI checks before merge.
 - Split large features into smaller, incremental PRs.
 
+<<<<<<< HEAD
 ## V2 Compliance Standards - UPDATED 2025-01-27
 
 ### 🎯 **CORE PHILOSOPHY: CLEAN, TESTED, CLASS-BASED, REUSABLE, SCALABLE CODE**
@@ -60,6 +61,15 @@ that scales and follows KISS, SOLID, SSOT, SRP, and object-oriented principles.
 - Avoid circular dependencies; leverage dependency injection for shared utilities
 - Implement comprehensive error handling and logging
 - Write unit tests for all new features and critical paths
+=======
+## V2 Compliance Standards
+- Follow existing architecture before proposing or implementing new patterns.
+- Maintain a single source of truth (SSOT) across configuration, constants, and schemas.
+- Use object-oriented code for complex domain logic; keep functions small and cohesive.
+- Adhere to LOC limits for files, classes, and functions; refactor when exceeding thresholds.
+- Prioritize modular design and enforce clear boundaries between modules.
+- Avoid circular dependencies; leverage dependency injection for shared utilities.
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 ## Messaging System
 - Core service: `src/services/messaging_core.py`
@@ -67,6 +77,7 @@ that scales and follows KISS, SOLID, SSOT, SRP, and object-oriented principles.
   - `pyautogui` via `src/services/messaging_pyautogui.py`
   - `inbox` file drop per agent at `agent_workspaces/<Agent-X>/inbox`
 - Models and enums: `src/services/models/messaging_models.py`
+<<<<<<< HEAD
   - **types**: `text`, `broadcast`, `onboarding`, `agent_to_agent`, `system_to_agent`, `human_to_agent`
   - **priority**: `normal`, `urgent`
   - **tags**: `captain`, `onboarding`, `wrapup`
@@ -88,6 +99,11 @@ that scales and follows KISS, SOLID, SSOT, SRP, and object-oriented principles.
 - **Contract Optimization**: Intelligent task assignment and progress tracking
 - **Pattern Recognition**: Cross-system intelligence and optimization
 - **Real-time Integration**: Live context updates and recommendations
+=======
+  - **types**: `text`, `broadcast`, `onboarding`
+  - **priority**: `normal`, `urgent`
+  - **tags**: `captain`, `onboarding`, `wrapup`
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 ### CLI (Unified Messaging)
 - Entry point: `python -m src.services.messaging_cli [flags]`
@@ -139,7 +155,11 @@ python -m src.services.messaging_cli --wrapup
 ## Discord Devlog System
 - SSOT for team communication; updates post to Discord.
 - Usage guidance is documented in onboarding:
+<<<<<<< HEAD
   - `docs/AGENT_ONBOARDING_GUIDE.md` (Devlog requirements and commands)
+=======
+  - `docs/onboarding/README.md` (Devlog requirements and commands)
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 - Typical usage:
 ```
 # Check devlog system status
@@ -177,7 +197,11 @@ python -m src.services.messaging_cli --check-status
 - Messaging CLI: `src/services/messaging_cli.py`
 - Message rules: `src/core/validation/rules/message.yaml`
 - Contract rules: `src/core/validation/rules/contract.yaml`
+<<<<<<< HEAD
 - Onboarding doc: `docs/AGENT_ONBOARDING_GUIDE.md`
+=======
+- Onboarding docs: `docs/onboarding/README.md`, `ONBOARDING_GUIDE.md`
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 ## Examples
 - TypeScript functional React component (prefer functional components):
@@ -229,7 +253,11 @@ python -m src.services.messaging_cli --check-status
 
 ## Cross-References
 - Onboarding flow, messaging, and contract commands: see
+<<<<<<< HEAD
 [docs/AGENT_ONBOARDING_GUIDE.md](docs/AGENT_ONBOARDING_GUIDE.md)
+=======
+  [ONBOARDING_GUIDE.md](ONBOARDING_GUIDE.md)
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 ---
 
@@ -275,6 +303,7 @@ python -m src.services.messaging_cli --check-status
 
 ## Agent Cycle & Communication Protocols
 
+<<<<<<< HEAD
 ### 🚨 FUNDAMENTAL OPERATIONAL PRINCIPLE: CYCLE-BASED METHODOLOGY
 **TIME-BASED DEADLINES ARE PROHIBITED. ALL OPERATIONS ARE CYCLE-BASED.**
 
@@ -285,6 +314,11 @@ python -m src.services.messaging_cli --check-status
 - **Progress Format**: "Cycle X complete: [achievements]" (NEVER time-based progress)
 - **Maintain momentum for 8x efficiency**: Each cycle should produce measurable progress
 - **Always check your inbox first**: `agent_workspaces/<Agent-X>/inbox/`
+=======
+- One cycle = Captain prompt + Agent response; respond within one cycle.
+- Maintain momentum for 8x efficiency; each cycle should produce measurable progress.
+- Always check your inbox first: `agent_workspaces/<Agent-X>/inbox/`.
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 - Useful utilities:
   ```bash
   python -m src.services.messaging_cli --list-agents
@@ -311,6 +345,7 @@ python -m src.services.messaging_cli --check-status
   - Agent-7: Web Development — 685 pts
   - Agent-8: SSOT & System Integration — 650 pts
 - Note on titles: if labels differ across outputs, prefer
+<<<<<<< HEAD
   `docs/AGENT_ONBOARDING_GUIDE.md` and `src/services/messaging_cli.py` as SSOT.
 
 ## V2 Compliance Enforcement Checklist - UPDATED 2025-01-27
@@ -342,3 +377,18 @@ python -m src.services.messaging_cli --check-status
 - ✅ **Reusability**: Design components for cross-project usage
 - ✅ **Performance**: Optimize for high-frequency operations where needed
 - ✅ **Scalability**: Architecture supports horizontal and vertical scaling
+=======
+  `ONBOARDING_GUIDE.md` and `src/services/messaging_cli.py` as SSOT.
+
+## V2 Compliance Guardrails (enforcement checklist)
+
+- Follow existing architecture; avoid introducing new patterns prematurely.
+- Maintain SSOT across configuration, constants, schemas, and docs.
+- Encapsulate complex domain logic with OO; keep functions small and cohesive.
+- Enforce LOC limits; refactor when thresholds are exceeded.
+- Prefer dependency injection for shared utilities; avoid circular dependencies.
+- Testing: unit tests for new features, Jest naming clarity, mock externals,
+  coverage ≥ 85%.
+- Documentation: JSDoc for public APIs, examples for new utilities, update README
+  and changelog for notable changes.
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

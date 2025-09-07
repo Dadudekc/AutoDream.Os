@@ -11,6 +11,7 @@ License: MIT
 """
 
 import logging
+<<<<<<< HEAD
 
 # Import config after path setup
 try:
@@ -51,6 +52,14 @@ except ImportError:
     from datetime import datetime
     import json
     from typing import Optional, Dict, Any
+=======
+import logging.config
+import json
+import os
+from datetime import datetime
+from typing import Dict, Any, Optional
+from pathlib import Path
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 
 class StructuredFormatter(logging.Formatter):
@@ -65,11 +74,19 @@ class StructuredFormatter(logging.Formatter):
             "message": record.getMessage(),
             "module": record.module,
             "function": record.funcName,
+<<<<<<< HEAD
             "line": record.lineno,
         }
 
         # Add extra fields if present
         if get_unified_validator().validate_hasattr(record, "extra_fields"):
+=======
+            "line": record.lineno
+        }
+
+        # Add extra fields if present
+        if hasattr(record, 'extra_fields'):
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
             log_entry.update(record.extra_fields)
 
         # Add exception info if present
@@ -92,9 +109,13 @@ class V2Logger:
         """
         self.name = name
         self.logger = logging.getLogger(name)
+<<<<<<< HEAD
         self.logger.setLevel(
             get_unified_validator().safe_getattr(logging, log_level.upper())
         )
+=======
+        self.logger.setLevel(getattr(logging, log_level.upper()))
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
         # Remove existing handlers to avoid duplicates
         self.logger.handlers.clear()
@@ -102,7 +123,11 @@ class V2Logger:
         # Console handler with structured format
         console_handler = logging.StreamHandler()
         console_formatter = logging.Formatter(
+<<<<<<< HEAD
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+=======
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         )
         console_handler.setFormatter(console_formatter)
         self.logger.addHandler(console_handler)
@@ -116,6 +141,7 @@ class V2Logger:
 
     def _setup_file_handler(self):
         """Setup file handler for persistent logging."""
+<<<<<<< HEAD
         import os
 
         log_dir = "logs"
@@ -127,6 +153,15 @@ class V2Logger:
         file_handler = logging.FileHandler(log_file, encoding="utf-8")
         file_formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
+=======
+        log_dir = Path("logs")
+        log_dir.mkdir(exist_ok=True)
+
+        log_file = log_dir / f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log"
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         )
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
@@ -155,7 +190,11 @@ class V2Logger:
         """Internal logging method."""
         if extra:
             # Add extra fields to log record
+<<<<<<< HEAD
             extra_fields = {"extra_fields": extra}
+=======
+            extra_fields = {'extra_fields': extra}
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
             self.logger.log(level, message, extra=extra_fields)
         else:
             self.logger.log(level, message)

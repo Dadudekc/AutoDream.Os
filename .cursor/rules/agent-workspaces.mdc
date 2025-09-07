@@ -128,4 +128,8 @@ agents = {
 - **Sensitive data**: Encrypt when stored
 - **Message content**: Protect during transmission
 - **Status information**: Secure critical state data
+<<<<<<< HEAD
 - **Backup security**: Encrypt archived data
+=======
+- **Backup security**: Encrypt archived data
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

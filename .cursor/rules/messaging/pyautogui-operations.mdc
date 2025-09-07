@@ -65,4 +65,8 @@ alwaysApply: true
 ### **Parallel Processing**:
 - **Non-urgent messages**: Allow concurrent delivery
 - **Batch operations**: Group similar operations
+<<<<<<< HEAD
 - **Resource pooling**: Reuse PyAutoGUI instances
+=======
+- **Resource pooling**: Reuse PyAutoGUI instances
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

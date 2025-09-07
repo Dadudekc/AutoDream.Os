@@ -1,3 +1,4 @@
+from src.utils.config_core import get_config
 
 # MIGRATED: This file has been migrated to the centralized configuration system
 """Shared configuration for error report generation."""
@@ -19,8 +20,8 @@ class ReportFormat(str, Enum):
 # Default configuration values
 DEFAULT_REPORTS_DIR = Path("reports")
 DEFAULT_FORMAT = ReportFormat.JSON
-INCLUDE_METADATA = True
-INCLUDE_RECOMMENDATIONS = True
+INCLUDE_METADATA = get_config('INCLUDE_METADATA', True)
+INCLUDE_RECOMMENDATIONS = get_config('INCLUDE_RECOMMENDATIONS', True)
 
 # Template fragments
 HTML_TEMPLATE = """<!DOCTYPE html>

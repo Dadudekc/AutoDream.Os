@@ -38,4 +38,8 @@ alwaysApply: true
 - `develop`: Integration branch
 - Feature branches: `feat/feature-name`
 - Bugfix branches: `fix/issue-description`
+<<<<<<< HEAD
 - Release branches: `release/v1.2.3`
+=======
+- Release branches: `release/v1.2.3`
+>>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

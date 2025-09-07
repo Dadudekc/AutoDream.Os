@@ -7,7 +7,7 @@ from typing import Dict, Any
 from unittest.mock import patch
 
 try:  # pragma: no cover - attempt real import
-    from gaming.gaming_integration_core import (
+    from gaming.integration.core import (
         GameType,
         GamingIntegrationCore,
         IntegrationStatus,
@@ -30,12 +30,12 @@ except Exception:  # pragma: no cover - fallback stub
 
         def _initialize_integration(self) -> None:
             try:
-                self._connect_to_systems()
+                self._setup_handlers()
                 self.status = IntegrationStatus.CONNECTED
             except Exception:
                 self.status = IntegrationStatus.ERROR
 
-        def _connect_to_systems(self) -> None:  # pragma: no cover - stub
+        def _setup_handlers(self) -> None:  # pragma: no cover - stub
             pass
 
         def create_game_session(self, game_type: GameType, player_id: str):
@@ -46,7 +46,7 @@ except Exception:  # pragma: no cover - fallback stub
 
 def test_initialization_success(ssot_config) -> None:
     """Ensure successful init sets connected status and uses SSOT config."""
-    with patch.object(GamingIntegrationCore, "_connect_to_systems"):
+    with patch.object(GamingIntegrationCore, "_setup_handlers"):
         core = GamingIntegrationCore(ssot_config)
     assert core.status is IntegrationStatus.CONNECTED
     assert core.config is ssot_config
@@ -56,7 +56,7 @@ def test_initialization_failure_sets_error(ssot_config) -> None:
     """Failed init should set error status while keeping SSOT config."""
     with patch.object(
         GamingIntegrationCore,
-        "_connect_to_systems",
+        "_setup_handlers",
         side_effect=Exception("fail"),
     ):
         core = GamingIntegrationCore(ssot_config)

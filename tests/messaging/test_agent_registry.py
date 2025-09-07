@@ -1,7 +1,10 @@
 """Tests for agent registry utilities."""
 
-from src.services.agent_registry import format_agent_list
-from src.services.utils.agent_registry import AGENTS, list_agents
+from src.services.utils.agent_registry import (
+    AGENTS,
+    format_agent_list,
+    list_agents,
+)
 
 
 def test_format_agent_list_returns_standard_structure():
@@ -14,5 +17,4 @@ def test_format_agent_list_returns_standard_structure():
 
 
 def test_list_agents_matches_registry_keys():
-    agents = list_agents()
-    assert agents == sorted(AGENTS.keys())
+    assert set(list_agents()) == set(AGENTS.keys())

@@ -9,57 +9,48 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
+from typing import List
 
 from src.utils.logger import get_logger
-
 from .models.messaging_models import UnifiedMessage
-from .utils.agent_registry import AGENTS, list_agents
+from .utils.agent_registry import AGENTS, list_agents as registry_list_agents
 
 
 class MessagingUtils:
     """Utility methods for messaging service."""
 
-    def __init__(
-        self,
-        inbox_paths: Dict[str, str],
-        messages: List[UnifiedMessage],
-        agents: Optional[Dict[str, Dict[str, Any]]] = None,
-    ):
+    def __init__(self, messages: List[UnifiedMessage]):
         """Initialize utility service."""
-        self.agents = agents or AGENTS
-        self.inbox_paths = inbox_paths
         self.messages = messages
+        self.logger = get_logger(__name__)
 
     def list_agents(self) -> None:
         """List all available agents."""
-        get_logger(__name__).info("📋 AVAILABLE AGENTS:")
-        get_logger(__name__).info("=" * 50)
-        for agent_id in list_agents():
-            info = self.agents[agent_id]
-            get_logger(__name__).info(f"🤖 {agent_id}: {info['description']}")
-            get_logger(__name__).info(f"   📍 Coordinates: {info['coords']}")
-            get_logger(__name__).info(
-                f"   📬 Inbox: {self.inbox_paths.get(agent_id, 'N/A')}"
-            )
-            get_logger(__name__).info()
+        self.logger.info("📋 AVAILABLE AGENTS:")
+        self.logger.info("=" * 50)
+        for agent_id in registry_list_agents():
+            info = AGENTS[agent_id]
+            self.logger.info(f"🤖 {agent_id}: {info['description']}")
+            self.logger.info(f"   📍 Coordinates: {info['coords']}")
+            self.logger.info(f"   📬 Inbox: {info['inbox']}")
+            self.logger.info("")
 
     def show_coordinates(self) -> None:
         """Show agent coordinates."""
-        get_logger(__name__).info("📍 AGENT COORDINATES:")
-        get_logger(__name__).info("=" * 30)
-        for agent_id in list_agents():
-            info = self.agents[agent_id]
-            get_logger(__name__).info(f"🤖 {agent_id}: {info['coords']}")
-        get_logger(__name__).info()
+        self.logger.info("📍 AGENT COORDINATES:")
+        self.logger.info("=" * 30)
+        for agent_id in registry_list_agents():
+            info = AGENTS[agent_id]
+            self.logger.info(f"🤖 {agent_id}: {info['coords']}")
+        self.logger.info("")
 
     def show_message_history(self) -> None:
         """Show message history."""
-        get_logger(__name__).info("📜 MESSAGE HISTORY:")
-        get_logger(__name__).info("=" * 30)
+        self.logger.info("📜 MESSAGE HISTORY:")
+        self.logger.info("=" * 30)
         for i, message in enumerate(self.messages, 1):
-            get_logger(__name__).info(f"{i}. {message.sender} → {message.recipient}")
-            get_logger(__name__).info(f"   Type: {message.message_type.value}")
-            get_logger(__name__).info(f"   Priority: {message.priority.value}")
-            get_logger(__name__).info(f"   ID: {message.message_id}")
-            get_logger(__name__).info()
+            self.logger.info(f"{i}. {message.sender} → {message.recipient}")
+            self.logger.info(f"   Type: {message.message_type.value}")
+            self.logger.info(f"   Priority: {message.priority.value}")
+            self.logger.info(f"   ID: {message.message_id}")
+            self.logger.info("")

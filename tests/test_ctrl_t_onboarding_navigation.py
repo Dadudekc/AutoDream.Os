@@ -21,7 +21,7 @@ from src.services.models.messaging_models import (
     UnifiedMessagePriority, 
     UnifiedMessageTag
 )
-from src.services.utils.agent_registry import AGENTS, list_agents
+from src.services.utils.agent_registry import list_agents
 
 
 def test_ctrl_t_onboarding_navigation():
@@ -110,7 +110,9 @@ def test_ctrl_t_onboarding_navigation():
     
     # Show detailed results
     get_logger(__name__).info("📍 DETAILED NAVIGATION RESULTS:")
-    agent_order = [agent for agent in list_agents() if agent != "Agent-4"] + ["Agent-4"]
+    agent_order = list_agents()
+    agent_order.remove("Agent-4")
+    agent_order.append("Agent-4")
     for i, (agent_id, success) in enumerate(zip(agent_order, bulk_results)):
         status = "✅ SUCCESS" if success else "❌ FAILED"
         coords = service.agents.get(agent_id, {}).get("coords", "Unknown")
@@ -153,15 +155,15 @@ def test_coordinate_specific_navigation():
     
     # Test each agent's starter coordinates
     test_agents = [
-    ("Agent-1", AGENTS["Agent-1"]["coords"], "Top-left starter position"),
-    ("Agent-2", AGENTS["Agent-2"]["coords"], "Top-center starter position"),
-    ("Agent-3", AGENTS["Agent-3"]["coords"], "Bottom-left starter position"),
-    ("Agent-4", AGENTS["Agent-4"]["coords"], "Bottom-center starter position"),
-    ("Agent-5", AGENTS["Agent-5"]["coords"], "Top-right starter position"),
-    ("Agent-6", AGENTS["Agent-6"]["coords"], "Far-right starter position"),
-    ("Agent-7", AGENTS["Agent-7"]["coords"], "Bottom-right starter position"),
-    ("Agent-8", AGENTS["Agent-8"]["coords"], "Far-bottom-right starter position"),
-]
+        ("Agent-1", (-1269, 481), "Top-left starter position"),
+        ("Agent-2", (-308, 480), "Top-center starter position"),
+        ("Agent-3", (-1269, 1001), "Bottom-left starter position"),
+        ("Agent-4", (-308, 1000), "Bottom-center starter position"),
+        ("Agent-5", (652, 421), "Top-right starter position"),
+        ("Agent-6", (1612, 419), "Far-right starter position"),
+        ("Agent-7", (653, 940), "Bottom-right starter position"),
+        ("Agent-8", (1611, 941), "Far-bottom-right starter position")
+    ]
     
     for agent_id, expected_coords, description in test_agents:
         get_logger(__name__).info(f"🎯 Testing {agent_id}: {description}")

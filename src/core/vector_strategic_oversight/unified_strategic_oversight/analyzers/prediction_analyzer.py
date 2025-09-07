@@ -12,6 +12,7 @@ from datetime import datetime
 from dataclasses import dataclass
 
 from ..enums import ConfidenceLevel
+from core.analytics.prediction.base_analyzer import BasePredictionAnalyzer
 
 
 @dataclass
@@ -27,8 +28,8 @@ class SuccessPrediction:
     predicted_at: datetime
 
 
-class PredictionAnalyzer:
-    """Analyzes and predicts task success probabilities."""
+class PredictionAnalyzer(BasePredictionAnalyzer):
+    """Analyzes and predicts task success probabilities using SSOT utilities."""
     
     def __init__(self):
         """Initialize prediction analyzer."""
@@ -53,13 +54,21 @@ class PredictionAnalyzer:
                 historical_success_rate = self._calculate_historical_success_rate()
                 base_probability = (base_probability + historical_success_rate) / 2
             
-            # Determine confidence level
-            confidence_level = self._determine_confidence_level(base_probability)
+            # Determine confidence level using SSOT
+            confidence_level = self.confidence_level(
+                base_probability,
+                {
+                    'very_high': ConfidenceLevel.VERY_HIGH,
+                    'high': ConfidenceLevel.HIGH,
+                    'medium': ConfidenceLevel.MEDIUM,
+                    'low': ConfidenceLevel.LOW,
+                },
+            )
             
             return SuccessPrediction(
                 prediction_id=f"pred_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 task_id=task_data.get("task_id", "unknown"),
-                success_probability=max(0.0, min(1.0, base_probability)),
+                success_probability=self.normalize_probability(base_probability),
                 confidence_level=confidence_level,
                 key_factors=self._identify_key_factors(task_data),
                 risk_factors=self._identify_risk_factors(task_data),
@@ -103,17 +112,6 @@ class PredictionAnalyzer:
         total_tasks = len(self.historical_data)
         
         return successful_tasks / max(1, total_tasks)
-    
-    def _determine_confidence_level(self, probability: float) -> ConfidenceLevel:
-        """Determine confidence level based on probability."""
-        if probability > 0.8:
-            return ConfidenceLevel.VERY_HIGH
-        elif probability > 0.6:
-            return ConfidenceLevel.HIGH
-        elif probability > 0.4:
-            return ConfidenceLevel.MEDIUM
-        else:
-            return ConfidenceLevel.LOW
     
     def _identify_key_factors(self, task_data: Dict[str, Any]) -> List[str]:
         """Identify key factors for success."""

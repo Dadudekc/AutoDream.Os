@@ -54,6 +54,9 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- Centralized prediction analytics utility `BasePredictionAnalyzer` for shared
+  probability and confidence computations (SSOT).
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

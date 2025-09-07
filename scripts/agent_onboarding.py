@@ -1,10 +1,6 @@
-from ..core.unified_entry_point_system import main
-
 #!/usr/bin/env python3
-"""
-Agent Swarm Onboarding Script
-Automated onboarding for new agents joining the swarm system.
-"""
+"""Agent Swarm Onboarding Script Automated onboarding for new agents joining the swarm
+system."""
 
 
 class AgentOnboarding:

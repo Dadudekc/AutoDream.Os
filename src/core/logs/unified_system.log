@@ -1,7 +1,0 @@
-2025-09-03 21:43:20 - UnifiedLoggingSystem - INFO - Unified logging system initialized
-2025-09-03 21:43:20 - src.core.unified_entry_point_system - INFO - ❌ UNEXPECTED ERROR: cannot import name 'get_logger' from 'src.services.unified_messaging_imports' (D:\Agent_Cellphone_V2_Repository\src\services\unified_messaging_imports.py)
-2025-09-03 22:17:20 - UnifiedLoggingSystem - INFO - Unified logging system initialized
-2025-09-03 22:17:20 - src.services.messaging_core - WARNING - Missing config fields, using defaults: ValidationResult(is_valid=True, errors=[], warnings=[], severity=<ValidationSeverity.HIGH: 'high'>, field_name=None, validation_type=<ValidationType.REQUIRED_FIELDS: 'required_fields'>, details={'missing_fields': []})
-2025-09-03 22:17:20 - messaging_orchestrator - INFO - 🚀 Messaging Core Orchestrator initialized with modular architecture
-2025-09-03 22:17:20 - src.services.messaging_core - INFO - ✅ Created message: msg_20250903_221720_972f4d
-2025-09-03 22:17:20 - src.services.messaging_core - ERROR - ❌ No coordinates found for Agent-4

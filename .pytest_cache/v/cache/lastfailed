@@ -13,5 +13,10 @@
   "tests/vector_database/test_vector_models.py": true,
   "tests/test_architectural_compliance.py::TestArchitecturalCompliance": true,
   "tests/test_architectural_compliance.py::TestCodeAnalysis": true,
-  "tests/test_architectural_compliance.py::TestArchitecturalProof": true
+  "tests/test_architectural_compliance.py::TestArchitecturalProof": true,
+  "tests/test_architectural_compliance.py": true,
+  "tests/test_architectural_onboarding_demo.py": true,
+  "tests/test_core_engines.py": true,
+  "tests/test_core_managers.py": true,
+  "tests/test_specialized_managers.py": true
 }

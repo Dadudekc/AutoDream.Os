@@ -53,32 +53,19 @@
 ```
 docs/
 ├── README.md                           # This comprehensive index
+├── AGENT_ONBOARDING_GUIDE.md          # Single source of truth for agent onboarding
+├── CAPTAIN_LOG.md                      # Captain operational log
 ├── architecture/
 │   └── system_architecture.md         # System architecture docs
 ├── guides/
-│   ├── captain_handbook.md
-│   ├── ADMIN_COMMANDER_SETUP.md
-│   ├── BOT_INVITE_SETUP.md
-│   ├── DISCORD_BOT_SETUP.md
-│   ├── DISCORD_COMMANDER_README.md
-│   ├── HOW_TO_RUN_DISCORD_GUI.md
-│   ├── PYAUTOGUI_TEST_GUIDE.md
-│   └── messaging_system_briefing.md
-├── integration/
-│   └── coordination_integration_patterns.md
-├── onboarding/
-│   └── README.md
-├── reports/
-│   ├── AGENT_1_*_REPORT.md           # Agent-1 integration reports
-│   ├── AGENT_2_*_REPORT.md           # Agent-2 architecture reports
-│   ├── AGENT_3_*_REPORT.md           # Agent-3 infrastructure reports
-│   ├── AGENT_4_*_REPORT.md           # Agent-4 strategic reports
-│   ├── AGENT_5_*_REPORT.md           # Agent-5 business intelligence
-│   ├── AGENT_6_*_REPORT.md           # Agent-6 coordination reports
-│   ├── AGENT_7_*_REPORT.md           # Agent-7 web development reports
-│   ├── AGENT_8_*_REPORT.md           # Agent-8 SSOT reports
-│   └── *_REPORT.md                   # General project reports
+│   ├── captain_handbook.md            # Captain's strategic operations guide
+│   ├── ADMIN_COMMANDER_SETUP.md       # Admin setup guide
+│   ├── BOT_INVITE_SETUP.md            # Bot invitation setup
+│   ├── DISCORD_BOT_SETUP.md           # Discord bot configuration
+│   ├── DISCORD_COMMANDER_README.md    # Discord commander usage
+│   └── HOW_TO_RUN_DISCORD_GUI.md      # GUI operation guide
 ├── specifications/
+│   ├── README.md                      # Specifications index
 │   ├── CHANNEL_RESTRICTION_FEATURES.md
 │   ├── MESSAGING_API_SPECIFICATIONS.md
 │   ├── MESSAGING_ARCHITECTURE_DIAGRAM.md
@@ -86,10 +73,10 @@ docs/
 │   ├── MESSAGING_SYSTEM_PRD.md
 │   ├── MESSAGING_SYSTEM_V2_ENHANCED_TYPES.md
 │   └── MESSAGING_TEST_PLAN.md
-├── technical/
-│   └── coordination_systems.md
-└── user_guides/
-    └── coordination_systems_guide.md
+├── standards/
+│   └── python_coding_standard.md      # Python coding standards
+└── vector_database/
+    └── README.md                      # Vector database documentation
 ```
 
 ---

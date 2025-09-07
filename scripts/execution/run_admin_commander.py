@@ -1,8 +1,6 @@
-from ..core.unified_entry_point_system import main
-
-"""
-Discord Administrator Commander Launcher
-Launch script for the Discord Administrator Commander bot
+#!/usr/bin/env python3
+"""From ..core.unified_entry_point_system import main Discord Administrator Commander
+Launcher Launch script for the Discord Administrator Commander bot.
 
 This script launches the Discord Administrator Commander with Administrator privileges
 for comprehensive server management capabilities.

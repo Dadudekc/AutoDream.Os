@@ -56,80 +56,85 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        entry: python -c "import sys; [print(f'Trailing whitespace found: {line.rstrip()!r}') or sys.exit(1) for line in sys.stdin if line.rstrip('\r\n').endswith(' ')]"
+        entry: |
+          python -c "
+          import sys
+          for line in sys.stdin:
+              if line.rstrip('\r\n').endswith(' '):
+                  print('Trailing whitespace found: ' + repr(line.rstrip()))
+                  sys.exit(1)
           "
       - id: end-of-file-fixer
-        entry: python -c "
-import sys
-content = sys.stdin.read()
-if not content.endswith('\n'):
-    sys.stdout.write(content + '\n')
-else:
-    sys.stdout.write(content)
-"
+        entry: python -c "import sys; content = sys.stdin.read(); print(content, end='') if content.endswith('\n') else print(content)"
       - id: check-yaml
-        entry: python -c "
-import sys, yaml
-try:
-    yaml.safe_load(sys.stdin)
-    print('YAML syntax is valid')
-except yaml.YAMLError as e:
-    print(f'YAML syntax error: {e}')
-    sys.exit(1)
-"
+        entry: |
+          python -c "
+          import sys, yaml
+          try:
+              yaml.safe_load(sys.stdin)
+              print('YAML syntax is valid')
+          except yaml.YAMLError as e:
+              print(f'YAML syntax error: {e}')
+              sys.exit(1)
+          "
       - id: check-added-large-files
-        entry: python -c "
-import sys, os
-for file in sys.argv[1:]:
-    if os.path.exists(file) and os.path.getsize(file) > 1000000:  # 1MB
-        print(f'Large file added: {file}')
-        sys.exit(1)
-"
+        entry: |
+          python -c "
+          import sys, os
+          for file in sys.argv[1:]:
+              if os.path.exists(file) and os.path.getsize(file) > 1000000:  # 1MB
+                  print(f'Large file added: {file}')
+                  sys.exit(1)
+          "
       - id: check-merge-conflict
-        entry: python -c "
-import sys
-for line in sys.stdin:
-    if any(marker in line for marker in ['<<<<<<< ', '=======', '>>>>>>> ']):
-        print(f'Merge conflict marker found: {line.strip()}')
-        sys.exit(1)
-"
+        entry: |
+          python -c "
+          import sys
+          for line in sys.stdin:
+              if any(marker in line for marker in ['<<<<<<< ', '=======', '>>>>>>> ']):
+                  print(f'Merge conflict marker found: {line.strip()}')
+                  sys.exit(1)
+          "
       - id: debug-statements
-        entry: python -c "
-import sys, ast
-content = sys.stdin.read()
-try:
-    tree = ast.parse(content)
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
-            if isinstance(node.value.func, ast.Name) and node.value.func.id in ['print', 'pdb.set_trace']:
-                print(f'Debug statement found: {node.value.func.id}')
-                sys.exit(1)
-except SyntaxError:
-    pass  # Skip files with syntax errors
-"
+        entry: |
+          python -c "
+          import sys, ast
+          content = sys.stdin.read()
+          try:
+              tree = ast.parse(content)
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call):
+                      if isinstance(node.value.func, ast.Name) and node.value.func.id in ['print', 'pdb.set_trace']:
+                          print(f'Debug statement found: {node.value.func.id}')
+                          sys.exit(1)
+          except SyntaxError:
+              pass  # Skip files with syntax errors
+          "
       - id: check-docstring-first
-        entry: python -c "
-import sys, ast
-content = sys.stdin.read()
-try:
-    tree = ast.parse(content)
-    if tree.body and isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
-        pass  # Docstring is first
-    elif tree.body:
-        print('Module docstring should be first')
-        sys.exit(1)
-except SyntaxError:
-    pass
-"
+        entry: |
+          python -c "
+          import sys, ast
+          content = sys.stdin.read()
+          try:
+              tree = ast.parse(content)
+              if tree.body and isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
+                  pass  # Docstring is first
+              elif tree.body:
+                  print('Module docstring should be first')
+                  sys.exit(1)
+          except SyntaxError:
+              pass
+          "
       - id: requirements-txt-fixer
-        entry: python -c "
-import sys
-lines = sys.stdin.readlines()
-# Sort requirements (basic implementation)
-sorted_lines = sorted([line for line in lines if line.strip() and not line.startswith('#')])
-comment_lines = [line for line in lines if line.startswith('#') or not line.strip()]
-sys.stdout.writelines(comment_lines + sorted_lines)
-"
+        entry: |
+          python -c "
+          import sys
+          lines = sys.stdin.readlines()
+          # Sort requirements (basic implementation)
+          sorted_lines = sorted([line for line in lines if line.strip() and not line.startswith('#')])
+          comment_lines = [line for line in lines if line.startswith('#') or not line.strip()]
+          sys.stdout.writelines(comment_lines + sorted_lines)
+          "
 
   # Docstring formatter (works on Windows)
   - repo: https://github.com/pycqa/docformatter

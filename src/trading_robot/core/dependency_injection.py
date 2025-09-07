@@ -10,9 +10,9 @@ V2 COMPLIANCE: Under 300-line limit, comprehensive error handling, modular desig
 """
 
 
-
 class DependencyInjectionError(Exception):
     """Custom exception for dependency injection errors."""
+
     pass
 
 
@@ -36,62 +36,70 @@ class TradingDependencyContainer:
             self.logger.get_unified_logger().log_operation_start("register_defaults")
 
             # Register repository factory
-            self.register_factory("trading_repository",
-                                lambda: create_trading_repository(),
-                                singleton=True)
+            self.register_factory(
+                "trading_repository",
+                lambda: create_trading_repository(),
+                singleton=True,
+            )
 
             # Register service factory with dependency
-            self.register_factory("trading_service",
-                                lambda repo: create_trading_service(repo),
-                                singleton=True)
+            self.register_factory(
+                "trading_service",
+                lambda repo: create_trading_service(repo),
+                singleton=True,
+            )
 
-            self.logger.get_unified_logger().log_operation_complete("register_defaults", {
-                "services_registered": 2
-            })
+            self.logger.get_unified_logger().log_operation_complete(
+                "register_defaults", {"services_registered": 2}
+            )
 
         except Exception as e:
             self.logger.log_error("register_defaults", str(e))
             raise DependencyInjectionError(f"Failed to register defaults: {e}")
 
-    def register_factory(self, name: str, factory: Callable,
-                        singleton: bool = False) -> None:
+    def register_factory(
+        self, name: str, factory: Callable, singleton: bool = False
+    ) -> None:
         """Register a service factory."""
         try:
-            self.logger.get_unified_logger().log_operation_start("register_factory", {
-                "service_name": name, "singleton": singleton
-            })
+            self.logger.get_unified_logger().log_operation_start(
+                "register_factory", {"service_name": name, "singleton": singleton}
+            )
 
             if not callable(factory):
                 raise DependencyInjectionError(f"Factory for {name} must be callable")
 
             self._factories[name] = factory
             if singleton:
-                self._services[name] = None  # Mark as singleton but not yet instantiated
+                self._services[name] = (
+                    None  # Mark as singleton but not yet instantiated
+                )
 
-            self.logger.get_unified_logger().log_operation_complete("register_factory", {
-                "service_name": name, "factory_registered": True
-            })
+            self.logger.get_unified_logger().log_operation_complete(
+                "register_factory", {"service_name": name, "factory_registered": True}
+            )
 
         except Exception as e:
             self.logger.log_error("register_factory", str(e), {"service_name": name})
             raise DependencyInjectionError(f"Failed to register factory {name}: {e}")
 
-    def register_instance(self, name: str, instance: Any,
-                        singleton: bool = True) -> None:
+    def register_instance(
+        self, name: str, instance: Any, singleton: bool = True
+    ) -> None:
         """Register a service instance directly."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("register_instance", {
-                "service_name": name, "singleton": singleton
-            })
+            self.logger.get_unified_logger().log_operation_start(
+                "register_instance", {"service_name": name, "singleton": singleton}
+            )
 
             if singleton:
                 self._singletons[name] = instance
             else:
                 self._services[name] = instance
 
-            self.logger.get_unified_logger().log_operation_start(operation)_complete("register_instance", {
-                "service_name": name, "instance_registered": True
-            })
+            self.logger.get_unified_logger().log_operation_complete(
+                "register_instance", {"service_name": name, "instance_registered": True}
+            )
 
         except Exception as e:
             self.logger.log_error("register_instance", str(e), {"service_name": name})
@@ -100,31 +108,31 @@ class TradingDependencyContainer:
     def resolve(self, name: str, scope: Optional[str] = None) -> Any:
         """Resolve a service by name."""
         try:
-            self.logger.get_unified_logger().log_operation_start(operation)_start("resolve", {
-                "service_name": name, "scope": scope
-            })
+            self.logger.get_unified_logger().log_operation_start(
+                "resolve", {"service_name": name, "scope": scope}
+            )
 
             # Check if it's a scoped instance
             if scope and name in self._scoped_instances.get(scope, {}):
                 instance = self._scoped_instances[scope][name]
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("resolve", {
-                    "service_name": name, "resolved_from": "scoped_cache"
-                })
+                self.logger.get_unified_logger().log_operation_complete(
+                    "resolve", {"service_name": name, "resolved_from": "scoped_cache"}
+                )
                 return instance
 
             # Check if it's a singleton
             if name in self._singletons:
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("resolve", {
-                    "service_name": name, "resolved_from": "singleton"
-                })
+                self.logger.get_unified_logger().log_operation_complete(
+                    "resolve", {"service_name": name, "resolved_from": "singleton"}
+                )
                 return self._singletons[name]
 
             # Check if it's a cached instance
             if name in self._services and self._services[name] is not None:
                 instance = self._services[name]
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("resolve", {
-                    "service_name": name, "resolved_from": "cache"
-                })
+                self.logger.get_unified_logger().log_operation_complete(
+                    "resolve", {"service_name": name, "resolved_from": "cache"}
+                )
                 return instance
 
             # Try to create from factory
@@ -144,9 +152,9 @@ class TradingDependencyContainer:
                         self._scoped_instances[scope] = {}
                     self._scoped_instances[scope][name] = instance
 
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("resolve", {
-                    "service_name": name, "resolved_from": "factory"
-                })
+                self.logger.get_unified_logger().log_operation_complete(
+                    "resolve", {"service_name": name, "resolved_from": "factory"}
+                )
                 return instance
 
             raise DependencyInjectionError(f"Service {name} not registered")
@@ -162,7 +170,7 @@ class TradingDependencyContainer:
             params = {}
 
             for param_name, param in sig.parameters.items():
-                if param_name == 'self':
+                if param_name == "self":
                     continue
 
                 # Try to resolve parameter as a service
@@ -184,17 +192,23 @@ class TradingDependencyContainer:
 
     def has_service(self, name: str) -> bool:
         """Check if a service is registered."""
-        return (name in self._services or
-                name in self._factories or
-                name in self._singletons)
+        return (
+            name in self._services
+            or name in self._factories
+            or name in self._singletons
+        )
 
     def clear_scope(self, scope: str) -> None:
         """Clear all scoped instances for a scope."""
         try:
             if scope in self._scoped_instances:
-                self.logger.get_unified_logger().log_operation_start(operation)_start("clear_scope", {"scope": scope})
+                self.logger.get_unified_logger().log_operation_start(
+                    "clear_scope", {"scope": scope}
+                )
                 del self._scoped_instances[scope]
-                self.logger.get_unified_logger().log_operation_start(operation)_complete("clear_scope", {"scope": scope})
+                self.logger.get_unified_logger().log_operation_complete(
+                    "clear_scope", {"scope": scope}
+                )
         except Exception as e:
             self.logger.log_error("clear_scope", str(e), {"scope": scope})
 
@@ -243,10 +257,10 @@ def get_trading_service() -> TradingService:
 
 # Export for DI
 __all__ = [
-    'TradingDependencyContainer',
-    'DependencyInjectionError',
-    'get_trading_container',
-    'reset_trading_container',
-    'get_trading_repository',
-    'get_trading_service'
+    "TradingDependencyContainer",
+    "DependencyInjectionError",
+    "get_trading_container",
+    "reset_trading_container",
+    "get_trading_repository",
+    "get_trading_service",
 ]

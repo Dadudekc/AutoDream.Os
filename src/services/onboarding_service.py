@@ -33,7 +33,8 @@ class OnboardingService:
             if get_unified_utility().path.exists(template_path):
                 with open(template_path, "r", encoding="utf-8") as f:
                     return f.read()
-        except Exception:
+        except Exception as e:
+            get_logger(__name__).warning(f"Error loading onboarding template: {e}")
             pass
 
         # Fallback minimal template to ensure continuity if SSOT missing

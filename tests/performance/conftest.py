@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import Mock
 
-from tests.utils.test_data import get_performance_test_data
+from ..utils.test_data import get_performance_test_data
 
 
 @pytest.fixture

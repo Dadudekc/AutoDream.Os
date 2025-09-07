@@ -55,11 +55,10 @@
 
 ## Unreleased
 ### Added
-- Unified `run_dry_analysis.py` with mode selector for DRY analysis and elimination tasks.
+- BaseEngine for shared initialization, status, and cleanup across engine modules.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 
 ### Removed
 - Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
 - Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.
-- Removed `run_advanced_analysis.py`, `run_advanced_elimination.py`, `run_comprehensive_analysis.py`, `run_focused_analysis.py`, and `run_mass_elimination.py`.

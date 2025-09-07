@@ -1,5 +1,5 @@
 """Coordinate management package for messaging CLI."""
 
-from .core import MessagingCLICoordinateManagement
+from .manager import MessagingCLICoordinateManagement
 
 __all__ = ["MessagingCLICoordinateManagement"]

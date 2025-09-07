@@ -13,13 +13,14 @@ from .agent_communication_engine_core import AgentCommunicationEngineCore
 from .agent_communication_engine_operations import AgentCommunicationEngineOperations
 
 
-class AgentCommunicationEngine(AgentCommunicationEngineCore, AgentCommunicationEngineOperations):
+class AgentCommunicationEngine(
+    AgentCommunicationEngineCore, AgentCommunicationEngineOperations
+):
     """Unified agent communication engine with core and operations functionality."""
-    
-    def __init__(self):
+
+    def __init__(self) -> None:
         """Initialize unified agent communication engine."""
-        AgentCommunicationEngineCore.__init__(self)
-        AgentCommunicationEngineOperations.__init__(self)
+        super().__init__()
 
 
 # Factory function for dependency injection
@@ -29,4 +30,4 @@ def create_agent_communication_engine() -> AgentCommunicationEngine:
 
 
 # Export for DI
-__all__ = ['AgentCommunicationEngine', 'create_agent_communication_engine']
+__all__ = ["AgentCommunicationEngine", "create_agent_communication_engine"]

@@ -12,9 +12,12 @@ Purpose: Modular engine for messaging CLI handlers
 
 import logging
 from typing import Any, Dict, List, Optional
-
-from .utils.agent_registry import AGENTS, list_agents
-from .messaging_handlers_models import CLICommand, CommandResult, CoordinateConfig
+from ..agent_registry import COORDINATES
+from .messaging_handlers_models import (
+    CoordinateConfig,
+    CLICommand,
+    CommandResult,
+)
 
 
 class MessagingHandlersEngine:
@@ -24,31 +27,24 @@ class MessagingHandlersEngine:
         """Initialize the messaging handlers engine."""
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
-        self.coordinates: Dict[str, CoordinateConfig] = {}
-        self._load_coordinates()
 
-    def _load_coordinates(self) -> None:
-        """Load agent coordinates from configuration."""
-        try:
-            self.coordinates = {
-                agent_id: CoordinateConfig(
-                    agent_id,
-                    info["coords"]["x"],
-                    info["coords"]["y"],
-                    info.get("description", f"{agent_id} coordinates"),
-                )
-                for agent_id, info in AGENTS.items()
-            }
-        except Exception as e:
-            self.logger.warning(f"Could not load coordinates: {e}")
-
-    def get_agent_coordinates(self, agent_id: str) -> Optional[CoordinateConfig]:
+    def get_agent_coordinates(
+        self, agent_id: str
+    ) -> Optional[CoordinateConfig]:
         """Get coordinates for a specific agent."""
-        return self.coordinates.get(agent_id)
+        data = COORDINATES.get(agent_id)
+        if not data:
+            return None
+        return CoordinateConfig(
+            agent_id,
+            data["x"],
+            data["y"],
+            data.get("description", f"{agent_id} coordinates"),
+        )
 
     def list_agents(self) -> List[str]:
         """List all available agents."""
-        return list_agents()
+        return list(COORDINATES.keys())
 
     def validate_command(self, command: CLICommand) -> CommandResult:
         """Validate a CLI command."""
@@ -67,12 +63,18 @@ class MessagingHandlersEngine:
 
             if command.command == "send" and not command.agent:
                 return CommandResult(
-                    False, "Agent is required for send command", error="Missing agent"
+                    False,
+                    "Agent is required for send command",
+                    error="Missing agent",
                 )
 
             return CommandResult(True, "Command validated successfully")
         except Exception as e:
-            return CommandResult(False, f"Command validation failed: {e}", error=str(e))
+            return CommandResult(
+                False,
+                f"Command validation failed: {e}",
+                error=str(e),
+            )
 
     def process_command(self, command: CLICommand) -> CommandResult:
         """Process a CLI command."""
@@ -83,43 +85,55 @@ class MessagingHandlersEngine:
 
             if command.command == "coordinates":
                 return self._handle_coordinates_command()
-            elif command.command == "list_agents":
-                agents = list_agents()
-                return CommandResult(
-                    True,
-                    f"Available agents: {', '.join(agents)}",
-                    data={"agents": agents, "agent_count": len(agents)},
-                )
-            elif command.command == "send":
+            if command.command == "list_agents":
+                return self._handle_list_agents_command()
+            if command.command == "send":
                 return self._handle_send_command(command)
-            else:
-                return CommandResult(
-                    False,
-                    f"Unknown command: {command.command}",
-                    error="Invalid command",
-                )
+            return CommandResult(
+                False,
+                f"Unknown command: {command.command}",
+                error="Invalid command",
+            )
         except Exception as e:
-            return CommandResult(False, f"Command processing failed: {e}", error=str(e))
+            return CommandResult(
+                False,
+                f"Command processing failed: {e}",
+                error=str(e),
+            )
 
     def _handle_coordinates_command(self) -> CommandResult:
         """Handle coordinates command."""
         coords_data = {
-            agent_id: {"x": coord.x, "y": coord.y, "description": coord.description}
-            for agent_id, coord in self.coordinates.items()
+            agent_id: {
+                "x": data["x"],
+                "y": data["y"],
+                "description": data.get("description", ""),
+            }
+            for agent_id, data in COORDINATES.items()
         }
         return CommandResult(True, "Coordinates retrieved", data=coords_data)
+
+    def _handle_list_agents_command(self) -> CommandResult:
+        """Handle list agents command."""
+        agents = self.list_agents()
+        return CommandResult(
+            True,
+            f"Available agents: {', '.join(agents)}",
+            data={"agents": agents},
+        )
 
     def _handle_send_command(self, command: CLICommand) -> CommandResult:
         """Handle send command."""
         # Simplified send command handling
         return CommandResult(
-            True, f"Message sent to {command.agent}: {command.message}"
+            True,
+            f"Message sent to {command.agent}: {command.message}",
         )
 
     def get_system_status(self) -> Dict[str, Any]:
         """Get system status."""
         return {
-            "total_agents": len(self.coordinates),
+            "total_agents": len(COORDINATES),
             "available_commands": ["coordinates", "list_agents", "send"],
             "system_health": "operational",
         }

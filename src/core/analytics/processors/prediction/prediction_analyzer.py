@@ -13,10 +13,13 @@ import logging
 from typing import Any, Dict
 from datetime import datetime
 
+from core.analytics.prediction.base_analyzer import BasePredictionAnalyzer
+
 logger = logging.getLogger(__name__)
 
-class PredictionAnalyzer:
-    """Simple prediction analyzer."""
+
+class PredictionAnalyzer(BasePredictionAnalyzer):
+    """Simple prediction analyzer using SSOT utilities."""
     
     def __init__(self, config=None):
         """Initialize analyzer."""
@@ -28,7 +31,7 @@ class PredictionAnalyzer:
         analysis = {
             'prediction_id': prediction.get('prediction_id', 'unknown'),
             'analysis_timestamp': datetime.now().isoformat(),
-            'confidence_level': self._get_confidence_level(prediction.get('confidence', 0.0)),
+            'confidence_level': self.confidence_level(prediction.get('confidence', 0.0)),
             'quality_score': self._calculate_quality_score(prediction),
             'recommendations': self._generate_recommendations(prediction)
         }
@@ -36,20 +39,9 @@ class PredictionAnalyzer:
         self.logger.info(f"Analyzed prediction {analysis['prediction_id']}")
         return analysis
     
-    def _get_confidence_level(self, confidence: float) -> str:
-        """Get confidence level description."""
-        if confidence >= 0.9:
-            return "very_high"
-        elif confidence >= 0.7:
-            return "high"
-        elif confidence >= 0.5:
-            return "medium"
-        else:
-            return "low"
-    
     def _calculate_quality_score(self, prediction: Dict[str, Any]) -> float:
         """Calculate quality score."""
-        confidence = prediction.get('confidence', 0.0)
+        confidence = self.normalize_probability(prediction.get('confidence', 0.0))
         return min(confidence * 1.2, 1.0)
     
     def _generate_recommendations(self, prediction: Dict[str, Any]) -> list:

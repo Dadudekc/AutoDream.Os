@@ -55,7 +55,8 @@
 
 ## Unreleased
 ### Added
-- Utility status queries via `--status-query` for `--check-status` command.
+- Centralized prediction analytics utility `BasePredictionAnalyzer` for shared
+  probability and confidence computations (SSOT).
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

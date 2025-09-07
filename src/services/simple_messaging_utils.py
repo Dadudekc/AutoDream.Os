@@ -10,19 +10,30 @@ Author: Agent-6 - Coordination & Communication Specialist
 License: MIT
 """
 
+import logging
 from datetime import datetime
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
+from .models.messaging_models import UnifiedMessage
+from .utils.messaging_validation_utils import MessagingValidationUtils
 
 
 class SimpleMessagingUtils:
     """Simple messaging utilities."""
-    
+
     def __init__(self):
         self.message_log: List[Dict] = []
-    
+        self.logger = logging.getLogger(__name__)
+
     def validate_message(self, message: str) -> bool:
-        """Validate a message."""
-        return len(message.strip()) > 0 and len(message) < 1000
+        """Validate a message using shared validation utilities."""
+        temp = UnifiedMessage(content=message, sender="system", recipient="temp")
+        result = MessagingValidationUtils.validate_message_structure(temp)
+        for warning in result.get("warnings", []):
+            self.logger.warning(warning)
+        for error in result.get("errors", []):
+            self.logger.error(error)
+        return result.get("valid", False)
     
     def format_message(self, sender: str, recipient: str, content: str) -> str:
         """Format a message."""

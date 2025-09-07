@@ -8,11 +8,15 @@ Bulk messaging functionality for the messaging service.
 Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
+from typing import Any, Dict, List
+import time
 
-
+from .messaging_pyautogui import PyAutoGUIMessagingDelivery
+from .messaging_message_builder import MessagingMessageBuilder
+from .unified_messaging_imports import get_logger
+from .models.messaging_models import (
     RecipientType,
     SenderType,
-    UnifiedMessage,
     UnifiedMessagePriority,
     UnifiedMessageTag,
     UnifiedMessageType,
@@ -22,8 +26,13 @@ License: MIT
 class MessagingBulk:
     """Handles bulk messaging operations."""
 
-    def __init__(self, pyautogui_delivery: PyAutoGUIMessagingDelivery):
+    def __init__(
+        self,
+        message_builder: MessagingMessageBuilder,
+        pyautogui_delivery: PyAutoGUIMessagingDelivery,
+    ):
         """Initialize bulk messaging service."""
+        self.message_builder = message_builder
         self.pyautogui_delivery = pyautogui_delivery
 
     def send_message(
@@ -43,14 +52,14 @@ class MessagingBulk:
         recipient_type: RecipientType = None,
     ) -> bool:
         """Send a single message to a specific agent."""
-        message = UnifiedMessage(
-            content=content,
-            sender=sender,
+        message = self.message_builder.build_message(
+            message=content,
             recipient=recipient,
+            sender=sender,
             message_type=message_type,
             priority=priority,
-            tags=tags or [],
-            metadata=metadata or {},
+            tags=tags,
+            metadata=metadata,
             sender_type=sender_type,
             recipient_type=recipient_type,
         )
@@ -98,8 +107,8 @@ class MessagingBulk:
     ) -> List[bool]:
         """Send message to all agents."""
         results = []
-        get_logger(__name__).info(f"🚨 BULK MESSAGE ACTIVATED")
-        get_logger(__name__).info(f"📋 SENDING TO ALL AGENTS")
+        get_logger(__name__).info("🚨 BULK MESSAGE ACTIVATED")
+        get_logger(__name__).info("📋 SENDING TO ALL AGENTS")
 
         # CORRECT ORDER: Agent-4 LAST
         agent_order = [
@@ -120,8 +129,8 @@ class MessagingBulk:
                 recipient=agent_id,
                 message_type=message_type,
                 priority=priority,
-                tags=tags or [],
-                metadata=metadata or {},
+                tags=tags,
+                metadata=metadata,
                 mode=mode,
                 use_paste=use_paste,
                 new_tab_method=new_tab_method,
@@ -134,5 +143,7 @@ class MessagingBulk:
 
         success_count = sum(results)
         total_count = len(results)
-        get_logger(__name__).info(f"📊 BULK MESSAGE COMPLETED: {success_count}/{total_count} successful")
+        get_logger(__name__).info(
+            f"📊 BULK MESSAGE COMPLETED: {success_count}/{total_count} successful"
+        )
         return results

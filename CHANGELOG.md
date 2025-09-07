@@ -54,6 +54,8 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- BaseEngine for shared initialization, status, and cleanup across engine modules.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

@@ -11,6 +11,7 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **CI/CD templates** for Jenkins, GitLab CI and Docker
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
+- **Base engine abstraction** centralizing initialization, status reporting, and cleanup
 
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware
@@ -295,9 +296,3 @@ logger = get_logger(__name__)
 
 This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.
 
-## Backup Policy
-
-Temporary backup directories (e.g., names matching `*_backup_*`) may be
-created for short-term local use during development. These directories are
-ignored by Git and should never be committed to the repository. Remove or move
-backups outside the project before submitting changes to keep history clean.

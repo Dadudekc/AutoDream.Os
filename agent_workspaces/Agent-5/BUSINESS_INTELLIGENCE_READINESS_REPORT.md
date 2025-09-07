@@ -51,7 +51,7 @@
 - **Communication**: Established with Captain Agent-4
 - **Status Tracking**: Active status.json monitoring
 - **V2 Compliance**: 100% compliant with coding standards
-- **Coordinates**: (652, 421) - Operational position confirmed
+- **Coordinates**: See `cursor_agent_coords.json` (SSOT)
 
 ### **✅ CAPABILITIES VERIFIED**
 - **Data Collection**: Metrics collection system operational

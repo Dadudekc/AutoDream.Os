@@ -1,271 +1,161 @@
-# Onboarding Workspace - Agent Cellphone V2
+# Agent Swarm Onboarding (SSOT)
 
-This workspace contains onboarding system artifacts and configurations, including comprehensive Single Source of Truth (SSOT) training materials.
+Welcome to Agent Cellphone V2. This README is the **single source of truth** for
+agent onboarding. All other onboarding guides have been archived.
+Any onboarding updates must be reflected here to maintain SSOT.
 
-## V2 Artifacts
+## Cycle-Based Workflow
+- One Captain prompt + one Agent response = **one cycle**
+- Progress and deadlines are expressed in cycles, not time
 
-### **Core Components**
-- Configuration files and protocols
-- Templates and definitions
-- Operational data and metrics
-- Training materials and assessments
+## Agent Identity & Roles
+- **Captain**: Agent-4 – Strategic Oversight & Emergency Intervention Manager
+- **Agent-1**: Integration & Core Systems Specialist
+- **Agent-2**: Architecture & Design Specialist
+- **Agent-3**: Infrastructure & DevOps Specialist
+- **Agent-5**: Business Intelligence Specialist
+- **Agent-6**: Coordination & Communication Specialist
+- **Agent-7**: Web Development Specialist
+- **Agent-8**: SSOT Maintenance & System Integration Specialist
 
-### **SSOT Training Materials** 🆕
-- **SSOT Compliance Training**: Complete training module with assessments
-- **Devlog Training Module**: MANDATORY training for all agents 🆕
-- **Practical Exercises**: Hands-on workflow examples and exercises
-- **Troubleshooting Guide**: Comprehensive issue resolution guide
-- **Agent Responsibilities Matrix**: Role-specific SSOT duties and expectations
+## Quick Start
+1. Verify your agent ID and role:
+   ```bash
+   python -m src.services.messaging_cli --check-status
+   ```
+2. Your workspace lives at `agent_workspaces/<Agent-X>/`.
+3. Acknowledge the Captain after onboarding:
+   ```bash
+   python -m src.services.messaging_cli \
+     --agent Agent-4 \
+     --message "<Agent-X>: Onboarding complete" \
+     --sender "<Your Name>"
+   ```
+4. Update `agent_workspaces/<Agent-X>/status.json` when starting or completing
+   tasks and on any major progress.
 
-## Training Structure
+## Multi-Agent Check-In System
+- Templates for all agents live in `examples/agent_checkins/`.
+- Check in with current status:
+  ```bash
+  python tools/agent_checkin.py examples/agent_checkins/{agent_id}_checkin.json
+  echo '{"agent_id":"{agent_id}","agent_name":"{role}",\
+"status":"ACTIVE","current_phase":"TASK_EXECUTION"}' | \
+python tools/agent_checkin.py -
+  ```
+- Monitor swarm status:
+  ```bash
+  python tools/captain_snapshot.py
+  ```
+- Check-in frequency:
+  - After every task completion
+  - After each Captain prompt
+  - Every 15 minutes during active work
+  - Before starting new work
+- Captain monitoring tools:
+  ```bash
+  python tools/captain_snapshot.py
+  python tools/agent_checkin.py examples/agent_checkins/Agent-X_checkin.json
+  ls runtime/agent_logs/
+  ```
 
-### **Phase 1: Foundation Training**
-1. **System Orientation** (60 min)
-2. **Role-Specific Training** (120 min)
+## Training Path
+### Phase 1 – Foundations
+- System orientation
+- Role-specific training
 
-### **Phase 2: SSOT Training** 🆕
-3. **Single Source of Truth Training** (45 min)
-   - SSOT fundamentals and principles
-   - Compliance workflow procedures
-   - Validation tools and scripts
-4. **Devlog System Training** (30 min) 🆕
-   - **MANDATORY** - All agents must complete
-   - SSOT principles and compliance
-   - Devlog tool usage and best practices
-   - Discord integration and team communication
-5. **Messaging Etiquette Framework Training** (45 min) 🆕
-   - **MANDATORY** - All agents must complete
-   - Response protocol and time standards
-   - CLI command mastery and troubleshooting
-   - Protocol violation prevention and handling
+### Phase 2 – SSOT & Etiquette
+- Single Source of Truth training
+- Devlog system training **(mandatory)**
+- Messaging etiquette framework **(mandatory)**
 
-### **Phase 3: Integration**
-5. **System Integration** (90 min)
-6. **Performance Validation** (60 min)
+### Phase 3 – Integration
+- System integration
+- Performance validation
 
-### **Phase 4: Contract Automation Training** 🆕
-7. **Contract Claiming System Training** (45 min) 🆕
-   - **MANDATORY** - All agents must complete
-   - Contract claiming and completion workflow
-   - Automated task distribution system
-   - Extra credit system and points tracking
-   - Continuous work cycle automation
-8. **Automated Workflow Integration** (30 min) 🆕
-   - **MANDATORY** - All agents must complete
-   - Integration with messaging system
-   - Automated task claiming and completion
-   - Continuous work without stopping
+### Phase 4 – Contract Automation
+- Contract claiming system **(mandatory)**
+- Automated workflow integration **(mandatory)**
 
-## Quick Start Guide
+### Training Materials Location
+`docs/onboarding/training_documents/`
+- `agent_roles_and_responsibilities.md`
+- `system_overview.md`
+- `ssot_compliance_training.md`
+- `messaging_etiquette_framework.md`
+- `universal_development_principles.md`
+- `troubleshooting_guide.md`
 
-### **For New Agents**
-1. Complete foundation training modules
-2. **Complete SSOT training and certification** 🆕
-3. **Complete Devlog training and certification** 🆕 (MANDATORY)
-4. **Complete Messaging Etiquette training and certification** 🆕 (MANDATORY)
-5. **Run role validation script** 🆕 - `python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
-6. Pass all assessments (85% minimum)
-7. Receive role-specific assignments
+## SSOT Principles
+- Maintain **one authoritative source** for each piece of information
+- Devlog is the **only** channel for project updates
+- Avoid duplication across files or communication channels
+- All updates must be searchable and clearly attributed
 
-### **For Existing Agents**
-1. **Complete SSOT training immediately** 🆕
-2. **Complete Devlog training immediately** 🆕 (MANDATORY)
-3. **Complete Messaging Etiquette training immediately** 🆕 (MANDATORY)
-4. **Run role validation script** 🆕 - `python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
-5. Review agent-specific responsibilities
-6. Practice with troubleshooting guide
-7. Get certified in SSOT procedures
+### Devlog Requirements
+- **Required**: log every work cycle using devlog tools
+- **Prohibited**: project updates via chat, email, or manual Discord posts
+- Helpful commands:
+  ```bash
+  python -m src.core.devlog_cli status
+  python -m src.core.devlog_cli --help
+  ```
 
-## Training Materials
+## Development Expectations
+- Respect **DRY** (Don't Repeat Yourself) and **KISS** (Keep It Simple, Stupid)
+- Give every class or module a **Single Responsibility** and follow **SOLID** design
+- Enforce **SSOT** across configs, schemas, and docs before writing code
+- Practice **TDD**: write tests first and keep coverage ≥85%
+- Model complex logic with **object-oriented classes**
+- Ensure solutions remain **scalable**, **safe**, and **reusable**
+- Agents must confirm each change aligns with these principles before committing
 
-### **Location**: `training_documents/`
-- `agent_roles_and_responsibilities.md` - Agent role definitions
-- `system_overview.md` - System architecture overview
-- `ssot_compliance_training.md` - SSOT training module 🆕
-- `devlog_training_module.md` - ~~Devlog system training~~ 🗑️ **DELETED - REDUNDANT**
-- `messaging_etiquette_framework.md` - Messaging etiquette training 🆕 (MANDATORY)
-- `universal_development_principles.md` - Universal development principles
-- `troubleshooting_guide.md` - Issue resolution guide
+### Agent Checklist
+1. Cross-check this README as the SSOT before starting work
+2. Write or update tests alongside any feature or bug fix
+3. Refactor duplication and clarify intent in every revision
+4. Document public interfaces with JSDoc or docstrings
 
-### **Mandatory Training Modules** 🆕
-1. **SSOT Compliance Training** - Required for all agents
-2. **Devlog System Training** - Required for all agents (team communication SSOT)
-3. **Messaging Etiquette Framework Training** - Required for all agents (agent coordination SSOT)
-4. **Contract Claiming System Training** - Required for all agents (automated workflow SSOT) 🆕
-5. **Automated Workflow Integration Training** - Required for all agents (continuous work cycle SSOT) 🆕
+## Messaging & Contract Commands
+- Check status of all agents:
+  ```bash
+  python -m src.services.messaging_cli --check-status
+  ```
+- Claim the next task:
+  ```bash
+  python -m src.services.messaging_cli --agent <Agent-X> --get-next-task
+  ```
+- Send a message:
+  ```bash
+  python -m src.services.messaging_cli \
+    --agent <Agent-X> \
+    --message "text here" \
+    --sender "<Your Name>"
+  ```
+- Bulk onboarding (friendly style):
+  ```bash
+  python -m src.services.messaging_cli --onboarding --onboarding-style friendly
+  ```
 
-## SSOT Compliance Requirements
+## Captain Protocols
+- Agent-4 verifies statuses and assigns tasks
+- Captain prompts define cycles and enforce compliance
+- Emergency activation:
+  ```bash
+  python -m src.services.messaging_cli \
+    --agent <Agent-X> \
+    --message "EMERGENCY ACTIVATION" \
+    --priority urgent \
+    --sender "Captain Agent-4"
+  ```
 
-### **Core Principles**
-- **Single Source of Truth**: All project information must have one authoritative source
-- **Devlog System**: All team communication must go through the devlog system
-- **No Duplication**: Information must not be scattered across multiple systems
-- **Searchable History**: All communications must be retrievable and searchable
-
-### **Devlog System Requirements** 🆕
-- **✅ MANDATORY**: All project updates must use devlog system
-- **✅ MANDATORY**: No manual Discord posting for project updates
-- **✅ MANDATORY**: All agents must identify themselves in entries
-- **✅ MANDATORY**: Proper categorization and content standards
-- **❌ PROHIBITED**: Project updates via email, chat, or direct Discord
-- **❌ PROHIBITED**: Vague or unclear content in devlog entries
-
-### **Contract Automation System Requirements** 🆕
-- **✅ MANDATORY**: All agents must use contract claiming system for tasks
-- **✅ MANDATORY**: Complete contracts to claim extra credit points
-- **✅ MANDATORY**: Use automated workflow for continuous task execution
-- **✅ MANDATORY**: Run completion commands to get next task automatically
-- **❌ PROHIBITED**: Manual task assignment outside contract system
-- **❌ PROHIBITED**: Stopping work without claiming next contract
-
-### **Compliance Validation**
-- **Training Completion**: Must complete devlog training module
-- **Practical Assessment**: Must demonstrate proper tool usage
-
-## Contract Automation Workflow 🆕
-
-### **Continuous Work Cycle**
-**TASK → EXECUTE → COMPLETE → AUTO-CLAIM NEXT → REPEAT**
-
-### **Step-by-Step Workflow**
-1. **Get Next Task**: `python -m src.services.messaging --agent Agent-X --get-next-task`
-2. **Claim Contract**: `python -m src.services.messaging --agent Agent-X --claim-contract CONTRACT-ID`
-3. **Execute Task**: Complete the contract requirements and deliverables
-4. **Complete Contract**: `python -m src.services.messaging --agent Agent-X --complete-contract CONTRACT-ID`
-5. **Auto-Continue**: System automatically provides next available task
-6. **Repeat**: Continue the cycle without stopping
-
-### **Contract Categories Available**
-- **Coordination Enhancement**: 6 contracts (1,080 points)
-- **Phase Transition Optimization**: 6 contracts (1,120 points)
-- **Testing Framework Enhancement**: 4 contracts (685 points)
-- **Strategic Oversight**: 3 contracts (600 points)
-- **Refactoring Tool Preparation**: 3 contracts (625 points)
-- **Performance Optimization**: 2 contracts (425 points)
-
-### **Total Available**: 24 contracts, 4,175 extra credit points
-
-### **Automation Benefits**
-- **Continuous Work**: Agents never stop working
-- **Automatic Task Distribution**: No manual intervention needed
-- **Extra Credit System**: Points-based motivation and tracking
-- **Role-Based Prioritization**: Tasks automatically matched to agent roles
-- **Progress Tracking**: Real-time contract status and completion metrics
-- **Ongoing Compliance**: Must use devlog for all project communications
-- **Team Enforcement**: All agents responsible for maintaining SSOT
-
-## Training Completion Tracking
-
-### **Required Certifications**
-- [ ] **SSOT Compliance Training** - Completed and certified
-- [ ] **Devlog System Training** - Completed and certified 🆕
-- [ ] **Messaging Etiquette Framework Training** - Completed and certified 🆕
-- [ ] **Role-Specific Training** - Completed and certified
-- [ ] **Practical Assessment** - Passed with 85% minimum
-
-### **Validation Commands**
-```bash
-# Validate role and training completion
-python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"
-
-# Check devlog system status
-python -m src.core.devlog_cli status
-
-# Test devlog functionality
-python scripts/devlog.py "Training Test" "Testing devlog system" --agent "test-agent"
-```
-
-## Support and Resources
-
-### **Training Support**
-- **Devlog Training**: ~~`docs/onboarding/DEVLOG_TRAINING_MODULE.md`~~ 🗑️ **DELETED - REDUNDANT**
-- **SSOT Training**: `docs/onboarding/SSOT_COMPLIANCE_TRAINING.md`
-- **User Guide**: ~~`docs/AGENT_DEVLOG_GUIDE.md`~~ 🗑️ **DELETED - REDUNDANT**
-- **System Overview**: ~~`docs/DEVLOG_SYSTEM_FIXED.md`~~ 🗑️ **DELETED - REDUNDANT**
-
-### **📱 Discord Devlog System - SINGLE SOURCE OF TRUTH**
-- **Discord devlog is your primary communication system**
-- **All updates automatically post to Discord**
-- **Use**: `python scripts/devlog.py "Title" "Content"`
-- **Reference**: `docs/standards/MANDATORY_AGENT_RESPONSE_PROTOCOL.md`
-
-### **Technical Support**
-- **System Status**: `python -m src.core.devlog_cli status`
-- **Help Commands**: `python scripts/devlog.py --help`
-- **Full CLI Help**: `python -m src.core.devlog_cli --help`
-
-### **Compliance Support**
-- **SSOT Guide**: `docs/standards/SINGLE_SOURCE_OF_TRUTH_GUIDE.md`
-- **Troubleshooting**: `docs/onboarding/troubleshooting_guide.md`
-- **Best Practices**: `docs/onboarding/universal_development_principles.md`
-
-## Next Steps
-
-### **Immediate Actions**
-1. **Complete mandatory training modules** (SSOT + Devlog)
-2. **Get certified** in all required areas
-3. **Start using devlog system** for all communications
-4. **Enforce SSOT principles** in daily work
-
-### **Ongoing Compliance**
-1. **Use devlog for all updates** - no exceptions
-2. **Maintain content standards** - clear and actionable
-3. **Encourage team compliance** - lead by example
-4. **Report compliance issues** - through devlog system
+## Ongoing Compliance
+1. Complete all mandatory training with scores ≥85%
+2. Use devlog for every update and track progress per cycle
+3. Respond to the Captain within one cycle
+4. Use the contract system for continuous work
 
 ---
 
-## 🎯 **SSOT Compliance Status**
-
-**Current Status**: 🟢 **ACTIVE - TRAINING REQUIRED**  
-**Next Milestone**: 🎯 **100% Agent Certification**  
-**Compliance Goal**: 🏆 **Single Source of Truth Achieved**
-
-**WE. ARE. SWARM!** 🚀
-
----
-
-*This onboarding system ensures all agents understand and comply with SSOT principles, making the devlog system the single source of truth for team communication.*
-
----
-
-## 🚨 **SSOT CONSOLIDATION COMPLETED - SINGLE ONBOARDING DIRECTORY** 🚨
-
-### **Consolidated Structure**
-This directory now contains **ALL onboarding materials** consolidated from multiple locations:
-
-#### **📚 Core Training Materials**
-- `README.md` - **This file** - Complete onboarding overview
-- `UNIVERSAL_DEVELOPMENT_PRINCIPLES.md` - Core development principles
-- `MESSAGING_ETIQUETTE_TRAINING_MODULE.md` - Communication protocols
-- `CAPTAIN_COORDINATION_TRAINING.md` - Captain-specific training
-
-#### **🔧 Scripts & Tools**
-- `scripts/validate_phase2_roles.py` - Role validation script
-- **Usage**: `python docs/onboarding/scripts/validate_phase2_roles.py [Agent-Name] "[Claimed-Role]"`
-
-#### **📋 Protocols & Configuration**
-- `protocols/v2_onboarding_protocol.json` - V2 onboarding configuration
-- `protocols/workflow_protocols.md` - Workflow protocols
-- `protocols/RESUME_INTEGRATION_PROTOCOL.md` - Resume integration
-- `protocols/ROLE_ASSIGNMENT_PROTOCOL.md` - Role assignment
-- `protocols/command_reference.md` - Command reference
-
-#### **🎯 SSOT Training Materials**
-- `ssot_agent_responsibilities_matrix.md` - Agent responsibility matrix
-- `ssot_practical_exercises.md` - Practical SSOT exercises
-- `ssot_troubleshooting_guide.md` - SSOT troubleshooting
-- `tools_and_technologies.md` - Tools and technologies guide
-- `system_overview.md` - System overview
-
-### **🚫 What Was Removed**
-- ~~`agent_workspaces/onboarding/`~~ - **DELETED - DUPLICATE DIRECTORY**
-- All duplicate training materials consolidated here
-- Single source of truth for all onboarding content
-
-### **✅ Benefits of SSOT Consolidation**
-- **No more duplicate directories** - Single onboarding location
-- **Consistent file organization** - Logical structure
-- **Eliminated confusion** - Agents know exactly where to look
-- **Maintained all functionality** - Nothing lost, everything gained
+**WE. ARE. SWARM.**
 

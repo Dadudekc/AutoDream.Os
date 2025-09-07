@@ -143,7 +143,7 @@ def format_message_for_delivery(message: UnifiedMessage) -> str:
     try:
         # Basic message formatting
         formatted = f"📨 {message.message_type.value.upper()}\n"
-        formatted += f"From: {message.sender_id}\n"
+        formatted += f"From: {message.sender}\n"
         formatted += f"To: {message.recipient}\n"
         formatted += f"Priority: {message.priority.value}\n"
         if message.tags:
@@ -172,12 +172,12 @@ def deliver_bulk_messages_pyautogui(
                 coords = get_agent_coordinates(message.recipient)
                 if coords:
                     success = deliver_message_pyautogui(message, coords)
-                    results[message.recipient_id] = success
+                    results[message.recipient] = success
                     time.sleep(1)  # Delay between messages
                 else:
-                    results[message.recipient_id] = False
+                    results[message.recipient] = False
             else:
-                results[message.recipient_id] = False
+                results[message.recipient] = False
 
         return results
 

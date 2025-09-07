@@ -1,28 +1,33 @@
 #!/usr/bin/env python3
-"""
-Messaging Utils Service - V2 Compliance Module
-============================================
+"""Messaging Utils Service - V2 Compliance Module
+=================================================
 
-Provides utility functions for the unified messaging system.
-Extracted from monolithic messaging_core.py for V2 compliance.
-
-Responsibilities:
-- Agent status monitoring
-- Message validation
-- System health checks
-- Utility functions and helpers
-
-V2 Compliance: < 300 lines, single responsibility, utility functions.
-
-Author: Agent-2 - Architecture & Design Specialist
-License: MIT
+Utility functions for the unified messaging system: agent status monitoring,
+message validation, system health checks, and helpers.
 """
 
+from __future__ import annotations
 
-    RecipientType,
-    SenderType,
-    UnifiedMessage,
-    UnifiedMessageType,
+from typing import Any, Dict, List, Optional
+from pathlib import Path
+
+from .unified_messaging_imports import (
+    read_json,
+    get_unified_utility,
+    get_unified_validator,
+)
+from .models.messaging_models import UnifiedMessage
+from .utils.messaging_validation_utils import MessagingValidationUtils
+from .status_embedding_indexer import refresh_status_embedding
+from ..core.constants.paths import (
+    AGENT_WORKSPACES_DIR,
+    DOCS_DIR,
+    SCRIPTS_DIR,
+    SRC_DIR,
+    TESTS_DIR,
+    get_agent_inbox,
+    get_agent_status_file,
+    get_agent_workspace,
 )
 
 
@@ -34,12 +39,7 @@ class MessagingUtilsService:
     """
 
     def __init__(self, agent_list: Optional[List[str]] = None):
-        """
-        Initialize utils service.
-
-        Args:
-            agent_list: List of configured agents
-        """
+        """Initialize utils service."""
         # Default agent list if not provided
         self.agent_list = agent_list or [
             "Agent-1",
@@ -54,17 +54,12 @@ class MessagingUtilsService:
         ]
 
     def get_agent_status(self) -> Dict[str, Any]:
-        """
-        Get status of all agents in the system.
-
-        Returns:
-            Dict containing agent status information
-        """
+        """Get status of all agents."""
         agent_status = {}
 
         for agent_id in self.agent_list:
-            status_file = get_unified_utility().Path(f"agent_workspaces/{agent_id}/status.json")
-            inbox_path = get_unified_utility().Path(f"agent_workspaces/{agent_id}/inbox")
+            status_file = get_agent_status_file(agent_id)
+            inbox_path = get_agent_inbox(agent_id)
 
             agent_status[agent_id] = {
                 "status_file_exists": status_file.exists(),
@@ -76,19 +71,17 @@ class MessagingUtilsService:
                 "current_mission": None,
             }
 
-            # Try to read status file
             if status_file.exists():
                 try:
-
-                    with open(status_file, "r") as f:
-                        status_data = read_json(f)
-                        agent_status[agent_id].update(
-                            {
-                                "last_status_update": status_data.get("last_updated"),
-                                "current_mission": status_data.get("current_mission"),
-                                "agent_status": status_data.get("status", "unknown"),
-                            }
-                        )
+                    status_data = read_json(status_file)
+                    agent_status[agent_id].update(
+                        {
+                            "last_status_update": status_data.get("last_updated"),
+                            "current_mission": status_data.get("current_mission"),
+                            "agent_status": status_data.get("status", "unknown"),
+                        }
+                    )
+                    refresh_status_embedding(agent_id, status_data)
                 except Exception:
                     agent_status[agent_id]["status_read_error"] = True
 
@@ -102,45 +95,41 @@ class MessagingUtilsService:
         }
 
     def validate_message(self, message: UnifiedMessage) -> Dict[str, Any]:
-        """
-        Validate message structure and content using shared validation utilities.
+        """Validate message structure and content."""
 
-        Args:
-            message: Message to validate
-
-        Returns:
-            Dict containing validation results
-        """
-        
         # Use shared validation logic
         validation_result = MessagingValidationUtils.validate_message_structure(message)
-        
+
         # Add agent-specific validation
         if message.sender and message.sender not in self.agent_list:
             validation_result["errors"].append(f"Invalid sender: {message.sender}")
         if message.recipient and message.recipient not in self.agent_list:
-            validation_result["errors"].append(f"Invalid recipient: {message.recipient}")
-        
+            validation_result["errors"].append(
+                f"Invalid recipient: {message.recipient}"
+            )
+
         # Update validation status
         validation_result["valid"] = len(validation_result["errors"]) == 0
         validation_result["error_count"] = len(validation_result["errors"])
-        
+
         return validation_result
 
     def get_system_health(self) -> Dict[str, Any]:
-        """
-        Get overall system health status.
+        """Get overall system health status."""
+        health_status = {
+            "timestamp": str(get_unified_utility().Path(".").stat().st_mtime),
+            "components": {},
+        }
 
-        Returns:
-            Dict containing health metrics
-        """
-        health_status = {"timestamp": str(get_unified_utility().Path(".").stat().st_mtime), "components": {}}
-
-        # Check core directories
-        core_dirs = ["agent_workspaces", "src", "scripts", "docs", "tests"]
-        for dir_name in core_dirs:
-            dir_path = get_unified_utility().Path(dir_name)
-            health_status["components"][dir_name] = {
+        core_dirs = [
+            AGENT_WORKSPACES_DIR,
+            SRC_DIR,
+            SCRIPTS_DIR,
+            DOCS_DIR,
+            TESTS_DIR,
+        ]
+        for dir_path in core_dirs:
+            health_status["components"][dir_path.name] = {
                 "exists": dir_path.exists(),
                 "file_count": (
                     len(list(dir_path.rglob("*"))) if dir_path.exists() else 0
@@ -168,7 +157,7 @@ class MessagingUtilsService:
         }
 
         # Overall health assessment
-        critical_components = ["src", "agent_workspaces"]
+        critical_components = [SRC_DIR.name, AGENT_WORKSPACES_DIR.name]
         critical_missing = [
             comp
             for comp in critical_components
@@ -190,36 +179,22 @@ class MessagingUtilsService:
         return health_status
 
     def _is_file_accessible(self, file_path: Path) -> bool:
-        """
-        Check if a file is accessible (not corrupted).
-
-        Args:
-            file_path: Path to the file to check
-
-        Returns:
-            bool: True if file is accessible, False otherwise
-        """
+        """Check if a file is accessible."""
         try:
             file_path.stat()
             return True
         except OSError:
-            # File is corrupted or inaccessible
             return False
 
     def format_message_for_display(self, message: UnifiedMessage) -> str:
-        """
-        Format message for display purposes.
-
-        Args:
-            message: Message to format
-
-        Returns:
-            Formatted message string
-        """
+        """Format message for display."""
         formatted = f"[{message.timestamp}] {message.sender} -> {message.recipient}\n"
         formatted += f"Type: {message.message_type.value}\n"
         formatted += f"Priority: {message.priority}\n"
-        formatted += f"Content: {message.content[:200]}{'...' if len(message.content) > 200 else ''}"
+        formatted += (
+            f"Content: {message.content[:200]}"
+            f"{'...' if len(message.content) > 200 else ''}"
+        )
 
         if get_unified_validator().validate_hasattr(message, "tags") and message.tags:
             formatted += f"\nTags: {', '.join(message.tags)}"
@@ -252,8 +227,13 @@ class MessagingUtilsService:
             distributions["recipients"][m.recipient] = (
                 distributions["recipients"].get(m.recipient, 0) + 1
             )
-            distributions["priorities"][get_unified_validator().safe_getattr(m, "priority", "normal")] = (
-                distributions["priorities"].get(get_unified_validator().safe_getattr(m, "priority", "normal"), 0) + 1
+            distributions["priorities"][
+                get_unified_validator().safe_getattr(m, "priority", "normal")
+            ] = (
+                distributions["priorities"].get(
+                    get_unified_validator().safe_getattr(m, "priority", "normal"), 0
+                )
+                + 1
             )
             total_length += len(m.content)
 
@@ -269,7 +249,7 @@ class MessagingUtilsService:
 
     def validate_agent_workspace(self, agent_id: str) -> Dict[str, Any]:
         """Validate agent workspace structure."""
-        workspace_path = get_unified_utility().Path(f"agent_workspaces/{agent_id}")
+        workspace_path = get_agent_workspace(agent_id)
 
         if not workspace_path.exists():
             return {
@@ -278,9 +258,8 @@ class MessagingUtilsService:
                 "issues": ["Workspace does not exist"],
             }
 
-        # Check required components
-        inbox_exists = (workspace_path / "inbox").exists()
-        status_exists = (workspace_path / "status.json").exists()
+        inbox_exists = get_agent_inbox(agent_id).exists()
+        status_exists = get_agent_status_file(agent_id).exists()
 
         return {
             "agent_id": agent_id,

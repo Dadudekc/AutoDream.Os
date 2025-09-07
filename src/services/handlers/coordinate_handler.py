@@ -21,7 +21,7 @@ try:
     from ...core.unified_data_processing_system import read_json, write_json
 except ImportError:
     # Fallback implementations
-    COORDINATE_CONFIG_FILE = "config/coordinates.json"
+    COORDINATE_CONFIG_FILE = "cursor_agent_coords.json"
 
     def read_json(path):
         return {}

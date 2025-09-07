@@ -1,44 +1,26 @@
 """Shared agent registry for system-wide constants."""
 
-COORDINATES = {
-    "Agent-1": {
-        "x": -1269,
-        "y": 481,
-        "description": "Integration & Core Systems Specialist",
-    },
-    "Agent-2": {
-        "x": -308,
-        "y": 480,
-        "description": "Architecture & Design Specialist",
-    },
-    "Agent-3": {
-        "x": -1269,
-        "y": 1001,
-        "description": "Infrastructure & DevOps Specialist",
-    },
-    "Agent-4": {
-        "x": -308,
-        "y": 1000,
-        "description": "Quality Assurance Specialist (CAPTAIN)",
-    },
-    "Agent-5": {
-        "x": 652,
-        "y": 421,
-        "description": "Business Intelligence Specialist",
-    },
-    "Agent-6": {
-        "x": 1612,
-        "y": 419,
-        "description": "Coordination & Communication Specialist",
-    },
-    "Agent-7": {
-        "x": 653,
-        "y": 940,
-        "description": "Web Development Specialist",
-    },
-    "Agent-8": {
-        "x": 1611,
-        "y": 941,
-        "description": "SSOT & System Integration Specialist",
-    },
-}
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Dict, Any
+
+
+def _load_coordinates() -> Dict[str, Dict[str, Any]]:
+    """Load agent coordinates from the cursor_agent_coords.json SSOT."""
+    coord_file = Path("cursor_agent_coords.json")
+    data = json.loads(coord_file.read_text(encoding="utf-8"))
+    agents: Dict[str, Dict[str, Any]] = {}
+    for agent_id, info in data.get("agents", {}).items():
+        chat = info.get("chat_input_coordinates", [0, 0])
+        agents[agent_id] = {
+            "x": chat[0],
+            "y": chat[1],
+            "description": info.get("description", ""),
+        }
+    return agents
+
+
+COORDINATES: Dict[str, Dict[str, Any]] = _load_coordinates()
+

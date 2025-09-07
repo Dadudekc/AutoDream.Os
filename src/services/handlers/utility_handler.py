@@ -11,13 +11,14 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
-from ..utils.agent_registry import AGENTS, list_agents
+from ...agent_registry import COORDINATES
 
 
 class UtilityHandler:
-    """Handles utility commands for messaging CLI.
+    """
+    Handles utility commands for messaging CLI.
 
     Manages utility functions like listing agents, coordinates, and history.
     """
@@ -25,6 +26,7 @@ class UtilityHandler:
     def __init__(self):
         """Initialize utility handler."""
         self.agent_list = []
+        self.coordinates = COORDINATES
         self.history = []
 
     def handle_utility_commands(self, args) -> bool:
@@ -33,19 +35,24 @@ class UtilityHandler:
             if args.list_agents:
                 print("Available Agents:")
                 print("=" * 40)
-                for agent_id in list_agents():
-                    desc = AGENTS[agent_id]["description"]
-                    print(f"{agent_id}: {desc}")
+                print("Agent-1: Integration & Core Systems")
+                print("Agent-2: Architecture & Design")
+                print("Agent-3: Infrastructure & DevOps")
+                print("Agent-4: Strategic Oversight & Emergency Intervention")
+                print("Agent-5: Business Intelligence")
+                print("Agent-6: Coordination & Communication")
+                print("Agent-7: Web Development")
+                print("Agent-8: SSOT & System Integration")
                 return True
 
             if args.coordinates:
                 print("Agent Coordinates:")
                 print("=" * 40)
-                for agent_id in list_agents():
-                    coords = AGENTS[agent_id]["coords"]
-                    x, y = coords["x"], coords["y"]
-                    print(f"{agent_id}: ({x}, {y})")
-                print("Use --agent to send messages to specific agents")
+                for agent, data in COORDINATES.items():
+                    print(
+                        f"{agent}: ({data['x']}, {data['y']}) - "
+                        f"{data['description']}"
+                    )
                 return True
 
             if args.history:
@@ -63,13 +70,19 @@ class UtilityHandler:
     def list_agents(self) -> List[str]:
         """Get list of available agents."""
         return [
-            f"{agent_id}: {AGENTS[agent_id]['description']}"
-            for agent_id in list_agents()
+            "Agent-1: Integration & Core Systems",
+            "Agent-2: Architecture & Design",
+            "Agent-3: Infrastructure & DevOps",
+            "Agent-4: Strategic Oversight & Emergency Intervention",
+            "Agent-5: Business Intelligence",
+            "Agent-6: Coordination & Communication",
+            "Agent-7: Web Development",
+            "Agent-8: SSOT & System Integration"
         ]
 
     def get_coordinates(self) -> Dict[str, Any]:
         """Get agent coordinates."""
-        return {agent_id: info["coords"] for agent_id, info in AGENTS.items()}
+        return COORDINATES
 
     def get_history(self) -> List[Dict[str, Any]]:
         """Get message history."""
@@ -91,6 +104,6 @@ class UtilityHandler:
         """Get utility handler status."""
         return {
             "agent_count": len(self.list_agents()),
-            "coordinate_count": len(self.get_coordinates()),
-            "history_count": len(self.history),
+            "coordinate_count": len(COORDINATES),
+            "history_count": len(self.history)
         }

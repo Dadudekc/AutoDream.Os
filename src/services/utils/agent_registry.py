@@ -1,51 +1,18 @@
-"""Agent registry providing a single source of truth for agent metadata."""
-from typing import Any, Dict
+"""Centralized agent registry and helpers."""
+from typing import Any, Dict, List
 
 AGENTS: Dict[str, Dict[str, Any]] = {
-    "Agent-1": {
-        "description": "Integration & Core Systems",
-        "coords": {"x": -100, "y": 1000},
-        "inbox": "agent_workspaces/Agent-1/inbox",
-    },
-    "Agent-2": {
-        "description": "Architecture & Design",
-        "coords": {"x": -200, "y": 1000},
-        "inbox": "agent_workspaces/Agent-2/inbox",
-    },
-    "Agent-3": {
-        "description": "Infrastructure & DevOps",
-        "coords": {"x": -300, "y": 1000},
-        "inbox": "agent_workspaces/Agent-3/inbox",
-    },
-    "Agent-4": {
-        "description": "Strategic Oversight & Emergency Intervention",
-        "coords": {"x": -400, "y": 1000},
-        "inbox": "agent_workspaces/Agent-4/inbox",
-    },
-    "Agent-5": {
-        "description": "Business Intelligence",
-        "coords": {"x": -500, "y": 1000},
-        "inbox": "agent_workspaces/Agent-5/inbox",
-    },
-    "Agent-6": {
-        "description": "Coordination & Communication",
-        "coords": {"x": -600, "y": 1000},
-        "inbox": "agent_workspaces/Agent-6/inbox",
-    },
-    "Agent-7": {
-        "description": "Web Development",
-        "coords": {"x": -700, "y": 1000},
-        "inbox": "agent_workspaces/Agent-7/inbox",
-    },
-    "Agent-8": {
-        "description": "SSOT & System Integration",
-        "coords": {"x": -800, "y": 1000},
-        "inbox": "agent_workspaces/Agent-8/inbox",
-    },
+    "Agent-1": {"description": "Integration & Core Systems", "coords": {"x": -1269, "y": 421}},
+    "Agent-2": {"description": "Architecture & Design", "coords": {"x": -308, "y": 421}},
+    "Agent-3": {"description": "Infrastructure & DevOps", "coords": {"x": -1269, "y": 1001}},
+    "Agent-4": {"description": "Strategic Oversight", "coords": {"x": -308, "y": 1000}},
+    "Agent-5": {"description": "Business Intelligence", "coords": {"x": 652, "y": 421}},
+    "Agent-6": {"description": "Coordination & Communication", "coords": {"x": 1612, "y": 419}},
+    "Agent-7": {"description": "Web Development", "coords": {"x": 653, "y": 940}},
+    "Agent-8": {"description": "SSOT & System Integration", "coords": {"x": 1611, "y": 941}},
 }
 
 
-def list_agents() -> Dict[str, Dict[str, Any]]:
-    """Return mapping of agent identifiers to their metadata."""
-    return AGENTS
-
+def list_agents() -> List[str]:
+    """Return a sorted list of agent identifiers."""
+    return sorted(AGENTS.keys())

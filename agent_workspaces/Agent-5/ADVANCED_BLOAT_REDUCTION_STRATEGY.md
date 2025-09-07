@@ -224,7 +224,7 @@
    - Target 13,470 project files
 
 2. **Execute Mass Consolidation**
-   - Run advanced elimination across all patterns
+   - Run advanced elimination across all patterns via `python run_dry_analysis.py --mode advanced_elimination`
    - Monitor progress and error handling
    - Validate results
 

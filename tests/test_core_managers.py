@@ -18,7 +18,7 @@ from src.core.managers.core_resource_manager import CoreResourceManager
 from src.core.managers.core_configuration_manager import CoreConfigurationManager
 from src.core.managers.core_execution_manager import CoreExecutionManager
 from src.core.managers.core_monitoring_manager import CoreMonitoringManager
-from src.core.managers.core_service_manager import CoreServiceManager
+from src.core.managers.core_service_coordinator import CoreServiceCoordinator
 from src.core.managers.adapters.legacy_manager_adapter import (
     LegacyManagerAdapter,
     create_legacy_manager_adapter,
@@ -345,12 +345,12 @@ class TestCoreMonitoringManager:
         assert self.manager.cleanup(self.context) is True
 
 
-class TestCoreServiceManager:
-    """Test CoreServiceManager functionality."""
+class TestCoreServiceCoordinator:
+    """Test CoreServiceCoordinator functionality."""
 
     def setup_method(self):
         """Setup test environment."""
-        self.manager = CoreServiceManager()
+        self.manager = CoreServiceCoordinator()
         self.context = ManagerContext(
             config={"test": True},
             logger=mock_logger,
@@ -485,7 +485,7 @@ class TestPhase2ManagerConsolidation:
             CoreConfigurationManager,
             CoreExecutionManager,
             CoreMonitoringManager,
-            CoreServiceManager,
+            CoreServiceCoordinator,
         )
 
         managers = [
@@ -493,7 +493,7 @@ class TestPhase2ManagerConsolidation:
             CoreConfigurationManager,
             CoreExecutionManager,
             CoreMonitoringManager,
-            CoreServiceManager,
+            CoreServiceCoordinator,
         ]
 
         assert len(managers) == 5, "Should have exactly 5 core managers"
@@ -543,7 +543,7 @@ class TestPhase2ManagerConsolidation:
             "src/core/managers/core_configuration_manager.py",
             "src/core/managers/core_execution_manager.py",
             "src/core/managers/core_monitoring_manager.py",
-            "src/core/managers/core_service_manager.py",
+            "src/core/managers/core_service_coordinator.py",
         ]
 
         for file_path in manager_files:
@@ -587,7 +587,7 @@ class TestPhase2ManagerConsolidation:
             CoreConfigurationManager,
             CoreExecutionManager,
             CoreMonitoringManager,
-            CoreServiceManager,
+            CoreServiceCoordinator,
         )
 
         # Each manager should have unique functionality

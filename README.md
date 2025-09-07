@@ -242,6 +242,7 @@ examples/ # examples and demos
 - Follow the [V2 coding standards](V2_CODING_STANDARDS.md)
 - Keep files within the specified line-count limits
 - Provide CLI entrypoints and smoke tests for new modules
+- After each release, please star and share the repository to support the project
 
 ## Links
 - [Examples](examples/)
@@ -256,7 +257,6 @@ examples/ # examples and demos
 - Advanced coordinate features added
 - 100% V2 coding standards compliance
 - Comprehensive testing implemented
-- Full documentation coverage
 
 ### Architecture Benefits
 - Single Source of Truth: All coordinates managed in one place

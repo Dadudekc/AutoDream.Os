@@ -11,11 +11,24 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
+import json
+import os
 import time
-import pyautogui as pg
-from pathlib import Path
-from typing import Optional, Dict, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, Optional
+
+try:
+    import pyautogui as pg  # type: ignore
+except Exception:  # pragma: no cover - allow tests without GUI libs
+    from unittest.mock import MagicMock
+
+    pg = MagicMock()
+
+try:  # Optional dependency used for window activation
+    import pygetwindow as gw  # type: ignore
+except Exception:  # pragma: no cover - environment may lack GUI support
+    gw = None
 
 # 8-agent default roles
 SIMPLE_ROLES_DEFAULT = {
@@ -31,15 +44,17 @@ SIMPLE_ROLES_DEFAULT = {
 
 
 class SimpleOnboarding:
-    """
-    Default onboarding now performs REAL UI actions:
-      1) Focus chat input → paste WRAP-UP message (template-driven)
-      2) Ctrl+T → focus onboarding input → paste ONBOARDING message
-    """
-    
-    def __init__(self, role_map: Optional[Dict[str, str]] = None, dry_run: bool = False):
+    """Default UI onboarding flow for agents."""
+
+    def __init__(
+        self,
+        role_map: Optional[Dict[str, str]] = None,
+        dry_run: bool = False,
+        status_file: str | Path = "status.json",
+    ):
         self.role_map = role_map or SIMPLE_ROLES_DEFAULT
         self.dry_run = dry_run
+        self.status_file = Path(status_file)
 
     def execute(self) -> Dict[str, Any]:
         """Execute the simple UI onboarding flow."""
@@ -96,11 +111,22 @@ class SimpleOnboarding:
             print(f"❌ Failed to load coordinates: {e}")
             return None
 
-    def _reset_agent_statuses(self):
-        """Reset agent statuses (placeholder for now)."""
-        if not self.dry_run:
-            print("🔄 Resetting agent statuses...")
-            # TODO: Implement actual status reset when agent registry is available
+    def _reset_agent_statuses(self) -> None:
+        """Reset agent statuses in the SSOT status file."""
+        if self.dry_run:
+            return
+
+        print("🔄 Resetting agent statuses...")
+        data: Dict[str, Any] = {}
+        if self.status_file.exists():
+            try:
+                data = json.loads(self.status_file.read_text(encoding="utf-8"))
+            except Exception:
+                data = {}
+
+        data["agent_status"] = {agent: "PENDING" for agent in self.role_map}
+        data["last_updated"] = self._now_iso()
+        self.status_file.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
     def _onboard_agent(self, agent_id: str, role: str, coord_map: Dict[str, Any]) -> Dict[str, Any]:
         """Onboard a single agent using UI actions."""
@@ -157,13 +183,28 @@ class SimpleOnboarding:
                 "error": str(e)
             }
 
-    def _ensure_tab(self, agent_id: str, method: str = None):
-        """Focus the agent surface. If method == 'ctrl_t', opens a new tab first."""
-        # TODO: Implement actual agent window focusing
+    def _ensure_tab(self, agent_id: str, method: str | None = None) -> None:
+        """Focus the agent window and optionally open a new tab."""
+        if self.dry_run:
+            return
+
         print(f"🔍 Focusing {agent_id} window...")
+        try:
+            if gw:
+                windows = gw.getWindowsWithTitle(agent_id)
+                if windows:
+                    windows[0].activate()
+                else:
+                    pg.hotkey("alt", "tab")
+            else:
+                pg.hotkey("alt", "tab")
+        except Exception:
+            pg.hotkey("alt", "tab")
+        time.sleep(0.1)
+
         if method == "ctrl_t":
             pg.hotkey("ctrl", "t")
-            time.sleep(0.1)  # settle time
+            time.sleep(0.1)
 
     def _click_xy(self, x: int, y: int):
         """Click at the specified coordinates."""
@@ -200,8 +241,14 @@ class SimpleOnboarding:
         )
 
     def _get_wrapup_template(self) -> str:
-        """Get the wrap-up template."""
-        # TODO: Load from actual template system when available
+        """Load wrap-up template from the SSOT."""
+        template_path = Path("prompts/agents/wrapup.md")
+        try:
+            if template_path.exists():
+                return template_path.read_text(encoding="utf-8")
+        except Exception:
+            pass
+
         return (
             "## Session Wrap-Up\n"
             "**Agent**: {agent_id}\n"

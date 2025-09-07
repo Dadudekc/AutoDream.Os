@@ -10,9 +10,6 @@ License: MIT
 """
 
 import argparse
-<<<<<<< HEAD
-
-
 def create_enhanced_parser():
     """Create enhanced argument parser."""
     parser = argparse.ArgumentParser(description="Unified Messaging CLI")
@@ -231,7 +228,8 @@ def main():
 
     # If no specific command was handled, show help
     parser.print_help()
-=======
+
+
 import sys
 import os
 
@@ -491,7 +489,6 @@ def main():
 
     # Handle message commands (requires --message)
     handle_message_commands(args, service)
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
 
 if __name__ == "__main__":

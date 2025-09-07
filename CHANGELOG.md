@@ -3,6 +3,15 @@
 ## [Unreleased]
 ### Added
 - Shared `load_simple_config` helper for agent vector integration modules.
+- Centralized prediction analytics utility `BasePredictionAnalyzer` for shared probability and confidence computations (SSOT).
+
+### Changed
+- Consolidated captain documentation into `docs/guides/captain_handbook.md`.
+- Clarified Python focus and monitoring component exemption in `AGENTS.md`.
+
+### Removed
+- Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
+- Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.
 
 ## [2.1.0] - 2025-09-01
 ### 🚀 Major Release: 100% V2 Compliance Achievement
@@ -56,14 +65,3 @@
 - **System Integration**: Comprehensive cross-agent validation
 - **Performance Optimization**: Measurable system improvements
 - **Devlog System**: Complete restoration and operational
-
-## Unreleased
-### Added
-- Centralized prediction analytics utility `BasePredictionAnalyzer` for shared
-  probability and confidence computations (SSOT).
-### Changed
-- Consolidated captain documentation into `docs/guides/captain_handbook.md`.
-
-### Removed
-- Removed obsolete `urgent_agent_activation.py` and `ai_ml_cli.py` after confirming no in-repo usage.
-- Deleted redundant `docs/CAPTAIN_HANDBOOK.md` and `docs/guides/CAPTAIN_AGENT_4_OPERATIONAL_HANDBOOK.md`.

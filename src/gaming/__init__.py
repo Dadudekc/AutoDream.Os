@@ -9,7 +9,7 @@ Author: Agent-6 - Gaming & Entertainment Specialist
 """
 
 from .gaming_alert_manager import GamingAlertManager
-from .gaming_integration_core import GamingIntegrationCore
+from .integration_core import GamingIntegrationCore
 from .gaming_test_runner import GamingTestRunner
 
 __version__ = "1.0.0"

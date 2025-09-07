@@ -17,7 +17,7 @@ import { DashboardRepository } from '../repositories/dashboard-repository.js';
 import { createDashboardInitService } from './dashboard-init-service.js';
 import { createDashboardDataService } from './dashboard-data-service.js';
 import { createDashboardEventService } from './dashboard-event-service.js';
-import { createUtilityService } from './utility-service-v2.js';
+import { createUtilityService } from './utility-service.js';
 
 // ================================
 // DASHBOARD SERVICE V2

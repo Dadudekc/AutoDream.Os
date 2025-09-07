@@ -2,6 +2,11 @@
 
 This repository is primarily a **Python** project. Unless explicitly noted, all new code should be written in Python and follow the guidelines below.
 
+## Repository Policies
+- This repository is Python-primary. All agents/tools SHOULD be implemented in Python unless a strong rationale exists.
+- Every commit/push MUST keep snapshots current: project_analysis.json, test_analysis.json, chatgpt_project_context.json.
+- Pre-commit auto-generates snapshots; pre-push enforces freshness.
+
 ## Code Style
 - Follow **PEP 8** and include type hints.
 - Keep line length ≤100 characters.

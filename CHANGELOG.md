@@ -55,7 +55,7 @@
 
 ## Unreleased
 ### Added
-- Agent status indexing into `agent_status_embeddings` table.
+- Semantic `--check-status` queries now leverage vector database with file-based fallback.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

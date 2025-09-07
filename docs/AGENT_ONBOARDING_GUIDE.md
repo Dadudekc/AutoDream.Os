@@ -11,6 +11,7 @@ onboarding.
 2. Verify your agent ID and role
    ```bash
    python -m src.services.messaging_cli --check-status
+   python -m src.services.messaging_cli --check-status "vector integration status"
    ```
 3. Claim your first contract
    ```bash

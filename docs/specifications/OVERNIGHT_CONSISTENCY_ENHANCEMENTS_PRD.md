@@ -10,7 +10,7 @@ agents detect when their terminal tasks are complete.
 ## Features
 1. **Rotating Validation Prompts**
    - After the initial resume prompt, agents receive a sequence of validation tasks:
-     kiss validation, a SOLID principles check, a monolithic check, and a V2 compliance review.
+     KISS validation, a SOLID principles check, a monolithic check, and a V2 compliance review.
    - This built-in checklist is automatically followed overnight by each agent.
 2. **Quality Control Agent (Optional)**
    - One agent can be designated as a QA checkpoint.

@@ -16,6 +16,7 @@ from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime, timedelta
 from enum import Enum
 from ..contracts import ExecutionManager, ManagerContext, ManagerResult
+from src.core.constants import get_completion_signal
 
 
 class TaskStatus(Enum):
@@ -253,7 +254,9 @@ class BaseExecutionManager(ExecutionManager):
             self.task_queue.clear()
             self.execution_threads.clear()
 
-            context.logger("Execution manager cleaned up")
+            context.logger(
+                f"Execution manager cleaned up {get_completion_signal()}"
+            )
             return True
         except Exception as e:
             context.logger(f"Error cleaning up execution manager: {e}")

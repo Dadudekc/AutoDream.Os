@@ -91,6 +91,12 @@ It consolidates prior onboarding guides and system updates.
    - Every 15 minutes during active work
    - Before starting new work
 
+5. **Completion Signal**
+   - Append the `COMPLETION_SIGNAL` to terminal output when a task ends.
+   - This constant, defined in `config/messaging.yml` and available via
+     `src.core.constants.get_completion_signal`, is the SSOT for recognizing
+     completed work.
+
 ---
 
 ## Contracts & Status Tracking

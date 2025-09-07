@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from .contracts import ResourceManager, ManagerContext, ManagerResult
+from src.core.constants import get_completion_signal
 
 
 class CoreResourceManager(ResourceManager):
@@ -240,7 +241,9 @@ class CoreResourceManager(ResourceManager):
             # Clear locks
             self._locks.clear()
 
-            context.logger("Core Resource Manager cleaned up")
+            context.logger(
+                f"Core Resource Manager cleaned up {get_completion_signal()}"
+            )
             return True
         except Exception as e:
             context.logger(f"Failed to cleanup Core Resource Manager: {e}")

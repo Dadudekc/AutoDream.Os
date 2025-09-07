@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Shared `load_simple_config` helper for agent vector integration modules.
+- `COMPLETION_SIGNAL` configuration and helper for task completion markers.
 
 ## [2.1.0] - 2025-09-01
 ### 🚀 Major Release: 100% V2 Compliance Achievement

@@ -26,6 +26,7 @@ from ..shared_utilities import (
     InitializationManager,
     CleanupManager,
 )
+from src.core.constants import get_completion_signal
 
 
 class ManagerType(Enum):
@@ -308,7 +309,9 @@ class BaseManager(Manager, ABC):
                 # Unregister from StatusManager
                 self.status_manager.unregister_component(self.manager_id)
 
-                self.logger.info(f"{self.manager_name} manager cleaned up successfully")
+                self.logger.info(
+                    f"{self.manager_name} manager cleaned up successfully {get_completion_signal()}"
+                )
                 return True
             else:
                 self.state = ManagerState.ERROR

@@ -11,6 +11,7 @@ License: MIT
 from __future__ import annotations
 from typing import Dict, Any, Optional
 from .base_execution_manager import BaseExecutionManager
+from src.core.constants import get_completion_signal
 from .task_manager import TaskManager
 from .protocol_manager import ProtocolManager
 from ..contracts import ManagerContext, ManagerResult
@@ -83,7 +84,9 @@ class ExecutionCoordinator(BaseExecutionManager):
             success = base_success and task_success and protocol_success
             
             if success:
-                context.logger("Execution Coordinator cleaned up")
+                context.logger(
+                    f"Execution Coordinator cleaned up {get_completion_signal()}"
+                )
             
             return success
             

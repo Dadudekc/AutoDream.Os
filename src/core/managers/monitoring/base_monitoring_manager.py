@@ -16,6 +16,7 @@ from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime, timedelta
 from enum import Enum
 from ..contracts import MonitoringManager, ManagerContext, ManagerResult
+from src.core.constants import get_completion_signal
 
 
 class AlertLevel(Enum):
@@ -256,7 +257,9 @@ class BaseMonitoringManager(MonitoringManager):
             with self._widget_lock:
                 self.widgets.clear()
             
-            context.logger("Monitoring manager cleaned up")
+            context.logger(
+                f"Monitoring manager cleaned up {get_completion_signal()}"
+            )
             return True
         except Exception as e:
             context.logger(f"Error cleaning up monitoring manager: {e}")

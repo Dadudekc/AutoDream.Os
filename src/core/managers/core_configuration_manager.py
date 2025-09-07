@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from .contracts import ConfigurationManager, ManagerContext, ManagerResult
+from src.core.constants import get_completion_signal
 
 
 class CoreConfigurationManager(ConfigurationManager):
@@ -234,7 +235,9 @@ class CoreConfigurationManager(ConfigurationManager):
             self.environment_vars.clear()
             self.validation_rules.clear()
 
-            context.logger("Core Configuration Manager cleaned up")
+            context.logger(
+                f"Core Configuration Manager cleaned up {get_completion_signal()}"
+            )
             return True
         except Exception as e:
             context.logger(f"Failed to cleanup Core Configuration Manager: {e}")

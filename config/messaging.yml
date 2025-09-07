@@ -20,6 +20,9 @@ defaults:
   # Onboarding message style
   onboarding_style: "friendly"
 
+  # Signal appended to agent output indicating task completion (SSOT)
+  completion_signal: "<TASK_COMPLETED>"
+
 # Queue configuration
 queue:
   directory: "message_queue"

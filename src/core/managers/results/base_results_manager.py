@@ -15,6 +15,7 @@ from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime, timedelta
 from enum import Enum
 from ..contracts import Manager, ManagerContext, ManagerResult
+from src.core.constants import get_completion_signal
 
 
 class ResultStatus(Enum):
@@ -168,7 +169,9 @@ class BaseResultsManager(Manager):
             self.result_processors.clear()
             self.result_callbacks.clear()
             
-            context.logger("Results manager cleaned up")
+            context.logger(
+                f"Results manager cleaned up {get_completion_signal()}"
+            )
             return True
         except Exception as e:
             context.logger(f"Error cleaning up results manager: {e}")

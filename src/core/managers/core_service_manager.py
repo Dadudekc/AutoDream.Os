@@ -16,6 +16,7 @@ from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime, timedelta
 from enum import Enum
 from .contracts import ServiceManager, ManagerContext, ManagerResult
+from src.core.constants import get_completion_signal
 
 
 class OnboardingStatus(Enum):
@@ -290,7 +291,9 @@ class CoreServiceManager(ServiceManager):
             self.result_callbacks.clear()
             self.onboarding_callbacks.clear()
 
-            context.logger("Core Service Manager cleaned up")
+            context.logger(
+                f"Core Service Manager cleaned up {get_completion_signal()}"
+            )
             return True
         except Exception as e:
             context.logger(f"Failed to cleanup Core Service Manager: {e}")

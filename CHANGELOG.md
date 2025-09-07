@@ -54,6 +54,8 @@
 - **Devlog System**: Complete restoration and operational
 
 ## Unreleased
+### Added
+- Semantic `--check-status` queries now leverage vector database with file-based fallback.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

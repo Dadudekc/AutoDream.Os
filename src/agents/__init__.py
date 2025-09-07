@@ -1,7 +1,6 @@
-"""Agent utilities including registration, scheduling, and metrics."""
+"""Agent utilities including registration and scheduling."""
 
 from .registration import AgentRegistry
 from .scheduler import TaskAssigner
-from ..core.metrics import MetricsCollector
 
-__all__ = ["AgentRegistry", "TaskAssigner", "MetricsCollector"]
+__all__ = ["AgentRegistry", "TaskAssigner"]

@@ -55,7 +55,7 @@
 
 ## Unreleased
 ### Added
-- BaseEngine for shared initialization, status, and cleanup across engine modules.
+- Utility status queries via `--status-query` for `--check-status` command.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 

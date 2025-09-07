@@ -17,6 +17,14 @@ def test_overnight_flag_parsed():
     assert args.overnight is True
 
 
+def test_status_query_parsed():
+    """Parser accepts status query with check-status."""
+    parser = create_enhanced_parser()
+    args = parser.parse_args(["--check-status", "--status-query", "network"])
+    assert args.check_status is True
+    assert args.status_query == "network"
+
+
 @patch("src.services.messaging_cli.handle_message_commands")
 @patch("src.services.messaging_cli.handle_onboarding_commands")
 @patch("src.services.messaging_cli.handle_contract_commands")

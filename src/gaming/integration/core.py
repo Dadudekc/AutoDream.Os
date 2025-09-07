@@ -6,7 +6,7 @@ import logging
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 
-from .integration_models import (
+from .models import (
     EntertainmentSystem,
     GameSession,
     GameType,

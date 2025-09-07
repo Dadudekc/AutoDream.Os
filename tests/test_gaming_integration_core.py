@@ -1,6 +1,6 @@
 import pytest
 
-from gaming.integration_core import GamingIntegrationCore, GameType
+from gaming.integration.core import GamingIntegrationCore, GameType
 
 
 def test_session_lifecycle():

@@ -8,9 +8,17 @@ core, and test running capabilities.
 Author: Agent-6 - Gaming & Entertainment Specialist
 """
 
-from .gaming_alert_manager import GamingAlertManager
-from .integration_core import GamingIntegrationCore
-from .gaming_test_runner import GamingTestRunner
+try:
+    from .gaming_alert_manager import GamingAlertManager
+except Exception:  # pragma: no cover - degraded environment
+    GamingAlertManager = None
+
+from .integration.core import GamingIntegrationCore
+
+try:
+    from .gaming_test_runner import GamingTestRunner
+except Exception:  # pragma: no cover - degraded environment
+    GamingTestRunner = None
 
 __version__ = "1.0.0"
 __author__ = "Agent-6 - Gaming & Entertainment Specialist"

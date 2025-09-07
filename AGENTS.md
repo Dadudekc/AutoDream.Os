@@ -36,7 +36,10 @@ This repository is primarily a **Python** project. Unless explicitly noted, all 
 
 ## V2 Compliance
 - Write **clean, tested, reusable, scalable** code.
-- Keep files ≤400 lines; >600 lines require immediate refactoring.
+- File-size policy:
+  - ≤400 lines: compliant
+  - 401–600 lines: **MAJOR VIOLATION** requiring refactor
+  - >600 lines: immediate refactor
 - Use object-oriented design for complex domain logic.
 - Ensure comprehensive error handling and logging.
 - Prioritize modular design and clear boundaries between modules.

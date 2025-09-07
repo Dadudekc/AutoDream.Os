@@ -124,7 +124,10 @@ python tools/captain_snapshot.py
 - Maintain SSOT and follow existing architecture
 - Use DRY, KISS, SOLID, and TDD with coverage ≥85%
 - Model complex logic with object-oriented classes
-- Keep files ≤400 lines; refactor before exceeding limits
+- File-size policy:
+  - ≤400 lines: compliant
+  - 401–600 lines: **MAJOR VIOLATION** requiring refactor
+  - >600 lines: immediate refactor
 - Preserve work context and update status.json immediately
 
 ## Training Path

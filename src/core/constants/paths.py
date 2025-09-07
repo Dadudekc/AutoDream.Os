@@ -40,26 +40,38 @@ SERVICES_DIR = SRC_DIR / "services"
 CONFIG_DIR = ROOT_DIR / "config"
 LOGS_DIR = ROOT_DIR / "logs"
 DATA_DIR = ROOT_DIR / "data"
+SCRIPTS_DIR = ROOT_DIR / "scripts"
+DOCS_DIR = ROOT_DIR / "docs"
+TESTS_DIR = ROOT_DIR / "tests"
+
+# Vector database directories
+UNIFIED_VECTOR_DB_DIR = ROOT_DIR / "unified_vector_db"
+STATUS_EMBEDDINGS_FILE = UNIFIED_VECTOR_DB_DIR / "status_embeddings.json"
 
 # ================================
 # UTILITY FUNCTIONS
 # ================================
 
+
 def get_agent_workspace(agent_id: str) -> Path:
     """Get agent workspace directory path."""
     return AGENT_WORKSPACES_DIR / f"Agent-{agent_id}"
+
 
 def get_agent_inbox(agent_id: str) -> Path:
     """Get agent inbox directory path."""
     return get_agent_workspace(agent_id) / "inbox"
 
+
 def get_agent_status_file(agent_id: str) -> Path:
     """Get agent status file path."""
     return get_agent_workspace(agent_id) / "status.json"
 
+
 def ensure_path_exists(path: Path) -> bool:
     """Ensure path exists, create if necessary."""
     return get_unified_utility().ensure_directory(path)
+
 
 # ================================
 # LEGACY COMPATIBILITY

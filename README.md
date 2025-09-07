@@ -12,6 +12,7 @@ AutoDream OS is a modular, V2 standards compliant platform for building agent-dr
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
 - **Base engine abstraction** centralizing initialization, status reporting, and cleanup
+- **Cursor task database integration** for terminal completion monitoring
 
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware

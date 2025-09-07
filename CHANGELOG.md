@@ -3,6 +3,8 @@
 ## [Unreleased]
 ### Added
 - Shared `load_simple_config` helper for agent vector integration modules.
+- Database access layer for Cursor agent tasks.
+- Terminal completion monitor cross-checking Cursor task signals.
 
 ## [2.1.0] - 2025-09-01
 ### 🚀 Major Release: 100% V2 Compliance Achievement

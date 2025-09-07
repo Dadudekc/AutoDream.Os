@@ -7,6 +7,9 @@
   probability and confidence computations (SSOT).
 - Terminal completion monitor to detect completion signals from logs.
 - Cursor task repository with env-configurable path and monitor cross-checking.
+- SSOT `COMPLETION_SIGNAL` defined in `config/messaging.yml` and exposed via
+  `src.core.constants`.
+- Managers append `COMPLETION_SIGNAL` to terminal outputs upon task completion.
 ### Changed
 - Consolidated captain documentation into `docs/guides/captain_handbook.md`.
 ### Removed

@@ -9,8 +9,9 @@ Usage:
         -s path/to/log1 -s path/to/log2 \
         -o logs/completion_events.log -v
 
-The script maintains a single source of truth for the `COMPLETION_SIGNAL`
-constant, allowing tests and dependent modules to import it directly.
+The script uses the SSOT `COMPLETION_SIGNAL` from `config/messaging.yml` via
+`src.core.constants`, allowing tests and dependent modules to import it
+directly.
 """
 
 from __future__ import annotations
@@ -26,11 +27,10 @@ from pathlib import Path
 from typing import Iterable, List, Optional
 
 # Ensure src is on the path for repository imports
-sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from services.cursor_db import CursorTaskRepository
-
-COMPLETION_SIGNAL = "COMPLETION_SIGNAL"
+from services.cursor_db import CursorTaskRepository  # noqa: E402
+from src.core.constants.manager import COMPLETION_SIGNAL  # noqa: E402
 
 
 @dataclass
@@ -92,7 +92,9 @@ class TerminalCompletionMonitor:
                 fh.seek(position)
                 for line in fh:
                     if COMPLETION_SIGNAL in line:
-                        task_id = line.split(COMPLETION_SIGNAL, 1)[1].strip() or None
+                        task_id = (
+                            line.split(COMPLETION_SIGNAL, 1)[1].strip() or None
+                        )
                         task_found = None
                         if task_id and self.task_repo:
                             task_found = self.task_repo.task_exists(task_id)

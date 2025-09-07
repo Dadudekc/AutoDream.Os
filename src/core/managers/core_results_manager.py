@@ -5,6 +5,7 @@ from __future__ import annotations
 import uuid
 from typing import Any, Dict
 
+from src.core.constants.manager import COMPLETION_SIGNAL
 from .contracts import Manager, ManagerContext, ManagerResult
 
 
@@ -28,7 +29,9 @@ class CoreResultsManager(Manager):
         }
         handler = handlers.get(operation)
         if not handler:
-            return ManagerResult(False, {}, {}, f"Unknown operation: {operation}")
+            return ManagerResult(
+                False, {}, {}, f"Unknown operation: {operation}"
+            )
         return handler(context, payload)
 
     def cleanup(self, context: ManagerContext) -> bool:
@@ -42,7 +45,7 @@ class CoreResultsManager(Manager):
             "v2_compliant": self._v2_compliant,
         }
 
-    # Handlers -----------------------------------------------------------------
+    # Handlers ---------------------------------------------------------------
     def process_results(
         self, context: ManagerContext, payload: Dict[str, Any]
     ) -> ManagerResult:
@@ -52,7 +55,7 @@ class CoreResultsManager(Manager):
             "data": payload.get("data", {}),
             "metadata": payload.get("metadata", {}),
         }
-        context.logger(f"Result processed: {result_id}")
+        context.logger(f"Result processed: {result_id} {COMPLETION_SIGNAL}")
         return ManagerResult(True, {"result_id": result_id}, {})
 
     def get_results(

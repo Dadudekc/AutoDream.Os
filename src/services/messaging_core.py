@@ -50,6 +50,7 @@ from .models.messaging_models import (
     UnifiedRecipientType,
 )
 from .message_identity_clarification import format_message_with_identity_clarification
+from .utils.messaging_validation_utils import MessagingValidationUtils
 
 
 class UnifiedMessagingCore:
@@ -113,17 +114,14 @@ class UnifiedMessagingCore:
             raise
 
     def validate_message(self, message: UnifiedMessage) -> bool:
-        """Validate message - simplified."""
+        """Validate message using shared validation utilities."""
         try:
-            if not message.content or len(message.content.strip()) == 0:
-                self.logger.error("Message content cannot be empty")
-                return False
-
-            if len(message.content) > 10000:  # 10k character limit
-                self.logger.error("Message content too long")
-                return False
-
-            return True
+            result = MessagingValidationUtils.validate_message_structure(message)
+            for warning in result.get("warnings", []):
+                self.logger.warning(warning)
+            for error in result.get("errors", []):
+                self.logger.error(error)
+            return result.get("valid", False)
         except Exception as e:
             self.logger.error(f"Error validating message: {e}")
             return False

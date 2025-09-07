@@ -16,6 +16,23 @@ from dataclasses import dataclass
 
 from ...unified_import_system import get_unified_import_system
 
+# Keywords and messages used across extraction methods (SSOT)
+MODEL_KEYWORDS = ("model", "data", "entity")
+UTIL_KEYWORDS = ("util", "helper")
+NO_MODELS = "# No models found\n"
+NO_UTILS = "# No utilities found\n"
+NO_CORE = "# No core logic found\n"
+
+__all__ = [
+    "ExtractionPlan",
+    "ExtractionTools",
+    "MODEL_KEYWORDS",
+    "UTIL_KEYWORDS",
+    "NO_MODELS",
+    "NO_UTILS",
+    "NO_CORE",
+]
+
 
 @dataclass
 class ExtractionPlan:
@@ -116,16 +133,70 @@ class ExtractionTools:
         return rules
 
     def _extract_models(self, tree: ast.AST) -> str:
-        """Extract model-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Models extracted from refactoring\n# TODO: Implement proper model extraction\n"
+        """Extract model class definitions from an AST.
+
+        Returns source code for classes whose names include any keyword in
+        ``MODEL_KEYWORDS``. Each class definition is separated by two newlines
+        and the result ends with a newline. If no classes are found,
+        ``NO_MODELS`` is returned.
+        """
+
+        models = [
+            ast.unparse(node)
+            for node in tree.body
+            if isinstance(node, ast.ClassDef)
+            and any(key in node.name.lower() for key in MODEL_KEYWORDS)
+        ]
+
+        return "\n\n".join(models) + ("\n" if models else NO_MODELS)
 
     def _extract_utils(self, tree: ast.AST) -> str:
-        """Extract utility-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Utils extracted from refactoring\n# TODO: Implement proper utility extraction\n"
+        """Extract utility function definitions from an AST.
+
+        Returns source code for functions whose names include any keyword in
+        ``UTIL_KEYWORDS``. Each function is separated by two newlines and the
+        result ends with a newline. If no functions are found, ``NO_UTILS`` is
+        returned.
+        """
+
+        utils = [
+            ast.unparse(node)
+            for node in tree.body
+            if isinstance(node, ast.FunctionDef)
+            and any(key in node.name.lower() for key in UTIL_KEYWORDS)
+        ]
+
+        return "\n\n".join(utils) + ("\n" if utils else NO_UTILS)
 
     def _extract_core(self, tree: ast.AST) -> str:
-        """Extract core-related code."""
-        # Simplified extraction - in practice, you'd parse AST more carefully
-        return "# Core extracted from refactoring\n# TODO: Implement proper core extraction\n"
+        """Extract core logic from an AST.
+
+        Returns source code for top-level classes and functions not classified
+        as models or utilities. Elements are separated by two newlines and the
+        result ends with a newline. If no core logic is found, ``NO_CORE`` is
+        returned.
+        """
+
+        model_names = {
+            node.name
+            for node in tree.body
+            if isinstance(node, ast.ClassDef)
+            and any(key in node.name.lower() for key in MODEL_KEYWORDS)
+        }
+        util_names = {
+            node.name
+            for node in tree.body
+            if isinstance(node, ast.FunctionDef)
+            and any(key in node.name.lower() for key in UTIL_KEYWORDS)
+        }
+
+        core = []
+        for node in tree.body:
+            if isinstance(node, ast.ClassDef) and node.name in model_names:
+                continue
+            if isinstance(node, ast.FunctionDef) and node.name in util_names:
+                continue
+            if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
+                core.append(ast.unparse(node))
+
+        return "\n\n".join(core) + ("\n" if core else NO_CORE)

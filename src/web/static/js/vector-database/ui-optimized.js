@@ -1,18 +1,15 @@
 /**
  * Vector Database UI - Performance Optimized
- * ==========================================
- * 
- * Optimized UI components with performance improvements:
- * - DOM fragment usage for batch operations
- * - Event delegation for better memory management
- * - Debounced search for reduced API calls
- * - Cached DOM queries
- * - Optimized rendering with requestAnimationFrame
- * 
  * Author: Agent-7 - Web Development Specialist
  * License: MIT
  */
-
+import {
+    setupSearchInterface as setupSearchInterfaceCommon,
+    setupDocumentManagement as setupDocumentManagementCommon,
+    showError as showErrorCommon,
+    showSuccess as showSuccessCommon,
+    escapeHtml
+} from './ui-common.js';
 export class VectorDatabaseUIOptimized {
     constructor() {
         this.elements = new Map();
@@ -27,10 +24,7 @@ export class VectorDatabaseUIOptimized {
         this.batchOperations = [];
         this.rafId = null;
     }
-
-    /**
-     * Initialize UI components with performance optimizations
-     */
+/** Initialize UI components with performance optimizations */
     initializeUI() {
         try {
             this.setupEventDelegation();
@@ -45,19 +39,13 @@ export class VectorDatabaseUIOptimized {
             throw error;
         }
     }
-
-    /**
-     * Setup event delegation for better performance
-     */
+/** Setup event delegation for better performance */
     setupEventDelegation() {
         // Use event delegation instead of individual listeners
         document.addEventListener('click', this.handleDelegatedClick.bind(this));
         document.addEventListener('input', this.handleDelegatedInput.bind(this));
     }
-
-    /**
-     * Handle delegated click events
-     */
+/** Handle delegated click events */
     handleDelegatedClick(event) {
         const target = event.target;
         
@@ -71,19 +59,13 @@ export class VectorDatabaseUIOptimized {
             this.handleDeleteDocument(target.dataset.docId);
         }
     }
-
-    /**
-     * Handle delegated input events with debouncing
-     */
+/** Handle delegated input events with debouncing */
     handleDelegatedInput(event) {
         if (event.target.matches('.search-input')) {
             this.debounceSearch(event.target.value);
         }
     }
-
-    /**
-     * Debounced search to reduce API calls
-     */
+/** Debounced search to reduce API calls */
     debounceSearch(query) {
         const timer = this.debounceTimers.get('search');
         if (timer) {
@@ -98,55 +80,25 @@ export class VectorDatabaseUIOptimized {
         
         this.debounceTimers.set('search', newTimer);
     }
-
-    /**
-     * Setup search interface with performance optimizations
-     */
+/** Setup search interface with performance optimizations */
     setupSearchInterface() {
-        const searchContainer = this.createElement('div', 'search-container');
-        const searchInput = this.createElement('input', 'search-input', {
-            type: 'text',
-            placeholder: 'Search documents...',
-            id: 'vector-search-input'
+        setupSearchInterfaceCommon({
+            createElement: this.createElement.bind(this),
+            elements: this.elements
         });
-        const searchButton = this.createElement('button', 'search-button', {
-            id: 'vector-search-button'
-        }, 'Search');
-
-        searchContainer.appendChild(searchInput);
-        searchContainer.appendChild(searchButton);
-        
-        this.elements.set('searchContainer', searchContainer);
-        this.elements.set('searchInput', searchInput);
-        this.elements.set('searchButton', searchButton);
     }
-
-    /**
-     * Setup document management with batch operations
-     */
+/** Setup document management with batch operations */
     setupDocumentManagement() {
-        const docContainer = this.createElement('div', 'document-container');
-        const docList = this.createElement('div', 'document-list', { id: 'document-list' });
-        const addButton = this.createElement('button', 'add-document-button', {
-            id: 'add-document-button'
-        }, 'Add Document');
-
-        docContainer.appendChild(docList);
-        docContainer.appendChild(addButton);
-        
-        this.elements.set('docContainer', docContainer);
-        this.elements.set('docList', docList);
-        this.elements.set('addButton', addButton);
+        setupDocumentManagementCommon({
+            createElement: this.createElement.bind(this),
+            elements: this.elements
+        });
     }
-
-    /**
-     * Setup analytics dashboard with cached elements
-     */
+/** Setup analytics dashboard with cached elements */
     setupAnalyticsDashboard() {
         const analyticsContainer = this.createElement('div', 'analytics-container');
         const metricsDisplay = this.createElement('div', 'metrics-display', { id: 'metrics-display' });
         const chartsContainer = this.createElement('div', 'charts-container', { id: 'charts-container' });
-
         analyticsContainer.appendChild(metricsDisplay);
         analyticsContainer.appendChild(chartsContainer);
         
@@ -154,15 +106,11 @@ export class VectorDatabaseUIOptimized {
         this.elements.set('metricsDisplay', metricsDisplay);
         this.elements.set('chartsContainer', chartsContainer);
     }
-
-    /**
-     * Setup real-time updates with optimized rendering
-     */
+/** Setup real-time updates with optimized rendering */
     setupRealTimeUpdates() {
         const updateContainer = this.createElement('div', 'update-container');
         const statusIndicator = this.createElement('div', 'status-indicator', { id: 'status-indicator' });
         const lastUpdate = this.createElement('div', 'last-update', { id: 'last-update' });
-
         updateContainer.appendChild(statusIndicator);
         updateContainer.appendChild(lastUpdate);
         
@@ -170,10 +118,7 @@ export class VectorDatabaseUIOptimized {
         this.elements.set('statusIndicator', statusIndicator);
         this.elements.set('lastUpdate', lastUpdate);
     }
-
-    /**
-     * Create DOM element with performance optimizations
-     */
+/** Create DOM element with performance optimizations */
     createElement(tag, className, attributes = {}, textContent = '') {
         const element = document.createElement(tag);
         element.className = className;
@@ -189,50 +134,31 @@ export class VectorDatabaseUIOptimized {
         
         return element;
     }
-
-    /**
-     * Handle search action with performance optimizations
-     */
+/** Handle search action with performance optimizations */
     handleSearch() {
         const query = this.elements.get('searchInput').value.trim();
         if (!query) return;
-
         // Emit search event
         this.emitEvent('search', { query });
     }
-
-    /**
-     * Handle add document action
-     */
+/** Handle add document action */
     handleAddDocument() {
         this.emitEvent('addDocument', {});
     }
-
-    /**
-     * Handle edit document action
-     */
+/** Handle edit document action */
     handleEditDocument(docId) {
         this.emitEvent('editDocument', { docId });
     }
-
-    /**
-     * Handle delete document action
-     */
+/** Handle delete document action */
     handleDeleteDocument(docId) {
         this.emitEvent('deleteDocument', { docId });
     }
-
-    /**
-     * Emit custom event
-     */
+/** Emit custom event */
     emitEvent(eventName, data) {
         const event = new CustomEvent(eventName, { detail: data });
         document.dispatchEvent(event);
     }
-
-    /**
-     * Display search results with batch rendering
-     */
+/** Display search results with batch rendering */
     displaySearchResults(results) {
         // Use document fragment for batch DOM operations
         const fragment = document.createDocumentFragment();
@@ -242,8 +168,8 @@ export class VectorDatabaseUIOptimized {
         results.forEach(result => {
             const resultElement = this.createElement('div', 'search-result');
             resultElement.innerHTML = `
-                <h3>${this.escapeHtml(result.title)}</h3>
-                <p>${this.escapeHtml(result.content)}</p>
+                <h3>${escapeHtml(result.title)}</h3>
+                <p>${escapeHtml(result.content)}</p>
                 <div class="result-meta">
                     <span>Score: ${result.score}</span>
                     <span>Type: ${result.metadata?.type || 'unknown'}</span>
@@ -251,9 +177,7 @@ export class VectorDatabaseUIOptimized {
             `;
             fragment.appendChild(resultElement);
         });
-
         resultsContainer.appendChild(fragment);
-
         // Batch DOM update
         this.batchDOMUpdate(() => {
             const existingResults = document.querySelector('.search-results');
@@ -263,10 +187,7 @@ export class VectorDatabaseUIOptimized {
             document.body.appendChild(resultsContainer);
         });
     }
-
-    /**
-     * Display documents with virtual scrolling for large datasets
-     */
+/** Display documents with virtual scrolling for large datasets */
     displayDocuments(documents) {
         const docList = this.elements.get('docList');
         
@@ -279,8 +200,8 @@ export class VectorDatabaseUIOptimized {
         documents.forEach(doc => {
             const docElement = this.createElement('div', 'document-item');
             docElement.innerHTML = `
-                <h4>${this.escapeHtml(doc.title)}</h4>
-                <p>${this.escapeHtml(doc.content)}</p>
+                <h4>${escapeHtml(doc.title)}</h4>
+                <p>${escapeHtml(doc.content)}</p>
                 <div class="document-actions">
                     <button class="edit-document" data-doc-id="${doc.id}">Edit</button>
                     <button class="delete-document" data-doc-id="${doc.id}">Delete</button>
@@ -291,10 +212,7 @@ export class VectorDatabaseUIOptimized {
         
         docList.appendChild(fragment);
     }
-
-    /**
-     * Display analytics metrics with optimized rendering
-     */
+/** Display analytics metrics with optimized rendering */
     displayAnalytics(metrics) {
         const metricsDisplay = this.elements.get('metricsDisplay');
         
@@ -314,62 +232,23 @@ export class VectorDatabaseUIOptimized {
             </div>
         `;
     }
-
-    /**
-     * Show error message with optimized rendering
-     */
+/** Show error message with optimized rendering */
     showError(message) {
-        this.showMessage(message, 'error-message', '#ff4444', 5000);
-    }
-
-    /**
-     * Show success message with optimized rendering
-     */
-    showSuccess(message) {
-        this.showMessage(message, 'success-message', '#44ff44', 3000);
-    }
-
-    /**
-     * Generic message display with performance optimizations
-     */
-    showMessage(message, className, backgroundColor, duration) {
-        const messageElement = this.createElement('div', className);
-        messageElement.textContent = message;
-        messageElement.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${backgroundColor};
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-        `;
-        
-        document.body.appendChild(messageElement);
-        
-        // Use requestAnimationFrame for smooth removal
-        requestAnimationFrame(() => {
-            setTimeout(() => {
-                if (messageElement.parentNode) {
-                    messageElement.parentNode.removeChild(messageElement);
-                }
-            }, duration);
+        showErrorCommon({
+            createElement: this.createElement.bind(this),
+            message,
+            useAnimationFrame: true
         });
     }
-
-    /**
-     * Escape HTML to prevent XSS
-     */
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+/** Show success message with optimized rendering */
+    showSuccess(message) {
+        showSuccessCommon({
+            createElement: this.createElement.bind(this),
+            message,
+            useAnimationFrame: true
+        });
     }
-
-    /**
-     * Batch DOM updates for better performance
-     */
+/** Batch DOM updates for better performance */
     batchDOMUpdate(operation) {
         this.batchOperations.push(operation);
         
@@ -380,20 +259,14 @@ export class VectorDatabaseUIOptimized {
             });
         }
     }
-
-    /**
-     * Flush batched DOM operations
-     */
+/** Flush batched DOM operations */
     flushBatchOperations() {
         this.batchOperations.forEach(operation => operation());
         this.batchOperations = [];
         this.isRendering = false;
         this.rafId = null;
     }
-
-    /**
-     * Cleanup resources to prevent memory leaks
-     */
+/** Cleanup resources to prevent memory leaks */
     cleanup() {
         // Clear debounce timers
         this.debounceTimers.forEach(timer => clearTimeout(timer));

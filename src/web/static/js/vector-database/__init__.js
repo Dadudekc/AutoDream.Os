@@ -16,3 +16,10 @@ export { VectorDatabaseUI } from './ui.js';
 export { VectorDatabaseSearch } from './search.js';
 export { VectorDatabaseAnalytics } from './analytics.js';
 export { VectorDatabaseManager } from './manager.js';
+export {
+    setupSearchInterface,
+    setupDocumentManagement,
+    showError,
+    showSuccess,
+    escapeHtml
+} from './ui-common.js';

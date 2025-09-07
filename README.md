@@ -17,9 +17,9 @@ It streamlines agent orchestration, speeds prototyping, and enables reliable dep
 - **Refactored middleware pipeline** split into SRP modules under `src/services/middleware`
 - **Unified workspace management** via `UnifiedWorkspaceSystem`
 - **Base engine abstraction** centralizing initialization, status reporting, and cleanup
-- **Overnight consistency enhancements** with rotating validation prompts and optional QA agent
-  delivering completion signals
+- **Overnight consistency enhancements** with rotating validation prompts and QA agent support
   ([spec](docs/specifications/OVERNIGHT_CONSISTENCY_ENHANCEMENTS_PRD.md))
+- **Example dashboard** demonstrates Enum-based agent statuses for clarity
 ## Middleware Execution Order
 Middleware chains process packets sequentially in the order that middleware
 components are listed. Each component receives the `DataPacket` returned by the

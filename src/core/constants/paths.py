@@ -41,6 +41,13 @@ SERVICES_DIR = SRC_DIR / "services"
 CONFIG_DIR = ROOT_DIR / "config"
 LOGS_DIR = ROOT_DIR / "logs"
 DATA_DIR = ROOT_DIR / "data"
+SCRIPTS_DIR = ROOT_DIR / "scripts"
+DOCS_DIR = ROOT_DIR / "docs"
+TESTS_DIR = ROOT_DIR / "tests"
+
+# Vector database directories
+UNIFIED_VECTOR_DB_DIR = ROOT_DIR / "unified_vector_db"
+STATUS_EMBEDDINGS_FILE = UNIFIED_VECTOR_DB_DIR / "status_embeddings.json"
 
 # ================================
 # UTILITY FUNCTIONS

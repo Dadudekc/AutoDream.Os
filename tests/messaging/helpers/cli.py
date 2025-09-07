@@ -2,9 +2,23 @@
 
 from __future__ import annotations
 
+import sys
+import types
 from typing import List
 
-from src.services.messaging_cli import create_enhanced_parser
+stub_logger = types.ModuleType("src.utils.logger")
+
+
+def _get_logger(name: str):
+    import logging
+
+    return logging.getLogger(name)
+
+
+stub_logger.get_logger = _get_logger
+sys.modules.setdefault("src.utils.logger", stub_logger)
+
+from src.services.messaging_cli import create_enhanced_parser  # noqa: E402
 
 
 def parse_flags(args: List[str]):

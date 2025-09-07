@@ -8,9 +8,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 # Adjust import like in run_project_scan.py
 try:
-    from projectscanner import ProjectScanner  # <- change to your actual module path
+    from tools.projectscanner import ProjectScanner
 except Exception:  # pragma: no cover - import failure path
     print(
         "ERROR: Unable to import ProjectScanner. Update import path in tools/check_snapshot_up_to_date.py.",
@@ -32,7 +36,7 @@ def git_diff_has_changes(paths: list[str]) -> bool:
     return result.returncode != 0
 
 def main() -> None:
-    repo_root = Path(__file__).resolve().parents[1]
+    repo_root = REPO_ROOT
     try:
         import os
         os.chdir(repo_root)

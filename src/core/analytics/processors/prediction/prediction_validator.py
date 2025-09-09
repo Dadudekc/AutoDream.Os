@@ -10,7 +10,7 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ class PredictionValidator:
         self.config = config or {}
         self.logger = logger
 
-    def validate_input_data(self, data: Dict[str, Any]) -> bool:
+    def validate_input_data(self, data: dict[str, Any]) -> bool:
         """Validate input data."""
         if not isinstance(data, dict):
             self.logger.error("Input data must be a dictionary")
@@ -35,7 +35,7 @@ class PredictionValidator:
 
         return True
 
-    def validate_prediction_result(self, result: Dict[str, Any]) -> bool:
+    def validate_prediction_result(self, result: dict[str, Any]) -> bool:
         """Validate prediction result."""
         if not isinstance(result, dict):
             self.logger.error("Prediction result must be a dictionary")

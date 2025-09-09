@@ -9,29 +9,25 @@ Author: Agent-2 - Architecture & Design Specialist
 Mission: V2 Compliance Refactoring
 """
 
-from typing import Dict, List, Any, Optional
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-from .enums import (
-    InsightType,
-    ConfidenceLevel,
-    ImpactLevel,
-    MissionStatus,
-    ReportType,
-    PriorityLevel,
-    AgentRole,
-    EmergencyStatus,
-)
 from .core_models import (
-    StrategicOversightReport,
-    SwarmCoordinationInsight,
-    StrategicRecommendation,
     AgentPerformanceMetrics,
-    SwarmCoordinationStatus,
     StrategicMission,
-    VectorDatabaseMetrics,
+    StrategicOversightReport,
+    StrategicRecommendation,
+    SwarmCoordinationInsight,
     SystemHealthMetrics,
+    VectorDatabaseMetrics,
+)
+from .enums import (
+    EmergencyStatus,
+    ImpactLevel,
+    InsightType,
+    MissionStatus,
+    PriorityLevel,
+    ReportType,
 )
 
 
@@ -86,10 +82,10 @@ class StrategicOversightFactoryExtended:
     def create_comprehensive_report(
         title: str,
         description: str,
-        insights: List[SwarmCoordinationInsight] = None,
-        recommendations: List[StrategicRecommendation] = None,
-        performance_metrics: List[AgentPerformanceMetrics] = None,
-        system_metrics: List[SystemHealthMetrics] = None,
+        insights: list[SwarmCoordinationInsight] = None,
+        recommendations: list[StrategicRecommendation] = None,
+        performance_metrics: list[AgentPerformanceMetrics] = None,
+        system_metrics: list[SystemHealthMetrics] = None,
     ) -> StrategicOversightReport:
         """Create comprehensive strategic oversight report."""
         return StrategicOversightReport(
@@ -112,9 +108,9 @@ class StrategicOversightFactoryExtended:
     @staticmethod
     def create_emergency_insight(
         description: str,
-        affected_agents: List[str] = None,
+        affected_agents: list[str] = None,
         emergency_level: EmergencyStatus = EmergencyStatus.WARNING,
-        immediate_actions: List[str] = None,
+        immediate_actions: list[str] = None,
     ) -> SwarmCoordinationInsight:
         """Create emergency coordination insight."""
         return SwarmCoordinationInsight(
@@ -135,7 +131,7 @@ class StrategicOversightFactoryExtended:
         expected_impact: ImpactLevel = ImpactLevel.HIGH,
         implementation_effort: str = "high",
         success_probability: float = 0.9,
-        dependencies: List[str] = None,
+        dependencies: list[str] = None,
     ) -> StrategicRecommendation:
         """Create high priority strategic recommendation."""
         return StrategicRecommendation(
@@ -152,11 +148,11 @@ class StrategicOversightFactoryExtended:
 
     @staticmethod
     def create_mission_batch(
-        mission_names: List[str],
-        descriptions: List[str],
-        priorities: List[PriorityLevel] = None,
-        assigned_agents: List[List[str]] = None,
-    ) -> List[StrategicMission]:
+        mission_names: list[str],
+        descriptions: list[str],
+        priorities: list[PriorityLevel] = None,
+        assigned_agents: list[list[str]] = None,
+    ) -> list[StrategicMission]:
         """Create batch of strategic missions."""
         missions = []
         for i, name in enumerate(mission_names):
@@ -165,15 +161,11 @@ class StrategicOversightFactoryExtended:
                 mission_name=name,
                 description=descriptions[i] if i < len(descriptions) else "",
                 priority=(
-                    priorities[i]
-                    if priorities and i < len(priorities)
-                    else PriorityLevel.MEDIUM
+                    priorities[i] if priorities and i < len(priorities) else PriorityLevel.MEDIUM
                 ),
                 status=MissionStatus.PENDING,
                 assigned_agents=(
-                    assigned_agents[i]
-                    if assigned_agents and i < len(assigned_agents)
-                    else []
+                    assigned_agents[i] if assigned_agents and i < len(assigned_agents) else []
                 ),
                 created_at=datetime.now(),
             )

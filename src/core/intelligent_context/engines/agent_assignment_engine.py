@@ -12,27 +12,15 @@ License: MIT
 """
 
 import time
-from typing import Any, Dict, List
-from datetime import datetime
+from typing import Any
 
 from ..intelligent_context_models import (
-    MissionContext,
     AgentCapability,
-    SearchResult,
     AgentRecommendation,
-    RiskAssessment,
-    SuccessPrediction,
-    MissionPhase,
     AgentStatus,
-    RiskLevel,
+    MissionContext,
 )
-from ..intelligent_context_optimization_models import (
-    OptimizationResult,
-    AgentScore,
-    MissionAnalysis,
-    RiskMitigation,
-    SuccessFactor,
-)
+from ..intelligent_context_optimization_models import OptimizationResult
 
 
 class AgentAssignmentEngine:
@@ -55,9 +43,7 @@ class AgentAssignmentEngine:
             for agent_id, capability in self.parent_engine.agent_capabilities.items():
                 if capability.availability_status == AgentStatus.AVAILABLE.value:
                     score = self._calculate_agent_score(capability, mission)
-                    specialization = self._calculate_specialization_match(
-                        capability, mission
-                    )
+                    specialization = self._calculate_specialization_match(capability, mission)
 
                     recommendation = AgentRecommendation(
                         agent_id=agent_id,
@@ -66,9 +52,7 @@ class AgentAssignmentEngine:
                         estimated_completion_time=self._estimate_completion_time(
                             capability, mission
                         ),
-                        confidence_level=self._calculate_confidence_level(
-                            capability, mission
-                        ),
+                        confidence_level=self._calculate_confidence_level(capability, mission),
                     )
 
                     recommendations.append(recommendation)
@@ -84,25 +68,19 @@ class AgentAssignmentEngine:
                 data={
                     "recommendations": recommendations,
                     "total_agents_considered": len(recommendations),
-                    "top_recommendation": (
-                        recommendations[0] if recommendations else None
-                    ),
+                    "top_recommendation": (recommendations[0] if recommendations else None),
                 },
                 execution_time=execution_time,
             )
 
         except Exception as e:
             execution_time = (time.time() - start_time) * 1000
-            self.parent_engine._update_metrics(
-                "agent_assignment", False, execution_time
-            )
+            self.parent_engine._update_metrics("agent_assignment", False, execution_time)
             return OptimizationResult(
                 success=False, data={}, execution_time=execution_time, error=str(e)
             )
 
-    def _calculate_agent_score(
-        self, capability: AgentCapability, mission: MissionContext
-    ) -> float:
+    def _calculate_agent_score(self, capability: AgentCapability, mission: MissionContext) -> float:
         """Calculate agent recommendation score."""
         score = 0.0
 
@@ -170,7 +148,7 @@ class AgentAssignmentEngine:
 
         return max(0.0, min(1.0, confidence))
 
-    def get_agent_availability_summary(self) -> Dict[str, Any]:
+    def get_agent_availability_summary(self) -> dict[str, Any]:
         """Get agent availability summary."""
         available_count = 0
         busy_count = 0
@@ -190,7 +168,7 @@ class AgentAssignmentEngine:
             ),
         }
 
-    def get_engine_status(self) -> Dict[str, Any]:
+    def get_engine_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "agent_count": len(self.parent_engine.agent_capabilities),

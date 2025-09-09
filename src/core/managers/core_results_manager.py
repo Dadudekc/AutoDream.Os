@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import uuid
-from typing import Any, Dict
+from typing import Any
 
-from src.core.constants.manager import COMPLETION_SIGNAL
+from ..constants.manager import COMPLETION_SIGNAL
+
 from .contracts import Manager, ManagerContext, ManagerResult
 
 
@@ -13,7 +14,7 @@ class CoreResultsManager(Manager):
     """Handles result processing operations."""
 
     def __init__(self) -> None:
-        self._results: Dict[str, Dict[str, Any]] = {}
+        self._results: dict[str, dict[str, Any]] = {}
         self._v2_compliant = True
 
     def initialize(self, context: ManagerContext) -> bool:
@@ -21,7 +22,7 @@ class CoreResultsManager(Manager):
         return True
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         handlers = {
             "process_results": self.process_results,
@@ -29,9 +30,7 @@ class CoreResultsManager(Manager):
         }
         handler = handlers.get(operation)
         if not handler:
-            return ManagerResult(
-                False, {}, {}, f"Unknown operation: {operation}"
-            )
+            return ManagerResult(False, {}, {}, f"Unknown operation: {operation}")
         return handler(context, payload)
 
     def cleanup(self, context: ManagerContext) -> bool:
@@ -39,16 +38,14 @@ class CoreResultsManager(Manager):
         context.logger("CoreResultsManager cleaned up")
         return True
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         return {
             "active_results": len(self._results),
             "v2_compliant": self._v2_compliant,
         }
 
     # Handlers ---------------------------------------------------------------
-    def process_results(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def process_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         result_id = payload.get("result_id") or str(uuid.uuid4())
         self._results[result_id] = {
             "result_type": payload.get("result_type", "general"),
@@ -58,7 +55,5 @@ class CoreResultsManager(Manager):
         context.logger(f"Result processed: {result_id} {COMPLETION_SIGNAL}")
         return ManagerResult(True, {"result_id": result_id}, {})
 
-    def get_results(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def get_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         return ManagerResult(True, {"results": self._results}, {})

@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class StorageCoreEngine(Engine):
     """Core storage engine - consolidates all storage operations."""
 
     def __init__(self):
-        self.stores: Dict[str, Any] = {}
-        self.cache: Dict[str, Any] = {}
+        self.stores: dict[str, Any] = {}
+        self.cache: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class StorageCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Storage Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute storage operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,7 +44,7 @@ class StorageCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _store(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def _store(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Store data in storage."""
         try:
             store_id = payload.get("store_id", "default")
@@ -60,15 +62,11 @@ class StorageCoreEngine(Engine):
 
             self.stores[store_id] = data
 
-            return EngineResult(
-                success=True, data=store_result, metrics={"store_id": store_id}
-            )
+            return EngineResult(success=True, data=store_result, metrics={"store_id": store_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _retrieve(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _retrieve(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Retrieve data from storage."""
         try:
             store_id = payload.get("store_id", "default")
@@ -87,7 +85,7 @@ class StorageCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _cache(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def _cache(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Cache data for quick access."""
         try:
             cache_key = payload.get("key", "default")
@@ -104,9 +102,7 @@ class StorageCoreEngine(Engine):
 
             self.cache[cache_key] = cache_entry
 
-            return EngineResult(
-                success=True, data=cache_entry, metrics={"cache_key": cache_key}
-            )
+            return EngineResult(success=True, data=cache_entry, metrics={"cache_key": cache_key})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
@@ -122,7 +118,7 @@ class StorageCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Storage Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get storage core engine status."""
         return {
             "initialized": self.is_initialized,

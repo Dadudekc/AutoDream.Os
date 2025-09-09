@@ -9,10 +9,9 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-from typing import List, Dict, Any
 from datetime import datetime
 
-from ..models import SSOTComponent, SSOTValidationLevel
+from ..models import SSOTComponent
 
 
 class BasicValidator:
@@ -29,7 +28,7 @@ class BasicValidator:
             },
         }
 
-    def validate_basic_fields(self, component: SSOTComponent) -> List[str]:
+    def validate_basic_fields(self, component: SSOTComponent) -> list[str]:
         """Validate basic component fields."""
         issues = []
 
@@ -59,11 +58,7 @@ class BasicValidator:
                     issues.append("component_id must be a string")
                 elif len(component.component_id) < 3:
                     issues.append("component_id must be at least 3 characters")
-                elif (
-                    not component.component_id.replace("_", "")
-                    .replace("-", "")
-                    .isalnum()
-                ):
+                elif not component.component_id.replace("_", "").replace("-", "").isalnum():
                     issues.append("component_id contains invalid characters")
 
             # Check timestamps if present
@@ -79,7 +74,7 @@ class BasicValidator:
 
         return issues
 
-    def validate_component_metadata(self, component: SSOTComponent) -> List[str]:
+    def validate_component_metadata(self, component: SSOTComponent) -> list[str]:
         """Validate component metadata fields."""
         issues = []
 
@@ -119,7 +114,7 @@ class BasicValidator:
 
         return issues
 
-    def get_validation_score(self, issues: List[str]) -> float:
+    def get_validation_score(self, issues: list[str]) -> float:
         """Calculate validation score based on issues."""
         try:
             base_score = 100.0

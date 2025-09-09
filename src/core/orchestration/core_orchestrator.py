@@ -1,6 +1,9 @@
 from __future__ import annotations
-from typing import Dict, Any, Iterable, List
-from .contracts import Orchestrator, Step, OrchestrationContext, OrchestrationResult
+
+from collections.abc import Iterable
+from typing import Any
+
+from .contracts import OrchestrationContext, OrchestrationResult, Orchestrator, Step
 from .registry import StepRegistry
 
 
@@ -11,16 +14,12 @@ class CoreOrchestrator(Orchestrator):
         self.registry = registry
         self.pipeline_keys = list(pipeline)
 
-    def plan(
-        self, ctx: OrchestrationContext, payload: Dict[str, Any]
-    ) -> Iterable[Step]:
+    def plan(self, ctx: OrchestrationContext, payload: dict[str, Any]) -> Iterable[Step]:
         return self.registry.build(self.pipeline_keys)
 
-    def execute(
-        self, ctx: OrchestrationContext, payload: Dict[str, Any]
-    ) -> OrchestrationResult:
+    def execute(self, ctx: OrchestrationContext, payload: dict[str, Any]) -> OrchestrationResult:
         ctx.emit("orchestrator.start", {"pipeline": self.pipeline_keys})
-        data: Dict[str, Any] = dict(payload)
+        data: dict[str, Any] = dict(payload)
         steps = list(self.plan(ctx, payload))
         for s in steps:
             ctx.emit("step.start", {"name": s.name()})
@@ -28,9 +27,7 @@ class CoreOrchestrator(Orchestrator):
             ctx.emit("step.end", {"name": s.name()})
         summary = f"ran {len(steps)} step(s)"
         ctx.emit("orchestrator.end", {"summary": summary})
-        return OrchestrationResult(
-            ok=True, summary=summary, metrics={"steps": len(steps)}
-        )
+        return OrchestrationResult(ok=True, summary=summary, metrics={"steps": len(steps)})
 
     def report(self, result: OrchestrationResult) -> str:
         return f"[CoreOrchestrator] {result.summary} :: metrics={result.metrics}"

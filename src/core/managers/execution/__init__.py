@@ -1,21 +1,22 @@
-"""
-Execution Management Package - Phase-2 V2 Compliance Refactoring
-===============================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Specialized execution components for better SRP compliance.
-
-Author: Agent-3 (Infrastructure & DevOps Specialist)
-License: MIT
-"""
-
-from .base_execution_manager import BaseExecutionManager
-from .task_manager import TaskManager
-from .protocol_manager import ProtocolManager
+from . import base_execution_manager
+from . import execution_coordinator
+from . import protocol_manager
+from . import task_manager
 from .execution_coordinator import ExecutionCoordinator
+from .base_execution_manager import BaseExecutionManager
+from .protocol_manager import ProtocolManager
+from .task_manager import TaskManager
 
 __all__ = [
-    "BaseExecutionManager",
-    "TaskManager",
-    "ProtocolManager", 
-    "ExecutionCoordinator",
+    'base_execution_manager',
+    'execution_coordinator',
+    'protocol_manager',
+    'task_manager',
+    'ExecutionCoordinator',
+    'BaseExecutionManager',
+    'ProtocolManager',
+    'TaskManager',
 ]

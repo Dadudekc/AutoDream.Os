@@ -12,27 +12,9 @@ License: MIT
 """
 
 import time
-from typing import Any, Dict, List
-from datetime import datetime
+from typing import Any
 
-from ..intelligent_context_models import (
-    MissionContext,
-    AgentCapability,
-    SearchResult,
-    AgentRecommendation,
-    RiskAssessment,
-    SuccessPrediction,
-    MissionPhase,
-    AgentStatus,
-    RiskLevel,
-)
-from ..intelligent_context_optimization_models import (
-    OptimizationResult,
-    AgentScore,
-    MissionAnalysis,
-    RiskMitigation,
-    SuccessFactor,
-)
+from ..intelligent_context_models import MissionContext, RiskAssessment, RiskLevel
 
 
 class RiskAssessmentEngine:
@@ -68,7 +50,7 @@ class RiskAssessmentEngine:
 
             return risk_assessment
 
-        except Exception as e:
+        except Exception:
             execution_time = (time.time() - start_time) * 1000
             self.parent_engine._update_metrics("risk_assessment", False, execution_time)
             return RiskAssessment(
@@ -78,7 +60,7 @@ class RiskAssessmentEngine:
                 mitigation_strategies=[],
             )
 
-    def _determine_risk_level(self, risk_factors: List[str]) -> str:
+    def _determine_risk_level(self, risk_factors: list[str]) -> str:
         """Determine risk level based on factors."""
         if len(risk_factors) > 5:
             return RiskLevel.CRITICAL.value
@@ -89,9 +71,7 @@ class RiskAssessmentEngine:
         else:
             return RiskLevel.LOW.value
 
-    def _generate_risk_mitigations(
-        self, risk_level: str, mission: MissionContext
-    ) -> List[str]:
+    def _generate_risk_mitigations(self, risk_level: str, mission: MissionContext) -> list[str]:
         """Generate risk mitigation strategies."""
         mitigations = []
 
@@ -126,9 +106,7 @@ class RiskAssessmentEngine:
         base_score = len(risk_factors) * 0.1
 
         # Adjust for critical factors
-        critical_factors = [
-            factor for factor in risk_factors if "critical" in factor.lower()
-        ]
+        critical_factors = [factor for factor in risk_factors if "critical" in factor.lower()]
         base_score += len(critical_factors) * 0.3
 
         # Adjust for high factors
@@ -141,7 +119,7 @@ class RiskAssessmentEngine:
 
         return min(1.0, base_score)
 
-    def get_risk_summary(self, mission: MissionContext) -> Dict[str, Any]:
+    def get_risk_summary(self, mission: MissionContext) -> dict[str, Any]:
         """Get risk summary for mission."""
         risk_assessment = self.assess_mission_risks(mission)
         risk_score = self.calculate_risk_score(mission)
@@ -155,7 +133,7 @@ class RiskAssessmentEngine:
             "impact": risk_assessment.impact,
         }
 
-    def get_engine_status(self) -> Dict[str, Any]:
+    def get_engine_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "risk_assessment_count": 0,  # Would track actual count

@@ -9,9 +9,9 @@ License: MIT
 """
 
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
 from collections import defaultdict
+from datetime import datetime, timedelta
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +24,9 @@ class ErrorReport:
         self.component = component
         self.time_range = time_range
         self.start_time = datetime.now() - time_range
-        self.errors: List[Any] = []  # ErrorContext type
-        self.error_counts: Dict[str, int] = defaultdict(int)
-        self.severity_counts: Dict[str, int] = defaultdict(int)
+        self.errors: list[Any] = []  # ErrorContext type
+        self.error_counts: dict[str, int] = defaultdict(int)
+        self.severity_counts: dict[str, int] = defaultdict(int)
 
     def add_error(self, error: Any):
         """Add an error to the report."""
@@ -37,7 +37,7 @@ class ErrorReport:
             if hasattr(error, "severity"):
                 self.severity_counts[str(error.severity)] += 1
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get error report summary."""
         return {
             "component": self.component,
@@ -50,7 +50,7 @@ class ErrorReport:
             )[:5],
         }
 
-    def get_detailed_report(self) -> Dict[str, Any]:
+    def get_detailed_report(self) -> dict[str, Any]:
         """Get detailed error report."""
         return {
             "summary": self.get_summary(),
@@ -59,9 +59,7 @@ class ErrorReport:
                     "error_id": getattr(error, "error_id", "unknown"),
                     "message": getattr(error, "message", "unknown"),
                     "severity": str(getattr(error, "severity", "unknown")),
-                    "timestamp": (
-                        getattr(error, "timestamp", datetime.now()).isoformat()
-                    ),
+                    "timestamp": (getattr(error, "timestamp", datetime.now()).isoformat()),
                     "source": getattr(error, "source", "unknown"),
                 }
                 for error in self.errors
@@ -79,7 +77,7 @@ class ErrorReport:
         """Get total error count."""
         return len(self.errors)
 
-    def get_errors_by_severity(self, severity: str) -> List[Any]:
+    def get_errors_by_severity(self, severity: str) -> list[Any]:
         """Get errors filtered by severity."""
         return [
             error

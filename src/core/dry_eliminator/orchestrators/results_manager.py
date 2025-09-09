@@ -11,22 +11,14 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from pathlib import Path
-from typing import Any, Dict, List, Optional
-from datetime import datetime
 import logging
+from typing import Any
 
 from ..dry_eliminator_models import (
     DRYEliminatorConfig,
-    DRYViolation,
-    EliminationResult,
-    EliminationMetrics,
     DRYViolationType,
-    EliminationStrategy,
-    ViolationSeverity,
+    EliminationResult,
     create_default_config,
-    create_elimination_metrics,
 )
 
 
@@ -37,7 +29,7 @@ class ResultsManager:
     operations.
     """
 
-    def __init__(self, config: Optional[DRYEliminatorConfig] = None):
+    def __init__(self, config: DRYEliminatorConfig | None = None):
         """Initialize results manager."""
         self.config = config or create_default_config()
         self.logger = logging.getLogger(__name__)
@@ -67,7 +59,7 @@ class ResultsManager:
             "success_rate": 0.0,
         }
 
-    def update_results(self, elimination_results: List[EliminationResult]):
+    def update_results(self, elimination_results: list[EliminationResult]):
         """Update results from elimination operations."""
         try:
             for result in elimination_results:
@@ -102,19 +94,15 @@ class ResultsManager:
         if counter_name:
             self.elimination_results[counter_name] += 1
 
-    def _update_performance_metrics(self, elimination_results: List[EliminationResult]):
+    def _update_performance_metrics(self, elimination_results: list[EliminationResult]):
         """Update performance metrics from elimination results."""
         try:
             successful_results = [r for r in elimination_results if r.success]
             total_results = len(elimination_results)
 
             if total_results > 0:
-                self.performance_metrics["success_rate"] = (
-                    len(successful_results) / total_results
-                )
-                self.performance_metrics[
-                    "elimination_operations_count"
-                ] += total_results
+                self.performance_metrics["success_rate"] = len(successful_results) / total_results
+                self.performance_metrics["elimination_operations_count"] += total_results
 
                 # Update average processing time
                 if successful_results:
@@ -133,7 +121,7 @@ class ResultsManager:
         except Exception as e:
             self.logger.error(f"Error updating performance metrics: {e}")
 
-    def generate_summary_report(self, elimination_time: float = 0.0) -> Dict[str, Any]:
+    def generate_summary_report(self, elimination_time: float = 0.0) -> dict[str, Any]:
         """Generate comprehensive summary report."""
         try:
             total_consolidations = sum(
@@ -194,16 +182,15 @@ class ResultsManager:
             if not parts:
                 return "No operations performed"
 
-            return (
-                f"Processed {self.elimination_results['files_processed']} files, "
-                + ", ".join(parts)
+            return f"Processed {self.elimination_results['files_processed']} files, " + ", ".join(
+                parts
             )
 
         except Exception as e:
             self.logger.error(f"Error generating summary text: {e}")
             return "Error generating summary"
 
-    def get_results_status(self) -> Dict[str, Any]:
+    def get_results_status(self) -> dict[str, Any]:
         """Get current results status."""
         return {
             "elimination_results": self.elimination_results.copy(),
@@ -253,7 +240,7 @@ class ResultsManager:
 
         self.logger.info("Results manager reset")
 
-    def export_results(self, format: str = "json") -> Dict[str, Any]:
+    def export_results(self, format: str = "json") -> dict[str, Any]:
         """Export results in specified format."""
         try:
             if format.lower() == "json":

@@ -1,11 +1,10 @@
-"""
-Domain Entities Package
-=======================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Contains the core business entities with identity and behavior.
-"""
+from . import agent
+from . import task
 
-from .task import Task
-from .agent import Agent
-
-__all__ = ["Task", "Agent"]
+__all__ = [
+    'agent',
+    'task',
+]

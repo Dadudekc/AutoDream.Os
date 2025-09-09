@@ -9,12 +9,14 @@ License: MIT
 """
 
 from __future__ import annotations
-import asyncio
+
 import threading
 import uuid
-from typing import Dict, Any, Optional, List, Callable
-from datetime import datetime, timedelta
+from collections.abc import Callable
+from datetime import datetime
 from enum import Enum
+from typing import Any
+
 from ..contracts import ExecutionManager, ManagerContext, ManagerResult
 
 
@@ -42,11 +44,11 @@ class BaseExecutionManager(ExecutionManager):
 
     def __init__(self):
         """Initialize base execution manager."""
-        self.tasks: Dict[str, Dict[str, Any]] = {}
-        self.protocols: Dict[str, Dict[str, Any]] = {}
-        self.executions: Dict[str, Dict[str, Any]] = {}
-        self.task_queue: List[str] = []
-        self.execution_threads: Dict[str, threading.Thread] = {}
+        self.tasks: dict[str, dict[str, Any]] = {}
+        self.protocols: dict[str, dict[str, Any]] = {}
+        self.executions: dict[str, dict[str, Any]] = {}
+        self.task_queue: list[str] = []
+        self.execution_threads: dict[str, threading.Thread] = {}
         self.max_concurrent_tasks = 5
         self.task_timeout = 300  # 5 minutes
 
@@ -55,10 +57,10 @@ class BaseExecutionManager(ExecutionManager):
         try:
             # Register default protocols
             self._register_default_protocols()
-            
+
             # Start task processor
             self._start_task_processor()
-            
+
             context.logger("Base Execution Manager initialized")
             return True
         except Exception as e:
@@ -66,14 +68,18 @@ class BaseExecutionManager(ExecutionManager):
             return False
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute operation."""
         try:
             if operation == "execute_task":
-                return self.execute_task(context, payload.get("task_id"), payload.get("task_data", {}))
+                return self.execute_task(
+                    context, payload.get("task_id"), payload.get("task_data", {})
+                )
             elif operation == "register_protocol":
-                return self.register_protocol(context, payload.get("protocol_name"), payload.get("protocol_handler"))
+                return self.register_protocol(
+                    context, payload.get("protocol_name"), payload.get("protocol_handler")
+                )
             elif operation == "get_execution_status":
                 return self.get_execution_status(context, payload.get("execution_id"))
             elif operation == "create_task":
@@ -93,12 +99,10 @@ class BaseExecutionManager(ExecutionManager):
                 )
         except Exception as e:
             context.logger(f"Error executing operation {operation}: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def execute_task(
-        self, context: ManagerContext, task_id: Optional[str], task_data: Dict[str, Any]
+        self, context: ManagerContext, task_id: str | None, task_data: dict[str, Any]
     ) -> ManagerResult:
         """Execute a task."""
         try:
@@ -158,9 +162,7 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error executing task {task_id}: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def register_protocol(
         self, context: ManagerContext, protocol_name: str, protocol_handler: Callable
@@ -194,12 +196,10 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error registering protocol {protocol_name}: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def get_execution_status(
-        self, context: ManagerContext, execution_id: Optional[str]
+        self, context: ManagerContext, execution_id: str | None
     ) -> ManagerResult:
         """Get execution status."""
         try:
@@ -228,9 +228,7 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error getting execution status: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def cleanup(self, context: ManagerContext) -> bool:
         """Cleanup execution manager."""
@@ -259,21 +257,29 @@ class BaseExecutionManager(ExecutionManager):
             context.logger(f"Error cleaning up execution manager: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get execution manager status."""
         return {
             "total_tasks": len(self.tasks),
-            "pending_tasks": len([t for t in self.tasks.values() if t["status"] == TaskStatus.PENDING]),
-            "running_tasks": len([t for t in self.tasks.values() if t["status"] == TaskStatus.RUNNING]),
-            "completed_tasks": len([t for t in self.tasks.values() if t["status"] == TaskStatus.COMPLETED]),
-            "failed_tasks": len([t for t in self.tasks.values() if t["status"] == TaskStatus.FAILED]),
+            "pending_tasks": len(
+                [t for t in self.tasks.values() if t["status"] == TaskStatus.PENDING]
+            ),
+            "running_tasks": len(
+                [t for t in self.tasks.values() if t["status"] == TaskStatus.RUNNING]
+            ),
+            "completed_tasks": len(
+                [t for t in self.tasks.values() if t["status"] == TaskStatus.COMPLETED]
+            ),
+            "failed_tasks": len(
+                [t for t in self.tasks.values() if t["status"] == TaskStatus.FAILED]
+            ),
             "total_protocols": len(self.protocols),
             "active_executions": len(self.executions),
             "max_concurrent_tasks": self.max_concurrent_tasks,
             "task_timeout": self.task_timeout,
         }
 
-    def _create_task(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _create_task(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Create a new task."""
         try:
             task_id = str(uuid.uuid4())
@@ -301,11 +307,9 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error creating task: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _cancel_task(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _cancel_task(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Cancel a task."""
         try:
             task_id = payload.get("task_id")
@@ -341,11 +345,9 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error cancelling task: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _list_tasks(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _list_tasks(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """List tasks with optional filtering."""
         try:
             status_filter = payload.get("status")
@@ -367,11 +369,9 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error listing tasks: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _list_protocols(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _list_protocols(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """List protocols with optional filtering."""
         try:
             protocol_type_filter = payload.get("protocol_type")
@@ -381,7 +381,9 @@ class BaseExecutionManager(ExecutionManager):
 
             # Apply filters
             if protocol_type_filter:
-                protocols = {k: v for k, v in protocols.items() if v.get("type") == protocol_type_filter}
+                protocols = {
+                    k: v for k, v in protocols.items() if v.get("type") == protocol_type_filter
+                }
             if enabled_only:
                 protocols = {k: v for k, v in protocols.items() if v.get("enabled", True)}
 
@@ -393,12 +395,14 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error listing protocols: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def _execute_task_thread(
-        self, context: ManagerContext, execution_id: str, task: Dict[str, Any], task_data: Dict[str, Any]
+        self,
+        context: ManagerContext,
+        execution_id: str,
+        task: dict[str, Any],
+        task_data: dict[str, Any],
     ) -> None:
         """Execute task in separate thread."""
         try:
@@ -427,7 +431,7 @@ class BaseExecutionManager(ExecutionManager):
 
         except Exception as e:
             context.logger(f"Error executing task thread: {e}")
-            
+
             # Update execution
             execution = self.executions[execution_id]
             execution["status"] = "failed"
@@ -439,7 +443,7 @@ class BaseExecutionManager(ExecutionManager):
             task["failed_at"] = execution["failed_at"]
             task["error"] = str(e)
 
-    def _execute_file_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_file_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute file operation task."""
         operation = task_data.get("operation", "read")
         file_path = task_data.get("file_path", "")
@@ -452,7 +456,7 @@ class BaseExecutionManager(ExecutionManager):
             "message": f"File operation {operation} completed",
         }
 
-    def _execute_data_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_data_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute data processing task."""
         operation = task_data.get("operation", "process")
         data_size = task_data.get("data_size", 0)
@@ -465,7 +469,7 @@ class BaseExecutionManager(ExecutionManager):
             "message": f"Data operation {operation} completed",
         }
 
-    def _execute_api_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_api_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Execute API call task."""
         url = task_data.get("url", "")
         method = task_data.get("method", "GET")
@@ -479,7 +483,7 @@ class BaseExecutionManager(ExecutionManager):
             "message": "API call completed",
         }
 
-    def _get_execution_duration(self, execution: Dict[str, Any]) -> Optional[float]:
+    def _get_execution_duration(self, execution: dict[str, Any]) -> float | None:
         """Get execution duration in seconds."""
         try:
             started_at = datetime.fromisoformat(execution["started_at"])

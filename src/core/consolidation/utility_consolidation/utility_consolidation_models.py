@@ -11,7 +11,6 @@ License: MIT
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Optional
 
 
 class ConsolidationType(Enum):
@@ -32,8 +31,8 @@ class UtilityFunction:
     line_start: int
     line_end: int
     content: str
-    parameters: List[str]
-    return_type: Optional[str] = None
+    parameters: list[str]
+    return_type: str | None = None
     complexity_score: int = 0
     usage_count: int = 0
 
@@ -44,7 +43,7 @@ class ConsolidationOpportunity:
 
     consolidation_type: ConsolidationType
     primary_function: UtilityFunction
-    duplicate_functions: List[UtilityFunction]
+    duplicate_functions: list[UtilityFunction]
     consolidation_strategy: str
     estimated_reduction: int
     priority: str = "MEDIUM"
@@ -57,8 +56,8 @@ class ConsolidationResult:
     success: bool
     functions_consolidated: int
     lines_reduced: int
-    new_file_path: Optional[str] = None
-    error_message: Optional[str] = None
+    new_file_path: str | None = None
+    error_message: str | None = None
 
 
 @dataclass

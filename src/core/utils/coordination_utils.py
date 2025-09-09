@@ -28,9 +28,7 @@ class CoordinationUtils:
     store_coordination_history = PerformanceMetricsUtils.store_coordination_history
 
     # Vector Insights Methods - Direct delegation to avoid duplication
-    enhance_data_with_vector_insights = (
-        VectorInsightsUtils.enhance_data_with_vector_insights
-    )
+    enhance_data_with_vector_insights = VectorInsightsUtils.enhance_data_with_vector_insights
     extract_recommendations_from_insights = (
         VectorInsightsUtils.extract_recommendations_from_insights
     )
@@ -62,9 +60,7 @@ class CoordinationUtils:
             Comprehensive coordination summary
         """
         performance_summary = PerformanceMetricsUtils.get_performance_summary(metrics)
-        pattern_analysis = VectorInsightsUtils.analyze_pattern_effectiveness(
-            coordination_history
-        )
+        pattern_analysis = VectorInsightsUtils.analyze_pattern_effectiveness(coordination_history)
 
         return {
             "performance_metrics": performance_summary,

@@ -9,18 +9,17 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Any
 
+from .pattern_analysis_engine import PatternAnalysisEngine
 from .pattern_analysis_models import (
-    MissionPattern,
-    PatternCorrelation,
     MissionContext,
-    StrategicRecommendation,
+    MissionPattern,
+    PatternAnalysisConfig,
     PatternAnalysisResult,
     PatternMetrics,
-    PatternAnalysisConfig,
+    StrategicRecommendation,
 )
-from .pattern_analysis_engine import PatternAnalysisEngine
 
 
 class PatternAnalysisSystem:
@@ -31,9 +30,7 @@ class PatternAnalysisSystem:
         self.config = config or PatternAnalysisConfig()
         self.engine = PatternAnalysisEngine(self.config)
 
-    def analyze_mission_patterns(
-        self, mission_context: MissionContext
-    ) -> PatternAnalysisResult:
+    def analyze_mission_patterns(self, mission_context: MissionContext) -> PatternAnalysisResult:
         """Analyze mission patterns for strategic decision making."""
         return self.engine.analyze_mission_patterns(mission_context)
 
@@ -41,7 +38,7 @@ class PatternAnalysisSystem:
         """Add a new mission pattern."""
         return self.engine.add_pattern(pattern)
 
-    def get_pattern(self, pattern_id: str) -> Optional[MissionPattern]:
+    def get_pattern(self, pattern_id: str) -> MissionPattern | None:
         """Get pattern by ID."""
         return self.engine.get_pattern(pattern_id)
 
@@ -57,16 +54,12 @@ class PatternAnalysisSystem:
     # CONVENIENCE METHODS
     # ================================
 
-    def analyze_success_patterns(
-        self, mission_context: MissionContext
-    ) -> PatternAnalysisResult:
+    def analyze_success_patterns(self, mission_context: MissionContext) -> PatternAnalysisResult:
         """Analyze success patterns specifically."""
         # Filter to only success patterns
         original_patterns = self.engine.mission_patterns.copy()
         success_patterns = {
-            pid: pattern
-            for pid, pattern in original_patterns.items()
-            if pattern.success_rate > 0.7
+            pid: pattern for pid, pattern in original_patterns.items() if pattern.success_rate > 0.7
         }
 
         # Temporarily replace patterns
@@ -78,9 +71,7 @@ class PatternAnalysisSystem:
 
         return result
 
-    def analyze_risk_patterns(
-        self, mission_context: MissionContext
-    ) -> PatternAnalysisResult:
+    def analyze_risk_patterns(self, mission_context: MissionContext) -> PatternAnalysisResult:
         """Analyze risk patterns specifically."""
         # Filter to patterns with high risk factors
         original_patterns = self.engine.mission_patterns.copy()
@@ -99,7 +90,7 @@ class PatternAnalysisSystem:
 
         return result
 
-    def get_pattern_summary(self) -> Dict[str, Any]:
+    def get_pattern_summary(self) -> dict[str, Any]:
         """Get summary of all patterns."""
         patterns = list(self.engine.mission_patterns.values())
 
@@ -116,16 +107,14 @@ class PatternAnalysisSystem:
         return {
             "total_patterns": len(patterns),
             "pattern_types": pattern_types,
-            "average_success_rate": (
-                sum(p.success_rate for p in patterns) / len(patterns)
-            ),
+            "average_success_rate": (sum(p.success_rate for p in patterns) / len(patterns)),
             "high_success_patterns": len([p for p in patterns if p.success_rate > 0.8]),
             "recent_patterns": len([p for p in patterns if p.usage_count > 0]),
         }
 
     def generate_strategic_insights(
         self, mission_context: MissionContext
-    ) -> List[StrategicRecommendation]:
+    ) -> list[StrategicRecommendation]:
         """Generate strategic insights and recommendations."""
         analysis_result = self.analyze_mission_patterns(mission_context)
         return analysis_result.recommendations

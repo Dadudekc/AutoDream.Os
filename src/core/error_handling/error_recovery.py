@@ -9,7 +9,6 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -42,19 +41,14 @@ class ServiceRestartStrategy(RecoveryStrategy):
 
     def can_recover(self, error_context: ErrorContext) -> bool:
         """Check if service restart is appropriate."""
-        if (
-            self.last_restart
-            and datetime.now() - self.last_restart < self.restart_cooldown
-        ):
+        if self.last_restart and datetime.now() - self.last_restart < self.restart_cooldown:
             return False
         return error_context.severity in [ErrorSeverity.HIGH, ErrorSeverity.CRITICAL]
 
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute service restart."""
         try:
-            get_logger(__name__).info(
-                f"Executing service restart for {error_context.component}"
-            )
+            get_logger(__name__).info(f"Executing service restart for {error_context.component}")
             success = self.service_manager()
             if success:
                 self.last_restart = datetime.now()
@@ -117,9 +111,7 @@ class ResourceCleanupStrategy(RecoveryStrategy):
     def execute_recovery(self, error_context: ErrorContext) -> bool:
         """Execute resource cleanup."""
         try:
-            get_logger(__name__).info(
-                f"Executing resource cleanup for {error_context.component}"
-            )
+            get_logger(__name__).info(f"Executing resource cleanup for {error_context.component}")
             success = self.cleanup_func()
             if success:
                 get_logger(__name__).info(
@@ -158,9 +150,7 @@ class ErrorRecoveryManager:
             if strategy.can_recover(error_context):
                 recovery_attempt["strategies_attempted"].append(strategy.name)
 
-                get_logger(__name__).info(
-                    f"Attempting recovery with strategy: {strategy.name}"
-                )
+                get_logger(__name__).info(f"Attempting recovery with strategy: {strategy.name}")
                 success = strategy.execute_recovery(error_context)
 
                 if success:
@@ -171,9 +161,7 @@ class ErrorRecoveryManager:
                     )
                     break
                 else:
-                    get_logger(__name__).warning(
-                        f"Recovery failed with strategy: {strategy.name}"
-                    )
+                    get_logger(__name__).warning(f"Recovery failed with strategy: {strategy.name}")
 
         self.recovery_history.append(recovery_attempt)
         return recovery_attempt["recovery_success"]
@@ -184,17 +172,13 @@ class ErrorRecoveryManager:
             return {"total_attempts": 0, "successful_recoveries": 0, "success_rate": 0}
 
         total_attempts = len(self.recovery_history)
-        successful_recoveries = len(
-            [r for r in self.recovery_history if r["recovery_success"]]
-        )
+        successful_recoveries = len([r for r in self.recovery_history if r["recovery_success"]])
 
         return {
             "total_attempts": total_attempts,
             "successful_recoveries": successful_recoveries,
             "success_rate": (
-                (successful_recoveries / total_attempts) * 100
-                if total_attempts > 0
-                else 0
+                (successful_recoveries / total_attempts) * 100 if total_attempts > 0 else 0
             ),
         }
 
@@ -228,9 +212,7 @@ def with_error_recovery(recovery_manager: ErrorRecoveryManager):
                         )
                         raise retry_error
                 else:
-                    get_logger(__name__).error(
-                        f"No recovery strategy succeeded for: {e}"
-                    )
+                    get_logger(__name__).error(f"No recovery strategy succeeded for: {e}")
                     raise e
 
         return wrapper

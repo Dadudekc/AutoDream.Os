@@ -12,15 +12,13 @@ License: MIT
 """
 
 import logging
-from typing import Optional, Callable, Any
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
 
 # Import modular components
-from .circuit_breaker.core import CircuitState, CircuitBreakerConfig, CircuitBreakerCore
-from .circuit_breaker.executor import (
-    CircuitBreakerExecutor,
-    CircuitBreakerOpenException,
-)
+from .circuit_breaker.core import CircuitBreakerConfig, CircuitBreakerCore, CircuitState
+from .circuit_breaker.executor import CircuitBreakerExecutor
 
 logger = logging.getLogger(__name__)
 
@@ -38,15 +36,11 @@ class CircuitBreaker:
         """Execute function with circuit breaker protection."""
         return self.executor.call(func, *args, **kwargs)
 
-    def call_with_fallback(
-        self, func: Callable, fallback_func: Callable, *args, **kwargs
-    ) -> Any:
+    def call_with_fallback(self, func: Callable, fallback_func: Callable, *args, **kwargs) -> Any:
         """Execute function with fallback if circuit breaker is open."""
         return self.executor.call_with_fallback(func, fallback_func, *args, **kwargs)
 
-    def call_with_retry(
-        self, func: Callable, max_retries: int = 3, *args, **kwargs
-    ) -> Any:
+    def call_with_retry(self, func: Callable, max_retries: int = 3, *args, **kwargs) -> Any:
         """Execute function with retry logic."""
         return self.executor.call_with_retry(func, max_retries, *args, **kwargs)
 
@@ -54,7 +48,7 @@ class CircuitBreaker:
         """Check if circuit breaker is available for calls."""
         return self.executor.is_available()
 
-    def get_retry_after(self) -> Optional[datetime]:
+    def get_retry_after(self) -> datetime | None:
         """Get the time when the circuit breaker will be available again."""
         return self.executor.get_retry_after()
 
@@ -74,12 +68,12 @@ class CircuitBreaker:
         return self.core.failure_count
 
     @property
-    def last_failure_time(self) -> Optional[datetime]:
+    def last_failure_time(self) -> datetime | None:
         """Get last failure time."""
         return self.core.last_failure_time
 
     @property
-    def next_attempt_time(self) -> Optional[datetime]:
+    def next_attempt_time(self) -> datetime | None:
         """Get next attempt time."""
         return self.core.next_attempt_time
 
@@ -88,9 +82,7 @@ class CircuitBreaker:
 _circuit_breakers = {}
 
 
-def get_circuit_breaker(
-    name: str, config: CircuitBreakerConfig = None
-) -> CircuitBreaker:
+def get_circuit_breaker(name: str, config: CircuitBreakerConfig = None) -> CircuitBreaker:
     """Get or create circuit breaker by name."""
     if name not in _circuit_breakers:
         if config is None:

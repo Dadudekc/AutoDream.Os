@@ -10,12 +10,12 @@ Created: 2025-01-27
 Purpose: V2 compliant error analysis and assessment
 """
 
-from typing import Dict, Any, List
-from datetime import datetime
+from typing import Any
+
 from .error_handling_models import (
-    ErrorSummary,
     ErrorSeverity,
     ErrorSeverityMapping,
+    ErrorSummary,
     RecoverableErrors,
 )
 
@@ -27,7 +27,7 @@ class ErrorAnalysisEngine:
         """Initialize error analysis engine."""
         pass
 
-    def create_error_summary(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def create_error_summary(self, errors: list[dict[str, Any]]) -> dict[str, Any]:
         """Create error summary from list of errors.
 
         Args:
@@ -86,7 +86,7 @@ class ErrorAnalysisEngine:
         else:
             return ErrorSeverity.LOW.value
 
-    def analyze_error_patterns(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_error_patterns(self, errors: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze error patterns - simplified."""
         if not errors:
             return {"patterns": {}, "recommendations": [], "critical_issues": []}
@@ -119,8 +119,7 @@ class ErrorAnalysisEngine:
                 "operation": e.get("operation", "Unknown"),
             }
             for e in errors
-            if e.get("error_type")
-            in ["SystemError", "MemoryError", "KeyboardInterrupt"]
+            if e.get("error_type") in ["SystemError", "MemoryError", "KeyboardInterrupt"]
         ]
 
         return {
@@ -131,8 +130,8 @@ class ErrorAnalysisEngine:
         }
 
     def calculate_error_trends(
-        self, errors: List[Dict[str, Any]], time_window_hours: int = 24
-    ) -> Dict[str, Any]:
+        self, errors: list[dict[str, Any]], time_window_hours: int = 24
+    ) -> dict[str, Any]:
         """Calculate error trends - simplified."""
         if not errors:
             return {"trend": "stable", "error_rate": 0.0}
@@ -160,8 +159,8 @@ class ErrorAnalysisEngine:
         }
 
     def get_recovery_recommendations(
-        self, error: Exception, context: Dict[str, Any] = None
-    ) -> List[str]:
+        self, error: Exception, context: dict[str, Any] = None
+    ) -> list[str]:
         """Get recovery recommendations - simplified."""
         recommendations = []
 
@@ -194,7 +193,7 @@ class ErrorAnalysisEngine:
 
         return recommendations
 
-    def assess_system_health(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def assess_system_health(self, errors: list[dict[str, Any]]) -> dict[str, Any]:
         """Assess system health - simplified."""
         if not errors:
             return {"health_score": 100, "status": "excellent", "concerns": []}

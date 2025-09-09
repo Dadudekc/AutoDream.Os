@@ -13,15 +13,14 @@ License: MIT
 import asyncio
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Dict, List, Optional
 from datetime import datetime
-from queue import Queue, Empty
+from queue import Queue
+from typing import Any
 
 from ..integration_models import (
-    IntegrationTask,
     CoordinationStrategy,
-    ResourceAllocationStrategy,
     IntegrationStatus,
+    IntegrationTask,
     IntegrationType,
 )
 
@@ -34,15 +33,15 @@ class IntegrationCoordinationEngine:
         self.logger = logging.getLogger(__name__)
         self.max_workers = max_workers
         self.task_queue: Queue = Queue()
-        self.active_tasks: Dict[str, IntegrationTask] = {}
-        self.completed_tasks: List[IntegrationTask] = []
+        self.active_tasks: dict[str, IntegrationTask] = {}
+        self.completed_tasks: list[IntegrationTask] = []
         self.executor = ThreadPoolExecutor(max_workers=max_workers)
 
     async def coordinate_integrations(
         self,
-        tasks: List[IntegrationTask],
+        tasks: list[IntegrationTask],
         strategy: CoordinationStrategy = CoordinationStrategy.PARALLEL,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Coordinate multiple integration tasks."""
         try:
             self.logger.info(
@@ -78,7 +77,7 @@ class IntegrationCoordinationEngine:
                 "total": len(tasks),
             }
 
-    async def _execute_parallel(self, tasks: List[IntegrationTask]) -> Dict[str, Any]:
+    async def _execute_parallel(self, tasks: list[IntegrationTask]) -> dict[str, Any]:
         """Execute tasks in parallel."""
         try:
             # Create coroutines for all tasks
@@ -107,7 +106,7 @@ class IntegrationCoordinationEngine:
             self.logger.error(f"Parallel execution failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def _execute_sequential(self, tasks: List[IntegrationTask]) -> Dict[str, Any]:
+    async def _execute_sequential(self, tasks: list[IntegrationTask]) -> dict[str, Any]:
         """Execute tasks sequentially."""
         try:
             successful = 0
@@ -141,20 +140,14 @@ class IntegrationCoordinationEngine:
             self.logger.error(f"Sequential execution failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def _execute_priority_based(
-        self, tasks: List[IntegrationTask]
-    ) -> Dict[str, Any]:
+    async def _execute_priority_based(self, tasks: list[IntegrationTask]) -> dict[str, Any]:
         """Execute tasks based on priority."""
         try:
             # Sort tasks by priority (assuming higher priority = higher value)
-            sorted_tasks = sorted(
-                tasks, key=lambda t: getattr(t, "priority", 0), reverse=True
-            )
+            sorted_tasks = sorted(tasks, key=lambda t: getattr(t, "priority", 0), reverse=True)
 
             # Execute high priority tasks first, then parallel execution for the rest
-            high_priority_tasks = [
-                t for t in sorted_tasks if getattr(t, "priority", 0) > 5
-            ]
+            high_priority_tasks = [t for t in sorted_tasks if getattr(t, "priority", 0) > 5]
             normal_tasks = [t for t in sorted_tasks if getattr(t, "priority", 0) <= 5]
 
             results = {
@@ -167,9 +160,7 @@ class IntegrationCoordinationEngine:
 
             # Execute high priority tasks sequentially
             if high_priority_tasks:
-                high_priority_result = await self._execute_sequential(
-                    high_priority_tasks
-                )
+                high_priority_result = await self._execute_sequential(high_priority_tasks)
                 results["completed"] += high_priority_result.get("completed", 0)
                 results["failed"] += high_priority_result.get("failed", 0)
 
@@ -201,9 +192,7 @@ class IntegrationCoordinationEngine:
             # Update task completion
             task.end_time = datetime.now()
             task.execution_time = (task.end_time - task.start_time).total_seconds()
-            task.status = (
-                IntegrationStatus.COMPLETED if success else IntegrationStatus.FAILED
-            )
+            task.status = IntegrationStatus.COMPLETED if success else IntegrationStatus.FAILED
 
             # Move from active to completed
             self.active_tasks.pop(task.task_id, None)
@@ -245,7 +234,7 @@ class IntegrationCoordinationEngine:
             self.logger.error(f"Task simulation failed: {e}")
             return False
 
-    def get_coordination_status(self) -> Dict[str, Any]:
+    def get_coordination_status(self) -> dict[str, Any]:
         """Get current coordination status."""
         try:
             return {

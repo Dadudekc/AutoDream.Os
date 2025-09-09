@@ -5,9 +5,10 @@ from __future__ import annotations
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
-from src.core.constants.manager import COMPLETION_SIGNAL
+from ..constants.manager import COMPLETION_SIGNAL
+
 from .contracts import Manager, ManagerContext, ManagerResult
 
 
@@ -30,7 +31,7 @@ class CoreOnboardingManager(Manager):
 
     def __init__(self) -> None:
         self._templates = ["default", "advanced"]
-        self._sessions: Dict[str, OnboardingSession] = {}
+        self._sessions: dict[str, OnboardingSession] = {}
 
     def initialize(self, context: ManagerContext) -> bool:
         """Initialize onboarding manager."""
@@ -38,7 +39,7 @@ class CoreOnboardingManager(Manager):
         return True
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute onboarding operation."""
         handlers = {
@@ -49,9 +50,7 @@ class CoreOnboardingManager(Manager):
         }
         handler = handlers.get(operation)
         if not handler:
-            return ManagerResult(
-                False, {}, {}, f"Unknown operation: {operation}"
-            )
+            return ManagerResult(False, {}, {}, f"Unknown operation: {operation}")
         return handler(context, payload)
 
     def cleanup(self, context: ManagerContext) -> bool:
@@ -60,7 +59,7 @@ class CoreOnboardingManager(Manager):
         context.logger("CoreOnboardingManager cleaned up")
         return True
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Return manager status."""
         return {
             "templates": self._templates,
@@ -68,9 +67,7 @@ class CoreOnboardingManager(Manager):
         }
 
     # Handlers ---------------------------------------------------------------
-    def onboard_agent(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def onboard_agent(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         agent_id = payload["agent_id"]
         session_id = str(uuid.uuid4())
         session = OnboardingSession(
@@ -81,13 +78,9 @@ class CoreOnboardingManager(Manager):
         )
         self._sessions[session_id] = session
         context.logger(f"Onboarding session created: {session_id}")
-        return ManagerResult(
-            True, {"session_id": session_id, "agent_id": agent_id}, {}
-        )
+        return ManagerResult(True, {"session_id": session_id, "agent_id": agent_id}, {})
 
-    def start_onboarding(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def start_onboarding(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         session = self._sessions.get(payload["session_id"])
         if not session:
             return ManagerResult(False, {}, {}, "Session not found")
@@ -97,19 +90,16 @@ class CoreOnboardingManager(Manager):
         return ManagerResult(True, {"session_id": payload["session_id"]}, {})
 
     def complete_onboarding(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         session = self._sessions.get(payload["session_id"])
         if not session:
             return ManagerResult(False, {}, {}, "Session not found")
-        session.status = (
-            "completed" if payload.get("success", True) else "failed"
-        )
+        session.status = "completed" if payload.get("success", True) else "failed"
         session.end_time = datetime.utcnow()
         session.notes = payload.get("notes")
         context.logger(
-            f"Onboarding session completed: {payload['session_id']} "
-            f"{COMPLETION_SIGNAL}"
+            f"Onboarding session completed: {payload['session_id']} " f"{COMPLETION_SIGNAL}"
         )
         return ManagerResult(
             True,
@@ -118,7 +108,7 @@ class CoreOnboardingManager(Manager):
         )
 
     def get_onboarding_status(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         session = self._sessions.get(payload["session_id"])
         if not session:

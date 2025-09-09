@@ -1,9 +1,8 @@
-"""
-Manager Adapters - Phase-2 Manager Consolidation
-===============================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Legacy adapters for backward compatibility with existing managers.
+from . import legacy_manager_adapter
 
-Author: Agent-3 (Infrastructure & DevOps Specialist)
-License: MIT
-"""
+__all__ = [
+    'legacy_manager_adapter',
+]

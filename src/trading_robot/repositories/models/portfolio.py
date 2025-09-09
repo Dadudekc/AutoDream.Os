@@ -13,7 +13,8 @@ License: MIT
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Dict, Any, List
+from typing import Any
+
 from .position import Position
 
 
@@ -26,11 +27,11 @@ class Portfolio:
 
     id: str
     name: str
-    positions: Dict[str, Position] = field(default_factory=dict)
+    positions: dict[str, Position] = field(default_factory=dict)
     cash_balance: float = 0.0
     total_value: float = 0.0
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate portfolio data on initialization."""
@@ -91,27 +92,27 @@ class Portfolio:
         """Get number of positions in portfolio."""
         return len(self.positions)
 
-    def get_long_positions(self) -> List[Position]:
+    def get_long_positions(self) -> list[Position]:
         """Get all long positions."""
         return [pos for pos in self.positions.values() if pos.is_long()]
 
-    def get_short_positions(self) -> List[Position]:
+    def get_short_positions(self) -> list[Position]:
         """Get all short positions."""
         return [pos for pos in self.positions.values() if pos.is_short()]
 
-    def get_flat_positions(self) -> List[Position]:
+    def get_flat_positions(self) -> list[Position]:
         """Get all flat positions."""
         return [pos for pos in self.positions.values() if pos.is_flat()]
 
-    def get_profitable_positions(self) -> List[Position]:
+    def get_profitable_positions(self) -> list[Position]:
         """Get all profitable positions."""
         return [pos for pos in self.positions.values() if pos.is_profitable()]
 
-    def get_losing_positions(self) -> List[Position]:
+    def get_losing_positions(self) -> list[Position]:
         """Get all losing positions."""
         return [pos for pos in self.positions.values() if not pos.is_profitable()]
 
-    def update_position_prices(self, price_updates: Dict[str, float]):
+    def update_position_prices(self, price_updates: dict[str, float]):
         """Update current prices for positions."""
         for symbol, price in price_updates.items():
             if symbol in self.positions:
@@ -123,7 +124,7 @@ class Portfolio:
         """Update total portfolio value."""
         self.total_value = self.get_portfolio_value()
 
-    def get_portfolio_summary(self) -> Dict[str, Any]:
+    def get_portfolio_summary(self) -> dict[str, Any]:
         """Get comprehensive portfolio summary."""
         return {
             "id": self.id,
@@ -142,14 +143,12 @@ class Portfolio:
             "timestamp": self.timestamp.isoformat(),
         }
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert portfolio to dictionary."""
         return {
             "id": self.id,
             "name": self.name,
-            "positions": {
-                symbol: pos.to_dict() for symbol, pos in self.positions.items()
-            },
+            "positions": {symbol: pos.to_dict() for symbol, pos in self.positions.items()},
             "cash_balance": self.cash_balance,
             "total_value": self.total_value,
             "timestamp": self.timestamp.isoformat(),
@@ -157,7 +156,7 @@ class Portfolio:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Portfolio":
+    def from_dict(cls, data: dict[str, Any]) -> "Portfolio":
         """Create portfolio from dictionary."""
         positions = {}
         for symbol, pos_data in data.get("positions", {}).items():

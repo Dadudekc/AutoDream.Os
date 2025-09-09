@@ -11,16 +11,15 @@ Mission: KISS Simplification
 """
 
 import os
-import json
 from datetime import datetime
 
 
 def read_file(filepath):
     """Read file content."""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             return f.read()
-    except Exception as e:
+    except Exception:
         return None
 
 
@@ -31,7 +30,7 @@ def write_file(filepath, content):
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)
         return True
-    except Exception as e:
+    except Exception:
         return False
 
 

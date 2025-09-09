@@ -10,10 +10,8 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional, Dict, Any
 from dataclasses import dataclass
-
-from ..fsm_enums import StateStatus
+from typing import Any
 
 
 @dataclass
@@ -22,14 +20,14 @@ class StateDefinition:
 
     name: str
     description: str
-    entry_actions: List[str]
-    exit_actions: List[str]
-    timeout_seconds: Optional[int]
+    entry_actions: list[str]
+    exit_actions: list[str]
+    timeout_seconds: int | None
     retry_count: int
     retry_delay: float
-    required_resources: List[str]
-    dependencies: List[str]
-    metadata: Dict[str, Any]
+    required_resources: list[str]
+    dependencies: list[str]
+    metadata: dict[str, Any]
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -42,7 +40,7 @@ class StateDefinition:
         """Check if state definition is valid."""
         return bool(self.name and self.description)
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get state summary."""
         return {
             "name": self.name,

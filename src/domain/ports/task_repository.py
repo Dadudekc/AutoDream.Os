@@ -6,9 +6,11 @@ Defines the contract for task persistence operations.
 This is a port in the hexagonal architecture - the domain defines what it needs.
 """
 
-from typing import Protocol, Iterable, Optional
-from src.domain.entities.task import Task
-from src.domain.value_objects.ids import TaskId
+from collections.abc import Iterable
+from typing import Protocol
+
+from ..entities.task import Task
+from ..value_objects.ids import TaskId
 
 
 class TaskRepository(Protocol):
@@ -20,7 +22,7 @@ class TaskRepository(Protocol):
     abstraction, not on concrete implementations.
     """
 
-    def get(self, task_id: TaskId) -> Optional[Task]:
+    def get(self, task_id: TaskId) -> Task | None:
         """
         Retrieve a task by its identifier.
 

@@ -49,9 +49,7 @@ class DocumentationIndexingService:
                     total_results["skipped"] += results["skipped"]
                     total_results["errors"].extend(results["errors"])
 
-                    get_logger(__name__).info(
-                        f"Indexed {directory}: {results['indexed']} files"
-                    )
+                    get_logger(__name__).info(f"Indexed {directory}: {results['indexed']} files")
 
             # Also index key files in root
             key_files = [
@@ -107,9 +105,7 @@ class DocumentationIndexingService:
                 # Prepare metadata
                 metadata = {
                     "file_size": path.stat().st_size,
-                    "last_modified": (
-                        datetime.fromtimestamp(path.stat().st_mtime).isoformat()
-                    ),
+                    "last_modified": (datetime.fromtimestamp(path.stat().st_mtime).isoformat()),
                     "directory": str(path.parent),
                 }
 
@@ -125,9 +121,7 @@ class DocumentationIndexingService:
 
         return results
 
-    def index_directory(
-        self, directory_path: str, recursive: bool = True
-    ) -> Dict[str, Any]:
+    def index_directory(self, directory_path: str, recursive: bool = True) -> Dict[str, Any]:
         """Index all supported files in a directory.
 
         Args:

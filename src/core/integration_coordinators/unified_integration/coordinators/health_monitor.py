@@ -11,17 +11,11 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from typing import Dict, List, Optional, Any, Callable
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
 
-from ..models import (
-    IntegrationType,
-    IntegrationConfig,
-    IntegrationTask,
-    IntegrationStatus,
-    IntegrationModels,
-)
+from ..models import IntegrationConfig
 
 
 class HealthMonitor:
@@ -33,11 +27,11 @@ class HealthMonitor:
     def __init__(self, config: IntegrationConfig):
         """Initialize health monitor."""
         self.config = config
-        self.health_history: List[Dict[str, Any]] = []
-        self.alert_thresholds: Dict[str, float] = {}
-        self.monitoring_callbacks: List[Callable] = []
+        self.health_history: list[dict[str, Any]] = []
+        self.alert_thresholds: dict[str, float] = {}
+        self.monitoring_callbacks: list[Callable] = []
 
-    def get_system_health(self, monitor, optimizer) -> Dict[str, Any]:
+    def get_system_health(self, monitor, optimizer) -> dict[str, Any]:
         """Get overall system health."""
         health_status = monitor.get_health_status()
         performance_summary = monitor.get_performance_summary()
@@ -62,7 +56,7 @@ class HealthMonitor:
         else:
             return "poor"
 
-    def _get_health_recommendations(self, health_status: Dict[str, Any]) -> List[str]:
+    def _get_health_recommendations(self, health_status: dict[str, Any]) -> list[str]:
         """Get health recommendations."""
         recommendations = []
 
@@ -94,11 +88,11 @@ class HealthMonitor:
         """Set alert threshold."""
         self.alert_thresholds[metric] = threshold
 
-    def get_alert_thresholds(self) -> Dict[str, float]:
+    def get_alert_thresholds(self) -> dict[str, float]:
         """Get alert thresholds."""
         return self.alert_thresholds.copy()
 
-    def check_health_thresholds(self, metrics: Dict[str, Any]) -> List[str]:
+    def check_health_thresholds(self, metrics: dict[str, Any]) -> list[str]:
         """Check health thresholds and return alerts."""
         alerts = []
 
@@ -110,7 +104,7 @@ class HealthMonitor:
 
         return alerts
 
-    def record_health_status(self, health_data: Dict[str, Any]) -> None:
+    def record_health_status(self, health_data: dict[str, Any]) -> None:
         """Record health status."""
         self.health_history.append(
             {"timestamp": datetime.now().isoformat(), "health_data": health_data}
@@ -120,7 +114,7 @@ class HealthMonitor:
         if len(self.health_history) > 1000:
             self.health_history = self.health_history[-1000:]
 
-    def get_health_trends(self, hours: int = 24) -> Dict[str, Any]:
+    def get_health_trends(self, hours: int = 24) -> dict[str, Any]:
         """Get health trends over time."""
         cutoff_time = datetime.now().timestamp() - (hours * 3600)
 
@@ -157,7 +151,7 @@ class HealthMonitor:
             "time_range_hours": hours,
         }
 
-    def get_monitor_status(self) -> Dict[str, Any]:
+    def get_monitor_status(self) -> dict[str, Any]:
         """Get health monitor status."""
         return {
             "health_history_count": len(self.health_history),

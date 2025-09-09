@@ -10,7 +10,6 @@ License: MIT
 """
 
 from dataclasses import dataclass
-from typing import List, Dict, Any, Optional, Tuple
 
 
 @dataclass
@@ -19,7 +18,7 @@ class ArchitecturePattern:
 
     name: str
     pattern_type: str
-    files: List[str]
+    files: list[str]
     confidence: float
     description: str
 
@@ -30,9 +29,9 @@ class FileAnalysis:
 
     file_path: str
     line_count: int
-    classes: List[str]
-    functions: List[str]
-    imports: List[str]
+    classes: list[str]
+    functions: list[str]
+    imports: list[str]
     complexity_score: float
     v2_compliance: bool
 
@@ -42,7 +41,7 @@ class DuplicateFile:
     """Represents duplicate file information - simplified."""
 
     original_file: str
-    duplicate_files: List[str]
+    duplicate_files: list[str]
     similarity_score: float
 
 
@@ -63,8 +62,8 @@ class AnalysisReport:
 
     total_files: int
     v2_compliant_files: int
-    patterns_found: List[ArchitecturePattern]
-    duplicates_found: List[DuplicateFile]
-    suggestions: List[RefactoringSuggestion]
+    patterns_found: list[ArchitecturePattern]
+    duplicates_found: list[DuplicateFile]
+    suggestions: list[RefactoringSuggestion]
     overall_complexity: float
     v2_compliance_percentage: float

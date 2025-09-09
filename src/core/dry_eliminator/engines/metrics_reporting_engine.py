@@ -12,17 +12,12 @@ V2 COMPLIANT: Focused metrics and reporting under 300 lines.
 """
 
 import logging
-from pathlib import Path
-from typing import Dict, List, Any, Optional
-from datetime import datetime
 from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
-from ..dry_eliminator_models import (
-    DRYViolation,
-    EliminationResult,
-    EliminationMetrics,
-    create_elimination_metrics,
-)
+from ..dry_eliminator_models import DRYViolation, EliminationResult, create_elimination_metrics
 
 
 class MetricsReportingEngine:
@@ -32,8 +27,8 @@ class MetricsReportingEngine:
         """Initialize metrics and reporting engine."""
         self.logger = logging.getLogger(__name__)
         self.metrics = create_elimination_metrics()
-        self.start_time: Optional[datetime] = None
-        self.end_time: Optional[datetime] = None
+        self.start_time: datetime | None = None
+        self.end_time: datetime | None = None
 
     def start_analysis(self):
         """Start analysis timing."""
@@ -54,7 +49,7 @@ class MetricsReportingEngine:
         self.metrics.total_files_analyzed = total_files
         self.metrics.files_processed = analyzed_files
 
-    def update_violation_metrics(self, violations: List[DRYViolation]):
+    def update_violation_metrics(self, violations: list[DRYViolation]):
         """Update violation detection metrics."""
         self.metrics.violations_detected = len(violations)
 
@@ -68,7 +63,7 @@ class MetricsReportingEngine:
         self.metrics.constants_consolidated = type_counts.get("duplicate_constants", 0)
         self.metrics.unused_imports_removed = type_counts.get("unused_imports", 0)
 
-    def update_elimination_metrics(self, results: List[EliminationResult]):
+    def update_elimination_metrics(self, results: list[EliminationResult]):
         """Update elimination execution metrics."""
         successful_results = [r for r in results if r.success]
         failed_results = [r for r in results if not r.success]
@@ -88,8 +83,8 @@ class MetricsReportingEngine:
         self.metrics.files_modified = len(modified_files)
 
     def generate_summary_report(
-        self, violations: List[DRYViolation], results: List[EliminationResult]
-    ) -> Dict[str, Any]:
+        self, violations: list[DRYViolation], results: list[EliminationResult]
+    ) -> dict[str, Any]:
         """Generate comprehensive summary report."""
         return {
             "analysis_info": {
@@ -110,8 +105,7 @@ class MetricsReportingEngine:
                 "eliminations_successful": self.metrics.eliminations_successful,
                 "eliminations_failed": self.metrics.eliminations_failed,
                 "success_rate": (
-                    self.metrics.eliminations_successful
-                    / self.metrics.eliminations_attempted
+                    self.metrics.eliminations_successful / self.metrics.eliminations_attempted
                     if self.metrics.eliminations_attempted > 0
                     else 0
                 ),
@@ -130,24 +124,21 @@ class MetricsReportingEngine:
                     else 0
                 ),
                 "elimination_efficiency": (
-                    self.metrics.eliminations_successful
-                    / self.metrics.violations_detected
+                    self.metrics.eliminations_successful / self.metrics.violations_detected
                     if self.metrics.violations_detected > 0
                     else 0
                 ),
             },
         }
 
-    def _get_violations_by_type(self, violations: List[DRYViolation]) -> Dict[str, int]:
+    def _get_violations_by_type(self, violations: list[DRYViolation]) -> dict[str, int]:
         """Get violation count by type."""
         type_counts = defaultdict(int)
         for violation in violations:
             type_counts[violation.violation_type.value] += 1
         return dict(type_counts)
 
-    def _get_violations_by_severity(
-        self, violations: List[DRYViolation]
-    ) -> Dict[str, int]:
+    def _get_violations_by_severity(self, violations: list[DRYViolation]) -> dict[str, int]:
         """Get violation count by severity."""
         severity_counts = defaultdict(int)
         for violation in violations:
@@ -155,7 +146,7 @@ class MetricsReportingEngine:
         return dict(severity_counts)
 
     def generate_detailed_report(
-        self, violations: List[DRYViolation], results: List[EliminationResult]
+        self, violations: list[DRYViolation], results: list[EliminationResult]
     ) -> str:
         """Generate detailed text report."""
         report = []
@@ -167,9 +158,7 @@ class MetricsReportingEngine:
         report.append("Analysis Information:")
         report.append(f"  Start Time: {self.metrics.analysis_start_time}")
         report.append(f"  End Time: {self.metrics.analysis_end_time}")
-        report.append(
-            f"  Duration: {self.metrics.analysis_duration_seconds:.2f} seconds"
-        )
+        report.append(f"  Duration: {self.metrics.analysis_duration_seconds:.2f} seconds")
         report.append(f"  Files Analyzed: {self.metrics.total_files_analyzed}")
         report.append("")
 
@@ -199,8 +188,7 @@ class MetricsReportingEngine:
 
         if self.metrics.eliminations_attempted > 0:
             success_rate = (
-                self.metrics.eliminations_successful
-                / self.metrics.eliminations_attempted
+                self.metrics.eliminations_successful / self.metrics.eliminations_attempted
             )
             report.append(f"  Success Rate: {success_rate:.2%}")
 
@@ -223,9 +211,7 @@ class MetricsReportingEngine:
             report.append(f"  Lines Removed per Violation: {lines_per_violation:.2f}")
 
         if self.metrics.violations_detected > 0:
-            efficiency = (
-                self.metrics.eliminations_successful / self.metrics.violations_detected
-            )
+            efficiency = self.metrics.eliminations_successful / self.metrics.violations_detected
             report.append(f"  Elimination Efficiency: {efficiency:.2%}")
 
         return "\n".join(report)
@@ -240,18 +226,12 @@ class MetricsReportingEngine:
                 # Write metrics in a structured format
                 f.write(f"Analysis Start Time: {self.metrics.analysis_start_time}\n")
                 f.write(f"Analysis End Time: {self.metrics.analysis_end_time}\n")
-                f.write(
-                    f"Analysis Duration: {self.metrics.analysis_duration_seconds} seconds\n"
-                )
+                f.write(f"Analysis Duration: {self.metrics.analysis_duration_seconds} seconds\n")
                 f.write(f"Total Files Analyzed: {self.metrics.total_files_analyzed}\n")
                 f.write(f"Files Processed: {self.metrics.files_processed}\n")
                 f.write(f"Violations Detected: {self.metrics.violations_detected}\n")
-                f.write(
-                    f"Eliminations Attempted: {self.metrics.eliminations_attempted}\n"
-                )
-                f.write(
-                    f"Eliminations Successful: {self.metrics.eliminations_successful}\n"
-                )
+                f.write(f"Eliminations Attempted: {self.metrics.eliminations_attempted}\n")
+                f.write(f"Eliminations Successful: {self.metrics.eliminations_successful}\n")
                 f.write(f"Eliminations Failed: {self.metrics.eliminations_failed}\n")
                 f.write(f"Total Lines Removed: {self.metrics.total_lines_removed}\n")
                 f.write(f"Files Modified: {self.metrics.files_modified}\n")
@@ -261,7 +241,7 @@ class MetricsReportingEngine:
             self.logger.error(f"Error exporting metrics: {e}")
             return False
 
-    def get_metrics_dict(self) -> Dict[str, Any]:
+    def get_metrics_dict(self) -> dict[str, Any]:
         """Get metrics as dictionary."""
         return self.metrics.to_dict()
 

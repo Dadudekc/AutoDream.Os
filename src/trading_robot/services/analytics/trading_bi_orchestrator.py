@@ -11,28 +11,20 @@ V2 COMPLIANT: Focused orchestration under 300 lines.
 @license MIT
 """
 
-from typing import Optional, Dict, Any, List
 from datetime import datetime
+from typing import Any
 
+from ...repositories.trading_repository import TradingRepositoryInterface
+from .market_trend_engine import create_market_trend_engine
+from .performance_metrics_engine import create_performance_metrics_engine
+from .risk_analysis_engine import create_risk_analysis_engine
 from .trading_bi_models import (
-    PerformanceMetrics,
-    RiskMetrics,
     MarketTrend,
-    PnLResult,
-    RiskAssessmentConfig,
     PerformanceConfig,
+    PerformanceMetrics,
+    RiskAssessmentConfig,
+    RiskMetrics,
     TrendAnalysisConfig,
-)
-from .risk_analysis_engine import RiskAnalysisEngine, create_risk_analysis_engine
-from .performance_metrics_engine import (
-    PerformanceMetricsEngine,
-    create_performance_metrics_engine,
-)
-from .market_trend_engine import MarketTrendEngine, create_market_trend_engine
-from ...repositories.trading_repository import (
-    TradingRepositoryInterface,
-    Trade,
-    Position,
 )
 
 
@@ -41,10 +33,10 @@ class TradingBiAnalyticsOrchestrator:
 
     def __init__(
         self,
-        repository: Optional[TradingRepositoryInterface] = None,
-        risk_config: Optional[RiskAssessmentConfig] = None,
-        performance_config: Optional[PerformanceConfig] = None,
-        trend_config: Optional[TrendAnalysisConfig] = None,
+        repository: TradingRepositoryInterface | None = None,
+        risk_config: RiskAssessmentConfig | None = None,
+        performance_config: PerformanceConfig | None = None,
+        trend_config: TrendAnalysisConfig | None = None,
     ):
         """Initialize orchestrator with dependency injection."""
         self.repository = repository
@@ -52,9 +44,7 @@ class TradingBiAnalyticsOrchestrator:
         self.performance_engine = create_performance_metrics_engine(performance_config)
         self.trend_engine = create_market_trend_engine(trend_config)
 
-    async def calculate_real_time_pnl(
-        self, symbol: Optional[str] = None
-    ) -> Dict[str, Any]:
+    async def calculate_real_time_pnl(self, symbol: str | None = None) -> dict[str, Any]:
         """Calculate real-time P&L for portfolio or specific symbol."""
         try:
             if symbol:
@@ -64,7 +54,7 @@ class TradingBiAnalyticsOrchestrator:
         except Exception as e:
             return {"error": str(e), "timestamp": datetime.now()}
 
-    async def _calculate_symbol_pnl(self, symbol: str) -> Dict[str, Any]:
+    async def _calculate_symbol_pnl(self, symbol: str) -> dict[str, Any]:
         """Calculate P&L for specific symbol."""
         if not self.repository:
             return {"error": "Repository not available", "timestamp": datetime.now()}
@@ -83,9 +73,7 @@ class TradingBiAnalyticsOrchestrator:
         # Calculate unrealized P&L
         unrealized_pnl = position.pnl
         position_value = position.quantity * position.current_price
-        pnl_percentage = (
-            unrealized_pnl / (position.quantity * position.average_price)
-        ) * 100
+        pnl_percentage = (unrealized_pnl / (position.quantity * position.average_price)) * 100
 
         return {
             "symbol": symbol,
@@ -95,7 +83,7 @@ class TradingBiAnalyticsOrchestrator:
             "timestamp": datetime.now(),
         }
 
-    async def _calculate_portfolio_pnl(self) -> Dict[str, Any]:
+    async def _calculate_portfolio_pnl(self) -> dict[str, Any]:
         """Calculate P&L for entire portfolio."""
         if not self.repository:
             return {"error": "Repository not available", "timestamp": datetime.now()}
@@ -103,12 +91,8 @@ class TradingBiAnalyticsOrchestrator:
         positions = await self.repository.get_all_positions()
 
         total_pnl = sum(position.pnl for position in positions)
-        total_value = sum(
-            position.quantity * position.current_price for position in positions
-        )
-        total_cost = sum(
-            position.quantity * position.average_price for position in positions
-        )
+        total_value = sum(position.quantity * position.current_price for position in positions)
+        total_cost = sum(position.quantity * position.average_price for position in positions)
 
         pnl_percentage = (total_pnl / total_cost * 100) if total_cost > 0 else 0.0
 
@@ -130,7 +114,7 @@ class TradingBiAnalyticsOrchestrator:
             trades = await self.repository.get_all_trades(1000)
             return self.risk_engine.calculate_risk_metrics(trades, portfolio_value)
 
-        except Exception as e:
+        except Exception:
             return self.risk_engine._create_default_risk_metrics(portfolio_value)
 
     async def generate_performance_report(self) -> PerformanceMetrics:
@@ -142,12 +126,10 @@ class TradingBiAnalyticsOrchestrator:
             trades = await self.repository.get_all_trades(1000)
             return self.performance_engine.calculate_performance_metrics(trades)
 
-        except Exception as e:
+        except Exception:
             return self.performance_engine._create_default_performance_metrics()
 
-    async def analyze_market_trends(
-        self, symbol: str, timeframe: str = "medium"
-    ) -> MarketTrend:
+    async def analyze_market_trends(self, symbol: str, timeframe: str = "medium") -> MarketTrend:
         """Analyze market trends using trend analysis engine."""
         try:
             if not self.repository:
@@ -156,12 +138,12 @@ class TradingBiAnalyticsOrchestrator:
             trades = await self.repository.get_trades_by_symbol(symbol, 100)
             return self.trend_engine.analyze_market_trend(trades, symbol, timeframe)
 
-        except Exception as e:
+        except Exception:
             return self.trend_engine._create_default_trend(symbol, timeframe)
 
     async def generate_comprehensive_report(
-        self, symbols: List[str], portfolio_value: float
-    ) -> Dict[str, Any]:
+        self, symbols: list[str], portfolio_value: float
+    ) -> dict[str, Any]:
         """Generate comprehensive analytics report."""
         try:
             # Generate all analytics in parallel
@@ -193,7 +175,7 @@ class TradingBiAnalyticsOrchestrator:
                 "symbols_analyzed": symbols,
             }
 
-    def get_engine_status(self) -> Dict[str, Any]:
+    def get_engine_status(self) -> dict[str, Any]:
         """Get status of all analytics engines."""
         return {
             "risk_engine": "active",
@@ -206,16 +188,14 @@ class TradingBiAnalyticsOrchestrator:
 
 # Factory function for dependency injection
 def create_trading_bi_analytics_orchestrator(
-    repository: Optional[TradingRepositoryInterface] = None,
-    risk_config: Optional[RiskAssessmentConfig] = None,
-    performance_config: Optional[PerformanceConfig] = None,
-    trend_config: Optional[TrendAnalysisConfig] = None,
+    repository: TradingRepositoryInterface | None = None,
+    risk_config: RiskAssessmentConfig | None = None,
+    performance_config: PerformanceConfig | None = None,
+    trend_config: TrendAnalysisConfig | None = None,
 ) -> TradingBiAnalyticsOrchestrator:
     """Factory function to create trading BI analytics orchestrator with dependency
     injection."""
-    return TradingBiAnalyticsOrchestrator(
-        repository, risk_config, performance_config, trend_config
-    )
+    return TradingBiAnalyticsOrchestrator(repository, risk_config, performance_config, trend_config)
 
 
 # Export for DI

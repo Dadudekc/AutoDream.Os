@@ -11,10 +11,10 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
-from .models import DashboardWidget, DashboardConfig
+from .models import DashboardConfig, DashboardWidget
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +25,8 @@ class WidgetManager:
     def __init__(self):
         """Initialize widget manager."""
         self.logger = logger
-        self.widgets: Dict[str, DashboardWidget] = {}
-        self.configs: Dict[str, DashboardConfig] = {}
+        self.widgets: dict[str, DashboardWidget] = {}
+        self.configs: dict[str, DashboardConfig] = {}
 
     def add_widget(self, widget: DashboardWidget) -> bool:
         """Add dashboard widget."""
@@ -42,15 +42,15 @@ class WidgetManager:
             self.logger.error(f"Failed to add widget: {e}")
             return False
 
-    def get_widget(self, widget_id: str) -> Optional[DashboardWidget]:
+    def get_widget(self, widget_id: str) -> DashboardWidget | None:
         """Get dashboard widget by ID."""
         return self.widgets.get(widget_id)
 
-    def get_all_widgets(self) -> List[DashboardWidget]:
+    def get_all_widgets(self) -> list[DashboardWidget]:
         """Get all widgets."""
         return list(self.widgets.values())
 
-    def update_widget(self, widget_id: str, updates: Dict[str, Any]) -> bool:
+    def update_widget(self, widget_id: str, updates: dict[str, Any]) -> bool:
         """Update dashboard widget."""
         try:
             if widget_id not in self.widgets:
@@ -95,15 +95,15 @@ class WidgetManager:
             self.logger.error(f"Failed to add config: {e}")
             return False
 
-    def get_config(self, config_id: str) -> Optional[DashboardConfig]:
+    def get_config(self, config_id: str) -> DashboardConfig | None:
         """Get dashboard configuration by ID."""
         return self.configs.get(config_id)
 
-    def get_all_configs(self) -> List[DashboardConfig]:
+    def get_all_configs(self) -> list[DashboardConfig]:
         """Get all configurations."""
         return list(self.configs.values())
 
-    def update_config(self, config_id: str, updates: Dict[str, Any]) -> bool:
+    def update_config(self, config_id: str, updates: dict[str, Any]) -> bool:
         """Update dashboard configuration."""
         try:
             if config_id not in self.configs:
@@ -148,14 +148,12 @@ class WidgetManager:
         self.configs.clear()
         self.logger.info("Cleared all widgets and configs")
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get widgets and configs summary."""
         return {
             "total_widgets": len(self.widgets),
             "total_configs": len(self.configs),
-            "widget_types": list(
-                set(widget.widget_type for widget in self.widgets.values())
-            ),
+            "widget_types": list(set(widget.widget_type for widget in self.widgets.values())),
             "last_updated": max(
                 (widget.updated_at for widget in self.widgets.values()), default=None
             ),

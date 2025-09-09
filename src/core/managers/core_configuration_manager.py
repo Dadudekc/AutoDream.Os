@@ -10,11 +10,12 @@ License: MIT
 """
 
 from __future__ import annotations
-import os
+
 import json
+import os
 from pathlib import Path
-from typing import Dict, Any, Optional, List
-from datetime import datetime
+from typing import Any
+
 from .contracts import ConfigurationManager, ManagerContext, ManagerResult
 
 
@@ -23,10 +24,10 @@ class CoreConfigurationManager(ConfigurationManager):
 
     def __init__(self):
         """Initialize core configuration manager."""
-        self.configs: Dict[str, Dict[str, Any]] = {}
-        self.config_files: Dict[str, str] = {}
-        self.environment_vars: Dict[str, str] = {}
-        self.validation_rules: Dict[str, Dict[str, Any]] = {}
+        self.configs: dict[str, dict[str, Any]] = {}
+        self.config_files: dict[str, str] = {}
+        self.environment_vars: dict[str, str] = {}
+        self.validation_rules: dict[str, dict[str, Any]] = {}
 
     def initialize(self, context: ManagerContext) -> bool:
         """Initialize configuration manager."""
@@ -47,7 +48,7 @@ class CoreConfigurationManager(ConfigurationManager):
             return False
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute configuration operation."""
         try:
@@ -92,7 +93,7 @@ class CoreConfigurationManager(ConfigurationManager):
             if config_key in self.config_files:
                 file_path = self.config_files[config_key]
                 if os.path.exists(file_path):
-                    with open(file_path, "r", encoding="utf-8") as f:
+                    with open(file_path, encoding="utf-8") as f:
                         config_data = json.load(f)
                     self.configs[config_key] = config_data
                     return ManagerResult(
@@ -129,7 +130,7 @@ class CoreConfigurationManager(ConfigurationManager):
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def save_config(
-        self, context: ManagerContext, config_key: str, config_data: Dict[str, Any]
+        self, context: ManagerContext, config_key: str, config_data: dict[str, Any]
     ) -> ManagerResult:
         """Save configuration."""
         try:
@@ -158,7 +159,7 @@ class CoreConfigurationManager(ConfigurationManager):
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def validate_config(
-        self, context: ManagerContext, config_data: Dict[str, Any]
+        self, context: ManagerContext, config_data: dict[str, Any]
     ) -> ManagerResult:
         """Validate configuration."""
         try:
@@ -180,17 +181,11 @@ class CoreConfigurationManager(ConfigurationManager):
                                     validation_errors.append(
                                         f"Field {field} must be {expected_type.__name__}"
                                     )
-                            if (
-                                "min_length" in rule
-                                and len(str(value)) < rule["min_length"]
-                            ):
+                            if "min_length" in rule and len(str(value)) < rule["min_length"]:
                                 validation_errors.append(
                                     f"Field {field} too short (min {rule['min_length']})"
                                 )
-                            if (
-                                "max_length" in rule
-                                and len(str(value)) > rule["max_length"]
-                            ):
+                            if "max_length" in rule and len(str(value)) > rule["max_length"]:
                                 validation_errors.append(
                                     f"Field {field} too long (max {rule['max_length']})"
                                 )
@@ -240,7 +235,7 @@ class CoreConfigurationManager(ConfigurationManager):
             context.logger(f"Failed to cleanup Core Configuration Manager: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get configuration manager status."""
         return {
             "total_configs": len(self.configs),
@@ -256,7 +251,7 @@ class CoreConfigurationManager(ConfigurationManager):
             # Load from .env file if it exists
             env_file = Path(".env")
             if env_file.exists():
-                with open(env_file, "r", encoding="utf-8") as f:
+                with open(env_file, encoding="utf-8") as f:
                     for line in f:
                         line = line.strip()
                         if line and not line.startswith("#") and "=" in line:
@@ -278,16 +273,11 @@ class CoreConfigurationManager(ConfigurationManager):
                 "type": "discord",
                 "token": self.environment_vars.get("DISCORD_TOKEN", ""),
                 "guild_id": self.environment_vars.get("DISCORD_GUILD_ID", ""),
-                "command_channel": self.environment_vars.get(
-                    "DISCORD_COMMAND_CHANNEL", ""
-                ),
-                "status_channel": self.environment_vars.get(
-                    "DISCORD_STATUS_CHANNEL", ""
-                ),
+                "command_channel": self.environment_vars.get("DISCORD_COMMAND_CHANNEL", ""),
+                "status_channel": self.environment_vars.get("DISCORD_STATUS_CHANNEL", ""),
                 "log_channel": self.environment_vars.get("DISCORD_LOG_CHANNEL", ""),
                 "enable_discord": (
-                    self.environment_vars.get("DISCORD_ENABLE", "false").lower()
-                    == "true"
+                    self.environment_vars.get("DISCORD_ENABLE", "false").lower() == "true"
                 ),
             }
             self.configs["discord"] = discord_config
@@ -355,9 +345,7 @@ class CoreConfigurationManager(ConfigurationManager):
         except Exception as e:
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _export_config(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def _export_config(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Export configuration."""
         try:
             config_key = payload.get("config_key", "")
@@ -387,9 +375,7 @@ class CoreConfigurationManager(ConfigurationManager):
         except Exception as e:
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _import_config(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def _import_config(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Import configuration."""
         try:
             import_path = payload.get("import_path", "")
@@ -403,7 +389,7 @@ class CoreConfigurationManager(ConfigurationManager):
                     error=f"Import file not found: {import_path}",
                 )
 
-            with open(import_path, "r", encoding="utf-8") as f:
+            with open(import_path, encoding="utf-8") as f:
                 config_data = json.load(f)
 
             # Validate imported configuration

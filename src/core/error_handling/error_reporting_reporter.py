@@ -10,8 +10,7 @@ License: MIT
 
 import logging
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
-from collections import defaultdict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -21,14 +20,12 @@ class ErrorReporter:
 
     def __init__(self):
         """Initialize error reporter."""
-        self.reports: Dict[str, Any] = {}  # ErrorReport type
+        self.reports: dict[str, Any] = {}  # ErrorReport type
         self.global_error_count = 0
-        self.error_history: List[Any] = []  # ErrorContext type
+        self.error_history: list[Any] = []  # ErrorContext type
         self.logger = logging.getLogger(__name__)
 
-    def create_report(
-        self, component: str, time_range: timedelta = timedelta(hours=24)
-    ) -> Any:
+    def create_report(self, component: str, time_range: timedelta = timedelta(hours=24)) -> Any:
         """Create a new error report for a component."""
         from .error_reporting_core import ErrorReport
 
@@ -37,11 +34,11 @@ class ErrorReporter:
         self.logger.info(f"Created error report for component: {component}")
         return report
 
-    def get_report(self, component: str) -> Optional[Any]:
+    def get_report(self, component: str) -> Any | None:
         """Get error report for a component."""
         return self.reports.get(component)
 
-    def get_all_reports(self) -> Dict[str, Any]:
+    def get_all_reports(self) -> dict[str, Any]:
         """Get all error reports."""
         return self.reports.copy()
 
@@ -57,12 +54,11 @@ class ErrorReporter:
         self.error_history.append(error)
         self.logger.debug(f"Added error to {component} report")
 
-    def get_global_summary(self) -> Dict[str, Any]:
+    def get_global_summary(self) -> dict[str, Any]:
         """Get global error summary across all components."""
         total_errors = sum(report.get_error_count() for report in self.reports.values())
         component_summaries = {
-            component: report.get_summary()
-            for component, report in self.reports.items()
+            component: report.get_summary() for component, report in self.reports.items()
         }
 
         return {
@@ -81,21 +77,19 @@ class ErrorReporter:
         self.error_history.clear()
         self.logger.info("Cleared all error reports")
 
-    def get_errors_by_component(self, component: str) -> List[Any]:
+    def get_errors_by_component(self, component: str) -> list[Any]:
         """Get all errors for a specific component."""
         if component in self.reports:
             return self.reports[component].errors
         return []
 
-    def get_error_statistics(self) -> Dict[str, Any]:
+    def get_error_statistics(self) -> dict[str, Any]:
         """Get comprehensive error statistics."""
         if not self.reports:
             return {"message": "No error reports available"}
 
         total_errors = sum(report.get_error_count() for report in self.reports.values())
-        avg_errors_per_component = (
-            total_errors / len(self.reports) if self.reports else 0
-        )
+        avg_errors_per_component = total_errors / len(self.reports) if self.reports else 0
 
         return {
             "total_components": len(self.reports),

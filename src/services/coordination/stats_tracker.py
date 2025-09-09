@@ -11,9 +11,8 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from typing import Any
 
 
 class StatsTracker:
@@ -104,9 +103,7 @@ class StatsTracker:
                     "failed": 0,
                     "avg_time": 0.0,
                 }
-            self._update_category_stats(
-                "strategy_stats", strategy, success, coordination_time
-            )
+            self._update_category_stats("strategy_stats", strategy, success, coordination_time)
 
         # Update priority stats
         if priority:
@@ -117,9 +114,7 @@ class StatsTracker:
                     "failed": 0,
                     "avg_time": 0.0,
                 }
-            self._update_category_stats(
-                "priority_stats", priority, success, coordination_time
-            )
+            self._update_category_stats("priority_stats", priority, success, coordination_time)
 
         # Update type stats
         if message_type:
@@ -130,9 +125,7 @@ class StatsTracker:
                     "failed": 0,
                     "avg_time": 0.0,
                 }
-            self._update_category_stats(
-                "type_stats", message_type, success, coordination_time
-            )
+            self._update_category_stats("type_stats", message_type, success, coordination_time)
 
         # Update sender stats
         if sender_type:
@@ -143,9 +136,7 @@ class StatsTracker:
                     "failed": 0,
                     "avg_time": 0.0,
                 }
-            self._update_category_stats(
-                "sender_stats", sender_type, success, coordination_time
-            )
+            self._update_category_stats("sender_stats", sender_type, success, coordination_time)
 
     def _update_category_stats(
         self, category: str, key: str, success: bool, coordination_time: float
@@ -164,21 +155,19 @@ class StatsTracker:
         current_avg = stats["avg_time"]
         stats["avg_time"] = (current_avg * (total - 1) + coordination_time) / total
 
-    def get_coordination_stats(self) -> Dict[str, Any]:
+    def get_coordination_stats(self) -> dict[str, Any]:
         """Get coordination statistics."""
         stats = self.coordination_stats.copy()
 
         # Calculate success rate
         if stats["total_coordinations"] > 0:
-            stats["success_rate"] = (
-                stats["successful_coordinations"] / stats["total_coordinations"]
-            )
+            stats["success_rate"] = stats["successful_coordinations"] / stats["total_coordinations"]
         else:
             stats["success_rate"] = 0.0
 
         return stats
 
-    def get_detailed_stats(self) -> Dict[str, Any]:
+    def get_detailed_stats(self) -> dict[str, Any]:
         """Get detailed statistics."""
         detailed = {}
 
@@ -187,15 +176,13 @@ class StatsTracker:
             for key, stat in stats.items():
                 detailed[category][key] = stat.copy()
                 if stat["total"] > 0:
-                    detailed[category][key]["success_rate"] = (
-                        stat["successful"] / stat["total"]
-                    )
+                    detailed[category][key]["success_rate"] = stat["successful"] / stat["total"]
                 else:
                     detailed[category][key]["success_rate"] = 0.0
 
         return detailed
 
-    def get_performance_summary(self, hours: int = 24) -> Dict[str, Any]:
+    def get_performance_summary(self, hours: int = 24) -> dict[str, Any]:
         """Get performance summary for specified hours."""
         cutoff_time = datetime.now().timestamp() - (hours * 3600)
 
@@ -213,8 +200,7 @@ class StatsTracker:
         failed = total_coordinations - successful
 
         avg_time = (
-            sum(record["coordination_time"] for record in recent_history)
-            / total_coordinations
+            sum(record["coordination_time"] for record in recent_history) / total_coordinations
         )
 
         return {
@@ -222,9 +208,7 @@ class StatsTracker:
             "total_coordinations": total_coordinations,
             "successful": successful,
             "failed": failed,
-            "success_rate": (
-                successful / total_coordinations if total_coordinations > 0 else 0
-            ),
+            "success_rate": (successful / total_coordinations if total_coordinations > 0 else 0),
             "average_coordination_time": avg_time,
         }
 
@@ -244,7 +228,7 @@ class StatsTracker:
         }
         self.performance_history = []
 
-    def get_tracker_status(self) -> Dict[str, Any]:
+    def get_tracker_status(self) -> dict[str, Any]:
         """Get stats tracker status."""
         return {
             "coordination_stats": self.get_coordination_stats(),

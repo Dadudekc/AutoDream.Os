@@ -10,10 +10,10 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
 import threading
-from typing import Any, Dict, List
+import time
 from datetime import datetime
+from typing import Any
 
 from ..integration_models import (
     IntegrationPerformanceMetrics,
@@ -31,7 +31,7 @@ class IntegrationPerformanceEngine:
         self.config = config
         self.logger = None  # Will be set by parent
         self.metrics = create_performance_metrics()
-        self.metrics_history: List[IntegrationPerformanceMetrics] = []
+        self.metrics_history: list[IntegrationPerformanceMetrics] = []
         self.current_report = None
         self.monitoring_thread = None
         self.is_monitoring = False
@@ -42,9 +42,7 @@ class IntegrationPerformanceEngine:
             return
 
         self.is_monitoring = True
-        self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop, daemon=True
-        )
+        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
         self.monitoring_thread.start()
 
         if self.logger:
@@ -80,9 +78,7 @@ class IntegrationPerformanceEngine:
         # Update success/error rates
         total_ops = self.metrics.operations_per_second
         if total_ops > 0:
-            self.metrics.success_rate = (
-                0.9 if success else 0.8
-            )  # Simplified calculation
+            self.metrics.success_rate = 0.9 if success else 0.8  # Simplified calculation
             self.metrics.error_rate = 1.0 - self.metrics.success_rate
 
         # Update efficiency score
@@ -105,9 +101,7 @@ class IntegrationPerformanceEngine:
         latency_factor = max(0, 1.0 - (self.metrics.average_latency_ms / 1000.0))
         throughput_factor = min(1.0, self.metrics.operations_per_second / 100.0)
 
-        efficiency = (
-            success_factor * 0.4 + latency_factor * 0.3 + throughput_factor * 0.3
-        )
+        efficiency = success_factor * 0.4 + latency_factor * 0.3 + throughput_factor * 0.3
         return min(efficiency, 1.0)
 
     def _monitoring_loop(self):
@@ -140,7 +134,7 @@ class IntegrationPerformanceEngine:
 
         return report
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get current performance summary."""
         return {
             "current_metrics": self.metrics.to_dict(),

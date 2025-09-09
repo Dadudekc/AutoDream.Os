@@ -34,7 +34,7 @@ def load_env_file():
     """Load environment variables from .env file manually if dotenv not available."""
     env_file = get_unified_utility().Path(".env")
     if env_file.exists():
-        with open(env_file, "r") as f:
+        with open(env_file) as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
@@ -67,9 +67,7 @@ def check_environment():
         get_logger(__name__).error(
             f"Missing required environment variables: {', '.join(missing_vars)}"
         )
-        get_logger(__name__).error(
-            "Please set these environment variables before running the bot."
-        )
+        get_logger(__name__).error("Please set these environment variables before running the bot.")
         return False
 
     return True
@@ -88,9 +86,7 @@ def check_dependencies():
             missing_packages.append(package)
 
     if missing_packages:
-        get_logger(__name__).error(
-            f"Missing required packages: {', '.join(missing_packages)}"
-        )
+        get_logger(__name__).error(f"Missing required packages: {', '.join(missing_packages)}")
         get_logger(__name__).error(
             "Please install them with: pip install " + " ".join(missing_packages)
         )

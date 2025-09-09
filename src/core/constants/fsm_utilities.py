@@ -13,21 +13,17 @@ Mission: V2 Compliance Architecture & Design Optimization
 Status: V2 COMPLIANT - FSM Utilities Optimized
 """
 
-from typing import List, Optional, Dict, Any
-from .fsm_models import (
-    StateDefinition,
-    TransitionDefinition,
-    FSMConfiguration,
-    FSMError,
-)
-from .fsm_enums import TransitionType, FSMErrorType
+from typing import Any
+
 from .fsm_constants import (
-    FSM_STATE_TIMEOUT_SECONDS,
     FSM_STATE_RETRY_COUNT,
     FSM_STATE_RETRY_DELAY,
+    FSM_STATE_TIMEOUT_SECONDS,
     FSM_TRANSITION_PRIORITY_DEFAULT,
     FSM_TRANSITION_TIMEOUT_SECONDS,
 )
+from .fsm_enums import TransitionType
+from .fsm_models import StateDefinition, TransitionDefinition
 
 
 def validate_fsm_constants() -> bool:
@@ -50,10 +46,7 @@ def validate_fsm_constants() -> bool:
             return False
 
         # Validate transition timeout
-        if (
-            FSM_TRANSITION_TIMEOUT_SECONDS is not None
-            and FSM_TRANSITION_TIMEOUT_SECONDS <= 0
-        ):
+        if FSM_TRANSITION_TIMEOUT_SECONDS is not None and FSM_TRANSITION_TIMEOUT_SECONDS <= 0:
             return False
 
         return True
@@ -64,14 +57,14 @@ def validate_fsm_constants() -> bool:
 def create_custom_state(
     name: str,
     description: str,
-    entry_actions: List[str] = None,
-    exit_actions: List[str] = None,
-    timeout_seconds: Optional[int] = None,
+    entry_actions: list[str] = None,
+    exit_actions: list[str] = None,
+    timeout_seconds: int | None = None,
     retry_count: int = None,
     retry_delay: float = None,
-    required_resources: List[str] = None,
-    dependencies: List[str] = None,
-    metadata: Dict[str, Any] = None,
+    required_resources: list[str] = None,
+    dependencies: list[str] = None,
+    metadata: dict[str, Any] = None,
 ) -> StateDefinition:
     """Create custom FSM state with V2 compliance."""
     return StateDefinition(
@@ -92,11 +85,11 @@ def create_custom_transition(
     from_state: str,
     to_state: str,
     transition_type: TransitionType = TransitionType.AUTOMATIC,
-    condition: Optional[str] = None,
+    condition: str | None = None,
     priority: int = None,
-    timeout_seconds: Optional[int] = None,
-    actions: List[str] = None,
-    metadata: Dict[str, Any] = None,
+    timeout_seconds: int | None = None,
+    actions: list[str] = None,
+    metadata: dict[str, Any] = None,
 ) -> TransitionDefinition:
     """Create custom FSM transition with V2 compliance."""
     return TransitionDefinition(
@@ -111,7 +104,7 @@ def create_custom_transition(
     )
 
 
-def get_fsm_config_summary() -> Dict[str, Any]:
+def get_fsm_config_summary() -> dict[str, Any]:
     """Get FSM configuration summary - V2 compliance."""
     return {
         "state_timeout_seconds": FSM_STATE_TIMEOUT_SECONDS,

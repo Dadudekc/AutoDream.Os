@@ -7,11 +7,12 @@ This is an adapter that implements the domain port.
 """
 
 import sqlite3
-from typing import Iterable, Optional
+from collections.abc import Iterable
 from contextlib import contextmanager
-from src.domain.ports.task_repository import TaskRepository
-from src.domain.entities.task import Task
-from src.domain.value_objects.ids import TaskId, AgentId
+
+from ...domain.entities.task import Task
+from ...domain.ports.task_repository import TaskRepository
+from ...domain.value_objects.ids import AgentId, TaskId
 
 
 class SqliteTaskRepository(TaskRepository):
@@ -35,7 +36,8 @@ class SqliteTaskRepository(TaskRepository):
     def _init_db(self) -> None:
         """Initialize the database schema."""
         with self._get_connection() as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS tasks (
                     id TEXT PRIMARY KEY,
                     title TEXT NOT NULL,
@@ -46,7 +48,8 @@ class SqliteTaskRepository(TaskRepository):
                     completed_at TEXT,
                     priority INTEGER DEFAULT 1
                 )
-            """)
+            """
+            )
             conn.commit()
 
     @contextmanager
@@ -58,7 +61,7 @@ class SqliteTaskRepository(TaskRepository):
         finally:
             conn.close()
 
-    def get(self, task_id: TaskId) -> Optional[Task]:
+    def get(self, task_id: TaskId) -> Task | None:
         """
         Retrieve a task by its identifier.
 
@@ -69,11 +72,14 @@ class SqliteTaskRepository(TaskRepository):
             The task if found, None otherwise
         """
         with self._get_connection() as conn:
-            row = conn.execute("""
+            row = conn.execute(
+                """
                 SELECT id, title, description, assigned_agent_id,
                        created_at, assigned_at, completed_at, priority
                 FROM tasks WHERE id = ?
-            """, (task_id,)).fetchone()
+            """,
+                (task_id,),
+            ).fetchone()
 
             if not row:
                 return None
@@ -92,14 +98,17 @@ class SqliteTaskRepository(TaskRepository):
             Iterable of tasks assigned to the agent
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT id, title, description, assigned_agent_id,
                        created_at, assigned_at, completed_at, priority
                 FROM tasks
                 WHERE assigned_agent_id = ?
                 ORDER BY created_at DESC
                 LIMIT ?
-            """, (agent_id, limit)).fetchall()
+            """,
+                (agent_id, limit),
+            ).fetchall()
 
             for row in rows:
                 yield self._row_to_task(row)
@@ -115,14 +124,17 @@ class SqliteTaskRepository(TaskRepository):
             Iterable of pending tasks
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT id, title, description, assigned_agent_id,
                        created_at, assigned_at, completed_at, priority
                 FROM tasks
                 WHERE assigned_agent_id IS NULL
                 ORDER BY priority DESC, created_at ASC
                 LIMIT ?
-            """, (limit,)).fetchall()
+            """,
+                (limit,),
+            ).fetchall()
 
             for row in rows:
                 yield self._row_to_task(row)
@@ -139,12 +151,15 @@ class SqliteTaskRepository(TaskRepository):
         """
         with self._get_connection() as conn:
             try:
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO tasks (
                         id, title, description, assigned_agent_id,
                         created_at, assigned_at, completed_at, priority
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, self._task_to_row(task))
+                """,
+                    self._task_to_row(task),
+                )
                 conn.commit()
             except sqlite3.IntegrityError:
                 raise ValueError(f"Task with ID {task.id} already exists")
@@ -157,12 +172,15 @@ class SqliteTaskRepository(TaskRepository):
             task: The task to save
         """
         with self._get_connection() as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO tasks (
                     id, title, description, assigned_agent_id,
                     created_at, assigned_at, completed_at, priority
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, self._task_to_row(task))
+            """,
+                self._task_to_row(task),
+            )
             conn.commit()
 
     def delete(self, task_id: TaskId) -> bool:
@@ -191,13 +209,16 @@ class SqliteTaskRepository(TaskRepository):
             Iterable of all tasks
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT id, title, description, assigned_agent_id,
                        created_at, assigned_at, completed_at, priority
                 FROM tasks
                 ORDER BY created_at DESC
                 LIMIT ?
-            """, (limit,)).fetchall()
+            """,
+                (limit,),
+            ).fetchall()
 
             for row in rows:
                 yield self._row_to_task(row)
@@ -206,8 +227,16 @@ class SqliteTaskRepository(TaskRepository):
         """Convert database row to Task entity."""
         from datetime import datetime
 
-        task_id, title, description, assigned_agent_id, created_at_str, \
-        assigned_at_str, completed_at_str, priority = row
+        (
+            task_id,
+            title,
+            description,
+            assigned_agent_id,
+            created_at_str,
+            assigned_at_str,
+            completed_at_str,
+            priority,
+        ) = row
 
         # Parse datetime strings
         created_at = datetime.fromisoformat(created_at_str)
@@ -225,7 +254,7 @@ class SqliteTaskRepository(TaskRepository):
             created_at=created_at,
             assigned_at=assigned_at,
             completed_at=completed_at,
-            priority=priority
+            priority=priority,
         )
 
     def _task_to_row(self, task: Task):
@@ -238,5 +267,5 @@ class SqliteTaskRepository(TaskRepository):
             task.created_at.isoformat(),
             task.assigned_at.isoformat() if task.assigned_at else None,
             task.completed_at.isoformat() if task.completed_at else None,
-            task.priority
+            task.priority,
         )

@@ -9,13 +9,14 @@ License: MIT
 """
 
 from __future__ import annotations
-import json
+
 import threading
 import uuid
-from typing import Dict, Any, Optional, List, Callable
 from datetime import datetime, timedelta
 from enum import Enum
-from ..contracts import MonitoringManager, ManagerContext, ManagerResult
+from typing import Any
+
+from ..contracts import ManagerContext, ManagerResult, MonitoringManager
 
 
 class AlertLevel(Enum):
@@ -50,11 +51,11 @@ class BaseMonitoringManager(MonitoringManager):
 
     def __init__(self):
         """Initialize base monitoring manager."""
-        self.alerts: Dict[str, Dict[str, Any]] = {}
-        self.metrics: Dict[str, Any] = {}
-        self.metric_history: Dict[str, List[Dict[str, Any]]] = {}
-        self.widgets: Dict[str, Dict[str, Any]] = {}
-        self.alert_rules: Dict[str, Dict[str, Any]] = {}
+        self.alerts: dict[str, dict[str, Any]] = {}
+        self.metrics: dict[str, Any] = {}
+        self.metric_history: dict[str, list[dict[str, Any]]] = {}
+        self.widgets: dict[str, dict[str, Any]] = {}
+        self.alert_rules: dict[str, dict[str, Any]] = {}
         self._alert_lock = threading.Lock()
         self._metric_lock = threading.Lock()
         self._widget_lock = threading.Lock()
@@ -66,10 +67,10 @@ class BaseMonitoringManager(MonitoringManager):
         try:
             # Setup default alert rules
             self._setup_default_alert_rules()
-            
+
             # Start background monitoring
             self._start_background_monitoring()
-            
+
             context.logger("Base Monitoring Manager initialized")
             return True
         except Exception as e:
@@ -77,7 +78,7 @@ class BaseMonitoringManager(MonitoringManager):
             return False
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute monitoring operation."""
         try:
@@ -106,13 +107,9 @@ class BaseMonitoringManager(MonitoringManager):
                 )
         except Exception as e:
             context.logger(f"Error executing monitoring operation {operation}: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def create_alert(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def create_alert(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Create a new alert."""
         try:
             alert_id = str(uuid.uuid4())
@@ -147,13 +144,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error creating alert: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def record_metric(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def record_metric(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Record a metric value."""
         try:
             metric_name = payload.get("metric_name")
@@ -188,12 +181,14 @@ class BaseMonitoringManager(MonitoringManager):
                 # Add to history
                 if metric_name not in self.metric_history:
                     self.metric_history[metric_name] = []
-                
+
                 self.metric_history[metric_name].append(metric_entry)
 
                 # Limit history size
                 if len(self.metric_history[metric_name]) > self.max_metric_history:
-                    self.metric_history[metric_name] = self.metric_history[metric_name][-self.max_metric_history:]
+                    self.metric_history[metric_name] = self.metric_history[metric_name][
+                        -self.max_metric_history :
+                    ]
 
             return ManagerResult(
                 success=True,
@@ -203,13 +198,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error recording metric: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def create_widget(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def create_widget(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Create a dashboard widget."""
         try:
             widget_id = str(uuid.uuid4())
@@ -241,9 +232,7 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error creating widget: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def cleanup(self, context: ManagerContext) -> bool:
         """Cleanup monitoring manager."""
@@ -255,14 +244,14 @@ class BaseMonitoringManager(MonitoringManager):
                 self.metric_history.clear()
             with self._widget_lock:
                 self.widgets.clear()
-            
+
             context.logger("Monitoring manager cleaned up")
             return True
         except Exception as e:
             context.logger(f"Error cleaning up monitoring manager: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get monitoring manager status."""
         return {
             "total_alerts": len(self.alerts),
@@ -275,7 +264,7 @@ class BaseMonitoringManager(MonitoringManager):
             "max_metric_history": self.max_metric_history,
         }
 
-    def _get_alerts(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _get_alerts(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Get alerts with optional filtering."""
         try:
             level_filter = payload.get("level")
@@ -300,11 +289,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error getting alerts: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _get_metrics(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _get_metrics(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Get metrics with optional filtering."""
         try:
             metric_name = payload.get("metric_name")
@@ -336,11 +323,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error getting metrics: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _get_widgets(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _get_widgets(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Get widgets with optional filtering."""
         try:
             widget_type_filter = payload.get("widget_type")
@@ -359,11 +344,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error getting widgets: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _acknowledge_alert(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _acknowledge_alert(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Acknowledge an alert."""
         try:
             alert_id = payload.get("alert_id")
@@ -388,11 +371,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error acknowledging alert: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _resolve_alert(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _resolve_alert(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Resolve an alert."""
         try:
             alert_id = payload.get("alert_id")
@@ -421,11 +402,9 @@ class BaseMonitoringManager(MonitoringManager):
 
         except Exception as e:
             context.logger(f"Error resolving alert: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _check_alert_rules(self, alert: Dict[str, Any]) -> None:
+    def _check_alert_rules(self, alert: dict[str, Any]) -> None:
         """Check alert against rules and take actions."""
         try:
             for rule_name, rule in self.alert_rules.items():
@@ -443,6 +422,7 @@ class BaseMonitoringManager(MonitoringManager):
                 # Check message pattern
                 if "message_pattern" in rule:
                     import re
+
                     if not re.search(rule["message_pattern"], alert.get("message", "")):
                         continue
 
@@ -458,7 +438,7 @@ class BaseMonitoringManager(MonitoringManager):
         except Exception:
             pass  # Ignore rule processing errors
 
-    def _escalate_alert(self, alert: Dict[str, Any], rule: Dict[str, Any]) -> None:
+    def _escalate_alert(self, alert: dict[str, Any], rule: dict[str, Any]) -> None:
         """Escalate an alert."""
         try:
             alert["escalated"] = True
@@ -467,7 +447,7 @@ class BaseMonitoringManager(MonitoringManager):
         except Exception:
             pass
 
-    def _notify_alert(self, alert: Dict[str, Any], rule: Dict[str, Any]) -> None:
+    def _notify_alert(self, alert: dict[str, Any], rule: dict[str, Any]) -> None:
         """Send notification for alert."""
         try:
             alert["notified"] = True
@@ -476,7 +456,7 @@ class BaseMonitoringManager(MonitoringManager):
         except Exception:
             pass
 
-    def _auto_resolve_alert(self, alert: Dict[str, Any], rule: Dict[str, Any]) -> None:
+    def _auto_resolve_alert(self, alert: dict[str, Any], rule: dict[str, Any]) -> None:
         """Auto-resolve an alert."""
         try:
             alert["resolved"] = True
@@ -525,8 +505,7 @@ class BaseMonitoringManager(MonitoringManager):
                             if (
                                 alert.get("resolved")
                                 and "resolved_at" in alert
-                                and datetime.fromisoformat(alert["resolved_at"])
-                                < cutoff_time
+                                and datetime.fromisoformat(alert["resolved_at"]) < cutoff_time
                             ):
                                 to_remove.append(alert_id)
 
@@ -540,8 +519,7 @@ class BaseMonitoringManager(MonitoringManager):
                             self.metric_history[metric_name] = [
                                 entry
                                 for entry in history
-                                if datetime.fromisoformat(entry["timestamp"])
-                                > cutoff_time
+                                if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
                             ]
 
                     threading.Event().wait(300)  # Wait 5 minutes

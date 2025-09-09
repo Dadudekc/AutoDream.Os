@@ -9,7 +9,9 @@ License: MIT
 """
 
 from __future__ import annotations
-from typing import Dict, Any
+
+from typing import Any
+
 from .base_results_manager import BaseResultsManager
 
 
@@ -17,23 +19,21 @@ class IntegrationResultsProcessor(BaseResultsManager):
     """Processes integration-specific results."""
 
     def _process_result_by_type(
-        self, context, result_type: str, result_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context, result_type: str, result_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process integration results."""
         if result_type == "integration":
             return self._process_integration_result(context, result_data)
         return super()._process_result_by_type(context, result_type, result_data)
 
-    def _process_integration_result(
-        self, context, result_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def _process_integration_result(self, context, result_data: dict[str, Any]) -> dict[str, Any]:
         """Process integration result data."""
         try:
             integration_type = result_data.get("integration_type", "api")
             source_system = result_data.get("source_system", "unknown")
             target_system = result_data.get("target_system", "unknown")
             integration_data = result_data.get("integration_data", {})
-            
+
             # Process integration data
             processed_data = {
                 "integration_type": integration_type,
@@ -42,7 +42,7 @@ class IntegrationResultsProcessor(BaseResultsManager):
                 "data_transferred": len(str(integration_data)),
                 "timestamp": result_data.get("timestamp"),
             }
-            
+
             # Add integration-specific processing
             if integration_type == "api":
                 processed_data.update(self._process_api_integration(integration_data))
@@ -52,13 +52,13 @@ class IntegrationResultsProcessor(BaseResultsManager):
                 processed_data.update(self._process_file_integration(integration_data))
             else:
                 processed_data["integration_status"] = "unknown_type"
-            
+
             return {
                 "integration_success": True,
                 "processed_data": processed_data,
                 "original_data": result_data,
             }
-            
+
         except Exception as e:
             context.logger(f"Error processing integration result: {e}")
             return {
@@ -67,7 +67,7 @@ class IntegrationResultsProcessor(BaseResultsManager):
                 "original_data": result_data,
             }
 
-    def _process_api_integration(self, integration_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_api_integration(self, integration_data: dict[str, Any]) -> dict[str, Any]:
         """Process API integration data."""
         return {
             "api_endpoint": integration_data.get("endpoint", "unknown"),
@@ -76,7 +76,7 @@ class IntegrationResultsProcessor(BaseResultsManager):
             "integration_status": "api_processed",
         }
 
-    def _process_database_integration(self, integration_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_database_integration(self, integration_data: dict[str, Any]) -> dict[str, Any]:
         """Process database integration data."""
         return {
             "table_name": integration_data.get("table", "unknown"),
@@ -85,7 +85,7 @@ class IntegrationResultsProcessor(BaseResultsManager):
             "integration_status": "database_processed",
         }
 
-    def _process_file_integration(self, integration_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_file_integration(self, integration_data: dict[str, Any]) -> dict[str, Any]:
         """Process file integration data."""
         return {
             "file_path": integration_data.get("file_path", "unknown"),

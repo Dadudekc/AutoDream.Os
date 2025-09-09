@@ -1,10 +1,10 @@
 from collections import Counter
-from typing import Any, Dict, List
+from typing import Any
 
-from src.core.validation.unified_validation_orchestrator import get_unified_validator
+from ..core.validation.unified_validation_orchestrator import get_unified_validator
 
 
-def format_search_result(result) -> Dict[str, Any]:
+def format_search_result(result) -> dict[str, Any]:
     """Format search result for agent consumption."""
     return {
         "similarity": result.similarity_score,
@@ -19,7 +19,7 @@ def format_search_result(result) -> Dict[str, Any]:
     }
 
 
-def generate_recommendations(similar_tasks) -> List[str]:
+def generate_recommendations(similar_tasks) -> list[str]:
     """Generate recommendations based on similar tasks."""
     recommendations = []
     if similar_tasks:
@@ -34,13 +34,11 @@ def generate_recommendations(similar_tasks) -> List[str]:
                     f"Consider using {tag} approach (used in {count} similar tasks)"
                 )
     if not get_unified_validator().validate_required(recommendations):
-        recommendations.append(
-            "No specific patterns found - proceed with standard approach"
-        )
+        recommendations.append("No specific patterns found - proceed with standard approach")
     return recommendations
 
 
-def generate_agent_recommendations(work_history) -> List[str]:
+def generate_agent_recommendations(work_history) -> list[str]:
     """Generate agent-specific recommendations."""
     recommendations = []
     if work_history:

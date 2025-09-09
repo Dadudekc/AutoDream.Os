@@ -12,7 +12,7 @@ License: MIT
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Dict, Any
+from typing import Any
 
 
 @dataclass
@@ -30,7 +30,7 @@ class Trade:
     timestamp: datetime
     status: str = "pending"  # 'pending', 'executed', 'cancelled'
     order_type: str = "market"  # 'market', 'limit', 'stop'
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate trade data on initialization."""
@@ -71,7 +71,7 @@ class Position:
     current_price: float
     pnl: float
     timestamp: datetime
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate position data on initialization."""

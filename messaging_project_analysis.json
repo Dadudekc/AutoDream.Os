@@ -1,0 +1,422 @@
+{
+  "messaging_files_analysis": {
+    "src/core/messaging_pyautogui.py": {
+      "language": ".py",
+      "functions": [
+        "load_coordinates_from_json",
+        "get_agent_coordinates",
+        "validate_coordinates_before_delivery",
+        "deliver_message_pyautogui",
+        "format_message_for_delivery",
+        "deliver_bulk_messages_pyautogui",
+        "cleanup_pyautogui_resources",
+        "__init__",
+        "send_message",
+        "send_message_via_pyautogui"
+      ],
+      "classes": {
+        "PyAutoGUIMessagingDelivery": {
+          "methods": [
+            "__init__",
+            "send_message",
+            "send_message_via_pyautogui"
+          ],
+          "line_count": 4
+        }
+      },
+      "imports": [
+        "logging",
+        "time",
+        "messaging_core.UnifiedMessage",
+        "messaging_core.UnifiedMessageType",
+        "messaging_core.UnifiedMessagePriority",
+        "pyautogui",
+        "pyperclip",
+        "coordinate_loader.get_coordinate_loader",
+        "core.coordinate_loader.get_coordinate_loader"
+      ],
+      "line_count": 217,
+      "complexity": 11,
+      "file_size": 8297
+    },
+    "src/services/messaging_core.py": {
+      "language": ".py",
+      "functions": [],
+      "classes": {},
+      "imports": [
+        "warnings",
+        "src.core.messaging_core.*"
+      ],
+      "line_count": 32,
+      "complexity": 0,
+      "file_size": 1044
+    },
+    "src/core/messaging_core.py": {
+      "language": ".py",
+      "functions": [
+        "get_messaging_core",
+        "send_message",
+        "send_message_object",
+        "broadcast_message",
+        "generate_onboarding_message",
+        "show_message_history",
+        "list_agents",
+        "get_messaging_logger",
+        "validate_messaging_system",
+        "initialize_messaging_system",
+        "send_message",
+        "generate_onboarding_message",
+        "__init__",
+        "_initialize_subsystems",
+        "send_message",
+        "send_message_object",
+        "send_message_to_inbox",
+        "show_message_history",
+        "generate_onboarding_message",
+        "broadcast_message",
+        "list_agents"
+      ],
+      "classes": {
+        "DeliveryMethod": {
+          "methods": [],
+          "line_count": 4
+        },
+        "UnifiedMessageType": {
+          "methods": [],
+          "line_count": 8
+        },
+        "UnifiedMessagePriority": {
+          "methods": [],
+          "line_count": 3
+        },
+        "UnifiedMessageTag": {
+          "methods": [],
+          "line_count": 6
+        },
+        "RecipientType": {
+          "methods": [],
+          "line_count": 5
+        },
+        "SenderType": {
+          "methods": [],
+          "line_count": 5
+        },
+        "UnifiedMessage": {
+          "methods": [],
+          "line_count": 12
+        },
+        "IMessageDelivery": {
+          "methods": [
+            "send_message"
+          ],
+          "line_count": 2
+        },
+        "IOnboardingService": {
+          "methods": [
+            "generate_onboarding_message"
+          ],
+          "line_count": 2
+        },
+        "UnifiedMessagingCore": {
+          "methods": [
+            "__init__",
+            "_initialize_subsystems",
+            "send_message",
+            "send_message_object",
+            "send_message_to_inbox",
+            "show_message_history",
+            "generate_onboarding_message",
+            "broadcast_message",
+            "list_agents"
+          ],
+          "line_count": 10
+        }
+      },
+      "imports": [
+        "__future__.annotations",
+        "logging",
+        "os",
+        "time",
+        "uuid",
+        "dataclasses.dataclass",
+        "dataclasses.field",
+        "datetime.datetime",
+        "enum.Enum",
+        "typing.Any",
+        "typing.Dict",
+        "typing.List",
+        "typing.Optional",
+        "typing.Protocol",
+        "pathlib.Path",
+        "messaging_pyautogui.PyAutoGUIMessagingDelivery",
+        "onboarding_service.OnboardingService"
+      ],
+      "line_count": 368,
+      "complexity": 31,
+      "file_size": 12989
+    },
+    "src/services/messaging_pyautogui.py": {
+      "language": ".py",
+      "functions": [
+        "load_coordinates_from_json",
+        "get_agent_coordinates",
+        "validate_coordinates_before_delivery",
+        "deliver_message_pyautogui",
+        "format_message_for_delivery",
+        "deliver_bulk_messages_pyautogui",
+        "cleanup_pyautogui_resources",
+        "__init__",
+        "send_message",
+        "send_message_via_pyautogui"
+      ],
+      "classes": {
+        "PyAutoGUIMessagingDelivery": {
+          "methods": [
+            "__init__",
+            "send_message",
+            "send_message_via_pyautogui"
+          ],
+          "line_count": 4
+        }
+      },
+      "imports": [
+        "logging",
+        "time",
+        "models.messaging_models.UnifiedMessage",
+        "pyautogui",
+        "pyperclip",
+        "core.coordinate_loader.get_coordinate_loader",
+        "core.coordinate_loader.get_coordinate_loader"
+      ],
+      "line_count": 213,
+      "complexity": 11,
+      "file_size": 8212
+    },
+    "scripts/messaging_cli_completion.sh": {
+      "language": ".sh",
+      "functions": [],
+      "classes": {},
+      "line_count": 0,
+      "complexity": 0,
+      "file_size": 0,
+      "error": "Unsupported file type"
+    },
+    "docs/specifications/MESSAGING_SYSTEM_V2_ENHANCED_TYPES.md": {
+      "language": ".md",
+      "functions": [],
+      "classes": {},
+      "headers": [
+        "Enhanced Messaging System V2 - Message Types Guide",
+        "Overview",
+        "New Message Types",
+        "1. A2A (Agent-to-Agent) Communication",
+        "Agent-1 sending a message to Agent-7",
+        "2. S2A (System-to-Agent) Communication",
+        "System sending onboarding message to Agent-6",
+        "3. H2A (Human-to-Agent) Communication",
+        "Human sending message to Agent-5",
+        "Enhanced Onboarding",
+        "Send onboarding to specific agent with clear ID identification",
+        "Message Formatting",
+        "PyAutoGUI Delivery",
+        "Inbox Delivery",
+        "CLI Flags",
+        "New Flags Added:",
+        "Usage Examples:",
+        "A2A message with explicit types",
+        "S2A broadcast to all agents",
+        "H2A message from human",
+        "Validation Rules",
+        "Benefits",
+        "Migration Notes"
+      ],
+      "line_count": 150,
+      "complexity": 23,
+      "file_size": 4542
+    },
+    "docs/specifications/MESSAGING_SYSTEM_PRD.md": {
+      "language": ".md",
+      "functions": [],
+      "classes": {},
+      "headers": [
+        "\ud83d\udcdc Messaging System Enhancement PRD",
+        "**\ud83d\udccb EXECUTIVE SUMMARY**",
+        "**\ud83c\udfaf PROBLEM STATEMENT**",
+        "**\ud83c\udfd7\ufe0f REQUIREMENTS BY COMPONENT**",
+        "**1. ADAPTIVE TIMING ENGINE**",
+        "**Acceptance Criteria**:",
+        "**2. RESILIENT ERROR HANDLING**",
+        "**Functional Requirements**:",
+        "**Technical Requirements**:",
+        "**Acceptance Criteria**:",
+        "**3. COMPREHENSIVE FLAG VALIDATION**",
+        "**Functional Requirements**:",
+        "**Technical Requirements**:",
+        "**Acceptance Criteria**:",
+        "**4. INTELLIGENT AGENT ORDERING**",
+        "**Functional Requirements**:",
+        "**Technical Requirements**:",
+        "**Acceptance Criteria**:",
+        "**5. PARALLELIZED DELIVERY SYSTEM**",
+        "**Functional Requirements**:",
+        "**Technical Requirements**:",
+        "**Acceptance Criteria**:",
+        "**6. MONITORING & LOGGING SYSTEM**",
+        "**Functional Requirements**:",
+        "**Technical Requirements**:",
+        "**Acceptance Criteria**:",
+        "**\ud83e\uddea TESTING REQUIREMENTS**",
+        "**Unit Testing**:",
+        "**Integration Testing**:",
+        "**Load Testing**:",
+        "**\ud83d\ude80 IMPLEMENTATION ROADMAP**",
+        "**Phase 1: Foundation (Week 1)**",
+        "**Phase 2: Intelligence (Week 2)**",
+        "**Phase 3: Optimization (Week 3)**",
+        "**Phase 4: Validation (Week 4)**",
+        "**\ud83d\udcca SUCCESS METRICS**",
+        "**Performance Metrics**:",
+        "**Reliability Metrics**:",
+        "**Efficiency Metrics**:",
+        "**\ud83d\udd04 DEPENDENCIES & CONSTRAINTS**",
+        "**Technical Dependencies**:",
+        "**Business Constraints**:",
+        "**Resource Constraints**:",
+        "**\ud83c\udfaf ACCEPTANCE CRITERIA**",
+        "**Functional Acceptance**:",
+        "**Quality Acceptance**:",
+        "**Performance Acceptance**:",
+        "**Documentation Acceptance**:",
+        "**\ud83c\udf96\ufe0f STAKEHOLDER APPROVAL**",
+        "**\ud83d\udccb RISK ASSESSMENT**",
+        "**High Risk Items**:",
+        "**Mitigation Strategies**:"
+      ],
+      "line_count": 309,
+      "complexity": 52,
+      "file_size": 10920
+    },
+    "docs/specifications/MESSAGING_DEPLOYMENT_STRATEGY.md": {
+      "language": ".md",
+      "functions": [],
+      "classes": {},
+      "headers": [
+        "Messaging System Deployment Strategy",
+        "Prerequisites",
+        "Local Setup",
+        "Deployment Steps",
+        "Rollout Considerations",
+        "Monitoring and Maintenance",
+        "Cross-References"
+      ],
+      "line_count": 45,
+      "complexity": 7,
+      "file_size": 1885
+    },
+    "docs/specifications/MESSAGING_ARCHITECTURE_DIAGRAM.md": {
+      "language": ".md",
+      "functions": [],
+      "classes": {},
+      "headers": [
+        "\ud83c\udfd7\ufe0f Messaging System Architecture Diagram",
+        "**\ud83d\udcca SYSTEM OVERVIEW**",
+        "**\ud83c\udfaf COMPONENT INTERACTION FLOW**",
+        "**\u2699\ufe0f TIMING ENGINE ARCHITECTURE**",
+        "**Timing Engine Data Flow:**",
+        "**\ud83d\udd04 RETRY & ERROR HANDLING LAYER**",
+        "**Error Handling Flow:**",
+        "**\ud83d\udcca OBSERVABILITY & MONITORING STACK**",
+        "**Observability Data Pipeline:**",
+        "**\ud83d\udd17 COMPONENT INTEGRATION MATRIX**",
+        "**\ud83d\udee1\ufe0f FAILURE MODES & RECOVERY**",
+        "**\ud83d\udcc8 PERFORMANCE MONITORING DASHBOARD**",
+        "**\ud83d\udd27 DEPLOYMENT ARCHITECTURE**",
+        "**Scalability Considerations:**",
+        "**\ud83d\udccb IMPLEMENTATION CHECKLIST**",
+        "**Phase 1: Foundation** \u2705",
+        "**Phase 2: Intelligence** \ud83d\udd04",
+        "**Phase 3: Scalability** \u23f3",
+        "**Phase 4: Production** \u23f3",
+        "**\ud83c\udfaf SUCCESS METRICS TARGETS**",
+        "**\ud83d\udd17 API ENDPOINTS**",
+        "**\u26a1 CONCLUSION**"
+      ],
+      "line_count": 457,
+      "complexity": 22,
+      "file_size": 34307
+    },
+    "docs/specifications/MESSAGING_API_SPECIFICATIONS.md": {
+      "language": ".md",
+      "functions": [],
+      "classes": {},
+      "headers": [
+        "Messaging System API Specifications",
+        "Core Components",
+        "Message Structure",
+        "CLI Usage",
+        "Error Handling",
+        "Cross-References"
+      ],
+      "line_count": 64,
+      "complexity": 6,
+      "file_size": 2269
+    },
+    "config/messaging.yml": {
+      "language": ".yml",
+      "functions": [],
+      "classes": {},
+      "keys": [
+        "COMPLETION_SIGNAL",
+        "defaults",
+        "sender",
+        "mode",
+        "new_tab_method",
+        "priority",
+        "paste",
+        "onboarding_style",
+        "queue",
+        "directory",
+        "max_size",
+        "max_age_days",
+        "retry_base_delay",
+        "retry_max_delay",
+        "processing_batch_size",
+        "locks",
+        "timeout_seconds",
+        "retry_interval",
+        "max_retries",
+        "cleanup_interval",
+        "stale_lock_age",
+        "logging",
+        "level",
+        "format",
+        "file",
+        "agent_workspaces",
+        "base_path",
+        "status_file",
+        "inbox_subdir",
+        "metrics",
+        "enabled",
+        "retention_days",
+        "reporting_interval",
+        "v2_compliance",
+        "cycle_based_tracking",
+        "time_based_deadlines",
+        "efficiency_standard",
+        "cycle_definition",
+        "reporting_frequency",
+        "timeline_enforcement"
+      ],
+      "line_count": 71,
+      "complexity": 40,
+      "file_size": 1891
+    }
+  },
+  "summary": {
+    "total_files": 11,
+    "total_lines": 1926,
+    "total_functions": 41,
+    "total_classes": 12,
+    "average_complexity": 18.454545454545453
+  }
+}

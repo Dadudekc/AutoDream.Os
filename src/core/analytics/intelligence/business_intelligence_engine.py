@@ -11,9 +11,7 @@ License: MIT
 
 # Import all components from core and operations modules
 from .business_intelligence_engine_core import BusinessIntelligenceEngineCore
-from .business_intelligence_engine_operations import (
-    BusinessIntelligenceEngineOperations,
-)
+from .business_intelligence_engine_operations import BusinessIntelligenceEngineOperations
 
 
 # Create unified class

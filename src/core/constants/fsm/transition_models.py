@@ -10,10 +10,10 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional, Dict, Any
 from dataclasses import dataclass
+from typing import Any
 
-from ..fsm_enums import TransitionType, TransitionStatus
+from ..fsm_enums import TransitionType
 
 
 @dataclass
@@ -23,11 +23,11 @@ class TransitionDefinition:
     from_state: str
     to_state: str
     transition_type: TransitionType
-    condition: Optional[str]
+    condition: str | None
     priority: int
-    timeout_seconds: Optional[int]
-    actions: List[str]
-    metadata: Dict[str, Any]
+    timeout_seconds: int | None
+    actions: list[str]
+    metadata: dict[str, Any]
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -40,11 +40,9 @@ class TransitionDefinition:
 
     def is_valid(self) -> bool:
         """Check if transition definition is valid."""
-        return bool(
-            self.from_state and self.to_state and self.from_state != self.to_state
-        )
+        return bool(self.from_state and self.to_state and self.from_state != self.to_state)
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get transition summary."""
         return {
             "from_state": self.from_state,

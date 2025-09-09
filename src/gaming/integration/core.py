@@ -3,15 +3,11 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
-from .models import (
-    EntertainmentSystem,
-    GameSession,
-    GameType,
-    IntegrationStatus,
-)
+from .models import EntertainmentSystem, GameSession, GameType, IntegrationStatus
 
 logger = logging.getLogger(__name__)
 
@@ -22,12 +18,12 @@ class GamingIntegrationCore:
     # Re-export GameType for backward compatibility
     GameType = GameType
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, config: dict[str, Any] | None = None) -> None:
         self.config = config or {}
         self.status = IntegrationStatus.DISCONNECTED
-        self.game_sessions: Dict[str, GameSession] = {}
-        self.entertainment_systems: Dict[str, EntertainmentSystem] = {}
-        self.handlers: Dict[str, Callable[[Dict[str, Any]], Dict[str, Any]]] = {}
+        self.game_sessions: dict[str, GameSession] = {}
+        self.entertainment_systems: dict[str, EntertainmentSystem] = {}
+        self.handlers: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {}
         self.is_initialized = False
         self._initialize()
 
@@ -54,7 +50,7 @@ class GamingIntegrationCore:
         self,
         game_type: GameType,
         player_id: str,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: dict[str, Any] | None = None,
     ) -> GameSession:
         """Create and register a new game session."""
         session_id = f"session_{int(datetime.now().timestamp())}"
@@ -70,9 +66,7 @@ class GamingIntegrationCore:
         self.game_sessions[session_id] = session
         return session
 
-    def end_game_session(
-        self, session_id: str, end_metadata: Optional[Dict[str, Any]] = None
-    ) -> bool:
+    def end_game_session(self, session_id: str, end_metadata: dict[str, Any] | None = None) -> bool:
         """End a running game session."""
         session = self.game_sessions.get(session_id)
         if not session:
@@ -83,14 +77,14 @@ class GamingIntegrationCore:
         session.metadata["end_time"] = datetime.now().isoformat()
         return True
 
-    def get_active_sessions(self) -> List[GameSession]:
+    def get_active_sessions(self) -> list[GameSession]:
         """Return all active sessions."""
         return [s for s in self.game_sessions.values() if s.status == "active"]
 
     # ------------------------------------------------------------------
     # System status
     # ------------------------------------------------------------------
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Return high level integration status."""
         return {
             "status": self.status.value,
@@ -101,7 +95,7 @@ class GamingIntegrationCore:
     # ------------------------------------------------------------------
     # Event processing
     # ------------------------------------------------------------------
-    def _handle_session_management(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_session_management(self, event: dict[str, Any]) -> dict[str, Any]:
         event_type = event.get("type")
         if event_type == "create":
             game_type = GameType(event.get("game_type", GameType.ACTION.value))
@@ -113,10 +107,10 @@ class GamingIntegrationCore:
             return {"success": self.end_game_session(session_id)}
         return {"success": False, "error": "unknown event"}
 
-    def _handle_system_health(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_system_health(self, event: dict[str, Any]) -> dict[str, Any]:
         return {"success": True, **self.get_system_status()}
 
-    def process_event(self, event_type: str, event_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_event(self, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
         """Process an integration event."""
         handler = self.handlers.get(event_type)
         if not handler:
@@ -126,9 +120,7 @@ class GamingIntegrationCore:
     # ------------------------------------------------------------------
     # Entertainment system registration (minimal)
     # ------------------------------------------------------------------
-    def register_entertainment_system(
-        self, system_id: str, system_type: str
-    ) -> bool:
+    def register_entertainment_system(self, system_id: str, system_type: str) -> bool:
         system = EntertainmentSystem(
             system_id=system_id,
             system_type=system_type,

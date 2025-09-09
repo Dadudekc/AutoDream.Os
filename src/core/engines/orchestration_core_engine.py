@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class OrchestrationCoreEngine(Engine):
     """Core orchestration engine - consolidates all orchestration operations."""
 
     def __init__(self):
-        self.workflows: Dict[str, Any] = {}
-        self.executions: List[Dict[str, Any]] = []
+        self.workflows: dict[str, Any] = {}
+        self.executions: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class OrchestrationCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Orchestration Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute orchestration operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class OrchestrationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _orchestrate(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _orchestrate(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Orchestrate multiple operations."""
         try:
             orchestration_id = f"orch_{len(self.executions)}"
@@ -66,9 +66,7 @@ class OrchestrationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _execute_workflow(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _execute_workflow(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute workflow."""
         try:
             workflow_id = payload.get("workflow_id", f"workflow_{len(self.workflows)}")
@@ -90,9 +88,7 @@ class OrchestrationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _coordinate(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _coordinate(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Coordinate multiple components."""
         try:
             coordination_id = f"coord_{len(self.executions)}"
@@ -128,7 +124,7 @@ class OrchestrationCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Orchestration Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get orchestration core engine status."""
         return {
             "initialized": self.is_initialized,

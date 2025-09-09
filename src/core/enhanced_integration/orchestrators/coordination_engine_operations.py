@@ -9,17 +9,11 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
-from datetime import datetime
 import logging
+from datetime import datetime
+from typing import Any
 
-from ..integration_models import (
-    CoordinationStrategy,
-    ResourceAllocationStrategy,
-    IntegrationStatus,
-    IntegrationType,
-    OptimizationLevel,
-)
+from ..integration_models import CoordinationStrategy
 
 
 class CoordinationEngineOperations:
@@ -36,16 +30,16 @@ class CoordinationEngineOperations:
         self.optimization_level = config.optimization_level
 
         # Resource tracking
-        self.allocated_resources: Dict[str, Any] = {}
-        self.resource_limits: Dict[str, int] = {
+        self.allocated_resources: dict[str, Any] = {}
+        self.resource_limits: dict[str, int] = {
             "cpu_cores": config.max_concurrent_operations,
             "memory_mb": 1024,
             "network_connections": 100,
         }
 
     def schedule_task(
-        self, task_id: str, task_type: str, priority: str, requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_id: str, task_type: str, priority: str, requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Schedule a task with coordination strategy."""
         try:
             # Determine coordination strategy
@@ -105,7 +99,7 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error determining coordination strategy: {e}")
             return CoordinationStrategy.SEQUENTIAL
 
-    def allocate_resources(self, task_id: str, requirements: Dict[str, Any]) -> bool:
+    def allocate_resources(self, task_id: str, requirements: dict[str, Any]) -> bool:
         """Allocate resources for task."""
         try:
             # Check if resources are available
@@ -126,7 +120,7 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error allocating resources: {e}")
             return False
 
-    def _check_resource_availability(self, requirements: Dict[str, Any]) -> bool:
+    def _check_resource_availability(self, requirements: dict[str, Any]) -> bool:
         """Check if required resources are available."""
         try:
             # Check CPU cores
@@ -135,10 +129,7 @@ class CoordinationEngineOperations:
                     res["requirements"].get("cpu_cores", 0)
                     for res in self.allocated_resources.values()
                 )
-                if (
-                    used_cores + requirements["cpu_cores"]
-                    > self.resource_limits["cpu_cores"]
-                ):
+                if used_cores + requirements["cpu_cores"] > self.resource_limits["cpu_cores"]:
                     return False
 
             # Check memory
@@ -147,10 +138,7 @@ class CoordinationEngineOperations:
                     res["requirements"].get("memory_mb", 0)
                     for res in self.allocated_resources.values()
                 )
-                if (
-                    used_memory + requirements["memory_mb"]
-                    > self.resource_limits["memory_mb"]
-                ):
+                if used_memory + requirements["memory_mb"] > self.resource_limits["memory_mb"]:
                     return False
 
             return True
@@ -159,7 +147,7 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error checking resource availability: {e}")
             return False
 
-    def monitor_task_progress(self, task_id: str) -> Dict[str, Any]:
+    def monitor_task_progress(self, task_id: str) -> dict[str, Any]:
         """Monitor progress of a scheduled task."""
         try:
             if task_id not in self.allocated_resources:
@@ -179,7 +167,7 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error monitoring task {task_id}: {e}")
             return {"task_id": task_id, "status": "error", "error": str(e)}
 
-    def get_task_queue_status(self) -> Dict[str, Any]:
+    def get_task_queue_status(self) -> dict[str, Any]:
         """Get status of task queue."""
         try:
             scheduled_tasks = [
@@ -212,7 +200,7 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error getting task queue status: {e}")
             return {"error": str(e)}
 
-    def optimize_task_scheduling(self) -> Dict[str, Any]:
+    def optimize_task_scheduling(self) -> dict[str, Any]:
         """Optimize task scheduling based on current load."""
         try:
             queue_status = self.get_task_queue_status()
@@ -238,7 +226,7 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error optimizing task scheduling: {e}")
             return {"error": str(e)}
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get coordination performance metrics."""
         try:
             total_tasks = len(self.allocated_resources)
@@ -265,17 +253,15 @@ class CoordinationEngineOperations:
             self.logger.error(f"Error getting performance metrics: {e}")
             return {"error": str(e)}
 
-    def get_resource_status(self) -> Dict[str, Any]:
+    def get_resource_status(self) -> dict[str, Any]:
         """Get current resource allocation status."""
         try:
             total_allocated = len(self.allocated_resources)
             used_cpu = sum(
-                res["requirements"].get("cpu_cores", 0)
-                for res in self.allocated_resources.values()
+                res["requirements"].get("cpu_cores", 0) for res in self.allocated_resources.values()
             )
             used_memory = sum(
-                res["requirements"].get("memory_mb", 0)
-                for res in self.allocated_resources.values()
+                res["requirements"].get("memory_mb", 0) for res in self.allocated_resources.values()
             )
 
             return {

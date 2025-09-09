@@ -6,8 +6,8 @@ Defines the contract for time operations.
 This enables the domain to be testable with controllable time.
 """
 
-from typing import Protocol
 from datetime import datetime
+from typing import Protocol
 
 
 class Clock(Protocol):

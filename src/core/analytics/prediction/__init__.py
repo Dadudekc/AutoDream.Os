@@ -1,5 +1,8 @@
-"""Prediction analytics utilities (SSOT)."""
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-from .base_analyzer import BasePredictionAnalyzer
+from . import base_analyzer
 
-__all__ = ["BasePredictionAnalyzer"]
+__all__ = [
+    'base_analyzer',
+]

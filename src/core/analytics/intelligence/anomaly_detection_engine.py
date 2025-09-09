@@ -9,10 +9,10 @@ Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-import statistics
 import logging
-from typing import Dict, List, Any, Optional
+import statistics
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class AnomalyDetectionEngine:
         self.thresholds = {"z_score": 2.0, "performance": 0.5, "frequency": 0.05}
         self.logger = logger
 
-    def detect_anomalies(self, data: List[float]) -> List[Dict[str, Any]]:
+    def detect_anomalies(self, data: list[float]) -> list[dict[str, Any]]:
         """Detect anomalies in data."""
         if not data or len(data) < 3:
             return []
@@ -43,7 +43,7 @@ class AnomalyDetectionEngine:
 
         return anomalies
 
-    def _detect_statistical_anomalies(self, data: List[float]) -> List[Dict[str, Any]]:
+    def _detect_statistical_anomalies(self, data: list[float]) -> list[dict[str, Any]]:
         """Detect statistical anomalies using z-score."""
         if len(data) < 3:
             return []
@@ -74,7 +74,7 @@ class AnomalyDetectionEngine:
             self.logger.error(f"Error in statistical anomaly detection: {e}")
             return []
 
-    def _detect_performance_anomalies(self, data: List[float]) -> List[Dict[str, Any]]:
+    def _detect_performance_anomalies(self, data: list[float]) -> list[dict[str, Any]]:
         """Detect performance anomalies."""
         if len(data) < 2:
             return []
@@ -97,7 +97,7 @@ class AnomalyDetectionEngine:
 
         return anomalies
 
-    def get_anomaly_summary(self, anomalies: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def get_anomaly_summary(self, anomalies: list[dict[str, Any]]) -> dict[str, Any]:
         """Get summary of anomalies."""
         if not anomalies:
             return {"total": 0, "by_type": {}, "by_severity": {}}

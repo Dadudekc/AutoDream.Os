@@ -8,10 +8,8 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-import os
 import time
 from pathlib import Path
-from typing import Optional
 
 
 class FileLockEnginePlatform:
@@ -62,8 +60,7 @@ class FileLockEnginePlatform:
                 try:
                     self.base_engine._fcntl.flock(
                         f.fileno(),
-                        self.base_engine._fcntl.LOCK_EX
-                        | self.base_engine._fcntl.LOCK_NB,
+                        self.base_engine._fcntl.LOCK_EX | self.base_engine._fcntl.LOCK_NB,
                     )
                     return True
                 except OSError:

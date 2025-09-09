@@ -1,27 +1,20 @@
-"""
-Results Management Package - Phase-2 V2 Compliance Refactoring
-=============================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Specialized result processing components for better SRP compliance.
-
-Author: Agent-3 (Infrastructure & DevOps Specialist)
-License: MIT
-"""
-
-from .base_results_manager import BaseResultsManager
-from .validation_results_processor import ValidationResultsProcessor
-from .analysis_results_processor import AnalysisResultsProcessor
-from .integration_results_processor import IntegrationResultsProcessor
-from .performance_results_processor import PerformanceResultsProcessor
-from .general_results_processor import GeneralResultsProcessor
-from .results_archive_manager import ResultsArchiveManager
+from . import analysis_results_processor
+from . import base_results_manager
+from . import general_results_processor
+from . import integration_results_processor
+from . import performance_results_processor
+from . import results_archive_manager
+from . import validation_results_processor
 
 __all__ = [
-    "BaseResultsManager",
-    "ValidationResultsProcessor",
-    "AnalysisResultsProcessor", 
-    "IntegrationResultsProcessor",
-    "PerformanceResultsProcessor",
-    "GeneralResultsProcessor",
-    "ResultsArchiveManager",
+    'analysis_results_processor',
+    'base_results_manager',
+    'general_results_processor',
+    'integration_results_processor',
+    'performance_results_processor',
+    'results_archive_manager',
+    'validation_results_processor',
 ]

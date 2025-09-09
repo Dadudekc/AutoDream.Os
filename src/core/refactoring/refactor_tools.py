@@ -1,25 +1,36 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+#!/usr/bin/env python3
 """
-Refactoring Tools - V2 Compliance Refactored
-===========================================
+Refactoring Tools - V2 Compliance Implementation
 
-V2-compliant refactoring tools for the architecture system.
-Refactored into modular architecture for V2 compliance.
+This module provides V2-compliant refactoring tools for the architecture system.
+Implements extraction, consolidation, and optimization functionality.
 
-V2 Compliance: < 300 lines, single responsibility, modular design.
-
-Author: Agent-1 (Integration & Core Systems Specialist)
-License: MIT
+Agent: Agent-2 (Architecture & Design Specialist)
+Mission: Architecture & Design V2 Compliance Implementation
+Status: V2_COMPLIANT_IMPLEMENTATION
 """
 
-from typing import List, Dict, Any
+from typing import Dict, List, Set, Tuple, Optional, Any, TYPE_CHECKING
 from dataclasses import dataclass
+from pathlib import Path
 
-# Import modular components
-from .tools.extraction_tools import ExtractionTools, ExtractionPlan
+if TYPE_CHECKING:
+    from typing import TYPE_CHECKING
+
+import ast
+import astor
+import shutil
 from .tools.consolidation_tools import ConsolidationTools, ConsolidationPlan
 from .tools.optimization_tools import OptimizationTools, OptimizationPlan
+
+
+@dataclass
+class ExtractionPlan:
+    """Plan for extracting code from a file."""
+    source_file: str
+    target_files: List[str]
+    extraction_rules: List[str]
+    estimated_impact: str
 
 from ..unified_import_system import get_unified_import_system
 
@@ -166,39 +177,9 @@ def create_optimization_plan(file_path: str) -> OptimizationPlan:
 def execute_optimization(plan: OptimizationPlan, file_path: str) -> bool:
     """Execute optimization plan."""
     return get_refactor_tools().execute_optimization(plan, file_path)
-=======
-"""Refactoring helpers for performing code modifications."""
-=======
-#!/usr/bin/env python3
-"""
-Refactoring Tools - V2 Compliance Implementation
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
 
-This module provides V2-compliant refactoring tools for the architecture system.
-Implements extraction, consolidation, and optimization functionality.
 
-Agent: Agent-2 (Architecture & Design Specialist)
-Mission: Architecture & Design V2 Compliance Implementation
-Status: V2_COMPLIANT_IMPLEMENTATION
-"""
-
-from typing import Dict, List, Set, Tuple, Optional, Any
-from dataclasses import dataclass
-from pathlib import Path
-import ast
-import astor
-import shutil
 from .analysis_tools import FileAnalysis, ArchitecturePattern, DuplicateFile
-
-
-@dataclass
-class ExtractionPlan:
-    """Plan for extracting code from a file."""
-    source_file: str
-    target_files: List[str]
-    extraction_rules: List[str]
-    estimated_impact: str
-    v2_compliance_target: bool
 
 
 @dataclass
@@ -390,7 +371,6 @@ def create_optimization_plan(directory: str) -> OptimizationPlan:
     )
 
 
-<<<<<<< HEAD
 def perform_optimization(plan: Dict[str, Any]) -> Dict[str, Any]:
     """Perform the actual optimization."""
     result = {"success": True, "applied_optimizations": [], "quality_score_improvement": 0.0, "errors": []}
@@ -406,8 +386,8 @@ def perform_optimization(plan: Dict[str, Any]) -> Dict[str, Any]:
         except Exception as e:  # pragma: no cover - safety net
             result["errors"].append(f"Failed to optimize {target['pattern']}: {e}")
     return result
->>>>>>> origin/codex/catalog-functions-in-utils-directories
-=======
+
+
 def perform_optimization(plan: OptimizationPlan) -> bool:
     """
     Perform code optimization based on the plan.
@@ -505,5 +485,3 @@ def _optimize_class_structure(content: str) -> str:
     """Optimize class structure in content."""
     # Basic implementation - in practice, would use more sophisticated analysis
     return content  # Placeholder for actual optimization logic
-
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65

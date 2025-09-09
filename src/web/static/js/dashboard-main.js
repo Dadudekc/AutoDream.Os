@@ -1,97 +1,129 @@
 /**
- * Dashboard Main - Modular Architecture Implementation
- * V2 Compliance: Modular ES6 architecture with component imports
- * Replaces dashboard.js (663 lines) with modular approach
+ * Dashboard Main - Unified Consolidated System
+ * V2 Compliance: Single consolidated dashboard replacing 20+ files
+ * Uses UnifiedDashboard for complete dashboard functionality
+ *
+ * @author Agent-7 - Web Development Specialist
+ * @version 4.0.0 - CONSOLIDATED DASHBOARD SYSTEM
+ * @license MIT
  */
 
-// Import modular components
+// Import unified dashboard system
+import UnifiedDashboard from './dashboard-unified.js';
 
-import { DashboardCore } from './dashboard-core.js';
-import { DashboardNavigation } from './dashboard-navigation.js';
-import { DashboardUtils } from './dashboard-utils.js';
-import { DashboardV2 } from './dashboard-v2.js';
+// ================================
+// MAIN DASHBOARD INITIALIZATION
+// ================================
 
-// Dashboard state management
+/**
+ * Main dashboard entry point using unified system
+ */
 class DashboardMain {
     constructor() {
-        this.currentView = 'overview';
-        this.socket = null;
-        this.charts = {};
-        this.updateTimer = null;
-        this.core = new DashboardCore();
-        this.navigation = new DashboardNavigation();
-        this.utils = new DashboardUtils();
-        this.v2 = new DashboardV2();
+        this.dashboard = new UnifiedDashboard();
+        this.isInitialized = false;
     }
 
-    // Initialize dashboard
+    /**
+     * Initialize the complete dashboard system
+     */
     async initialize() {
+        if (this.isInitialized) {
+            console.warn('⚠️ Dashboard already initialized');
+            return;
+        }
+
+        console.log('🚀 Starting Dashboard Main with Unified System...');
+
         try {
-            await this.core.initialize();
-            this.navigation.setup();
-            this.utils.updateCurrentTime();
-            await this.loadDashboardData(this.currentView);
+            // Initialize unified dashboard system
+            await this.dashboard.initialize();
 
-            // Update time every second
-            setInterval(() => this.utils.updateCurrentTime(), 1000);
+            this.isInitialized = true;
+            console.log('✅ Dashboard Main initialized successfully');
 
-            console.log('Dashboard initialized successfully with modular architecture');
         } catch (error) {
-            console.error('Dashboard initialization failed:', error);
-            this.utils.showAlert('error', 'Dashboard initialization failed');
+            console.error('❌ Dashboard Main initialization failed:', error);
+            // Fallback error handling
+            this.showFallbackError(error);
         }
     }
 
-    // Load dashboard data
-    async loadDashboardData(view) {
-        this.utils.showLoading();
-
-        try {
-            // Use repository pattern for data access
-            const { DashboardRepository } = await import('./repositories/dashboard-repository.js');
-            const repository = new DashboardRepository();
-            const data = await repository.getDashboardData(view);
-
-            this.updateDashboard(data);
-        } catch (error) {
-            console.error('Failed to load dashboard data:', error);
-            this.utils.showAlert('error', 'Failed to load dashboard data');
-        } finally {
-            this.utils.hideLoading();
-        }
-    }
-
-    // Update dashboard with new data
-    updateDashboard(data) {
+    /**
+     * Show fallback error if unified system fails
+     */
+    showFallbackError(error) {
         const contentDiv = document.getElementById('dashboardContent');
-
-        if (data.view === 'overview') {
-            contentDiv.innerHTML = this.v2.renderOverviewView(data);
-        } else if (data.view === 'agent_performance') {
-            contentDiv.innerHTML = this.v2.renderAgentPerformanceView(data);
-        } else if (data.view === 'contract_status') {
-            contentDiv.innerHTML = this.v2.renderContractStatusView(data);
-        } else if (data.view === 'system_health') {
-            contentDiv.innerHTML = this.v2.renderSystemHealthView(data);
-        } else if (data.view === 'performance_metrics') {
-            contentDiv.innerHTML = this.v2.renderPerformanceMetricsView(data);
-        } else if (data.view === 'workload_distribution') {
-            contentDiv.innerHTML = this.v2.renderWorkloadDistributionView(data);
+        if (contentDiv) {
+            contentDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    <h4>Dashboard Initialization Failed</h4>
+                    <p>There was an error starting the dashboard system: ${error.message}</p>
+                    <p>Please refresh the page or contact support if the problem persists.</p>
+                </div>
+            `;
         }
     }
 
-    // Handle navigation changes
-    handleNavigationChange(view) {
-        this.currentView = view;
-        this.loadDashboardData(view);
+    /**
+     * Get dashboard instance for external access
+     */
+    getDashboard() {
+        return this.dashboard;
+    }
+
+    /**
+     * Cleanup dashboard system
+     */
+    destroy() {
+        if (this.dashboard) {
+            this.dashboard.destroy();
+        }
+        this.isInitialized = false;
+        console.log('🧹 Dashboard Main cleaned up');
     }
 }
 
+// ================================
+// LEGACY COMPATIBILITY
+// ================================
+
+/**
+ * Legacy factory function for existing code
+ * @deprecated Use new DashboardMain class directly
+ */
+export function createDashboardMain() {
+    return new DashboardMain();
+}
+
+/**
+ * Legacy initialization function
+ * @deprecated Use dashboard.initialize() instead
+ */
+export function initializeDashboardLegacy() {
+    console.warn('⚠️ initializeDashboardLegacy() is deprecated. Use DashboardMain class.');
+    const dashboard = new DashboardMain();
+    dashboard.initialize().catch(console.error);
+    return dashboard;
+}
+
+// ================================
+// AUTO-INITIALIZATION
+// ================================
+
 // Initialize dashboard when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 DOM loaded, initializing dashboard...');
     const dashboard = new DashboardMain();
     dashboard.initialize();
+
+    // Make dashboard globally available for debugging
+    window.dashboard = dashboard;
 });
 
-// Export for potential external use
-export { DashboardMain };
+// ================================
+// EXPORTS
+// ================================
+
+export default DashboardMain;
+export { DashboardMain, UnifiedDashboard };

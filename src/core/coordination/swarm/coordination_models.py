@@ -10,10 +10,10 @@ Original: Agent-6 - Gaming & Entertainment Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
 
 class CoordinationStrategy(Enum):
@@ -50,10 +50,10 @@ class CoordinationTask:
     description: str
     priority: TaskPriority
     status: TaskStatus
-    assigned_agent: Optional[str] = None
+    assigned_agent: str | None = None
     created_at: datetime = None
-    completed_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = None
+    completed_at: datetime | None = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         """Initialize default values."""
@@ -72,7 +72,7 @@ class CoordinationResult:
     success: bool
     message: str
     timestamp: datetime = None
-    data: Dict[str, Any] = None
+    data: dict[str, Any] = None
 
     def __post_init__(self):
         """Initialize default values."""
@@ -88,9 +88,9 @@ class AgentCoordinationStatus:
 
     agent_id: str
     status: str
-    current_tasks: List[str] = None
+    current_tasks: list[str] = None
     last_activity: datetime = None
-    capabilities: List[str] = None
+    capabilities: list[str] = None
 
     def __post_init__(self):
         """Initialize default values."""

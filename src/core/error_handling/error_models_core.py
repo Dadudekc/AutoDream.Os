@@ -13,10 +13,11 @@ Mission: V2 Compliance Architecture & Design Optimization
 Status: V2 COMPLIANT - Error Models Core Optimized
 """
 
-from datetime import datetime
 from dataclasses import dataclass, field
-from typing import Dict, Any, Optional, Type, List
-from .error_models_enums import ErrorSeverity, CircuitState, ErrorType, RetryStrategy
+from datetime import datetime
+from typing import Any
+
+from .error_models_enums import ErrorSeverity, ErrorType, RetryStrategy
 
 
 @dataclass
@@ -29,12 +30,12 @@ class ErrorContext:
     message: str
     timestamp: datetime = field(default_factory=datetime.now)
     source: str = "unknown"
-    stack_trace: Optional[str] = None
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
-    request_id: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    context_data: Dict[str, Any] = field(default_factory=dict)
+    stack_trace: str | None = None
+    user_id: str | None = None
+    session_id: str | None = None
+    request_id: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    context_data: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -51,10 +52,10 @@ class CircuitBreakerConfig:
     name: str
     failure_threshold: int = 5
     recovery_timeout: int = 60
-    expected_exception: Type[Exception] = Exception
+    expected_exception: type[Exception] = Exception
     success_threshold: int = 3
     enabled: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -79,7 +80,7 @@ class RetryConfig:
     backoff_multiplier: float = 2.0
     jitter: bool = True
     enabled: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Post-initialization validation."""

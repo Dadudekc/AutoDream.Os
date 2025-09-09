@@ -11,9 +11,9 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional
-from .models import StrategicRecommendation
+
 from .enums import PriorityLevel
+from .models import StrategicRecommendation
 
 
 class StrategicOversightEngineCoreRecommendations:
@@ -21,7 +21,7 @@ class StrategicOversightEngineCoreRecommendations:
 
     def __init__(
         self,
-        recommendations: Dict[str, StrategicRecommendation],
+        recommendations: dict[str, StrategicRecommendation],
         logger: logging.Logger,
     ):
         """Initialize recommendation management."""
@@ -32,17 +32,13 @@ class StrategicOversightEngineCoreRecommendations:
         """Add a strategic recommendation - simplified."""
         try:
             self.recommendations[recommendation.recommendation_id] = recommendation
-            self.logger.info(
-                f"Added strategic recommendation: {recommendation.recommendation_id}"
-            )
+            self.logger.info(f"Added strategic recommendation: {recommendation.recommendation_id}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to add strategic recommendation: {e}")
             return False
 
-    def get_recommendation(
-        self, recommendation_id: str
-    ) -> Optional[StrategicRecommendation]:
+    def get_recommendation(self, recommendation_id: str) -> StrategicRecommendation | None:
         """Get a strategic recommendation by ID - simplified."""
         try:
             return self.recommendations.get(recommendation_id)
@@ -52,7 +48,7 @@ class StrategicOversightEngineCoreRecommendations:
 
     def get_recommendations(
         self, priority: PriorityLevel = None, limit: int = 10
-    ) -> List[StrategicRecommendation]:
+    ) -> list[StrategicRecommendation]:
         """Get strategic recommendations - simplified."""
         try:
             recommendations = list(self.recommendations.values())
@@ -61,9 +57,7 @@ class StrategicOversightEngineCoreRecommendations:
                 recommendations = [r for r in recommendations if r.priority == priority]
 
             # Sort by priority and creation date
-            recommendations.sort(
-                key=lambda x: (x.priority.value, x.created_at), reverse=True
-            )
+            recommendations.sort(key=lambda x: (x.priority.value, x.created_at), reverse=True)
 
             return recommendations[:limit]
         except Exception as e:

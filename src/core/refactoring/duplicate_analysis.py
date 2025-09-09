@@ -1,9 +1,8 @@
 import hashlib
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List
 
-from src.services.unified_messaging_imports import get_unified_utility
+from ...services.unified_messaging_imports import get_unified_utility
 
 
 @dataclass
@@ -11,12 +10,12 @@ class DuplicateFile:
     """Represents duplicate file information."""
 
     original_file: str
-    duplicate_files: List[str]
+    duplicate_files: list[str]
     similarity_score: float
     duplicate_type: str
 
 
-def find_duplicate_files(directory: str, similarity_threshold: float = 0.8) -> List[DuplicateFile]:
+def find_duplicate_files(directory: str, similarity_threshold: float = 0.8) -> list[DuplicateFile]:
     """Find duplicate files in a directory."""
     duplicates = []
     file_hashes = defaultdict(list)
@@ -24,7 +23,7 @@ def find_duplicate_files(directory: str, similarity_threshold: float = 0.8) -> L
     for file_path in get_unified_utility().Path(directory).rglob("*.py"):
         if file_path.is_file():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
                 normalized_content = _normalize_content(content)
                 content_hash = hashlib.md5(normalized_content.encode()).hexdigest()

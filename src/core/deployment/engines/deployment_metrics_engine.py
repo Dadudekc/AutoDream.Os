@@ -11,13 +11,13 @@ License: MIT
 """
 
 import logging
-from typing import Dict, Any, Optional, List
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import Any
 
 from ..deployment_models import (
-    MassDeploymentTarget,
     DeploymentMetrics,
     DeploymentStatus,
+    MassDeploymentTarget,
     create_deployment_metrics,
 )
 
@@ -28,8 +28,8 @@ class DeploymentMetricsEngine:
     def __init__(self):
         """Initialize deployment metrics engine."""
         self.logger = logging.getLogger(__name__)
-        self.metrics_history: List[DeploymentMetrics] = []
-        self.current_metrics: Optional[DeploymentMetrics] = None
+        self.metrics_history: list[DeploymentMetrics] = []
+        self.current_metrics: DeploymentMetrics | None = None
 
     def start_deployment_tracking(self, total_targets: int) -> DeploymentMetrics:
         """Start tracking a new deployment session."""
@@ -71,8 +71,7 @@ class DeploymentMetricsEngine:
             # Update success rate
             if self.current_metrics.completed_targets > 0:
                 self.current_metrics.success_rate = (
-                    self.current_metrics.success_count
-                    / self.current_metrics.completed_targets
+                    self.current_metrics.success_count / self.current_metrics.completed_targets
                 )
 
             self.logger.debug(
@@ -80,11 +79,9 @@ class DeploymentMetricsEngine:
             )
 
         except Exception as e:
-            self.logger.error(
-                f"Failed to update metrics for target {target.target_id}: {e}"
-            )
+            self.logger.error(f"Failed to update metrics for target {target.target_id}: {e}")
 
-    def finish_deployment_tracking(self) -> Optional[DeploymentMetrics]:
+    def finish_deployment_tracking(self) -> DeploymentMetrics | None:
         """Finish tracking and finalize metrics."""
         if not self.current_metrics:
             return None
@@ -98,8 +95,7 @@ class DeploymentMetricsEngine:
             # Calculate throughput (targets per second)
             if self.current_metrics.total_duration > 0:
                 self.current_metrics.throughput = (
-                    self.current_metrics.completed_targets
-                    / self.current_metrics.total_duration
+                    self.current_metrics.completed_targets / self.current_metrics.total_duration
                 )
 
             # Add to history
@@ -121,11 +117,11 @@ class DeploymentMetricsEngine:
             self.logger.error(f"Failed to finalize metrics: {e}")
             return self.current_metrics
 
-    def get_current_metrics(self) -> Optional[DeploymentMetrics]:
+    def get_current_metrics(self) -> DeploymentMetrics | None:
         """Get current deployment metrics."""
         return self.current_metrics
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get a summary of deployment metrics."""
         if not self.current_metrics:
             return {"status": "No active deployment"}
@@ -170,11 +166,11 @@ class DeploymentMetricsEngine:
             self.logger.error(f"Failed to generate metrics summary: {e}")
             return {"status": "error", "message": str(e)}
 
-    def get_historical_metrics(self, limit: int = 10) -> List[DeploymentMetrics]:
+    def get_historical_metrics(self, limit: int = 10) -> list[DeploymentMetrics]:
         """Get historical deployment metrics."""
         return self.metrics_history[-limit:] if self.metrics_history else []
 
-    def analyze_performance_trends(self) -> Dict[str, Any]:
+    def analyze_performance_trends(self) -> dict[str, Any]:
         """Analyze performance trends from historical data."""
         if len(self.metrics_history) < 2:
             return {"status": "insufficient_data"}
@@ -183,16 +179,14 @@ class DeploymentMetricsEngine:
             recent_metrics = self.metrics_history[-10:]  # Last 10 deployments
 
             # Calculate averages
-            avg_success_rate = sum(
-                m.success_rate for m in recent_metrics if m.success_rate
-            ) / len(recent_metrics)
-            avg_throughput = sum(
-                m.throughput for m in recent_metrics if m.throughput
-            ) / len(recent_metrics)
+            avg_success_rate = sum(m.success_rate for m in recent_metrics if m.success_rate) / len(
+                recent_metrics
+            )
+            avg_throughput = sum(m.throughput for m in recent_metrics if m.throughput) / len(
+                recent_metrics
+            )
             avg_execution_time = sum(
-                m.average_execution_time
-                for m in recent_metrics
-                if m.average_execution_time
+                m.average_execution_time for m in recent_metrics if m.average_execution_time
             ) / len(recent_metrics)
 
             return {

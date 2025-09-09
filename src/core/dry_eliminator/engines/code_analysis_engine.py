@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class CodeAnalysisEngine:
         self.analysis_history = []
         self.parsed_files = {}
 
-    def analyze_code(self, code_data: Dict[str, Any]) -> Dict[str, Any]:
+    def analyze_code(self, code_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze code for patterns."""
         try:
             if not code_data:
@@ -56,7 +56,7 @@ class CodeAnalysisEngine:
             self.logger.error(f"Error analyzing code: {e}")
             return {"error": str(e)}
 
-    def _extract_patterns(self, code_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _extract_patterns(self, code_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Extract patterns from code."""
         try:
             patterns = []
@@ -78,7 +78,7 @@ class CodeAnalysisEngine:
             self.logger.error(f"Error extracting patterns: {e}")
             return []
 
-    def _find_duplicates(self, code_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _find_duplicates(self, code_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Find duplicate code patterns."""
         try:
             duplicates = []
@@ -105,7 +105,7 @@ class CodeAnalysisEngine:
             self.logger.error(f"Error finding duplicates: {e}")
             return []
 
-    def _calculate_metrics(self, code_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_metrics(self, code_data: dict[str, Any]) -> dict[str, Any]:
         """Calculate code metrics."""
         try:
             metrics = {
@@ -122,7 +122,7 @@ class CodeAnalysisEngine:
             self.logger.error(f"Error calculating metrics: {e}")
             return {}
 
-    def get_analysis_summary(self) -> Dict[str, Any]:
+    def get_analysis_summary(self) -> dict[str, Any]:
         """Get analysis summary."""
         try:
             if not self.analysis_history:
@@ -146,7 +146,7 @@ class CodeAnalysisEngine:
         self.parsed_files.clear()
         self.logger.info("Analysis history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

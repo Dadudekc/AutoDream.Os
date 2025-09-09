@@ -84,6 +84,9 @@ vector_db/
 *.bak
 *.backup
 backup_*/
+backups/
+runtime/reports/*.old
+devlogs/archive/
 
 # Test outputs
 .coverage

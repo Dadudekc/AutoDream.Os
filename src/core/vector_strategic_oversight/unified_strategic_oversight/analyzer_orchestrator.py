@@ -12,10 +12,10 @@ Purpose: V2 compliant modular strategic oversight
 """
 
 # V2 COMPLIANCE REDIRECT - Import from modular system
-from .orchestrator import StrategicOversightOrchestrator
-from .models import StrategicOversightModels
-from .engine import StrategicOversightEngine
 from .analyzer import StrategicOversightAnalyzer
+from .engine import StrategicOversightEngine
+from .models import StrategicOversightModels
+from .orchestrator import StrategicOversightOrchestrator
 
 # Re-export for backward compatibility
 __all__ = [

@@ -1,12 +1,10 @@
-"""Gaming integration package."""
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-from .core import GamingIntegrationCore, GameType, IntegrationStatus
-from .models import GameSession, EntertainmentSystem
+from . import core
+from . import models
 
 __all__ = [
-    "GamingIntegrationCore",
-    "GameType",
-    "IntegrationStatus",
-    "GameSession",
-    "EntertainmentSystem",
+    'core',
+    'models',
 ]

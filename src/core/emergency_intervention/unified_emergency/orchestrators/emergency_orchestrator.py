@@ -11,20 +11,18 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any, Callable
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
 
+from ..engine import EmergencyInterventionEngine
 from ..models import (
     Emergency,
-    EmergencyType,
-    EmergencySeverity,
-    EmergencyStatus,
-    InterventionProtocol,
-    EmergencyResponse,
     EmergencyContext,
-    EmergencyInterventionModels,
+    EmergencyResponse,
+    EmergencySeverity,
+    EmergencyType,
 )
-from ..engine import EmergencyInterventionEngine
 from ..protocols import EmergencyProtocols
 from .emergency_analyzer import EmergencyAnalyzer
 from .emergency_logger import EmergencyLogger
@@ -80,7 +78,7 @@ class EmergencyInterventionOrchestrator:
 
         return emergency
 
-    def analyze_emergency(self, emergency: Emergency) -> Dict[str, Any]:
+    def analyze_emergency(self, emergency: Emergency) -> dict[str, Any]:
         """Analyze emergency incident."""
         analysis = self.analyzer.analyze_emergency(emergency)
 
@@ -121,12 +119,10 @@ class EmergencyInterventionOrchestrator:
         description: str,
         context: EmergencyContext = None,
         auto_intervene: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Complete emergency handling workflow."""
         # Detect emergency
-        emergency = self.detect_emergency(
-            emergency_type, severity, description, context
-        )
+        emergency = self.detect_emergency(emergency_type, severity, description, context)
 
         # Analyze emergency
         analysis = self.analyze_emergency(emergency)
@@ -150,7 +146,7 @@ class EmergencyInterventionOrchestrator:
         action_enum = InterventionAction(action)
         self.engine.register_handler(action_enum, handler)
 
-    def get_emergency_status(self, emergency_id: str) -> Optional[Dict[str, Any]]:
+    def get_emergency_status(self, emergency_id: str) -> dict[str, Any] | None:
         """Get status of specific emergency."""
         emergency = self.engine.active_emergencies.get(emergency_id)
         if not emergency:
@@ -162,32 +158,30 @@ class EmergencyInterventionOrchestrator:
             "severity": emergency.severity.value,
             "status": emergency.status.value,
             "detected_at": emergency.detected_at.isoformat(),
-            "resolved_at": (
-                emergency.resolved_at.isoformat() if emergency.resolved_at else None
-            ),
+            "resolved_at": (emergency.resolved_at.isoformat() if emergency.resolved_at else None),
             "description": emergency.description,
         }
 
-    def get_active_emergencies(self) -> List[Dict[str, Any]]:
+    def get_active_emergencies(self) -> list[dict[str, Any]]:
         """Get all active emergencies."""
         return [
             self.get_emergency_status(emergency.emergency_id)
             for emergency in self.engine.get_active_emergencies()
         ]
 
-    def get_emergency_history(self, emergency_id: str) -> List[Dict[str, Any]]:
+    def get_emergency_history(self, emergency_id: str) -> list[dict[str, Any]]:
         """Get history for specific emergency."""
         return self.logger.get_emergency_history(emergency_id)
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get emergency intervention system metrics."""
         return self.engine.get_metrics()
 
-    def get_protocol_summary(self) -> Dict[str, Any]:
+    def get_protocol_summary(self) -> dict[str, Any]:
         """Get protocol summary."""
         return self.protocols.get_protocol_summary()
 
-    def get_system_health(self) -> Dict[str, Any]:
+    def get_system_health(self) -> dict[str, Any]:
         """Get system health status."""
         metrics = self.get_system_metrics()
         active_emergencies = len(self.get_active_emergencies())
@@ -198,7 +192,7 @@ class EmergencyInterventionOrchestrator:
         self,
         emergency_type: EmergencyType,
         severity_threshold: EmergencySeverity,
-        actions: List[str],
+        actions: list[str],
         priority: int = 5,
         timeout_seconds: int = 300,
         auto_execute: bool = False,
@@ -233,7 +227,7 @@ class EmergencyInterventionOrchestrator:
 
         return protocol.protocol_id
 
-    def get_orchestrator_status(self) -> Dict[str, Any]:
+    def get_orchestrator_status(self) -> dict[str, Any]:
         """Get orchestrator status."""
         return {
             "engine_status": self.engine.get_system_status(),

@@ -10,22 +10,23 @@ License: MIT
 """
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from enum import Enum
-from typing import Any, Dict, List, Optional, Callable
-from datetime import datetime
 
-from .contracts import Manager, ManagerContext, ManagerResult
+from abc import ABC, abstractmethod
+from datetime import datetime
+from enum import Enum
+from typing import Any
+
 from ..shared_utilities import (
-    StatusManager,
+    CleanupManager,
+    ConfigurationManager,
     ErrorHandler,
+    InitializationManager,
     LoggingManager,
     ResultManager,
+    StatusManager,
     ValidationManager,
-    ConfigurationManager,
-    InitializationManager,
-    CleanupManager,
 )
+from .contracts import Manager, ManagerContext, ManagerResult
 
 
 class ManagerType(Enum):
@@ -82,8 +83,8 @@ class BaseManager(Manager, ABC):
 
         # Lifecycle state
         self.state = ManagerState.UNINITIALIZED
-        self.initialized_at: Optional[datetime] = None
-        self.last_operation_at: Optional[datetime] = None
+        self.initialized_at: datetime | None = None
+        self.last_operation_at: datetime | None = None
 
         # Phase 1 shared utilities integration
         self.status_manager = StatusManager()
@@ -99,11 +100,11 @@ class BaseManager(Manager, ABC):
         self.operation_count = 0
         self.success_count = 0
         self.error_count = 0
-        self.last_error: Optional[str] = None
+        self.last_error: str | None = None
 
         # Context and configuration
-        self.context: Optional[ManagerContext] = None
-        self.config: Dict[str, Any] = {}
+        self.context: ManagerContext | None = None
+        self.config: dict[str, Any] = {}
 
         # Initialize logging
         self.logger = self.logging_manager.get_logger()
@@ -135,9 +136,7 @@ class BaseManager(Manager, ABC):
             }
 
             success = self.initialization_manager.initialize_component(
-                component_id=self.manager_id,
-                component_type="manager",
-                context=init_context
+                component_id=self.manager_id, component_type="manager", context=init_context
             )
 
             if success:
@@ -152,7 +151,7 @@ class BaseManager(Manager, ABC):
                         "manager_name": self.manager_name,
                         "initialized_at": self.initialized_at.isoformat(),
                         "config_keys": list(self.config.keys()),
-                    }
+                    },
                 )
 
                 self.logger.info(f"{self.manager_name} manager initialized successfully")
@@ -176,13 +175,13 @@ class BaseManager(Manager, ABC):
                     "manager_type": self.manager_type.value,
                 },
                 component_id=self.manager_id,
-                severity="high"
+                severity="high",
             )
 
             return False
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """
         Standard execution using Phase 1 utilities.
@@ -202,9 +201,7 @@ class BaseManager(Manager, ABC):
 
             # Validate input using ValidationManager
             validation_result = self.validation_manager.validate_operation(
-                operation=operation,
-                payload=payload,
-                component_type=self.manager_type.value
+                operation=operation, payload=payload, component_type=self.manager_type.value
             )
 
             if not validation_result.is_valid:
@@ -212,7 +209,7 @@ class BaseManager(Manager, ABC):
                 return self.result_manager.create_error_result(
                     error=f"Validation failed: {validation_result.errors}",
                     operation=operation,
-                    component_id=self.manager_id
+                    component_id=self.manager_id,
                 )
 
             # Execute operation (implemented by subclasses)
@@ -231,7 +228,7 @@ class BaseManager(Manager, ABC):
                 component_id=self.manager_id,
                 success=result.success,
                 error=result.error,
-                metrics=result.metrics
+                metrics=result.metrics,
             )
 
         except Exception as e:
@@ -248,13 +245,11 @@ class BaseManager(Manager, ABC):
                     "manager_id": self.manager_id,
                 },
                 component_id=self.manager_id,
-                severity="medium"
+                severity="medium",
             )
 
             return self.result_manager.create_error_result(
-                error=str(e),
-                operation=operation,
-                component_id=self.manager_id
+                error=str(e), operation=operation, component_id=self.manager_id
             )
 
         finally:
@@ -262,7 +257,7 @@ class BaseManager(Manager, ABC):
 
     @abstractmethod
     def _execute_operation(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """
         Execute manager-specific operation.
@@ -297,9 +292,7 @@ class BaseManager(Manager, ABC):
             }
 
             success = self.cleanup_manager.cleanup_component(
-                component_id=self.manager_id,
-                component_type="manager",
-                context=cleanup_context
+                component_id=self.manager_id, component_type="manager", context=cleanup_context
             )
 
             if success:
@@ -327,12 +320,12 @@ class BaseManager(Manager, ABC):
                     "manager_id": self.manager_id,
                 },
                 component_id=self.manager_id,
-                severity="medium"
+                severity="medium",
             )
 
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """
         Get comprehensive manager status using StatusManager.
 
@@ -350,7 +343,9 @@ class BaseManager(Manager, ABC):
                 "manager_type": self.manager_type.value,
                 "state": self.state.value,
                 "initialized_at": self.initialized_at.isoformat() if self.initialized_at else None,
-                "last_operation_at": self.last_operation_at.isoformat() if self.last_operation_at else None,
+                "last_operation_at": (
+                    self.last_operation_at.isoformat() if self.last_operation_at else None
+                ),
                 "operation_count": self.operation_count,
                 "success_count": self.success_count,
                 "error_count": self.error_count,
@@ -374,7 +369,7 @@ class BaseManager(Manager, ABC):
                 "last_error": str(e),
             }
 
-    def get_health_check(self) -> Dict[str, Any]:
+    def get_health_check(self) -> dict[str, Any]:
         """
         Get health check using StatusManager.
 
@@ -383,7 +378,7 @@ class BaseManager(Manager, ABC):
         """
         return self.status_manager.get_health_check_for_component(self.manager_id)
 
-    def update_configuration(self, updates: Dict[str, Any]) -> bool:
+    def update_configuration(self, updates: dict[str, Any]) -> bool:
         """
         Update manager configuration using ConfigurationManager.
 
@@ -396,8 +391,7 @@ class BaseManager(Manager, ABC):
         try:
             # Validate configuration updates
             validation_result = self.validation_manager.validate_config(
-                config_data=updates,
-                component_type=self.manager_type.value
+                config_data=updates, component_type=self.manager_type.value
             )
 
             if not validation_result.is_valid:
@@ -406,8 +400,7 @@ class BaseManager(Manager, ABC):
 
             # Update configuration using ConfigurationManager
             success = self.configuration_manager.update_component_config(
-                component_id=self.manager_id,
-                updates=updates
+                component_id=self.manager_id, updates=updates
             )
 
             if success:
@@ -423,7 +416,7 @@ class BaseManager(Manager, ABC):
             self.logger.error(f"Error updating configuration for {self.manager_name}: {e}")
             return False
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """
         Get manager metrics.
 

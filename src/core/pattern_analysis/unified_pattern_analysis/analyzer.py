@@ -12,15 +12,16 @@ Mission: V2 Compliance Refactoring
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
+
+from .engine_core import PatternAnalysisEngine
 from .models import (
     ImpactLevel,
     MissionPattern,
-    PatternType,
     PatternAnalysisModels,
+    PatternType,
     RecommendationType,
 )
-from .engine_core import PatternAnalysisEngine
 
 __all__ = [
     "PatternAnalysis",
@@ -40,8 +41,8 @@ class PatternAnalysis:
     pattern_description: str
     frequency: float
     confidence: float
-    implications: List[str]
-    recommendations: List[str]
+    implications: list[str]
+    recommendations: list[str]
     analyzed_at: datetime
 
 
@@ -51,8 +52,8 @@ def _create_pattern(
     description: str,
     frequency: float,
     confidence: float,
-    implications: List[str],
-    recommendations: List[str],
+    implications: list[str],
+    recommendations: list[str],
 ) -> PatternAnalysis:
     """Internal helper to construct a pattern analysis object."""
 
@@ -68,10 +69,10 @@ def _create_pattern(
     )
 
 
-def detect_performance_patterns(data: List[Dict[str, Any]]) -> List[PatternAnalysis]:
+def detect_performance_patterns(data: list[dict[str, Any]]) -> list[PatternAnalysis]:
     """Detect performance patterns from raw data."""
 
-    patterns: List[PatternAnalysis] = []
+    patterns: list[PatternAnalysis] = []
     if len(data) > 10:
         patterns.append(
             _create_pattern(
@@ -93,10 +94,10 @@ def detect_performance_patterns(data: List[Dict[str, Any]]) -> List[PatternAnaly
     return patterns
 
 
-def detect_coordination_patterns(data: List[Dict[str, Any]]) -> List[PatternAnalysis]:
+def detect_coordination_patterns(data: list[dict[str, Any]]) -> list[PatternAnalysis]:
     """Detect coordination patterns from raw data."""
 
-    patterns: List[PatternAnalysis] = []
+    patterns: list[PatternAnalysis] = []
     if len(data) > 5:
         patterns.append(
             _create_pattern(
@@ -118,10 +119,10 @@ def detect_coordination_patterns(data: List[Dict[str, Any]]) -> List[PatternAnal
     return patterns
 
 
-def detect_anomaly_patterns(data: List[Dict[str, Any]]) -> List[PatternAnalysis]:
+def detect_anomaly_patterns(data: list[dict[str, Any]]) -> list[PatternAnalysis]:
     """Detect anomaly patterns from raw data."""
 
-    patterns: List[PatternAnalysis] = []
+    patterns: list[PatternAnalysis] = []
     if len(data) > 20:
         patterns.append(
             _create_pattern(
@@ -165,7 +166,7 @@ class PatternAnalyzer:
             self.logger.error(f"Failed to initialize Pattern Analyzer: {e}")
             return False
 
-    def analyze_performance_patterns(self, mission_id: str = None) -> List[MissionPattern]:
+    def analyze_performance_patterns(self, mission_id: str = None) -> list[MissionPattern]:
         """Analyze performance patterns."""
         try:
             if not self.is_initialized:
@@ -182,7 +183,7 @@ class PatternAnalyzer:
                         pattern_type=PatternType.PERFORMANCE,
                         frequency=metric.efficiency,
                         confidence=0.9,
-                        context={'mission_id': metric.mission_id, 'phase': metric.phase}
+                        context={"mission_id": metric.mission_id, "phase": metric.phase},
                     )
                     patterns.append(pattern)
                     self.engine.add_pattern(pattern)
@@ -194,7 +195,7 @@ class PatternAnalyzer:
             self.logger.error(f"Error analyzing performance patterns: {e}")
             return []
 
-    def analyze_coordination_patterns(self, mission_id: str = None) -> List[MissionPattern]:
+    def analyze_coordination_patterns(self, mission_id: str = None) -> list[MissionPattern]:
         """Analyze coordination patterns."""
         try:
             if not self.is_initialized:
@@ -213,7 +214,7 @@ class PatternAnalyzer:
                         pattern_type=PatternType.COORDINATION,
                         frequency=0.7,
                         confidence=0.8,
-                        context={'mission_id': context.mission_id, 'phase': context.phase}
+                        context={"mission_id": context.mission_id, "phase": context.phase},
                     )
                     patterns.append(pattern)
                     self.engine.add_pattern(pattern)
@@ -225,7 +226,7 @@ class PatternAnalyzer:
             self.logger.error(f"Error analyzing coordination patterns: {e}")
             return []
 
-    def generate_optimization_recommendations(self, patterns: List[MissionPattern]) -> List:
+    def generate_optimization_recommendations(self, patterns: list[MissionPattern]) -> list:
         """Generate optimization recommendations."""
         try:
             if not self.is_initialized:
@@ -245,7 +246,7 @@ class PatternAnalyzer:
                     priority=1,
                     implementation_effort="medium",
                     expected_benefits=["Improved performance", "Better resource utilization"],
-                    risks=["Implementation complexity"]
+                    risks=["Implementation complexity"],
                 )
                 recommendations.append(recommendation)
                 self.engine.add_recommendation(recommendation)
@@ -257,30 +258,29 @@ class PatternAnalyzer:
             self.logger.error(f"Error generating optimization recommendations: {e}")
             return []
 
-    def get_analysis_summary(self) -> Dict[str, Any]:
+    def get_analysis_summary(self) -> dict[str, Any]:
         """Get analysis summary."""
         try:
             if not self.is_initialized:
-                return {'error': 'Analyzer not initialized'}
+                return {"error": "Analyzer not initialized"}
 
             patterns_by_type = {}
             for pattern_type in PatternType:
-                patterns_by_type[pattern_type.value] = len([
-                    p for p in self.engine.patterns.values()
-                    if p.pattern_type == pattern_type
-                ])
+                patterns_by_type[pattern_type.value] = len(
+                    [p for p in self.engine.patterns.values() if p.pattern_type == pattern_type]
+                )
 
             return {
-                'analyzer_status': 'initialized',
-                'patterns_by_type': patterns_by_type,
-                'total_patterns': len(self.engine.patterns),
-                'total_correlations': len(self.engine.correlations),
-                'total_recommendations': len(self.engine.recommendations)
+                "analyzer_status": "initialized",
+                "patterns_by_type": patterns_by_type,
+                "total_patterns": len(self.engine.patterns),
+                "total_correlations": len(self.engine.correlations),
+                "total_recommendations": len(self.engine.recommendations),
             }
 
         except Exception as e:
             self.logger.error(f"Error getting analysis summary: {e}")
-            return {'error': str(e)}
+            return {"error": str(e)}
 
     def shutdown(self):
         """Shutdown analyzer."""

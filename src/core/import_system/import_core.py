@@ -10,19 +10,20 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import os
-import sys
 import json
 import logging
+import os
+import re
+import sys
 import threading
 import time
-import re
-from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Union, Callable, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
 from abc import ABC, abstractmethod
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Optional, Union
 
 
 class ImportSystemCore:
@@ -94,12 +95,12 @@ class ImportSystemCore:
     @property
     def Dict(self):
         """Get Dict type."""
-        return Dict
+        return dict
 
     @property
     def List(self):
         """Get List type."""
-        return List
+        return list
 
     @property
     def Optional(self):
@@ -119,7 +120,7 @@ class ImportSystemCore:
     @property
     def Tuple(self):
         """Get Tuple type."""
-        return Tuple
+        return tuple
 
     # ================================
     # DATACLASS IMPORTS

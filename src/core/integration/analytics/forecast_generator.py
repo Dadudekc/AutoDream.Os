@@ -11,10 +11,10 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import statistics
-from typing import Any, Dict, List, Optional, Tuple
-from datetime import datetime, timedelta
 import logging
+import statistics
+from datetime import datetime, timedelta
+from typing import Any
 
 from ..vector_integration_models import (
     PerformanceForecast,
@@ -33,24 +33,22 @@ class ForecastGenerator:
         """Initialize forecast generator."""
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.forecast_cache: Dict[str, PerformanceForecast] = {}
+        self.forecast_cache: dict[str, PerformanceForecast] = {}
 
     def generate_forecast(
-        self, metrics_data: List[PerformanceMetrics], metric_name: str
-    ) -> Optional[PerformanceForecast]:
+        self, metrics_data: list[PerformanceMetrics], metric_name: str
+    ) -> PerformanceForecast | None:
         """Generate performance forecast for metric."""
         try:
             # Filter and prepare data
-            metric_values = [
-                m.value for m in metrics_data if m.metric_name == metric_name
-            ]
+            metric_values = [m.value for m in metrics_data if m.metric_name == metric_name]
 
             if len(metric_values) < self.config.min_data_points_for_forecast:
                 return None
 
             # Generate forecast
-            forecast_values, confidence_interval, model_accuracy = (
-                self._generate_simple_forecast(metric_values)
+            forecast_values, confidence_interval, model_accuracy = self._generate_simple_forecast(
+                metric_values
             )
 
             # Create forecast
@@ -79,8 +77,8 @@ class ForecastGenerator:
             return None
 
     def _generate_simple_forecast(
-        self, values: List[float]
-    ) -> Tuple[List[float], Tuple[float, float], float]:
+        self, values: list[float]
+    ) -> tuple[list[float], tuple[float, float], float]:
         """Generate simple linear forecast."""
         if len(values) < 10:
             # Not enough data for reliable forecast
@@ -101,7 +99,7 @@ class ForecastGenerator:
 
         # Simple linear regression
         numerator = sum(
-            (x - mean_x) * (y - mean_y) for x, y in zip(x_values, recent_values)
+            (x - mean_x) * (y - mean_y) for x, y in zip(x_values, recent_values, strict=False)
         )
         denominator = sum((x - mean_x) ** 2 for x in x_values)
 
@@ -126,7 +124,7 @@ class ForecastGenerator:
 
         # Calculate confidence interval
         residuals = [
-            y - (slope * x + intercept) for x, y in zip(x_values, recent_values)
+            y - (slope * x + intercept) for x, y in zip(x_values, recent_values, strict=False)
         ]
         residual_std = statistics.stdev(residuals) if len(residuals) > 1 else 0
 
@@ -147,8 +145,8 @@ class ForecastGenerator:
         return forecast_values, confidence_interval, model_accuracy
 
     def generate_multi_metric_forecast(
-        self, metrics_data: List[PerformanceMetrics]
-    ) -> Dict[str, PerformanceForecast]:
+        self, metrics_data: list[PerformanceMetrics]
+    ) -> dict[str, PerformanceForecast]:
         """Generate forecasts for multiple metrics."""
         forecasts = {}
 
@@ -168,7 +166,7 @@ class ForecastGenerator:
         return forecasts
 
     def validate_forecast_accuracy(
-        self, forecast: PerformanceForecast, actual_values: List[float]
+        self, forecast: PerformanceForecast, actual_values: list[float]
     ) -> float:
         """Validate forecast accuracy against actual values."""
         if not actual_values or len(actual_values) == 0:
@@ -194,9 +192,7 @@ class ForecastGenerator:
         accuracy = max(0, 1 - mape)  # Convert MAPE to accuracy
         return min(1.0, accuracy)
 
-    def get_forecast_summary(
-        self, forecasts: Dict[str, PerformanceForecast]
-    ) -> Dict[str, Any]:
+    def get_forecast_summary(self, forecasts: dict[str, PerformanceForecast]) -> dict[str, Any]:
         """Get summary of all forecasts."""
         summary = {
             "total_forecasts": len(forecasts),
@@ -214,9 +210,7 @@ class ForecastGenerator:
                 "predicted_values_count": len(forecast.predicted_values),
                 "model_accuracy": forecast.model_accuracy,
                 "confidence_interval": forecast.confidence_interval,
-                "forecast_horizon_hours": (
-                    forecast.forecast_horizon.total_seconds() / 3600
-                ),
+                "forecast_horizon_hours": (forecast.forecast_horizon.total_seconds() / 3600),
             }
             summary["metrics"][metric_name] = metric_summary
             accuracies.append(forecast.model_accuracy)
@@ -224,7 +218,7 @@ class ForecastGenerator:
         summary["overall_accuracy"] = statistics.mean(accuracies) if accuracies else 0.0
         return summary
 
-    def get_cached_forecasts(self) -> Dict[str, PerformanceForecast]:
+    def get_cached_forecasts(self) -> dict[str, PerformanceForecast]:
         """Get cached forecasts."""
         return dict(self.forecast_cache)
 

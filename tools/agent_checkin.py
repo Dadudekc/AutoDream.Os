@@ -3,16 +3,16 @@ import json
 import os
 import sys
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
 # Import unified utilities
-from src.core.unified_utilities import (
+from core.unified_utilities import (
+    get_logger,
     get_unified_utility,
     get_unified_validator,
     write_json,
-    get_logger,
 )
 
 ROOT = get_unified_utility().Path(__file__).resolve().parents[1]
@@ -23,7 +23,7 @@ SCHEMA_VER = "1.0"
 
 
 def _iso_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def ensure_dirs() -> None:
@@ -33,7 +33,7 @@ def ensure_dirs() -> None:
         INDEX_FILE.write_text("{}", encoding="utf-8")
 
 
-def load_json_arg(src: str) -> Dict[str, Any]:
+def load_json_arg(src: str) -> dict[str, Any]:
     """Load JSON from a file path or stdin ('-')."""
     if src == "-":
         return json.loads(sys.stdin.read())
@@ -41,7 +41,7 @@ def load_json_arg(src: str) -> Dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def validate_minimum(payload: Dict[str, Any]) -> None:
+def validate_minimum(payload: dict[str, Any]) -> None:
     required = ["agent_id", "agent_name", "status", "current_phase"]
     missing = [k for k in required if k not in payload]
     if missing:
@@ -53,13 +53,13 @@ def validate_minimum(payload: Dict[str, Any]) -> None:
     payload.setdefault("version", SCHEMA_VER)
 
 
-def append_jsonl(agent_id: str, obj: Dict[str, Any]) -> None:
+def append_jsonl(agent_id: str, obj: dict[str, Any]) -> None:
     log_path = LOGS_DIR / f"{agent_id}.log.jsonl"
     with log_path.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
 
-def atomic_write(path: Path, data: Dict[str, Any]) -> None:
+def atomic_write(path: Path, data: dict[str, Any]) -> None:
     tmp_fd, tmp_path = tempfile.mkstemp(prefix=path.name, dir=str(path.parent))
     try:
         with os.fdopen(tmp_fd, "w", encoding="utf-8") as tmp_fh:
@@ -73,7 +73,7 @@ def atomic_write(path: Path, data: Dict[str, Any]) -> None:
         raise
 
 
-def update_index(obj: Dict[str, Any]) -> None:
+def update_index(obj: dict[str, Any]) -> None:
     try:
         current = json.loads(INDEX_FILE.read_text(encoding="utf-8"))
     except Exception:
@@ -83,9 +83,7 @@ def update_index(obj: Dict[str, Any]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Multi-agent check-in (append + index)."
-    )
+    parser = argparse.ArgumentParser(description="Multi-agent check-in (append + index).")
     parser.add_argument("json", help="Path to JSON payload or '-' for stdin")
     args = parser.get_unified_utility().parse_args()
 
@@ -97,9 +95,7 @@ def main() -> int:
     append_jsonl(agent_id, payload)
     update_index(payload)
 
-    get_logger(__name__).info(
-        f"OK: stored check-in for {agent_id} @ {payload['last_updated']}"
-    )
+    get_logger(__name__).info(f"OK: stored check-in for {agent_id} @ {payload['last_updated']}")
     return 0
 
 

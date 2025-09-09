@@ -12,24 +12,26 @@ License: MIT
 """
 
 import time
-from typing import Dict, List, Any, Callable
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
+
+from ...common.base_engine import BaseEngine
 
 from ..models import (
     Emergency,
-    EmergencySeverity,
-    EmergencyType,
-    EmergencyStatus,
-    InterventionProtocol,
-    InterventionResult,
-    InterventionAction,
-    EmergencyResponse,
     EmergencyContext,
     EmergencyInterventionModels,
+    EmergencyResponse,
+    EmergencySeverity,
+    EmergencyStatus,
+    EmergencyType,
+    InterventionAction,
+    InterventionProtocol,
+    InterventionResult,
 )
 from .action_executor import ActionExecutor
 from .protocol_manager import ProtocolManager
-from src.core.common.base_engine import BaseEngine
 
 
 class EmergencyInterventionEngine(BaseEngine):
@@ -44,7 +46,7 @@ class EmergencyInterventionEngine(BaseEngine):
         super().__init__()
         self.protocol_manager = ProtocolManager()
         self.action_executor = ActionExecutor()
-        self.active_emergencies: Dict[str, Emergency] = {}
+        self.active_emergencies: dict[str, Emergency] = {}
         self.metrics = EmergencyInterventionModels.create_emergency_metrics()
 
     def register_protocol(self, protocol: InterventionProtocol) -> None:
@@ -90,9 +92,7 @@ class EmergencyInterventionEngine(BaseEngine):
         protocol = matching_protocols[0]
 
         # Execute protocol actions
-        interventions = self.action_executor.execute_multiple_actions(
-            emergency, protocol.actions
-        )
+        interventions = self.action_executor.execute_multiple_actions(emergency, protocol.actions)
 
         # Calculate response time
         response_time = time.time() - start_time
@@ -106,9 +106,7 @@ class EmergencyInterventionEngine(BaseEngine):
             response_time=response_time,
             interventions=interventions,
             resolution_time=(
-                time.time() - start_time
-                if emergency.status == EmergencyStatus.RESOLVED
-                else None
+                time.time() - start_time if emergency.status == EmergencyStatus.RESOLVED else None
             ),
             escalated=emergency.status == EmergencyStatus.ESCALATED,
         )
@@ -133,7 +131,7 @@ class EmergencyInterventionEngine(BaseEngine):
     def _update_emergency_status(
         self,
         emergency: Emergency,
-        interventions: List[InterventionResult],
+        interventions: list[InterventionResult],
         protocol: InterventionProtocol,
     ) -> None:
         """Update emergency status based on intervention results."""
@@ -148,11 +146,11 @@ class EmergencyInterventionEngine(BaseEngine):
         else:
             emergency.status = EmergencyStatus.ESCALATED
 
-    def get_active_emergencies(self) -> List[Emergency]:
+    def get_active_emergencies(self) -> list[Emergency]:
         """Get list of active emergencies."""
         return list(self.active_emergencies.values())
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get emergency intervention metrics."""
         return {
             "total_emergencies": self.metrics.total_emergencies,
@@ -162,22 +160,18 @@ class EmergencyInterventionEngine(BaseEngine):
             "average_resolution_time": self.metrics.average_resolution_time,
             "escalation_rate": self.metrics.escalation_rate,
             "last_updated": (
-                self.metrics.last_updated.isoformat()
-                if self.metrics.last_updated
-                else None
+                self.metrics.last_updated.isoformat() if self.metrics.last_updated else None
             ),
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Extend base status with emergency-specific data."""
         status = super().get_status()
         status.update(
             {
                 "active_emergencies": len(self.active_emergencies),
                 "registered_protocols": self.protocol_manager.get_protocol_count(),
-                "registered_handlers": len(
-                    self.action_executor.get_registered_handlers()
-                ),
+                "registered_handlers": len(self.action_executor.get_registered_handlers()),
                 "metrics": self.get_metrics(),
                 "protocol_summary": self.protocol_manager.get_protocol_summary(),
             }

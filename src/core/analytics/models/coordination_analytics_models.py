@@ -10,10 +10,10 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-from dataclasses import dataclass, asdict
 from enum import Enum
+from typing import Any
 
 
 class AnalyticsMetric(Enum):
@@ -51,13 +51,13 @@ class CoordinationAnalyticsData:
     swarm_health: float
     active_agents: int
     total_tasks: int
-    recommendations: List[str]
+    recommendations: list[str]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return asdict(self)
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get summary of key metrics."""
         return {
             "timestamp": self.timestamp.isoformat(),
@@ -76,11 +76,11 @@ class AnalyticsReport:
     report_id: str
     generated_at: datetime
     data: CoordinationAnalyticsData
-    trends: Dict[str, Any]
-    recommendations: List[str]
-    summary: Dict[str, Any]
+    trends: dict[str, Any]
+    recommendations: list[str]
+    summary: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "report_id": self.report_id,

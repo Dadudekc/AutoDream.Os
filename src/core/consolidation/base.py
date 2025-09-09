@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-"""Base utilities for consolidation tasks.
-
-Provides common helpers for consolidating scattered files into a central single source
-of truth (SSOT).
-"""
-
-=======
-from src.utils.config_core import get_config
-"""Base utilities for consolidation tasks.
-
-Provides common helpers for consolidating scattered files into a
-central single source of truth (SSOT).
-"""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -20,7 +5,13 @@ from typing import Iterable
 import os
 import shutil
 
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
+from ...utils.config_core import get_config
+
+"""Base utilities for consolidation tasks.
+
+Provides common helpers for consolidating scattered files into a
+central single source of truth (SSOT).
+"""
 
 class ConsolidationBase:
     """Reusable helpers for consolidation workflows."""
@@ -40,30 +31,18 @@ class ConsolidationBase:
         """
         files_consolidated = 0
         for directory in directories:
-<<<<<<< HEAD
-            if get_unified_utility().path.exists(directory):
-=======
             if os.path.exists(directory):
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
                 files_consolidated += self._consolidate_directory(directory)
         return files_consolidated
 
     # The following methods can be overridden by subclasses for custom logic
     def _consolidate_directory(self, directory: str) -> int:
         """Consolidate a single directory into the SSOT layout."""
-<<<<<<< HEAD
         count = get_config("count", 0)
         for root, _, files in os.walk(directory):
             for file in files:
                 if file.endswith(".py"):
-                    source = get_unified_utility().path.join(root, file)
-=======
-        count = get_config('count', 0)
-        for root, _, files in os.walk(directory):
-            for file in files:
-                if file.endswith(".py"):
                     source = os.path.join(root, file)
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
                     target = self._get_consolidated_path(source)
                     if self._should_consolidate_file(source, target):
                         self._consolidate_file(source, target)
@@ -79,15 +58,9 @@ class ConsolidationBase:
 
     def _should_consolidate_file(self, source_path: str, target_path: str) -> bool:
         """Return True if ``source_path`` should be consolidated."""
-<<<<<<< HEAD
-        if get_unified_utility().path.exists(target_path):
-            source_time = get_unified_utility().path.getmtime(source_path)
-            target_time = get_unified_utility().path.getmtime(target_path)
-=======
         if os.path.exists(target_path):
             source_time = os.path.getmtime(source_path)
             target_time = os.path.getmtime(target_path)
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
             if target_time >= source_time:
                 return False
         if source_path.endswith(".backup"):
@@ -96,11 +69,5 @@ class ConsolidationBase:
 
     def _consolidate_file(self, source_path: str, target_path: str) -> None:
         """Copy ``source_path`` to ``target_path`` ensuring directories exist."""
-<<<<<<< HEAD
-        get_unified_utility().Path(target_path).parent.mkdir(
-            parents=True, exist_ok=True
-        )
-=======
         Path(target_path).parent.mkdir(parents=True, exist_ok=True)
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         shutil.copy2(source_path, target_path)

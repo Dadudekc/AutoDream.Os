@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from .contracts import Manager, ManagerContext, ManagerResult
 from .core_onboarding_manager import CoreOnboardingManager
@@ -27,7 +27,7 @@ class CoreServiceCoordinator(Manager):
         return True
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         onboarding_ops = {
             "onboard_agent",
@@ -56,7 +56,7 @@ class CoreServiceCoordinator(Manager):
         self.results.cleanup(context)
         return True
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         status = {
             "onboarding_status": self.onboarding.get_status(),
             "recovery_status": self.recovery.get_status(),

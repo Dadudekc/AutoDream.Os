@@ -10,7 +10,6 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Dict, Any
 from dataclasses import dataclass
 
 from ...unified_import_system import get_unified_import_system
@@ -20,10 +19,10 @@ from ...unified_import_system import get_unified_import_system
 class OptimizationPlan:
     """Plan for optimizing code structure."""
 
-    optimization_targets: List[str]
-    optimization_rules: List[str]
-    performance_improvements: List[str]
-    v2_compliance_improvements: List[str]
+    optimization_targets: list[str]
+    optimization_rules: list[str]
+    performance_improvements: list[str]
+    v2_compliance_improvements: list[str]
 
 
 class OptimizationTools:
@@ -42,12 +41,8 @@ class OptimizationTools:
 
             optimization_targets = self._identify_optimization_targets(source_content)
             optimization_rules = self._generate_optimization_rules(source_content)
-            performance_improvements = self._identify_performance_improvements(
-                source_content
-            )
-            v2_compliance_improvements = self._identify_v2_compliance_improvements(
-                source_content
-            )
+            performance_improvements = self._identify_performance_improvements(source_content)
+            v2_compliance_improvements = self._identify_v2_compliance_improvements(source_content)
 
             return OptimizationPlan(
                 optimization_targets=optimization_targets,
@@ -55,7 +50,7 @@ class OptimizationTools:
                 performance_improvements=performance_improvements,
                 v2_compliance_improvements=v2_compliance_improvements,
             )
-        except Exception as e:
+        except Exception:
             return OptimizationPlan(
                 optimization_targets=[],
                 optimization_rules=[],
@@ -76,10 +71,10 @@ class OptimizationTools:
             source_path.write_text(optimized_content, encoding="utf-8")
 
             return True
-        except Exception as e:
+        except Exception:
             return False
 
-    def _identify_optimization_targets(self, content: str) -> List[str]:
+    def _identify_optimization_targets(self, content: str) -> list[str]:
         """Identify optimization targets in content."""
         targets = []
 
@@ -94,7 +89,7 @@ class OptimizationTools:
 
         return targets[:10]  # Limit to 10 targets
 
-    def _generate_optimization_rules(self, content: str) -> List[str]:
+    def _generate_optimization_rules(self, content: str) -> list[str]:
         """Generate optimization rules based on content."""
         rules = []
 
@@ -112,7 +107,7 @@ class OptimizationTools:
 
         return rules
 
-    def _identify_performance_improvements(self, content: str) -> List[str]:
+    def _identify_performance_improvements(self, content: str) -> list[str]:
         """Identify performance improvement opportunities."""
         improvements = []
 
@@ -127,7 +122,7 @@ class OptimizationTools:
 
         return improvements
 
-    def _identify_v2_compliance_improvements(self, content: str) -> List[str]:
+    def _identify_v2_compliance_improvements(self, content: str) -> list[str]:
         """Identify V2 compliance improvement opportunities."""
         improvements = []
 

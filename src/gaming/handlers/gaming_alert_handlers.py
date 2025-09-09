@@ -29,9 +29,7 @@ def handle_performance_alerts(manager, performance_metrics: Dict[str, Any]) -> L
         alert = manager.create_alert(
             AlertType.PERFORMANCE,
             severity,
-            format_alert_message(
-                AlertType.PERFORMANCE, severity, {"fps": fps, "threshold": 30}
-            ),
+            format_alert_message(AlertType.PERFORMANCE, severity, {"fps": fps, "threshold": 30}),
             "performance_monitor",
             {"fps": fps, "threshold": 30},
         )

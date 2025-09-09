@@ -10,28 +10,24 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import asyncio
-import time
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from typing import Any
 
+from ....utils.logger import get_logger
+
+from ..engines.integration_performance_engine import IntegrationPerformanceEngine
+from ..engines.integration_task_engine import IntegrationTaskEngine
 from ..integration_models import (
     EnhancedOptimizationConfig,
     IntegrationStatus,
     create_default_optimization_config,
     validate_optimization_config,
 )
-from ..engines.integration_task_engine import IntegrationTaskEngine
-from ..engines.integration_performance_engine import IntegrationPerformanceEngine
-
-from src.utils.logger import get_logger
 
 try:
     from ...unified_validation_system import validate_required_fields
-    from ...vector_database_enhanced_integration import (
-        EnhancedVectorDatabaseIntegration,
-    )
+    from ...vector_database_enhanced_integration import EnhancedVectorDatabaseIntegration
 except ImportError:
     # Fallback implementations
     def validate_required_fields(*args):
@@ -52,7 +48,7 @@ class EnhancedIntegrationCoordinator:
     compliance through modular architecture.
     """
 
-    def __init__(self, config: Optional[EnhancedOptimizationConfig] = None):
+    def __init__(self, config: EnhancedOptimizationConfig | None = None):
         """Initialize enhanced integration coordinator."""
         self.logger = get_logger(__name__)
         self.config = config or create_default_optimization_config()
@@ -132,7 +128,7 @@ class EnhancedIntegrationCoordinator:
             self.logger.error(f"Failed to stop coordination: {e}")
             return False
 
-    async def execute_integration_tasks(self, tasks: List[Any]) -> List[Dict[str, Any]]:
+    async def execute_integration_tasks(self, tasks: list[Any]) -> list[dict[str, Any]]:
         """Execute multiple integration tasks concurrently."""
         if self.status != IntegrationStatus.ACTIVE:
             return [{"error": "Coordination system not active"}]
@@ -162,7 +158,7 @@ class EnhancedIntegrationCoordinator:
 
         return results
 
-    def get_integration_summary(self) -> Dict[str, Any]:
+    def get_integration_summary(self) -> dict[str, Any]:
         """Get comprehensive integration summary."""
         uptime = None
         if self.start_time:
@@ -185,9 +181,7 @@ class EnhancedIntegrationCoordinator:
                 "coordination_strategy": self.config.coordination_strategy.value,
                 "resource_allocation": self.config.resource_allocation.value,
                 "optimization_level": self.config.optimization_level.value,
-                "target_performance_improvement": (
-                    self.config.target_performance_improvement
-                ),
+                "target_performance_improvement": (self.config.target_performance_improvement),
                 "max_concurrent_operations": self.config.max_concurrent_operations,
             },
             "metrics_history_size": performance_summary["history_size"],

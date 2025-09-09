@@ -1,182 +1,132 @@
 #!/usr/bin/env python3
 """
-Coordinator Registry - V2 Compliant
-=================================
+Coordinator Registry Implementation - V2 Compliant Module
+========================================================
 
-Registry for managing all unified coordinators.
+Concrete implementation of ICoordinatorRegistry for managing coordinators.
+V2 Compliance: < 200 lines, single responsibility.
 
-Author: Agent-2 - Architecture & Design Specialist
-Created: 2025-01-27
-Purpose: Centralized coordinator management
+Author: V2 Implementation Team
+License: MIT
 """
 
 from typing import Any, Dict, Optional
-from .coordinator_interfaces import ICoordinatorRegistry, ICoordinatorLogger
-from .coordinator_models import CoordinationStatus
+
+from .unified_logging_system import get_logger
+from .coordinator_interfaces import ICoordinatorRegistry, ICoordinator
 
 
 class CoordinatorRegistry(ICoordinatorRegistry):
-    """Registry for managing all unified coordinators."""
+    """Concrete implementation of coordinator registry."""
 
-    def __init__(self, logger: ICoordinatorLogger):
-        self.coordinators: Dict[str, Any] = {}
-        self.logger = logger
+    def __init__(self):
+        """Initialize coordinator registry."""
+        self.logger = get_logger(__name__)
+        self._coordinators: Dict[str, Any] = {}
+        self.logger.info("CoordinatorRegistry initialized")
 
     def register_coordinator(self, coordinator: Any) -> bool:
         """Register a coordinator instance."""
         try:
-            if not hasattr(coordinator, "name"):
+            if not hasattr(coordinator, 'name'):
                 self.logger.error("Coordinator must have a 'name' attribute")
                 return False
 
-            if coordinator.name in self.coordinators:
-                self.logger.warning(
-                    f"Coordinator {coordinator.name} already registered, replacing"
-                )
+            coordinator_name = coordinator.name
+            if coordinator_name in self._coordinators:
+                self.logger.warning(f"Coordinator '{coordinator_name}' already registered")
+                return False
 
-            self.coordinators[coordinator.name] = coordinator
-            self.logger.info(f"Coordinator {coordinator.name} registered successfully")
+            self._coordinators[coordinator_name] = coordinator
+            self.logger.info(f"Registered coordinator: {coordinator_name}")
             return True
 
         except Exception as e:
-            self.logger.error(f"Failed to register coordinator: {e}")
+            self.logger.error(f"Error registering coordinator: {e}")
             return False
 
     def get_coordinator(self, name: str) -> Optional[Any]:
         """Get coordinator by name."""
-        return self.coordinators.get(name)
+        return self._coordinators.get(name)
 
     def get_all_coordinators(self) -> Dict[str, Any]:
         """Get all registered coordinators."""
-        return self.coordinators.copy()
+        return self._coordinators.copy()
 
     def unregister_coordinator(self, name: str) -> bool:
         """Unregister a coordinator."""
         try:
-            if name in self.coordinators:
-                coordinator = self.coordinators[name]
-
-                # Shutdown coordinator if it has shutdown method
-                if hasattr(coordinator, "shutdown"):
-                    coordinator.shutdown()
-
-                del self.coordinators[name]
-                self.logger.info(f"Coordinator {name} unregistered successfully")
-                return True
-            else:
-                self.logger.warning(f"Coordinator {name} not found for unregistration")
+            if name not in self._coordinators:
+                self.logger.warning(f"Coordinator '{name}' not found")
                 return False
 
+            coordinator = self._coordinators[name]
+            if hasattr(coordinator, 'shutdown'):
+                coordinator.shutdown()
+
+            del self._coordinators[name]
+            self.logger.info(f"Unregistered coordinator: {name}")
+            return True
+
         except Exception as e:
-            self.logger.error(f"Failed to unregister coordinator {name}: {e}")
+            self.logger.error(f"Error unregistering coordinator '{name}': {e}")
             return False
 
     def get_coordinator_statuses(self) -> Dict[str, Dict[str, Any]]:
         """Get status of all coordinators."""
-        statuses = {}
-
-        for name, coordinator in self.coordinators.items():
-            try:
-                if hasattr(coordinator, "get_status"):
-                    status = coordinator.get_status()
-                    if hasattr(status, "to_dict"):
-                        statuses[name] = status.to_dict()
+        try:
+            statuses = {}
+            for name, coordinator in self._coordinators.items():
+                try:
+                    if hasattr(coordinator, 'get_status'):
+                        statuses[name] = coordinator.get_status()
                     else:
-                        statuses[name] = status
-                else:
-                    statuses[name] = {
-                        "name": name,
-                        "status": "unknown",
-                        "error": "No get_status method available",
-                    }
-            except Exception as e:
-                statuses[name] = {"name": name, "status": "error", "error": str(e)}
+                        statuses[name] = {"status": "unknown", "error": "No get_status method"}
+                except Exception as e:
+                    statuses[name] = {"status": "error", "error": str(e)}
 
-        return statuses
+            return statuses
+
+        except Exception as e:
+            self.logger.error(f"Error getting coordinator statuses: {e}")
+            return {}
 
     def shutdown_all_coordinators(self) -> None:
         """Shutdown all registered coordinators."""
-        for name, coordinator in self.coordinators.items():
-            try:
-                if hasattr(coordinator, "shutdown"):
-                    coordinator.shutdown()
-                    self.logger.info(f"Coordinator {name} shut down successfully")
-                else:
-                    self.logger.warning(f"Coordinator {name} has no shutdown method")
-            except Exception as e:
-                self.logger.error(f"Error shutting down coordinator {name}: {e}")
+        try:
+            self.logger.info("Shutting down all coordinators")
+            for name, coordinator in list(self._coordinators.items()):
+                try:
+                    if hasattr(coordinator, 'shutdown'):
+                        coordinator.shutdown()
+                    self.logger.info(f"Shutdown coordinator: {name}")
+                except Exception as e:
+                    self.logger.error(f"Error shutting down coordinator '{name}': {e}")
+
+            self._coordinators.clear()
+            self.logger.info("All coordinators shutdown complete")
+
+        except Exception as e:
+            self.logger.error(f"Error during coordinator shutdown: {e}")
 
     def get_coordinator_count(self) -> int:
         """Get total number of registered coordinators."""
-        return len(self.coordinators)
-
-    def get_coordinators_by_status(self, status: str) -> Dict[str, Any]:
-        """Get coordinators by status."""
-        filtered = {}
-
-        for name, coordinator in self.coordinators.items():
-            try:
-                if hasattr(coordinator, "get_status"):
-                    coord_status = coordinator.get_status()
-                    if hasattr(coord_status, "coordination_status"):
-                        if coord_status.coordination_status.value == status:
-                            filtered[name] = coordinator
-                    elif (
-                        isinstance(coord_status, dict)
-                        and coord_status.get("coordination_status") == status
-                    ):
-                        filtered[name] = coordinator
-            except Exception:
-                continue
-
-        return filtered
-
-    def clear_all_coordinators(self) -> None:
-        """Clear all coordinators from registry."""
-        self.shutdown_all_coordinators()
-        self.coordinators.clear()
-        self.logger.info("All coordinators cleared from registry")
+        return len(self._coordinators)
 
 
 # Global registry instance
-_global_registry: Optional[CoordinatorRegistry] = None
+_registry_instance: Optional[CoordinatorRegistry] = None
 
 
-def get_global_registry(logger: ICoordinatorLogger) -> CoordinatorRegistry:
-    """Get global coordinator registry instance."""
-    global _global_registry
-    if _global_registry is None:
-        _global_registry = CoordinatorRegistry(logger)
-    return _global_registry
+def get_coordinator_registry() -> CoordinatorRegistry:
+    """Get the global coordinator registry instance."""
+    global _registry_instance
+    if _registry_instance is None:
+        _registry_instance = CoordinatorRegistry()
+    return _registry_instance
 
 
-def register_coordinator(coordinator: Any, logger: ICoordinatorLogger) -> bool:
-    """Register a coordinator with the global registry."""
-    registry = get_global_registry(logger)
-    return registry.register_coordinator(coordinator)
-
-
-def get_coordinator(name: str, logger: ICoordinatorLogger) -> Optional[Any]:
-    """Get a coordinator by name from the global registry."""
-    registry = get_global_registry(logger)
-    return registry.get_coordinator(name)
-
-
-def get_all_coordinators(logger: ICoordinatorLogger) -> Dict[str, Any]:
-    """Get all coordinators from the global registry."""
-    registry = get_global_registry(logger)
-    return registry.get_all_coordinators()
-
-
-def get_all_coordinator_statuses(
-    logger: ICoordinatorLogger,
-) -> Dict[str, Dict[str, Any]]:
-    """Get status of all coordinators from the global registry."""
-    registry = get_global_registry(logger)
-    return registry.get_coordinator_statuses()
-
-
-def shutdown_all_coordinators(logger: ICoordinatorLogger) -> None:
-    """Shutdown all coordinators in the global registry."""
-    registry = get_global_registry(logger)
-    registry.shutdown_all_coordinators()
+__all__ = [
+    "CoordinatorRegistry",
+    "get_coordinator_registry",
+]

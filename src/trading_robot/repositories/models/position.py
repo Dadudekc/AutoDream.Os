@@ -13,7 +13,7 @@ License: MIT
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Dict, Any
+from typing import Any
 
 
 @dataclass
@@ -28,7 +28,7 @@ class Position:
     average_price: float
     current_price: float = 0.0
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate position data on initialization."""
@@ -107,7 +107,7 @@ class Position:
             self.average_price = total_cost / total_quantity
             self.quantity = total_quantity
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert position to dictionary."""
         return {
             "symbol": self.symbol,
@@ -119,7 +119,7 @@ class Position:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Position":
+    def from_dict(cls, data: dict[str, Any]) -> "Position":
         """Create position from dictionary."""
         return cls(
             symbol=data["symbol"],

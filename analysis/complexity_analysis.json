@@ -1,0 +1,78 @@
+{
+  "complexity_distribution": {},
+  "high_complexity_files": [
+    {
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
+      "complexity": 32,
+      "functions": 16,
+      "classes": 1
+    },
+    {
+      "path": "tests\\test_architectural_compliance.py",
+      "complexity": 42,
+      "functions": 21,
+      "classes": 3
+    }
+  ],
+  "low_complexity_files": [
+    {
+      "path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
+      "complexity": 0
+    },
+    {
+      "path": "src\\services\\quality\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "src\\reporting\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "tests\\messaging\\fixtures\\config.py",
+      "complexity": 2
+    },
+    {
+      "path": "tests\\performance\\__init__.py",
+      "complexity": 0
+    },
+    {
+      "path": "tests\\runners\\config.py",
+      "complexity": 0
+    },
+    {
+      "path": "tests\\infrastructure\\test_infrastructure_config.py",
+      "complexity": 0
+    },
+    {
+      "path": "tests\\messaging\\fixtures\\__init__.py",
+      "complexity": 0
+    }
+  ],
+  "average_complexity": 7.0,
+  "total_files": 12,
+  "complexity_ranges": {
+    "simple": [
+      "src\\web\\static\\js\\unified-frontend-utilities.js",
+      "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
+      "src\\services\\quality\\__init__.py",
+      "src\\reporting\\__init__.py",
+      "tests\\messaging\\fixtures\\config.py",
+      "tests\\performance\\__init__.py",
+      "tests\\runners\\config.py",
+      "tests\\infrastructure\\test_infrastructure_config.py",
+      "tests\\messaging\\fixtures\\__init__.py"
+    ],
+    "moderate": [
+      "src\\services\\cursor_db.py"
+    ],
+    "complex": [],
+    "very_complex": [
+      "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
+      "tests\\test_architectural_compliance.py"
+    ]
+  }
+}

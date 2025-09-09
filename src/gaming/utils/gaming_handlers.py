@@ -19,9 +19,7 @@ class GamingEventHandlers:
     @staticmethod
     def handle_performance_monitoring(event_data: Dict[str, Any]):
         """Handle performance monitoring events."""
-        get_logger(__name__).debug(
-            f"Handling performance monitoring event: {event_data}"
-        )
+        get_logger(__name__).debug(f"Handling performance monitoring event: {event_data}")
 
     @staticmethod
     def handle_system_health(event_data: Dict[str, Any]):

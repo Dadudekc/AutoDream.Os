@@ -1,15 +1,4 @@
 #!/usr/bin/env python3
-<<<<<<< HEAD
-"""Agent Swarm Onboarding Script Automated onboarding for new agents joining the swarm
-system."""
-
-
-class AgentOnboarding:
-    """Automated onboarding system for new agents."""
-
-    def __init__(self):
-        self.workspace_root = get_unified_utility().Path("agent_workspaces")
-=======
 """
 Agent Swarm Onboarding Script
 Automated onboarding for new agents joining the swarm system.
@@ -18,16 +7,15 @@ Automated onboarding for new agents joining the swarm system.
 import os
 import json
 import sys
+from pathlib import Path
 import subprocess
 from datetime import datetime
-from pathlib import Path
 
 class AgentOnboarding:
     """Automated onboarding system for new agents."""
-    
+
     def __init__(self):
         self.workspace_root = Path("agent_workspaces")
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         self.available_agents = {
             "Agent-1": "Integration & Core Systems Specialist",
             "Agent-2": "Architecture & Design Specialist",
@@ -35,15 +23,9 @@ class AgentOnboarding:
             "Agent-5": "Business Intelligence Specialist",
             "Agent-6": "Coordination & Communication Specialist",
             "Agent-7": "Web Development Specialist",
-<<<<<<< HEAD
             "Agent-8": "SSOT Maintenance & System Integration Specialist",
         }
 
-=======
-            "Agent-8": "SSOT Maintenance & System Integration Specialist"
-        }
-    
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     def get_available_agent_id(self):
         """Find an available agent ID for assignment."""
         for agent_id in self.available_agents.keys():
@@ -51,28 +33,16 @@ class AgentOnboarding:
             if not status_file.exists():
                 return agent_id
         return None
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     def create_agent_workspace(self, agent_id):
         """Create the agent workspace and initialize status.json."""
         workspace_dir = self.workspace_root / agent_id
         inbox_dir = workspace_dir / "inbox"
-<<<<<<< HEAD
 
         # Create directories
         workspace_dir.mkdir(parents=True, exist_ok=True)
         inbox_dir.mkdir(parents=True, exist_ok=True)
 
-=======
-        
-        # Create directories
-        workspace_dir.mkdir(parents=True, exist_ok=True)
-        inbox_dir.mkdir(parents=True, exist_ok=True)
-        
->>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         # Create status.json
         status_data = {
             "agent_id": agent_id,

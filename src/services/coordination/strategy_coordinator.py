@@ -11,14 +11,13 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 from ..models.messaging_models import (
-    UnifiedMessage,
-    UnifiedMessageType,
-    UnifiedMessagePriority,
     SenderType,
-    RecipientType,
+    UnifiedMessage,
+    UnifiedMessagePriority,
+    UnifiedMessageType,
 )
 
 
@@ -33,7 +32,7 @@ class StrategyCoordinator:
         self.coordination_rules = self._initialize_coordination_rules()
         self.routing_table = self._initialize_routing_table()
 
-    def _initialize_coordination_rules(self) -> Dict[str, Any]:
+    def _initialize_coordination_rules(self) -> dict[str, Any]:
         """Initialize coordination rules."""
         return {
             "priority_routing": {
@@ -55,7 +54,7 @@ class StrategyCoordinator:
             },
         }
 
-    def _initialize_routing_table(self) -> Dict[str, Any]:
+    def _initialize_routing_table(self) -> dict[str, Any]:
         """Initialize routing table."""
         return {
             "captain_priority": {
@@ -114,9 +113,7 @@ class StrategyCoordinator:
         else:
             return "standard_delivery"
 
-    def apply_coordination_rules(
-        self, message: UnifiedMessage, strategy: str
-    ) -> Dict[str, Any]:
+    def apply_coordination_rules(self, message: UnifiedMessage, strategy: str) -> dict[str, Any]:
         """Apply coordination rules based on strategy."""
         rules_applied = []
 
@@ -158,11 +155,11 @@ class StrategyCoordinator:
 
         return time_estimates.get(strategy, 0.5)
 
-    def get_coordination_rules(self) -> Dict[str, Any]:
+    def get_coordination_rules(self) -> dict[str, Any]:
         """Get coordination rules."""
         return self.coordination_rules.copy()
 
-    def get_routing_table(self) -> Dict[str, Any]:
+    def get_routing_table(self) -> dict[str, Any]:
         """Get routing table."""
         return self.routing_table.copy()
 
@@ -173,14 +170,14 @@ class StrategyCoordinator:
             return True
         return False
 
-    def update_routing_config(self, strategy: str, config: Dict[str, Any]) -> bool:
+    def update_routing_config(self, strategy: str, config: dict[str, Any]) -> bool:
         """Update routing configuration."""
         if strategy in self.routing_table:
             self.routing_table[strategy].update(config)
             return True
         return False
 
-    def get_coordinator_status(self) -> Dict[str, Any]:
+    def get_coordinator_status(self) -> dict[str, Any]:
         """Get coordinator status."""
         return {
             "coordination_rules_count": len(self.coordination_rules),

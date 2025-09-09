@@ -8,8 +8,8 @@ Agents have identity and manage their own state and capabilities.
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Optional, Set
-from src.domain.value_objects.ids import AgentId, TaskId
+
+from ..value_objects.ids import AgentId, TaskId
 
 
 @dataclass
@@ -27,12 +27,12 @@ class Agent:
     id: AgentId
     name: str
     role: str
-    capabilities: Set[str] = field(default_factory=set)
+    capabilities: set[str] = field(default_factory=set)
     max_concurrent_tasks: int = 3
     is_active: bool = True
     created_at: datetime = field(default_factory=datetime.utcnow)
-    last_active_at: Optional[datetime] = None
-    current_task_ids: List[TaskId] = field(default_factory=list)
+    last_active_at: datetime | None = None
+    current_task_ids: list[TaskId] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         """Validate entity invariants."""
@@ -51,8 +51,7 @@ class Agent:
     @property
     def can_accept_more_tasks(self) -> bool:
         """Check if agent can accept more tasks."""
-        return (self.is_active and
-                self.current_task_count < self.max_concurrent_tasks)
+        return self.is_active and self.current_task_count < self.max_concurrent_tasks
 
     @property
     def workload_percentage(self) -> float:

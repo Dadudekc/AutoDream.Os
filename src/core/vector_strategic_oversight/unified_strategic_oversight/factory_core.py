@@ -9,29 +9,26 @@ Author: Agent-2 - Architecture & Design Specialist
 Mission: V2 Compliance Refactoring
 """
 
-from typing import Dict, List, Any, Optional
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import Any
 
+from .core_models import (
+    AgentPerformanceMetrics,
+    StrategicMission,
+    StrategicOversightReport,
+    StrategicRecommendation,
+    SwarmCoordinationInsight,
+    SwarmCoordinationStatus,
+)
 from .enums import (
-    InsightType,
+    AgentRole,
     ConfidenceLevel,
     ImpactLevel,
+    InsightType,
     MissionStatus,
-    ReportType,
     PriorityLevel,
-    AgentRole,
-    EmergencyStatus,
-)
-from .core_models import (
-    StrategicOversightReport,
-    SwarmCoordinationInsight,
-    StrategicRecommendation,
-    AgentPerformanceMetrics,
-    SwarmCoordinationStatus,
-    StrategicMission,
-    VectorDatabaseMetrics,
-    SystemHealthMetrics,
+    ReportType,
 )
 
 
@@ -43,9 +40,9 @@ class StrategicOversightFactoryCore:
         title: str,
         description: str,
         report_type: ReportType,
-        insights: List[Any] = None,
-        recommendations: List[Any] = None,
-        metrics: Dict[str, Any] = None,
+        insights: list[Any] = None,
+        recommendations: list[Any] = None,
+        metrics: dict[str, Any] = None,
     ) -> StrategicOversightReport:
         """Create strategic oversight report."""
         return StrategicOversightReport(
@@ -67,8 +64,8 @@ class StrategicOversightFactoryCore:
         description: str,
         confidence: ConfidenceLevel = ConfidenceLevel.HIGH,
         impact: ImpactLevel = ImpactLevel.MEDIUM,
-        evidence: List[str] = None,
-        recommendations: List[str] = None,
+        evidence: list[str] = None,
+        recommendations: list[str] = None,
     ) -> SwarmCoordinationInsight:
         """Create swarm coordination insight."""
         return SwarmCoordinationInsight(
@@ -90,8 +87,8 @@ class StrategicOversightFactoryCore:
         priority: PriorityLevel = PriorityLevel.MEDIUM,
         impact: ImpactLevel = ImpactLevel.MEDIUM,
         implementation_effort: str = "medium",
-        expected_benefits: List[str] = None,
-        risks: List[str] = None,
+        expected_benefits: list[str] = None,
+        risks: list[str] = None,
     ) -> StrategicRecommendation:
         """Create strategic recommendation."""
         return StrategicRecommendation(
@@ -133,7 +130,7 @@ class StrategicOversightFactoryCore:
     def create_swarm_coordination_status(
         status_name: str,
         description: str,
-        active_agents: List[str] = None,
+        active_agents: list[str] = None,
         coordination_level: str = "medium",
         efficiency_score: float = 0.8,
     ) -> SwarmCoordinationStatus:
@@ -154,8 +151,8 @@ class StrategicOversightFactoryCore:
         description: str,
         priority: PriorityLevel = PriorityLevel.MEDIUM,
         status: MissionStatus = MissionStatus.PENDING,
-        assigned_agents: List[str] = None,
-        target_date: Optional[datetime] = None,
+        assigned_agents: list[str] = None,
+        target_date: datetime | None = None,
     ) -> StrategicMission:
         """Create strategic mission."""
         return StrategicMission(

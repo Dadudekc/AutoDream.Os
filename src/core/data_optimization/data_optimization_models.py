@@ -9,10 +9,10 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
+import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
-import time
+from typing import Any
 
 
 class ProcessingStrategy(Enum):
@@ -45,7 +45,7 @@ class ProcessingMetrics:
     parallel_efficiency: float = 0.0
     throughput_ops_per_sec: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
             "operations_processed": self.operations_processed,
@@ -94,8 +94,8 @@ class OptimizationResult:
     strategy_used: str
     execution_time_ms: float
     result: Any = None
-    metrics: Optional[ProcessingMetrics] = None
-    error_message: Optional[str] = None
+    metrics: ProcessingMetrics | None = None
+    error_message: str | None = None
     cache_hit: bool = False
     memory_used_mb: float = 0.0
 

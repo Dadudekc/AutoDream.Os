@@ -12,9 +12,10 @@ License: MIT
 import logging
 import random
 import time
-from typing import Callable, Any, Optional, Union, Type
-from functools import wraps
+from collections.abc import Callable
 from dataclasses import dataclass
+from functools import wraps
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -71,9 +72,7 @@ class RetryMechanism:
                     raise e
 
                 delay = self._calculate_delay(attempt)
-                logger.warning(
-                    f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}"
-                )
+                logger.warning(f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}")
 
                 time.sleep(delay)
 
@@ -81,9 +80,7 @@ class RetryMechanism:
         raise last_exception
 
 
-def retry_on_exception(
-    config: RetryConfig, exceptions: Union[Type[Exception], tuple] = Exception
-):
+def retry_on_exception(config: RetryConfig, exceptions: type[Exception] | tuple = Exception):
     """Decorator for retrying on specific exceptions."""
     mechanism = RetryMechanism(config)
 
@@ -100,7 +97,7 @@ def retry_on_exception(
     return decorator
 
 
-def retry_on_failure(config: RetryConfig, failure_condition: Optional[Callable] = None):
+def retry_on_failure(config: RetryConfig, failure_condition: Callable | None = None):
     """Decorator for retrying based on custom failure condition."""
     mechanism = RetryMechanism(config)
 
@@ -110,9 +107,7 @@ def retry_on_failure(config: RetryConfig, failure_condition: Optional[Callable] 
             def execute():
                 result = func(*args, **kwargs)
                 if failure_condition and failure_condition(result):
-                    raise RetryException(
-                        f"Failure condition met: {failure_condition.__name__}"
-                    )
+                    raise RetryException(f"Failure condition met: {failure_condition.__name__}")
                 return result
 
             return mechanism.execute_with_retry(execute)
@@ -182,9 +177,7 @@ def with_exponential_backoff(
                         raise e
 
                     delay = backoff.get_delay(attempt)
-                    logger.warning(
-                        f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}"
-                    )
+                    logger.warning(f"Attempt {attempt + 1} failed, retrying in {delay:.2f}s: {e}")
                     time.sleep(delay)
 
             raise last_exception

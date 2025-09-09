@@ -10,9 +10,8 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Dict, Any
 from dataclasses import dataclass
-from pathlib import Path
+from typing import Any
 
 from ...unified_import_system import get_unified_import_system
 
@@ -21,9 +20,9 @@ from ...unified_import_system import get_unified_import_system
 class ConsolidationPlan:
     """Plan for consolidating duplicate code."""
 
-    duplicate_groups: List[List[str]]
-    consolidation_targets: List[str]
-    consolidation_rules: List[str]
+    duplicate_groups: list[list[str]]
+    consolidation_targets: list[str]
+    consolidation_rules: list[str]
     estimated_savings: int
 
 
@@ -48,9 +47,7 @@ class ConsolidationTools:
                 if len(group) > 1:
                     duplicate_groups.append(group)
                     consolidation_targets.append(group[0])  # Keep first file
-                    consolidation_rules.append(
-                        f"Consolidate {len(group)} duplicate files"
-                    )
+                    consolidation_rules.append(f"Consolidate {len(group)} duplicate files")
                     estimated_savings += len(group) - 1
 
             return ConsolidationPlan(
@@ -59,7 +56,7 @@ class ConsolidationTools:
                 consolidation_rules=consolidation_rules,
                 estimated_savings=estimated_savings,
             )
-        except Exception as e:
+        except Exception:
             return ConsolidationPlan(
                 duplicate_groups=[],
                 consolidation_targets=[],
@@ -79,10 +76,10 @@ class ConsolidationTools:
                             path.unlink()
 
             return True
-        except Exception as e:
+        except Exception:
             return False
 
-    def _find_duplicate_files(self, directory: str) -> List[List[str]]:
+    def _find_duplicate_files(self, directory: str) -> list[list[str]]:
         """Find duplicate files in directory."""
         try:
             dir_path = self.unified_imports.Path(directory)
@@ -111,10 +108,10 @@ class ConsolidationTools:
                     duplicates.append(file_group)
 
             return duplicates
-        except Exception as e:
+        except Exception:
             return []
 
-    def analyze_duplicates(self, directory: str) -> Dict[str, Any]:
+    def analyze_duplicates(self, directory: str) -> dict[str, Any]:
         """Analyze duplicate files in directory."""
         try:
             duplicates = self._find_duplicate_files(directory)

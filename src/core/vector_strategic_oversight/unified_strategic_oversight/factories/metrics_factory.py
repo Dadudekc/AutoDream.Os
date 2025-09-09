@@ -10,17 +10,16 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-from ..enums import AgentRole
 from ..data_models import (
     AgentPerformanceMetrics,
     SwarmCoordinationStatus,
-    VectorDatabaseMetrics,
     SystemHealthMetrics,
+    VectorDatabaseMetrics,
 )
+from ..enums import AgentRole
 
 
 class MetricsFactory:

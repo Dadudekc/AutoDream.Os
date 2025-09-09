@@ -10,9 +10,9 @@ License: MIT
 """
 
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Union
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
 
 class MissionPhase(Enum):
@@ -50,15 +50,15 @@ class MissionContext:
     mission_id: str
     mission_type: str
     current_phase: str
-    agent_assignments: Dict[str, str] = field(default_factory=dict)
-    critical_path: List[str] = field(default_factory=list)
-    risk_factors: List[str] = field(default_factory=list)
-    success_criteria: List[str] = field(default_factory=list)
+    agent_assignments: dict[str, str] = field(default_factory=dict)
+    critical_path: list[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
+    success_criteria: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
     last_updated: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "mission_id": self.mission_id,
@@ -80,16 +80,16 @@ class AgentCapability:
 
     agent_id: str
     primary_role: str
-    skills: Set[str] = field(default_factory=set)
+    skills: set[str] = field(default_factory=set)
     experience_level: str = "intermediate"
     current_workload: int = 0
     success_rate: float = 0.8
-    specialization: List[str] = field(default_factory=list)
+    specialization: list[str] = field(default_factory=list)
     availability_status: str = "available"
     last_active: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "agent_id": self.agent_id,
@@ -114,10 +114,10 @@ class SearchResult:
     relevance_score: float
     source_type: str
     source_id: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "result_id": self.result_id,
@@ -135,21 +135,19 @@ class ContextRetrievalResult:
     """Result of context retrieval operation."""
 
     success: bool
-    mission_context: Optional[MissionContext] = None
-    search_results: List[SearchResult] = field(default_factory=list)
-    agent_recommendations: List[Dict[str, Any]] = field(default_factory=list)
-    risk_assessment: Optional[Dict[str, Any]] = None
-    success_prediction: Optional[Dict[str, Any]] = None
+    mission_context: MissionContext | None = None
+    search_results: list[SearchResult] = field(default_factory=list)
+    agent_recommendations: list[dict[str, Any]] = field(default_factory=list)
+    risk_assessment: dict[str, Any] | None = None
+    success_prediction: dict[str, Any] | None = None
     execution_time_ms: float = 0.0
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "success": self.success,
-            "mission_context": (
-                self.mission_context.to_dict() if self.mission_context else None
-            ),
+            "mission_context": (self.mission_context.to_dict() if self.mission_context else None),
             "search_results": [r.to_dict() for r in self.search_results],
             "agent_recommendations": self.agent_recommendations,
             "risk_assessment": self.risk_assessment,
@@ -167,11 +165,11 @@ class EmergencyContext:
     mission_id: str
     emergency_type: str
     severity_level: str
-    affected_agents: List[str] = field(default_factory=list)
-    intervention_protocols: List[str] = field(default_factory=list)
+    affected_agents: list[str] = field(default_factory=list)
+    intervention_protocols: list[str] = field(default_factory=list)
     estimated_resolution_time: float = 0.0
     created_at: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -180,12 +178,12 @@ class InterventionProtocol:
 
     protocol_id: str
     protocol_name: str
-    trigger_conditions: List[str] = field(default_factory=list)
-    intervention_steps: List[str] = field(default_factory=list)
-    success_criteria: List[str] = field(default_factory=list)
+    trigger_conditions: list[str] = field(default_factory=list)
+    intervention_steps: list[str] = field(default_factory=list)
+    success_criteria: list[str] = field(default_factory=list)
     estimated_duration: float = 0.0
-    required_agents: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    required_agents: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -194,11 +192,11 @@ class AgentRecommendation:
 
     agent_id: str
     recommendation_score: float
-    reasoning: List[str] = field(default_factory=list)
+    reasoning: list[str] = field(default_factory=list)
     specialization_match: str = ""
     workload_impact: float = 0.0
     success_probability: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -207,11 +205,11 @@ class RiskAssessment:
 
     risk_id: str
     risk_level: str
-    risk_factors: List[str] = field(default_factory=list)
-    mitigation_strategies: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
+    mitigation_strategies: list[str] = field(default_factory=list)
     probability: float = 0.0
     impact: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -221,10 +219,10 @@ class SuccessPrediction:
     prediction_id: str
     success_probability: float
     confidence_level: float
-    key_factors: List[str] = field(default_factory=list)
-    potential_bottlenecks: List[str] = field(default_factory=list)
-    recommended_actions: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    key_factors: list[str] = field(default_factory=list)
+    potential_bottlenecks: list[str] = field(default_factory=list)
+    recommended_actions: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -242,7 +240,7 @@ class ContextMetrics:
     success_predictions: int = 0
     last_updated: datetime = field(default_factory=datetime.now)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_retrievals": self.total_retrievals,

@@ -57,9 +57,7 @@ class TradingDependencyContainer:
             self.logger.log_error("register_defaults", str(e))
             raise DependencyInjectionError(f"Failed to register defaults: {e}")
 
-    def register_factory(
-        self, name: str, factory: Callable, singleton: bool = False
-    ) -> None:
+    def register_factory(self, name: str, factory: Callable, singleton: bool = False) -> None:
         """Register a service factory."""
         try:
             self.logger.get_unified_logger().log_operation_start(
@@ -71,9 +69,7 @@ class TradingDependencyContainer:
 
             self._factories[name] = factory
             if singleton:
-                self._services[name] = (
-                    None  # Mark as singleton but not yet instantiated
-                )
+                self._services[name] = None  # Mark as singleton but not yet instantiated
 
             self.logger.get_unified_logger().log_operation_complete(
                 "register_factory", {"service_name": name, "factory_registered": True}
@@ -83,9 +79,7 @@ class TradingDependencyContainer:
             self.logger.log_error("register_factory", str(e), {"service_name": name})
             raise DependencyInjectionError(f"Failed to register factory {name}: {e}")
 
-    def register_instance(
-        self, name: str, instance: Any, singleton: bool = True
-    ) -> None:
+    def register_instance(self, name: str, instance: Any, singleton: bool = True) -> None:
         """Register a service instance directly."""
         try:
             self.logger.get_unified_logger().log_operation_start(
@@ -192,11 +186,7 @@ class TradingDependencyContainer:
 
     def has_service(self, name: str) -> bool:
         """Check if a service is registered."""
-        return (
-            name in self._services
-            or name in self._factories
-            or name in self._singletons
-        )
+        return name in self._services or name in self._factories or name in self._singletons
 
     def clear_scope(self, scope: str) -> None:
         """Clear all scoped instances for a scope."""

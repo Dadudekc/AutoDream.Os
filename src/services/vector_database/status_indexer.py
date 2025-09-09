@@ -8,13 +8,12 @@ vector database's ``agent_status_embeddings`` table.
 from __future__ import annotations
 
 import json
+import sqlite3
 from datetime import datetime
 from pathlib import Path
-import sqlite3
-from typing import Optional
 
+# from ...core import vector_database as vdb  # Commented out to fix import issues
 from ..embedding_service import EmbeddingService
-from ...core import vector_database as vdb
 
 
 def load_status(path: Path) -> tuple[str, str, str]:
@@ -29,8 +28,8 @@ def load_status(path: Path) -> tuple[str, str, str]:
 
 def index_all_statuses(
     base_dir: Path = Path("."),
-    conn: Optional[sqlite3.Connection] = None,
-    embedding_service: Optional[EmbeddingService] = None,
+    conn: sqlite3.Connection | None = None,
+    embedding_service: EmbeddingService | None = None,
 ) -> None:
     """Index all ``status.json`` files under ``base_dir``."""
     service = embedding_service or EmbeddingService()

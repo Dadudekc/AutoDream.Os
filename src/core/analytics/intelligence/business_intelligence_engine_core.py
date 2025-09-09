@@ -9,10 +9,10 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 License: MIT
 """
 
-import statistics
 import logging
-from typing import Dict, List, Any, Optional
+import statistics
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class BusinessIntelligenceEngineCore:
         self.insights = []
         self.metrics = {}
 
-    def generate_insights(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def generate_insights(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate business insights from data."""
         try:
             if not data:
@@ -57,7 +57,7 @@ class BusinessIntelligenceEngineCore:
             self.logger.error(f"Error generating insights: {e}")
             return {"error": str(e)}
 
-    def _analyze_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _analyze_data(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Analyze data for patterns and trends."""
         insights = []
 
@@ -76,7 +76,7 @@ class BusinessIntelligenceEngineCore:
 
         return insights
 
-    def _get_numeric_fields(self, sample_row: Dict[str, Any]) -> List[str]:
+    def _get_numeric_fields(self, sample_row: dict[str, Any]) -> list[str]:
         """Get numeric fields from sample row."""
         numeric_fields = []
         for key, value in sample_row.items():
@@ -84,9 +84,7 @@ class BusinessIntelligenceEngineCore:
                 numeric_fields.append(key)
         return numeric_fields
 
-    def _analyze_field(
-        self, field: str, values: List[float]
-    ) -> Optional[Dict[str, Any]]:
+    def _analyze_field(self, field: str, values: list[float]) -> dict[str, Any] | None:
         """Analyze a single field for insights."""
         if not values:
             return None
@@ -99,9 +97,7 @@ class BusinessIntelligenceEngineCore:
             # Simple trend analysis
             if len(values) >= 2:
                 trend = "increasing" if values[-1] > values[0] else "decreasing"
-                trend_strength = (
-                    abs(values[-1] - values[0]) / values[0] if values[0] != 0 else 0
-                )
+                trend_strength = abs(values[-1] - values[0]) / values[0] if values[0] != 0 else 0
             else:
                 trend = "stable"
                 trend_strength = 0
@@ -120,33 +116,21 @@ class BusinessIntelligenceEngineCore:
             self.logger.error(f"Error analyzing field {field}: {e}")
             return None
 
-    def _generate_recommendations(self, insights: List[Dict[str, Any]]) -> List[str]:
+    def _generate_recommendations(self, insights: list[dict[str, Any]]) -> list[str]:
         """Generate recommendations based on insights."""
         recommendations = []
 
         for insight in insights:
-            if (
-                insight.get("trend") == "increasing"
-                and insight.get("trend_strength", 0) > 0.1
-            ):
-                recommendations.append(
-                    f"Monitor {insight['field']} - showing strong upward trend"
-                )
-            elif (
-                insight.get("trend") == "decreasing"
-                and insight.get("trend_strength", 0) > 0.1
-            ):
-                recommendations.append(
-                    f"Investigate {insight['field']} - showing downward trend"
-                )
+            if insight.get("trend") == "increasing" and insight.get("trend_strength", 0) > 0.1:
+                recommendations.append(f"Monitor {insight['field']} - showing strong upward trend")
+            elif insight.get("trend") == "decreasing" and insight.get("trend_strength", 0) > 0.1:
+                recommendations.append(f"Investigate {insight['field']} - showing downward trend")
             elif insight.get("std_dev", 0) > insight.get("mean", 0) * 0.5:
-                recommendations.append(
-                    f"High volatility detected in {insight['field']}"
-                )
+                recommendations.append(f"High volatility detected in {insight['field']}")
 
         return recommendations
 
-    def _calculate_kpis(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _calculate_kpis(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Calculate key performance indicators."""
         if not data:
             return {}
@@ -165,7 +149,7 @@ class BusinessIntelligenceEngineCore:
 
         return kpis
 
-    def get_insights_history(self) -> List[Dict[str, Any]]:
+    def get_insights_history(self) -> list[dict[str, Any]]:
         """Get insights history."""
         return self.insights.copy()
 
@@ -173,10 +157,10 @@ class BusinessIntelligenceEngineCore:
         """Clear insights history."""
         self.insights = []
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get current metrics."""
         return self.metrics.copy()
 
-    def update_metrics(self, new_metrics: Dict[str, Any]) -> None:
+    def update_metrics(self, new_metrics: dict[str, Any]) -> None:
         """Update metrics."""
         self.metrics.update(new_metrics)

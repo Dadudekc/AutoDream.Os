@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class InsightProcessor:
             "processing_errors": 0,
         }
 
-    def process_insight(self, insight_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_insight(self, insight_data: dict[str, Any]) -> dict[str, Any]:
         """Process analytics insight."""
         try:
             self.stats["insights_processed"] += 1
@@ -50,9 +50,7 @@ class InsightProcessor:
 
             # Validate insight
             if self._validate_insight(processed_insight):
-                self.logger.info(
-                    f"Processed insight: {processed_insight['insight_id']}"
-                )
+                self.logger.info(f"Processed insight: {processed_insight['insight_id']}")
                 return processed_insight
             else:
                 self.stats["validation_errors"] += 1
@@ -66,7 +64,7 @@ class InsightProcessor:
             self.logger.error(f"Error processing insight: {e}")
             return {"error": str(e)}
 
-    def _validate_insight(self, insight: Dict[str, Any]) -> bool:
+    def _validate_insight(self, insight: dict[str, Any]) -> bool:
         """Validate insight data."""
         try:
             # Simple validation
@@ -77,11 +75,7 @@ class InsightProcessor:
 
             # Validate confidence
             confidence = insight.get("confidence", 0)
-            if (
-                not isinstance(confidence, (int, float))
-                or confidence < 0
-                or confidence > 1
-            ):
+            if not isinstance(confidence, (int, float)) or confidence < 0 or confidence > 1:
                 return False
 
             return True
@@ -89,9 +83,7 @@ class InsightProcessor:
             self.logger.error(f"Error validating insight: {e}")
             return False
 
-    def batch_process_insights(
-        self, insights: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    def batch_process_insights(self, insights: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Process multiple insights in batch."""
         try:
             results = []
@@ -105,16 +97,12 @@ class InsightProcessor:
             self.logger.error(f"Error in batch processing: {e}")
             return []
 
-    def get_processing_stats(self) -> Dict[str, Any]:
+    def get_processing_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         total = self.stats["insights_processed"]
         success_rate = (
             (
-                (
-                    total
-                    - self.stats["validation_errors"]
-                    - self.stats["processing_errors"]
-                )
+                (total - self.stats["validation_errors"] - self.stats["processing_errors"])
                 / total
                 * 100
             )
@@ -139,7 +127,7 @@ class InsightProcessor:
         }
         self.logger.info("Processing statistics reset")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get processor status."""
         return {
             "active": True,

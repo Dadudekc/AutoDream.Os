@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class CommunicationCoreEngine(Engine):
     """Core communication engine - consolidates all communication operations."""
 
     def __init__(self):
-        self.channels: Dict[str, Any] = {}
-        self.messages: List[Dict[str, Any]] = []
+        self.channels: dict[str, Any] = {}
+        self.messages: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class CommunicationCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Communication Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute communication operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class CommunicationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _send_message(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _send_message(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Send message through communication channel."""
         try:
             channel_id = payload.get("channel_id", "default")
@@ -61,15 +61,11 @@ class CommunicationCoreEngine(Engine):
 
             self.messages.append(message_data)
 
-            return EngineResult(
-                success=True, data=message_data, metrics={"channel_id": channel_id}
-            )
+            return EngineResult(success=True, data=message_data, metrics={"channel_id": channel_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _receive_message(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _receive_message(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Receive message from communication channel."""
         try:
             channel_id = payload.get("channel_id", "default")
@@ -89,9 +85,7 @@ class CommunicationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _broadcast_message(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _broadcast_message(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Broadcast message to multiple channels."""
         try:
             message = payload.get("message", "")
@@ -128,7 +122,7 @@ class CommunicationCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Communication Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get communication core engine status."""
         return {
             "initialized": self.is_initialized,

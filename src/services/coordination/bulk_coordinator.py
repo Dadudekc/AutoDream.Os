@@ -12,14 +12,9 @@ License: MIT
 """
 
 import time
-from typing import Any, Dict, List, Optional
-from ..models.messaging_models import (
-    UnifiedMessage,
-    UnifiedMessageType,
-    UnifiedMessagePriority,
-    SenderType,
-    RecipientType,
-)
+from typing import Any
+
+from ..models.messaging_models import UnifiedMessage, UnifiedMessagePriority
 from .strategy_coordinator import StrategyCoordinator
 
 
@@ -33,9 +28,7 @@ class BulkCoordinator:
         """Initialize bulk coordinator."""
         self.strategy_coordinator = StrategyCoordinator()
 
-    def coordinate_bulk_messages(
-        self, messages: List[UnifiedMessage]
-    ) -> Dict[str, Any]:
+    def coordinate_bulk_messages(self, messages: list[UnifiedMessage]) -> dict[str, Any]:
         """Coordinate multiple messages for efficient delivery.
 
         Args:
@@ -74,12 +67,10 @@ class BulkCoordinator:
             "grouped_by_strategy": len(grouped_messages),
         }
 
-    def _coordinate_single_message(self, message: UnifiedMessage) -> Dict[str, Any]:
+    def _coordinate_single_message(self, message: UnifiedMessage) -> dict[str, Any]:
         """Coordinate a single message."""
         try:
-            strategy = self.strategy_coordinator.determine_coordination_strategy(
-                message
-            )
+            strategy = self.strategy_coordinator.determine_coordination_strategy(message)
             coordination_result = self.strategy_coordinator.apply_coordination_rules(
                 message, strategy
             )
@@ -96,24 +87,20 @@ class BulkCoordinator:
             return {"success": False, "error": str(e), "message_id": message.message_id}
 
     def _group_messages_by_strategy(
-        self, messages: List[UnifiedMessage]
-    ) -> Dict[str, List[UnifiedMessage]]:
+        self, messages: list[UnifiedMessage]
+    ) -> dict[str, list[UnifiedMessage]]:
         """Group messages by coordination strategy."""
         grouped = {}
 
         for message in messages:
-            strategy = self.strategy_coordinator.determine_coordination_strategy(
-                message
-            )
+            strategy = self.strategy_coordinator.determine_coordination_strategy(message)
             if strategy not in grouped:
                 grouped[strategy] = []
             grouped[strategy].append(message)
 
         return grouped
 
-    def coordinate_messages_by_priority(
-        self, messages: List[UnifiedMessage]
-    ) -> Dict[str, Any]:
+    def coordinate_messages_by_priority(self, messages: list[UnifiedMessage]) -> dict[str, Any]:
         """Coordinate messages grouped by priority."""
         priority_groups = {
             UnifiedMessagePriority.URGENT: [],
@@ -134,9 +121,7 @@ class BulkCoordinator:
             "total_messages": len(messages),
         }
 
-    def coordinate_messages_by_type(
-        self, messages: List[UnifiedMessage]
-    ) -> Dict[str, Any]:
+    def coordinate_messages_by_type(self, messages: list[UnifiedMessage]) -> dict[str, Any]:
         """Coordinate messages grouped by type."""
         type_groups = {}
 
@@ -156,9 +141,7 @@ class BulkCoordinator:
             "total_messages": len(messages),
         }
 
-    def coordinate_messages_by_sender(
-        self, messages: List[UnifiedMessage]
-    ) -> Dict[str, Any]:
+    def coordinate_messages_by_sender(self, messages: list[UnifiedMessage]) -> dict[str, Any]:
         """Coordinate messages grouped by sender type."""
         sender_groups = {}
 
@@ -178,11 +161,9 @@ class BulkCoordinator:
             "total_messages": len(messages),
         }
 
-    def get_bulk_coordinator_status(self) -> Dict[str, Any]:
+    def get_bulk_coordinator_status(self) -> dict[str, Any]:
         """Get bulk coordinator status."""
         return {
-            "strategy_coordinator_status": (
-                self.strategy_coordinator.get_coordinator_status()
-            ),
+            "strategy_coordinator_status": (self.strategy_coordinator.get_coordinator_status()),
             "available_grouping_methods": ["strategy", "priority", "type", "sender"],
         }

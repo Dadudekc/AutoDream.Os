@@ -10,21 +10,11 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Dict, Any, List
 from datetime import datetime
+from typing import Any
 
-from .core_models import (
-    IntegrationMetrics,
-    OptimizationConfig,
-    PerformanceReport,
-    OptimizationRecommendation,
-)
-from .config_models import (
-    IntegrationConfig,
-    IntegrationTask,
-    IntegrationRequest,
-    IntegrationResponse,
-)
+from .config_models import IntegrationConfig, IntegrationTask
+from .core_models import IntegrationMetrics, OptimizationConfig
 
 
 class IntegrationModels:
@@ -67,7 +57,7 @@ class IntegrationModels:
         name: str,
         description: str,
         enabled: bool = True,
-        parameters: Dict[str, Any] = None,
+        parameters: dict[str, Any] = None,
     ) -> IntegrationConfig:
         """Create integration config."""
         return IntegrationConfig(
@@ -84,7 +74,7 @@ class IntegrationModels:
         task_id: str,
         task_type: str,
         status: str = "PENDING",
-        parameters: Dict[str, Any] = None,
+        parameters: dict[str, Any] = None,
     ) -> IntegrationTask:
         """Create integration task."""
         return IntegrationTask(

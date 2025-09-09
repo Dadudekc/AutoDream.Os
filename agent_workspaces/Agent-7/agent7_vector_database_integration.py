@@ -12,27 +12,19 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-
 # Import fallback for vector database service
 try:
-    from ...services.vector_database_service import VectorDatabaseService
     from ...core.unified_logging_system import get_logger
-    from ...core.unified_validation_system import (
-        validate_required_fields,
-        validate_data_types,
-    )
+    from ...core.unified_validation_system import validate_data_types, validate_required_fields
+    from ...services.vector_database_service import VectorDatabaseService
 except ImportError:
     # Fallback classes for development/testing
     class VectorDatabaseService:
         def __init__(self):
             self.documents = []
 
-        def add_document(
-            self, doc_id: str, content: str, metadata: Dict[str, Any]
-        ) -> bool:
-            self.documents.append(
-                {"id": doc_id, "content": content, "metadata": metadata}
-            )
+        def add_document(self, doc_id: str, content: str, metadata: Dict[str, Any]) -> bool:
+            self.documents.append({"id": doc_id, "content": content, "metadata": metadata})
             return True
 
         def search(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
@@ -76,7 +68,7 @@ class Agent7VectorDatabaseIntegration:
             return {"error": "Agent-7 status file not found", "indexed": 0}
 
         try:
-            with open(status_file, "r", encoding="utf-8") as f:
+            with open(status_file, encoding="utf-8") as f:
                 status_data = read_json(f)
 
             # Index main status document
@@ -85,9 +77,7 @@ class Agent7VectorDatabaseIntegration:
                 content=json.dumps(status_data, indent=2),
                 metadata={
                     "title": f"{self.agent_id} Current Status",
-                    "description": (
-                        f"Real-time status and mission progress for {self.agent_id}"
-                    ),
+                    "description": (f"Real-time status and mission progress for {self.agent_id}"),
                     "document_type": DocumentType.STATUS,
                     "agent": self.agent_id,
                     "category": "agent_status",
@@ -114,9 +104,7 @@ class Agent7VectorDatabaseIntegration:
                     content=json.dumps(achievements, indent=2),
                     metadata={
                         "title": f"{self.agent_id} Achievements",
-                        "description": (
-                            f"Comprehensive achievement record for {self.agent_id}"
-                        ),
+                        "description": (f"Comprehensive achievement record for {self.agent_id}"),
                         "document_type": DocumentType.ACHIEVEMENT,
                         "agent": self.agent_id,
                         "category": "agent_achievements",
@@ -142,9 +130,7 @@ class Agent7VectorDatabaseIntegration:
                     content=json.dumps(next_actions, indent=2),
                     metadata={
                         "title": f"{self.agent_id} Next Actions",
-                        "description": (
-                            f"Upcoming tasks and objectives for {self.agent_id}"
-                        ),
+                        "description": (f"Upcoming tasks and objectives for {self.agent_id}"),
                         "document_type": DocumentType.STATUS,
                         "agent": self.agent_id,
                         "category": "agent_actions",
@@ -282,9 +268,7 @@ def integrate_agent7_vector_database() -> Dict[str, Any]:
     get_logger(__name__).info("📊 Indexing Agent-7 status...")
     status_result = integration.index_agent7_status()
     if status_result.get("success"):
-        get_logger(__name__).info(
-            f"✅ Status indexed: {status_result.get('indexed', 0)} documents"
-        )
+        get_logger(__name__).info(f"✅ Status indexed: {status_result.get('indexed', 0)} documents")
     else:
         get_logger(__name__).info(
             f"❌ Status indexing failed: {status_result.get('error', 'Unknown error')}"
@@ -305,12 +289,8 @@ def integrate_agent7_vector_database() -> Dict[str, Any]:
     # Get final status
     final_status = integration.get_integration_status()
     get_logger(__name__).info("📈 Integration Complete:")
-    get_logger(__name__).info(
-        f"   Total documents indexed: {final_status['documents_indexed']}"
-    )
-    get_logger(__name__).info(
-        f"   Vector service: {final_status['vector_service_status']}"
-    )
+    get_logger(__name__).info(f"   Total documents indexed: {final_status['documents_indexed']}")
+    get_logger(__name__).info(f"   Vector service: {final_status['vector_service_status']}")
     get_logger(__name__).info(
         f"   Integration status: {'✅ Ready' if final_status['integration_ready'] else '❌ Failed'}"
     )
@@ -325,6 +305,4 @@ def integrate_agent7_vector_database() -> Dict[str, Any]:
 if __name__ == "__main__":
     result = integrate_agent7_vector_database()
     get_logger(__name__).info("\n🎯 Vector Database Integration Complete!")
-    get_logger(__name__).info(
-        "Agent-7 is now indexed for intelligent swarm coordination."
-    )
+    get_logger(__name__).info("Agent-7 is now indexed for intelligent swarm coordination.")

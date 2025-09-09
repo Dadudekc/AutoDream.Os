@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class BatchAnalyticsEngine:
         self.queue = []
         self.stats = {"batches_processed": 0, "total_items": 0}
 
-    def process_batch(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def process_batch(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Process batch of analytics data."""
         try:
             if not data:
@@ -54,7 +54,7 @@ class BatchAnalyticsEngine:
             self.logger.error(f"Error processing batch: {e}")
             return {"error": str(e)}
 
-    def _process_items(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _process_items(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Process individual items."""
         try:
             processed = []
@@ -74,7 +74,7 @@ class BatchAnalyticsEngine:
             self.logger.error(f"Error processing items: {e}")
             return []
 
-    def _calculate_metrics(self, processed: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _calculate_metrics(self, processed: list[dict[str, Any]]) -> dict[str, Any]:
         """Calculate processing metrics."""
         try:
             return {
@@ -86,7 +86,7 @@ class BatchAnalyticsEngine:
             self.logger.error(f"Error calculating metrics: {e}")
             return {}
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         return {
             "batches_processed": self.stats["batches_processed"],
@@ -99,7 +99,7 @@ class BatchAnalyticsEngine:
         self.stats = {"batches_processed": 0, "total_items": 0}
         self.logger.info("Statistics cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

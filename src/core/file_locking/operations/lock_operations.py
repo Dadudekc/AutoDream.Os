@@ -10,10 +10,10 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Optional, Dict, Any, List
+from typing import Any
 
-from ..file_locking_models import LockConfig, LockInfo, LockResult, LockMetrics
 from ..file_locking_manager import FileLockManager
+from ..file_locking_models import LockConfig, LockInfo, LockMetrics, LockResult
 
 
 class LockOperations:
@@ -24,15 +24,11 @@ class LockOperations:
         self.config = config or LockConfig()
         self.manager = FileLockManager(self.config)
 
-    def create_file_lock(
-        self, filepath: str, metadata: Dict[str, Any] = None
-    ) -> LockResult:
+    def create_file_lock(self, filepath: str, metadata: dict[str, Any] = None) -> LockResult:
         """Create a file lock."""
         return self.manager.create_file_lock(filepath, metadata)
 
-    def acquire_lock(
-        self, filepath: str, metadata: Dict[str, Any] = None
-    ) -> LockResult:
+    def acquire_lock(self, filepath: str, metadata: dict[str, Any] = None) -> LockResult:
         """Acquire a file lock."""
         return self.manager.acquire_lock(filepath, metadata)
 
@@ -44,7 +40,7 @@ class LockOperations:
         """Check if file is locked."""
         return self.manager.is_locked(filepath)
 
-    def get_lock_info(self, filepath: str) -> Optional[LockInfo]:
+    def get_lock_info(self, filepath: str) -> LockInfo | None:
         """Get lock information for a file."""
         return self.manager.get_lock_info(filepath)
 
@@ -56,7 +52,7 @@ class LockOperations:
         """Extend lock duration."""
         return self.manager.extend_lock(filepath, duration)
 
-    def get_active_locks(self) -> List[LockInfo]:
+    def get_active_locks(self) -> list[LockInfo]:
         """Get all active locks."""
         return self.manager.get_active_locks()
 
@@ -69,15 +65,15 @@ class LockOperations:
         return self.manager.cleanup_expired_locks()
 
     def batch_acquire_locks(
-        self, filepaths: List[str], metadata: Dict[str, Any] = None
-    ) -> Dict[str, LockResult]:
+        self, filepaths: list[str], metadata: dict[str, Any] = None
+    ) -> dict[str, LockResult]:
         """Acquire multiple locks."""
         results = {}
         for filepath in filepaths:
             results[filepath] = self.acquire_lock(filepath, metadata)
         return results
 
-    def batch_release_locks(self, filepaths: List[str]) -> Dict[str, LockResult]:
+    def batch_release_locks(self, filepaths: list[str]) -> dict[str, LockResult]:
         """Release multiple locks."""
         results = {}
         for filepath in filepaths:

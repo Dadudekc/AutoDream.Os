@@ -73,14 +73,10 @@ class PerformanceCollector:
                 filtered_metrics = [m for m in filtered_metrics if m.name == name]
 
             if start_time:
-                filtered_metrics = [
-                    m for m in filtered_metrics if m.timestamp >= start_time
-                ]
+                filtered_metrics = [m for m in filtered_metrics if m.timestamp >= start_time]
 
             if end_time:
-                filtered_metrics = [
-                    m for m in filtered_metrics if m.timestamp <= end_time
-                ]
+                filtered_metrics = [m for m in filtered_metrics if m.timestamp <= end_time]
 
             return list(filtered_metrics)
 

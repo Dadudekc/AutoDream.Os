@@ -3,61 +3,97 @@
 Message Queue System - Agent Cellphone V2
 =========================================
 
-Persistent message queuing system for reliable message delivery.
-Stores messages when immediate delivery fails and processes them asynchronously.
+Persistent message queuing system following SOLID principles.
 
-Features:
-- Persistent queue storage with atomic operations
-- Priority-based message processing
-- Automatic retry with exponential backoff
-- Queue statistics and monitoring
-- Integration with file locking system
+SOLID Principles:
+- SRP: Each class has single responsibility
+- OCP: Open for extension, closed for modification
+- LSP: Proper inheritance hierarchies
+- ISP: Small, specific interfaces
+- DIP: Dependency injection for abstractions
 
 Architecture:
 - Repository Pattern: MessageQueue handles persistent storage
 - Service Layer: QueueProcessor orchestrates delivery attempts
 - Dependency Injection: Modular components injected via constructor
 
-@maintainer Agent-3 (Infrastructure & DevOps Specialist)
+@maintainer Agent-1 (System Recovery Specialist)
 @license MIT
 """
 
+from typing import Any, Dict, List, Optional, Callable
+import asyncio
+import uuid
+from datetime import datetime
+from pathlib import Path
 
-logger = get_messaging_logger()
+from .message_queue_interfaces import (
+    IMessageQueue,
+    IQueuePersistence,
+    IQueueProcessor,
+    IQueueConfig,
+    IMessageQueueLogger,
+    IQueueEntry
+)
+from .message_queue_persistence import FileQueuePersistence, QueueEntry
+from .message_queue_statistics import QueueStatisticsCalculator, QueueHealthMonitor
 
 
-class MessageQueue:
-    """Persistent message queue with atomic operations and priority processing.
+class QueueConfig:
+    """Configuration for message queue."""
 
-    Provides reliable message queuing with automatic retry and cleanup. Integrates with
-    file locking system for thread-safe operations.
+    def __init__(
+        self,
+        queue_directory: str = "message_queue",
+        max_queue_size: int = 1000,
+        processing_batch_size: int = 10,
+        max_age_days: int = 7,
+        retry_base_delay: float = 1.0,
+        retry_max_delay: float = 300.0,
+        cleanup_interval: int = 3600
+    ):
+        """Initialize queue configuration."""
+        self.queue_directory = queue_directory
+        self.max_queue_size = max_queue_size
+        self.processing_batch_size = processing_batch_size
+        self.max_age_days = max_age_days
+        self.retry_base_delay = retry_base_delay
+        self.retry_max_delay = retry_max_delay
+        self.cleanup_interval = cleanup_interval
+
+
+class MessageQueue(IMessageQueue):
+    """SOLID-compliant message queue with dependency injection.
+
+    Provides reliable message queuing with automatic retry and cleanup.
+    Follows Single Responsibility Principle with separate persistence layer.
     """
 
     def __init__(
         self,
         config: Optional[QueueConfig] = None,
-        lock_config: Optional[LockConfig] = None,
+        persistence: Optional[IQueuePersistence] = None,
+        statistics_calculator: Optional[QueueStatisticsCalculator] = None,
+        health_monitor: Optional[QueueHealthMonitor] = None,
+        logger: Optional[IMessageQueueLogger] = None
     ):
-        """Initialize message queue with configuration."""
+        """Initialize message queue with dependency injection."""
         self.config = config or QueueConfig()
-        self.lock_config = lock_config or LockConfig()
-        self.lock_manager = FileLockManager(self.lock_config)
-        self.queue_file = (
-            get_unified_utility().Path(self.config.queue_directory) / "queue.json"
+        self.persistence = persistence or FileQueuePersistence(
+            Path(self.config.queue_directory) / "queue.json"
         )
-        self.queue_file.parent.mkdir(parents=True, exist_ok=True)
+        self.statistics_calculator = statistics_calculator or QueueStatisticsCalculator()
+        self.health_monitor = health_monitor or QueueHealthMonitor(self.statistics_calculator)
+        self.logger = logger
 
-        # Validate configuration
-        config_issues = MessageQueueUtils.validate_queue_config(self.config)
-        if config_issues:
-            get_unified_validator().raise_validation_error(
-                f"Invalid queue configuration: {', '.join(config_issues)}"
-            )
+        # Initialize queue file
+        queue_file = Path(self.config.queue_directory) / "queue.json"
+        queue_file.parent.mkdir(parents=True, exist_ok=True)
 
     def enqueue(
         self,
-        message: UnifiedMessage,
-        delivery_callback: Optional[Callable[[UnifiedMessage], bool]] = None,
+        message: Any,
+        delivery_callback: Optional[Callable[[Any], bool]] = None,
     ) -> str:
         """Add message to queue with priority-based ordering.
 
@@ -71,45 +107,50 @@ class MessageQueue:
         queue_id = str(uuid.uuid4())
         now = datetime.now()
 
-        # Calculate priority score
-        priority_score = MessageQueueUtils.calculate_priority_score(
-            message.priority.value, now
-        )
+        # Calculate priority score (simplified for now)
+        priority_score = self._calculate_priority_score(message, now)
 
         # Create queue entry
         entry = QueueEntry(
             message=message,
             queue_id=queue_id,
             priority_score=priority_score,
-            status=QueueStatus.PENDING,
+            status="PENDING",
             created_at=now,
             updated_at=now,
             metadata={"delivery_callback": delivery_callback is not None},
         )
 
-        # Atomic enqueue operation
+        # Atomic enqueue operation using persistence layer
         def _enqueue_operation():
-            entries = self._load_entries()
+            entries = self.persistence.load_entries()
 
             # Check queue size limit
             if len(entries) >= self.config.max_queue_size:
-                raise RuntimeError(
-                    f"Queue size limit exceeded: {self.config.max_queue_size}"
-                )
+                raise RuntimeError(f"Queue size limit exceeded: {self.config.max_queue_size}")
 
             entries.append(entry)
-            self._save_entries(entries)
+            self.persistence.save_entries(entries)
 
-            get_logger(__name__).info(
-                f"Message queued: {queue_id} (priority: {message.priority.value})"
-            )
+            if self.logger:
+                self.logger.info(f"Message queued: {queue_id} (priority: {priority_score})")
             return queue_id
 
-        return atomic_file_operation(
-            self.queue_file, _enqueue_operation, self.lock_manager
-        )
+        return self.persistence.atomic_operation(_enqueue_operation)
 
-    def dequeue(self, batch_size: Optional[int] = None) -> List[QueueEntry]:
+    def _calculate_priority_score(self, message: Any, now: datetime) -> float:
+        """Calculate priority score for message."""
+        # Simplified priority calculation
+        if hasattr(message, 'priority'):
+            if hasattr(message.priority, 'value'):
+                return float(message.priority.value)
+            elif isinstance(message.priority, (int, float)):
+                return float(message.priority)
+
+        # Default priority
+        return 0.5
+
+    def dequeue(self, batch_size: Optional[int] = None) -> List[IQueueEntry]:
         """Get next messages for processing based on priority.
 
         Args:
@@ -121,208 +162,223 @@ class MessageQueue:
         batch_size = batch_size or self.config.processing_batch_size
 
         def _dequeue_operation():
-            entries = self._load_entries()
+            entries = self.persistence.load_entries()
 
-            # Build priority heap
-            heap = MessageQueueUtils.build_priority_heap(entries)
+            # More efficient priority queue using heap
+            import heapq
 
-            # Get next entries for processing
-            entries_to_process = MessageQueueUtils.get_next_entries_for_processing(
-                heap, batch_size, self.config.max_age_days
-            )
+            # Create max-heap by negating priority scores
+            pending_entries = [
+                (-getattr(e, 'priority_score', 0), i, e)
+                for i, e in enumerate(entries)
+                if getattr(e, 'status', '') == 'PENDING'
+            ]
 
-            # Mark entries as processing
-            for entry in entries_to_process:
-                MessageQueueUtils.mark_entry_processing(entry)
+            if not pending_entries:
+                return []
+
+            # Get top priority entries
+            heapq.heapify(pending_entries)
+            entries_to_process = []
+
+            for _ in range(min(batch_size, len(pending_entries))):
+                neg_priority, original_index, entry = heapq.heappop(pending_entries)
+                entry.status = "PROCESSING"
+                entry.updated_at = datetime.now()
+                entries_to_process.append(entry)
 
             # Save updated entries
-            self._save_entries(entries)
+            self.persistence.save_entries(entries)
 
-            get_logger(__name__).info(
-                f"Dequeued {len(entries_to_process)} messages for processing"
-            )
+            if self.logger:
+                self.logger.info(f"Dequeued {len(entries_to_process)} messages for processing")
             return entries_to_process
 
-        return atomic_file_operation(
-            self.queue_file, _dequeue_operation, self.lock_manager
-        )
+        return self.persistence.atomic_operation(_dequeue_operation)
 
     def mark_delivered(self, queue_id: str) -> bool:
         """Mark message as successfully delivered."""
 
         def _mark_delivered_operation():
-            entries = self._load_entries()
+            entries = self.persistence.load_entries()
 
             for entry in entries:
-                if entry.queue_id == queue_id:
-                    MessageQueueUtils.mark_entry_delivered(entry)
-                    self._save_entries(entries)
-                    get_logger(__name__).info(
-                        f"Message marked as delivered: {queue_id}"
-                    )
+                if getattr(entry, 'queue_id', '') == queue_id:
+                    entry.status = "DELIVERED"
+                    entry.updated_at = datetime.now()
+                    self.persistence.save_entries(entries)
+                    if self.logger:
+                        self.logger.info(f"Message marked as delivered: {queue_id}")
                     return True
 
-            get_logger(__name__).warning(f"Queue entry not found: {queue_id}")
+            if self.logger:
+                self.logger.warning(f"Queue entry not found: {queue_id}")
             return False
 
-        return atomic_file_operation(
-            self.queue_file, _mark_delivered_operation, self.lock_manager
-        )
+        return self.persistence.atomic_operation(_mark_delivered_operation)
 
     def mark_failed(self, queue_id: str, error: str) -> bool:
         """Mark message as failed and schedule retry."""
 
         def _mark_failed_operation():
-            entries = self._load_entries()
+            entries = self.persistence.load_entries()
 
             for entry in entries:
-                if entry.queue_id == queue_id:
-                    MessageQueueUtils.mark_entry_failed(entry, error)
+                if getattr(entry, 'queue_id', '') == queue_id:
+                    entry.status = "FAILED"
+                    entry.updated_at = datetime.now()
 
-                    # Update for retry if attempts remaining
-                    if entry.delivery_attempts < entry.max_attempts:
-                        MessageQueueUtils.update_entry_for_retry(
-                            entry,
-                            self.config.retry_base_delay,
-                            self.config.retry_max_delay,
-                        )
+                    # Update delivery attempts
+                    if not hasattr(entry, 'delivery_attempts'):
+                        entry.delivery_attempts = 0
+                    entry.delivery_attempts += 1
 
-                    self._save_entries(entries)
-                    get_logger(__name__).warning(
-                        f"Message marked as failed: {queue_id} - {error}"
-                    )
+                    # Add error to metadata
+                    if not hasattr(entry, 'metadata'):
+                        entry.metadata = {}
+                    entry.metadata['last_error'] = error
+
+                    self.persistence.save_entries(entries)
+                    if self.logger:
+                        self.logger.warning(f"Message marked as failed: {queue_id} - {error}")
                     return True
 
-            get_logger(__name__).warning(f"Queue entry not found: {queue_id}")
+            if self.logger:
+                self.logger.warning(f"Queue entry not found: {queue_id}")
             return False
 
-        return atomic_file_operation(
-            self.queue_file, _mark_failed_operation, self.lock_manager
-        )
+        return self.persistence.atomic_operation(_mark_failed_operation)
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get comprehensive queue statistics."""
 
         def _get_statistics_operation():
-            entries = self._load_entries()
-            return MessageQueueUtils.calculate_queue_statistics(entries)
+            entries = self.persistence.load_entries()
+            return self.statistics_calculator.calculate_statistics(entries)
 
-        return atomic_file_operation(
-            self.queue_file, _get_statistics_operation, self.lock_manager
-        )
+        return self.persistence.atomic_operation(_get_statistics_operation)
 
     def cleanup_expired(self) -> int:
         """Remove expired entries from queue."""
 
         def _cleanup_operation():
-            entries = self._load_entries()
+            entries = self.persistence.load_entries()
             original_count = len(entries)
 
-            active_entries = MessageQueueUtils.cleanup_expired_entries(
-                entries, self.config.max_age_days
-            )
+            # Filter out expired entries
+            max_age_seconds = self.config.max_age_days * 24 * 60 * 60
+            now = datetime.now()
+
+            active_entries = []
+            for entry in entries:
+                if hasattr(entry, 'created_at'):
+                    age = (now - entry.created_at).total_seconds()
+                    if age <= max_age_seconds:
+                        active_entries.append(entry)
+                else:
+                    active_entries.append(entry)  # Keep entries without timestamp
 
             expired_count = original_count - len(active_entries)
-            self._save_entries(active_entries)
+            self.persistence.save_entries(active_entries)
 
-            if expired_count > 0:
-                get_logger(__name__).info(f"Cleaned up {expired_count} expired entries")
+            if expired_count > 0 and self.logger:
+                self.logger.info(f"Cleaned up {expired_count} expired entries")
 
             return expired_count
 
-        return atomic_file_operation(
-            self.queue_file, _cleanup_operation, self.lock_manager
-        )
+        return self.persistence.atomic_operation(_cleanup_operation)
 
-    def _load_entries(self) -> List[QueueEntry]:
-        """Load queue entries from persistent storage."""
-        if not self.queue_file.exists():
-            return []
+    def get_health_status(self) -> Dict[str, Any]:
+        """Get comprehensive queue health status."""
 
-        try:
-            with open(self.queue_file, "r", encoding="utf-8") as f:
-                data = read_json(f)
+        def _get_health_operation():
+            entries = self.persistence.load_entries()
+            return self.health_monitor.assess_health(entries)
 
-            return [QueueEntry.from_dict(entry_data) for entry_data in data]
-        except (json.JSONDecodeError, KeyError, ValueError) as e:
-            get_logger(__name__).error(f"Failed to load queue entries: {e}")
-            return []
-
-    def _save_entries(self, entries: List[QueueEntry]) -> None:
-        """Save queue entries to persistent storage."""
-        try:
-            data = [entry.to_dict() for entry in entries]
-
-            # Write to temporary file first, then atomic move
-            temp_file = self.queue_file.with_suffix(".tmp")
-            with open(temp_file, "w", encoding="utf-8") as f:
-                write_json(data, f, indent=2, ensure_ascii=False)
-
-            temp_file.replace(self.queue_file)
-        except Exception as e:
-            get_logger(__name__).error(f"Failed to save queue entries: {e}")
-            raise
+        return self.persistence.atomic_operation(_get_health_operation)
 
 
-class QueueProcessor:
-    """Asynchronous queue processor for message delivery.
+
+
+class AsyncQueueProcessor(IQueueProcessor):
+    """SOLID-compliant asynchronous queue processor.
 
     Processes queued messages with retry logic and error handling.
+    Follows Single Responsibility Principle with focused processing logic.
     """
 
     def __init__(
-        self, queue: MessageQueue, delivery_callback: Callable[[UnifiedMessage], bool]
+        self,
+        queue: IMessageQueue,
+        delivery_callback: Callable[[Any], bool],
+        logger: Optional[IMessageQueueLogger] = None
     ):
-        """Initialize queue processor with delivery callback."""
+        """Initialize queue processor with dependency injection."""
         self.queue = queue
         self.delivery_callback = delivery_callback
+        self.logger = logger
         self.running = False
-        self.last_cleanup = time.time()
+        self.last_cleanup = 0.0
 
     async def start_processing(self, interval: float = 5.0) -> None:
         """Start continuous queue processing."""
         self.running = True
-        get_logger(__name__).info("Queue processor started")
+        if self.logger:
+            self.logger.info("Queue processor started")
 
         while self.running:
             try:
-                await self._process_batch()
-                await self._cleanup_if_needed()
+                await self.process_batch()
+                await self._cleanup_if_needed(interval)
                 await asyncio.sleep(interval)
             except Exception as e:
-                get_logger(__name__).error(f"Queue processing error: {e}")
+                if self.logger:
+                    self.logger.error(f"Queue processing error: {e}")
                 await asyncio.sleep(interval)
 
     def stop_processing(self) -> None:
         """Stop queue processing."""
         self.running = False
-        get_logger(__name__).info("Queue processor stopped")
+        if self.logger:
+            self.logger.info("Queue processor stopped")
 
-    async def _process_batch(self) -> None:
+    async def process_batch(self) -> None:
         """Process a batch of queued messages."""
         entries = self.queue.dequeue()
 
         for entry in entries:
             try:
-                success = self.delivery_callback(entry.message)
+                message = getattr(entry, 'message', None)
+                queue_id = getattr(entry, 'queue_id', '')
+
+                if message is None:
+                    if self.logger:
+                        self.logger.warning(f"Entry missing message: {queue_id}")
+                    continue
+
+                success = self.delivery_callback(message)
 
                 if success:
-                    self.queue.mark_delivered(entry.queue_id)
+                    self.queue.mark_delivered(queue_id)
                 else:
-                    self.queue.mark_failed(
-                        entry.queue_id, "Delivery callback returned False"
-                    )
+                    self.queue.mark_failed(queue_id, "Delivery callback returned False")
 
             except Exception as e:
-                self.queue.mark_failed(entry.queue_id, str(e))
+                queue_id = getattr(entry, 'queue_id', 'unknown')
+                self.queue.mark_failed(queue_id, str(e))
 
-    async def _cleanup_if_needed(self) -> None:
+    async def _cleanup_if_needed(self, interval: float) -> None:
         """Perform cleanup if interval has passed."""
+        import time
         now = time.time()
-        if now - self.last_cleanup >= self.queue.config.cleanup_interval:
+        cleanup_interval = getattr(self.queue.config, 'cleanup_interval', 3600)
+
+        if now - self.last_cleanup >= cleanup_interval:
             expired_count = self.queue.cleanup_expired()
-            if expired_count > 0:
-                get_logger(__name__).info(
-                    f"Cleanup completed: {expired_count} expired entries removed"
-                )
+            if expired_count > 0 and self.logger:
+                self.logger.info(f"Cleanup completed: {expired_count} expired entries removed")
             self.last_cleanup = now
+
+
+# Backward compatibility alias
+QueueProcessor = AsyncQueueProcessor

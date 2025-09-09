@@ -1,0 +1,10 @@
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
+
+from . import messaging_coordinator
+from . import vector_database_coordinator
+
+__all__ = [
+    'messaging_coordinator',
+    'vector_database_coordinator',
+]

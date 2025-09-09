@@ -8,7 +8,6 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, Optional
 
 
 @dataclass
@@ -23,7 +22,7 @@ class MetricsCollector:
     """Store and retrieve metric values in-memory."""
 
     def __init__(self) -> None:
-        self._metrics: Dict[str, float] = {}
+        self._metrics: dict[str, float] = {}
         self._counters = CounterMetrics()
 
     def record(self, name: str, value: float) -> None:
@@ -31,12 +30,12 @@ class MetricsCollector:
 
         self._metrics[name] = float(value)
 
-    def get(self, name: str) -> Optional[float]:
+    def get(self, name: str) -> float | None:
         """Return the latest value for *name* if available."""
 
         return self._metrics.get(name)
 
-    def all(self) -> Dict[str, float]:
+    def all(self) -> dict[str, float]:
         """Return a copy of all metrics."""
 
         return dict(self._metrics)
@@ -70,7 +69,7 @@ class CounterMetrics:
     """Lightweight counter-based metrics manager."""
 
     def __init__(self) -> None:
-        self.counters: Dict[str, int] = defaultdict(int)
+        self.counters: dict[str, int] = defaultdict(int)
 
     def increment(self, name: str, amount: int = 1) -> None:
         """Increment a named counter."""
@@ -94,7 +93,7 @@ class OptimizationRunMetrics:
 
 
 def gather_run_metrics(
-    tasks_processed: int, errors: int, duration: float, _now: Optional[datetime] = None
+    tasks_processed: int, errors: int, duration: float, _now: datetime | None = None
 ) -> OptimizationRunMetrics:
     """Gather metrics for an optimization run."""
 

@@ -10,8 +10,10 @@ License: MIT
 """
 
 from __future__ import annotations
-from typing import Dict, Type, Any, Optional
-from .contracts import Manager, ManagerContext, MANAGER_TYPES
+
+from typing import Any
+
+from .contracts import MANAGER_TYPES, Manager, ManagerContext
 
 
 class ManagerRegistry:
@@ -19,17 +21,17 @@ class ManagerRegistry:
 
     def __init__(self):
         """Initialize manager registry."""
-        self._managers: Dict[str, Manager] = {}
-        self._manager_types: Dict[str, Type[Manager]] = {}
+        self._managers: dict[str, Manager] = {}
+        self._manager_types: dict[str, type[Manager]] = {}
         self._initialized = False
 
-    def register_manager_type(self, name: str, manager_class: Type[Manager]) -> None:
+    def register_manager_type(self, name: str, manager_class: type[Manager]) -> None:
         """Register a manager type."""
         if name in self._manager_types:
             raise ValueError(f"Manager type already registered: {name}")
         self._manager_types[name] = manager_class
 
-    def create_manager(self, name: str, context: ManagerContext) -> Optional[Manager]:
+    def create_manager(self, name: str, context: ManagerContext) -> Manager | None:
         """Create and initialize a manager instance."""
         try:
             if name not in self._manager_types:
@@ -48,11 +50,11 @@ class ManagerRegistry:
             context.logger(f"Failed to create manager {name}: {e}")
             return None
 
-    def get_manager(self, name: str) -> Optional[Manager]:
+    def get_manager(self, name: str) -> Manager | None:
         """Get an existing manager instance."""
         return self._managers.get(name)
 
-    def get_all_managers(self) -> Dict[str, Manager]:
+    def get_all_managers(self) -> dict[str, Manager]:
         """Get all manager instances."""
         return dict(self._managers)
 
@@ -61,7 +63,7 @@ class ManagerRegistry:
         manager_name: str,
         context: ManagerContext,
         operation: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
     ) -> Any:
         """Execute an operation on a specific manager."""
         manager = self.get_manager(manager_name)
@@ -80,7 +82,7 @@ class ManagerRegistry:
 
         self._managers.clear()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get registry status."""
         return {
             "total_managers": len(self._managers),
@@ -117,7 +119,7 @@ class ManagerRegistry:
 
 
 # Global registry instance
-_global_registry: Optional[ManagerRegistry] = None
+_global_registry: ManagerRegistry | None = None
 
 
 def get_manager_registry() -> ManagerRegistry:

@@ -9,10 +9,10 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 License: MIT
 """
 
-import statistics
 import logging
-from typing import Dict, List, Any, Optional
+import statistics
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class BusinessIntelligenceEngineOperations:
         self.insights = []
         self.metrics = {}
 
-    def generate_dashboard_data(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def generate_dashboard_data(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate dashboard data for visualization."""
         try:
             if not data:
@@ -47,7 +47,7 @@ class BusinessIntelligenceEngineOperations:
             self.logger.error(f"Error generating dashboard data: {e}")
             return {"error": str(e)}
 
-    def _generate_summary(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _generate_summary(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Generate summary statistics."""
         if not data:
             return {}
@@ -60,7 +60,7 @@ class BusinessIntelligenceEngineOperations:
 
         return summary
 
-    def _get_date_range(self, data: List[Dict[str, Any]]) -> Dict[str, str]:
+    def _get_date_range(self, data: list[dict[str, Any]]) -> dict[str, str]:
         """Get date range from data."""
         dates = []
         for row in data:
@@ -74,7 +74,7 @@ class BusinessIntelligenceEngineOperations:
         else:
             return {"start": "unknown", "end": "unknown"}
 
-    def _get_key_metrics(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _get_key_metrics(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Get key metrics from data."""
         if not data:
             return {}
@@ -93,7 +93,7 @@ class BusinessIntelligenceEngineOperations:
 
         return key_metrics
 
-    def _get_numeric_fields(self, sample_row: Dict[str, Any]) -> List[str]:
+    def _get_numeric_fields(self, sample_row: dict[str, Any]) -> list[str]:
         """Get numeric fields from sample row."""
         numeric_fields = []
         for key, value in sample_row.items():
@@ -101,7 +101,7 @@ class BusinessIntelligenceEngineOperations:
                 numeric_fields.append(key)
         return numeric_fields
 
-    def _generate_chart_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _generate_chart_data(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Generate chart data for visualization."""
         charts = []
 
@@ -123,7 +123,7 @@ class BusinessIntelligenceEngineOperations:
 
         return charts
 
-    def _generate_alerts(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _generate_alerts(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Generate alerts based on data analysis."""
         alerts = []
 
@@ -178,24 +178,20 @@ class BusinessIntelligenceEngineOperations:
 
         csv_lines = []
         for insight in self.insights:
-            csv_lines.append(
-                f"{insight.get('timestamp', '')},{insight.get('data_points', 0)}"
-            )
+            csv_lines.append(f"{insight.get('timestamp', '')},{insight.get('data_points', 0)}")
 
         return "\n".join(csv_lines)
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get performance metrics for the engine."""
         return {
             "total_insights_generated": len(self.insights),
-            "last_analysis_time": (
-                self.insights[-1].get("timestamp") if self.insights else None
-            ),
+            "last_analysis_time": (self.insights[-1].get("timestamp") if self.insights else None),
             "engine_status": "active",
             "config": self.config,
         }
 
-    def optimize_performance(self) -> Dict[str, Any]:
+    def optimize_performance(self) -> dict[str, Any]:
         """Optimize engine performance."""
         try:
             # Simple optimization - clear old insights

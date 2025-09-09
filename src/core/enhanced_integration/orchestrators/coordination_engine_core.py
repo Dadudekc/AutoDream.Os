@@ -9,17 +9,11 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
-from datetime import datetime
 import logging
+from datetime import datetime
+from typing import Any
 
-from ..integration_models import (
-    CoordinationStrategy,
-    ResourceAllocationStrategy,
-    IntegrationStatus,
-    IntegrationType,
-    OptimizationLevel,
-)
+from ..integration_models import CoordinationStrategy
 
 
 class CoordinationEngineCore:
@@ -36,8 +30,8 @@ class CoordinationEngineCore:
         self.optimization_level = config.optimization_level
 
         # Resource tracking
-        self.allocated_resources: Dict[str, Any] = {}
-        self.resource_limits: Dict[str, int] = {
+        self.allocated_resources: dict[str, Any] = {}
+        self.resource_limits: dict[str, int] = {
             "cpu_cores": config.max_concurrent_operations,
             "memory_mb": 1024,
             "network_connections": 100,
@@ -63,7 +57,7 @@ class CoordinationEngineCore:
             self.logger.error(f"Error determining coordination strategy: {e}")
             return CoordinationStrategy.SEQUENTIAL
 
-    def allocate_resources(self, task_id: str, requirements: Dict[str, Any]) -> bool:
+    def allocate_resources(self, task_id: str, requirements: dict[str, Any]) -> bool:
         """Allocate resources for task."""
         try:
             # Check if resources are available
@@ -84,7 +78,7 @@ class CoordinationEngineCore:
             self.logger.error(f"Error allocating resources: {e}")
             return False
 
-    def _check_resource_availability(self, requirements: Dict[str, Any]) -> bool:
+    def _check_resource_availability(self, requirements: dict[str, Any]) -> bool:
         """Check if required resources are available."""
         try:
             # Check CPU cores
@@ -93,10 +87,7 @@ class CoordinationEngineCore:
                     res["requirements"].get("cpu_cores", 0)
                     for res in self.allocated_resources.values()
                 )
-                if (
-                    used_cores + requirements["cpu_cores"]
-                    > self.resource_limits["cpu_cores"]
-                ):
+                if used_cores + requirements["cpu_cores"] > self.resource_limits["cpu_cores"]:
                     return False
 
             # Check memory
@@ -105,10 +96,7 @@ class CoordinationEngineCore:
                     res["requirements"].get("memory_mb", 0)
                     for res in self.allocated_resources.values()
                 )
-                if (
-                    used_memory + requirements["memory_mb"]
-                    > self.resource_limits["memory_mb"]
-                ):
+                if used_memory + requirements["memory_mb"] > self.resource_limits["memory_mb"]:
                     return False
 
             # Check network connections
@@ -144,17 +132,15 @@ class CoordinationEngineCore:
             self.logger.error(f"Error releasing resources: {e}")
             return False
 
-    def get_resource_status(self) -> Dict[str, Any]:
+    def get_resource_status(self) -> dict[str, Any]:
         """Get current resource allocation status."""
         try:
             total_allocated = len(self.allocated_resources)
             used_cpu = sum(
-                res["requirements"].get("cpu_cores", 0)
-                for res in self.allocated_resources.values()
+                res["requirements"].get("cpu_cores", 0) for res in self.allocated_resources.values()
             )
             used_memory = sum(
-                res["requirements"].get("memory_mb", 0)
-                for res in self.allocated_resources.values()
+                res["requirements"].get("memory_mb", 0) for res in self.allocated_resources.values()
             )
 
             return {
@@ -169,7 +155,7 @@ class CoordinationEngineCore:
             self.logger.error(f"Error getting resource status: {e}")
             return {"error": str(e)}
 
-    def optimize_coordination(self) -> Dict[str, Any]:
+    def optimize_coordination(self) -> dict[str, Any]:
         """Optimize coordination strategy based on current state."""
         try:
             # Simple optimization based on resource usage
@@ -183,9 +169,7 @@ class CoordinationEngineCore:
                 optimization_reason = "High CPU availability - switching to parallel"
             else:
                 self.current_strategy = CoordinationStrategy.BALANCED
-                optimization_reason = (
-                    "Balanced resource availability - using balanced strategy"
-                )
+                optimization_reason = "Balanced resource availability - using balanced strategy"
 
             return {
                 "new_strategy": self.current_strategy.value,
@@ -197,7 +181,7 @@ class CoordinationEngineCore:
             self.logger.error(f"Error optimizing coordination: {e}")
             return {"error": str(e)}
 
-    def get_coordination_status(self) -> Dict[str, Any]:
+    def get_coordination_status(self) -> dict[str, Any]:
         """Get current coordination status."""
         return {
             "current_strategy": self.current_strategy.value,

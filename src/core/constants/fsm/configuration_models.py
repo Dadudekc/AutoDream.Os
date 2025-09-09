@@ -10,23 +10,23 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Optional, Dict, Any
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass
 class FSMConfiguration:
     """FSM configuration with V2 compliance."""
 
-    state_timeout_seconds: Optional[int]
+    state_timeout_seconds: int | None
     state_retry_count: int
     state_retry_delay: float
     transition_priority_default: int
-    transition_timeout_seconds: Optional[int]
+    transition_timeout_seconds: int | None
     max_states: int
     max_transitions: int
     validation_enabled: bool
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -48,7 +48,7 @@ class FSMConfiguration:
             and self.max_transitions >= 1
         )
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get configuration summary."""
         return {
             "state_timeout_seconds": self.state_timeout_seconds,

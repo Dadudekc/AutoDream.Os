@@ -11,15 +11,15 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional
-from .models import StrategicMission
+
 from .enums import MissionStatus
+from .models import StrategicMission
 
 
 class StrategicOversightEngineCoreMissions:
     """Mission management for strategic oversight engine."""
 
-    def __init__(self, missions: Dict[str, StrategicMission], logger: logging.Logger):
+    def __init__(self, missions: dict[str, StrategicMission], logger: logging.Logger):
         """Initialize mission management."""
         self.missions = missions
         self.logger = logger
@@ -34,7 +34,7 @@ class StrategicOversightEngineCoreMissions:
             self.logger.error(f"Failed to add strategic mission: {e}")
             return False
 
-    def get_mission(self, mission_id: str) -> Optional[StrategicMission]:
+    def get_mission(self, mission_id: str) -> StrategicMission | None:
         """Get a strategic mission by ID - simplified."""
         try:
             return self.missions.get(mission_id)
@@ -42,9 +42,7 @@ class StrategicOversightEngineCoreMissions:
             self.logger.error(f"Failed to get strategic mission: {e}")
             return None
 
-    def get_missions(
-        self, status: MissionStatus = None, limit: int = 10
-    ) -> List[StrategicMission]:
+    def get_missions(self, status: MissionStatus = None, limit: int = 10) -> list[StrategicMission]:
         """Get strategic missions - simplified."""
         try:
             missions = list(self.missions.values())

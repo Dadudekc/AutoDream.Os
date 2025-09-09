@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class EliminationStrategyEngine:
         self.elimination_history = []
         self.strategies = {}
 
-    def execute_elimination(self, elimination_data: Dict[str, Any]) -> Dict[str, Any]:
+    def execute_elimination(self, elimination_data: dict[str, Any]) -> dict[str, Any]:
         """Execute elimination strategy."""
         try:
             if not elimination_data:
@@ -56,7 +56,7 @@ class EliminationStrategyEngine:
             self.logger.error(f"Error executing elimination: {e}")
             return {"error": str(e)}
 
-    def _select_strategy(self, elimination_data: Dict[str, Any]) -> str:
+    def _select_strategy(self, elimination_data: dict[str, Any]) -> str:
         """Select elimination strategy."""
         try:
             # Simple strategy selection
@@ -68,9 +68,7 @@ class EliminationStrategyEngine:
             self.logger.error(f"Error selecting strategy: {e}")
             return "default"
 
-    def _apply_strategy(
-        self, elimination_data: Dict[str, Any], strategy: str
-    ) -> Dict[str, Any]:
+    def _apply_strategy(self, elimination_data: dict[str, Any], strategy: str) -> dict[str, Any]:
         """Apply elimination strategy."""
         try:
             # Simple strategy application
@@ -85,7 +83,7 @@ class EliminationStrategyEngine:
             self.logger.error(f"Error applying strategy: {e}")
             return {"error": str(e)}
 
-    def _calculate_elimination_metrics(self, result: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_elimination_metrics(self, result: dict[str, Any]) -> dict[str, Any]:
         """Calculate elimination metrics."""
         try:
             metrics = {
@@ -99,16 +97,14 @@ class EliminationStrategyEngine:
             self.logger.error(f"Error calculating metrics: {e}")
             return {}
 
-    def get_elimination_summary(self) -> Dict[str, Any]:
+    def get_elimination_summary(self) -> dict[str, Any]:
         """Get elimination summary."""
         try:
             if not self.elimination_history:
                 return {"message": "No elimination data available"}
 
             total_eliminations = len(self.elimination_history)
-            recent_elimination = (
-                self.elimination_history[-1] if self.elimination_history else {}
-            )
+            recent_elimination = self.elimination_history[-1] if self.elimination_history else {}
 
             return {
                 "total_eliminations": total_eliminations,
@@ -125,7 +121,7 @@ class EliminationStrategyEngine:
         self.strategies.clear()
         self.logger.info("Elimination history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

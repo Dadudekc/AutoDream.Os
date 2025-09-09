@@ -6,8 +6,9 @@ Defines the contract for message publishing and event handling.
 This enables domain events and inter-agent communication.
 """
 
-from typing import Protocol, Any, Dict
-from src.domain.value_objects.ids import AgentId, MessageId
+from typing import Any, Protocol
+
+from ..value_objects.ids import AgentId, MessageId
 
 
 class MessageBus(Protocol):
@@ -18,8 +19,9 @@ class MessageBus(Protocol):
     and external messaging infrastructure.
     """
 
-    def publish(self, event_type: str, payload: Dict[str, Any],
-                target_agent: AgentId = None) -> MessageId:
+    def publish(
+        self, event_type: str, payload: dict[str, Any], target_agent: AgentId = None
+    ) -> MessageId:
         """
         Publish a message/event to the message bus.
 
@@ -43,7 +45,7 @@ class MessageBus(Protocol):
         """
         ...
 
-    def broadcast(self, event_type: str, payload: Dict[str, Any]) -> None:
+    def broadcast(self, event_type: str, payload: dict[str, Any]) -> None:
         """
         Broadcast message to all agents.
 
@@ -53,8 +55,7 @@ class MessageBus(Protocol):
         """
         ...
 
-    def send_direct(self, target_agent: AgentId, message: str,
-                   priority: int = 1) -> MessageId:
+    def send_direct(self, target_agent: AgentId, message: str, priority: int = 1) -> MessageId:
         """
         Send direct message to specific agent.
 

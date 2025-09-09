@@ -10,11 +10,16 @@ License: MIT
 """
 
 import os
-from typing import Any, Dict, Optional
 from datetime import datetime
+from typing import Any
 
-from .discord_commander_models import CommandResult, create_command_result
-from .agent_communication_engine_base import AgentCommunicationEngineBase
+try:
+    from .agent_communication_engine_base import AgentCommunicationEngineBase
+    from .discord_commander_models import CommandResult, create_command_result
+except ImportError:
+    # Fallback for direct execution
+    from agent_communication_engine_base import AgentCommunicationEngineBase
+    from discord_commander_models import CommandResult, create_command_result
 
 
 class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
@@ -37,9 +42,7 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
             if successful_deliveries == len(agents):
                 return create_command_result(
                     success=True,
-                    message=(
-                        f"Broadcast successfully delivered to all {len(agents)} agents"
-                    ),
+                    message=(f"Broadcast successfully delivered to all {len(agents)} agents"),
                     data={
                         "successful_deliveries": successful_deliveries,
                         "total_agents": len(agents),
@@ -60,13 +63,9 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
 
         except Exception as e:
             self.logger.error(f"Failed to broadcast to all agents: {e}")
-            return create_command_result(
-                success=False, message=f"Broadcast failed: {str(e)}"
-            )
+            return create_command_result(success=False, message=f"Broadcast failed: {str(e)}")
 
-    async def send_human_prompt_to_captain(
-        self, prompt: str, sender: str
-    ) -> CommandResult:
+    async def send_human_prompt_to_captain(self, prompt: str, sender: str) -> CommandResult:
         """Send human prompt to Captain Agent-4"""
         try:
             return await self.send_to_agent_inbox("Agent-4", prompt, sender)
@@ -83,13 +82,13 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
             os.getcwd(), "agent_workspaces", agent, "status.json"
         )
 
-    async def read_agent_status(self, agent: str) -> Optional[Dict[str, Any]]:
+    async def read_agent_status(self, agent: str) -> dict[str, Any] | None:
         """Read agent status from file"""
         try:
             status_file = self.get_agent_status_file_path(agent)
 
             if self._get_unified_utility().path.exists(status_file):
-                with open(status_file, "r") as f:
+                with open(status_file) as f:
                     import json
 
                     return json.load(f)
@@ -117,18 +116,14 @@ class AgentCommunicationEngineOperations(AgentCommunicationEngineBase):
 
             for filename in os.listdir(inbox_path):
                 if filename.endswith(".md"):
-                    file_path = self._get_unified_utility().path.join(
-                        inbox_path, filename
-                    )
+                    file_path = self._get_unified_utility().path.join(inbox_path, filename)
                     file_age = current_time - os.path.getmtime(file_path)
 
                     if file_age > max_age_seconds:
                         os.remove(file_path)
                         cleaned_count += 1
 
-            self.logger.info(
-                f"Cleaned up {cleaned_count} old messages from {agent}'s inbox"
-            )
+            self.logger.info(f"Cleaned up {cleaned_count} old messages from {agent}'s inbox")
             return cleaned_count
 
         except Exception as e:

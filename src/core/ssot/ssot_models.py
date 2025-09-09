@@ -10,10 +10,10 @@ Created: 2025-01-27
 Purpose: V2 compliant SSOT data models
 """
 
-from datetime import datetime
-from typing import Optional, Dict, Any, List
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import Any
 
 
 class SSOTComponentType(Enum):
@@ -58,11 +58,11 @@ class SSOTComponent:
     component_type: SSOTComponentType
     name: str
     description: str = ""
-    dependencies: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.utcnow)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "component_id": self.component_id,
@@ -85,12 +85,12 @@ class SSOTIntegrationResult:
     component_id: str
     success: bool
     execution_time: float = 0.0
-    error_message: Optional[str] = None
-    validation_results: Dict[str, Any] = field(default_factory=dict)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    error_message: str | None = None
+    validation_results: dict[str, Any] = field(default_factory=dict)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "component_id": self.component_id,
@@ -113,17 +113,17 @@ class SSOTExecutionTask:
     task_id: str
     component_id: str
     phase: SSOTExecutionPhase
-    dependencies: List[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
     priority: int = 1
     timeout_seconds: int = 300
     retry_count: int = 0
     max_retries: int = 3
     status: str = "pending"
     created_at: datetime = field(default_factory=datetime.utcnow)
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "task_id": self.task_id,
@@ -137,9 +137,7 @@ class SSOTExecutionTask:
             "status": self.status,
             "created_at": self.created_at.isoformat(),
             "started_at": self.started_at.isoformat() if self.started_at else None,
-            "completed_at": (
-                self.completed_at.isoformat() if self.completed_at else None
-            ),
+            "completed_at": (self.completed_at.isoformat() if self.completed_at else None),
         }
 
 
@@ -153,12 +151,12 @@ class SSOTValidationReport:
     report_id: str
     component_id: str
     validation_level: SSOTValidationLevel
-    results: List[SSOTIntegrationResult] = field(default_factory=list)
-    summary: Dict[str, Any] = field(default_factory=dict)
-    recommendations: List[str] = field(default_factory=list)
+    results: list[SSOTIntegrationResult] = field(default_factory=list)
+    summary: dict[str, Any] = field(default_factory=dict)
+    recommendations: list[str] = field(default_factory=list)
     generated_at: datetime = field(default_factory=datetime.utcnow)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "report_id": self.report_id,
@@ -209,7 +207,7 @@ class SSOTMetrics:
         """Record validation report generation."""
         self.validation_reports_generated += 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_components": self.total_components,

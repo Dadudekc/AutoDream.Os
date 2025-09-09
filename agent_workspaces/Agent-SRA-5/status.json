@@ -1,0 +1,14 @@
+{
+  "agent_id": "Agent-SRA-5",
+  "role": "DRY",
+  "specialty": "Survey Risk Assessment",
+  "status": "ACTIVE",
+  "onboarded": true,
+  "onboarding_timestamp": "2025-09-09T08:34:48.466945",
+  "capabilities": [
+    "survey_coordination",
+    "data_collection",
+    "report_generation",
+    "quality_assurance"
+  ]
+}

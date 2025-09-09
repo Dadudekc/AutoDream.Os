@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class TargetDiscoveryEngine:
         self.discovery_history = []
         self.targets = {}
 
-    def discover_targets(self, search_data: Dict[str, Any]) -> Dict[str, Any]:
+    def discover_targets(self, search_data: dict[str, Any]) -> dict[str, Any]:
         """Discover deployment targets."""
         try:
             if not search_data:
@@ -57,7 +57,7 @@ class TargetDiscoveryEngine:
             self.logger.error(f"Error discovering targets: {e}")
             return {"error": str(e)}
 
-    def _find_targets(self, search_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _find_targets(self, search_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Find targets based on search data."""
         try:
             targets = []
@@ -66,18 +66,14 @@ class TargetDiscoveryEngine:
             if "patterns" in search_data:
                 for pattern in search_data["patterns"]:
                     if isinstance(pattern, str):
-                        targets.append(
-                            {"pattern": pattern, "type": "file", "priority": "normal"}
-                        )
+                        targets.append({"pattern": pattern, "type": "file", "priority": "normal"})
 
             return targets
         except Exception as e:
             self.logger.error(f"Error finding targets: {e}")
             return []
 
-    def _prioritize_targets(
-        self, targets: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    def _prioritize_targets(self, targets: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Prioritize targets."""
         try:
             prioritized = []
@@ -96,7 +92,7 @@ class TargetDiscoveryEngine:
             self.logger.error(f"Error prioritizing targets: {e}")
             return []
 
-    def _filter_targets(self, targets: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _filter_targets(self, targets: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Filter targets."""
         try:
             filtered = []
@@ -111,16 +107,14 @@ class TargetDiscoveryEngine:
             self.logger.error(f"Error filtering targets: {e}")
             return []
 
-    def get_discovery_summary(self) -> Dict[str, Any]:
+    def get_discovery_summary(self) -> dict[str, Any]:
         """Get discovery summary."""
         try:
             if not self.discovery_history:
                 return {"message": "No discovery data available"}
 
             total_discoveries = len(self.discovery_history)
-            recent_discovery = (
-                self.discovery_history[-1] if self.discovery_history else {}
-            )
+            recent_discovery = self.discovery_history[-1] if self.discovery_history else {}
 
             return {
                 "total_discoveries": total_discoveries,
@@ -137,7 +131,7 @@ class TargetDiscoveryEngine:
         self.targets.clear()
         self.logger.info("Discovery history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

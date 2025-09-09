@@ -11,14 +11,14 @@ V2 COMPLIANCE: Under 300-line limit, comprehensive error handling, modular desig
 
 import uuid
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Any
 
-from src.core.unified_utilities import get_unified_validator
-from src.core.unified_logging_system import UnifiedLoggingSystem
-from src.trading_robot.repositories.trading_repository import (
-    TradingRepositoryInterface,
-    Trade,
+from ...core.unified_logging_system import UnifiedLoggingSystem
+from ...core.unified_utilities import get_unified_validator
+from ..repositories.trading_repository import (
     Position,
+    Trade,
+    TradingRepositoryInterface,
     create_trading_repository,
 )
 
@@ -26,7 +26,7 @@ from src.trading_robot.repositories.trading_repository import (
 class TradingService:
     """Service layer for trading business logic."""
 
-    def __init__(self, repository: Optional[TradingRepositoryInterface] = None):
+    def __init__(self, repository: TradingRepositoryInterface | None = None):
         """Initialize with dependency injection."""
         self.repository = repository or create_trading_repository()
         self.logger = UnifiedLoggingSystem("TradingService")
@@ -38,7 +38,7 @@ class TradingService:
         quantity: float,
         price: float,
         order_type: str = "market",
-    ) -> Optional[str]:
+    ) -> str | None:
         """Execute a trade and return trade ID."""
         try:
             self.logger.get_unified_logger().log_operation_start(
@@ -89,9 +89,7 @@ class TradingService:
             )
             return None
 
-    async def get_trade_history(
-        self, symbol: Optional[str] = None, limit: int = 100
-    ) -> List[Trade]:
+    async def get_trade_history(self, symbol: str | None = None, limit: int = 100) -> list[Trade]:
         """Get trade history, optionally filtered by symbol."""
         try:
             self.logger.get_unified_logger().log_operation_start(
@@ -112,7 +110,7 @@ class TradingService:
             self.logger.log_error("get_trade_history", str(e), {"symbol": symbol})
             return []
 
-    async def get_positions(self) -> List[Position]:
+    async def get_positions(self) -> list[Position]:
         """Get all current positions."""
         try:
             self.logger.get_unified_logger().log_operation_start("get_positions")
@@ -125,12 +123,10 @@ class TradingService:
             self.logger.log_error("get_positions", str(e))
             return []
 
-    async def get_position(self, symbol: str) -> Optional[Position]:
+    async def get_position(self, symbol: str) -> Position | None:
         """Get position for specific symbol."""
         try:
-            self.logger.get_unified_logger().log_operation_start(
-                "get_position", {"symbol": symbol}
-            )
+            self.logger.get_unified_logger().log_operation_start("get_position", {"symbol": symbol})
             position = await self.repository.get_position(symbol.upper())
             self.logger.get_unified_logger().log_operation_complete(
                 "get_position", {"symbol": symbol, "found": position is not None}
@@ -140,12 +136,10 @@ class TradingService:
             self.logger.log_error("get_position", str(e), {"symbol": symbol})
             return None
 
-    async def calculate_portfolio_pnl(self) -> Dict[str, Any]:
+    async def calculate_portfolio_pnl(self) -> dict[str, Any]:
         """Calculate portfolio P&L."""
         try:
-            self.logger.get_unified_logger().log_operation_start(
-                "calculate_portfolio_pnl"
-            )
+            self.logger.get_unified_logger().log_operation_start("calculate_portfolio_pnl")
 
             positions = await self.get_positions()
             total_pnl = sum(pos.pnl for pos in positions)
@@ -200,18 +194,13 @@ class TradingService:
             self.logger.log_error("cancel_trade", str(e), {"trade_id": trade_id})
             return False
 
-    def _validate_trade_inputs(
-        self, symbol: str, side: str, quantity: float, price: float
-    ) -> bool:
+    def _validate_trade_inputs(self, symbol: str, side: str, quantity: float, price: float) -> bool:
         """Validate trade input parameters."""
         if not symbol or not get_unified_validator().validate_type(symbol, str):
             return False
         if side not in ["buy", "sell"]:
             return False
-        if (
-            not get_unified_validator().validate_type(quantity, (int, float))
-            or quantity <= 0
-        ):
+        if not get_unified_validator().validate_type(quantity, (int, float)) or quantity <= 0:
             return False
         if not get_unified_validator().validate_type(price, (int, float)) or price <= 0:
             return False
@@ -227,9 +216,9 @@ class TradingService:
                 if current_position:
                     # Update existing position
                     total_quantity = current_position.quantity + trade.quantity
-                    total_cost = (
-                        current_position.quantity * current_position.average_price
-                    ) + (trade.quantity * trade.price)
+                    total_cost = (current_position.quantity * current_position.average_price) + (
+                        trade.quantity * trade.price
+                    )
                     new_avg_price = total_cost / total_quantity
 
                     updated_position = Position(
@@ -256,9 +245,7 @@ class TradingService:
                     new_quantity = current_position.quantity - trade.quantity
                     if new_quantity > 0:
                         # Partial sell
-                        pnl = (
-                            trade.price - current_position.average_price
-                        ) * trade.quantity
+                        pnl = (trade.price - current_position.average_price) * trade.quantity
                         updated_position = Position(
                             symbol=symbol,
                             quantity=new_quantity,
@@ -291,7 +278,7 @@ class TradingService:
 
 # Factory function for dependency injection
 def create_trading_service(
-    repository: Optional[TradingRepositoryInterface] = None,
+    repository: TradingRepositoryInterface | None = None,
 ) -> TradingService:
     """Factory function to create trading service with optional repository injection."""
     return TradingService(repository)

@@ -1,10 +1,3 @@
-<<<<<<< Updated upstream
-"""Backward compatible stub for :mod:`gaming.integration.core`."""
-
-from .integration.core import GamingIntegrationCore, GameType, IntegrationStatus
-
-__all__ = ["GamingIntegrationCore", "GameType", "IntegrationStatus"]
-=======
 """
 Gaming Integration Core - SOLID Compliant Refactoring
 ====================================================
@@ -362,4 +355,3 @@ def create_gaming_integration_core(config: Optional[Dict[str, Any]] = None) -> G
 
 # Backward compatibility alias
 GamingCore = GamingIntegrationCore
->>>>>>> Stashed changes

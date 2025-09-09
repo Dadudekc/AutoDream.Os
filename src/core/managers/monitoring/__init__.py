@@ -1,23 +1,12 @@
-"""
-Monitoring Management Package - Phase-2 V2 Compliance Refactoring
-=================================================================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Specialized monitoring components for better SRP compliance.
-
-Author: Agent-3 (Infrastructure & DevOps Specialist)
-License: MIT
-"""
-
-from .base_monitoring_manager import BaseMonitoringManager
-from .alert_manager import AlertManager
-from .metrics_manager import MetricsManager
-from .widget_manager import WidgetManager
-from .monitoring_coordinator import MonitoringCoordinator
+from . import alert_manager
+from . import base_monitoring_manager
+from . import metrics_manager
 
 __all__ = [
-    "BaseMonitoringManager",
-    "AlertManager",
-    "MetricsManager",
-    "WidgetManager",
-    "MonitoringCoordinator",
+    'alert_manager',
+    'base_monitoring_manager',
+    'metrics_manager',
 ]

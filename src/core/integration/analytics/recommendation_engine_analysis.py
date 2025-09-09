@@ -10,14 +10,13 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
 import logging
+from typing import Any
 
 from ..vector_integration_models import (
     OptimizationRecommendation,
     PerformanceMetrics,
     TrendAnalysis,
-    create_optimization_recommendation,
 )
 
 
@@ -30,8 +29,8 @@ class RecommendationEngineAnalysis:
         self.logger = logger or logging.getLogger(__name__)
 
     def _generate_metric_recommendations(
-        self, metrics_data: List[PerformanceMetrics], trends: Dict[str, TrendAnalysis]
-    ) -> List[OptimizationRecommendation]:
+        self, metrics_data: list[PerformanceMetrics], trends: dict[str, TrendAnalysis]
+    ) -> list[OptimizationRecommendation]:
         """Generate recommendations based on metric analysis."""
         recommendations = []
 
@@ -46,9 +45,7 @@ class RecommendationEngineAnalysis:
                 )
                 recommendations.extend(metric_recs)
 
-            self.logger.info(
-                f"Generated {len(recommendations)} metric-based recommendations"
-            )
+            self.logger.info(f"Generated {len(recommendations)} metric-based recommendations")
 
         except Exception as e:
             self.logger.error(f"Error generating metric recommendations: {e}")
@@ -56,8 +53,8 @@ class RecommendationEngineAnalysis:
         return recommendations
 
     def _analyze_metric_for_recommendations(
-        self, metric_name: str, summary: Dict[str, Any], trend: Optional[TrendAnalysis]
-    ) -> List[OptimizationRecommendation]:
+        self, metric_name: str, summary: dict[str, Any], trend: TrendAnalysis | None
+    ) -> list[OptimizationRecommendation]:
         """Analyze a specific metric for recommendations."""
         recommendations = []
 
@@ -100,8 +97,8 @@ class RecommendationEngineAnalysis:
         return recommendations
 
     def _calculate_metric_summaries(
-        self, metrics_data: List[PerformanceMetrics]
-    ) -> Dict[str, Dict[str, Any]]:
+        self, metrics_data: list[PerformanceMetrics]
+    ) -> dict[str, dict[str, Any]]:
         """Calculate summaries for all metrics."""
         summaries = {}
 
@@ -131,7 +128,7 @@ class RecommendationEngineAnalysis:
 
         return summaries
 
-    def _is_highly_volatile(self, values: List[float]) -> bool:
+    def _is_highly_volatile(self, values: list[float]) -> bool:
         """Check if values are highly volatile."""
         if len(values) < 2:
             return False

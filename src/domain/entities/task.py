@@ -8,8 +8,8 @@ Tasks have identity and encapsulate business rules.
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
-from src.domain.value_objects.ids import TaskId, AgentId
+
+from ..value_objects.ids import AgentId, TaskId
 
 
 @dataclass
@@ -26,11 +26,11 @@ class Task:
 
     id: TaskId
     title: str
-    description: Optional[str] = None
-    assigned_agent_id: Optional[AgentId] = None
+    description: str | None = None
+    assigned_agent_id: AgentId | None = None
     created_at: datetime = field(default_factory=datetime.utcnow)
-    assigned_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    assigned_at: datetime | None = None
+    completed_at: datetime | None = None
     priority: int = 1  # 1=low, 2=medium, 3=high, 4=critical
 
     def __post_init__(self) -> None:

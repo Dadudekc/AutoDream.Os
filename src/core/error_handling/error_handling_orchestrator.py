@@ -10,12 +10,14 @@ Created: 2025-01-27
 Purpose: V2 compliant error handling orchestration
 """
 
-from typing import Dict, Any, Optional, List, Callable
 import logging
+from collections.abc import Callable
+from typing import Any
+
+from .error_analysis_engine import ErrorAnalysisEngine
 from .error_handling_models import RetryConfiguration
 from .retry_safety_engine import RetrySafetyEngine
 from .specialized_handlers import SpecializedErrorHandlers
-from .error_analysis_engine import ErrorAnalysisEngine
 
 
 class UnifiedErrorHandlingOrchestrator:
@@ -29,7 +31,7 @@ class UnifiedErrorHandlingOrchestrator:
     - Recovery recommendations and system health monitoring
     """
 
-    def __init__(self, logger: Optional[logging.Logger] = None):
+    def __init__(self, logger: logging.Logger | None = None):
         """Initialize error handling orchestrator."""
         self.logger = logger
         self.retry_engine = RetrySafetyEngine(logger)
@@ -44,7 +46,7 @@ class UnifiedErrorHandlingOrchestrator:
         delay: float = 1.0,
         backoff_factor: float = 2.0,
         exceptions: tuple = (Exception,),
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ) -> Any:
         """Retry operation with exponential backoff."""
         config = RetryConfiguration(max_retries, delay, backoff_factor, exceptions)
@@ -54,7 +56,7 @@ class UnifiedErrorHandlingOrchestrator:
         self,
         operation_func: Callable,
         default_return: Any = None,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
         operation_name: str = "operation",
     ) -> Any:
         """Safely execute operation with fallback return value."""
@@ -67,7 +69,7 @@ class UnifiedErrorHandlingOrchestrator:
         operation_func: Callable,
         validation_func: Callable,
         error_message: str = "Validation failed",
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ) -> Any:
         """Validate input and execute operation."""
         return self.retry_engine.validate_and_execute(
@@ -80,8 +82,8 @@ class UnifiedErrorHandlingOrchestrator:
         logger: logging.Logger,
         operation: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle operation error with standardized response."""
         return self.handlers.handle_operation_error(logger, operation, error, context)
 
@@ -91,8 +93,8 @@ class UnifiedErrorHandlingOrchestrator:
         operation: str,
         file_path: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle file operation error with standardized response."""
         return self.handlers.handle_file_operation_error(
             logger, operation, file_path, error, context
@@ -104,12 +106,10 @@ class UnifiedErrorHandlingOrchestrator:
         operation: str,
         url: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle network operation error with standardized response."""
-        return self.handlers.handle_network_operation_error(
-            logger, operation, url, error, context
-        )
+        return self.handlers.handle_network_operation_error(logger, operation, url, error, context)
 
     def handle_database_operation_error(
         self,
@@ -117,8 +117,8 @@ class UnifiedErrorHandlingOrchestrator:
         operation: str,
         table: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle database operation error with standardized response."""
         return self.handlers.handle_database_operation_error(
             logger, operation, table, error, context
@@ -129,24 +129,20 @@ class UnifiedErrorHandlingOrchestrator:
         logger: logging.Logger,
         validation_type: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle validation error with standardized response."""
-        return self.handlers.handle_validation_error(
-            logger, validation_type, error, context
-        )
+        return self.handlers.handle_validation_error(logger, validation_type, error, context)
 
     def handle_configuration_error(
         self,
         logger: logging.Logger,
         config_key: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle configuration error with standardized response."""
-        return self.handlers.handle_configuration_error(
-            logger, config_key, error, context
-        )
+        return self.handlers.handle_configuration_error(logger, config_key, error, context)
 
     def handle_agent_operation_error(
         self,
@@ -154,8 +150,8 @@ class UnifiedErrorHandlingOrchestrator:
         agent_id: str,
         operation: str,
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle agent operation error with standardized response."""
         return self.handlers.handle_agent_operation_error(
             logger, agent_id, operation, error, context
@@ -165,17 +161,17 @@ class UnifiedErrorHandlingOrchestrator:
         self,
         logger: logging.Logger,
         coordination_type: str,
-        participants: List[str],
+        participants: list[str],
         error: Exception,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Handle coordination error with standardized response."""
         return self.handlers.handle_coordination_error(
             logger, coordination_type, participants, error, context
         )
 
     # Error Analysis and Assessment
-    def create_error_summary(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def create_error_summary(self, errors: list[dict[str, Any]]) -> dict[str, Any]:
         """Create error summary from list of errors."""
         return self.analysis_engine.create_error_summary(errors)
 
@@ -187,17 +183,17 @@ class UnifiedErrorHandlingOrchestrator:
         """Get error severity level."""
         return self.analysis_engine.get_error_severity(error)
 
-    def analyze_error_patterns(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_error_patterns(self, errors: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze error patterns from error list."""
         return self.analysis_engine.analyze_error_patterns(errors)
 
     def get_recovery_recommendations(
-        self, error: Exception, context: Dict[str, Any] = None
-    ) -> List[str]:
+        self, error: Exception, context: dict[str, Any] = None
+    ) -> list[str]:
         """Get recovery recommendations for specific error."""
         return self.analysis_engine.get_recovery_recommendations(error, context)
 
-    def assess_system_health(self, errors: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def assess_system_health(self, errors: list[dict[str, Any]]) -> dict[str, Any]:
         """Assess overall system health based on error patterns."""
         return self.analysis_engine.assess_system_health(errors)
 
@@ -207,7 +203,7 @@ _orchestrator = None
 
 
 def get_error_handling_orchestrator(
-    logger: Optional[logging.Logger] = None,
+    logger: logging.Logger | None = None,
 ) -> UnifiedErrorHandlingOrchestrator:
     """Get global error handling orchestrator instance."""
     global _orchestrator

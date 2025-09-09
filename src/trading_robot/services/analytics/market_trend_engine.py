@@ -12,22 +12,22 @@ V2 COMPLIANT: Focused trend analysis under 300 lines.
 """
 
 import statistics
-from typing import List, Dict, Any, Optional
 from datetime import datetime
+from typing import Any
 
-from .trading_bi_models import MarketTrend, TrendAnalysisConfig
 from ...repositories.trading_repository import Trade
+from .trading_bi_models import MarketTrend, TrendAnalysisConfig
 
 
 class MarketTrendEngine:
     """Market trend analysis engine for trading market analysis."""
 
-    def __init__(self, config: Optional[TrendAnalysisConfig] = None):
+    def __init__(self, config: TrendAnalysisConfig | None = None):
         """Initialize market trend engine with configuration."""
         self.config = config or TrendAnalysisConfig()
 
     def analyze_market_trend(
-        self, trades: List[Trade], symbol: str, timeframe: str = "medium"
+        self, trades: list[Trade], symbol: str, timeframe: str = "medium"
     ) -> MarketTrend:
         """Analyze market trends using technical indicators."""
         try:
@@ -48,11 +48,11 @@ class MarketTrendEngine:
                 timestamp=datetime.now(),
             )
 
-        except Exception as e:
+        except Exception:
             # Return default trend on error
             return self._create_default_trend(symbol, timeframe)
 
-    def _calculate_trend_direction(self, trades: List[Trade]) -> tuple[str, float]:
+    def _calculate_trend_direction(self, trades: list[Trade]) -> tuple[str, float]:
         """Calculate trend direction and strength."""
         if len(trades) < 2:
             return "sideways", 0.0
@@ -94,7 +94,7 @@ class MarketTrendEngine:
 
         return direction, strength
 
-    def _calculate_trend_confidence(self, trades: List[Trade]) -> float:
+    def _calculate_trend_confidence(self, trades: list[Trade]) -> float:
         """Calculate confidence in trend analysis."""
         if len(trades) < self.config.min_trades_for_analysis:
             return 0.0
@@ -125,7 +125,7 @@ class MarketTrendEngine:
 
         return min(confidence, 1.0)
 
-    def _calculate_predicted_change(self, trades: List[Trade], direction: str) -> float:
+    def _calculate_predicted_change(self, trades: list[Trade], direction: str) -> float:
         """Calculate predicted price change based on trend."""
         if len(trades) < 2:
             return 0.0
@@ -167,7 +167,7 @@ class MarketTrendEngine:
             timestamp=datetime.now(),
         )
 
-    def get_trend_summary(self, trends: List[MarketTrend]) -> Dict[str, Any]:
+    def get_trend_summary(self, trends: list[MarketTrend]) -> dict[str, Any]:
         """Get summary of multiple trend analyses."""
         if not trends:
             return {"error": "No trends provided"}
@@ -205,7 +205,7 @@ class MarketTrendEngine:
 
 # Factory function for dependency injection
 def create_market_trend_engine(
-    config: Optional[TrendAnalysisConfig] = None,
+    config: TrendAnalysisConfig | None = None,
 ) -> MarketTrendEngine:
     """Factory function to create market trend engine with optional configuration."""
     return MarketTrendEngine(config)

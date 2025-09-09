@@ -12,16 +12,16 @@ Original monolithic implementation refactored into focused modules.
 
 # Import the new modular orchestrator
 from .analytics import (
-    TradingBiAnalyticsOrchestrator,
-    create_trading_bi_analytics_orchestrator,
-    RiskLevel,
-    PerformanceMetrics,
-    RiskMetrics,
     MarketTrend,
-    PnLResult,
-    TrendAnalysisConfig,
-    RiskAssessmentConfig,
     PerformanceConfig,
+    PerformanceMetrics,
+    PnLResult,
+    RiskAssessmentConfig,
+    RiskLevel,
+    RiskMetrics,
+    TradingBiAnalyticsOrchestrator,
+    TrendAnalysisConfig,
+    create_trading_bi_analytics_orchestrator,
 )
 
 # Re-export for backward compatibility

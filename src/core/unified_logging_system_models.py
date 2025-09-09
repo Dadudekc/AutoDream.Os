@@ -9,10 +9,10 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-from enum import Enum
-from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
 
 class LogLevel(Enum):
@@ -34,7 +34,7 @@ class LogEntry:
     timestamp: datetime
     module: str
     function: str
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         """Initialize metadata if not provided."""

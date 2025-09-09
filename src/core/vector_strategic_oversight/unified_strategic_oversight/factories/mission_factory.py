@@ -10,12 +10,11 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-from ..enums import PriorityLevel
 from ..data_models import StrategicMission
+from ..enums import PriorityLevel
 
 
 class MissionFactory:
@@ -26,11 +25,11 @@ class MissionFactory:
         title: str,
         description: str,
         priority: PriorityLevel,
-        assigned_agents: List[str],
-        objectives: List[str],
-        success_criteria: List[str],
-        deadline: Optional[datetime] = None,
-        dependencies: List[str] = None,
+        assigned_agents: list[str],
+        objectives: list[str],
+        success_criteria: list[str],
+        deadline: datetime | None = None,
+        dependencies: list[str] = None,
     ) -> StrategicMission:
         """Create strategic mission."""
         return StrategicMission(
@@ -66,7 +65,7 @@ class MissionFactory:
 
     @staticmethod
     def create_emergency_mission(
-        title: str, description: str, assigned_agents: List[str], objectives: List[str]
+        title: str, description: str, assigned_agents: list[str], objectives: list[str]
     ) -> StrategicMission:
         """Create emergency mission with high priority."""
         return StrategicMission(

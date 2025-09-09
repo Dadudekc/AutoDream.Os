@@ -14,9 +14,9 @@ Mission: V2 Compliance Architecture & Design Optimization
 Status: V2 COMPLIANT - FSM Constants Optimized
 """
 
-from typing import Final, Optional, Any
-from .fsm_models import StateDefinition, TransitionDefinition
-from .fsm_enums import TransitionType
+from typing import Any, Final
+
+from .fsm_models import StateDefinition
 
 
 def get_config(key: str, default: Any) -> Any:
@@ -32,23 +32,17 @@ def get_config(key: str, default: Any) -> Any:
 # ================================
 
 # State timeouts and retries
-FSM_STATE_TIMEOUT_SECONDS: Final[Optional[int]] = get_config(
-    "FSM_STATE_TIMEOUT_SECONDS", 300
-)
+FSM_STATE_TIMEOUT_SECONDS: Final[int | None] = get_config("FSM_STATE_TIMEOUT_SECONDS", 300)
 
 FSM_STATE_RETRY_COUNT: Final[int] = get_config("FSM_STATE_RETRY_COUNT", 3)
 
 FSM_STATE_RETRY_DELAY: Final[float] = get_config("FSM_STATE_RETRY_DELAY", 1.0)
 
 # Transition settings
-FSM_TRANSITION_PRIORITY_DEFAULT: Final[int] = get_config(
-    "FSM_TRANSITION_PRIORITY_DEFAULT", 1
-)
+FSM_TRANSITION_PRIORITY_DEFAULT: Final[int] = get_config("FSM_TRANSITION_PRIORITY_DEFAULT", 1)
 """Default priority for FSM transitions."""
 
-FSM_TRANSITION_TIMEOUT_SECONDS: Final[Optional[int]] = get_config(
-    "FSM_TRANSITION_TIMEOUT_SECONDS", 60
-)
+FSM_TRANSITION_TIMEOUT_SECONDS: Final[int | None] = get_config("FSM_TRANSITION_TIMEOUT_SECONDS", 60)
 """Default timeout for FSM transitions in seconds."""
 
 # ================================

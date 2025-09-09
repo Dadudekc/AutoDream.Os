@@ -105,9 +105,7 @@ class SearchHistoryService:
 
         return suggestions[:10]  # Return top 10 suggestions
 
-    def get_agent_search_history(
-        self, agent_id: str, limit: int = 20
-    ) -> List[Dict[str, Any]]:
+    def get_agent_search_history(self, agent_id: str, limit: int = 20) -> List[Dict[str, Any]]:
         """Get search history for a specific agent.
 
         Args:
@@ -135,9 +133,7 @@ class SearchHistoryService:
             self.search_history = []
             self.agent_queries = defaultdict(list)
 
-        get_logger(__name__).info(
-            f"Cleared search history for {agent_id or 'all agents'}"
-        )
+        get_logger(__name__).info(f"Cleared search history for {agent_id or 'all agents'}")
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get search statistics.

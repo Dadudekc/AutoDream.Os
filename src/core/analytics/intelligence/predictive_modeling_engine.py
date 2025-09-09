@@ -9,10 +9,10 @@ Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-import statistics
 import logging
-from typing import Dict, List, Any, Optional
+import statistics
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class PredictiveModelingEngine:
             self.logger.error(f"Error creating model: {e}")
             return False
 
-    def train_model(self, model_name: str, training_data: List[Dict[str, Any]]) -> bool:
+    def train_model(self, model_name: str, training_data: list[dict[str, Any]]) -> bool:
         """Train a predictive model."""
         try:
             if model_name not in self.models:
@@ -54,17 +54,13 @@ class PredictiveModelingEngine:
             self.models[model_name]["accuracy"] = 0.85  # Simulated accuracy
             self.models[model_name]["training_samples"] = len(training_data)
 
-            self.logger.info(
-                f"Trained model: {model_name} with {len(training_data)} samples"
-            )
+            self.logger.info(f"Trained model: {model_name} with {len(training_data)} samples")
             return True
         except Exception as e:
             self.logger.error(f"Error training model: {e}")
             return False
 
-    def predict(
-        self, model_name: str, input_data: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    def predict(self, model_name: str, input_data: dict[str, Any]) -> dict[str, Any] | None:
         """Make a prediction using a model."""
         try:
             if model_name not in self.models:
@@ -95,7 +91,7 @@ class PredictiveModelingEngine:
             self.logger.error(f"Error making prediction: {e}")
             return None
 
-    def _simulate_prediction(self, input_data: Dict[str, Any]) -> float:
+    def _simulate_prediction(self, input_data: dict[str, Any]) -> float:
         """Simulate a prediction based on input data."""
         try:
             # Simple prediction simulation
@@ -115,11 +111,11 @@ class PredictiveModelingEngine:
             self.logger.error(f"Error simulating prediction: {e}")
             return 0.0
 
-    def get_model_info(self, model_name: str) -> Optional[Dict[str, Any]]:
+    def get_model_info(self, model_name: str) -> dict[str, Any] | None:
         """Get information about a model."""
         return self.models.get(model_name)
 
-    def get_all_models(self) -> Dict[str, Dict[str, Any]]:
+    def get_all_models(self) -> dict[str, dict[str, Any]]:
         """Get all models."""
         return self.models.copy()
 
@@ -135,7 +131,7 @@ class PredictiveModelingEngine:
             self.logger.error(f"Error deleting model: {e}")
             return False
 
-    def get_predictions_summary(self) -> Dict[str, Any]:
+    def get_predictions_summary(self) -> dict[str, Any]:
         """Get predictions summary."""
         try:
             if not self.predictions_history:
@@ -153,7 +149,7 @@ class PredictiveModelingEngine:
             self.logger.error(f"Error getting predictions summary: {e}")
             return {"error": str(e)}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

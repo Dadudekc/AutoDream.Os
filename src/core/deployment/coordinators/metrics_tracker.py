@@ -11,13 +11,13 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Dict, Any, List
 import logging
+from typing import Any
 
 from ..deployment_models import (
+    DeploymentMetrics,
     MassDeploymentTarget,
     MaximumEfficiencyDeploymentStatus,
-    DeploymentMetrics,
     create_deployment_metrics,
 )
 
@@ -35,9 +35,9 @@ class DeploymentMetricsTracker:
 
         # Metrics state
         self.deployment_metrics = create_deployment_metrics()
-        self.agent_statuses: Dict[str, MaximumEfficiencyDeploymentStatus] = {}
+        self.agent_statuses: dict[str, MaximumEfficiencyDeploymentStatus] = {}
 
-    def update_deployment_metrics(self, results: List[Dict[str, Any]]):
+    def update_deployment_metrics(self, results: list[dict[str, Any]]):
         """Update deployment metrics based on results."""
         for result in results:
             if result.get("success", False):
@@ -47,9 +47,7 @@ class DeploymentMetricsTracker:
 
             # Update total deployment time
             if "deployment_time" in result:
-                self.deployment_metrics.total_deployment_time += result[
-                    "deployment_time"
-                ]
+                self.deployment_metrics.total_deployment_time += result["deployment_time"]
 
         # Update success rate
         total_deployments = (
@@ -61,9 +59,7 @@ class DeploymentMetricsTracker:
                 self.deployment_metrics.successful_deployments / total_deployments
             ) * 100
 
-    def update_agent_status(
-        self, agent_id: str, status: MaximumEfficiencyDeploymentStatus
-    ):
+    def update_agent_status(self, agent_id: str, status: MaximumEfficiencyDeploymentStatus):
         """Update agent deployment status."""
         self.agent_statuses[agent_id] = status
         self.logger.debug(f"Updated status for {agent_id}")
@@ -76,7 +72,7 @@ class DeploymentMetricsTracker:
         """Get current deployment metrics."""
         return self.deployment_metrics
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get comprehensive metrics summary."""
         return {
             "deployment_metrics": self.deployment_metrics.to_dict(),
@@ -109,9 +105,7 @@ class DeploymentMetricsTracker:
         efficiency_score = (success_score * 0.7) + (time_efficiency * 0.3)
         return min(100.0, max(0.0, efficiency_score))
 
-    def get_target_analysis(
-        self, targets: List[MassDeploymentTarget]
-    ) -> Dict[str, Any]:
+    def get_target_analysis(self, targets: list[MassDeploymentTarget]) -> dict[str, Any]:
         """Analyze deployment targets."""
         if not targets:
             return {"total": 0, "by_type": {}, "by_priority": {}, "by_status": {}}
@@ -129,9 +123,7 @@ class DeploymentMetricsTracker:
         # Count by status
         by_status = {}
         for target in targets:
-            by_status[target.deployment_status] = (
-                by_status.get(target.deployment_status, 0) + 1
-            )
+            by_status[target.deployment_status] = by_status.get(target.deployment_status, 0) + 1
 
         return {
             "total": len(targets),
@@ -140,7 +132,7 @@ class DeploymentMetricsTracker:
             "by_status": by_status,
         }
 
-    def get_performance_report(self) -> Dict[str, Any]:
+    def get_performance_report(self) -> dict[str, Any]:
         """Generate performance report."""
         total_deployments = (
             self.deployment_metrics.successful_deployments
@@ -160,14 +152,10 @@ class DeploymentMetricsTracker:
         recommendations = []
 
         if self.deployment_metrics.success_rate < 80:
-            recommendations.append(
-                "Improve deployment success rate - investigate failures"
-            )
+            recommendations.append("Improve deployment success rate - investigate failures")
 
         if self.deployment_metrics.total_deployment_time > 300:  # 5 minutes
-            recommendations.append(
-                "Optimize deployment time - consider parallel processing"
-            )
+            recommendations.append("Optimize deployment time - consider parallel processing")
 
         if efficiency_score < 70:
             recommendations.append("Overall efficiency needs improvement")
@@ -194,7 +182,7 @@ class DeploymentMetricsTracker:
         self.agent_statuses.clear()
         self.logger.info("Deployment metrics reset")
 
-    def export_metrics(self) -> Dict[str, Any]:
+    def export_metrics(self) -> dict[str, Any]:
         """Export metrics data for external use."""
         return {
             "metrics": self.deployment_metrics.to_dict(),

@@ -6,12 +6,13 @@ Defines the contract for logging operations.
 This enables domain objects to log events without depending on specific logging frameworks.
 """
 
-from typing import Protocol, Any
 from enum import Enum
+from typing import Any, Protocol
 
 
 class LogLevel(Enum):
     """Log levels for different types of messages."""
+
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -79,7 +80,9 @@ class Logger(Protocol):
         """
         ...
 
-    def log(self, level: LogLevel, message: str, exception: Exception = None, **context: Any) -> None:
+    def log(
+        self, level: LogLevel, message: str, exception: Exception = None, **context: Any
+    ) -> None:
         """
         Log message with specific level.
 

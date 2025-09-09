@@ -10,22 +10,20 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Optional, List, Dict, Any
 from datetime import datetime
+from typing import Any
 
 from ..unified_intelligent_context.models import (
-    MissionContext,
     AgentCapability,
-    SearchResult,
+    ContextMetrics,
     ContextRetrievalResult,
+    ContextType,
     EmergencyContext,
     InterventionProtocol,
+    MissionContext,
     RiskAssessment,
+    SearchResult,
     SuccessPrediction,
-    ContextMetrics,
-    ContextType,
-    Priority,
-    Status,
 )
 
 
@@ -46,11 +44,11 @@ class ContextCore:
         except Exception:
             return False
 
-    def get_mission_context(self, mission_id: str) -> Optional[MissionContext]:
+    def get_mission_context(self, mission_id: str) -> MissionContext | None:
         """Get mission context."""
         return self.contexts.get(mission_id)
 
-    def get_agent_capabilities(self, agent_id: str) -> List[AgentCapability]:
+    def get_agent_capabilities(self, agent_id: str) -> list[AgentCapability]:
         """Get agent capabilities."""
         return self.capabilities.get(agent_id, [])
 
@@ -88,31 +86,31 @@ class ContextCore:
                 error_message=str(e),
             )
 
-    def get_emergency_context(self, emergency_id: str) -> Optional[EmergencyContext]:
+    def get_emergency_context(self, emergency_id: str) -> EmergencyContext | None:
         """Get emergency context."""
         # Mock implementation
         return None
 
-    def get_intervention_protocols(self) -> List[InterventionProtocol]:
+    def get_intervention_protocols(self) -> list[InterventionProtocol]:
         """Get intervention protocols."""
         return self.protocols
 
-    def optimize_agent_assignment(self, mission_id: str) -> List[str]:
+    def optimize_agent_assignment(self, mission_id: str) -> list[str]:
         """Optimize agent assignment."""
         # Mock implementation
         return []
 
-    def analyze_success_patterns(self) -> Dict[str, Any]:
+    def analyze_success_patterns(self) -> dict[str, Any]:
         """Analyze success patterns."""
         # Mock implementation
         return {}
 
-    def assess_mission_risks(self, mission_id: str) -> Optional[RiskAssessment]:
+    def assess_mission_risks(self, mission_id: str) -> RiskAssessment | None:
         """Assess mission risks."""
         # Mock implementation
         return None
 
-    def generate_success_predictions(self, task_id: str) -> Optional[SuccessPrediction]:
+    def generate_success_predictions(self, task_id: str) -> SuccessPrediction | None:
         """Generate success predictions."""
         # Mock implementation
         return None

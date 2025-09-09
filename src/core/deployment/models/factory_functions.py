@@ -11,16 +11,11 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Dict, Any, Optional, List
 from datetime import datetime
 
-from .enums import DeploymentStatus, PatternType, DeploymentPriority
-from .data_models import (
-    MassDeploymentTarget,
-    MaximumEfficiencyDeploymentStatus,
-    DeploymentMetrics,
-)
 from .config_models import DeploymentConfig
+from .data_models import DeploymentMetrics, MassDeploymentTarget, MaximumEfficiencyDeploymentStatus
+from .enums import DeploymentPriority, PatternType
 
 # Constants
 DEFAULT_AGENT_DOMAINS = {
@@ -52,9 +47,7 @@ def create_deployment_target(
     file_path: str, pattern_type: str, priority: str = DeploymentPriority.MEDIUM.value
 ) -> MassDeploymentTarget:
     """Create deployment target with validation."""
-    target = MassDeploymentTarget(
-        file_path=file_path, pattern_type=pattern_type, priority=priority
-    )
+    target = MassDeploymentTarget(file_path=file_path, pattern_type=pattern_type, priority=priority)
     # Validation happens in __post_init__
     return target
 
@@ -87,15 +80,12 @@ def create_deployment_target_from_pattern(
 
 
 def create_batch_deployment_targets(
-    file_paths: List[str],
+    file_paths: list[str],
     pattern_type: str,
     priority: str = DeploymentPriority.MEDIUM.value,
-) -> List[MassDeploymentTarget]:
+) -> list[MassDeploymentTarget]:
     """Create multiple deployment targets."""
-    return [
-        create_deployment_target(file_path, pattern_type, priority)
-        for file_path in file_paths
-    ]
+    return [create_deployment_target(file_path, pattern_type, priority) for file_path in file_paths]
 
 
 def create_deployment_status_for_agent(
@@ -131,11 +121,11 @@ def get_priority_for_pattern(pattern_type: PatternType) -> DeploymentPriority:
     return DEPLOYMENT_TARGET_PRIORITIES.get(pattern_type, DeploymentPriority.MEDIUM)
 
 
-def get_all_agent_domains() -> Dict[str, str]:
+def get_all_agent_domains() -> dict[str, str]:
     """Get all agent domains."""
     return DEFAULT_AGENT_DOMAINS.copy()
 
 
-def get_all_pattern_priorities() -> Dict[PatternType, DeploymentPriority]:
+def get_all_pattern_priorities() -> dict[PatternType, DeploymentPriority]:
     """Get all pattern priorities."""
     return DEPLOYMENT_TARGET_PRIORITIES.copy()

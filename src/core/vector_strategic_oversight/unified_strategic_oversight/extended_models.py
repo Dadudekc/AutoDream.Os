@@ -10,10 +10,9 @@ Mission: V2 Compliance Refactoring
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Any, Optional
 from datetime import datetime
-import uuid
-from .enums import ConfidenceLevel, ImpactLevel, EmergencyStatus
+
+from .enums import ConfidenceLevel, EmergencyStatus, ImpactLevel
 
 
 @dataclass
@@ -22,9 +21,9 @@ class AgentCapabilities:
 
     capabilities_id: str
     agent_id: str
-    capabilities: List[str]
-    proficiency_levels: Dict[str, float]
-    specializations: List[str]
+    capabilities: list[str]
+    proficiency_levels: dict[str, float]
+    specializations: list[str]
     created_at: datetime
 
     def __post_init__(self):
@@ -41,7 +40,7 @@ class PatternAnalysis:
     confidence: float
     frequency: float
     impact: ImpactLevel
-    recommendations: List[str]
+    recommendations: list[str]
     created_at: datetime
 
     def __post_init__(self):
@@ -57,8 +56,8 @@ class SuccessPrediction:
     mission_id: str
     success_probability: float
     confidence: ConfidenceLevel
-    factors: List[str]
-    recommendations: List[str]
+    factors: list[str]
+    recommendations: list[str]
     created_at: datetime
 
     def __post_init__(self):
@@ -75,7 +74,7 @@ class RiskAssessment:
     severity: ImpactLevel
     probability: float
     impact: str
-    mitigation_strategies: List[str]
+    mitigation_strategies: list[str]
     created_at: datetime
 
     def __post_init__(self):
@@ -108,8 +107,8 @@ class EmergencyAlert:
     alert_type: EmergencyStatus
     severity: ImpactLevel
     message: str
-    affected_agents: List[str]
-    resolution_actions: List[str]
+    affected_agents: list[str]
+    resolution_actions: list[str]
     created_at: datetime
 
     def __post_init__(self):
@@ -143,7 +142,7 @@ class CoordinationPattern:
     pattern_type: str
     frequency: float
     effectiveness: float
-    agents_involved: List[str]
+    agents_involved: list[str]
     created_at: datetime
 
     def __post_init__(self):

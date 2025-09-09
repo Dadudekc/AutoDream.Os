@@ -74,9 +74,7 @@ class CoordinationPerformanceMonitor:
     ):
         """Record the completion of an operation."""
         # Record response time
-        self.collector.record_timer(
-            f"{operation_name}_response_time", duration, tags=tags
-        )
+        self.collector.record_timer(f"{operation_name}_response_time", duration, tags=tags)
 
         # Record success/failure
         self.collector.record_counter(
@@ -88,9 +86,7 @@ class CoordinationPerformanceMonitor:
         # Record throughput
         self.collector.record_counter(f"{operation_name}_throughput", 1.0, tags=tags)
 
-    def get_performance_report(
-        self, time_window: timedelta = timedelta(hours=1)
-    ) -> Dict[str, Any]:
+    def get_performance_report(self, time_window: timedelta = timedelta(hours=1)) -> Dict[str, Any]:
         """Get comprehensive performance report."""
         return self.analyzer.generate_performance_report(time_window)
 

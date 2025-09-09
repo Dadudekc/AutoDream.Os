@@ -121,9 +121,7 @@ class V2RefactoringIndexer:
                 "category": "architecture_refactoring",
             },
             "src/services/gaming_performance_integration_core_v3.py": {
-                "description": (
-                    "Integration orchestrator for gaming performance with unified API"
-                ),
+                "description": ("Integration orchestrator for gaming performance with unified API"),
                 "tags": ["V2_compliance", "integration", "orchestrator", "unified_api"],
                 "category": "architecture_refactoring",
             },
@@ -180,9 +178,7 @@ class V2RefactoringIndexer:
                 "category": "architecture_refactoring",
             },
             "src/core/validation/gaming_performance_endurance_test_engine.py": {
-                "description": (
-                    "Endurance testing for stability and memory leak detection"
-                ),
+                "description": ("Endurance testing for stability and memory leak detection"),
                 "tags": [
                     "V2_compliance",
                     "endurance_testing",
@@ -193,9 +189,7 @@ class V2RefactoringIndexer:
                 "category": "architecture_refactoring",
             },
             "src/core/validation/gaming_performance_test_orchestrator_v2.py": {
-                "description": (
-                    "Test orchestration system coordinating multiple test engines"
-                ),
+                "description": ("Test orchestration system coordinating multiple test engines"),
                 "tags": [
                     "V2_compliance",
                     "orchestration",
@@ -255,7 +249,7 @@ class V2RefactoringIndexer:
         """
         try:
             # Read file content
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Create document for simple vector database

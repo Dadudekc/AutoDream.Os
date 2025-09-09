@@ -10,16 +10,15 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional
-from datetime import datetime
 import uuid
+from datetime import datetime
 
-from ..enums import ReportType, ConfidenceLevel, ImpactLevel
 from ..data_models import (
-    SwarmCoordinationInsight,
-    StrategicRecommendation,
     StrategicOversightReport,
+    StrategicRecommendation,
+    SwarmCoordinationInsight,
 )
+from ..enums import ConfidenceLevel, ImpactLevel, ReportType
 
 
 class ReportFactory:
@@ -30,8 +29,8 @@ class ReportFactory:
         report_type: ReportType,
         title: str,
         summary: str,
-        insights: List[SwarmCoordinationInsight] = None,
-        recommendations: List[StrategicRecommendation] = None,
+        insights: list[SwarmCoordinationInsight] = None,
+        recommendations: list[StrategicRecommendation] = None,
         confidence_level: ConfidenceLevel = ConfidenceLevel.MEDIUM,
         impact_level: ImpactLevel = ImpactLevel.MEDIUM,
     ) -> StrategicOversightReport:
@@ -74,7 +73,7 @@ class ReportFactory:
         title: str,
         description: str,
         priority: str,
-        implementation_steps: List[str],
+        implementation_steps: list[str],
         expected_impact: str,
         resource_requirements: str = None,
     ) -> StrategicRecommendation:

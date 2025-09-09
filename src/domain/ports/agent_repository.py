@@ -6,9 +6,11 @@ Defines the contract for agent persistence operations.
 This is a port in the hexagonal architecture.
 """
 
-from typing import Protocol, Iterable, Optional
-from src.domain.entities.agent import Agent
-from src.domain.value_objects.ids import AgentId
+from collections.abc import Iterable
+from typing import Protocol
+
+from ..entities.agent import Agent
+from ..value_objects.ids import AgentId
 
 
 class AgentRepository(Protocol):
@@ -19,7 +21,7 @@ class AgentRepository(Protocol):
     implementation must provide.
     """
 
-    def get(self, agent_id: AgentId) -> Optional[Agent]:
+    def get(self, agent_id: AgentId) -> Agent | None:
         """
         Retrieve an agent by its identifier.
 

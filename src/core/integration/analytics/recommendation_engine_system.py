@@ -10,13 +10,12 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
 import logging
+from typing import Any
 
 from ..vector_integration_models import (
     OptimizationRecommendation,
     PerformanceMetrics,
-    TrendAnalysis,
     create_optimization_recommendation,
 )
 
@@ -30,8 +29,8 @@ class RecommendationEngineSystem:
         self.logger = logger or logging.getLogger(__name__)
 
     def _generate_system_recommendations(
-        self, metrics_data: List[PerformanceMetrics]
-    ) -> List[OptimizationRecommendation]:
+        self, metrics_data: list[PerformanceMetrics]
+    ) -> list[OptimizationRecommendation]:
         """Generate system-wide optimization recommendations."""
         recommendations = []
 
@@ -54,9 +53,7 @@ class RecommendationEngineSystem:
             if scale_rec:
                 recommendations.append(scale_rec)
 
-            self.logger.info(
-                f"Generated {len(recommendations)} system-wide recommendations"
-            )
+            self.logger.info(f"Generated {len(recommendations)} system-wide recommendations")
 
         except Exception as e:
             self.logger.error(f"Error generating system recommendations: {e}")
@@ -64,8 +61,8 @@ class RecommendationEngineSystem:
         return recommendations
 
     def _calculate_metric_summaries(
-        self, metrics_data: List[PerformanceMetrics]
-    ) -> Dict[str, Dict[str, Any]]:
+        self, metrics_data: list[PerformanceMetrics]
+    ) -> dict[str, dict[str, Any]]:
         """Calculate summaries for all metrics."""
         summaries = {}
 
@@ -95,14 +92,12 @@ class RecommendationEngineSystem:
         return summaries
 
     def _check_resource_optimization(
-        self, metric_summaries: Dict[str, Dict[str, Any]]
-    ) -> Optional[OptimizationRecommendation]:
+        self, metric_summaries: dict[str, dict[str, Any]]
+    ) -> OptimizationRecommendation | None:
         """Check for resource optimization opportunities."""
         try:
             # Look for high memory usage
-            memory_metrics = [
-                name for name in metric_summaries.keys() if "memory" in name.lower()
-            ]
+            memory_metrics = [name for name in metric_summaries.keys() if "memory" in name.lower()]
             if memory_metrics:
                 for metric_name in memory_metrics:
                     avg_value = metric_summaries[metric_name].get("average", 0)
@@ -114,9 +109,7 @@ class RecommendationEngineSystem:
                         )
 
             # Look for high CPU usage
-            cpu_metrics = [
-                name for name in metric_summaries.keys() if "cpu" in name.lower()
-            ]
+            cpu_metrics = [name for name in metric_summaries.keys() if "cpu" in name.lower()]
             if cpu_metrics:
                 for metric_name in cpu_metrics:
                     avg_value = metric_summaries[metric_name].get("average", 0)
@@ -133,8 +126,8 @@ class RecommendationEngineSystem:
         return None
 
     def _check_performance_optimization(
-        self, metric_summaries: Dict[str, Dict[str, Any]]
-    ) -> Optional[OptimizationRecommendation]:
+        self, metric_summaries: dict[str, dict[str, Any]]
+    ) -> OptimizationRecommendation | None:
         """Check for performance optimization opportunities."""
         try:
             # Look for slow response times
@@ -159,8 +152,8 @@ class RecommendationEngineSystem:
         return None
 
     def _check_scalability_optimization(
-        self, metric_summaries: Dict[str, Dict[str, Any]]
-    ) -> Optional[OptimizationRecommendation]:
+        self, metric_summaries: dict[str, dict[str, Any]]
+    ) -> OptimizationRecommendation | None:
         """Check for scalability optimization opportunities."""
         try:
             # Look for throughput metrics

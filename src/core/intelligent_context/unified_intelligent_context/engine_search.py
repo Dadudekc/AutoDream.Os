@@ -9,19 +9,9 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Refactoring
 """
 
-import asyncio
-from typing import Dict, List, Optional, Any
 from datetime import datetime
-from .models import (
-    MissionContext,
-    AgentCapability,
-    SearchResult,
-    ContextRetrievalResult,
-    EmergencyContext,
-    ContextType,
-    Priority,
-    Status,
-)
+
+from .models import ContextRetrievalResult, ContextType, SearchResult
 
 
 class IntelligentContextEngineSearch:
@@ -80,7 +70,7 @@ class IntelligentContextEngineSearch:
                 error_message=str(e),
             )
 
-    async def _search_mission_contexts(self, query: str) -> List[SearchResult]:
+    async def _search_mission_contexts(self, query: str) -> list[SearchResult]:
         """Search mission contexts."""
         results = []
         query_lower = query.lower()
@@ -120,7 +110,7 @@ class IntelligentContextEngineSearch:
 
         return results
 
-    async def _search_agent_capabilities(self, query: str) -> List[SearchResult]:
+    async def _search_agent_capabilities(self, query: str) -> list[SearchResult]:
         """Search agent capabilities."""
         results = []
         query_lower = query.lower()
@@ -155,7 +145,7 @@ class IntelligentContextEngineSearch:
 
         return results
 
-    async def _search_emergency_contexts(self, query: str) -> List[SearchResult]:
+    async def _search_emergency_contexts(self, query: str) -> list[SearchResult]:
         """Search emergency contexts."""
         results = []
         query_lower = query.lower()

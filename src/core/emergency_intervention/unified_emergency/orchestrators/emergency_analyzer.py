@@ -11,19 +11,10 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any
 
-from ..models import (
-    Emergency,
-    EmergencyType,
-    EmergencySeverity,
-    EmergencyStatus,
-    InterventionProtocol,
-    EmergencyResponse,
-    EmergencyContext,
-    EmergencyInterventionModels,
-)
+from ..models import Emergency, EmergencyContext, EmergencySeverity, EmergencyType
 
 
 class EmergencyAnalyzer:
@@ -37,7 +28,7 @@ class EmergencyAnalyzer:
         self.analysis_history = []
         self.health_metrics = {}
 
-    def analyze_emergency(self, emergency: Emergency) -> Dict[str, Any]:
+    def analyze_emergency(self, emergency: Emergency) -> dict[str, Any]:
         """Analyze emergency incident."""
         try:
             analysis = {
@@ -59,7 +50,7 @@ class EmergencyAnalyzer:
                 "analysis_timestamp": datetime.now().isoformat(),
             }
 
-    def _assess_risk(self, emergency: Emergency) -> Dict[str, Any]:
+    def _assess_risk(self, emergency: Emergency) -> dict[str, Any]:
         """Assess risk level for emergency."""
         severity_scores = {
             EmergencySeverity.LOW: 1,
@@ -98,7 +89,7 @@ class EmergencyAnalyzer:
             "type_factor": multiplier,
         }
 
-    def _analyze_impact(self, emergency: Emergency) -> Dict[str, Any]:
+    def _analyze_impact(self, emergency: Emergency) -> dict[str, Any]:
         """Analyze impact of emergency."""
         context = emergency.context or EmergencyContext()
 
@@ -131,7 +122,7 @@ class EmergencyAnalyzer:
 
         return downtime_estimates.get(emergency.severity, 60)
 
-    def _generate_recommendations(self, emergency: Emergency) -> List[str]:
+    def _generate_recommendations(self, emergency: Emergency) -> list[str]:
         """Generate recommendations for emergency."""
         recommendations = []
 
@@ -181,11 +172,11 @@ class EmergencyAnalyzer:
 
         return severity_score + type_score
 
-    def get_analysis_history(self) -> List[Dict[str, Any]]:
+    def get_analysis_history(self) -> list[dict[str, Any]]:
         """Get analysis history."""
         return self.analysis_history.copy()
 
-    def get_analysis_metrics(self) -> Dict[str, Any]:
+    def get_analysis_metrics(self) -> dict[str, Any]:
         """Get analysis metrics."""
         if not self.analysis_history:
             return {}
@@ -207,8 +198,7 @@ class EmergencyAnalyzer:
             "critical_emergencies": critical_count,
             "high_emergencies": high_count,
             "average_priority_score": (
-                sum(a.get("priority_score", 0) for a in self.analysis_history)
-                / total_analyses
+                sum(a.get("priority_score", 0) for a in self.analysis_history) / total_analyses
             ),
         }
 
@@ -216,7 +206,7 @@ class EmergencyAnalyzer:
         """Clear analysis history."""
         self.analysis_history.clear()
 
-    def export_analysis_data(self) -> Dict[str, Any]:
+    def export_analysis_data(self) -> dict[str, Any]:
         """Export analysis data."""
         return {
             "analysis_history": self.analysis_history,

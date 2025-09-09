@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class ProcessingCoreEngine(Engine):
     """Core processing engine - consolidates all processing operations."""
 
     def __init__(self):
-        self.processors: Dict[str, Any] = {}
-        self.jobs: List[Dict[str, Any]] = []
+        self.processors: dict[str, Any] = {}
+        self.jobs: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class ProcessingCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Processing Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute processing operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,7 +44,7 @@ class ProcessingCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _process(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def _process(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Process data using specified processor."""
         try:
             processor_id = payload.get("processor_id", "default")
@@ -69,9 +71,7 @@ class ProcessingCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _batch_process(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _batch_process(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Process multiple items in batch."""
         try:
             batch_id = f"batch_{len(self.jobs)}"
@@ -87,15 +87,11 @@ class ProcessingCoreEngine(Engine):
                 "timestamp": context.metrics.get("timestamp", 0),
             }
 
-            return EngineResult(
-                success=True, data=batch_result, metrics={"batch_id": batch_id}
-            )
+            return EngineResult(success=True, data=batch_result, metrics={"batch_id": batch_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _queue_job(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _queue_job(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Queue job for processing."""
         try:
             job_id = f"job_{len(self.jobs)}"
@@ -129,7 +125,7 @@ class ProcessingCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Processing Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get processing core engine status."""
         return {
             "initialized": self.is_initialized,

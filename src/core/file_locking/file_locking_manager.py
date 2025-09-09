@@ -11,16 +11,10 @@ License: MIT
 
 import time
 from pathlib import Path
-from typing import Optional, Dict, Any, List
+from typing import Any
 
-from .file_locking_models import (
-    LockConfig,
-    LockInfo,
-    LockStatus,
-    LockResult,
-    LockMetrics,
-)
 from .file_locking_engine import FileLockEngine
+from .file_locking_models import LockConfig, LockInfo, LockMetrics, LockResult, LockStatus
 
 
 class FileLockManager:
@@ -31,15 +25,11 @@ class FileLockManager:
         self.config = config or LockConfig()
         self.engine = FileLockEngine(self.config)
 
-    def create_file_lock(
-        self, filepath: str, metadata: Dict[str, Any] = None
-    ) -> LockResult:
+    def create_file_lock(self, filepath: str, metadata: dict[str, Any] = None) -> LockResult:
         """Create a file lock."""
         return self.engine.create_lock(filepath, metadata)
 
-    def acquire_lock(
-        self, filepath: str, metadata: Dict[str, Any] = None
-    ) -> LockResult:
+    def acquire_lock(self, filepath: str, metadata: dict[str, Any] = None) -> LockResult:
         """Acquire a file lock with retry logic."""
         lock_result = self.engine.create_lock(filepath, metadata)
 
@@ -66,9 +56,7 @@ class FileLockManager:
             success=False,
             status=LockStatus.TIMEOUT,
             error_message=f"Timeout after {self.config.max_retries} attempts",
-            execution_time_ms=self.config.max_retries
-            * self.config.retry_interval
-            * 1000,
+            execution_time_ms=self.config.max_retries * self.config.retry_interval * 1000,
             retry_count=self.config.max_retries,
         )
 
@@ -98,11 +86,11 @@ class FileLockManager:
         """Clean up stale locks."""
         return self.engine.cleanup_stale_locks()
 
-    def get_active_locks(self) -> List[LockInfo]:
+    def get_active_locks(self) -> list[LockInfo]:
         """Get list of active locks."""
         return list(self.engine._active_locks.values())
 
-    def get_lock_info(self, filepath: str) -> Optional[LockInfo]:
+    def get_lock_info(self, filepath: str) -> LockInfo | None:
         """Get lock information for a file."""
         lock_file = f"{filepath}.lock"
         return self.engine._active_locks.get(lock_file)
@@ -121,14 +109,10 @@ class FileLockManager:
                 del self.engine._active_locks[lock_key]
                 self.engine.metrics.active_locks = len(self.engine._active_locks)
 
-            return LockResult(
-                success=True, status=LockStatus.UNLOCKED, execution_time_ms=0.0
-            )
+            return LockResult(success=True, status=LockStatus.UNLOCKED, execution_time_ms=0.0)
 
         except Exception as e:
-            return LockResult(
-                success=False, status=LockStatus.ERROR, error_message=str(e)
-            )
+            return LockResult(success=False, status=LockStatus.ERROR, error_message=str(e))
 
     def get_metrics(self) -> LockMetrics:
         """Get locking metrics."""
@@ -138,7 +122,7 @@ class FileLockManager:
         """Reset metrics."""
         self.engine.metrics = LockMetrics()
 
-    def get_lock_summary(self) -> Dict[str, Any]:
+    def get_lock_summary(self) -> dict[str, Any]:
         """Get summary of lock status."""
         active_locks = self.get_active_locks()
         metrics = self.get_metrics()

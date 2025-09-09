@@ -12,21 +12,20 @@ V2 COMPLIANT: Focused performance analysis under 300 lines.
 """
 
 import statistics
-from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
 
-from .trading_bi_models import PerformanceMetrics, PerformanceConfig
 from ...repositories.trading_repository import Trade
+from .trading_bi_models import PerformanceConfig, PerformanceMetrics
 
 
 class PerformanceMetricsEngine:
     """Performance metrics engine for trading portfolio analysis."""
 
-    def __init__(self, config: Optional[PerformanceConfig] = None):
+    def __init__(self, config: PerformanceConfig | None = None):
         """Initialize performance metrics engine with configuration."""
         self.config = config or PerformanceConfig()
 
-    def calculate_performance_metrics(self, trades: List[Trade]) -> PerformanceMetrics:
+    def calculate_performance_metrics(self, trades: list[Trade]) -> PerformanceMetrics:
         """Calculate comprehensive performance metrics for trading portfolio."""
         try:
             if not trades or len(trades) < self.config.min_trades_for_metrics:
@@ -51,19 +50,17 @@ class PerformanceMetricsEngine:
                 timestamp=datetime.now(),
             )
 
-        except Exception as e:
+        except Exception:
             # Return default metrics on error
             return self._create_default_performance_metrics()
 
-    def _calculate_total_return(self, trades: List[Trade]) -> float:
+    def _calculate_total_return(self, trades: list[Trade]) -> float:
         """Calculate total return from trades."""
         if not trades:
             return 0.0
 
         # Simplified total return calculation
-        total_cost = sum(
-            trade.quantity * trade.price for trade in trades if trade.side == "buy"
-        )
+        total_cost = sum(trade.quantity * trade.price for trade in trades if trade.side == "buy")
         total_revenue = sum(
             trade.quantity * trade.price for trade in trades if trade.side == "sell"
         )
@@ -73,7 +70,7 @@ class PerformanceMetricsEngine:
 
         return ((total_revenue - total_cost) / total_cost) * 100
 
-    def _calculate_sharpe_ratio(self, trades: List[Trade]) -> float:
+    def _calculate_sharpe_ratio(self, trades: list[Trade]) -> float:
         """Calculate Sharpe ratio."""
         returns = self._calculate_returns_series(trades)
 
@@ -90,7 +87,7 @@ class PerformanceMetricsEngine:
         risk_free_rate = self.config.risk_free_rate / 252  # Daily risk-free rate
         return (avg_return - risk_free_rate) / volatility
 
-    def _calculate_max_drawdown(self, trades: List[Trade]) -> float:
+    def _calculate_max_drawdown(self, trades: list[Trade]) -> float:
         """Calculate maximum drawdown."""
         if not trades:
             return 0.0
@@ -102,7 +99,7 @@ class PerformanceMetricsEngine:
         else:
             return self._calculate_rolling_drawdown(trades_sorted)
 
-    def _calculate_peak_to_trough_drawdown(self, trades_sorted: List[Trade]) -> float:
+    def _calculate_peak_to_trough_drawdown(self, trades_sorted: list[Trade]) -> float:
         """Calculate peak-to-trough drawdown."""
         peak = trades_sorted[0].price
         max_drawdown = 0.0
@@ -115,7 +112,7 @@ class PerformanceMetricsEngine:
 
         return max_drawdown * 100
 
-    def _calculate_rolling_drawdown(self, trades_sorted: List[Trade]) -> float:
+    def _calculate_rolling_drawdown(self, trades_sorted: list[Trade]) -> float:
         """Calculate rolling drawdown (simplified)"""
         # Simplified rolling drawdown calculation
         prices = [trade.price for trade in trades_sorted]
@@ -128,7 +125,7 @@ class PerformanceMetricsEngine:
 
         return max_drawdown * 100
 
-    def _calculate_win_rate(self, trades: List[Trade]) -> float:
+    def _calculate_win_rate(self, trades: list[Trade]) -> float:
         """Calculate win rate percentage."""
         if not trades:
             return 0.0
@@ -154,7 +151,7 @@ class PerformanceMetricsEngine:
 
         return (winning_trades / total_trades * 100) if total_trades > 0 else 0.0
 
-    def _calculate_profit_factor(self, trades: List[Trade]) -> float:
+    def _calculate_profit_factor(self, trades: list[Trade]) -> float:
         """Calculate profit factor."""
         if not trades:
             return 0.0
@@ -185,7 +182,7 @@ class PerformanceMetricsEngine:
 
         return total_profits / total_losses if total_losses > 0 else float("inf")
 
-    def _calculate_avg_trade_duration(self, trades: List[Trade]) -> timedelta:
+    def _calculate_avg_trade_duration(self, trades: list[Trade]) -> timedelta:
         """Calculate average trade duration."""
         if not trades:
             return timedelta(0)
@@ -204,7 +201,7 @@ class PerformanceMetricsEngine:
 
         return statistics.mean(durations) if durations else timedelta(0)
 
-    def _calculate_returns_series(self, trades: List[Trade]) -> List[float]:
+    def _calculate_returns_series(self, trades: list[Trade]) -> list[float]:
         """Calculate returns series from trades."""
         if not trades or len(trades) < 2:
             return []
@@ -224,7 +221,7 @@ class PerformanceMetricsEngine:
 
         return returns
 
-    def _group_trades_by_symbol(self, trades: List[Trade]) -> Dict[str, List[Trade]]:
+    def _group_trades_by_symbol(self, trades: list[Trade]) -> dict[str, list[Trade]]:
         """Group trades by symbol."""
         symbol_trades = {}
         for trade in trades:
@@ -249,7 +246,7 @@ class PerformanceMetricsEngine:
 
 # Factory function for dependency injection
 def create_performance_metrics_engine(
-    config: Optional[PerformanceConfig] = None,
+    config: PerformanceConfig | None = None,
 ) -> PerformanceMetricsEngine:
     """Factory function to create performance metrics engine with optional
     configuration."""

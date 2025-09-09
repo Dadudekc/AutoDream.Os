@@ -11,17 +11,11 @@ License: MIT
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Any, Union
 from datetime import datetime
+from typing import Any
 
 # Import enums from dedicated module for V2 compliance micro-refactoring
-from .enums import (
-    IntegrationType,
-    OptimizationLevel,
-    IntegrationStatus,
-    IntegrationPriority,
-    IntegrationMode,
-)
+from .enums import IntegrationMode, IntegrationPriority, IntegrationStatus, IntegrationType
 
 
 @dataclass
@@ -42,7 +36,7 @@ class IntegrationConfig:
     max_concurrent_requests: int = 100
     cache_enabled: bool = True
     monitoring_enabled: bool = True
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     created_at: datetime = None
     updated_at: datetime = None
 
@@ -67,11 +61,11 @@ class IntegrationTask:
     priority: IntegrationPriority = IntegrationPriority.MEDIUM
     mode: IntegrationMode = IntegrationMode.SYNC
     config: IntegrationConfig = None
-    dependencies: List[str] = None
+    dependencies: list[str] = None
     timeout_seconds: int = 30
     retry_attempts: int = 3
     retry_delay: float = 1.0
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     created_at: datetime = None
     updated_at: datetime = None
     started_at: datetime = None
@@ -95,12 +89,12 @@ class IntegrationRequest:
     request_id: str
     integration_type: IntegrationType
     task_id: str
-    data: Dict[str, Any] = None
-    headers: Dict[str, str] = None
+    data: dict[str, Any] = None
+    headers: dict[str, str] = None
     timeout_seconds: int = 30
     retry_attempts: int = 3
     retry_delay: float = 1.0
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     created_at: datetime = None
 
     def __post_init__(self):
@@ -122,12 +116,12 @@ class IntegrationResponse:
     request_id: str
     integration_type: IntegrationType
     status: IntegrationStatus
-    data: Dict[str, Any] = None
-    headers: Dict[str, str] = None
+    data: dict[str, Any] = None
+    headers: dict[str, str] = None
     status_code: int = 200
     error_message: str = None
     response_time: float = 0.0
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     created_at: datetime = None
 
     def __post_init__(self):

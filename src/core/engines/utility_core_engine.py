@@ -1,15 +1,17 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
-from .contracts import UtilityEngine, EngineContext, EngineResult
+
+from typing import Any
+
+from .contracts import EngineContext, EngineResult, UtilityEngine
 
 
 class UtilityCoreEngine(UtilityEngine):
     """Core utility engine - consolidates all utility operations."""
 
     def __init__(self):
-        self.processors: Dict[str, Any] = {}
-        self.validators: Dict[str, Any] = {}
-        self.transformers: Dict[str, Any] = {}
+        self.processors: dict[str, Any] = {}
+        self.validators: dict[str, Any] = {}
+        self.transformers: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -22,7 +24,7 @@ class UtilityCoreEngine(UtilityEngine):
             context.logger.error(f"Failed to initialize Utility Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute utility operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -43,7 +45,7 @@ class UtilityCoreEngine(UtilityEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def process(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def process(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Process data using utility functions."""
         try:
             processor_id = data.get("processor_id", "default")
@@ -68,7 +70,7 @@ class UtilityCoreEngine(UtilityEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def validate(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def validate(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Validate data using utility functions."""
         try:
             validator_id = data.get("validator_id", "default")
@@ -95,7 +97,7 @@ class UtilityCoreEngine(UtilityEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def transform(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def transform(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Transform data using utility functions."""
         try:
             transformer_id = data.get("transformer_id", "default")
@@ -135,7 +137,7 @@ class UtilityCoreEngine(UtilityEngine):
             context.logger.error(f"Failed to cleanup Utility Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get utility core engine status."""
         return {
             "initialized": self.is_initialized,

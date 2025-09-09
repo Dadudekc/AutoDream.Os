@@ -11,8 +11,8 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any
 
 
 class EmergencyLogger:
@@ -23,13 +23,11 @@ class EmergencyLogger:
 
     def __init__(self):
         """Initialize emergency logger."""
-        self.emergency_history: Dict[str, List[Dict[str, Any]]] = {}
+        self.emergency_history: dict[str, list[dict[str, Any]]] = {}
         self.system_events = []
         self.health_metrics = {}
 
-    def log_emergency_event(
-        self, emergency_id: str, event_type: str, data: Dict[str, Any]
-    ) -> None:
+    def log_emergency_event(self, emergency_id: str, event_type: str, data: dict[str, Any]) -> None:
         """Log emergency event."""
         if emergency_id not in self.emergency_history:
             self.emergency_history[emergency_id] = []
@@ -43,15 +41,15 @@ class EmergencyLogger:
         self.emergency_history[emergency_id].append(event)
         self.system_events.append(event)
 
-    def get_emergency_history(self, emergency_id: str) -> List[Dict[str, Any]]:
+    def get_emergency_history(self, emergency_id: str) -> list[dict[str, Any]]:
         """Get history for specific emergency."""
         return self.emergency_history.get(emergency_id, [])
 
-    def get_all_emergency_history(self) -> Dict[str, List[Dict[str, Any]]]:
+    def get_all_emergency_history(self) -> dict[str, list[dict[str, Any]]]:
         """Get all emergency history."""
         return self.emergency_history.copy()
 
-    def get_system_events(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    def get_system_events(self, limit: int | None = None) -> list[dict[str, Any]]:
         """Get system events."""
         events = self.system_events.copy()
         if limit:
@@ -59,30 +57,22 @@ class EmergencyLogger:
         return events
 
     def get_health_recommendations(
-        self, health_score: int, active_emergencies: int, metrics: Dict[str, Any]
-    ) -> List[str]:
+        self, health_score: int, active_emergencies: int, metrics: dict[str, Any]
+    ) -> list[str]:
         """Get health recommendations."""
         recommendations = []
 
         if active_emergencies > 5:
-            recommendations.append(
-                "High number of active emergencies. Review system stability."
-            )
+            recommendations.append("High number of active emergencies. Review system stability.")
 
         if metrics.get("escalation_rate", 0) > 0.3:
-            recommendations.append(
-                "High escalation rate. Improve intervention protocols."
-            )
+            recommendations.append("High escalation rate. Improve intervention protocols.")
 
         if metrics.get("average_response_time", 0) > 300:
-            recommendations.append(
-                "Slow response time. Optimize intervention processes."
-            )
+            recommendations.append("Slow response time. Optimize intervention processes.")
 
         if health_score < 70:
-            recommendations.append(
-                "System health is below optimal. Review emergency procedures."
-            )
+            recommendations.append("System health is below optimal. Review emergency procedures.")
 
         if not recommendations:
             recommendations.append("System health is good. Continue monitoring.")
@@ -90,8 +80,8 @@ class EmergencyLogger:
         return recommendations
 
     def calculate_system_health(
-        self, active_emergencies: int, metrics: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, active_emergencies: int, metrics: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate system health status."""
         health_score = 100
 
@@ -109,11 +99,7 @@ class EmergencyLogger:
         health_status = (
             "excellent"
             if health_score >= 90
-            else (
-                "good"
-                if health_score >= 70
-                else "fair" if health_score >= 50 else "poor"
-            )
+            else ("good" if health_score >= 70 else "fair" if health_score >= 50 else "poor")
         )
 
         return {
@@ -126,7 +112,7 @@ class EmergencyLogger:
             ),
         }
 
-    def get_emergency_statistics(self) -> Dict[str, Any]:
+    def get_emergency_statistics(self) -> dict[str, Any]:
         """Get emergency statistics."""
         total_emergencies = len(self.emergency_history)
         total_events = sum(len(events) for events in self.emergency_history.values())
@@ -145,9 +131,7 @@ class EmergencyLogger:
             "average_events_per_emergency": total_events / max(total_emergencies, 1),
         }
 
-    def export_emergency_data(
-        self, emergency_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def export_emergency_data(self, emergency_id: str | None = None) -> dict[str, Any]:
         """Export emergency data."""
         if emergency_id:
             return {
@@ -163,7 +147,7 @@ class EmergencyLogger:
                 "exported_at": datetime.now().isoformat(),
             }
 
-    def clear_emergency_history(self, emergency_id: Optional[str] = None):
+    def clear_emergency_history(self, emergency_id: str | None = None):
         """Clear emergency history."""
         if emergency_id:
             if emergency_id in self.emergency_history:
@@ -172,7 +156,7 @@ class EmergencyLogger:
             self.emergency_history.clear()
             self.system_events.clear()
 
-    def get_logger_status(self) -> Dict[str, Any]:
+    def get_logger_status(self) -> dict[str, Any]:
         """Get logger status."""
         return {
             "emergency_count": len(self.emergency_history),

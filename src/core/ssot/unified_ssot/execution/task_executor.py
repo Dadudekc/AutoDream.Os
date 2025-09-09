@@ -11,10 +11,10 @@ License: MIT
 """
 
 import asyncio
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any
 
-from ..models import SSOTExecutionTask, SSOTIntegrationResult, SSOTExecutionPhase
+from ..models import SSOTExecutionPhase, SSOTExecutionTask, SSOTIntegrationResult
 
 
 class TaskExecutor:
@@ -22,9 +22,9 @@ class TaskExecutor:
 
     def __init__(self):
         """Initialize task executor."""
-        self.active_tasks: Dict[str, SSOTExecutionTask] = {}
-        self.completed_tasks: List[SSOTExecutionTask] = []
-        self.failed_tasks: List[SSOTExecutionTask] = []
+        self.active_tasks: dict[str, SSOTExecutionTask] = {}
+        self.completed_tasks: list[SSOTExecutionTask] = []
+        self.failed_tasks: list[SSOTExecutionTask] = []
 
     async def execute_task(self, task: SSOTExecutionTask) -> SSOTIntegrationResult:
         """Execute SSOT task."""
@@ -75,7 +75,7 @@ class TaskExecutor:
             if task.task_id in self.active_tasks:
                 del self.active_tasks[task.task_id]
 
-    async def _execute_phase(self, task: SSOTExecutionTask) -> Dict[str, Any]:
+    async def _execute_phase(self, task: SSOTExecutionTask) -> dict[str, Any]:
         """Execute task based on phase."""
         if task.phase == SSOTExecutionPhase.INITIALIZATION:
             return await self._execute_initialization(task)
@@ -90,7 +90,7 @@ class TaskExecutor:
         else:
             raise ValueError(f"Unknown phase: {task.phase}")
 
-    async def _execute_initialization(self, task: SSOTExecutionTask) -> Dict[str, Any]:
+    async def _execute_initialization(self, task: SSOTExecutionTask) -> dict[str, Any]:
         """Execute initialization phase."""
         await asyncio.sleep(0.1)  # Simulate work
         return {
@@ -100,7 +100,7 @@ class TaskExecutor:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def _execute_validation(self, task: SSOTExecutionTask) -> Dict[str, Any]:
+    async def _execute_validation(self, task: SSOTExecutionTask) -> dict[str, Any]:
         """Execute validation phase."""
         await asyncio.sleep(0.1)  # Simulate work
         return {
@@ -111,7 +111,7 @@ class TaskExecutor:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def _execute_execution(self, task: SSOTExecutionTask) -> Dict[str, Any]:
+    async def _execute_execution(self, task: SSOTExecutionTask) -> dict[str, Any]:
         """Execute main execution phase."""
         await asyncio.sleep(0.2)  # Simulate work
         return {
@@ -122,7 +122,7 @@ class TaskExecutor:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def _execute_verification(self, task: SSOTExecutionTask) -> Dict[str, Any]:
+    async def _execute_verification(self, task: SSOTExecutionTask) -> dict[str, Any]:
         """Execute verification phase."""
         await asyncio.sleep(0.1)  # Simulate work
         return {
@@ -133,7 +133,7 @@ class TaskExecutor:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def _execute_completion(self, task: SSOTExecutionTask) -> Dict[str, Any]:
+    async def _execute_completion(self, task: SSOTExecutionTask) -> dict[str, Any]:
         """Execute completion phase."""
         await asyncio.sleep(0.05)  # Simulate work
         return {

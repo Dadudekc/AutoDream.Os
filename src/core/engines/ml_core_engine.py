@@ -1,13 +1,15 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
-from .contracts import MLEngine, EngineContext, EngineResult
+
+from typing import Any
+
+from .contracts import EngineContext, EngineResult, MLEngine
 
 
 class MLCoreEngine(MLEngine):
     """Core ML engine - consolidates all ML operations."""
 
     def __init__(self):
-        self.models: Dict[str, Any] = {}
+        self.models: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -20,7 +22,7 @@ class MLCoreEngine(MLEngine):
             context.logger.error(f"Failed to initialize ML Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute ML operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -41,7 +43,7 @@ class MLCoreEngine(MLEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def train_model(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def train_model(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Train ML model."""
         try:
             model_id = data.get("model_id", "default")
@@ -58,9 +60,7 @@ class MLCoreEngine(MLEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def predict(
-        self, context: EngineContext, input_data: Dict[str, Any]
-    ) -> EngineResult:
+    def predict(self, context: EngineContext, input_data: dict[str, Any]) -> EngineResult:
         """Make ML prediction."""
         try:
             model_id = input_data.get("model_id", "default")
@@ -83,7 +83,7 @@ class MLCoreEngine(MLEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def optimize(self, context: EngineContext, config: Dict[str, Any]) -> EngineResult:
+    def optimize(self, context: EngineContext, config: dict[str, Any]) -> EngineResult:
         """Optimize ML model."""
         try:
             model_id = config.get("model_id", "default")
@@ -119,7 +119,7 @@ class MLCoreEngine(MLEngine):
             context.logger.error(f"Failed to cleanup ML Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get ML core engine status."""
         return {
             "initialized": self.is_initialized,

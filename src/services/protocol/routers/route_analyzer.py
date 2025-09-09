@@ -11,23 +11,19 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from typing import Any, Dict, List, Optional, Tuple
-from datetime import datetime, timedelta
 import logging
+from datetime import datetime
+from typing import Any
 
+from ...models.messaging_models import UnifiedMessage, UnifiedMessagePriority
 from ..messaging_protocol_models import (
+    ROUTE_PRIORITY_ORDER,
     MessageRoute,
+    OptimizationConfig,
     ProtocolOptimizationStrategy,
     RouteOptimization,
-    DeliveryResult,
-    OptimizationConfig,
-    create_route_optimization,
-    create_delivery_result,
     create_default_config,
-    ROUTE_PRIORITY_ORDER,
 )
-from ...models.messaging_models import UnifiedMessage, UnifiedMessagePriority
 
 
 class RouteAnalyzer:
@@ -36,19 +32,19 @@ class RouteAnalyzer:
     Handles route analysis, scoring, and selection logic for message routing decisions.
     """
 
-    def __init__(self, config: Optional[OptimizationConfig] = None):
+    def __init__(self, config: OptimizationConfig | None = None):
         """Initialize route analyzer."""
         self.logger = logging.getLogger(__name__)
         self.config = config or create_default_config()
-        self.route_performance: Dict[str, List[float]] = {}
-        self.route_usage_counts: Dict[str, int] = {}
+        self.route_performance: dict[str, list[float]] = {}
+        self.route_usage_counts: dict[str, int] = {}
 
     def analyze_route_options(
         self,
         message: UnifiedMessage,
-        strategies: List[ProtocolOptimizationStrategy],
-        route_cache: Dict[str, RouteOptimization],
-        failed_routes: Dict[str, datetime],
+        strategies: list[ProtocolOptimizationStrategy],
+        route_cache: dict[str, RouteOptimization],
+        failed_routes: dict[str, datetime],
     ) -> MessageRoute:
         """Analyze and select best route option."""
 
@@ -72,7 +68,7 @@ class RouteAnalyzer:
         return best_route
 
     def _select_fastest_route(
-        self, message: UnifiedMessage, route_cache: Dict[str, RouteOptimization]
+        self, message: UnifiedMessage, route_cache: dict[str, RouteOptimization]
     ) -> MessageRoute:
         """Select fastest available route for urgent messages."""
         route_key = self._generate_route_key(message)
@@ -83,11 +79,7 @@ class RouteAnalyzer:
             if latencies:
                 avg_latency = sum(latencies) / len(latencies)
                 if avg_latency < 100:  # Less than 100ms
-                    return (
-                        MessageRoute.CACHED
-                        if route_key in route_cache
-                        else MessageRoute.DIRECT
-                    )
+                    return MessageRoute.CACHED if route_key in route_cache else MessageRoute.DIRECT
 
         return MessageRoute.DIRECT
 
@@ -95,9 +87,9 @@ class RouteAnalyzer:
         self,
         message: UnifiedMessage,
         route: MessageRoute,
-        strategies: List[ProtocolOptimizationStrategy],
-        route_cache: Dict[str, RouteOptimization],
-        failed_routes: Dict[str, datetime],
+        strategies: list[ProtocolOptimizationStrategy],
+        route_cache: dict[str, RouteOptimization],
+        failed_routes: dict[str, datetime],
     ) -> float:
         """Calculate score for route option."""
         score = 0.0
@@ -126,10 +118,7 @@ class RouteAnalyzer:
         ):
             score += 2.0
 
-        if (
-            route == MessageRoute.CACHED
-            and ProtocolOptimizationStrategy.CACHING in strategies
-        ):
+        if route == MessageRoute.CACHED and ProtocolOptimizationStrategy.CACHING in strategies:
             score += 4.0
 
         # Performance-based adjustments
@@ -151,9 +140,7 @@ class RouteAnalyzer:
         """Generate cache key for route decision."""
         return f"{message.sender}:{message.recipient}:{message.priority.value}:{message.type.value}"
 
-    def update_route_performance(
-        self, route_key: str, latency_ms: float, success: bool
-    ):
+    def update_route_performance(self, route_key: str, latency_ms: float, success: bool):
         """Update route performance metrics."""
         if route_key not in self.route_performance:
             self.route_performance[route_key] = []
@@ -166,11 +153,9 @@ class RouteAnalyzer:
 
         # Update usage count
         route_type = route_key.split(":")[0]  # Extract route type
-        self.route_usage_counts[route_type] = (
-            self.route_usage_counts.get(route_type, 0) + 1
-        )
+        self.route_usage_counts[route_type] = self.route_usage_counts.get(route_type, 0) + 1
 
-    def get_route_performance_summary(self) -> Dict[str, Any]:
+    def get_route_performance_summary(self) -> dict[str, Any]:
         """Get route performance summary."""
         summary = {}
 
@@ -185,7 +170,7 @@ class RouteAnalyzer:
 
         return summary
 
-    def get_route_usage_stats(self) -> Dict[str, int]:
+    def get_route_usage_stats(self) -> dict[str, int]:
         """Get route usage statistics."""
         return self.route_usage_counts.copy()
 
@@ -194,7 +179,7 @@ class RouteAnalyzer:
         self.route_performance.clear()
         self.route_usage_counts.clear()
 
-    def get_analyzer_status(self) -> Dict[str, Any]:
+    def get_analyzer_status(self) -> dict[str, Any]:
         """Get analyzer status."""
         return {
             "tracked_routes": len(self.route_performance),

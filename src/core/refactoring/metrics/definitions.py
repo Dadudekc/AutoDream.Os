@@ -14,3 +14,29 @@ class RefactoringMetrics:
     architecture_improvements: int = 0
     quality_score: float = 0.0
     efficiency_gain: float = 0.0
+
+
+class MetricsManager:
+    """Manages refactoring metrics collection and reporting."""
+    
+    def __init__(self):
+        self.metrics = RefactoringMetrics()
+    
+    def update_metrics(self, **kwargs):
+        """Update metrics with new values."""
+        for key, value in kwargs.items():
+            if hasattr(self.metrics, key):
+                setattr(self.metrics, key, value)
+    
+    def get_metrics(self) -> RefactoringMetrics:
+        """Get current metrics."""
+        return self.metrics
+    
+    def reset_metrics(self):
+        """Reset all metrics to zero."""
+        self.metrics = RefactoringMetrics()
+
+
+def update_metrics(metrics_manager: MetricsManager, **kwargs):
+    """Update metrics using the manager."""
+    metrics_manager.update_metrics(**kwargs)

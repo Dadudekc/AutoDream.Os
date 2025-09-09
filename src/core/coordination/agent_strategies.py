@@ -8,6 +8,12 @@ V2 Compliance: Under 300-line limit with strategy pattern
 @License: MIT
 """
 
+from enum import Enum
+from abc import ABC, abstractmethod
+from typing import Dict, Any, List
+
+from ...core.validation.unified_validation_orchestrator import get_unified_validator
+
 
 class AgentType(Enum):
     """Enumeration of supported agent types."""

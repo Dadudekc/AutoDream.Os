@@ -9,17 +9,10 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
-from .data_optimization_models import (
-    ProcessingStrategy,
-    OptimizationLevel,
-    ProcessingMetrics,
-    OptimizationConfig,
-    OptimizationResult,
-)
 from .data_optimization_engine import DataOptimizationEngine
+from .data_optimization_models import OptimizationConfig, OptimizationResult
 
 
 class DataProcessingOptimizer:
@@ -30,9 +23,7 @@ class DataProcessingOptimizer:
         self.config = config or OptimizationConfig()
         self.engine = DataOptimizationEngine(self.config)
 
-    async def optimize_processing(
-        self, data: Any, operation: str, **kwargs
-    ) -> OptimizationResult:
+    async def optimize_processing(self, data: Any, operation: str, **kwargs) -> OptimizationResult:
         """Optimize data processing operation.
 
         Args:
@@ -45,7 +36,7 @@ class DataProcessingOptimizer:
         """
         return await self.engine.optimize_processing(data, operation, **kwargs)
 
-    def get_optimization_summary(self) -> Dict[str, Any]:
+    def get_optimization_summary(self) -> dict[str, Any]:
         """Get comprehensive optimization summary."""
         return self.engine.get_metrics_summary()
 
@@ -66,7 +57,7 @@ class DataProcessingOptimizer:
     # ================================
 
     async def optimize_csv_processing(
-        self, data: List[Dict[str, Any]], **kwargs
+        self, data: list[dict[str, Any]], **kwargs
     ) -> OptimizationResult:
         """Optimize CSV data processing."""
         return await self.optimize_processing(data, "csv_processing", **kwargs)
@@ -76,19 +67,19 @@ class DataProcessingOptimizer:
         return await self.optimize_processing(data, "json_processing", **kwargs)
 
     async def optimize_database_processing(
-        self, data: List[Dict[str, Any]], **kwargs
+        self, data: list[dict[str, Any]], **kwargs
     ) -> OptimizationResult:
         """Optimize database data processing."""
         return await self.optimize_processing(data, "database_processing", **kwargs)
 
     async def optimize_vector_processing(
-        self, data: List[Dict[str, Any]], **kwargs
+        self, data: list[dict[str, Any]], **kwargs
     ) -> OptimizationResult:
         """Optimize vector data processing."""
         return await self.optimize_processing(data, "vector_processing", **kwargs)
 
     async def optimize_analytics_processing(
-        self, data: List[Dict[str, Any]], **kwargs
+        self, data: list[dict[str, Any]], **kwargs
     ) -> OptimizationResult:
         """Optimize analytics data processing."""
         return await self.optimize_processing(data, "analytics_processing", **kwargs)
@@ -116,15 +107,13 @@ def get_data_processing_optimizer() -> DataProcessingOptimizer:
 # ================================
 
 
-async def optimize_data_processing(
-    data: Any, operation: str, **kwargs
-) -> OptimizationResult:
+async def optimize_data_processing(data: Any, operation: str, **kwargs) -> OptimizationResult:
     """Convenience function to optimize data processing."""
     optimizer = get_data_processing_optimizer()
     return await optimizer.optimize_processing(data, operation, **kwargs)
 
 
-def get_optimization_metrics() -> Dict[str, Any]:
+def get_optimization_metrics() -> dict[str, Any]:
     """Convenience function to get optimization metrics."""
     optimizer = get_data_processing_optimizer()
     return optimizer.get_optimization_summary()

@@ -11,19 +11,21 @@ License: MIT
 
 import asyncio
 import os
-from typing import List
 from datetime import datetime
 
-from .discord_commander_models import CommandResult, create_command_result
-from .agent_communication_engine_base import AgentCommunicationEngineBase
+try:
+    from .agent_communication_engine_base import AgentCommunicationEngineBase
+    from .discord_commander_models import CommandResult, create_command_result
+except ImportError:
+    # Fallback for direct execution
+    from agent_communication_engine_base import AgentCommunicationEngineBase
+    from discord_commander_models import CommandResult, create_command_result
 
 
 class AgentCommunicationEngineCore(AgentCommunicationEngineBase):
     """Core agent communication operations for Discord commander"""
 
-    async def send_to_agent_inbox(
-        self, agent: str, message: str, sender: str
-    ) -> CommandResult:
+    async def send_to_agent_inbox(self, agent: str, message: str, sender: str) -> CommandResult:
         """Send message directly to agent's inbox"""
         try:
             # Create inbox path
@@ -42,9 +44,7 @@ class AgentCommunicationEngineCore(AgentCommunicationEngineBase):
             message_content = self._create_inbox_message_content(agent, message, sender)
 
             # Write message to agent's inbox
-            message_file_path = self._get_unified_utility().path.join(
-                inbox_path, message_filename
-            )
+            message_file_path = self._get_unified_utility().path.join(inbox_path, message_filename)
             with open(message_file_path, "w", encoding="utf-8") as f:
                 f.write(message_content)
 
@@ -65,9 +65,7 @@ class AgentCommunicationEngineCore(AgentCommunicationEngineBase):
                 agent=agent,
             )
 
-    def _create_inbox_message_content(
-        self, agent: str, message: str, sender: str
-    ) -> str:
+    def _create_inbox_message_content(self, agent: str, message: str, sender: str) -> str:
         """Create inbox message content"""
         return f"""# 🚨 CAPTAIN MESSAGE FROM DISCORD
 
@@ -119,6 +117,6 @@ class AgentCommunicationEngineCore(AgentCommunicationEngineBase):
         """Check if agent name is valid"""
         return agent in [f"Agent-{i}" for i in range(1, 9)]
 
-    def get_all_agent_names(self) -> List[str]:
+    def get_all_agent_names(self) -> list[str]:
         """Get list of all agent names"""
         return [f"Agent-{i}" for i in range(1, 9)]

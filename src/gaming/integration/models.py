@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 
 class IntegrationStatus(Enum):
@@ -34,8 +34,8 @@ class GameSession:
     player_id: str
     start_time: datetime
     status: str
-    metadata: Dict[str, Any]
-    performance_metrics: Dict[str, Any]
+    metadata: dict[str, Any]
+    performance_metrics: dict[str, Any]
 
 
 @dataclass
@@ -45,6 +45,6 @@ class EntertainmentSystem:
     system_id: str
     system_type: str
     status: IntegrationStatus
-    capabilities: List[str]
-    configuration: Dict[str, Any]
+    capabilities: list[str]
+    configuration: dict[str, Any]
     last_updated: datetime

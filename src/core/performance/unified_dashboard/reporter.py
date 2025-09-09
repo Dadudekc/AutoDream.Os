@@ -12,17 +12,11 @@ License: MIT
 
 import json
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime, timedelta
-from .models import (
-    PerformanceMetric,
-    PerformanceAlert,
-    PerformanceReport,
-    MetricType,
-    AlertLevel,
-    DashboardModels,
-)
+from typing import Any
+
 from .engine import DashboardEngine
+from .models import AlertLevel, MetricType, PerformanceReport
 
 
 class DashboardReporter:
@@ -49,7 +43,7 @@ class DashboardReporter:
 
     def generate_metrics_report(
         self, metric_type: MetricType = None, hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate metrics report - simplified."""
         try:
             if not self.is_initialized:
@@ -97,7 +91,7 @@ class DashboardReporter:
 
     def generate_alerts_report(
         self, alert_level: AlertLevel = None, hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate alerts report - simplified."""
         try:
             if not self.is_initialized:
@@ -148,9 +142,7 @@ class DashboardReporter:
                 time_range_hours=hours,
                 metrics_summary=metrics_report,
                 alerts_summary=alerts_report,
-                system_health=self._calculate_system_health(
-                    metrics_report, alerts_report
-                ),
+                system_health=self._calculate_system_health(metrics_report, alerts_report),
             )
 
             return report
@@ -167,7 +159,7 @@ class DashboardReporter:
             )
 
     def _calculate_system_health(
-        self, metrics_report: Dict[str, Any], alerts_report: Dict[str, Any]
+        self, metrics_report: dict[str, Any], alerts_report: dict[str, Any]
     ) -> str:
         """Calculate system health - simplified."""
         try:
@@ -198,7 +190,7 @@ class DashboardReporter:
             self.logger.error(f"Error exporting report: {e}")
             return f"Export error: {str(e)}"
 
-    def get_report_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_report_history(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get report history - simplified."""
         try:
             if not self.is_initialized:
@@ -239,7 +231,7 @@ class DashboardReporter:
             self.logger.error(f"Error cleaning up reports: {e}")
             return 0
 
-    def get_reporter_stats(self) -> Dict[str, Any]:
+    def get_reporter_stats(self) -> dict[str, Any]:
         """Get reporter statistics - simplified."""
         return {
             "is_initialized": self.is_initialized,

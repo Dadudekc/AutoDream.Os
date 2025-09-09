@@ -10,10 +10,10 @@ Created: 2025-01-27
 Purpose: V2 compliant error handling data models
 """
 
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any
 
 
 class ErrorSeverity(Enum):
@@ -47,7 +47,7 @@ class ErrorContext:
     error_type: str
     category: ErrorCategory
     severity: ErrorSeverity
-    additional_data: Dict[str, Any]
+    additional_data: dict[str, Any]
 
 
 @dataclass
@@ -59,7 +59,7 @@ class StandardErrorResponse:
     error_type: str = ""
     operation: str = ""
     timestamp: str = ""
-    context: Dict[str, Any] = None
+    context: dict[str, Any] = None
 
     def __post_init__(self):
         if self.context is None:
@@ -67,7 +67,7 @@ class StandardErrorResponse:
         if not self.timestamp:
             self.timestamp = datetime.now().isoformat()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "success": self.success,
@@ -85,7 +85,7 @@ class FileErrorResponse(StandardErrorResponse):
 
     file_path: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["file_path"] = self.file_path
@@ -98,7 +98,7 @@ class NetworkErrorResponse(StandardErrorResponse):
 
     url: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["url"] = self.url
@@ -111,7 +111,7 @@ class DatabaseErrorResponse(StandardErrorResponse):
 
     table: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["table"] = self.table
@@ -124,7 +124,7 @@ class ValidationErrorResponse(StandardErrorResponse):
 
     validation_type: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["validation_type"] = self.validation_type
@@ -137,7 +137,7 @@ class ConfigurationErrorResponse(StandardErrorResponse):
 
     config_key: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["config_key"] = self.config_key
@@ -150,7 +150,7 @@ class AgentErrorResponse(StandardErrorResponse):
 
     agent_id: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["agent_id"] = self.agent_id
@@ -162,14 +162,14 @@ class CoordinationErrorResponse(StandardErrorResponse):
     """Coordination error response."""
 
     coordination_type: str = ""
-    participants: List[str] = None
+    participants: list[str] = None
 
     def __post_init__(self):
         super().__post_init__()
         if self.participants is None:
             self.participants = []
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         result = super().to_dict()
         result["coordination_type"] = self.coordination_type
@@ -182,8 +182,8 @@ class ErrorSummary:
     """Error summary statistics."""
 
     total_errors: int = 0
-    error_types: Dict[str, int] = None
-    operations: Dict[str, int] = None
+    error_types: dict[str, int] = None
+    operations: dict[str, int] = None
     timestamp: str = ""
 
     def __post_init__(self):
@@ -194,7 +194,7 @@ class ErrorSummary:
         if not self.timestamp:
             self.timestamp = datetime.now().isoformat()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_errors": self.total_errors,

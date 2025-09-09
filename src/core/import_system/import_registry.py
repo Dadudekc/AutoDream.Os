@@ -10,9 +10,9 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional, Set
-from datetime import datetime
 import threading
+from datetime import datetime
+from typing import Any
 
 
 class ImportRegistry:
@@ -20,9 +20,9 @@ class ImportRegistry:
 
     def __init__(self):
         """Initialize the import registry."""
-        self._imports_cache: Dict[str, Any] = {}
-        self._import_history: List[str] = []
-        self._failed_imports: Set[str] = set()
+        self._imports_cache: dict[str, Any] = {}
+        self._import_history: list[str] = []
+        self._failed_imports: set[str] = set()
         self._lock = threading.Lock()
         self._last_cleanup = datetime.now()
 
@@ -32,7 +32,7 @@ class ImportRegistry:
             self._imports_cache[name] = value
             self._import_history.append(f"{name} -> {type(value).__name__}")
 
-    def get_import(self, name: str) -> Optional[Any]:
+    def get_import(self, name: str) -> Any | None:
         """Get an import from the cache."""
         with self._lock:
             return self._imports_cache.get(name)
@@ -56,7 +56,7 @@ class ImportRegistry:
             self._imports_cache.clear()
             self._import_history.clear()
 
-    def get_cache_stats(self) -> Dict[str, Any]:
+    def get_cache_stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         with self._lock:
             return {
@@ -81,7 +81,7 @@ class ImportRegistry:
         with self._lock:
             self._failed_imports.clear()
 
-    def get_import_history(self, limit: int = 100) -> List[str]:
+    def get_import_history(self, limit: int = 100) -> list[str]:
         """Get import history."""
         with self._lock:
             return self._import_history[-limit:]
@@ -93,9 +93,7 @@ class ImportRegistry:
             cleaned_count = 0
 
             # This is a simplified cleanup - in practice, you'd track timestamps
-            if (
-                current_time - self._last_cleanup
-            ).total_seconds() > max_age_hours * 3600:
+            if (current_time - self._last_cleanup).total_seconds() > max_age_hours * 3600:
                 # Clear cache if it's been too long
                 self._imports_cache.clear()
                 self._import_history.clear()
@@ -104,7 +102,7 @@ class ImportRegistry:
 
             return cleaned_count
 
-    def get_import_patterns(self) -> Dict[str, List[str]]:
+    def get_import_patterns(self) -> dict[str, list[str]]:
         """Get common import patterns."""
         patterns = {
             "standard_library": ["os", "sys", "json", "logging", "threading", "time"],

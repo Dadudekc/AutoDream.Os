@@ -6,9 +6,9 @@ This script addresses the character encoding issues in the existing vector datab
 ensures proper ingestion of all project documentation for autonomous development.
 """
 
-from ..core.unified_entry_point_system import main
-
 import logging
+
+from ..core.unified_entry_point_system import main
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -18,9 +18,7 @@ logger = logging.getLogger(__name__)
 def fix_encoding_and_reingest():
     """Fix encoding issues and reingest all documentation."""
 
-    get_logger(__name__).info(
-        "🚨 VECTOR DATABASE ENCODING FIX & DOCUMENTATION INGESTION"
-    )
+    get_logger(__name__).info("🚨 VECTOR DATABASE ENCODING FIX & DOCUMENTATION INGESTION")
     get_logger(__name__).info("=" * 70)
 
     # Create a fresh vector database instance
@@ -33,9 +31,7 @@ def fix_encoding_and_reingest():
 
     # Find all documentation files
     documentation_files = find_documentation_files()
-    get_logger(__name__).info(
-        f"📋 Found {len(documentation_files)} documentation files to ingest"
-    )
+    get_logger(__name__).info(f"📋 Found {len(documentation_files)} documentation files to ingest")
 
     # Ingest documentation files
     ingested_count = 0
@@ -67,9 +63,7 @@ def fix_encoding_and_reingest():
                 if success:
                     ingested_count += 1
                     if ingested_count % 50 == 0:
-                        get_logger(__name__).info(
-                            f"   📄 Ingested {ingested_count} documents..."
-                        )
+                        get_logger(__name__).info(f"   📄 Ingested {ingested_count} documents...")
                 else:
                     failed_count += 1
                     get_logger(__name__).warning(f"Failed to ingest: {file_path}")
@@ -78,10 +72,8 @@ def fix_encoding_and_reingest():
             failed_count += 1
             get_logger(__name__).error(f"Error ingesting {file_path}: {e}")
 
-    get_logger(__name__).info(f"\n✅ INGESTION COMPLETE:")
-    get_logger(__name__).info(
-        f"   📄 Successfully ingested: {ingested_count} documents"
-    )
+    get_logger(__name__).info("\n✅ INGESTION COMPLETE:")
+    get_logger(__name__).info(f"   📄 Successfully ingested: {ingested_count} documents")
     get_logger(__name__).info(f"   ❌ Failed: {failed_count} documents")
 
     # Test search functionality
@@ -108,9 +100,7 @@ def find_documentation_files() -> List[Path]:
             file_path = get_unified_utility().Path(root) / file
 
             # Include various documentation file types
-            if file.endswith(
-                (".md", ".py", ".js", ".ts", ".json", ".yml", ".yaml", ".txt")
-            ):
+            if file.endswith((".md", ".py", ".js", ".ts", ".json", ".yml", ".yaml", ".txt")):
                 # Skip very large files
                 try:
                     if file_path.stat().st_size < 1024 * 1024:  # 1MB limit
@@ -128,7 +118,7 @@ def read_file_safely(file_path: Path) -> str:
 
     for encoding in encodings:
         try:
-            with open(file_path, "r", encoding=encoding) as f:
+            with open(file_path, encoding=encoding) as f:
                 content = f.read()
                 return content
         except UnicodeDecodeError:
@@ -211,9 +201,7 @@ def test_search_functionality(db):
                         else result["content"]
                     )
                     score = result.get("score", 0)
-                    get_logger(__name__).info(
-                        f"   {i}. Score: {score:.3f} | {content_preview}"
-                    )
+                    get_logger(__name__).info(f"   {i}. Score: {score:.3f} | {content_preview}")
         except Exception as e:
             get_logger(__name__).info(f"❌ Search error for '{query}': {e}")
 

@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class CachingEngine:
         self.cache = {}
         self.stats = {"hits": 0, "misses": 0, "sets": 0}
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
         """Get value from cache."""
         try:
             if key in self.cache:
@@ -72,7 +72,7 @@ class CachingEngine:
         except Exception as e:
             self.logger.error(f"Error clearing cache: {e}")
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         try:
             total_requests = self.stats["hits"] + self.stats["misses"]
@@ -90,7 +90,7 @@ class CachingEngine:
             self.logger.error(f"Error getting cache stats: {e}")
             return {}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

@@ -12,7 +12,7 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+
 from ..models import Position
 
 
@@ -36,7 +36,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_position(self, symbol: str) -> Optional[Position]:
+    async def get_position(self, symbol: str) -> Position | None:
         """Retrieve position by symbol.
 
         Args:
@@ -48,7 +48,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all_positions(self) -> List[Position]:
+    async def get_all_positions(self) -> list[Position]:
         """Get all positions.
 
         Returns:
@@ -81,7 +81,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_long_positions(self) -> List[Position]:
+    async def get_long_positions(self) -> list[Position]:
         """Get all long positions.
 
         Returns:
@@ -90,7 +90,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_short_positions(self) -> List[Position]:
+    async def get_short_positions(self) -> list[Position]:
         """Get all short positions.
 
         Returns:
@@ -99,7 +99,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_flat_positions(self) -> List[Position]:
+    async def get_flat_positions(self) -> list[Position]:
         """Get all flat positions.
 
         Returns:
@@ -108,7 +108,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_profitable_positions(self) -> List[Position]:
+    async def get_profitable_positions(self) -> list[Position]:
         """Get all profitable positions.
 
         Returns:
@@ -117,7 +117,7 @@ class PositionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_losing_positions(self) -> List[Position]:
+    async def get_losing_positions(self) -> list[Position]:
         """Get all losing positions.
 
         Returns:

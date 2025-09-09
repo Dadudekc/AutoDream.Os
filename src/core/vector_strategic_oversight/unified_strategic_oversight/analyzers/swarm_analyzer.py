@@ -7,12 +7,11 @@ Mission: V2 Compliance - Modular Architecture
 Status: REFACTORED - Clean separation of concerns
 """
 
-import asyncio
-from typing import Dict, List, Optional, Any
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import Any
 
-from ..data_models import SwarmCoordinationInsight, AgentPerformanceMetrics
-from ..enums import InsightType, ConfidenceLevel, ImpactLevel
+from ..data_models import SwarmCoordinationInsight
+from ..enums import ConfidenceLevel, ImpactLevel, InsightType
 
 
 class SwarmCoordinationAnalyzer:
@@ -20,22 +19,20 @@ class SwarmCoordinationAnalyzer:
 
     def __init__(self):
         """Initialize swarm coordination analyzer."""
-        self.analysis_history: List[Dict[str, Any]] = []
+        self.analysis_history: list[dict[str, Any]] = []
 
     async def analyze_swarm_coordination(
         self,
-        agent_data: List[Dict[str, Any]],
-        mission_data: List[Dict[str, Any]],
+        agent_data: list[dict[str, Any]],
+        mission_data: list[dict[str, Any]],
         time_window_hours: int = 24,
-    ) -> List[SwarmCoordinationInsight]:
+    ) -> list[SwarmCoordinationInsight]:
         """Analyze swarm coordination patterns."""
         try:
             insights = []
 
             # Analyze agent collaboration patterns
-            collaboration_insights = await self._analyze_collaboration_patterns(
-                agent_data
-            )
+            collaboration_insights = await self._analyze_collaboration_patterns(agent_data)
             insights.extend(collaboration_insights)
 
             # Analyze mission coordination
@@ -60,13 +57,13 @@ class SwarmCoordinationAnalyzer:
 
             return insights
 
-        except Exception as e:
+        except Exception:
             # Return empty insights on error
             return []
 
     async def _analyze_collaboration_patterns(
-        self, agent_data: List[Dict[str, Any]]
-    ) -> List[SwarmCoordinationInsight]:
+        self, agent_data: list[dict[str, Any]]
+    ) -> list[SwarmCoordinationInsight]:
         """Analyze agent collaboration patterns."""
         insights = []
 
@@ -94,8 +91,8 @@ class SwarmCoordinationAnalyzer:
         return insights
 
     async def _analyze_mission_coordination(
-        self, mission_data: List[Dict[str, Any]]
-    ) -> List[SwarmCoordinationInsight]:
+        self, mission_data: list[dict[str, Any]]
+    ) -> list[SwarmCoordinationInsight]:
         """Analyze mission coordination patterns."""
         insights = []
 
@@ -123,8 +120,8 @@ class SwarmCoordinationAnalyzer:
         return insights
 
     async def _analyze_performance_trends(
-        self, agent_data: List[Dict[str, Any]], time_window_hours: int
-    ) -> List[SwarmCoordinationInsight]:
+        self, agent_data: list[dict[str, Any]], time_window_hours: int
+    ) -> list[SwarmCoordinationInsight]:
         """Analyze performance trends."""
         insights = []
 

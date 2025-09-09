@@ -11,9 +11,10 @@ License: MIT
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any
 from datetime import datetime
-from .models_enums import EmergencySeverity, EmergencyType, EmergencyStatus, AlertLevel
+from typing import Any
+
+from .models_enums import AlertLevel, EmergencySeverity
 
 
 @dataclass
@@ -28,10 +29,10 @@ class EmergencyMetrics:
     average_response_time: float = 0.0
     average_resolution_time: float = 0.0
     success_rate: float = 0.0
-    severity_distribution: Dict[str, int] = field(default_factory=dict)
-    type_distribution: Dict[str, int] = field(default_factory=dict)
+    severity_distribution: dict[str, int] = field(default_factory=dict)
+    type_distribution: dict[str, int] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -51,7 +52,7 @@ class EmergencyConfig:
     retry_delay: int = 300
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -63,12 +64,12 @@ class EmergencyAlert:
     alert_level: AlertLevel = AlertLevel.WARNING
     title: str = ""
     message: str = ""
-    recipients: List[str] = field(default_factory=list)
-    sent_at: Optional[datetime] = None
+    recipients: list[str] = field(default_factory=list)
+    sent_at: datetime | None = None
     acknowledged: bool = False
-    acknowledged_by: Optional[str] = None
-    acknowledged_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    acknowledged_by: str | None = None
+    acknowledged_at: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -81,8 +82,8 @@ class EmergencyLog:
     message: str = ""
     timestamp: datetime = field(default_factory=datetime.now)
     source: str = "system"
-    context: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -93,11 +94,11 @@ class EmergencyReport:
     emergency_id: str = ""
     title: str = ""
     summary: str = ""
-    incident_timeline: List[Dict[str, Any]] = field(default_factory=list)
+    incident_timeline: list[dict[str, Any]] = field(default_factory=list)
     root_cause: str = ""
     impact_assessment: str = ""
     resolution_summary: str = ""
-    recommendations: List[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
     created_by: str = "system"
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)

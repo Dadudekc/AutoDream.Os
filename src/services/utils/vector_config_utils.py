@@ -1,11 +1,9 @@
 """Utility helpers for vector configuration (SSOT)."""
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
-def load_simple_config(
-    agent_id: str, config_path: Optional[str] = None
-) -> Dict[str, Any]:
+def load_simple_config(agent_id: str, config_path: str | None = None) -> dict[str, Any]:
     """Return simplified configuration for vector integration.
 
     Parameters

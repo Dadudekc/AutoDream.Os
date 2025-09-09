@@ -10,9 +10,9 @@ Mission: V2 Compliance Refactoring
 """
 
 import re
-from typing import Dict, List, Optional, Any
 from datetime import datetime
-from .models import SearchResult, ContextRetrievalResult, ContextType, Priority, Status
+
+from .models import ContextType, Priority, SearchResult, Status
 
 
 class IntelligentContextSearchOperations:
@@ -30,7 +30,7 @@ class IntelligentContextSearchOperations:
         priority_filter: Priority = None,
         status_filter: Status = None,
         limit: int = 10,
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Search contexts with filters."""
         try:
             # Preprocess query
@@ -64,9 +64,7 @@ class IntelligentContextSearchOperations:
 
         # Remove stop words
         words = query.split()
-        filtered_words = [
-            word for word in words if word not in self.base_search.stop_words
-        ]
+        filtered_words = [word for word in words if word not in self.base_search.stop_words]
 
         # Join words back
         processed_query = " ".join(filtered_words)
@@ -79,13 +77,11 @@ class IntelligentContextSearchOperations:
         context_type: ContextType = None,
         priority_filter: Priority = None,
         status_filter: Status = None,
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Perform the actual search."""
         # This is a simplified implementation
         # In a real system, this would search through actual context data
-        results = self._create_mock_results(
-            query, context_type, priority_filter, status_filter
-        )
+        results = self._create_mock_results(query, context_type, priority_filter, status_filter)
 
         return results
 
@@ -95,7 +91,7 @@ class IntelligentContextSearchOperations:
         context_type: ContextType = None,
         priority_filter: Priority = None,
         status_filter: Status = None,
-    ) -> List[SearchResult]:
+    ) -> list[SearchResult]:
         """Create mock search results for demonstration."""
         results = []
 
@@ -138,7 +134,7 @@ class IntelligentContextSearchOperations:
 
         return results
 
-    def search_with_pattern(self, query: str, pattern_name: str) -> List[SearchResult]:
+    def search_with_pattern(self, query: str, pattern_name: str) -> list[SearchResult]:
         """Search using a specific pattern."""
         try:
             if pattern_name not in self.base_search.search_patterns:

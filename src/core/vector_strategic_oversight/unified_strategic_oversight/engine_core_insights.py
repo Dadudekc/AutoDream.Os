@@ -11,17 +11,15 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional
-from .models import SwarmCoordinationInsight
+
 from .enums import InsightType
+from .models import SwarmCoordinationInsight
 
 
 class StrategicOversightEngineCoreInsights:
     """Insight management for strategic oversight engine."""
 
-    def __init__(
-        self, insights: Dict[str, SwarmCoordinationInsight], logger: logging.Logger
-    ):
+    def __init__(self, insights: dict[str, SwarmCoordinationInsight], logger: logging.Logger):
         """Initialize insight management."""
         self.insights = insights
         self.logger = logger
@@ -36,7 +34,7 @@ class StrategicOversightEngineCoreInsights:
             self.logger.error(f"Failed to add swarm coordination insight: {e}")
             return False
 
-    def get_insight(self, insight_id: str) -> Optional[SwarmCoordinationInsight]:
+    def get_insight(self, insight_id: str) -> SwarmCoordinationInsight | None:
         """Get a swarm coordination insight by ID - simplified."""
         try:
             return self.insights.get(insight_id)
@@ -46,7 +44,7 @@ class StrategicOversightEngineCoreInsights:
 
     def get_insights(
         self, insight_type: InsightType = None, limit: int = 10
-    ) -> List[SwarmCoordinationInsight]:
+    ) -> list[SwarmCoordinationInsight]:
         """Get swarm coordination insights - simplified."""
         try:
             insights = list(self.insights.values())

@@ -9,17 +9,17 @@ They are immutable and compared by value, not reference.
 from dataclasses import dataclass
 from typing import NewType
 
-
 # Type aliases for better type safety and documentation
-TaskId = NewType('TaskId', str)
-AgentId = NewType('AgentId', str)
-MessageId = NewType('MessageId', str)
-FSMStateId = NewType('FSMStateId', str)
+TaskId = NewType("TaskId", str)
+AgentId = NewType("AgentId", str)
+MessageId = NewType("MessageId", str)
+FSMStateId = NewType("FSMStateId", str)
 
 
 @dataclass(frozen=True, slots=True)
 class TaskIdentifier:
     """Value object for task identification."""
+
     value: str
 
     def __post_init__(self) -> None:
@@ -33,6 +33,7 @@ class TaskIdentifier:
 @dataclass(frozen=True, slots=True)
 class AgentIdentifier:
     """Value object for agent identification."""
+
     value: str
 
     def __post_init__(self) -> None:
@@ -46,6 +47,7 @@ class AgentIdentifier:
 @dataclass(frozen=True, slots=True)
 class MessageIdentifier:
     """Value object for message identification."""
+
     value: str
 
     def __post_init__(self) -> None:
@@ -59,6 +61,7 @@ class MessageIdentifier:
 @dataclass(frozen=True, slots=True)
 class FSMStateIdentifier:
     """Value object for FSM state identification."""
+
     value: str
 
     def __post_init__(self) -> None:

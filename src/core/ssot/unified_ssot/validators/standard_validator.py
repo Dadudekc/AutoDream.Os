@@ -9,8 +9,8 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-from typing import List, Dict, Any
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import Any
 
 from ..models import SSOTComponent, SSOTComponentType
 
@@ -23,31 +23,23 @@ class StandardValidator:
         self.validation_rules = {
             "valid_priorities": ["low", "medium", "high", "critical"],
             "valid_statuses": ["active", "inactive", "deprecated", "maintenance"],
-            "max_age_days": (
-                365
-            ),  # Components shouldn't be older than 1 year without updates
+            "max_age_days": (365),  # Components shouldn't be older than 1 year without updates
             "min_update_frequency_days": 30,
         }
 
-    def validate_standard_fields(self, component: SSOTComponent) -> List[str]:
+    def validate_standard_fields(self, component: SSOTComponent) -> list[str]:
         """Validate standard component fields."""
         issues = []
 
         try:
             # Check priority if present
             if hasattr(component, "priority") and component.priority:
-                if (
-                    component.priority.lower()
-                    not in self.validation_rules["valid_priorities"]
-                ):
+                if component.priority.lower() not in self.validation_rules["valid_priorities"]:
                     issues.append(f"Invalid priority: {component.priority}")
 
             # Check status if present
             if hasattr(component, "status") and component.status:
-                if (
-                    component.status.lower()
-                    not in self.validation_rules["valid_statuses"]
-                ):
+                if component.status.lower() not in self.validation_rules["valid_statuses"]:
                     issues.append(f"Invalid status: {component.status}")
 
             # Check component age
@@ -59,13 +51,8 @@ class StandardValidator:
             # Check update frequency
             if hasattr(component, "updated_at") and component.updated_at:
                 days_since_update = (datetime.now() - component.updated_at).days
-                if (
-                    days_since_update
-                    > self.validation_rules["min_update_frequency_days"]
-                ):
-                    issues.append(
-                        f"Component not updated recently ({days_since_update} days)"
-                    )
+                if days_since_update > self.validation_rules["min_update_frequency_days"]:
+                    issues.append(f"Component not updated recently ({days_since_update} days)")
 
             # Check configuration if present
             if hasattr(component, "configuration") and component.configuration:
@@ -77,7 +64,7 @@ class StandardValidator:
 
         return issues
 
-    def validate_component_relationships(self, component: SSOTComponent) -> List[str]:
+    def validate_component_relationships(self, component: SSOTComponent) -> list[str]:
         """Validate component relationships."""
         issues = []
 
@@ -97,10 +84,7 @@ class StandardValidator:
 
             # Check component type consistency
             if hasattr(component, "component_type") and hasattr(component, "parent_id"):
-                if (
-                    component.component_type == SSOTComponentType.ROOT
-                    and component.parent_id
-                ):
+                if component.component_type == SSOTComponentType.ROOT and component.parent_id:
                     issues.append("Root component cannot have a parent")
 
         except Exception as e:
@@ -108,7 +92,7 @@ class StandardValidator:
 
         return issues
 
-    def _validate_configuration(self, configuration: Dict[str, Any]) -> List[str]:
+    def _validate_configuration(self, configuration: dict[str, Any]) -> list[str]:
         """Validate component configuration."""
         issues = []
 
@@ -166,7 +150,7 @@ class StandardValidator:
         except Exception:
             return False
 
-    def get_validation_score(self, issues: List[str]) -> float:
+    def get_validation_score(self, issues: list[str]) -> float:
         """Calculate validation score based on issues."""
         try:
             base_score = 100.0

@@ -9,15 +9,9 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any, Callable
 from dataclasses import dataclass
-from datetime import datetime, timedelta
-from .models import (
-    IntegrationType,
-    IntegrationMetrics,
-    IntegrationStatus,
-    IntegrationConfig,
-)
+from datetime import datetime
+from typing import Any
 
 
 @dataclass
@@ -25,7 +19,7 @@ class MonitoringConfig:
     """Configuration for integration monitoring."""
 
     monitoring_interval: float = 1.0
-    alert_thresholds: Dict[str, float] = None
+    alert_thresholds: dict[str, float] = None
     enable_alerts: bool = True
     enable_metrics: bool = True
     enable_logging: bool = True
@@ -49,7 +43,7 @@ class MonitoringAlert:
     message: str
     severity: str
     timestamp: datetime
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         """Initialize metadata if not provided."""
@@ -65,5 +59,5 @@ class MonitoringStats:
     successful_checks: int = 0
     failed_checks: int = 0
     alerts_triggered: int = 0
-    last_check_time: Optional[datetime] = None
+    last_check_time: datetime | None = None
     uptime_seconds: float = 0.0

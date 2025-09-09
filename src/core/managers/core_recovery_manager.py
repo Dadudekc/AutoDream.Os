@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from typing import Any, Dict
+from typing import Any
 
 from .contracts import Manager, ManagerContext, ManagerResult
 
@@ -12,7 +12,7 @@ class CoreRecoveryManager(Manager):
     """Provides recovery mechanisms for service operations."""
 
     def __init__(self) -> None:
-        self._strategies: Dict[str, Dict[str, Any]] = {
+        self._strategies: dict[str, dict[str, Any]] = {
             "default_retry": {
                 "type": "retry",
                 "conditions": {},
@@ -26,7 +26,7 @@ class CoreRecoveryManager(Manager):
         return True
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         handlers = {
             "register_recovery_strategy": self.register_recovery_strategy,
@@ -43,12 +43,12 @@ class CoreRecoveryManager(Manager):
         context.logger("CoreRecoveryManager cleaned up")
         return True
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         return {"strategies": list(self._strategies.keys())}
 
     # Handlers -----------------------------------------------------------------
     def register_recovery_strategy(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         name = payload["strategy_name"]
         self._strategies[name] = {
@@ -60,17 +60,13 @@ class CoreRecoveryManager(Manager):
         context.logger(f"Recovery strategy registered: {name}")
         return ManagerResult(True, {"strategy_name": name, "registered": True}, {})
 
-    def recover_from_error(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def recover_from_error(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         recovery_id = str(uuid.uuid4())
         error_type = payload.get("error_type", "unknown")
-        context.logger(
-            f"Recovery invoked for {error_type} with id {recovery_id}"
-        )
+        context.logger(f"Recovery invoked for {error_type} with id {recovery_id}")
         return ManagerResult(True, {"recovery_id": recovery_id}, {})
 
     def get_recovery_strategies(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         return ManagerResult(True, {"strategies": self._strategies}, {})

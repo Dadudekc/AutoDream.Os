@@ -1,0 +1,194 @@
+{
+  "imports_by_module": {},
+  "most_imported_modules": {},
+  "circular_dependencies": [],
+  "external_dependencies": [],
+  "internal_dependencies": {
+    "src\\services\\quality\\__init__": {
+      "file_path": "src\\services\\quality\\__init__.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "src\\services\\cursor_db": {
+      "file_path": "src\\services\\cursor_db.py",
+      "functions": [
+        "__init__",
+        "_connect",
+        "get_task",
+        "task_exists"
+      ],
+      "classes": {
+        "CursorTask": {
+          "methods": [],
+          "docstring": "Record representing an agent task stored in the Cursor database.",
+          "base_classes": []
+        },
+        "CursorTaskRepository": {
+          "methods": [
+            "__init__",
+            "_connect",
+            "get_task",
+            "task_exists"
+          ],
+          "docstring": "Repository providing read access to Cursor task records.",
+          "base_classes": []
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\core\\emergency_intervention\\unified_emergency\\orchestrator": {
+      "file_path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
+      "functions": [
+        "__init__",
+        "_register_default_protocols",
+        "detect_emergency",
+        "analyze_emergency",
+        "execute_intervention",
+        "handle_emergency",
+        "register_intervention_handler",
+        "get_emergency_status",
+        "get_active_emergencies",
+        "get_emergency_history",
+        "get_system_metrics",
+        "get_protocol_summary",
+        "get_system_health",
+        "create_custom_protocol",
+        "get_orchestrator_status",
+        "shutdown"
+      ],
+      "classes": {
+        "EmergencyInterventionOrchestrator": {
+          "methods": [
+            "__init__",
+            "_register_default_protocols",
+            "detect_emergency",
+            "analyze_emergency",
+            "execute_intervention",
+            "handle_emergency",
+            "register_intervention_handler",
+            "get_emergency_status",
+            "get_active_emergencies",
+            "get_emergency_history",
+            "get_system_metrics",
+            "get_protocol_summary",
+            "get_system_health",
+            "create_custom_protocol",
+            "get_orchestrator_status",
+            "shutdown"
+          ],
+          "docstring": "Main orchestrator for emergency intervention operations.\n\nCoordinates emergency detection, analysis, intervention, and logging across all\nemergency components.",
+          "base_classes": []
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "src\\reporting\\__init__": {
+      "file_path": "src\\reporting\\__init__.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tests\\test_architectural_compliance": {
+      "file_path": "tests\\test_architectural_compliance.py",
+      "functions": [
+        "onboarding_manager",
+        "config_consolidator",
+        "test_architectural_onboarding_integration",
+        "test_configuration_consolidation_integration",
+        "test_solid_principles_implementation",
+        "test_dependency_inversion_principle_compliance",
+        "test_architectural_onboarding_manager_creation",
+        "test_agent_principle_assignment",
+        "test_principle_guidance_content",
+        "test_onboarding_message_generation",
+        "test_compliance_validation",
+        "test_principle_assignment_persistence",
+        "test_agents_by_principle_query",
+        "test_all_principles_coverage",
+        "analyzer",
+        "test_python_file_collection",
+        "test_file_analysis_structure",
+        "test_ast_parsing_robustness",
+        "test_test_coverage_requirement",
+        "test_architecture_validation_integration",
+        "test_principle_based_development_proof"
+      ],
+      "classes": {
+        "TestArchitecturalCompliance": {
+          "methods": [
+            "onboarding_manager",
+            "config_consolidator",
+            "test_architectural_onboarding_integration",
+            "test_configuration_consolidation_integration",
+            "test_solid_principles_implementation",
+            "test_dependency_inversion_principle_compliance",
+            "test_architectural_onboarding_manager_creation",
+            "test_agent_principle_assignment",
+            "test_principle_guidance_content",
+            "test_onboarding_message_generation",
+            "test_compliance_validation",
+            "test_principle_assignment_persistence",
+            "test_agents_by_principle_query",
+            "test_all_principles_coverage"
+          ],
+          "docstring": "Main orchestrator for architectural compliance tests.",
+          "base_classes": []
+        },
+        "TestCodeAnalysis": {
+          "methods": [
+            "analyzer",
+            "test_python_file_collection",
+            "test_file_analysis_structure",
+            "test_ast_parsing_robustness"
+          ],
+          "docstring": "Tests for code analysis functionality.",
+          "base_classes": []
+        },
+        "TestArchitecturalProof": {
+          "methods": [
+            "test_test_coverage_requirement",
+            "test_architecture_validation_integration",
+            "test_principle_based_development_proof"
+          ],
+          "docstring": "Tests that provide architectural proof through TDD.",
+          "base_classes": []
+        }
+      },
+      "estimated_dependencies": []
+    },
+    "tests\\messaging\\fixtures\\config": {
+      "file_path": "tests\\messaging\\fixtures\\config.py",
+      "functions": [
+        "test_config",
+        "temp_inbox_dirs"
+      ],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tests\\performance\\__init__": {
+      "file_path": "tests\\performance\\__init__.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tests\\runners\\config": {
+      "file_path": "tests\\runners\\config.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tests\\infrastructure\\test_infrastructure_config": {
+      "file_path": "tests\\infrastructure\\test_infrastructure_config.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    },
+    "tests\\messaging\\fixtures\\__init__": {
+      "file_path": "tests\\messaging\\fixtures\\__init__.py",
+      "functions": [],
+      "classes": {},
+      "estimated_dependencies": []
+    }
+  }
+}

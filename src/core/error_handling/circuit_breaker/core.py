@@ -11,7 +11,6 @@ License: MIT
 """
 
 import logging
-from typing import Optional, Callable, Any
 from datetime import datetime, timedelta
 from enum import Enum
 
@@ -29,9 +28,7 @@ class CircuitState(Enum):
 class CircuitBreakerConfig:
     """Configuration for circuit breaker."""
 
-    def __init__(
-        self, name: str, failure_threshold: int = 5, timeout_seconds: int = 60
-    ):
+    def __init__(self, name: str, failure_threshold: int = 5, timeout_seconds: int = 60):
         self.name = name
         self.failure_threshold = failure_threshold
         self.timeout_seconds = timeout_seconds
@@ -45,8 +42,8 @@ class CircuitBreakerCore:
         self.config = config
         self.state = CircuitState.CLOSED
         self.failure_count = 0
-        self.last_failure_time: Optional[datetime] = None
-        self.next_attempt_time: Optional[datetime] = None
+        self.last_failure_time: datetime | None = None
+        self.next_attempt_time: datetime | None = None
 
     def _should_attempt_reset(self) -> bool:
         """Check if we should attempt to reset the circuit."""
@@ -72,9 +69,7 @@ class CircuitBreakerCore:
 
         if self.failure_count >= self.config.failure_threshold:
             self.state = CircuitState.OPEN
-            self.next_attempt_time = datetime.now() + timedelta(
-                seconds=self.config.timeout_seconds
-            )
+            self.next_attempt_time = datetime.now() + timedelta(seconds=self.config.timeout_seconds)
             logger.warning(
                 f"Circuit breaker '{self.config.name}' opened after {self.failure_count} failures"
             )

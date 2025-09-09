@@ -12,10 +12,10 @@ License: MIT
 
 import asyncio
 import time
-from typing import Any, Dict, List, Optional
 from queue import Queue
+from typing import Any
 
-from ..integration_models import IntegrationTask, IntegrationType, IntegrationStatus
+from ..integration_models import IntegrationTask, IntegrationType
 
 
 class IntegrationTaskEngine:
@@ -26,8 +26,8 @@ class IntegrationTaskEngine:
         self.config = config
         self.logger = None  # Will be set by parent
         self.task_queue = Queue()
-        self.active_tasks: Dict[str, IntegrationTask] = {}
-        self.completed_tasks: List[str] = []
+        self.active_tasks: dict[str, IntegrationTask] = {}
+        self.completed_tasks: list[str] = []
 
     def add_task(self, task: IntegrationTask) -> bool:
         """Add task to execution queue."""
@@ -41,16 +41,14 @@ class IntegrationTaskEngine:
                 self.logger.error(f"Failed to add task {task.task_id}: {e}")
             return False
 
-    def get_next_task(self) -> Optional[IntegrationTask]:
+    def get_next_task(self) -> IntegrationTask | None:
         """Get next task from queue."""
         try:
             return self.task_queue.get_nowait()
         except:
             return None
 
-    async def execute_task(
-        self, task: IntegrationTask, vector_integration
-    ) -> Dict[str, Any]:
+    async def execute_task(self, task: IntegrationTask, vector_integration) -> dict[str, Any]:
         """Execute a single integration task."""
         start_time = time.time()
 
@@ -59,9 +57,7 @@ class IntegrationTaskEngine:
 
             # Execute based on integration type
             if task.integration_type == IntegrationType.VECTOR_DATABASE:
-                result = await self._execute_vector_integration(
-                    task, vector_integration
-                )
+                result = await self._execute_vector_integration(task, vector_integration)
             elif task.integration_type == IntegrationType.MESSAGE_QUEUE:
                 result = await self._execute_message_queue_integration(task)
             elif task.integration_type == IntegrationType.COORDINATION:
@@ -100,7 +96,7 @@ class IntegrationTaskEngine:
 
     async def _execute_vector_integration(
         self, task: IntegrationTask, vector_integration
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute vector database integration task."""
         await asyncio.sleep(0.01)  # Simulate processing
 
@@ -111,21 +107,17 @@ class IntegrationTaskEngine:
         else:
             return {"operation": task.operation, "status": "completed"}
 
-    async def _execute_message_queue_integration(
-        self, task: IntegrationTask
-    ) -> Dict[str, Any]:
+    async def _execute_message_queue_integration(self, task: IntegrationTask) -> dict[str, Any]:
         """Execute message queue integration task."""
         await asyncio.sleep(0.005)  # Simulate processing
         return {"queue_operation": task.operation, "status": "completed"}
 
-    async def _execute_coordination_integration(
-        self, task: IntegrationTask
-    ) -> Dict[str, Any]:
+    async def _execute_coordination_integration(self, task: IntegrationTask) -> dict[str, Any]:
         """Execute coordination integration task."""
         await asyncio.sleep(0.008)  # Simulate processing
         return {"coordination_operation": task.operation, "status": "completed"}
 
-    def get_task_summary(self) -> Dict[str, Any]:
+    def get_task_summary(self) -> dict[str, Any]:
         """Get task execution summary."""
         return {
             "active_tasks": len(self.active_tasks),

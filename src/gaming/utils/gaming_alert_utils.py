@@ -38,9 +38,7 @@ def validate_alert_metadata(metadata: Dict[str, Any]) -> Dict[str, Any]:
     # Ensure metadata values are serializable
     validated = {}
     for key, value in metadata.items():
-        if get_unified_validator().validate_type(
-            value, (str, int, float, bool, list, dict)
-        ):
+        if get_unified_validator().validate_type(value, (str, int, float, bool, list, dict)):
             validated[key] = value
         else:
             validated[key] = str(value)
@@ -61,9 +59,7 @@ def format_alert_message(
     Returns:
         Formatted alert message string
     """
-    base_message = (
-        f"{severity.value.upper()} {alert_type.value.replace('_', ' ')} alert"
-    )
+    base_message = f"{severity.value.upper()} {alert_type.value.replace('_', ' ')} alert"
 
     if details:
         detail_str = ", ".join([f"{k}: {v}" for k, v in details.items()])

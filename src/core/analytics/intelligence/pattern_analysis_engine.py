@@ -12,13 +12,14 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
+
+from .pattern_analysis.anomaly_detector import AnomalyDetector
 
 # Import modular components
 from .pattern_analysis.pattern_extractor import PatternExtractor
 from .pattern_analysis.trend_analyzer import TrendAnalyzer
-from .pattern_analysis.anomaly_detector import AnomalyDetector
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class PatternAnalysisEngine:
         self.trend_analyzer = TrendAnalyzer()
         self.anomaly_detector = AnomalyDetector()
 
-    def analyze_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_patterns(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze patterns in data."""
         try:
             if not data:
@@ -64,7 +65,7 @@ class PatternAnalysisEngine:
             self.logger.error(f"Error analyzing patterns: {e}")
             return {"error": str(e)}
 
-    def get_analysis_summary(self) -> Dict[str, Any]:
+    def get_analysis_summary(self) -> dict[str, Any]:
         """Get analysis summary."""
         try:
             if not self.analysis_history:
@@ -87,7 +88,7 @@ class PatternAnalysisEngine:
         self.analysis_history.clear()
         self.logger.info("Analysis history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,
@@ -96,21 +97,19 @@ class PatternAnalysisEngine:
         }
 
     # Delegate methods to modular components
-    def extract_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def extract_patterns(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Extract patterns from data."""
         return self.pattern_extractor.extract_patterns(data)
 
-    def analyze_trends(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_trends(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze trends in data."""
         return self.trend_analyzer.analyze_trends(data)
 
-    def detect_anomalies(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def detect_anomalies(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Detect anomalies in data."""
         return self.anomaly_detector.detect_anomalies(data)
 
-    def detect_outliers(
-        self, values: List[float], method: str = "iqr"
-    ) -> List[Dict[str, Any]]:
+    def detect_outliers(self, values: list[float], method: str = "iqr") -> list[dict[str, Any]]:
         """Detect outliers using different methods."""
         return self.anomaly_detector.detect_outliers(values, method)
 

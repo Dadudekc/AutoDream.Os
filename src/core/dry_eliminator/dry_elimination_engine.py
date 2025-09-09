@@ -12,13 +12,13 @@ Original monolithic implementation refactored into focused modules.
 
 # Import the new modular orchestrator
 from .engines import (
-    DRYEliminationEngineOrchestrator,
-    create_dry_elimination_engine_orchestrator,
-    FileDiscoveryEngine,
     CodeAnalysisEngine,
-    ViolationDetectionEngine,
+    DRYEliminationEngineOrchestrator,
     EliminationStrategyEngine,
+    FileDiscoveryEngine,
     MetricsReportingEngine,
+    ViolationDetectionEngine,
+    create_dry_elimination_engine_orchestrator,
 )
 
 # Re-export for backward compatibility

@@ -11,20 +11,16 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any
 import logging
+from typing import Any
 
-from .models import Trade, Position, Portfolio
+from .implementations import PortfolioRepositoryImpl, PositionRepositoryImpl, TradingRepositoryImpl
 from .interfaces import (
-    TradingRepositoryInterface,
-    PositionRepositoryInterface,
     PortfolioRepositoryInterface,
+    PositionRepositoryInterface,
+    TradingRepositoryInterface,
 )
-from .implementations import (
-    TradingRepositoryImpl,
-    PositionRepositoryImpl,
-    PortfolioRepositoryImpl,
-)
+from .models import Portfolio, Position, Trade
 
 
 class TradingRepository:
@@ -49,15 +45,15 @@ class TradingRepository:
         """Save a trade."""
         return await self.trade_repo.save_trade(trade)
 
-    async def get_trade(self, trade_id: str) -> Optional[Trade]:
+    async def get_trade(self, trade_id: str) -> Trade | None:
         """Get trade by ID."""
         return await self.trade_repo.get_trade(trade_id)
 
-    async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> List[Trade]:
+    async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> list[Trade]:
         """Get trades for symbol."""
         return await self.trade_repo.get_trades_by_symbol(symbol, limit)
 
-    async def get_all_trades(self, limit: int = 1000) -> List[Trade]:
+    async def get_all_trades(self, limit: int = 1000) -> list[Trade]:
         """Get all trades."""
         return await self.trade_repo.get_all_trades(limit)
 
@@ -69,28 +65,24 @@ class TradingRepository:
         """Delete trade."""
         return await self.trade_repo.delete_trade(trade_id)
 
-    async def get_trades_by_status(self, status: str, limit: int = 100) -> List[Trade]:
+    async def get_trades_by_status(self, status: str, limit: int = 100) -> list[Trade]:
         """Get trades by status."""
         return await self.trade_repo.get_trades_by_status(status, limit)
 
-    async def get_trades_by_date_range(
-        self, start_date, end_date, limit: int = 100
-    ) -> List[Trade]:
+    async def get_trades_by_date_range(self, start_date, end_date, limit: int = 100) -> list[Trade]:
         """Get trades within date range."""
-        return await self.trade_repo.get_trades_by_date_range(
-            start_date, end_date, limit
-        )
+        return await self.trade_repo.get_trades_by_date_range(start_date, end_date, limit)
 
     # Position operations
     async def save_position(self, position: Position) -> bool:
         """Save position."""
         return await self.position_repo.save_position(position)
 
-    async def get_position(self, symbol: str) -> Optional[Position]:
+    async def get_position(self, symbol: str) -> Position | None:
         """Get position by symbol."""
         return await self.position_repo.get_position(symbol)
 
-    async def get_all_positions(self) -> List[Position]:
+    async def get_all_positions(self) -> list[Position]:
         """Get all positions."""
         return await self.position_repo.get_all_positions()
 
@@ -102,19 +94,19 @@ class TradingRepository:
         """Delete position."""
         return await self.position_repo.delete_position(symbol)
 
-    async def get_long_positions(self) -> List[Position]:
+    async def get_long_positions(self) -> list[Position]:
         """Get long positions."""
         return await self.position_repo.get_long_positions()
 
-    async def get_short_positions(self) -> List[Position]:
+    async def get_short_positions(self) -> list[Position]:
         """Get short positions."""
         return await self.position_repo.get_short_positions()
 
-    async def get_profitable_positions(self) -> List[Position]:
+    async def get_profitable_positions(self) -> list[Position]:
         """Get profitable positions."""
         return await self.position_repo.get_profitable_positions()
 
-    async def get_losing_positions(self) -> List[Position]:
+    async def get_losing_positions(self) -> list[Position]:
         """Get losing positions."""
         return await self.position_repo.get_losing_positions()
 
@@ -127,11 +119,11 @@ class TradingRepository:
         """Save portfolio."""
         return await self.portfolio_repo.save_portfolio(portfolio)
 
-    async def get_portfolio(self, portfolio_id: str) -> Optional[Portfolio]:
+    async def get_portfolio(self, portfolio_id: str) -> Portfolio | None:
         """Get portfolio by ID."""
         return await self.portfolio_repo.get_portfolio(portfolio_id)
 
-    async def get_all_portfolios(self) -> List[Portfolio]:
+    async def get_all_portfolios(self) -> list[Portfolio]:
         """Get all portfolios."""
         return await self.portfolio_repo.get_all_portfolios()
 
@@ -143,12 +135,12 @@ class TradingRepository:
         """Delete portfolio."""
         return await self.portfolio_repo.delete_portfolio(portfolio_id)
 
-    async def get_portfolio_by_name(self, name: str) -> Optional[Portfolio]:
+    async def get_portfolio_by_name(self, name: str) -> Portfolio | None:
         """Get portfolio by name."""
         return await self.portfolio_repo.get_portfolio_by_name(name)
 
     # Statistics and reporting
-    async def get_repository_stats(self) -> Dict[str, Any]:
+    async def get_repository_stats(self) -> dict[str, Any]:
         """Get comprehensive repository statistics."""
         try:
             trade_count = await self.trade_repo.get_trade_count()
@@ -158,23 +150,15 @@ class TradingRepository:
             return {
                 "trades": {
                     "total": trade_count,
-                    "pending": len(
-                        await self.trade_repo.get_trades_by_status("pending")
-                    ),
-                    "executed": len(
-                        await self.trade_repo.get_trades_by_status("executed")
-                    ),
-                    "cancelled": len(
-                        await self.trade_repo.get_trades_by_status("cancelled")
-                    ),
+                    "pending": len(await self.trade_repo.get_trades_by_status("pending")),
+                    "executed": len(await self.trade_repo.get_trades_by_status("executed")),
+                    "cancelled": len(await self.trade_repo.get_trades_by_status("cancelled")),
                 },
                 "positions": {
                     "total": position_count,
                     "long": len(await self.position_repo.get_long_positions()),
                     "short": len(await self.position_repo.get_short_positions()),
-                    "profitable": len(
-                        await self.position_repo.get_profitable_positions()
-                    ),
+                    "profitable": len(await self.position_repo.get_profitable_positions()),
                     "losing": len(await self.position_repo.get_losing_positions()),
                 },
                 "portfolios": {"total": portfolio_count},

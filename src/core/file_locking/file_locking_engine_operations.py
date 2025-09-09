@@ -8,13 +8,10 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-import os
 import time
-import threading
 from pathlib import Path
-from typing import Dict, Any
 
-from .file_locking_models import LockInfo, LockResult, LockStatus
+from .file_locking_models import LockInfo, LockResult
 
 
 class FileLockEngineOperations:

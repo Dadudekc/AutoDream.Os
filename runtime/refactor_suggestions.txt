@@ -1,0 +1,2287 @@
+V2 LOC Refactor Plan
+==================================================
+
+SUMMARY:
+Files analyzed: 557
+Total violations: 360
+
+CRITICAL Syntax errors: 11
+CRITICAL File LOC violations: 14
+MAJOR Class LOC violations: 229
+MINOR Function LOC violations: 106
+
+REFACTOR ACTIONS:
+
+FUNCTION test_ctrl_t_onboarding_navigation.py:29:
+  Function 'test_ctrl_t_onboarding_navigation': 116 LOC (limit: 50)
+  Excess: 66 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION test_pyautogui_mode.py:30:
+  Function 'test_pyautogui_mode': 111 LOC (limit: 50)
+  Excess: 61 LOC
+  Recommendation: Split into smaller functions
+
+ERROR agent_devlog_watcher.py:
+  Parse error
+
+ERROR src\web\frontend\settings.py:
+  Parse error
+
+CLASS src\web\vector_database\middleware.py:18:
+  Class 'VectorDatabaseMiddleware': 160 LOC (limit: 100)
+  Excess: 60 LOC
+  Suggested splits:
+    - VectorDatabaseMiddlewareCore - Core methods: error_handler, json_required, validate_request, log_request, add_cors_headers
+    - VectorDatabaseMiddlewareUtils - Utility methods: rate_limit, cache_response, validate_pagination, decorated_function, decorated_function
+
+CLASS src\web\vector_database\utils.py:27:
+  Class 'VectorDatabaseUtils': 229 LOC (limit: 100)
+  Excess: 129 LOC
+  Suggested splits:
+    - VectorDatabaseUtilsCore - Core methods: simulate_vector_search, simulate_get_documents, simulate_add_document, simulate_get_document, simulate_update_document
+    - VectorDatabaseUtilsUtils - Utility methods: simulate_delete_document, simulate_get_analytics, simulate_get_collections, simulate_export_data
+
+FUNCTION src\web\vector_database\utils.py:79:
+  Function 'simulate_get_documents': 55 LOC (limit: 50)
+  Excess: 5 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\agent_vector_integration.py:25:
+  Class 'AgentVectorIntegration': 238 LOC (limit: 100)
+  Excess: 138 LOC
+  Suggested splits:
+    - AgentVectorIntegrationCore - Core methods: get_task_context, index_agent_work, index_inbox_messages, get_success_patterns, get_agent_insights
+    - AgentVectorIntegrationUtils - Utility methods: 
+
+FUNCTION src\services\agent_vector_integration.py:102:
+  Function 'index_agent_work': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\agent_vector_integration_core.py:13:
+  Class 'AgentVectorIntegrationCore': 121 LOC (limit: 100)
+  Excess: 21 LOC
+  Suggested splits:
+    - AgentVectorIntegrationCoreCore - Core methods: get_agent_context, get_task_recommendations, store_agent_knowledge, search_agent_patterns, get_agent_status
+    - AgentVectorIntegrationCoreUtils - Utility methods: 
+
+CLASS src\services\agent_vector_integration_operations.py:18:
+  Class 'AgentVectorIntegrationOperations': 132 LOC (limit: 100)
+  Excess: 32 LOC
+  Suggested splits:
+    - AgentVectorIntegrationOperationsCore - Core methods: optimize_agent_workflow, get_swarm_intelligence, analyze_agent_performance, get_learning_recommendations, sync_with_swarm
+    - AgentVectorIntegrationOperationsUtils - Utility methods: get_integration_health
+
+FILE src\services\architectural_onboarding.py:
+  File: 469 LOC (limit: 400)
+  Excess: 69 LOC
+  Suggested splits:
+    - architectural_onboarding_core.py - Core classes: ArchitecturalPrinciple, ArchitecturalGuidance
+    - architectural_onboarding_utils.py - Utility functions: __init__, _define_principles, _load_agent_assignments
+    - architectural_onboarding_types.py - Type definitions and imports
+
+CLASS src\services\architectural_onboarding.py:52:
+  Class 'ArchitecturalOnboardingManager': 414 LOC (limit: 100)
+  Excess: 314 LOC
+  Suggested splits:
+    - ArchitecturalOnboardingManagerCore - Core methods: get_agent_principle, get_principle_guidance, create_onboarding_message, validate_agent_compliance, get_all_principles
+    - ArchitecturalOnboardingManagerUtils - Utility methods: assign_principle_to_agent, get_agents_by_principle
+
+FUNCTION src\services\architectural_onboarding.py:64:
+  Function '_define_principles': 265 LOC (limit: 50)
+  Excess: 215 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\services\contract_service.py:39:
+  Function 'get_contract_definitions': 53 LOC (limit: 50)
+  Excess: 3 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\services\message_identity_clarification.py:23:
+  Function 'format_message_with_identity_clarification': 53 LOC (limit: 50)
+  Excess: 3 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\messaging_agent_coordination.py:22:
+  Class 'MessagingAgentCoordination': 202 LOC (limit: 100)
+  Excess: 102 LOC
+  Suggested splits:
+    - MessagingAgentCoordinationCore - Core methods: 
+    - MessagingAgentCoordinationUtils - Utility methods: 
+
+FUNCTION src\services\messaging_agent_coordination.py:31:
+  Function 'coordinate_with_agent': 133 LOC (limit: 50)
+  Excess: 83 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\services\messaging_cli.py:22:
+  Function 'create_enhanced_parser': 66 LOC (limit: 50)
+  Excess: 16 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\messaging_core.py:48:
+  Class 'UnifiedMessagingCore': 262 LOC (limit: 100)
+  Excess: 162 LOC
+  Suggested splits:
+    - UnifiedMessagingCoreCore - Core methods: send_message_to_inbox, send_message_via_delivery_service, generate_onboarding_message, send_onboarding_message, send_bulk_onboarding
+    - UnifiedMessagingCoreUtils - Utility methods: send_message, send_to_all_agents, list_agents, show_coordinates, show_message_history
+
+FUNCTION src\services\messaging_core.py:93:
+  Function 'send_message_to_inbox': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\messaging_onboarding.py:24:
+  Class 'MessagingOnboarding': 131 LOC (limit: 100)
+  Excess: 31 LOC
+  Suggested splits:
+    - MessagingOnboardingCore - Core methods: generate_onboarding_message, send_onboarding_message, send_bulk_onboarding
+    - MessagingOnboardingUtils - Utility methods: 
+
+FILE src\services\simple_onboarding.py:
+  File: 535 LOC (limit: 400)
+  Excess: 135 LOC
+  Suggested splits:
+    - simple_onboarding_core.py - Core classes: SimpleOnboarding
+    - simple_onboarding_utils.py - Utility functions: __init__, execute, _should_process_agent
+    - simple_onboarding_types.py - Type definitions and imports
+
+CLASS src\services\simple_onboarding.py:48:
+  Class 'SimpleOnboarding': 488 LOC (limit: 100)
+  Excess: 388 LOC
+  Suggested splits:
+    - SimpleOnboardingCore - Core methods: execute
+    - SimpleOnboardingUtils - Utility methods: 
+
+FUNCTION src\services\simple_onboarding.py:267:
+  Function '_onboard_agent': 87 LOC (limit: 50)
+  Excess: 37 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\contract_system\storage.py:23:
+  Class 'ContractStorage': 228 LOC (limit: 100)
+  Excess: 128 LOC
+  Suggested splits:
+    - ContractStorageCore - Core methods: save_contract, load_contract, get_contract, load_all_contracts, get_all_contracts
+    - ContractStorageUtils - Utility methods: load_agent_contracts, get_agent_contracts, get_available_tasks, assign_task, complete_task
+
+CLASS src\services\coordination\bulk_coordinator.py:26:
+  Class 'BulkCoordinator': 163 LOC (limit: 100)
+  Excess: 63 LOC
+  Suggested splits:
+    - BulkCoordinatorCore - Core methods: coordinate_bulk_messages, coordinate_messages_by_priority, coordinate_messages_by_type, coordinate_messages_by_sender, get_bulk_coordinator_status
+    - BulkCoordinatorUtils - Utility methods: 
+
+CLASS src\services\coordination\stats_tracker.py:19:
+  Class 'StatsTracker': 235 LOC (limit: 100)
+  Excess: 135 LOC
+  Suggested splits:
+    - StatsTrackerCore - Core methods: update_coordination_stats, get_coordination_stats, get_detailed_stats, get_performance_summary, reset_stats
+    - StatsTrackerUtils - Utility methods: get_tracker_status
+
+FUNCTION src\services\coordination\stats_tracker.py:88:
+  Function '_update_detailed_stats': 61 LOC (limit: 50)
+  Excess: 11 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\coordination\strategy_coordinator.py:25:
+  Class 'StrategyCoordinator': 165 LOC (limit: 100)
+  Excess: 65 LOC
+  Suggested splits:
+    - StrategyCoordinatorCore - Core methods: determine_coordination_strategy, apply_coordination_rules, get_coordination_rules, get_routing_table, update_coordination_rule
+    - StrategyCoordinatorUtils - Utility methods: update_routing_config, get_coordinator_status
+
+CLASS src\services\handlers\command_handler.py:20:
+  Class 'CommandHandler': 199 LOC (limit: 100)
+  Excess: 99 LOC
+  Suggested splits:
+    - CommandHandlerCore - Core methods: get_command_statistics
+    - CommandHandlerUtils - Utility methods: 
+
+FUNCTION src\services\handlers\command_handler.py:31:
+  Function 'process_command': 70 LOC (limit: 50)
+  Excess: 20 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\handlers\contract_handler.py:20:
+  Class 'ContractHandler': 143 LOC (limit: 100)
+  Excess: 43 LOC
+  Suggested splits:
+    - ContractHandlerCore - Core methods: handle_contract_commands, get_next_task, check_contract_status, assign_task, complete_task
+    - ContractHandlerUtils - Utility methods: get_agent_tasks, get_contract_metrics, reset_contracts, get_contract_status
+
+FUNCTION src\services\handlers\contract_handler.py:36:
+  Function 'handle_contract_commands': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\handlers\onboarding_handler.py:26:
+  Class 'OnboardingHandler': 217 LOC (limit: 100)
+  Excess: 117 LOC
+  Suggested splits:
+    - OnboardingHandlerCore - Core methods: handle_onboarding_commands
+    - OnboardingHandlerUtils - Utility methods: 
+
+FUNCTION src\services\handlers\onboarding_handler.py:78:
+  Function '_handle_hard_onboarding': 165 LOC (limit: 50)
+  Excess: 115 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\messaging_cli_coordinate_management\coordinate_repository.py:14:
+  Class 'CoordinateRepository': 119 LOC (limit: 100)
+  Excess: 19 LOC
+  Suggested splits:
+    - CoordinateRepositoryCore - Core methods: update_agent_coordinates, update_all_agents_coordinates, update_onboarding_coordinates, update_chat_coordinates, update_all_onboarding_coordinates
+    - CoordinateRepositoryUtils - Utility methods: update_all_chat_coordinates, get_chat_input_xy, get_onboarding_input_xy
+
+CLASS src\services\messaging_status\analytics.py:18:
+  Class 'StatusAnalytics': 185 LOC (limit: 100)
+  Excess: 85 LOC
+  Suggested splits:
+    - StatusAnalyticsCore - Core methods: add_status_entry, get_success_rate, get_agent_success_rate, get_performance_metrics, get_agent_statistics
+    - StatusAnalyticsUtils - Utility methods: get_error_analysis
+
+CLASS src\services\messaging_status\reports.py:24:
+  Class 'StatusReporter': 197 LOC (limit: 100)
+  Excess: 97 LOC
+  Suggested splits:
+    - StatusReporterCore - Core methods: generate_status_report, generate_agent_report, generate_performance_report, generate_error_report, generate_daily_summary
+    - StatusReporterUtils - Utility methods: generate_weekly_summary
+
+CLASS src\services\messaging_status\tracker.py:26:
+  Class 'MessagingStatusTracker': 177 LOC (limit: 100)
+  Excess: 77 LOC
+  Suggested splits:
+    - MessagingStatusTrackerCore - Core methods: track_message_sent, track_message_delivered, track_message_failed, track_system_error, track_performance_metric
+    - MessagingStatusTrackerUtils - Utility methods: get_status_summary, get_agent_status, get_performance_metrics, generate_report, get_agent_report
+
+CLASS src\services\protocol\routers\route_analyzer.py:33:
+  Class 'RouteAnalyzer': 171 LOC (limit: 100)
+  Excess: 71 LOC
+  Suggested splits:
+    - RouteAnalyzerCore - Core methods: analyze_route_options, update_route_performance, get_route_performance_summary, get_route_usage_stats, clear_performance_data
+    - RouteAnalyzerUtils - Utility methods: get_analyzer_status
+
+FUNCTION src\services\protocol\routers\route_analyzer.py:94:
+  Function '_calculate_route_score': 55 LOC (limit: 50)
+  Excess: 5 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\utils\messaging_validation_utils.py:21:
+  Class 'MessagingValidationUtils': 260 LOC (limit: 100)
+  Excess: 160 LOC
+  Suggested splits:
+    - MessagingValidationUtilsCore - Core methods: validate_message_structure, validate_message_config, validate_agent_id, validate_content_length, get_validation_summary
+    - MessagingValidationUtilsUtils - Utility methods: validate_coordinates_async
+
+FUNCTION src\services\utils\messaging_validation_utils.py:32:
+  Function 'validate_message_structure': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\vector_database\vector_database_engine.py:36:
+  Class 'VectorDatabaseEngine': 136 LOC (limit: 100)
+  Excess: 36 LOC
+  Suggested splits:
+    - VectorDatabaseEngineCore - Core methods: create_collection, get_collection, add_document, search_documents, get_document
+    - VectorDatabaseEngineUtils - Utility methods: delete_document, clear_collection, get_stats, get_performance_report, optimize
+
+CLASS src\services\vector_messaging\agent_enhancement_integrator_core.py:24:
+  Class 'AgentEnhancementIntegratorCore': 177 LOC (limit: 100)
+  Excess: 77 LOC
+  Suggested splits:
+    - AgentEnhancementIntegratorCoreCore - Core methods: integrate_agent6_enhancements, integrate_agent7_enhancements, integrate_agent8_enhancements
+    - AgentEnhancementIntegratorCoreUtils - Utility methods: 
+
+CLASS src\services\vector_messaging\agent_enhancement_integrator_operations.py:24:
+  Class 'AgentEnhancementIntegratorOperations': 189 LOC (limit: 100)
+  Excess: 89 LOC
+  Suggested splits:
+    - AgentEnhancementIntegratorOperationsCore - Core methods: search_enhancement_patterns, get_agent_enhancement_summary, optimize_agent_communication, get_swarm_enhancement_analytics, cleanup_old_patterns
+    - AgentEnhancementIntegratorOperationsUtils - Utility methods: 
+
+FUNCTION src\services\vector_messaging\agent_enhancement_integrator_operations.py:98:
+  Function 'optimize_agent_communication': 53 LOC (limit: 50)
+  Excess: 3 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\services\vector_messaging\search_query_engine.py:24:
+  Class 'SearchQueryEngine': 307 LOC (limit: 100)
+  Excess: 207 LOC
+  Suggested splits:
+    - SearchQueryEngineCore - Core methods: search_messages, search_devlogs, search_all, get_related_messages, search_by_metadata
+    - SearchQueryEngineUtils - Utility methods: get_search_summary, get_search_metrics
+
+FUNCTION src\services\vector_messaging\search_query_engine.py:41:
+  Function 'search_messages': 53 LOC (limit: 50)
+  Excess: 3 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\services\vector_messaging\search_query_engine.py:95:
+  Function 'search_devlogs': 61 LOC (limit: 50)
+  Excess: 11 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\services\vector_messaging\search_query_engine.py:157:
+  Function 'search_all': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\coordinator_registry.py:18:
+  Class 'CoordinatorRegistry': 121 LOC (limit: 100)
+  Excess: 21 LOC
+  Suggested splits:
+    - CoordinatorRegistryCore - Core methods: register_coordinator, get_coordinator, get_all_coordinators, unregister_coordinator, get_coordinator_statuses
+    - CoordinatorRegistryUtils - Utility methods: shutdown_all_coordinators, get_coordinator_count, get_coordinators_by_status, clear_all_coordinators
+
+CLASS src\core\documentation_indexing_service.py:9:
+  Class 'DocumentationIndexingService': 176 LOC (limit: 100)
+  Excess: 76 LOC
+  Suggested splits:
+    - DocumentationIndexingServiceCore - Core methods: index_project_documentation, index_specific_files, index_directory, reindex_file, get_indexing_status
+    - DocumentationIndexingServiceUtils - Utility methods: 
+
+FUNCTION src\core\documentation_indexing_service.py:26:
+  Function 'index_project_documentation': 53 LOC (limit: 50)
+  Excess: 3 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\message_queue.py:29:
+  Class 'MessageQueue': 236 LOC (limit: 100)
+  Excess: 136 LOC
+  Suggested splits:
+    - MessageQueueCore - Core methods: enqueue, dequeue, mark_delivered, mark_failed, get_statistics
+    - MessageQueueUtils - Utility methods: cleanup_expired
+
+FUNCTION src\core\message_queue.py:57:
+  Function 'enqueue': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\messaging_optimizer_orchestrator.py:37:
+  Class 'MessagingOptimizationOrchestrator': 190 LOC (limit: 100)
+  Excess: 90 LOC
+  Suggested splits:
+    - MessagingOptimizationOrchestratorCore - Core methods: start_optimizer, stop_optimizer, get_optimization_summary
+    - MessagingOptimizationOrchestratorUtils - Utility methods: 
+
+FUNCTION src\core\messaging_optimizer_orchestrator.py:117:
+  Function 'optimize_messaging': 58 LOC (limit: 50)
+  Excess: 8 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\search_history_service.py:9:
+  Class 'SearchHistoryService': 154 LOC (limit: 100)
+  Excess: 54 LOC
+  Suggested splits:
+    - SearchHistoryServiceCore - Core methods: add_search, get_search_suggestions, get_agent_search_history, clear_history, get_statistics
+    - SearchHistoryServiceUtils - Utility methods: 
+
+FUNCTION src\core\search_history_service.py:47:
+  Function 'get_search_suggestions': 60 LOC (limit: 50)
+  Excess: 10 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\unified_import_system.py:20:
+  Class 'UnifiedImportSystem': 242 LOC (limit: 100)
+  Excess: 142 LOC
+  Suggested splits:
+    - UnifiedImportSystemCore - Core methods: os, sys, json, logging, threading
+    - UnifiedImportSystemUtils - Utility methods: time, re, datetime, Path, Any
+
+CLASS src\core\analytics\engines\coordination_analytics_engine.py:19:
+  Class 'CoordinationAnalyticsEngine': 109 LOC (limit: 100)
+  Excess: 9 LOC
+  Suggested splits:
+    - CoordinationAnalyticsEngineCore - Core methods: collect_analytics, get_analytics_summary, clear_analytics_history, get_status
+    - CoordinationAnalyticsEngineUtils - Utility methods: 
+
+CLASS src\core\analytics\engines\metrics_engine.py:21:
+  Class 'MetricsEngine': 128 LOC (limit: 100)
+  Excess: 28 LOC
+  Suggested splits:
+    - MetricsEngineCore - Core methods: record_metric, increment_metric, get_metric, get_all_metrics, record_performance
+    - MetricsEngineUtils - Utility methods: record_error, get_performance_summary, get_error_summary, clear_metrics, get_status
+
+CLASS src\core\analytics\intelligence\anomaly_detection_engine.py:20:
+  Class 'AnomalyDetectionEngine': 101 LOC (limit: 100)
+  Excess: 1 LOC
+  Suggested splits:
+    - AnomalyDetectionEngineCore - Core methods: detect_anomalies, get_anomaly_summary
+    - AnomalyDetectionEngineUtils - Utility methods: 
+
+CLASS src\core\analytics\intelligence\business_intelligence_engine_core.py:20:
+  Class 'BusinessIntelligenceEngineCore': 163 LOC (limit: 100)
+  Excess: 63 LOC
+  Suggested splits:
+    - BusinessIntelligenceEngineCoreCore - Core methods: generate_insights, get_insights_history, clear_insights, get_metrics, update_metrics
+    - BusinessIntelligenceEngineCoreUtils - Utility methods: 
+
+CLASS src\core\analytics\intelligence\business_intelligence_engine_operations.py:20:
+  Class 'BusinessIntelligenceEngineOperations': 194 LOC (limit: 100)
+  Excess: 94 LOC
+  Suggested splits:
+    - BusinessIntelligenceEngineOperationsCore - Core methods: generate_dashboard_data, export_insights, get_performance_metrics, optimize_performance
+    - BusinessIntelligenceEngineOperationsUtils - Utility methods: 
+
+CLASS src\core\analytics\intelligence\predictive_modeling_engine.py:20:
+  Class 'PredictiveModelingEngine': 144 LOC (limit: 100)
+  Excess: 44 LOC
+  Suggested splits:
+    - PredictiveModelingEngineCore - Core methods: create_model, train_model, predict, get_model_info, get_all_models
+    - PredictiveModelingEngineUtils - Utility methods: delete_model, get_predictions_summary, get_status
+
+CLASS src\core\analytics\intelligence\pattern_analysis\anomaly_detector.py:20:
+  Class 'AnomalyDetector': 152 LOC (limit: 100)
+  Excess: 52 LOC
+  Suggested splits:
+    - AnomalyDetectorCore - Core methods: detect_anomalies, detect_outliers
+    - AnomalyDetectorUtils - Utility methods: 
+
+CLASS src\core\analytics\orchestrators\coordination_analytics_orchestrator.py:19:
+  Class 'CoordinationAnalyticsSystem': 120 LOC (limit: 100)
+  Excess: 20 LOC
+  Suggested splits:
+    - CoordinationAnalyticsSystemCore - Core methods: start, stop, process_analytics, get_analytics_report, get_status
+    - CoordinationAnalyticsSystemUtils - Utility methods: reset_stats
+
+CLASS src\core\analytics\processors\insight_processor.py:19:
+  Class 'InsightProcessor': 130 LOC (limit: 100)
+  Excess: 30 LOC
+  Suggested splits:
+    - InsightProcessorCore - Core methods: process_insight, batch_process_insights, get_processing_stats, reset_stats, get_status
+    - InsightProcessorUtils - Utility methods: 
+
+CLASS src\core\analytics\processors\prediction_processor.py:19:
+  Class 'PredictionProcessor': 125 LOC (limit: 100)
+  Excess: 25 LOC
+  Suggested splits:
+    - PredictionProcessorCore - Core methods: process_prediction, batch_process_predictions, get_processing_stats, reset_stats, get_status
+    - PredictionProcessorUtils - Utility methods: 
+
+ERROR src\core\consolidation\base.py:
+  Parse error
+
+CLASS src\core\consolidation\utility_consolidation\utility_consolidation_engine.py:19:
+  Class 'UtilityConsolidationEngine': 132 LOC (limit: 100)
+  Excess: 32 LOC
+  Suggested splits:
+    - UtilityConsolidationEngineCore - Core methods: consolidate_utilities, get_consolidation_summary, clear_consolidation_history, get_status
+    - UtilityConsolidationEngineUtils - Utility methods: 
+
+CLASS src\core\consolidation\utility_consolidation\utility_consolidation_orchestrator.py:24:
+  Class 'UtilityConsolidationOrchestrator': 176 LOC (limit: 100)
+  Excess: 76 LOC
+  Suggested splits:
+    - UtilityConsolidationOrchestratorCore - Core methods: run_consolidation_analysis, generate_consolidation_report, execute_consolidation, save_report, get_opportunities_summary
+    - UtilityConsolidationOrchestratorUtils - Utility methods: 
+
+ERROR src\core\constants\fsm.py:
+  Parse error
+
+CLASS src\core\coordination\swarm\engines\performance_monitoring_engine.py:26:
+  Class 'PerformanceMonitoringEngine': 156 LOC (limit: 100)
+  Excess: 56 LOC
+  Suggested splits:
+    - PerformanceMonitoringEngineCore - Core methods: update_metrics, get_performance_summary, get_efficiency_trend, reset_metrics, get_metrics_export
+    - PerformanceMonitoringEngineUtils - Utility methods: 
+
+CLASS src\core\coordination\swarm\engines\task_coordination_engine.py:29:
+  Class 'TaskCoordinationEngine': 182 LOC (limit: 100)
+  Excess: 82 LOC
+  Suggested splits:
+    - TaskCoordinationEngineCore - Core methods: get_task_summary, get_next_task, clear_completed_tasks
+    - TaskCoordinationEngineUtils - Utility methods: 
+
+CLASS src\core\coordination\swarm\orchestrators\swarm_coordination_orchestrator.py:64:
+  Class 'SwarmCoordinationEnhancer': 133 LOC (limit: 100)
+  Excess: 33 LOC
+  Suggested splits:
+    - SwarmCoordinationEnhancerCore - Core methods: start_coordination, stop_coordination, get_coordination_summary, get_performance_metrics, reset_metrics
+    - SwarmCoordinationEnhancerUtils - Utility methods: 
+
+CLASS src\core\data_optimization\data_optimization_engine.py:19:
+  Class 'DataOptimizationEngine': 134 LOC (limit: 100)
+  Excess: 34 LOC
+  Suggested splits:
+    - DataOptimizationEngineCore - Core methods: optimize_data, get_optimization_summary, clear_optimization_history, get_status
+    - DataOptimizationEngineUtils - Utility methods: 
+
+CLASS src\core\deployment\deployment_orchestrator_engine.py:26:
+  Class 'DeploymentOrchestratorEngine': 127 LOC (limit: 100)
+  Excess: 27 LOC
+  Suggested splits:
+    - DeploymentOrchestratorEngineCore - Core methods: initialize_system, deploy_to_agent, mass_deploy, get_deployment_status, get_metrics
+    - DeploymentOrchestratorEngineUtils - Utility methods: get_agent_domains, update_config, shutdown
+
+CLASS src\core\deployment\coordinators\deployment_executor.py:19:
+  Class 'DeploymentExecutor': 101 LOC (limit: 100)
+  Excess: 1 LOC
+  Suggested splits:
+    - DeploymentExecutorCore - Core methods: execute_deployment, get_deployment_status, get_deployment_summary, clear_deployment_history, get_status
+    - DeploymentExecutorUtils - Utility methods: 
+
+CLASS src\core\deployment\coordinators\metrics_tracker.py:25:
+  Class 'DeploymentMetricsTracker': 180 LOC (limit: 100)
+  Excess: 80 LOC
+  Suggested splits:
+    - DeploymentMetricsTrackerCore - Core methods: update_deployment_metrics, update_agent_status, get_agent_status, get_deployment_metrics, get_metrics_summary
+    - DeploymentMetricsTrackerUtils - Utility methods: get_target_analysis, get_performance_report, reset_metrics, export_metrics
+
+CLASS src\core\deployment\coordinators\target_discovery.py:19:
+  Class 'TargetDiscoveryEngine': 129 LOC (limit: 100)
+  Excess: 29 LOC
+  Suggested splits:
+    - TargetDiscoveryEngineCore - Core methods: discover_targets, get_discovery_summary, clear_discovery_history, get_status
+    - TargetDiscoveryEngineUtils - Utility methods: 
+
+CLASS src\core\deployment\engines\deployment_discovery_engine.py:27:
+  Class 'DeploymentDiscoveryEngine': 164 LOC (limit: 100)
+  Excess: 64 LOC
+  Suggested splits:
+    - DeploymentDiscoveryEngineCore - Core methods: discover_targets, prioritize_targets, get_discovered_targets, filter_targets
+    - DeploymentDiscoveryEngineUtils - Utility methods: 
+
+CLASS src\core\deployment\engines\deployment_metrics_engine.py:25:
+  Class 'DeploymentMetricsEngine': 185 LOC (limit: 100)
+  Excess: 85 LOC
+  Suggested splits:
+    - DeploymentMetricsEngineCore - Core methods: start_deployment_tracking, update_target_completion, finish_deployment_tracking, get_current_metrics, get_metrics_summary
+    - DeploymentMetricsEngineUtils - Utility methods: get_historical_metrics, analyze_performance_trends
+
+CLASS src\core\dry_eliminator\engines\code_analysis_engine.py:19:
+  Class 'CodeAnalysisEngine': 138 LOC (limit: 100)
+  Excess: 38 LOC
+  Suggested splits:
+    - CodeAnalysisEngineCore - Core methods: analyze_code, get_analysis_summary, clear_analysis_history, get_status
+    - CodeAnalysisEngineUtils - Utility methods: 
+
+CLASS src\core\dry_eliminator\engines\dry_elimination_engine_orchestrator.py:41:
+  Class 'DRYEliminationEngineOrchestrator': 204 LOC (limit: 100)
+  Excess: 104 LOC
+  Suggested splits:
+    - DRYEliminationEngineOrchestratorCore - Core methods: run_full_analysis, get_violations_summary, get_elimination_summary, generate_detailed_report, export_results
+    - DRYEliminationEngineOrchestratorUtils - Utility methods: clear_analysis, get_analysis_status
+
+FUNCTION src\core\dry_eliminator\engines\dry_elimination_engine_orchestrator.py:63:
+  Function 'run_full_analysis': 91 LOC (limit: 50)
+  Excess: 41 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\dry_eliminator\engines\elimination_strategy_engine.py:19:
+  Class 'EliminationStrategyEngine': 117 LOC (limit: 100)
+  Excess: 17 LOC
+  Suggested splits:
+    - EliminationStrategyEngineCore - Core methods: execute_elimination, get_elimination_summary, clear_elimination_history, get_status
+    - EliminationStrategyEngineUtils - Utility methods: 
+
+CLASS src\core\dry_eliminator\engines\file_discovery_engine.py:22:
+  Class 'FileDiscoveryEngine': 168 LOC (limit: 100)
+  Excess: 68 LOC
+  Suggested splits:
+    - FileDiscoveryEngineCore - Core methods: discover_python_files, get_file_statistics, get_files_by_size, get_files_by_line_count, get_largest_files
+    - FileDiscoveryEngineUtils - Utility methods: get_files_by_extension, get_files_in_directory, refresh_file_list, get_file_metadata, clear_cache
+
+CLASS src\core\dry_eliminator\engines\metrics_reporting_engine.py:28:
+  Class 'MetricsReportingEngine': 245 LOC (limit: 100)
+  Excess: 145 LOC
+  Suggested splits:
+    - MetricsReportingEngineCore - Core methods: start_analysis, end_analysis, update_file_metrics, update_violation_metrics, update_elimination_metrics
+    - MetricsReportingEngineUtils - Utility methods: generate_summary_report, generate_detailed_report, export_metrics_to_file, get_metrics_dict, reset_metrics
+
+FUNCTION src\core\dry_eliminator\engines\metrics_reporting_engine.py:157:
+  Function 'generate_detailed_report': 75 LOC (limit: 50)
+  Excess: 25 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\dry_eliminator\orchestrators\elimination_coordinator.py:34:
+  Class 'EliminationCoordinator': 210 LOC (limit: 100)
+  Excess: 110 LOC
+  Suggested splits:
+    - EliminationCoordinatorCore - Core methods: eliminate_advanced_dry_violations, analyze_project_violations, eliminate_specific_violations, get_coordinator_status, reset_coordinator_state
+    - EliminationCoordinatorUtils - Utility methods: 
+
+CLASS src\core\dry_eliminator\orchestrators\results_manager.py:33:
+  Class 'ResultsManager': 234 LOC (limit: 100)
+  Excess: 134 LOC
+  Suggested splits:
+    - ResultsManagerCore - Core methods: update_results, generate_summary_report, get_results_status, reset_results, export_results
+    - ResultsManagerUtils - Utility methods: 
+
+CLASS src\core\emergency_intervention\unified_emergency\engine.py:35:
+  Class 'EmergencyInterventionEngine': 167 LOC (limit: 100)
+  Excess: 67 LOC
+  Suggested splits:
+    - EmergencyInterventionEngineCore - Core methods: register_protocol, register_handler, detect_emergency, respond_to_emergency, get_active_emergencies
+    - EmergencyInterventionEngineUtils - Utility methods: get_metrics, get_status, clear_emergencies, reset_metrics, clear_resources
+
+CLASS src\core\emergency_intervention\unified_emergency\orchestrator.py:33:
+  Class 'EmergencyInterventionOrchestrator': 217 LOC (limit: 100)
+  Excess: 117 LOC
+  Suggested splits:
+    - EmergencyInterventionOrchestratorCore - Core methods: detect_emergency, analyze_emergency, execute_intervention, handle_emergency, register_intervention_handler
+    - EmergencyInterventionOrchestratorUtils - Utility methods: get_emergency_status, get_active_emergencies, get_emergency_history, get_system_metrics, get_protocol_summary
+
+CLASS src\core\emergency_intervention\unified_emergency\engines\action_executor.py:32:
+  Class 'ActionExecutor': 148 LOC (limit: 100)
+  Excess: 48 LOC
+  Suggested splits:
+    - ActionExecutorCore - Core methods: register_handler, execute_action, execute_multiple_actions, get_available_actions, get_registered_handlers
+    - ActionExecutorUtils - Utility methods: clear_handlers, has_handler
+
+CLASS src\core\emergency_intervention\unified_emergency\engines\protocol_manager.py:32:
+  Class 'ProtocolManager': 173 LOC (limit: 100)
+  Excess: 73 LOC
+  Suggested splits:
+    - ProtocolManagerCore - Core methods: register_protocol, find_matching_protocols, get_protocol, get_all_protocols, get_protocols_by_type
+    - ProtocolManagerUtils - Utility methods: get_protocols_by_severity, remove_protocol, update_protocol, get_protocol_count, get_protocol_summary
+
+CLASS src\core\emergency_intervention\unified_emergency\handlers\protocol_executor.py:23:
+  Class 'ProtocolExecutor': 226 LOC (limit: 100)
+  Excess: 126 LOC
+  Suggested splits:
+    - ProtocolExecutorCore - Core methods: execute_protocol, get_execution_history, get_active_executions, cancel_execution
+    - ProtocolExecutorUtils - Utility methods: 
+
+FUNCTION src\core\emergency_intervention\unified_emergency\handlers\protocol_executor.py:31:
+  Function 'execute_protocol': 85 LOC (limit: 50)
+  Excess: 35 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\emergency_intervention\unified_emergency\handlers\protocol_initializer.py:23:
+  Class 'ProtocolInitializer': 200 LOC (limit: 100)
+  Excess: 100 LOC
+  Suggested splits:
+    - ProtocolInitializerCore - Core methods: initialize_default_protocols, get_initialized_protocol_count, reinitialize_protocols
+    - ProtocolInitializerUtils - Utility methods: 
+
+CLASS src\core\emergency_intervention\unified_emergency\handlers\protocol_registry.py:23:
+  Class 'ProtocolRegistry': 155 LOC (limit: 100)
+  Excess: 55 LOC
+  Suggested splits:
+    - ProtocolRegistryCore - Core methods: register_protocol, get_protocol, list_protocols, remove_protocol, get_protocol_count
+    - ProtocolRegistryUtils - Utility methods: clear_protocols, export_protocols, import_protocols
+
+CLASS src\core\emergency_intervention\unified_emergency\orchestrators\emergency_analyzer.py:29:
+  Class 'EmergencyAnalyzer': 197 LOC (limit: 100)
+  Excess: 97 LOC
+  Suggested splits:
+    - EmergencyAnalyzerCore - Core methods: analyze_emergency, get_analysis_history, get_analysis_metrics, clear_analysis_history, export_analysis_data
+    - EmergencyAnalyzerUtils - Utility methods: 
+
+CLASS src\core\emergency_intervention\unified_emergency\orchestrators\emergency_logger.py:18:
+  Class 'EmergencyLogger': 164 LOC (limit: 100)
+  Excess: 64 LOC
+  Suggested splits:
+    - EmergencyLoggerCore - Core methods: log_emergency_event, get_emergency_history, get_all_emergency_history, get_system_events, get_health_recommendations
+    - EmergencyLoggerUtils - Utility methods: calculate_system_health, get_emergency_statistics, export_emergency_data, clear_emergency_history, get_logger_status
+
+CLASS src\core\emergency_intervention\unified_emergency\orchestrators\emergency_orchestrator.py:33:
+  Class 'EmergencyInterventionOrchestrator': 217 LOC (limit: 100)
+  Excess: 117 LOC
+  Suggested splits:
+    - EmergencyInterventionOrchestratorCore - Core methods: detect_emergency, analyze_emergency, execute_intervention, handle_emergency, register_intervention_handler
+    - EmergencyInterventionOrchestratorUtils - Utility methods: get_emergency_status, get_active_emergencies, get_emergency_history, get_system_metrics, get_protocol_summary
+
+CLASS src\core\engines\analysis_core_engine.py:6:
+  Class 'AnalysisCoreEngine': 157 LOC (limit: 100)
+  Excess: 57 LOC
+  Suggested splits:
+    - AnalysisCoreEngineCore - Core methods: initialize, execute, analyze, extract_patterns, detect_violations
+    - AnalysisCoreEngineUtils - Utility methods: cleanup, get_status
+
+FILE src\core\engines\base_engine.py:
+  File: 543 LOC (limit: 400)
+  Excess: 143 LOC
+  Suggested splits:
+    - base_engine_core.py - Core classes: EngineType, EngineState
+    - base_engine_utils.py - Utility functions: __init__, initialize, execute
+    - base_engine_types.py - Type definitions and imports
+
+CLASS src\core\engines\base_engine.py:64:
+  Class 'BaseEngine': 480 LOC (limit: 100)
+  Excess: 380 LOC
+  Suggested splits:
+    - BaseEngineCore - Core methods: initialize, execute, cleanup, get_status, get_health_check
+    - BaseEngineUtils - Utility methods: update_configuration, get_metrics, reset_metrics, validate_input, process_result
+
+FUNCTION src\core\engines\base_engine.py:115:
+  Function 'initialize': 72 LOC (limit: 50)
+  Excess: 22 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\engines\base_engine.py:188:
+  Function 'execute': 77 LOC (limit: 50)
+  Excess: 27 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\engines\base_engine.py:275:
+  Function 'cleanup': 60 LOC (limit: 50)
+  Excess: 10 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\engines\communication_core_engine.py:6:
+  Class 'CommunicationCoreEngine': 132 LOC (limit: 100)
+  Excess: 32 LOC
+  Suggested splits:
+    - CommunicationCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - CommunicationCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\configuration_core_engine.py:6:
+  Class 'ConfigurationCoreEngine': 136 LOC (limit: 100)
+  Excess: 36 LOC
+  Suggested splits:
+    - ConfigurationCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - ConfigurationCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\coordination_core_engine.py:6:
+  Class 'CoordinationCoreEngine': 140 LOC (limit: 100)
+  Excess: 40 LOC
+  Suggested splits:
+    - CoordinationCoreEngineCore - Core methods: initialize, execute, coordinate, schedule, monitor
+    - CoordinationCoreEngineUtils - Utility methods: cleanup, get_status
+
+CLASS src\core\engines\data_core_engine.py:6:
+  Class 'DataCoreEngine': 118 LOC (limit: 100)
+  Excess: 18 LOC
+  Suggested splits:
+    - DataCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - DataCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\integration_core_engine.py:6:
+  Class 'IntegrationCoreEngine': 138 LOC (limit: 100)
+  Excess: 38 LOC
+  Suggested splits:
+    - IntegrationCoreEngineCore - Core methods: initialize, execute, connect, sync, transform
+    - IntegrationCoreEngineUtils - Utility methods: cleanup, get_status
+
+CLASS src\core\engines\ml_core_engine.py:6:
+  Class 'MLCoreEngine': 123 LOC (limit: 100)
+  Excess: 23 LOC
+  Suggested splits:
+    - MLCoreEngineCore - Core methods: initialize, execute, train_model, predict, optimize
+    - MLCoreEngineUtils - Utility methods: cleanup, get_status
+
+CLASS src\core\engines\monitoring_core_engine.py:6:
+  Class 'MonitoringCoreEngine': 134 LOC (limit: 100)
+  Excess: 34 LOC
+  Suggested splits:
+    - MonitoringCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - MonitoringCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\orchestration_core_engine.py:6:
+  Class 'OrchestrationCoreEngine': 132 LOC (limit: 100)
+  Excess: 32 LOC
+  Suggested splits:
+    - OrchestrationCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - OrchestrationCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\performance_core_engine.py:6:
+  Class 'PerformanceCoreEngine': 137 LOC (limit: 100)
+  Excess: 37 LOC
+  Suggested splits:
+    - PerformanceCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - PerformanceCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\processing_core_engine.py:6:
+  Class 'ProcessingCoreEngine': 133 LOC (limit: 100)
+  Excess: 33 LOC
+  Suggested splits:
+    - ProcessingCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - ProcessingCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\security_core_engine.py:6:
+  Class 'SecurityCoreEngine': 127 LOC (limit: 100)
+  Excess: 27 LOC
+  Suggested splits:
+    - SecurityCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - SecurityCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\storage_core_engine.py:6:
+  Class 'StorageCoreEngine': 126 LOC (limit: 100)
+  Excess: 26 LOC
+  Suggested splits:
+    - StorageCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - StorageCoreEngineUtils - Utility methods: 
+
+CLASS src\core\engines\utility_core_engine.py:6:
+  Class 'UtilityCoreEngine': 140 LOC (limit: 100)
+  Excess: 40 LOC
+  Suggested splits:
+    - UtilityCoreEngineCore - Core methods: initialize, execute, process, validate, transform
+    - UtilityCoreEngineUtils - Utility methods: cleanup, get_status
+
+CLASS src\core\engines\validation_core_engine.py:6:
+  Class 'ValidationCoreEngine': 146 LOC (limit: 100)
+  Excess: 46 LOC
+  Suggested splits:
+    - ValidationCoreEngineCore - Core methods: initialize, execute, cleanup, get_status
+    - ValidationCoreEngineUtils - Utility methods: 
+
+CLASS src\core\enhanced_integration\coordinators\enhanced_integration_coordinator.py:48:
+  Class 'EnhancedIntegrationCoordinator': 147 LOC (limit: 100)
+  Excess: 47 LOC
+  Suggested splits:
+    - EnhancedIntegrationCoordinatorCore - Core methods: start_coordination, stop_coordination, get_integration_summary
+    - EnhancedIntegrationCoordinatorUtils - Utility methods: 
+
+CLASS src\core\enhanced_integration\engines\integration_coordination_engine.py:29:
+  Class 'IntegrationCoordinationEngine': 252 LOC (limit: 100)
+  Excess: 152 LOC
+  Suggested splits:
+    - IntegrationCoordinationEngineCore - Core methods: get_coordination_status, cancel_task, cleanup
+    - IntegrationCoordinationEngineUtils - Utility methods: 
+
+CLASS src\core\enhanced_integration\engines\integration_optimization_engine.py:28:
+  Class 'IntegrationOptimizationEngine': 182 LOC (limit: 100)
+  Excess: 82 LOC
+  Suggested splits:
+    - IntegrationOptimizationEngineCore - Core methods: get_optimization_metrics, clear_optimization_cache, get_active_optimizations, cancel_optimization
+    - IntegrationOptimizationEngineUtils - Utility methods: 
+
+CLASS src\core\enhanced_integration\engines\integration_performance_engine.py:26:
+  Class 'IntegrationPerformanceEngine': 126 LOC (limit: 100)
+  Excess: 26 LOC
+  Suggested splits:
+    - IntegrationPerformanceEngineCore - Core methods: start_monitoring, stop_monitoring, update_metrics, generate_performance_report, get_performance_summary
+    - IntegrationPerformanceEngineUtils - Utility methods: 
+
+CLASS src\core\enhanced_integration\engines\integration_task_engine.py:21:
+  Class 'IntegrationTaskEngine': 118 LOC (limit: 100)
+  Excess: 18 LOC
+  Suggested splits:
+    - IntegrationTaskEngineCore - Core methods: add_task, get_next_task, get_task_summary
+    - IntegrationTaskEngineUtils - Utility methods: 
+
+CLASS src\core\enhanced_integration\orchestrators\coordination_engine_core.py:25:
+  Class 'CoordinationEngineCore': 184 LOC (limit: 100)
+  Excess: 84 LOC
+  Suggested splits:
+    - CoordinationEngineCoreCore - Core methods: determine_coordination_strategy, allocate_resources, release_resources, get_resource_status, optimize_coordination
+    - CoordinationEngineCoreUtils - Utility methods: get_coordination_status
+
+CLASS src\core\enhanced_integration\orchestrators\coordination_engine_operations.py:25:
+  Class 'CoordinationEngineOperations': 267 LOC (limit: 100)
+  Excess: 167 LOC
+  Suggested splits:
+    - CoordinationEngineOperationsCore - Core methods: schedule_task, determine_coordination_strategy, allocate_resources, monitor_task_progress, get_task_queue_status
+    - CoordinationEngineOperationsUtils - Utility methods: optimize_task_scheduling, get_performance_metrics, get_resource_status
+
+CLASS src\core\enhanced_integration\orchestrators\task_processor.py:27:
+  Class 'IntegrationTaskProcessor': 199 LOC (limit: 100)
+  Excess: 99 LOC
+  Suggested splits:
+    - IntegrationTaskProcessorCore - Core methods: submit_integration_task, get_task_queue_size, get_active_tasks_count, get_completed_tasks_count, get_task_statistics
+    - IntegrationTaskProcessorUtils - Utility methods: clear_completed_tasks, get_recent_tasks
+
+CLASS src\core\error_handling\coordination_error_handler.py:128:
+  Class 'CoordinationErrorHandler': 112 LOC (limit: 100)
+  Excess: 12 LOC
+  Suggested splits:
+    - CoordinationErrorHandlerCore - Core methods: execute_with_error_handling, register_circuit_breaker, register_retry_mechanism, get_error_report, add_recovery_strategy
+    - CoordinationErrorHandlerUtils - Utility methods: get_component_status, cleanup_stale_data, reset_component, restart_coordination_service, reset_coordination_config
+
+CLASS src\core\error_handling\error_analysis_engine.py:23:
+  Class 'ErrorAnalysisEngine': 211 LOC (limit: 100)
+  Excess: 111 LOC
+  Suggested splits:
+    - ErrorAnalysisEngineCore - Core methods: create_error_summary, is_recoverable_error, get_error_severity, analyze_error_patterns, calculate_error_trends
+    - ErrorAnalysisEngineUtils - Utility methods: get_recovery_recommendations, assess_system_health
+
+CLASS src\core\error_handling\error_handling_orchestrator.py:21:
+  Class 'UnifiedErrorHandlingOrchestrator': 182 LOC (limit: 100)
+  Excess: 82 LOC
+  Suggested splits:
+    - UnifiedErrorHandlingOrchestratorCore - Core methods: retry_operation, safe_execute, validate_and_execute, handle_operation_error, handle_file_operation_error
+    - UnifiedErrorHandlingOrchestratorUtils - Utility methods: handle_network_operation_error, handle_database_operation_error, handle_validation_error, handle_configuration_error, handle_agent_operation_error
+
+CLASS src\core\error_handling\retry_safety_engine.py:19:
+  Class 'RetrySafetyEngine': 212 LOC (limit: 100)
+  Excess: 112 LOC
+  Suggested splits:
+    - RetrySafetyEngineCore - Core methods: retry_operation, safe_execute, validate_and_execute, execute_with_timeout, circuit_breaker_execute
+    - RetrySafetyEngineUtils - Utility methods: timeout_handler
+
+FUNCTION src\core\error_handling\retry_safety_engine.py:35:
+  Function 'retry_operation': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\file_locking\file_locking_engine_operations.py:20:
+  Class 'FileLockEngineOperations': 113 LOC (limit: 100)
+  Excess: 13 LOC
+  Suggested splits:
+    - FileLockEngineOperationsCore - Core methods: acquire_lock, release_lock, cleanup_stale_locks
+    - FileLockEngineOperationsUtils - Utility methods: 
+
+CLASS src\core\file_locking\file_locking_manager.py:26:
+  Class 'FileLockManager': 131 LOC (limit: 100)
+  Excess: 31 LOC
+  Suggested splits:
+    - FileLockManagerCore - Core methods: create_file_lock, acquire_lock, release_lock, is_locked, cleanup_stale_locks
+    - FileLockManagerUtils - Utility methods: get_active_locks, get_lock_info, force_release_lock, get_metrics, reset_metrics
+
+CLASS src\core\file_locking\file_locking_orchestrator.py:24:
+  Class 'FileLockingOrchestrator': 107 LOC (limit: 100)
+  Excess: 7 LOC
+  Suggested splits:
+    - FileLockingOrchestratorCore - Core methods: create_file_lock, acquire_lock, release_lock, is_locked, get_lock_info
+    - FileLockingOrchestratorUtils - Utility methods: force_release_lock, extend_lock, get_active_locks, get_lock_metrics, cleanup_expired_locks
+
+CLASS src\core\file_locking\operations\lock_queries.py:19:
+  Class 'LockQueries': 113 LOC (limit: 100)
+  Excess: 13 LOC
+  Suggested splits:
+    - LockQueriesCore - Core methods: get_locks_by_process, get_locks_by_thread, get_locks_by_owner, get_locks_by_type, get_locks_by_duration
+    - LockQueriesUtils - Utility methods: get_locks_by_metadata, get_lock_statistics, find_conflicting_locks, get_lock_health_status
+
+ERROR src\core\handoff\defaults.py:
+  Parse error
+
+ERROR src\core\health\monitoring\core.py:
+  Parse error
+
+CLASS src\core\import_system\import_core.py:28:
+  Class 'ImportSystemCore': 132 LOC (limit: 100)
+  Excess: 32 LOC
+  Suggested splits:
+    - ImportSystemCoreCore - Core methods: os, sys, json, logging, threading
+    - ImportSystemCoreUtils - Utility methods: time, re, datetime, Path, Any
+
+CLASS src\core\import_system\import_registry.py:18:
+  Class 'ImportRegistry': 109 LOC (limit: 100)
+  Excess: 9 LOC
+  Suggested splits:
+    - ImportRegistryCore - Core methods: register_import, get_import, has_import, remove_import, clear_cache
+    - ImportRegistryUtils - Utility methods: get_cache_stats, mark_failed_import, is_failed_import, clear_failed_imports, get_import_history
+
+CLASS src\core\import_system\import_utilities.py:19:
+  Class 'ImportUtilities': 106 LOC (limit: 100)
+  Excess: 6 LOC
+  Suggested splits:
+    - ImportUtilitiesCore - Core methods: get_module_path, is_module_available, get_import_path, resolve_relative_import, get_package_root
+    - ImportUtilitiesUtils - Utility methods: list_module_contents, get_module_docstring, validate_import_syntax, get_import_dependencies, create_import_alias
+
+CLASS src\core\integration\analytics\analytics_engine.py:31:
+  Class 'VectorIntegrationAnalyticsEngine': 154 LOC (limit: 100)
+  Excess: 54 LOC
+  Suggested splits:
+    - VectorIntegrationAnalyticsEngineCore - Core methods: analyze_performance_data, get_trend_analysis, get_performance_forecast, get_optimization_recommendations, get_analytics_summary
+    - VectorIntegrationAnalyticsEngineUtils - Utility methods: clear_all_caches, get_cached_trends, get_cached_forecasts, get_latest_recommendations, validate_forecast_accuracy
+
+CLASS src\core\integration\analytics\forecast_generator.py:26:
+  Class 'ForecastGenerator': 209 LOC (limit: 100)
+  Excess: 109 LOC
+  Suggested splits:
+    - ForecastGeneratorCore - Core methods: generate_forecast, generate_multi_metric_forecast, validate_forecast_accuracy, get_forecast_summary, get_cached_forecasts
+    - ForecastGeneratorUtils - Utility methods: clear_forecast_cache
+
+FUNCTION src\core\integration\analytics\forecast_generator.py:81:
+  Function '_generate_simple_forecast': 67 LOC (limit: 50)
+  Excess: 17 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\integration\analytics\recommendation_engine_analysis.py:24:
+  Class 'RecommendationEngineAnalysis': 130 LOC (limit: 100)
+  Excess: 30 LOC
+  Suggested splits:
+    - RecommendationEngineAnalysisCore - Core methods: 
+    - RecommendationEngineAnalysisUtils - Utility methods: 
+
+CLASS src\core\integration\analytics\recommendation_engine_system.py:24:
+  Class 'RecommendationEngineSystem': 172 LOC (limit: 100)
+  Excess: 72 LOC
+  Suggested splits:
+    - RecommendationEngineSystemCore - Core methods: 
+    - RecommendationEngineSystemUtils - Utility methods: 
+
+CLASS src\core\integration_coordinators\unified_integration\monitor_engine.py:25:
+  Class 'IntegrationMonitorEngine': 183 LOC (limit: 100)
+  Excess: 83 LOC
+  Suggested splits:
+    - IntegrationMonitorEngineCore - Core methods: start_monitoring, stop_monitoring, add_callback, remove_callback, get_metrics
+    - IntegrationMonitorEngineUtils - Utility methods: get_all_metrics, get_stats, check_integration_health, update_metrics
+
+FUNCTION src\core\integration_coordinators\unified_integration\monitor_engine.py:82:
+  Function 'check_integration_health': 61 LOC (limit: 50)
+  Excess: 11 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\integration_coordinators\unified_integration\coordinators\config_manager.py:27:
+  Class 'ConfigManager': 159 LOC (limit: 100)
+  Excess: 59 LOC
+  Suggested splits:
+    - ConfigManagerCore - Core methods: export_configuration, validate_configuration, update_configuration, get_configuration_summary, get_configuration_history
+    - ConfigManagerUtils - Utility methods: reset_configuration, get_manager_status
+
+CLASS src\core\integration_coordinators\unified_integration\coordinators\health_monitor.py:27:
+  Class 'HealthMonitor': 143 LOC (limit: 100)
+  Excess: 43 LOC
+  Suggested splits:
+    - HealthMonitorCore - Core methods: get_system_health, add_monitoring_callback, set_alert_threshold, get_alert_thresholds, check_health_thresholds
+    - HealthMonitorUtils - Utility methods: record_health_status, get_health_trends, get_monitor_status
+
+CLASS src\core\integration_coordinators\unified_integration\coordinators\task_manager.py:28:
+  Class 'TaskManager': 144 LOC (limit: 100)
+  Excess: 44 LOC
+  Suggested splits:
+    - TaskManagerCore - Core methods: create_task, execute_task, register_integration_handler, get_task_status, get_active_tasks
+    - TaskManagerUtils - Utility methods: cleanup_completed_tasks, get_manager_status
+
+CLASS src\core\integration_coordinators\unified_integration\monitors\alert_manager.py:18:
+  Class 'AlertManager': 121 LOC (limit: 100)
+  Excess: 21 LOC
+  Suggested splits:
+    - AlertManagerCore - Core methods: add_callback, remove_callback, check_alerts, trigger_alerts, set_threshold
+    - AlertManagerUtils - Utility methods: get_thresholds, get_alert_status, cleanup
+
+CLASS src\core\integration_coordinators\unified_integration\monitors\metrics_collector.py:19:
+  Class 'MetricsCollector': 121 LOC (limit: 100)
+  Excess: 21 LOC
+  Suggested splits:
+    - MetricsCollectorCore - Core methods: collect_metrics, update_metrics, get_metrics, get_all_metrics, reset_metrics
+    - MetricsCollectorUtils - Utility methods: cleanup
+
+FUNCTION src\core\integration_coordinators\unified_integration\monitors\metrics_collector.py:27:
+  Function 'collect_metrics': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\integration_coordinators\unified_integration\optimizers\advanced_optimizer.py:30:
+  Class 'AdvancedOptimizer': 167 LOC (limit: 100)
+  Excess: 67 LOC
+  Suggested splits:
+    - AdvancedOptimizerCore - Core methods: optimize_integration, get_optimization_recommendations, get_optimizer_status, get_optimization_history
+    - AdvancedOptimizerUtils - Utility methods: 
+
+FUNCTION src\core\integration_coordinators\unified_integration\optimizers\advanced_optimizer.py:42:
+  Function 'optimize_integration': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\integration_coordinators\unified_integration\optimizers\basic_optimizer.py:29:
+  Class 'BasicOptimizer': 163 LOC (limit: 100)
+  Excess: 63 LOC
+  Suggested splits:
+    - BasicOptimizerCore - Core methods: optimize_integration, get_optimization_recommendations, get_optimizer_status, get_optimization_history
+    - BasicOptimizerUtils - Utility methods: 
+
+CLASS src\core\integration_coordinators\unified_integration\optimizers\maximum_optimizer.py:14:
+  Class 'MaximumOptimizer': 123 LOC (limit: 100)
+  Excess: 23 LOC
+  Suggested splits:
+    - MaximumOptimizerCore - Core methods: register_optimization_handler, optimize_integration, get_optimization_recommendations, get_optimizer_status
+    - MaximumOptimizerUtils - Utility methods: 
+
+CLASS src\core\integration_coordinators\unified_integration\optimizers\optimizer.py:29:
+  Class 'IntegrationOptimizer': 115 LOC (limit: 100)
+  Excess: 15 LOC
+  Suggested splits:
+    - IntegrationOptimizerCore - Core methods: register_optimization_config, register_optimization_handler, optimize_integration, get_optimization_recommendations, get_optimization_status
+    - IntegrationOptimizerUtils - Utility methods: clear_optimization_history
+
+CLASS src\core\intelligent_context\intelligent_context_emergency.py:23:
+  Class 'IntelligentContextEmergency': 110 LOC (limit: 100)
+  Excess: 10 LOC
+  Suggested splits:
+    - IntelligentContextEmergencyCore - Core methods: get_emergency_context, get_intervention_protocols, create_emergency_protocol, assess_emergency_severity, get_emergency_agents
+    - IntelligentContextEmergencyUtils - Utility methods: calculate_emergency_response_time
+
+CLASS src\core\intelligent_context\intelligent_context_engine.py:36:
+  Class 'IntelligentContextEngine': 116 LOC (limit: 100)
+  Excess: 16 LOC
+  Suggested splits:
+    - IntelligentContextEngineCore - Core methods: update_mission_context, get_mission_context, update_agent_capability, get_agent_capabilities, search_context
+    - IntelligentContextEngineUtils - Utility methods: get_emergency_context, get_intervention_protocols, optimize_agent_assignment, analyze_success_patterns, assess_mission_risks
+
+CLASS src\core\intelligent_context\intelligent_context_search.py:19:
+  Class 'IntelligentContextSearch': 116 LOC (limit: 100)
+  Excess: 16 LOC
+  Suggested splits:
+    - IntelligentContextSearchCore - Core methods: search_context, search_missions, search_agents, search_by_skills, search_by_mission_type
+    - IntelligentContextSearchUtils - Utility methods: 
+
+CLASS src\core\intelligent_context\engines\agent_assignment_engine.py:38:
+  Class 'AgentAssignmentEngine': 161 LOC (limit: 100)
+  Excess: 61 LOC
+  Suggested splits:
+    - AgentAssignmentEngineCore - Core methods: optimize_agent_assignment, get_agent_availability_summary, get_engine_status
+    - AgentAssignmentEngineUtils - Utility methods: 
+
+FUNCTION src\core\intelligent_context\engines\agent_assignment_engine.py:48:
+  Function 'optimize_agent_assignment': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\intelligent_context\engines\risk_assessment_engine.py:38:
+  Class 'RiskAssessmentEngine': 126 LOC (limit: 100)
+  Excess: 26 LOC
+  Suggested splits:
+    - RiskAssessmentEngineCore - Core methods: assess_mission_risks, calculate_risk_score, get_risk_summary, get_engine_status
+    - RiskAssessmentEngineUtils - Utility methods: 
+
+CLASS src\core\intelligent_context\optimizers\agent_optimizer.py:31:
+  Class 'AgentOptimizer': 187 LOC (limit: 100)
+  Excess: 87 LOC
+  Suggested splits:
+    - AgentOptimizerCore - Core methods: optimize_agent_assignment, get_agent_recommendations, get_agent_availability, get_agent_performance_summary, get_optimizer_status
+    - AgentOptimizerUtils - Utility methods: 
+
+CLASS src\core\intelligent_context\optimizers\intelligent_context_optimization.py:34:
+  Class 'IntelligentContextOptimization': 118 LOC (limit: 100)
+  Excess: 18 LOC
+  Suggested splits:
+    - IntelligentContextOptimizationCore - Core methods: optimize_agent_assignment, assess_mission_risks, generate_success_predictions, get_comprehensive_analysis, get_optimization_status
+    - IntelligentContextOptimizationUtils - Utility methods: get_optimization_metrics, shutdown
+
+CLASS src\core\intelligent_context\optimizers\prediction_optimizer.py:31:
+  Class 'PredictionOptimizer': 169 LOC (limit: 100)
+  Excess: 69 LOC
+  Suggested splits:
+    - PredictionOptimizerCore - Core methods: generate_success_predictions, get_prediction_confidence, get_prediction_summary, get_prediction_trends, get_optimizer_status
+    - PredictionOptimizerUtils - Utility methods: 
+
+CLASS src\core\intelligent_context\optimizers\risk_optimizer.py:31:
+  Class 'RiskOptimizer': 146 LOC (limit: 100)
+  Excess: 46 LOC
+  Suggested splits:
+    - RiskOptimizerCore - Core methods: assess_mission_risks, calculate_risk_score, get_risk_summary, get_risk_trends, get_optimizer_status
+    - RiskOptimizerUtils - Utility methods: 
+
+CLASS src\core\intelligent_context\unified_intelligent_context\engine_search.py:27:
+  Class 'IntelligentContextEngineSearch': 165 LOC (limit: 100)
+  Excess: 65 LOC
+  Suggested splits:
+    - IntelligentContextEngineSearchCore - Core methods: 
+    - IntelligentContextEngineSearchUtils - Utility methods: 
+
+CLASS src\core\intelligent_context\unified_intelligent_context\search_operations.py:18:
+  Class 'IntelligentContextSearchOperations': 171 LOC (limit: 100)
+  Excess: 71 LOC
+  Suggested splits:
+    - IntelligentContextSearchOperationsCore - Core methods: search_contexts, search_with_pattern, optimize_search_query
+    - IntelligentContextSearchOperationsUtils - Utility methods: 
+
+CLASS src\core\interfaces\unified_interface\registry.py:30:
+  Class 'InterfaceRegistry': 235 LOC (limit: 100)
+  Excess: 135 LOC
+  Suggested splits:
+    - InterfaceRegistryCore - Core methods: initialize, register_interface, create_instance, get_instance, remove_instance
+    - InterfaceRegistryUtils - Utility methods: get_interface_metadata, get_interface_definition, list_interfaces, list_instances, validate_interface
+
+FUNCTION src\core\interfaces\unified_interface\registry.py:154:
+  Function 'validate_interface': 51 LOC (limit: 50)
+  Excess: 1 LOC
+  Recommendation: Split into smaller functions
+
+FILE src\core\managers\base_manager.py:
+  File: 481 LOC (limit: 400)
+  Excess: 81 LOC
+  Suggested splits:
+    - base_manager_core.py - Core classes: ManagerType, ManagerState
+    - base_manager_utils.py - Utility functions: __init__, initialize, execute
+    - base_manager_types.py - Type definitions and imports
+
+CLASS src\core\managers\base_manager.py:60:
+  Class 'BaseManager': 422 LOC (limit: 100)
+  Excess: 322 LOC
+  Suggested splits:
+    - BaseManagerCore - Core methods: initialize, execute, cleanup, get_status, get_health_check
+    - BaseManagerUtils - Utility methods: update_configuration, get_metrics, reset_metrics
+
+FUNCTION src\core\managers\base_manager.py:111:
+  Function 'initialize': 72 LOC (limit: 50)
+  Excess: 22 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\managers\base_manager.py:184:
+  Function 'execute': 78 LOC (limit: 50)
+  Excess: 28 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\managers\base_manager.py:274:
+  Function 'cleanup': 60 LOC (limit: 50)
+  Excess: 10 LOC
+  Recommendation: Split into smaller functions
+
+FILE src\core\managers\core_configuration_manager.py:
+  File: 427 LOC (limit: 400)
+  Excess: 27 LOC
+  Suggested splits:
+    - core_configuration_manager_core.py - Core classes: CoreConfigurationManager
+    - core_configuration_manager_utils.py - Utility functions: __init__, initialize, execute
+    - core_configuration_manager_types.py - Type definitions and imports
+
+CLASS src\core\managers\core_configuration_manager.py:21:
+  Class 'CoreConfigurationManager': 407 LOC (limit: 100)
+  Excess: 307 LOC
+  Suggested splits:
+    - CoreConfigurationManagerCore - Core methods: initialize, execute, load_config, save_config, validate_config
+    - CoreConfigurationManagerUtils - Utility methods: cleanup, get_status
+
+FUNCTION src\core\managers\core_configuration_manager.py:160:
+  Function 'validate_config': 57 LOC (limit: 50)
+  Excess: 7 LOC
+  Recommendation: Split into smaller functions
+
+FILE src\core\managers\core_monitoring_manager.py:
+  File: 570 LOC (limit: 400)
+  Excess: 170 LOC
+  Suggested splits:
+    - core_monitoring_manager_core.py - Core classes: AlertLevel, MetricType
+    - core_monitoring_manager_utils.py - Utility functions: __init__, initialize, execute
+    - core_monitoring_manager_types.py - Type definitions and imports
+
+CLASS src\core\managers\core_monitoring_manager.py:49:
+  Class 'CoreMonitoringManager': 522 LOC (limit: 100)
+  Excess: 422 LOC
+  Suggested splits:
+    - CoreMonitoringManagerCore - Core methods: initialize, execute, create_alert, record_metric, create_widget
+    - CoreMonitoringManagerUtils - Utility methods: cleanup, get_status, monitor
+
+FUNCTION src\core\managers\core_monitoring_manager.py:157:
+  Function 'record_metric': 63 LOC (limit: 50)
+  Excess: 13 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\core_onboarding_manager.py:28:
+  Class 'CoreOnboardingManager': 106 LOC (limit: 100)
+  Excess: 6 LOC
+  Suggested splits:
+    - CoreOnboardingManagerCore - Core methods: initialize, execute, cleanup, get_status, onboard_agent
+    - CoreOnboardingManagerUtils - Utility methods: start_onboarding, complete_onboarding, get_onboarding_status
+
+FILE src\core\managers\core_resource_manager.py:
+  File: 540 LOC (limit: 400)
+  Excess: 140 LOC
+  Suggested splits:
+    - core_resource_manager_core.py - Core classes: CoreResourceManager
+    - core_resource_manager_utils.py - Utility functions: __init__, initialize, execute
+    - core_resource_manager_types.py - Type definitions and imports
+
+CLASS src\core\managers\core_resource_manager.py:23:
+  Class 'CoreResourceManager': 518 LOC (limit: 100)
+  Excess: 418 LOC
+  Suggested splits:
+    - CoreResourceManagerCore - Core methods: initialize, execute, create_resource, get_resource, update_resource
+    - CoreResourceManagerUtils - Utility methods: delete_resource, cleanup, get_status
+
+FUNCTION src\core\managers\core_resource_manager.py:260:
+  Function '_handle_file_operation': 58 LOC (limit: 50)
+  Excess: 8 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\managers\core_resource_manager.py:364:
+  Function '_handle_context_operation': 88 LOC (limit: 50)
+  Excess: 38 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\adapters\legacy_manager_adapter.py:22:
+  Class 'LegacyManagerAdapter': 282 LOC (limit: 100)
+  Excess: 182 LOC
+  Suggested splits:
+    - LegacyManagerAdapterCore - Core methods: initialize, execute, cleanup, get_status
+    - LegacyManagerAdapterUtils - Utility methods: 
+
+FUNCTION src\core\managers\adapters\legacy_manager_adapter.py:55:
+  Function '_map_operation': 57 LOC (limit: 50)
+  Excess: 7 LOC
+  Recommendation: Split into smaller functions
+
+FILE src\core\managers\execution\base_execution_manager.py:
+  File: 548 LOC (limit: 400)
+  Excess: 148 LOC
+  Suggested splits:
+    - base_execution_manager_core.py - Core classes: TaskStatus, ProtocolType
+    - base_execution_manager_utils.py - Utility functions: __init__, initialize, execute
+    - base_execution_manager_types.py - Type definitions and imports
+
+CLASS src\core\managers\execution\base_execution_manager.py:40:
+  Class 'BaseExecutionManager': 509 LOC (limit: 100)
+  Excess: 409 LOC
+  Suggested splits:
+    - BaseExecutionManagerCore - Core methods: initialize, execute, execute_task, register_protocol, get_execution_status
+    - BaseExecutionManagerUtils - Utility methods: cleanup, get_status, processor
+
+FUNCTION src\core\managers\execution\base_execution_manager.py:100:
+  Function 'execute_task': 64 LOC (limit: 50)
+  Excess: 14 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\execution\execution_coordinator.py:19:
+  Class 'ExecutionCoordinator': 139 LOC (limit: 100)
+  Excess: 39 LOC
+  Suggested splits:
+    - ExecutionCoordinatorCore - Core methods: initialize, execute, cleanup, get_status, create_task
+    - ExecutionCoordinatorUtils - Utility methods: execute_protocol, get_task_status
+
+CLASS src\core\managers\execution\protocol_manager.py:17:
+  Class 'ProtocolManager': 173 LOC (limit: 100)
+  Excess: 73 LOC
+  Suggested splits:
+    - ProtocolManagerCore - Core methods: execute, get_status
+    - ProtocolManagerUtils - Utility methods: 
+
+FUNCTION src\core\managers\execution\protocol_manager.py:43:
+  Function '_execute_protocol': 63 LOC (limit: 50)
+  Excess: 13 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\monitoring\alert_manager.py:17:
+  Class 'AlertManager': 152 LOC (limit: 100)
+  Excess: 52 LOC
+  Suggested splits:
+    - AlertManagerCore - Core methods: execute, get_status
+    - AlertManagerUtils - Utility methods: 
+
+FILE src\core\managers\monitoring\base_monitoring_manager.py:
+  File: 552 LOC (limit: 400)
+  Excess: 152 LOC
+  Suggested splits:
+    - base_monitoring_manager_core.py - Core classes: AlertLevel, MetricType
+    - base_monitoring_manager_utils.py - Utility functions: __init__, initialize, execute
+    - base_monitoring_manager_types.py - Type definitions and imports
+
+CLASS src\core\managers\monitoring\base_monitoring_manager.py:48:
+  Class 'BaseMonitoringManager': 505 LOC (limit: 100)
+  Excess: 405 LOC
+  Suggested splits:
+    - BaseMonitoringManagerCore - Core methods: initialize, execute, create_alert, record_metric, create_widget
+    - BaseMonitoringManagerUtils - Utility methods: cleanup, get_status, monitor
+
+FUNCTION src\core\managers\monitoring\base_monitoring_manager.py:154:
+  Function 'record_metric': 55 LOC (limit: 50)
+  Excess: 5 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\monitoring\metrics_manager.py:18:
+  Class 'MetricsManager': 259 LOC (limit: 100)
+  Excess: 159 LOC
+  Suggested splits:
+    - MetricsManagerCore - Core methods: execute, get_status
+    - MetricsManagerUtils - Utility methods: 
+
+FUNCTION src\core\managers\monitoring\metrics_manager.py:44:
+  Function '_get_metric_aggregation': 92 LOC (limit: 50)
+  Excess: 42 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\managers\monitoring\metrics_manager.py:137:
+  Function '_get_metric_trends': 77 LOC (limit: 50)
+  Excess: 27 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\managers\monitoring\metrics_manager.py:215:
+  Function '_export_metrics': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\managers\results\analysis_results_processor.py:27:
+  Function '_process_analysis_result': 56 LOC (limit: 50)
+  Excess: 6 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\results\base_results_manager.py:30:
+  Class 'BaseResultsManager': 325 LOC (limit: 100)
+  Excess: 225 LOC
+  Suggested splits:
+    - BaseResultsManagerCore - Core methods: initialize, execute, process_results, cleanup, get_status
+    - BaseResultsManagerUtils - Utility methods: 
+
+FUNCTION src\core\managers\results\base_results_manager.py:77:
+  Function 'process_results': 82 LOC (limit: 50)
+  Excess: 32 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\managers\results\performance_results_processor.py:16:
+  Class 'PerformanceResultsProcessor': 116 LOC (limit: 100)
+  Excess: 16 LOC
+  Suggested splits:
+    - PerformanceResultsProcessorCore - Core methods: 
+    - PerformanceResultsProcessorUtils - Utility methods: 
+
+CLASS src\core\managers\results\results_archive_manager.py:17:
+  Class 'ResultsArchiveManager': 164 LOC (limit: 100)
+  Excess: 64 LOC
+  Suggested splits:
+    - ResultsArchiveManagerCore - Core methods: execute, get_status
+    - ResultsArchiveManagerUtils - Utility methods: 
+
+CLASS src\core\ml_optimizer\ml_optimizer_orchestrator.py:32:
+  Class 'VectorDatabaseMLOptimizer': 128 LOC (limit: 100)
+  Excess: 28 LOC
+  Suggested splits:
+    - VectorDatabaseMLOptimizerCore - Core methods: initialize, add_model, get_model, get_models_by_strategy, predict
+    - VectorDatabaseMLOptimizerUtils - Utility methods: add_learning_pattern, get_learning_pattern, get_learning_patterns_by_type, get_optimizer_status, shutdown
+
+CLASS src\core\ml_optimizer\engines\ml_optimization_engine.py:29:
+  Class 'MLOptimizationEngine': 216 LOC (limit: 100)
+  Excess: 116 LOC
+  Suggested splits:
+    - MLOptimizationEngineCore - Core methods: start_optimization, stop_optimization, execute_optimization_strategy, get_optimization_metrics, get_optimization_summary
+    - MLOptimizationEngineUtils - Utility methods: 
+
+CLASS src\core\ml_optimizer\learning\feature_analysis_engine.py:18:
+  Class 'FeatureAnalysisEngine': 168 LOC (limit: 100)
+  Excess: 68 LOC
+  Suggested splits:
+    - FeatureAnalysisEngineCore - Core methods: extract_features, calculate_similarity, analyze_feature_importance, get_analysis_summary, cleanup
+    - FeatureAnalysisEngineUtils - Utility methods: 
+
+CLASS src\core\ml_optimizer\learning\model_management_engine.py:24:
+  Class 'ModelManagementEngine': 225 LOC (limit: 100)
+  Excess: 125 LOC
+  Suggested splits:
+    - ModelManagementEngineCore - Core methods: create_model_state, get_model_state, update_model_state, save_model_state, load_model_state
+    - ModelManagementEngineUtils - Utility methods: delete_model_state, list_model_states, get_model_metrics, start_training, stop_training
+
+CLASS src\core\ml_optimizer\learning\pattern_learning_engine.py:26:
+  Class 'PatternLearningEngine': 233 LOC (limit: 100)
+  Excess: 133 LOC
+  Suggested splits:
+    - PatternLearningEngineCore - Core methods: learn_pattern, get_pattern, get_patterns_by_type, update_pattern_accuracy, remove_pattern
+    - PatternLearningEngineUtils - Utility methods: get_pattern_statistics, find_similar_patterns, clear_patterns, export_patterns, import_patterns
+
+CLASS src\core\ml_optimizer\learning\unified_ml_learning\coordinator_core.py:30:
+  Class 'MLLearningCoordinatorCore': 211 LOC (limit: 100)
+  Excess: 111 LOC
+  Suggested splits:
+    - MLLearningCoordinatorCoreCore - Core methods: initialize, start_learning_session, stop_learning_session, get_learning_session, get_active_sessions
+    - MLLearningCoordinatorCoreUtils - Utility methods: add_learning_pattern, get_learning_pattern, get_learning_patterns_by_type, add_model_state, get_model_state
+
+CLASS src\core\ml_optimizer\learning\unified_ml_learning\coordinator_services.py:30:
+  Class 'MLLearningCoordinatorServices': 222 LOC (limit: 100)
+  Excess: 122 LOC
+  Suggested splits:
+    - MLLearningCoordinatorServicesCore - Core methods: initialize, analyze_learning_progress, generate_learning_report, optimize_learning_parameters, monitor_learning_health
+    - MLLearningCoordinatorServicesUtils - Utility methods: get_services_status, shutdown
+
+CLASS src\core\ml_optimizer\learning\unified_ml_learning\engine_prediction.py:21:
+  Class 'MLLearningEnginePrediction': 115 LOC (limit: 100)
+  Excess: 15 LOC
+  Suggested splits:
+    - MLLearningEnginePredictionCore - Core methods: predict, batch_predict, get_prediction_history, evaluate_prediction_accuracy
+    - MLLearningEnginePredictionUtils - Utility methods: 
+
+CLASS src\core\ml_optimizer\learning\unified_ml_learning\engine_training.py:28:
+  Class 'MLLearningEngineTraining': 149 LOC (limit: 100)
+  Excess: 49 LOC
+  Suggested splits:
+    - MLLearningEngineTrainingCore - Core methods: train_model, optimize_model, create_learning_session, start_learning_session, complete_learning_session
+    - MLLearningEngineTrainingUtils - Utility methods: 
+
+CLASS src\core\models\message_queue_models.py:28:
+  Class 'QueueEntry': 101 LOC (limit: 100)
+  Excess: 1 LOC
+  Suggested splits:
+    - QueueEntryCore - Core methods: to_dict, from_dict
+    - QueueEntryUtils - Utility methods: 
+
+CLASS src\core\pattern_analysis\pattern_analysis_orchestrator.py:26:
+  Class 'PatternAnalysisSystem': 106 LOC (limit: 100)
+  Excess: 6 LOC
+  Suggested splits:
+    - PatternAnalysisSystemCore - Core methods: analyze_mission_patterns, add_pattern, get_pattern, get_metrics, clear_old_patterns
+    - PatternAnalysisSystemUtils - Utility methods: analyze_success_patterns, analyze_risk_patterns, get_pattern_summary, generate_strategic_insights
+
+CLASS src\core\pattern_analysis\unified_pattern_analysis\analyzer.py:146:
+  Class 'PatternAnalyzer': 146 LOC (limit: 100)
+  Excess: 46 LOC
+  Suggested splits:
+    - PatternAnalyzerCore - Core methods: initialize, analyze_performance_patterns, analyze_coordination_patterns, generate_optimization_recommendations, get_analysis_summary
+    - PatternAnalyzerUtils - Utility methods: shutdown
+
+FUNCTION src\core\performance\performance_cli.py:31:
+  Function 'main': 66 LOC (limit: 50)
+  Excess: 16 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\core\performance\performance_cli.py:182:
+  Function 'handle_dashboard_command': 63 LOC (limit: 50)
+  Excess: 13 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\performance\performance_monitoring_system.py:61:
+  Class 'PerformanceMonitoringSystem': 175 LOC (limit: 100)
+  Excess: 75 LOC
+  Suggested splits:
+    - PerformanceMonitoringSystemCore - Core methods: start_monitoring, stop_monitoring, collect_metrics, generate_report, get_system_status
+    - PerformanceMonitoringSystemUtils - Utility methods: get_metrics_summary, cleanup
+
+FUNCTION src\core\performance\performance_monitoring_system.py:99:
+  Function 'collect_metrics': 51 LOC (limit: 50)
+  Excess: 1 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\performance\unified_dashboard\engine.py:31:
+  Class 'DashboardEngine': 188 LOC (limit: 100)
+  Excess: 88 LOC
+  Suggested splits:
+    - DashboardEngineCore - Core methods: add_metric, get_metric, get_metrics_by_type, update_metric, remove_metric
+    - DashboardEngineUtils - Utility methods: get_all_metrics, add_widget, get_widget, get_all_widgets, update_widget
+
+CLASS src\core\performance\unified_dashboard\reporter.py:28:
+  Class 'DashboardReporter': 231 LOC (limit: 100)
+  Excess: 131 LOC
+  Suggested splits:
+    - DashboardReporterCore - Core methods: initialize, generate_metrics_report, generate_alerts_report, generate_performance_report, export_report
+    - DashboardReporterUtils - Utility methods: get_report_history, cleanup_old_reports, get_reporter_stats, shutdown
+
+CLASS src\core\performance\unified_dashboard\widget_manager.py:22:
+  Class 'WidgetManager': 141 LOC (limit: 100)
+  Excess: 41 LOC
+  Suggested splits:
+    - WidgetManagerCore - Core methods: add_widget, get_widget, get_all_widgets, update_widget, remove_widget
+    - WidgetManagerUtils - Utility methods: add_config, get_config, get_all_configs, update_config, remove_config
+
+CLASS src\core\processing\unified_processing_system.py:48:
+  Class 'UnifiedProcessingSystem': 127 LOC (limit: 100)
+  Excess: 27 LOC
+  Suggested splits:
+    - UnifiedProcessingSystemCore - Core methods: process, register_processor, get_performance_metrics, get_processing_history, cleanup
+    - UnifiedProcessingSystemUtils - Utility methods: 
+
+CLASS src\core\refactoring\analysis_tools_core.py:28:
+  Class 'ArchitectureAnalyzer': 175 LOC (limit: 100)
+  Excess: 75 LOC
+  Suggested splits:
+    - ArchitectureAnalyzerCore - Core methods: analyze_file, find_duplicates, identify_patterns, generate_suggestions
+    - ArchitectureAnalyzerUtils - Utility methods: 
+
+FILE src\core\refactoring\refactor_tools.py:
+  File: 509 LOC (limit: 400)
+  Excess: 109 LOC
+
+ERROR src\core\refactoring\refactor_tools.py:
+  Parse error
+
+CLASS src\core\refactoring\tools\consolidation_tools.py:30:
+  Class 'ConsolidationTools': 108 LOC (limit: 100)
+  Excess: 8 LOC
+  Suggested splits:
+    - ConsolidationToolsCore - Core methods: create_consolidation_plan, execute_consolidation, analyze_duplicates
+    - ConsolidationToolsUtils - Utility methods: 
+
+CLASS src\core\refactoring\tools\extraction_tools.py:31:
+  Class 'ExtractionTools': 101 LOC (limit: 100)
+  Excess: 1 LOC
+  Suggested splits:
+    - ExtractionToolsCore - Core methods: create_extraction_plan, execute_extraction
+    - ExtractionToolsUtils - Utility methods: 
+
+CLASS src\core\refactoring\tools\optimization_tools.py:29:
+  Class 'OptimizationTools': 129 LOC (limit: 100)
+  Excess: 29 LOC
+  Suggested splits:
+    - OptimizationToolsCore - Core methods: create_optimization_plan, execute_optimization
+    - OptimizationToolsUtils - Utility methods: 
+
+CLASS src\core\ssot\unified_ssot\execution\task_executor.py:20:
+  Class 'TaskExecutor': 125 LOC (limit: 100)
+  Excess: 25 LOC
+  Suggested splits:
+    - TaskExecutorCore - Core methods: 
+    - TaskExecutorUtils - Utility methods: 
+
+CLASS src\core\ssot\unified_ssot\validators\basic_validator.py:18:
+  Class 'BasicValidator': 113 LOC (limit: 100)
+  Excess: 13 LOC
+  Suggested splits:
+    - BasicValidatorCore - Core methods: validate_basic_fields, validate_component_metadata, get_validation_score
+    - BasicValidatorUtils - Utility methods: 
+
+CLASS src\core\ssot\unified_ssot\validators\standard_validator.py:18:
+  Class 'StandardValidator': 160 LOC (limit: 100)
+  Excess: 60 LOC
+  Suggested splits:
+    - StandardValidatorCore - Core methods: validate_standard_fields, validate_component_relationships, get_validation_score
+    - StandardValidatorUtils - Utility methods: 
+
+CLASS src\core\ssot\unified_ssot\validators\strict_validator.py:18:
+  Class 'StrictValidator': 211 LOC (limit: 100)
+  Excess: 111 LOC
+  Suggested splits:
+    - StrictValidatorCore - Core methods: validate_strict_requirements, validate_component_integrity, get_validation_score
+    - StrictValidatorUtils - Utility methods: 
+
+CLASS src\core\utility_system\managers\file_manager.py:19:
+  Class 'FileManager': 110 LOC (limit: 100)
+  Excess: 10 LOC
+  Suggested splits:
+    - FileManagerCore - Core methods: read_file, write_file, copy_file, move_file, delete_file
+    - FileManagerUtils - Utility methods: file_exists, list_directory, create_directory, get_file_size, get_status
+
+CLASS src\core\utils\agent_matching.py:21:
+  Class 'AgentMatchingUtils': 131 LOC (limit: 100)
+  Excess: 31 LOC
+  Suggested splits:
+    - AgentMatchingUtilsCore - Core methods: calculate_agent_match_score, get_agent_type_match_score, rank_agents_by_capability, get_best_agent_for_task
+    - AgentMatchingUtilsUtils - Utility methods: 
+
+CLASS src\core\utils\message_queue_utils.py:13:
+  Class 'MessageQueueUtils': 216 LOC (limit: 100)
+  Excess: 116 LOC
+  Suggested splits:
+    - MessageQueueUtilsCore - Core methods: calculate_priority_score, calculate_retry_delay, is_entry_ready_for_retry, is_entry_expired, build_priority_heap
+    - MessageQueueUtilsUtils - Utility methods: get_next_entries_for_processing, update_entry_for_retry, mark_entry_delivered, mark_entry_failed, mark_entry_processing
+
+FUNCTION src\core\utils\message_queue_utils.py:132:
+  Function 'calculate_queue_statistics': 55 LOC (limit: 50)
+  Excess: 5 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\validation\coordination_validator.py:46:
+  Class 'CoordinationValidator': 269 LOC (limit: 100)
+  Excess: 169 LOC
+  Suggested splits:
+    - CoordinationValidatorCore - Core methods: validate_message_structure, validate_coordination_system, validate_performance_metrics, validate_security_compliance, run_comprehensive_validation
+    - CoordinationValidatorUtils - Utility methods: get_validation_report
+
+CLASS src\core\validation\performance_benchmark\benchmark_runner_core.py:27:
+  Class 'BenchmarkRunnerCore': 113 LOC (limit: 100)
+  Excess: 13 LOC
+  Suggested splits:
+    - BenchmarkRunnerCoreCore - Core methods: add_suite, run_benchmark, run_suite, run_all_suites, get_metrics_summary
+    - BenchmarkRunnerCoreUtils - Utility methods: generate_report, clear_metrics, get_benchmark_history
+
+FUNCTION src\core\validation\performance_benchmark\benchmark_runner_core.py:40:
+  Function 'run_benchmark': 58 LOC (limit: 50)
+  Excess: 8 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\validation\performance_benchmark\benchmark_runner_operations.py:27:
+  Class 'BenchmarkRunnerOperations': 232 LOC (limit: 100)
+  Excess: 132 LOC
+  Suggested splits:
+    - BenchmarkRunnerOperationsCore - Core methods: run_parallel_benchmarks, run_benchmark, run_stress_test, compare_benchmarks, export_results
+    - BenchmarkRunnerOperationsUtils - Utility methods: get_performance_trends, run_single_benchmark
+
+FUNCTION src\core\validation\performance_benchmark\benchmark_runner_operations.py:67:
+  Function 'run_benchmark': 58 LOC (limit: 50)
+  Excess: 8 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\vector_strategic_oversight\unified_strategic_oversight\analyzer_core.py:35:
+  Class 'StrategicOversightAnalyzer': 193 LOC (limit: 100)
+  Excess: 93 LOC
+  Suggested splits:
+    - StrategicOversightAnalyzerCore - Core methods: initialize, analyze_swarm_coordination, analyze_agent_performance, generate_strategic_recommendations, analyze_system_health
+    - StrategicOversightAnalyzerUtils - Utility methods: get_analysis_summary
+
+CLASS src\core\vector_strategic_oversight\unified_strategic_oversight\factory_core.py:38:
+  Class 'StrategicOversightFactoryCore': 133 LOC (limit: 100)
+  Excess: 33 LOC
+  Suggested splits:
+    - StrategicOversightFactoryCoreCore - Core methods: create_strategic_oversight_report, create_swarm_coordination_insight, create_strategic_recommendation, create_agent_performance_metrics, create_swarm_coordination_status
+    - StrategicOversightFactoryCoreUtils - Utility methods: create_strategic_mission
+
+CLASS src\core\vector_strategic_oversight\unified_strategic_oversight\factory_extended.py:38:
+  Class 'StrategicOversightFactoryExtended': 144 LOC (limit: 100)
+  Excess: 44 LOC
+  Suggested splits:
+    - StrategicOversightFactoryExtendedCore - Core methods: create_vector_database_metrics, create_system_health_metrics, create_comprehensive_report, create_emergency_insight, create_high_priority_recommendation
+    - StrategicOversightFactoryExtendedUtils - Utility methods: create_mission_batch
+
+CLASS src\core\vector_strategic_oversight\unified_strategic_oversight\factory_methods.py:43:
+  Class 'StrategicOversightFactory': 190 LOC (limit: 100)
+  Excess: 90 LOC
+  Suggested splits:
+    - StrategicOversightFactoryCore - Core methods: create_oversight_report, create_swarm_insight, create_strategic_recommendation, create_agent_performance_metrics, create_swarm_coordination_status
+    - StrategicOversightFactoryUtils - Utility methods: create_vector_database_metrics, create_system_health_metrics, create_strategic_mission, create_quick_mission, create_emergency_mission
+
+CLASS src\core\vector_strategic_oversight\unified_strategic_oversight\analyzers\prediction_analyzer.py:31:
+  Class 'PredictionAnalyzer': 159 LOC (limit: 100)
+  Excess: 59 LOC
+  Suggested splits:
+    - PredictionAnalyzerCore - Core methods: add_historical_data, get_prediction_summary
+    - PredictionAnalyzerUtils - Utility methods: 
+
+FUNCTION src\core\vector_strategic_oversight\unified_strategic_oversight\analyzers\prediction_analyzer.py:39:
+  Function 'predict_task_success': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\core\vector_strategic_oversight\unified_strategic_oversight\analyzers\swarm_analyzer.py:18:
+  Class 'SwarmCoordinationAnalyzer': 135 LOC (limit: 100)
+  Excess: 35 LOC
+  Suggested splits:
+    - SwarmCoordinationAnalyzerCore - Core methods: 
+    - SwarmCoordinationAnalyzerUtils - Utility methods: 
+
+CLASS src\application\use_cases\assign_task_uc.py:38:
+  Class 'AssignTaskUseCase': 112 LOC (limit: 100)
+  Excess: 12 LOC
+  Suggested splits:
+    - AssignTaskUseCaseCore - Core methods: execute
+    - AssignTaskUseCaseUtils - Utility methods: 
+
+FUNCTION src\application\use_cases\assign_task_uc.py:60:
+  Function 'execute': 90 LOC (limit: 50)
+  Excess: 40 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\application\use_cases\complete_task_uc.py:57:
+  Function 'execute': 78 LOC (limit: 50)
+  Excess: 28 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\architecture\system_integration.py:56:
+  Class 'UnifiedSystemIntegration': 122 LOC (limit: 100)
+  Excess: 22 LOC
+  Suggested splits:
+    - UnifiedSystemIntegrationCore - Core methods: register_endpoint, check_endpoint_health, get_integration_status, integrate_systems
+    - UnifiedSystemIntegrationUtils - Utility methods: 
+
+CLASS src\architecture\unified_architecture_core.py:57:
+  Class 'UnifiedArchitectureCore': 116 LOC (limit: 100)
+  Excess: 16 LOC
+  Suggested splits:
+    - UnifiedArchitectureCoreCore - Core methods: register_component, get_component, list_components, update_component_metrics, get_architecture_health
+    - UnifiedArchitectureCoreUtils - Utility methods: consolidate_architecture
+
+CLASS src\automation\ui_onboarding.py:20:
+  Class 'UIOnboarder': 143 LOC (limit: 100)
+  Excess: 43 LOC
+  Suggested splits:
+    - UIOnboarderCore - Core methods: perform
+    - UIOnboarderUtils - Utility methods: 
+
+FUNCTION src\automation\ui_onboarding.py:38:
+  Function 'perform': 72 LOC (limit: 50)
+  Excess: 22 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\discord_commander\agent_communication_engine_core.py:21:
+  Class 'AgentCommunicationEngineCore': 104 LOC (limit: 100)
+  Excess: 4 LOC
+  Suggested splits:
+    - AgentCommunicationEngineCoreCore - Core methods: is_valid_agent, get_all_agent_names
+    - AgentCommunicationEngineCoreUtils - Utility methods: 
+
+CLASS src\discord_commander\agent_communication_engine_operations.py:20:
+  Class 'AgentCommunicationEngineOperations': 117 LOC (limit: 100)
+  Excess: 17 LOC
+  Suggested splits:
+    - AgentCommunicationEngineOperationsCore - Core methods: get_agent_status_file_path
+    - AgentCommunicationEngineOperationsUtils - Utility methods: 
+
+CLASS src\domain\entities\agent.py:16:
+  Class 'Agent': 108 LOC (limit: 100)
+  Excess: 8 LOC
+  Suggested splits:
+    - AgentCore - Core methods: current_task_count, can_accept_more_tasks, workload_percentage, has_capability, add_capability
+    - AgentUtils - Utility methods: remove_capability, assign_task, complete_task, deactivate, reactivate
+
+CLASS src\domain\services\assignment_service.py:16:
+  Class 'AssignmentService': 117 LOC (limit: 100)
+  Excess: 17 LOC
+  Suggested splits:
+    - AssignmentServiceCore - Core methods: find_best_agent_for_task, validate_assignment
+    - AssignmentServiceUtils - Utility methods: 
+
+CLASS src\gaming\gaming_alert_manager.py:55:
+  Class 'GamingAlertManager': 333 LOC (limit: 100)
+  Excess: 233 LOC
+  Suggested splits:
+    - GamingAlertManagerCore - Core methods: create_alert, check_performance_alerts, check_system_health_alerts, acknowledge_alert, resolve_alert
+    - GamingAlertManagerUtils - Utility methods: get_active_alerts, get_alert_summary, clear_resolved_alerts, set_alert_threshold, export_alerts
+
+FUNCTION src\gaming\gaming_alert_manager.py:135:
+  Function 'check_performance_alerts': 51 LOC (limit: 50)
+  Excess: 1 LOC
+  Recommendation: Split into smaller functions
+
+ERROR src\gaming\gaming_integration_core.py:
+  Parse error
+
+CLASS src\gaming\performance_validation.py:30:
+  Class 'GamingPerformanceValidator': 203 LOC (limit: 100)
+  Excess: 103 LOC
+  Suggested splits:
+    - GamingPerformanceValidatorCore - Core methods: generate_performance_report
+    - GamingPerformanceValidatorUtils - Utility methods: 
+
+FUNCTION src\gaming\test_runner_cli.py:65:
+  Function 'main': 142 LOC (limit: 50)
+  Excess: 92 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\gaming\test_runner_core.py:26:
+  Class 'GamingTestRunnerCore': 368 LOC (limit: 100)
+  Excess: 268 LOC
+  Suggested splits:
+    - GamingTestRunnerCoreCore - Core methods: get_test_results, export_test_results
+    - GamingTestRunnerCoreUtils - Utility methods: 
+
+FUNCTION src\gaming\test_runner_core.py:106:
+  Function 'run_test': 60 LOC (limit: 50)
+  Excess: 10 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\gaming\handlers\gaming_alert_handlers.py:13:
+  Function 'handle_performance_alerts': 61 LOC (limit: 50)
+  Excess: 11 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\gaming\integration\core.py:19:
+  Class 'GamingIntegrationCore': 123 LOC (limit: 100)
+  Excess: 23 LOC
+  Suggested splits:
+    - GamingIntegrationCoreCore - Core methods: create_game_session, end_game_session, get_active_sessions, get_system_status, process_event
+    - GamingIntegrationCoreUtils - Utility methods: register_entertainment_system
+
+CLASS src\infrastructure\persistence\sqlite_agent_repo.py:16:
+  Class 'SqliteAgentRepository': 248 LOC (limit: 100)
+  Excess: 148 LOC
+  Suggested splits:
+    - SqliteAgentRepositoryCore - Core methods: get, get_by_capability, get_active, get_available, add
+    - SqliteAgentRepositoryUtils - Utility methods: save, delete, list_all
+
+CLASS src\infrastructure\persistence\sqlite_task_repo.py:17:
+  Class 'SqliteTaskRepository': 226 LOC (limit: 100)
+  Excess: 126 LOC
+  Suggested splits:
+    - SqliteTaskRepositoryCore - Core methods: get, get_by_agent, get_pending, add, save
+    - SqliteTaskRepositoryUtils - Utility methods: delete, list_all
+
+FILE src\infrastructure\browser\thea_manager_profile.py:
+  File: 873 LOC (limit: 400)
+  Excess: 473 LOC
+  Suggested splits:
+    - thea_manager_profile_core.py - Core classes: TheaManagerConfig, TheaWorkingBrowser
+    - thea_manager_profile_utils.py - Utility functions: __init__, _collect_full_response, _extract_current_response
+    - thea_manager_profile_types.py - Type definitions and imports
+
+CLASS src\infrastructure\browser\thea_manager_profile.py:100:
+  Class 'TheaWorkingBrowser': 245 LOC (limit: 100)
+  Excess: 145 LOC
+  Suggested splits:
+    - TheaWorkingBrowserCore - Core methods: 
+    - TheaWorkingBrowserUtils - Utility methods: 
+
+CLASS src\infrastructure\browser\thea_manager_profile.py:411:
+  Class 'TheaManagerProfile': 463 LOC (limit: 100)
+  Excess: 363 LOC
+  Suggested splits:
+    - TheaManagerProfileCore - Core methods: open, goto, send_and_wait, close, is_ready
+    - TheaManagerProfileUtils - Utility methods: 
+
+FUNCTION src\infrastructure\browser\thea_manager_profile.py:117:
+  Function '_collect_full_response': 64 LOC (limit: 50)
+  Excess: 14 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\infrastructure\browser\thea_manager_profile.py:182:
+  Function '_extract_current_response': 53 LOC (limit: 50)
+  Excess: 3 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\infrastructure\browser\thea_manager_profile.py:236:
+  Function '_is_response_complete': 58 LOC (limit: 50)
+  Excess: 8 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\infrastructure\browser\thea_manager_profile.py:480:
+  Function 'send_and_wait': 72 LOC (limit: 50)
+  Excess: 22 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\infrastructure\browser\thea_manager_profile.py:583:
+  Function '_extract_response': 83 LOC (limit: 50)
+  Excess: 33 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\infrastructure\browser\thea_manager_profile.py:823:
+  Function '_ensure_authenticated': 51 LOC (limit: 50)
+  Excess: 1 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\quality\proof_ledger.py:15:
+  Function 'run_tdd_proof': 66 LOC (limit: 50)
+  Excess: 16 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\trading_robot\core\dependency_injection.py:19:
+  Class 'TradingDependencyContainer': 208 LOC (limit: 100)
+  Excess: 108 LOC
+  Suggested splits:
+    - TradingDependencyContainerCore - Core methods: register_factory, register_instance, resolve, has_service, clear_scope
+    - TradingDependencyContainerUtils - Utility methods: get_registered_services
+
+FUNCTION src\trading_robot\core\dependency_injection.py:108:
+  Function 'resolve': 57 LOC (limit: 50)
+  Excess: 7 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\trading_robot\repositories\trading_repository.py:30:
+  Class 'TradingRepository': 173 LOC (limit: 100)
+  Excess: 73 LOC
+  Suggested splits:
+    - TradingRepositoryCore - Core methods: 
+    - TradingRepositoryUtils - Utility methods: 
+
+CLASS src\trading_robot\repositories\implementations\in_memory_trading_repository.py:21:
+  Class 'InMemoryTradingRepository': 287 LOC (limit: 100)
+  Excess: 187 LOC
+  Suggested splits:
+    - InMemoryTradingRepositoryCore - Core methods: 
+    - InMemoryTradingRepositoryUtils - Utility methods: 
+
+CLASS src\trading_robot\repositories\implementations\trading_repository_impl.py:23:
+  Class 'TradingRepositoryImpl': 269 LOC (limit: 100)
+  Excess: 169 LOC
+  Suggested splits:
+    - TradingRepositoryImplCore - Core methods: 
+    - TradingRepositoryImplUtils - Utility methods: 
+
+CLASS src\trading_robot\repositories\interfaces\position_repository_interface.py:19:
+  Class 'PositionRepositoryInterface': 138 LOC (limit: 100)
+  Excess: 38 LOC
+  Suggested splits:
+    - PositionRepositoryInterfaceCore - Core methods: 
+    - PositionRepositoryInterfaceUtils - Utility methods: 
+
+CLASS src\trading_robot\repositories\interfaces\trading_repository_interface.py:19:
+  Class 'TradingRepositoryInterface': 127 LOC (limit: 100)
+  Excess: 27 LOC
+  Suggested splits:
+    - TradingRepositoryInterfaceCore - Core methods: 
+    - TradingRepositoryInterfaceUtils - Utility methods: 
+
+CLASS src\trading_robot\repositories\models\portfolio.py:21:
+  Class 'Portfolio': 165 LOC (limit: 100)
+  Excess: 65 LOC
+  Suggested splits:
+    - PortfolioCore - Core methods: add_position, remove_position, get_position, has_position, get_total_market_value
+    - PortfolioUtils - Utility methods: get_total_cost_basis, get_total_unrealized_pnl, get_total_unrealized_pnl_percentage, get_portfolio_value, get_position_count
+
+CLASS src\trading_robot\repositories\models\position.py:20:
+  Class 'Position': 123 LOC (limit: 100)
+  Excess: 23 LOC
+  Suggested splits:
+    - PositionCore - Core methods: get_market_value, get_cost_basis, get_unrealized_pnl, get_unrealized_pnl_percentage, is_long
+    - PositionUtils - Utility methods: is_short, is_flat, is_profitable, update_price, add_quantity
+
+CLASS src\trading_robot\services\trading_service.py:26:
+  Class 'TradingService': 264 LOC (limit: 100)
+  Excess: 164 LOC
+  Suggested splits:
+    - TradingServiceCore - Core methods: 
+    - TradingServiceUtils - Utility methods: 
+
+FUNCTION src\trading_robot\services\trading_service.py:34:
+  Function 'execute_trade': 57 LOC (limit: 50)
+  Excess: 7 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\trading_robot\services\trading_service.py:220:
+  Function '_update_position_from_trade': 70 LOC (limit: 50)
+  Excess: 20 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\trading_robot\services\analytics\market_trend_engine.py:22:
+  Class 'MarketTrendEngine': 182 LOC (limit: 100)
+  Excess: 82 LOC
+  Suggested splits:
+    - MarketTrendEngineCore - Core methods: analyze_market_trend, get_trend_summary
+    - MarketTrendEngineUtils - Utility methods: 
+
+CLASS src\trading_robot\services\analytics\performance_metrics_engine.py:22:
+  Class 'PerformanceMetricsEngine': 226 LOC (limit: 100)
+  Excess: 126 LOC
+  Suggested splits:
+    - PerformanceMetricsEngineCore - Core methods: calculate_performance_metrics
+    - PerformanceMetricsEngineUtils - Utility methods: 
+
+CLASS src\trading_robot\services\analytics\risk_analysis_engine.py:22:
+  Class 'RiskAnalysisEngine': 155 LOC (limit: 100)
+  Excess: 55 LOC
+  Suggested splits:
+    - RiskAnalysisEngineCore - Core methods: calculate_risk_metrics
+    - RiskAnalysisEngineUtils - Utility methods: 
+
+CLASS src\trading_robot\services\analytics\trading_bi_orchestrator.py:39:
+  Class 'TradingBiAnalyticsOrchestrator': 166 LOC (limit: 100)
+  Excess: 66 LOC
+  Suggested splits:
+    - TradingBiAnalyticsOrchestratorCore - Core methods: get_engine_status
+    - TradingBiAnalyticsOrchestratorUtils - Utility methods: 
+
+CLASS src\trading_robot\strategies\backtest\data_management_engine.py:55:
+  Class 'DataManagementEngine': 196 LOC (limit: 100)
+  Excess: 96 LOC
+  Suggested splits:
+    - DataManagementEngineCore - Core methods: load_data, validate_data, get_data_summary, get_data_slice, get_latest_data
+    - DataManagementEngineUtils - Utility methods: clear_cache, is_data_loaded, get_data_info
+
+CLASS src\trading_robot\strategies\backtest\position_management_engine.py:50:
+  Class 'PositionManagementEngine': 222 LOC (limit: 100)
+  Excess: 122 LOC
+  Suggested splits:
+    - PositionManagementEngineCore - Core methods: initialize, calculate_position_size, open_position, close_position, check_stop_loss
+    - PositionManagementEngineUtils - Utility methods: check_take_profit, get_open_position, get_trade_history, get_closed_trades, get_open_trades
+
+CLASS src\trading_robot\strategies\backtest\signal_detection_engine.py:41:
+  Class 'SignalDetectionEngine': 262 LOC (limit: 100)
+  Excess: 162 LOC
+  Suggested splits:
+    - SignalDetectionEngineCore - Core methods: check_entry_signals, check_exit_signals, calculate_stop_distance, calculate_target_price, calculate_stop_price
+    - SignalDetectionEngineUtils - Utility methods: validate_signal_conditions, get_signal_strength, update_bar_index, record_exit, reset_cooldown
+
+FUNCTION src\trading_robot\strategies\backtest\signal_detection_engine.py:168:
+  Function 'validate_signal_conditions': 56 LOC (limit: 50)
+  Excess: 6 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\trading_robot\strategies\backtest\signal_detection_engine.py:225:
+  Function 'get_signal_strength': 51 LOC (limit: 50)
+  Excess: 1 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\trading_robot\strategies\backtest\technical_indicators_engine.py:34:
+  Class 'TechnicalIndicatorsEngine': 257 LOC (limit: 100)
+  Excess: 157 LOC
+  Suggested splits:
+    - TechnicalIndicatorsEngineCore - Core methods: calculate_all_indicators, calculate_custom_indicator, get_indicator_values, get_indicator_summary, validate_indicators
+    - TechnicalIndicatorsEngineUtils - Utility methods: get_trend_strength, calculate_rsi, calculate_atr
+
+CLASS src\trading_robot\strategies\backtest\tsla_atr_backtest_orchestrator.py:46:
+  Class 'TSLAATRBacktestOrchestrator': 218 LOC (limit: 100)
+  Excess: 118 LOC
+  Suggested splits:
+    - TSLAATRBacktestOrchestratorCore - Core methods: run_backtest, get_backtest_summary, get_trade_log, get_equity_curve, generate_performance_report
+    - TSLAATRBacktestOrchestratorUtils - Utility methods: export_results, reset_backtest, update_config
+
+FUNCTION src\trading_robot\strategies\backtest\tsla_atr_backtest_orchestrator.py:97:
+  Function 'run_backtest': 115 LOC (limit: 50)
+  Excess: 65 LOC
+  Recommendation: Split into smaller functions
+
+FILE src\utils\config_consolidator.py:
+  File: 426 LOC (limit: 400)
+  Excess: 26 LOC
+  Suggested splits:
+    - config_consolidator_core.py - Core classes: ConfigPattern, ConfigurationConsolidator
+    - config_consolidator_utils.py - Utility functions: run_configuration_consolidation, __init__, scan_configuration_patterns
+    - config_consolidator_types.py - Type definitions and imports
+
+CLASS src\utils\config_consolidator.py:38:
+  Class 'ConfigurationConsolidator': 355 LOC (limit: 100)
+  Excess: 255 LOC
+  Suggested splits:
+    - ConfigurationConsolidatorCore - Core methods: scan_configuration_patterns, consolidate_patterns, generate_consolidation_report
+    - ConfigurationConsolidatorUtils - Utility methods: 
+
+FUNCTION src\utils\config_consolidator.py:249:
+  Function 'consolidate_patterns': 51 LOC (limit: 50)
+  Excess: 1 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION src\utils\config_consolidator.py:341:
+  Function 'generate_consolidation_report': 52 LOC (limit: 50)
+  Excess: 2 LOC
+  Recommendation: Split into smaller functions
+
+CLASS src\utils\file_utils.py:16:
+  Class 'FileUtils': 243 LOC (limit: 100)
+  Excess: 143 LOC
+  Suggested splits:
+    - FileUtilsCore - Core methods: ensure_directory, read_json, write_json, read_yaml, write_yaml
+    - FileUtilsUtils - Utility methods: file_exists, is_file_readable, is_file_writable, get_file_size, get_file_modified_time
+
+ERROR src\utils\logger.py:
+  Parse error
+
+CLASS src\utils\backup.py:20:
+  Class 'BackupManager': 110 LOC (limit: 100)
+  Excess: 10 LOC
+  Suggested splits:
+    - BackupManagerCore - Core methods: create_backup, list_backups, restore_backup, cleanup_old_backups
+    - BackupManagerUtils - Utility methods: 
+
+FUNCTION tools\audit_cleanup.py:167:
+  Function 'main': 152 LOC (limit: 50)
+  Excess: 102 LOC
+  Recommendation: Split into smaller functions
+
+FILE tools\projectscanner.py:
+  File: 816 LOC (limit: 400)
+  Excess: 416 LOC
+  Suggested splits:
+    - projectscanner_core.py - Core classes: LanguageAnalyzer, BotWorker
+    - projectscanner_utils.py - Utility functions: main, __init__, _init_tree_sitter_language
+    - projectscanner_types.py - Type definitions and imports
+
+CLASS tools\projectscanner.py:36:
+  Class 'LanguageAnalyzer': 242 LOC (limit: 100)
+  Excess: 142 LOC
+  Suggested splits:
+    - LanguageAnalyzerCore - Core methods: analyze_file, get_node_text
+    - LanguageAnalyzerUtils - Utility methods: 
+
+CLASS tools\projectscanner.py:437:
+  Class 'ReportGenerator': 154 LOC (limit: 100)
+  Excess: 54 LOC
+  Suggested splits:
+    - ReportGeneratorCore - Core methods: load_existing_report, save_report, generate_init_files, load_existing_chatgpt_context, export_chatgpt_context
+    - ReportGeneratorUtils - Utility methods: 
+
+CLASS tools\projectscanner.py:596:
+  Class 'ProjectScanner': 177 LOC (limit: 100)
+  Excess: 77 LOC
+  Suggested splits:
+    - ProjectScannerCore - Core methods: load_cache, save_cache, scan_project, generate_init_files, export_chatgpt_context
+    - ProjectScannerUtils - Utility methods: categorize_agents
+
+FUNCTION tools\projectscanner.py:101:
+  Function '_analyze_python': 70 LOC (limit: 50)
+  Excess: 20 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\projectscanner.py:214:
+  Function '_analyze_javascript': 64 LOC (limit: 50)
+  Excess: 14 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\projectscanner.py:350:
+  Function 'should_exclude': 64 LOC (limit: 50)
+  Excess: 14 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\projectscanner.py:537:
+  Function 'export_chatgpt_context': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\projectscanner.py:640:
+  Function 'scan_project': 85 LOC (limit: 50)
+  Excess: 35 LOC
+  Recommendation: Split into smaller functions
+
+FILE tools\analysis_cli.py:
+  File: 404 LOC (limit: 400)
+  Excess: 4 LOC
+  Suggested splits:
+    - analysis_cli_core.py - Core classes: 
+    - analysis_cli_utils.py - Utility functions: should_exclude_file, count_lines, analyze_python_file
+    - analysis_cli_types.py - Type definitions and imports
+
+FUNCTION tools\analysis_cli.py:79:
+  Function 'analyze_python_file': 135 LOC (limit: 50)
+  Excess: 85 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\analysis_cli.py:216:
+  Function 'analyze_project': 60 LOC (limit: 50)
+  Excess: 10 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\analysis_cli.py:300:
+  Function 'format_violations_text': 56 LOC (limit: 50)
+  Excess: 6 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\auto_remediate_loc.py:205:
+  Function 'generate_refactor_plan': 73 LOC (limit: 50)
+  Excess: 23 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\auto_remediate_loc.py:280:
+  Function 'generate_text_report': 62 LOC (limit: 50)
+  Excess: 12 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION tools\codemods\migrate_managers.py:57:
+  Function 'main': 82 LOC (limit: 50)
+  Excess: 32 LOC
+  Recommendation: Split into smaller functions
+
+ERROR tools\codemods\replace_prints_with_logger.py:
+  Parse error
+
+CLASS agent_workspaces\Agent-7\agent7_vector_database_integration.py:55:
+  Class 'Agent7VectorDatabaseIntegration': 217 LOC (limit: 100)
+  Excess: 117 LOC
+  Suggested splits:
+    - Agent7VectorDatabaseIntegrationCore - Core methods: index_agent7_status, index_agent7_capabilities, search_agent7_context, get_integration_status
+    - Agent7VectorDatabaseIntegrationUtils - Utility methods: 
+
+FUNCTION agent_workspaces\Agent-7\agent7_vector_database_integration.py:71:
+  Function 'index_agent7_status': 100 LOC (limit: 50)
+  Excess: 50 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION agent_workspaces\Agent-7\agent7_vector_database_integration.py:172:
+  Function 'index_agent7_capabilities': 67 LOC (limit: 50)
+  Excess: 17 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION scripts\activate_vector_database_integration.py:22:
+  Function 'activate_vector_database_integration': 143 LOC (limit: 50)
+  Excess: 93 LOC
+  Recommendation: Split into smaller functions
+
+ERROR scripts\agent_onboarding.py:
+  Parse error
+
+CLASS scripts\cleanup_v2_compliance.py:22:
+  Class 'V2ComplianceChecker': 228 LOC (limit: 100)
+  Excess: 128 LOC
+  Suggested splits:
+    - V2ComplianceCheckerCore - Core methods: analyze_file_sizes, analyze_code_structure, generate_report, save_report
+    - V2ComplianceCheckerUtils - Utility methods: 
+
+FUNCTION scripts\cleanup_v2_compliance.py:124:
+  Function 'generate_report': 119 LOC (limit: 50)
+  Excess: 69 LOC
+  Recommendation: Split into smaller functions
+
+CLASS scripts\enforce_python_standards.py:39:
+  Class 'PythonStandardEnforcer': 240 LOC (limit: 100)
+  Excess: 140 LOC
+  Suggested splits:
+    - PythonStandardEnforcerCore - Core methods: enforce_standards
+    - PythonStandardEnforcerUtils - Utility methods: 
+
+FUNCTION scripts\enforce_python_standards.py:225:
+  Function '_report_results': 54 LOC (limit: 50)
+  Excess: 4 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION scripts\fix_and_ingest_vector_database.py:18:
+  Function 'fix_encoding_and_reingest': 73 LOC (limit: 50)
+  Excess: 23 LOC
+  Recommendation: Split into smaller functions
+
+CLASS scripts\index_v2_refactoring.py:19:
+  Class 'V2RefactoringIndexer': 349 LOC (limit: 100)
+  Excess: 249 LOC
+  Suggested splits:
+    - V2RefactoringIndexerCore - Core methods: index_refactoring_work
+    - V2RefactoringIndexerUtils - Utility methods: 
+
+FUNCTION scripts\index_v2_refactoring.py:22:
+  Function '__init__': 186 LOC (limit: 50)
+  Excess: 136 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION scripts\index_v2_refactoring.py:290:
+  Function '_index_revolutionary_pattern': 78 LOC (limit: 50)
+  Excess: 28 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION scripts\v2_release_summary.py:13:
+  Function 'main': 88 LOC (limit: 50)
+  Excess: 38 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION scripts\execution\bulk_pyautogui_test.py:32:
+  Function 'run_bulk_pyautogui_test': 108 LOC (limit: 50)
+  Excess: 58 LOC
+  Recommendation: Split into smaller functions
+
+FUNCTION scripts\utilities\setup_discord_bot.py:58:
+  Function 'setup_environment': 109 LOC (limit: 50)
+  Excess: 59 LOC
+  Recommendation: Split into smaller functions

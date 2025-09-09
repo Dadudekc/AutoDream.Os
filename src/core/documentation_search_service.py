@@ -52,9 +52,7 @@ class DocumentationSearchService:
             result["original_query"] = query
             result["enhanced_query"] = enhanced_query
 
-        get_logger(__name__).info(
-            f"Search completed: '{query}' -> {len(results)} results"
-        )
+        get_logger(__name__).info(f"Search completed: '{query}' -> {len(results)} results")
         return results
 
     def get_relevant_docs(

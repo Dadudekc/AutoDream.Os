@@ -1,0 +1,186 @@
+Analyzing Python files in ....
+V2 Compliance Analysis Report
+==================================================
+
+SUMMARY:
+Files analyzed: 50
+Files with violations: 34
+Total violations: 65
+
+CRITICAL Syntax errors: 2
+CRITICAL File LOC violations: 2
+MAJOR Class LOC violations: 18
+MINOR Function LOC violations: 15
+MINOR Line length violations: 12
+MAJOR Print statement violations: 16
+
+VIOLATION DETAILS:
+
+FILE run_unified.py:
+  MAJOR Line 62: Found 1 print() statement(s) - use logging instead
+
+FILE test_ctrl_t_onboarding_navigation.py:
+  MINOR Line 23: Function 'test_ctrl_t_onboarding_navigation' exceeds 50 LOC (129 LOC)
+    Excess LOC: 79
+  MINOR Line 140: Found 1 line(s) exceeding 100 characters
+
+FILE test_pyautogui_mode.py:
+  MINOR Line 28: Function 'test_pyautogui_mode' exceeds 50 LOC (111 LOC)
+    Excess LOC: 61
+  MINOR Line 155: Found 1 line(s) exceeding 100 characters
+
+FILE fix_manager_results.py:
+  MAJOR Line 13: Found 3 print() statement(s) - use logging instead
+  MINOR Line 25: Found 1 line(s) exceeding 100 characters
+
+FILE simple_overnight_monitor.py:
+  MAJOR Line 7: Found 3 print() statement(s) - use logging instead
+  MINOR Line 34: Found 1 line(s) exceeding 100 characters
+
+FILE agent_devlog_watcher.py:
+  MAJOR Line 7: Found 4 print() statement(s) - use logging instead
+  CRITICAL Line 31: Syntax error: unexpected indent
+
+FILE run_smoke_tests.py:
+  MAJOR Line 17: Class 'SmokeTestRunner' exceeds 100 LOC (262 LOC)
+    Excess LOC: 162
+  MINOR Line 98: Found 10 line(s) exceeding 100 characters
+
+FILE src\web\frontend\settings.py:
+  CRITICAL Line 1: Syntax error: invalid syntax
+
+FILE src\web\vector_database\middleware.py:
+  MAJOR Line 19: Class 'VectorDatabaseMiddleware' exceeds 100 LOC (156 LOC)
+    Excess LOC: 56
+
+FILE src\web\vector_database\utils.py:
+  MAJOR Line 28: Class 'VectorDatabaseUtils' exceeds 100 LOC (225 LOC)
+    Excess LOC: 125
+  MINOR Line 78: Function 'simulate_get_documents' exceeds 50 LOC (53 LOC)
+    Excess LOC: 3
+  MINOR Line 38: Found 4 line(s) exceeding 100 characters
+
+FILE src\services\agent_vector_integration.py:
+  MAJOR Line 25: Class 'AgentVectorIntegration' exceeds 100 LOC (228 LOC)
+    Excess LOC: 128
+  MINOR Line 98: Function 'index_agent_work' exceeds 50 LOC (52 LOC)
+    Excess LOC: 2
+
+FILE src\services\agent_vector_integration_core.py:
+  MAJOR Line 13: Class 'AgentVectorIntegrationCore' exceeds 100 LOC (121 LOC)
+    Excess LOC: 21
+
+FILE src\services\agent_vector_integration_operations.py:
+  MAJOR Line 18: Class 'AgentVectorIntegrationOperations' exceeds 100 LOC (131 LOC)
+    Excess LOC: 31
+
+FILE src\services\architectural_onboarding.py:
+  CRITICAL Line 1: File exceeds 400 LOC (462 LOC)
+    Excess LOC: 62
+  MAJOR Line 52: Class 'ArchitecturalOnboardingManager' exceeds 100 LOC (407 LOC)
+    Excess LOC: 307
+  MINOR Line 64: Function '_define_principles' exceeds 50 LOC (265 LOC)
+    Excess LOC: 215
+  MINOR Line 99: Found 1 line(s) exceeding 100 characters
+
+FILE src\services\contract_service.py:
+  MAJOR Line 101: Found 23 print() statement(s) - use logging instead
+  MINOR Line 40: Function 'get_contract_definitions' exceeds 50 LOC (53 LOC)
+    Excess LOC: 3
+  MINOR Line 48: Found 3 line(s) exceeding 100 characters
+
+FILE src\services\message_identity_clarification.py:
+  MINOR Line 22: Function 'format_message_with_identity_clarification' exceeds 50 LOC (51 LOC)
+    Excess LOC: 1
+
+FILE src\services\messaging_agent_coordination.py:
+  MAJOR Line 20: Class 'MessagingAgentCoordination' exceeds 100 LOC (198 LOC)
+    Excess LOC: 98
+  MINOR Line 29: Function 'coordinate_with_agent' exceeds 50 LOC (129 LOC)
+    Excess LOC: 79
+
+FILE src\services\messaging_cli.py:
+  MINOR Line 23: Function 'create_enhanced_parser' exceeds 50 LOC (104 LOC)
+    Excess LOC: 54
+
+FILE src\services\messaging_core.py:
+  MAJOR Line 110: Found 36 print() statement(s) - use logging instead
+  MAJOR Line 53: Class 'UnifiedMessagingCore' exceeds 100 LOC (325 LOC)
+    Excess LOC: 225
+  MINOR Line 104: Function 'send_message_to_inbox' exceeds 50 LOC (76 LOC)
+    Excess LOC: 26
+  MINOR Line 90: Found 3 line(s) exceeding 100 characters
+
+FILE src\services\messaging_onboarding.py:
+  MAJOR Line 22: Class 'MessagingOnboarding' exceeds 100 LOC (117 LOC)
+    Excess LOC: 17
+  MINOR Line 48: Found 1 line(s) exceeding 100 characters
+
+FILE src\services\onboarding_service.py:
+  MAJOR Line 41: Found 1 print() statement(s) - use logging instead
+
+FILE src\services\simple_onboarding.py:
+  CRITICAL Line 1: File exceeds 400 LOC (531 LOC)
+    Excess LOC: 131
+  MAJOR Line 82: Found 26 print() statement(s) - use logging instead
+  MAJOR Line 47: Class 'SimpleOnboarding' exceeds 100 LOC (485 LOC)
+    Excess LOC: 385
+  MINOR Line 80: Function 'execute' exceeds 50 LOC (52 LOC)
+    Excess LOC: 2
+  MINOR Line 269: Function '_onboard_agent' exceeds 50 LOC (79 LOC)
+    Excess LOC: 29
+  MINOR Line 119: Found 1 line(s) exceeding 100 characters
+
+FILE src\services\overnight_command_handler.py:
+  MAJOR Line 26: Found 3 print() statement(s) - use logging instead
+
+FILE src\services\role_command_handler.py:
+  MAJOR Line 26: Found 3 print() statement(s) - use logging instead
+
+FILE src\services\messaging_pyautogui.py:
+  MAJOR Line 26: Found 2 print() statement(s) - use logging instead
+
+FILE src\services\unified_messaging_imports.py:
+  MAJOR Line 72: Found 2 print() statement(s) - use logging instead
+
+FILE src\services\contract_system\manager.py:
+  MAJOR Line 21: Class 'ContractManager' exceeds 100 LOC (101 LOC)
+    Excess LOC: 1
+
+FILE src\services\contract_system\storage.py:
+  MAJOR Line 50: Found 12 print() statement(s) - use logging instead
+  MAJOR Line 22: Class 'ContractStorage' exceeds 100 LOC (215 LOC)
+    Excess LOC: 115
+
+FILE src\services\coordination\stats_tracker.py:
+  MAJOR Line 18: Class 'StatsTracker' exceeds 100 LOC (220 LOC)
+    Excess LOC: 120
+  MINOR Line 87: Function '_update_detailed_stats' exceeds 50 LOC (53 LOC)
+    Excess LOC: 3
+
+FILE src\services\coordination\strategy_coordinator.py:
+  MAJOR Line 24: Class 'StrategyCoordinator' exceeds 100 LOC (163 LOC)
+    Excess LOC: 63
+
+FILE src\services\coordination\bulk_coordinator.py:
+  MAJOR Line 21: Class 'BulkCoordinator' exceeds 100 LOC (149 LOC)
+    Excess LOC: 49
+
+FILE src\services\handlers\command_handler.py:
+  MAJOR Line 50: Found 7 print() statement(s) - use logging instead
+  MAJOR Line 20: Class 'CommandHandler' exceeds 100 LOC (193 LOC)
+    Excess LOC: 93
+  MINOR Line 31: Function 'process_command' exceeds 50 LOC (68 LOC)
+    Excess LOC: 18
+
+FILE src\services\handlers\contract_handler.py:
+  MAJOR Line 52: Found 26 print() statement(s) - use logging instead
+  MAJOR Line 20: Class 'ContractHandler' exceeds 100 LOC (155 LOC)
+    Excess LOC: 55
+  MINOR Line 47: Function 'handle_contract_commands' exceeds 50 LOC (54 LOC)
+    Excess LOC: 4
+  MINOR Line 91: Found 1 line(s) exceeding 100 characters
+
+FILE src\services\handlers\coordinate_handler.py:
+  MAJOR Line 102: Found 7 print() statement(s) - use logging instead
+

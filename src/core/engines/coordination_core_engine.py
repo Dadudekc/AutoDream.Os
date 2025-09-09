@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import CoordinationEngine, EngineContext, EngineResult
 
 
@@ -7,9 +9,9 @@ class CoordinationCoreEngine(CoordinationEngine):
     """Core coordination engine - consolidates all coordination operations."""
 
     def __init__(self):
-        self.tasks: Dict[str, Any] = {}
-        self.schedules: Dict[str, Any] = {}
-        self.monitors: Dict[str, Any] = {}
+        self.tasks: dict[str, Any] = {}
+        self.schedules: dict[str, Any] = {}
+        self.monitors: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -22,7 +24,7 @@ class CoordinationCoreEngine(CoordinationEngine):
             context.logger.error(f"Failed to initialize Coordination Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute coordination operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -43,9 +45,7 @@ class CoordinationCoreEngine(CoordinationEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def coordinate(
-        self, context: EngineContext, tasks: List[Dict[str, Any]]
-    ) -> EngineResult:
+    def coordinate(self, context: EngineContext, tasks: list[dict[str, Any]]) -> EngineResult:
         """Coordinate multiple tasks."""
         try:
             coordination_id = f"coord_{len(self.tasks)}"
@@ -73,9 +73,7 @@ class CoordinationCoreEngine(CoordinationEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def schedule(
-        self, context: EngineContext, schedule: Dict[str, Any]
-    ) -> EngineResult:
+    def schedule(self, context: EngineContext, schedule: dict[str, Any]) -> EngineResult:
         """Schedule tasks for execution."""
         try:
             schedule_id = schedule.get("schedule_id", f"schedule_{len(self.schedules)}")
@@ -98,7 +96,7 @@ class CoordinationCoreEngine(CoordinationEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def monitor(self, context: EngineContext, targets: List[str]) -> EngineResult:
+    def monitor(self, context: EngineContext, targets: list[str]) -> EngineResult:
         """Monitor specified targets."""
         try:
             monitor_id = f"monitor_{len(self.monitors)}"
@@ -135,7 +133,7 @@ class CoordinationCoreEngine(CoordinationEngine):
             context.logger.error(f"Failed to cleanup Coordination Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get coordination core engine status."""
         return {
             "initialized": self.is_initialized,

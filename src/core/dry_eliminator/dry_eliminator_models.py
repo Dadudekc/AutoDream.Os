@@ -9,10 +9,10 @@ Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Any
 
 
 class DRYViolationType(Enum):
@@ -52,11 +52,11 @@ class DRYViolation:
     file_path: str
     line_number: int
     code_snippet: str
-    duplicate_locations: List[str] = field(default_factory=list)
+    duplicate_locations: list[str] = field(default_factory=list)
     suggested_strategy: EliminationStrategy = EliminationStrategy.CONSOLIDATE
     estimated_effort: str = "medium"
     potential_savings: int = 0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -66,12 +66,12 @@ class DRYAnalysisResult:
     analysis_id: str
     timestamp: datetime
     total_violations: int
-    violations: List[DRYViolation]
+    violations: list[DRYViolation]
     files_analyzed: int
     total_lines: int
     estimated_savings: int
     analysis_duration: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -80,11 +80,11 @@ class DRYConfiguration:
 
     scan_mode: str = "comprehensive"
     min_duplicate_lines: int = 3
-    exclude_patterns: List[str] = field(default_factory=list)
-    include_patterns: List[str] = field(default_factory=lambda: ["*.py"])
+    exclude_patterns: list[str] = field(default_factory=list)
+    include_patterns: list[str] = field(default_factory=lambda: ["*.py"])
     max_file_size: int = 10000
     parallel_processing: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -121,7 +121,7 @@ def create_dry_violation(
 
 
 def create_dry_analysis_result(
-    violations: List[DRYViolation], files_analyzed: int, total_lines: int
+    violations: list[DRYViolation], files_analyzed: int, total_lines: int
 ) -> DRYAnalysisResult:
     """Create DRY analysis result."""
     import uuid

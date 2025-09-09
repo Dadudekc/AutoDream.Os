@@ -10,10 +10,10 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import statistics
 import logging
-from typing import Dict, List, Any
+import statistics
 from collections import Counter
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class PatternExtractor:
         """Initialize pattern extractor."""
         self.logger = logger
 
-    def extract_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def extract_patterns(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Extract patterns from data."""
         try:
             if not data:
@@ -42,7 +42,7 @@ class PatternExtractor:
             self.logger.error(f"Error extracting patterns: {e}")
             return {"error": str(e)}
 
-    def _extract_frequency_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _extract_frequency_patterns(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Extract frequency patterns."""
         try:
             # Count occurrences of each key
@@ -63,7 +63,7 @@ class PatternExtractor:
             self.logger.error(f"Error extracting frequency patterns: {e}")
             return {}
 
-    def _extract_value_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _extract_value_patterns(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Extract value patterns."""
         try:
             # Extract numeric values
@@ -79,9 +79,7 @@ class PatternExtractor:
             # Calculate statistics
             mean_val = statistics.mean(numeric_values)
             median_val = statistics.median(numeric_values)
-            stdev_val = (
-                statistics.stdev(numeric_values) if len(numeric_values) > 1 else 0
-            )
+            stdev_val = statistics.stdev(numeric_values) if len(numeric_values) > 1 else 0
 
             return {
                 "mean": round(mean_val, 3),
@@ -95,7 +93,7 @@ class PatternExtractor:
             self.logger.error(f"Error extracting value patterns: {e}")
             return {}
 
-    def _extract_temporal_patterns(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _extract_temporal_patterns(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Extract temporal patterns."""
         try:
             # Look for timestamp fields

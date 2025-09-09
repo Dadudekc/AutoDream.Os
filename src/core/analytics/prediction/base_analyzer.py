@@ -10,7 +10,7 @@ Example:
     'high'
 """
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class BasePredictionAnalyzer:
@@ -37,9 +37,7 @@ class BasePredictionAnalyzer:
         return "low"
 
     @classmethod
-    def confidence_level(
-        cls, probability: float, mapping: Optional[Dict[str, Any]] = None
-    ) -> Any:
+    def confidence_level(cls, probability: float, mapping: dict[str, Any] | None = None) -> Any:
         """Return confidence level using optional custom mapping."""
         label = cls.confidence_label(probability)
         if mapping:

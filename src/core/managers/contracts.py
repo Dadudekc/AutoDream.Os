@@ -10,18 +10,20 @@ License: MIT
 """
 
 from __future__ import annotations
+
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Protocol, Callable
 from datetime import datetime
+from typing import Any, Protocol
 
 
 @dataclass(frozen=True)
 class ManagerContext:
     """SSOT: shared context object for all managers (DIP)."""
 
-    config: Dict[str, Any]
+    config: dict[str, Any]
     logger: Callable[[str], None]
-    metrics: Dict[str, Any]
+    metrics: dict[str, Any]
     timestamp: datetime
 
 
@@ -30,9 +32,9 @@ class ManagerResult:
     """Standard result object for all manager operations."""
 
     success: bool
-    data: Dict[str, Any]
-    metrics: Dict[str, Any]
-    error: Optional[str] = None
+    data: dict[str, Any]
+    metrics: dict[str, Any]
+    error: str | None = None
 
 
 class Manager(Protocol):
@@ -43,7 +45,7 @@ class Manager(Protocol):
         ...
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute manager operation."""
         ...
@@ -52,7 +54,7 @@ class Manager(Protocol):
         """Cleanup manager resources."""
         ...
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get manager status."""
         ...
 
@@ -61,7 +63,7 @@ class ResourceManager(Manager, Protocol):
     """Resource management protocol - files, locks, contexts."""
 
     def create_resource(
-        self, context: ManagerContext, resource_type: str, data: Dict[str, Any]
+        self, context: ManagerContext, resource_type: str, data: dict[str, Any]
     ) -> ManagerResult:
         """Create a resource."""
         ...
@@ -71,14 +73,12 @@ class ResourceManager(Manager, Protocol):
         ...
 
     def update_resource(
-        self, context: ManagerContext, resource_id: str, updates: Dict[str, Any]
+        self, context: ManagerContext, resource_id: str, updates: dict[str, Any]
     ) -> ManagerResult:
         """Update a resource."""
         ...
 
-    def delete_resource(
-        self, context: ManagerContext, resource_id: str
-    ) -> ManagerResult:
+    def delete_resource(self, context: ManagerContext, resource_id: str) -> ManagerResult:
         """Delete a resource."""
         ...
 
@@ -91,13 +91,13 @@ class ConfigurationManager(Manager, Protocol):
         ...
 
     def save_config(
-        self, context: ManagerContext, config_key: str, config_data: Dict[str, Any]
+        self, context: ManagerContext, config_key: str, config_data: dict[str, Any]
     ) -> ManagerResult:
         """Save configuration."""
         ...
 
     def validate_config(
-        self, context: ManagerContext, config_data: Dict[str, Any]
+        self, context: ManagerContext, config_data: dict[str, Any]
     ) -> ManagerResult:
         """Validate configuration."""
         ...
@@ -107,20 +107,18 @@ class ExecutionManager(Manager, Protocol):
     """Execution management protocol - tasks, protocols, execution."""
 
     def execute_task(
-        self, context: ManagerContext, task_id: str, task_data: Dict[str, Any]
+        self, context: ManagerContext, task_id: str, task_data: dict[str, Any]
     ) -> ManagerResult:
         """Execute a task."""
         ...
 
     def register_protocol(
-        self, context: ManagerContext, protocol_name: str, protocol_data: Dict[str, Any]
+        self, context: ManagerContext, protocol_name: str, protocol_data: dict[str, Any]
     ) -> ManagerResult:
         """Register a protocol."""
         ...
 
-    def get_execution_status(
-        self, context: ManagerContext, execution_id: str
-    ) -> ManagerResult:
+    def get_execution_status(self, context: ManagerContext, execution_id: str) -> ManagerResult:
         """Get execution status."""
         ...
 
@@ -128,9 +126,7 @@ class ExecutionManager(Manager, Protocol):
 class MonitoringManager(Manager, Protocol):
     """Monitoring management protocol - alerts, metrics, widgets."""
 
-    def create_alert(
-        self, context: ManagerContext, alert_data: Dict[str, Any]
-    ) -> ManagerResult:
+    def create_alert(self, context: ManagerContext, alert_data: dict[str, Any]) -> ManagerResult:
         """Create an alert."""
         ...
 
@@ -140,9 +136,7 @@ class MonitoringManager(Manager, Protocol):
         """Record a metric."""
         ...
 
-    def create_widget(
-        self, context: ManagerContext, widget_data: Dict[str, Any]
-    ) -> ManagerResult:
+    def create_widget(self, context: ManagerContext, widget_data: dict[str, Any]) -> ManagerResult:
         """Create a widget."""
         ...
 
@@ -150,20 +144,18 @@ class MonitoringManager(Manager, Protocol):
 class ServiceManager(Manager, Protocol):
     """Service management protocol - onboarding, recovery, results."""
 
-    def onboard_agent(
-        self, context: ManagerContext, agent_data: Dict[str, Any]
-    ) -> ManagerResult:
+    def onboard_agent(self, context: ManagerContext, agent_data: dict[str, Any]) -> ManagerResult:
         """Onboard an agent."""
         ...
 
     def recover_from_error(
-        self, context: ManagerContext, error_data: Dict[str, Any]
+        self, context: ManagerContext, error_data: dict[str, Any]
     ) -> ManagerResult:
         """Recover from error."""
         ...
 
     def process_results(
-        self, context: ManagerContext, results_data: Dict[str, Any]
+        self, context: ManagerContext, results_data: dict[str, Any]
     ) -> ManagerResult:
         """Process results."""
         ...

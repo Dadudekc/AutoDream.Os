@@ -9,8 +9,8 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-from typing import Any, Dict, List
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass
@@ -18,7 +18,7 @@ class OptimizationResult:
     """Result of optimization operation."""
 
     success: bool
-    data: Dict[str, Any]
+    data: dict[str, Any]
     execution_time: float
     error: str = None
 
@@ -39,8 +39,8 @@ class MissionAnalysis:
     """Mission analysis data."""
 
     similar_missions_count: int
-    success_factors: List[str]
-    potential_pitfalls: List[str]
+    success_factors: list[str]
+    potential_pitfalls: list[str]
     confidence_level: float
 
 

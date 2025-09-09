@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class PerformanceCoreEngine(Engine):
     """Core performance engine - consolidates all performance operations."""
 
     def __init__(self):
-        self.benchmarks: Dict[str, Any] = {}
-        self.optimizations: List[Dict[str, Any]] = []
+        self.benchmarks: dict[str, Any] = {}
+        self.optimizations: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class PerformanceCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Performance Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute performance operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class PerformanceCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _benchmark(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _benchmark(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Run performance benchmark."""
         try:
             benchmark_id = payload.get("benchmark_id", f"bench_{len(self.benchmarks)}")
@@ -69,9 +69,7 @@ class PerformanceCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _optimize(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _optimize(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Optimize performance."""
         try:
             optimization_id = f"opt_{len(self.optimizations)}"
@@ -97,7 +95,7 @@ class PerformanceCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _profile(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def _profile(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Profile system performance."""
         try:
             profile_id = f"profile_{len(self.optimizations)}"
@@ -133,7 +131,7 @@ class PerformanceCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Performance Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get performance core engine status."""
         return {
             "initialized": self.is_initialized,

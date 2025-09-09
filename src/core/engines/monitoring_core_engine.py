@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class MonitoringCoreEngine(Engine):
     """Core monitoring engine - consolidates all monitoring operations."""
 
     def __init__(self):
-        self.metrics: Dict[str, Any] = {}
-        self.alerts: List[Dict[str, Any]] = []
+        self.metrics: dict[str, Any] = {}
+        self.alerts: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class MonitoringCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Monitoring Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute monitoring operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class MonitoringCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _collect_metrics(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _collect_metrics(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Collect system metrics."""
         try:
             metric_name = payload.get("metric_name", "default")
@@ -66,9 +66,7 @@ class MonitoringCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _check_health(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _check_health(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Check system health."""
         try:
             component = payload.get("component", "system")
@@ -85,15 +83,11 @@ class MonitoringCoreEngine(Engine):
                 },
             }
 
-            return EngineResult(
-                success=True, data=health_status, metrics={"component": component}
-            )
+            return EngineResult(success=True, data=health_status, metrics={"component": component})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _create_alert(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _create_alert(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Create monitoring alert."""
         try:
             alert_id = f"alert_{len(self.alerts)}"
@@ -112,9 +106,7 @@ class MonitoringCoreEngine(Engine):
 
             self.alerts.append(alert_data)
 
-            return EngineResult(
-                success=True, data=alert_data, metrics={"alert_id": alert_id}
-            )
+            return EngineResult(success=True, data=alert_data, metrics={"alert_id": alert_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
@@ -130,7 +122,7 @@ class MonitoringCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Monitoring Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get monitoring core engine status."""
         return {
             "initialized": self.is_initialized,

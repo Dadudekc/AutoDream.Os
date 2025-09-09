@@ -1,8 +1,11 @@
 # src/quality/proof_ledger.py
 from __future__ import annotations
-import json, os, subprocess, time
+
+import json
+import os
+import subprocess
+import time
 from datetime import datetime
-from typing import Dict, List, Tuple
 
 
 def _git_head() -> str:
@@ -12,7 +15,7 @@ def _git_head() -> str:
         return "unknown"
 
 
-def run_tdd_proof(mode: str, role_map: Dict[str, str]) -> str:
+def run_tdd_proof(mode: str, role_map: dict[str, str]) -> str:
     """Executes pytest if available and writes a JSON proof artifact.
 
     Returns path to the proof file.

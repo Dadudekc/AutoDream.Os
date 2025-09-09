@@ -12,7 +12,7 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+
 from ..models import Portfolio
 
 
@@ -36,7 +36,7 @@ class PortfolioRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_portfolio(self, portfolio_id: str) -> Optional[Portfolio]:
+    async def get_portfolio(self, portfolio_id: str) -> Portfolio | None:
         """Retrieve portfolio by ID.
 
         Args:
@@ -48,7 +48,7 @@ class PortfolioRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all_portfolios(self) -> List[Portfolio]:
+    async def get_all_portfolios(self) -> list[Portfolio]:
         """Get all portfolios.
 
         Returns:
@@ -81,7 +81,7 @@ class PortfolioRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_portfolio_by_name(self, name: str) -> Optional[Portfolio]:
+    async def get_portfolio_by_name(self, name: str) -> Portfolio | None:
         """Retrieve portfolio by name.
 
         Args:

@@ -9,10 +9,10 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
+import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, Dict, Any
-import time
+from typing import Any
 
 
 class LockStatus(Enum):
@@ -47,13 +47,13 @@ class LockInfo:
     thread_id: str
     timestamp: float
     process_name: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def is_stale(self, stale_age: float = 300.0) -> bool:
         """Check if lock is stale."""
         return time.time() - self.timestamp > stale_age
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "lock_file": self.lock_file,
@@ -71,12 +71,12 @@ class LockResult:
 
     success: bool
     status: LockStatus
-    lock_info: Optional[LockInfo] = None
-    error_message: Optional[str] = None
+    lock_info: LockInfo | None = None
+    error_message: str | None = None
     execution_time_ms: float = 0.0
     retry_count: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "success": self.success,
@@ -104,7 +104,7 @@ class LockMetrics:
     active_locks: int = 0
     last_updated: float = field(default_factory=time.time)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_locks_created": self.total_locks_created,
@@ -123,10 +123,6 @@ class LockMetrics:
     def update_averages(self) -> None:
         """Update average execution times."""
         if self.total_locks_acquired > 0:
-            self.average_acquire_time_ms = (
-                self.total_execution_time_ms / self.total_locks_acquired
-            )
+            self.average_acquire_time_ms = self.total_execution_time_ms / self.total_locks_acquired
         if self.total_locks_released > 0:
-            self.average_release_time_ms = (
-                self.total_execution_time_ms / self.total_locks_released
-            )
+            self.average_release_time_ms = self.total_execution_time_ms / self.total_locks_released

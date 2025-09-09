@@ -13,8 +13,6 @@ V2 COMPLIANT: Focused file discovery under 300 lines.
 
 import logging
 from pathlib import Path
-from typing import List, Set, Optional
-from collections import defaultdict
 
 from ..dry_eliminator_models import DRYEliminatorConfig
 
@@ -26,10 +24,10 @@ class FileDiscoveryEngine:
         """Initialize file discovery engine with configuration."""
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.discovered_files: List[Path] = []
+        self.discovered_files: list[Path] = []
         self.file_metadata: dict = {}
 
-    def discover_python_files(self, project_root: Path) -> List[Path]:
+    def discover_python_files(self, project_root: Path) -> list[Path]:
         """Discover Python files in project based on configuration."""
         python_files = []
 
@@ -44,9 +42,7 @@ class FileDiscoveryEngine:
                             self._analyze_file_metadata(file_path)
 
             self.discovered_files = python_files
-            self.logger.info(
-                f"Discovered {len(python_files)} Python files for analysis"
-            )
+            self.logger.info(f"Discovered {len(python_files)} Python files for analysis")
             return python_files
 
         except Exception as e:
@@ -63,7 +59,7 @@ class FileDiscoveryEngine:
     def _analyze_file_metadata(self, file_path: Path):
         """Analyze and store file metadata."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             self.file_metadata[str(file_path)] = {
@@ -92,9 +88,7 @@ class FileDiscoveryEngine:
             "avg_lines_per_file": total_lines / len(self.discovered_files),
         }
 
-    def get_files_by_size(
-        self, min_size: int = 0, max_size: Optional[int] = None
-    ) -> List[Path]:
+    def get_files_by_size(self, min_size: int = 0, max_size: int | None = None) -> list[Path]:
         """Get files filtered by size."""
         filtered_files = []
 
@@ -108,8 +102,8 @@ class FileDiscoveryEngine:
         return filtered_files
 
     def get_files_by_line_count(
-        self, min_lines: int = 0, max_lines: Optional[int] = None
-    ) -> List[Path]:
+        self, min_lines: int = 0, max_lines: int | None = None
+    ) -> list[Path]:
         """Get files filtered by line count."""
         filtered_files = []
 
@@ -117,14 +111,12 @@ class FileDiscoveryEngine:
             metadata = self.file_metadata.get(str(file_path), {})
             line_count = metadata.get("line_count", 0)
 
-            if line_count >= min_lines and (
-                max_lines is None or line_count <= max_lines
-            ):
+            if line_count >= min_lines and (max_lines is None or line_count <= max_lines):
                 filtered_files.append(file_path)
 
         return filtered_files
 
-    def get_largest_files(self, count: int = 10) -> List[tuple]:
+    def get_largest_files(self, count: int = 10) -> list[tuple]:
         """Get largest files by size."""
         file_sizes = []
 
@@ -137,7 +129,7 @@ class FileDiscoveryEngine:
         file_sizes.sort(key=lambda x: x[1], reverse=True)
         return file_sizes[:count]
 
-    def get_files_by_extension(self, extensions: List[str]) -> List[Path]:
+    def get_files_by_extension(self, extensions: list[str]) -> list[Path]:
         """Get files filtered by extension."""
         filtered_files = []
 
@@ -147,7 +139,7 @@ class FileDiscoveryEngine:
 
         return filtered_files
 
-    def get_files_in_directory(self, directory: str) -> List[Path]:
+    def get_files_in_directory(self, directory: str) -> list[Path]:
         """Get files in specific directory."""
         filtered_files = []
         target_dir = Path(directory)
@@ -158,7 +150,7 @@ class FileDiscoveryEngine:
 
         return filtered_files
 
-    def refresh_file_list(self, project_root: Path) -> List[Path]:
+    def refresh_file_list(self, project_root: Path) -> list[Path]:
         """Refresh the file list (useful for detecting new files)"""
         return self.discover_python_files(project_root)
 
@@ -181,7 +173,7 @@ class FileDiscoveryEngine:
                 return False
 
             # Try to read the file
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 f.read(1)  # Read just one character to test
 
             return True

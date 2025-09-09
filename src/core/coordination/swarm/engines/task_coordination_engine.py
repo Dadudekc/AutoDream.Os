@@ -11,18 +11,17 @@ License: MIT
 """
 
 import asyncio
-import time
-from typing import Any, Dict, List, Optional
-from datetime import datetime, timedelta
-from collections import deque
 import logging
+import time
+from collections import deque
+from datetime import datetime
+from typing import Any
 
 from ..coordination_models import (
-    CoordinationTask,
-    CoordinationResult,
     CoordinationPriority,
+    CoordinationResult,
+    CoordinationTask,
     create_coordination_result,
-    create_coordination_task,
 )
 
 
@@ -33,12 +32,12 @@ class TaskCoordinationEngine:
         """Initialize task coordination engine."""
         self.logger = logging.getLogger(__name__)
         self.config = config
-        self.active_tasks: Dict[str, CoordinationTask] = {}
+        self.active_tasks: dict[str, CoordinationTask] = {}
         self.completed_tasks: deque = deque(maxlen=1000)
-        self.task_results: Dict[str, CoordinationResult] = {}
+        self.task_results: dict[str, CoordinationResult] = {}
 
         # Priority queues
-        self.priority_queues: Dict[CoordinationPriority, deque] = {
+        self.priority_queues: dict[CoordinationPriority, deque] = {
             priority: deque() for priority in CoordinationPriority
         }
 
@@ -72,9 +71,7 @@ class TaskCoordinationEngine:
             self.logger.error(f"Failed to coordinate task {task.task_id}: {e}")
             return self._create_error_result(task, str(e))
 
-    async def _execute_task_strategy(
-        self, task: CoordinationTask
-    ) -> CoordinationResult:
+    async def _execute_task_strategy(self, task: CoordinationTask) -> CoordinationResult:
         """Execute task using specified strategy."""
         try:
             if task.strategy == "parallel":
@@ -89,9 +86,7 @@ class TaskCoordinationEngine:
         except Exception as e:
             return self._create_error_result(task, str(e))
 
-    async def _execute_parallel_strategy(
-        self, task: CoordinationTask
-    ) -> CoordinationResult:
+    async def _execute_parallel_strategy(self, task: CoordinationTask) -> CoordinationResult:
         """Execute task using parallel strategy."""
         try:
             # Simulate parallel execution
@@ -106,9 +101,7 @@ class TaskCoordinationEngine:
         except Exception as e:
             return self._create_error_result(task, str(e))
 
-    async def _execute_sequential_strategy(
-        self, task: CoordinationTask
-    ) -> CoordinationResult:
+    async def _execute_sequential_strategy(self, task: CoordinationTask) -> CoordinationResult:
         """Execute task using sequential strategy."""
         try:
             # Simulate sequential execution
@@ -123,9 +116,7 @@ class TaskCoordinationEngine:
         except Exception as e:
             return self._create_error_result(task, str(e))
 
-    async def _execute_priority_based_strategy(
-        self, task: CoordinationTask
-    ) -> CoordinationResult:
+    async def _execute_priority_based_strategy(self, task: CoordinationTask) -> CoordinationResult:
         """Execute task using priority-based strategy."""
         try:
             # Add to priority queue
@@ -146,9 +137,7 @@ class TaskCoordinationEngine:
         except Exception as e:
             return self._create_error_result(task, str(e))
 
-    async def _execute_default_strategy(
-        self, task: CoordinationTask
-    ) -> CoordinationResult:
+    async def _execute_default_strategy(self, task: CoordinationTask) -> CoordinationResult:
         """Execute task using default strategy."""
         try:
             # Simulate default execution
@@ -174,21 +163,18 @@ class TaskCoordinationEngine:
             result_data={"error": error_message},
         )
 
-    def get_task_summary(self) -> Dict[str, Any]:
+    def get_task_summary(self) -> dict[str, Any]:
         """Get task coordination summary."""
         return {
             "active_tasks": len(self.active_tasks),
             "completed_tasks": len(self.completed_tasks),
             "task_results": len(self.task_results),
             "priority_queues": {
-                priority.value: len(queue)
-                for priority, queue in self.priority_queues.items()
+                priority.value: len(queue) for priority, queue in self.priority_queues.items()
             },
         }
 
-    def get_next_task(
-        self, priority: CoordinationPriority = None
-    ) -> Optional[CoordinationTask]:
+    def get_next_task(self, priority: CoordinationPriority = None) -> CoordinationTask | None:
         """Get next task from priority queue."""
         if priority:
             queue = self.priority_queues.get(priority)

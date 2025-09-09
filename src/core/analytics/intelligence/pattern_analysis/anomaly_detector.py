@@ -10,9 +10,9 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import statistics
 import logging
-from typing import Dict, List, Any
+import statistics
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class AnomalyDetector:
         """Initialize anomaly detector."""
         self.logger = logger
 
-    def detect_anomalies(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def detect_anomalies(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Detect anomalies in data."""
         try:
             if not data:
@@ -48,9 +48,7 @@ class AnomalyDetector:
             self.logger.error(f"Error detecting anomalies: {e}")
             return []
 
-    def _detect_statistical_anomalies(
-        self, values: List[float]
-    ) -> List[Dict[str, Any]]:
+    def _detect_statistical_anomalies(self, values: list[float]) -> list[dict[str, Any]]:
         """Detect anomalies using statistical methods."""
         try:
             if len(values) < 3:
@@ -83,9 +81,7 @@ class AnomalyDetector:
             self.logger.error(f"Error detecting statistical anomalies: {e}")
             return []
 
-    def detect_outliers(
-        self, values: List[float], method: str = "iqr"
-    ) -> List[Dict[str, Any]]:
+    def detect_outliers(self, values: list[float], method: str = "iqr") -> list[dict[str, Any]]:
         """Detect outliers using different methods."""
         try:
             if len(values) < 4:
@@ -101,7 +97,7 @@ class AnomalyDetector:
             self.logger.error(f"Error detecting outliers: {e}")
             return []
 
-    def _detect_outliers_iqr(self, values: List[float]) -> List[Dict[str, Any]]:
+    def _detect_outliers_iqr(self, values: list[float]) -> list[dict[str, Any]]:
         """Detect outliers using IQR method."""
         try:
             sorted_values = sorted(values)
@@ -138,7 +134,7 @@ class AnomalyDetector:
             self.logger.error(f"Error detecting IQR outliers: {e}")
             return []
 
-    def _detect_outliers_zscore(self, values: List[float]) -> List[Dict[str, Any]]:
+    def _detect_outliers_zscore(self, values: list[float]) -> list[dict[str, Any]]:
         """Detect outliers using Z-score method."""
         try:
             if len(values) < 3:

@@ -1,31 +1,38 @@
-"""Core managers package exporting specialized managers."""
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-from .core_onboarding_manager import CoreOnboardingManager
-from .core_recovery_manager import CoreRecoveryManager
-from .core_results_manager import CoreResultsManager
-from .core_service_coordinator import CoreServiceCoordinator
-from .core_service_manager import CoreServiceManager
-from .core_resource_manager import CoreResourceManager
-from .core_configuration_manager import CoreConfigurationManager
-from .core_execution_manager import CoreExecutionManager
-from .core_monitoring_manager import CoreMonitoringManager
+from . import base_manager
+from . import configuration_source_manager
+from . import configuration_store
+from . import constants
+from . import contracts
+from . import core_configuration_manager
+from . import core_execution_manager
+from . import core_monitoring_manager
+from . import core_onboarding_manager
+from . import core_recovery_manager
+from . import core_resource_manager
+from . import core_results_manager
+from . import core_service_coordinator
+from . import core_service_manager
+from . import registry
+from . import unified_configuration_manager
 
 __all__ = [
-    "CoreOnboardingManager",
-    "CoreRecoveryManager",
-    "CoreResultsManager",
-    "CoreServiceCoordinator",
-    "CoreServiceManager",
-    "CoreResourceManager",
-    "CoreConfigurationManager",
-    "CoreExecutionManager",
-    "CoreMonitoringManager",
+    'base_manager',
+    'configuration_source_manager',
+    'configuration_store',
+    'constants',
+    'contracts',
+    'core_configuration_manager',
+    'core_execution_manager',
+    'core_monitoring_manager',
+    'core_onboarding_manager',
+    'core_recovery_manager',
+    'core_resource_manager',
+    'core_results_manager',
+    'core_service_coordinator',
+    'core_service_manager',
+    'registry',
+    'unified_configuration_manager',
 ]
-
-# Optional export of UnifiedConfigurationManager to avoid import-time errors
-try:  # pragma: no cover - defensive
-    from .unified_configuration_manager import UnifiedConfigurationManager
-
-    __all__.append("UnifiedConfigurationManager")
-except Exception:  # Missing dependencies
-    UnifiedConfigurationManager = None

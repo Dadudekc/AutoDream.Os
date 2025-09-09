@@ -1,11 +1,8 @@
-"""
-Domain Services Package
-======================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Contains domain services that orchestrate multiple entities
-and handle complex business logic.
-"""
+from . import assignment_service
 
-from .assignment_service import AssignmentService
-
-__all__ = ["AssignmentService"]
+__all__ = [
+    'assignment_service',
+]

@@ -4,8 +4,8 @@
 Provides core integration functionality for agent vector operations.
 """
 
-from typing import Any, Dict, List, Optional
 import logging
+from typing import Any
 
 from .utils.vector_config_utils import load_simple_config
 
@@ -13,7 +13,7 @@ from .utils.vector_config_utils import load_simple_config
 class AgentVectorIntegrationCore:
     """Core vector database integration for agent workflows."""
 
-    def __init__(self, agent_id: str, config_path: Optional[str] = None):
+    def __init__(self, agent_id: str, config_path: str | None = None):
         """Initialize agent vector integration core."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ class AgentVectorIntegrationCore:
             self.logger.error(f"Failed to create vector integration: {e}")
             return {"status": "error", "error": str(e)}
 
-    def get_agent_context(self, query: str) -> Dict[str, Any]:
+    def get_agent_context(self, query: str) -> dict[str, Any]:
         """Get agent context for query - simplified."""
         try:
             # Simplified context retrieval
@@ -61,7 +61,7 @@ class AgentVectorIntegrationCore:
             self.logger.error(f"Failed to get agent context: {e}")
             return {"error": str(e)}
 
-    def get_task_recommendations(self, current_task: str) -> List[Dict[str, Any]]:
+    def get_task_recommendations(self, current_task: str) -> list[dict[str, Any]]:
         """Get task recommendations - simplified."""
         try:
             # Simplified recommendations
@@ -89,7 +89,7 @@ class AgentVectorIntegrationCore:
             self.logger.error(f"Failed to get task recommendations: {e}")
             return []
 
-    def store_agent_knowledge(self, knowledge: Dict[str, Any]) -> bool:
+    def store_agent_knowledge(self, knowledge: dict[str, Any]) -> bool:
         """Store agent knowledge - simplified."""
         try:
             # Simplified knowledge storage
@@ -102,7 +102,7 @@ class AgentVectorIntegrationCore:
             self.logger.error(f"Failed to store agent knowledge: {e}")
             return False
 
-    def search_agent_patterns(self, pattern_type: str) -> List[Dict[str, Any]]:
+    def search_agent_patterns(self, pattern_type: str) -> list[dict[str, Any]]:
         """Search agent patterns - simplified."""
         try:
             # Simplified pattern search
@@ -122,7 +122,7 @@ class AgentVectorIntegrationCore:
             self.logger.error(f"Failed to search agent patterns: {e}")
             return []
 
-    def get_agent_status(self) -> Dict[str, Any]:
+    def get_agent_status(self) -> dict[str, Any]:
         """Get agent integration status - simplified."""
         return {
             "agent_id": self.agent_id,

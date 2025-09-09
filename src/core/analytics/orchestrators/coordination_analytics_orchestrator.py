@@ -11,7 +11,7 @@ License: MIT
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class CoordinationAnalyticsSystem:
             "errors": 0,
         }
 
-    def start(self) -> Dict[str, Any]:
+    def start(self) -> dict[str, Any]:
         """Start coordination analytics system."""
         try:
             self.active = True
@@ -42,7 +42,7 @@ class CoordinationAnalyticsSystem:
             self.logger.error(f"Error starting system: {e}")
             return {"status": "error", "error": str(e)}
 
-    def stop(self) -> Dict[str, Any]:
+    def stop(self) -> dict[str, Any]:
         """Stop coordination analytics system."""
         try:
             self.active = False
@@ -52,7 +52,7 @@ class CoordinationAnalyticsSystem:
             self.logger.error(f"Error stopping system: {e}")
             return {"status": "error", "error": str(e)}
 
-    def process_analytics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_analytics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process coordination analytics data."""
         try:
             if not self.active:
@@ -76,7 +76,7 @@ class CoordinationAnalyticsSystem:
             self.logger.error(f"Error processing analytics: {e}")
             return {"error": str(e)}
 
-    def _generate_recommendations(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_recommendations(self, data: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate simple recommendations."""
         try:
             recommendations = []
@@ -107,7 +107,7 @@ class CoordinationAnalyticsSystem:
             self.logger.error(f"Error generating recommendations: {e}")
             return []
 
-    def get_analytics_report(self) -> Dict[str, Any]:
+    def get_analytics_report(self) -> dict[str, Any]:
         """Get analytics report."""
         try:
             return {
@@ -120,7 +120,7 @@ class CoordinationAnalyticsSystem:
             self.logger.error(f"Error generating report: {e}")
             return {"error": str(e)}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get system status."""
         return {
             "active": self.active,

@@ -9,18 +9,14 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 License: MIT
 """
 
-import time
 import threading
-from typing import Dict, List, Optional, Any, Callable
+import time
+from collections.abc import Callable
 from datetime import datetime
-from .models import (
-    BenchmarkType,
-    BenchmarkResult,
-    BenchmarkConfig,
-    BenchmarkSuite,
-    BenchmarkModels,
-)
+from typing import Any
+
 from .metrics import BenchmarkMetrics
+from .models import BenchmarkConfig, BenchmarkModels, BenchmarkResult, BenchmarkSuite, BenchmarkType
 from .reporter import BenchmarkReporter
 
 
@@ -31,11 +27,9 @@ class BenchmarkRunnerOperations:
         """Initialize benchmark runner operations."""
         self.metrics = BenchmarkMetrics()
         self.reporter = BenchmarkReporter(self.metrics)
-        self.suites: List[BenchmarkSuite] = []
+        self.suites: list[BenchmarkSuite] = []
 
-    def run_parallel_benchmarks(
-        self, benchmarks: List[Dict[str, Any]]
-    ) -> List[BenchmarkResult]:
+    def run_parallel_benchmarks(self, benchmarks: list[dict[str, Any]]) -> list[BenchmarkResult]:
         """Run benchmarks in parallel."""
         results = []
         threads = []
@@ -52,9 +46,7 @@ class BenchmarkRunnerOperations:
 
         # Create threads for parallel execution
         for benchmark_data in benchmarks:
-            thread = threading.Thread(
-                target=run_single_benchmark, args=(benchmark_data,)
-            )
+            thread = threading.Thread(target=run_single_benchmark, args=(benchmark_data,))
             threads.append(thread)
             thread.start()
 
@@ -93,7 +85,7 @@ class BenchmarkRunnerOperations:
                 result = func(*args, **kwargs)
                 iteration_time = time.time() - iteration_start
                 results.append(iteration_time)
-            except Exception as e:
+            except Exception:
                 iteration_time = time.time() - iteration_start
                 results.append(iteration_time)
 
@@ -123,9 +115,7 @@ class BenchmarkRunnerOperations:
 
         return benchmark_result
 
-    def run_stress_test(
-        self, func: Callable, duration_seconds: int = 60
-    ) -> BenchmarkResult:
+    def run_stress_test(self, func: Callable, duration_seconds: int = 60) -> BenchmarkResult:
         """Run stress test for specified duration."""
         config = BenchmarkConfig(
             iterations=1000,  # High iteration count for stress test
@@ -172,7 +162,7 @@ class BenchmarkRunnerOperations:
 
         return benchmark_result
 
-    def compare_benchmarks(self, results: List[BenchmarkResult]) -> Dict[str, Any]:
+    def compare_benchmarks(self, results: list[BenchmarkResult]) -> dict[str, Any]:
         """Compare multiple benchmark results."""
         if not results:
             return {"error": "No results to compare"}
@@ -207,9 +197,7 @@ class BenchmarkRunnerOperations:
 
         return comparison
 
-    def export_results(
-        self, results: List[BenchmarkResult], format: str = "json"
-    ) -> str:
+    def export_results(self, results: list[BenchmarkResult], format: str = "json") -> str:
         """Export benchmark results to specified format."""
         if format == "json":
             return self.reporter.export_json(results)
@@ -220,7 +208,7 @@ class BenchmarkRunnerOperations:
         else:
             return self.reporter.export_text(results)
 
-    def get_performance_trends(self) -> Dict[str, Any]:
+    def get_performance_trends(self) -> dict[str, Any]:
         """Get performance trends over time."""
         history = self.metrics.get_history()
 

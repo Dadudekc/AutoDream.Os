@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generate a concise catalog of functions in all utils directories."""
+
 import ast
 from pathlib import Path
-from collections import defaultdict
 
 ROOT = Path(__file__).resolve().parent.parent
 entries = []
@@ -20,7 +20,12 @@ for py_file in ROOT.rglob("*.py"):
     classes = [node.name for node in tree.body if isinstance(node, ast.ClassDef)]
     entries.append((str(rel_path), sorted(funcs), sorted(classes)))
 
-lines = ["# Utils Function Catalog", "", "Summary of top-level functions and classes within directories containing 'utils'.", ""]
+lines = [
+    "# Utils Function Catalog",
+    "",
+    "Summary of top-level functions and classes within directories containing 'utils'.",
+    "",
+]
 for path, funcs, classes in sorted(entries):
     lines.append(f"## {path}")
     if funcs:

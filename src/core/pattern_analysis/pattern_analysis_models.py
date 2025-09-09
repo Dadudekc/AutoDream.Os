@@ -10,9 +10,9 @@ License: MIT
 """
 
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Dict, List, Optional, Union
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
 
 class PatternType(Enum):
@@ -52,10 +52,10 @@ class MissionPattern:
     pattern_id: str
     pattern_type: str
     mission_type: str
-    success_indicators: List[str] = field(default_factory=list)
-    failure_indicators: List[str] = field(default_factory=list)
-    optimal_conditions: Dict[str, Any] = field(default_factory=dict)
-    risk_factors: List[str] = field(default_factory=list)
+    success_indicators: list[str] = field(default_factory=list)
+    failure_indicators: list[str] = field(default_factory=list)
+    optimal_conditions: dict[str, Any] = field(default_factory=dict)
+    risk_factors: list[str] = field(default_factory=list)
     success_rate: float = 0.0
     average_duration: float = 0.0
     confidence_score: float = 0.0
@@ -83,15 +83,15 @@ class MissionContext:
 
     mission_id: str
     mission_type: str
-    agent_assignments: List[str] = field(default_factory=list)
-    mission_goals: List[str] = field(default_factory=list)
-    available_resources: Dict[str, Any] = field(default_factory=dict)
-    constraints: List[str] = field(default_factory=list)
-    risk_factors: List[str] = field(default_factory=list)
-    success_criteria: List[str] = field(default_factory=list)
+    agent_assignments: list[str] = field(default_factory=list)
+    mission_goals: list[str] = field(default_factory=list)
+    available_resources: dict[str, Any] = field(default_factory=dict)
+    constraints: list[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
+    success_criteria: list[str] = field(default_factory=list)
     mission_priority: str = "medium"
     estimated_duration: float = 0.0
-    start_time: Optional[datetime] = None
+    start_time: datetime | None = None
 
 
 @dataclass
@@ -103,10 +103,10 @@ class StrategicRecommendation:
     recommendation_type: str
     confidence_score: float
     expected_impact: str
-    implementation_steps: List[str] = field(default_factory=list)
+    implementation_steps: list[str] = field(default_factory=list)
     risk_assessment: str = "medium"
-    resource_requirements: Dict[str, Any] = field(default_factory=dict)
-    success_metrics: List[str] = field(default_factory=list)
+    resource_requirements: dict[str, Any] = field(default_factory=dict)
+    success_metrics: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
 
 
@@ -117,12 +117,12 @@ class PatternAnalysisResult:
     success: bool
     pattern_success_probability: float
     analysis_confidence: float
-    identified_patterns: List[MissionPattern] = field(default_factory=list)
-    recommendations: List[StrategicRecommendation] = field(default_factory=list)
-    correlations: List[PatternCorrelation] = field(default_factory=list)
-    risk_assessment: Dict[str, Any] = field(default_factory=dict)
+    identified_patterns: list[MissionPattern] = field(default_factory=list)
+    recommendations: list[StrategicRecommendation] = field(default_factory=list)
+    correlations: list[PatternCorrelation] = field(default_factory=list)
+    risk_assessment: dict[str, Any] = field(default_factory=dict)
     execution_time_ms: float = 0.0
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
 
 @dataclass
@@ -137,7 +137,7 @@ class PatternMetrics:
     recommendation_count: int = 0
     last_updated: datetime = field(default_factory=datetime.now)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary."""
         return {
             "total_patterns": self.total_patterns,

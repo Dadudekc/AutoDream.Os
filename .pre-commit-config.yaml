@@ -1,37 +1,24 @@
 repos:
-<<<<<<< Updated upstream
-  - repo: local
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.6.9
     hooks:
-      # 1) Generate/refresh snapshots BEFORE the commit is created.
-      #    If files are modified, pre-commit will stop and ask you to re-commit (expected).
-      - id: project-snapshot-pre-commit
-        name: Generate project snapshots (project_analysis / test_analysis / chatgpt_project_context)
-        entry: python tools/run_project_scan.py --categorize-agents --generate-init
-        language: system
-        pass_filenames: false
-        stages: [pre-commit]
-        always_run: true
-
-      # 2) On push, enforce that snapshots are up-to-date.
-      #    If this finds diffs, push fails with a clear message.
-      - id: enforce-snapshot-pre-push
-        name: Enforce up-to-date project snapshots on push
-        entry: python tools/check_snapshot_up_to_date.py
-        language: system
-        pass_filenames: false
-        stages: [pre-push]
-        always_run: true
-=======
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
   - repo: https://github.com/psf/black
     rev: 24.8.0
-    hooks: [{ id: black }]
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.6.8
-    hooks: [{ id: ruff }]
+    hooks:
+      - id: black
+        language_version: python3.11
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
-    hooks: [{ id: isort }]
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.5.0
-    hooks: [{ id: detect-secrets }]
->>>>>>> Stashed changes
+    hooks:
+      - id: isort
+        args: [--profile, black]
+  - repo: local
+    hooks:
+      - id: v2-violations
+        name: v2-violations
+        entry: python tools/analysis_cli.py --ci-gate
+        language: system
+        pass_filenames: false

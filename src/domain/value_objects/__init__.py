@@ -1,16 +1,8 @@
-"""
-Domain Value Objects Package
-===========================
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-Contains immutable value objects without identity.
-"""
-
-from .ids import (
-    TaskId, AgentId, MessageId, FSMStateId,
-    TaskIdentifier, AgentIdentifier, MessageIdentifier, FSMStateIdentifier
-)
+from . import ids
 
 __all__ = [
-    "TaskId", "AgentId", "MessageId", "FSMStateId",
-    "TaskIdentifier", "AgentIdentifier", "MessageIdentifier", "FSMStateIdentifier"
+    'ids',
 ]

@@ -10,9 +10,9 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from datetime import datetime
 from dataclasses import dataclass, field
-from typing import Dict, Any, List
+from datetime import datetime
+from typing import Any
 
 from ..error_models_enums import ErrorSeverity
 
@@ -25,12 +25,12 @@ class ErrorAlert:
     error_id: str
     severity: ErrorSeverity
     message: str
-    recipients: List[str] = field(default_factory=list)
+    recipients: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
     acknowledged: bool = False
     acknowledged_by: str = None
     acknowledged_at: datetime = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -61,7 +61,7 @@ class ErrorAlert:
         """Check if alert is high priority."""
         return self.severity in [ErrorSeverity.CRITICAL, ErrorSeverity.HIGH]
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get alert summary."""
         return {
             "alert_id": self.alert_id,

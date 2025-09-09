@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import AnalysisEngine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class AnalysisCoreEngine(AnalysisEngine):
     """Core analysis engine - consolidates all analysis operations."""
 
     def __init__(self):
-        self.patterns: Dict[str, Any] = {}
-        self.violations: List[Dict[str, Any]] = []
+        self.patterns: dict[str, Any] = {}
+        self.violations: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class AnalysisCoreEngine(AnalysisEngine):
             context.logger.error(f"Failed to initialize Analysis Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute analysis operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,7 +44,7 @@ class AnalysisCoreEngine(AnalysisEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def analyze(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def analyze(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Analyze data for patterns and issues."""
         try:
             content = data.get("content", "")
@@ -64,9 +66,7 @@ class AnalysisCoreEngine(AnalysisEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def extract_patterns(
-        self, context: EngineContext, data: Dict[str, Any]
-    ) -> EngineResult:
+    def extract_patterns(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Extract patterns from data."""
         try:
             content = data.get("content", "")
@@ -101,9 +101,7 @@ class AnalysisCoreEngine(AnalysisEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def detect_violations(
-        self, context: EngineContext, data: Dict[str, Any]
-    ) -> EngineResult:
+    def detect_violations(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Detect violations in data."""
         try:
             content = data.get("content", "")
@@ -153,7 +151,7 @@ class AnalysisCoreEngine(AnalysisEngine):
             context.logger.error(f"Failed to cleanup Analysis Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get analysis core engine status."""
         return {
             "initialized": self.is_initialized,

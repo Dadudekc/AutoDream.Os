@@ -15,7 +15,8 @@ Status: V2 COMPLIANT - Decision Constants Optimized
 """
 
 from typing import Final
-from ..unified_config_system import get_config, get_unified_config
+
+from ..unified_config import get_config, get_unified_config
 
 # Configuration simplified - KISS compliance
 
@@ -24,21 +25,15 @@ from ..unified_config_system import get_config, get_unified_config
 # ================================
 
 # Decision processing limits
-DEFAULT_MAX_CONCURRENT_DECISIONS: Final[int] = get_config(
-    "DEFAULT_MAX_CONCURRENT_DECISIONS", 100
-)
+DEFAULT_MAX_CONCURRENT_DECISIONS: Final[int] = get_config("DEFAULT_MAX_CONCURRENT_DECISIONS", 100)
 
 DECISION_TIMEOUT_SECONDS: Final[int] = get_config("DECISION_TIMEOUT_SECONDS", 300)
 
 # Decision quality thresholds
-DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = get_config(
-    "DEFAULT_CONFIDENCE_THRESHOLD", 0.7
-)
+DEFAULT_CONFIDENCE_THRESHOLD: Final[float] = get_config("DEFAULT_CONFIDENCE_THRESHOLD", 0.7)
 
 # Cleanup and maintenance
-AUTO_CLEANUP_COMPLETED_DECISIONS: Final[bool] = get_config(
-    "AUTO_CLEANUP_COMPLETED_DECISIONS", True
-)
+AUTO_CLEANUP_COMPLETED_DECISIONS: Final[bool] = get_config("AUTO_CLEANUP_COMPLETED_DECISIONS", True)
 """Enable automatic cleanup of completed decision records."""
 
 CLEANUP_INTERVAL_MINUTES: Final[int] = get_config("CLEANUP_INTERVAL_MINUTES", 15)
@@ -87,11 +82,7 @@ def validate_decision_constants() -> bool:
     config = get_unified_config()
 
     # Validate confidence threshold
-    if not (
-        MIN_CONFIDENCE_THRESHOLD
-        <= DEFAULT_CONFIDENCE_THRESHOLD
-        <= MAX_CONFIDENCE_THRESHOLD
-    ):
+    if not (MIN_CONFIDENCE_THRESHOLD <= DEFAULT_CONFIDENCE_THRESHOLD <= MAX_CONFIDENCE_THRESHOLD):
         config.get_logger(__name__).error(
             f"Invalid confidence threshold: {DEFAULT_CONFIDENCE_THRESHOLD} "
             f"(must be between {MIN_CONFIDENCE_THRESHOLD} and {MAX_CONFIDENCE_THRESHOLD})"
@@ -100,9 +91,7 @@ def validate_decision_constants() -> bool:
 
     # Validate concurrent decisions
     if not (
-        MIN_CONCURRENT_DECISIONS
-        <= DEFAULT_MAX_CONCURRENT_DECISIONS
-        <= MAX_CONCURRENT_DECISIONS
+        MIN_CONCURRENT_DECISIONS <= DEFAULT_MAX_CONCURRENT_DECISIONS <= MAX_CONCURRENT_DECISIONS
     ):
         config.get_logger(__name__).error(
             f"Invalid max concurrent decisions: {DEFAULT_MAX_CONCURRENT_DECISIONS} "
@@ -153,6 +142,4 @@ def get_decision_config_summary() -> dict:
 
 # Validate constants on import
 if not validate_decision_constants():
-    raise ValueError(
-        "Decision constants validation failed - check configuration values"
-    )
+    raise ValueError("Decision constants validation failed - check configuration values")

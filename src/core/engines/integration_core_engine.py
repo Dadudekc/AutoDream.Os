@@ -1,14 +1,16 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
-from .contracts import IntegrationEngine, EngineContext, EngineResult
+
+from typing import Any
+
+from .contracts import EngineContext, EngineResult, IntegrationEngine
 
 
 class IntegrationCoreEngine(IntegrationEngine):
     """Core integration engine - consolidates all integration operations."""
 
     def __init__(self):
-        self.connections: Dict[str, Any] = {}
-        self.transforms: Dict[str, Any] = {}
+        self.connections: dict[str, Any] = {}
+        self.transforms: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class IntegrationCoreEngine(IntegrationEngine):
             context.logger.error(f"Failed to initialize Integration Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute integration operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,7 +44,7 @@ class IntegrationCoreEngine(IntegrationEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def connect(self, context: EngineContext, config: Dict[str, Any]) -> EngineResult:
+    def connect(self, context: EngineContext, config: dict[str, Any]) -> EngineResult:
         """Connect to external system."""
         try:
             connection_id = config.get("connection_id", "default")
@@ -65,7 +67,7 @@ class IntegrationCoreEngine(IntegrationEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def sync(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def sync(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Sync data with external system."""
         try:
             connection_id = data.get("connection_id", "default")
@@ -94,7 +96,7 @@ class IntegrationCoreEngine(IntegrationEngine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def transform(self, context: EngineContext, data: Dict[str, Any]) -> EngineResult:
+    def transform(self, context: EngineContext, data: dict[str, Any]) -> EngineResult:
         """Transform data for integration."""
         try:
             transform_id = data.get("transform_id", "default")
@@ -134,7 +136,7 @@ class IntegrationCoreEngine(IntegrationEngine):
             context.logger.error(f"Failed to cleanup Integration Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get integration core engine status."""
         return {
             "initialized": self.is_initialized,

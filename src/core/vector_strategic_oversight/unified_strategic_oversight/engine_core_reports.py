@@ -11,17 +11,15 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional
-from .models import StrategicOversightReport
+
 from .enums import ReportType
+from .models import StrategicOversightReport
 
 
 class StrategicOversightEngineCoreReports:
     """Report management for strategic oversight engine."""
 
-    def __init__(
-        self, reports: Dict[str, StrategicOversightReport], logger: logging.Logger
-    ):
+    def __init__(self, reports: dict[str, StrategicOversightReport], logger: logging.Logger):
         """Initialize report management."""
         self.reports = reports
         self.logger = logger
@@ -36,7 +34,7 @@ class StrategicOversightEngineCoreReports:
             self.logger.error(f"Failed to add strategic oversight report: {e}")
             return False
 
-    def get_report(self, report_id: str) -> Optional[StrategicOversightReport]:
+    def get_report(self, report_id: str) -> StrategicOversightReport | None:
         """Get a strategic oversight report by ID - simplified."""
         try:
             return self.reports.get(report_id)
@@ -46,7 +44,7 @@ class StrategicOversightEngineCoreReports:
 
     def get_reports(
         self, report_type: ReportType = None, limit: int = 10
-    ) -> List[StrategicOversightReport]:
+    ) -> list[StrategicOversightReport]:
         """Get strategic oversight reports - simplified."""
         try:
             reports = list(self.reports.values())

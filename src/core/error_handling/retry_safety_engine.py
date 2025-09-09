@@ -10,16 +10,18 @@ Created: 2025-01-27
 Purpose: V2 compliant retry and safety operations
 """
 
-import time
-from typing import Callable, Any, Optional, Union
 import logging
+import time
+from collections.abc import Callable
+from typing import Any
+
 from .error_handling_models import RetryConfiguration
 
 
 class RetrySafetyEngine:
     """Engine for retry operations and safe execution."""
 
-    def __init__(self, logger: Optional[logging.Logger] = None):
+    def __init__(self, logger: logging.Logger | None = None):
         """Initialize retry safety engine."""
         self.logger = logger
 
@@ -35,8 +37,8 @@ class RetrySafetyEngine:
     def retry_operation(
         self,
         operation_func: Callable,
-        config: Optional[RetryConfiguration] = None,
-        logger: Optional[logging.Logger] = None,
+        config: RetryConfiguration | None = None,
+        logger: logging.Logger | None = None,
     ) -> Any:
         """Retry operation with exponential backoff.
 
@@ -60,9 +62,7 @@ class RetrySafetyEngine:
         for attempt in range(config.max_retries + 1):
             try:
                 if effective_logger and attempt > 0:
-                    self._get_logger().info(
-                        f"🔄 Retry attempt {attempt}/{config.max_retries}"
-                    )
+                    self._get_logger().info(f"🔄 Retry attempt {attempt}/{config.max_retries}")
 
                 return operation_func()
 
@@ -91,7 +91,7 @@ class RetrySafetyEngine:
         self,
         operation_func: Callable,
         default_return: Any = None,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
         operation_name: str = "operation",
     ) -> Any:
         """Safely execute operation with fallback return value.
@@ -110,9 +110,7 @@ class RetrySafetyEngine:
         except Exception as e:
             effective_logger = logger or self.logger
             if effective_logger:
-                self._get_logger().error(
-                    f"❌ Safe execution failed for {operation_name}: {e}"
-                )
+                self._get_logger().error(f"❌ Safe execution failed for {operation_name}: {e}")
             return default_return
 
     def validate_and_execute(
@@ -120,7 +118,7 @@ class RetrySafetyEngine:
         operation_func: Callable,
         validation_func: Callable,
         error_message: str = "Validation failed",
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ) -> Any:
         """Validate input and execute operation.
 
@@ -153,7 +151,7 @@ class RetrySafetyEngine:
         operation_func: Callable,
         timeout: float,
         default_return: Any = None,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ) -> Any:
         """Execute operation with timeout.
 
@@ -201,7 +199,7 @@ class RetrySafetyEngine:
         operation_func: Callable,
         failure_threshold: int = 5,
         recovery_timeout: float = 60.0,
-        logger: Optional[logging.Logger] = None,
+        logger: logging.Logger | None = None,
     ) -> Any:
         """Execute operation with circuit breaker pattern.
 
@@ -237,7 +235,7 @@ def retry_operation(
     delay: float = 1.0,
     backoff_factor: float = 2.0,
     exceptions: tuple = (Exception,),
-    logger: Optional[logging.Logger] = None,
+    logger: logging.Logger | None = None,
 ) -> Any:
     """Retry operation with exponential backoff."""
     config = RetryConfiguration(max_retries, delay, backoff_factor, exceptions)
@@ -248,7 +246,7 @@ def retry_operation(
 def safe_execute(
     operation_func: Callable,
     default_return: Any = None,
-    logger: Optional[logging.Logger] = None,
+    logger: logging.Logger | None = None,
     operation_name: str = "operation",
 ) -> Any:
     """Safely execute operation with fallback return value."""

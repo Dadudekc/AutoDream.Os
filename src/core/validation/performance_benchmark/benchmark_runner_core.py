@@ -10,17 +10,12 @@ License: MIT
 """
 
 import time
-import threading
-from typing import Dict, List, Optional, Any, Callable
+from collections.abc import Callable
 from datetime import datetime
-from .models import (
-    BenchmarkType,
-    BenchmarkResult,
-    BenchmarkConfig,
-    BenchmarkSuite,
-    BenchmarkModels,
-)
+from typing import Any
+
 from .metrics import BenchmarkMetrics
+from .models import BenchmarkConfig, BenchmarkModels, BenchmarkResult, BenchmarkSuite, BenchmarkType
 from .reporter import BenchmarkReporter
 
 
@@ -31,7 +26,7 @@ class BenchmarkRunnerCore:
         """Initialize benchmark runner core."""
         self.metrics = BenchmarkMetrics()
         self.reporter = BenchmarkReporter(self.metrics)
-        self.suites: List[BenchmarkSuite] = []
+        self.suites: list[BenchmarkSuite] = []
 
     def add_suite(self, suite: BenchmarkSuite) -> None:
         """Add a benchmark suite."""
@@ -66,7 +61,7 @@ class BenchmarkRunnerCore:
                 result = func(*args, **kwargs)
                 iteration_time = time.time() - iteration_start
                 results.append(iteration_time)
-            except Exception as e:
+            except Exception:
                 iteration_time = time.time() - iteration_start
                 results.append(iteration_time)
 
@@ -96,7 +91,7 @@ class BenchmarkRunnerCore:
 
         return benchmark_result
 
-    def run_suite(self, suite: BenchmarkSuite) -> List[BenchmarkResult]:
+    def run_suite(self, suite: BenchmarkSuite) -> list[BenchmarkResult]:
         """Run a benchmark suite."""
         results = []
 
@@ -112,7 +107,7 @@ class BenchmarkRunnerCore:
 
         return results
 
-    def run_all_suites(self) -> Dict[str, List[BenchmarkResult]]:
+    def run_all_suites(self) -> dict[str, list[BenchmarkResult]]:
         """Run all benchmark suites."""
         all_results = {}
 
@@ -122,7 +117,7 @@ class BenchmarkRunnerCore:
 
         return all_results
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get metrics summary."""
         return self.metrics.get_summary()
 
@@ -134,6 +129,6 @@ class BenchmarkRunnerCore:
         """Clear all metrics."""
         self.metrics.clear()
 
-    def get_benchmark_history(self) -> List[BenchmarkResult]:
+    def get_benchmark_history(self) -> list[BenchmarkResult]:
         """Get benchmark history."""
         return self.metrics.get_history()

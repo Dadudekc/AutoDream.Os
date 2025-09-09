@@ -11,24 +11,18 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
+import logging
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-from datetime import datetime
-import logging
+from typing import Any
 
+from ..dry_elimination_engine import DRYEliminationEngine
 from ..dry_eliminator_models import (
     DRYEliminatorConfig,
-    DRYViolation,
-    EliminationResult,
-    EliminationMetrics,
     DRYViolationType,
-    EliminationStrategy,
-    ViolationSeverity,
+    EliminationResult,
     create_default_config,
-    create_elimination_metrics,
 )
-from ..dry_elimination_engine import DRYEliminationEngine
 
 
 class EliminationCoordinator:
@@ -38,7 +32,7 @@ class EliminationCoordinator:
     components.
     """
 
-    def __init__(self, config: Optional[DRYEliminatorConfig] = None):
+    def __init__(self, config: DRYEliminatorConfig | None = None):
         """Initialize elimination coordinator."""
         self.config = config or create_default_config()
         self.logger = logging.getLogger(__name__)
@@ -68,19 +62,17 @@ class EliminationCoordinator:
             "errors": [],
         }
 
-    def eliminate_advanced_dry_violations(self) -> Dict[str, Any]:
+    def eliminate_advanced_dry_violations(self) -> dict[str, Any]:
         """Execute advanced DRY violation elimination."""
         try:
             self.is_active = True
             self.current_operation = "advanced_elimination"
             start_time = time.time()
 
-            self.logger.info(f"🚀 Starting advanced DRY elimination across project...")
+            self.logger.info("🚀 Starting advanced DRY elimination across project...")
 
             # Discover Python files
-            python_files = self.elimination_engine.discover_python_files(
-                self.project_root
-            )
+            python_files = self.elimination_engine.discover_python_files(self.project_root)
             self.elimination_results["files_processed"] = len(python_files)
 
             # Analyze violations
@@ -88,9 +80,7 @@ class EliminationCoordinator:
 
             # Eliminate violations
             if violations:
-                elimination_results = self.elimination_engine.eliminate_violations(
-                    violations
-                )
+                elimination_results = self.elimination_engine.eliminate_violations(violations)
                 self._update_results_from_elimination(elimination_results)
 
             # Generate final summary
@@ -110,15 +100,13 @@ class EliminationCoordinator:
             self.is_active = False
             self.current_operation = None
 
-    def analyze_project_violations(self) -> Dict[str, Any]:
+    def analyze_project_violations(self) -> dict[str, Any]:
         """Analyze project for DRY violations without elimination."""
         try:
             self.logger.info("🔍 Analyzing project for DRY violations...")
 
             # Discover and analyze
-            python_files = self.elimination_engine.discover_python_files(
-                self.project_root
-            )
+            python_files = self.elimination_engine.discover_python_files(self.project_root)
             violations = self.elimination_engine.analyze_dry_violations()
 
             # Generate analysis report
@@ -134,8 +122,8 @@ class EliminationCoordinator:
             return {"error": str(e)}
 
     def eliminate_specific_violations(
-        self, violation_types: List[DRYViolationType]
-    ) -> Dict[str, Any]:
+        self, violation_types: list[DRYViolationType]
+    ) -> dict[str, Any]:
         """Eliminate specific types of violations."""
         try:
             self.logger.info(
@@ -147,18 +135,14 @@ class EliminationCoordinator:
             all_violations = self.elimination_engine.analyze_dry_violations()
 
             # Filter to specific types
-            target_violations = [
-                v for v in all_violations if v.violation_type in violation_types
-            ]
+            target_violations = [v for v in all_violations if v.violation_type in violation_types]
 
             if not target_violations:
                 self.logger.info("No violations of specified types found")
                 return {"message": "No violations of specified types found"}
 
             # Eliminate target violations
-            elimination_results = self.elimination_engine.eliminate_violations(
-                target_violations
-            )
+            elimination_results = self.elimination_engine.eliminate_violations(target_violations)
             self._update_results_from_elimination(elimination_results)
 
             return self.elimination_results
@@ -167,9 +151,7 @@ class EliminationCoordinator:
             self.logger.error(f"Error eliminating specific violations: {e}")
             return {"error": str(e)}
 
-    def _update_results_from_elimination(
-        self, elimination_results: List[EliminationResult]
-    ):
+    def _update_results_from_elimination(self, elimination_results: list[EliminationResult]):
         """Update results tracking from elimination operations."""
         metrics = self.elimination_engine.metrics
 
@@ -190,7 +172,7 @@ class EliminationCoordinator:
             }
         )
 
-    def _generate_elimination_summary(self, elimination_time: float) -> Dict[str, Any]:
+    def _generate_elimination_summary(self, elimination_time: float) -> dict[str, Any]:
         """Generate comprehensive elimination summary."""
         engine_summary = self.elimination_engine.get_elimination_summary()
         metrics = engine_summary["metrics"]
@@ -213,7 +195,7 @@ class EliminationCoordinator:
             ),
         }
 
-    def get_coordinator_status(self) -> Dict[str, Any]:
+    def get_coordinator_status(self) -> dict[str, Any]:
         """Get coordinator status and metrics."""
         return {
             "is_active": self.is_active,

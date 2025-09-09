@@ -10,14 +10,11 @@ License: MIT
 """
 
 from __future__ import annotations
-from typing import Dict, Any, Optional
+
+from typing import Any
+
 from .contracts import ExecutionManager, ManagerContext, ManagerResult
-from .execution import (
-    BaseExecutionManager,
-    TaskManager,
-    ProtocolManager,
-    ExecutionCoordinator,
-)
+from .execution import ExecutionCoordinator
 
 
 class CoreExecutionManager(ExecutionManager):
@@ -32,13 +29,13 @@ class CoreExecutionManager(ExecutionManager):
         return self.coordinator.initialize(context)
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute operation using coordinator."""
         return self.coordinator.execute(context, operation, payload)
 
     def execute_task(
-        self, context: ManagerContext, task_id: Optional[str], task_data: Dict[str, Any]
+        self, context: ManagerContext, task_id: str | None, task_data: dict[str, Any]
     ) -> ManagerResult:
         """Execute a task."""
         return self.coordinator.execute_task(context, task_id, task_data)
@@ -50,7 +47,7 @@ class CoreExecutionManager(ExecutionManager):
         return self.coordinator.register_protocol(context, protocol_name, protocol_handler)
 
     def get_execution_status(
-        self, context: ManagerContext, execution_id: Optional[str]
+        self, context: ManagerContext, execution_id: str | None
     ) -> ManagerResult:
         """Get execution status."""
         return self.coordinator.get_execution_status(context, execution_id)
@@ -59,25 +56,27 @@ class CoreExecutionManager(ExecutionManager):
         """Cleanup execution coordinator."""
         return self.coordinator.cleanup(context)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get execution manager status."""
         return self.coordinator.get_status()
 
     # Public methods for backward compatibility
     def create_task(
-        self, context: ManagerContext, task_type: str, priority: int = 5, data: Optional[Dict[str, Any]] = None
+        self,
+        context: ManagerContext,
+        task_type: str,
+        priority: int = 5,
+        data: dict[str, Any] | None = None,
     ) -> ManagerResult:
         """Create a new task (public method)."""
         return self.coordinator.create_task(context, task_type, priority, data)
 
     def execute_protocol(
-        self, context: ManagerContext, protocol_name: str, payload: Optional[Dict[str, Any]] = None
+        self, context: ManagerContext, protocol_name: str, payload: dict[str, Any] | None = None
     ) -> ManagerResult:
         """Execute a protocol (public method)."""
         return self.coordinator.execute_protocol(context, protocol_name, payload)
 
-    def get_task_status(
-        self, context: ManagerContext, task_id: str
-    ) -> ManagerResult:
+    def get_task_status(self, context: ManagerContext, task_id: str) -> ManagerResult:
         """Get task status (public method)."""
         return self.coordinator.get_task_status(context, task_id)

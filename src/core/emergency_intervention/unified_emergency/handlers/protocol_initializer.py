@@ -9,13 +9,11 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-from typing import List
 from ..models import (
-    EmergencyType,
-    EmergencySeverity,
-    InterventionAction,
-    InterventionProtocol,
     EmergencyInterventionModels,
+    EmergencySeverity,
+    EmergencyType,
+    InterventionAction,
 )
 from .protocol_registry import ProtocolRegistry
 

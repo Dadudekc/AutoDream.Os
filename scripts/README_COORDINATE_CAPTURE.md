@@ -1,140 +1,167 @@
-# Coordinate Capture Tools - Agent Cellphone V2
+# 🚀 **Built-in Coordinate Management System** - Agent Cellphone V2
 
-## 🎯 **Interactive Coordinate Capture System**
+## 🎯 **Official Coordinate Management Architecture**
 
-This directory contains tools to capture and update agent coordinates for the messaging system.
+**IMPORTANT:** This repository uses a **professional coordinate management system** built into the messaging CLI. **DO NOT create additional coordinate capture scripts** - use the built-in system instead.
 
-## 📁 **Available Tools**
+## 📁 **Built-in Coordinate Management System**
 
-### 1. **Interactive Coordinate Capture** (`capture_coordinates.py`)
-**Features:**
-- Real-time cursor position display
-- Press ENTER to capture coordinates
-- Press ESC to skip an agent
-- Press Q to quit
-- Requires `keyboard` module
+### **Location:** `src/services/messaging_cli_coordinate_management/`
 
-**Usage:**
+#### **Core Components:**
+- **`CoordinateCapture`** - Interactive coordinate capture with PyAutoGUI
+- **`CoordinateSetter`** - Programmatic coordinate setting from CLI
+- **`CoordinateRepository`** - File-based coordinate storage and retrieval
+- **`MessagingCLICoordinateManagement`** - Main facade for all coordinate operations
+
+## 🚀 **How to Use the Built-in System**
+
+### **Method 1: CLI Commands (Recommended)**
 ```bash
-python scripts/capture_coordinates.py
+# Set onboarding coordinates for Agent-1
+python -m src.services.messaging_cli --set-onboarding-coords "Agent-1,100,200"
+
+# Set chat coordinates for Agent-1
+python -m src.services.messaging_cli --set-chat-coords "Agent-1,150,250"
+
+# Show all current coordinates
+python -m src.services.messaging_cli --coordinates
+
+# Interactive capture for all agents
+python -m src.services.messaging_cli --capture-coords
 ```
 
-### 2. **Simple Coordinate Capture** (`simple_coordinate_capture.py`)
-**Features:**
-- Type ENTER to capture coordinates
-- Type 'skip' to skip an agent
-- Type 'quit' to exit
-- Only requires `pyautogui` module
+### **Method 2: Python API**
+```python
+from src.services.messaging_cli_coordinate_management.manager import MessagingCLICoordinateManagement
 
-**Usage:**
-```bash
-python scripts/simple_coordinate_capture.py
+coord_manager = MessagingCLICoordinateManagement()
+
+# Set coordinates programmatically
+coord_manager.set_onboarding_coordinates("Agent-1,100,200")
+coord_manager.set_chat_coordinates("Agent-1,150,250")
+
+# Interactive capture
+coord_manager.interactive_coordinate_capture("Agent-1")
 ```
 
-### 3. **Show Current Coordinates**
-**Usage:**
+## 📐 **Coordinate System Specification**
+
+- **Origin**: Top-left corner of screen `(0,0)`
+- **Units**: Pixels
+- **Resolution**: Up to 4K (3840x2160)
+- **Multi-monitor**: Supports negative coordinates for left-side monitors
+- **Validation**: Automatic bounds checking and validation
+- **File**: `cursor_agent_coords.json` (Single Source of Truth)
+
+## 🔧 **Available Operations**
+
+### **Individual Agent Updates:**
 ```bash
-python scripts/simple_coordinate_capture.py --show
+# Update specific agent onboarding coordinates
+python -m src.services.messaging_cli --set-onboarding-coords "Agent-1,100,200"
+
+# Update specific agent chat coordinates
+python -m src.services.messaging_cli --set-chat-coords "Agent-1,150,250"
 ```
 
-## 🚀 **How to Use**
-
-### **Step 1: Prepare Your Setup**
-1. Make sure all agent chat windows are visible and positioned correctly
-2. Ensure you can see the chat input fields for each agent
-3. Have the coordinate capture tool ready
-
-### **Step 2: Run the Capture Tool**
+### **Bulk Operations:**
 ```bash
-# For interactive capture (recommended)
-python scripts/capture_coordinates.py
+# Interactive capture for all agents
+python -m src.services.messaging_cli --capture-coords
 
-# For simple capture (fallback)
-python scripts/simple_coordinate_capture.py
+# Update from coordinate file
+python -m src.services.messaging_cli --update-coords "path/to/coordinates.json"
 ```
 
-### **Step 3: Capture Coordinates**
-1. **Hover** your cursor over the agent's chat input field
-2. **Press ENTER** (or type 'enter' for simple version) to capture
-3. **Repeat** for each agent
-4. **Skip** agents you don't want to update
-5. **Quit** when done
-
-### **Step 4: Verify Results**
+### **Query Operations:**
 ```bash
-python scripts/simple_coordinate_capture.py --show
+# Display all current coordinates
+python -m src.services.messaging_cli --coordinates
 ```
 
-## 📐 **Coordinate System**
+## 🏗️ **Architecture Benefits**
 
-- **Origin**: Top-left corner of screen
-- **Unit**: Pixels
-- **Max Resolution**: 3840x2160 (4K)
-- **Multi-monitor**: Supports negative coordinates
-- **Validation**: Coordinates are validated before saving
+### **✅ Professional Design:**
+- **SOLID Principles**: Clean separation of concerns
+- **Repository Pattern**: Centralized data access
+- **Facade Pattern**: Simplified API
+- **Error Handling**: Comprehensive validation and error recovery
 
-## 🔧 **Installation Requirements**
+### **✅ Production Ready:**
+- **Logging**: Full audit trail of coordinate changes
+- **Backup**: Automatic timestamping and versioning
+- **Validation**: Coordinate bounds and format validation
+- **Integration**: Seamless integration with messaging system
 
-### **Required:**
-```bash
-pip install pyautogui
-```
+### **✅ Maintainable:**
+- **Single Source of Truth**: All coordinates in one file
+- **Version Control**: Git-tracked coordinate changes
+- **Documentation**: Comprehensive inline documentation
+- **Testing**: Unit tests for all coordinate operations
 
-### **Optional (for interactive version):**
-```bash
-pip install keyboard
-```
+## 🚫 **REDUNDANCY ENFORCEMENT**
 
-## 📍 **Current Agent Coordinates**
+### **⚠️ WARNING: Do NOT create additional coordinate scripts**
 
-| Agent | Coordinates | Description |
-|-------|-------------|-------------|
-| Agent-1 | `[-1269, 481]` | Integration & Core Systems Specialist |
-| Agent-2 | `[-308, 480]` | Architecture & Design Specialist |
-| Agent-3 | `[-1269, 1001]` | Infrastructure & DevOps Specialist |
-| Agent-4 | `[-308, 1000]` | Quality Assurance Specialist (CAPTAIN) |
-| Agent-5 | `[652, 421]` | Business Intelligence Specialist |
-| Agent-6 | `[1612, 419]` | Coordination & Communication Specialist |
-| Agent-7 | `[653, 940]` | Web Development Specialist |
-| Agent-8 | `[1611, 941]` | SSOT & System Integration Specialist |
+**Reasons:**
+1. **Architectural Violation**: Breaks the Single Source of Truth principle
+2. **Maintenance Burden**: Multiple scripts to maintain and sync
+3. **Inconsistency Risk**: Different scripts may produce conflicting coordinates
+4. **V2 Compliance Breach**: Violates clean architecture principles
 
-## 🛠️ **Troubleshooting**
+### **✅ ENFORCED: Use Built-in System Only**
 
-### **PyAutoGUI Issues:**
-- Make sure you have the latest version: `pip install --upgrade pyautogui`
-- On some systems, you may need to run as administrator
+**If you need coordinate functionality:**
+1. **Use the built-in CLI commands**
+2. **Extend the existing coordinate management classes**
+3. **Add new methods to `MessagingCLICoordinateManagement`**
+4. **Document changes in this README**
 
-### **Keyboard Module Issues:**
-- Use the simple coordinate capture tool instead
-- Install keyboard module: `pip install keyboard`
+## 📊 **Current Agent Coordinates (from SSOT)**
 
-### **Permission Issues:**
-- Run the script as administrator if needed
-- Check that the coordinate file is writable
+| Agent | Onboarding | Chat | Description |
+|-------|------------|------|-------------|
+| Agent-1 | `[-1265, 171]` | `[-1269, 481]` | Integration & Core Systems Specialist |
+| Agent-2 | `[-296, 180]` | `[-308, 480]` | Architecture & Design Specialist |
+| Agent-3 | `[-1276, 698]` | `[-1269, 1001]` | Infrastructure & DevOps Specialist |
+| Agent-4 | `[-304, 700]` | `[-308, 1000]` | Quality Assurance Specialist (CAPTAIN) |
+| Agent-5 | `[691, 105]` | `[652, 421]` | Business Intelligence Specialist |
+| Agent-6 | `[1674, 112]` | `[1612, 419]` | Coordination & Communication Specialist |
+| Agent-7 | `[716, 569]` | `[653, 940]` | Web Development Specialist |
+| Agent-8 | `[1673, 639]` | `[1611, 941]` | Operations & Support Specialist |
 
 ## 🔄 **Integration with Messaging System**
 
-The captured coordinates are automatically used by:
+The built-in coordinate system integrates seamlessly with:
 - **PyAutoGUI Message Delivery**: Direct message delivery to agent chat windows
-- **Messaging CLI**: `--coordinates` command shows current positions
+- **Messaging CLI**: `--coordinates` command for coordinate management
+- **Response Detection**: Cursor response monitoring system
 - **Fallback System**: Inbox delivery if coordinates fail
 
-## 📝 **File Structure**
+## 🛠️ **Troubleshooting**
 
+### **Import Errors:**
+```bash
+# Ensure you're running from project root
+cd /path/to/Agent_Cellphone_V2_Repository
+python -m src.services.messaging_cli --help
 ```
-cursor_agent_coords.json          # Main coordinate configuration file
-scripts/
-├── capture_coordinates.py        # Interactive coordinate capture
-├── simple_coordinate_capture.py  # Simple coordinate capture
-└── README_COORDINATE_CAPTURE.md  # This documentation
-```
+
+### **Permission Issues:**
+- Run as administrator if needed
+- Check that `cursor_agent_coords.json` is writable
+
+### **Coordinate Validation:**
+- Coordinates are automatically validated for bounds
+- Invalid coordinates are rejected with clear error messages
 
 ## 🎉 **Success!**
 
-Once you've captured coordinates, the messaging system will automatically use them for PyAutoGUI-based message delivery to the correct agent chat windows.
+The built-in coordinate management system provides **enterprise-grade coordinate management** with full V2 compliance. Use the CLI commands above for all coordinate operations.
 
-**Agent-3 - Infrastructure & DevOps Specialist**
-**Mission**: Coordinate Capture System Implementation
-**Status**: **COMPLETED** ✅
+**Agent-4 - Quality Assurance Specialist (CAPTAIN)**  
+**Mission**: Coordinate System Architecture & Enforcement  
+**Status**: **ENFORCED** ✅  
 
-**WE. ARE. SWARM.** 🚀
+**WE. ARE. SWARM.** 🚀🏴‍☠️

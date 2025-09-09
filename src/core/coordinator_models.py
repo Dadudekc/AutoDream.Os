@@ -12,8 +12,8 @@ Purpose: Modular coordinator system models
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
 from enum import Enum
+from typing import Any
 
 
 class CoordinationStatus(Enum):
@@ -54,7 +54,7 @@ class CoordinationTarget:
     status: CoordinationStatus
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Post-initialization validation."""
@@ -70,7 +70,7 @@ class CoordinationTarget:
         if isinstance(self.status, str):
             self.status = CoordinationStatus(self.status)
 
-    def update_metadata(self, updates: Dict[str, Any]) -> None:
+    def update_metadata(self, updates: dict[str, Any]) -> None:
         """Update target metadata."""
         self.metadata.update(updates)
         self.updated_at = datetime.now()
@@ -79,7 +79,7 @@ class CoordinationTarget:
         """Check if target is active."""
         return self.status == CoordinationStatus.OPERATIONAL
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert target to dictionary."""
         return {
             "target_id": self.target_id,
@@ -99,12 +99,12 @@ class CoordinationResult:
     success: bool
     operation: str
     result: Any = None
-    error: Optional[str] = None
+    error: str | None = None
     timestamp: datetime = field(default_factory=datetime.now)
     coordinator: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary."""
         return {
             "success": self.success,
@@ -124,17 +124,17 @@ class CoordinatorStatus:
     name: str
     initialized: bool
     coordination_status: CoordinationStatus
-    config: Dict[str, Any]
+    config: dict[str, Any]
     start_time: datetime
     uptime_seconds: float
     operations_count: int
     error_count: int
     success_rate: float
     targets_count: int
-    targets_by_type: Dict[str, int]
+    targets_by_type: dict[str, int]
     status: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert status to dictionary."""
         return {
             "name": self.name,
@@ -157,7 +157,7 @@ class CoordinatorConfig:
     """Coordinator configuration with validation."""
 
     name: str
-    config: Dict[str, Any] = field(default_factory=dict)
+    config: dict[str, Any] = field(default_factory=dict)
     max_targets: int = 1000
     operation_timeout: float = 30.0
     retry_attempts: int = 3
@@ -182,7 +182,7 @@ class CoordinatorConfig:
         """Get configuration value with fallback."""
         return self.config.get(key, default)
 
-    def update(self, updates: Dict[str, Any]) -> None:
+    def update(self, updates: dict[str, Any]) -> None:
         """Update configuration."""
         self.config.update(updates)
 

@@ -9,24 +9,24 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 
-from typing import Dict, Any, Optional, List, Set
 import logging
+
+from .deployment_coordinator import DeploymentCoordinator
 from .deployment_models import (
+    DEFAULT_AGENT_DOMAINS,
     DeploymentConfig,
-    MaximumEfficiencyDeploymentStatus,
-    MassDeploymentTarget,
     DeploymentMetrics,
+    MassDeploymentTarget,
+    MaximumEfficiencyDeploymentStatus,
     create_default_config,
     create_deployment_status,
-    DEFAULT_AGENT_DOMAINS,
 )
-from .deployment_coordinator import DeploymentCoordinator
 
 
 class DeploymentOrchestratorEngine:
     """Core engine for deployment orchestrator operations."""
 
-    def __init__(self, config: Optional[DeploymentConfig] = None):
+    def __init__(self, config: DeploymentConfig | None = None):
         """Initialize deployment orchestrator engine."""
         self.config = config or create_default_config()
         self.logger = logging.getLogger(__name__)
@@ -55,9 +55,7 @@ class DeploymentOrchestratorEngine:
             self.logger.error(f"Failed to initialize deployment system: {e}")
             return False
 
-    def deploy_to_agent(
-        self, agent_id: str, deployment_target: MassDeploymentTarget
-    ) -> bool:
+    def deploy_to_agent(self, agent_id: str, deployment_target: MassDeploymentTarget) -> bool:
         """Deploy to specific agent."""
         try:
             self.logger.info(f"Deploying to agent {agent_id}...")
@@ -84,7 +82,7 @@ class DeploymentOrchestratorEngine:
             self.metrics.failed_deployments += 1
             return False
 
-    def mass_deploy(self, targets: List[MassDeploymentTarget]) -> Dict[str, bool]:
+    def mass_deploy(self, targets: list[MassDeploymentTarget]) -> dict[str, bool]:
         """Execute mass deployment to multiple targets."""
         results = {}
 
@@ -97,9 +95,7 @@ class DeploymentOrchestratorEngine:
                 results[agent_id] = success
 
             successful = sum(1 for success in results.values() if success)
-            self.logger.info(
-                f"Mass deployment completed: {successful}/{len(targets)} successful"
-            )
+            self.logger.info(f"Mass deployment completed: {successful}/{len(targets)} successful")
 
             return results
 
@@ -115,7 +111,7 @@ class DeploymentOrchestratorEngine:
         """Get deployment metrics."""
         return self.metrics
 
-    def get_agent_domains(self) -> Dict[str, str]:
+    def get_agent_domains(self) -> dict[str, str]:
         """Get agent domains."""
         return self.agent_domains.copy()
 

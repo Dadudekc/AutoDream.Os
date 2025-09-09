@@ -5,12 +5,14 @@ SQLite Agent Repository - Infrastructure Adapter
 Concrete implementation of AgentRepository using SQLite.
 """
 
+import json
 import sqlite3
-from typing import Iterable, Optional, Set
+from collections.abc import Iterable
 from contextlib import contextmanager
-from src.domain.ports.agent_repository import AgentRepository
-from src.domain.entities.agent import Agent
-from src.domain.value_objects.ids import AgentId
+
+from ...domain.entities.agent import Agent
+from ...domain.ports.agent_repository import AgentRepository
+from ...domain.value_objects.ids import AgentId
 
 
 class SqliteAgentRepository(AgentRepository):
@@ -33,7 +35,8 @@ class SqliteAgentRepository(AgentRepository):
     def _init_db(self) -> None:
         """Initialize the database schema."""
         with self._get_connection() as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS agents (
                     id TEXT PRIMARY KEY,
                     name TEXT NOT NULL,
@@ -44,7 +47,8 @@ class SqliteAgentRepository(AgentRepository):
                     created_at TEXT NOT NULL,
                     last_active_at TEXT
                 )
-            """)
+            """
+            )
             conn.commit()
 
     @contextmanager
@@ -56,7 +60,7 @@ class SqliteAgentRepository(AgentRepository):
         finally:
             conn.close()
 
-    def get(self, agent_id: AgentId) -> Optional[Agent]:
+    def get(self, agent_id: AgentId) -> Agent | None:
         """
         Retrieve an agent by its identifier.
 
@@ -67,11 +71,14 @@ class SqliteAgentRepository(AgentRepository):
             The agent if found, None otherwise
         """
         with self._get_connection() as conn:
-            row = conn.execute("""
+            row = conn.execute(
+                """
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents WHERE id = ?
-            """, (agent_id,)).fetchone()
+            """,
+                (agent_id,),
+            ).fetchone()
 
             if not row:
                 return None
@@ -89,12 +96,15 @@ class SqliteAgentRepository(AgentRepository):
             Iterable of agents with the specified capability
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents
                 WHERE capabilities LIKE ?
-            """, (f"%{capability}%",)).fetchall()
+            """,
+                (f"%{capability}%",),
+            ).fetchall()
 
             for row in rows:
                 yield self._row_to_agent(row)
@@ -107,13 +117,15 @@ class SqliteAgentRepository(AgentRepository):
             Iterable of active agents
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents
                 WHERE is_active = 1
                 ORDER BY last_active_at DESC
-            """).fetchall()
+            """
+            ).fetchall()
 
             for row in rows:
                 yield self._row_to_agent(row)
@@ -126,7 +138,8 @@ class SqliteAgentRepository(AgentRepository):
             Iterable of available agents
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT a.id, a.name, a.role, a.capabilities, a.max_concurrent_tasks,
                        a.is_active, a.created_at, a.last_active_at,
                        COUNT(t.id) as current_tasks
@@ -137,7 +150,8 @@ class SqliteAgentRepository(AgentRepository):
                          a.is_active, a.created_at, a.last_active_at
                 HAVING COUNT(t.id) < a.max_concurrent_tasks
                 ORDER BY (COUNT(t.id) * 1.0 / a.max_concurrent_tasks) ASC
-            """).fetchall()
+            """
+            ).fetchall()
 
             for row in rows:
                 agent = self._row_to_agent(row[:8])  # First 8 columns are agent data
@@ -157,12 +171,15 @@ class SqliteAgentRepository(AgentRepository):
         """
         with self._get_connection() as conn:
             try:
-                conn.execute("""
+                conn.execute(
+                    """
                     INSERT INTO agents (
                         id, name, role, capabilities, max_concurrent_tasks,
                         is_active, created_at, last_active_at
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """, self._agent_to_row(agent))
+                """,
+                    self._agent_to_row(agent),
+                )
                 conn.commit()
             except sqlite3.IntegrityError:
                 raise ValueError(f"Agent with ID {agent.id} already exists")
@@ -175,12 +192,15 @@ class SqliteAgentRepository(AgentRepository):
             agent: The agent to save
         """
         with self._get_connection() as conn:
-            conn.execute("""
+            conn.execute(
+                """
                 INSERT OR REPLACE INTO agents (
                     id, name, role, capabilities, max_concurrent_tasks,
                     is_active, created_at, last_active_at
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, self._agent_to_row(agent))
+            """,
+                self._agent_to_row(agent),
+            )
             conn.commit()
 
     def delete(self, agent_id: AgentId) -> bool:
@@ -206,23 +226,32 @@ class SqliteAgentRepository(AgentRepository):
             Iterable of all agents
         """
         with self._get_connection() as conn:
-            rows = conn.execute("""
+            rows = conn.execute(
+                """
                 SELECT id, name, role, capabilities, max_concurrent_tasks,
                        is_active, created_at, last_active_at
                 FROM agents
                 ORDER BY created_at DESC
-            """).fetchall()
+            """
+            ).fetchall()
 
             for row in rows:
                 yield self._row_to_agent(row)
 
     def _row_to_agent(self, row) -> Agent:
         """Convert database row to Agent entity."""
-        import json
         from datetime import datetime
 
-        agent_id, name, role, capabilities_json, max_concurrent_tasks, \
-        is_active, created_at_str, last_active_at_str = row
+        (
+            agent_id,
+            name,
+            role,
+            capabilities_json,
+            max_concurrent_tasks,
+            is_active,
+            created_at_str,
+            last_active_at_str,
+        ) = row
 
         # Parse capabilities from JSON
         capabilities = set()
@@ -244,13 +273,11 @@ class SqliteAgentRepository(AgentRepository):
             max_concurrent_tasks=max_concurrent_tasks,
             is_active=bool(is_active),
             created_at=created_at,
-            last_active_at=last_active_at
+            last_active_at=last_active_at,
         )
 
     def _agent_to_row(self, agent: Agent):
         """Convert Agent entity to database row tuple."""
-        import json
-
         return (
             agent.id,  # str (from AgentId)
             agent.name,
@@ -259,5 +286,5 @@ class SqliteAgentRepository(AgentRepository):
             agent.max_concurrent_tasks,
             1 if agent.is_active else 0,
             agent.created_at.isoformat(),
-            agent.last_active_at.isoformat() if agent.last_active_at else None
+            agent.last_active_at.isoformat() if agent.last_active_at else None,
         )

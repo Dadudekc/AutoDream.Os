@@ -12,16 +12,12 @@ License: MIT
 """
 
 import asyncio
-from queue import Queue, Empty
-from typing import Any, Dict, List, Optional
-from datetime import datetime
 import logging
+from datetime import datetime
+from queue import Empty, Queue
+from typing import Any
 
-from ..integration_models import (
-    IntegrationTask,
-    IntegrationStatus,
-    validate_integration_task,
-)
+from ..integration_models import IntegrationStatus, IntegrationTask, validate_integration_task
 
 
 class IntegrationTaskProcessor:
@@ -37,8 +33,8 @@ class IntegrationTaskProcessor:
 
         # Task management
         self.task_queue = Queue()
-        self.active_tasks: Dict[str, IntegrationTask] = {}
-        self.completed_tasks: List[Dict[str, Any]] = []
+        self.active_tasks: dict[str, IntegrationTask] = {}
+        self.completed_tasks: list[dict[str, Any]] = []
 
         # Processing state
         self.is_processing = False
@@ -59,9 +55,7 @@ class IntegrationTaskProcessor:
             self.logger.error(f"Error submitting task: {e}")
             return False
 
-    async def process_integration_tasks(
-        self, status: IntegrationStatus
-    ) -> List[Dict[str, Any]]:
+    async def process_integration_tasks(self, status: IntegrationStatus) -> list[dict[str, Any]]:
         """Process integration tasks from queue."""
         results = []
 
@@ -88,7 +82,7 @@ class IntegrationTaskProcessor:
             self.logger.error(f"Error processing integration tasks: {e}")
             return []
 
-    async def _execute_integration_task(self, task: IntegrationTask) -> Dict[str, Any]:
+    async def _execute_integration_task(self, task: IntegrationTask) -> dict[str, Any]:
         """Execute individual integration task."""
         start_time = datetime.now()
 
@@ -133,7 +127,7 @@ class IntegrationTaskProcessor:
             if task.task_id in self.active_tasks:
                 del self.active_tasks[task.task_id]
 
-    async def _process_task_by_type(self, task: IntegrationTask) -> Dict[str, Any]:
+    async def _process_task_by_type(self, task: IntegrationTask) -> dict[str, Any]:
         """Process task based on its type."""
         try:
             if task.integration_type == "vector_database":
@@ -148,9 +142,7 @@ class IntegrationTaskProcessor:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    async def _process_vector_database_task(
-        self, task: IntegrationTask
-    ) -> Dict[str, Any]:
+    async def _process_vector_database_task(self, task: IntegrationTask) -> dict[str, Any]:
         """Process vector database integration task."""
         # Simulate vector database integration
         await asyncio.sleep(0.1)
@@ -159,7 +151,7 @@ class IntegrationTaskProcessor:
             "data": {"integration": "vector_database", "status": "completed"},
         }
 
-    async def _process_performance_task(self, task: IntegrationTask) -> Dict[str, Any]:
+    async def _process_performance_task(self, task: IntegrationTask) -> dict[str, Any]:
         """Process performance optimization task."""
         # Simulate performance optimization
         await asyncio.sleep(0.05)
@@ -168,7 +160,7 @@ class IntegrationTaskProcessor:
             "data": {"optimization": "performance", "status": "completed"},
         }
 
-    async def _process_coordination_task(self, task: IntegrationTask) -> Dict[str, Any]:
+    async def _process_coordination_task(self, task: IntegrationTask) -> dict[str, Any]:
         """Process system coordination task."""
         # Simulate system coordination
         await asyncio.sleep(0.2)
@@ -177,7 +169,7 @@ class IntegrationTaskProcessor:
             "data": {"coordination": "system", "status": "completed"},
         }
 
-    async def _process_generic_task(self, task: IntegrationTask) -> Dict[str, Any]:
+    async def _process_generic_task(self, task: IntegrationTask) -> dict[str, Any]:
         """Process generic integration task."""
         # Simulate generic processing
         await asyncio.sleep(0.1)
@@ -198,21 +190,17 @@ class IntegrationTaskProcessor:
         """Get number of completed tasks."""
         return len(self.completed_tasks)
 
-    def get_task_statistics(self) -> Dict[str, Any]:
+    def get_task_statistics(self) -> dict[str, Any]:
         """Get task processing statistics."""
         total_tasks = len(self.completed_tasks)
-        successful_tasks = sum(
-            1 for task in self.completed_tasks if task.get("success", False)
-        )
+        successful_tasks = sum(1 for task in self.completed_tasks if task.get("success", False))
 
         return {
             "queue_size": self.get_task_queue_size(),
             "active_tasks": self.get_active_tasks_count(),
             "completed_tasks": total_tasks,
             "successful_tasks": successful_tasks,
-            "success_rate": (
-                (successful_tasks / total_tasks * 100) if total_tasks > 0 else 0
-            ),
+            "success_rate": ((successful_tasks / total_tasks * 100) if total_tasks > 0 else 0),
         }
 
     def clear_completed_tasks(self):
@@ -220,6 +208,6 @@ class IntegrationTaskProcessor:
         self.completed_tasks.clear()
         self.logger.info("Completed tasks cleared")
 
-    def get_recent_tasks(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_recent_tasks(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get recent completed tasks."""
         return self.completed_tasks[-limit:] if self.completed_tasks else []

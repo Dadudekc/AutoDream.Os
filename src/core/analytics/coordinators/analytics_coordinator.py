@@ -9,10 +9,10 @@ Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-import asyncio
 import logging
-from typing import Any, Dict, List, Optional, Callable
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class AnalyticsCoordinator:
         self.callbacks[event_type] = callback
         self.logger.info(f"Registered callback for: {event_type}")
 
-    async def start_processing(self) -> Dict[str, Any]:
+    async def start_processing(self) -> dict[str, Any]:
         """Start analytics processing."""
         try:
             self.active = True
@@ -51,7 +51,7 @@ class AnalyticsCoordinator:
             self.logger.error(f"Failed to start processing: {e}")
             raise
 
-    async def stop_processing(self) -> Dict[str, Any]:
+    async def stop_processing(self) -> dict[str, Any]:
         """Stop analytics processing."""
         try:
             self.active = False
@@ -61,7 +61,7 @@ class AnalyticsCoordinator:
             self.logger.error(f"Failed to stop processing: {e}")
             raise
 
-    async def process_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process analytics data."""
         try:
             result = {"processed": True, "timestamp": datetime.now().isoformat()}
@@ -82,7 +82,7 @@ class AnalyticsCoordinator:
             self.logger.error(f"Failed to process data: {e}")
             return {"processed": False, "error": str(e)}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get coordinator status."""
         return {
             "active": self.active,

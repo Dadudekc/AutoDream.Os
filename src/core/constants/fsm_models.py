@@ -11,15 +11,12 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional, Dict, Any
-from dataclasses import dataclass
-
-from .fsm_enums import TransitionType, StateStatus, TransitionStatus, FSMErrorType
+from .fsm.configuration_models import FSMConfiguration
 
 # Import modular components
 from .fsm.state_models import StateDefinition
 from .fsm.transition_models import TransitionDefinition
-from .fsm.configuration_models import FSMConfiguration
+from .fsm_enums import FSMErrorType, StateStatus, TransitionStatus, TransitionType
 
 # Re-export for backward compatibility
 __all__ = [

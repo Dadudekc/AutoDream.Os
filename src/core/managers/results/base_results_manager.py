@@ -9,11 +9,13 @@ License: MIT
 """
 
 from __future__ import annotations
-import json
+
 import uuid
-from typing import Dict, Any, Optional, List, Callable
+from collections.abc import Callable
 from datetime import datetime, timedelta
 from enum import Enum
+from typing import Any
+
 from ..contracts import Manager, ManagerContext, ManagerResult
 
 
@@ -32,10 +34,10 @@ class BaseResultsManager(Manager):
 
     def __init__(self):
         """Initialize base results manager."""
-        self.results: Dict[str, Dict[str, Any]] = {}
-        self.result_processors: Dict[str, Callable] = {}
-        self.result_callbacks: Dict[str, Callable] = {}
-        self.archived_results: Dict[str, Dict[str, Any]] = {}
+        self.results: dict[str, dict[str, Any]] = {}
+        self.result_processors: dict[str, Callable] = {}
+        self.result_callbacks: dict[str, Callable] = {}
+        self.archived_results: dict[str, dict[str, Any]] = {}
         self.max_results = 1000
         self.archive_after_days = 30
 
@@ -49,7 +51,7 @@ class BaseResultsManager(Manager):
             return False
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute results operation."""
         try:
@@ -70,13 +72,9 @@ class BaseResultsManager(Manager):
                 )
         except Exception as e:
             context.logger(f"Error executing results operation {operation}: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def process_results(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def process_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Process results with validation and callbacks."""
         try:
             result_data = payload.get("result_data", {})
@@ -86,7 +84,7 @@ class BaseResultsManager(Manager):
 
             # Generate result ID
             result_id = str(uuid.uuid4())
-            
+
             # Create result entry
             result = {
                 "id": result_id,
@@ -103,14 +101,10 @@ class BaseResultsManager(Manager):
 
             # Process result
             result["status"] = ResultStatus.PROCESSING.value
-            processed_data = self._process_result_by_type(
-                context, result_type, result_data
-            )
+            processed_data = self._process_result_by_type(context, result_type, result_data)
 
             # Validate result
-            validation_passed = self._validate_result(
-                context, result, validation_rules
-            )
+            validation_passed = self._validate_result(context, result, validation_rules)
 
             if validation_passed:
                 result["status"] = ResultStatus.COMPLETED.value
@@ -153,28 +147,26 @@ class BaseResultsManager(Manager):
 
         except Exception as e:
             context.logger(f"Error processing results: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def cleanup(self, context: ManagerContext) -> bool:
         """Cleanup results manager."""
         try:
             # Archive all results
             self._archive_old_results()
-            
+
             # Clear active results
             self.results.clear()
             self.result_processors.clear()
             self.result_callbacks.clear()
-            
+
             context.logger("Results manager cleaned up")
             return True
         except Exception as e:
             context.logger(f"Error cleaning up results manager: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get results manager status."""
         return {
             "active_results": len(self.results),
@@ -185,7 +177,7 @@ class BaseResultsManager(Manager):
             "archive_after_days": self.archive_after_days,
         }
 
-    def _get_results(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _get_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Get results with optional filtering."""
         try:
             result_id = payload.get("result_id")
@@ -213,11 +205,9 @@ class BaseResultsManager(Manager):
 
         except Exception as e:
             context.logger(f"Error getting results: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _archive_results(self, context: ManagerContext, payload: Dict[str, Any]) -> ManagerResult:
+    def _archive_results(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         """Archive results."""
         try:
             result_ids = payload.get("result_ids", [])
@@ -244,12 +234,10 @@ class BaseResultsManager(Manager):
 
         except Exception as e:
             context.logger(f"Error archiving results: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def _register_result_processor(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         """Register result processor."""
         try:
@@ -274,13 +262,11 @@ class BaseResultsManager(Manager):
 
         except Exception as e:
             context.logger(f"Error registering result processor: {e}")
-            return ManagerResult(
-                success=False, data={}, metrics={}, error=str(e)
-            )
+            return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def _process_result_by_type(
-        self, context: ManagerContext, result_type: str, result_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, context: ManagerContext, result_type: str, result_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process result by type using registered processors."""
         if result_type in self.result_processors:
             try:
@@ -293,7 +279,7 @@ class BaseResultsManager(Manager):
             return {"processed": True, "original_data": result_data}
 
     def _validate_result(
-        self, context: ManagerContext, result: Dict[str, Any], rules: List[Dict[str, Any]]
+        self, context: ManagerContext, result: dict[str, Any], rules: list[dict[str, Any]]
     ) -> bool:
         """Validate result against rules."""
         if not rules:
@@ -305,7 +291,7 @@ class BaseResultsManager(Manager):
 
         return True
 
-    def _validate_rule(self, rule: Dict[str, Any], data: Dict[str, Any]) -> bool:
+    def _validate_rule(self, rule: dict[str, Any], data: dict[str, Any]) -> bool:
         """Validate a single rule against data."""
         field = rule.get("field")
         rule_type = rule.get("type")

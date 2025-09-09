@@ -6,7 +6,8 @@ Concrete implementation of Clock using system time.
 """
 
 from datetime import datetime
-from src.domain.ports.clock import Clock
+
+from ...domain.ports.clock import Clock
 
 
 class SystemClock(Clock):

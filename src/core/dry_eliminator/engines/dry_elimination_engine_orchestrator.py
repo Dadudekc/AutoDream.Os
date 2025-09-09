@@ -13,7 +13,7 @@ V2 COMPLIANT: Focused orchestration under 300 lines.
 
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any
 
 from ..dry_eliminator_models import (
     DRYEliminatorConfig,
@@ -22,26 +22,17 @@ from ..dry_eliminator_models import (
     EliminationStrategy,
     create_default_config,
 )
-from .file_discovery_engine import FileDiscoveryEngine, create_file_discovery_engine
-from .code_analysis_engine import CodeAnalysisEngine, create_code_analysis_engine
-from .violation_detection_engine import (
-    ViolationDetectionEngine,
-    create_violation_detection_engine,
-)
-from .elimination_strategy_engine import (
-    EliminationStrategyEngine,
-    create_elimination_strategy_engine,
-)
-from .metrics_reporting_engine import (
-    MetricsReportingEngine,
-    create_metrics_reporting_engine,
-)
+from .code_analysis_engine import create_code_analysis_engine
+from .elimination_strategy_engine import create_elimination_strategy_engine
+from .file_discovery_engine import create_file_discovery_engine
+from .metrics_reporting_engine import create_metrics_reporting_engine
+from .violation_detection_engine import create_violation_detection_engine
 
 
 class DRYEliminationEngineOrchestrator:
     """Main orchestrator for DRY elimination system."""
 
-    def __init__(self, config: Optional[DRYEliminatorConfig] = None):
+    def __init__(self, config: DRYEliminatorConfig | None = None):
         """Initialize DRY elimination engine orchestrator."""
         self.logger = logging.getLogger(__name__)
         self.config = config or create_default_config()
@@ -54,13 +45,13 @@ class DRYEliminationEngineOrchestrator:
         self.metrics_engine = create_metrics_reporting_engine()
 
         # Analysis state
-        self.python_files: List[Path] = []
-        self.detected_violations: List[DRYViolation] = []
-        self.elimination_results: List[EliminationResult] = []
+        self.python_files: list[Path] = []
+        self.detected_violations: list[DRYViolation] = []
+        self.elimination_results: list[EliminationResult] = []
 
         self.logger.info("DRY Elimination Engine Orchestrator initialized")
 
-    def run_full_analysis(self, project_root: Path) -> Dict[str, Any]:
+    def run_full_analysis(self, project_root: Path) -> dict[str, Any]:
         """Run complete DRY analysis and elimination."""
         try:
             self.metrics_engine.start_analysis()
@@ -68,52 +59,30 @@ class DRYEliminationEngineOrchestrator:
             # Step 1: Discover Python files
             self.logger.info("Step 1: Discovering Python files...")
             self.python_files = self.file_engine.discover_python_files(project_root)
-            self.metrics_engine.update_file_metrics(
-                len(self.python_files), len(self.python_files)
-            )
+            self.metrics_engine.update_file_metrics(len(self.python_files), len(self.python_files))
 
             if not self.python_files:
                 return {"error": "No Python files found for analysis"}
 
             # Step 2: Analyze code patterns
             self.logger.info("Step 2: Analyzing code patterns...")
-            analysis_results = self.analysis_engine.analyze_multiple_files(
-                self.python_files
-            )
+            analysis_results = self.analysis_engine.analyze_multiple_files(self.python_files)
 
             # Step 3: Extract patterns
             self.logger.info("Step 3: Extracting patterns...")
-            import_patterns = self.analysis_engine.get_import_patterns(
-                self.python_files
-            )
-            method_patterns = self.analysis_engine.get_function_patterns(
-                self.python_files
-            )
-            constant_patterns = self.analysis_engine.get_constant_patterns(
-                self.python_files
-            )
-            duplicate_blocks = self.analysis_engine.find_duplicate_code_blocks(
-                self.python_files
-            )
+            import_patterns = self.analysis_engine.get_import_patterns(self.python_files)
+            method_patterns = self.analysis_engine.get_function_patterns(self.python_files)
+            constant_patterns = self.analysis_engine.get_constant_patterns(self.python_files)
+            duplicate_blocks = self.analysis_engine.find_duplicate_code_blocks(self.python_files)
 
             # Step 4: Detect violations
             self.logger.info("Step 4: Detecting violations...")
             violations = []
-            violations.extend(
-                self.violation_engine.detect_duplicate_imports(import_patterns)
-            )
-            violations.extend(
-                self.violation_engine.detect_duplicate_methods(method_patterns)
-            )
-            violations.extend(
-                self.violation_engine.detect_duplicate_constants(constant_patterns)
-            )
-            violations.extend(
-                self.violation_engine.detect_unused_imports(self.python_files)
-            )
-            violations.extend(
-                self.violation_engine.detect_duplicate_code_blocks(duplicate_blocks)
-            )
+            violations.extend(self.violation_engine.detect_duplicate_imports(import_patterns))
+            violations.extend(self.violation_engine.detect_duplicate_methods(method_patterns))
+            violations.extend(self.violation_engine.detect_duplicate_constants(constant_patterns))
+            violations.extend(self.violation_engine.detect_unused_imports(self.python_files))
+            violations.extend(self.violation_engine.detect_duplicate_code_blocks(duplicate_blocks))
 
             self.detected_violations = violations
             self.violation_engine.detected_violations = violations
@@ -126,9 +95,7 @@ class DRYEliminationEngineOrchestrator:
             for violation in violations:
                 # Determine strategy based on violation type
                 strategy = self._determine_elimination_strategy(violation)
-                result = self.elimination_engine.execute_elimination(
-                    violation, strategy
-                )
+                result = self.elimination_engine.execute_elimination(violation, strategy)
                 elimination_results.append(result)
 
             self.elimination_results = elimination_results
@@ -138,9 +105,7 @@ class DRYEliminationEngineOrchestrator:
             self.logger.info("Step 6: Generating report...")
             self.metrics_engine.end_analysis()
 
-            summary = self.metrics_engine.generate_summary_report(
-                violations, elimination_results
-            )
+            summary = self.metrics_engine.generate_summary_report(violations, elimination_results)
             summary["file_statistics"] = self.file_engine.get_file_statistics()
             summary["analysis_summary"] = self.analysis_engine.get_analysis_summary(
                 self.python_files
@@ -152,9 +117,7 @@ class DRYEliminationEngineOrchestrator:
             self.logger.error(f"Error during full analysis: {e}")
             return {"error": str(e)}
 
-    def _determine_elimination_strategy(
-        self, violation: DRYViolation
-    ) -> EliminationStrategy:
+    def _determine_elimination_strategy(self, violation: DRYViolation) -> EliminationStrategy:
         """Determine appropriate elimination strategy for violation."""
         if violation.violation_type.value == "unused_imports":
             return EliminationStrategy.REMOVE
@@ -171,7 +134,7 @@ class DRYEliminationEngineOrchestrator:
         else:
             return EliminationStrategy.REMOVE  # Default strategy
 
-    def get_violations_summary(self) -> Dict[str, Any]:
+    def get_violations_summary(self) -> dict[str, Any]:
         """Get summary of detected violations."""
         if not self.detected_violations:
             return {"total_violations": 0}
@@ -179,15 +142,11 @@ class DRYEliminationEngineOrchestrator:
         return {
             "total_violations": len(self.detected_violations),
             "violations_by_type": self.violation_engine.get_violations_by_type(),
-            "violations_by_severity": (
-                self.violation_engine.get_violations_by_severity()
-            ),
-            "total_potential_savings": (
-                self.violation_engine.get_total_potential_savings()
-            ),
+            "violations_by_severity": (self.violation_engine.get_violations_by_severity()),
+            "total_potential_savings": (self.violation_engine.get_total_potential_savings()),
         }
 
-    def get_elimination_summary(self) -> Dict[str, Any]:
+    def get_elimination_summary(self) -> dict[str, Any]:
         """Get summary of elimination results."""
         return self.elimination_engine.get_elimination_summary()
 
@@ -231,22 +190,21 @@ class DRYEliminationEngineOrchestrator:
         self.elimination_engine.clear_results()
         self.metrics_engine.reset_metrics()
 
-    def get_analysis_status(self) -> Dict[str, Any]:
+    def get_analysis_status(self) -> dict[str, Any]:
         """Get current analysis status."""
         return {
             "files_discovered": len(self.python_files),
             "violations_detected": len(self.detected_violations),
             "eliminations_executed": len(self.elimination_results),
             "analysis_in_progress": (
-                self.metrics_engine.start_time is not None
-                and self.metrics_engine.end_time is None
+                self.metrics_engine.start_time is not None and self.metrics_engine.end_time is None
             ),
         }
 
 
 # Factory function for dependency injection
 def create_dry_elimination_engine_orchestrator(
-    config: Optional[DRYEliminatorConfig] = None,
+    config: DRYEliminatorConfig | None = None,
 ) -> DRYEliminationEngineOrchestrator:
     """Factory function to create DRY elimination engine orchestrator with optional
     configuration."""

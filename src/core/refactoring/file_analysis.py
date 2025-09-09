@@ -1,10 +1,7 @@
 import ast
 from dataclasses import dataclass
-from typing import List
 
-from src.core.validation.unified_validation_orchestrator import (
-    get_unified_validator,
-)
+from ..validation.unified_validation_orchestrator import get_unified_validator
 
 
 @dataclass
@@ -13,9 +10,9 @@ class FileAnalysis:
 
     file_path: str
     line_count: int
-    classes: List[str]
-    functions: List[str]
-    imports: List[str]
+    classes: list[str]
+    functions: list[str]
+    imports: list[str]
     complexity_score: float
     v2_compliance: bool
 
@@ -23,19 +20,25 @@ class FileAnalysis:
 def analyze_file_for_extraction(file_path: str) -> FileAnalysis:
     """Analyze a file for extraction opportunities."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         tree = ast.parse(content)
 
         classes = [
-            node.name for node in ast.walk(tree) if get_unified_validator().validate_type(node, ast.ClassDef)
+            node.name
+            for node in ast.walk(tree)
+            if get_unified_validator().validate_type(node, ast.ClassDef)
         ]
         functions = [
-            node.name for node in ast.walk(tree) if get_unified_validator().validate_type(node, ast.FunctionDef)
+            node.name
+            for node in ast.walk(tree)
+            if get_unified_validator().validate_type(node, ast.FunctionDef)
         ]
         imports = [
-            node.module for node in ast.walk(tree) if get_unified_validator().validate_type(node, ast.Import)
+            node.module
+            for node in ast.walk(tree)
+            if get_unified_validator().validate_type(node, ast.Import)
         ]
         imports.extend(
             [

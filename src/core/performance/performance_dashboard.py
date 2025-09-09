@@ -13,10 +13,10 @@ Purpose: V2 compliant modular performance dashboard
 
 # V2 COMPLIANCE REDIRECT - Import from modular system
 from .unified_dashboard import (
-    PerformanceDashboardOrchestrator,
-    DashboardModels,
     DashboardEngine,
+    DashboardModels,
     DashboardReporter,
+    PerformanceDashboardOrchestrator,
 )
 
 # Backward compatibility aliases

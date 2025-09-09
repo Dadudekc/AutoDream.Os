@@ -1,29 +1,31 @@
 from __future__ import annotations
-from typing import Dict, Type, Any
-from .contracts import Engine, EngineContext
-from .ml_core_engine import MLCoreEngine
+
+from typing import Any
+
 from .analysis_core_engine import AnalysisCoreEngine
-from .integration_core_engine import IntegrationCoreEngine
-from .coordination_core_engine import CoordinationCoreEngine
-from .utility_core_engine import UtilityCoreEngine
-from .data_core_engine import DataCoreEngine
 from .communication_core_engine import CommunicationCoreEngine
-from .validation_core_engine import ValidationCoreEngine
 from .configuration_core_engine import ConfigurationCoreEngine
+from .contracts import Engine, EngineContext
+from .coordination_core_engine import CoordinationCoreEngine
+from .data_core_engine import DataCoreEngine
+from .integration_core_engine import IntegrationCoreEngine
+from .ml_core_engine import MLCoreEngine
 from .monitoring_core_engine import MonitoringCoreEngine
-from .security_core_engine import SecurityCoreEngine
-from .performance_core_engine import PerformanceCoreEngine
-from .storage_core_engine import StorageCoreEngine
-from .processing_core_engine import ProcessingCoreEngine
 from .orchestration_core_engine import OrchestrationCoreEngine
+from .performance_core_engine import PerformanceCoreEngine
+from .processing_core_engine import ProcessingCoreEngine
+from .security_core_engine import SecurityCoreEngine
+from .storage_core_engine import StorageCoreEngine
+from .utility_core_engine import UtilityCoreEngine
+from .validation_core_engine import ValidationCoreEngine
 
 
 class EngineRegistry:
     """Registry for all core engines - SSOT for engine management."""
 
     def __init__(self):
-        self._engines: Dict[str, Type[Engine]] = {}
-        self._instances: Dict[str, Engine] = {}
+        self._engines: dict[str, type[Engine]] = {}
+        self._instances: dict[str, Engine] = {}
         self._initialize_engines()
 
     def _initialize_engines(self) -> None:
@@ -60,7 +62,7 @@ class EngineRegistry:
         """Get all available engine types."""
         return list(self._engines.keys())
 
-    def initialize_all(self, context: EngineContext) -> Dict[str, bool]:
+    def initialize_all(self, context: EngineContext) -> dict[str, bool]:
         """Initialize all engines."""
         results = {}
         for engine_type in self._engines:
@@ -72,7 +74,7 @@ class EngineRegistry:
                 context.logger.error(f"Failed to initialize {engine_type} engine: {e}")
         return results
 
-    def cleanup_all(self, context: EngineContext) -> Dict[str, bool]:
+    def cleanup_all(self, context: EngineContext) -> dict[str, bool]:
         """Cleanup all engines."""
         results = {}
         for engine_type, engine in self._instances.items():
@@ -83,7 +85,7 @@ class EngineRegistry:
                 context.logger.error(f"Failed to cleanup {engine_type} engine: {e}")
         return results
 
-    def get_all_status(self) -> Dict[str, Dict[str, Any]]:
+    def get_all_status(self) -> dict[str, dict[str, Any]]:
         """Get status of all engines."""
         status = {}
         for engine_type, engine in self._instances.items():

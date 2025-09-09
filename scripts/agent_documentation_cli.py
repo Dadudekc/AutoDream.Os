@@ -5,9 +5,9 @@ Command-line interface for AI agents to interact with the vectorized documentati
 system.
 """
 
-from ..core.unified_entry_point_system import main
-
 import logging
+
+from ..core.unified_entry_point_system import main
 
 # Add src to path
 sys.path.insert(0, str(get_unified_utility().Path(__file__).parent.parent / "src"))
@@ -39,9 +39,7 @@ class AgentDocumentationCLI:
             get_logger(__name__).error(f"❌ Failed to initialize: {e}")
             return False
 
-    def set_agent(
-        self, agent_id: str, role: str = "", domain: str = "", task: str = ""
-    ):
+    def set_agent(self, agent_id: str, role: str = "", domain: str = "", task: str = ""):
         """Set the current agent context."""
         context = {}
         if role:
@@ -61,9 +59,7 @@ class AgentDocumentationCLI:
             get_logger(__name__).error("❌ No agent set. Use --set-agent first.")
             return []
 
-        results = self.doc_service.search_documentation(
-            self.current_agent, query, n_results
-        )
+        results = self.doc_service.search_documentation(self.current_agent, query, n_results)
 
         return results
 
@@ -89,9 +85,7 @@ class AgentDocumentationCLI:
             get_logger(__name__).error("❌ No agent set. Use --set-agent first.")
             return []
 
-        return self.doc_service.get_search_suggestions(
-            self.current_agent, partial_query
-        )
+        return self.doc_service.get_search_suggestions(self.current_agent, partial_query)
 
     def export_knowledge(self, output_path: str) -> bool:
         """Export agent knowledge."""

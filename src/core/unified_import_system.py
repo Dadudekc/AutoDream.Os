@@ -13,8 +13,8 @@ License: MIT
 
 # Import modular components
 from .import_system.import_core import ImportSystemCore
-from .import_system.import_utilities import ImportUtilities
 from .import_system.import_registry import ImportRegistry
+from .import_system.import_utilities import ImportUtilities
 
 
 class UnifiedImportSystem:

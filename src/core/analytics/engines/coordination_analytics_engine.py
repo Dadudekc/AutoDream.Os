@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class CoordinationAnalyticsEngine:
         self.analytics_history = []
         self.metrics_cache = {}
 
-    def collect_analytics(self, coordination_data: Dict[str, Any]) -> Dict[str, Any]:
+    def collect_analytics(self, coordination_data: dict[str, Any]) -> dict[str, Any]:
         """Collect coordination analytics."""
         try:
             if not coordination_data:
@@ -47,14 +47,14 @@ class CoordinationAnalyticsEngine:
             if len(self.analytics_history) > 100:  # Keep only last 100
                 self.analytics_history.pop(0)
 
-            self.logger.info(f"Coordination analytics collected")
+            self.logger.info("Coordination analytics collected")
             return result
 
         except Exception as e:
             self.logger.error(f"Error collecting analytics: {e}")
             return {"error": str(e)}
 
-    def _extract_metrics(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _extract_metrics(self, data: dict[str, Any]) -> dict[str, Any]:
         """Extract metrics from coordination data."""
         try:
             metrics = {
@@ -71,7 +71,7 @@ class CoordinationAnalyticsEngine:
             self.logger.error(f"Error extracting metrics: {e}")
             return {}
 
-    def _generate_insights(self, metrics: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_insights(self, metrics: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate insights from metrics."""
         try:
             insights = []
@@ -91,16 +91,14 @@ class CoordinationAnalyticsEngine:
             self.logger.error(f"Error generating insights: {e}")
             return []
 
-    def get_analytics_summary(self) -> Dict[str, Any]:
+    def get_analytics_summary(self) -> dict[str, Any]:
         """Get analytics summary."""
         try:
             if not self.analytics_history:
                 return {"message": "No analytics data available"}
 
             total_analytics = len(self.analytics_history)
-            recent_analytics = (
-                self.analytics_history[-1] if self.analytics_history else {}
-            )
+            recent_analytics = self.analytics_history[-1] if self.analytics_history else {}
 
             return {
                 "total_analytics": total_analytics,
@@ -117,7 +115,7 @@ class CoordinationAnalyticsEngine:
         self.metrics_cache.clear()
         self.logger.info("Analytics history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

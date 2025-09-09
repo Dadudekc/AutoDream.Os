@@ -12,15 +12,15 @@ License: MIT
 
 import asyncio
 import logging
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from typing import Any
 
 from ..integration_models import (
     EnhancedOptimizationConfig,
     IntegrationPerformanceMetrics,
+    IntegrationStatus,
     IntegrationTask,
     OptimizationLevel,
-    IntegrationStatus,
     create_performance_metrics,
 )
 
@@ -32,8 +32,8 @@ class IntegrationOptimizationEngine:
         """Initialize integration optimization engine."""
         self.logger = logging.getLogger(__name__)
         self.config = config
-        self.optimization_cache: Dict[str, Any] = {}
-        self.active_optimizations: Dict[str, IntegrationTask] = {}
+        self.optimization_cache: dict[str, Any] = {}
+        self.active_optimizations: dict[str, IntegrationTask] = {}
 
     async def optimize_integration(self, task: IntegrationTask) -> bool:
         """Optimize a single integration task."""
@@ -51,9 +51,7 @@ class IntegrationOptimizationEngine:
             # Update task status
             task.end_time = datetime.now()
             task.execution_time = (task.end_time - task.start_time).total_seconds()
-            task.status = (
-                IntegrationStatus.COMPLETED if success else IntegrationStatus.FAILED
-            )
+            task.status = IntegrationStatus.COMPLETED if success else IntegrationStatus.FAILED
 
             # Remove from active optimizations
             self.active_optimizations.pop(task.task_id, None)
@@ -83,9 +81,7 @@ class IntegrationOptimizationEngine:
             elif self.config.optimization_level == OptimizationLevel.MAXIMUM:
                 return await self._maximum_optimization(task)
             else:
-                self.logger.warning(
-                    f"Unknown optimization level: {self.config.optimization_level}"
-                )
+                self.logger.warning(f"Unknown optimization level: {self.config.optimization_level}")
                 return False
 
         except Exception as e:
@@ -171,9 +167,7 @@ class IntegrationOptimizationEngine:
                     elif "maximum" in cache_key:
                         total_time += 0.5
 
-            avg_execution_time = (
-                total_time / completed_count if completed_count > 0 else 0
-            )
+            avg_execution_time = total_time / completed_count if completed_count > 0 else 0
 
             return create_performance_metrics(
                 total_operations=total_optimizations,
@@ -194,7 +188,7 @@ class IntegrationOptimizationEngine:
         self.optimization_cache.clear()
         self.logger.info(f"Cleared optimization cache ({cache_size} entries)")
 
-    def get_active_optimizations(self) -> Dict[str, IntegrationTask]:
+    def get_active_optimizations(self) -> dict[str, IntegrationTask]:
         """Get currently active optimization tasks."""
         return self.active_optimizations.copy()
 

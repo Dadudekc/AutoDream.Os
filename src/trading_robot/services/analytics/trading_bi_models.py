@@ -10,10 +10,9 @@ V2 COMPLIANT: Focused data structures under 300 lines.
 @license MIT
 """
 
-from datetime import datetime, timedelta
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from enum import Enum
-from typing import Optional, List, Dict, Any
 
 
 class RiskLevel(Enum):
@@ -82,7 +81,7 @@ class TrendAnalysisConfig:
     min_trades_for_analysis: int = 10
     confidence_threshold: float = 0.7
     strength_threshold: float = 0.5
-    timeframe_mapping: Dict[str, int] = None
+    timeframe_mapping: dict[str, int] = None
 
     def __post_init__(self):
         if self.timeframe_mapping is None:

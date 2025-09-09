@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class ProcessingCoordinator:
         self.processors[name] = processor
         self.logger.info(f"Registered processor: {name}")
 
-    async def process_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through registered processors."""
         try:
             self.stats["total_processed"] += 1
@@ -52,7 +52,7 @@ class ProcessingCoordinator:
             self.logger.error(f"Failed to process data: {e}")
             return {"processed": False, "error": str(e)}
 
-    def get_processing_stats(self) -> Dict[str, Any]:
+    def get_processing_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         total = self.stats["total_processed"]
         success_rate = (self.stats["successful"] / total * 100) if total > 0 else 0

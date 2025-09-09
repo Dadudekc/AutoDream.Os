@@ -10,32 +10,25 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import asyncio
-import time
-from typing import Any, Dict, List, Optional
-from datetime import datetime, timedelta
 import logging
+from datetime import datetime
+from typing import Any
 
 from ..coordination_models import (
     CoordinationConfig,
-    CoordinationTask,
-    CoordinationResult,
     CoordinationMetrics,
-    CoordinationStrategy,
-    CoordinationPriority,
-    CoordinationStatus,
-    create_default_config,
-    create_coordination_task,
+    CoordinationResult,
+    CoordinationTask,
     create_coordination_result,
-    create_coordination_metrics,
+    create_default_config,
 )
-from ..engines.task_coordination_engine import TaskCoordinationEngine
 from ..engines.performance_monitoring_engine import PerformanceMonitoringEngine
+from ..engines.task_coordination_engine import TaskCoordinationEngine
 
 # Import coordination utilities with fallback
 try:
-    from ...utils.coordination_utils import CoordinationUtils
     from ...utils.agent_matching import AgentMatchingUtils
+    from ...utils.coordination_utils import CoordinationUtils
     from ...utils.performance_metrics import PerformanceMetricsUtils
     from ...utils.vector_insights import VectorInsightsUtils
 except ImportError:
@@ -68,7 +61,7 @@ class SwarmCoordinationEnhancer:
     compliance through modular architecture.
     """
 
-    def __init__(self, config: Optional[CoordinationConfig] = None):
+    def __init__(self, config: CoordinationConfig | None = None):
         """Initialize swarm coordination enhancer."""
         self.logger = logging.getLogger(__name__)
         self.config = config or create_default_config()
@@ -158,7 +151,7 @@ class SwarmCoordinationEnhancer:
             result_data={"error": error_message},
         )
 
-    def get_coordination_summary(self) -> Dict[str, Any]:
+    def get_coordination_summary(self) -> dict[str, Any]:
         """Get comprehensive coordination summary."""
         uptime = None
         if self.start_time:
@@ -179,9 +172,7 @@ class SwarmCoordinationEnhancer:
                 "max_concurrent_tasks": self.config.max_concurrent_tasks,
                 "task_timeout_seconds": self.config.task_timeout_seconds,
                 "enable_priority_queues": self.config.enable_priority_queues,
-                "performance_monitoring_enabled": (
-                    self.config.enable_performance_monitoring
-                ),
+                "performance_monitoring_enabled": (self.config.enable_performance_monitoring),
             },
         }
 

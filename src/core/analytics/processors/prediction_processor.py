@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class PredictionProcessor:
             "processing_errors": 0,
         }
 
-    def process_prediction(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_prediction(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process prediction data."""
         try:
             self.stats["predictions_generated"] += 1
@@ -61,7 +61,7 @@ class PredictionProcessor:
             self.logger.error(f"Error processing prediction: {e}")
             return {"error": str(e)}
 
-    def _validate_prediction(self, prediction: Dict[str, Any]) -> bool:
+    def _validate_prediction(self, prediction: dict[str, Any]) -> bool:
         """Validate prediction data."""
         try:
             # Simple validation
@@ -72,11 +72,7 @@ class PredictionProcessor:
 
             # Validate confidence
             confidence = prediction.get("confidence", 0)
-            if (
-                not isinstance(confidence, (int, float))
-                or confidence < 0
-                or confidence > 1
-            ):
+            if not isinstance(confidence, (int, float)) or confidence < 0 or confidence > 1:
                 return False
 
             return True
@@ -84,9 +80,7 @@ class PredictionProcessor:
             self.logger.error(f"Error validating prediction: {e}")
             return False
 
-    def batch_process_predictions(
-        self, predictions: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    def batch_process_predictions(self, predictions: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Process multiple predictions in batch."""
         try:
             results = []
@@ -100,16 +94,12 @@ class PredictionProcessor:
             self.logger.error(f"Error in batch processing: {e}")
             return []
 
-    def get_processing_stats(self) -> Dict[str, Any]:
+    def get_processing_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         total = self.stats["predictions_generated"]
         success_rate = (
             (
-                (
-                    total
-                    - self.stats["validation_errors"]
-                    - self.stats["processing_errors"]
-                )
+                (total - self.stats["validation_errors"] - self.stats["processing_errors"])
                 / total
                 * 100
             )
@@ -134,7 +124,7 @@ class PredictionProcessor:
         }
         self.logger.info("Processing statistics reset")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get processor status."""
         return {
             "active": True,

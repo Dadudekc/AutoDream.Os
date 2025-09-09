@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class DeploymentExecutor:
         self.deployment_history = []
         self.active_deployments = {}
 
-    def execute_deployment(self, deployment_data: Dict[str, Any]) -> Dict[str, Any]:
+    def execute_deployment(self, deployment_data: dict[str, Any]) -> dict[str, Any]:
         """Execute deployment."""
         try:
             if not deployment_data:
@@ -53,8 +53,8 @@ class DeploymentExecutor:
         return f"deploy_{datetime.now().timestamp()}"
 
     def _process_deployment(
-        self, deployment_data: Dict[str, Any], deployment_id: str
-    ) -> Dict[str, Any]:
+        self, deployment_data: dict[str, Any], deployment_id: str
+    ) -> dict[str, Any]:
         """Process deployment."""
         try:
             # Simple deployment processing
@@ -73,7 +73,7 @@ class DeploymentExecutor:
             self.logger.error(f"Error processing deployment: {e}")
             return {"error": str(e)}
 
-    def get_deployment_status(self, deployment_id: str) -> Dict[str, Any]:
+    def get_deployment_status(self, deployment_id: str) -> dict[str, Any]:
         """Get deployment status."""
         try:
             if deployment_id in self.active_deployments:
@@ -84,14 +84,12 @@ class DeploymentExecutor:
             self.logger.error(f"Error getting deployment status: {e}")
             return {"error": str(e)}
 
-    def get_deployment_summary(self) -> Dict[str, Any]:
+    def get_deployment_summary(self) -> dict[str, Any]:
         """Get deployment summary."""
         try:
             total_deployments = len(self.deployment_history)
             active_deployments = len(self.active_deployments)
-            recent_deployment = (
-                self.deployment_history[-1] if self.deployment_history else {}
-            )
+            recent_deployment = self.deployment_history[-1] if self.deployment_history else {}
 
             return {
                 "total_deployments": total_deployments,
@@ -109,7 +107,7 @@ class DeploymentExecutor:
         self.active_deployments.clear()
         self.logger.info("Deployment history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get executor status."""
         return {
             "active": True,

@@ -1,5 +1,12 @@
-"""Utilities for the services package."""
+# AUTO-GENERATED __init__.py
+# DO NOT EDIT MANUALLY - changes may be overwritten
 
-from .agent_registry import AGENTS, list_agents
+from . import agent_utils_registry as agent_registry
+from . import messaging_validation_utils
+from . import vector_config_utils
 
-__all__ = ["AGENTS", "list_agents"]
+__all__ = [
+    'agent_registry',
+    'messaging_validation_utils',
+    'vector_config_utils',
+]

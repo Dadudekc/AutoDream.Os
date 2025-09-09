@@ -13,10 +13,10 @@ License: MIT
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
-def read_json(file_path: str) -> Dict[str, Any]:
+def read_json(file_path: str) -> dict[str, Any]:
     """Read JSON file with error handling.
 
     Args:
@@ -30,14 +30,14 @@ def read_json(file_path: str) -> Dict[str, Any]:
         if not path.exists():
             return {}
 
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
 
     except Exception:
         return {}
 
 
-def write_json(file_path: str, data: Dict[str, Any]) -> bool:
+def write_json(file_path: str, data: dict[str, Any]) -> bool:
     """Write data to JSON file with error handling.
 
     Args:

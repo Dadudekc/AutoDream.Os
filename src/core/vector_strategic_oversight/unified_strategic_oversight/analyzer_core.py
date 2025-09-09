@@ -10,26 +10,20 @@ License: MIT
 """
 
 import logging
-from typing import List, Dict, Any, Optional
 from datetime import datetime
+from typing import Any
+
+from .engine import StrategicOversightEngine
 from .models import (
-    SwarmCoordinationInsight,
-    StrategicRecommendation,
     AgentPerformanceMetrics,
-    SwarmCoordinationStatus,
-    StrategicMission,
-    VectorDatabaseMetrics,
-    SystemHealthMetrics,
-    StrategicOversightModels,
-    InsightType,
     ConfidenceLevel,
     ImpactLevel,
-    MissionStatus,
-    ReportType,
+    InsightType,
     PriorityLevel,
-    AgentRole,
+    StrategicRecommendation,
+    SwarmCoordinationInsight,
+    SystemHealthMetrics,
 )
-from .engine import StrategicOversightEngine
 
 
 class StrategicOversightAnalyzer:
@@ -54,9 +48,7 @@ class StrategicOversightAnalyzer:
             self.logger.error(f"Failed to initialize Strategic Oversight Analyzer: {e}")
             return False
 
-    def analyze_swarm_coordination(
-        self, swarm_id: str = None
-    ) -> List[SwarmCoordinationInsight]:
+    def analyze_swarm_coordination(self, swarm_id: str = None) -> list[SwarmCoordinationInsight]:
         """Analyze swarm coordination."""
         try:
             if not self.is_initialized:
@@ -73,7 +65,7 @@ class StrategicOversightAnalyzer:
                     insight_id=f"coordination_{data.get('id', 'unknown')}",
                     insight_type=InsightType.COORDINATION_ANALYSIS,
                     title=f"Coordination Analysis for {data.get('swarm_id', 'Unknown')}",
-                    description=f"Analysis of coordination patterns and effectiveness",
+                    description="Analysis of coordination patterns and effectiveness",
                     confidence_level=ConfidenceLevel.HIGH,
                     impact_level=ImpactLevel.MEDIUM,
                     recommendations=[
@@ -94,9 +86,7 @@ class StrategicOversightAnalyzer:
             self.logger.error(f"Error analyzing swarm coordination: {e}")
             return []
 
-    def analyze_agent_performance(
-        self, agent_id: str = None
-    ) -> List[AgentPerformanceMetrics]:
+    def analyze_agent_performance(self, agent_id: str = None) -> list[AgentPerformanceMetrics]:
         """Analyze agent performance."""
         try:
             if not self.is_initialized:
@@ -132,8 +122,8 @@ class StrategicOversightAnalyzer:
             return []
 
     def generate_strategic_recommendations(
-        self, context: Dict[str, Any] = None
-    ) -> List[StrategicRecommendation]:
+        self, context: dict[str, Any] = None
+    ) -> list[StrategicRecommendation]:
         """Generate strategic recommendations."""
         try:
             if not self.is_initialized:
@@ -205,7 +195,7 @@ class StrategicOversightAnalyzer:
                 metadata={"error": str(e)},
             )
 
-    def get_analysis_summary(self) -> Dict[str, Any]:
+    def get_analysis_summary(self) -> dict[str, Any]:
         """Get analysis summary."""
         try:
             if not self.is_initialized:

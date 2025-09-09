@@ -9,17 +9,14 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 License: MIT
 """
 
-import os
 import hashlib
-from typing import List, Dict, Any, Optional, Tuple
 import logging
 
 from .analysis_tools_models import (
     ArchitecturePattern,
-    FileAnalysis,
     DuplicateFile,
+    FileAnalysis,
     RefactoringSuggestion,
-    AnalysisReport,
 )
 
 logger = logging.getLogger(__name__)
@@ -36,7 +33,7 @@ class ArchitectureAnalyzer:
     def analyze_file(self, file_path: str) -> FileAnalysis:
         """Analyze a single file - simplified."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 lines = content.split("\n")
 
@@ -69,7 +66,7 @@ class ArchitectureAnalyzer:
                 v2_compliance=False,
             )
 
-    def find_duplicates(self, files: List[str]) -> List[DuplicateFile]:
+    def find_duplicates(self, files: list[str]) -> list[DuplicateFile]:
         """Find duplicate files - simplified."""
         duplicates = []
         file_hashes = {}
@@ -96,14 +93,14 @@ class ArchitectureAnalyzer:
 
         return duplicates
 
-    def identify_patterns(self, files: List[str]) -> List[ArchitecturePattern]:
+    def identify_patterns(self, files: list[str]) -> list[ArchitecturePattern]:
         """Identify architecture patterns - simplified."""
         patterns = []
 
         # Simple pattern detection
         for file_path in files:
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
 
                     # Check for common patterns
@@ -131,9 +128,7 @@ class ArchitectureAnalyzer:
 
         return patterns
 
-    def generate_suggestions(
-        self, file_analysis: FileAnalysis
-    ) -> List[RefactoringSuggestion]:
+    def generate_suggestions(self, file_analysis: FileAnalysis) -> list[RefactoringSuggestion]:
         """Generate refactoring suggestions - simplified."""
         suggestions = []
 
@@ -159,7 +154,7 @@ class ArchitectureAnalyzer:
 
         return suggestions
 
-    def _extract_classes(self, content: str) -> List[str]:
+    def _extract_classes(self, content: str) -> list[str]:
         """Extract class names from content."""
         classes = []
         lines = content.split("\n")
@@ -169,7 +164,7 @@ class ArchitectureAnalyzer:
                 classes.append(class_name)
         return classes
 
-    def _extract_functions(self, content: str) -> List[str]:
+    def _extract_functions(self, content: str) -> list[str]:
         """Extract function names from content."""
         functions = []
         lines = content.split("\n")
@@ -179,7 +174,7 @@ class ArchitectureAnalyzer:
                 functions.append(func_name)
         return functions
 
-    def _extract_imports(self, content: str) -> List[str]:
+    def _extract_imports(self, content: str) -> list[str]:
         """Extract import statements from content."""
         imports = []
         lines = content.split("\n")

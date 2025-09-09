@@ -11,7 +11,7 @@ def find_large_python_files(directory="src", min_lines=400):
             if file.endswith(".py"):
                 file_path = get_unified_utility().path.join(root, file)
                 try:
-                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    with open(file_path, encoding="utf-8", errors="ignore") as f:
                         line_count = sum(1 for line in f)
                         if line_count > min_lines:
                             large_files.append((file_path, line_count))

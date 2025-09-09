@@ -1,0 +1,92 @@
+{
+  ".js": {
+    "file_type": ".js",
+    "files": [
+      {
+        "path": "src\\web\\static\\js\\unified-frontend-utilities.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\web\\static\\js\\trading-robot\\chart-state-validation-module.js",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      }
+    ],
+    "total_functions": 0,
+    "total_classes": 0,
+    "total_complexity": 0,
+    "file_count": 2
+  },
+  ".py": {
+    "file_type": ".py",
+    "files": [
+      {
+        "path": "src\\services\\quality\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "src\\services\\cursor_db.py",
+        "functions": 4,
+        "classes": 2,
+        "complexity": 8
+      },
+      {
+        "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
+        "functions": 16,
+        "classes": 1,
+        "complexity": 32
+      },
+      {
+        "path": "src\\reporting\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\test_architectural_compliance.py",
+        "functions": 21,
+        "classes": 3,
+        "complexity": 42
+      },
+      {
+        "path": "tests\\messaging\\fixtures\\config.py",
+        "functions": 2,
+        "classes": 0,
+        "complexity": 2
+      },
+      {
+        "path": "tests\\performance\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\runners\\config.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\infrastructure\\test_infrastructure_config.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      },
+      {
+        "path": "tests\\messaging\\fixtures\\__init__.py",
+        "functions": 0,
+        "classes": 0,
+        "complexity": 0
+      }
+    ],
+    "total_functions": 43,
+    "total_classes": 6,
+    "total_complexity": 84,
+    "file_count": 10
+  }
+}

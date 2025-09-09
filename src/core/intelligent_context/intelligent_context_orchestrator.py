@@ -13,9 +13,9 @@ Purpose: V2 compliant modular intelligent context orchestration
 
 # V2 COMPLIANCE REDIRECT - Import from modular system
 from .unified_intelligent_context import (
-    IntelligentContextRetrieval,
-    IntelligentContextModels,
     IntelligentContextEngine,
+    IntelligentContextModels,
+    IntelligentContextRetrieval,
     IntelligentContextSearch,
 )
 

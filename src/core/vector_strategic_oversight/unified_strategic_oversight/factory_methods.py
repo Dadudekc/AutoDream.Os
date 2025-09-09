@@ -11,33 +11,24 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any
 from datetime import datetime
-import uuid
 
-from .enums import (
-    InsightType,
-    ConfidenceLevel,
-    ImpactLevel,
-    ReportType,
-    PriorityLevel,
-    AgentRole,
-)
 from .data_models import (
-    SwarmCoordinationInsight,
-    StrategicRecommendation,
-    StrategicOversightReport,
     AgentPerformanceMetrics,
-    SwarmCoordinationStatus,
     StrategicMission,
-    VectorDatabaseMetrics,
+    StrategicOversightReport,
+    StrategicRecommendation,
+    SwarmCoordinationInsight,
+    SwarmCoordinationStatus,
     SystemHealthMetrics,
+    VectorDatabaseMetrics,
 )
+from .enums import AgentRole, ConfidenceLevel, ImpactLevel, PriorityLevel, ReportType
+from .factories.metrics_factory import MetricsFactory
+from .factories.mission_factory import MissionFactory
 
 # Import modular factory components
 from .factories.report_factory import ReportFactory
-from .factories.metrics_factory import MetricsFactory
-from .factories.mission_factory import MissionFactory
 
 
 class StrategicOversightFactory:
@@ -55,8 +46,8 @@ class StrategicOversightFactory:
         report_type: ReportType,
         title: str,
         summary: str,
-        insights: List[SwarmCoordinationInsight] = None,
-        recommendations: List[StrategicRecommendation] = None,
+        insights: list[SwarmCoordinationInsight] = None,
+        recommendations: list[StrategicRecommendation] = None,
         confidence_level: ConfidenceLevel = ConfidenceLevel.MEDIUM,
         impact_level: ImpactLevel = ImpactLevel.MEDIUM,
     ) -> StrategicOversightReport:
@@ -95,7 +86,7 @@ class StrategicOversightFactory:
         title: str,
         description: str,
         priority: str,
-        implementation_steps: List[str],
+        implementation_steps: list[str],
         expected_impact: str,
         resource_requirements: str = None,
     ) -> StrategicRecommendation:
@@ -193,11 +184,11 @@ class StrategicOversightFactory:
         title: str,
         description: str,
         priority: PriorityLevel,
-        assigned_agents: List[str],
-        objectives: List[str],
-        success_criteria: List[str],
-        deadline: Optional[datetime] = None,
-        dependencies: List[str] = None,
+        assigned_agents: list[str],
+        objectives: list[str],
+        success_criteria: list[str],
+        deadline: datetime | None = None,
+        dependencies: list[str] = None,
     ) -> StrategicMission:
         """Create strategic mission."""
         return self.mission_factory.create_strategic_mission(
@@ -223,8 +214,8 @@ class StrategicOversightFactory:
         self,
         title: str,
         description: str,
-        assigned_agents: List[str],
-        objectives: List[str],
+        assigned_agents: list[str],
+        objectives: list[str],
     ) -> StrategicMission:
         """Create emergency mission with high priority."""
         return self.mission_factory.create_emergency_mission(
@@ -259,23 +250,17 @@ def create_swarm_insight(*args, **kwargs) -> SwarmCoordinationInsight:
 
 def create_strategic_recommendation(*args, **kwargs) -> StrategicRecommendation:
     """Create strategic recommendation."""
-    return get_strategic_oversight_factory().create_strategic_recommendation(
-        *args, **kwargs
-    )
+    return get_strategic_oversight_factory().create_strategic_recommendation(*args, **kwargs)
 
 
 def create_agent_performance_metrics(*args, **kwargs) -> AgentPerformanceMetrics:
     """Create agent performance metrics."""
-    return get_strategic_oversight_factory().create_agent_performance_metrics(
-        *args, **kwargs
-    )
+    return get_strategic_oversight_factory().create_agent_performance_metrics(*args, **kwargs)
 
 
 def create_swarm_coordination_status(*args, **kwargs) -> SwarmCoordinationStatus:
     """Create swarm coordination status."""
-    return get_strategic_oversight_factory().create_swarm_coordination_status(
-        *args, **kwargs
-    )
+    return get_strategic_oversight_factory().create_swarm_coordination_status(*args, **kwargs)
 
 
 def create_strategic_mission(*args, **kwargs) -> StrategicMission:
@@ -285,13 +270,9 @@ def create_strategic_mission(*args, **kwargs) -> StrategicMission:
 
 def create_vector_database_metrics(*args, **kwargs) -> VectorDatabaseMetrics:
     """Create vector database metrics."""
-    return get_strategic_oversight_factory().create_vector_database_metrics(
-        *args, **kwargs
-    )
+    return get_strategic_oversight_factory().create_vector_database_metrics(*args, **kwargs)
 
 
 def create_system_health_metrics(*args, **kwargs) -> SystemHealthMetrics:
     """Create system health metrics."""
-    return get_strategic_oversight_factory().create_system_health_metrics(
-        *args, **kwargs
-    )
+    return get_strategic_oversight_factory().create_system_health_metrics(*args, **kwargs)

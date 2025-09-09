@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class DataCoreEngine(Engine):
     """Core data engine - consolidates all data operations."""
 
     def __init__(self):
-        self.datasets: Dict[str, Any] = {}
-        self.queries: Dict[str, Any] = {}
+        self.datasets: dict[str, Any] = {}
+        self.queries: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class DataCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Data Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute data operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class DataCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _store_data(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _store_data(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Store data in engine."""
         try:
             dataset_id = payload.get("dataset_id", "default")
@@ -60,9 +60,7 @@ class DataCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _retrieve_data(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _retrieve_data(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Retrieve data from engine."""
         try:
             dataset_id = payload.get("dataset_id", "default")
@@ -83,9 +81,7 @@ class DataCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _query_data(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _query_data(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Query data in engine."""
         try:
             query_id = payload.get("query_id", f"query_{len(self.queries)}")
@@ -96,9 +92,7 @@ class DataCoreEngine(Engine):
             result = {"query_id": query_id, "results": [], "count": 0}
             self.queries[query_id] = result
 
-            return EngineResult(
-                success=True, data=result, metrics={"query_id": query_id}
-            )
+            return EngineResult(success=True, data=result, metrics={"query_id": query_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
@@ -114,7 +108,7 @@ class DataCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Data Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get data core engine status."""
         return {
             "initialized": self.is_initialized,

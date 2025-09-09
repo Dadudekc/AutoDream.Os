@@ -10,14 +10,15 @@ License: MIT
 """
 
 from __future__ import annotations
+
+import json
 import os
 import shutil
-import json
 import threading
-from pathlib import Path
-from typing import Dict, Any, Optional, List
 from datetime import datetime
-from .contracts import ResourceManager, ManagerContext, ManagerResult
+from typing import Any
+
+from .contracts import ManagerContext, ManagerResult, ResourceManager
 
 
 class CoreResourceManager(ResourceManager):
@@ -28,8 +29,8 @@ class CoreResourceManager(ResourceManager):
         self.file_operations_count = 0
         self.lock_operations_count = 0
         self.context_operations_count = 0
-        self._locks: Dict[str, threading.Lock] = {}
-        self._agent_contexts: Dict[str, Dict[str, Any]] = {}
+        self._locks: dict[str, threading.Lock] = {}
+        self._agent_contexts: dict[str, dict[str, Any]] = {}
         self._lock_file = "runtime/resource_locks.json"
 
     def initialize(self, context: ManagerContext) -> bool:
@@ -48,20 +49,16 @@ class CoreResourceManager(ResourceManager):
             return False
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         """Execute resource operation."""
         try:
             if operation == "create_resource":
-                return self.create_resource(
-                    context, payload.get("resource_type", ""), payload
-                )
+                return self.create_resource(context, payload.get("resource_type", ""), payload)
             elif operation == "get_resource":
                 return self.get_resource(context, payload.get("resource_id", ""))
             elif operation == "update_resource":
-                return self.update_resource(
-                    context, payload.get("resource_id", ""), payload
-                )
+                return self.update_resource(context, payload.get("resource_id", ""), payload)
             elif operation == "delete_resource":
                 return self.delete_resource(context, payload.get("resource_id", ""))
             elif operation == "file_operation":
@@ -81,7 +78,7 @@ class CoreResourceManager(ResourceManager):
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def create_resource(
-        self, context: ManagerContext, resource_type: str, data: Dict[str, Any]
+        self, context: ManagerContext, resource_type: str, data: dict[str, Any]
     ) -> ManagerResult:
         """Create a resource."""
         try:
@@ -142,7 +139,7 @@ class CoreResourceManager(ResourceManager):
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def update_resource(
-        self, context: ManagerContext, resource_id: str, updates: Dict[str, Any]
+        self, context: ManagerContext, resource_id: str, updates: dict[str, Any]
     ) -> ManagerResult:
         """Update a resource."""
         try:
@@ -159,9 +156,7 @@ class CoreResourceManager(ResourceManager):
             # Try context update
             if resource_id in self._agent_contexts:
                 self._agent_contexts[resource_id].update(updates)
-                self._agent_contexts[resource_id][
-                    "last_updated"
-                ] = datetime.now().isoformat()
+                self._agent_contexts[resource_id]["last_updated"] = datetime.now().isoformat()
                 return ManagerResult(
                     success=True,
                     data={
@@ -180,9 +175,7 @@ class CoreResourceManager(ResourceManager):
         except Exception as e:
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def delete_resource(
-        self, context: ManagerContext, resource_id: str
-    ) -> ManagerResult:
+    def delete_resource(self, context: ManagerContext, resource_id: str) -> ManagerResult:
         """Delete a resource."""
         try:
             # Try file deletion
@@ -246,7 +239,7 @@ class CoreResourceManager(ResourceManager):
             context.logger(f"Failed to cleanup Core Resource Manager: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get resource manager status."""
         return {
             "file_operations": self.file_operations_count,
@@ -258,7 +251,7 @@ class CoreResourceManager(ResourceManager):
         }
 
     def _handle_file_operation(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         """Handle file operations."""
         operation = payload.get("file_operation", "")
@@ -317,7 +310,7 @@ class CoreResourceManager(ResourceManager):
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def _handle_lock_operation(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         """Handle lock operations."""
         operation = payload.get("lock_operation", "")
@@ -362,7 +355,7 @@ class CoreResourceManager(ResourceManager):
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
     def _handle_context_operation(
-        self, context: ManagerContext, payload: Dict[str, Any]
+        self, context: ManagerContext, payload: dict[str, Any]
     ) -> ManagerResult:
         """Handle context operations."""
         operation = payload.get("context_operation", "")
@@ -405,9 +398,7 @@ class CoreResourceManager(ResourceManager):
                 updates = payload.get("updates", {})
                 if agent_id in self._agent_contexts:
                     self._agent_contexts[agent_id].update(updates)
-                    self._agent_contexts[agent_id][
-                        "last_updated"
-                    ] = datetime.now().isoformat()
+                    self._agent_contexts[agent_id]["last_updated"] = datetime.now().isoformat()
                     self.context_operations_count += 1
                     return ManagerResult(
                         success=True,
@@ -450,9 +441,7 @@ class CoreResourceManager(ResourceManager):
         except Exception as e:
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _create_file(
-        self, context: ManagerContext, data: Dict[str, Any]
-    ) -> ManagerResult:
+    def _create_file(self, context: ManagerContext, data: dict[str, Any]) -> ManagerResult:
         """Create a file."""
         file_path = data.get("file_path", "")
         content = data.get("content", "")
@@ -469,9 +458,7 @@ class CoreResourceManager(ResourceManager):
         except Exception as e:
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _create_directory(
-        self, context: ManagerContext, data: Dict[str, Any]
-    ) -> ManagerResult:
+    def _create_directory(self, context: ManagerContext, data: dict[str, Any]) -> ManagerResult:
         """Create a directory."""
         dir_path = data.get("dir_path", "")
 
@@ -486,9 +473,7 @@ class CoreResourceManager(ResourceManager):
         except Exception as e:
             return ManagerResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _create_context(
-        self, context: ManagerContext, data: Dict[str, Any]
-    ) -> ManagerResult:
+    def _create_context(self, context: ManagerContext, data: dict[str, Any]) -> ManagerResult:
         """Create an agent context."""
         agent_id = data.get("agent_id", "")
         context_data = data.get("context_data", {})
@@ -509,7 +494,7 @@ class CoreResourceManager(ResourceManager):
 
     def _read_file(self, file_path: str) -> str:
         """Read file content."""
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             return f.read()
 
     def _write_file(self, file_path: str, content: str) -> None:
@@ -521,12 +506,10 @@ class CoreResourceManager(ResourceManager):
         """Load locks from file."""
         try:
             if os.path.exists(self._lock_file):
-                with open(self._lock_file, "r", encoding="utf-8") as f:
+                with open(self._lock_file, encoding="utf-8") as f:
                     lock_data = json.load(f)
                     # Note: We can't restore actual Lock objects, just track them
-                    self._locks = {
-                        k: threading.Lock() for k in lock_data.get("locks", [])
-                    }
+                    self._locks = {k: threading.Lock() for k in lock_data.get("locks", [])}
         except Exception:
             pass  # Ignore lock loading errors
 

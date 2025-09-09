@@ -7,20 +7,21 @@ Handles the business logic of task completion.
 """
 
 from dataclasses import dataclass
-from typing import Optional
-from src.domain.entities.task import Task
-from src.domain.entities.agent import Agent
-from src.domain.ports.task_repository import TaskRepository
-from src.domain.ports.agent_repository import AgentRepository
-from src.domain.ports.message_bus import MessageBus
-from src.domain.ports.logger import Logger
-from src.domain.value_objects.ids import TaskId, AgentId
-from src.domain.domain_events import TaskCompleted
+
+from ...domain.domain_events import TaskCompleted
+from ...domain.entities.agent import Agent
+from ...domain.entities.task import Task
+from ...domain.ports.agent_repository import AgentRepository
+from ...domain.ports.logger import Logger
+from ...domain.ports.message_bus import MessageBus
+from ...domain.ports.task_repository import TaskRepository
+from ...domain.value_objects.ids import AgentId, TaskId
 
 
 @dataclass
 class CompleteTaskRequest:
     """Request DTO for task completion."""
+
     task_id: str
     agent_id: str  # Agent completing the task
 
@@ -28,10 +29,11 @@ class CompleteTaskRequest:
 @dataclass
 class CompleteTaskResponse:
     """Response DTO for task completion."""
+
     success: bool
-    task: Optional[Task] = None
-    agent: Optional[Agent] = None
-    error_message: Optional[str] = None
+    task: Task | None = None
+    agent: Agent | None = None
+    error_message: str | None = None
 
 
 class CompleteTaskUseCase:
@@ -47,7 +49,7 @@ class CompleteTaskUseCase:
         tasks: TaskRepository,
         agents: AgentRepository,
         message_bus: MessageBus,
-        logger: Logger
+        logger: Logger,
     ):
         self.tasks = tasks
         self.agents = agents
@@ -69,23 +71,21 @@ class CompleteTaskUseCase:
             task = self.tasks.get(TaskId(request.task_id))
             if not task:
                 return CompleteTaskResponse(
-                    success=False,
-                    error_message=f"Task {request.task_id} not found"
+                    success=False, error_message=f"Task {request.task_id} not found"
                 )
 
             # Verify task is assigned to the requesting agent
             if task.assigned_agent_id != AgentId(request.agent_id):
                 return CompleteTaskResponse(
                     success=False,
-                    error_message=f"Task {request.task_id} is not assigned to agent {request.agent_id}"
+                    error_message=f"Task {request.task_id} is not assigned to agent {request.agent_id}",
                 )
 
             # Retrieve the agent
             agent = self.agents.get(AgentId(request.agent_id))
             if not agent:
                 return CompleteTaskResponse(
-                    success=False,
-                    error_message=f"Agent {request.agent_id} not found"
+                    success=False, error_message=f"Agent {request.agent_id} not found"
                 )
 
             # Complete the task
@@ -101,7 +101,7 @@ class CompleteTaskUseCase:
                 event_id=f"task-completed-{task.id}-{agent.id}",
                 task_id=task.id,
                 agent_id=agent.id,
-                completed_at=task.completed_at
+                completed_at=task.completed_at,
             )
 
             self.message_bus.publish("task.completed", event.to_dict())
@@ -111,14 +111,10 @@ class CompleteTaskUseCase:
                 "Task completed successfully",
                 task_id=task.id,
                 agent_id=agent.id,
-                completion_time=task.completed_at.isoformat()
+                completion_time=task.completed_at.isoformat(),
             )
 
-            return CompleteTaskResponse(
-                success=True,
-                task=task,
-                agent=agent
-            )
+            return CompleteTaskResponse(success=True, task=task, agent=agent)
 
         except Exception as e:
             self.logger.error(
@@ -126,9 +122,6 @@ class CompleteTaskUseCase:
                 task_id=request.task_id,
                 agent_id=request.agent_id,
                 error=str(e),
-                exception=e
+                exception=e,
             )
-            return CompleteTaskResponse(
-                success=False,
-                error_message=f"Completion failed: {str(e)}"
-            )
+            return CompleteTaskResponse(success=False, error_message=f"Completion failed: {str(e)}")

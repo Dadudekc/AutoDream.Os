@@ -11,17 +11,11 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from typing import Dict, List, Optional, Any, Callable
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
 
-from ..models import (
-    IntegrationType,
-    IntegrationConfig,
-    IntegrationTask,
-    IntegrationStatus,
-    IntegrationModels,
-)
+from ..models import IntegrationConfig, IntegrationModels, IntegrationType
 
 
 class ConfigManager:
@@ -33,15 +27,15 @@ class ConfigManager:
     def __init__(self, config: IntegrationConfig):
         """Initialize config manager."""
         self.config = config
-        self.config_history: List[Dict[str, Any]] = []
-        self.export_history: List[Dict[str, Any]] = []
+        self.config_history: list[dict[str, Any]] = []
+        self.export_history: list[dict[str, Any]] = []
 
     def export_configuration(
         self,
-        integration_handlers: Dict[IntegrationType, Callable],
-        alert_thresholds: Dict[str, float],
-        optimizer_status: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        integration_handlers: dict[IntegrationType, Callable],
+        alert_thresholds: dict[str, float],
+        optimizer_status: dict[str, Any],
+    ) -> dict[str, Any]:
         """Export coordination configuration."""
         export_data = {
             "exported_at": datetime.now().isoformat(),
@@ -62,7 +56,7 @@ class ConfigManager:
 
         return export_data
 
-    def validate_configuration(self) -> Dict[str, Any]:
+    def validate_configuration(self) -> dict[str, Any]:
         """Validate current configuration."""
         validation_results = {"valid": True, "errors": [], "warnings": []}
 
@@ -97,7 +91,7 @@ class ConfigManager:
 
         return validation_results
 
-    def update_configuration(self, updates: Dict[str, Any]) -> Dict[str, Any]:
+    def update_configuration(self, updates: dict[str, Any]) -> dict[str, Any]:
         """Update configuration with new values."""
         update_results = {"success": True, "updated_fields": [], "errors": []}
 
@@ -127,22 +121,18 @@ class ConfigManager:
 
         return update_results
 
-    def get_configuration_summary(self) -> Dict[str, Any]:
+    def get_configuration_summary(self) -> dict[str, Any]:
         """Get configuration summary."""
         return {
             "config_type": type(self.config).__name__,
             "config_fields": list(self.config.__dict__.keys()),
             "config_history_count": len(self.config_history),
             "export_history_count": len(self.export_history),
-            "last_export": (
-                self.export_history[-1]["timestamp"] if self.export_history else None
-            ),
-            "last_update": (
-                self.config_history[-1]["timestamp"] if self.config_history else None
-            ),
+            "last_export": (self.export_history[-1]["timestamp"] if self.export_history else None),
+            "last_update": (self.config_history[-1]["timestamp"] if self.config_history else None),
         }
 
-    def get_configuration_history(self, hours: int = 24) -> List[Dict[str, Any]]:
+    def get_configuration_history(self, hours: int = 24) -> list[dict[str, Any]]:
         """Get configuration history."""
         cutoff_time = datetime.now().timestamp() - (hours * 3600)
 
@@ -152,7 +142,7 @@ class ConfigManager:
             if datetime.fromisoformat(record["timestamp"]).timestamp() >= cutoff_time
         ]
 
-    def reset_configuration(self) -> Dict[str, Any]:
+    def reset_configuration(self) -> dict[str, Any]:
         """Reset configuration to defaults."""
         try:
             # Create new default config
@@ -176,7 +166,7 @@ class ConfigManager:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
-    def get_manager_status(self) -> Dict[str, Any]:
+    def get_manager_status(self) -> dict[str, Any]:
         """Get config manager status."""
         return {
             "config_history_count": len(self.config_history),

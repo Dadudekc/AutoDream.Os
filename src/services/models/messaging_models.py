@@ -1,102 +1,202 @@
-#!/usr/bin/env python3
-"""
-Unified Messaging Models - Agent Cellphone V2
-============================================
+"""Messaging models for the unified messaging system."""
 
-Core data models for the unified messaging system.
-
-Author: V2 SWARM CAPTAIN
-License: MIT
-"""
-
-import uuid
+from __future__ import annotations
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from dataclasses import dataclass
-from typing import List, Optional, Dict, Any
+from typing import Optional, Dict, Any, List
+from uuid import uuid4
 
 
-class UnifiedMessageType(Enum):
-    """Message types for unified messaging."""
-    TEXT = "text"
-    BROADCAST = "broadcast"
+class MessageType(Enum):
+    """Types of messages in the system."""
+    CHAT = "chat"
     ONBOARDING = "onboarding"
-    AGENT_TO_AGENT = "agent_to_agent"
-    CAPTAIN_TO_AGENT = "captain_to_agent"
-    SYSTEM_TO_AGENT = "system_to_agent"
-    HUMAN_TO_AGENT = "human_to_agent"
+    COORDINATION = "coordination"
+    NOTIFICATION = "notification"
+    COMMAND = "command"
+    RESPONSE = "response"
+    STATUS_UPDATE = "status_update"
+    DEBATE_CONTRIBUTION = "debate_contribution"
 
 
-class UnifiedMessagePriority(Enum):
-    """Message priorities for unified messaging."""
-    REGULAR = "regular"
+class MessagePriority(Enum):
+    """Message priority levels."""
+    LOW = "low"
+    NORMAL = "normal"
+    HIGH = "high"
     URGENT = "urgent"
+    CRITICAL = "critical"
 
 
-class UnifiedMessageTag(Enum):
-    """Message tags for unified messaging."""
-    CAPTAIN = "captain"
-    ONBOARDING = "onboarding"
-    WRAPUP = "wrapup"
-
-
-class RecipientType(Enum):
-    """Recipient types for unified messaging."""
-    AGENT = "agent"
-    SYSTEM = "system"
-    HUMAN = "human"
-
-
-class SenderType(Enum):
-    """Sender types for unified messaging."""
-    AGENT = "agent"
-    SYSTEM = "system"
-    HUMAN = "human"
+class MessageStatus(Enum):
+    """Message delivery status."""
+    PENDING = "pending"
+    SENT = "sent"
+    DELIVERED = "delivered"
+    READ = "read"
+    FAILED = "failed"
+    EXPIRED = "expired"
 
 
 @dataclass
-class UnifiedMessage:
-    """Unified message model."""
-    content: str
-    recipient: str
-    recipient_type: RecipientType
+class Message:
+    """Core message model."""
+    id: str
     sender: str
-    sender_type: SenderType
-    message_type: UnifiedMessageType
-    priority: UnifiedMessagePriority
-    tags: List[UnifiedMessageTag] = None
-    message_id: str = None
-    timestamp: str = None
-    metadata: Dict[str, Any] = None
+    recipient: str
+    content: str
+    message_type: MessageType
+    priority: MessagePriority
+    status: MessageStatus
+    created_at: datetime
+    sent_at: Optional[datetime] = None
+    delivered_at: Optional[datetime] = None
+    read_at: Optional[datetime] = None
+    metadata: Optional[Dict[str, Any]] = None
+    reply_to: Optional[str] = None
+    thread_id: Optional[str] = None
+
+    @classmethod
+    def create(
+        cls,
+        sender: str,
+        recipient: str,
+        content: str,
+        message_type: MessageType = MessageType.CHAT,
+        priority: MessagePriority = MessagePriority.NORMAL,
+        metadata: Optional[Dict[str, Any]] = None,
+        reply_to: Optional[str] = None,
+        thread_id: Optional[str] = None
+    ) -> Message:
+        """Create a new message."""
+        return cls(
+            id=str(uuid4()),
+            sender=sender,
+            recipient=recipient,
+            content=content,
+            message_type=message_type,
+            priority=priority,
+            status=MessageStatus.PENDING,
+            created_at=datetime.now(),
+            metadata=metadata or {},
+            reply_to=reply_to,
+            thread_id=thread_id
+        )
+
+
+@dataclass
+class AgentMessage:
+    """Message specifically for agent communication."""
+    message: Message
+    agent_id: str
+    coordinates: Optional[tuple[int, int]] = None
+    delivery_method: str = "pyautogui"
+    retry_count: int = 0
+    max_retries: int = 3
+
+    def should_retry(self) -> bool:
+        """Check if message should be retried."""
+        return self.retry_count < self.max_retries and self.message.status == MessageStatus.FAILED
+
+
+@dataclass
+class MessageThread:
+    """Message thread for conversation tracking."""
+    id: str
+    participants: List[str]
+    created_at: datetime
+    last_activity: datetime
+    messages: List[Message]
+    metadata: Optional[Dict[str, Any]] = None
+
+    @classmethod
+    def create(cls, participants: List[str], metadata: Optional[Dict[str, Any]] = None) -> MessageThread:
+        """Create a new message thread."""
+        thread_id = str(uuid4())
+        now = datetime.now()
+        return cls(
+            id=thread_id,
+            participants=participants,
+            created_at=now,
+            last_activity=now,
+            messages=[],
+            metadata=metadata or {}
+        )
+
+
+@dataclass
+class InboxMessage:
+    """Message in agent inbox."""
+    message: Message
+    agent_id: str
+    received_at: datetime
+    is_read: bool = False
+    is_archived: bool = False
+    tags: List[str] = None
 
     def __post_init__(self):
-        """Initialize default values after dataclass creation."""
-        if self.message_id is None:
-            self.message_id = str(uuid.uuid4())
-        if self.timestamp is None:
-            self.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if self.tags is None:
             self.tags = []
-        if self.metadata is None:
-            self.metadata = {}
 
 
 @dataclass
 class MessageDeliveryResult:
     """Result of message delivery attempt."""
-    success: bool
     message_id: str
-    recipient: str
+    success: bool
     delivery_method: str
-    timestamp: str
-    error_message: str = None
+    delivered_at: Optional[datetime] = None
+    error_message: Optional[str] = None
+    retry_required: bool = False
+    coordinates_used: Optional[tuple[int, int]] = None
 
 
 @dataclass
-class BulkDeliveryResult:
-    """Result of bulk message delivery."""
-    total_messages: int
-    successful_deliveries: int
-    failed_deliveries: int
-    results: Dict[str, MessageDeliveryResult]
-    timestamp: str
+class AgentStatus:
+    """Agent status information."""
+    agent_id: str
+    is_online: bool
+    last_seen: datetime
+    current_task: Optional[str] = None
+    coordinates: Optional[tuple[int, int]] = None
+    capabilities: List[str] = None
+    status_message: Optional[str] = None
+
+    def __post_init__(self):
+        if self.capabilities is None:
+            self.capabilities = []
+
+
+@dataclass
+class MessageQueue:
+    """Message queue for processing."""
+    agent_id: str
+    messages: List[Message]
+    max_size: int = 100
+    created_at: datetime = None
+
+    def __post_init__(self):
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
+    def add_message(self, message: Message) -> bool:
+        """Add message to queue."""
+        if len(self.messages) >= self.max_size:
+            return False
+        self.messages.append(message)
+        return True
+
+    def get_next_message(self) -> Optional[Message]:
+        """Get next message from queue."""
+        if not self.messages:
+            return None
+        return self.messages.pop(0)
+
+    def is_empty(self) -> bool:
+        """Check if queue is empty."""
+        return len(self.messages) == 0
+
+    def size(self) -> int:
+        """Get queue size."""
+        return len(self.messages)

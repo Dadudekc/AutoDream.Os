@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class ConfigurationCoreEngine(Engine):
     """Core configuration engine - consolidates all configuration operations."""
 
     def __init__(self):
-        self.configs: Dict[str, Any] = {}
-        self.settings: Dict[str, Any] = {}
+        self.configs: dict[str, Any] = {}
+        self.settings: dict[str, Any] = {}
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class ConfigurationCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Configuration Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute configuration operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class ConfigurationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _load_config(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _load_config(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Load configuration from source."""
         try:
             config_id = payload.get("config_id", "default")
@@ -62,15 +62,11 @@ class ConfigurationCoreEngine(Engine):
 
             self.configs[config_id] = config_data
 
-            return EngineResult(
-                success=True, data=config_data, metrics={"config_id": config_id}
-            )
+            return EngineResult(success=True, data=config_data, metrics={"config_id": config_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _save_config(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _save_config(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Save configuration to destination."""
         try:
             config_id = payload.get("config_id", "default")
@@ -87,15 +83,11 @@ class ConfigurationCoreEngine(Engine):
 
             self.configs[config_id] = config_data
 
-            return EngineResult(
-                success=True, data=save_result, metrics={"config_id": config_id}
-            )
+            return EngineResult(success=True, data=save_result, metrics={"config_id": config_id})
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _get_setting(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _get_setting(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Get configuration setting."""
         try:
             setting_key = payload.get("key", "")
@@ -132,7 +124,7 @@ class ConfigurationCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Configuration Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get configuration core engine status."""
         return {
             "initialized": self.is_initialized,

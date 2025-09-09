@@ -11,10 +11,10 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
-from .models import PerformanceMetric, MetricType
+from .models import MetricType, PerformanceMetric
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class MetricManager:
     def __init__(self):
         """Initialize metric manager."""
         self.logger = logger
-        self.metrics: Dict[str, PerformanceMetric] = {}
+        self.metrics: dict[str, PerformanceMetric] = {}
 
     def add_metric(self, metric: PerformanceMetric) -> bool:
         """Add performance metric."""
@@ -41,19 +41,15 @@ class MetricManager:
             self.logger.error(f"Failed to add metric: {e}")
             return False
 
-    def get_metric(self, metric_id: str) -> Optional[PerformanceMetric]:
+    def get_metric(self, metric_id: str) -> PerformanceMetric | None:
         """Get performance metric by ID."""
         return self.metrics.get(metric_id)
 
-    def get_metrics_by_type(self, metric_type: MetricType) -> List[PerformanceMetric]:
+    def get_metrics_by_type(self, metric_type: MetricType) -> list[PerformanceMetric]:
         """Get metrics by type."""
-        return [
-            metric
-            for metric in self.metrics.values()
-            if metric.metric_type == metric_type
-        ]
+        return [metric for metric in self.metrics.values() if metric.metric_type == metric_type]
 
-    def update_metric(self, metric_id: str, updates: Dict[str, Any]) -> bool:
+    def update_metric(self, metric_id: str, updates: dict[str, Any]) -> bool:
         """Update performance metric."""
         try:
             if metric_id not in self.metrics:
@@ -84,7 +80,7 @@ class MetricManager:
             self.logger.error(f"Failed to remove metric: {e}")
             return False
 
-    def get_all_metrics(self) -> List[PerformanceMetric]:
+    def get_all_metrics(self) -> list[PerformanceMetric]:
         """Get all metrics."""
         return list(self.metrics.values())
 
@@ -97,13 +93,11 @@ class MetricManager:
         self.metrics.clear()
         self.logger.info("Cleared all metrics")
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get metrics summary."""
         return {
             "total_metrics": len(self.metrics),
-            "metric_types": list(
-                set(metric.metric_type.value for metric in self.metrics.values())
-            ),
+            "metric_types": list(set(metric.metric_type.value for metric in self.metrics.values())),
             "last_updated": max(
                 (metric.updated_at for metric in self.metrics.values()), default=None
             ),

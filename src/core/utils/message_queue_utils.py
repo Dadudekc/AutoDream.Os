@@ -27,9 +27,7 @@ class MessageQueueUtils:
         return max(0, base_score - age_penalty)
 
     @staticmethod
-    def calculate_retry_delay(
-        attempt: int, base_delay: float, max_delay: float
-    ) -> float:
+    def calculate_retry_delay(attempt: int, base_delay: float, max_delay: float) -> float:
         """Calculate exponential backoff delay for retries."""
         delay = base_delay * (2**attempt)
         return min(delay, max_delay)
@@ -91,9 +89,7 @@ class MessageQueueUtils:
         return entries_to_process
 
     @staticmethod
-    def update_entry_for_retry(
-        entry: QueueEntry, base_delay: float, max_delay: float
-    ) -> None:
+    def update_entry_for_retry(entry: QueueEntry, base_delay: float, max_delay: float) -> None:
         """Update queue entry for retry with exponential backoff."""
         entry.delivery_attempts += 1
         entry.status = QueueStatus.FAILED
@@ -135,9 +131,7 @@ class MessageQueueUtils:
 
         status_counts = {}
         for status in QueueStatus:
-            status_counts[status.value] = sum(
-                1 for entry in entries if entry.status == status
-            )
+            status_counts[status.value] = sum(1 for entry in entries if entry.status == status)
 
         # Calculate age statistics
         now = datetime.now()
@@ -168,27 +162,19 @@ class MessageQueueUtils:
             "retry_statistics": retry_stats,
             "queue_health": {
                 "pending_ratio": (
-                    status_counts.get("pending", 0) / total_entries
-                    if total_entries > 0
-                    else 0
+                    status_counts.get("pending", 0) / total_entries if total_entries > 0 else 0
                 ),
                 "failed_ratio": (
-                    status_counts.get("failed", 0) / total_entries
-                    if total_entries > 0
-                    else 0
+                    status_counts.get("failed", 0) / total_entries if total_entries > 0 else 0
                 ),
                 "delivered_ratio": (
-                    status_counts.get("delivered", 0) / total_entries
-                    if total_entries > 0
-                    else 0
+                    status_counts.get("delivered", 0) / total_entries if total_entries > 0 else 0
                 ),
             },
         }
 
     @staticmethod
-    def cleanup_expired_entries(
-        entries: List[QueueEntry], max_age_days: int
-    ) -> List[QueueEntry]:
+    def cleanup_expired_entries(entries: List[QueueEntry], max_age_days: int) -> List[QueueEntry]:
         """Remove expired entries from the list."""
         active_entries = []
         expired_count = 0

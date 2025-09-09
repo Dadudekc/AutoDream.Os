@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from .base_manager import BaseManager, ManagerType
 from .configuration_source_manager import ConfigurationSourceManager
@@ -23,7 +23,7 @@ class UnifiedConfigurationManager(BaseManager):
         return True
 
     def execute(
-        self, context: ManagerContext, operation: str, payload: Dict[str, Any]
+        self, context: ManagerContext, operation: str, payload: dict[str, Any]
     ) -> ManagerResult:
         handlers = {
             "load_config": self._load_config,
@@ -40,13 +40,11 @@ class UnifiedConfigurationManager(BaseManager):
         context.logger("UnifiedConfigurationManager cleaned up")
         return True
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         return {"config_count": len(self.store.get_all_configs())}
 
     # Handlers -----------------------------------------------------------------
-    def _load_config(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def _load_config(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         name = payload["name"]
         source = payload.get("path")
         data = self.sources.load_from_file(source) if source else {}
@@ -56,9 +54,7 @@ class UnifiedConfigurationManager(BaseManager):
         self.store.set_config(name, data)
         return ManagerResult(True, {"config": data}, {})
 
-    def _save_config(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def _save_config(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         name = payload["name"]
         data = payload.get("data", {})
         path = payload.get("path")
@@ -67,7 +63,5 @@ class UnifiedConfigurationManager(BaseManager):
             self.sources.save_to_file(path, data)
         return ManagerResult(True, {"config": name}, {})
 
-    def _get_all_configs(
-        self, context: ManagerContext, payload: Dict[str, Any]
-    ) -> ManagerResult:
+    def _get_all_configs(self, context: ManagerContext, payload: dict[str, Any]) -> ManagerResult:
         return ManagerResult(True, {"configs": self.store.get_all_configs()}, {})

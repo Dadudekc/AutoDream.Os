@@ -8,8 +8,9 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Implementation - Performance Validation
 """
 
-from ..core.unified_entry_point_system import main
 from datetime import datetime
+
+from ..core.unified_entry_point_system import main
 
 logger = logging.getLogger(__name__)
 
@@ -68,9 +69,7 @@ class GamingPerformanceValidator:
             "initialization_time": init_time,
             "session_creation_time": session_time,
             "status_get_unified_validator().check_time": status_time,
-            "validation_status": (
-                "PASSED" if init_time < 100 and session_time < 50 else "FAILED"
-            ),
+            "validation_status": ("PASSED" if init_time < 100 and session_time < 50 else "FAILED"),
         }
 
     async def validate_performance_monitors(self) -> Dict[str, Any]:
@@ -171,9 +170,7 @@ class GamingPerformanceValidator:
             "session_creation_time": session_time,
             "fps_performance_time": fps_time,
             "memory_usage_time": memory_time,
-            "validation_status": (
-                "PASSED" if session_time < 200 and fps_time < 1200 else "FAILED"
-            ),
+            "validation_status": ("PASSED" if session_time < 200 and fps_time < 1200 else "FAILED"),
         }
 
     async def run_comprehensive_validation(self) -> Dict[str, Any]:
@@ -183,17 +180,13 @@ class GamingPerformanceValidator:
         results = {}
 
         # Validate all components
-        results["gaming_integration_core"] = (
-            await self.validate_gaming_integration_core()
-        )
+        results["gaming_integration_core"] = await self.validate_gaming_integration_core()
         results["performance_monitors"] = await self.validate_performance_monitors()
         results["event_handlers"] = await self.validate_event_handlers()
         results["test_functions"] = await self.validate_test_functions()
 
         # Calculate overall validation status
-        all_passed = all(
-            result["validation_status"] == "PASSED" for result in results.values()
-        )
+        all_passed = all(result["validation_status"] == "PASSED" for result in results.values())
 
         results["overall_validation"] = {
             "status": "PASSED" if all_passed else "FAILED",

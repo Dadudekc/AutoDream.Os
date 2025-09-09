@@ -10,10 +10,8 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
 
 
 class ImportUtilities:
@@ -23,7 +21,7 @@ class ImportUtilities:
         """Initialize import utilities."""
         self._cache = {}
 
-    def get_module_path(self, module_name: str) -> Optional[str]:
+    def get_module_path(self, module_name: str) -> str | None:
         """Get the path to a module."""
         try:
             module = sys.modules.get(module_name)
@@ -41,7 +39,7 @@ class ImportUtilities:
         except ImportError:
             return False
 
-    def get_import_path(self, module_name: str) -> Optional[str]:
+    def get_import_path(self, module_name: str) -> str | None:
         """Get the import path for a module."""
         if module_name in self._cache:
             return self._cache[module_name]
@@ -64,7 +62,7 @@ class ImportUtilities:
         except Exception:
             return relative_path
 
-    def get_package_root(self, module_name: str) -> Optional[str]:
+    def get_package_root(self, module_name: str) -> str | None:
         """Get the root package directory for a module."""
         try:
             module = __import__(module_name)
@@ -78,7 +76,7 @@ class ImportUtilities:
         except Exception:
             return None
 
-    def list_module_contents(self, module_name: str) -> List[str]:
+    def list_module_contents(self, module_name: str) -> list[str]:
         """List the contents of a module."""
         try:
             module = __import__(module_name)
@@ -86,7 +84,7 @@ class ImportUtilities:
         except ImportError:
             return []
 
-    def get_module_docstring(self, module_name: str) -> Optional[str]:
+    def get_module_docstring(self, module_name: str) -> str | None:
         """Get the docstring of a module."""
         try:
             module = __import__(module_name)
@@ -102,7 +100,7 @@ class ImportUtilities:
         except SyntaxError:
             return False
 
-    def get_import_dependencies(self, module_name: str) -> List[str]:
+    def get_import_dependencies(self, module_name: str) -> list[str]:
         """Get the dependencies of a module."""
         try:
             module = __import__(module_name)

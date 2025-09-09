@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class DataOptimizationEngine:
         self.optimization_history = []
         self.cache = {}
 
-    def optimize_data(self, data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def optimize_data(self, data: list[dict[str, Any]]) -> dict[str, Any]:
         """Optimize data processing."""
         try:
             if not data:
@@ -58,7 +58,7 @@ class DataOptimizationEngine:
             self.logger.error(f"Error optimizing data: {e}")
             return {"error": str(e)}
 
-    def _compress_data(self, data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _compress_data(self, data: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Compress data."""
         try:
             compressed = []
@@ -74,7 +74,7 @@ class DataOptimizationEngine:
             self.logger.error(f"Error compressing data: {e}")
             return []
 
-    def _cache_data(self, data: List[Dict[str, Any]]) -> bool:
+    def _cache_data(self, data: list[dict[str, Any]]) -> bool:
         """Cache data."""
         try:
             # Simple caching
@@ -92,17 +92,15 @@ class DataOptimizationEngine:
             return False
 
     def _calculate_metrics(
-        self, original: List[Dict[str, Any]], optimized: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, original: list[dict[str, Any]], optimized: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Calculate optimization metrics."""
         try:
             original_size = len(original)
             optimized_size = len(optimized)
 
             compression_ratio = (
-                (original_size - optimized_size) / original_size
-                if original_size > 0
-                else 0
+                (original_size - optimized_size) / original_size if original_size > 0 else 0
             )
 
             return {
@@ -115,16 +113,14 @@ class DataOptimizationEngine:
             self.logger.error(f"Error calculating metrics: {e}")
             return {}
 
-    def get_optimization_summary(self) -> Dict[str, Any]:
+    def get_optimization_summary(self) -> dict[str, Any]:
         """Get optimization summary."""
         try:
             if not self.optimization_history:
                 return {"message": "No optimization data available"}
 
             total_optimizations = len(self.optimization_history)
-            recent_optimization = (
-                self.optimization_history[-1] if self.optimization_history else {}
-            )
+            recent_optimization = self.optimization_history[-1] if self.optimization_history else {}
 
             return {
                 "total_optimizations": total_optimizations,
@@ -142,7 +138,7 @@ class DataOptimizationEngine:
         self.cache.clear()
         self.logger.info("Optimization history and cache cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

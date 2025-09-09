@@ -12,7 +12,6 @@ import os
 import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 DEFAULT_DB_PATH = Path(os.getenv("CURSOR_DB_PATH", "data/cursor_tasks.db"))
 
@@ -37,7 +36,7 @@ class CursorTaskRepository:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         return sqlite3.connect(self.db_path)
 
-    def get_task(self, task_id: str) -> Optional[CursorTask]:
+    def get_task(self, task_id: str) -> CursorTask | None:
         """Fetch a task by its identifier.
 
         Args:

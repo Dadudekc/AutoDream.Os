@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import List, Dict, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -29,13 +29,11 @@ class AgentDocs:
     def _initialize(self):
         """Initialize documentation service."""
         try:
-            self.logger.info(
-                f"Initialized documentation access for agent {self.agent_id}"
-            )
+            self.logger.info(f"Initialized documentation access for agent {self.agent_id}")
         except Exception as e:
             self.logger.error(f"Error initializing documentation service: {e}")
 
-    def search_docs(self, query: str, n_results: int = 5) -> List[Dict[str, Any]]:
+    def search_docs(self, query: str, n_results: int = 5) -> list[dict[str, Any]]:
         """Search documentation."""
         try:
             self.logger.info(f"Searching docs for agent {self.agent_id}: {query}")
@@ -52,7 +50,7 @@ class AgentDocs:
             self.logger.error(f"Error searching docs: {e}")
             return []
 
-    def get_doc(self, doc_id: str) -> Optional[Dict[str, Any]]:
+    def get_doc(self, doc_id: str) -> dict[str, Any] | None:
         """Get specific document."""
         try:
             self.logger.info(f"Getting document {doc_id} for agent {self.agent_id}")
@@ -67,7 +65,7 @@ class AgentDocs:
             self.logger.error(f"Error getting document: {e}")
             return None
 
-    def get_agent_context(self) -> Dict[str, Any]:
+    def get_agent_context(self) -> dict[str, Any]:
         """Get agent context."""
         return {
             "agent_id": self.agent_id,
@@ -75,7 +73,7 @@ class AgentDocs:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get service status."""
         return {
             "active": True,

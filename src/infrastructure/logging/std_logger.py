@@ -7,7 +7,8 @@ Concrete implementation of Logger using Python's logging module.
 
 import logging
 from typing import Any
-from src.domain.ports.logger import Logger, LogLevel
+
+from ...domain.ports.logger import Logger, LogLevel
 
 
 class StdLogger(Logger):
@@ -93,7 +94,9 @@ class StdLogger(Logger):
             context["exception"] = str(exception)
         self._logger.critical(message, extra=context)
 
-    def log(self, level: LogLevel, message: str, exception: Exception = None, **context: Any) -> None:
+    def log(
+        self, level: LogLevel, message: str, exception: Exception = None, **context: Any
+    ) -> None:
         """
         Log message with specific level.
 

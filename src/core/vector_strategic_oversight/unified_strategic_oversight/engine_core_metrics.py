@@ -11,7 +11,7 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Optional
+
 from .models import AgentPerformanceMetrics, SwarmCoordinationStatus
 
 
@@ -20,8 +20,8 @@ class StrategicOversightEngineCoreMetrics:
 
     def __init__(
         self,
-        agent_metrics: Dict[str, AgentPerformanceMetrics],
-        coordination_status: Dict[str, SwarmCoordinationStatus],
+        agent_metrics: dict[str, AgentPerformanceMetrics],
+        coordination_status: dict[str, SwarmCoordinationStatus],
         logger: logging.Logger,
     ):
         """Initialize metrics management."""
@@ -39,7 +39,7 @@ class StrategicOversightEngineCoreMetrics:
             self.logger.error(f"Failed to add agent performance metrics: {e}")
             return False
 
-    def get_agent_metrics(self, agent_id: str) -> Optional[AgentPerformanceMetrics]:
+    def get_agent_metrics(self, agent_id: str) -> AgentPerformanceMetrics | None:
         """Get agent performance metrics by agent ID - simplified."""
         try:
             return self.agent_metrics.get(agent_id)
@@ -47,7 +47,7 @@ class StrategicOversightEngineCoreMetrics:
             self.logger.error(f"Failed to get agent performance metrics: {e}")
             return None
 
-    def get_all_agent_metrics(self) -> List[AgentPerformanceMetrics]:
+    def get_all_agent_metrics(self) -> list[AgentPerformanceMetrics]:
         """Get all agent performance metrics - simplified."""
         try:
             return list(self.agent_metrics.values())
@@ -65,9 +65,7 @@ class StrategicOversightEngineCoreMetrics:
             self.logger.error(f"Failed to add swarm coordination status: {e}")
             return False
 
-    def get_coordination_status(
-        self, status_id: str
-    ) -> Optional[SwarmCoordinationStatus]:
+    def get_coordination_status(self, status_id: str) -> SwarmCoordinationStatus | None:
         """Get swarm coordination status by ID - simplified."""
         try:
             return self.coordination_status.get(status_id)
@@ -75,16 +73,14 @@ class StrategicOversightEngineCoreMetrics:
             self.logger.error(f"Failed to get swarm coordination status: {e}")
             return None
 
-    def get_latest_coordination_status(self) -> Optional[SwarmCoordinationStatus]:
+    def get_latest_coordination_status(self) -> SwarmCoordinationStatus | None:
         """Get latest swarm coordination status - simplified."""
         try:
             if not self.coordination_status:
                 return None
 
             # Get the most recent status by creation time
-            latest_status = max(
-                self.coordination_status.values(), key=lambda x: x.created_at
-            )
+            latest_status = max(self.coordination_status.values(), key=lambda x: x.created_at)
             return latest_status
         except Exception as e:
             self.logger.error(f"Failed to get latest coordination status: {e}")

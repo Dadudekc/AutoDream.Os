@@ -9,10 +9,8 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Refactoring
 """
 
-import re
-from typing import Dict, List, Optional, Any
 from datetime import datetime
-from .models import SearchResult, ContextRetrievalResult, ContextType, Priority, Status
+from typing import Any
 
 
 class IntelligentContextSearchBase:
@@ -20,8 +18,8 @@ class IntelligentContextSearchBase:
 
     def __init__(self):
         """Initialize intelligent context search."""
-        self.search_history: List[Dict[str, Any]] = []
-        self.search_patterns: Dict[str, str] = {}
+        self.search_history: list[dict[str, Any]] = []
+        self.search_patterns: dict[str, str] = {}
         self.stop_words = {
             "the",
             "a",
@@ -45,7 +43,7 @@ class IntelligentContextSearchBase:
             "during",
         }
 
-    def get_search_history(self) -> List[Dict[str, Any]]:
+    def get_search_history(self) -> list[dict[str, Any]]:
         """Get search history."""
         return self.search_history.copy()
 
@@ -57,7 +55,7 @@ class IntelligentContextSearchBase:
         """Add search pattern."""
         self.search_patterns[pattern_name] = pattern
 
-    def get_search_patterns(self) -> Dict[str, str]:
+    def get_search_patterns(self) -> dict[str, str]:
         """Get search patterns."""
         return self.search_patterns.copy()
 
@@ -71,7 +69,7 @@ class IntelligentContextSearchBase:
             }
         )
 
-    def get_search_statistics(self) -> Dict[str, Any]:
+    def get_search_statistics(self) -> dict[str, Any]:
         """Get search statistics."""
         if not self.search_history:
             return {
@@ -91,9 +89,7 @@ class IntelligentContextSearchBase:
             query = entry["query"]
             query_counts[query] = query_counts.get(query, 0) + 1
 
-        most_common_queries = sorted(
-            query_counts.items(), key=lambda x: x[1], reverse=True
-        )[:5]
+        most_common_queries = sorted(query_counts.items(), key=lambda x: x[1], reverse=True)[:5]
 
         return {
             "total_searches": total_searches,

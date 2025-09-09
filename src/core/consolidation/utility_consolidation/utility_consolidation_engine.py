@@ -10,8 +10,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class UtilityConsolidationEngine:
         self.consolidation_history = []
         self.utilities = {}
 
-    def consolidate_utilities(self, utilities: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def consolidate_utilities(self, utilities: list[dict[str, Any]]) -> dict[str, Any]:
         """Consolidate utility functions."""
         try:
             if not utilities:
@@ -51,16 +51,14 @@ class UtilityConsolidationEngine:
             if len(self.consolidation_history) > 100:  # Keep only last 100
                 self.consolidation_history.pop(0)
 
-            self.logger.info(
-                f"Utilities consolidated: {len(utilities)} -> {len(consolidated)}"
-            )
+            self.logger.info(f"Utilities consolidated: {len(utilities)} -> {len(consolidated)}")
             return result
 
         except Exception as e:
             self.logger.error(f"Error consolidating utilities: {e}")
             return {"error": str(e)}
 
-    def _merge_utilities(self, utilities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _merge_utilities(self, utilities: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Merge similar utilities."""
         try:
             merged = []
@@ -78,7 +76,7 @@ class UtilityConsolidationEngine:
             self.logger.error(f"Error merging utilities: {e}")
             return []
 
-    def _find_duplicates(self, utilities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _find_duplicates(self, utilities: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Find duplicate utilities."""
         try:
             duplicates = []
@@ -97,9 +95,7 @@ class UtilityConsolidationEngine:
             self.logger.error(f"Error finding duplicates: {e}")
             return []
 
-    def _optimize_utilities(
-        self, utilities: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    def _optimize_utilities(self, utilities: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Optimize utilities."""
         try:
             optimized = []
@@ -116,7 +112,7 @@ class UtilityConsolidationEngine:
             self.logger.error(f"Error optimizing utilities: {e}")
             return []
 
-    def get_consolidation_summary(self) -> Dict[str, Any]:
+    def get_consolidation_summary(self) -> dict[str, Any]:
         """Get consolidation summary."""
         try:
             if not self.consolidation_history:
@@ -141,7 +137,7 @@ class UtilityConsolidationEngine:
         self.consolidation_history.clear()
         self.logger.info("Consolidation history cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": True,

@@ -12,8 +12,6 @@ License: MIT
 """
 
 import asyncio
-from typing import Dict, List, Optional
-from datetime import datetime
 import logging
 
 from ..interfaces.trading_repository_interface import TradingRepositoryInterface
@@ -30,7 +28,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
     def __init__(self):
         """Initialize trading repository implementation."""
         self.logger = logging.getLogger(__name__)
-        self.trades: Dict[str, Trade] = {}
+        self.trades: dict[str, Trade] = {}
         self._lock = asyncio.Lock()
 
     async def save_trade(self, trade: Trade) -> bool:
@@ -57,7 +55,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             self.logger.error(f"Failed to save trade {trade.id}: {e}")
             return False
 
-    async def get_trade(self, trade_id: str) -> Optional[Trade]:
+    async def get_trade(self, trade_id: str) -> Trade | None:
         """Get trade by ID with V2 compliance.
 
         Args:
@@ -83,7 +81,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             self.logger.error(f"Failed to get trade {trade_id}: {e}")
             return None
 
-    async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> List[Trade]:
+    async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> list[Trade]:
         """Get trades for symbol with V2 compliance.
 
         Args:
@@ -113,7 +111,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             self.logger.error(f"Failed to get trades for symbol {symbol}: {e}")
             return []
 
-    async def get_all_trades(self, limit: int = 1000) -> List[Trade]:
+    async def get_all_trades(self, limit: int = 1000) -> list[Trade]:
         """Get all trades with V2 compliance.
 
         Args:
@@ -197,7 +195,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             self.logger.error(f"Failed to delete trade {trade_id}: {e}")
             return False
 
-    async def get_trades_by_status(self, status: str, limit: int = 100) -> List[Trade]:
+    async def get_trades_by_status(self, status: str, limit: int = 100) -> list[Trade]:
         """Get trades by status with V2 compliance.
 
         Args:
@@ -227,9 +225,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
             self.logger.error(f"Failed to get trades by status {status}: {e}")
             return []
 
-    async def get_trades_by_date_range(
-        self, start_date, end_date, limit: int = 100
-    ) -> List[Trade]:
+    async def get_trades_by_date_range(self, start_date, end_date, limit: int = 100) -> list[Trade]:
         """Get trades within date range with V2 compliance.
 
         Args:
@@ -245,9 +241,7 @@ class TradingRepositoryImpl(TradingRepositoryInterface):
                 self.logger.error("Limit must be positive")
                 return []
 
-            trades = [
-                t for t in self.trades.values() if start_date <= t.timestamp <= end_date
-            ]
+            trades = [t for t in self.trades.values() if start_date <= t.timestamp <= end_date]
             trades.sort(key=lambda x: x.timestamp, reverse=True)
             result = trades[:limit]
 

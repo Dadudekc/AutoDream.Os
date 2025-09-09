@@ -7,32 +7,34 @@ Orchestrates domain objects to fulfill the business requirement.
 """
 
 from dataclasses import dataclass
-from typing import Optional
-from src.domain.entities.task import Task
-from src.domain.entities.agent import Agent
-from src.domain.ports.task_repository import TaskRepository
-from src.domain.ports.agent_repository import AgentRepository
-from src.domain.ports.message_bus import MessageBus
-from src.domain.ports.logger import Logger
-from src.domain.services.assignment_service import AssignmentService
-from src.domain.value_objects.ids import TaskId, AgentId
-from src.domain.domain_events import TaskAssigned
+
+from ...domain.domain_events import TaskAssigned
+from ...domain.entities.agent import Agent
+from ...domain.entities.task import Task
+from ...domain.ports.agent_repository import AgentRepository
+from ...domain.ports.logger import Logger
+from ...domain.ports.message_bus import MessageBus
+from ...domain.ports.task_repository import TaskRepository
+from ...domain.services.assignment_service import AssignmentService
+from ...domain.value_objects.ids import AgentId, TaskId
 
 
 @dataclass
 class AssignTaskRequest:
     """Request DTO for task assignment."""
+
     task_id: str
-    agent_id: Optional[str] = None  # If None, auto-assign best agent
+    agent_id: str | None = None  # If None, auto-assign best agent
 
 
 @dataclass
 class AssignTaskResponse:
     """Response DTO for task assignment."""
+
     success: bool
-    task: Optional[Task] = None
-    agent: Optional[Agent] = None
-    error_message: Optional[str] = None
+    task: Task | None = None
+    agent: Agent | None = None
+    error_message: str | None = None
 
 
 class AssignTaskUseCase:
@@ -49,7 +51,7 @@ class AssignTaskUseCase:
         agents: AgentRepository,
         message_bus: MessageBus,
         logger: Logger,
-        assignment_service: AssignmentService
+        assignment_service: AssignmentService,
     ):
         self.tasks = tasks
         self.agents = agents
@@ -72,8 +74,7 @@ class AssignTaskUseCase:
             task = self.tasks.get(TaskId(request.task_id))
             if not task:
                 return AssignTaskResponse(
-                    success=False,
-                    error_message=f"Task {request.task_id} not found"
+                    success=False, error_message=f"Task {request.task_id} not found"
                 )
 
             # Determine target agent
@@ -82,15 +83,14 @@ class AssignTaskUseCase:
                 agent = self.agents.get(AgentId(request.agent_id))
                 if not agent:
                     return AssignTaskResponse(
-                        success=False,
-                        error_message=f"Agent {request.agent_id} not found"
+                        success=False, error_message=f"Agent {request.agent_id} not found"
                     )
 
                 # Validate assignment
                 if not self.assignment_service.validate_assignment(task, agent):
                     return AssignTaskResponse(
                         success=False,
-                        error_message=f"Agent {request.agent_id} cannot handle task {request.task_id}"
+                        error_message=f"Agent {request.agent_id} cannot handle task {request.task_id}",
                     )
             else:
                 # Auto-assignment - find best agent
@@ -99,8 +99,7 @@ class AssignTaskUseCase:
 
                 if not agent:
                     return AssignTaskResponse(
-                        success=False,
-                        error_message="No suitable agent available for task"
+                        success=False, error_message="No suitable agent available for task"
                     )
 
             # Perform assignment
@@ -116,7 +115,7 @@ class AssignTaskUseCase:
                 event_id=f"task-assigned-{task.id}-{agent.id}",
                 task_id=task.id,
                 agent_id=agent.id,
-                assigned_at=task.assigned_at
+                assigned_at=task.assigned_at,
             )
 
             self.message_bus.publish("task.assigned", event.to_dict())
@@ -126,14 +125,10 @@ class AssignTaskUseCase:
                 "Task assigned successfully",
                 task_id=task.id,
                 agent_id=agent.id,
-                assignment_type="manual" if request.agent_id else "auto"
+                assignment_type="manual" if request.agent_id else "auto",
             )
 
-            return AssignTaskResponse(
-                success=True,
-                task=task,
-                agent=agent
-            )
+            return AssignTaskResponse(success=True, task=task, agent=agent)
 
         except Exception as e:
             self.logger.error(
@@ -141,9 +136,6 @@ class AssignTaskUseCase:
                 task_id=request.task_id,
                 agent_id=request.agent_id,
                 error=str(e),
-                exception=e
+                exception=e,
             )
-            return AssignTaskResponse(
-                success=False,
-                error_message=f"Assignment failed: {str(e)}"
-            )
+            return AssignTaskResponse(success=False, error_message=f"Assignment failed: {str(e)}")

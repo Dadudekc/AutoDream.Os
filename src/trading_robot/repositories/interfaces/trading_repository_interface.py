@@ -12,7 +12,7 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+
 from ..models import Trade
 
 
@@ -36,7 +36,7 @@ class TradingRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_trade(self, trade_id: str) -> Optional[Trade]:
+    async def get_trade(self, trade_id: str) -> Trade | None:
         """Retrieve a trade by ID.
 
         Args:
@@ -48,7 +48,7 @@ class TradingRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> List[Trade]:
+    async def get_trades_by_symbol(self, symbol: str, limit: int = 100) -> list[Trade]:
         """Get trades for a specific symbol.
 
         Args:
@@ -61,7 +61,7 @@ class TradingRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all_trades(self, limit: int = 1000) -> List[Trade]:
+    async def get_all_trades(self, limit: int = 1000) -> list[Trade]:
         """Get all trades.
 
         Args:
@@ -98,7 +98,7 @@ class TradingRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_trades_by_status(self, status: str, limit: int = 100) -> List[Trade]:
+    async def get_trades_by_status(self, status: str, limit: int = 100) -> list[Trade]:
         """Get trades by status.
 
         Args:
@@ -111,9 +111,7 @@ class TradingRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_trades_by_date_range(
-        self, start_date, end_date, limit: int = 100
-    ) -> List[Trade]:
+    async def get_trades_by_date_range(self, start_date, end_date, limit: int = 100) -> list[Trade]:
         """Get trades within date range.
 
         Args:

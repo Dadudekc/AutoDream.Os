@@ -7,171 +7,62 @@ V2 Compliance: < 300 lines, single responsibility, middleware processing.
 
 Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Refactoring
+
+REFACTORED: Split into focused middleware classes for V2 compliance
+- ErrorHandlerMiddleware: Error handling decorators
+- RequestHandlerMiddleware: Request processing decorators
+- ResponseHandlerMiddleware: Response processing decorators
+- ValidationMiddleware: Validation decorators
 """
 
-from flask import request, jsonify, current_app
-from functools import wraps
-from typing import Callable, Any, Dict
-import time
+from .error_handler_middleware import ErrorHandlerMiddleware
+from .request_handler_middleware import RequestHandlerMiddleware
+from .response_handler_middleware import ResponseHandlerMiddleware
+from .validation_middleware import ValidationMiddleware
 
 
 class VectorDatabaseMiddleware:
-    """Middleware for vector database operations."""
+    """Main middleware orchestrator for vector database operations.
 
-    @staticmethod
-    def error_handler(f: Callable) -> Callable:
-        """Error handling decorator."""
+    V2 Compliance: < 100 lines, facade pattern, single responsibility.
+    This class orchestrates all middleware components.
+    """
 
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            try:
-                return f(*args, **kwargs)
-            except Exception as e:
-                current_app.logger.error(f"Error in {f.__name__}: {str(e)}")
-                return (
-                    jsonify({"success": False, "error": f"Operation failed: {str(e)}"}),
-                    500,
-                )
+    def __init__(self):
+        """Initialize middleware components."""
+        self.error_handler = ErrorHandlerMiddleware()
+        self.request_handler = RequestHandlerMiddleware()
+        self.response_handler = ResponseHandlerMiddleware()
+        self.validation = ValidationMiddleware()
 
-        return decorated_function
+    def error_handler_decorator(self, f):
+        """Apply error handling to a function."""
+        return self.error_handler.error_handler(f)
 
-    @staticmethod
-    def json_required(f: Callable) -> Callable:
-        """Require JSON data decorator."""
+    def json_required_decorator(self, f):
+        """Apply JSON requirement to a function."""
+        return self.request_handler.json_required(f)
 
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if not request.is_json:
-                return jsonify({"success": False, "error": "JSON data required"}), 400
-            return f(*args, **kwargs)
+    def validate_request_decorator(self, validator_func):
+        """Apply request validation to a function."""
+        return self.validation.validate_request(validator_func)
 
-        return decorated_function
+    def log_request_decorator(self, f):
+        """Apply request logging to a function."""
+        return self.request_handler.log_request(f)
 
-    @staticmethod
-    def validate_request(validator_func: Callable) -> Callable:
-        """Request validation decorator."""
+    def cors_headers_decorator(self, f):
+        """Apply CORS headers to a function."""
+        return self.response_handler.add_cors_headers(f)
 
-        def decorator(f: Callable) -> Callable:
-            @wraps(f)
-            def decorated_function(*args, **kwargs):
-                if request.is_json:
-                    data = request.get_json()
-                    error = validator_func(data)
-                    if error:
-                        return jsonify({"success": False, "error": error}), 400
-                return f(*args, **kwargs)
+    def rate_limit_decorator(self, max_requests=100, window_seconds=60):
+        """Apply rate limiting to a function."""
+        return self.request_handler.rate_limit(max_requests, window_seconds)
 
-            return decorated_function
+    def cache_response_decorator(self, ttl_seconds=300):
+        """Apply response caching to a function."""
+        return self.response_handler.cache_response(ttl_seconds)
 
-        return decorator
-
-    @staticmethod
-    def log_request(f: Callable) -> Callable:
-        """Request logging decorator."""
-
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            start_time = time.time()
-            current_app.logger.info(f"Processing {f.__name__} request")
-
-            result = f(*args, **kwargs)
-
-            execution_time = (time.time() - start_time) * 1000
-            current_app.logger.info(f"Completed {f.__name__} in {execution_time:.2f}ms")
-
-            return result
-
-        return decorated_function
-
-    @staticmethod
-    def add_cors_headers(f: Callable) -> Callable:
-        """Add CORS headers decorator."""
-
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            response = f(*args, **kwargs)
-            if isinstance(response, tuple):
-                response_data, status_code = response
-                response_data.headers["Access-Control-Allow-Origin"] = "*"
-                response_data.headers["Access-Control-Allow-Methods"] = (
-                    "GET, POST, PUT, DELETE, OPTIONS"
-                )
-                response_data.headers["Access-Control-Allow-Headers"] = (
-                    "Content-Type, Authorization"
-                )
-                return response_data, status_code
-            else:
-                response.headers["Access-Control-Allow-Origin"] = "*"
-                response.headers["Access-Control-Allow-Methods"] = (
-                    "GET, POST, PUT, DELETE, OPTIONS"
-                )
-                response.headers["Access-Control-Allow-Headers"] = (
-                    "Content-Type, Authorization"
-                )
-                return response
-
-        return decorated_function
-
-    @staticmethod
-    def rate_limit(max_requests: int = 100, window_seconds: int = 60) -> Callable:
-        """Rate limiting decorator."""
-
-        def decorator(f: Callable) -> Callable:
-            @wraps(f)
-            def decorated_function(*args, **kwargs):
-                # Simple in-memory rate limiting (in production, use Redis)
-                client_ip = request.remote_addr
-                current_time = time.time()
-
-                # This is a simplified implementation
-                # In production, implement proper rate limiting
-                return f(*args, **kwargs)
-
-            return decorated_function
-
-        return decorator
-
-    @staticmethod
-    def cache_response(ttl_seconds: int = 300) -> Callable:
-        """Response caching decorator."""
-
-        def decorator(f: Callable) -> Callable:
-            @wraps(f)
-            def decorated_function(*args, **kwargs):
-                # Simple caching implementation
-                # In production, use Redis or Memcached
-                return f(*args, **kwargs)
-
-            return decorated_function
-
-        return decorator
-
-    @staticmethod
-    def validate_pagination(f: Callable) -> Callable:
-        """Pagination validation decorator."""
-
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            page = int(request.args.get("page", 1))
-            per_page = int(request.args.get("per_page", 25))
-
-            if page < 1:
-                return (
-                    jsonify({"success": False, "error": "Page must be greater than 0"}),
-                    400,
-                )
-
-            if per_page < 1 or per_page > 100:
-                return (
-                    jsonify(
-                        {
-                            "success": False,
-                            "error": "Per page must be between 1 and 100",
-                        }
-                    ),
-                    400,
-                )
-
-            return f(*args, **kwargs)
-
-        return decorated_function
+    def validate_pagination_decorator(self, f):
+        """Apply pagination validation to a function."""
+        return self.validation.validate_pagination(f)

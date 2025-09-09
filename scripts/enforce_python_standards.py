@@ -14,6 +14,15 @@ Author: Agent-2 - Architecture & Design Specialist
 License: MIT
 """
 
+import ast
+import logging
+from dataclasses import dataclass
+from pathlib import Path
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+logger = logging.getLogger(__name__)
+
 
 @dataclass
 class Violation:
@@ -30,7 +39,7 @@ class PythonStandardEnforcer:
     """Enforces Dream.OS Python coding standards."""
 
     def __init__(self):
-        self.violations: List[Violation] = []
+        self.violations: list[Violation] = []
         self.checked_files = 0
 
         # LOC limits
@@ -47,13 +56,13 @@ class PythonStandardEnforcer:
         Returns:
             bool: True if no violations found, False otherwise
         """
-        get_logger(__name__).info("🎯 Dream.OS Python Coding Standard Enforcer")
-        get_logger(__name__).info("=" * 60)
-        get_logger(__name__).info(f"📊 Scanning: {root_path}")
-        get_logger(__name__).info(
+        logger.info("🎯 Dream.OS Python Coding Standard Enforcer")
+        logger.info("=" * 60)
+        logger.info(f"📊 Scanning: {root_path}")
+        logger.info(
             f"📏 LOC Limits: File ≤ {self.max_file_loc}, Class ≤ {self.max_class_loc}, Function ≤ {self.max_function_loc}"
         )
-        get_logger(__name__).info("=" * 60)
+        logger.info("=" * 60)
 
         python_files = self._find_python_files(root_path)
 
@@ -63,13 +72,13 @@ class PythonStandardEnforcer:
         self._report_results()
         return len(self.violations) == 0
 
-    def _find_python_files(self, root_path: str) -> List[str]:
+    def _find_python_files(self, root_path: str) -> list[str]:
         """Find all Python files in the given path."""
         python_files = []
-        root = get_unified_utility().Path(root_path)
+        root = Path(root_path)
 
         if not root.exists():
-            get_logger(__name__).info(f"❌ Root path does not exist: {root_path}")
+            logger.info(f"❌ Root path does not exist: {root_path}")
             return []
 
         for file_path in root.rglob("*.py"):
@@ -78,7 +87,7 @@ class PythonStandardEnforcer:
                 not str(file_path).startswith("__pycache__")
                 and not str(file_path).startswith("venv")
                 and not str(file_path).startswith(".venv")
-                and not "test" in str(file_path).lower()
+                and "test" not in str(file_path).lower()
             ):
                 python_files.append(str(file_path))
 
@@ -87,7 +96,7 @@ class PythonStandardEnforcer:
     def _check_file(self, file_path: str) -> None:
         """Check a single Python file for violations."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             lines = content.split("\n")
@@ -124,12 +133,12 @@ class PythonStandardEnforcer:
             self._check_coding_violations(file_path, content, lines)
 
         except Exception as e:
-            get_logger(__name__).info(f"❌ Error checking file {file_path}: {e}")
+            logger.info(f"❌ Error checking file {file_path}: {e}")
 
     def _analyze_ast(self, tree: ast.AST, file_path: str, content: str) -> None:
         """Analyze AST for structural violations."""
         for node in ast.walk(tree):
-            if get_unified_validator().validate_type(node, ast.ClassDef):
+            if isinstance(node, ast.ClassDef):
                 class_loc = self._get_node_loc(node, content)
                 if class_loc > self.max_class_loc:
                     self.violations.append(
@@ -142,7 +151,7 @@ class PythonStandardEnforcer:
                         )
                     )
 
-            elif get_unified_validator().validate_type(node, ast.FunctionDef):
+            elif isinstance(node, ast.FunctionDef):
                 func_loc = self._get_node_loc(node, content)
                 if func_loc > self.max_function_loc:
                     self.violations.append(
@@ -158,8 +167,8 @@ class PythonStandardEnforcer:
     def _get_node_loc(self, node: ast.AST, content: str) -> int:
         """Get lines of code for an AST node."""
         lines = content.split("\n")
-        start_line = get_unified_validator().safe_getattr(node, "lineno", 1) - 1
-        end_line = get_unified_validator().safe_getattr(node, "end_lineno", len(lines))
+        start_line = getattr(node, "lineno", 1) - 1
+        end_line = getattr(node, "end_lineno", len(lines))
 
         # Count non-empty, non-comment lines
         loc = 0
@@ -170,9 +179,7 @@ class PythonStandardEnforcer:
 
         return loc
 
-    def _check_coding_violations(
-        self, file_path: str, content: str, lines: List[str]
-    ) -> None:
+    def _check_coding_violations(self, file_path: str, content: str, lines: list[str]) -> None:
         """Check for other coding standard violations."""
         # Check for print statements in non-test files
         if "get_logger(__name__).info(" in content and "test" not in file_path.lower():
@@ -214,29 +221,27 @@ class PythonStandardEnforcer:
 
     def _report_results(self) -> None:
         """Report enforcement results."""
-        get_logger(__name__).info(f"\n📊 ENFORCEMENT RESULTS")
-        get_logger(__name__).info("=" * 60)
-        get_logger(__name__).info(f"📁 Files checked: {self.checked_files}")
-        get_logger(__name__).info(f"🚨 Violations found: {len(self.violations)}")
+        logger.info("\n📊 ENFORCEMENT RESULTS")
+        logger.info("=" * 60)
+        logger.info(f"📁 Files checked: {self.checked_files}")
+        logger.info(f"🚨 Violations found: {len(self.violations)}")
 
         if self.violations:
-            get_logger(__name__).info("\n🚨 VIOLATIONS:")
-            get_logger(__name__).info("-" * 60)
+            logger.info("\n🚨 VIOLATIONS:")
+            logger.info("-" * 60)
 
             # Group violations by type
             violation_counts = {}
             for violation in self.violations:
                 violation_type = violation.violation_type
-                violation_counts[violation_type] = (
-                    violation_counts.get(violation_type, 0) + 1
-                )
+                violation_counts[violation_type] = violation_counts.get(violation_type, 0) + 1
 
             # Show summary by type
             for violation_type, count in violation_counts.items():
-                get_logger(__name__).info(f"  {violation_type}: {count}")
+                logger.info(f"  {violation_type}: {count}")
 
-            get_logger(__name__).info("\n📋 TOP VIOLATIONS:")
-            get_logger(__name__).info("-" * 60)
+            logger.info("\n📋 TOP VIOLATIONS:")
+            logger.info("-" * 60)
 
             # Show first 10 violations
             for i, violation in enumerate(self.violations[:10], 1):
@@ -244,29 +249,22 @@ class PythonStandardEnforcer:
                     violation.severity, "❓"
                 )
 
-                get_logger(__name__).info(
-                    f"{i}. {severity_icon} {violation.file_path}:{violation.line_number}"
-                )
-                get_logger(__name__).info(f"   {violation.message}")
+                logger.info(f"{i}. {severity_icon} {violation.file_path}:{violation.line_number}")
+                logger.info(f"   {violation.message}")
 
             if len(self.violations) > 10:
-                get_logger(__name__).info(
-                    f"   ... and {len(self.violations) - 10} more violations"
-                )
+                logger.info(f"   ... and {len(self.violations) - 10} more violations")
 
-            get_logger(__name__).info("\n❌ STANDARD ENFORCEMENT FAILED")
-            get_logger(__name__).info("🔧 Fix violations and re-run enforcement")
+            logger.info("\n❌ STANDARD ENFORCEMENT FAILED")
+            logger.info("🔧 Fix violations and re-run enforcement")
         else:
-            get_logger(__name__).info("\n✅ ALL STANDARDS PASSED!")
-            get_logger(__name__).info(
-                "🎉 Dream.OS Python Coding Standard v1.0 compliance achieved"
-            )
-            get_logger(__name__).info(
-                "📏 All LOC limits respected, no violations found"
-            )
+            logger.info("\n✅ ALL STANDARDS PASSED!")
+            logger.info("🎉 Dream.OS Python Coding Standard v1.0 compliance achieved")
+            logger.info("📏 All LOC limits respected, no violations found")
 
-        get_logger(__name__).info("=" * 60)
+        logger.info("=" * 60)
 
 
 if __name__ == "__main__":
-    main()
+    enforcer = PythonStandardEnforcer()
+    enforcer.enforce_standards()

@@ -10,12 +10,12 @@ Original: Agent-2 - Architecture & Design Specialist
 License: MIT
 """
 
-import time
-import psutil
-from typing import Dict, List, Optional, Any
+import logging
 from dataclasses import dataclass
 from datetime import datetime
-import logging
+from typing import Any
+
+import psutil
 
 
 @dataclass
@@ -28,7 +28,7 @@ class PerformanceMetric:
     category: str = "general"
     unit: str = "ms"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "name": self.name,
@@ -45,10 +45,10 @@ class PerformanceReport:
 
     report_id: str
     timestamp: datetime
-    metrics: List[PerformanceMetric]
+    metrics: list[PerformanceMetric]
     summary: str = ""
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "report_id": self.report_id,
@@ -64,10 +64,10 @@ class PerformanceMonitoringSystem:
     Removed overengineering - focuses on essential monitoring only.
     """
 
-    def __init__(self, logger: Optional[logging.Logger] = None):
+    def __init__(self, logger: logging.Logger | None = None):
         """Initialize simplified monitoring system."""
         self.logger = logger or logging.getLogger(__name__)
-        self.metrics_history: List[PerformanceMetric] = []
+        self.metrics_history: list[PerformanceMetric] = []
         self.is_monitoring = False
         self.monitoring_interval = 5.0  # seconds
 
@@ -96,7 +96,7 @@ class PerformanceMonitoringSystem:
             self.logger.error(f"Failed to stop monitoring: {e}")
             return False
 
-    def collect_metrics(self) -> List[PerformanceMetric]:
+    def collect_metrics(self) -> list[PerformanceMetric]:
         """Collect current performance metrics."""
         try:
             metrics = []
@@ -160,9 +160,7 @@ class PerformanceMonitoringSystem:
             # Simple summary
             summary = f"Performance report with {len(current_metrics)} metrics"
             if current_metrics:
-                cpu_metric = next(
-                    (m for m in current_metrics if m.name == "cpu_usage"), None
-                )
+                cpu_metric = next((m for m in current_metrics if m.name == "cpu_usage"), None)
                 if cpu_metric:
                     summary += f" - CPU: {cpu_metric.value:.1f}%"
 
@@ -184,7 +182,7 @@ class PerformanceMonitoringSystem:
                 summary=f"Error generating report: {str(e)}",
             )
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get system status."""
         try:
             return {
@@ -196,7 +194,7 @@ class PerformanceMonitoringSystem:
         except Exception as e:
             return {"status": "error", "message": str(e)}
 
-    def get_metrics_summary(self) -> Dict[str, Any]:
+    def get_metrics_summary(self) -> dict[str, Any]:
         """Get metrics summary."""
         try:
             if not self.metrics_history:
@@ -237,7 +235,7 @@ class PerformanceMonitoringSystem:
 
 # Factory function for backward compatibility
 def create_performance_monitoring_system(
-    logger: Optional[logging.Logger] = None,
+    logger: logging.Logger | None = None,
 ) -> PerformanceMonitoringSystem:
     """Create a performance monitoring system instance."""
     return PerformanceMonitoringSystem(logger)

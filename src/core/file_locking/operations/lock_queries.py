@@ -10,10 +10,10 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from typing import List, Optional, Dict, Any
+from typing import Any
 
-from ..file_locking_models import LockInfo, LockMetrics
 from ..file_locking_manager import FileLockManager
+from ..file_locking_models import LockInfo
 
 
 class LockQueries:
@@ -23,29 +23,27 @@ class LockQueries:
         """Initialize lock queries."""
         self.manager = manager
 
-    def get_locks_by_process(self, pid: int) -> List[LockInfo]:
+    def get_locks_by_process(self, pid: int) -> list[LockInfo]:
         """Get locks owned by specific process."""
         active_locks = self.manager.get_active_locks()
         return [lock for lock in active_locks if lock.pid == pid]
 
-    def get_locks_by_thread(self, thread_id: str) -> List[LockInfo]:
+    def get_locks_by_thread(self, thread_id: str) -> list[LockInfo]:
         """Get locks owned by specific thread."""
         active_locks = self.manager.get_active_locks()
         return [lock for lock in active_locks if lock.thread_id == thread_id]
 
-    def get_locks_by_owner(self, owner: str) -> List[LockInfo]:
+    def get_locks_by_owner(self, owner: str) -> list[LockInfo]:
         """Get locks owned by specific owner."""
         active_locks = self.manager.get_active_locks()
         return [lock for lock in active_locks if lock.owner == owner]
 
-    def get_locks_by_type(self, lock_type: str) -> List[LockInfo]:
+    def get_locks_by_type(self, lock_type: str) -> list[LockInfo]:
         """Get locks by type."""
         active_locks = self.manager.get_active_locks()
         return [lock for lock in active_locks if lock.lock_type == lock_type]
 
-    def get_locks_by_duration(
-        self, min_duration: int, max_duration: int = None
-    ) -> List[LockInfo]:
+    def get_locks_by_duration(self, min_duration: int, max_duration: int = None) -> list[LockInfo]:
         """Get locks by duration range."""
         active_locks = self.manager.get_active_locks()
         filtered_locks = []
@@ -58,9 +56,7 @@ class LockQueries:
 
         return filtered_locks
 
-    def get_locks_by_metadata(
-        self, metadata_key: str, metadata_value: Any
-    ) -> List[LockInfo]:
+    def get_locks_by_metadata(self, metadata_key: str, metadata_value: Any) -> list[LockInfo]:
         """Get locks by metadata key-value pair."""
         active_locks = self.manager.get_active_locks()
         return [
@@ -69,7 +65,7 @@ class LockQueries:
             if lock.metadata and lock.metadata.get(metadata_key) == metadata_value
         ]
 
-    def get_lock_statistics(self) -> Dict[str, Any]:
+    def get_lock_statistics(self) -> dict[str, Any]:
         """Get lock statistics."""
         active_locks = self.manager.get_active_locks()
 
@@ -101,12 +97,10 @@ class LockQueries:
             "total_locks": len(active_locks),
             "locks_by_type": locks_by_type,
             "locks_by_owner": locks_by_owner,
-            "average_duration": (
-                total_duration / len(active_locks) if active_locks else 0
-            ),
+            "average_duration": (total_duration / len(active_locks) if active_locks else 0),
         }
 
-    def find_conflicting_locks(self, filepath: str) -> List[LockInfo]:
+    def find_conflicting_locks(self, filepath: str) -> list[LockInfo]:
         """Find locks that conflict with the given filepath."""
         active_locks = self.manager.get_active_locks()
         conflicting_locks = []
@@ -117,7 +111,7 @@ class LockQueries:
 
         return conflicting_locks
 
-    def get_lock_health_status(self) -> Dict[str, Any]:
+    def get_lock_health_status(self) -> dict[str, Any]:
         """Get lock health status."""
         metrics = self.manager.get_lock_metrics()
 

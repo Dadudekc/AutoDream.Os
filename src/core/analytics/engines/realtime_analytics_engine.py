@@ -11,9 +11,9 @@ License: MIT
 
 import asyncio
 import logging
-from typing import Any, Dict, List, Optional
-from datetime import datetime
 from collections import deque
+from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class RealtimeAnalyticsEngine:
         self.task = None
         self.stats = {"processed": 0, "errors": 0}
 
-    async def start_processing(self) -> Dict[str, Any]:
+    async def start_processing(self) -> dict[str, Any]:
         """Start real-time processing."""
         try:
             self.active = True
@@ -43,7 +43,7 @@ class RealtimeAnalyticsEngine:
             self.logger.error(f"Failed to start processing: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def stop_processing(self) -> Dict[str, Any]:
+    async def stop_processing(self) -> dict[str, Any]:
         """Stop real-time processing."""
         try:
             self.active = False
@@ -69,7 +69,7 @@ class RealtimeAnalyticsEngine:
                 self.logger.error(f"Error in processing loop: {e}")
                 await asyncio.sleep(1)
 
-    async def _process_data(self, data: Dict[str, Any]) -> None:
+    async def _process_data(self, data: dict[str, Any]) -> None:
         """Process a single data item."""
         try:
             self.stats["processed"] += 1
@@ -78,7 +78,7 @@ class RealtimeAnalyticsEngine:
             self.stats["errors"] += 1
             self.logger.error(f"Error processing data: {e}")
 
-    def add_data(self, data: Dict[str, Any]) -> None:
+    def add_data(self, data: dict[str, Any]) -> None:
         """Add data to processing queue."""
         try:
             self.queue.append(data)
@@ -90,7 +90,7 @@ class RealtimeAnalyticsEngine:
         """Get current queue size."""
         return len(self.queue)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get processing statistics."""
         return {
             "active": self.active,
@@ -105,7 +105,7 @@ class RealtimeAnalyticsEngine:
         self.stats = {"processed": 0, "errors": 0}
         self.logger.info("Processing statistics reset")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         return {
             "active": self.active,

@@ -1,0 +1,9 @@
+{
+  "agent_id": "Agent-SDA-3",
+  "role": "SSOT",
+  "specialty": "Survey Data Analysis",
+  "onboarded": true,
+  "hard_onboarding": true,
+  "capabilities_assigned": true,
+  "survey_ready": true
+}

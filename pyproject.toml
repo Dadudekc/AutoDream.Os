@@ -34,6 +34,9 @@ dependencies = [
     "bandit>=1.7.0",
     "safety>=2.0.0",
     "pyyaml>=6.0",  # Added for role management YAML support
+    "ruff==0.6.9",
+    "pyupgrade==3.15.2",
+    "bowler==0.9.0"
 ]
 
 [project.scripts]
@@ -54,43 +57,20 @@ dev = [
 
 [tool.black]
 line-length = 100
-target-version = ['py38', 'py39', 'py310', 'py311']
-include = '\.pyi?$'
-extend-exclude = '''
-/(
-  # directories
-  \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-skip-string-normalization = false
-skip-magic-trailing-comma = false
-preview = true
+target-version = ["py311"]
 
 [tool.isort]
 profile = "black"
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-ensure_newline_before_comments = true
 line_length = 100
-known_first_party = ["src", "tests", "emergency_database_recovery"]
-known_third_party = ["requests", "numpy", "pandas", "pytest"]
-sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
-default_section = "THIRDPARTY"
 
 [tool.ruff]
 line-length = 100
-select = ["E","F","I","B"]
+target-version = "py311"
+extend-select = ["E","F","W","I","UP","B","C4","S","TCH","TID"]
+ignore = [
+  "W505",  # docstring line length
+]
+exclude = ["tests/**/data/**"]
 
 [tool.flake8]
 max-line-length = 88

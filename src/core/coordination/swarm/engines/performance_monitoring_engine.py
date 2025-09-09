@@ -10,17 +10,12 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import time
-from typing import Any, Dict, List, Optional
-from datetime import datetime, timedelta
-from collections import deque
 import logging
+from collections import deque
+from datetime import datetime
+from typing import Any
 
-from ..coordination_models import (
-    CoordinationMetrics,
-    CoordinationResult,
-    create_coordination_metrics,
-)
+from ..coordination_models import CoordinationResult, create_coordination_metrics
 
 
 class PerformanceMonitoringEngine:
@@ -98,14 +93,12 @@ class PerformanceMonitoringEngine:
             self.logger.error(f"Failed to calculate efficiency: {e}")
             return 0.0
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get comprehensive performance summary."""
         try:
             total_tasks = self.metrics.total_tasks
             success_rate = (
-                self.metrics.successful_tasks / total_tasks * 100
-                if total_tasks > 0
-                else 0
+                self.metrics.successful_tasks / total_tasks * 100 if total_tasks > 0 else 0
             )
 
             return {
@@ -120,20 +113,14 @@ class PerformanceMonitoringEngine:
                 },
                 "efficiency_trend": list(self.efficiency_history),
                 "recent_performance": (
-                    list(self.performance_history)[-10:]
-                    if self.performance_history
-                    else []
+                    list(self.performance_history)[-10:] if self.performance_history else []
                 ),
                 "performance_indicators": {
                     "high_efficiency_tasks": sum(
-                        1
-                        for p in self.performance_history
-                        if p.get("efficiency", 0) > 0.8
+                        1 for p in self.performance_history if p.get("efficiency", 0) > 0.8
                     ),
                     "low_efficiency_tasks": sum(
-                        1
-                        for p in self.performance_history
-                        if p.get("efficiency", 0) < 0.5
+                        1 for p in self.performance_history if p.get("efficiency", 0) < 0.5
                     ),
                     "average_task_duration": self.metrics.average_execution_time,
                 },
@@ -143,7 +130,7 @@ class PerformanceMonitoringEngine:
             self.logger.error(f"Failed to get performance summary: {e}")
             return {"error": str(e)}
 
-    def get_efficiency_trend(self, window_size: int = 10) -> List[float]:
+    def get_efficiency_trend(self, window_size: int = 10) -> list[float]:
         """Get efficiency trend over specified window."""
         try:
             if len(self.efficiency_history) < window_size:
@@ -166,7 +153,7 @@ class PerformanceMonitoringEngine:
         except Exception as e:
             self.logger.error(f"Failed to reset metrics: {e}")
 
-    def get_metrics_export(self) -> Dict[str, Any]:
+    def get_metrics_export(self) -> dict[str, Any]:
         """Get metrics for export or reporting."""
         try:
             return {

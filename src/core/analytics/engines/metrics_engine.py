@@ -9,11 +9,11 @@ Author: Agent-5 - Business Intelligence Specialist
 License: MIT
 """
 
-import time
 import logging
-from typing import Any, Dict, Optional
-from datetime import datetime
+import time
 from collections import defaultdict, deque
+from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +55,7 @@ class MetricsEngine:
         """Get a metric value."""
         return self.metrics.get(name, 0)
 
-    def get_all_metrics(self) -> Dict[str, Any]:
+    def get_all_metrics(self) -> dict[str, Any]:
         """Get all metrics."""
         return dict(self.metrics)
 
@@ -87,7 +87,7 @@ class MetricsEngine:
         except Exception as e:
             self.logger.error(f"Error recording error: {e}")
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary."""
         try:
             if not self.performance_history:
@@ -109,7 +109,7 @@ class MetricsEngine:
             self.logger.error(f"Error getting performance summary: {e}")
             return {"error": str(e)}
 
-    def get_error_summary(self) -> Dict[str, Any]:
+    def get_error_summary(self) -> dict[str, Any]:
         """Get error summary."""
         try:
             if not self.error_history:
@@ -135,7 +135,7 @@ class MetricsEngine:
         self.error_history.clear()
         self.logger.info("All metrics cleared")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         uptime = time.time() - self.start_time
         return {

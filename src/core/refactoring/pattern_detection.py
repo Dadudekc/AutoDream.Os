@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from typing import List
 
-from src.services.unified_messaging_imports import get_unified_utility
+from ...services.unified_messaging_imports import get_unified_utility
 
 
 @dataclass
@@ -10,12 +9,12 @@ class ArchitecturePattern:
 
     name: str
     pattern_type: str
-    files: List[str]
+    files: list[str]
     confidence: float
     description: str
 
 
-def analyze_architecture_patterns(directory: str) -> List[ArchitecturePattern]:
+def analyze_architecture_patterns(directory: str) -> list[ArchitecturePattern]:
     """Analyze architecture patterns in a directory."""
     patterns = []
     patterns.extend(_detect_mvc_patterns(directory))
@@ -26,13 +25,13 @@ def analyze_architecture_patterns(directory: str) -> List[ArchitecturePattern]:
     return patterns
 
 
-def _detect_mvc_patterns(directory: str) -> List[ArchitecturePattern]:
+def _detect_mvc_patterns(directory: str) -> list[ArchitecturePattern]:
     patterns = []
     mvc_files = []
     for file_path in get_unified_utility().Path(directory).rglob("*.py"):
         if file_path.is_file():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read().lower()
                 if any(keyword in content for keyword in ["model", "view", "controller"]):
                     mvc_files.append(str(file_path))
@@ -51,13 +50,13 @@ def _detect_mvc_patterns(directory: str) -> List[ArchitecturePattern]:
     return patterns
 
 
-def _detect_repository_patterns(directory: str) -> List[ArchitecturePattern]:
+def _detect_repository_patterns(directory: str) -> list[ArchitecturePattern]:
     patterns = []
     repo_files = []
     for file_path in get_unified_utility().Path(directory).rglob("*.py"):
         if file_path.is_file():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read().lower()
                 if "repository" in content and "class" in content:
                     repo_files.append(str(file_path))
@@ -76,13 +75,13 @@ def _detect_repository_patterns(directory: str) -> List[ArchitecturePattern]:
     return patterns
 
 
-def _detect_factory_patterns(directory: str) -> List[ArchitecturePattern]:
+def _detect_factory_patterns(directory: str) -> list[ArchitecturePattern]:
     patterns = []
     factory_files = []
     for file_path in get_unified_utility().Path(directory).rglob("*.py"):
         if file_path.is_file():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read().lower()
                 if "factory" in content and "create" in content:
                     factory_files.append(str(file_path))
@@ -101,13 +100,13 @@ def _detect_factory_patterns(directory: str) -> List[ArchitecturePattern]:
     return patterns
 
 
-def _detect_observer_patterns(directory: str) -> List[ArchitecturePattern]:
+def _detect_observer_patterns(directory: str) -> list[ArchitecturePattern]:
     patterns = []
     observer_files = []
     for file_path in get_unified_utility().Path(directory).rglob("*.py"):
         if file_path.is_file():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read().lower()
                 if any(keyword in content for keyword in ["observer", "subscribe", "notify"]):
                     observer_files.append(str(file_path))
@@ -126,13 +125,13 @@ def _detect_observer_patterns(directory: str) -> List[ArchitecturePattern]:
     return patterns
 
 
-def _detect_singleton_patterns(directory: str) -> List[ArchitecturePattern]:
+def _detect_singleton_patterns(directory: str) -> list[ArchitecturePattern]:
     patterns = []
     singleton_files = []
     for file_path in get_unified_utility().Path(directory).rglob("*.py"):
         if file_path.is_file():
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read().lower()
                 if "instance" in content and "get_instance" in content:
                     singleton_files.append(str(file_path))

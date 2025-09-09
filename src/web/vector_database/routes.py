@@ -10,12 +10,13 @@ Mission: V2 Compliance Refactoring
 """
 
 from flask import Blueprint, render_template
+
 from .handlers import (
-    SearchHandler,
-    DocumentHandler,
     AnalyticsHandler,
     CollectionHandler,
+    DocumentHandler,
     ExportHandler,
+    SearchHandler,
 )
 from .middleware import VectorDatabaseMiddleware
 

@@ -1,3 +1,7 @@
+from dataclasses import dataclass
+from typing import Any, Optional
+
+
 @dataclass
 class CommandResult:
     """Represents the result of a command execution."""

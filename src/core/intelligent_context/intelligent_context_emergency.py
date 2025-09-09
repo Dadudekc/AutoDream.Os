@@ -10,14 +10,8 @@ License: MIT
 """
 
 import time
-from typing import List
-from datetime import datetime
 
-from .intelligent_context_models import (
-    MissionContext,
-    EmergencyContext,
-    InterventionProtocol,
-)
+from .intelligent_context_models import EmergencyContext, InterventionProtocol, MissionContext
 
 
 class IntelligentContextEmergency:
@@ -47,7 +41,7 @@ class IntelligentContextEmergency:
 
             return emergency_context
 
-        except Exception as e:
+        except Exception:
             execution_time = (time.time() - start_time) * 1000
             self.engine._update_metrics("emergency", False, execution_time)
             return EmergencyContext(
@@ -57,13 +51,11 @@ class IntelligentContextEmergency:
                 severity_level="unknown",
             )
 
-    def get_intervention_protocols(
-        self, mission: MissionContext
-    ) -> List[InterventionProtocol]:
+    def get_intervention_protocols(self, mission: MissionContext) -> list[InterventionProtocol]:
         """Get intervention protocols for mission."""
         return self._get_intervention_protocols(mission)
 
-    def _get_intervention_protocols(self, mission: MissionContext) -> List[str]:
+    def _get_intervention_protocols(self, mission: MissionContext) -> list[str]:
         """Get intervention protocols for mission."""
         protocols = [
             "Emergency agent reassignment",
@@ -106,7 +98,7 @@ class IntelligentContextEmergency:
         else:
             return "low"
 
-    def get_emergency_agents(self, mission: MissionContext) -> List[str]:
+    def get_emergency_agents(self, mission: MissionContext) -> list[str]:
         """Get agents available for emergency intervention."""
         emergency_agents = []
         for agent_id, capability in self.engine.agent_capabilities.items():

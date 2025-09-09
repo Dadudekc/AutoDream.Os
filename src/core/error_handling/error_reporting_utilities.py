@@ -9,13 +9,13 @@ License: MIT
 """
 
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, Optional
+from datetime import timedelta
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 # Global error reporter instance
-_error_reporter: Optional[Any] = None
+_error_reporter: Any | None = None
 
 
 def get_error_reporter() -> Any:
@@ -33,14 +33,12 @@ def report_error(error: Any, component: str = "unknown"):
     try:
         reporter = get_error_reporter()
         reporter.add_error_to_report(component, error)
-        logger.info(
-            f"Reported error to {component}: {getattr(error, 'error_id', 'unknown')}"
-        )
+        logger.info(f"Reported error to {component}: {getattr(error, 'error_id', 'unknown')}")
     except Exception as e:
         logger.error(f"Failed to report error: {e}")
 
 
-def get_error_report(component: str = None) -> Dict[str, Any]:
+def get_error_report(component: str = None) -> dict[str, Any]:
     """Get error report for a component or global summary."""
     try:
         reporter = get_error_reporter()
@@ -76,7 +74,7 @@ def clear_error_reports(component: str = None):
         logger.error(f"Failed to clear error reports: {e}")
 
 
-def get_error_statistics() -> Dict[str, Any]:
+def get_error_statistics() -> dict[str, Any]:
     """Get comprehensive error statistics."""
     try:
         reporter = get_error_reporter()
@@ -86,9 +84,7 @@ def get_error_statistics() -> Dict[str, Any]:
         return {"error": str(e)}
 
 
-def create_component_report(
-    component: str, time_range: timedelta = timedelta(hours=24)
-) -> Any:
+def create_component_report(component: str, time_range: timedelta = timedelta(hours=24)) -> Any:
     """Create a new error report for a component."""
     try:
         reporter = get_error_reporter()

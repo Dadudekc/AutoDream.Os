@@ -11,7 +11,6 @@ License: MIT
 """
 
 import ast
-from typing import List, Dict, Any
 from dataclasses import dataclass
 
 from ...unified_import_system import get_unified_import_system
@@ -22,8 +21,8 @@ class ExtractionPlan:
     """Plan for extracting code from a file."""
 
     source_file: str
-    target_files: List[str]
-    extraction_rules: List[str]
+    target_files: list[str]
+    extraction_rules: list[str]
     estimated_impact: str
     v2_compliance_target: bool
 
@@ -54,7 +53,7 @@ class ExtractionTools:
                 estimated_impact="Moderate",
                 v2_compliance_target=True,
             )
-        except Exception as e:
+        except Exception:
             return ExtractionPlan(
                 source_file=file_path,
                 target_files=[],
@@ -89,10 +88,10 @@ class ExtractionTools:
                     target_path.write_text(core, encoding="utf-8")
 
             return True
-        except Exception as e:
+        except Exception:
             return False
 
-    def _determine_target_files(self, file_path: str) -> List[str]:
+    def _determine_target_files(self, file_path: str) -> list[str]:
         """Determine target files for extraction."""
         base_path = file_path.replace(".py", "")
         return [
@@ -101,7 +100,7 @@ class ExtractionTools:
             f"{base_path}_core.py",
         ]
 
-    def _generate_extraction_rules(self, tree: ast.AST) -> List[str]:
+    def _generate_extraction_rules(self, tree: ast.AST) -> list[str]:
         """Generate extraction rules based on AST analysis."""
         rules = []
 

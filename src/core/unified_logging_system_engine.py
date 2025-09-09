@@ -12,8 +12,9 @@ License: MIT
 import logging
 import sys
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
-from .unified_logging_system_models import LogLevel, LogEntry, LoggingConfig
+from typing import Any
+
+from .unified_logging_system_models import LogEntry, LoggingConfig, LogLevel
 
 
 class LoggingTemplates:
@@ -25,9 +26,7 @@ class LoggingTemplates:
         return f"🚀 {operation} started in {module}"
 
     @staticmethod
-    def operation_complete(
-        operation: str, module: str = "Unknown", duration: float = 0.0
-    ) -> str:
+    def operation_complete(operation: str, module: str = "Unknown", duration: float = 0.0) -> str:
         """Template for operation completion."""
         return f"✅ {operation} completed in {module} (Duration: {duration:.2f}s)"
 
@@ -49,9 +48,7 @@ class LoggingTemplates:
         return f"✅ {validation_type} validation passed"
 
     @staticmethod
-    def validation_failed(
-        validation_type: str, error: str = "Validation failed"
-    ) -> str:
+    def validation_failed(validation_type: str, error: str = "Validation failed") -> str:
         """Template for validation failure."""
         return f"❌ {validation_type} validation failed: {error}"
 
@@ -97,7 +94,7 @@ class UnifiedLoggingEngine:
         message: str,
         module: str = "Unknown",
         function: str = "Unknown",
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
     ):
         """Log a message with specified level."""
         log_entry = LogEntry(
@@ -112,32 +109,22 @@ class UnifiedLoggingEngine:
         log_method = getattr(self.logger, level.value.lower())
         log_method(f"[{module}.{function}] {message}")
 
-    def debug(
-        self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs
-    ):
+    def debug(self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs):
         """Log debug message."""
         self.log(LogLevel.DEBUG, message, module, function, kwargs)
 
-    def info(
-        self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs
-    ):
+    def info(self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs):
         """Log info message."""
         self.log(LogLevel.INFO, message, module, function, kwargs)
 
-    def warning(
-        self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs
-    ):
+    def warning(self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs):
         """Log warning message."""
         self.log(LogLevel.WARNING, message, module, function, kwargs)
 
-    def error(
-        self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs
-    ):
+    def error(self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs):
         """Log error message."""
         self.log(LogLevel.ERROR, message, module, function, kwargs)
 
-    def critical(
-        self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs
-    ):
+    def critical(self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs):
         """Log critical message."""
         self.log(LogLevel.CRITICAL, message, module, function, kwargs)

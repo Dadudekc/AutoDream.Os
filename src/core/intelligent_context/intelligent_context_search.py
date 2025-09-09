@@ -10,8 +10,6 @@ License: MIT
 """
 
 import time
-from typing import List, Optional
-from datetime import datetime
 
 from .intelligent_context_models import SearchResult
 
@@ -23,7 +21,7 @@ class IntelligentContextSearch:
         """Initialize context search."""
         self.engine = engine
 
-    def search_context(self, query: str, mission_id: str = None) -> List[SearchResult]:
+    def search_context(self, query: str, mission_id: str = None) -> list[SearchResult]:
         """Search for relevant context."""
         start_time = time.time()
 
@@ -62,12 +60,12 @@ class IntelligentContextSearch:
 
             return results
 
-        except Exception as e:
+        except Exception:
             execution_time = (time.time() - start_time) * 1000
             self.engine._update_metrics("search", False, execution_time)
             return []
 
-    def search_missions(self, query: str) -> List[SearchResult]:
+    def search_missions(self, query: str) -> list[SearchResult]:
         """Search specifically in missions."""
         results = []
         for mission_id, mission in self.engine.active_missions.items():
@@ -83,7 +81,7 @@ class IntelligentContextSearch:
                 )
         return results
 
-    def search_agents(self, query: str) -> List[SearchResult]:
+    def search_agents(self, query: str) -> list[SearchResult]:
         """Search specifically in agent capabilities."""
         results = []
         for agent_id, capability in self.engine.agent_capabilities.items():
@@ -99,7 +97,7 @@ class IntelligentContextSearch:
                 )
         return results
 
-    def search_by_skills(self, skills: List[str]) -> List[SearchResult]:
+    def search_by_skills(self, skills: list[str]) -> list[SearchResult]:
         """Search agents by skills."""
         results = []
         for agent_id, capability in self.engine.agent_capabilities.items():
@@ -117,7 +115,7 @@ class IntelligentContextSearch:
                     break
         return results
 
-    def search_by_mission_type(self, mission_type: str) -> List[SearchResult]:
+    def search_by_mission_type(self, mission_type: str) -> list[SearchResult]:
         """Search missions by type."""
         results = []
         for mission_id, mission in self.engine.active_missions.items():

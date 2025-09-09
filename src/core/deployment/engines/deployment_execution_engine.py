@@ -10,21 +10,11 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-import os
-import time
 import logging
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, Any, Optional, List
+import time
 from datetime import datetime
 
-from ..deployment_models import (
-    MassDeploymentTarget,
-    MaximumEfficiencyDeploymentStatus,
-    DeploymentConfig,
-    DeploymentMetrics,
-    DeploymentStatus,
-    DeploymentPriority,
-)
+from ..deployment_models import DeploymentConfig, DeploymentStatus, MassDeploymentTarget
 
 
 class DeploymentExecutionEngine:
@@ -34,7 +24,7 @@ class DeploymentExecutionEngine:
         """Initialize deployment execution engine."""
         self.logger = logging.getLogger(__name__)
         self.config = config
-        self.active_deployments: Dict[str, MassDeploymentTarget] = {}
+        self.active_deployments: dict[str, MassDeploymentTarget] = {}
 
     def execute_deployment(self, target: MassDeploymentTarget) -> bool:
         """Execute a single deployment task."""
@@ -53,12 +43,8 @@ class DeploymentExecutionEngine:
 
             # Update final status
             target.end_time = datetime.now()
-            target.execution_time = (
-                target.end_time - target.start_time
-            ).total_seconds()
-            target.status = (
-                DeploymentStatus.COMPLETED if success else DeploymentStatus.FAILED
-            )
+            target.execution_time = (target.end_time - target.start_time).total_seconds()
+            target.status = DeploymentStatus.COMPLETED if success else DeploymentStatus.FAILED
 
             # Remove from active deployments
             self.active_deployments.pop(target.target_id, None)
@@ -69,9 +55,7 @@ class DeploymentExecutionEngine:
             return success
 
         except Exception as e:
-            self.logger.error(
-                f"Deployment execution failed for {target.target_id}: {e}"
-            )
+            self.logger.error(f"Deployment execution failed for {target.target_id}: {e}")
             target.status = DeploymentStatus.FAILED
             target.error_message = str(e)
             self.active_deployments.pop(target.target_id, None)
@@ -112,7 +96,7 @@ class DeploymentExecutionEngine:
         time.sleep(0.15)  # Simulated work
         return True
 
-    def get_active_deployments(self) -> Dict[str, MassDeploymentTarget]:
+    def get_active_deployments(self) -> dict[str, MassDeploymentTarget]:
         """Get currently active deployments."""
         return self.active_deployments.copy()
 

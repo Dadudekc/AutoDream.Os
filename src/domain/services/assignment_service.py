@@ -6,11 +6,9 @@ Domain service for task assignment logic.
 Handles complex business rules that don't belong to individual entities.
 """
 
-from typing import List, Optional
-from src.domain.entities.task import Task
-from src.domain.entities.agent import Agent
-from src.domain.value_objects.ids import TaskId, AgentId
-from src.domain.ports.logger import Logger
+from ..entities.agent import Agent
+from ..entities.task import Task
+from ..ports.logger import Logger
 
 
 class AssignmentService:
@@ -24,7 +22,7 @@ class AssignmentService:
     def __init__(self, logger: Logger):
         self.logger = logger
 
-    def find_best_agent_for_task(self, task: Task, available_agents: List[Agent]) -> Optional[Agent]:
+    def find_best_agent_for_task(self, task: Task, available_agents: list[Agent]) -> Agent | None:
         """
         Find the best agent for a given task based on business rules.
 
@@ -67,7 +65,7 @@ class AssignmentService:
             "Selected best agent for task",
             task_id=task.id,
             agent_id=best_agent.id,
-            score=scored_agents[0][1]
+            score=scored_agents[0][1],
         )
 
         return best_agent

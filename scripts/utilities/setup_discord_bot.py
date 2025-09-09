@@ -11,7 +11,6 @@ Usage:
 Author: Agent-7 - V2 SWARM CAPTAIN
 """
 
-
 # Load environment variables from .env file
 try:
     from dotenv import load_dotenv
@@ -22,15 +21,13 @@ except ImportError:
     # Manual .env loading if dotenv not available
     env_file = get_unified_utility().Path(".env")
     if env_file.exists():
-        with open(env_file, "r") as f:
+        with open(env_file) as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
                     key, value = line.split("=", 1)
                     os.environ[key.strip()] = value.strip()
-        get_logger(__name__).info(
-            "✅ Loaded environment variables from .env file manually"
-        )
+        get_logger(__name__).info("✅ Loaded environment variables from .env file manually")
     else:
         get_logger(__name__).info("⚠️  No .env file found")
 
@@ -63,9 +60,7 @@ def setup_environment():
     # Check Python version
     python_version = sys.version_info
     if python_version < (3, 8):
-        get_logger(__name__).info(
-            "❌ Python 3.8+ is required. Current version:", sys.version
-        )
+        get_logger(__name__).info("❌ Python 3.8+ is required. Current version:", sys.version)
         return False
     else:
         get_logger(__name__).info(
@@ -138,9 +133,7 @@ def setup_environment():
         get_logger(__name__).info(
             f"\n❌ Missing required environment variables: {', '.join(missing_required)}"
         )
-        get_logger(__name__).info(
-            "Please set these environment variables before running the bot."
-        )
+        get_logger(__name__).info("Please set these environment variables before running the bot.")
         get_logger(__name__).info("\nExample:")
         get_logger(__name__).info("export DISCORD_BOT_TOKEN=your_bot_token_here")
         get_logger(__name__).info("export DISCORD_GUILD_ID=your_server_id_here")

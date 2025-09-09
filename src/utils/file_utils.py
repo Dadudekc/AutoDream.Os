@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Centralized file utility helpers."""
-import json
-import yaml
+
 import hashlib
+import json
+import logging
 import os
 import shutil
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, Optional, List
-import logging
+from pathlib import Path
+from typing import Any
+
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -30,10 +32,10 @@ class FileUtils:
     # JSON/YAML operations
     # ------------------------------------------------------------------
     @staticmethod
-    def read_json(file_path: str) -> Optional[Dict[str, Any]]:
+    def read_json(file_path: str) -> dict[str, Any] | None:
         """Read JSON file and return data."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 return json.load(f)
         except FileNotFoundError:
             logger.warning(f"JSON file not found: {file_path}")
@@ -43,7 +45,7 @@ class FileUtils:
             return None
 
     @staticmethod
-    def write_json(file_path: str, data: Dict[str, Any]) -> bool:
+    def write_json(file_path: str, data: dict[str, Any]) -> bool:
         """Write data to JSON file."""
         try:
             FileUtils.ensure_directory(os.path.dirname(file_path))
@@ -55,17 +57,17 @@ class FileUtils:
             return False
 
     @staticmethod
-    def read_yaml(file_path: str) -> Optional[Dict[str, Any]]:
+    def read_yaml(file_path: str) -> dict[str, Any] | None:
         """Read YAML file and return data."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except Exception as e:
             logger.error(f"Failed to read YAML {file_path}: {e}")
             return None
 
     @staticmethod
-    def write_yaml(file_path: str, data: Dict[str, Any]) -> bool:
+    def write_yaml(file_path: str, data: dict[str, Any]) -> bool:
         """Write data to YAML file."""
         try:
             FileUtils.ensure_directory(os.path.dirname(file_path))
@@ -88,7 +90,7 @@ class FileUtils:
     def is_file_readable(file_path: str) -> bool:
         """Check if a file is readable."""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 f.read(1)
             return True
         except Exception:
@@ -105,7 +107,7 @@ class FileUtils:
             return False
 
     @staticmethod
-    def get_file_size(file_path: str) -> Optional[int]:
+    def get_file_size(file_path: str) -> int | None:
         """Get file size in bytes."""
         try:
             return Path(file_path).stat().st_size
@@ -114,7 +116,7 @@ class FileUtils:
             return None
 
     @staticmethod
-    def get_file_modified_time(file_path: str) -> Optional[datetime]:
+    def get_file_modified_time(file_path: str) -> datetime | None:
         """Get file last modified time."""
         try:
             timestamp = Path(file_path).stat().st_mtime
@@ -123,7 +125,7 @@ class FileUtils:
             return None
 
     @staticmethod
-    def get_file_hash(file_path: str) -> Optional[str]:
+    def get_file_hash(file_path: str) -> str | None:
         """Get SHA256 hash of file."""
         try:
             with open(file_path, "rb") as f:
@@ -146,7 +148,7 @@ class FileUtils:
     # Directory and list operations
     # ------------------------------------------------------------------
     @staticmethod
-    def list_files(directory: str, pattern: str = "*") -> List[str]:
+    def list_files(directory: str, pattern: str = "*") -> list[str]:
         """List files in directory matching pattern."""
         try:
             path = Path(directory)
@@ -187,7 +189,7 @@ class FileUtils:
             return False
 
     @staticmethod
-    def create_backup(file_path: str, backup_suffix: str = ".backup") -> Optional[str]:
+    def create_backup(file_path: str, backup_suffix: str = ".backup") -> str | None:
         """Create a backup of a file."""
         try:
             if not FileUtils.file_exists(file_path):
@@ -229,7 +231,7 @@ class FileUtils:
     # Validation helpers
     # ------------------------------------------------------------------
     @staticmethod
-    def validate_file_path(file_path: str) -> Dict[str, Any]:
+    def validate_file_path(file_path: str) -> dict[str, Any]:
         """Validate file path and return detailed information."""
         result = {
             "path": file_path,

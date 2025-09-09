@@ -11,17 +11,11 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from typing import Any
 
-from .enums import (
-    AlertLevel,
-    TrendDirection,
-    RecommendationCategory,
-    RecommendationPriority,
-    ImplementationEffort,
-)
+from .enums import AlertLevel
 
 
 @dataclass
@@ -36,7 +30,7 @@ class PerformanceAlert:
     threshold: float
     timestamp: datetime = field(default_factory=datetime.now)
     resolved: bool = False
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate alert data after initialization."""
@@ -66,7 +60,7 @@ class TrendAnalysis:
     data_points: int
     time_window: timedelta
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate trend analysis data after initialization."""
@@ -88,15 +82,13 @@ class PerformanceForecast:
 
     forecast_id: str
     metric_name: str
-    predicted_values: List[float]
+    predicted_values: list[float]
     forecast_horizon: timedelta
     confidence_interval: tuple  # (lower, upper)
     model_accuracy: float  # 0.0 to 1.0
     created_at: datetime = field(default_factory=datetime.now)
-    expires_at: datetime = field(
-        default_factory=lambda: datetime.now() + timedelta(hours=24)
-    )
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    expires_at: datetime = field(default_factory=lambda: datetime.now() + timedelta(hours=24))
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate forecast data after initialization."""
@@ -124,7 +116,7 @@ class OptimizationRecommendation:
     estimated_improvement: float  # percentage improvement expected
     timestamp: datetime = field(default_factory=datetime.now)
     implemented: bool = False
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate recommendation data after initialization."""
@@ -149,7 +141,7 @@ class PerformanceMetrics:
     value: float
     unit: str
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate metrics data after initialization."""

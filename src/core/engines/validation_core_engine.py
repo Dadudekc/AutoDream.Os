@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import Any, Dict, List, Optional
+
+from typing import Any
+
 from .contracts import Engine, EngineContext, EngineResult
 
 
@@ -7,8 +9,8 @@ class ValidationCoreEngine(Engine):
     """Core validation engine - consolidates all validation operations."""
 
     def __init__(self):
-        self.rules: Dict[str, Any] = {}
-        self.validations: List[Dict[str, Any]] = []
+        self.rules: dict[str, Any] = {}
+        self.validations: list[dict[str, Any]] = []
         self.is_initialized = False
 
     def initialize(self, context: EngineContext) -> bool:
@@ -21,7 +23,7 @@ class ValidationCoreEngine(Engine):
             context.logger.error(f"Failed to initialize Validation Core Engine: {e}")
             return False
 
-    def execute(self, context: EngineContext, payload: Dict[str, Any]) -> EngineResult:
+    def execute(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Execute validation operation based on payload type."""
         try:
             operation = payload.get("operation", "unknown")
@@ -42,9 +44,7 @@ class ValidationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _validate_data(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _validate_data(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Validate data against rules."""
         try:
             data = payload.get("data", {})
@@ -63,9 +63,7 @@ class ValidationCoreEngine(Engine):
                     validation_result["errors"].append("Data is required")
                 elif rule == "v2_compliance" and len(str(data)) > 300:
                     validation_result["valid"] = False
-                    validation_result["errors"].append(
-                        "V2 compliance violation: exceeds 300 lines"
-                    )
+                    validation_result["errors"].append("V2 compliance violation: exceeds 300 lines")
                 elif rule == "format" and not isinstance(data, dict):
                     validation_result["warnings"].append("Data format warning")
 
@@ -79,9 +77,7 @@ class ValidationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _add_rule(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _add_rule(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Add validation rule."""
         try:
             rule_id = payload.get("rule_id", f"rule_{len(self.rules)}")
@@ -97,9 +93,7 @@ class ValidationCoreEngine(Engine):
         except Exception as e:
             return EngineResult(success=False, data={}, metrics={}, error=str(e))
 
-    def _check_compliance(
-        self, context: EngineContext, payload: Dict[str, Any]
-    ) -> EngineResult:
+    def _check_compliance(self, context: EngineContext, payload: dict[str, Any]) -> EngineResult:
         """Check compliance with standards."""
         try:
             data = payload.get("data", {})
@@ -142,7 +136,7 @@ class ValidationCoreEngine(Engine):
             context.logger.error(f"Failed to cleanup Validation Core Engine: {e}")
             return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get validation core engine status."""
         return {
             "initialized": self.is_initialized,

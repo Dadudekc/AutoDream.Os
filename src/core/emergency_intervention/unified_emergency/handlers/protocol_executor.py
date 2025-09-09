@@ -9,15 +9,10 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-from typing import Dict, List, Optional, Any
 from datetime import datetime
-from ..models import (
-    EmergencyType,
-    EmergencySeverity,
-    InterventionAction,
-    InterventionProtocol,
-    EmergencyInterventionModels,
-)
+from typing import Any
+
+from ..models import InterventionAction, InterventionProtocol
 
 
 class ProtocolExecutor:
@@ -25,12 +20,12 @@ class ProtocolExecutor:
 
     def __init__(self):
         """Initialize protocol executor."""
-        self.execution_history: List[Dict[str, Any]] = []
-        self.active_executions: Dict[str, Dict[str, Any]] = {}
+        self.execution_history: list[dict[str, Any]] = []
+        self.active_executions: dict[str, dict[str, Any]] = {}
 
     def execute_protocol(
-        self, protocol: InterventionProtocol, emergency_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, protocol: InterventionProtocol, emergency_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute an emergency protocol."""
         try:
             execution_id = f"exec_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -82,12 +77,8 @@ class ProtocolExecutor:
             success_count = len(execution_record["completed_actions"])
             total_count = len(protocol.actions)
 
-            execution_record["status"] = (
-                "completed" if success_count == total_count else "partial"
-            )
-            execution_record["success_rate"] = (
-                success_count / total_count if total_count > 0 else 0
-            )
+            execution_record["status"] = "completed" if success_count == total_count else "partial"
+            execution_record["success_rate"] = success_count / total_count if total_count > 0 else 0
 
             # Move to history
             self.execution_history.append(execution_record)
@@ -115,8 +106,8 @@ class ProtocolExecutor:
             }
 
     def _execute_action(
-        self, action: InterventionAction, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: InterventionAction, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute a single intervention action."""
         try:
             # Simulate action execution based on action type
@@ -148,7 +139,7 @@ class ProtocolExecutor:
         except Exception as e:
             return {"success": False, "error": str(e), "critical_failure": True}
 
-    def _restart_service(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _restart_service(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate service restart."""
         # In real implementation, this would restart the actual service
         return {
@@ -157,7 +148,7 @@ class ProtocolExecutor:
             "details": {"service": context.get("service_name", "unknown")},
         }
 
-    def _scale_resources(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _scale_resources(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate resource scaling."""
         return {
             "success": True,
@@ -165,7 +156,7 @@ class ProtocolExecutor:
             "details": {"target_scale": context.get("scale_factor", 2)},
         }
 
-    def _notify_admin(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _notify_admin(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate admin notification."""
         return {
             "success": True,
@@ -173,7 +164,7 @@ class ProtocolExecutor:
             "details": {"notification_method": "email"},
         }
 
-    def _isolate_system(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _isolate_system(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate system isolation."""
         return {
             "success": True,
@@ -181,7 +172,7 @@ class ProtocolExecutor:
             "details": {"isolation_level": "network"},
         }
 
-    def _backup_restore(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _backup_restore(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate backup restore."""
         return {
             "success": True,
@@ -189,27 +180,23 @@ class ProtocolExecutor:
             "details": {"backup_timestamp": context.get("backup_time", "latest")},
         }
 
-    def _log_incident(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _log_incident(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate incident logging."""
         return {
             "success": True,
             "message": "Incident logged",
-            "details": {
-                "log_id": f"incident_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-            },
+            "details": {"log_id": f"incident_{datetime.now().strftime('%Y%m%d_%H%M%S')}"},
         }
 
-    def _escalate_to_human(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _escalate_to_human(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate human escalation."""
         return {
             "success": True,
             "message": "Escalated to human operator",
-            "details": {
-                "escalation_level": context.get("escalation_level", "standard")
-            },
+            "details": {"escalation_level": context.get("escalation_level", "standard")},
         }
 
-    def _clear_cache(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _clear_cache(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate cache clearing."""
         return {
             "success": True,
@@ -217,7 +204,7 @@ class ProtocolExecutor:
             "details": {"cache_type": context.get("cache_type", "all")},
         }
 
-    def _optimize_queries(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _optimize_queries(self, context: dict[str, Any]) -> dict[str, Any]:
         """Simulate query optimization."""
         return {
             "success": True,
@@ -225,11 +212,11 @@ class ProtocolExecutor:
             "details": {"optimization_type": "index_hints"},
         }
 
-    def get_execution_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_execution_history(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get recent execution history."""
         return self.execution_history[-limit:] if self.execution_history else []
 
-    def get_active_executions(self) -> Dict[str, Dict[str, Any]]:
+    def get_active_executions(self) -> dict[str, dict[str, Any]]:
         """Get currently active executions."""
         return self.active_executions.copy()
 

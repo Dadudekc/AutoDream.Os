@@ -10,16 +10,14 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 
-import os
 import logging
-from typing import Dict, Any, Optional, List, Set
-from datetime import datetime
+import os
 
 from ..deployment_models import (
-    MassDeploymentTarget,
     DeploymentConfig,
-    PatternType,
     DeploymentPriority,
+    MassDeploymentTarget,
+    PatternType,
     create_deployment_target,
 )
 
@@ -31,9 +29,9 @@ class DeploymentDiscoveryEngine:
         """Initialize deployment discovery engine."""
         self.logger = logging.getLogger(__name__)
         self.config = config
-        self.discovered_targets: Dict[str, MassDeploymentTarget] = {}
+        self.discovered_targets: dict[str, MassDeploymentTarget] = {}
 
-    def discover_targets(self) -> List[MassDeploymentTarget]:
+    def discover_targets(self) -> list[MassDeploymentTarget]:
         """Discover all available deployment targets."""
         try:
             self.logger.info("Starting target discovery...")
@@ -63,7 +61,7 @@ class DeploymentDiscoveryEngine:
             self.logger.error(f"Target discovery failed: {e}")
             return []
 
-    def _discover_file_targets(self) -> List[MassDeploymentTarget]:
+    def _discover_file_targets(self) -> list[MassDeploymentTarget]:
         """Discover file operation targets."""
         targets = []
 
@@ -91,7 +89,7 @@ class DeploymentDiscoveryEngine:
 
         return targets
 
-    def _discover_system_targets(self) -> List[MassDeploymentTarget]:
+    def _discover_system_targets(self) -> list[MassDeploymentTarget]:
         """Discover system integration targets."""
         targets = []
 
@@ -118,7 +116,7 @@ class DeploymentDiscoveryEngine:
 
         return targets
 
-    def _discover_optimization_targets(self) -> List[MassDeploymentTarget]:
+    def _discover_optimization_targets(self) -> list[MassDeploymentTarget]:
         """Discover optimization targets."""
         targets = []
 
@@ -144,9 +142,7 @@ class DeploymentDiscoveryEngine:
 
         return targets
 
-    def prioritize_targets(
-        self, targets: List[MassDeploymentTarget]
-    ) -> List[MassDeploymentTarget]:
+    def prioritize_targets(self, targets: list[MassDeploymentTarget]) -> list[MassDeploymentTarget]:
         """Prioritize deployment targets based on priority and dependencies."""
         try:
             # Sort by priority (HIGH -> MEDIUM -> LOW)
@@ -168,16 +164,16 @@ class DeploymentDiscoveryEngine:
             self.logger.error(f"Target prioritization failed: {e}")
             return targets
 
-    def get_discovered_targets(self) -> Dict[str, MassDeploymentTarget]:
+    def get_discovered_targets(self) -> dict[str, MassDeploymentTarget]:
         """Get all discovered targets."""
         return self.discovered_targets.copy()
 
     def filter_targets(
         self,
-        targets: List[MassDeploymentTarget],
-        pattern_type: Optional[PatternType] = None,
-        priority: Optional[DeploymentPriority] = None,
-    ) -> List[MassDeploymentTarget]:
+        targets: list[MassDeploymentTarget],
+        pattern_type: PatternType | None = None,
+        priority: DeploymentPriority | None = None,
+    ) -> list[MassDeploymentTarget]:
         """Filter targets by criteria."""
         filtered = targets
 

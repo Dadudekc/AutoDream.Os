@@ -11,11 +11,7 @@ License: MIT
 """
 
 # V2 COMPLIANCE REDIRECT - Import from modular system
-from .protocols_v2 import (
-    EmergencyProtocols,
-    create_emergency_protocols,
-    get_emergency_protocols,
-)
+from .protocols_v2 import EmergencyProtocols, create_emergency_protocols, get_emergency_protocols
 
 # Re-export for backward compatibility
 __all__ = [

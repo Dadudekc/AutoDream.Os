@@ -1,96 +1,158 @@
 #!/usr/bin/env python3
 """
-Onboarding Service - Agent Cellphone V2
-======================================
+Onboarding Service Implementation - V2 Compliant Module
+=======================================================
 
-Dedicated service for agent onboarding functionality.
-Extracted from messaging_core.py to maintain LOC compliance.
+Concrete implementation of IOnboardingService protocol.
+V2 Compliance: < 200 lines, single responsibility.
 
-Author: V2 SWARM CAPTAIN
+Author: V2 Implementation Team
 License: MIT
 """
 
-import os
 from typing import Dict, Any
+import logging
 
-from .models.messaging_models import (
-    RecipientType,
-    SenderType,
-    UnifiedMessage,
-    UnifiedMessageType,
-    UnifiedMessagePriority,
-    UnifiedMessageTag,
-)
+from .onboarding_handler import OnboardingHandler
+
+logger = logging.getLogger(__name__)
 
 
 class OnboardingService:
-    """Dedicated service for agent onboarding operations."""
+    """Concrete implementation of IOnboardingService protocol."""
 
     def __init__(self):
-        """Initialize onboarding service with template."""
-        self.onboarding_template = self._load_onboarding_template()
+        """Initialize onboarding service."""
+        self.logger = logger
+        self.onboarding_handler = OnboardingHandler()
+        self.logger.info("OnboardingService initialized")
 
-    def _load_onboarding_template(self) -> str:
-        """Load onboarding template content from SSOT; provide fallback if missing."""
-        template_path = "prompts/agents/onboarding.md"
+    def generate_onboarding_message(self, agent_id: str, style: str = "friendly") -> str:
+        """Generate onboarding message for an agent.
+
+        Args:
+            agent_id: Agent ID to generate message for
+            style: Message style (friendly, professional, technical)
+
+        Returns:
+            Generated onboarding message content
+        """
         try:
-            if os.path.exists(template_path):
-                with open(template_path, "r", encoding="utf-8") as f:
-                    return f.read()
+            self.logger.info(f"Generating onboarding message for {agent_id} with style: {style}")
+
+            # Get agent status from onboarding handler
+            agent_status = self.onboarding_handler.get_onboarding_status(agent_id)
+
+            if agent_status:
+                # Agent is already onboarded, generate welcome back message
+                return self._generate_welcome_back_message(agent_id, agent_status, style)
+            else:
+                # Agent is new, generate initial onboarding message
+                return self._generate_initial_onboarding_message(agent_id, style)
+
         except Exception as e:
-            print(f"Warning: Error loading onboarding template: {e}")
-            pass
+            self.logger.error(f"Error generating onboarding message for {agent_id}: {e}")
+            return f"Hello {agent_id}! Welcome to the V2 Swarm System. There was an error during onboarding setup."
 
-        # Fallback minimal template to ensure continuity if SSOT missing
-        return (
-            "🎯 **ONBOARDING - FRIENDLY MODE** 🎯\n\n"
-            "**Agent**: {agent_id}\n"
-            "**Role**: {role}\n"
-            "**Captain**: Agent-4 - Strategic Oversight & Emergency Intervention Manager\n\n"
-            "**WELCOME TO THE SWARM!** 🚀\n\n"
-            "Use --get-next-task to claim your first contract.\n\n"
-            "**WE. ARE. SWARM.** ⚡️🔥"
-        )
+    def _generate_initial_onboarding_message(self, agent_id: str, style: str) -> str:
+        """Generate initial onboarding message for new agent."""
+        base_message = f"Hello {agent_id}! Welcome to the V2 Swarm System."
 
-    def generate_onboarding_message(self, agent_id: str, role: str, style: str = "friendly") -> str:
-        """Generate onboarding message for specific agent from SSOT template."""
-        class _SafeDict(dict):
-            def __missing__(self, key):  # type: ignore[override]
-                return ""
-
-        values: Dict[str, Any] = {
-            "agent_id": agent_id,
-            "role": role,
-            "description": role,  # backward compat key if used in templates
-            "contract_info": "Use --get-next-task to claim your first contract",
-            "custom_message": "",
-            "style": style,
+        style_templates = {
+            "friendly": {
+                "greeting": "Hey there!",
+                "body": f"{base_message} We're excited to have you join our collaborative team. You'll be working with cutting-edge AI technologies and contributing to innovative projects.",
+                "closing": "Let's make some amazing things together! 🚀"
+            },
+            "professional": {
+                "greeting": "Dear Colleague,",
+                "body": f"{base_message} As part of our professional development team, you will be responsible for delivering high-quality solutions and maintaining system excellence.",
+                "closing": "We look forward to your valuable contributions to our mission."
+            },
+            "technical": {
+                "greeting": "Greetings,",
+                "body": f"{base_message} You will be integrated into our distributed processing network. Your primary responsibilities include system optimization, debugging, and maintaining code quality standards.",
+                "closing": "System integration complete. Awaiting your first task assignment."
+            }
         }
 
+        template = style_templates.get(style, style_templates["friendly"])
+
+        return f"""
+{template['greeting']}
+
+{template['body']}
+
+Key responsibilities:
+- Execute assigned tasks efficiently
+- Maintain communication with the swarm
+- Contribute to system improvements
+- Follow V2 compliance standards
+
+{template['closing']}
+
+Best regards,
+V2 Swarm Captain
+"""
+
+    def _generate_welcome_back_message(self, agent_id: str, agent_status: Dict[str, Any], style: str) -> str:
+        """Generate welcome back message for existing agent."""
+        role = agent_status.get("role", "Specialist")
+        onboarded_at = agent_status.get("onboarded_at", "recently")
+
+        style_templates = {
+            "friendly": {
+                "greeting": f"Welcome back, {agent_id}!",
+                "body": f"Great to see you again! As a {role} in our V2 Swarm System, you're already making valuable contributions. Ready to tackle some new challenges?",
+                "closing": "Let's continue building amazing things together! 🚀"
+            },
+            "professional": {
+                "greeting": f"Welcome back, {agent_id}.",
+                "body": f"As a {role} in our professional development team since {onboarded_at}, you continue to demonstrate excellent performance and dedication to our mission.",
+                "closing": "We look forward to your continued contributions."
+            },
+            "technical": {
+                "greeting": f"Agent {agent_id} reconnected.",
+                "body": f"System recognizes {role} agent onboarded {onboarded_at}. Agent status: ACTIVE. Ready for task assignment and system integration.",
+                "closing": "Awaiting task assignment. System ready."
+            }
+        }
+
+        template = style_templates.get(style, style_templates["friendly"])
+
+        return f"""
+{template['greeting']}
+
+{template['body']}
+
+Current status:
+- Role: {role}
+- Onboarded: {onboarded_at}
+- System Status: ACTIVE
+
+{template['closing']}
+
+Best regards,
+V2 Swarm Captain
+"""
+
+    def get_service_status(self) -> Dict[str, Any]:
+        """Get onboarding service status."""
         try:
-            return self.onboarding_template.format_map(_SafeDict(values))
-        except Exception:
-            # As an ultimate fallback, return a simple constructed message
-            return (
-                f"🎯 **ONBOARDING - {style.upper()} MODE** 🎯\n\n"
-                f"**Agent**: {agent_id}\n"
-                f"**Role**: {role}\n\n"
-                "Use --get-next-task to claim your first contract.\n\n"
-                "**WE. ARE. SWARM.** ⚡️🔥"
-            )
+            onboarded_agents = self.onboarding_handler.list_onboarded_agents()
+            return {
+                "service": "onboarding",
+                "status": "active",
+                "onboarded_agents_count": len(onboarded_agents),
+                "onboarded_agents": onboarded_agents
+            }
+        except Exception as e:
+            self.logger.error(f"Error getting service status: {e}")
+            return {
+                "service": "onboarding",
+                "status": "error",
+                "error": str(e)
+            }
 
-    def create_onboarding_message(self, agent_id: str, role: str, style: str = "friendly") -> UnifiedMessage:
-        """Create UnifiedMessage for onboarding."""
-        message_content = self.generate_onboarding_message(agent_id, role, style)
 
-        return UnifiedMessage(
-            content=message_content,
-            sender="Captain Agent-4",
-            recipient=agent_id,
-            message_type=UnifiedMessageType.ONBOARDING,
-            priority=UnifiedMessagePriority.URGENT,
-            tags=[UnifiedMessageTag.CAPTAIN, UnifiedMessageTag.ONBOARDING],
-            metadata={"onboarding_style": style},
-            sender_type=SenderType.SYSTEM,
-            recipient_type=RecipientType.AGENT
-        )
+__all__ = ["OnboardingService"]

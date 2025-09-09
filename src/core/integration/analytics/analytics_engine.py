@@ -11,21 +11,21 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
-from datetime import datetime
 import logging
+from datetime import datetime
+from typing import Any
 
 from ..vector_integration_models import (
-    TrendAnalysis,
-    PerformanceForecast,
-    OptimizationRecommendation,
-    PerformanceMetrics,
     IntegrationConfig,
+    OptimizationRecommendation,
+    PerformanceForecast,
+    PerformanceMetrics,
+    TrendAnalysis,
     create_default_config,
 )
-from .trend_analyzer import TrendAnalyzer
 from .forecast_generator import ForecastGenerator
 from .recommendation_engine import RecommendationEngine
+from .trend_analyzer import TrendAnalyzer
 
 
 class VectorIntegrationAnalyticsEngine:
@@ -34,7 +34,7 @@ class VectorIntegrationAnalyticsEngine:
     Coordinates trend analysis, forecasting, and recommendation generation.
     """
 
-    def __init__(self, config: Optional[IntegrationConfig] = None):
+    def __init__(self, config: IntegrationConfig | None = None):
         """Initialize analytics engine."""
         self.logger = logging.getLogger(__name__)
         self.config = config or create_default_config()
@@ -46,18 +46,14 @@ class VectorIntegrationAnalyticsEngine:
 
         self.logger.info("Vector Integration Analytics Engine initialized")
 
-    def analyze_performance_data(
-        self, metrics_data: List[PerformanceMetrics]
-    ) -> Dict[str, Any]:
+    def analyze_performance_data(self, metrics_data: list[PerformanceMetrics]) -> dict[str, Any]:
         """Comprehensive analysis of performance data."""
         try:
             # Perform trend analysis
             trends = self.trend_analyzer.get_trend_summary(metrics_data)
 
             # Generate forecasts
-            forecasts = self.forecast_generator.generate_multi_metric_forecast(
-                metrics_data
-            )
+            forecasts = self.forecast_generator.generate_multi_metric_forecast(metrics_data)
 
             # Generate recommendations
             trend_objects = {
@@ -71,9 +67,7 @@ class VectorIntegrationAnalyticsEngine:
             # Compile results
             analysis_result = {
                 "trends": trends,
-                "forecasts": {
-                    name: forecast.to_dict() for name, forecast in forecasts.items()
-                },
+                "forecasts": {name: forecast.to_dict() for name, forecast in forecasts.items()},
                 "recommendations": [rec.to_dict() for rec in recommendations],
                 "analysis_timestamp": datetime.now().isoformat(),
                 "total_metrics": len(metrics_data),
@@ -92,20 +86,20 @@ class VectorIntegrationAnalyticsEngine:
             return {"error": str(e)}
 
     def get_trend_analysis(
-        self, metrics_data: List[PerformanceMetrics], metric_name: str
-    ) -> Optional[TrendAnalysis]:
+        self, metrics_data: list[PerformanceMetrics], metric_name: str
+    ) -> TrendAnalysis | None:
         """Get trend analysis for specific metric."""
         return self.trend_analyzer.analyze_trend(metrics_data, metric_name)
 
     def get_performance_forecast(
-        self, metrics_data: List[PerformanceMetrics], metric_name: str
-    ) -> Optional[PerformanceForecast]:
+        self, metrics_data: list[PerformanceMetrics], metric_name: str
+    ) -> PerformanceForecast | None:
         """Get performance forecast for specific metric."""
         return self.forecast_generator.generate_forecast(metrics_data, metric_name)
 
     def get_optimization_recommendations(
-        self, metrics_data: List[PerformanceMetrics]
-    ) -> List[OptimizationRecommendation]:
+        self, metrics_data: list[PerformanceMetrics]
+    ) -> list[OptimizationRecommendation]:
         """Get optimization recommendations."""
         trends = {}
         for metric in metrics_data:
@@ -116,7 +110,7 @@ class VectorIntegrationAnalyticsEngine:
 
         return self.recommendation_engine.generate_recommendations(metrics_data, trends)
 
-    def get_analytics_summary(self) -> Dict[str, Any]:
+    def get_analytics_summary(self) -> dict[str, Any]:
         """Get comprehensive analytics summary."""
         return {
             "trends": {
@@ -128,18 +122,12 @@ class VectorIntegrationAnalyticsEngine:
                 "generator_status": "active",
             },
             "recommendations": {
-                "cached_count": len(
-                    self.recommendation_engine.get_latest_recommendations()
-                ),
+                "cached_count": len(self.recommendation_engine.get_latest_recommendations()),
                 "engine_status": "active",
             },
             "configuration": {
-                "min_data_points_for_analysis": (
-                    self.config.min_data_points_for_analysis
-                ),
-                "min_data_points_for_forecast": (
-                    self.config.min_data_points_for_forecast
-                ),
+                "min_data_points_for_analysis": (self.config.min_data_points_for_analysis),
+                "min_data_points_for_forecast": (self.config.min_data_points_for_forecast),
                 "forecast_horizon_hours": self.config.forecast_horizon_hours,
             },
         }
@@ -151,34 +139,28 @@ class VectorIntegrationAnalyticsEngine:
         self.recommendation_engine.clear_recommendation_cache()
         self.logger.info("All analytics caches cleared")
 
-    def get_cached_trends(self) -> Dict[str, TrendAnalysis]:
+    def get_cached_trends(self) -> dict[str, TrendAnalysis]:
         """Get cached trend analyses."""
         return self.trend_analyzer.get_cached_trends()
 
-    def get_cached_forecasts(self) -> Dict[str, PerformanceForecast]:
+    def get_cached_forecasts(self) -> dict[str, PerformanceForecast]:
         """Get cached forecasts."""
         return self.forecast_generator.get_cached_forecasts()
 
-    def get_latest_recommendations(self) -> List[OptimizationRecommendation]:
+    def get_latest_recommendations(self) -> list[OptimizationRecommendation]:
         """Get latest optimization recommendations."""
         return self.recommendation_engine.get_latest_recommendations()
 
     def validate_forecast_accuracy(
-        self, forecast: PerformanceForecast, actual_values: List[float]
+        self, forecast: PerformanceForecast, actual_values: list[float]
     ) -> float:
         """Validate forecast accuracy against actual values."""
-        return self.forecast_generator.validate_forecast_accuracy(
-            forecast, actual_values
-        )
+        return self.forecast_generator.validate_forecast_accuracy(forecast, actual_values)
 
-    def get_recommendations_by_priority(
-        self, priority: str
-    ) -> List[OptimizationRecommendation]:
+    def get_recommendations_by_priority(self, priority: str) -> list[OptimizationRecommendation]:
         """Get recommendations by priority level."""
         return self.recommendation_engine.get_recommendations_by_priority(priority)
 
-    def get_recommendations_by_category(
-        self, category: str
-    ) -> List[OptimizationRecommendation]:
+    def get_recommendations_by_category(self, category: str) -> list[OptimizationRecommendation]:
         """Get recommendations by category."""
         return self.recommendation_engine.get_recommendations_by_category(category)

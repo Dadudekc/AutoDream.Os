@@ -9,13 +9,16 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 License: MIT
 """
 
-from .agent_communication_engine_core import AgentCommunicationEngineCore
-from .agent_communication_engine_operations import AgentCommunicationEngineOperations
+try:
+    from .agent_communication_engine_core import AgentCommunicationEngineCore
+    from .agent_communication_engine_operations import AgentCommunicationEngineOperations
+except ImportError:
+    # Fallback for direct execution
+    from agent_communication_engine_core import AgentCommunicationEngineCore
+    from agent_communication_engine_operations import AgentCommunicationEngineOperations
 
 
-class AgentCommunicationEngine(
-    AgentCommunicationEngineCore, AgentCommunicationEngineOperations
-):
+class AgentCommunicationEngine(AgentCommunicationEngineCore, AgentCommunicationEngineOperations):
     """Unified agent communication engine with core and operations functionality."""
 
     def __init__(self) -> None:

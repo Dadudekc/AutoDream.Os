@@ -18,11 +18,11 @@ Author: Agent-3 (DevOps Specialist)
 License: MIT
 """
 
-import time
 import logging
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Optional, Dict, List, Any, Tuple
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -37,18 +37,24 @@ _unified_config = get_enhanced_config()
 @dataclass
 class BrowserConfig:
     """Configuration for browser operations with enhanced config integration."""
+
     headless: bool = False  # Use enhanced config for browser settings
-    user_data_dir: Optional[str] = None
-    window_size: Tuple[int, int] = (1920, 1080)
-    timeout: float = _unified_config.get_timeout_config().get('SCRAPE_TIMEOUT', 30.0)
-    implicit_wait: float = _unified_config.get_timeout_config().get('QUALITY_CHECK_INTERVAL', 10.0)
-    page_load_timeout: float = _unified_config.get_timeout_config().get('RESPONSE_WAIT_TIMEOUT', 120.0)
+    user_data_dir: str | None = None
+    window_size: tuple[int, int] = (1920, 1080)
+    timeout: float = _unified_config.get_timeout_config().get("SCRAPE_TIMEOUT", 30.0)
+    implicit_wait: float = _unified_config.get_timeout_config().get("QUALITY_CHECK_INTERVAL", 10.0)
+    page_load_timeout: float = _unified_config.get_timeout_config().get(
+        "RESPONSE_WAIT_TIMEOUT", 120.0
+    )
 
 
 @dataclass
 class TheaConfig:
     """Configuration for Thea Manager interactions with enhanced config integration."""
-    conversation_url: str = "https://chat.openai.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
+
+    conversation_url: str = (
+        "https://chat.openai.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
+    )
     cookie_file: str = "data/thea_cookies.json"
     auto_save_cookies: bool = True
     rate_limit_requests_per_minute: int = 10
@@ -58,6 +64,7 @@ class TheaConfig:
 @dataclass
 class SessionInfo:
     """Session information."""
+
     session_id: str
     service_name: str
     status: str
@@ -69,8 +76,9 @@ class SessionInfo:
 @dataclass
 class RateLimitStatus:
     """Rate limit status information."""
+
     requests_remaining: int
-    reset_time: Optional[float] = None
+    reset_time: float | None = None
     is_rate_limited: bool = False
 
 
@@ -108,7 +116,7 @@ class BrowserAdapter(ABC):
         pass
 
     @abstractmethod
-    def find_elements(self, selector: str) -> List[Any]:
+    def find_elements(self, selector: str) -> list[Any]:
         """Find elements by CSS selector."""
         pass
 
@@ -139,12 +147,12 @@ class ChromeBrowserAdapter(BrowserAdapter):
 
             options = Options()
             if config.headless:
-                options.add_argument('--headless')
+                options.add_argument("--headless")
             if config.user_data_dir:
-                options.add_argument(f'--user-data-dir={config.user_data_dir}')
-            options.add_argument(f'--window-size={config.window_size[0]},{config.window_size[1]}')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
+                options.add_argument(f"--user-data-dir={config.user_data_dir}")
+            options.add_argument(f"--window-size={config.window_size[0]},{config.window_size[1]}")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
 
             self.driver = webdriver.Chrome(options=options)
             self.driver.implicitly_wait(config.implicit_wait)
@@ -196,16 +204,18 @@ class ChromeBrowserAdapter(BrowserAdapter):
             return None
         try:
             from selenium.webdriver.common.by import By
+
             return self.driver.find_element(By.CSS_SELECTOR, selector)
         except Exception:
             return None
 
-    def find_elements(self, selector: str) -> List[Any]:
+    def find_elements(self, selector: str) -> list[Any]:
         """Find elements by CSS selector."""
         if not self.driver:
             return []
         try:
             from selenium.webdriver.common.by import By
+
             return self.driver.find_elements(By.CSS_SELECTOR, selector)
         except Exception:
             return []
@@ -224,7 +234,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Check if browser is running."""
         return self.driver is not None
 
-    def get_cookies(self) -> List[Dict]:
+    def get_cookies(self) -> list[dict]:
         """Get cookies from browser."""
         if not self.driver:
             return []
@@ -234,7 +244,7 @@ class ChromeBrowserAdapter(BrowserAdapter):
             logger.error(f"Failed to get cookies: {e}")
             return []
 
-    def add_cookies(self, cookies: List[Dict]) -> None:
+    def add_cookies(self, cookies: list[dict]) -> None:
         """Add cookies to browser."""
         if not self.driver:
             return
@@ -252,7 +262,7 @@ class CookieManager:
         """Initialize cookie manager."""
         self.cookie_file = cookie_file
         self.auto_save = auto_save
-        self.cookies: Dict[str, List[Dict]] = {}
+        self.cookies: dict[str, list[dict]] = {}
 
     def save_cookies(self, browser_adapter: BrowserAdapter, service_name: str) -> bool:
         """Save cookies for a service."""
@@ -301,7 +311,7 @@ class CookieManager:
             import os
 
             os.makedirs(os.path.dirname(self.cookie_file), exist_ok=True)
-            with open(self.cookie_file, 'w') as f:
+            with open(self.cookie_file, "w") as f:
                 json.dump(self.cookies, f, indent=2)
             return True
 
@@ -316,7 +326,7 @@ class CookieManager:
             import os
 
             if os.path.exists(self.cookie_file):
-                with open(self.cookie_file, 'r') as f:
+                with open(self.cookie_file) as f:
                     self.cookies = json.load(f)
                 return True
             return False
@@ -332,17 +342,15 @@ class SessionManager:
     def __init__(self, config: TheaConfig):
         """Initialize session manager."""
         self.config = config
-        self.sessions: Dict[str, SessionInfo] = {}
-        self.rate_limits: Dict[str, RateLimitStatus] = {}
+        self.sessions: dict[str, SessionInfo] = {}
+        self.rate_limits: dict[str, RateLimitStatus] = {}
 
-    def create_session(self, service_name: str) -> Optional[str]:
+    def create_session(self, service_name: str) -> str | None:
         """Create a new session for a service."""
         session_id = f"{service_name}_{int(time.time())}_{hash(service_name) % 1000}"
 
         session_info = SessionInfo(
-            session_id=session_id,
-            service_name=service_name,
-            status="active"
+            session_id=session_id, service_name=service_name, status="active"
         )
 
         self.sessions[session_id] = session_info
@@ -353,7 +361,7 @@ class SessionManager:
         logger.info(f"✅ Created session {session_id} for {service_name}")
         return session_id
 
-    def can_make_request(self, service_name: str, session_id: str) -> Tuple[bool, str]:
+    def can_make_request(self, service_name: str, session_id: str) -> tuple[bool, str]:
         """Check if a request can be made."""
         if session_id not in self.sessions:
             return False, "Session not found"
@@ -398,7 +406,7 @@ class SessionManager:
                     rate_limit.requests_remaining = self.config.rate_limit_requests_per_minute
                     rate_limit.reset_time = None
 
-    def get_session_info(self, session_id: str) -> Dict[str, Any]:
+    def get_session_info(self, session_id: str) -> dict[str, Any]:
         """Get session information."""
         if session_id in self.sessions:
             session = self.sessions[session_id]
@@ -408,18 +416,18 @@ class SessionManager:
                 "status": session.status,
                 "created_at": session.created_at,
                 "last_activity": session.last_activity,
-                "request_count": session.request_count
+                "request_count": session.request_count,
             }
         return {"error": "Session not found"}
 
-    def get_rate_limit_status(self, service_name: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Get rate limit status for a service."""
         if service_name in self.rate_limits:
             rate_limit = self.rate_limits[service_name]
             return {
                 "requests_remaining": rate_limit.requests_remaining,
                 "reset_time": rate_limit.reset_time,
-                "is_rate_limited": rate_limit.is_rate_limited
+                "is_rate_limited": rate_limit.is_rate_limited,
             }
         return {"error": "Service not configured"}
 
@@ -433,7 +441,7 @@ class BrowserOperations:
         self.config = config
         self.last_action_time = None
 
-    def navigate_to_conversation(self, url: Optional[str] = None) -> bool:
+    def navigate_to_conversation(self, url: str | None = None) -> bool:
         """Navigate to conversation page."""
         target_url = url or self.config.conversation_url
         success = self.browser.navigate(target_url)
@@ -448,7 +456,9 @@ class BrowserOperations:
                 return False
         return False
 
-    def send_message(self, message: str, input_selector: str = "textarea", send_selector: str = "button") -> bool:
+    def send_message(
+        self, message: str, input_selector: str = "textarea", send_selector: str = "button"
+    ) -> bool:
         """Send a message."""
         try:
             # Find input field
@@ -478,7 +488,9 @@ class BrowserOperations:
             logger.error(f"❌ Failed to send message: {e}")
             return False
 
-    def wait_for_response_ready(self, timeout: float = 30.0, input_selector: str = "textarea") -> bool:
+    def wait_for_response_ready(
+        self, timeout: float = 30.0, input_selector: str = "textarea"
+    ) -> bool:
         """Wait for response to be ready."""
         start_time = time.time()
         while time.time() - start_time < timeout:
@@ -507,30 +519,32 @@ class BrowserOperations:
         except Exception:
             return False
 
-    def get_page_status(self, input_selector: str = "textarea") -> Dict[str, Any]:
+    def get_page_status(self, input_selector: str = "textarea") -> dict[str, Any]:
         """Get current page status."""
         try:
             return {
-                'url': self.browser.get_current_url(),
-                'title': self.browser.get_title(),
-                'input_available': self._is_input_available(input_selector),
-                'last_action': self.last_action_time,
-                'ready_for_input': self.wait_for_response_ready(5.0, input_selector)
+                "url": self.browser.get_current_url(),
+                "title": self.browser.get_title(),
+                "input_available": self._is_input_available(input_selector),
+                "last_action": self.last_action_time,
+                "ready_for_input": self.wait_for_response_ready(5.0, input_selector),
             }
         except Exception as e:
             return {
-                'error': str(e),
-                'url': 'unknown',
-                'title': 'unknown',
-                'input_available': False,
-                'ready_for_input': False
+                "error": str(e),
+                "url": "unknown",
+                "title": "unknown",
+                "input_available": False,
+                "ready_for_input": False,
             }
 
 
 class UnifiedBrowserService:
     """Main unified browser service interface."""
 
-    def __init__(self, browser_config: Optional[BrowserConfig] = None, thea_config: Optional[TheaConfig] = None):
+    def __init__(
+        self, browser_config: BrowserConfig | None = None, thea_config: TheaConfig | None = None
+    ):
         """Initialize unified browser service."""
         self.browser_config = browser_config or BrowserConfig()
         self.thea_config = thea_config or TheaConfig()
@@ -538,8 +552,7 @@ class UnifiedBrowserService:
         # Initialize components
         self.browser_adapter = ChromeBrowserAdapter()
         self.cookie_manager = CookieManager(
-            cookie_file=self.thea_config.cookie_file,
-            auto_save=self.thea_config.auto_save_cookies
+            cookie_file=self.thea_config.cookie_file, auto_save=self.thea_config.auto_save_cookies
         )
         self.session_manager = SessionManager(self.thea_config)
         self.operations = BrowserOperations(self.browser_adapter, self.thea_config)
@@ -555,11 +568,11 @@ class UnifiedBrowserService:
         """Stop the browser."""
         self.browser_adapter.stop()
 
-    def create_session(self, service_name: str) -> Optional[str]:
+    def create_session(self, service_name: str) -> str | None:
         """Create a new browser session."""
         return self.session_manager.create_session(service_name)
 
-    def navigate_to_conversation(self, url: Optional[str] = None) -> bool:
+    def navigate_to_conversation(self, url: str | None = None) -> bool:
         """Navigate to conversation page."""
         return self.operations.navigate_to_conversation(url)
 
@@ -579,7 +592,7 @@ class UnifiedBrowserService:
         """Load cookies for a service."""
         return self.cookie_manager.load_cookies(self.browser_adapter, service_name)
 
-    def can_make_request(self, service_name: str, session_id: str) -> Tuple[bool, str]:
+    def can_make_request(self, service_name: str, session_id: str) -> tuple[bool, str]:
         """Check if a request can be made."""
         return self.session_manager.can_make_request(service_name, session_id)
 
@@ -587,15 +600,15 @@ class UnifiedBrowserService:
         """Record a request."""
         self.session_manager.record_request(service_name, session_id, success)
 
-    def get_session_info(self, session_id: str) -> Dict[str, Any]:
+    def get_session_info(self, session_id: str) -> dict[str, Any]:
         """Get session information."""
         return self.session_manager.get_session_info(session_id)
 
-    def get_rate_limit_status(self, service_name: str) -> Dict[str, Any]:
+    def get_rate_limit_status(self, service_name: str) -> dict[str, Any]:
         """Get rate limit status."""
         return self.session_manager.get_rate_limit_status(service_name)
 
-    def get_page_status(self) -> Dict[str, Any]:
+    def get_page_status(self) -> dict[str, Any]:
         """Get current page status."""
         return self.operations.get_page_status()
 
@@ -607,7 +620,7 @@ class UnifiedBrowserService:
         """Check if there's a valid session."""
         return self.cookie_manager.has_valid_session(service_name)
 
-    def get_browser_info(self) -> Dict[str, Any]:
+    def get_browser_info(self) -> dict[str, Any]:
         """Get comprehensive browser information."""
         return {
             "browser_running": self.is_browser_running(),
@@ -615,14 +628,14 @@ class UnifiedBrowserService:
             "page_title": self.browser_adapter.get_title(),
             "sessions": len(self.session_manager.sessions),
             "services_with_cookies": list(self.cookie_manager.cookies.keys()),
-            "page_status": self.get_page_status()
+            "page_status": self.get_page_status(),
         }
 
 
 def create_browser_service(
     headless: bool = False,
-    user_data_dir: Optional[str] = None,
-    conversation_url: str = "https://chat.openai.com/"
+    user_data_dir: str | None = None,
+    conversation_url: str = "https://chat.openai.com/",
 ) -> UnifiedBrowserService:
     """Factory function to create browser service."""
     browser_config = BrowserConfig(headless=headless, user_data_dir=user_data_dir)
@@ -630,7 +643,7 @@ def create_browser_service(
     return UnifiedBrowserService(browser_config, thea_config)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Example usage
     service = create_browser_service(headless=True)
 

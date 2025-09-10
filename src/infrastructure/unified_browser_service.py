@@ -27,21 +27,28 @@ from typing import Optional, Dict, List, Any, Tuple
 logger = logging.getLogger(__name__)
 
 
+# Import enhanced unified configuration system
+from ..core.enhanced_unified_config import get_enhanced_config
+
+# Get enhanced unified config instance
+_unified_config = get_enhanced_config()
+
+
 @dataclass
 class BrowserConfig:
-    """Configuration for browser operations."""
-    headless: bool = False
+    """Configuration for browser operations with enhanced config integration."""
+    headless: bool = False  # Use enhanced config for browser settings
     user_data_dir: Optional[str] = None
     window_size: Tuple[int, int] = (1920, 1080)
-    timeout: float = 30.0
-    implicit_wait: float = 10.0
-    page_load_timeout: float = 30.0
+    timeout: float = _unified_config.get_timeout_config().get('SCRAPE_TIMEOUT', 30.0)
+    implicit_wait: float = _unified_config.get_timeout_config().get('QUALITY_CHECK_INTERVAL', 10.0)
+    page_load_timeout: float = _unified_config.get_timeout_config().get('RESPONSE_WAIT_TIMEOUT', 120.0)
 
 
 @dataclass
 class TheaConfig:
-    """Configuration for Thea Manager interactions."""
-    conversation_url: str = "https://chat.openai.com/"
+    """Configuration for Thea Manager interactions with enhanced config integration."""
+    conversation_url: str = "https://chat.openai.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
     cookie_file: str = "data/thea_cookies.json"
     auto_save_cookies: bool = True
     rate_limit_requests_per_minute: int = 10
@@ -188,7 +195,8 @@ class ChromeBrowserAdapter(BrowserAdapter):
         if not self.driver:
             return None
         try:
-            return self.driver.find_element_by_css_selector(selector)
+            from selenium.webdriver.common.by import By
+            return self.driver.find_element(By.CSS_SELECTOR, selector)
         except Exception:
             return None
 
@@ -197,7 +205,8 @@ class ChromeBrowserAdapter(BrowserAdapter):
         if not self.driver:
             return []
         try:
-            return self.driver.find_elements_by_css_selector(selector)
+            from selenium.webdriver.common.by import By
+            return self.driver.find_elements(By.CSS_SELECTOR, selector)
         except Exception:
             return []
 
@@ -215,6 +224,26 @@ class ChromeBrowserAdapter(BrowserAdapter):
         """Check if browser is running."""
         return self.driver is not None
 
+    def get_cookies(self) -> List[Dict]:
+        """Get cookies from browser."""
+        if not self.driver:
+            return []
+        try:
+            return self.driver.get_cookies()
+        except Exception as e:
+            logger.error(f"Failed to get cookies: {e}")
+            return []
+
+    def add_cookies(self, cookies: List[Dict]) -> None:
+        """Add cookies to browser."""
+        if not self.driver:
+            return
+        for cookie in cookies:
+            try:
+                self.driver.add_cookie(cookie)
+            except Exception as e:
+                logger.error(f"Failed to add cookie: {e}")
+
 
 class CookieManager:
     """Manages browser cookies for sessions."""
@@ -231,9 +260,10 @@ class CookieManager:
             return False
 
         try:
-            # Get cookies from browser (this would need to be implemented in adapter)
-            cookies = []  # browser_adapter.get_cookies()
-            self.cookies[service_name] = cookies
+            # Get cookies from browser
+            cookies = browser_adapter.get_cookies()
+            if cookies:
+                self.cookies[service_name] = cookies
 
             if self.auto_save:
                 return self._persist_cookies()
@@ -251,8 +281,8 @@ class CookieManager:
 
         try:
             if service_name in self.cookies:
-                # Load cookies into browser (this would need to be implemented in adapter)
-                # browser_adapter.add_cookies(self.cookies[service_name])
+                # Load cookies into browser
+                browser_adapter.add_cookies(self.cookies[service_name])
                 return True
             return False
 

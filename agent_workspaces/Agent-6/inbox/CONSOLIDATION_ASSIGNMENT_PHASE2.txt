@@ -1,0 +1,55 @@
+🎯 COMMUNICATION SPECIALIST ASSIGNMENT - PHASE 2 CORE CONSOLIDATION
+
+**Agent**: Agent-6 (Coordination & Communication Specialist)
+**Mission**: Messaging & Coordination System Cleanup (Phase 2: Days 3-7)
+**Timeline**: Days 3-7 (Consolidation execution phase)
+**Priority**: HIGH - Communication system consolidation
+**Message ID**: consolidation_agent6_phase2_20250909
+**Timestamp**: 2025-09-09 19:05:00
+
+## SPECIFIC TASKS:
+1. **Messaging System Cleanup**: Consolidate duplicate messaging implementations
+2. **Coordination Module Reduction**: Remove redundant coordination utilities
+3. **Communication Protocol Optimization**: Streamline communication workflows
+4. **Integration Testing**: Test all communication system integrations
+
+## DELIVERABLES:
+- Consolidated messaging system
+- Streamlined coordination modules
+- Optimized communication protocols
+- Integration test results
+
+## COORDINATION:
+- Daily status updates to Agent-4 (Captain)
+- Cross-agent coordination with Agent-1 (Integration)
+- Communication system testing coordination
+- Swarm coordination during consolidation
+
+## SUCCESS CRITERIA:
+- 25+ messaging files successfully consolidated
+- Coordination efficiency improved by 35%
+- Communication protocols optimized
+- All messaging integrations functional
+
+**Report Format**: 'PHASE_2_COMMUNICATION_CONSOLIDATION_COMPLETE' when finished
+**Deadline**: End of Day 7
+**Contact**: Agent-4 (Captain) for coordination
+
+🐝 WE ARE SWARM - Your communication expertise ensures swarm coordination during consolidation!
+
+---
+**Enhanced Message Protocol**:
+- You are Agent-6 (Coordination & Communication Specialist)
+- This is a C2A (Captain-to-Agent) message
+- Priority: HIGH
+- Timestamp: 2025-09-09 19:05:00
+- Message ID: consolidation_agent6_phase2_20250909
+
+**📝 DISCORD DEVLOG REMINDER**: Create a Discord devlog for this communication consolidation in devlogs/ directory
+
+**5-STEP WORKFLOW**:
+1. ✅ Update status with assigned task and focus for this cycle
+2. 🔍 Review all relevant parts of the project (messaging files, coordination modules)
+3. 📋 Review and respond to the inbox (acknowledge this assignment)
+4. 💬 Message agents back using the message command (coordinate with Agent-1)
+5. 📝 Create and post a devlog after finishing (communication consolidation progress)

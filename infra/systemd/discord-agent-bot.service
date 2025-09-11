@@ -1,0 +1,18 @@
+# File: infra/systemd/discord-agent-bot.service
+[Unit]
+Description=V2_SWARM Discord Agent Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/opt/v2_swarm
+EnvironmentFile=/opt/v2_swarm/.env
+ExecStart=/usr/bin/python3 scripts/execution/run_discord_agent_bot.py
+Restart=always
+RestartSec=5
+SyslogIdentifier=discord-agent-bot
+
+[Install]
+WantedBy=multi-user.target

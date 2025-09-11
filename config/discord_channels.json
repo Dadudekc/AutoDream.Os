@@ -1,0 +1,178 @@
+{
+  "agent-1": {
+    "name": "agent-1",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-1 Integration Specialist Channel",
+    "agent": "Agent-1",
+    "color": 1752220,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-2": {
+    "name": "agent-2",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-2 Architecture & Design Channel",
+    "agent": "Agent-2",
+    "color": 3447003,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-3": {
+    "name": "agent-3",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-3 DevOps Specialist Channel",
+    "agent": "Agent-3",
+    "color": 10181046,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-4": {
+    "name": "agent-4",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-4 QA & Captain Channel",
+    "agent": "Agent-4",
+    "color": 15158332,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-5": {
+    "name": "agent-5",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-5 Channel",
+    "agent": "Agent-5",
+    "color": 15965202,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-6": {
+    "name": "agent-6",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-6 Communication Specialist Channel",
+    "agent": "Agent-6",
+    "color": 2600544,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-7": {
+    "name": "agent-7",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-7 Web Development Channel",
+    "agent": "Agent-7",
+    "color": 9807270,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "agent-8": {
+    "name": "agent-8",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Agent-8 Coordination Channel",
+    "agent": "Agent-8",
+    "color": 9323693,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "swarm-general": {
+    "name": "swarm-general",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "General Swarm Announcements",
+    "agent": null,
+    "color": 3426654,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "swarm-coordination": {
+    "name": "swarm-coordination",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Swarm Coordination Hub",
+    "agent": null,
+    "color": 15105570,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  },
+  "swarm-alerts": {
+    "name": "swarm-alerts",
+    "webhook_url": null,
+    "channel_id": null,
+    "description": "Critical Swarm Alerts",
+    "agent": null,
+    "color": 15158332,
+    "enabled": true,
+    "permissions": {
+      "read_messages": true,
+      "send_messages": true,
+      "embed_links": true,
+      "attach_files": true,
+      "mention_everyone": false
+    }
+  }
+}

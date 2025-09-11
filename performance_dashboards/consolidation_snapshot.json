@@ -1,0 +1,127 @@
+{
+  "timestamp": "2025-09-09T13:25:43.340713",
+  "dashboard_id": "consolidation",
+  "dashboard_data": {
+    "title": "Consolidation Progress Dashboard",
+    "description": "Phase 2 consolidation monitoring and progress tracking",
+    "type": "DashboardType.CONSOLIDATION",
+    "widgets": [
+      "consolidation_progress",
+      "phase_status",
+      "performance_impact",
+      "consolidation_alerts",
+      "file_breakdown",
+      "consolidation_timeline"
+    ],
+    "last_updated": "2025-09-09 13:25:36.224522",
+    "refresh_interval": 60,
+    "widget_data": {
+      "consolidation_progress": {
+        "title": "Consolidation Progress",
+        "type": "chart",
+        "config": {
+          "chart_type": "progress",
+          "show_percentage": true,
+          "target_value": 283,
+          "show_eta": true
+        },
+        "metrics_data": {
+          "files_consolidated": {
+            "value": 68,
+            "unit": "files",
+            "timestamp": "2025-09-09T13:25:36.224522",
+            "trend": null,
+            "priority": "medium",
+            "history": [
+              {
+                "value": 68,
+                "timestamp": "2025-09-09T13:25:36.224522"
+              }
+            ]
+          }
+        }
+      },
+      "phase_status": {
+        "title": "Current Phase Status",
+        "type": "table",
+        "config": {
+          "columns": [
+            "phase",
+            "progress",
+            "status",
+            "eta"
+          ],
+          "highlight_active_phase": true,
+          "show_blockers": true
+        },
+        "metrics_data": {}
+      },
+      "performance_impact": {
+        "title": "Performance Impact",
+        "type": "chart",
+        "config": {
+          "chart_type": "line",
+          "time_range": "2h",
+          "show_baseline_comparison": true,
+          "impact_thresholds": {
+            "warning": 10,
+            "critical": 25
+          }
+        },
+        "metrics_data": {}
+      },
+      "consolidation_alerts": {
+        "title": "Consolidation Alerts",
+        "type": "alert",
+        "config": {
+          "alert_types": [
+            "blocking",
+            "warning",
+            "info"
+          ],
+          "auto_acknowledge_info": true,
+          "escalation_rules": true
+        },
+        "metrics_data": {}
+      },
+      "file_breakdown": {
+        "title": "File Consolidation Breakdown",
+        "type": "chart",
+        "config": {
+          "chart_type": "pie",
+          "show_reduction_percentage": true,
+          "target_reductions": {
+            "core": 70,
+            "services": 62,
+            "utilities": 58,
+            "infrastructure": 58
+          }
+        },
+        "metrics_data": {}
+      },
+      "consolidation_timeline": {
+        "title": "Consolidation Timeline",
+        "type": "chart",
+        "config": {
+          "chart_type": "timeline",
+          "show_milestones": true,
+          "highlight_delays": true,
+          "target_completion": "2025-09-15"
+        },
+        "metrics_data": {}
+      }
+    },
+    "summary": {
+      "progress_percentage": 15.0,
+      "files_consolidated": 42,
+      "current_phase": "Phase 2A",
+      "estimated_completion": "2025-09-15"
+    }
+  },
+  "system_info": {
+    "monitoring_active": true,
+    "update_interval": 30,
+    "active_metrics": 7,
+    "active_alerts": 0
+  }
+}

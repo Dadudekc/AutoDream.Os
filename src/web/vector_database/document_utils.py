@@ -31,7 +31,9 @@ class DocumentUtils:
                     else (
                         "project_docs"
                         if i % 4 == 1
-                        else "development" if i % 4 == 2 else "strategic_oversight"
+                        else "development"
+                        if i % 4 == 2
+                        else "strategic_oversight"
                     )
                 ),
                 tags=[f"tag_{i % 3}"],
@@ -107,7 +109,7 @@ class DocumentUtils:
             tags=data.get("tags", []),
             created_at="2025-01-27T10:00:00Z",
             updated_at=datetime.now().isoformat(),
-            size=f'{len(data.get("content", "")) / 1000:.1f} KB',
+            size=f"{len(data.get('content', '')) / 1000:.1f} KB",
         )
 
     def simulate_delete_document(self, document_id: str) -> bool:

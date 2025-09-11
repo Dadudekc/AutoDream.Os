@@ -13,7 +13,8 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from typing import Any
 
-from ..contracts import ManagerContext, ManagerResult
+from Agent_Cellphone_V2_Repository.src.core.managers.contracts import ManagerContext, ManagerResult
+
 from .base_monitoring_manager import BaseMonitoringManager
 
 
@@ -80,7 +81,7 @@ class MetricsManager(BaseMonitoringManager):
             values = [
                 entry["value"]
                 for entry in filtered_history
-                if isinstance(entry["value"], (int, float))
+                if isinstance(entry["value"], int | float)
             ]
 
             if not values:
@@ -178,12 +179,12 @@ class MetricsManager(BaseMonitoringManager):
             values = [
                 entry["value"]
                 for entry in filtered_history
-                if isinstance(entry["value"], (int, float))
+                if isinstance(entry["value"], int | float)
             ]
-            timestamps = [
+            [
                 entry["timestamp"]
                 for entry in filtered_history
-                if isinstance(entry["value"], (int, float))
+                if isinstance(entry["value"], int | float)
             ]
 
             if len(values) < 2:
@@ -200,7 +201,9 @@ class MetricsManager(BaseMonitoringManager):
             trend_direction = (
                 "increasing"
                 if last_value > first_value
-                else "decreasing" if last_value < first_value else "stable"
+                else "decreasing"
+                if last_value < first_value
+                else "stable"
             )
             trend_magnitude = abs(last_value - first_value) / first_value if first_value != 0 else 0
 
@@ -257,7 +260,7 @@ class MetricsManager(BaseMonitoringManager):
                 # Simple CSV export for numeric metrics
                 csv_lines = ["metric_name,timestamp,value,type"]
                 for name, metric in export_data.items():
-                    if isinstance(metric.get("value"), (int, float)):
+                    if isinstance(metric.get("value"), int | float):
                         csv_lines.append(
                             f"{name},{metric['timestamp']},{metric['value']},{metric.get('type', 'unknown')}"
                         )
@@ -289,7 +292,7 @@ class MetricsManager(BaseMonitoringManager):
         base_status = super().get_status()
         base_status.update(
             {
-                "metric_types": list(set(m.get("type", "unknown") for m in self.metrics.values())),
+                "metric_types": list({m.get("type", "unknown") for m in self.metrics.values()}),
                 "total_history_entries": sum(
                     len(history) for history in self.metric_history.values()
                 ),

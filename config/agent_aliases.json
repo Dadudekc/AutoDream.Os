@@ -1,0 +1,10 @@
+{
+  "Agent-1": ["agent1", "a1", "first", "lead"],
+  "Agent-2": ["agent2", "a2", "second"],
+  "Agent-3": ["agent3", "a3", "third"],
+  "Agent-4": ["agent4", "a4", "fourth", "captain"],
+  "Agent-5": ["agent5", "a5", "fifth", "co"],
+  "Agent-6": ["agent6", "a6", "sixth"],
+  "Agent-7": ["agent7", "a7", "seventh"],
+  "Agent-8": ["agent8", "a8", "eighth"]
+}

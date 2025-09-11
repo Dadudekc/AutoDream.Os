@@ -1,0 +1,69 @@
+{
+  "phase": "pre_consolidation",
+  "procedures": [
+    {
+      "procedure_id": "PROC_PRE_001",
+      "title": "Pre-Consolidation System Health Check",
+      "phase": "pre_consolidation",
+      "description": "Comprehensive system health assessment before consolidation begins",
+      "steps": [
+        "Execute full system health check script",
+        "Verify all monitoring dashboards operational",
+        "Check SLA compliance status",
+        "Validate backup integrity",
+        "Document baseline performance metrics",
+        "Confirm team readiness and communication"
+      ],
+      "prerequisites": [
+        "System monitoring operational",
+        "Backup systems verified",
+        "Team notification sent"
+      ],
+      "success_criteria": [
+        "All health checks pass (no critical alerts)",
+        "SLA compliance \u226599.5%",
+        "Monitoring coverage 100%",
+        "Backup verification successful"
+      ],
+      "rollback_procedures": [
+        "Address any critical health issues",
+        "Delay consolidation until issues resolved",
+        "Escalate to senior leadership if needed"
+      ],
+      "responsible_party": "Operations Team Lead",
+      "estimated_duration": "30 minutes",
+      "risk_level": "low",
+      "last_updated": "2025-09-09T13:26:44.904565",
+      "version": "1.0"
+    },
+    {
+      "procedure_id": "PROC_PRE_002",
+      "title": "Operational Baseline Establishment",
+      "phase": "pre_consolidation",
+      "description": "Establish operational baselines for performance tracking",
+      "steps": [
+        "Collect 24-hour performance baseline",
+        "Document current SLA metrics",
+        "Establish alert thresholds",
+        "Create performance comparison baseline",
+        "Archive baseline data for rollback reference"
+      ],
+      "prerequisites": [
+        "Monitoring system operational",
+        "Performance baseline script ready"
+      ],
+      "success_criteria": [
+        "24-hour baseline data collected",
+        "All key metrics baselined",
+        "Baseline data archived securely"
+      ],
+      "rollback_procedures": [],
+      "responsible_party": "DevOps Engineer",
+      "estimated_duration": "24 hours",
+      "risk_level": "low",
+      "last_updated": "2025-09-09T13:26:44.904565",
+      "version": "1.0"
+    }
+  ],
+  "count": 2
+}

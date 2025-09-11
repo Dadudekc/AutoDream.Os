@@ -1,0 +1,88 @@
+{
+  "timestamp": "2025-09-09T13:25:43.365737",
+  "dashboard_id": "sla_compliance",
+  "dashboard_data": {
+    "title": "SLA Compliance Dashboard",
+    "description": "Service Level Agreement monitoring and compliance tracking",
+    "type": "DashboardType.SLA_COMPLIANCE",
+    "widgets": [
+      "sla_overall_status",
+      "component_sla_status",
+      "sla_violations",
+      "sla_risk_assessment"
+    ],
+    "last_updated": "2025-09-09 13:25:36.224522",
+    "refresh_interval": 300,
+    "widget_data": {
+      "sla_overall_status": {
+        "title": "Overall SLA Status",
+        "type": "gauge",
+        "config": {
+          "gauge_type": "radial",
+          "thresholds": {
+            "warning": 99.5,
+            "critical": 99.0
+          },
+          "target_uptime": 99.9,
+          "show_trend": true
+        },
+        "metrics_data": {}
+      },
+      "component_sla_status": {
+        "title": "Component SLA Status",
+        "type": "table",
+        "config": {
+          "columns": [
+            "component",
+            "tier",
+            "uptime",
+            "compliance",
+            "last_incident"
+          ],
+          "sort_by": "compliance",
+          "highlight_non_compliant": true,
+          "show_trends": true
+        },
+        "metrics_data": {}
+      },
+      "sla_violations": {
+        "title": "SLA Violation History",
+        "type": "chart",
+        "config": {
+          "chart_type": "bar",
+          "time_range": "30d",
+          "show_trend": true,
+          "violation_thresholds": true
+        },
+        "metrics_data": {}
+      },
+      "sla_risk_assessment": {
+        "title": "SLA Risk Assessment",
+        "type": "table",
+        "config": {
+          "risk_levels": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "show_mitigation_actions": true,
+          "highlight_high_risk": true
+        },
+        "metrics_data": {}
+      }
+    },
+    "summary": {
+      "overall_compliance": 97.8,
+      "components_compliant": 3,
+      "components_total": 5,
+      "risk_level": "medium"
+    }
+  },
+  "system_info": {
+    "monitoring_active": true,
+    "update_interval": 30,
+    "active_metrics": 7,
+    "active_alerts": 0
+  }
+}

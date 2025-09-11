@@ -1,0 +1,9 @@
+[
+  {
+    "domain": ".openai.com",
+    "name": "test_cookie",
+    "value": "test_value",
+    "path": "/",
+    "secure": true
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "timestamp": "2025-09-09T13:25:43.368738",
+  "dashboard_id": "alert_management",
+  "dashboard_data": {
+    "title": "Alert Management Dashboard",
+    "description": "Comprehensive alert monitoring and management",
+    "type": "DashboardType.ALERT_MANAGEMENT",
+    "widgets": [
+      "active_alerts_overview",
+      "alert_trends",
+      "alert_distribution",
+      "alert_response_times"
+    ],
+    "last_updated": "2025-09-09 13:25:36.224522",
+    "refresh_interval": 30,
+    "widget_data": {
+      "active_alerts_overview": {
+        "title": "Active Alerts Overview",
+        "type": "table",
+        "config": {
+          "group_by_severity": true,
+          "show_recent_activity": true,
+          "auto_refresh": true,
+          "max_rows": 50
+        },
+        "metrics_data": {}
+      },
+      "alert_trends": {
+        "title": "Alert Trends",
+        "type": "chart",
+        "config": {
+          "chart_type": "line",
+          "time_range": "24h",
+          "show_resolution_trends": true,
+          "highlight_spikes": true
+        },
+        "metrics_data": {}
+      },
+      "alert_distribution": {
+        "title": "Alert Distribution by Component",
+        "type": "chart",
+        "config": {
+          "chart_type": "pie",
+          "show_percentages": true,
+          "highlight_top_contributors": true
+        },
+        "metrics_data": {}
+      },
+      "alert_response_times": {
+        "title": "Alert Response Times",
+        "type": "chart",
+        "config": {
+          "chart_type": "line",
+          "time_range": "7d",
+          "thresholds": {
+            "warning": 300,
+            "critical": 900
+          },
+          "show_sla_compliance": true
+        },
+        "metrics_data": {}
+      }
+    },
+    "summary": {
+      "total_alerts": 0,
+      "critical_alerts": 0,
+      "avg_response_time": 180.0,
+      "alert_trend": "stable"
+    }
+  },
+  "system_info": {
+    "monitoring_active": true,
+    "update_interval": 30,
+    "active_metrics": 7,
+    "active_alerts": 0
+  }
+}

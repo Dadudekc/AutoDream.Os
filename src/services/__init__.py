@@ -2,7 +2,7 @@
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
 # Import only core modules that don't cause circular dependencies
-from . import config, constants
+from . import constants
 
 
 # Lazy imports for modules that may have circular dependencies
@@ -30,11 +30,16 @@ def get_agent_registry():
     return _lazy_import("messaging_agent_registry")
 
 
+def get_config():
+    """Lazy import config to avoid circular dependencies."""
+    return _lazy_import("config")
+
+
 __all__ = [
-    "config",
     "constants",
     "get_agent_status_manager",
     "get_messaging_core",
     "get_vector_database",
     "get_agent_registry",
+    "get_config",
 ]

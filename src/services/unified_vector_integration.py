@@ -130,7 +130,7 @@ class UnifiedVectorIntegration:
 
     def _generate_fallback_embedding(self, text: str) -> list[float]:
         """Generate fallback hash-based embedding."""
-        hash_obj = hashlib.md5(text.encode())
+        hash_obj = hashlib.md5(text.encode(), usedforsecurity=False)
         hash_bytes = hash_obj.digest()
         embedding = []
         for i in range(0, len(hash_bytes), 4):

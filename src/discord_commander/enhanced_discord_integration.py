@@ -18,6 +18,7 @@ License: MIT
 
 import asyncio
 import json
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -224,11 +225,22 @@ class EnhancedDiscordWebhookManager:
         return self.channels.get(channel)
 
     def send_to_channel(self, channel: AgentChannel, message: DiscordMessage) -> bool:
-        """Send message to specific channel."""
+        """Send message to specific channel using webhook or channel ID."""
         config = self.channels.get(channel)
-        if not config or not config.enabled or not config.webhook_url:
+        if not config or not config.enabled:
             return False
 
+        # Try webhook first, then fallback to channel ID messaging
+        if config.webhook_url:
+            return self._send_via_webhook(config, message)
+        elif config.channel_id:
+            return self._send_via_channel_id(config, message, channel)
+        else:
+            print(f"⚠️  No webhook URL or channel ID configured for {channel.value}")
+            return False
+
+    def _send_via_webhook(self, config: DiscordChannelConfig, message: DiscordMessage) -> bool:
+        """Send message via webhook."""
         try:
             payload = {"content": message.content, "embeds": message.embeds, "tts": message.tts}
 
@@ -240,14 +252,106 @@ class EnhancedDiscordWebhookManager:
             response = self.session.post(config.webhook_url, json=payload)
 
             if response.status_code == 204:
-                print(f"✅ Message sent to {channel.value}")
+                print(f"✅ Message sent via webhook to {config.name}")
                 return True
             else:
-                print(f"❌ Failed to send to {channel.value}: {response.status_code}")
+                print(f"❌ Failed to send via webhook to {config.name}: {response.status_code}")
                 return False
 
         except Exception as e:
-            print(f"❌ Error sending to {channel.value}: {e}")
+            print(f"❌ Error sending via webhook to {config.name}: {e}")
+            return False
+
+    def _send_via_channel_id(self, config: DiscordChannelConfig, message: DiscordMessage, channel: AgentChannel) -> bool:
+        """Send message via Discord API using channel ID."""
+        import os
+        import asyncio
+        from typing import Optional
+
+        # Check for Discord bot token
+        bot_token = os.getenv('DISCORD_BOT_TOKEN')
+        if not bot_token:
+            print("❌ Discord Bot Token not found!")
+            print("   Set DISCORD_BOT_TOKEN environment variable")
+            print("   Example: export DISCORD_BOT_TOKEN='your_bot_token_here'")
+            print(f"   Would send to channel: {config.channel_id} ({channel.value})")
+            return False
+
+        try:
+            import discord
+            from discord import Embed
+        except ImportError:
+            print("❌ discord.py library not installed!")
+            print("   Install with: pip install discord.py")
+            print(f"   Would send to channel: {config.channel_id} ({channel.value})")
+            return False
+
+        async def send_discord_message():
+            """Send message to Discord channel asynchronously."""
+            client = discord.Client(intents=discord.Intents.default())
+
+            @client.event
+            async def on_ready():
+                try:
+                    channel_obj = client.get_channel(int(config.channel_id))
+                    if not channel_obj:
+                        print(f"❌ Could not find channel with ID: {config.channel_id}")
+                        await client.close()
+                        return
+
+                    # Prepare message content
+                    content = message.content
+                    username = message.username or "V2_SWARM Bot"
+                    avatar_url = message.avatar_url
+
+                    # Handle embeds if present
+                    if message.embeds:
+                        embed = message.embeds[0]  # Take first embed for simplicity
+                        discord_embed = Embed(
+                            title=embed.get('title', ''),
+                            description=embed.get('description', ''),
+                            color=embed.get('color', 0x3498DB)
+                        )
+
+                        # Add embed fields
+                        if 'fields' in embed:
+                            for field in embed['fields']:
+                                discord_embed.add_field(
+                                    name=field.get('name', ''),
+                                    value=field.get('value', ''),
+                                    inline=field.get('inline', True)
+                                )
+
+                        # Add footer if present
+                        if 'footer' in embed and 'text' in embed['footer']:
+                            discord_embed.set_footer(text=embed['footer']['text'])
+
+                        await channel_obj.send(embed=discord_embed)
+                    else:
+                        # Send plain text message
+                        webhook_payload = {"content": content}
+                        if username != "V2_SWARM Bot":
+                            webhook_payload["username"] = username
+                        if avatar_url:
+                            webhook_payload["avatar_url"] = avatar_url
+
+                        await channel_obj.send(**webhook_payload)
+
+                    print(f"✅ Message sent to Discord channel {config.channel_id} ({channel.value})")
+                    print(f"   Content: {content[:100]}{'...' if len(content) > 100 else ''}")
+                    print(f"   Agent: {config.agent}")
+                    print(f"   Embeds: {len(message.embeds)}")
+
+                except Exception as e:
+                    print(f"❌ Failed to send to Discord channel {config.channel_id}: {e}")
+                finally:
+                    await client.close()
+
+        try:
+            asyncio.run(send_discord_message())
+            return True
+        except Exception as e:
+            print(f"❌ Discord integration failed for channel {config.channel_id}: {e}")
             return False
 
     def test_channel_webhook(self, channel: AgentChannel) -> bool:
@@ -785,6 +889,114 @@ async def start_enhanced_discord_monitoring(check_interval: int = 30):
     """Start enhanced Discord monitoring with agent channels."""
     commander = get_enhanced_discord_commander()
     await commander.start_enhanced_monitoring(check_interval)
+
+
+@dataclass
+class DevlogEntry:
+    """Devlog entry structure."""
+
+    agent_id: str
+    title: str
+    content: str
+    category: str = "general"
+    timestamp: datetime = field(default_factory=datetime.utcnow)
+    filepath: Path | None = None
+
+
+async def send_devlog_to_discord(agent_id: str, devlog_file: str) -> bool:
+    """Send a devlog file to the specified agent's Discord channel.
+
+    Args:
+        agent_id: Agent identifier (Agent-1, Agent-2, etc.)
+        devlog_file: Path to the devlog markdown file
+
+    Returns:
+        bool: Success status
+    """
+    try:
+        # Validate agent_id
+        valid_agents = [f"Agent-{i}" for i in range(1, 9)]
+        if agent_id not in valid_agents:
+            print(f"❌ Invalid agent_id: {agent_id}. Must be one of: {', '.join(valid_agents)}")
+            return False
+
+        # Read devlog file
+        filepath = Path(devlog_file)
+        if not filepath.exists():
+            print(f"❌ Devlog file not found: {devlog_file}")
+            return False
+
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Extract title from first header
+        title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
+        title = title_match.group(1).strip() if title_match else filepath.stem
+
+        # Determine category from content
+        category = "general"
+        content_lower = content.lower()
+        if "consolidation" in content_lower:
+            category = "consolidation"
+        elif "cleanup" in content_lower or "mission" in content_lower:
+            category = "cleanup"
+        elif "coordination" in content_lower:
+            category = "coordination"
+        elif "testing" in content_lower:
+            category = "testing"
+        elif "deployment" in content_lower:
+            category = "deployment"
+
+        # Initialize webhook manager and get channel
+        webhook_manager = EnhancedDiscordWebhookManager()
+        channel = webhook_manager.get_agent_channel(agent_id)
+
+        if not channel:
+            print(f"⚠️  No Discord channel found for {agent_id}")
+            return False
+
+        # Create embed for devlog
+        config = webhook_manager.get_channel_config(channel)
+        color = config.color if config else 0x3498DB
+
+        embed = {
+            "title": f"📝 {title}",
+            "description": content[:1500] + ("..." if len(content) > 1500 else ""),
+            "color": color,
+            "fields": [
+                {"name": "Agent", "value": agent_id, "inline": True},
+                {"name": "Category", "value": category.title(), "inline": True},
+                {
+                    "name": "Timestamp",
+                    "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "inline": True
+                },
+            ],
+            "footer": {
+                "text": f"V2_SWARM DevLog - {agent_id}",
+                "icon_url": "https://i.imgur.com/devlog_icon.png"
+            }
+        }
+
+        message = DiscordMessage(
+            content="",  # Empty content, using embed
+            embeds=[embed],
+            username=f"V2_SWARM DevLog - {agent_id}",
+            avatar_url=f"https://i.imgur.com/{agent_id.lower()}_avatar.png"
+        )
+
+        success = webhook_manager.send_to_channel(channel, message)
+
+        if success:
+            print(f"✅ DevLog sent: {agent_id} -> {channel.value} ({title})")
+        else:
+            print(f"❌ Failed to send devlog to Discord")
+
+        return success
+
+    except Exception as e:
+        print(f"❌ Error sending devlog: {e}")
+        return False
 
 
 if __name__ == "__main__":

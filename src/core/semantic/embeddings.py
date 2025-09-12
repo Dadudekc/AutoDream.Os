@@ -21,7 +21,7 @@ class EmbeddingProvider:
         embeddings = []
         for text in texts:
             # Simple hash-based embedding for demonstration
-            hash_obj = hashlib.md5(text.encode())
+            hash_obj = hashlib.md5(text.encode(), usedforsecurity=False)
             hash_bytes = hash_obj.digest()
 
             # Convert to numpy array and normalize

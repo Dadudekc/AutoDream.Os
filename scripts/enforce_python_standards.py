@@ -182,7 +182,7 @@ class PythonStandardEnforcer:
     def _check_coding_violations(self, file_path: str, content: str, lines: list[str]) -> None:
         """Check for other coding standard violations."""
         # Check for print statements in non-test files
-        if "get_logger(__name__).info(" in content and "test" not in file_path.lower():
+        if "print(" in content and "test" not in file_path.lower():
             self.violations.append(
                 Violation(
                     file_path=file_path,
@@ -193,7 +193,7 @@ class PythonStandardEnforcer:
                 )
             )
 
-        # Check for TODO comments without assignee
+        # Check for TODO comments without proper formatting
         for i, line in enumerate(lines, 1):
             if "TODO" in line and "TODO:" not in line:
                 self.violations.append(

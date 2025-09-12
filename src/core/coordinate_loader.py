@@ -51,11 +51,35 @@ class CoordinateLoader:
             return self.coordinates[agent_id]["coords"]
         raise ValueError(f"No coordinates found for agent {agent_id}")
 
-    def get_onboarding_coordinates(self, agent_id: str) -> tuple[int, int]:
-        """Get onboarding coordinates for agent."""
-        # For now, use the same coordinates as chat coordinates
-        # In a real implementation, this would be different onboarding-specific coordinates
-        return self.get_chat_coordinates(agent_id)
+    def get_onboarding_coordinates(self, agent_id: str) -> dict[str, tuple[int, int]]:
+        """Get both chat and onboarding coordinates for agent."""
+        if agent_id not in self.coordinates:
+            raise ValueError(f"No coordinates found for agent {agent_id}")
+
+        agent_info = self.coordinates[agent_id]
+        chat_coords = agent_info["coords"]
+
+        # Load full coordinate data from config file to get onboarding coordinates
+        coord_file = Path(__file__).parent.parent.parent / "config" / "coordinates.json"
+        if coord_file.exists():
+            import json
+            data = json.loads(coord_file.read_text(encoding="utf-8"))
+            agent_data = data.get("agents", {}).get(agent_id, {})
+
+            onboarding_coords = agent_data.get("onboarding_input_coords", chat_coords)
+            if isinstance(onboarding_coords, list):
+                onboarding_coords = tuple(onboarding_coords)
+
+            return {
+                "chat_input_coordinates": chat_coords,
+                "onboarding_coordinates": onboarding_coords
+            }
+
+        # Fallback to same coordinates for both
+        return {
+            "chat_input_coordinates": chat_coords,
+            "onboarding_coordinates": chat_coords
+        }
 
     def get_agent_description(self, agent_id: str) -> str:
         """Get agent description."""

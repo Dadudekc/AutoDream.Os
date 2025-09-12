@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import logging
 import sqlite3
+import re
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -29,6 +30,28 @@ from uuid import uuid4
 
 class DatabaseConnectionError(Exception):
     """Database connection error."""
+
+
+class SQLQueryBuilder:
+    """Secure SQL query builder with proper parameterization."""
+
+    # Table name validation regex - only allow alphanumeric, underscore, and hyphen
+    TABLE_NAME_PATTERN = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_-]*$')
+
+    @staticmethod
+    def validate_table_name(table: str) -> str:
+        """Validate table name to prevent SQL injection."""
+        if not table or not isinstance(table, str):
+            raise ValueError("Invalid table name: must be non-empty string")
+
+        if not SQLQueryBuilder.TABLE_NAME_PATTERN.match(table):
+            raise ValueError(f"Invalid table name: '{table}' contains invalid characters")
+
+        # Additional length check
+        if len(table) > 128:
+            raise ValueError(f"Table name too long: '{table}' exceeds 128 characters")
+
+        return table
 
     pass
 
@@ -160,10 +183,11 @@ class DatabaseConnectionManager:
         return self._stats
 
 
-class DatabaseQueryBuilder:
-    """SQL query builder."""
+class DatabaseQueryBuilder(SQLQueryBuilder):
+    """Secure SQL query builder with proper parameterization."""
 
     def __init__(self):
+        super().__init__()
         self.logger = logging.getLogger(__name__)
 
     def build_select(
@@ -174,33 +198,40 @@ class DatabaseQueryBuilder:
         order_by: list[str] = None,
         limit: int = None,
         offset: int = None,
-    ) -> str:
-        """Build SELECT query."""
+    ) -> tuple[str, list]:
+        """Build secure SELECT query with proper parameterization."""
+        # Validate table name
+        table = self.validate_table_name(table)
+
         columns_str = "*" if not columns else ", ".join(columns)
         query = f"SELECT {columns_str} FROM {table}"
+        values = []
 
         if where:
             where_clauses = []
             for key, value in where.items():
-                if isinstance(value, str):
-                    where_clauses.append(f"{key} = '{value}'")
-                else:
-                    where_clauses.append(f"{key} = {value}")
+                where_clauses.append(f"{key} = ?")
+                values.append(value)
             query += f" WHERE {' AND '.join(where_clauses)}"
 
         if order_by:
             query += f" ORDER BY {', '.join(order_by)}"
 
-        if limit:
-            query += f" LIMIT {limit}"
+        if limit is not None:
+            query += f" LIMIT ?"
+            values.append(limit)
 
-        if offset:
-            query += f" OFFSET {offset}"
+        if offset is not None:
+            query += f" OFFSET ?"
+            values.append(offset)
 
-        return query
+        return query, values
 
     def build_insert(self, table: str, data: dict[str, Any]) -> tuple[str, list]:
-        """Build INSERT query."""
+        """Build secure INSERT query."""
+        # Validate table name
+        table = self.validate_table_name(table)
+
         columns = list(data.keys())
         placeholders = ["?" for _ in columns]
         values = list(data.values())
@@ -211,7 +242,10 @@ class DatabaseQueryBuilder:
     def build_update(
         self, table: str, data: dict[str, Any], where: dict[str, Any]
     ) -> tuple[str, list]:
-        """Build UPDATE query."""
+        """Build secure UPDATE query."""
+        # Validate table name
+        table = self.validate_table_name(table)
+
         set_clauses = []
         values = []
 
@@ -231,19 +265,21 @@ class DatabaseQueryBuilder:
         return query, values
 
     def build_delete(self, table: str, where: dict[str, Any]) -> tuple[str, list]:
-        """Build DELETE query."""
+        """Build secure DELETE query."""
+        # Validate table name
+        table = self.validate_table_name(table)
+
         query = f"DELETE FROM {table}"
+        values = []
 
         if where:
             where_clauses = []
-            values = []
             for key, value in where.items():
                 where_clauses.append(f"{key} = ?")
                 values.append(value)
             query += f" WHERE {' AND '.join(where_clauses)}"
-            return query, values
 
-        return query, []
+        return query, values
 
 
 class DatabaseModel(ABC):

@@ -14,8 +14,8 @@ License: MIT
 import logging
 from typing import Any
 
-from ..messaging_cli_coordinate_management.utilities import load_coords_file
-from ..onboarding_handler import OnboardingHandler
+# Coordinate functionality now handled by consolidated messaging service
+from .onboarding_handler import OnboardingHandler
 from ..vector_database import get_vector_database_service, search_vector_database
 from ..vector_database.vector_database_models import SearchQuery
 

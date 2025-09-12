@@ -1,0 +1,115 @@
+{
+  "contract_id": "CONTRACT-PHASE1-BATCH1A-001",
+  "contract_title": "Phase 1 Batch 1A: Core Architecture Consolidation",
+  "agent_id": "Agent-6",
+  "agent_name": "SOLID Sentinel (Architecture Specialist)",
+  "contract_type": "CORE_ARCHITECTURE_CONSOLIDATION",
+  "priority": "CRITICAL",
+  "status": "AVAILABLE",
+
+  "contract_details": {
+    "description": "Execute Phase 1 Batch 1A of the systematic cleanup mission: Core Architecture Consolidation. Consolidate 50 core service files, eliminate architectural duplication, implement SOLID principles, and reduce core complexity from 13 to <5 modules.",
+    "background": "The repository currently has 358 consolidation opportunities identified. Phase 1 focuses on high-impact, low-risk architectural improvements that establish a solid foundation for subsequent phases.",
+
+    "objectives": [
+      "Consolidate 15+ core service files in src/core/",
+      "Eliminate architectural duplication and circular dependencies",
+      "Implement SOLID principles across all core modules",
+      "Create unified core interfaces and abstractions",
+      "Reduce core complexity score from 13 to <5 modules",
+      "Establish architectural patterns for Phase 2-4 consolidation"
+    ],
+
+    "deliverables": [
+      "Consolidated core module architecture (≤5 core modules)",
+      "SOLID compliance implementation across core services",
+      "Unified interface definitions for core components",
+      "Architectural documentation with dependency maps",
+      "Core service integration tests (>85% coverage)",
+      "Zero functional regressions in core functionality"
+    ],
+
+    "technical_requirements": [
+      "SOLID principle implementation and validation",
+      "Dependency injection and interface abstraction",
+      "Core module consolidation without breaking changes",
+      "Architectural documentation and design patterns",
+      "Comprehensive testing of core functionality",
+      "Performance benchmarking of consolidated modules"
+    ],
+
+    "estimated_effort": "3 development cycles (7-10 days)",
+    "deadline": "2025-09-22",
+    "stakeholders": ["Captain Agent-4", "Agent-2", "Agent-5"],
+
+    "success_criteria": [
+      "Core module count reduced from 13+ to ≤5 modules",
+      "SOLID compliance achieved across all core services",
+      "Zero circular dependencies in core architecture",
+      "All core functionality preserved (zero regressions)",
+      "Core service tests achieve >85% coverage",
+      "Architectural documentation complete and validated"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Agent-2",
+    "created_at": "2025-09-12T21:00:00Z",
+    "assigned_at": null,
+    "completed_at": null,
+    "last_updated": "2025-09-12T21:00:00Z",
+
+    "tags": [
+      "phase1",
+      "batch1a",
+      "core_architecture",
+      "solid_principles",
+      "architectural_consolidation",
+      "high_priority",
+      "critical_path"
+    ],
+
+    "dependencies": [
+      "Repository analysis completed (358 consolidation opportunities identified)",
+      "Agent-6 onboarding completed and role understood",
+      "Core module baseline established",
+      "Testing infrastructure operational"
+    ],
+
+    "resources_required": [
+      "Access to src/core/ directory and all submodules",
+      "SOLID principle implementation tools and patterns",
+      "Architectural analysis and documentation tools",
+      "Comprehensive testing framework and CI/CD pipeline",
+      "Peer review capabilities for architectural decisions"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 500,
+    "skill_unlocks": [
+      "SOLID Architecture Master",
+      "Core Systems Architect",
+      "Architectural Consolidation Expert",
+      "SOLID Compliance Validator",
+      "Dependency Management Guru",
+      "Architectural Documentation Specialist"
+    ],
+    "reputation_bonus": "Architectural Guardian",
+    "network_unlocks": [
+      "Core Architecture Working Group",
+      "SOLID Principles Community",
+      "Architectural Review Board",
+      "Consolidation Strategy Council"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-12T21:00:00Z",
+      "action": "CONTRACT_CREATED",
+      "actor": "Agent-2",
+      "details": "Phase 1 Batch 1A contract created for core architecture consolidation mission"
+    }
+  ]
+}

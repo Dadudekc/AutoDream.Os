@@ -79,7 +79,7 @@ class AgentRegistry:
         with open(p, "w", encoding="utf-8") as f:
             f.write(message)
 
-    def get_onboarding_coords(self, agent_id: str) -> tuple[int, int]:
+    def get_onboarding_coords(self, agent_id: str) -> dict[str, tuple[int, int]]:
         """Get onboarding coordinates for an agent.
 
         Uses SSOT coordinate loader for consistency across the system.
@@ -88,7 +88,7 @@ class AgentRegistry:
             agent_id: Agent identifier
 
         Returns:
-            Tuple of (x, y) coordinates
+            Dict with chat_input_coordinates and onboarding_coordinates
         """
         try:
             from .coordinate_loader import get_coordinate_loader
@@ -96,4 +96,7 @@ class AgentRegistry:
             loader = get_coordinate_loader()
             return loader.get_onboarding_coordinates(agent_id)
         except Exception:
-            return (0, 0)
+            return {
+                "chat_input_coordinates": (0, 0),
+                "onboarding_coordinates": (0, 0)
+            }

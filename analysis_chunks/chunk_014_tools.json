@@ -1,0 +1,611 @@
+{
+  "chunk_id": 14,
+  "directory": "tools",
+  "files_analyzed": [
+    {
+      "file_path": "tools\\audit_config.json",
+      "analysis": {
+        "language": ".json",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\install_hooks.sh",
+      "analysis": {
+        "language": ".sh",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\agent_checkin.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\cleanup_guarded.ps1",
+      "analysis": {
+        "language": ".ps1",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\cleanup_guarded.sh",
+      "analysis": {
+        "language": ".sh",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\generate_utils_catalog.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\duplication_analyzer.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\analysis_cli.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\audit_cleanup.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\auto_remediate_loc.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\captain_snapshot.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\chatgpt_project_context.json",
+      "analysis": {
+        "language": ".json",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\check_snapshot_up_to_date.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\dependency_cache.json",
+      "analysis": {
+        "language": ".json",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\functionality_verification.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\project_analysis.json",
+      "analysis": {
+        "language": ".json",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "tools\\projectscanner.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\run_project_scan.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\codemods\\__init__.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\codemods\\migrate_managers.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\codemods\\migrate_orchestrators.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\codemods\\replace_prints_with_logger.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    }
+  ],
+  "summary": {
+    "total_files": 23,
+    "total_lines": 0,
+    "total_functions": 0,
+    "total_classes": 0,
+    "total_imports": 0,
+    "file_types": {
+      ".json": 4,
+      ".sh": 2,
+      ".py": 16,
+      ".ps1": 1
+    },
+    "avg_complexity_by_type": {
+      ".json": 0.0,
+      ".sh": 0.0,
+      ".py": 0.0,
+      ".ps1": 0.0
+    }
+  },
+  "consolidation_opportunities": [
+    {
+      "file_path": "tools\\audit_config.json",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\install_hooks.sh",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\agent_checkin.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\cleanup_guarded.ps1",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\cleanup_guarded.sh",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\generate_utils_catalog.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\duplication_analyzer.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\analysis_cli.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\audit_cleanup.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\auto_remediate_loc.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\captain_snapshot.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\chatgpt_project_context.json",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\check_snapshot_up_to_date.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\dependency_cache.json",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\functionality_verification.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\project_analysis.json",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\projectscanner.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\run_project_scan.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\codemods\\__init__.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\codemods\\migrate_managers.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\codemods\\migrate_orchestrators.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\codemods\\replace_prints_with_logger.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    }
+  ],
+  "imports_analysis": {}
+}

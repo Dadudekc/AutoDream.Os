@@ -1,0 +1,116 @@
+{
+  "contract_id": "CONTRACT-AGENT5-CLEANUP-001",
+  "contract_title": "Business Intelligence & Consolidation Cleanup",
+  "agent_id": "Agent-5",
+  "agent_name": "Business Intelligence Specialist & Co-Captain",
+  "contract_type": "CLEANUP_CONSOLIDATION",
+  "priority": "HIGH",
+  "status": "AVAILABLE",
+
+  "contract_details": {
+    "description": "Systematically clean and consolidate business intelligence modules while preserving all functionality. Focus on eliminating duplication, improving test coverage, and organizing code structure.",
+    "background": "Agent-5 has expertise in consolidation and business intelligence. This contract focuses on cleanup while leveraging that expertise to ensure we don't lose functionality during reorganization.",
+
+    "objectives": [
+      "Audit all business intelligence and analysis modules",
+      "Identify and eliminate code duplication in BI components",
+      "Increase test coverage for BI modules to >85%",
+      "Reorganize BI code structure while preserving functionality",
+      "Create comprehensive documentation for BI systems",
+      "Validate all changes don't break existing BI functionality"
+    ],
+
+    "deliverables": [
+      "Comprehensive BI module audit report with cleanup recommendations",
+      "Eliminated code duplication in BI components (target: 50% reduction)",
+      "Increased test coverage for all BI modules (>85%)",
+      "Reorganized BI code structure with clear module boundaries",
+      "Updated documentation for all BI systems and APIs",
+      "Functional validation report confirming no regressions"
+    ],
+
+    "technical_requirements": [
+      "Python BI/analysis module analysis and refactoring",
+      "Test coverage analysis and improvement tools",
+      "Code duplication detection and elimination",
+      "Documentation generation and maintenance",
+      "Functional testing and validation frameworks",
+      "Performance impact assessment tools"
+    ],
+
+    "estimated_effort": "2-3 development cycles",
+    "deadline": "2025-09-18",
+    "stakeholders": ["Captain Agent-4", "Agent-1", "Agent-8"],
+
+    "success_criteria": [
+      "Zero functional regressions in BI systems",
+      "Test coverage >85% for all BI modules",
+      "Eliminated >50% of code duplication in BI components",
+      "Clear module organization and documentation",
+      "All stakeholders approve reorganization",
+      "Performance maintained or improved"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Captain Agent-4",
+    "created_at": "2025-09-12T21:00:00Z",
+    "assigned_at": null,
+    "completed_at": null,
+    "last_updated": "2025-09-12T21:00:00Z",
+
+    "tags": [
+      "cleanup",
+      "consolidation",
+      "business-intelligence",
+      "testing",
+      "documentation",
+      "refactoring",
+      "systematic"
+    ],
+
+    "dependencies": [
+      "Repository cleanup completed (2183 files, 296 directories)",
+      "BI modules identified and cataloged",
+      "Testing framework operational",
+      "Documentation templates available"
+    ],
+
+    "resources_required": [
+      "Python analysis and refactoring tools",
+      "Test coverage measurement tools",
+      "Code duplication detection software",
+      "Documentation generation tools",
+      "Functional testing frameworks",
+      "Performance monitoring tools"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 500,
+    "skill_unlocks": [
+      "Systematic Cleanup Specialist",
+      "BI Architecture Optimizer",
+      "Test Coverage Maximizer",
+      "Code Consolidation Expert",
+      "Documentation Automation Guru",
+      "Functional Validation Master"
+    ],
+    "reputation_bonus": "Cleanup Champion",
+    "network_unlocks": [
+      "Access to Cleanup Working Group",
+      "BI Architecture Network",
+      "Testing Excellence Community",
+      "Documentation Automation Team"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-12T21:00:00Z",
+      "action": "CONTRACT_CREATED",
+      "actor": "Captain Agent-4",
+      "details": "Created cleanup-focused contract for Agent-5 business intelligence consolidation"
+    }
+  ]
+}

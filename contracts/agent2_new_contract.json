@@ -1,0 +1,107 @@
+{
+  "contract_id": "CONTRACT-AGENT2-001",
+  "contract_title": "Configuration & Infrastructure Optimization",
+  "agent_id": "Agent-2",
+  "agent_name": "Configuration & Infrastructure Specialist",
+  "contract_type": "INFRASTRUCTURE_OPTIMIZATION",
+  "priority": "HIGH",
+  "status": "AVAILABLE",
+
+  "contract_details": {
+    "description": "Optimize system configuration and infrastructure following recent reset. Rebuild and enhance configuration management, deployment pipelines, and infrastructure monitoring.",
+    "background": "Agent-2 was recently reset and needs to re-establish infrastructure management capabilities and optimize configuration systems for the cleaned repository structure.",
+
+    "objectives": [
+      "Rebuild configuration management system for optimized repository",
+      "Implement enhanced infrastructure monitoring and alerting",
+      "Create deployment pipeline optimization strategies",
+      "Establish configuration validation and compliance checking",
+      "Build infrastructure health monitoring dashboard"
+    ],
+
+    "deliverables": [
+      "Configuration management system rebuild with 2183+ file support",
+      "Infrastructure monitoring dashboard with real-time metrics",
+      "Deployment pipeline optimization guide and scripts",
+      "Configuration validation framework and compliance checker",
+      "Infrastructure health monitoring system with alerting"
+    ],
+
+    "technical_requirements": [
+      "Python configuration management tools integration",
+      "Infrastructure monitoring and alerting system",
+      "Deployment pipeline automation scripts",
+      "Configuration validation and compliance frameworks",
+      "Real-time monitoring dashboard development"
+    ],
+
+    "estimated_effort": "2-3 development cycles",
+    "deadline": "2025-09-20",
+    "stakeholders": ["Captain Agent-4", "Agent-3", "Agent-5"],
+
+    "success_criteria": [
+      "Configuration management system fully operational",
+      "Infrastructure monitoring provides real-time visibility",
+      "Deployment pipelines optimized and automated",
+      "Configuration validation catches 100% of issues",
+      "Infrastructure health dashboard operational with alerts"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Captain Agent-4",
+    "created_at": "2025-09-12T20:15:00Z",
+    "assigned_at": null,
+    "completed_at": null,
+    "last_updated": "2025-09-12T20:15:00Z",
+
+    "tags": [
+      "infrastructure",
+      "configuration",
+      "monitoring",
+      "deployment",
+      "optimization",
+      "post-cleanup"
+    ],
+
+    "dependencies": [
+      "Repository cleanup completed (2183 files, 296 directories)",
+      "Agent-2 reset state confirmed",
+      "Infrastructure monitoring tools available"
+    ],
+
+    "resources_required": [
+      "Python configuration management libraries",
+      "Infrastructure monitoring tools",
+      "Deployment automation frameworks",
+      "Dashboard visualization libraries",
+      "Alerting and notification systems"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 450,
+    "skill_unlocks": [
+      "Infrastructure Optimization Specialist",
+      "Configuration Management Expert",
+      "Deployment Pipeline Architect",
+      "Infrastructure Monitoring Guru",
+      "System Health Analyst"
+    ],
+    "reputation_bonus": "Infrastructure Maestro",
+    "network_unlocks": [
+      "Access to Infrastructure Working Group",
+      "Deployment Team Network",
+      "Configuration Management Community"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-12T20:15:00Z",
+      "action": "CONTRACT_CREATED",
+      "actor": "Captain Agent-4",
+      "details": "New contract created for Agent-2 post-reset infrastructure optimization"
+    }
+  ]
+}

@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Auto-Remediate LOC Violations
 =============================
@@ -14,7 +11,11 @@ Outputs:
     runtime/v2_refactor_plan.json - Detailed refactor plan
     runtime/refactor_suggestions.txt - Human-readable suggestions
 """
+
 from __future__ import annotations
+import logging
+
+logger = logging.getLogger(__name__)
 
 import ast
 import json
@@ -45,7 +46,24 @@ EXCLUDE_PATTERNS = [
 def should_exclude(path: Path) -> bool:
     """Check if path should be excluded."""
     path_str = str(path)
-    return any(pattern in path_str for pattern in EXCLUDE_PATTERNS)
+
+    # Check exact matches and substring matches
+    for pattern in EXCLUDE_PATTERNS:
+        if pattern in path_str:
+            return True
+
+        # Handle wildcard patterns
+        if pattern.endswith("*"):
+            base_pattern = pattern[:-1]  # Remove the *
+            if base_pattern in path_str:
+                return True
+
+        # Handle directory patterns
+        if pattern.endswith("/"):
+            if pattern.rstrip("/") in path_str:
+                return True
+
+    return False
 
 
 def count_lines(node: ast.AST) -> int:
@@ -139,11 +157,13 @@ def generate_file_split_suggestion(path: Path, content: str) -> dict[str, Any]:
             classes.append(node.name)
         elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             functions.append(node.name)
-        elif isinstance(node, (ast.Import, ast.ImportFrom)):
-            if hasattr(node, "names"):
-                imports.extend([alias.name for alias in node.names])
-            elif hasattr(node, "module"):
+        elif isinstance(node, ast.Import):
+            imports.extend([alias.name for alias in node.names])
+        elif isinstance(node, ast.ImportFrom):
+            if node.module:
                 imports.append(node.module)
+            if node.names:
+                imports.extend([alias.name for alias in node.names])
     return {
         "suggested_splits": [
             f"{filename}_core.py - Core classes: {', '.join(classes[:2])}",

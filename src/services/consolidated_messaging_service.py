@@ -24,6 +24,22 @@ if __name__ == "__main__":
     if str(script_dir) not in sys.path:
         sys.path.insert(0, str(script_dir))
 
+# Availability flags (exported for testing)
+try:
+    import pyautogui
+    PYAUTOGUI_AVAILABLE = True
+except ImportError:
+    PYAUTOGUI_AVAILABLE = False
+
+try:
+    import pyperclip
+    PYPERCLIP_AVAILABLE = True
+except ImportError:
+    PYPERCLIP_AVAILABLE = False
+
+# Consolidated messaging availability (will be updated based on imports below)
+MESSAGING_AVAILABLE = False
+
 # Import from coordinate loader (SSOT)
 try:
     import logging
@@ -36,21 +52,6 @@ try:
     from typing import Any, Dict, List, Optional
 
     from src.core.coordinate_loader import get_coordinate_loader
-
-    # PyAutoGUI availability check
-    try:
-        import pyautogui
-
-        PYAUTOGUI_AVAILABLE = True
-    except ImportError:
-        PYAUTOGUI_AVAILABLE = False
-
-    try:
-        import pyperclip
-
-        PYPERCLIP_AVAILABLE = True
-    except ImportError:
-        PYPERCLIP_AVAILABLE = False
 
     class DeliveryMethod(Enum):
         """Delivery methods for messages."""
@@ -211,15 +212,31 @@ try:
         x, y = coords
         formatted_message = format_message_for_delivery(message)
 
+        # Enhanced delivery for urgent priority messages (agent revival)
+        is_urgent = (hasattr(message, 'priority') and
+                    message.priority in [UnifiedMessagePriority.URGENT, "urgent"])
+
         for attempt in range(1, 3):  # 2 attempts
             try:
                 _focus_and_clear(x, y)
                 _paste_or_type(formatted_message)
                 time.sleep(0.05)
-                pyautogui.press("enter")
-                logger.info(
-                    "Message delivered to %s at %s (attempt %d)", message.recipient, coords, attempt
-                )
+
+                if is_urgent:
+                    # Urgent priority: Double enter for agent revival
+                    pyautogui.press("enter")
+                    time.sleep(0.1)
+                    pyautogui.press("enter")
+                    logger.info(
+                        "🚨 URGENT Message delivered to %s at %s (double-enter revival, attempt %d)",
+                        message.recipient, coords, attempt
+                    )
+                else:
+                    # Normal priority: Single enter
+                    pyautogui.press("enter")
+                    logger.info(
+                        "Message delivered to %s at %s (attempt %d)", message.recipient, coords, attempt
+                    )
                 return True
             except Exception as e:
                 logger.warning(
@@ -718,6 +735,32 @@ class ConsolidatedMessagingService:
             "--task-notes", type=str, help="Completion notes (optional with --complete-task)"
         )
 
+        # Hard Onboarding options
+        parser.add_argument(
+            "--hard-onboarding", action="store_true", help="Initiate hard onboarding sequence"
+        )
+        parser.add_argument(
+            "--agents", type=str, help="Comma-separated list of agents for onboarding"
+        )
+        parser.add_argument(
+            "--onboarding-mode",
+            choices=["cleanup", "quality-suite", "consolidation", "testing"],
+            default="cleanup",
+            help="Onboarding mode (default: cleanup)"
+        )
+        parser.add_argument(
+            "--assign-roles", type=str, help="Role assignments in format 'agent:ROLE,agent:ROLE'"
+        )
+        parser.add_argument(
+            "--use-ui", action="store_true", help="Use UI automation for onboarding"
+        )
+        parser.add_argument(
+            "--ui-retries", type=int, default=3, help="UI automation retry count (default: 3)"
+        )
+        parser.add_argument(
+            "--ui-tolerance", type=int, default=10, help="UI coordinate tolerance (default: 10)"
+        )
+
         if args is None:
             args = sys.argv[1:]
 
@@ -799,6 +842,11 @@ class ConsolidatedMessagingService:
 
         if parsed_args.complete_task:
             self.handle_complete_task(parsed_args)
+            return
+
+        # Handle hard onboarding
+        if parsed_args.hard_onboarding:
+            self.handle_hard_onboarding(parsed_args)
             return
 
         if parsed_args.agent and parsed_args.message:
@@ -1325,15 +1373,88 @@ class ConsolidatedMessagingService:
             self.logger.error(f"❌ Error completing task: {e}")
             print(f"❌ Error completing task: {e}")
 
+    def handle_hard_onboarding(self, args):
+        """Handle hard onboarding sequence through consolidated messaging service."""
+        try:
+            print("🚨 HARD ONBOARDING SEQUENCE INITIATED THROUGH CONSOLIDATED MESSAGING")
+            print("=" * 70)
+
+            # Parse agents list
+            if not args.agents:
+                print("❌ Error: --agents is required for hard onboarding")
+                return
+
+            agents = [a.strip() for a in args.agents.split(",") if a.strip()]
+            if not agents:
+                print("❌ Error: No valid agents specified")
+                return
+
+            print(f"🎯 Target Agents: {', '.join(agents)}")
+            print(f"🎯 Onboarding Mode: {args.onboarding_mode}")
+
+            # Parse role assignments
+            role_map = {}
+            if args.assign_roles:
+                for spec in args.assign_roles.split(","):
+                    spec = spec.strip()
+                    if not spec:
+                        continue
+                    try:
+                        agent, role = (s.strip() for s in spec.split(":", 1))
+                        role_map[agent] = role
+                        print(f"📋 {agent} → {role}")
+                    except ValueError:
+                        print(f"⚠️ Invalid role spec: {spec}")
+            else:
+                print("📋 Using default role assignment")
+
+            # Import onboarding handler
+            try:
+                from src.services.handlers.onboarding_handler import OnboardingHandler
+                onboarding_handler = OnboardingHandler()
+
+                # Call the onboarding handler
+                result = onboarding_handler._handle_hard_onboarding(
+                    confirm_yes=True,  # Auto-confirm for CLI
+                    dry_run=getattr(args, 'dry_run', False),
+                    agents=agents,
+                    timeout=30,  # Default timeout
+                    use_ui=getattr(args, 'use_ui', False),
+                    ui_retries=getattr(args, 'ui_retries', 3),
+                    ui_tolerance=getattr(args, 'ui_tolerance', 10),
+                    mode=args.onboarding_mode,
+                    role_map_str=getattr(args, 'assign_roles', ""),
+                    emit_proof=False,  # Disable proof emission for CLI
+                    audit_cleanup=False  # Disable audit cleanup for CLI
+                )
+
+                if result == 0:
+                    print("\n🎉 HARD ONBOARDING COMPLETED SUCCESSFULLY!")
+                    print("✅ All agents onboarded and ready for cleanup mission")
+                elif result == 2:
+                    print("\n⚠️ HARD ONBOARDING COMPLETED WITH PARTIAL SUCCESS")
+                    print("⚠️ Some agents may need manual intervention")
+                else:
+                    print("\n❌ HARD ONBOARDING FAILED")
+                    print("❌ Check logs for detailed error information")
+
+            except ImportError as e:
+                print(f"❌ Failed to import onboarding handler: {e}")
+                print("💡 Make sure onboarding_handler.py is available")
+
+        except Exception as e:
+            print(f"❌ Hard onboarding failed: {e}")
+            import traceback
+            traceback.print_exc()
+
     def _get_next_available_task(self, agent_id: str) -> dict | None:
-        """Get next available task for agent (placeholder for now)."""
-        # Simulate empty task queue occasionally for testing
+        """Get next available task for agent with guaranteed task availability."""
+        # Always provide tasks for swarm operations (removed random empty queue)
         import random
         import uuid
         from datetime import datetime
 
-        if random.random() < 0.3:  # 30% chance of no tasks available
-            return None
+        # Removed the random empty check - always provide tasks for active swarm
 
         # Generate comprehensive tasks with detailed requirements
         task_templates = {

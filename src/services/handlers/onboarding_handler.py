@@ -20,7 +20,16 @@ from datetime import datetime
 from ...automation.ui_onboarding import UIOnboarder, UIUnavailableError
 from ...core.workspace_agent_registry import AgentRegistry
 from ...quality.proof_ledger import run_tdd_proof
-from ...templates.onboarding_roles import ROLES, build_role_message
+import sys
+from pathlib import Path
+
+# Add templates directory to path for imports
+templates_dir = Path(__file__).resolve().parents[4] / "templates"
+if str(templates_dir) not in sys.path:
+    sys.path.insert(0, str(templates_dir))
+
+# Import from templates package
+from templates.onboarding_roles import ROLES, build_role_message
 from ...utils.backup import BackupManager
 from ...utils.confirm import confirm
 

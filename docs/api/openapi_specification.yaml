@@ -1,0 +1,764 @@
+openapi: 3.0.3
+info:
+  title: Swarm Intelligence Agent Cellphone V2 API
+  description: |
+    Comprehensive API specification for the Swarm Intelligence Agent Cellphone V2 system.
+    This API provides access to agent coordination, messaging, vector database operations,
+    analytics, and various AI-powered services within the swarm ecosystem.
+
+    ## Key Features
+    - **Agent Coordination**: Multi-agent orchestration and task management
+    - **Messaging System**: Inter-agent communication and coordination
+    - **Vector Database**: High-performance vector similarity search and indexing
+    - **Analytics Engine**: Real-time performance monitoring and insights
+    - **Thea Integration**: Advanced AI communication and automation
+    - **Consolidated Services**: Unified API endpoints across all subsystems
+  version: "2.0.0"
+  contact:
+    name: Agent-7 Web Development Specialist
+    email: agent7@swarm.intelligence
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.swarm.intelligence/v2
+    description: Production server
+  - url: http://localhost:8000/v2
+    description: Development server
+
+security:
+  - ApiKeyAuth: []
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Agent:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          example: "Agent-7"
+        agent_name:
+          type: string
+          example: "Web Development Specialist"
+        status:
+          type: string
+          enum: [ACTIVE_AGENT_MODE, COORDINATION_MODE, MAINTENANCE_MODE]
+        current_mission:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+      required: [agent_id, agent_name, status]
+
+    Message:
+      type: object
+      properties:
+        message_id:
+          type: string
+          format: uuid
+        from_agent:
+          type: string
+        to_agent:
+          type: string
+        content:
+          type: string
+        priority:
+          type: string
+          enum: [LOW, NORMAL, HIGH, URGENT]
+        timestamp:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+      required: [message_id, from_agent, to_agent, content, priority, timestamp]
+
+    VectorDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        content:
+          type: string
+        metadata:
+          type: object
+        embedding:
+          type: array
+          items:
+            type: number
+          description: Vector embedding array
+        similarity_score:
+          type: number
+          minimum: 0
+          maximum: 1
+      required: [id, content, embedding]
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        request_id:
+          type: string
+          format: uuid
+      required: [success, message, timestamp]
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "Invalid request parameters"
+            details:
+              type: object
+        timestamp:
+          type: string
+          format: date-time
+        request_id:
+          type: string
+          format: uuid
+      required: [success, error, timestamp]
+
+paths:
+  # Agent Management Endpoints
+  /agents:
+    get:
+      summary: Get all active agents
+      description: Retrieve a list of all currently active agents in the swarm
+      tags: [Agents]
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ACTIVE_AGENT_MODE, COORDINATION_MODE, MAINTENANCE_MODE]
+          description: Filter agents by status
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+          description: Maximum number of agents to return
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Agent'
+
+    post:
+      summary: Register a new agent
+      description: Register a new agent in the swarm ecosystem
+      tags: [Agents]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_id:
+                  type: string
+                  example: "Agent-8"
+                agent_name:
+                  type: string
+                  example: "Operations Specialist"
+                specialization:
+                  type: string
+                  example: "System Operations"
+                coordinates:
+                  type: object
+                  properties:
+                    x:
+                      type: integer
+                      example: 1611
+                    y:
+                      type: integer
+                      example: 941
+              required: [agent_id, agent_name, specialization, coordinates]
+      responses:
+        '201':
+          description: Agent registered successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Agent'
+
+  /agents/{agent_id}:
+    get:
+      summary: Get agent details
+      description: Retrieve detailed information about a specific agent
+      tags: [Agents]
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique agent identifier
+      responses:
+        '200':
+          description: Agent details retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Agent'
+        '404':
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Messaging System Endpoints
+  /messages:
+    get:
+      summary: Get messages
+      description: Retrieve messages from the messaging system
+      tags: [Messaging]
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: agent_id
+          in: query
+          schema:
+            type: string
+          description: Filter messages by agent
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [LOW, NORMAL, HIGH, URGENT]
+          description: Filter by message priority
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Maximum number of messages to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Pagination offset
+      responses:
+        '200':
+          description: Messages retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Message'
+                      pagination:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                          limit:
+                            type: integer
+                          offset:
+                            type: integer
+                          has_more:
+                            type: boolean
+
+    post:
+      summary: Send a message
+      description: Send a message to one or more agents
+      tags: [Messaging]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to_agent:
+                  type: string
+                  example: "Agent-1"
+                content:
+                  type: string
+                  example: "Task assignment completed"
+                priority:
+                  type: string
+                  enum: [LOW, NORMAL, HIGH, URGENT]
+                  default: NORMAL
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: ["coordination", "task"]
+              required: [to_agent, content]
+      responses:
+        '202':
+          description: Message queued for delivery
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          message_id:
+                            type: string
+                            format: uuid
+                          status:
+                            type: string
+                            example: "queued"
+
+  /messages/broadcast:
+    post:
+      summary: Broadcast message
+      description: Send a broadcast message to all active agents
+      tags: [Messaging]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: "System maintenance scheduled"
+                priority:
+                  type: string
+                  enum: [LOW, NORMAL, HIGH, URGENT]
+                  default: NORMAL
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: ["broadcast", "maintenance"]
+              required: [content]
+      responses:
+        '202':
+          description: Broadcast message queued
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          broadcast_id:
+                            type: string
+                            format: uuid
+                          recipient_count:
+                            type: integer
+                          status:
+                            type: string
+                            example: "broadcasting"
+
+  # Vector Database Endpoints
+  /vector/search:
+    post:
+      summary: Vector similarity search
+      description: Perform semantic similarity search using vector embeddings
+      tags: [Vector Database]
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  example: "agent coordination protocols"
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 50
+                  default: 10
+                  description: Maximum number of results to return
+                threshold:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  default: 0.7
+                  description: Similarity threshold (0-1)
+                filters:
+                  type: object
+                  description: Optional metadata filters
+                  example: {"category": "documentation", "agent": "Agent-7"}
+              required: [query]
+      responses:
+        '200':
+          description: Search completed successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/VectorDocument'
+                            - type: object
+                              properties:
+                                highlights:
+                                  type: array
+                                  items:
+                                    type: string
+                                  description: Text highlights for the match
+
+  /vector/documents:
+    get:
+      summary: Get vector documents
+      description: Retrieve vector documents with optional filtering
+      tags: [Vector Database]
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: collection
+          in: query
+          schema:
+            type: string
+          description: Collection name to filter by
+        - name: agent
+          in: query
+          schema:
+            type: string
+          description: Filter by agent
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Documents retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/VectorDocument'
+                      pagination:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                          limit:
+                            type: integer
+                          offset:
+                            type: integer
+                          has_more:
+                            type: boolean
+
+    post:
+      summary: Add vector document
+      description: Add a new document to the vector database
+      tags: [Vector Database]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: "Agent coordination protocols and best practices"
+                metadata:
+                  type: object
+                  example: {"category": "documentation", "agent": "Agent-7", "version": "2.0"}
+                collection:
+                  type: string
+                  example: "agent_docs"
+              required: [content, metadata]
+      responses:
+        '201':
+          description: Document added successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/VectorDocument'
+
+  # Analytics Endpoints
+  /analytics/performance:
+    get:
+      summary: Get performance analytics
+      description: Retrieve real-time performance metrics and analytics
+      tags: [Analytics]
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: [1h, 6h, 24h, 7d, 30d]
+            default: 24h
+          description: Timeframe for analytics
+        - name: agent_id
+          in: query
+          schema:
+            type: string
+          description: Filter by specific agent
+        - name: metric_type
+          in: query
+          schema:
+            type: string
+            enum: [response_time, throughput, error_rate, coordination_efficiency]
+          description: Type of metric to retrieve
+      responses:
+        '200':
+          description: Analytics data retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          timeframe:
+                            type: string
+                          metrics:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                timestamp:
+                                  type: string
+                                  format: date-time
+                                agent_id:
+                                  type: string
+                                metric_type:
+                                  type: string
+                                value:
+                                  type: number
+                                unit:
+                                  type: string
+
+  # Thea Integration Endpoints
+  /thea/communicate:
+    post:
+      summary: Thea AI Communication
+      description: Send a message to Thea AI for processing and response
+      tags: [Thea Integration]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Analyze the current swarm coordination patterns"
+                context:
+                  type: object
+                  description: Additional context for the AI
+                  example: {"agent": "Agent-7", "task": "API documentation"}
+                options:
+                  type: object
+                  description: Processing options
+                  properties:
+                    priority:
+                      type: string
+                      enum: [LOW, NORMAL, HIGH]
+                      default: NORMAL
+                    timeout:
+                      type: integer
+                      minimum: 10
+                      maximum: 300
+                      default: 60
+                      description: Response timeout in seconds
+              required: [message]
+      responses:
+        '200':
+          description: Thea response received
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          response:
+                            type: string
+                          confidence:
+                            type: number
+                            minimum: 0
+                            maximum: 1
+                          processing_time:
+                            type: number
+                          tokens_used:
+                            type: integer
+
+  # System Health Endpoints
+  /health:
+    get:
+      summary: System health check
+      description: Get overall system health and status
+      tags: [System]
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  version:
+                    type: string
+                    example: "2.0.0"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  services:
+                    type: object
+                    properties:
+                      agents:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                      messaging:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                      vector_db:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                      analytics:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                      thea:
+                        type: string
+                        enum: [healthy, degraded, unhealthy]
+                  uptime:
+                    type: integer
+                    description: System uptime in seconds
+
+tags:
+  - name: Agents
+    description: Agent management and coordination endpoints
+  - name: Messaging
+    description: Inter-agent communication and messaging
+  - name: Vector Database
+    description: Vector similarity search and document management
+  - name: Analytics
+    description: Performance monitoring and analytics
+  - name: Thea Integration
+    description: AI communication and automation
+  - name: System
+    description: System health and status endpoints
+
+externalDocs:
+  description: Complete API documentation
+  url: https://docs.swarm.intelligence/api/v2

@@ -13,6 +13,7 @@ License: MIT
 
 from __future__ import annotations
 
+import asyncio
 import importlib
 import json
 import logging
@@ -192,11 +193,11 @@ class MessagingGateway:
         info = self.agent_coordinates.get(agent_key, {})
         if not info:
             raise KeyError(f"Unknown agent '{agent_key}' in coordinates.")
-        # New format: direct chat_input_coordinates / onboarding_coordinates
+        # New format: direct chat_input_coordinates / onboarding_input_coords
         if "chat_input_coordinates" in info:
             return {
                 "window_title": info.get("window_title", f"Cursor - {agent_key}"),
-                "focus_xy": info.get("onboarding_coordinates", [0, 0]),
+                "focus_xy": info.get("onboarding_input_coords", [0, 0]),
                 "input_xy": info.get("chat_input_coordinates", [0, 0]),
             }
         # Legacy format: nested pyautogui_target
@@ -209,6 +210,21 @@ class MessagingGateway:
 
     def list_available_agents(self):
         return list(self.agent_coordinates.keys())
+
+    async def send(self, agent_key: str, message: str, meta: dict[str, Any] | None = None) -> dict[str, Any]:
+        """
+        Async wrapper for send_pyautogui. Returns dict format for Discord integration.
+        """
+        result = self.send_pyautogui(agent_key, message, meta)
+        # Convert DispatchResult to dict format expected by Discord code
+        return {
+            "status": result.status,
+            "agent": result.agent,
+            "backend": result.backend,
+            "request_id": result.request_id,
+            "timestamp": result.ts,
+            "extra": result.extra
+        }
 
     def get_agent_status(self, agent_key: str) -> dict[str, Any]:
         tgt = self._normalize_target(agent_key)

@@ -45,11 +45,19 @@ async def _send_to_agent(
     message: str,
     author_tag: str,
     request_summary: bool = True,
+    message_type: str = "general_to_agent",
 ) -> str:
     """Route message via MessagingGateway (Agents 1-4) else engine inbox."""
     payload = message
     if request_summary:
         payload = f"{message}\n\n{SUMMARY_PROMPT}"
+
+    # Prepare message metadata
+    meta = {
+        "source": "discord",
+        "message_type": message_type,
+        "author_tag": author_tag
+    }
 
     # Prefer MessagingGateway for Agents 1-4
     try:
@@ -58,7 +66,7 @@ async def _send_to_agent(
         idx = 0
 
     if getattr(bot, "messaging_gateway", None) and 1 <= idx <= 4:
-        result = await bot.messaging_gateway.send(agent_id, payload, meta={"source": "discord"})
+        result = await bot.messaging_gateway.send(agent_id, payload, meta=meta)
         return f"🖥️ PyAutoGUI gateway → **{agent_id}**: {result.get('status', 'sent')}"
     # Fallback to engine inbox
     if getattr(bot, "agent_engine", None):
@@ -98,48 +106,48 @@ async def _agent_autocomplete(
     return out
 
 
+# ---------- Global Keyboard Shortcut Handler: Ctrl+Enter 2x for Urgent Messages ----------
+urgent_message_cache: dict[str, dict] = {}  # Cache for detecting double messages
+
+async def handle_keyboard_shortcut(message: discord.Message, bot: commands.Bot):
+    """Handle keyboard shortcuts for high-priority messaging."""
+    alias_to_agent, by_agent = _load_alias_map()  # Load aliases within function
+
+    content = message.content.strip()
+
+    # Check for urgent keyboard shortcut pattern: "URGENT:" or "!urgent"
+    if content.upper().startswith(("URGENT:", "!URGENT")):
+        # Extract agent and message from urgent command
+        parts = content.replace("URGENT:", "").replace("!urgent", "").strip().split(" ", 1)
+        if len(parts) >= 2:
+            agent_name = parts[0]
+            urgent_content = parts[1]
+
+            ag = alias_to_agent.get(agent_name.lower(), agent_name)
+            if ag in [f"Agent-{i}" for i in range(1, 9)] or ag in alias_to_agent.values():
+                try:
+                    urgent_message = f"🚨 URGENT KEYBOARD: {urgent_content}"
+                    status = await _send_to_agent(
+                        bot,
+                        ag,
+                        urgent_message,
+                        author_tag=f"Discord:{message.author.id}",
+                        request_summary=False,
+                        message_type="urgent_keyboard_to_agent"
+                    )
+                    embed = _mk_ok_embed("🚨 URGENT Keyboard to Agent Message", f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Type: Urgent Keyboard to Agent*\n*Triggered by keyboard shortcut*")
+                    await message.reply(embed=embed, mention_author=False)
+                    return True
+                except Exception as e:
+                    embed = _mk_err_embed("🚨 Urgent Keyboard Shortcut Failed", str(e))
+                    await message.reply(embed=embed, mention_author=False)
+                    return True
+    return False
+
+
 async def setup_dynamic_agent_commands(bot: commands.Bot):
+    # Load alias mapping for all commands in this function
     alias_to_agent, by_agent = _load_alias_map()
-
-    # ---------- Keyboard Shortcut Handler: Ctrl+Enter 2x for Urgent Messages ----------
-    urgent_message_cache: dict[str, dict] = {}  # Cache for detecting double messages
-
-    async def handle_keyboard_shortcut(message: discord.Message, bot: commands.Bot):
-        """Handle keyboard shortcuts for high-priority messaging."""
-        content = message.content.strip()
-
-        # Check for urgent keyboard shortcut pattern: "URGENT:" or "!urgent"
-        if content.upper().startswith(("URGENT:", "!URGENT")):
-            # Extract agent and message from urgent command
-            parts = content.replace("URGENT:", "").replace("!urgent", "").strip().split(" ", 1)
-            if len(parts) >= 2:
-                agent_name = parts[0]
-                urgent_content = parts[1]
-
-                ag = alias_to_agent.get(agent_name.lower(), agent_name)
-                if ag in [f"Agent-{i}" for i in range(1, 9)] or ag in alias_to_agent.values():
-                    try:
-                        urgent_message = f"🚨 URGENT KEYBOARD: {urgent_content}"
-                        status = await _send_to_agent(
-                            bot,
-                            ag,
-                            urgent_message,
-                            author_tag=f"Discord:{message.author.id}",
-                            request_summary=False,
-                        )
-
-                        embed = _mk_ok_embed(
-                            "🚨 URGENT Message (Keyboard Shortcut)",
-                            f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Triggered by keyboard shortcut*",
-                        )
-                        await message.reply(embed=embed, mention_author=False)
-                        return True
-                    except Exception as e:
-                        embed = _mk_err_embed("🚨 Urgent Keyboard Shortcut Failed", str(e))
-                        await message.reply(embed=embed, mention_author=False)
-                        return True
-
-        return False
 
     # ---------- Slash command: /urgent ---------- (HIGH PRIORITY - Ctrl+Enter 2x)
     @bot.tree.command(
@@ -167,11 +175,12 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                 urgent_message,
                 author_tag=f"Discord:{interaction.user.id}",
                 request_summary=False,  # Skip summary for urgent messages
+                message_type="urgent_to_agent"
             )
             await interaction.followup.send(
                 embed=_mk_ok_embed(
-                    "🚨 URGENT Message Dispatched",
-                    f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Delivered via Ctrl+Enter priority system*",
+                    "🚨 URGENT to Agent Message Dispatched",
+                    f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Type: Urgent to Agent*\n*Delivered via Ctrl+Enter priority system*",
                 ),
                 ephemeral=True,
             )
@@ -195,7 +204,11 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
         summary: bool = True,
     ):
         await interaction.response.defer(ephemeral=True, thinking=True)
+
+        # Load alias mapping
+        alias_to_agent, by_agent = _load_alias_map()
         ag = alias_to_agent.get(agent.lower(), agent)
+
         try:
             status = await _send_to_agent(
                 bot,
@@ -203,9 +216,10 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                 message,
                 author_tag=f"Discord:{interaction.user.id}",
                 request_summary=summary,
+                message_type="general_to_agent"
             )
             await interaction.followup.send(
-                embed=_mk_ok_embed("Message dispatched", f"{status}\n\n**Message:** {message}"),
+                embed=_mk_ok_embed("📨 General to Agent Message Dispatched", f"{status}\n\n**Message:** {message}\n\n*Type: General to Agent*"),
                 ephemeral=True,
             )
         except Exception as e:

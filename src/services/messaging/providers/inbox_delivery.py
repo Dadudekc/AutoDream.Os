@@ -64,6 +64,119 @@ class InboxMessageDelivery(InboxDeliveryProvider, MessageHistoryProvider):
 
     def _create_message_content(self, message: UnifiedMessage) -> str:
         """Create message content for inbox file."""
+        # Check message type and sender to determine format
+        msg_type = message.message_type.value
+        sender = message.sender
+        
+        if msg_type == "agent_to_agent" or sender.startswith("Agent-"):
+            return self._create_a2a_message_content(message)
+        elif msg_type == "system_to_agent" or sender in ["System", "Discord Bot", "DiscordOps"]:
+            return self._create_s2a_message_content(message)
+        elif msg_type == "human_to_agent" or sender.startswith("Human-") or sender == "Human":
+            return self._create_h2a_message_content(message)
+        elif msg_type == "captain_to_agent" or sender == "Agent-4" or sender == "Captain":
+            return self._create_c2a_message_content(message)
+        else:
+            return self._create_standard_message_content(message)
+    
+    def _create_a2a_message_content(self, message: UnifiedMessage) -> str:
+        """Create A2A (Agent-to-Agent) message content."""
+        # Handle line breaks - convert \n to proper markdown line breaks
+        content = message.content.replace('\n', '\n\n')
+        
+        return f"""# [A2A] {message.sender} → {message.recipient}
+
+**From**: {message.sender}
+**To**: {message.recipient}
+**Priority**: {message.priority.value.lower()}
+**Message ID**: {message.message_id}
+**Message Type**: Agent-to-Agent Communication
+**Timestamp**: {message.timestamp.isoformat()}
+
+---
+
+{content}
+
+---
+
+*A2A Message - Agent-to-Agent Communication*
+*⚠️ CLEANUP PHASE: Avoid creating unnecessary files*
+"""
+    
+    def _create_s2a_message_content(self, message: UnifiedMessage) -> str:
+        """Create S2A (System-to-Agent) message content."""
+        # Handle line breaks - convert \n to proper markdown line breaks
+        content = message.content.replace('\n', '\n\n')
+        
+        return f"""# [S2A] System → {message.recipient}
+
+**From**: {message.sender}
+**To**: {message.recipient}
+**Priority**: {message.priority.value.lower()}
+**Message ID**: {message.message_id}
+**Message Type**: System-to-Agent Communication
+**Timestamp**: {message.timestamp.isoformat()}
+
+---
+
+{content}
+
+---
+
+*S2A Message - System-to-Agent Communication*
+*🤖 Automated System Message*
+"""
+    
+    def _create_h2a_message_content(self, message: UnifiedMessage) -> str:
+        """Create H2A (Human-to-Agent) message content."""
+        # Handle line breaks - convert \n to proper markdown line breaks
+        content = message.content.replace('\n', '\n\n')
+        
+        return f"""# [H2A] Human → {message.recipient}
+
+**From**: {message.sender}
+**To**: {message.recipient}
+**Priority**: {message.priority.value.lower()}
+**Message ID**: {message.message_id}
+**Message Type**: Human-to-Agent Communication
+**Timestamp**: {message.timestamp.isoformat()}
+
+---
+
+{content}
+
+---
+
+*H2A Message - Human-to-Agent Communication*
+*👤 Human User Message*
+"""
+    
+    def _create_c2a_message_content(self, message: UnifiedMessage) -> str:
+        """Create C2A (Captain-to-Agent) message content."""
+        # Handle line breaks - convert \n to proper markdown line breaks
+        content = message.content.replace('\n', '\n\n')
+        
+        return f"""# [C2A] Captain → {message.recipient}
+
+**From**: {message.sender}
+**To**: {message.recipient}
+**Priority**: {message.priority.value.lower()}
+**Message ID**: {message.message_id}
+**Message Type**: Captain-to-Agent Communication
+**Timestamp**: {message.timestamp.isoformat()}
+
+---
+
+{content}
+
+---
+
+*C2A Message - Captain-to-Agent Communication*
+*🏴‍☠️ Captain's Orders*
+"""
+    
+    def _create_standard_message_content(self, message: UnifiedMessage) -> str:
+        """Create standard message content."""
         priority_emoji = {
             "LOW": "🟢",
             "REGULAR": "🔵", 
@@ -72,6 +185,9 @@ class InboxMessageDelivery(InboxDeliveryProvider, MessageHistoryProvider):
         }
         
         emoji = priority_emoji.get(message.priority.value, "🔵")
+        
+        # Handle line breaks - convert \n to proper markdown line breaks
+        content = message.content.replace('\n', '\n\n')
         
         return f"""# {emoji} MESSAGE FROM {message.sender.upper()}
 
@@ -84,7 +200,7 @@ class InboxMessageDelivery(InboxDeliveryProvider, MessageHistoryProvider):
 
 ---
 
-{message.content}
+{content}
 
 ---
 

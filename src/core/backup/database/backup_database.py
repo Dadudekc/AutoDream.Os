@@ -409,3 +409,4 @@ except ProcessingError as e:
         except Exception as e:
             logger.error(f"Error getting database stats: {e}")
             return {}
+

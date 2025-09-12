@@ -397,3 +397,4 @@ async def start_backup_monitoring(config_path: Optional[str] = None) -> None:
     """Start backup monitoring system."""
     orchestrator = BackupMonitoringOrchestrator(config_path)
     await orchestrator.start_monitoring()
+

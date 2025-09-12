@@ -64,7 +64,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 38 (<unknown>, line 40)"
       }
     },
     {
@@ -136,7 +136,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -328,7 +328,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 44 (<unknown>, line 46)"
       }
     },
     {
@@ -376,7 +376,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "invalid syntax (<unknown>, line 56)"
+        "error": "expected an indented block after function definition on line 30 (<unknown>, line 32)"
       }
     },
     {
@@ -400,7 +400,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 35 (<unknown>, line 37)"
       }
     },
     {
@@ -424,7 +424,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 36 (<unknown>, line 38)"
       }
     },
     {
@@ -448,7 +448,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 23 (<unknown>, line 25)"
       }
     },
     {
@@ -544,31 +544,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "scripts\\activate_vector_database_integration.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 12 (<unknown>, line 14)"
       }
     },
     {
@@ -592,7 +568,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 71 (<unknown>, line 73)"
       }
     },
     {
@@ -716,6 +692,78 @@
       }
     },
     {
+      "file_path": "scripts\\activate_vector_database_integration.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "scripts\\broadcast_contract_announcement.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 44 (<unknown>, line 46)"
+      }
+    },
+    {
+      "file_path": "scripts\\broadcast_advanced_contracts.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 36 (<unknown>, line 38)"
+      }
+    },
+    {
       "file_path": "scripts\\execution\\run_admin_commander.py",
       "analysis": {
         "language": ".py",
@@ -760,7 +808,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 57 (<unknown>, line 59)"
       }
     },
     {
@@ -880,35 +928,11 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 5 (<unknown>, line 7)"
       }
     },
     {
       "file_path": "scripts\\utilities\\__init__.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "scripts\\agents\\__init__.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -952,7 +976,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 49 (<unknown>, line 51)"
       }
     },
     {
@@ -981,7 +1005,7 @@
     }
   ],
   "summary": {
-    "total_files": 37,
+    "total_files": 38,
     "total_lines": 455,
     "total_functions": 0,
     "total_classes": 0,
@@ -989,7 +1013,7 @@
     "file_types": {
       ".sh": 1,
       ".yml": 1,
-      ".py": 33,
+      ".py": 34,
       ".md": 2
     },
     "avg_complexity_by_type": {
@@ -1096,11 +1120,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "scripts\\activate_vector_database_integration.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "scripts\\cleanup_overnight_sequence.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1127,6 +1146,21 @@
     },
     {
       "file_path": "scripts\\test_enhanced_discord.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\activate_vector_database_integration.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\broadcast_contract_announcement.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\broadcast_advanced_contracts.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1167,11 +1201,6 @@
     },
     {
       "file_path": "scripts\\utilities\\__init__.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "scripts\\agents\\__init__.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

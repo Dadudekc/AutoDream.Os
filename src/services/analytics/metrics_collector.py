@@ -175,3 +175,4 @@ def create_metrics_collector(retention_hours: int = 24) -> MetricsCollector:
 
 # Export for DI
 __all__ = ["MetricsCollector", "MetricDataPoint", "create_metrics_collector"]
+

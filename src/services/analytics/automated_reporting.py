@@ -238,3 +238,4 @@ def create_automated_reporting_system(
 
 # Export for DI
 __all__ = ["AutomatedReportingSystem", "create_automated_reporting_system"]
+

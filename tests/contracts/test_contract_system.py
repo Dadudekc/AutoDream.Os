@@ -656,3 +656,4 @@ class TestContractSystemIntegration:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--cov=contracts", "--cov-report=term-missing"])
+

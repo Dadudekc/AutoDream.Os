@@ -721,3 +721,4 @@ if __name__ == "__main__":
     # Generate sample report
     report = framework.generate_test_report("dict")
     print(f"Test framework ready with {report['summary']['total_tests']} test configurations")
+

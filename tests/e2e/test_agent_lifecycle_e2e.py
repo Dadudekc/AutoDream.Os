@@ -385,3 +385,4 @@ if __name__ == "__main__":
     for result in results:
         status_icon = "✅" if result.status == TestStatus.PASSED else "❌"
         print(f"{status_icon} {result.test_name}: {result.status.value}")
+

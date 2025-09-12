@@ -494,3 +494,4 @@ if __name__ == "__main__":
     print("- Run full test suite: python -m pytest tests/test_commandresult.py")
     print("- Generate coverage report: python -m pytest tests/test_commandresult.py --cov-report=html")
     print("- Integrate with CI/CD pipeline for automated testing")
+

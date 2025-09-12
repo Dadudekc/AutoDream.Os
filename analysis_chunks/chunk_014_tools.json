@@ -119,7 +119,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 45 (<unknown>, line 47)"
       }
     },
     {
@@ -167,7 +167,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 65 (<unknown>, line 67)"
       }
     },
     {
@@ -215,7 +215,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 35 (<unknown>, line 37)"
       }
     },
     {
@@ -287,7 +287,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 37 (<unknown>, line 39)"
       }
     },
     {
@@ -323,7 +323,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 39 (<unknown>, line 41)"
       }
     },
     {
@@ -371,31 +371,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "unterminated string literal (detected at line 187) (<unknown>, line 187)"
-      }
-    },
-    {
-      "file_path": "tools\\auto_remediate_loc.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 33 (<unknown>, line 35)"
       }
     },
     {
@@ -420,6 +396,126 @@
         "has_async": false,
         "has_type_hints": false,
         "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\messaging_performance_cli.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 35 (<unknown>, line 37)"
+      }
+    },
+    {
+      "file_path": "tools\\auto_remediate_loc.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 85 (<unknown>, line 87)"
+      }
+    },
+    {
+      "file_path": "tools\\triple_check_protocols.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 42 (<unknown>, line 44)"
+      }
+    },
+    {
+      "file_path": "tools\\competitive_progress_reporter.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 48 (<unknown>, line 50)"
+      }
+    },
+    {
+      "file_path": "tools\\double_check_protocols.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 42 (<unknown>, line 44)"
       }
     },
     {
@@ -467,7 +563,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 36 (<unknown>, line 38)"
       }
     },
     {
@@ -515,12 +611,12 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 31 (<unknown>, line 33)"
       }
     }
   ],
   "summary": {
-    "total_files": 25,
+    "total_files": 29,
     "total_lines": 0,
     "total_functions": 0,
     "total_classes": 0,
@@ -528,7 +624,7 @@
     "file_types": {
       ".json": 4,
       ".sh": 2,
-      ".py": 18,
+      ".py": 22,
       ".ps1": 1
     },
     "avg_complexity_by_type": {
@@ -635,12 +731,32 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "tools\\test_coverage_improvement.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\messaging_performance_cli.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "tools\\auto_remediate_loc.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "tools\\test_coverage_improvement.py",
+      "file_path": "tools\\triple_check_protocols.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\competitive_progress_reporter.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\double_check_protocols.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

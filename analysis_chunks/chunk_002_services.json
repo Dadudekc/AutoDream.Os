@@ -47,7 +47,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 17 (<unknown>, line 19)"
       }
     },
     {
@@ -71,7 +71,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 18 (<unknown>, line 20)"
       }
     },
     {
@@ -95,7 +95,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 53 (<unknown>, line 55)"
       }
     },
     {
@@ -167,7 +167,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -191,7 +191,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 35 (<unknown>, line 37)"
       }
     },
     {
@@ -215,7 +215,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 18 (<unknown>, line 20)"
       }
     },
     {
@@ -263,7 +263,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 17 (<unknown>, line 19)"
       }
     },
     {
@@ -311,7 +311,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 17 (<unknown>, line 19)"
       }
     },
     {
@@ -359,7 +359,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -407,7 +407,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 20 (<unknown>, line 22)"
       }
     },
     {
@@ -431,7 +431,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 23 (<unknown>, line 25)"
       }
     },
     {
@@ -479,7 +479,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -503,7 +503,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 17 (<unknown>, line 21)"
       }
     },
     {
@@ -527,7 +527,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 36 (<unknown>, line 42)"
       }
     },
     {
@@ -551,7 +551,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 35 (<unknown>, line 37)"
       }
     },
     {
@@ -575,7 +575,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 35 (<unknown>, line 37)"
       }
     },
     {
@@ -599,7 +599,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 70 (<unknown>, line 72)"
       }
     },
     {
@@ -623,7 +623,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 31 (<unknown>, line 33)"
       }
     },
     {
@@ -647,7 +647,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 32 (<unknown>, line 34)"
       }
     },
     {
@@ -671,7 +671,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 43 (<unknown>, line 45)"
       }
     },
     {
@@ -695,7 +695,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 31 (<unknown>, line 33)"
       }
     },
     {
@@ -719,7 +719,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 39 (<unknown>, line 41)"
       }
     },
     {
@@ -743,7 +743,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -767,7 +767,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 87 (<unknown>, line 89)"
       }
     },
     {
@@ -791,7 +791,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 21 (<unknown>, line 23)"
       }
     },
     {
@@ -815,7 +815,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -839,7 +839,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 24 (<unknown>, line 26)"
       }
     },
     {
@@ -863,7 +863,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -887,7 +887,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 23 (<unknown>, line 25)"
       }
     },
     {
@@ -911,7 +911,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -935,7 +935,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -959,7 +959,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 47 (<unknown>, line 54)"
       }
     },
     {
@@ -983,7 +983,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -1007,7 +1007,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 82 (<unknown>, line 84)"
       }
     },
     {
@@ -1031,7 +1031,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 34 (<unknown>, line 36)"
       }
     },
     {
@@ -1055,7 +1055,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 23 (<unknown>, line 25)"
       }
     },
     {
@@ -1079,59 +1079,59 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\services\\advanced_analytics_service.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\services\\consolidated_messaging_service.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
       "file_path": "src\\services\\messaging_cli_refactored.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\services\\messaging_performance_monitor.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after class definition on line 71 (<unknown>, line 73)"
+      }
+    },
+    {
+      "file_path": "src\\services\\advanced_analytics_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1175,11 +1175,11 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 35 (<unknown>, line 37)"
       }
     },
     {
-      "file_path": "src\\services\\coordination\\stats_tracker.py",
+      "file_path": "src\\services\\consolidated_messaging_service.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1443,17 +1443,17 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\services\\advanced_analytics_service.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\services\\consolidated_messaging_service.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\services\\messaging_cli_refactored.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\services\\messaging_performance_monitor.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\services\\advanced_analytics_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1463,7 +1463,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\services\\coordination\\stats_tracker.py",
+      "file_path": "src\\services\\consolidated_messaging_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

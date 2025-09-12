@@ -537,3 +537,4 @@ if __name__ == "__main__":
             print(f"   Error: {result.error_message}")
         if result.assertions:
             print(f"   Assertions: {len(result.assertions)} passed")
+

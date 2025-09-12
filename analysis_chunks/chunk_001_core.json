@@ -23,7 +23,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -47,31 +47,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\coordinator_models.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 21 (<unknown>, line 23)"
       }
     },
     {
@@ -95,7 +71,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 15 (<unknown>, line 16)"
       }
     },
     {
@@ -239,31 +215,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\coordinator_interfaces.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 29 (<unknown>, line 31)"
       }
     },
     {
@@ -287,31 +239,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\message_queue_pyautogui_integration.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 24 (<unknown>, line 26)"
       }
     },
     {
@@ -387,79 +315,7 @@
       }
     },
     {
-      "file_path": "src\\core\\analytics_unified.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
       "file_path": "src\\core\\automated_health_check_system.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\config_core.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\coordination_unified.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -503,7 +359,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 22 (<unknown>, line 24)"
       }
     },
     {
@@ -527,55 +383,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\core_configuration.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\core_coordination.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 19 (<unknown>, line 21)"
       }
     },
     {
@@ -599,7 +407,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 41 (<unknown>, line 43)"
       }
     },
     {
@@ -671,7 +479,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 204 (<unknown>, line 205)"
       }
     },
     {
@@ -695,7 +503,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 152 (<unknown>, line 153)"
       }
     },
     {
@@ -719,7 +527,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 144 (<unknown>, line 145)"
       }
     },
     {
@@ -743,55 +551,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\enhanced_communication_protocols.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\enhanced_unified_config.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 130 (<unknown>, line 131)"
       }
     },
     {
@@ -815,7 +575,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 26 (<unknown>, line 28)"
       }
     },
     {
@@ -839,7 +599,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 151 (<unknown>, line 152)"
       }
     },
     {
@@ -863,7 +623,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 151 (<unknown>, line 152)"
       }
     },
     {
@@ -887,103 +647,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\message_queue.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\message_queue_interfaces.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\message_queue_persistence.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\message_queue_statistics.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 150 (<unknown>, line 151)"
       }
     },
     {
@@ -1007,7 +671,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 16 (<unknown>, line 17)"
       }
     },
     {
@@ -1031,31 +695,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
-      "file_path": "src\\core\\performance_monitoring_dashboard.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 92 (<unknown>, line 93)"
       }
     },
     {
@@ -1079,7 +719,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 143 (<unknown>, line 144)"
       }
     },
     {
@@ -1103,7 +743,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 156 (<unknown>, line 157)"
       }
     },
     {
@@ -1127,7 +767,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 26 (<unknown>, line 27)"
       }
     },
     {
@@ -1151,7 +791,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 147 (<unknown>, line 148)"
       }
     },
     {
@@ -1175,11 +815,35 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 222 (<unknown>, line 223)"
       }
     },
     {
-      "file_path": "src\\core\\unified_config.py",
+      "file_path": "src\\core\\unified_logging_system.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 23 (<unknown>, line 25)"
+      }
+    },
+    {
+      "file_path": "src\\core\\unified_monitoring_coordinator.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1200,6 +864,342 @@
         "has_async": false,
         "has_type_hints": false,
         "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\validation_unified.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 162 (<unknown>, line 163)"
+      }
+    },
+    {
+      "file_path": "src\\core\\vector_database.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "invalid syntax (<unknown>, line 43)"
+      }
+    },
+    {
+      "file_path": "src\\core\\vector_integration_analytics.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 24 (<unknown>, line 26)"
+      }
+    },
+    {
+      "file_path": "src\\core\\vector_unified.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 152 (<unknown>, line 153)"
+      }
+    },
+    {
+      "file_path": "src\\core\\config_monitor.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 78 (<unknown>, line 79)"
+      }
+    },
+    {
+      "file_path": "src\\core\\coordinate_loader.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\workspace_agent_registry.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 20 (<unknown>, line 21)"
+      }
+    },
+    {
+      "file_path": "src\\core\\lazy_loader.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 24 (<unknown>, line 25)"
+      }
+    },
+    {
+      "file_path": "src\\core\\performance_monitor.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 53 (<unknown>, line 54)"
+      }
+    },
+    {
+      "file_path": "src\\core\\resource_manager.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 40 (<unknown>, line 41)"
+      }
+    },
+    {
+      "file_path": "src\\core\\aggressive_lazy_loader.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 11 (<unknown>, line 12)"
+      }
+    },
+    {
+      "file_path": "src\\core\\analytics_unified.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after class definition on line 34 (<unknown>, line 36)"
+      }
+    },
+    {
+      "file_path": "src\\core\\consolidated_configuration.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "src\\core\\consolidated_coordinator.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 102 (<unknown>, line 103)"
       }
     }
   ],
@@ -1228,11 +1228,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\coordinator_models.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\core\\documentation_indexing_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1268,17 +1263,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\coordinator_interfaces.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\core\\unified_logging_system_engine.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\message_queue_pyautogui_integration.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1298,22 +1283,7 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\analytics_unified.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\core\\automated_health_check_system.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\config_core.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\coordination_unified.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1324,16 +1294,6 @@
     },
     {
       "file_path": "src\\core\\coordinator_status_parser.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\core_configuration.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\core_coordination.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1373,16 +1333,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\enhanced_communication_protocols.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\enhanced_unified_config.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\core\\env_loader.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1403,37 +1353,12 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\message_queue.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\message_queue_interfaces.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\message_queue_persistence.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\message_queue_statistics.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\core\\onboarding_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "src\\core\\operational_monitoring_baseline.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
-      "file_path": "src\\core\\performance_monitoring_dashboard.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
@@ -1463,7 +1388,82 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\core\\unified_config.py",
+      "file_path": "src\\core\\unified_logging_system.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\unified_monitoring_coordinator.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\validation_unified.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\vector_database.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\vector_integration_analytics.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\vector_unified.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\config_monitor.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\coordinate_loader.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\workspace_agent_registry.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\lazy_loader.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\performance_monitor.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\resource_manager.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\aggressive_lazy_loader.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\analytics_unified.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\consolidated_configuration.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\core\\consolidated_coordinator.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

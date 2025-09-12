@@ -1,5 +1,5 @@
 {
-  "analysis_timestamp": "2025-09-12T01:35:56.360187",
+  "analysis_timestamp": "2025-09-12T04:03:04.769663",
   "project_root": "D:\\Agent_Cellphone_V2_Repository",
   "chunk_size": 50,
   "total_directories": 14,
@@ -8,23 +8,38 @@
       ".": {
         "files": {
           "": 5,
-          ".md": 52,
+          ".md": 63,
           ".yaml": 2,
           ".example": 2,
           ".cjs": 1,
-          ".py": 31,
           ".toml": 1,
-          ".json": 19,
-          ".txt": 3,
-          ".log": 1,
-          ".pid": 1,
+          ".py": 31,
+          ".json": 18,
+          ".txt": 11,
           ".ps1": 1,
           ".js": 1,
           ".ini": 2
         },
-        "file_count": 122,
-        "subdirs": 35,
-        "total_files": 122
+        "file_count": 138,
+        "subdirs": 39,
+        "total_files": 138
+      },
+      ".ruff_cache": {
+        "files": {
+          ".tag": 1,
+          "": 1
+        },
+        "file_count": 2,
+        "subdirs": 1,
+        "total_files": 2
+      },
+      ".ruff_cache\\0.6.9": {
+        "files": {
+          "": 132
+        },
+        "file_count": 132,
+        "subdirs": 0,
+        "total_files": 132
       },
       "analysis": {
         "files": {
@@ -43,30 +58,14 @@
         "subdirs": 0,
         "total_files": 15
       },
-      ".ruff_cache": {
+      "test_results": {
         "files": {
-          ".tag": 1,
-          "": 1
+          ".json": 1,
+          ".md": 1
         },
         "file_count": 2,
-        "subdirs": 2,
+        "subdirs": 0,
         "total_files": 2
-      },
-      ".ruff_cache\\0.6.9": {
-        "files": {
-          "": 155
-        },
-        "file_count": 155,
-        "subdirs": 0,
-        "total_files": 155
-      },
-      ".ruff_cache\\0.13.0": {
-        "files": {
-          "": 53
-        },
-        "file_count": 53,
-        "subdirs": 0,
-        "total_files": 53
       },
       "analysis_chunks": {
         "files": {
@@ -133,15 +132,30 @@
         "subdirs": 0,
         "total_files": 2
       },
+      ".benchmarks": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "message_archive": {
+        "files": {
+          ".json": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
       "contracts": {
         "files": {
-          ".json": 15,
+          ".json": 151,
           ".yaml": 1,
-          ".md": 4
+          ".md": 9,
+          ".py": 2
         },
-        "file_count": 20,
+        "file_count": 163,
         "subdirs": 1,
-        "total_files": 20
+        "total_files": 163
       },
       "contracts\\archive": {
         "files": {
@@ -231,14 +245,36 @@
         "subdirs": 0,
         "total_files": 0
       },
+      "archive": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 2,
+        "total_files": 0
+      },
+      "archive\\cleanup_": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "archive\\cleanup_20250912_032500": {
+        "files": {
+          ".py": 6,
+          ".txt": 4,
+          ".md": 6
+        },
+        "file_count": 16,
+        "subdirs": 0,
+        "total_files": 16
+      },
       "runtime": {
         "files": {
           ".json": 4,
-          ".txt": 3
+          ".txt": 2
         },
-        "file_count": 7,
+        "file_count": 6,
         "subdirs": 7,
-        "total_files": 7
+        "total_files": 6
       },
       "runtime\\agent_logs": {
         "files": {
@@ -279,11 +315,19 @@
       "runtime\\reports": {
         "files": {
           ".md": 5,
-          ".json": 5
+          ".json": 7
         },
-        "file_count": 10,
+        "file_count": 12,
+        "subdirs": 1,
+        "total_files": 12
+      },
+      "runtime\\reports\\competitive_progress": {
+        "files": {
+          ".json": 2
+        },
+        "file_count": 2,
         "subdirs": 0,
-        "total_files": 10
+        "total_files": 2
       },
       "runtime\\semantic": {
         "files": {},
@@ -519,22 +563,30 @@
       },
       "thea_responses": {
         "files": {
-          ".md": 17,
+          ".md": 18,
           ".png": 14,
           ".txt": 29,
           ".json": 13
         },
-        "file_count": 73,
+        "file_count": 74,
         "subdirs": 0,
-        "total_files": 73
+        "total_files": 74
       },
       "messages": {
         "files": {
-          ".md": 11
+          ".md": 14
         },
-        "file_count": 11,
+        "file_count": 14,
+        "subdirs": 1,
+        "total_files": 14
+      },
+      "messages\\processed": {
+        "files": {
+          ".md": 1
+        },
+        "file_count": 1,
         "subdirs": 0,
-        "total_files": 11
+        "total_files": 1
       },
       "thea_meeting_responses": {
         "files": {
@@ -547,20 +599,20 @@
       "tests": {
         "files": {
           ".md": 5,
-          ".py": 19,
+          ".py": 40,
           "": 1
         },
-        "file_count": 25,
-        "subdirs": 12,
-        "total_files": 25
+        "file_count": 46,
+        "subdirs": 13,
+        "total_files": 46
       },
       "tests\\integration": {
         "files": {
-          ".py": 6
+          ".py": 93
         },
-        "file_count": 6,
+        "file_count": 93,
         "subdirs": 0,
-        "total_files": 6
+        "total_files": 93
       },
       "tests\\operational": {
         "files": {
@@ -573,20 +625,20 @@
       },
       "tests\\operational\\reports": {
         "files": {
-          ".md": 2,
-          ".json": 2
+          ".json": 2,
+          ".md": 1
         },
-        "file_count": 4,
+        "file_count": 3,
         "subdirs": 0,
-        "total_files": 4
+        "total_files": 3
       },
       "tests\\unit": {
         "files": {
-          ".py": 5
+          ".py": 131
         },
-        "file_count": 5,
+        "file_count": 131,
         "subdirs": 0,
-        "total_files": 5
+        "total_files": 131
       },
       "tests\\performance": {
         "files": {
@@ -630,11 +682,11 @@
       },
       "tests\\e2e": {
         "files": {
-          ".py": 1
+          ".py": 18
         },
-        "file_count": 1,
+        "file_count": 18,
         "subdirs": 0,
-        "total_files": 1
+        "total_files": 18
       },
       "tests\\api": {
         "files": {
@@ -659,6 +711,14 @@
         "file_count": 1,
         "subdirs": 0,
         "total_files": 1
+      },
+      "tests\\functional": {
+        "files": {
+          ".py": 47
+        },
+        "file_count": 47,
+        "subdirs": 0,
+        "total_files": 47
       },
       "templates": {
         "files": {
@@ -701,12 +761,12 @@
       },
       "src\\web": {
         "files": {
-          ".py": 3,
-          ".html": 3
+          ".py": 4,
+          ".html": 4
         },
-        "file_count": 6,
+        "file_count": 8,
         "subdirs": 3,
-        "total_files": 6
+        "total_files": 8
       },
       "src\\web\\static": {
         "files": {},
@@ -716,11 +776,11 @@
       },
       "src\\web\\static\\js": {
         "files": {
-          ".js": 55
+          ".js": 57
         },
-        "file_count": 55,
-        "subdirs": 11,
-        "total_files": 55
+        "file_count": 57,
+        "subdirs": 12,
+        "total_files": 57
       },
       "src\\web\\static\\js\\architecture": {
         "files": {
@@ -826,6 +886,14 @@
         "subdirs": 0,
         "total_files": 1
       },
+      "src\\web\\static\\js\\components": {
+        "files": {
+          ".js": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
       "src\\web\\static\\css": {
         "files": {
           ".css": 6
@@ -844,19 +912,19 @@
       },
       "src\\web\\vector_database": {
         "files": {
-          ".py": 12
+          ".py": 13
         },
-        "file_count": 12,
+        "file_count": 13,
         "subdirs": 0,
-        "total_files": 12
+        "total_files": 13
       },
       "src\\services": {
         "files": {
-          ".py": 49
+          ".py": 50
         },
-        "file_count": 49,
-        "subdirs": 8,
-        "total_files": 49
+        "file_count": 50,
+        "subdirs": 9,
+        "total_files": 50
       },
       "src\\services\\coordination": {
         "files": {
@@ -972,11 +1040,11 @@
       },
       "src\\services\\messaging": {
         "files": {
-          ".py": 10
+          ".py": 11
         },
-        "file_count": 10,
-        "subdirs": 1,
-        "total_files": 10
+        "file_count": 11,
+        "subdirs": 5,
+        "total_files": 11
       },
       "src\\services\\messaging\\delivery": {
         "files": {
@@ -986,23 +1054,7 @@
         "subdirs": 0,
         "total_files": 4
       },
-      "src\\core": {
-        "files": {
-          ".py": 64
-        },
-        "file_count": 64,
-        "subdirs": 31,
-        "total_files": 64
-      },
-      "src\\core\\analytics": {
-        "files": {
-          ".py": 1
-        },
-        "file_count": 1,
-        "subdirs": 7,
-        "total_files": 1
-      },
-      "src\\core\\analytics\\coordinators": {
+      "src\\services\\messaging\\models": {
         "files": {
           ".py": 3
         },
@@ -1010,7 +1062,31 @@
         "subdirs": 0,
         "total_files": 3
       },
-      "src\\core\\analytics\\engines": {
+      "src\\services\\messaging\\interfaces": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "src\\services\\messaging\\providers": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "src\\services\\messaging\\cli": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "src\\services\\analytics": {
         "files": {
           ".py": 6
         },
@@ -1018,61 +1094,13 @@
         "subdirs": 0,
         "total_files": 6
       },
-      "src\\core\\analytics\\intelligence": {
+      "src\\core": {
         "files": {
-          ".py": 7
+          ".py": 55
         },
-        "file_count": 7,
-        "subdirs": 1,
-        "total_files": 7
-      },
-      "src\\core\\analytics\\intelligence\\pattern_analysis": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\analytics\\models": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\analytics\\orchestrators": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\analytics\\prediction": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\analytics\\processors": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 1,
-        "total_files": 3
-      },
-      "src\\core\\analytics\\processors\\prediction": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
+        "file_count": 55,
+        "subdirs": 15,
+        "total_files": 55
       },
       "src\\core\\consolidation": {
         "files": {
@@ -1146,178 +1174,6 @@
         "subdirs": 0,
         "total_files": 4
       },
-      "src\\core\\deployment": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 3,
-        "total_files": 3
-      },
-      "src\\core\\deployment\\coordinators": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\deployment\\engines": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\deployment\\models": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\dry_eliminator": {
-        "files": {
-          ".py": 5
-        },
-        "file_count": 5,
-        "subdirs": 2,
-        "total_files": 5
-      },
-      "src\\core\\dry_eliminator\\engines": {
-        "files": {
-          ".py": 6
-        },
-        "file_count": 6,
-        "subdirs": 0,
-        "total_files": 6
-      },
-      "src\\core\\dry_eliminator\\orchestrators": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\emergency_intervention": {
-        "files": {},
-        "file_count": 0,
-        "subdirs": 1,
-        "total_files": 0
-      },
-      "src\\core\\emergency_intervention\\unified_emergency": {
-        "files": {
-          ".py": 6
-        },
-        "file_count": 6,
-        "subdirs": 3,
-        "total_files": 6
-      },
-      "src\\core\\emergency_intervention\\unified_emergency\\engines": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\emergency_intervention\\unified_emergency\\handlers": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\emergency_intervention\\unified_emergency\\orchestrators": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\engines": {
-        "files": {
-          ".py": 21
-        },
-        "file_count": 21,
-        "subdirs": 0,
-        "total_files": 21
-      },
-      "src\\core\\enhanced_integration": {
-        "files": {},
-        "file_count": 0,
-        "subdirs": 3,
-        "total_files": 0
-      },
-      "src\\core\\enhanced_integration\\coordinators": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\enhanced_integration\\engines": {
-        "files": {
-          ".py": 5
-        },
-        "file_count": 5,
-        "subdirs": 0,
-        "total_files": 5
-      },
-      "src\\core\\enhanced_integration\\orchestrators": {
-        "files": {
-          ".py": 6
-        },
-        "file_count": 6,
-        "subdirs": 0,
-        "total_files": 6
-      },
-      "src\\core\\error_handling": {
-        "files": {
-          ".py": 17
-        },
-        "file_count": 17,
-        "subdirs": 2,
-        "total_files": 17
-      },
-      "src\\core\\error_handling\\circuit_breaker": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\error_handling\\metrics": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\file_locking": {
-        "files": {
-          ".py": 6
-        },
-        "file_count": 6,
-        "subdirs": 1,
-        "total_files": 6
-      },
-      "src\\core\\file_locking\\operations": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
       "src\\core\\import_system": {
         "files": {
           ".py": 4
@@ -1326,204 +1182,6 @@
         "subdirs": 0,
         "total_files": 4
       },
-      "src\\core\\integration": {
-        "files": {},
-        "file_count": 0,
-        "subdirs": 2,
-        "total_files": 0
-      },
-      "src\\core\\integration\\analytics": {
-        "files": {
-          ".py": 5
-        },
-        "file_count": 5,
-        "subdirs": 0,
-        "total_files": 5
-      },
-      "src\\core\\integration\\models": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\integration_coordinators": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 1,
-        "total_files": 2
-      },
-      "src\\core\\integration_coordinators\\unified_integration": {
-        "files": {
-          ".py": 5
-        },
-        "file_count": 5,
-        "subdirs": 3,
-        "total_files": 5
-      },
-      "src\\core\\integration_coordinators\\unified_integration\\coordinators": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\integration_coordinators\\unified_integration\\models": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\integration_coordinators\\unified_integration\\monitors": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\intelligent_context": {
-        "files": {
-          ".py": 7
-        },
-        "file_count": 7,
-        "subdirs": 3,
-        "total_files": 7
-      },
-      "src\\core\\intelligent_context\\core": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\intelligent_context\\engines": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\intelligent_context\\unified_intelligent_context": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\managers": {
-        "files": {
-          ".py": 16
-        },
-        "file_count": 16,
-        "subdirs": 4,
-        "total_files": 16
-      },
-      "src\\core\\managers\\adapters": {
-        "files": {
-          ".py": 1
-        },
-        "file_count": 1,
-        "subdirs": 0,
-        "total_files": 1
-      },
-      "src\\core\\managers\\execution": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\managers\\monitoring": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\managers\\results": {
-        "files": {
-          ".py": 7
-        },
-        "file_count": 7,
-        "subdirs": 0,
-        "total_files": 7
-      },
-      "src\\core\\orchestration": {
-        "files": {
-          ".py": 6
-        },
-        "file_count": 6,
-        "subdirs": 2,
-        "total_files": 6
-      },
-      "src\\core\\orchestration\\adapters": {
-        "files": {
-          ".py": 1
-        },
-        "file_count": 1,
-        "subdirs": 0,
-        "total_files": 1
-      },
-      "src\\core\\orchestration\\intent_subsystems": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\pattern_analysis": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 1,
-        "total_files": 3
-      },
-      "src\\core\\pattern_analysis\\unified_pattern_analysis": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\performance": {
-        "files": {
-          ".py": 7
-        },
-        "file_count": 7,
-        "subdirs": 2,
-        "total_files": 7
-      },
-      "src\\core\\performance\\metrics": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\performance\\unified_dashboard": {
-        "files": {
-          ".py": 5
-        },
-        "file_count": 5,
-        "subdirs": 0,
-        "total_files": 5
-      },
       "src\\core\\phase6_integration": {
         "files": {
           ".json": 5
@@ -1531,30 +1189,6 @@
         "file_count": 5,
         "subdirs": 0,
         "total_files": 5
-      },
-      "src\\core\\refactoring": {
-        "files": {
-          ".py": 9
-        },
-        "file_count": 9,
-        "subdirs": 2,
-        "total_files": 9
-      },
-      "src\\core\\refactoring\\metrics": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\core\\refactoring\\tools": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
       },
       "src\\core\\ssot": {
         "files": {
@@ -1597,72 +1231,7 @@
         "subdirs": 0,
         "total_files": 5
       },
-      "src\\core\\validation": {
-        "files": {
-          ".md": 1,
-          ".py": 5
-        },
-        "file_count": 6,
-        "subdirs": 2,
-        "total_files": 6
-      },
-      "src\\core\\validation\\performance_benchmark": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\validation\\rules": {
-        "files": {
-          ".yaml": 9
-        },
-        "file_count": 9,
-        "subdirs": 0,
-        "total_files": 9
-      },
-      "src\\core\\vector_strategic_oversight": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 1,
-        "total_files": 2
-      },
-      "src\\core\\vector_strategic_oversight\\unified_strategic_oversight": {
-        "files": {
-          ".py": 12
-        },
-        "file_count": 12,
-        "subdirs": 2,
-        "total_files": 12
-      },
-      "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers": {
-        "files": {
-          ".py": 3
-        },
-        "file_count": 3,
-        "subdirs": 0,
-        "total_files": 3
-      },
-      "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factories": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
       "src\\core\\quality": {
-        "files": {
-          ".py": 4
-        },
-        "file_count": 4,
-        "subdirs": 0,
-        "total_files": 4
-      },
-      "src\\core\\agent_communication": {
         "files": {
           ".py": 4
         },
@@ -1699,6 +1268,70 @@
         "file_count": 6,
         "subdirs": 0,
         "total_files": 6
+      },
+      "src\\core\\performance": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 1,
+        "total_files": 3
+      },
+      "src\\core\\performance\\models": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "src\\core\\deployment": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 1,
+        "total_files": 2
+      },
+      "src\\core\\deployment\\models": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 0,
+        "total_files": 5
+      },
+      "src\\core\\backup": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 3,
+        "total_files": 2
+      },
+      "src\\core\\backup\\models": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "src\\core\\backup\\database": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "src\\core\\backup\\alerts": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
       },
       "src\\application": {
         "files": {
@@ -1996,12 +1629,12 @@
         "files": {
           ".json": 4,
           ".sh": 2,
-          ".py": 14,
+          ".py": 18,
           ".ps1": 1
         },
-        "file_count": 21,
+        "file_count": 25,
         "subdirs": 1,
-        "total_files": 21
+        "total_files": 25
       },
       "tools\\codemods": {
         "files": {
@@ -2024,7 +1657,7 @@
           ".ok": 1
         },
         "file_count": 1,
-        "subdirs": 10,
+        "subdirs": 15,
         "total_files": 1
       },
       "agent_workspaces\\Agent-1": {
@@ -2040,20 +1673,20 @@
       },
       "agent_workspaces\\Agent-1\\inbox": {
         "files": {
-          ".md": 10
+          ".md": 37
         },
-        "file_count": 10,
+        "file_count": 37,
         "subdirs": 0,
-        "total_files": 10
+        "total_files": 37
       },
       "agent_workspaces\\Agent-8": {
         "files": {
           ".json": 4,
-          ".md": 3
+          ".md": 5
         },
-        "file_count": 7,
+        "file_count": 9,
         "subdirs": 2,
-        "total_files": 7
+        "total_files": 9
       },
       "agent_workspaces\\Agent-8\\ssot": {
         "files": {},
@@ -2095,11 +1728,11 @@
       },
       "agent_workspaces\\Agent-8\\inbox": {
         "files": {
-          ".md": 6
+          ".md": 20
         },
-        "file_count": 6,
+        "file_count": 20,
         "subdirs": 0,
-        "total_files": 6
+        "total_files": 20
       },
       "agent_workspaces\\Agent-2": {
         "files": {
@@ -2112,28 +1745,29 @@
       },
       "agent_workspaces\\Agent-2\\inbox": {
         "files": {
-          ".md": 6
+          ".md": 18
         },
-        "file_count": 6,
+        "file_count": 18,
         "subdirs": 0,
-        "total_files": 6
+        "total_files": 18
       },
       "agent_workspaces\\Agent-3": {
         "files": {
           ".json": 2,
-          ".txt": 1
+          ".txt": 1,
+          ".md": 5
         },
-        "file_count": 3,
+        "file_count": 8,
         "subdirs": 1,
-        "total_files": 3
+        "total_files": 8
       },
       "agent_workspaces\\Agent-3\\inbox": {
         "files": {
-          ".md": 9
+          ".md": 21
         },
-        "file_count": 9,
+        "file_count": 21,
         "subdirs": 0,
-        "total_files": 9
+        "total_files": 21
       },
       "agent_workspaces\\Agent-4": {
         "files": {
@@ -2147,11 +1781,11 @@
       },
       "agent_workspaces\\Agent-4\\inbox": {
         "files": {
-          ".md": 4
+          ".md": 32
         },
-        "file_count": 4,
+        "file_count": 32,
         "subdirs": 0,
-        "total_files": 4
+        "total_files": 32
       },
       "agent_workspaces\\Agent-5": {
         "files": {
@@ -2164,28 +1798,28 @@
       },
       "agent_workspaces\\Agent-5\\inbox": {
         "files": {
-          ".md": 9
+          ".md": 26
         },
-        "file_count": 9,
+        "file_count": 26,
         "subdirs": 0,
-        "total_files": 9
+        "total_files": 26
       },
       "agent_workspaces\\Agent-6": {
         "files": {
           ".json": 2,
-          ".md": 9
+          ".md": 12
         },
-        "file_count": 11,
+        "file_count": 14,
         "subdirs": 1,
-        "total_files": 11
+        "total_files": 14
       },
       "agent_workspaces\\Agent-6\\inbox": {
         "files": {
-          ".md": 5
+          ".md": 17
         },
-        "file_count": 5,
+        "file_count": 17,
         "subdirs": 0,
-        "total_files": 5
+        "total_files": 17
       },
       "agent_workspaces\\Agent-7": {
         "files": {
@@ -2199,12 +1833,12 @@
       },
       "agent_workspaces\\Agent-7\\inbox": {
         "files": {
-          ".md": 5,
+          ".md": 17,
           ".json": 1
         },
-        "file_count": 6,
+        "file_count": 18,
         "subdirs": 0,
-        "total_files": 6
+        "total_files": 18
       },
       "agent_workspaces\\meeting": {
         "files": {
@@ -2222,11 +1856,75 @@
       },
       "agent_workspaces\\Captain Agent-4\\inbox": {
         "files": {
+          ".md": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "agent_workspaces\\CaptainAgent-4": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "agent_workspaces\\CaptainAgent-4\\inbox": {
+        "files": {
           ".md": 3
         },
         "file_count": 3,
         "subdirs": 0,
         "total_files": 3
+      },
+      "agent_workspaces\\history": {
+        "files": {
+          ".json": 21
+        },
+        "file_count": 21,
+        "subdirs": 0,
+        "total_files": 21
+      },
+      "agent_workspaces\\agents": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "agent_workspaces\\agents\\inbox": {
+        "files": {
+          ".md": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "agent_workspaces\\Cursor - Agent-1": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "agent_workspaces\\Cursor - Agent-1\\inbox": {
+        "files": {
+          ".md": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "agent_workspaces\\Cursor - Agent-4": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "agent_workspaces\\Cursor - Agent-4\\inbox": {
+        "files": {
+          ".md": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
       },
       ".cursor": {
         "files": {},
@@ -2336,11 +2034,11 @@
       },
       "devlogs": {
         "files": {
-          ".md": 231
+          ".md": 271
         },
-        "file_count": 231,
+        "file_count": 271,
         "subdirs": 7,
-        "total_files": 231
+        "total_files": 271
       },
       "devlogs\\agent_work": {
         "files": {
@@ -2427,7 +2125,7 @@
           ".md": 3
         },
         "file_count": 3,
-        "subdirs": 1,
+        "subdirs": 7,
         "total_files": 3
       },
       "docs\\archive\\survey_system": {
@@ -2437,6 +2135,602 @@
         "file_count": 5,
         "subdirs": 0,
         "total_files": 5
+      },
+      "docs\\archive\\messaging_reports": {
+        "files": {
+          ".md": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
+      },
+      "docs\\archive\\agent_reports": {
+        "files": {
+          ".md": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\agent_scripts": {
+        "files": {
+          ".py": 7,
+          ".log": 1
+        },
+        "file_count": 8,
+        "subdirs": 0,
+        "total_files": 8
+      },
+      "docs\\archive\\demos": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\system_reports": {
+        "files": {
+          ".md": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "docs\\archive\\consolidated_files": {
+        "files": {
+          ".py": 17
+        },
+        "file_count": 17,
+        "subdirs": 19,
+        "total_files": 17
+      },
+      "docs\\archive\\consolidated_files\\agent_communication": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\managers": {
+        "files": {
+          ".py": 16
+        },
+        "file_count": 16,
+        "subdirs": 4,
+        "total_files": 16
+      },
+      "docs\\archive\\consolidated_files\\managers\\adapters": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "docs\\archive\\consolidated_files\\managers\\execution": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\managers\\monitoring": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\managers\\results": {
+        "files": {
+          ".py": 7
+        },
+        "file_count": 7,
+        "subdirs": 0,
+        "total_files": 7
+      },
+      "docs\\archive\\consolidated_files\\engines": {
+        "files": {
+          ".py": 21
+        },
+        "file_count": 21,
+        "subdirs": 0,
+        "total_files": 21
+      },
+      "docs\\archive\\consolidated_files\\integration": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 2,
+        "total_files": 0
+      },
+      "docs\\archive\\consolidated_files\\integration\\analytics": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 0,
+        "total_files": 5
+      },
+      "docs\\archive\\consolidated_files\\integration\\models": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\validation": {
+        "files": {
+          ".md": 1,
+          ".py": 5
+        },
+        "file_count": 6,
+        "subdirs": 2,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\validation\\performance_benchmark": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\validation\\rules": {
+        "files": {
+          ".yaml": 9
+        },
+        "file_count": 9,
+        "subdirs": 0,
+        "total_files": 9
+      },
+      "docs\\archive\\consolidated_files\\analytics": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 8,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\analytics\\coordinators": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\analytics\\engines": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\analytics\\intelligence": {
+        "files": {
+          ".py": 7
+        },
+        "file_count": 7,
+        "subdirs": 1,
+        "total_files": 7
+      },
+      "docs\\archive\\consolidated_files\\analytics\\intelligence\\pattern_analysis": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\analytics\\models": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\analytics\\orchestrators": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\analytics\\prediction": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\analytics\\processors": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 1,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\analytics\\processors\\prediction": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\analytics\\interfaces": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\deployment": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 3,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\deployment\\coordinators": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\deployment\\engines": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\deployment\\models": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 0,
+        "total_files": 5
+      },
+      "docs\\archive\\consolidated_files\\dry_eliminator": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 2,
+        "total_files": 5
+      },
+      "docs\\archive\\consolidated_files\\dry_eliminator\\engines": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\dry_eliminator\\orchestrators": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\emergency_intervention": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 3,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\engines": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\handlers": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\emergency_intervention\\unified_emergency\\orchestrators": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\enhanced_integration": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 3,
+        "total_files": 0
+      },
+      "docs\\archive\\consolidated_files\\enhanced_integration\\coordinators": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\enhanced_integration\\engines": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 0,
+        "total_files": 5
+      },
+      "docs\\archive\\consolidated_files\\enhanced_integration\\orchestrators": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\error_handling": {
+        "files": {
+          ".py": 17
+        },
+        "file_count": 17,
+        "subdirs": 2,
+        "total_files": 17
+      },
+      "docs\\archive\\consolidated_files\\error_handling\\circuit_breaker": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\error_handling\\metrics": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\file_locking": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 1,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\file_locking\\operations": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\performance": {
+        "files": {
+          ".py": 7
+        },
+        "file_count": 7,
+        "subdirs": 2,
+        "total_files": 7
+      },
+      "docs\\archive\\consolidated_files\\performance\\metrics": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\performance\\unified_dashboard": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 0,
+        "total_files": 5
+      },
+      "docs\\archive\\consolidated_files\\refactoring": {
+        "files": {
+          ".py": 9
+        },
+        "file_count": 9,
+        "subdirs": 2,
+        "total_files": 9
+      },
+      "docs\\archive\\consolidated_files\\refactoring\\metrics": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\refactoring\\tools": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\intelligent_context": {
+        "files": {
+          ".py": 7
+        },
+        "file_count": 7,
+        "subdirs": 3,
+        "total_files": 7
+      },
+      "docs\\archive\\consolidated_files\\intelligent_context\\core": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\intelligent_context\\engines": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\intelligent_context\\unified_intelligent_context": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\pattern_analysis": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 1,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\pattern_analysis\\unified_pattern_analysis": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\orchestration": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 2,
+        "total_files": 6
+      },
+      "docs\\archive\\consolidated_files\\orchestration\\adapters": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "docs\\archive\\consolidated_files\\orchestration\\intent_subsystems": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "docs\\archive\\consolidated_files\\integration_coordinators": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 1,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration": {
+        "files": {
+          ".py": 5
+        },
+        "file_count": 5,
+        "subdirs": 3,
+        "total_files": 5
+      },
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\coordinators": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\models": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\integration_coordinators\\unified_integration\\monitors": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 1,
+        "total_files": 2
+      },
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight": {
+        "files": {
+          ".py": 12
+        },
+        "file_count": 12,
+        "subdirs": 2,
+        "total_files": 12
+      },
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers": {
+        "files": {
+          ".py": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
+      },
+      "docs\\archive\\consolidated_files\\vector_strategic_oversight\\unified_strategic_oversight\\factories": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
       },
       "docs\\guides": {
         "files": {
@@ -2512,12 +2806,11 @@
       },
       "message_queue": {
         "files": {
-          ".lock": 4,
           ".json": 1
         },
-        "file_count": 5,
+        "file_count": 1,
         "subdirs": 0,
-        "total_files": 5
+        "total_files": 1
       },
       "prompts": {
         "files": {
@@ -2555,12 +2848,12 @@
         "files": {
           ".sh": 1,
           ".yaml": 1,
-          ".py": 22,
+          ".py": 24,
           ".md": 2
         },
-        "file_count": 26,
+        "file_count": 28,
         "subdirs": 4,
-        "total_files": 26
+        "total_files": 28
       },
       "scripts\\execution": {
         "files": {
@@ -2579,12 +2872,10 @@
         "total_files": 3
       },
       "scripts\\agents": {
-        "files": {
-          ".py": 1
-        },
-        "file_count": 1,
+        "files": {},
+        "file_count": 0,
         "subdirs": 0,
-        "total_files": 1
+        "total_files": 0
       },
       "scripts\\semantic": {
         "files": {
@@ -2595,22 +2886,20 @@
         "total_files": 2
       }
     },
-    "total_files": 2279,
-    "total_dirs": 328,
+    "total_files": 2993,
+    "total_dirs": 366,
     "file_types": {
-      "": 220,
-      ".md": 724,
+      "": 144,
+      ".md": 957,
       ".yaml": 17,
       ".example": 2,
       ".cjs": 1,
-      ".py": 828,
       ".toml": 1,
-      ".json": 188,
-      ".txt": 38,
-      ".log": 1,
-      ".pid": 1,
+      ".py": 1210,
+      ".json": 352,
+      ".txt": 49,
       ".ps1": 2,
-      ".js": 184,
+      ".js": 188,
       ".ini": 2,
       ".tag": 2,
       ".db": 3,
@@ -2620,7 +2909,7 @@
       ".png": 14,
       ".dockerfile": 1,
       ".service": 1,
-      ".html": 3,
+      ".html": 4,
       ".css": 6,
       ".sh": 3,
       ".pyd": 1,
@@ -2628,7 +2917,7 @@
       ".mdc": 10,
       ".sqlite3": 1,
       ".bin": 4,
-      ".lock": 4
+      ".log": 1
     }
   },
   "chunks": [
@@ -2651,7 +2940,7 @@
       "directory": "src/web",
       "file_path": "analysis_chunks\\chunk_003_web.json",
       "files_analyzed": 50,
-      "consolidation_opportunities": 7
+      "consolidation_opportunities": 9
     },
     {
       "chunk_id": 4,
@@ -2720,15 +3009,15 @@
       "chunk_id": 13,
       "directory": "scripts",
       "file_path": "analysis_chunks\\chunk_013_scripts.json",
-      "files_analyzed": 37,
-      "consolidation_opportunities": 37
+      "files_analyzed": 38,
+      "consolidation_opportunities": 38
     },
     {
       "chunk_id": 14,
       "directory": "tools",
       "file_path": "analysis_chunks\\chunk_014_tools.json",
-      "files_analyzed": 25,
-      "consolidation_opportunities": 25
+      "files_analyzed": 29,
+      "consolidation_opportunities": 29
     }
   ]
 }

@@ -23,7 +23,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 25 (<unknown>, line 27)"
       }
     },
     {
@@ -47,7 +47,7 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after class definition on line 68 (<unknown>, line 70)"
       }
     },
     {
@@ -107,7 +107,43 @@
         "has_tests": false,
         "has_async": false,
         "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
+        "error": "expected an indented block after function definition on line 39 (<unknown>, line 41)"
+      }
+    },
+    {
+      "file_path": "src\\web\\messaging_performance_dashboard.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "expected an indented block after function definition on line 48 (<unknown>, line 50)"
+      }
+    },
+    {
+      "file_path": "src\\web\\index.html",
+      "analysis": {
+        "language": ".html",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
       }
     },
     {
@@ -2405,81 +2441,23 @@
         "has_jquery": true,
         "has_react": false
       }
-    },
-    {
-      "file_path": "src\\web\\static\\js\\dashboard-view-overview.js",
-      "analysis": {
-        "language": ".js",
-        "functions": [
-          "renderOverviewView",
-          "renderContractStatusView"
-        ],
-        "classes": {},
-        "imports": [],
-        "exports": [],
-        "async_functions": [],
-        "arrow_functions": [],
-        "line_count": 167,
-        "non_empty_lines": 155,
-        "comment_lines": 18,
-        "complexity": 2,
-        "file_size": 6668,
-        "import_count": 0,
-        "function_count": 2,
-        "class_count": 0,
-        "has_async": false,
-        "has_arrow_functions": false,
-        "has_es6": true,
-        "has_jquery": true,
-        "has_react": false
-      }
-    },
-    {
-      "file_path": "src\\web\\static\\js\\dashboard-view-performance.js",
-      "analysis": {
-        "language": ".js",
-        "functions": [
-          "renderAgentPerformanceView",
-          "renderSystemHealthView",
-          "renderPerformanceMetricsView",
-          "renderWorkloadDistributionView"
-        ],
-        "classes": {},
-        "imports": [],
-        "exports": [],
-        "async_functions": [],
-        "arrow_functions": [],
-        "line_count": 250,
-        "non_empty_lines": 237,
-        "comment_lines": 28,
-        "complexity": 4,
-        "file_size": 10362,
-        "import_count": 0,
-        "function_count": 4,
-        "class_count": 0,
-        "has_async": false,
-        "has_arrow_functions": false,
-        "has_es6": true,
-        "has_jquery": true,
-        "has_react": false
-      }
     }
   ],
   "summary": {
     "total_files": 50,
-    "total_lines": 15105,
-    "total_functions": 150,
+    "total_lines": 14688,
+    "total_functions": 144,
     "total_classes": 76,
     "total_imports": 50,
     "file_types": {
-      ".py": 3,
-      ".html": 3,
-      ".js": 44
+      ".py": 4,
+      ".html": 4,
+      ".js": 42
     },
     "avg_complexity_by_type": {
       ".py": 0.0,
       ".html": 0.0,
-      ".js": 5.136363636363637
+      ".js": 5.238095238095238
     }
   },
   "consolidation_opportunities": [
@@ -2510,6 +2488,16 @@
     },
     {
       "file_path": "src\\web\\analytics_dashboard.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\messaging_performance_dashboard.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\index.html",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

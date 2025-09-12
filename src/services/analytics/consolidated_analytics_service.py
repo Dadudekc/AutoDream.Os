@@ -200,3 +200,4 @@ __all__ = [
     "get_consolidated_analytics_service",
     "get_analytics_service"  # Backward compatibility
 ]
+

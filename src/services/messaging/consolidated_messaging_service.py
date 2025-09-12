@@ -71,9 +71,16 @@ class ConsolidatedMessagingService:
             if target is not None:
                 # Convert old-style call to UnifiedMessage
                 if isinstance(message, str):
+                    # Extract agent ID from window_title (e.g., "Cursor - Agent-4" -> "Agent-4")
+                    window_title = target.get('window_title', 'unknown')
+                    if ' - ' in window_title:
+                        agent_id = window_title.split(' - ')[-1]
+                    else:
+                        agent_id = window_title
+                    
                     unified_message = UnifiedMessage(
                         content=message,
-                        recipient=kwargs.get('recipient', target.get('window_title', 'unknown')),
+                        recipient=kwargs.get('recipient', agent_id),
                         sender=kwargs.get('sender', 'System'),
                         message_type=UnifiedMessageType.TEXT,
                         priority=UnifiedMessagePriority.REGULAR

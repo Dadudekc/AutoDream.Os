@@ -351,3 +351,4 @@ export const api = new V2SwarmAPI();
 
 // Make available globally for debugging
 window.v2swarmAPI = api;
+

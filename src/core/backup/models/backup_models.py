@@ -205,3 +205,4 @@ class MonitoringDashboard:
         }
         self.widgets.append(widget)
         self.last_updated = datetime.now()
+

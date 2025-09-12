@@ -326,3 +326,4 @@ except ProcessingError as e:
         except Exception as e:
             logger.error(f"Error getting alert statistics: {e}")
             return {}
+

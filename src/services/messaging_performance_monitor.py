@@ -706,3 +706,4 @@ def get_messaging_performance_monitor(service_name: str = "MessagingService") ->
     if _messaging_monitor is None:
         _messaging_monitor = MessagingPerformanceMonitor(service_name)
     return _messaging_monitor
+

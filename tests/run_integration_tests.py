@@ -35,7 +35,12 @@ from typing import Dict, Any, List
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from tests.integration_testing_framework import IntegrationTestFramework, TestResult, TestStatus, TestType
+from tests.integration_testing_framework import (
+    IntegrationTestFramework,
+    TestResult,
+    TestStatus,
+    TestType,
+)
 
 
 class IntegrationTestRunner:
@@ -60,7 +65,7 @@ class IntegrationTestRunner:
             ("End-to-End Tests", self.run_e2e_tests),
             ("API Tests", self.run_api_tests),
             ("Cross-Service Integration", self.run_integration_tests),
-            ("Deployment Verification", self.run_deployment_tests)
+            ("Deployment Verification", self.run_deployment_tests),
         ]
 
         all_results = []
@@ -84,7 +89,7 @@ class IntegrationTestRunner:
                     start_time=datetime.now(),
                     end_time=datetime.now(),
                     duration=0.0,
-                    error_message=str(e)
+                    error_message=str(e),
                 )
                 all_results.append(error_result)
 
@@ -104,7 +109,7 @@ class IntegrationTestRunner:
         print(".2f")
         print(f"Success Rate: {summary['success_rate']:.1%}")
 
-        if summary['failed'] > 0:
+        if summary["failed"] > 0:
             print(f"\n❌ Failed Tests: {', '.join(summary['failed_tests'])}")
 
         print(f"\nEnvironment: {self.environment}")
@@ -120,8 +125,8 @@ class IntegrationTestRunner:
                 "environment": self.environment,
                 "base_url": self.base_url,
                 "execution_time": datetime.now().isoformat(),
-                "total_duration": total_duration
-            }
+                "total_duration": total_duration,
+            },
         }
 
     def run_e2e_tests(self) -> List[TestResult]:
@@ -131,6 +136,7 @@ class IntegrationTestRunner:
         # Import and run E2E tests
         try:
             from tests.e2e.test_agent_lifecycle_e2e import run_e2e_test_suite
+
             results = run_e2e_test_suite()
         except ImportError:
             print("   ⚠️  E2E test suite not available")
@@ -146,6 +152,7 @@ class IntegrationTestRunner:
         # Import and run API tests
         try:
             from tests.api.test_agent_api_suite import run_agent_api_test_suite
+
             results = run_agent_api_test_suite()
         except ImportError:
             print("   ⚠️  API test suite not available")
@@ -160,7 +167,10 @@ class IntegrationTestRunner:
 
         # Import and run integration tests
         try:
-            from tests.integration.test_cross_service_integration import run_cross_service_integration_suite
+            from tests.integration.test_cross_service_integration import (
+                run_cross_service_integration_suite,
+            )
+
             results = run_cross_service_integration_suite()
         except ImportError:
             print("   ⚠️  Integration test suite not available")
@@ -177,8 +187,7 @@ class IntegrationTestRunner:
             from tests.deployment.test_deployment_verification import DeploymentVerificationSystem
 
             verifier = DeploymentVerificationSystem(
-                environment=self.environment,
-                base_url=self.base_url
+                environment=self.environment, base_url=self.base_url
             )
 
             # Run verification and convert to TestResult format
@@ -189,14 +198,18 @@ class IntegrationTestRunner:
                 test_id="deployment_verification",
                 test_name="Deployment Verification Suite",
                 test_type=TestType.DEPLOYMENT,
-                status=TestStatus.PASSED if verification_results["overall_status"] == "passed" else TestStatus.FAILED,
+                status=(
+                    TestStatus.PASSED
+                    if verification_results["overall_status"] == "passed"
+                    else TestStatus.FAILED
+                ),
                 start_time=datetime.fromisoformat(verification_results["verification_start"]),
                 end_time=datetime.fromisoformat(verification_results["verification_end"]),
                 duration=verification_results["total_duration"],
                 metadata={
                     "verification_results": verification_results,
-                    "failed_checks": verification_results.get("failed_checks", [])
-                }
+                    "failed_checks": verification_results.get("failed_checks", []),
+                },
             )
 
             results.append(result)
@@ -214,7 +227,7 @@ class IntegrationTestRunner:
                 start_time=datetime.now(),
                 end_time=datetime.now(),
                 duration=0.0,
-                error_message=str(e)
+                error_message=str(e),
             )
             results.append(error_result)
 
@@ -228,7 +241,9 @@ class IntegrationTestRunner:
         errors = len([r for r in results if r.status == TestStatus.ERROR])
         skipped = len([r for r in results if r.status == TestStatus.SKIPPED])
 
-        failed_tests = [r.test_name for r in results if r.status in [TestStatus.FAILED, TestStatus.ERROR]]
+        failed_tests = [
+            r.test_name for r in results if r.status in [TestStatus.FAILED, TestStatus.ERROR]
+        ]
 
         success_rate = passed / total_tests if total_tests > 0 else 0
 
@@ -244,7 +259,7 @@ class IntegrationTestRunner:
             "test_types": {
                 test_type.value: len([r for r in results if r.test_type == test_type])
                 for test_type in TestType
-            }
+            },
         }
 
     def _result_to_dict(self, result: TestResult) -> Dict[str, Any]:
@@ -258,7 +273,7 @@ class IntegrationTestRunner:
             "start_time": result.start_time.isoformat() if result.start_time else None,
             "end_time": result.end_time.isoformat() if result.end_time else None,
             "error_message": result.error_message,
-            "metadata": result.metadata
+            "metadata": result.metadata,
         }
 
     def save_report(self, filename: str, format: str = "json") -> None:
@@ -268,12 +283,12 @@ class IntegrationTestRunner:
                 "generated_at": datetime.now().isoformat(),
                 "runner_version": "2.0.0",
                 **self.execution_summary,
-                "results": [self._result_to_dict(r) for r in self.test_results]
+                "results": [self._result_to_dict(r) for r in self.test_results],
             }
         }
 
         if format == "json":
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 json.dump(report_data, f, indent=2, default=str)
         elif format == "html":
             self._save_html_report(filename, report_data)
@@ -339,8 +354,8 @@ class IntegrationTestRunner:
     <h2>Test Results</h2>
 """
 
-        for result in report_data['integration_test_report']['results']:
-            status_class = result['status'].lower()
+        for result in report_data["integration_test_report"]["results"]:
+            status_class = result["status"].lower()
             html_content += f"""
     <div class="test-result {status_class}">
         <h4>{result['test_name']}</h4>
@@ -355,7 +370,7 @@ class IntegrationTestRunner:
 </html>
 """
 
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(html_content)
 
 
@@ -364,14 +379,23 @@ def main():
     parser = argparse.ArgumentParser(description="Swarm Intelligence Integration Test Runner")
     parser.add_argument("--e2e-only", action="store_true", help="Run only end-to-end tests")
     parser.add_argument("--api-only", action="store_true", help="Run only API tests")
-    parser.add_argument("--integration-only", action="store_true", help="Run only cross-service integration tests")
-    parser.add_argument("--deployment-only", action="store_true", help="Run only deployment verification")
-    parser.add_argument("--environment", choices=["development", "staging", "production"],
-                       default="development", help="Target environment")
+    parser.add_argument(
+        "--integration-only", action="store_true", help="Run only cross-service integration tests"
+    )
+    parser.add_argument(
+        "--deployment-only", action="store_true", help="Run only deployment verification"
+    )
+    parser.add_argument(
+        "--environment",
+        choices=["development", "staging", "production"],
+        default="development",
+        help="Target environment",
+    )
     parser.add_argument("--base-url", help="Base URL for API endpoints")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose output")
-    parser.add_argument("--report", choices=["json", "html", "summary"],
-                       default="summary", help="Report format")
+    parser.add_argument(
+        "--report", choices=["json", "html", "summary"], default="summary", help="Report format"
+    )
 
     args = parser.parse_args()
 

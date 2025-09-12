@@ -211,7 +211,9 @@ class MessagingGateway:
     def list_available_agents(self):
         return list(self.agent_coordinates.keys())
 
-    async def send(self, agent_key: str, message: str, meta: dict[str, Any] | None = None) -> dict[str, Any]:
+    async def send(
+        self, agent_key: str, message: str, meta: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
         """
         Async wrapper for send_pyautogui. Returns dict format for Discord integration.
         """
@@ -223,7 +225,7 @@ class MessagingGateway:
             "backend": result.backend,
             "request_id": result.request_id,
             "timestamp": result.ts,
-            "extra": result.extra
+            "extra": result.extra,
         }
 
     def get_agent_status(self, agent_key: str) -> dict[str, Any]:

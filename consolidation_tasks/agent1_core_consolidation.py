@@ -408,11 +408,7 @@ def analyze_performance() -> Dict[str, Any]:
             print("🔍 Validating rollback...")
 
             # Check that critical files exist
-            critical_files = [
-                "src/core/__init__.py",
-                "src/services/__init__.py",
-                "src/__init__.py"
-            ]
+            critical_files = ["src/core/__init__.py", "src/services/__init__.py", "src/__init__.py"]
 
             for file_path in critical_files:
                 if not Path(file_path).exists():

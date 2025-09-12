@@ -10,11 +10,11 @@ This demo shows how the resilient system handles various failure scenarios
 and recovers automatically to maintain service availability.
 """
 
-import time
-import random
 import logging
+import random
 import threading
-from typing import Dict, Any
+import time
+from typing import Any, Dict
 
 # Configure logging
 logging.basicConfig(
@@ -24,13 +24,17 @@ logging.basicConfig(
 
 # Import our error handling components
 from src.core.error_handling.advanced_error_handler import (
-    AdvancedErrorHandler, ResilienceConfig, DegradationLevel
+    AdvancedErrorHandler,
+    DegradationLevel,
+    ResilienceConfig,
 )
 from src.core.error_handling.automated_recovery import (
-    AutomatedRecoveryManager, RecoveryConfig, RecoveryStrategy
+    AutomatedRecoveryManager,
+    RecoveryConfig,
+    RecoveryStrategy,
 )
 from src.core.error_handling.circuit_breaker import CircuitBreaker, CircuitBreakerConfig
-from src.core.error_handling.retry_mechanisms import RetryMechanism, RetryConfig
+from src.core.error_handling.retry_mechanisms import RetryConfig, RetryMechanism
 
 
 class DemoService:

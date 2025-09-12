@@ -22,19 +22,20 @@ License: MIT
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import threading
 import time
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Dict, Optional, Callable, Union
-from datetime import datetime
-import hashlib
 import zlib
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Callable, Dict, Optional, Union
 
 try:
     import jsonschema
+
     HAS_JSONSCHEMA = True
 except ImportError:
     HAS_JSONSCHEMA = False
@@ -42,6 +43,7 @@ except ImportError:
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -52,17 +54,20 @@ logger = logging.getLogger(__name__)
 
 class ConfigValidationError(Exception):
     """Configuration validation error."""
+
     pass
 
 
 class ConfigMigrationError(Exception):
     """Configuration migration error."""
+
     pass
 
 
 @dataclass
 class ConfigMetadata:
     """Configuration file metadata for caching and validation."""
+
     file_path: Path
     last_modified: float
     checksum: str
@@ -75,6 +80,7 @@ class ConfigMetadata:
 @dataclass
 class ValidationSchema:
     """JSON Schema validation specification."""
+
     schema: Dict[str, Any]
     version: str
     description: str
@@ -101,10 +107,7 @@ class ConfigCache:
         with self._lock:
             # Compress configuration data
             config_json = json.dumps(config, sort_keys=True)
-            compressed = zlib.compress(
-                config_json.encode('utf-8'),
-                level=self.compression_level
-            )
+            compressed = zlib.compress(config_json.encode("utf-8"), level=self.compression_level)
 
             # Store compressed data and metadata
             self.cache[key] = config
@@ -112,8 +115,7 @@ class ConfigCache:
 
             # Implement LRU eviction if cache is full
             if len(self.cache) > self.max_cache_size:
-                oldest_key = min(self.metadata.keys(),
-                               key=lambda k: self.metadata[k].last_modified)
+                oldest_key = min(self.metadata.keys(), key=lambda k: self.metadata[k].last_modified)
                 del self.cache[oldest_key]
                 del self.metadata[oldest_key]
 
@@ -141,7 +143,9 @@ class ConfigCache:
             return {
                 "entries": len(self.cache),
                 "max_size": self.max_cache_size,
-                "compression_ratio": total_compressed / total_uncompressed if total_uncompressed > 0 else 0,
+                "compression_ratio": (
+                    total_compressed / total_uncompressed if total_uncompressed > 0 else 0
+                ),
                 "total_compressed_size": total_compressed,
                 "total_uncompressed_size": total_uncompressed,
             }
@@ -165,36 +169,38 @@ class ConfigValidator:
                     "properties": {
                         "name": {"type": "string"},
                         "version": {"type": "string"},
-                        "environment": {"enum": ["development", "testing", "production", "staging"]},
-                        "debug": {"type": "boolean"}
+                        "environment": {
+                            "enum": ["development", "testing", "production", "staging"]
+                        },
+                        "debug": {"type": "boolean"},
                     },
-                    "required": ["name", "version", "environment"]
+                    "required": ["name", "version", "environment"],
                 },
                 "agents": {
                     "type": "object",
                     "properties": {
                         "count": {"type": "integer", "minimum": 1, "maximum": 20},
                         "aliases": {"type": "object"},
-                        "coordinates": {"type": "object"}
-                    }
+                        "coordinates": {"type": "object"},
+                    },
                 },
                 "messaging": {
                     "type": "object",
                     "properties": {
                         "default_sender": {"type": "string"},
                         "default_mode": {"enum": ["pyautogui", "selenium", "manual"]},
-                        "queue": {"type": "object"}
-                    }
-                }
+                        "queue": {"type": "object"},
+                    },
+                },
             },
-            "required": ["system", "agents"]
+            "required": ["system", "agents"],
         }
 
         self.schemas["unified_config"] = ValidationSchema(
             schema=unified_schema,
             version="2.0.0",
             description="Unified configuration validation schema",
-            required_fields=["system", "agents"]
+            required_fields=["system", "agents"],
         )
 
         # Coordinates schema
@@ -214,29 +220,33 @@ class ConfigValidator:
                                     "type": "array",
                                     "items": {"type": "number"},
                                     "minItems": 2,
-                                    "maxItems": 2
+                                    "maxItems": 2,
                                 },
                                 "onboarding_input_coords": {
                                     "type": "array",
                                     "items": {"type": "number"},
                                     "minItems": 2,
-                                    "maxItems": 2
+                                    "maxItems": 2,
                                 },
-                                "description": {"type": "string"}
+                                "description": {"type": "string"},
                             },
-                            "required": ["active", "chat_input_coordinates", "onboarding_input_coords"]
+                            "required": [
+                                "active",
+                                "chat_input_coordinates",
+                                "onboarding_input_coords",
+                            ],
                         }
-                    }
-                }
+                    },
+                },
             },
-            "required": ["version", "agents"]
+            "required": ["version", "agents"],
         }
 
         self.schemas["coordinates"] = ValidationSchema(
             schema=coords_schema,
             version="2.0.0",
             description="Agent coordinates validation schema",
-            required_fields=["version", "agents"]
+            required_fields=["version", "agents"],
         )
 
     def add_schema(self, name: str, schema: ValidationSchema) -> None:
@@ -272,11 +282,11 @@ class ConfigValidator:
     def validate_file(self, file_path: Path, schema_name: str) -> tuple[bool, list[str]]:
         """Validate configuration file."""
         try:
-            if file_path.suffix.lower() == '.yaml' and HAS_YAML:
-                with open(file_path, 'r', encoding='utf-8') as f:
+            if file_path.suffix.lower() == ".yaml" and HAS_YAML:
+                with open(file_path, "r", encoding="utf-8") as f:
                     config = yaml.safe_load(f)
             else:
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, "r", encoding="utf-8") as f:
                     config = json.load(f)
 
             errors = self.validate(config, schema_name)
@@ -381,8 +391,9 @@ class ConfigMigrator:
             "1.0.0_to_2.0.0": self._migrate_coordinates_v1_to_v2,
         }
 
-    def migrate(self, config: Dict[str, Any], config_type: str,
-               from_version: str, to_version: str) -> Dict[str, Any]:
+    def migrate(
+        self, config: Dict[str, Any], config_type: str, from_version: str, to_version: str
+    ) -> Dict[str, Any]:
         """Migrate configuration from one version to another."""
         migration_key = f"{from_version}_to_{to_version}"
 
@@ -414,7 +425,7 @@ class ConfigMigrator:
                 "name": "Agent Cellphone V2",
                 "version": "2.0.0",
                 "environment": "development",
-                "debug": True
+                "debug": True,
             }
 
         # Restructure agent configuration
@@ -433,11 +444,7 @@ class ConfigMigrator:
             config["performance"] = {
                 "monitoring_enabled": True,
                 "metrics_interval": 60,
-                "alert_thresholds": {
-                    "cpu_usage": 80,
-                    "memory_usage": 85,
-                    "disk_usage": 90
-                }
+                "alert_thresholds": {"cpu_usage": 80, "memory_usage": 85, "disk_usage": 90},
             }
 
         return config
@@ -460,8 +467,9 @@ class ConfigMigrator:
 
         return config
 
-    def add_migration(self, config_type: str, from_version: str,
-                     to_version: str, migration_func: Callable) -> None:
+    def add_migration(
+        self, config_type: str, from_version: str, to_version: str, migration_func: Callable
+    ) -> None:
         """Add custom migration function."""
         if config_type not in self.migrations:
             self.migrations[config_type] = {}
@@ -491,7 +499,7 @@ class EnhancedConfigSystem:
             "coordinates.json",
             "messaging.yml",
             "discord_channels.json",
-            "semantic_config.yaml"
+            "semantic_config.yaml",
         ]
 
         for config_file in config_files:
@@ -530,11 +538,11 @@ class EnhancedConfigSystem:
 
         try:
             # Load configuration
-            if config_path.suffix.lower() in ['.yaml', '.yml'] and HAS_YAML:
-                with open(config_path, 'r', encoding='utf-8') as f:
+            if config_path.suffix.lower() in [".yaml", ".yml"] and HAS_YAML:
+                with open(config_path, "r", encoding="utf-8") as f:
                     config = yaml.safe_load(f)
             else:
-                with open(config_path, 'r', encoding='utf-8') as f:
+                with open(config_path, "r", encoding="utf-8") as f:
                     config = json.load(f)
 
             # Validate if requested
@@ -549,10 +557,10 @@ class EnhancedConfigSystem:
                 file_path=config_path,
                 last_modified=config_path.stat().st_mtime,
                 checksum=hashlib.md5(config_json.encode()).hexdigest(),
-                version=config.get('version', 'unknown'),
-                schema_version=config.get('schema_version', '1.0.0'),
+                version=config.get("version", "unknown"),
+                schema_version=config.get("schema_version", "1.0.0"),
                 compressed_size=len(zlib.compress(config_json.encode())),
-                uncompressed_size=len(config_json)
+                uncompressed_size=len(config_json),
             )
 
             # Cache configuration
@@ -564,8 +572,7 @@ class EnhancedConfigSystem:
             logger.error(f"Failed to load configuration {config_name}: {e}")
             raise
 
-    def save_config(self, config_name: str, config: Dict[str, Any],
-                   format: str = "auto") -> None:
+    def save_config(self, config_name: str, config: Dict[str, Any], format: str = "auto") -> None:
         """Save configuration with validation."""
         # Validate before saving
         is_valid, errors = self.validator.validate_file(
@@ -586,10 +593,10 @@ class EnhancedConfigSystem:
 
         try:
             if format == "yaml" and HAS_YAML:
-                with open(config_path, 'w', encoding='utf-8') as f:
+                with open(config_path, "w", encoding="utf-8") as f:
                     yaml.dump(config, f, default_flow_style=False, sort_keys=True)
             else:
-                with open(config_path, 'w', encoding='utf-8') as f:
+                with open(config_path, "w", encoding="utf-8") as f:
                     json.dump(config, f, indent=2, sort_keys=True)
 
             # Invalidate cache
@@ -601,7 +608,9 @@ class EnhancedConfigSystem:
             logger.error(f"Failed to save configuration {config_name}: {e}")
             raise
 
-    def migrate_config(self, config_name: str, from_version: str, to_version: str) -> Dict[str, Any]:
+    def migrate_config(
+        self, config_name: str, from_version: str, to_version: str
+    ) -> Dict[str, Any]:
         """Migrate configuration to new version."""
         # Load current configuration
         config = self.load_config(config_name, validate=False)
@@ -633,7 +642,7 @@ class EnhancedConfigSystem:
             "coordinates",
             "messaging",
             "discord_channels",
-            "semantic_config"
+            "semantic_config",
         ]
 
         results = {}

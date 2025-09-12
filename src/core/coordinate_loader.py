@@ -63,6 +63,7 @@ class CoordinateLoader:
         coord_file = Path(__file__).parent.parent.parent / "config" / "coordinates.json"
         if coord_file.exists():
             import json
+
             data = json.loads(coord_file.read_text(encoding="utf-8"))
             agent_data = data.get("agents", {}).get(agent_id, {})
 
@@ -72,14 +73,11 @@ class CoordinateLoader:
 
             return {
                 "chat_input_coordinates": chat_coords,
-                "onboarding_coordinates": onboarding_coords
+                "onboarding_coordinates": onboarding_coords,
             }
 
         # Fallback to same coordinates for both
-        return {
-            "chat_input_coordinates": chat_coords,
-            "onboarding_coordinates": chat_coords
-        }
+        return {"chat_input_coordinates": chat_coords, "onboarding_coordinates": chat_coords}
 
     def get_agent_description(self, agent_id: str) -> str:
         """Get agent description."""

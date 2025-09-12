@@ -262,14 +262,16 @@ class EnhancedDiscordWebhookManager:
             print(f"❌ Error sending via webhook to {config.name}: {e}")
             return False
 
-    def _send_via_channel_id(self, config: DiscordChannelConfig, message: DiscordMessage, channel: AgentChannel) -> bool:
+    def _send_via_channel_id(
+        self, config: DiscordChannelConfig, message: DiscordMessage, channel: AgentChannel
+    ) -> bool:
         """Send message via Discord API using channel ID."""
-        import os
         import asyncio
+        import os
         from typing import Optional
 
         # Check for Discord bot token
-        bot_token = os.getenv('DISCORD_BOT_TOKEN')
+        bot_token = os.getenv("DISCORD_BOT_TOKEN")
         if not bot_token:
             print("❌ Discord Bot Token not found!")
             print("   Set DISCORD_BOT_TOKEN environment variable")
@@ -308,23 +310,23 @@ class EnhancedDiscordWebhookManager:
                     if message.embeds:
                         embed = message.embeds[0]  # Take first embed for simplicity
                         discord_embed = Embed(
-                            title=embed.get('title', ''),
-                            description=embed.get('description', ''),
-                            color=embed.get('color', 0x3498DB)
+                            title=embed.get("title", ""),
+                            description=embed.get("description", ""),
+                            color=embed.get("color", 0x3498DB),
                         )
 
                         # Add embed fields
-                        if 'fields' in embed:
-                            for field in embed['fields']:
+                        if "fields" in embed:
+                            for field in embed["fields"]:
                                 discord_embed.add_field(
-                                    name=field.get('name', ''),
-                                    value=field.get('value', ''),
-                                    inline=field.get('inline', True)
+                                    name=field.get("name", ""),
+                                    value=field.get("value", ""),
+                                    inline=field.get("inline", True),
                                 )
 
                         # Add footer if present
-                        if 'footer' in embed and 'text' in embed['footer']:
-                            discord_embed.set_footer(text=embed['footer']['text'])
+                        if "footer" in embed and "text" in embed["footer"]:
+                            discord_embed.set_footer(text=embed["footer"]["text"])
 
                         await channel_obj.send(embed=discord_embed)
                     else:
@@ -337,7 +339,9 @@ class EnhancedDiscordWebhookManager:
 
                         await channel_obj.send(**webhook_payload)
 
-                    print(f"✅ Message sent to Discord channel {config.channel_id} ({channel.value})")
+                    print(
+                        f"✅ Message sent to Discord channel {config.channel_id} ({channel.value})"
+                    )
                     print(f"   Content: {content[:100]}{'...' if len(content) > 100 else ''}")
                     print(f"   Agent: {config.agent}")
                     print(f"   Embeds: {len(message.embeds)}")
@@ -926,11 +930,11 @@ async def send_devlog_to_discord(agent_id: str, devlog_file: str) -> bool:
             print(f"❌ Devlog file not found: {devlog_file}")
             return False
 
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
 
         # Extract title from first header
-        title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
+        title_match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
         title = title_match.group(1).strip() if title_match else filepath.stem
 
         # Determine category from content
@@ -969,20 +973,20 @@ async def send_devlog_to_discord(agent_id: str, devlog_file: str) -> bool:
                 {
                     "name": "Timestamp",
                     "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "inline": True
+                    "inline": True,
                 },
             ],
             "footer": {
                 "text": f"V2_SWARM DevLog - {agent_id}",
-                "icon_url": "https://i.imgur.com/devlog_icon.png"
-            }
+                "icon_url": "https://i.imgur.com/devlog_icon.png",
+            },
         }
 
         message = DiscordMessage(
             content="",  # Empty content, using embed
             embeds=[embed],
             username=f"V2_SWARM DevLog - {agent_id}",
-            avatar_url=f"https://i.imgur.com/{agent_id.lower()}_avatar.png"
+            avatar_url=f"https://i.imgur.com/{agent_id.lower()}_avatar.png",
         )
 
         success = webhook_manager.send_to_channel(channel, message)

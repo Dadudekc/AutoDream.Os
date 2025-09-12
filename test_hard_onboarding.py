@@ -18,8 +18,7 @@ from unittest.mock import MagicMock, patch
 
 # Setup logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -65,10 +64,13 @@ class HardOnboardingTester:
             # Test argument parsing with hard onboarding
             test_args = [
                 "--hard-onboarding",
-                "--agents", "Agent-1,Agent-2",
-                "--onboarding-mode", "cleanup",
-                "--assign-roles", "Agent-1:CLEANUP_CORE,Agent-2:CLEANUP_WEB",
-                "--dry-run"
+                "--agents",
+                "Agent-1,Agent-2",
+                "--onboarding-mode",
+                "cleanup",
+                "--assign-roles",
+                "Agent-1:CLEANUP_CORE,Agent-2:CLEANUP_WEB",
+                "--dry-run",
             ]
 
             # Parse arguments
@@ -78,10 +80,14 @@ class HardOnboardingTester:
             assert args.hard_onboarding == True, "hard_onboarding flag not set"
             assert args.agents == "Agent-1,Agent-2", "agents not parsed correctly"
             assert args.onboarding_mode == "cleanup", "onboarding_mode not parsed"
-            assert args.assign_roles == "Agent-1:CLEANUP_CORE,Agent-2:CLEANUP_WEB", "assign_roles not parsed"
+            assert (
+                args.assign_roles == "Agent-1:CLEANUP_CORE,Agent-2:CLEANUP_WEB"
+            ), "assign_roles not parsed"
             assert args.dry_run == True, "dry_run flag not set"
 
-            self.log_test_result("Hard Onboarding Flag Parsing", True, "All arguments parsed correctly")
+            self.log_test_result(
+                "Hard Onboarding Flag Parsing", True, "All arguments parsed correctly"
+            )
 
         except Exception as e:
             self.log_test_result("Hard Onboarding Flag Parsing", False, f"Error: {e}")
@@ -101,21 +107,25 @@ class HardOnboardingTester:
                 # This should trigger validation error in handle_hard_onboarding
                 result = service.handle_hard_onboarding(bad_args)
                 # If we get here, validation failed
-                self.log_test_result("Missing Agents Validation", False, "Should have failed with missing agents")
+                self.log_test_result(
+                    "Missing Agents Validation", False, "Should have failed with missing agents"
+                )
             except SystemExit:
                 # Expected behavior - argparse exits on error
-                self.log_test_result("Missing Agents Validation", True, "Correctly rejected missing agents")
+                self.log_test_result(
+                    "Missing Agents Validation", True, "Correctly rejected missing agents"
+                )
 
             # Test valid arguments
             try:
-                good_args = service.parser.parse_args([
-                    "--hard-onboarding",
-                    "--agents", "Agent-1",
-                    "--onboarding-mode", "cleanup"
-                ])
+                good_args = service.parser.parse_args(
+                    ["--hard-onboarding", "--agents", "Agent-1", "--onboarding-mode", "cleanup"]
+                )
                 self.log_test_result("Valid Arguments Acceptance", True, "Valid arguments accepted")
             except Exception as e:
-                self.log_test_result("Valid Arguments Acceptance", False, f"Rejected valid arguments: {e}")
+                self.log_test_result(
+                    "Valid Arguments Acceptance", False, f"Rejected valid arguments: {e}"
+                )
 
         except Exception as e:
             self.log_test_result("Hard Onboarding Validation", False, f"Error: {e}")
@@ -142,7 +152,7 @@ class HardOnboardingTester:
             expected = {
                 "Agent-1": "CLEANUP_CORE",
                 "Agent-2": "CLEANUP_WEB",
-                "Agent-3": "CLEANUP_INFRA"
+                "Agent-3": "CLEANUP_INFRA",
             }
 
             assert role_map == expected, f"Role parsing failed: {role_map} != {expected}"
@@ -170,10 +180,16 @@ class HardOnboardingTester:
 
             assert can_handle == True, "Handler should be able to handle hard onboarding"
 
-            self.log_test_result("Onboarding Handler Integration", True, "Handler correctly identifies hard onboarding")
+            self.log_test_result(
+                "Onboarding Handler Integration",
+                True,
+                "Handler correctly identifies hard onboarding",
+            )
 
         except ImportError:
-            self.log_test_result("Onboarding Handler Integration", False, "Could not import OnboardingHandler")
+            self.log_test_result(
+                "Onboarding Handler Integration", False, "Could not import OnboardingHandler"
+            )
         except Exception as e:
             self.log_test_result("Onboarding Handler Integration", False, f"Error: {e}")
 
@@ -187,11 +203,9 @@ class HardOnboardingTester:
             service = ConsolidatedMessagingService()
 
             # Test dry run parsing
-            args = service.parser.parse_args([
-                "--hard-onboarding",
-                "--agents", "Agent-1",
-                "--dry-run"
-            ])
+            args = service.parser.parse_args(
+                ["--hard-onboarding", "--agents", "Agent-1", "--dry-run"]
+            )
 
             assert args.dry_run == True, "Dry run flag not parsed correctly"
 

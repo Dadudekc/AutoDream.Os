@@ -61,21 +61,22 @@ class TestAgentLifecycleE2E:
             test_type="e2e",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T10:45:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
             # Step 1: Agent Registration
             print("Step 1: Agent Registration")
             registration_result = self.framework.validate_api_endpoint(
-                "/agents", "POST",
+                "/agents",
+                "POST",
                 request_data={
                     "agent_id": self.test_agent_id,
                     "agent_name": "Test Agent E2E",
                     "specialization": "End-to-End Testing",
-                    "coordinates": {"x": 500, "y": 300}
+                    "coordinates": {"x": 500, "y": 300},
                 },
-                expected_status=201
+                expected_status=201,
             )
 
             assert registration_result.status == TestStatus.PASSED, "Agent registration failed"
@@ -85,8 +86,7 @@ class TestAgentLifecycleE2E:
             # Step 2: Agent Retrieval and Verification
             print("Step 2: Agent Retrieval and Verification")
             retrieval_result = self.framework.validate_api_endpoint(
-                f"/agents/{self.test_agent_id}", "GET",
-                expected_status=200
+                f"/agents/{self.test_agent_id}", "GET", expected_status=200
             )
 
             assert retrieval_result.status == TestStatus.PASSED, "Agent retrieval failed"
@@ -148,7 +148,7 @@ class TestAgentLifecycleE2E:
             test_type="e2e",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T10:50:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -203,7 +203,7 @@ class TestAgentLifecycleE2E:
             test_type="e2e",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T10:55:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -256,20 +256,12 @@ class TestAgentLifecycleE2E:
     def _test_agent_coordination(self) -> Dict[str, Any]:
         """Test agent coordination mechanisms."""
         # Simulate agent coordination
-        return {
-            "status": "passed",
-            "coordination_events": 3,
-            "agents_coordinated": 2
-        }
+        return {"status": "passed", "coordination_events": 3, "agents_coordinated": 2}
 
     def _simulate_task_execution(self) -> Dict[str, Any]:
         """Simulate task execution for agent."""
         # Simulate task execution
-        return {
-            "completed": True,
-            "tasks_executed": 2,
-            "execution_time": 45.5
-        }
+        return {"completed": True, "tasks_executed": 2, "execution_time": 45.5}
 
     def _setup_coordination_scenario(self) -> list:
         """Setup multi-agent coordination scenario."""
@@ -282,26 +274,18 @@ class TestAgentLifecycleE2E:
         return {
             "messages_sent": 5,
             "messages_received": 5,
-            "message_types": ["coordination", "status", "task"]
+            "message_types": ["coordination", "status", "task"],
         }
 
     def _test_state_synchronization(self, agents: list) -> Dict[str, Any]:
         """Test state synchronization between agents."""
         # Simulate state synchronization
-        return {
-            "states_synchronized": True,
-            "sync_events": 3,
-            "consistency_verified": True
-        }
+        return {"states_synchronized": True, "sync_events": 3, "consistency_verified": True}
 
     def _test_task_delegation(self, agents: list) -> Dict[str, Any]:
         """Test task delegation between agents."""
         # Simulate task delegation
-        return {
-            "tasks_delegated": 2,
-            "tasks_completed": 2,
-            "delegation_efficiency": 95.5
-        }
+        return {"tasks_delegated": 2, "tasks_completed": 2, "delegation_efficiency": 95.5}
 
     def _simulate_agent_failure(self) -> Dict[str, Any]:
         """Simulate agent failure scenario."""
@@ -309,7 +293,7 @@ class TestAgentLifecycleE2E:
         return {
             "failure_simulated": True,
             "failure_type": "communication_timeout",
-            "failure_duration": 30
+            "failure_duration": 30,
         }
 
     def _test_failure_detection(self) -> Dict[str, Any]:
@@ -318,7 +302,7 @@ class TestAgentLifecycleE2E:
         return {
             "failure_detected": True,
             "detection_method": "heartbeat_timeout",
-            "detection_time": 5
+            "detection_time": 5,
         }
 
     def _test_recovery_mechanism(self) -> Dict[str, Any]:
@@ -327,7 +311,7 @@ class TestAgentLifecycleE2E:
         return {
             "recovery_activated": True,
             "recovery_strategy": "agent_restart",
-            "recovery_time": 10
+            "recovery_time": 10,
         }
 
     def _test_agent_restoration(self) -> Dict[str, Any]:
@@ -336,7 +320,7 @@ class TestAgentLifecycleE2E:
         return {
             "agent_restored": True,
             "restoration_method": "automatic_recovery",
-            "restoration_time": 15
+            "restoration_time": 15,
         }
 
     def _verify_system_state(self) -> Dict[str, Any]:
@@ -345,7 +329,7 @@ class TestAgentLifecycleE2E:
         return {
             "system_stable": True,
             "all_agents_operational": True,
-            "coordination_restored": True
+            "coordination_restored": True,
         }
 
 

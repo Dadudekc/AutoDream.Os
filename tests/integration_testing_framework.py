@@ -40,6 +40,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 class TestStatus(Enum):
     """Test execution status enumeration."""
+
     PENDING = "pending"
     RUNNING = "running"
     PASSED = "passed"
@@ -50,6 +51,7 @@ class TestStatus(Enum):
 
 class TestType(Enum):
     """Test type classification."""
+
     UNIT = "unit"
     INTEGRATION = "integration"
     API = "api"
@@ -62,6 +64,7 @@ class TestType(Enum):
 @dataclass
 class TestResult:
     """Comprehensive test result data structure."""
+
     test_id: str
     test_name: str
     test_type: TestType
@@ -79,6 +82,7 @@ class TestResult:
 @dataclass
 class TestSuite:
     """Test suite configuration and execution management."""
+
     suite_id: str
     name: str
     description: str
@@ -103,7 +107,7 @@ class IntegrationTestFramework:
     """
 
     def __init__(self, base_url: str = "http://localhost:8000", api_version: str = "v2"):
-        self.base_url = base_url.rstrip('/')
+        self.base_url = base_url.rstrip("/")
         self.api_version = api_version
         self.api_base_url = f"{self.base_url}/{api_version}"
 
@@ -127,7 +131,7 @@ class IntegrationTestFramework:
             total=3,
             status_forcelist=[429, 500, 502, 503, 504],
             backoff_factor=1,
-            allowed_methods=["HEAD", "GET", "OPTIONS", "POST", "PUT", "DELETE"]
+            allowed_methods=["HEAD", "GET", "OPTIONS", "POST", "PUT", "DELETE"],
         )
 
         adapter = HTTPAdapter(max_retries=retry_strategy)
@@ -135,11 +139,13 @@ class IntegrationTestFramework:
         session.mount("https://", adapter)
 
         # Set default headers
-        session.headers.update({
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Swarm-Integration-Test-Framework/2.0.0'
-        })
+        session.headers.update(
+            {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": "Swarm-Integration-Test-Framework/2.0.0",
+            }
+        )
 
         return session
 
@@ -153,7 +159,8 @@ class IntegrationTestFramework:
 
         try:
             import yaml
-            with open(spec_path, 'r', encoding='utf-8') as f:
+
+            with open(spec_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except ImportError:
             print("Warning: PyYAML not available for OpenAPI spec loading")
@@ -196,7 +203,7 @@ class IntegrationTestFramework:
             test_type=suite.test_type,
             status=TestStatus.RUNNING,
             start_time=datetime.now(),
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -221,9 +228,13 @@ class IntegrationTestFramework:
         return result
 
     # API Testing Methods
-    def validate_api_endpoint(self, path: str, method: str = "GET",
-                            expected_status: int = 200,
-                            request_data: Optional[Dict] = None) -> TestResult:
+    def validate_api_endpoint(
+        self,
+        path: str,
+        method: str = "GET",
+        expected_status: int = 200,
+        request_data: Optional[Dict] = None,
+    ) -> TestResult:
         """Validate API endpoint against OpenAPI specification."""
 
         test_id = f"api_validate_{method.lower()}_{path.replace('/', '_')}"
@@ -234,7 +245,7 @@ class IntegrationTestFramework:
             test_type=TestType.API,
             status=TestStatus.RUNNING,
             start_time=datetime.now(),
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -259,15 +270,15 @@ class IntegrationTestFramework:
                 )
 
             # Validate response structure if OpenAPI spec available
-            if self.openapi_spec and path in self.openapi_spec.get('paths', {}):
+            if self.openapi_spec and path in self.openapi_spec.get("paths", {}):
                 self._validate_response_against_spec(response.json(), path, method)
 
             result.status = TestStatus.PASSED
             result.metadata = {
-                'url': url,
-                'method': method,
-                'status_code': response.status_code,
-                'response_time': response.elapsed.total_seconds()
+                "url": url,
+                "method": method,
+                "status_code": response.status_code,
+                "response_time": response.elapsed.total_seconds(),
             }
 
         except Exception as e:
@@ -280,15 +291,14 @@ class IntegrationTestFramework:
 
         return result
 
-    def _validate_response_against_spec(self, response_data: Dict,
-                                      path: str, method: str) -> None:
+    def _validate_response_against_spec(self, response_data: Dict, path: str, method: str) -> None:
         """Validate response against OpenAPI specification."""
         # Implementation would validate response structure against OpenAPI spec
         # This is a simplified version
         if not isinstance(response_data, dict):
             raise AssertionError("Response must be a JSON object")
 
-        required_fields = ['success', 'message']
+        required_fields = ["success", "message"]
         for field in required_fields:
             if field not in response_data:
                 raise AssertionError(f"Required field '{field}' missing from response")
@@ -305,7 +315,7 @@ class IntegrationTestFramework:
             test_type=TestType.E2E,
             status=TestStatus.RUNNING,
             start_time=datetime.now(),
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -335,14 +345,15 @@ class IntegrationTestFramework:
         """Execute agent lifecycle end-to-end test."""
         # Step 1: Register agent
         register_result = self.validate_api_endpoint(
-            "/agents", "POST",
+            "/agents",
+            "POST",
             request_data={
                 "agent_id": "test-agent-001",
                 "agent_name": "Test Agent",
                 "specialization": "Testing",
-                "coordinates": {"x": 100, "y": 200}
+                "coordinates": {"x": 100, "y": 200},
             },
-            expected_status=201
+            expected_status=201,
         )
 
         if register_result.status != TestStatus.PASSED:
@@ -350,30 +361,32 @@ class IntegrationTestFramework:
 
         # Step 2: Retrieve agent
         get_result = self.validate_api_endpoint(
-            "/agents/test-agent-001", "GET",
-            expected_status=200
+            "/agents/test-agent-001", "GET", expected_status=200
         )
 
         if get_result.status != TestStatus.PASSED:
             raise AssertionError("Agent retrieval failed")
 
         # Store results for reporting
-        result.assertions.extend([
-            {"step": "agent_registration", "status": "passed"},
-            {"step": "agent_retrieval", "status": "passed"}
-        ])
+        result.assertions.extend(
+            [
+                {"step": "agent_registration", "status": "passed"},
+                {"step": "agent_retrieval", "status": "passed"},
+            ]
+        )
 
     def _execute_message_flow_e2e(self, result: TestResult) -> None:
         """Execute message flow end-to-end test."""
         # Step 1: Send message
         send_result = self.validate_api_endpoint(
-            "/messages", "POST",
+            "/messages",
+            "POST",
             request_data={
                 "to_agent": "Agent-7",
                 "content": "E2E test message",
-                "priority": "NORMAL"
+                "priority": "NORMAL",
             },
-            expected_status=202
+            expected_status=202,
         )
 
         if send_result.status != TestStatus.PASSED:
@@ -385,12 +398,13 @@ class IntegrationTestFramework:
         """Execute vector search end-to-end test."""
         # Step 1: Add document
         add_result = self.validate_api_endpoint(
-            "/vector/documents", "POST",
+            "/vector/documents",
+            "POST",
             request_data={
                 "content": "Test document for E2E vector search",
-                "metadata": {"category": "test", "type": "e2e"}
+                "metadata": {"category": "test", "type": "e2e"},
             },
-            expected_status=201
+            expected_status=201,
         )
 
         if add_result.status != TestStatus.PASSED:
@@ -398,21 +412,21 @@ class IntegrationTestFramework:
 
         # Step 2: Search documents
         search_result = self.validate_api_endpoint(
-            "/vector/search", "POST",
-            request_data={
-                "query": "test document",
-                "limit": 5
-            },
-            expected_status=200
+            "/vector/search",
+            "POST",
+            request_data={"query": "test document", "limit": 5},
+            expected_status=200,
         )
 
         if search_result.status != TestStatus.PASSED:
             raise AssertionError("Vector search failed")
 
-        result.assertions.extend([
-            {"step": "document_addition", "status": "passed"},
-            {"step": "vector_search", "status": "passed"}
-        ])
+        result.assertions.extend(
+            [
+                {"step": "document_addition", "status": "passed"},
+                {"step": "vector_search", "status": "passed"},
+            ]
+        )
 
     # Cross-Service Integration Testing
     def execute_cross_service_test(self, service_a: str, service_b: str) -> TestResult:
@@ -426,7 +440,7 @@ class IntegrationTestFramework:
             test_type=TestType.INTEGRATION,
             status=TestStatus.RUNNING,
             start_time=datetime.now(),
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -454,20 +468,24 @@ class IntegrationTestFramework:
         """Test messaging and coordination service integration."""
         # Test that messages trigger coordination actions
         # This would involve mocking services and verifying interactions
-        result.assertions.append({
-            "integration": "messaging_coordination",
-            "status": "passed",
-            "details": "Message routing to coordination verified"
-        })
+        result.assertions.append(
+            {
+                "integration": "messaging_coordination",
+                "status": "passed",
+                "details": "Message routing to coordination verified",
+            }
+        )
 
     def _test_vector_analytics_integration(self, result: TestResult) -> None:
         """Test vector and analytics service integration."""
         # Test that vector searches generate analytics
-        result.assertions.append({
-            "integration": "vector_analytics",
-            "status": "passed",
-            "details": "Search analytics generation verified"
-        })
+        result.assertions.append(
+            {
+                "integration": "vector_analytics",
+                "status": "passed",
+                "details": "Search analytics generation verified",
+            }
+        )
 
     # Deployment Verification
     def execute_deployment_verification(self, environment: str = "production") -> TestResult:
@@ -481,7 +499,7 @@ class IntegrationTestFramework:
             test_type=TestType.DEPLOYMENT,
             status=TestStatus.RUNNING,
             start_time=datetime.now(),
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -495,7 +513,7 @@ class IntegrationTestFramework:
                 "/agents",
                 "/messages",
                 "/vector/search",
-                "/analytics/performance"
+                "/analytics/performance",
             ]
 
             for endpoint in endpoints_to_check:
@@ -508,11 +526,13 @@ class IntegrationTestFramework:
             # Configuration validation
 
             result.status = TestStatus.PASSED
-            result.assertions.extend([
-                {"check": "health_endpoint", "status": "passed"},
-                {"check": "api_endpoints", "status": "passed"},
-                {"check": "database_connectivity", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"check": "health_endpoint", "status": "passed"},
+                    {"check": "api_endpoints", "status": "passed"},
+                    {"check": "database_connectivity", "status": "passed"},
+                ]
+            )
 
         except Exception as e:
             result.status = TestStatus.FAILED
@@ -537,13 +557,13 @@ class IntegrationTestFramework:
                 "failed": len([r for r in self.test_results if r.status == TestStatus.FAILED]),
                 "errors": len([r for r in self.test_results if r.status == TestStatus.ERROR]),
                 "skipped": len([r for r in self.test_results if r.status == TestStatus.SKIPPED]),
-                "total_duration": sum(r.duration for r in self.test_results)
+                "total_duration": sum(r.duration for r in self.test_results),
             },
             "test_suites": {
                 suite_id: {
                     "name": suite.name,
                     "test_count": len(suite.tests),
-                    "test_type": suite.test_type.value
+                    "test_type": suite.test_type.value,
                 }
                 for suite_id, suite in self.test_suites.items()
             },
@@ -557,10 +577,10 @@ class IntegrationTestFramework:
                     "start_time": r.start_time.isoformat(),
                     "end_time": r.end_time.isoformat() if r.end_time else None,
                     "error_message": r.error_message,
-                    "assertions_count": len(r.assertions)
+                    "assertions_count": len(r.assertions),
                 }
                 for r in self.test_results
-            ]
+            ],
         }
 
         if output_format == "json":
@@ -575,7 +595,7 @@ class IntegrationTestFramework:
         report = self.generate_test_report(output_format)
 
         if output_format == "json":
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 f.write(report)
         else:
             # For other formats, could implement additional writers
@@ -585,7 +605,9 @@ class IntegrationTestFramework:
 
 
 # Convenience functions for pytest integration
-def create_integration_test_framework(base_url: str = "http://localhost:8000") -> IntegrationTestFramework:
+def create_integration_test_framework(
+    base_url: str = "http://localhost:8000",
+) -> IntegrationTestFramework:
     """Factory function to create integration test framework instance."""
     return IntegrationTestFramework(base_url)
 
@@ -598,26 +620,24 @@ E2E_TEST_SUITES = {
         description="Complete agent registration, coordination, and lifecycle testing",
         test_type=TestType.E2E,
         tests=["agent_registration", "agent_coordination", "agent_lifecycle"],
-        timeout=600
+        timeout=600,
     ),
-
     "message_flow": TestSuite(
         suite_id="e2e_message_flow",
         name="Message Flow E2E",
         description="End-to-end message routing and processing verification",
         test_type=TestType.E2E,
         tests=["message_sending", "message_routing", "message_processing"],
-        timeout=300
+        timeout=300,
     ),
-
     "vector_search_workflow": TestSuite(
         suite_id="e2e_vector_search",
         name="Vector Search E2E",
         description="Complete vector document processing and search workflow",
         test_type=TestType.E2E,
         tests=["document_ingestion", "vector_indexing", "similarity_search"],
-        timeout=450
-    )
+        timeout=450,
+    ),
 }
 
 API_TEST_SUITES = {
@@ -627,26 +647,24 @@ API_TEST_SUITES = {
         description="Comprehensive agent API endpoint testing",
         test_type=TestType.API,
         tests=["agent_crud", "agent_status", "agent_coordination"],
-        timeout=300
+        timeout=300,
     ),
-
     "messaging_api": TestSuite(
         suite_id="api_messaging",
         name="Messaging API",
         description="Message sending, routing, and management API testing",
         test_type=TestType.API,
         tests=["message_crud", "broadcast_messaging", "message_history"],
-        timeout=300
+        timeout=300,
     ),
-
     "vector_api": TestSuite(
         suite_id="api_vector",
         name="Vector Database API",
         description="Vector document and search API testing",
         test_type=TestType.API,
         tests=["document_crud", "vector_search", "index_management"],
-        timeout=400
-    )
+        timeout=400,
+    ),
 }
 
 CROSS_SERVICE_TEST_SUITES = {
@@ -657,9 +675,8 @@ CROSS_SERVICE_TEST_SUITES = {
         test_type=TestType.INTEGRATION,
         tests=["message_coordination_trigger", "coordination_response"],
         dependencies=["messaging", "coordination"],
-        timeout=300
+        timeout=300,
     ),
-
     "vector_analytics": TestSuite(
         suite_id="cross_vector_analytics",
         name="Vector-Analytics Integration",
@@ -667,8 +684,8 @@ CROSS_SERVICE_TEST_SUITES = {
         test_type=TestType.INTEGRATION,
         tests=["search_analytics", "performance_metrics"],
         dependencies=["vector", "analytics"],
-        timeout=300
-    )
+        timeout=300,
+    ),
 }
 
 DEPLOYMENT_TEST_SUITES = {
@@ -678,17 +695,16 @@ DEPLOYMENT_TEST_SUITES = {
         description="Automated verification of production deployment readiness",
         test_type=TestType.DEPLOYMENT,
         tests=["health_check", "api_availability", "service_integration", "performance_baseline"],
-        timeout=600
+        timeout=600,
     ),
-
     "staging_deployment": TestSuite(
         suite_id="deploy_staging",
         name="Staging Deployment Verification",
         description="Automated verification of staging deployment readiness",
         test_type=TestType.DEPLOYMENT,
         tests=["health_check", "api_availability", "data_integrity"],
-        timeout=300
-    )
+        timeout=300,
+    ),
 }
 
 

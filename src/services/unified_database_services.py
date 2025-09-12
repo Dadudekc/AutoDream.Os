@@ -36,7 +36,7 @@ class SQLQueryBuilder:
     """Secure SQL query builder with proper parameterization."""
 
     # Table name validation regex - only allow alphanumeric, underscore, and hyphen
-    TABLE_NAME_PATTERN = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_-]*$')
+    TABLE_NAME_PATTERN = re.compile(r"^[a-zA-Z_][a-zA-Z0-9_-]*$")
 
     @staticmethod
     def validate_table_name(table: str) -> str:

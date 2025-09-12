@@ -21,15 +21,16 @@ License: MIT
 from __future__ import annotations
 
 import logging
-import time
 import threading
+import time
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Callable
 from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
+
 import psutil
 
-from .enhanced_config_system import get_enhanced_config_system, ConfigValidationError
+from .enhanced_config_system import ConfigValidationError, get_enhanced_config_system
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +38,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConfigHealthMetrics:
     """Configuration health metrics."""
+
     total_configs: int = 0
     valid_configs: int = 0
     invalid_configs: int = 0
@@ -52,6 +54,7 @@ class ConfigHealthMetrics:
 @dataclass
 class ConfigAlert:
     """Configuration alert."""
+
     alert_type: str
     severity: str  # "low", "medium", "high", "critical"
     message: str
@@ -63,6 +66,7 @@ class ConfigAlert:
 @dataclass
 class ConfigPerformanceSnapshot:
     """Configuration performance snapshot."""
+
     timestamp: datetime
     metrics: ConfigHealthMetrics
     alerts: List[ConfigAlert]
@@ -96,9 +100,7 @@ class ConfigMonitor:
 
             self._monitoring = True
             self._monitor_thread = threading.Thread(
-                target=self._monitor_loop,
-                args=(interval,),
-                daemon=True
+                target=self._monitor_loop, args=(interval,), daemon=True
             )
             self._monitor_thread.start()
             logger.info("Configuration monitoring started")
@@ -142,10 +144,7 @@ class ConfigMonitor:
         system_stats = self._collect_system_stats()
 
         return ConfigPerformanceSnapshot(
-            timestamp=datetime.now(),
-            metrics=metrics,
-            alerts=alerts,
-            system_stats=system_stats
+            timestamp=datetime.now(), metrics=metrics, alerts=alerts, system_stats=system_stats
         )
 
     def _collect_metrics(self) -> ConfigHealthMetrics:
@@ -159,7 +158,7 @@ class ConfigMonitor:
                 "coordinates",
                 "messaging",
                 "discord_channels",
-                "semantic_config"
+                "semantic_config",
             ]
 
             for config_name in config_files:
@@ -200,7 +199,7 @@ class ConfigMonitor:
             return {
                 "cpu_percent": psutil.cpu_percent(interval=1),
                 "memory_percent": psutil.virtual_memory().percent,
-                "disk_usage": psutil.disk_usage('/').percent,
+                "disk_usage": psutil.disk_usage("/").percent,
                 "network_connections": len(psutil.net_connections()),
                 "process_count": len(psutil.pids()),
             }
@@ -219,35 +218,41 @@ class ConfigMonitor:
 
         # Cache hit ratio alert
         if metrics.cache_hit_ratio < self.alert_thresholds["cache_hit_ratio_min"]:
-            alerts.append(ConfigAlert(
-                alert_type="cache_performance",
-                severity="medium",
-                message=f"Cache hit ratio too low: {metrics.cache_hit_ratio:.2f}",
-                timestamp=datetime.now(),
-                details={"current_ratio": metrics.cache_hit_ratio}
-            ))
+            alerts.append(
+                ConfigAlert(
+                    alert_type="cache_performance",
+                    severity="medium",
+                    message=f"Cache hit ratio too low: {metrics.cache_hit_ratio:.2f}",
+                    timestamp=datetime.now(),
+                    details={"current_ratio": metrics.cache_hit_ratio},
+                )
+            )
 
         # Validation error rate alert
         if metrics.total_configs > 0:
             error_rate = metrics.invalid_configs / metrics.total_configs
             if error_rate > self.alert_thresholds["validation_error_rate_max"]:
-                alerts.append(ConfigAlert(
-                    alert_type="validation_errors",
-                    severity="high",
-                    message=f"High validation error rate: {error_rate:.2f}",
-                    timestamp=datetime.now(),
-                    details={"error_rate": error_rate}
-                ))
+                alerts.append(
+                    ConfigAlert(
+                        alert_type="validation_errors",
+                        severity="high",
+                        message=f"High validation error rate: {error_rate:.2f}",
+                        timestamp=datetime.now(),
+                        details={"error_rate": error_rate},
+                    )
+                )
 
         # Compression ratio alert
         if metrics.compression_ratio < self.alert_thresholds["compression_ratio_min"]:
-            alerts.append(ConfigAlert(
-                alert_type="compression_inefficient",
-                severity="low",
-                message=f"Poor compression ratio: {metrics.compression_ratio:.2f}",
-                timestamp=datetime.now(),
-                details={"compression_ratio": metrics.compression_ratio}
-            ))
+            alerts.append(
+                ConfigAlert(
+                    alert_type="compression_inefficient",
+                    severity="low",
+                    message=f"Poor compression ratio: {metrics.compression_ratio:.2f}",
+                    timestamp=datetime.now(),
+                    details={"compression_ratio": metrics.compression_ratio},
+                )
+            )
 
         return alerts
 
@@ -259,22 +264,26 @@ class ConfigMonitor:
         system_stats = snapshot.system_stats
 
         if system_stats["cpu_percent"] > 90:
-            alerts.append(ConfigAlert(
-                alert_type="high_cpu_usage",
-                severity="high",
-                message=f"High CPU usage: {system_stats['cpu_percent']:.1f}%",
-                timestamp=datetime.now(),
-                details={"cpu_percent": system_stats["cpu_percent"]}
-            ))
+            alerts.append(
+                ConfigAlert(
+                    alert_type="high_cpu_usage",
+                    severity="high",
+                    message=f"High CPU usage: {system_stats['cpu_percent']:.1f}%",
+                    timestamp=datetime.now(),
+                    details={"cpu_percent": system_stats["cpu_percent"]},
+                )
+            )
 
         if system_stats["memory_percent"] > 85:
-            alerts.append(ConfigAlert(
-                alert_type="high_memory_usage",
-                severity="high",
-                message=f"High memory usage: {system_stats['memory_percent']:.1f}%",
-                timestamp=datetime.now(),
-                details={"memory_percent": system_stats["memory_percent"]}
-            ))
+            alerts.append(
+                ConfigAlert(
+                    alert_type="high_memory_usage",
+                    severity="high",
+                    message=f"High memory usage: {system_stats['memory_percent']:.1f}%",
+                    timestamp=datetime.now(),
+                    details={"memory_percent": system_stats["memory_percent"]},
+                )
+            )
 
         return alerts
 
@@ -315,8 +324,9 @@ class ConfigMonitor:
             "system_stats": latest.system_stats,
         }
 
-    def get_alerts(self, severity: Optional[str] = None,
-                  since: Optional[datetime] = None) -> List[ConfigAlert]:
+    def get_alerts(
+        self, severity: Optional[str] = None, since: Optional[datetime] = None
+    ) -> List[ConfigAlert]:
         """Get alerts with optional filtering."""
         alerts = self.alerts
 
@@ -372,7 +382,7 @@ class ConfigMonitor:
                 "high": len([a for a in self.alerts if a.severity == "high"]),
                 "medium": len([a for a in self.alerts if a.severity == "medium"]),
                 "low": len([a for a in self.alerts if a.severity == "low"]),
-            }
+            },
         }
 
     def generate_health_report(self) -> str:
@@ -386,12 +396,9 @@ class ConfigMonitor:
         report.append("")
 
         # Overall status
-        status_emoji = {
-            "healthy": "✅",
-            "degraded": "⚠️",
-            "warning": "🚨",
-            "critical": "❌"
-        }.get(health_status["status"], "❓")
+        status_emoji = {"healthy": "✅", "degraded": "⚠️", "warning": "🚨", "critical": "❌"}.get(
+            health_status["status"], "❓"
+        )
 
         report.append(f"Status: {status_emoji} {health_status['status'].upper()}")
         report.append(f"Timestamp: {health_status['timestamp']}")
@@ -432,8 +439,12 @@ class ConfigMonitor:
             report.append("Recent Critical/High Alerts:")
             recent_alerts = self.get_alerts(since=datetime.now() - timedelta(hours=1))
             for alert in recent_alerts[:5]:  # Show last 5
-                severity_emoji = {"critical": "❌", "high": "🚨", "medium": "⚠️", "low": "ℹ️"}.get(alert.severity, "❓")
-                report.append(f"  {severity_emoji} {alert.timestamp.strftime('%H:%M:%S')} - {alert.message}")
+                severity_emoji = {"critical": "❌", "high": "🚨", "medium": "⚠️", "low": "ℹ️"}.get(
+                    alert.severity, "❓"
+                )
+                report.append(
+                    f"  {severity_emoji} {alert.timestamp.strftime('%H:%M:%S')} - {alert.message}"
+                )
 
         report.append("")
         report.append("=" * 50)

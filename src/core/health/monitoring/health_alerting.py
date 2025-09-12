@@ -20,11 +20,11 @@ import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Callable, Union
+from email.mime.text import MIMEText
 from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Union
 
 try:
     from ..automated_health_check_system import HealthCheckResult, HealthStatus
@@ -32,11 +32,13 @@ except ImportError:
     try:
         from automated_health_check_system import HealthCheckResult, HealthStatus
     except ImportError:
+
         class MockHealthStatus:
             HEALTHY = "healthy"
             WARNING = "warning"
             CRITICAL = "critical"
             UNKNOWN = "unknown"
+
         HealthStatus = MockHealthStatus
         HealthCheckResult = None
 
@@ -50,6 +52,7 @@ logger = logging.getLogger(__name__)
 
 class AlertChannel(Enum):
     """Alert notification channels."""
+
     EMAIL = "email"
     SLACK = "slack"
     MESSAGING = "messaging"
@@ -60,6 +63,7 @@ class AlertChannel(Enum):
 
 class AlertPriority(Enum):
     """Alert priority levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -69,6 +73,7 @@ class AlertPriority(Enum):
 @dataclass
 class AlertRule:
     """Alert rule configuration."""
+
     id: str
     name: str
     condition: str  # Python expression to evaluate
@@ -84,6 +89,7 @@ class AlertRule:
 @dataclass
 class AlertNotification:
     """Alert notification details."""
+
     alert_id: str
     title: str
     message: str
@@ -99,6 +105,7 @@ class AlertNotification:
 @dataclass
 class AlertChannelConfig:
     """Configuration for alert channels."""
+
     channel: AlertChannel
     enabled: bool = True
     config: Dict[str, Any] = field(default_factory=dict)
@@ -145,31 +152,31 @@ class HealthAlertingSystem:
         config_file = Path(self.config_path)
         if config_file.exists():
             try:
-                with open(config_file, 'r') as f:
+                with open(config_file, "r") as f:
                     config = json.load(f)
 
                 # Load alert rules
-                for rule_config in config.get('rules', []):
+                for rule_config in config.get("rules", []):
                     rule = AlertRule(
-                        id=rule_config['id'],
-                        name=rule_config['name'],
-                        condition=rule_config['condition'],
-                        severity=AlertSeverity(rule_config['severity']),
-                        priority=AlertPriority(rule_config['priority']),
-                        channels=[AlertChannel(c) for c in rule_config['channels']],
-                        cooldown_minutes=rule_config.get('cooldown_minutes', 15),
-                        enabled=rule_config.get('enabled', True),
-                        description=rule_config.get('description', '')
+                        id=rule_config["id"],
+                        name=rule_config["name"],
+                        condition=rule_config["condition"],
+                        severity=AlertSeverity(rule_config["severity"]),
+                        priority=AlertPriority(rule_config["priority"]),
+                        channels=[AlertChannel(c) for c in rule_config["channels"]],
+                        cooldown_minutes=rule_config.get("cooldown_minutes", 15),
+                        enabled=rule_config.get("enabled", True),
+                        description=rule_config.get("description", ""),
                     )
                     self.alert_rules[rule.id] = rule
 
                 # Load channel configurations
-                for channel_config in config.get('channels', []):
-                    channel = AlertChannel(channel_config['channel'])
+                for channel_config in config.get("channels", []):
+                    channel = AlertChannel(channel_config["channel"])
                     config_obj = AlertChannelConfig(
                         channel=channel,
-                        enabled=channel_config.get('enabled', True),
-                        config=channel_config.get('config', {})
+                        enabled=channel_config.get("enabled", True),
+                        config=channel_config.get("config", {}),
                     )
                     self.channel_configs[channel] = config_obj
 
@@ -191,7 +198,7 @@ class HealthAlertingSystem:
                     "priority": "high",
                     "channels": ["console", "log"],
                     "cooldown_minutes": 5,
-                    "description": "Alert when critical services go down"
+                    "description": "Alert when critical services go down",
                 },
                 {
                     "id": "high_cpu",
@@ -201,7 +208,7 @@ class HealthAlertingSystem:
                     "priority": "medium",
                     "channels": ["console", "log"],
                     "cooldown_minutes": 10,
-                    "description": "Alert when CPU usage exceeds 85%"
+                    "description": "Alert when CPU usage exceeds 85%",
                 },
                 {
                     "id": "high_memory",
@@ -211,26 +218,18 @@ class HealthAlertingSystem:
                     "priority": "high",
                     "channels": ["console", "log"],
                     "cooldown_minutes": 10,
-                    "description": "Alert when memory usage exceeds 90%"
-                }
+                    "description": "Alert when memory usage exceeds 90%",
+                },
             ],
             "channels": [
-                {
-                    "channel": "console",
-                    "enabled": True,
-                    "config": {}
-                },
-                {
-                    "channel": "log",
-                    "enabled": True,
-                    "config": {}
-                }
-            ]
+                {"channel": "console", "enabled": True, "config": {}},
+                {"channel": "log", "enabled": True, "config": {}},
+            ],
         }
 
         config_file = Path(self.config_path)
         config_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(config_file, 'w') as f:
+        with open(config_file, "w") as f:
             json.dump(default_config, f, indent=2)
 
         logger.info(f"✅ Default alerting configuration created at {config_file}")
@@ -238,18 +237,11 @@ class HealthAlertingSystem:
     def _setup_default_channels(self) -> None:
         """Setup default alert channels."""
         default_channels = [
+            AlertChannelConfig(channel=AlertChannel.CONSOLE, enabled=True),
+            AlertChannelConfig(channel=AlertChannel.LOG, enabled=True),
             AlertChannelConfig(
-                channel=AlertChannel.CONSOLE,
-                enabled=True
+                channel=AlertChannel.MESSAGING, enabled=False  # Requires additional setup
             ),
-            AlertChannelConfig(
-                channel=AlertChannel.LOG,
-                enabled=True
-            ),
-            AlertChannelConfig(
-                channel=AlertChannel.MESSAGING,
-                enabled=False  # Requires additional setup
-            )
         ]
 
         for channel_config in default_channels:
@@ -274,9 +266,7 @@ class HealthAlertingSystem:
 
         self.alerting_active = True
         self.alert_thread = threading.Thread(
-            target=self._alerting_loop,
-            daemon=True,
-            name="HealthAlertingSystem"
+            target=self._alerting_loop, daemon=True, name="HealthAlertingSystem"
         )
         self.alert_thread.start()
 
@@ -334,9 +324,9 @@ class HealthAlertingSystem:
         try:
             # Create safe evaluation context
             context = {
-                'event_type': event_type,
-                'data': data,
-                **data  # Flatten data for easier access
+                "event_type": event_type,
+                "data": data,
+                **data,  # Flatten data for easier access
             }
 
             # Evaluate condition safely
@@ -360,11 +350,11 @@ class HealthAlertingSystem:
             channels=rule.channels,
             timestamp=datetime.now(),
             context={
-                'rule_id': rule.id,
-                'event_type': event_type,
-                'trigger_data': data,
-                'rule_description': rule.description
-            }
+                "rule_id": rule.id,
+                "event_type": event_type,
+                "trigger_data": data,
+                "rule_description": rule.description,
+            },
         )
 
         # Store alert
@@ -376,16 +366,22 @@ class HealthAlertingSystem:
 
         logger.warning(f"🚨 ALERT TRIGGERED: {rule.name} - {alert.message}")
 
-    def _generate_alert_message(self, rule: AlertRule, event_type: str, data: Dict[str, Any]) -> str:
+    def _generate_alert_message(
+        self, rule: AlertRule, event_type: str, data: Dict[str, Any]
+    ) -> str:
         """Generate alert message from rule and data."""
         message = f"{rule.name}: "
 
         # Add relevant data to message
         relevant_data = []
         for key, value in data.items():
-            if isinstance(value, (int, float)) and key in ['cpu_usage', 'memory_usage', 'disk_usage']:
+            if isinstance(value, (int, float)) and key in [
+                "cpu_usage",
+                "memory_usage",
+                "disk_usage",
+            ]:
                 relevant_data.append(f"{key.replace('_', ' ')}: {value:.1f}%")
-            elif isinstance(value, str) and key in ['service_name', 'component']:
+            elif isinstance(value, str) and key in ["service_name", "component"]:
                 relevant_data.append(f"{key}: {value}")
 
         if relevant_data:
@@ -412,7 +408,7 @@ class HealthAlertingSystem:
             AlertSeverity.CRITICAL: "🚨",
             AlertSeverity.ERROR: "❌",
             AlertSeverity.WARNING: "⚠️",
-            AlertSeverity.INFO: "ℹ️"
+            AlertSeverity.INFO: "ℹ️",
         }.get(alert.severity, "❓")
 
         print(f"\n{severity_icon} HEALTH ALERT {severity_icon}")
@@ -432,7 +428,7 @@ class HealthAlertingSystem:
 
         # Log to file
         log_file = self.data_directory / "health_alerts.log"
-        with open(log_file, 'a') as f:
+        with open(log_file, "a") as f:
             f.write(f"{alert.timestamp.isoformat()} | {log_message}\n")
 
         logger.warning(log_message)
@@ -444,12 +440,12 @@ class HealthAlertingSystem:
             return
 
         config = channel_config.config
-        smtp_server = config.get('smtp_server', 'localhost')
-        smtp_port = config.get('smtp_port', 587)
-        smtp_user = config.get('smtp_user')
-        smtp_password = config.get('smtp_password')
-        from_email = config.get('from_email', 'health-monitor@localhost')
-        to_emails = config.get('to_emails', [])
+        smtp_server = config.get("smtp_server", "localhost")
+        smtp_port = config.get("smtp_port", 587)
+        smtp_user = config.get("smtp_user")
+        smtp_password = config.get("smtp_password")
+        from_email = config.get("from_email", "health-monitor@localhost")
+        to_emails = config.get("to_emails", [])
 
         if not to_emails:
             return
@@ -457,9 +453,9 @@ class HealthAlertingSystem:
         try:
             # Create message
             msg = MIMEMultipart()
-            msg['From'] = from_email
-            msg['To'] = ', '.join(to_emails)
-            msg['Subject'] = f"[{alert.severity.value.upper()}] {alert.title}"
+            msg["From"] = from_email
+            msg["To"] = ", ".join(to_emails)
+            msg["Subject"] = f"[{alert.severity.value.upper()}] {alert.title}"
 
             body = f"""
 Health Alert Notification
@@ -479,7 +475,7 @@ Context:
 System Health Monitor
             """.strip()
 
-            msg.attach(MIMEText(body, 'plain'))
+            msg.attach(MIMEText(body, "plain"))
 
             # Send email
             server = smtplib.SMTP(smtp_server, smtp_port)
@@ -498,7 +494,7 @@ System Health Monitor
         if not channel_config:
             return
 
-        webhook_url = channel_config.config.get('webhook_url')
+        webhook_url = channel_config.config.get("webhook_url")
         if not webhook_url:
             return
 
@@ -509,20 +505,34 @@ System Health Monitor
                 AlertSeverity.CRITICAL: "danger",
                 AlertSeverity.ERROR: "danger",
                 AlertSeverity.WARNING: "warning",
-                AlertSeverity.INFO: "good"
+                AlertSeverity.INFO: "good",
             }
 
             payload = {
-                "attachments": [{
-                    "color": color_map.get(alert.severity, "good"),
-                    "title": alert.title,
-                    "text": alert.message,
-                    "fields": [
-                        {"title": "Severity", "value": alert.severity.value.upper(), "short": True},
-                        {"title": "Priority", "value": alert.priority.value.upper(), "short": True},
-                        {"title": "Time", "value": alert.timestamp.strftime('%Y-%m-%d %H:%M:%S'), "short": True}
-                    ]
-                }]
+                "attachments": [
+                    {
+                        "color": color_map.get(alert.severity, "good"),
+                        "title": alert.title,
+                        "text": alert.message,
+                        "fields": [
+                            {
+                                "title": "Severity",
+                                "value": alert.severity.value.upper(),
+                                "short": True,
+                            },
+                            {
+                                "title": "Priority",
+                                "value": alert.priority.value.upper(),
+                                "short": True,
+                            },
+                            {
+                                "title": "Time",
+                                "value": alert.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+                                "short": True,
+                            },
+                        ],
+                    }
+                ]
             }
 
             requests.post(webhook_url, json=payload, timeout=10)
@@ -541,7 +551,7 @@ System Health Monitor
                 AlertPriority.CRITICAL: "URGENT",
                 AlertPriority.HIGH: "HIGH",
                 AlertPriority.MEDIUM: "NORMAL",
-                AlertPriority.LOW: "LOW"
+                AlertPriority.LOW: "LOW",
             }
 
             message = f"""
@@ -570,7 +580,7 @@ This is an automated alert from the system health monitor.
         if not channel_config:
             return
 
-        webhook_url = channel_config.config.get('webhook_url')
+        webhook_url = channel_config.config.get("webhook_url")
         if not webhook_url:
             return
 
@@ -584,7 +594,7 @@ This is an automated alert from the system health monitor.
                 "severity": alert.severity.value,
                 "priority": alert.priority.value,
                 "timestamp": alert.timestamp.isoformat(),
-                "context": alert.context
+                "context": alert.context,
             }
 
             requests.post(webhook_url, json=payload, timeout=10)
@@ -604,9 +614,11 @@ This is an automated alert from the system health monitor.
             alert_age_hours = (now - alert.timestamp).total_seconds() / 3600
 
             # Escalate critical alerts after 1 hour
-            if (alert.severity == AlertSeverity.CRITICAL and
-                alert_age_hours >= 1 and
-                AlertChannel.MESSAGING not in alert.channels):
+            if (
+                alert.severity == AlertSeverity.CRITICAL
+                and alert_age_hours >= 1
+                and AlertChannel.MESSAGING not in alert.channels
+            ):
                 alert.channels.append(AlertChannel.MESSAGING)
                 self._send_alert_notifications(alert)
                 logger.warning(f"🚨 ESCALATED: {alert.title}")
@@ -620,7 +632,8 @@ This is an automated alert from the system health monitor.
         # Clean resolved alerts older than 24 hours
         cutoff_time = datetime.now() - timedelta(hours=24)
         self.active_alerts = {
-            alert_id: alert for alert_id, alert in self.active_alerts.items()
+            alert_id: alert
+            for alert_id, alert in self.active_alerts.items()
             if not alert.resolved or alert.resolved_at > cutoff_time
         }
 
@@ -647,14 +660,12 @@ This is an automated alert from the system health monitor.
             "active_alerts": len(self.active_alerts),
             "alerts_last_24h": len(recent_alerts),
             "alerts_last_7d": len(weekly_alerts),
-            "critical_alerts_active": len([
-                a for a in self.active_alerts.values()
-                if a.severity == AlertSeverity.CRITICAL
-            ]),
-            "resolved_rate_24h": len([
-                a for a in recent_alerts if a.resolved
-            ]) / max(len(recent_alerts), 1),
-            "avg_resolution_time_hours": self._calculate_avg_resolution_time(recent_alerts)
+            "critical_alerts_active": len(
+                [a for a in self.active_alerts.values() if a.severity == AlertSeverity.CRITICAL]
+            ),
+            "resolved_rate_24h": len([a for a in recent_alerts if a.resolved])
+            / max(len(recent_alerts), 1),
+            "avg_resolution_time_hours": self._calculate_avg_resolution_time(recent_alerts),
         }
 
     def _calculate_avg_resolution_time(self, alerts: List[AlertNotification]) -> float:
@@ -663,10 +674,7 @@ This is an automated alert from the system health monitor.
         if not resolved_alerts:
             return 0.0
 
-        total_time = sum(
-            (a.resolved_at - a.timestamp).total_seconds()
-            for a in resolved_alerts
-        )
+        total_time = sum((a.resolved_at - a.timestamp).total_seconds() for a in resolved_alerts)
 
         return (total_time / len(resolved_alerts)) / 3600  # Convert to hours
 
@@ -678,29 +686,35 @@ This is an automated alert from the system health monitor.
 
         data = {
             "export_timestamp": datetime.now().isoformat(),
-            "active_alerts": [{
-                "alert_id": a.alert_id,
-                "title": a.title,
-                "severity": a.severity.value,
-                "priority": a.priority.value,
-                "timestamp": a.timestamp.isoformat(),
-                "resolved": a.resolved
-            } for a in self.active_alerts.values()],
-            "alert_history": [{
-                "alert_id": a.alert_id,
-                "title": a.title,
-                "message": a.message,
-                "severity": a.severity.value,
-                "priority": a.priority.value,
-                "channels": [c.value for c in a.channels],
-                "timestamp": a.timestamp.isoformat(),
-                "resolved": a.resolved,
-                "resolved_at": a.resolved_at.isoformat() if a.resolved_at else None
-            } for a in self.alert_history[-500:]],  # Last 500 alerts
-            "statistics": self.get_alert_statistics()
+            "active_alerts": [
+                {
+                    "alert_id": a.alert_id,
+                    "title": a.title,
+                    "severity": a.severity.value,
+                    "priority": a.priority.value,
+                    "timestamp": a.timestamp.isoformat(),
+                    "resolved": a.resolved,
+                }
+                for a in self.active_alerts.values()
+            ],
+            "alert_history": [
+                {
+                    "alert_id": a.alert_id,
+                    "title": a.title,
+                    "message": a.message,
+                    "severity": a.severity.value,
+                    "priority": a.priority.value,
+                    "channels": [c.value for c in a.channels],
+                    "timestamp": a.timestamp.isoformat(),
+                    "resolved": a.resolved,
+                    "resolved_at": a.resolved_at.isoformat() if a.resolved_at else None,
+                }
+                for a in self.alert_history[-500:]
+            ],  # Last 500 alerts
+            "statistics": self.get_alert_statistics(),
         }
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(data, f, indent=2, default=str)
 
         logger.info(f"✅ Alert data exported to {filepath}")

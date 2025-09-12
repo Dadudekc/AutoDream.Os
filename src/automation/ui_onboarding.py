@@ -21,11 +21,11 @@ Author: Agent-7
 License: MIT
 """
 
-from dataclasses import dataclass
-from typing import Any, Dict, Tuple, Optional, Callable
-import time
 import logging
 import os
+import time
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +47,7 @@ class OnboardCoords:
           - dict with keys: chat_input, onboarding_input
           - object with same attributes
         """
+
         def _get(obj: Any, *names: str) -> Optional[Tuple[int, int]]:
             for n in names:
                 if isinstance(obj, dict) and n in obj:
@@ -56,11 +57,10 @@ class OnboardCoords:
             return None
 
         chat = _get(coords, "chat_input_coordinates", "chat_input")
-        ob   = _get(coords, "onboarding_coordinates", "onboarding_input")
+        ob = _get(coords, "onboarding_coordinates", "onboarding_input")
         if not chat or not ob:
             raise ValueError("Invalid coords; expected chat_input + onboarding_input")
-        return OnboardCoords(chat_input=tuple(map(int, chat)),
-                             onboarding_input=tuple(map(int, ob)))
+        return OnboardCoords(chat_input=tuple(map(int, chat)), onboarding_input=tuple(map(int, ob)))
 
 
 class UIOnboarder:
@@ -80,6 +80,7 @@ class UIOnboarder:
         if not self.dry_run:
             try:
                 import pyautogui as _pg  # type: ignore
+
                 self._pg = _pg
                 # Fail-safe off to avoid aborts when moving to 0,0
                 try:
@@ -92,6 +93,7 @@ class UIOnboarder:
             # Optional clipboard paste
             try:
                 import pyperclip as _pc  # type: ignore
+
                 self._pc = _pc
                 self._clip_ok = True
             except Exception:
@@ -120,31 +122,38 @@ class UIOnboarder:
     def _click(self, x: int, y: int):
         def _do():
             self._pg.moveTo(x, y)  # type: ignore
-            self._pg.click()       # type: ignore
+            self._pg.click()  # type: ignore
+
         self._attempt(f"click({x},{y})", _do)
         self._sleep()
 
     def _hotkey(self, *keys: str):
         def _do():
             self._pg.hotkey(*keys)  # type: ignore
+
         self._attempt(f"hotkey({'+'.join(keys)})", _do)
         self._sleep()
 
     def _type(self, text: str):
         if self._clip_ok:
+
             def _do():
-                self._pc.copy(text)              # type: ignore
-                self._pg.hotkey("ctrl", "v")     # type: ignore
+                self._pc.copy(text)  # type: ignore
+                self._pg.hotkey("ctrl", "v")  # type: ignore
+
             self._attempt("paste(message)", _do)
         else:
+
             def _do():
                 self._pg.typewrite(text, interval=0.01)  # type: ignore
+
             self._attempt("typewrite(message)", _do)
         self._sleep()
 
     def _press(self, key: str):
         def _do():
             self._pg.press(key)  # type: ignore
+
         self._attempt(f"press({key})", _do)
         self._sleep()
 

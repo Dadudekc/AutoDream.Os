@@ -1,22 +1,26 @@
 from __future__ import annotations
 import types, sys
 
+
 def fake_pg(calllog):
     m = types.SimpleNamespace()
     m.FAILSAFE = True
-    m.moveTo = lambda x,y: calllog.append(("moveTo", x, y))
-    m.click  = lambda: calllog.append(("click",))
+    m.moveTo = lambda x, y: calllog.append(("moveTo", x, y))
+    m.click = lambda: calllog.append(("click",))
     m.hotkey = lambda *ks: calllog.append(("hotkey", ks))
     m.typewrite = lambda t, interval=0.01: calllog.append(("typewrite", t))
     m.press = lambda k: calllog.append(("press", k))
     return m
 
+
 def test_perform_sequence(monkeypatch):
     import sys
+
     calllog = []
     monkeypatch.setitem(sys.modules, "pyautogui", fake_pg(calllog))
 
     from src.automation.ui_onboarding import UIOnboarder
+
     u = UIOnboarder(tolerance=50, retries=0, dry_run=False)
     coords = {"chat_input_coordinates": (10, 20), "onboarding_coordinates": (30, 40)}
     ok = u.perform(agent_id="Agent-1", coords=coords, message="HELLO WORLD")
@@ -38,6 +42,7 @@ def test_perform_sequence(monkeypatch):
 
     assert ("press", "enter") in calllog
 
+
 def test_perform_sequence_with_clipboard(monkeypatch):
     calllog = []
     monkeypatch.setitem(sys.modules, "pyautogui", fake_pg(calllog))
@@ -48,6 +53,7 @@ def test_perform_sequence_with_clipboard(monkeypatch):
     monkeypatch.setitem(sys.modules, "pyperclip", fake_clip)
 
     from src.automation.ui_onboarding import UIOnboarder
+
     u = UIOnboarder(tolerance=50, retries=0, dry_run=False)
     coords = {"chat_input_coordinates": (100, 200), "onboarding_coordinates": (300, 400)}
     ok = u.perform(agent_id="Agent-2", coords=coords, message="CLIPBOARD TEST")
@@ -58,11 +64,13 @@ def test_perform_sequence_with_clipboard(monkeypatch):
     assert ("hotkey", ("ctrl", "v")) in calllog
     assert ("press", "enter") in calllog
 
+
 def test_dry_run_mode(monkeypatch):
     calllog = []
     monkeypatch.setitem(sys.modules, "pyautogui", fake_pg(calllog))
 
     from src.automation.ui_onboarding import UIOnboarder
+
     u = UIOnboarder(tolerance=50, retries=0, dry_run=True)
     coords = {"chat_input": (50, 60), "onboarding_input": (70, 80)}
     ok = u.perform(agent_id="Agent-3", coords=coords, message="DRY RUN TEST")
@@ -70,6 +78,7 @@ def test_dry_run_mode(monkeypatch):
 
     # Should not actually call pyautogui functions
     assert len(calllog) == 0
+
 
 def test_negative_coordinates():
     from src.automation.ui_onboarding import OnboardCoords
@@ -80,6 +89,7 @@ def test_negative_coordinates():
 
     assert oc.chat_input == (-1269, 481)
     assert oc.onboarding_input == (-1265, 171)
+
 
 def test_coordinate_adapter_flexibility():
     from src.automation.ui_onboarding import OnboardCoords

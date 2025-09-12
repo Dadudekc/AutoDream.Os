@@ -125,22 +125,24 @@ class ExtractionTools:
                 class_name = node.name
 
                 # Look for model-like patterns
-                has_init = any(isinstance(item, ast.FunctionDef) and item.name == '__init__'
-                             for item in node.body)
+                has_init = any(
+                    isinstance(item, ast.FunctionDef) and item.name == "__init__"
+                    for item in node.body
+                )
                 has_properties = any(isinstance(item, ast.AnnAssign) for item in node.body)
 
-                if has_init or has_properties or 'Model' in class_name or 'Schema' in class_name:
+                if has_init or has_properties or "Model" in class_name or "Schema" in class_name:
                     # Extract the class code
                     class_code = f"class {class_name}:\n"
-                    class_code += "    \"\"\"Model class extracted from refactoring.\"\"\"\n\n"
+                    class_code += '    """Model class extracted from refactoring."""\n\n'
 
                     for item in node.body:
-                        if isinstance(item, ast.FunctionDef) and item.name == '__init__':
+                        if isinstance(item, ast.FunctionDef) and item.name == "__init__":
                             class_code += "    def __init__(self):\n"
-                            class_code += "        \"\"\"Initialize model.\"\"\"\n"
+                            class_code += '        """Initialize model."""\n'
                             class_code += "        pass\n\n"
                         elif isinstance(item, ast.AnnAssign):
-                            if hasattr(item.target, 'id'):
+                            if hasattr(item.target, "id"):
                                 class_code += f"    {item.target.id}: Any = None\n"
 
                     models_code.append(class_code)
@@ -148,12 +150,16 @@ class ExtractionTools:
             # Extract model-related imports
             elif isinstance(node, ast.Import):
                 for alias in node.names:
-                    if any(keyword in alias.name.lower() for keyword in
-                          ['model', 'schema', 'pydantic', 'sqlalchemy', 'django']):
+                    if any(
+                        keyword in alias.name.lower()
+                        for keyword in ["model", "schema", "pydantic", "sqlalchemy", "django"]
+                    ):
                         imports.append(f"import {alias.name}")
             elif isinstance(node, ast.ImportFrom):
-                if node.module and any(keyword in node.module.lower() for keyword in
-                      ['model', 'schema', 'pydantic', 'sqlalchemy', 'django']):
+                if node.module and any(
+                    keyword in node.module.lower()
+                    for keyword in ["model", "schema", "pydantic", "sqlalchemy", "django"]
+                ):
                     imports.append(f"from {node.module} import ...")
 
         # Combine imports and models
@@ -183,7 +189,7 @@ class ExtractionTools:
                 func_name = node.name
 
                 # Skip special methods and main functions
-                if func_name.startswith('_') or func_name == 'main':
+                if func_name.startswith("_") or func_name == "main":
                     continue
 
                 # Look for utility patterns
@@ -194,13 +200,26 @@ class ExtractionTools:
                 if node.body and isinstance(node.body[0], ast.Expr):
                     if isinstance(node.body[0].value, ast.Str):
                         docstring = node.body[0].value.s
-                        if any(keyword in (docstring or "").lower() for keyword in
-                              ['util', 'helper', 'tool', 'common', 'shared']):
+                        if any(
+                            keyword in (docstring or "").lower()
+                            for keyword in ["util", "helper", "tool", "common", "shared"]
+                        ):
                             is_utility = True
 
                 # Check function name for utility patterns
-                if any(pattern in func_name.lower() for pattern in
-                      ['util', 'helper', 'tool', 'common', 'shared', 'format', 'parse', 'convert']):
+                if any(
+                    pattern in func_name.lower()
+                    for pattern in [
+                        "util",
+                        "helper",
+                        "tool",
+                        "common",
+                        "shared",
+                        "format",
+                        "parse",
+                        "convert",
+                    ]
+                ):
                     is_utility = True
 
                 # Check if function has reasonable complexity (not too simple, not too complex)
@@ -216,7 +235,7 @@ class ExtractionTools:
                     args = []
                     if node.args:
                         for arg in node.args.args:
-                            if arg.arg != 'self':  # Skip self for utility functions
+                            if arg.arg != "self":  # Skip self for utility functions
                                 args.append(arg.arg)
                     func_code += ", ".join(args)
                     func_code += "):\n"
@@ -225,7 +244,9 @@ class ExtractionTools:
                     if docstring:
                         func_code += f'    """{docstring}"""\n'
                     else:
-                        func_code += f'    """Utility function {func_name} extracted from refactoring."""\n'
+                        func_code += (
+                            f'    """Utility function {func_name} extracted from refactoring."""\n'
+                        )
 
                     func_code += "    # Implementation extracted from original code\n"
                     func_code += "    pass\n\n"
@@ -238,12 +259,16 @@ class ExtractionTools:
             # Extract utility-related imports
             elif isinstance(node, ast.Import):
                 for alias in node.names:
-                    if any(keyword in alias.name.lower() for keyword in
-                          ['os', 'sys', 'pathlib', 'json', 'yaml', 'logging']):
+                    if any(
+                        keyword in alias.name.lower()
+                        for keyword in ["os", "sys", "pathlib", "json", "yaml", "logging"]
+                    ):
                         utils_imports.append(f"import {alias.name}")
             elif isinstance(node, ast.ImportFrom):
-                if node.module and any(keyword in node.module.lower() for keyword in
-                      ['os', 'sys', 'pathlib', 'json', 'yaml', 'logging']):
+                if node.module and any(
+                    keyword in node.module.lower()
+                    for keyword in ["os", "sys", "pathlib", "json", "yaml", "logging"]
+                ):
                     utils_imports.append(f"from {node.module} import ...")
 
         # Combine utilities
@@ -282,8 +307,18 @@ class ExtractionTools:
                 is_core = False
 
                 # Check class name for core patterns
-                if any(pattern in class_name.lower() for pattern in
-                      ['manager', 'controller', 'service', 'provider', 'factory', 'core', 'main']):
+                if any(
+                    pattern in class_name.lower()
+                    for pattern in [
+                        "manager",
+                        "controller",
+                        "service",
+                        "provider",
+                        "factory",
+                        "core",
+                        "main",
+                    ]
+                ):
                     is_core = True
 
                 # Check for complex class structure (multiple methods)
@@ -306,13 +341,13 @@ class ExtractionTools:
                         if base_names:
                             class_code += f"({', '.join(base_names)})"
                     class_code += ":\n"
-                    class_code += "    \"\"\"Core class extracted from refactoring.\"\"\"\n\n"
+                    class_code += '    """Core class extracted from refactoring."""\n\n'
 
                     # Extract method signatures
                     for item in node.body:
                         if isinstance(item, ast.FunctionDef):
                             method_name = item.name
-                            if not method_name.startswith('_'):  # Skip private methods
+                            if not method_name.startswith("_"):  # Skip private methods
                                 method_code = f"    def {method_name}("
 
                                 # Add arguments
@@ -334,19 +369,21 @@ class ExtractionTools:
                 func_name = node.name
 
                 # Skip special methods
-                if func_name.startswith('_'):
+                if func_name.startswith("_"):
                     continue
 
                 # Look for core patterns
                 is_core = False
 
                 # Check function name for core patterns
-                if any(pattern in func_name.lower() for pattern in
-                      ['main', 'run', 'execute', 'process', 'handle', 'init', 'setup']):
+                if any(
+                    pattern in func_name.lower()
+                    for pattern in ["main", "run", "execute", "process", "handle", "init", "setup"]
+                ):
                     is_core = True
 
                 # Check if it's a main function
-                if func_name == 'main':
+                if func_name == "main":
                     is_core = True
                     main_functions.append(func_name)
 
@@ -365,7 +402,9 @@ class ExtractionTools:
                             args.append(arg.arg)
                     func_code += ", ".join(args)
                     func_code += "):\n"
-                    func_code += f'    """Core function {func_name} extracted from refactoring."""\n'
+                    func_code += (
+                        f'    """Core function {func_name} extracted from refactoring."""\n'
+                    )
                     func_code += "    # Core business logic implementation\n"
                     func_code += "    pass\n\n"
 
@@ -374,12 +413,16 @@ class ExtractionTools:
             # Extract core-related imports
             elif isinstance(node, ast.Import):
                 for alias in node.names:
-                    if any(keyword in alias.name.lower() for keyword in
-                          ['typing', 'abc', 'dataclasses', 'enum']):
+                    if any(
+                        keyword in alias.name.lower()
+                        for keyword in ["typing", "abc", "dataclasses", "enum"]
+                    ):
                         core_imports.append(f"import {alias.name}")
             elif isinstance(node, ast.ImportFrom):
-                if node.module and any(keyword in node.module.lower() for keyword in
-                      ['typing', 'abc', 'dataclasses', 'enum']):
+                if node.module and any(
+                    keyword in node.module.lower()
+                    for keyword in ["typing", "abc", "dataclasses", "enum"]
+                ):
                     core_imports.append(f"from {node.module} import ...")
 
         # Combine core components
@@ -401,7 +444,7 @@ class ExtractionTools:
             result.append("# Main entry points")
             for func in main_functions:
                 result.append(f"def {func}():")
-                result.append("    \"\"\"Main entry point extracted from refactoring.\"\"\"")
+                result.append('    """Main entry point extracted from refactoring."""')
                 result.append("    pass")
             result.append("")
 

@@ -82,7 +82,7 @@ python -m src.services.messaging_cli --message "URGENT: Fix issue" --agent Agent
 python -m src.services.messaging_cli --revive-agent --agent Agent-1  # Revive specific agent
 python -m src.services.messaging_cli --revive-all                    # Revive all agents
 
-🐝 WE. ARE. SWARM - COORDINATE THROUGH PYAUTOGUI!
+🐝 WE. ARE. SWARM - URGENT REVIVAL VIA CTRL+ENTER!
 """
 
 REVIVAL_MESSAGE_TEMPLATE = """
@@ -109,7 +109,7 @@ BROADCAST_REVIVAL_TEMPLATE = """
 **STATUS:** MULTIPLE AGENTS STALLED
 **ACTION:** IMMEDIATE REVIVAL PROTOCOL
 
-All agents receiving double-enter urgent revival signals.
+All agents receiving ctrl+enter urgent revival signals.
 
 🐝 WE ARE SWARM - COORDINATED REVIVAL!
 """
@@ -298,6 +298,19 @@ class MessagingCLI:
             "--revive-all", action="store_true", help="Send urgent revival messages to all agents"
         )
 
+        # Automated monitoring and revival
+        parser.add_argument(
+            "--monitor-status", action="store_true", help="Monitor agent status and revive stalled agents"
+        )
+
+        parser.add_argument(
+            "--revival-daemon", action="store_true", help="Start automated revival daemon (continuous monitoring)"
+        )
+
+        parser.add_argument(
+            "--stall-threshold", type=int, default=300, help="Stall threshold in seconds (default: 300)"
+        )
+
         parser.add_argument(
             "--consolidation-batch", type=str, help="Specify consolidation batch ID"
         )
@@ -324,6 +337,10 @@ class MessagingCLI:
                 return self._handle_agent_revival(parsed_args)
             elif parsed_args.revive_all:
                 return self._handle_swarm_revival()
+            elif parsed_args.monitor_status:
+                return self._handle_status_monitoring(parsed_args)
+            elif parsed_args.revival_daemon:
+                return self._handle_revival_daemon(parsed_args)
             elif parsed_args.survey_coordination:
                 return self._handle_survey()
             elif parsed_args.consolidation_coordination:
@@ -378,9 +395,9 @@ class MessagingCLI:
             return 1
 
         from datetime import datetime
+
         revival_msg = REVIVAL_MESSAGE_TEMPLATE.format(
-            agent_id=args.agent,
-            timestamp=datetime.now().isoformat()
+            agent_id=args.agent, timestamp=datetime.now().isoformat()
         )
 
         success = MessageCoordinator.send_to_agent(
@@ -388,7 +405,9 @@ class MessagingCLI:
         )
 
         if success:
-            logger.info(f"🚨 URGENT REVIVAL: Successfully sent double-enter revival signal to {args.agent}")
+            logger.info(
+                f"🚨 URGENT REVIVAL: Successfully sent ctrl+enter revival signal to {args.agent}"
+            )
             return 0
         else:
             logger.error(f"❌ Failed to revive agent {args.agent}")
@@ -403,7 +422,9 @@ class MessagingCLI:
         )
 
         if success_count > 0:
-            logger.info(f"🚨 SWARM REVIVAL: Successfully sent double-enter signals to {success_count}/8 agents")
+            logger.info(
+                f"🚨 SWARM REVIVAL: Successfully sent ctrl+enter signals to {success_count}/8 agents"
+            )
             return 0
         else:
             logger.error("❌ Swarm revival failed - no agents responded")

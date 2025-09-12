@@ -8,5 +8,6 @@ if str(script_dir) not in sys.path:
     sys.path.insert(0, str(script_dir))
 
 from src.services.messaging.cli import main
+
 if __name__ == "__main__":
     main()

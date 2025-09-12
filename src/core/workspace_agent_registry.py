@@ -96,7 +96,4 @@ class AgentRegistry:
             loader = get_coordinate_loader()
             return loader.get_onboarding_coordinates(agent_id)
         except Exception:
-            return {
-                "chat_input_coordinates": (0, 0),
-                "onboarding_coordinates": (0, 0)
-            }
+            return {"chat_input_coordinates": (0, 0), "onboarding_coordinates": (0, 0)}

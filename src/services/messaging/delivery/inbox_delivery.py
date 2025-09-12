@@ -6,6 +6,7 @@ from ..models import UnifiedMessage
 
 logger = logging.getLogger(__name__)
 
+
 def send_message_inbox(message: UnifiedMessage) -> bool:
     try:
         inbox = Path("agent_workspaces") / message.recipient / "inbox"

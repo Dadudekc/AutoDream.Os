@@ -7,7 +7,4 @@ Package for SWARM system templates including onboarding roles and devlog templat
 
 from .onboarding_roles import ROLES, build_role_message
 
-__all__ = [
-    "ROLES",
-    "build_role_message"
-]
+__all__ = ["ROLES", "build_role_message"]

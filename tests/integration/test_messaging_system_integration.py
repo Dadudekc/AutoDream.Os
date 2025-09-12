@@ -29,7 +29,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 try:
     from integration.messaging_gateway import MessagingGateway, send_discord_message_to_agent
     from services.consolidated_messaging_service import ConsolidatedMessagingService
-    from core.orchestration.intent_subsystems.message_router import MessageRouter, MessagePriority, MessageType
+    from core.orchestration.intent_subsystems.message_router import (
+        MessageRouter,
+        MessagePriority,
+        MessageType,
+    )
+
     MESSAGING_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Messaging components not available: {e}")
@@ -48,7 +53,7 @@ class TestMessagingSystemIntegration:
 
     def teardown_method(self):
         """Cleanup integration test fixtures."""
-        if hasattr(self, 'router') and self.router.running:
+        if hasattr(self, "router") and self.router.running:
             self.router.stop()
             self.router.join(timeout=1.0)
 
@@ -65,7 +70,7 @@ class TestMessagingSystemIntegration:
             "content": "Integration test message",
             "sender": "TestUser",
             "channel": "test-channel",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Test gateway message processing
@@ -82,7 +87,7 @@ class TestMessagingSystemIntegration:
             "sender": "TestSystem",
             "recipient": "Agent-5",
             "content": discord_message["content"],
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         router_result = self.router.route_message(router_message)
@@ -93,18 +98,16 @@ class TestMessagingSystemIntegration:
         self.router.join(timeout=1.0)
 
     @pytest.mark.integration
-    @patch('services.consolidated_messaging_service.MESSAGING_AVAILABLE', True)
+    @patch("services.consolidated_messaging_service.MESSAGING_AVAILABLE", True)
     def test_consolidated_service_gateway_integration(self):
         """Test ConsolidatedMessagingService integration with MessagingGateway."""
         # Test service initialization
         assert self.messaging_service is not None
-        assert hasattr(self.messaging_service, 'send_message')
+        assert hasattr(self.messaging_service, "send_message")
 
         # Test message sending through service
         result = self.messaging_service.send_message(
-            recipient="Agent-5",
-            content="Integration test",
-            priority="normal"
+            recipient="Agent-5", content="Integration test", priority="normal"
         )
 
         # Should succeed in dry-run mode
@@ -120,18 +123,18 @@ class TestMessagingSystemIntegration:
             {
                 "type": MessageType.AGENT_TO_AGENT,
                 "priority": MessagePriority.NORMAL,
-                "content": "Agent coordination message"
+                "content": "Agent coordination message",
             },
             {
                 "type": MessageType.SYSTEM_TO_AGENT,
                 "priority": MessagePriority.HIGH,
-                "content": "System alert"
+                "content": "System alert",
             },
             {
                 "type": MessageType.BROADCAST,
                 "priority": MessagePriority.URGENT,
-                "content": "System-wide broadcast"
-            }
+                "content": "System-wide broadcast",
+            },
         ]
 
         for i, msg_data in enumerate(test_messages):
@@ -142,7 +145,7 @@ class TestMessagingSystemIntegration:
                 "sender": "IntegrationTest",
                 "recipient": "Agent-5",
                 "content": msg_data["content"],
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             result = self.router.route_message(msg)
@@ -155,8 +158,8 @@ class TestMessagingSystemIntegration:
         self.router.join(timeout=1.0)
 
     @pytest.mark.integration
-    @patch('integration.messaging_gateway.pyautogui')
-    @patch('integration.messaging_gateway.pyperclip')
+    @patch("integration.messaging_gateway.pyautogui")
+    @patch("integration.messaging_gateway.pyperclip")
     def test_gateway_physical_delivery_simulation(self, mock_pyperclip, mock_pyautogui):
         """Test gateway physical delivery simulation."""
         # Setup PyAutoGUI mocks
@@ -170,7 +173,7 @@ class TestMessagingSystemIntegration:
         assert mock_pyautogui.moveTo.called
         assert mock_pyautogui.click.called
         assert mock_pyperclip.copy.called
-        assert mock_pyautogui.hotkey.called_with('ctrl', 'v')
+        assert mock_pyautogui.hotkey.called_with("ctrl", "v")
 
         # Verify Agent-5 coordinates used
         mock_pyautogui.moveTo.assert_any_call(652, 421)
@@ -187,9 +190,7 @@ class TestMessagingSystemIntegration:
         assert router_result.name == "FAILED"
 
         # Test service with invalid parameters
-        service_result = self.messaging_service.send_message(
-            recipient="", content=""
-        )
+        service_result = self.messaging_service.send_message(recipient="", content="")
         # Should handle gracefully
         assert isinstance(service_result, bool)
 
@@ -199,8 +200,12 @@ class TestMessagingSystemIntegration:
         self.router.start()
 
         # Test different priority levels
-        priorities = [MessagePriority.LOW, MessagePriority.NORMAL,
-                     MessagePriority.HIGH, MessagePriority.URGENT]
+        priorities = [
+            MessagePriority.LOW,
+            MessagePriority.NORMAL,
+            MessagePriority.HIGH,
+            MessagePriority.URGENT,
+        ]
 
         for priority in priorities:
             msg = {
@@ -210,7 +215,7 @@ class TestMessagingSystemIntegration:
                 "sender": "PriorityTest",
                 "recipient": "Agent-5",
                 "content": f"Priority {priority.value} test",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             result = self.router.route_message(msg)
@@ -235,7 +240,7 @@ class TestMessagingSystemIntegration:
             "sender": "System",
             "recipient": "all_agents",
             "content": "Integration broadcast test",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         result = self.router.route_message(broadcast_msg)
@@ -249,15 +254,11 @@ class TestMessagingSystemIntegration:
         self.router.join(timeout=1.0)
 
     @pytest.mark.integration
-    @patch('services.consolidated_messaging_service.MESSAGING_AVAILABLE', True)
+    @patch("services.consolidated_messaging_service.MESSAGING_AVAILABLE", True)
     def test_service_configuration_integration(self):
         """Test messaging service configuration integration."""
         # Test service with different configurations
-        configs = [
-            {"dry_run": True},
-            {"dry_run": False},
-            {"dry_run": True, "debug": True}
-        ]
+        configs = [{"dry_run": True}, {"dry_run": False}, {"dry_run": True, "debug": True}]
 
         for config in configs:
             service = ConsolidatedMessagingService(**config)
@@ -279,7 +280,7 @@ class TestMessagingSystemIntegration:
                 "sender": "Test",
                 "recipient": "Agent-5",
                 "content": "Standard format",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             },
             # Extended format
             {
@@ -291,8 +292,8 @@ class TestMessagingSystemIntegration:
                 "content": "Extended format",
                 "timestamp": time.time(),
                 "metadata": {"source": "integration_test"},
-                "tags": ["test", "integration"]
-            }
+                "tags": ["test", "integration"],
+            },
         ]
 
         for msg in message_formats:
@@ -321,7 +322,7 @@ class TestMessagingSystemIntegration:
                 "sender": "LoadTest",
                 "recipient": "Agent-5",
                 "content": f"Load test message {i}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             self.router.route_message(msg)
 
@@ -347,7 +348,7 @@ class TestMessagingSystemIntegration:
             # Invalid message format
             lambda: self.router.route_message({"content": "no other fields"}),
             # Service with invalid config
-            lambda: ConsolidatedMessagingService(invalid_param="test")
+            lambda: ConsolidatedMessagingService(invalid_param="test"),
         ]
 
         for scenario in error_scenarios:
@@ -363,11 +364,20 @@ class TestMessagingSystemIntegration:
     def test_message_routing_table_consistency(self):
         """Test routing table consistency across components."""
         # Test that all components use consistent agent identifiers
-        known_agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4",
-                       "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+        known_agents = [
+            "Agent-1",
+            "Agent-2",
+            "Agent-3",
+            "Agent-4",
+            "Agent-5",
+            "Agent-6",
+            "Agent-7",
+            "Agent-8",
+        ]
 
         # Test gateway coordinate lookup
         from integration.messaging_gateway import get_agent_coordinates
+
         for agent in known_agents:
             coords = get_agent_coordinates(agent)
             assert coords is not None
@@ -383,7 +393,7 @@ class TestMessagingSystemIntegration:
                 "sender": "ConsistencyTest",
                 "recipient": agent,
                 "content": f"Test message for {agent}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             result = self.router.route_message(msg)
             assert result.name == "QUEUED"
@@ -406,7 +416,7 @@ class TestMessagingSystemIntegration:
             "sender": "ResilienceTest",
             "recipient": "Agent-5",
             "content": "Normal operation test",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
         result = self.router.route_message(normal_msg)
         assert result.name == "QUEUED"
@@ -422,7 +432,7 @@ class TestMessagingSystemIntegration:
             "sender": "ResilienceTest",
             "recipient": "Agent-5",
             "content": "Recovery test",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
         result = self.router.route_message(recovery_msg)
         assert result.name == "QUEUED"

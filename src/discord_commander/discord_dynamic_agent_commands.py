@@ -53,11 +53,7 @@ async def _send_to_agent(
         payload = f"{message}\n\n{SUMMARY_PROMPT}"
 
     # Prepare message metadata
-    meta = {
-        "source": "discord",
-        "message_type": message_type,
-        "author_tag": author_tag
-    }
+    meta = {"source": "discord", "message_type": message_type, "author_tag": author_tag}
 
     # Prefer MessagingGateway for Agents 1-4
     try:
@@ -109,6 +105,7 @@ async def _agent_autocomplete(
 # ---------- Global Keyboard Shortcut Handler: Ctrl+Enter 2x for Urgent Messages ----------
 urgent_message_cache: dict[str, dict] = {}  # Cache for detecting double messages
 
+
 async def handle_keyboard_shortcut(message: discord.Message, bot: commands.Bot):
     """Handle keyboard shortcuts for high-priority messaging."""
     alias_to_agent, by_agent = _load_alias_map()  # Load aliases within function
@@ -133,9 +130,12 @@ async def handle_keyboard_shortcut(message: discord.Message, bot: commands.Bot):
                         urgent_message,
                         author_tag=f"Discord:{message.author.id}",
                         request_summary=False,
-                        message_type="urgent_keyboard_to_agent"
+                        message_type="urgent_keyboard_to_agent",
                     )
-                    embed = _mk_ok_embed("🚨 URGENT Keyboard to Agent Message", f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Type: Urgent Keyboard to Agent*\n*Triggered by keyboard shortcut*")
+                    embed = _mk_ok_embed(
+                        "🚨 URGENT Keyboard to Agent Message",
+                        f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Type: Urgent Keyboard to Agent*\n*Triggered by keyboard shortcut*",
+                    )
                     await message.reply(embed=embed, mention_author=False)
                     return True
                 except Exception as e:
@@ -175,7 +175,7 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                 urgent_message,
                 author_tag=f"Discord:{interaction.user.id}",
                 request_summary=False,  # Skip summary for urgent messages
-                message_type="urgent_to_agent"
+                message_type="urgent_to_agent",
             )
             await interaction.followup.send(
                 embed=_mk_ok_embed(
@@ -216,10 +216,13 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                 message,
                 author_tag=f"Discord:{interaction.user.id}",
                 request_summary=summary,
-                message_type="general_to_agent"
+                message_type="general_to_agent",
             )
             await interaction.followup.send(
-                embed=_mk_ok_embed("📨 General to Agent Message Dispatched", f"{status}\n\n**Message:** {message}\n\n*Type: General to Agent*"),
+                embed=_mk_ok_embed(
+                    "📨 General to Agent Message Dispatched",
+                    f"{status}\n\n**Message:** {message}\n\n*Type: General to Agent*",
+                ),
                 ephemeral=True,
             )
         except Exception as e:

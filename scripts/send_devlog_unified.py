@@ -60,7 +60,7 @@ def load_discord_config() -> Optional[dict]:
         return None
 
     try:
-        with open(config_file, 'r', encoding='utf-8') as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"❌ Failed to load Discord config: {e}")
@@ -76,7 +76,7 @@ def get_channel_config(config: dict, agent_id: str) -> Optional[dict]:
     key_formats = [
         agent_id,  # Agent-1
         agent_id.lower(),  # agent-1
-        agent_id.lower().replace('-', '_'),  # agent_1
+        agent_id.lower().replace("-", "_"),  # agent_1
         f"agent-{agent_id.split('-')[1]}",  # agent-1 (from Agent-1)
         f"agent_{agent_id.split('-')[1]}",  # agent_1 (from Agent-1)
     ]
@@ -91,7 +91,7 @@ def get_channel_config(config: dict, agent_id: str) -> Optional[dict]:
 def parse_devlog_content(filepath: Path) -> Optional[dict]:
     """Parse devlog file content and extract metadata."""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             content = f.read()
 
         if not content.strip():
@@ -99,7 +99,7 @@ def parse_devlog_content(filepath: Path) -> Optional[dict]:
             return None
 
         # Extract title from first header
-        title_match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
+        title_match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
         title = title_match.group(1).strip() if title_match else filepath.stem
 
         # Determine category from content keywords
@@ -123,12 +123,12 @@ def parse_devlog_content(filepath: Path) -> Optional[dict]:
                 break
 
         return {
-            'title': title,
-            'content': content[:1500] + ("..." if len(content) > 1500 else ""),
-            'category': category,
-            'full_content': content,
-            'word_count': len(content.split()),
-            'line_count': len(content.splitlines())
+            "title": title,
+            "content": content[:1500] + ("..." if len(content) > 1500 else ""),
+            "category": category,
+            "full_content": content,
+            "word_count": len(content.split()),
+            "line_count": len(content.splitlines()),
         }
 
     except Exception as e:
@@ -136,8 +136,9 @@ def parse_devlog_content(filepath: Path) -> Optional[dict]:
         return None
 
 
-def send_to_discord_webhook(webhook_url: str, devlog_data: dict, agent_id: str,
-                           channel_config: dict, simulate: bool = False) -> bool:
+def send_to_discord_webhook(
+    webhook_url: str, devlog_data: dict, agent_id: str, channel_config: dict, simulate: bool = False
+) -> bool:
     """Send devlog to Discord webhook."""
     try:
         # Get color from config or use agent-specific defaults
@@ -151,26 +152,26 @@ def send_to_discord_webhook(webhook_url: str, devlog_data: dict, agent_id: str,
             "Agent-7": 0x95A5A6,  # Gray
             "Agent-8": 0x8E44AD,  # Dark Purple
         }
-        color = channel_config.get('color', agent_colors.get(agent_id, 0x3498DB))
+        color = channel_config.get("color", agent_colors.get(agent_id, 0x3498DB))
 
         embed = {
             "title": f"📝 {devlog_data['title']}",
-            "description": devlog_data['content'],
+            "description": devlog_data["content"],
             "color": color,
             "fields": [
                 {"name": "Agent", "value": agent_id, "inline": True},
-                {"name": "Category", "value": devlog_data['category'].title(), "inline": True},
-                {"name": "Word Count", "value": str(devlog_data['word_count']), "inline": True},
+                {"name": "Category", "value": devlog_data["category"].title(), "inline": True},
+                {"name": "Word Count", "value": str(devlog_data["word_count"]), "inline": True},
                 {
                     "name": "Timestamp",
                     "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "inline": False
+                    "inline": False,
                 },
             ],
             "footer": {
                 "text": f"V2_SWARM DevLog - {agent_id} | {devlog_data['line_count']} lines",
-                "icon_url": "https://i.imgur.com/devlog_icon.png"
-            }
+                "icon_url": "https://i.imgur.com/devlog_icon.png",
+            },
         }
 
         payload = {
@@ -208,17 +209,23 @@ def send_to_discord_webhook(webhook_url: str, devlog_data: dict, agent_id: str,
         return False
 
 
-def send_to_discord_channel(channel_id: str, devlog_data: dict, agent_id: str,
-                           channel_config: dict, simulate: bool = False) -> bool:
+def send_to_discord_channel(
+    channel_id: str, devlog_data: dict, agent_id: str, channel_config: dict, simulate: bool = False
+) -> bool:
     """Send devlog to Discord channel via channel ID."""
     if simulate:
         # Simulation mode - just log what would happen
         agent_colors = {
-            "Agent-1": 0x1ABC9C, "Agent-2": 0x3498DB, "Agent-3": 0x9B59B6,
-            "Agent-4": 0xE74C3C, "Agent-5": 0xF39C12, "Agent-6": 0x27AE60,
-            "Agent-7": 0x95A5A6, "Agent-8": 0x8E44AD,
+            "Agent-1": 0x1ABC9C,
+            "Agent-2": 0x3498DB,
+            "Agent-3": 0x9B59B6,
+            "Agent-4": 0xE74C3C,
+            "Agent-5": 0xF39C12,
+            "Agent-6": 0x27AE60,
+            "Agent-7": 0x95A5A6,
+            "Agent-8": 0x8E44AD,
         }
-        color = channel_config.get('color', agent_colors.get(agent_id, 0x3498DB))
+        color = channel_config.get("color", agent_colors.get(agent_id, 0x3498DB))
 
         print("📡 Discord Channel Simulation:")
         print(f"   Channel ID: {channel_id}")
@@ -233,12 +240,12 @@ def send_to_discord_channel(channel_id: str, devlog_data: dict, agent_id: str,
         return True
 
     # Implement actual Discord API integration with bot token
-    import os
     import asyncio
+    import os
     from typing import Optional
 
     # Check for Discord bot token
-    bot_token = os.getenv('DISCORD_BOT_TOKEN')
+    bot_token = os.getenv("DISCORD_BOT_TOKEN")
     if not bot_token:
         print("❌ Discord Bot Token not found!")
         print("   Set DISCORD_BOT_TOKEN environment variable")
@@ -255,12 +262,17 @@ def send_to_discord_channel(channel_id: str, devlog_data: dict, agent_id: str,
 
     # Agent colors for embeds
     agent_colors = {
-        "Agent-1": 0x1ABC9C, "Agent-2": 0x3498DB, "Agent-3": 0x9B59B6,
-        "Agent-4": 0xE74C3C, "Agent-5": 0xF39C12, "Agent-6": 0x27AE60,
-        "Agent-7": 0x95A5A6, "Agent-8": 0x8E44AD,
+        "Agent-1": 0x1ABC9C,
+        "Agent-2": 0x3498DB,
+        "Agent-3": 0x9B59B6,
+        "Agent-4": 0xE74C3C,
+        "Agent-5": 0xF39C12,
+        "Agent-6": 0x27AE60,
+        "Agent-7": 0x95A5A6,
+        "Agent-8": 0x8E44AD,
     }
 
-    color = channel_config.get('color', agent_colors.get(agent_id, 0x3498DB))
+    color = channel_config.get("color", agent_colors.get(agent_id, 0x3498DB))
 
     async def send_discord_message():
         """Send message to Discord channel asynchronously."""
@@ -277,16 +289,20 @@ def send_to_discord_channel(channel_id: str, devlog_data: dict, agent_id: str,
 
                 # Create embed
                 embed = Embed(
-                    title=devlog_data['title'],
-                    description=devlog_data['content'][:2000],  # Discord limit
-                    color=color
+                    title=devlog_data["title"],
+                    description=devlog_data["content"][:2000],  # Discord limit
+                    color=color,
                 )
 
                 # Add fields
                 embed.add_field(name="Agent", value=agent_id, inline=True)
-                embed.add_field(name="Category", value=devlog_data['category'], inline=True)
-                embed.add_field(name="Word Count", value=str(devlog_data['word_count']), inline=True)
-                embed.add_field(name="Line Count", value=str(devlog_data['line_count']), inline=True)
+                embed.add_field(name="Category", value=devlog_data["category"], inline=True)
+                embed.add_field(
+                    name="Word Count", value=str(devlog_data["word_count"]), inline=True
+                )
+                embed.add_field(
+                    name="Line Count", value=str(devlog_data["line_count"]), inline=True
+                )
 
                 # Add timestamp
                 embed.set_footer(text=f"Generated by {agent_id}")
@@ -362,26 +378,20 @@ Configuration:
 - Discord channels configured in: config/discord_channels.json
 - Supports both webhook URLs and channel IDs
 - Use --simulate flag for testing without actual Discord API calls
-        """
+        """,
     )
 
     parser.add_argument(
         "--agent",
         required=True,
         choices=[f"Agent-{i}" for i in range(1, 9)],
-        help="Agent identifier (required)"
+        help="Agent identifier (required)",
     )
 
-    parser.add_argument(
-        "--file",
-        required=True,
-        help="Path to the devlog markdown file (required)"
-    )
+    parser.add_argument("--file", required=True, help="Path to the devlog markdown file (required)")
 
     parser.add_argument(
-        "--simulate",
-        action="store_true",
-        help="Simulate sending without actual Discord API calls"
+        "--simulate", action="store_true", help="Simulate sending without actual Discord API calls"
     )
 
     args = parser.parse_args()
@@ -403,10 +413,10 @@ Configuration:
         print(f"❌ Path is not a file: {args.file}")
         sys.exit(1)
 
-    if filepath.suffix.lower() != '.md':
+    if filepath.suffix.lower() != ".md":
         print(f"⚠️  File doesn't have .md extension: {args.file}")
         response = input("   Continue anyway? (y/N): ")
-        if response.lower() != 'y':
+        if response.lower() != "y":
             print("Operation cancelled.")
             sys.exit(0)
 
@@ -439,17 +449,19 @@ Configuration:
     success = False
 
     # Try webhook first, then channel ID
-    webhook_url = channel_config.get('webhook_url')
-    channel_id = channel_config.get('channel_id')
+    webhook_url = channel_config.get("webhook_url")
+    channel_id = channel_config.get("channel_id")
 
     if webhook_url:
         print("📡 Sending via Discord webhook...")
-        success = send_to_discord_webhook(webhook_url, devlog_data, args.agent,
-                                        channel_config, args.simulate)
+        success = send_to_discord_webhook(
+            webhook_url, devlog_data, args.agent, channel_config, args.simulate
+        )
     elif channel_id:
         print("📡 Sending via Discord channel...")
-        success = send_to_discord_channel(channel_id, devlog_data, args.agent,
-                                        channel_config, args.simulate)
+        success = send_to_discord_channel(
+            channel_id, devlog_data, args.agent, channel_config, args.simulate
+        )
     else:
         print("❌ No webhook URL or channel ID configured for this agent")
         print("   Please configure webhook_url or channel_id in config/discord_channels.json")

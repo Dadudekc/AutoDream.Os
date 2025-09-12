@@ -27,12 +27,14 @@ if __name__ == "__main__":
 # Availability flags (exported for testing)
 try:
     import pyautogui
+
     PYAUTOGUI_AVAILABLE = True
 except ImportError:
     PYAUTOGUI_AVAILABLE = False
 
 try:
     import pyperclip
+
     PYPERCLIP_AVAILABLE = True
 except ImportError:
     PYPERCLIP_AVAILABLE = False
@@ -213,8 +215,10 @@ try:
         formatted_message = format_message_for_delivery(message)
 
         # Enhanced delivery for urgent priority messages (agent revival)
-        is_urgent = (hasattr(message, 'priority') and
-                    message.priority in [UnifiedMessagePriority.URGENT, "urgent"])
+        is_urgent = hasattr(message, "priority") and message.priority in [
+            UnifiedMessagePriority.URGENT,
+            "urgent",
+        ]
 
         for attempt in range(1, 3):  # 2 attempts
             try:
@@ -223,19 +227,25 @@ try:
                 time.sleep(0.05)
 
                 if is_urgent:
-                    # Urgent priority: Double enter for agent revival
-                    pyautogui.press("enter")
-                    time.sleep(0.1)
-                    pyautogui.press("enter")
+                    # Urgent priority: Single ctrl+enter for agent revival - MUST INTERRUPT AGENT
+                    logger.info("🚨 REVIVAL: Sending ctrl+enter to interrupt %s at %s", message.recipient, coords)
+                    pyautogui.hotkey("ctrl", "enter")
+                    time.sleep(0.5)  # Wait for message to send and interrupt agent
+
                     logger.info(
-                        "🚨 URGENT Message delivered to %s at %s (double-enter revival, attempt %d)",
-                        message.recipient, coords, attempt
+                        "🚨 REVIVAL SUCCESSFUL: %s should be interrupted at %s (attempt %d)",
+                        message.recipient,
+                        coords,
+                        attempt,
                     )
                 else:
                     # Normal priority: Single enter
                     pyautogui.press("enter")
                     logger.info(
-                        "Message delivered to %s at %s (attempt %d)", message.recipient, coords, attempt
+                        "Message delivered to %s at %s (attempt %d)",
+                        message.recipient,
+                        coords,
+                        attempt,
                     )
                 return True
             except Exception as e:
@@ -746,7 +756,7 @@ class ConsolidatedMessagingService:
             "--onboarding-mode",
             choices=["cleanup", "quality-suite", "consolidation", "testing"],
             default="cleanup",
-            help="Onboarding mode (default: cleanup)"
+            help="Onboarding mode (default: cleanup)",
         )
         parser.add_argument(
             "--assign-roles", type=str, help="Role assignments in format 'agent:ROLE,agent:ROLE'"
@@ -1411,21 +1421,22 @@ class ConsolidatedMessagingService:
             # Import onboarding handler
             try:
                 from src.services.handlers.onboarding_handler import OnboardingHandler
+
                 onboarding_handler = OnboardingHandler()
 
                 # Call the onboarding handler
                 result = onboarding_handler._handle_hard_onboarding(
                     confirm_yes=True,  # Auto-confirm for CLI
-                    dry_run=getattr(args, 'dry_run', False),
+                    dry_run=getattr(args, "dry_run", False),
                     agents=agents,
                     timeout=30,  # Default timeout
-                    use_ui=getattr(args, 'use_ui', False),
-                    ui_retries=getattr(args, 'ui_retries', 3),
-                    ui_tolerance=getattr(args, 'ui_tolerance', 10),
+                    use_ui=getattr(args, "use_ui", False),
+                    ui_retries=getattr(args, "ui_retries", 3),
+                    ui_tolerance=getattr(args, "ui_tolerance", 10),
                     mode=args.onboarding_mode,
-                    role_map_str=getattr(args, 'assign_roles', ""),
+                    role_map_str=getattr(args, "assign_roles", ""),
                     emit_proof=False,  # Disable proof emission for CLI
-                    audit_cleanup=False  # Disable audit cleanup for CLI
+                    audit_cleanup=False,  # Disable audit cleanup for CLI
                 )
 
                 if result == 0:
@@ -1445,6 +1456,7 @@ class ConsolidatedMessagingService:
         except Exception as e:
             print(f"❌ Hard onboarding failed: {e}")
             import traceback
+
             traceback.print_exc()
 
     def _get_next_available_task(self, agent_id: str) -> dict | None:
@@ -1455,7 +1467,6 @@ class ConsolidatedMessagingService:
         from datetime import datetime
 
         # Removed the random empty check - always provide tasks for active swarm
-
         # Generate comprehensive tasks with detailed requirements
         task_templates = {
             "Code Review": {

@@ -4,19 +4,24 @@ Test script for Overnight Command Handler
 """
 import sys
 import os
-sys.path.append('src')
+
+sys.path.append("src")
 
 # Import directly to avoid services __init__.py issues
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src', 'services'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src", "services"))
 import overnight_command_handler
+
 OvernightCommandHandler = overnight_command_handler.OvernightCommandHandler
+
 
 class MockArgs:
     """Mock arguments for testing."""
+
     def __init__(self, overnight=True, operation="cleanup", dry_run=True):
         self.overnight = overnight
         self.operation = operation
         self.dry_run = dry_run
+
 
 def test_overnight_handler():
     """Test the overnight command handler."""
@@ -51,6 +56,7 @@ def test_overnight_handler():
 
     print("\n🎉 All tests completed successfully!")
     print("=" * 50)
+
 
 if __name__ == "__main__":
     test_overnight_handler()

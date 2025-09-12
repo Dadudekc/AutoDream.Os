@@ -60,7 +60,7 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:00:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -69,14 +69,12 @@ class TestAgentAPISuite:
                 "agent_id": f"test-agent-{uuid.uuid4().hex[:8]}",
                 "agent_name": "API Test Agent",
                 "specialization": "API Testing",
-                "coordinates": {"x": 100, "y": 200}
+                "coordinates": {"x": 100, "y": 200},
             }
 
             # Test agent registration
             registration_result = self.framework.validate_api_endpoint(
-                "/agents", "POST",
-                request_data=agent_data,
-                expected_status=201
+                "/agents", "POST", request_data=agent_data, expected_status=201
             )
 
             assert registration_result.status == TestStatus.PASSED, "Agent registration failed"
@@ -90,11 +88,13 @@ class TestAgentAPISuite:
             # Track for cleanup
             self.test_agents.append(agent_data["agent_id"])
 
-            result.assertions.extend([
-                {"test": "registration_request", "status": "passed"},
-                {"test": "response_validation", "status": "passed"},
-                {"test": "data_persistence", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "registration_request", "status": "passed"},
+                    {"test": "response_validation", "status": "passed"},
+                    {"test": "data_persistence", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent registration API test passed")
@@ -121,7 +121,7 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:02:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -131,21 +131,18 @@ class TestAgentAPISuite:
                 "agent_id": agent_id,
                 "agent_name": "Retrieval Test Agent",
                 "specialization": "API Testing",
-                "coordinates": {"x": 150, "y": 250}
+                "coordinates": {"x": 150, "y": 250},
             }
 
             # Register agent
             self.framework.validate_api_endpoint(
-                "/agents", "POST",
-                request_data=agent_data,
-                expected_status=201
+                "/agents", "POST", request_data=agent_data, expected_status=201
             )
             self.test_agents.append(agent_id)
 
             # Test individual agent retrieval
             get_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "GET",
-                expected_status=200
+                f"/agents/{agent_id}", "GET", expected_status=200
             )
 
             assert get_result.status == TestStatus.PASSED, "Individual agent retrieval failed"
@@ -157,8 +154,7 @@ class TestAgentAPISuite:
 
             # Test agents list endpoint
             list_result = self.framework.validate_api_endpoint(
-                "/agents", "GET",
-                expected_status=200
+                "/agents", "GET", expected_status=200
             )
 
             assert list_result.status == TestStatus.PASSED, "Agents list retrieval failed"
@@ -168,11 +164,13 @@ class TestAgentAPISuite:
             agent_ids = [agent["agent_id"] for agent in list_data]
             assert agent_id in agent_ids, "Created agent not found in list"
 
-            result.assertions.extend([
-                {"test": "individual_retrieval", "status": "passed"},
-                {"test": "list_retrieval", "status": "passed"},
-                {"test": "data_consistency", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "individual_retrieval", "status": "passed"},
+                    {"test": "list_retrieval", "status": "passed"},
+                    {"test": "data_consistency", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent retrieval API test passed")
@@ -199,7 +197,7 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:04:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -209,13 +207,11 @@ class TestAgentAPISuite:
                 "agent_id": agent_id,
                 "agent_name": "Update Test Agent",
                 "specialization": "API Testing",
-                "coordinates": {"x": 200, "y": 300}
+                "coordinates": {"x": 200, "y": 300},
             }
 
             self.framework.validate_api_endpoint(
-                "/agents", "POST",
-                request_data=agent_data,
-                expected_status=201
+                "/agents", "POST", request_data=agent_data, expected_status=201
             )
             self.test_agents.append(agent_id)
 
@@ -223,32 +219,31 @@ class TestAgentAPISuite:
             update_data = {
                 "agent_name": "Updated Test Agent",
                 "specialization": "Advanced API Testing",
-                "coordinates": {"x": 250, "y": 350}
+                "coordinates": {"x": 250, "y": 350},
             }
 
             update_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "PUT",
-                request_data=update_data,
-                expected_status=200
+                f"/agents/{agent_id}", "PUT", request_data=update_data, expected_status=200
             )
 
             assert update_result.status == TestStatus.PASSED, "Agent update failed"
 
             # Verify update was applied
             get_result = self.framework.validate_api_endpoint(
-                f"/agents/{agent_id}", "GET",
-                expected_status=200
+                f"/agents/{agent_id}", "GET", expected_status=200
             )
 
             updated_data = get_result.metadata.get("response_data", {})
             assert updated_data["agent_name"] == update_data["agent_name"]
             assert updated_data["specialization"] == update_data["specialization"]
 
-            result.assertions.extend([
-                {"test": "update_request", "status": "passed"},
-                {"test": "update_verification", "status": "passed"},
-                {"test": "data_integrity", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "update_request", "status": "passed"},
+                    {"test": "update_verification", "status": "passed"},
+                    {"test": "data_integrity", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent update API test passed")
@@ -275,14 +270,13 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:06:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
             # Test agent status filtering
             status_result = self.framework.validate_api_endpoint(
-                "/agents?status=ACTIVE_AGENT_MODE", "GET",
-                expected_status=200
+                "/agents?status=ACTIVE_AGENT_MODE", "GET", expected_status=200
             )
 
             assert status_result.status == TestStatus.PASSED, "Status filtering failed"
@@ -290,18 +284,22 @@ class TestAgentAPISuite:
             # Verify all returned agents have correct status
             agents_data = status_result.metadata.get("response_data", [])
             for agent in agents_data:
-                assert agent["status"] == "ACTIVE_AGENT_MODE", f"Agent {agent['agent_id']} has incorrect status"
+                assert (
+                    agent["status"] == "ACTIVE_AGENT_MODE"
+                ), f"Agent {agent['agent_id']} has incorrect status"
 
             # Test agent status monitoring (simulated)
             # In real implementation, this would test status update mechanisms
             monitoring_result = self._test_status_monitoring()
             assert monitoring_result["monitoring_active"] == True
 
-            result.assertions.extend([
-                {"test": "status_filtering", "status": "passed"},
-                {"test": "status_validation", "status": "passed"},
-                {"test": "monitoring_system", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "status_filtering", "status": "passed"},
+                    {"test": "status_validation", "status": "passed"},
+                    {"test": "monitoring_system", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent status API test passed")
@@ -328,7 +326,7 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:08:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -339,10 +337,12 @@ class TestAgentAPISuite:
             coordination_result = self._test_coordination_api()
             assert coordination_result["coordination_api"] == "functional"
 
-            result.assertions.extend([
-                {"test": "coordination_endpoint", "status": "passed"},
-                {"test": "inter_agent_communication", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "coordination_endpoint", "status": "passed"},
+                    {"test": "inter_agent_communication", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent coordination API test passed")
@@ -369,23 +369,20 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:10:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
             # Test invalid agent ID
             invalid_result = self.framework.validate_api_endpoint(
-                "/agents/invalid-agent-id", "GET",
-                expected_status=404
+                "/agents/invalid-agent-id", "GET", expected_status=404
             )
 
             assert invalid_result.status == TestStatus.PASSED, "Invalid agent ID should return 404"
 
             # Test malformed request data
             malformed_result = self.framework.validate_api_endpoint(
-                "/agents", "POST",
-                request_data={"invalid": "data"},
-                expected_status=400
+                "/agents", "POST", request_data={"invalid": "data"}, expected_status=400
             )
 
             assert malformed_result.status == TestStatus.PASSED, "Malformed data should return 400"
@@ -393,11 +390,13 @@ class TestAgentAPISuite:
             # Test unauthorized access (if applicable)
             # This would test authentication/authorization
 
-            result.assertions.extend([
-                {"test": "invalid_resource_handling", "status": "passed"},
-                {"test": "malformed_data_handling", "status": "passed"},
-                {"test": "error_response_format", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "invalid_resource_handling", "status": "passed"},
+                    {"test": "malformed_data_handling", "status": "passed"},
+                    {"test": "error_response_format", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent API error handling test passed")
@@ -424,7 +423,7 @@ class TestAgentAPISuite:
             test_type="api",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:12:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -433,8 +432,7 @@ class TestAgentAPISuite:
             # Test response time for agent list
             start_time = time.time()
             list_result = self.framework.validate_api_endpoint(
-                "/agents", "GET",
-                expected_status=200
+                "/agents", "GET", expected_status=200
             )
             end_time = time.time()
 
@@ -447,17 +445,18 @@ class TestAgentAPISuite:
 
             # Test pagination performance (if applicable)
             pagination_result = self.framework.validate_api_endpoint(
-                "/agents?limit=10&offset=0", "GET",
-                expected_status=200
+                "/agents?limit=10&offset=0", "GET", expected_status=200
             )
 
             assert pagination_result.status == TestStatus.PASSED
 
-            result.assertions.extend([
-                {"test": "response_time", "status": "passed", "value": f"{response_time:.2f}s"},
-                {"test": "concurrent_handling", "status": "passed"},
-                {"test": "pagination_performance", "status": "passed"}
-            ])
+            result.assertions.extend(
+                [
+                    {"test": "response_time", "status": "passed", "value": f"{response_time:.2f}s"},
+                    {"test": "concurrent_handling", "status": "passed"},
+                    {"test": "pagination_performance", "status": "passed"},
+                ]
+            )
 
             result.status = TestStatus.PASSED
             print("✅ Agent API performance test passed")
@@ -478,11 +477,7 @@ class TestAgentAPISuite:
     def _test_status_monitoring(self) -> Dict[str, Any]:
         """Test agent status monitoring functionality."""
         # Simulate status monitoring test
-        return {
-            "monitoring_active": True,
-            "status_checks": 5,
-            "status_updates": 3
-        }
+        return {"monitoring_active": True, "status_checks": 5, "status_updates": 3}
 
     def _test_coordination_api(self) -> Dict[str, Any]:
         """Test agent coordination API functionality."""
@@ -490,17 +485,13 @@ class TestAgentAPISuite:
         return {
             "coordination_api": "functional",
             "coordination_events": 2,
-            "inter_agent_communication": "verified"
+            "inter_agent_communication": "verified",
         }
 
     def _test_concurrent_requests(self) -> Dict[str, Any]:
         """Test concurrent request handling."""
         # Simulate concurrent request test
-        return {
-            "concurrent_requests": "handled",
-            "request_count": 10,
-            "success_rate": 100
-        }
+        return {"concurrent_requests": "handled", "request_count": 10, "success_rate": 100}
 
 
 # Pytest fixtures
@@ -530,7 +521,7 @@ def run_agent_api_test_suite():
         test_instance.test_agent_status_api,
         test_instance.test_agent_coordination_api,
         test_instance.test_agent_api_error_handling,
-        test_instance.test_agent_api_performance
+        test_instance.test_agent_api_performance,
     ]
 
     for test_method in test_methods:
@@ -548,7 +539,7 @@ def run_agent_api_test_suite():
                 start_time="2025-09-12T11:00:00",
                 end_time="2025-09-12T11:15:00",
                 duration=900.0,
-                error_message=str(e)
+                error_message=str(e),
             )
             results.append(failed_result)
 

@@ -69,46 +69,50 @@ class EnhancedDiscordTester:
         enhanced_file = self.discord_dir / "enhanced_discord_integration.py"
         if enhanced_file.exists():
             print("✅ Enhanced Discord integration file exists")
-            self.test_results['prerequisites_enhanced_file'] = True
+            self.test_results["prerequisites_enhanced_file"] = True
         else:
             print("❌ Enhanced Discord integration file missing")
-            self.test_results['prerequisites_enhanced_file'] = False
+            self.test_results["prerequisites_enhanced_file"] = False
             prerequisites_ok = False
 
         # Check configuration file
         if self.config_file.exists():
             print("✅ Discord channels configuration exists")
-            self.test_results['prerequisites_config_file'] = True
+            self.test_results["prerequisites_config_file"] = True
         else:
             print("❌ Discord channels configuration missing")
             print("   Run setup script first: python scripts/setup_enhanced_discord.py")
-            self.test_results['prerequisites_config_file'] = False
+            self.test_results["prerequisites_config_file"] = False
             prerequisites_ok = False
 
         # Check webhook URLs configured
         if self.config_file.exists():
             try:
-                with open(self.config_file, 'r') as f:
+                with open(self.config_file, "r") as f:
                     config = json.load(f)
 
                 configured_webhooks = 0
                 total_channels = len(config)
 
                 for channel_name, channel_config in config.items():
-                    if channel_config.get('webhook_url'):
+                    if channel_config.get("webhook_url"):
                         configured_webhooks += 1
 
                 if configured_webhooks > 0:
-                    print(f"✅ {configured_webhooks}/{total_channels} channels have webhooks configured")
-                    self.test_results['prerequisites_webhooks'] = True
+                    print(
+                        f"✅ {configured_webhooks}/{total_channels} channels have webhooks configured"
+                    )
+                    self.test_results["prerequisites_webhooks"] = True
                 else:
                     print("⚠️  No webhook URLs configured")
-                    print("   Run webhook configuration: python scripts/configure_discord_webhooks.py")
-                    self.test_results['prerequisites_webhooks'] = False
+                    print(
+                        "   Run webhook configuration: python scripts/configure_discord_webhooks.py"
+                    )
+                    self.test_results["prerequisites_webhooks"] = False
 
             except Exception as e:
                 print(f"❌ Error reading configuration: {e}")
-                self.test_results['prerequisites_webhooks'] = False
+                self.test_results["prerequisites_webhooks"] = False
                 prerequisites_ok = False
 
         print()
@@ -133,14 +137,14 @@ class EnhancedDiscordTester:
             print(f"✅ {channel_info['configured_webhooks']} webhooks configured")
             print(f"✅ {len(channel_info['agents_with_channels'])} agents have channels")
 
-            self.test_results['channel_config_load'] = True
-            self.test_results['channel_config_info'] = channel_info
+            self.test_results["channel_config_load"] = True
+            self.test_results["channel_config_info"] = channel_info
 
             return True
 
         except Exception as e:
             print(f"❌ Channel configuration test failed: {e}")
-            self.test_results['channel_config_load'] = False
+            self.test_results["channel_config_load"] = False
             return False
 
     async def test_enhanced_integration(self) -> bool:
@@ -160,16 +164,18 @@ class EnhancedDiscordTester:
 
             if init_success:
                 print("✅ Enhanced integration initialized successfully")
-                self.test_results['enhanced_integration_init'] = True
+                self.test_results["enhanced_integration_init"] = True
             else:
                 print("⚠️  Enhanced integration initialized with warnings")
-                self.test_results['enhanced_integration_init'] = True  # Still consider partial success
+                self.test_results["enhanced_integration_init"] = (
+                    True  # Still consider partial success
+                )
 
             return True
 
         except Exception as e:
             print(f"❌ Enhanced integration test failed: {e}")
-            self.test_results['enhanced_integration_init'] = False
+            self.test_results["enhanced_integration_init"] = False
             return False
 
     async def test_agent_messaging(self) -> bool:
@@ -190,21 +196,21 @@ class EnhancedDiscordTester:
                 "Integration Test",
                 "Testing enhanced Discord agent messaging functionality",
                 "LOW",
-                "testing"
+                "testing",
             )
 
             if test_result:
                 print("✅ Agent messaging successful")
-                self.test_results['agent_messaging'] = True
+                self.test_results["agent_messaging"] = True
             else:
                 print("⚠️  Agent messaging failed (likely due to missing webhooks)")
-                self.test_results['agent_messaging'] = False  # Expected to fail without webhooks
+                self.test_results["agent_messaging"] = False  # Expected to fail without webhooks
 
             return True
 
         except Exception as e:
             print(f"❌ Agent messaging test failed: {e}")
-            self.test_results['agent_messaging'] = False
+            self.test_results["agent_messaging"] = False
             return False
 
     async def test_swarm_coordination(self) -> bool:
@@ -221,23 +227,21 @@ class EnhancedDiscordTester:
 
             # Test swarm broadcast
             broadcast_result = await commander.broadcast_swarm_alert(
-                "Integration Test Alert",
-                "Testing enhanced swarm broadcast functionality",
-                "LOW"
+                "Integration Test Alert", "Testing enhanced swarm broadcast functionality", "LOW"
             )
 
             if broadcast_result:
                 print("✅ Swarm coordination successful")
-                self.test_results['swarm_coordination'] = True
+                self.test_results["swarm_coordination"] = True
             else:
                 print("⚠️  Swarm coordination failed (likely due to missing webhooks)")
-                self.test_results['swarm_coordination'] = False  # Expected to fail without webhooks
+                self.test_results["swarm_coordination"] = False  # Expected to fail without webhooks
 
             return True
 
         except Exception as e:
             print(f"❌ Swarm coordination test failed: {e}")
-            self.test_results['swarm_coordination'] = False
+            self.test_results["swarm_coordination"] = False
             return False
 
     def show_test_results(self) -> None:
@@ -246,8 +250,21 @@ class EnhancedDiscordTester:
         print("=" * 60)
 
         # Test summary
-        total_tests = len([k for k in self.test_results.keys() if k.startswith(('prerequisites_', 'channel_', 'enhanced_', 'agent_', 'swarm_'))])
-        passed_tests = len([v for k, v in self.test_results.items() if k.startswith(('prerequisites_', 'channel_', 'enhanced_', 'agent_', 'swarm_')) and v])
+        total_tests = len(
+            [
+                k
+                for k in self.test_results.keys()
+                if k.startswith(("prerequisites_", "channel_", "enhanced_", "agent_", "swarm_"))
+            ]
+        )
+        passed_tests = len(
+            [
+                v
+                for k, v in self.test_results.items()
+                if k.startswith(("prerequisites_", "channel_", "enhanced_", "agent_", "swarm_"))
+                and v
+            ]
+        )
 
         print(f"📈 Test Summary: {passed_tests}/{total_tests} tests passed")
 
@@ -257,47 +274,47 @@ class EnhancedDiscordTester:
         # Prerequisites
         print("\n📋 Prerequisites:")
         for key, value in self.test_results.items():
-            if key.startswith('prerequisites_'):
+            if key.startswith("prerequisites_"):
                 status = "✅ PASS" if value else "❌ FAIL"
-                name = key.replace('prerequisites_', '').replace('_', ' ').title()
+                name = key.replace("prerequisites_", "").replace("_", " ").title()
                 print(f"   {status} {name}")
 
         # Configuration
         print("\n⚙️  Configuration:")
         for key, value in self.test_results.items():
-            if key.startswith('channel_'):
-                if key == 'channel_config_info':
+            if key.startswith("channel_"):
+                if key == "channel_config_info":
                     continue
                 status = "✅ PASS" if value else "❌ FAIL"
-                name = key.replace('channel_', '').replace('_', ' ').title()
+                name = key.replace("channel_", "").replace("_", " ").title()
                 print(f"   {status} {name}")
 
         # Integration
         print("\n🔗 Integration:")
         for key, value in self.test_results.items():
-            if key.startswith(('enhanced_', 'agent_', 'swarm_')):
+            if key.startswith(("enhanced_", "agent_", "swarm_")):
                 status = "✅ PASS" if value else "❌ FAIL"
-                name = key.replace('_', ' ').title()
+                name = key.replace("_", " ").title()
                 print(f"   {status} {name}")
 
         # Channel information
-        if 'channel_config_info' in self.test_results:
-            info = self.test_results['channel_config_info']
+        if "channel_config_info" in self.test_results:
+            info = self.test_results["channel_config_info"]
             print("\n📺 Channel Information:")
             print(f"   Total Channels: {info['total_channels']}")
             print(f"   Configured Webhooks: {info['configured_webhooks']}")
             print(f"   Agents with Channels: {len(info['agents_with_channels'])}")
 
-            if info['agents_with_channels']:
+            if info["agents_with_channels"]:
                 print(f"   Agent Channels: {', '.join(info['agents_with_channels'])}")
 
         # Recommendations
         print("\n💡 Recommendations:")
-        if not self.test_results.get('prerequisites_webhooks', False):
+        if not self.test_results.get("prerequisites_webhooks", False):
             print("   • Configure webhook URLs for Discord channels")
             print("     Run: python scripts/configure_discord_webhooks.py")
 
-        if not self.test_results.get('agent_messaging', False):
+        if not self.test_results.get("agent_messaging", False):
             print("   • Verify Discord server and channel permissions")
             print("   • Check webhook URLs are valid and active")
 
@@ -306,10 +323,10 @@ class EnhancedDiscordTester:
     def all_tests_passed(self) -> bool:
         """Check if all critical tests passed."""
         critical_tests = [
-            'prerequisites_enhanced_file',
-            'prerequisites_config_file',
-            'channel_config_load',
-            'enhanced_integration_init'
+            "prerequisites_enhanced_file",
+            "prerequisites_config_file",
+            "channel_config_load",
+            "enhanced_integration_init",
         ]
 
         return all(self.test_results.get(test, False) for test in critical_tests)

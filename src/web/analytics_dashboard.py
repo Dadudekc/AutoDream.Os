@@ -142,7 +142,7 @@ class AnalyticsDashboardWeb:
     def start(self, host: str = "localhost", port: int = 8001) -> None:
         """Start the dashboard web server."""
         print(f"🚀 Starting Analytics Dashboard on http://{host}:{port}")
-        print("📊 Dashboard Types Available:"
+        print("📊 Dashboard Types Available:")
         print("   - Overview: http://localhost:8001/")
         print("   - Performance: http://localhost:8001/performance")
         print("   - Usage: http://localhost:8001/usage")

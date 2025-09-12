@@ -21,8 +21,7 @@ from typing import Dict, List, Optional
 
 # Setup logging
 logging.basicConfig(
-    level=logging.INFO,
-    format="🌙 %(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="🌙 %(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -37,26 +36,26 @@ PHASE_SEQUENCE = {
         "contract": "PHASE1_BATCH1A_CORE_ARCHITECTURE.json",
         "agent": "Agent-6",
         "duration_hours": 24,
-        "description": "Core Architecture Consolidation"
+        "description": "Core Architecture Consolidation",
     },
     "phase1_batch1b": {
         "contract": "PHASE1_BATCH1B_SERVICE_LAYER.json",
         "agent": "Agent-5",
         "duration_hours": 24,
-        "description": "Service Layer Optimization"
+        "description": "Service Layer Optimization",
     },
     "phase2_batch2a": {
         "contract": "agent2_new_contract.json",
         "agent": "Agent-2",
         "duration_hours": 24,
-        "description": "Infrastructure Cleanup & Optimization"
+        "description": "Infrastructure Cleanup & Optimization",
     },
     "phase2_batch2b": {
         "contract": "agent8_cleanup_contract.json",
         "agent": "Agent-8",
         "duration_hours": 24,
-        "description": "Code Quality & Testing Enhancement"
-    }
+        "description": "Code Quality & Testing Enhancement",
+    },
 }
 
 
@@ -75,7 +74,7 @@ class CleanupSequenceCoordinator:
             "timestamp": timestamp,
             "event": event,
             "phase": self.current_phase,
-            "details": details or {}
+            "details": details or {},
         }
         self.sequence_log.append(log_entry)
         logger.info(f"📝 {event}: {details or 'No details'}")
@@ -89,11 +88,7 @@ class CleanupSequenceCoordinator:
 
             logger.info(f"🚀 Executing consolidated messaging: {' '.join(cmd)}")
             result = subprocess.run(
-                cmd,
-                cwd=REPO_ROOT,
-                capture_output=True,
-                text=True,
-                timeout=300  # 5 minute timeout
+                cmd, cwd=REPO_ROOT, capture_output=True, text=True, timeout=300  # 5 minute timeout
             )
 
             if result.returncode == 0:
@@ -163,21 +158,19 @@ class CleanupSequenceCoordinator:
         # Use hard onboarding to assign specific role for cleanup
         try:
             cmd = [
-                sys.executable, "scripts/agent_onboarding.py",
+                sys.executable,
+                "scripts/agent_onboarding.py",
                 "--hard-onboarding",
-                "--agents", agent,
-                "--onboarding-mode", "cleanup",
-                "--assign-roles", f"{agent}:CLEANUP_{phase_key.upper()}",
-                "--dry-run"  # Start with dry run for safety
+                "--agents",
+                agent,
+                "--onboarding-mode",
+                "cleanup",
+                "--assign-roles",
+                f"{agent}:CLEANUP_{phase_key.upper()}",
+                "--dry-run",  # Start with dry run for safety
             ]
 
-            result = subprocess.run(
-                cmd,
-                cwd=REPO_ROOT,
-                capture_output=True,
-                text=True,
-                timeout=120
-            )
+            result = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True, timeout=120)
 
             if result.returncode == 0:
                 logger.info(f"✅ Contract assigned to {agent}")
@@ -237,7 +230,7 @@ class CleanupSequenceCoordinator:
             return False
 
         try:
-            with open(status_file, 'r') as f:
+            with open(status_file, "r") as f:
                 status = json.load(f)
 
             # Check if current task matches the phase
@@ -290,24 +283,33 @@ class CleanupSequenceCoordinator:
         logger.info(f"📊 Phases Completed: {len(phases_to_run)}")
         logger.info("=" * 60)
 
-        self.log_sequence_event("sequence_completed", {
-            "duration_hours": duration.total_seconds() / 3600,
-            "phases_completed": len(phases_to_run)
-        })
+        self.log_sequence_event(
+            "sequence_completed",
+            {
+                "duration_hours": duration.total_seconds() / 3600,
+                "phases_completed": len(phases_to_run),
+            },
+        )
 
         return True
 
     def save_sequence_log(self):
         """Save sequence execution log."""
-        log_file = REPO_ROOT / "logs" / f"cleanup_sequence_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        log_file = (
+            REPO_ROOT / "logs" / f"cleanup_sequence_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        )
         log_file.parent.mkdir(exist_ok=True)
 
-        with open(log_file, 'w') as f:
-            json.dump({
-                "sequence_start": self.start_time.isoformat() if self.start_time else None,
-                "phases_executed": list(PHASE_SEQUENCE.keys()),
-                "events": self.sequence_log
-            }, f, indent=2)
+        with open(log_file, "w") as f:
+            json.dump(
+                {
+                    "sequence_start": self.start_time.isoformat() if self.start_time else None,
+                    "phases_executed": list(PHASE_SEQUENCE.keys()),
+                    "events": self.sequence_log,
+                },
+                f,
+                indent=2,
+            )
 
         logger.info(f"📝 Sequence log saved: {log_file}")
 
@@ -336,20 +338,16 @@ python scripts/cleanup_overnight_sequence.py --start-phase phase2_batch2a
 python scripts/cleanup_overnight_sequence.py --dry-run
 
 🐝 WE ARE SWARM - PRESERVE FUNCTIONALITY WHILE ORGANIZING!
-        """
+        """,
     )
 
     parser.add_argument(
         "--start-phase",
         choices=list(PHASE_SEQUENCE.keys()),
-        help="Start sequence from specific phase"
+        help="Start sequence from specific phase",
     )
 
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Dry run mode - no actual execution"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Dry run mode - no actual execution")
 
     args = parser.parse_args()
 

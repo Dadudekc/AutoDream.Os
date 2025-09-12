@@ -30,6 +30,7 @@ sys.path.insert(0, str(project_root))
 
 try:
     from src.discord_commander.enhanced_discord_integration import send_devlog_to_discord
+
     FULL_INTEGRATION = True
 except ImportError as e:
     print(f"⚠️  Full integration not available: {e}")
@@ -42,10 +43,13 @@ except ImportError as e:
         # Basic agent validation
         valid_agents = [f"Agent-{i}" for i in range(1, 9)]
         if agent_id not in valid_agents:
-            raise ValueError(f"Invalid agent_id: {agent_id}. Must be one of: {', '.join(valid_agents)}")
+            raise ValueError(
+                f"Invalid agent_id: {agent_id}. Must be one of: {', '.join(valid_agents)}"
+            )
 
         # Basic file validation
         from pathlib import Path
+
         filepath = Path(devlog_file)
         if not filepath.exists():
             raise FileNotFoundError(f"Devlog file not found: {devlog_file}")
@@ -71,6 +75,7 @@ class TestDevlogSender:
         """Clean up test environment."""
         if self.temp_dir and self.temp_dir.exists():
             import shutil
+
             shutil.rmtree(self.temp_dir)
             print(f"🧹 Test environment cleaned up: {self.temp_dir}")
 
@@ -79,7 +84,7 @@ class TestDevlogSender:
         filepath = self.temp_dir / filename
         filepath.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(filepath, 'w', encoding='utf-8') as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)
 
         return filepath
@@ -154,7 +159,9 @@ Completed vector database integration consolidation.
 
         if FULL_INTEGRATION:
             # Test with full integration (mock Discord calls)
-            with patch('src.discord_commander.enhanced_discord_integration.EnhancedDiscordWebhookManager') as mock_manager:
+            with patch(
+                "src.discord_commander.enhanced_discord_integration.EnhancedDiscordWebhookManager"
+            ) as mock_manager:
                 mock_instance = Mock()
                 mock_manager.return_value = mock_instance
                 mock_instance.get_agent_channel.return_value = Mock(value="agent-1")
@@ -217,6 +224,7 @@ Completed vector database integration consolidation.
         except Exception as e:
             print(f"\n❌ Test failed: {e}")
             import traceback
+
             traceback.print_exc()
             return False
 

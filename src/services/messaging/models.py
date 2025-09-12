@@ -3,10 +3,12 @@ from enum import Enum
 from typing import Any, List, Dict, Optional
 import time, uuid
 
+
 class DeliveryMethod(str, Enum):
     INBOX = "inbox"
     PYAUTOGUI = "pyautogui"
     BROADCAST = "broadcast"
+
 
 class UnifiedMessageType(str, Enum):
     TEXT = "text"
@@ -17,12 +19,14 @@ class UnifiedMessageType(str, Enum):
     SYSTEM_TO_AGENT = "system_to_agent"
     HUMAN_TO_AGENT = "human_to_agent"
 
+
 class UnifiedMessagePriority(str, Enum):
     REGULAR = "regular"
     URGENT = "urgent"
     LOW = "LOW"
     NORMAL = "NORMAL"
     HIGH = "HIGH"
+
 
 class UnifiedMessageTag(str, Enum):
     CAPTAIN = "captain"
@@ -34,11 +38,13 @@ class UnifiedMessageTag(str, Enum):
     TASK = "TASK"
     STATUS = "STATUS"
 
+
 class RecipientType(str, Enum):
     AGENT = "agent"
     CAPTAIN = "captain"
     SYSTEM = "system"
     HUMAN = "human"
+
 
 class SenderType(str, Enum):
     AGENT = "agent"
@@ -46,8 +52,10 @@ class SenderType(str, Enum):
     SYSTEM = "system"
     HUMAN = "human"
 
+
 class UnifiedMessage:
     """Core message DTO"""
+
     def __init__(
         self,
         content: str,
@@ -74,6 +82,7 @@ class UnifiedMessage:
         self.sender_type = sender_type
         self.recipient_type = recipient_type
 
+
 # Helpers
 PRIORITY_MAP = {
     "LOW": UnifiedMessagePriority.LOW,
@@ -87,7 +96,11 @@ TAG_MAP = {
     "TASK": UnifiedMessageTag.TASK,
     "STATUS": UnifiedMessageTag.STATUS,
 }
+
+
 def map_priority(p: str) -> UnifiedMessagePriority:
     return PRIORITY_MAP.get((p or "NORMAL").upper(), UnifiedMessagePriority.NORMAL)
+
+
 def map_tag(t: str) -> UnifiedMessageTag:
     return TAG_MAP.get((t or "GENERAL").upper(), UnifiedMessageTag.GENERAL)

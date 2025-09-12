@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any, Callable, Dict, List, Optional
 
 import psutil
 
@@ -31,34 +31,28 @@ try:
     from ..automated_health_check_system import (
         AutomatedHealthCheckSystem,
         HealthCheckResult,
-        HealthStatus
+        HealthStatus,
     )
     from ..performance_monitoring_dashboard import (
-        PerformanceMonitoringDashboard,
         DashboardMetric,
-        MetricType
+        MetricType,
+        PerformanceMonitoringDashboard,
     )
-    from ..unified_monitoring_coordinator import (
-        UnifiedMonitoringCoordinator,
-        MonitoringAlert
-    )
+    from ..unified_monitoring_coordinator import MonitoringAlert, UnifiedMonitoringCoordinator
 except ImportError:
     # Fallback for direct imports
     try:
         from automated_health_check_system import (
             AutomatedHealthCheckSystem,
             HealthCheckResult,
-            HealthStatus
+            HealthStatus,
         )
         from performance_monitoring_dashboard import (
-            PerformanceMonitoringDashboard,
             DashboardMetric,
-            MetricType
+            MetricType,
+            PerformanceMonitoringDashboard,
         )
-        from unified_monitoring_coordinator import (
-            UnifiedMonitoringCoordinator,
-            MonitoringAlert
-        )
+        from unified_monitoring_coordinator import MonitoringAlert, UnifiedMonitoringCoordinator
     except ImportError:
         # Create mock classes if components not available
         class MockHealthStatus:
@@ -84,6 +78,7 @@ logger = logging.getLogger(__name__)
 
 class ServiceType(Enum):
     """Types of services being monitored."""
+
     CORE_SERVICE = "core_service"
     WEB_SERVICE = "web_service"
     DATABASE_SERVICE = "database_service"
@@ -94,6 +89,7 @@ class ServiceType(Enum):
 
 class AlertSeverity(Enum):
     """Alert severity levels."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -103,6 +99,7 @@ class AlertSeverity(Enum):
 @dataclass
 class ServiceEndpoint:
     """Represents a service endpoint for monitoring."""
+
     name: str
     url: str
     service_type: ServiceType
@@ -115,6 +112,7 @@ class ServiceEndpoint:
 @dataclass
 class HealthMetric:
     """Represents a health metric."""
+
     name: str
     value: float
     unit: str
@@ -128,6 +126,7 @@ class HealthMetric:
 @dataclass
 class SystemHealthSnapshot:
     """Complete snapshot of system health."""
+
     timestamp: datetime
     services: Dict[str, HealthStatus] = field(default_factory=dict)
     metrics: Dict[str, HealthMetric] = field(default_factory=dict)
@@ -206,22 +205,24 @@ class HealthMonitoringService:
         config_file = Path(self.config_path)
         if config_file.exists():
             try:
-                with open(config_file, 'r') as f:
+                with open(config_file, "r") as f:
                     config = json.load(f)
 
-                self.collection_interval_seconds = config.get('collection_interval_seconds', 30)
-                self.metrics_retention_hours = config.get('metrics_retention_hours', 24)
+                self.collection_interval_seconds = config.get("collection_interval_seconds", 30)
+                self.metrics_retention_hours = config.get("metrics_retention_hours", 24)
 
                 # Load service endpoints
-                for service_config in config.get('services', []):
+                for service_config in config.get("services", []):
                     endpoint = ServiceEndpoint(
-                        name=service_config['name'],
-                        url=service_config['url'],
-                        service_type=ServiceType(service_config['type']),
-                        expected_response_time_ms=service_config.get('expected_response_time_ms', 1000),
-                        timeout_seconds=service_config.get('timeout_seconds', 10),
-                        health_check_path=service_config.get('health_check_path', '/health'),
-                        enabled=service_config.get('enabled', True)
+                        name=service_config["name"],
+                        url=service_config["url"],
+                        service_type=ServiceType(service_config["type"]),
+                        expected_response_time_ms=service_config.get(
+                            "expected_response_time_ms", 1000
+                        ),
+                        timeout_seconds=service_config.get("timeout_seconds", 10),
+                        health_check_path=service_config.get("health_check_path", "/health"),
+                        enabled=service_config.get("enabled", True),
                     )
                     self.service_endpoints[endpoint.name] = endpoint
 
@@ -244,14 +245,14 @@ class HealthMonitoringService:
                     "expected_response_time_ms": 1000,
                     "timeout_seconds": 10,
                     "health_check_path": "/health",
-                    "enabled": True
+                    "enabled": True,
                 }
-            ]
+            ],
         }
 
         config_file = Path(self.config_path)
         config_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(config_file, 'w') as f:
+        with open(config_file, "w") as f:
             json.dump(default_config, f, indent=2)
 
         logger.info(f"✅ Default configuration created at {config_file}")
@@ -265,14 +266,14 @@ class HealthMonitoringService:
                     name="core_messaging",
                     url="http://localhost:8000",
                     service_type=ServiceType.CORE_SERVICE,
-                    expected_response_time_ms=500
+                    expected_response_time_ms=500,
                 ),
                 ServiceEndpoint(
                     name="web_interface",
                     url="http://localhost:3000",
                     service_type=ServiceType.WEB_SERVICE,
-                    expected_response_time_ms=1000
-                )
+                    expected_response_time_ms=1000,
+                ),
             ]
 
             for service in default_services:
@@ -286,9 +287,7 @@ class HealthMonitoringService:
 
         self.monitoring_active = True
         self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop,
-            daemon=True,
-            name="HealthMonitoringService"
+            target=self._monitoring_loop, daemon=True, name="HealthMonitoringService"
         )
         self.monitoring_thread.start()
 
@@ -350,8 +349,9 @@ class HealthMonitoringService:
 
                 # Keep only last 100 status entries
                 if len(self.service_health_history[endpoint.name]) > 100:
-                    self.service_health_history[endpoint.name] = \
-                        self.service_health_history[endpoint.name][-100:]
+                    self.service_health_history[endpoint.name] = self.service_health_history[
+                        endpoint.name
+                    ][-100:]
 
                 # Create metric
                 availability_metric = HealthMetric(
@@ -359,7 +359,7 @@ class HealthMonitoringService:
                     value=1.0 if health_status == HealthStatus.HEALTHY else 0.0,
                     unit="percent",
                     timestamp=datetime.now(),
-                    category="service_availability"
+                    category="service_availability",
                 )
                 self.metrics_buffer.append(availability_metric)
 
@@ -375,7 +375,7 @@ class HealthMonitoringService:
             response = requests.get(
                 health_url,
                 timeout=endpoint.timeout_seconds,
-                headers={'User-Agent': 'HealthMonitor/1.0'}
+                headers={"User-Agent": "HealthMonitor/1.0"},
             )
 
             if response.status_code == 200:
@@ -404,7 +404,7 @@ class HealthMonitoringService:
                 timestamp=datetime.now(),
                 category="system_performance",
                 threshold_warning=70.0,
-                threshold_critical=85.0
+                threshold_critical=85.0,
             )
             self.metrics_buffer.append(cpu_metric)
 
@@ -417,12 +417,12 @@ class HealthMonitoringService:
                 timestamp=datetime.now(),
                 category="system_performance",
                 threshold_warning=75.0,
-                threshold_critical=90.0
+                threshold_critical=90.0,
             )
             self.metrics_buffer.append(memory_metric)
 
             # Disk metrics
-            disk = psutil.disk_usage('/')
+            disk = psutil.disk_usage("/")
             disk_metric = HealthMetric(
                 name="disk_usage",
                 value=disk.percent,
@@ -430,7 +430,7 @@ class HealthMonitoringService:
                 timestamp=datetime.now(),
                 category="system_performance",
                 threshold_warning=80.0,
-                threshold_critical=95.0
+                threshold_critical=95.0,
             )
             self.metrics_buffer.append(disk_metric)
 
@@ -440,7 +440,7 @@ class HealthMonitoringService:
                 value=1.0,  # Assume healthy unless proven otherwise
                 unit="status",
                 timestamp=datetime.now(),
-                category="system_performance"
+                category="system_performance",
             )
             self.metrics_buffer.append(network_metric)
 
@@ -458,7 +458,7 @@ class HealthMonitoringService:
                         component=name,
                         severity=AlertSeverity.CRITICAL,
                         message=f"Service {name} is consistently unavailable",
-                        metadata={"consecutive_failures": 3}
+                        metadata={"consecutive_failures": 3},
                     )
 
         # Check metric thresholds
@@ -468,28 +468,39 @@ class HealthMonitoringService:
                     component=metric.category,
                     severity=AlertSeverity.CRITICAL,
                     message=f"Critical threshold exceeded: {metric.name} = {metric.value}{metric.unit}",
-                    metadata={"metric": metric.name, "value": metric.value, "threshold": metric.threshold_critical}
+                    metadata={
+                        "metric": metric.name,
+                        "value": metric.value,
+                        "threshold": metric.threshold_critical,
+                    },
                 )
             elif metric.threshold_warning and metric.value >= metric.threshold_warning:
                 self._generate_alert(
                     component=metric.category,
                     severity=AlertSeverity.WARNING,
                     message=f"Warning threshold exceeded: {metric.name} = {metric.value}{metric.unit}",
-                    metadata={"metric": metric.name, "value": metric.value, "threshold": metric.threshold_warning}
+                    metadata={
+                        "metric": metric.name,
+                        "value": metric.value,
+                        "threshold": metric.threshold_warning,
+                    },
                 )
 
-    def _generate_alert(self, component: str, severity: AlertSeverity,
-                       message: str, metadata: Dict[str, Any]) -> None:
+    def _generate_alert(
+        self, component: str, severity: AlertSeverity, message: str, metadata: Dict[str, Any]
+    ) -> None:
         """Generate a monitoring alert."""
         alert_id = f"alert_{int(time.time())}_{component}_{severity.value}"
 
         alert = MonitoringAlert(
             alert_id=alert_id,
             component=getattr(SwarmComponent, component.upper(), SwarmComponent.MESSAGING_SYSTEM),
-            level=getattr(MonitoringAlertLevel, severity.value.upper(), MonitoringAlertLevel.WARNING),
+            level=getattr(
+                MonitoringAlertLevel, severity.value.upper(), MonitoringAlertLevel.WARNING
+            ),
             message=message,
             timestamp=datetime.now(),
-            metadata=metadata
+            metadata=metadata,
         )
 
         self.active_alerts[alert_id] = alert
@@ -509,10 +520,7 @@ class HealthMonitoringService:
         cutoff_time = datetime.now() - timedelta(hours=self.metrics_retention_hours)
 
         # Clean old metrics
-        self.metrics_buffer = [
-            m for m in self.metrics_buffer
-            if m.timestamp > cutoff_time
-        ]
+        self.metrics_buffer = [m for m in self.metrics_buffer if m.timestamp > cutoff_time]
 
         # Clean old alerts (keep last 1000)
         if len(self.alert_history) > 1000:
@@ -521,7 +529,8 @@ class HealthMonitoringService:
         # Clean resolved alerts older than 1 hour
         one_hour_ago = datetime.now() - timedelta(hours=1)
         self.active_alerts = {
-            alert_id: alert for alert_id, alert in self.active_alerts.items()
+            alert_id: alert
+            for alert_id, alert in self.active_alerts.items()
             if not alert.resolved or alert.resolved_at > one_hour_ago
         }
 
@@ -571,12 +580,14 @@ class HealthMonitoringService:
 
         return SystemHealthSnapshot(
             timestamp=datetime.now(),
-            services={name: history[-1] if history else HealthStatus.UNKNOWN
-                     for name, history in self.service_health_history.items()},
+            services={
+                name: history[-1] if history else HealthStatus.UNKNOWN
+                for name, history in self.service_health_history.items()
+            },
             metrics={m.name: m for m in self.metrics_buffer[-50:]},
             alerts=list(self.active_alerts.values()),
             overall_status=overall_status,
-            uptime_seconds=time.time()  # Simplified uptime
+            uptime_seconds=time.time(),  # Simplified uptime
         )
 
     def export_health_data(self, filepath: Optional[str] = None) -> str:
@@ -590,24 +601,38 @@ class HealthMonitoringService:
             "timestamp": snapshot.timestamp.isoformat(),
             "overall_status": snapshot.overall_status.value,
             "services": {k: v.value for k, v in snapshot.services.items()},
-            "metrics": {k: {
-                "value": v.value,
-                "unit": v.unit,
-                "timestamp": v.timestamp.isoformat(),
-                "category": v.category
-            } for k, v in snapshot.metrics.items()},
-            "active_alerts": [{
-                "alert_id": getattr(a, 'alert_id', f'alert_{i}'),
-                "component": getattr(a, 'component', {}).value if hasattr(getattr(a, 'component', {}), 'value') else 'unknown',
-                "level": getattr(a, 'level', {}).value if hasattr(getattr(a, 'level', {}), 'value') else 'unknown',
-                "message": getattr(a, 'message', 'Unknown alert'),
-                "timestamp": getattr(a, 'timestamp', datetime.now()).isoformat(),
-                "resolved": getattr(a, 'resolved', False)
-            } for i, a in enumerate(snapshot.alerts)],
-            "uptime_seconds": snapshot.uptime_seconds
+            "metrics": {
+                k: {
+                    "value": v.value,
+                    "unit": v.unit,
+                    "timestamp": v.timestamp.isoformat(),
+                    "category": v.category,
+                }
+                for k, v in snapshot.metrics.items()
+            },
+            "active_alerts": [
+                {
+                    "alert_id": getattr(a, "alert_id", f"alert_{i}"),
+                    "component": (
+                        getattr(a, "component", {}).value
+                        if hasattr(getattr(a, "component", {}), "value")
+                        else "unknown"
+                    ),
+                    "level": (
+                        getattr(a, "level", {}).value
+                        if hasattr(getattr(a, "level", {}), "value")
+                        else "unknown"
+                    ),
+                    "message": getattr(a, "message", "Unknown alert"),
+                    "timestamp": getattr(a, "timestamp", datetime.now()).isoformat(),
+                    "resolved": getattr(a, "resolved", False),
+                }
+                for i, a in enumerate(snapshot.alerts)
+            ],
+            "uptime_seconds": snapshot.uptime_seconds,
         }
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(data, f, indent=2)
 
         logger.info(f"✅ Health data exported to {filepath}")

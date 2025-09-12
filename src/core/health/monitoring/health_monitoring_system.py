@@ -30,14 +30,14 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 try:
-    from .health_monitoring_service import HealthMonitoringService
     from .health_alerting import HealthAlertingSystem
     from .health_dashboard import HealthMonitoringDashboard
+    from .health_monitoring_service import HealthMonitoringService
 except ImportError:
     # Fallback for direct imports
-    from health_monitoring_service import HealthMonitoringService
     from health_alerting import HealthAlertingSystem
     from health_dashboard import HealthMonitoringDashboard
+    from health_monitoring_service import HealthMonitoringService
 
 logger = logging.getLogger(__name__)
 
@@ -107,9 +107,7 @@ class HealthMonitoringSystem:
         # Initialize web dashboard (optional)
         try:
             self.web_dashboard = HealthMonitoringDashboard(
-                health_service=self.health_service,
-                host="0.0.0.0",
-                port=8080
+                health_service=self.health_service, host="0.0.0.0", port=8080
             )
             logger.info("✅ Web dashboard initialized")
         except Exception as e:
@@ -226,7 +224,7 @@ class HealthMonitoringSystem:
             "alerting_system": False,
             "web_dashboard": False,
             "active_alerts": 0,
-            "overall_health": "unknown"
+            "overall_health": "unknown",
         }
 
         if self.health_service:
@@ -277,26 +275,30 @@ class HealthMonitoringSystem:
                     "timestamp": metric.timestamp.isoformat(),
                     "category": metric.category,
                     "warning_threshold": metric.threshold_warning,
-                    "critical_threshold": metric.threshold_critical
+                    "critical_threshold": metric.threshold_critical,
                 }
 
         # Find related alerts
         component_alerts = []
         for alert in snapshot.alerts:
             if component_name.lower() in alert.component.lower():
-                component_alerts.append({
-                    "alert_id": alert.alert_id,
-                    "severity": alert.level.value,
-                    "message": alert.message,
-                    "timestamp": alert.timestamp.isoformat(),
-                    "resolved": alert.resolved
-                })
+                component_alerts.append(
+                    {
+                        "alert_id": alert.alert_id,
+                        "severity": alert.level.value,
+                        "message": alert.message,
+                        "timestamp": alert.timestamp.isoformat(),
+                        "resolved": alert.resolved,
+                    }
+                )
 
         return {
             "component": component_name,
             "metrics": component_metrics,
             "alerts": component_alerts,
-            "health_status": self._determine_component_health(component_name, component_metrics, component_alerts)
+            "health_status": self._determine_component_health(
+                component_name, component_metrics, component_alerts
+            ),
         }
 
     def _determine_component_health(self, component: str, metrics: Dict, alerts: List) -> str:
@@ -334,9 +336,7 @@ class HealthMonitoringSystem:
 
             alert_channel = AlertChannel(channel)
             channel_config = AlertChannelConfig(
-                channel=alert_channel,
-                enabled=config.get('enabled', True),
-                config=config
+                channel=alert_channel, enabled=config.get("enabled", True), config=config
             )
 
             self.alerting_system.channel_configs[alert_channel] = channel_config
@@ -353,18 +353,18 @@ class HealthMonitoringSystem:
             return False
 
         try:
-            from .health_alerting import AlertRule, AlertSeverity, AlertPriority, AlertChannel
+            from .health_alerting import AlertChannel, AlertPriority, AlertRule, AlertSeverity
 
             rule = AlertRule(
-                id=rule_config['id'],
-                name=rule_config['name'],
-                condition=rule_config['condition'],
-                severity=AlertSeverity(rule_config['severity']),
-                priority=AlertPriority(rule_config['priority']),
-                channels=[AlertChannel(c) for c in rule_config['channels']],
-                cooldown_minutes=rule_config.get('cooldown_minutes', 15),
-                enabled=rule_config.get('enabled', True),
-                description=rule_config.get('description', '')
+                id=rule_config["id"],
+                name=rule_config["name"],
+                condition=rule_config["condition"],
+                severity=AlertSeverity(rule_config["severity"]),
+                priority=AlertPriority(rule_config["priority"]),
+                channels=[AlertChannel(c) for c in rule_config["channels"]],
+                cooldown_minutes=rule_config.get("cooldown_minutes", 15),
+                enabled=rule_config.get("enabled", True),
+                description=rule_config.get("description", ""),
             )
 
             self.alerting_system.alert_rules[rule.id] = rule
@@ -429,6 +429,7 @@ def main():
     except Exception as e:
         print(f"❌ Error: {e}")
         import traceback
+
         traceback.print_exc()
 
 

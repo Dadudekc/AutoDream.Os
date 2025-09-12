@@ -20,19 +20,21 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from flask import Flask, render_template_string, jsonify, request
+
+from flask import Flask, jsonify, render_template_string, request
 
 from .health_monitoring_service import (
+    AlertSeverity,
     HealthMonitoringService,
     HealthStatus,
-    AlertSeverity,
-    SystemHealthSnapshot
+    SystemHealthSnapshot,
 )
 
 
 @dataclass
 class DashboardWidget:
     """Represents a dashboard widget configuration."""
+
     id: str
     title: str
     widget_type: str  # 'chart', 'gauge', 'table', 'alert'
@@ -45,6 +47,7 @@ class DashboardWidget:
 @dataclass
 class DashboardLayout:
     """Dashboard layout configuration."""
+
     widgets: List[DashboardWidget] = field(default_factory=list)
     theme: str = "dark"
     refresh_interval: int = 30
@@ -62,7 +65,9 @@ class HealthMonitoringDashboard:
     - Historical trend analysis
     """
 
-    def __init__(self, health_service: HealthMonitoringService, host: str = "0.0.0.0", port: int = 8080):
+    def __init__(
+        self, health_service: HealthMonitoringService, host: str = "0.0.0.0", port: int = 8080
+    ):
         self.health_service = health_service
         self.host = host
         self.port = port
@@ -89,7 +94,7 @@ class HealthMonitoringDashboard:
                 title="System Health Overview",
                 widget_type="gauge",
                 data_source="overall_status",
-                refresh_interval=10
+                refresh_interval=10,
             ),
             DashboardWidget(
                 id="service_status",
@@ -97,7 +102,7 @@ class HealthMonitoringDashboard:
                 widget_type="table",
                 data_source="services",
                 refresh_interval=30,
-                size={"width": 6, "height": 4}
+                size={"width": 6, "height": 4},
             ),
             DashboardWidget(
                 id="performance_metrics",
@@ -105,7 +110,7 @@ class HealthMonitoringDashboard:
                 widget_type="chart",
                 data_source="metrics",
                 refresh_interval=30,
-                size={"width": 8, "height": 4}
+                size={"width": 8, "height": 4},
             ),
             DashboardWidget(
                 id="resource_usage",
@@ -113,7 +118,7 @@ class HealthMonitoringDashboard:
                 widget_type="chart",
                 data_source="system_resources",
                 refresh_interval=30,
-                size={"width": 4, "height": 4}
+                size={"width": 4, "height": 4},
             ),
             DashboardWidget(
                 id="active_alerts",
@@ -121,7 +126,7 @@ class HealthMonitoringDashboard:
                 widget_type="alert",
                 data_source="alerts",
                 refresh_interval=10,
-                size={"width": 12, "height": 3}
+                size={"width": 12, "height": 3},
             ),
             DashboardWidget(
                 id="error_rates",
@@ -129,8 +134,8 @@ class HealthMonitoringDashboard:
                 widget_type="chart",
                 data_source="error_rates",
                 refresh_interval=60,
-                size={"width": 6, "height": 4}
-            )
+                size={"width": 6, "height": 4},
+            ),
         ]
 
         return DashboardLayout(widgets=widgets)
@@ -138,62 +143,80 @@ class HealthMonitoringDashboard:
     def _setup_routes(self) -> None:
         """Setup Flask routes."""
 
-        @self.app.route('/')
+        @self.app.route("/")
         def dashboard():
             return render_template_string(self._get_dashboard_html(), layout=self.layout)
 
-        @self.app.route('/api/health')
+        @self.app.route("/api/health")
         def get_health_data():
             snapshot = self.health_service.get_health_snapshot()
             return jsonify(self._snapshot_to_dict(snapshot))
 
-        @self.app.route('/api/metrics')
+        @self.app.route("/api/metrics")
         def get_metrics():
             snapshot = self.health_service.get_health_snapshot()
-            return jsonify({
-                "metrics": [self._metric_to_dict(m) for m in snapshot.metrics.values()],
-                "timestamp": datetime.now().isoformat()
-            })
+            return jsonify(
+                {
+                    "metrics": [self._metric_to_dict(m) for m in snapshot.metrics.values()],
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
-        @self.app.route('/api/alerts')
+        @self.app.route("/api/alerts")
         def get_alerts():
             snapshot = self.health_service.get_health_snapshot()
-            return jsonify({
-                "alerts": [self._alert_to_dict(a) for a in snapshot.alerts],
-                "total": len(snapshot.alerts),
-                "critical": len([a for a in snapshot.alerts if hasattr(a, 'level') and str(a.level).upper() == 'CRITICAL']),
-                "warning": len([a for a in snapshot.alerts if hasattr(a, 'level') and str(a.level).upper() == 'WARNING'])
-            })
+            return jsonify(
+                {
+                    "alerts": [self._alert_to_dict(a) for a in snapshot.alerts],
+                    "total": len(snapshot.alerts),
+                    "critical": len(
+                        [
+                            a
+                            for a in snapshot.alerts
+                            if hasattr(a, "level") and str(a.level).upper() == "CRITICAL"
+                        ]
+                    ),
+                    "warning": len(
+                        [
+                            a
+                            for a in snapshot.alerts
+                            if hasattr(a, "level") and str(a.level).upper() == "WARNING"
+                        ]
+                    ),
+                }
+            )
 
-        @self.app.route('/api/history/<metric_name>')
+        @self.app.route("/api/history/<metric_name>")
         def get_metric_history(metric_name: str):
             # Get historical data for a specific metric
             history = []
             cutoff = datetime.now() - timedelta(hours=1)
 
             for metric in self.health_service.metrics_buffer:
-                if (metric.name == metric_name and
-                    metric.timestamp > cutoff):
-                    history.append({
-                        "timestamp": metric.timestamp.isoformat(),
-                        "value": metric.value,
-                        "unit": metric.unit
-                    })
+                if metric.name == metric_name and metric.timestamp > cutoff:
+                    history.append(
+                        {
+                            "timestamp": metric.timestamp.isoformat(),
+                            "value": metric.value,
+                            "unit": metric.unit,
+                        }
+                    )
 
-            return jsonify({
-                "metric": metric_name,
-                "history": history[-100:]  # Last 100 data points
-            })
+            return jsonify(
+                {"metric": metric_name, "history": history[-100:]}  # Last 100 data points
+            )
 
-        @self.app.route('/api/services')
+        @self.app.route("/api/services")
         def get_services():
             snapshot = self.health_service.get_health_snapshot()
-            return jsonify({
-                "services": {name: status.value for name, status in snapshot.services.items()},
-                "timestamp": datetime.now().isoformat()
-            })
+            return jsonify(
+                {
+                    "services": {name: status.value for name, status in snapshot.services.items()},
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
-        @self.app.route('/export')
+        @self.app.route("/export")
         def export_data():
             filepath = self.health_service.export_health_data()
             return jsonify({"exported": filepath})
@@ -204,9 +227,11 @@ class HealthMonitoringDashboard:
             "timestamp": snapshot.timestamp.isoformat(),
             "overall_status": snapshot.overall_status.value,
             "services": {name: status.value for name, status in snapshot.services.items()},
-            "metrics": {name: self._metric_to_dict(metric) for name, metric in snapshot.metrics.items()},
+            "metrics": {
+                name: self._metric_to_dict(metric) for name, metric in snapshot.metrics.items()
+            },
             "alerts": [self._alert_to_dict(alert) for alert in snapshot.alerts],
-            "uptime_seconds": snapshot.uptime_seconds
+            "uptime_seconds": snapshot.uptime_seconds,
         }
 
     def _metric_to_dict(self, metric) -> Dict[str, Any]:
@@ -218,19 +243,21 @@ class HealthMonitoringDashboard:
             "timestamp": metric.timestamp.isoformat(),
             "category": metric.category,
             "threshold_warning": metric.threshold_warning,
-            "threshold_critical": metric.threshold_critical
+            "threshold_critical": metric.threshold_critical,
         }
 
     def _alert_to_dict(self, alert) -> Dict[str, Any]:
         """Convert alert to dictionary."""
         return {
             "alert_id": alert.alert_id,
-            "component": getattr(alert, 'component', {}).value if hasattr(alert, 'component') else 'unknown',
-            "level": getattr(alert, 'level', {}).value if hasattr(alert, 'level') else 'unknown',
+            "component": (
+                getattr(alert, "component", {}).value if hasattr(alert, "component") else "unknown"
+            ),
+            "level": getattr(alert, "level", {}).value if hasattr(alert, "level") else "unknown",
             "message": alert.message,
             "timestamp": alert.timestamp.isoformat(),
-            "resolved": getattr(alert, 'resolved', False),
-            "metadata": getattr(alert, 'metadata', {})
+            "resolved": getattr(alert, "resolved", False),
+            "metadata": getattr(alert, "metadata", {}),
         }
 
     def _get_dashboard_html(self) -> str:
@@ -581,9 +608,7 @@ class HealthMonitoringDashboard:
 
         self.server_running = True
         self.server_thread = threading.Thread(
-            target=self._run_server,
-            daemon=True,
-            name="HealthDashboardServer"
+            target=self._run_server, daemon=True, name="HealthDashboardServer"
         )
         self.server_thread.start()
 
@@ -592,7 +617,7 @@ class HealthMonitoringDashboard:
     def stop_dashboard(self) -> None:
         """Stop the web dashboard server."""
         self.server_running = False
-        if hasattr(self.app, 'shutdown'):
+        if hasattr(self.app, "shutdown"):
             self.app.shutdown()
 
         if self.server_thread and self.server_thread.is_alive():
@@ -604,11 +629,7 @@ class HealthMonitoringDashboard:
         """Run the Flask server."""
         try:
             self.app.run(
-                host=self.host,
-                port=self.port,
-                debug=False,
-                use_reloader=False,
-                threaded=True
+                host=self.host, port=self.port, debug=False, use_reloader=False, threaded=True
             )
         except Exception as e:
             print(f"❌ Dashboard server error: {e}")

@@ -24,6 +24,7 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
+
 def demo_health_monitoring():
     """Demonstrate the complete health monitoring system."""
     print("🐝 COMPREHENSIVE SYSTEM HEALTH MONITORING DEMO")
@@ -72,14 +73,16 @@ def demo_health_monitoring():
         for component in ["cpu", "memory", "messaging"]:
             comp_status = monitor.get_component_status(component)
             if "error" not in comp_status:
-                print(f"  {component.upper()}: {comp_status.get('health_status', 'unknown').upper()}")
+                print(
+                    f"  {component.upper()}: {comp_status.get('health_status', 'unknown').upper()}"
+                )
                 if comp_status.get("metrics"):
                     for name, metric in list(comp_status["metrics"].items())[:2]:
                         print(f"    {name}: {metric['value']:.1f}{metric['unit']}")
         print()
 
         # Show alerting system status
-        if hasattr(monitor, 'alerting_system') and monitor.alerting_system:
+        if hasattr(monitor, "alerting_system") and monitor.alerting_system:
             alert_stats = monitor.alerting_system.get_alert_statistics()
             print("🚨 ALERTING SYSTEM:")
             print(f"  Active Alerts: {alert_stats['active_alerts']}")
@@ -126,6 +129,7 @@ def demo_health_monitoring():
     except Exception as e:
         print(f"❌ Demo failed: {e}")
         import traceback
+
         traceback.print_exc()
 
 

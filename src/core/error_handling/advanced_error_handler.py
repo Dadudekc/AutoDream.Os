@@ -8,29 +8,31 @@ graceful degradation, and automated recovery procedures.
 V2 Compliance: <400 lines, single responsibility, error handling orchestration.
 """
 
+import logging
 import threading
 import time
-import logging
-from typing import Callable, Any, Optional, Dict, List
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
 
 from .circuit_breaker import CircuitBreaker, CircuitBreakerConfig
-from .retry_mechanisms import RetryMechanism, RetryConfig
-from .error_recovery import RecoveryManager, RecoveryConfig
+from .error_recovery import RecoveryConfig, RecoveryManager
+from .retry_mechanisms import RetryConfig, RetryMechanism
 
 
 class DegradationLevel(Enum):
     """Levels of system degradation."""
-    NORMAL = "normal"           # Full functionality
-    DEGRADED = "degraded"       # Reduced functionality
-    MINIMAL = "minimal"         # Critical functions only
-    EMERGENCY = "emergency"     # Emergency mode
+
+    NORMAL = "normal"  # Full functionality
+    DEGRADED = "degraded"  # Reduced functionality
+    MINIMAL = "minimal"  # Critical functions only
+    EMERGENCY = "emergency"  # Emergency mode
 
 
 @dataclass
 class ResilienceConfig:
     """Configuration for resilient error handling."""
+
     name: str = "default"
     enable_circuit_breaker: bool = True
     enable_retry: bool = True
@@ -41,16 +43,19 @@ class ResilienceConfig:
     retry_config: Optional[RetryConfig] = None
     recovery_config: Optional[RecoveryConfig] = None
 
-    degradation_thresholds: Dict[str, int] = field(default_factory=lambda: {
-        "error_rate": 0.1,      # 10% error rate triggers degradation
-        "response_time": 5.0,   # 5 seconds triggers degradation
-        "consecutive_failures": 3
-    })
+    degradation_thresholds: Dict[str, int] = field(
+        default_factory=lambda: {
+            "error_rate": 0.1,  # 10% error rate triggers degradation
+            "response_time": 5.0,  # 5 seconds triggers degradation
+            "consecutive_failures": 3,
+        }
+    )
 
 
 @dataclass
 class ResilienceMetrics:
     """Metrics for system resilience."""
+
     total_operations: int = 0
     successful_operations: int = 0
     failed_operations: int = 0
@@ -102,27 +107,29 @@ class GracefulDegradationManager:
         """Configure which features to disable at each degradation level."""
         if level == DegradationLevel.DEGRADED:
             # Disable non-critical features
-            self._degraded_features.update({
-                "caching": False,
-                "analytics": False,
-                "background_processing": False,
-                "real_time_updates": False
-            })
+            self._degraded_features.update(
+                {
+                    "caching": False,
+                    "analytics": False,
+                    "background_processing": False,
+                    "real_time_updates": False,
+                }
+            )
         elif level == DegradationLevel.MINIMAL:
             # Keep only critical features
-            self._degraded_features.update({
-                "basic_operations": True,
-                "error_handling": True,
-                "monitoring": True,
-                "emergency_recovery": True
-            })
+            self._degraded_features.update(
+                {
+                    "basic_operations": True,
+                    "error_handling": True,
+                    "monitoring": True,
+                    "emergency_recovery": True,
+                }
+            )
         elif level == DegradationLevel.EMERGENCY:
             # Emergency mode - minimal functionality
-            self._degraded_features.update({
-                "all_optional": False,
-                "critical_only": True,
-                "maintenance_mode": True
-            })
+            self._degraded_features.update(
+                {"all_optional": False, "critical_only": True, "maintenance_mode": True}
+            )
 
     def is_feature_enabled(self, feature: str) -> bool:
         """Check if a feature is enabled given current degradation level."""
@@ -138,7 +145,7 @@ class GracefulDegradationManager:
             return {
                 "level": self._degradation_level.value,
                 "degraded_features": self._degraded_features.copy(),
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
 
@@ -250,9 +257,11 @@ class AdvancedErrorHandler:
 
     def _attempt_recovery(self) -> None:
         """Attempt to recover from degradation."""
-        if (self.metrics.current_degradation_level != DegradationLevel.NORMAL and
-            self.metrics.successful_operations > 10 and
-            self.metrics.failed_operations < 2):
+        if (
+            self.metrics.current_degradation_level != DegradationLevel.NORMAL
+            and self.metrics.successful_operations > 10
+            and self.metrics.failed_operations < 2
+        ):
 
             # Recover to normal operation
             self.degradation_manager.degrade_to_level(DegradationLevel.NORMAL)
@@ -264,13 +273,7 @@ class AdvancedErrorHandler:
     def _should_attempt_recovery(self, exception: Exception) -> bool:
         """Determine if recovery should be attempted for given exception."""
         # Don't retry certain types of exceptions
-        non_retryable = (
-            KeyboardInterrupt,
-            SystemExit,
-            MemoryError,
-            ImportError,
-            SyntaxError
-        )
+        non_retryable = (KeyboardInterrupt, SystemExit, MemoryError, ImportError, SyntaxError)
 
         if isinstance(exception, non_retryable):
             return False
@@ -278,8 +281,9 @@ class AdvancedErrorHandler:
         # Check if we have recovery mechanisms available
         return (self.retry_mechanism or self.recovery_manager) is not None
 
-    def _execute_recovery_strategy(self, func: Callable, original_exception: Exception,
-                                 *args, **kwargs) -> Any:
+    def _execute_recovery_strategy(
+        self, func: Callable, original_exception: Exception, *args, **kwargs
+    ) -> Any:
         """Execute recovery strategy based on available mechanisms."""
 
         # Try retry mechanism first
@@ -345,7 +349,8 @@ class AdvancedErrorHandler:
                 "last_recovery_time": self.metrics.last_recovery_time,
                 "health_percentage": (
                     (self.metrics.successful_operations / self.metrics.total_operations * 100)
-                    if self.metrics.total_operations > 0 else 100
+                    if self.metrics.total_operations > 0
+                    else 100
                 ),
             }
 
@@ -367,6 +372,7 @@ class AdvancedErrorHandler:
 _advanced_error_handlers: Dict[str, AdvancedErrorHandler] = {}
 _handlers_lock = threading.RLock()
 
+
 def get_advanced_error_handler(name: str = "default") -> AdvancedErrorHandler:
     """Get or create advanced error handler by name."""
     with _handlers_lock:
@@ -375,6 +381,7 @@ def get_advanced_error_handler(name: str = "default") -> AdvancedErrorHandler:
             _advanced_error_handlers[name] = AdvancedErrorHandler(config)
         return _advanced_error_handlers[name]
 
+
 def create_advanced_error_handler(config: ResilienceConfig) -> AdvancedErrorHandler:
     """Create and register a new advanced error handler."""
     with _handlers_lock:
@@ -382,10 +389,12 @@ def create_advanced_error_handler(config: ResilienceConfig) -> AdvancedErrorHand
         _advanced_error_handlers[config.name] = handler
         return handler
 
+
 def get_all_error_handlers() -> Dict[str, AdvancedErrorHandler]:
     """Get all registered error handlers."""
     with _handlers_lock:
         return _advanced_error_handlers.copy()
+
 
 def reset_all_error_handlers() -> None:
     """Reset all error handlers."""

@@ -6,16 +6,18 @@ Simple Performance Test
 Quick test to verify performance optimizations work correctly.
 """
 
-import time
-import sys
 import os
+import sys
+import time
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+
+from domain.entities.task import Task
 
 # Import optimized components
 from infrastructure.persistence.optimized_sqlite_task_repo import OptimizedSqliteTaskRepository
-from domain.entities.task import Task
+
 
 def test_performance_optimizations():
     """Test basic performance optimizations."""
@@ -41,7 +43,7 @@ def test_performance_optimizations():
             description=f"Description for performance test {i}",
             assigned_agent_id=f"Agent-{i % 5}" if i % 2 == 0 else None,
             created_at=f"2025-09-11T{i%24:02d}:00:00",
-            priority=(i % 5) + 1
+            priority=(i % 5) + 1,
         )
         tasks.append(task)
 
@@ -77,12 +79,14 @@ def test_performance_optimizations():
     print("💾 Testing cache performance...")
     cache_stats = repo.get_cache_stats()
     print(f"  Cache size: {cache_stats['cache_size']}/{cache_stats['max_cache_size']}")
-    print(f"  Connection pool: {cache_stats['connection_pool_size']}/{cache_stats['max_pool_size']}")
+    print(
+        f"  Connection pool: {cache_stats['connection_pool_size']}/{cache_stats['max_pool_size']}"
+    )
 
     # Test cache invalidation
     print("🗑️ Testing cache invalidation...")
     start_time = time.time()
-    invalidated = repo._cache.invalidate_pattern('test-task')
+    invalidated = repo._cache.invalidate_pattern("test-task")
     invalidation_time = time.time() - start_time
     print(f"  Invalidated {invalidated} entries in {invalidation_time:.6f} seconds")
 
@@ -102,6 +106,7 @@ def test_performance_optimizations():
     # Cleanup
     if os.path.exists(db_path):
         os.remove(db_path)
+
 
 if __name__ == "__main__":
     test_performance_optimizations()

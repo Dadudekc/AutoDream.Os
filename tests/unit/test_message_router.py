@@ -52,9 +52,9 @@ class TestMessageRouterUnit:
         """Test MessageRouter initialization."""
         router = MessageRouter()
         assert router is not None
-        assert hasattr(router, 'message_queue')
-        assert hasattr(router, 'routing_table')
-        assert hasattr(router, 'worker_thread')
+        assert hasattr(router, "message_queue")
+        assert hasattr(router, "routing_table")
+        assert hasattr(router, "worker_thread")
         assert isinstance(router.message_queue, queue.Queue)
         assert not router.running
 
@@ -95,8 +95,14 @@ class TestMessageRouterUnit:
     def test_message_type_enum(self):
         """Test MessageType enum values."""
         expected_types = [
-            "agent_to_agent", "system_to_agent", "human_to_agent",
-            "captain_to_agent", "broadcast", "onboarding", "coordination", "status"
+            "agent_to_agent",
+            "system_to_agent",
+            "human_to_agent",
+            "captain_to_agent",
+            "broadcast",
+            "onboarding",
+            "coordination",
+            "status",
         ]
 
         for msg_type in expected_types:
@@ -107,10 +113,10 @@ class TestMessageRouterUnit:
     def test_routing_result_enum(self):
         """Test RoutingResult enum values."""
         # Check that RoutingResult has expected values
-        assert hasattr(RoutingResult, 'SUCCESS')
-        assert hasattr(RoutingResult, 'FAILED')
-        assert hasattr(RoutingResult, 'QUEUED')
-        assert hasattr(RoutingResult, 'RETRY')
+        assert hasattr(RoutingResult, "SUCCESS")
+        assert hasattr(RoutingResult, "FAILED")
+        assert hasattr(RoutingResult, "QUEUED")
+        assert hasattr(RoutingResult, "RETRY")
 
     @pytest.mark.unit
     def test_route_message_success(self):
@@ -126,7 +132,7 @@ class TestMessageRouterUnit:
             "sender": "Agent-1",
             "recipient": "Agent-5",
             "content": "Test message",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Route message
@@ -168,7 +174,7 @@ class TestMessageRouterUnit:
             "sender": "System",
             "recipient": "Agent-5",
             "content": "System alert",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         router.message_queue.put(test_message)
@@ -191,7 +197,7 @@ class TestMessageRouterUnit:
             "sender": "Captain",
             "recipient": "Agent-5",
             "content": "Urgent command",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         normal_msg = {
@@ -201,7 +207,7 @@ class TestMessageRouterUnit:
             "sender": "Agent-1",
             "recipient": "Agent-5",
             "content": "Normal message",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Route messages
@@ -224,14 +230,14 @@ class TestMessageRouterUnit:
             "sender": "System",
             "recipient": "all_agents",
             "content": "System-wide broadcast",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         result = router.route_message(broadcast_msg)
         assert result == RoutingResult.QUEUED
 
     @pytest.mark.unit
-    @patch('threading.Thread')
+    @patch("threading.Thread")
     def test_worker_thread_creation(self, mock_thread):
         """Test worker thread creation and management."""
         router = MessageRouter()
@@ -276,15 +282,12 @@ class TestMessageRouterUnit:
             "sender": "Agent-1",
             "recipient": "Agent-5",
             "content": "Valid message",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
         assert router._validate_message(valid_msg) == True
 
         # Invalid message - missing required field
-        invalid_msg = {
-            "content": "Missing fields",
-            "timestamp": time.time()
-        }
+        invalid_msg = {"content": "Missing fields", "timestamp": time.time()}
         assert router._validate_message(invalid_msg) == False
 
     @pytest.mark.unit
@@ -299,7 +302,7 @@ class TestMessageRouterUnit:
         # router.routing_table["Agent-5"] = "some_route"
 
         # Test routing table access
-        assert hasattr(router, 'routing_table')
+        assert hasattr(router, "routing_table")
 
     @pytest.mark.unit
     def test_message_processing_worker(self):
@@ -325,6 +328,7 @@ class TestMessageRouterUnit:
 
         # Test concurrent message routing
         import threading
+
         results = []
 
         def route_test_message():
@@ -335,7 +339,7 @@ class TestMessageRouterUnit:
                 "sender": "Agent-1",
                 "recipient": "Agent-5",
                 "content": "Thread-safe message",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             result = router.route_message(msg)
             results.append(result)
@@ -372,7 +376,7 @@ class TestMessageRouterUnit:
                 "sender": "Test",
                 "recipient": "Agent-5",
                 "content": f"Message {i}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             router.route_message(msg)
 
@@ -393,7 +397,7 @@ class TestMessageRouterUnit:
                 "sender": "Test",
                 "recipient": "Agent-5",
                 "content": f"Performance test {i}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             router.route_message(msg)
 
@@ -413,7 +417,7 @@ class TestMessageRouterUnit:
             MessageType.BROADCAST,
             MessageType.ONBOARDING,
             MessageType.COORDINATION,
-            MessageType.STATUS
+            MessageType.STATUS,
         ]
 
         for msg_type in message_types:
@@ -424,7 +428,7 @@ class TestMessageRouterUnit:
                 "sender": "Test",
                 "recipient": "Agent-5",
                 "content": f"Type {msg_type.value} test",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             result = router.route_message(msg)
@@ -445,7 +449,7 @@ class TestMessageRouterUnit:
                 "sender": "Test",
                 "recipient": "Agent-5",
                 "content": f"Shutdown test {i}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
             router.route_message(msg)
 
@@ -470,7 +474,7 @@ class TestMessageRouterUnit:
             "recipient": "Agent-5",
             "content": "Retry test message",
             "timestamp": time.time(),
-            "retry_count": 0
+            "retry_count": 0,
         }
 
         result = router.route_message(retry_msg)

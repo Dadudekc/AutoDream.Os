@@ -8,11 +8,11 @@ and performance optimizations for high-throughput operations.
 V2 Compliance: <400 lines, single responsibility, performance optimization.
 """
 
+import hashlib
+import logging
 import sqlite3
 import threading
 import time
-import hashlib
-import logging
 from collections.abc import Iterable
 from contextlib import contextmanager
 from typing import Any, Optional
@@ -36,8 +36,8 @@ class QueryCache:
         with self._lock:
             if key in self._cache:
                 entry = self._cache[key]
-                if time.time() - entry['timestamp'] < self._ttl:
-                    return entry['data']
+                if time.time() - entry["timestamp"] < self._ttl:
+                    return entry["data"]
                 else:
                     del self._cache[key]
         return None
@@ -47,14 +47,10 @@ class QueryCache:
         with self._lock:
             if len(self._cache) >= self._max_size:
                 # Remove oldest entry
-                oldest_key = min(self._cache.keys(),
-                               key=lambda k: self._cache[k]['timestamp'])
+                oldest_key = min(self._cache.keys(), key=lambda k: self._cache[k]["timestamp"])
                 del self._cache[oldest_key]
 
-            self._cache[key] = {
-                'data': data,
-                'timestamp': time.time()
-            }
+            self._cache[key] = {"data": data, "timestamp": time.time()}
 
     def invalidate_pattern(self, pattern: str) -> int:
         """Invalidate cache entries containing pattern."""
@@ -104,7 +100,8 @@ class OptimizedSqliteTaskRepository(TaskRepository):
             conn.execute("PRAGMA temp_store=MEMORY")  # Temp tables in memory
 
             # Create optimized schema
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS tasks (
                     id TEXT PRIMARY KEY,
                     title TEXT NOT NULL,
@@ -115,29 +112,36 @@ class OptimizedSqliteTaskRepository(TaskRepository):
                     completed_at TEXT,
                     priority INTEGER DEFAULT 1
                 )
-            """)
+            """
+            )
             conn.commit()
 
     def _create_indexes(self) -> None:
         """Create performance indexes for common query patterns."""
         with self._get_connection() as conn:
             # Index for agent-specific queries
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_tasks_agent
                 ON tasks(assigned_agent_id)
-            """)
+            """
+            )
 
             # Composite index for priority sorting
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_tasks_priority_created
                 ON tasks(priority DESC, created_at ASC)
-            """)
+            """
+            )
 
             # Index for completion status queries
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_tasks_status
                 ON tasks(assigned_agent_id, completed_at)
-            """)
+            """
+            )
             conn.commit()
 
     def _get_connection(self):
@@ -167,7 +171,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
     def _generate_cache_key(self, operation: str, *args) -> str:
         """Generate cache key for query results."""
         key_parts = [operation] + [str(arg) for arg in args]
-        return hashlib.md5('|'.join(key_parts).encode()).hexdigest()
+        return hashlib.md5("|".join(key_parts).encode()).hexdigest()
 
     def _row_to_task(self, row) -> Task:
         """Convert database row to Task object."""
@@ -179,7 +183,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
             created_at=row[4],
             assigned_at=row[5],
             completed_at=row[6],
-            priority=row[7]
+            priority=row[7],
         )
 
     def get(self, task_id: TaskId) -> Optional[Task]:
@@ -188,7 +192,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
 
         Performance: O(1) cache lookup, O(log n) database query with index
         """
-        cache_key = self._generate_cache_key('task', task_id)
+        cache_key = self._generate_cache_key("task", task_id)
 
         # Check cache first
         cached_task = self._cache.get(cache_key)
@@ -221,7 +225,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
 
         Performance: O(log n) with index, cached results for repeated queries
         """
-        cache_key = self._generate_cache_key('agent_tasks', agent_id, limit)
+        cache_key = self._generate_cache_key("agent_tasks", agent_id, limit)
 
         # Check cache first
         cached_tasks = self._cache.get(cache_key)
@@ -259,7 +263,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
 
         Performance: Uses composite index for efficient sorting and filtering
         """
-        cache_key = self._generate_cache_key('pending_tasks', limit)
+        cache_key = self._generate_cache_key("pending_tasks", limit)
 
         # Check cache first
         cached_tasks = self._cache.get(cache_key)
@@ -318,9 +322,9 @@ class OptimizedSqliteTaskRepository(TaskRepository):
             conn.commit()
 
         # Invalidate related caches
-        self._cache.invalidate_pattern('pending_tasks')
+        self._cache.invalidate_pattern("pending_tasks")
         if task.assigned_agent_id:
-            self._cache.invalidate_pattern(f'agent_tasks|{task.assigned_agent_id}')
+            self._cache.invalidate_pattern(f"agent_tasks|{task.assigned_agent_id}")
 
     def update(self, task: Task) -> None:
         """
@@ -351,10 +355,10 @@ class OptimizedSqliteTaskRepository(TaskRepository):
             conn.commit()
 
         # Invalidate affected caches
-        self._cache.invalidate_pattern(f'task|{task.id}')
-        self._cache.invalidate_pattern('pending_tasks')
+        self._cache.invalidate_pattern(f"task|{task.id}")
+        self._cache.invalidate_pattern("pending_tasks")
         if task.assigned_agent_id:
-            self._cache.invalidate_pattern(f'agent_tasks|{task.assigned_agent_id}')
+            self._cache.invalidate_pattern(f"agent_tasks|{task.assigned_agent_id}")
 
     def delete(self, task_id: TaskId) -> None:
         """
@@ -367,9 +371,9 @@ class OptimizedSqliteTaskRepository(TaskRepository):
             conn.commit()
 
         # Invalidate caches
-        self._cache.invalidate_pattern(f'task|{task_id}')
-        self._cache.invalidate_pattern('pending_tasks')
-        self._cache.invalidate_pattern('agent_tasks')
+        self._cache.invalidate_pattern(f"task|{task_id}")
+        self._cache.invalidate_pattern("pending_tasks")
+        self._cache.invalidate_pattern("agent_tasks")
 
     def get_all(self, limit: int = 1000) -> Iterable[Task]:
         """
@@ -377,7 +381,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
 
         Performance: Controlled memory usage with streaming results
         """
-        cache_key = self._generate_cache_key('all_tasks', limit)
+        cache_key = self._generate_cache_key("all_tasks", limit)
 
         # Check cache first
         cached_tasks = self._cache.get(cache_key)
@@ -415,16 +419,17 @@ class OptimizedSqliteTaskRepository(TaskRepository):
     def get_cache_stats(self) -> dict:
         """Get cache performance statistics."""
         return {
-            'cache_size': len(self._cache._cache),
-            'max_cache_size': self._cache._max_size,
-            'cache_ttl': self._cache._ttl,
-            'connection_pool_size': len(self._connection_pool),
-            'max_pool_size': self._pool_size,
+            "cache_size": len(self._cache._cache),
+            "max_cache_size": self._cache._max_size,
+            "cache_ttl": self._cache._ttl,
+            "connection_pool_size": len(self._connection_pool),
+            "max_pool_size": self._pool_size,
         }
 
 
 # Create optimized singleton instance
 _optimized_repo = None
+
 
 def get_optimized_task_repository(db_path: str = "data/tasks.db") -> OptimizedSqliteTaskRepository:
     """Get optimized task repository singleton."""

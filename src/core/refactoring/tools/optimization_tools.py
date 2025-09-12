@@ -10,8 +10,8 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 License: MIT
 """
 
-from dataclasses import dataclass
 import pathlib
+from dataclasses import dataclass
 
 
 @dataclass
@@ -141,7 +141,7 @@ class OptimizationTools:
     def _apply_optimizations(self, content: str, plan: OptimizationPlan) -> str:
         """Apply optimizations to content."""
         optimized_content = content
-        lines = content.split('\n')
+        lines = content.split("\n")
 
         # Apply structural optimizations
         for rule in plan.optimization_rules:
@@ -158,11 +158,17 @@ class OptimizationTools:
         # Apply performance optimizations
         for improvement in plan.performance_improvements:
             if "list comprehensions" in improvement:
-                optimized_content = self._apply_list_comprehension_optimization(optimized_content, lines)
+                optimized_content = self._apply_list_comprehension_optimization(
+                    optimized_content, lines
+                )
             elif "ternary operators" in improvement:
-                optimized_content = self._apply_ternary_operator_optimization(optimized_content, lines)
+                optimized_content = self._apply_ternary_operator_optimization(
+                    optimized_content, lines
+                )
             elif "exception handling" in improvement:
-                optimized_content = self._apply_exception_handling_optimization(optimized_content, lines)
+                optimized_content = self._apply_exception_handling_optimization(
+                    optimized_content, lines
+                )
 
         # Apply V2 compliance improvements
         for improvement in plan.v2_compliance_improvements:
@@ -183,13 +189,13 @@ class OptimizationTools:
         # Find class definitions
         class_indices = []
         for i, line in enumerate(lines):
-            if line.strip().startswith('class '):
+            if line.strip().startswith("class "):
                 class_indices.append(i)
 
         # Find function definitions
         function_indices = []
         for i, line in enumerate(lines):
-            if line.strip().startswith('def ') and not line.strip().startswith('    '):
+            if line.strip().startswith("def ") and not line.strip().startswith("    "):
                 function_indices.append(i)
 
         # Add section markers
@@ -199,14 +205,14 @@ class OptimizationTools:
             sections.append(f"# Functions ({len(function_indices)} found)")
 
         if sections:
-            content = '\n'.join(sections) + '\n\n' + content
+            content = "\n".join(sections) + "\n\n" + content
 
         return content
 
     def _apply_class_extraction(self, content: str, lines: list[str]) -> str:
         """Apply class extraction optimizations."""
         # Add comments suggesting class extractions
-        class_count = sum(1 for line in lines if line.strip().startswith('class '))
+        class_count = sum(1 for line in lines if line.strip().startswith("class "))
         if class_count > 3:
             content = f"# OPTIMIZATION: Consider extracting {class_count} classes into separate modules\n{content}"
         return content
@@ -214,7 +220,11 @@ class OptimizationTools:
     def _apply_function_extraction(self, content: str, lines: list[str]) -> str:
         """Apply function extraction optimizations."""
         # Add comments suggesting function extractions
-        function_count = sum(1 for line in lines if line.strip().startswith('def ') and not line.strip().startswith('    '))
+        function_count = sum(
+            1
+            for line in lines
+            if line.strip().startswith("def ") and not line.strip().startswith("    ")
+        )
         if function_count > 8:
             content = f"# OPTIMIZATION: Consider extracting {function_count} functions into utility modules\n{content}"
         return content
@@ -226,16 +236,18 @@ class OptimizationTools:
         other_lines = []
 
         for line in lines:
-            if line.strip().startswith('import ') or line.strip().startswith('from '):
+            if line.strip().startswith("import ") or line.strip().startswith("from "):
                 import_lines.append(line)
             else:
                 other_lines.append(line)
 
         if len(import_lines) > 10:
             # Add consolidation suggestion
-            import_lines.insert(0, "# OPTIMIZATION: Consider consolidating imports into __init__.py")
+            import_lines.insert(
+                0, "# OPTIMIZATION: Consider consolidating imports into __init__.py"
+            )
 
-        return '\n'.join(import_lines + [''] + other_lines)
+        return "\n".join(import_lines + [""] + other_lines)
 
     def _apply_list_comprehension_optimization(self, content: str, lines: list[str]) -> str:
         """Apply list comprehension optimizations."""
@@ -243,38 +255,44 @@ class OptimizationTools:
         optimized_lines = []
         for line in lines:
             # Simple pattern: for x in list: result.append(func(x))
-            if 'for ' in line and 'append(' in line:
-                optimized_lines.append(f"# OPTIMIZATION: Consider converting to list comprehension: {line.strip()}")
+            if "for " in line and "append(" in line:
+                optimized_lines.append(
+                    f"# OPTIMIZATION: Consider converting to list comprehension: {line.strip()}"
+                )
             optimized_lines.append(line)
 
-        return '\n'.join(optimized_lines)
+        return "\n".join(optimized_lines)
 
     def _apply_ternary_operator_optimization(self, content: str, lines: list[str]) -> str:
         """Apply ternary operator optimizations."""
         # Look for simple if-else assignments that could use ternary
         optimized_lines = []
         for i, line in enumerate(lines):
-            if line.strip().startswith('if ') and i + 2 < len(lines):
+            if line.strip().startswith("if ") and i + 2 < len(lines):
                 next_line = lines[i + 1].strip()
-                if 'else:' in next_line and i + 3 < len(lines):
+                if "else:" in next_line and i + 3 < len(lines):
                     then_line = lines[i + 2].strip()
                     else_line = lines[i + 4].strip() if i + 4 < len(lines) else ""
-                    if '=' in then_line and '=' in else_line:
-                        optimized_lines.append(f"# OPTIMIZATION: Consider ternary operator for: {line.strip()}")
+                    if "=" in then_line and "=" in else_line:
+                        optimized_lines.append(
+                            f"# OPTIMIZATION: Consider ternary operator for: {line.strip()}"
+                        )
             optimized_lines.append(line)
 
-        return '\n'.join(optimized_lines)
+        return "\n".join(optimized_lines)
 
     def _apply_exception_handling_optimization(self, content: str, lines: list[str]) -> str:
         """Apply exception handling optimizations."""
         # Look for bare except clauses
         optimized_lines = []
         for line in lines:
-            if line.strip() == 'except:' or line.strip().startswith('except:'):
-                optimized_lines.append(f"# OPTIMIZATION: Specify exception types instead of bare except: {line.strip()}")
+            if line.strip() == "except:" or line.strip().startswith("except:"):
+                optimized_lines.append(
+                    f"# OPTIMIZATION: Specify exception types instead of bare except: {line.strip()}"
+                )
             optimized_lines.append(line)
 
-        return '\n'.join(optimized_lines)
+        return "\n".join(optimized_lines)
 
     def _apply_file_size_reduction(self, content: str, lines: list[str]) -> str:
         """Apply file size reduction optimizations."""

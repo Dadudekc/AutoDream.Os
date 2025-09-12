@@ -8,59 +8,65 @@ and proactive maintenance procedures.
 V2 Compliance: <400 lines, single responsibility, automated recovery.
 """
 
-import threading
-import time
 import logging
 import subprocess
-from typing import Callable, Any, Dict, List, Optional
+import threading
+import time
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
 
 
 class RecoveryStrategy(Enum):
     """Types of recovery strategies."""
-    RESTART = "restart"                    # Restart failed component
-    FAILOVER = "failover"                  # Switch to backup component
-    SCALE_UP = "scale_up"                  # Increase resources
-    SCALE_DOWN = "scale_down"              # Reduce resources
-    CIRCUIT_BREAK = "circuit_break"        # Temporarily isolate component
-    HEALTH_CHECK = "health_check"           # Verify component health
-    ROLLBACK = "rollback"                  # Revert to previous version
-    NOTIFICATION = "notification"          # Alert administrators
+
+    RESTART = "restart"  # Restart failed component
+    FAILOVER = "failover"  # Switch to backup component
+    SCALE_UP = "scale_up"  # Increase resources
+    SCALE_DOWN = "scale_down"  # Reduce resources
+    CIRCUIT_BREAK = "circuit_break"  # Temporarily isolate component
+    HEALTH_CHECK = "health_check"  # Verify component health
+    ROLLBACK = "rollback"  # Revert to previous version
+    NOTIFICATION = "notification"  # Alert administrators
 
 
 class RecoveryState(Enum):
     """States of the recovery process."""
-    IDLE = "idle"                          # No recovery needed
-    ANALYZING = "analyzing"                # Analyzing failure
-    RECOVERING = "recovering"              # Executing recovery
-    VERIFYING = "verifying"                # Verifying recovery success
-    COMPLETED = "completed"                # Recovery successful
-    FAILED = "failed"                      # Recovery failed
+
+    IDLE = "idle"  # No recovery needed
+    ANALYZING = "analyzing"  # Analyzing failure
+    RECOVERING = "recovering"  # Executing recovery
+    VERIFYING = "verifying"  # Verifying recovery success
+    COMPLETED = "completed"  # Recovery successful
+    FAILED = "failed"  # Recovery failed
 
 
 @dataclass
 class RecoveryConfig:
     """Configuration for automated recovery."""
+
     name: str = "default_recovery"
     max_recovery_attempts: int = 3
-    recovery_timeout: float = 300.0        # 5 minutes
-    health_check_interval: float = 30.0    # 30 seconds
+    recovery_timeout: float = 300.0  # 5 minutes
+    health_check_interval: float = 30.0  # 30 seconds
     enable_auto_recovery: bool = True
     enable_proactive_monitoring: bool = True
 
     # Recovery strategies to attempt (in order)
-    recovery_strategies: List[RecoveryStrategy] = field(default_factory=lambda: [
-        RecoveryStrategy.HEALTH_CHECK,
-        RecoveryStrategy.RESTART,
-        RecoveryStrategy.FAILOVER,
-        RecoveryStrategy.NOTIFICATION
-    ])
+    recovery_strategies: List[RecoveryStrategy] = field(
+        default_factory=lambda: [
+            RecoveryStrategy.HEALTH_CHECK,
+            RecoveryStrategy.RESTART,
+            RecoveryStrategy.FAILOVER,
+            RecoveryStrategy.NOTIFICATION,
+        ]
+    )
 
 
 @dataclass
 class RecoveryMetrics:
     """Metrics for recovery operations."""
+
     total_recoveries: int = 0
     successful_recoveries: int = 0
     failed_recoveries: int = 0
@@ -118,8 +124,9 @@ class RecoveryExecutor:
         self._recovery_actions: Dict[RecoveryStrategy, Callable[[str], bool]] = {}
         self._lock = threading.RLock()
 
-    def register_recovery_action(self, strategy: RecoveryStrategy,
-                               action_func: Callable[[str], bool]) -> None:
+    def register_recovery_action(
+        self, strategy: RecoveryStrategy, action_func: Callable[[str], bool]
+    ) -> None:
         """Register a recovery action for a strategy."""
         with self._lock:
             self._recovery_actions[strategy] = action_func
@@ -220,6 +227,7 @@ class AutomatedRecoveryManager:
 
     def _start_proactive_monitoring(self) -> None:
         """Start proactive health monitoring."""
+
         def monitor_worker():
             while True:
                 try:
@@ -227,8 +235,7 @@ class AutomatedRecoveryManager:
 
                     # Check for unhealthy components
                     unhealthy_components = [
-                        comp for comp, healthy in health_status.items()
-                        if not healthy
+                        comp for comp, healthy in health_status.items() if not healthy
                     ]
 
                     if unhealthy_components:
@@ -246,8 +253,12 @@ class AutomatedRecoveryManager:
         thread.start()
         self._logger.info("Proactive recovery monitoring started")
 
-    def register_component(self, component: str, health_check: Callable[[], bool],
-                         recovery_strategies: List[RecoveryStrategy] = None) -> None:
+    def register_component(
+        self,
+        component: str,
+        health_check: Callable[[], bool],
+        recovery_strategies: List[RecoveryStrategy] = None,
+    ) -> None:
         """
         Register a component for automated recovery.
 
@@ -260,7 +271,7 @@ class AutomatedRecoveryManager:
 
         if recovery_strategies:
             # Override default strategies for this component
-            self._component_strategies = getattr(self, '_component_strategies', {})
+            self._component_strategies = getattr(self, "_component_strategies", {})
             self._component_strategies[component] = recovery_strategies
 
     def initiate_recovery(self, component: str, exception: Exception = None) -> bool:
@@ -314,12 +325,14 @@ class AutomatedRecoveryManager:
                                 self.metrics.average_recovery_time = recovery_time
                             else:
                                 self.metrics.average_recovery_time = (
-                                    (self.metrics.average_recovery_time *
-                                     (self.metrics.successful_recoveries - 1) +
-                                     recovery_time) / self.metrics.successful_recoveries
-                                )
+                                    self.metrics.average_recovery_time
+                                    * (self.metrics.successful_recoveries - 1)
+                                    + recovery_time
+                                ) / self.metrics.successful_recoveries
 
-                        self._logger.info(f"Recovery successful for {component} in {recovery_time:.2f}s")
+                        self._logger.info(
+                            f"Recovery successful for {component} in {recovery_time:.2f}s"
+                        )
                         return True
                     else:
                         self._logger.warning(f"Recovery verification failed for {component}")
@@ -349,7 +362,7 @@ class AutomatedRecoveryManager:
 
     def _get_recovery_strategies(self, component: str) -> List[RecoveryStrategy]:
         """Get recovery strategies for a component."""
-        component_strategies = getattr(self, '_component_strategies', {})
+        component_strategies = getattr(self, "_component_strategies", {})
         return component_strategies.get(component, self.config.recovery_strategies)
 
     def _verify_recovery(self, component: str) -> bool:
@@ -365,8 +378,7 @@ class AutomatedRecoveryManager:
             self._logger.error(f"Recovery verification failed for {component}: {e}")
             return False
 
-    def recover_and_retry(self, func: Callable, exception: Exception,
-                         *args, **kwargs) -> Any:
+    def recover_and_retry(self, func: Callable, exception: Exception, *args, **kwargs) -> Any:
         """
         Recover from failure and retry the operation.
 
@@ -383,7 +395,7 @@ class AutomatedRecoveryManager:
             Exception: If recovery or retry fails
         """
         # Attempt recovery (component name derived from function)
-        component = getattr(func, '__name__', 'unknown_component')
+        component = getattr(func, "__name__", "unknown_component")
         recovery_success = self.initiate_recovery(component, exception)
 
         if recovery_success:
@@ -392,7 +404,9 @@ class AutomatedRecoveryManager:
                 self._logger.info(f"Retrying operation after successful recovery: {component}")
                 return func(*args, **kwargs)
             except Exception as retry_exception:
-                self._logger.error(f"Retry failed after recovery for {component}: {retry_exception}")
+                self._logger.error(
+                    f"Retry failed after recovery for {component}: {retry_exception}"
+                )
                 raise retry_exception
         else:
             self._logger.error(f"Recovery failed for {component}, cannot retry")
@@ -417,13 +431,16 @@ class AutomatedRecoveryManager:
                     "average_recovery_time": self.metrics.average_recovery_time,
                     "last_recovery_time": self.metrics.last_recovery_time,
                     "consecutive_failures": self.metrics.consecutive_failures,
-                    "recovery_attempts_by_strategy": dict(self.metrics.recovery_attempts_by_strategy),
+                    "recovery_attempts_by_strategy": dict(
+                        self.metrics.recovery_attempts_by_strategy
+                    ),
                 },
                 "current_state": self._current_recovery_state.value,
                 "health_status": self.health_checker.check_all_health(),
                 "success_rate": (
                     (self.metrics.successful_recoveries / self.metrics.total_recoveries * 100)
-                    if self.metrics.total_recoveries > 0 else 0
+                    if self.metrics.total_recoveries > 0
+                    else 0
                 ),
             }
 
@@ -439,6 +456,7 @@ class AutomatedRecoveryManager:
 _recovery_managers: Dict[str, AutomatedRecoveryManager] = {}
 _managers_lock = threading.RLock()
 
+
 def get_recovery_manager(name: str = "default") -> AutomatedRecoveryManager:
     """Get or create recovery manager by name."""
     with _managers_lock:
@@ -447,6 +465,7 @@ def get_recovery_manager(name: str = "default") -> AutomatedRecoveryManager:
             _recovery_managers[name] = AutomatedRecoveryManager(config)
         return _recovery_managers[name]
 
+
 def create_recovery_manager(config: RecoveryConfig) -> AutomatedRecoveryManager:
     """Create and register a new recovery manager."""
     with _managers_lock:
@@ -454,10 +473,12 @@ def create_recovery_manager(config: RecoveryConfig) -> AutomatedRecoveryManager:
         _recovery_managers[config.name] = manager
         return manager
 
+
 def get_all_recovery_managers() -> Dict[str, AutomatedRecoveryManager]:
     """Get all registered recovery managers."""
     with _managers_lock:
         return _recovery_managers.copy()
+
 
 def reset_all_recovery_managers() -> None:
     """Reset all recovery managers."""

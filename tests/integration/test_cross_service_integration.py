@@ -38,11 +38,7 @@ class TestCrossServiceIntegration:
 
     def setup_method(self):
         """Setup for each test method."""
-        self.test_data = {
-            "agents": [],
-            "messages": [],
-            "documents": []
-        }
+        self.test_data = {"agents": [], "messages": [], "documents": []}
 
     def teardown_method(self):
         """Cleanup after each test method."""
@@ -64,7 +60,7 @@ class TestCrossServiceIntegration:
             test_type="integration",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:15:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -74,13 +70,11 @@ class TestCrossServiceIntegration:
                 "agent_id": agent_id,
                 "agent_name": "Coordination Test Agent",
                 "specialization": "Integration Testing",
-                "coordinates": {"x": 300, "y": 400}
+                "coordinates": {"x": 300, "y": 400},
             }
 
             agent_result = self.framework.validate_api_endpoint(
-                "/agents", "POST",
-                request_data=agent_data,
-                expected_status=201
+                "/agents", "POST", request_data=agent_data, expected_status=201
             )
             assert agent_result.status == TestStatus.PASSED
             self.test_data["agents"].append(agent_id)
@@ -91,13 +85,11 @@ class TestCrossServiceIntegration:
                 "to_agent": agent_id,
                 "content": "COORDINATION_REQUEST: Please execute task assignment protocol",
                 "priority": "HIGH",
-                "tags": ["coordination", "integration_test"]
+                "tags": ["coordination", "integration_test"],
             }
 
             message_result = self.framework.validate_api_endpoint(
-                "/messages", "POST",
-                request_data=message_data,
-                expected_status=202
+                "/messages", "POST", request_data=message_data, expected_status=202
             )
             assert message_result.status == TestStatus.PASSED
             result.assertions.append({"step": "message_sending", "status": "passed"})
@@ -139,7 +131,7 @@ class TestCrossServiceIntegration:
             test_type="integration",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:20:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -149,29 +141,21 @@ class TestCrossServiceIntegration:
                 "metadata": {
                     "category": "integration_test",
                     "type": "vector_analytics",
-                    "tags": ["test", "integration", "analytics"]
-                }
+                    "tags": ["test", "integration", "analytics"],
+                },
             }
 
             doc_result = self.framework.validate_api_endpoint(
-                "/vector/documents", "POST",
-                request_data=doc_data,
-                expected_status=201
+                "/vector/documents", "POST", request_data=doc_data, expected_status=201
             )
             assert doc_result.status == TestStatus.PASSED
             result.assertions.append({"step": "document_ingestion", "status": "passed"})
 
             # Step 2: Perform vector search
-            search_data = {
-                "query": "integration test document",
-                "limit": 5,
-                "threshold": 0.7
-            }
+            search_data = {"query": "integration test document", "limit": 5, "threshold": 0.7}
 
             search_result = self.framework.validate_api_endpoint(
-                "/vector/search", "POST",
-                request_data=search_data,
-                expected_status=200
+                "/vector/search", "POST", request_data=search_data, expected_status=200
             )
             assert search_result.status == TestStatus.PASSED
             result.assertions.append({"step": "vector_search", "status": "passed"})
@@ -179,8 +163,9 @@ class TestCrossServiceIntegration:
             # Step 3: Verify analytics generation
             # Check if search generated analytics data
             analytics_result = self.framework.validate_api_endpoint(
-                "/analytics/performance?timeframe=1h&metric_type=search_performance", "GET",
-                expected_status=200
+                "/analytics/performance?timeframe=1h&metric_type=search_performance",
+                "GET",
+                expected_status=200,
             )
             assert analytics_result.status == TestStatus.PASSED
             result.assertions.append({"step": "analytics_generation", "status": "passed"})
@@ -214,7 +199,7 @@ class TestCrossServiceIntegration:
             test_type="integration",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:25:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
@@ -226,13 +211,11 @@ class TestCrossServiceIntegration:
                     "agent_id": agent_id,
                     "agent_name": f"Message Test Agent {i}",
                     "specialization": "Messaging Integration",
-                    "coordinates": {"x": 100 + i * 50, "y": 200 + i * 50}
+                    "coordinates": {"x": 100 + i * 50, "y": 200 + i * 50},
                 }
 
                 agent_result = self.framework.validate_api_endpoint(
-                    "/agents", "POST",
-                    request_data=agent_data,
-                    expected_status=201
+                    "/agents", "POST", request_data=agent_data, expected_status=201
                 )
                 assert agent_result.status == TestStatus.PASSED
                 agent_ids.append(agent_id)
@@ -249,22 +232,22 @@ class TestCrossServiceIntegration:
                     "to_agent": receiver_id,
                     "content": f"Integration test message from {sender_id} to {receiver_id}",
                     "priority": "NORMAL",
-                    "tags": ["integration", "inter_agent"]
+                    "tags": ["integration", "inter_agent"],
                 }
 
                 message_result = self.framework.validate_api_endpoint(
-                    "/messages", "POST",
-                    request_data=message_data,
-                    expected_status=202
+                    "/messages", "POST", request_data=message_data, expected_status=202
                 )
                 assert message_result.status == TestStatus.PASSED
                 messages_sent += 1
 
-            result.assertions.append({
-                "step": "inter_agent_messaging",
-                "status": "passed",
-                "messages_sent": messages_sent
-            })
+            result.assertions.append(
+                {
+                    "step": "inter_agent_messaging",
+                    "status": "passed",
+                    "messages_sent": messages_sent,
+                }
+            )
 
             # Step 3: Verify agent status updates from messaging
             for agent_id in agent_ids:
@@ -302,41 +285,32 @@ class TestCrossServiceIntegration:
             test_type="integration",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:30:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
             # Step 1: Test API gateway health
             health_result = self.framework.validate_api_endpoint(
-                "/health", "GET",
-                expected_status=200
+                "/health", "GET", expected_status=200
             )
             assert health_result.status == TestStatus.PASSED
             result.assertions.append({"step": "gateway_health", "status": "passed"})
 
             # Step 2: Test service discovery through gateway
-            services_to_test = [
-                "/agents",
-                "/messages",
-                "/vector/search",
-                "/analytics/performance"
-            ]
+            services_to_test = ["/agents", "/messages", "/vector/search", "/analytics/performance"]
 
             gateway_routing = 0
             for service_endpoint in services_to_test:
                 endpoint_result = self.framework.validate_api_endpoint(
-                    service_endpoint, "GET",
-                    expected_status=200
+                    service_endpoint, "GET", expected_status=200
                 )
                 if endpoint_result.status == TestStatus.PASSED:
                     gateway_routing += 1
 
             assert gateway_routing >= len(services_to_test) * 0.8  # 80% success rate
-            result.assertions.append({
-                "step": "service_routing",
-                "status": "passed",
-                "services_routed": gateway_routing
-            })
+            result.assertions.append(
+                {"step": "service_routing", "status": "passed", "services_routed": gateway_routing}
+            )
 
             # Step 3: Test cross-service data flow through gateway
             data_flow_result = self._test_gateway_data_flow()
@@ -373,14 +347,13 @@ class TestCrossServiceIntegration:
             test_type="integration",
             status=TestStatus.RUNNING,
             start_time="2025-09-12T11:35:00",
-            duration=0.0
+            duration=0.0,
         )
 
         try:
             # Step 1: System health check
             health_result = self.framework.validate_api_endpoint(
-                "/health", "GET",
-                expected_status=200
+                "/health", "GET", expected_status=200
             )
             assert health_result.status == TestStatus.PASSED
             result.assertions.append({"step": "system_health", "status": "passed"})
@@ -424,38 +397,22 @@ class TestCrossServiceIntegration:
     def _verify_coordination_processing(self, agent_id: str) -> Dict[str, Any]:
         """Verify that coordination service processed messages."""
         # Simulate coordination processing verification
-        return {
-            "processed": True,
-            "coordination_actions": 2,
-            "agent_status_updated": True
-        }
+        return {"processed": True, "coordination_actions": 2, "agent_status_updated": True}
 
     def _test_message_coordination_sync(self, agent_id: str) -> Dict[str, Any]:
         """Test message-coordination synchronization."""
         # Simulate synchronization test
-        return {
-            "synchronized": True,
-            "message_count": 3,
-            "coordination_events": 2
-        }
+        return {"synchronized": True, "message_count": 3, "coordination_events": 2}
 
     def _test_analytics_vector_feedback(self) -> Dict[str, Any]:
         """Test analytics-vector feedback loop."""
         # Simulate feedback loop test
-        return {
-            "feedback_processed": True,
-            "analytics_generated": 5,
-            "vector_optimizations": 2
-        }
+        return {"feedback_processed": True, "analytics_generated": 5, "vector_optimizations": 2}
 
     def _verify_agent_message_status(self, agent_id: str) -> Dict[str, Any]:
         """Verify agent message processing status."""
         # Simulate message status verification
-        return {
-            "messages_processed": 2,
-            "status_updated": True,
-            "coordination_triggered": True
-        }
+        return {"messages_processed": 2, "status_updated": True, "coordination_triggered": True}
 
     def _test_agent_message_consistency(self, agent_ids: List[str]) -> Dict[str, Any]:
         """Test consistency between agent and message services."""
@@ -463,17 +420,13 @@ class TestCrossServiceIntegration:
         return {
             "state_consistent": True,
             "agents_checked": len(agent_ids),
-            "consistency_score": 100
+            "consistency_score": 100,
         }
 
     def _test_gateway_data_flow(self) -> Dict[str, Any]:
         """Test data flow through API gateway."""
         # Simulate gateway data flow test
-        return {
-            "data_flow_successful": True,
-            "services_tested": 4,
-            "data_integrity": "verified"
-        }
+        return {"data_flow_successful": True, "services_tested": 4, "data_integrity": "verified"}
 
     def _test_gateway_error_handling(self) -> Dict[str, Any]:
         """Test API gateway error handling."""
@@ -481,7 +434,7 @@ class TestCrossServiceIntegration:
         return {
             "errors_handled": True,
             "error_types_tested": 3,
-            "fallback_mechanisms": "functional"
+            "fallback_mechanisms": "functional",
         }
 
     def _execute_full_system_workflow(self) -> Dict[str, Any]:
@@ -491,17 +444,13 @@ class TestCrossServiceIntegration:
             "workflow_completed": True,
             "steps_executed": 8,
             "services_interacted": 6,
-            "data_processed": "verified"
+            "data_processed": "verified",
         }
 
     def _verify_cross_service_consistency(self) -> Dict[str, Any]:
         """Verify data consistency across all services."""
         # Simulate cross-service consistency check
-        return {
-            "data_consistent": True,
-            "services_checked": 5,
-            "consistency_violations": 0
-        }
+        return {"data_consistent": True, "services_checked": 5, "consistency_violations": 0}
 
     def _test_system_under_load(self) -> Dict[str, Any]:
         """Test system performance under load."""
@@ -510,7 +459,7 @@ class TestCrossServiceIntegration:
             "performance_acceptable": True,
             "requests_processed": 100,
             "average_response_time": 0.5,
-            "error_rate": 0.01
+            "error_rate": 0.01,
         }
 
     def _test_system_resilience(self) -> Dict[str, Any]:
@@ -520,7 +469,7 @@ class TestCrossServiceIntegration:
             "system_resilient": True,
             "failures_simulated": 3,
             "recovery_success_rate": 100,
-            "downtime_total": 0
+            "downtime_total": 0,
         }
 
 
@@ -549,7 +498,7 @@ def run_cross_service_integration_suite():
         test_instance.test_vector_analytics_integration,
         test_instance.test_agent_messaging_integration,
         test_instance.test_api_gateway_integration,
-        test_instance.test_full_system_integration
+        test_instance.test_full_system_integration,
     ]
 
     for test_method in test_methods:
@@ -567,7 +516,7 @@ def run_cross_service_integration_suite():
                 start_time="2025-09-12T11:15:00",
                 end_time="2025-09-12T11:45:00",
                 duration=1800.0,
-                error_message=str(e)
+                error_message=str(e),
             )
             results.append(failed_result)
 

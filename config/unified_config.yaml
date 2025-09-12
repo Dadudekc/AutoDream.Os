@@ -1,6 +1,6 @@
 # Unified Configuration System - Single Source of Truth
 # ===================================================
-# 
+#
 # This file consolidates all configuration settings for the Agent Cellphone V2 project.
 # All other config files should reference this as the primary source.
 #
@@ -26,7 +26,7 @@ agents:
     Agent-6: ["agent6", "a6", "sixth"]
     Agent-7: ["agent7", "a7", "seventh"]
     Agent-8: ["agent8", "a8", "eighth"]
-  
+
   coordinates:
     source: "config/coordinates.json"
     fallback_offset: [-50, 0]
@@ -95,14 +95,14 @@ organization:
     - "config/discord_channels.json"
     - "config/devlog_config.json"
     - "config/agent_aliases.json"
-  
+
   data_files:
     - "data/unified.db"
     - "data/vector_database.db"
     - "data/thea_cookies.json"
     - "data/semantic_seed/"
     - "data/vector_db/"
-  
+
   runtime_files:
     - "runtime/agent_logs/"
     - "runtime/reports/"
@@ -117,7 +117,7 @@ cleanup:
     - "thea_cookies.json"  # Consolidated into data/thea_cookies.json
     - "runtime/reports/cleanup_*.json"  # Old cleanup reports
     - "runtime/reports/cleanup_*.md"  # Old cleanup reports
-  
+
   retention_policy:
     reports: "30 days"
     logs: "90 days"

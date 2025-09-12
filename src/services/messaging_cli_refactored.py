@@ -31,10 +31,10 @@ try:
         get_messaging_core,
         list_agents,
         send_message,
-        send_message_pyautogui,
-        show_message_history,
         send_message_inbox,
+        send_message_pyautogui,
         send_message_with_fallback,
+        show_message_history,
     )
 
     MESSAGING_AVAILABLE = True

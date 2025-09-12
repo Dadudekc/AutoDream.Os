@@ -2,7 +2,9 @@
 Discord commands: /route and /similar_status
 Assumes discord.py app_commands setup with a running Bot/Tree.
 """
+
 from __future__ import annotations
+
 import json
 import sys
 from pathlib import Path
@@ -12,30 +14,39 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 try:
+    from discord.ext import commands
+
     import discord
     from discord import app_commands
-    from discord.ext import commands
+
     DISCORD_AVAILABLE = True
 except ImportError:
     DISCORD_AVAILABLE = False
+
     # Create dummy classes for type hints when discord is not available
     class discord:
         class Interaction:
             pass
+
     class app_commands:
         class command:
             def __init__(self, **kwargs):
                 pass
+
         class describe:
             def __init__(self, **kwargs):
                 pass
+
     class commands:
         class Cog:
             pass
+
         class Bot:
             pass
 
+
 from src.core.semantic.router_hooks import route_message, similar_status
+
 
 class SemanticCommands(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -63,7 +74,9 @@ class SemanticCommands(commands.Cog):
         }
         await interaction.followup.send(f"```json\n{json.dumps(view, indent=2)}\n```")
 
-    @app_commands.command(name="similar_status", description="Find similar agent statuses (text or JSON)")
+    @app_commands.command(
+        name="similar_status", description="Find similar agent statuses (text or JSON)"
+    )
     @app_commands.describe(query="Text query or JSON blob")
     async def similar_status_cmd(self, interaction: discord.Interaction, query: str):
         if not DISCORD_AVAILABLE:
@@ -78,6 +91,7 @@ class SemanticCommands(commands.Cog):
         # top-3 only
         res["results"] = res.get("results", [])[:3]
         await interaction.followup.send(f"```json\n{json.dumps(res, indent=2)}\n```")
+
 
 async def setup_semantic_commands(bot: commands.Bot):
     if DISCORD_AVAILABLE:

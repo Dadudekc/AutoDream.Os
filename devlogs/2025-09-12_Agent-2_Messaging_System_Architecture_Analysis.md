@@ -216,11 +216,11 @@ def send_message(self, message: str, target: str, **kwargs) -> bool:
 # Replace unified_messaging.py content with messaging_core.py functionality
 class UnifiedMessagingSystem:
     """Complete implementation based on UnifiedMessagingCore"""
-    
+
     def __init__(self):
         self.core = UnifiedMessagingCore()
         self.pyautogui_delivery = PyAutoGUIMessagingDelivery()
-    
+
     def send_message(self, message: str, target: str, **kwargs) -> bool:
         # Actual implementation using core functionality
         return self.core.send_message(message, "sender", target, ...)

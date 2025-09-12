@@ -46,7 +46,7 @@ Successfully implemented a high-priority messaging command system that supports 
 
 #### Message Flow
 ```
-Discord Message → Keyboard Shortcut Detection → Agent Resolution → 
+Discord Message → Keyboard Shortcut Detection → Agent Resolution →
 Priority Processing → PyAutoGUI Delivery → Agent Inbox → Task Execution
 ```
 

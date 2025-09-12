@@ -113,7 +113,7 @@
 ### **1. Direct Service Usage:**
 ```python
 from src.services.consolidated_messaging_service import (
-    UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, 
+    UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority,
     UnifiedMessageTag, send_message
 )
 

@@ -26,38 +26,42 @@ if __name__ == "__main__":
 
 # Import from coordinate loader (SSOT)
 try:
-    from enum import Enum
     import logging
-    import time
     import os
     import sys
+    import time
+    from enum import Enum
 
     # Create fallback classes for unified messaging compatibility
     from typing import Any, Dict, List, Optional
 
     from src.core.coordinate_loader import get_coordinate_loader
-    
+
     # PyAutoGUI availability check
     try:
         import pyautogui
+
         PYAUTOGUI_AVAILABLE = True
     except ImportError:
         PYAUTOGUI_AVAILABLE = False
-        
+
     try:
         import pyperclip
+
         PYPERCLIP_AVAILABLE = True
     except ImportError:
         PYPERCLIP_AVAILABLE = False
 
     class DeliveryMethod(Enum):
         """Delivery methods for messages."""
+
         INBOX = "inbox"
         PYAUTOGUI = "pyautogui"
         BROADCAST = "broadcast"
 
     class UnifiedMessageType(Enum):
         """Message types for unified messaging."""
+
         TEXT = "text"
         BROADCAST = "broadcast"
         ONBOARDING = "onboarding"
@@ -68,6 +72,7 @@ try:
 
     class UnifiedMessagePriority(Enum):
         """Message priorities for unified messaging."""
+
         REGULAR = "regular"
         URGENT = "urgent"
         # Legacy support
@@ -77,6 +82,7 @@ try:
 
     class UnifiedMessageTag(Enum):
         """Message tags for unified messaging."""
+
         CAPTAIN = "captain"
         ONBOARDING = "onboarding"
         WRAPUP = "wrapup"
@@ -89,6 +95,7 @@ try:
 
     class RecipientType(Enum):
         """Recipient types for unified messaging."""
+
         AGENT = "agent"
         CAPTAIN = "captain"
         SYSTEM = "system"
@@ -96,6 +103,7 @@ try:
 
     class SenderType(Enum):
         """Sender types for unified messaging."""
+
         AGENT = "agent"
         CAPTAIN = "captain"
         SYSTEM = "system"
@@ -103,6 +111,7 @@ try:
 
     class UnifiedMessage:
         """Core message structure for unified messaging."""
+
         def __init__(
             self,
             content: str,
@@ -118,6 +127,7 @@ try:
             recipient_type: RecipientType = RecipientType.AGENT,
         ):
             import uuid
+
             self.content = content
             self.sender = sender
             self.recipient = recipient
@@ -212,7 +222,9 @@ try:
                 )
                 return True
             except Exception as e:
-                logger.warning("Deliver attempt %d failed for %s: %s", attempt, message.recipient, e)
+                logger.warning(
+                    "Deliver attempt %d failed for %s: %s", attempt, message.recipient, e
+                )
                 time.sleep(0.3)
 
         logger.error("Failed to deliver to %s after 2 attempts", message.recipient)
@@ -268,9 +280,9 @@ try:
     ) -> bool:
         """Send message to agent's inbox"""
         try:
-            from pathlib import Path
             from datetime import datetime
-            
+            from pathlib import Path
+
             agent_workspaces = Path("agent_workspaces")
             inbox_dir = agent_workspaces / agent_id / "inbox"
             inbox_dir.mkdir(parents=True, exist_ok=True)
@@ -346,14 +358,10 @@ try:
                 success = deliver_message_pyautogui(message, coords)
                 if success:
                     return True
-            
+
             # Fallback to inbox
             logger.info(f"Falling back to inbox delivery for {message.recipient}")
-            return send_message_inbox(
-                message.recipient, 
-                message.content, 
-                message.sender
-            )
+            return send_message_inbox(message.recipient, message.content, message.sender)
         except Exception as e:
             logger.error(f"Failed to send message with fallback: {e}")
             return False

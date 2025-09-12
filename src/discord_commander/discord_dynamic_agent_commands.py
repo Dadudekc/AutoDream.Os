@@ -128,7 +128,10 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                             request_summary=False,
                         )
 
-                        embed = _mk_ok_embed("🚨 URGENT Message (Keyboard Shortcut)", f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Triggered by keyboard shortcut*")
+                        embed = _mk_ok_embed(
+                            "🚨 URGENT Message (Keyboard Shortcut)",
+                            f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Triggered by keyboard shortcut*",
+                        )
                         await message.reply(embed=embed, mention_author=False)
                         return True
                     except Exception as e:
@@ -139,7 +142,10 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
         return False
 
     # ---------- Slash command: /urgent ---------- (HIGH PRIORITY - Ctrl+Enter 2x)
-    @bot.tree.command(name="urgent", description="Send URGENT high-priority message to agent (Ctrl+Enter delivery).")
+    @bot.tree.command(
+        name="urgent",
+        description="Send URGENT high-priority message to agent (Ctrl+Enter delivery).",
+    )
     @app_commands.describe(
         agent="Agent or alias (autocomplete)",
         message="Urgent message to send immediately",
@@ -163,7 +169,10 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                 request_summary=False,  # Skip summary for urgent messages
             )
             await interaction.followup.send(
-                embed=_mk_ok_embed("🚨 URGENT Message Dispatched", f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Delivered via Ctrl+Enter priority system*"),
+                embed=_mk_ok_embed(
+                    "🚨 URGENT Message Dispatched",
+                    f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Delivered via Ctrl+Enter priority system*",
+                ),
                 ephemeral=True,
             )
         except Exception as e:

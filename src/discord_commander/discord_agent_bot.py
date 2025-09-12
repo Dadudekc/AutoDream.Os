@@ -27,7 +27,9 @@ from discord.ext import commands
 import discord
 
 try:
-    from .agent_communication_engine_core import AgentCommunicationEngineCore as AgentCommunicationEngine
+    from .agent_communication_engine_core import (
+        AgentCommunicationEngineCore as AgentCommunicationEngine,
+    )
     from .command_router import CommandRouter
     from .discord_commander_models import CommandResult
     from .embeds import EmbedManager
@@ -49,7 +51,9 @@ try:
 except ImportError as e:
     print(f"⚠️ Primary imports failed: {e}")
     try:
-        from agent_communication_engine_core import AgentCommunicationEngineCore as AgentCommunicationEngine
+        from agent_communication_engine_core import (
+            AgentCommunicationEngineCore as AgentCommunicationEngine,
+        )
         from command_router import CommandRouter
         from discord_commander_models import CommandResult
         from embeds import EmbedManager
@@ -304,6 +308,7 @@ class DiscordAgentBot(commands.Bot):
         # Handle keyboard shortcuts for urgent messages (Ctrl+Enter simulation)
         try:
             from .discord_dynamic_agent_commands import handle_keyboard_shortcut
+
             handled = await handle_keyboard_shortcut(message, self)
             if handled:
                 return  # Message was handled by keyboard shortcut

@@ -325,55 +325,61 @@ def generate_refactor_suggestions(results: dict[str, Any]) -> dict[str, Any]:
             "files_needing_split": 0,
             "classes_needing_split": 0,
             "functions_needing_split": 0,
-            "estimated_effort_days": 0
-        }
+            "estimated_effort_days": 0,
+        },
     }
 
     for file_result in results["files"]:
         for violation in file_result["violations"]:
             if violation["type"] == "file_loc" and violation["excess"] > 50:
-                refactor_plan["file_splits"].append({
-                    "file": violation["file"],
-                    "current_loc": violation["current_loc"],
-                    "excess": violation["excess"],
-                    "suggested_splits": [
-                        f"{Path(violation['file']).stem}_core.py - Core functionality",
-                        f"{Path(violation['file']).stem}_utils.py - Utility functions",
-                        f"{Path(violation['file']).stem}_types.py - Type definitions"
-                    ],
-                    "estimated_classes": max(2, violation["excess"] // 200)
-                })
+                refactor_plan["file_splits"].append(
+                    {
+                        "file": violation["file"],
+                        "current_loc": violation["current_loc"],
+                        "excess": violation["excess"],
+                        "suggested_splits": [
+                            f"{Path(violation['file']).stem}_core.py - Core functionality",
+                            f"{Path(violation['file']).stem}_utils.py - Utility functions",
+                            f"{Path(violation['file']).stem}_types.py - Type definitions",
+                        ],
+                        "estimated_classes": max(2, violation["excess"] // 200),
+                    }
+                )
                 refactor_plan["summary"]["files_needing_split"] += 1
 
             elif violation["type"] == "class_loc" and violation["excess"] > 25:
-                refactor_plan["class_refactors"].append({
-                    "file": violation["file"],
-                    "class_name": violation["class_name"],
-                    "current_loc": violation["current_loc"],
-                    "excess": violation["excess"],
-                    "suggested_splits": [
-                        f"{violation['class_name']}Core - Core methods",
-                        f"{violation['class_name']}Utils - Utility methods"
-                    ],
-                    "estimated_classes": max(1, violation["excess"] // 50)
-                })
+                refactor_plan["class_refactors"].append(
+                    {
+                        "file": violation["file"],
+                        "class_name": violation["class_name"],
+                        "current_loc": violation["current_loc"],
+                        "excess": violation["excess"],
+                        "suggested_splits": [
+                            f"{violation['class_name']}Core - Core methods",
+                            f"{violation['class_name']}Utils - Utility methods",
+                        ],
+                        "estimated_classes": max(1, violation["excess"] // 50),
+                    }
+                )
                 refactor_plan["summary"]["classes_needing_split"] += 1
 
             elif violation["type"] == "function_loc" and violation["excess"] > 10:
-                refactor_plan["function_splits"].append({
-                    "file": violation["file"],
-                    "function_name": violation["function_name"],
-                    "current_loc": violation["current_loc"],
-                    "excess": violation["excess"],
-                    "recommendation": "Extract helper functions or split into smaller functions"
-                })
+                refactor_plan["function_splits"].append(
+                    {
+                        "file": violation["file"],
+                        "function_name": violation["function_name"],
+                        "current_loc": violation["current_loc"],
+                        "excess": violation["excess"],
+                        "recommendation": "Extract helper functions or split into smaller functions",
+                    }
+                )
                 refactor_plan["summary"]["functions_needing_split"] += 1
 
     # Estimate effort
     refactor_plan["summary"]["estimated_effort_days"] = (
-        refactor_plan["summary"]["files_needing_split"] * 2 +
-        refactor_plan["summary"]["classes_needing_split"] * 1 +
-        refactor_plan["summary"]["functions_needing_split"] * 0.5
+        refactor_plan["summary"]["files_needing_split"] * 2
+        + refactor_plan["summary"]["classes_needing_split"] * 1
+        + refactor_plan["summary"]["functions_needing_split"] * 0.5
     )
 
     return refactor_plan
@@ -411,7 +417,9 @@ def format_refactor_report(refactor_plan: dict[str, Any]) -> str:
         report.append("")
         for refactor in refactor_plan["class_refactors"]:
             report.append(f"🏗️ {refactor['file']}:{refactor['class_name']}:")
-            report.append(f"   Current: {refactor['current_loc']} LOC (excess: {refactor['excess']})")
+            report.append(
+                f"   Current: {refactor['current_loc']} LOC (excess: {refactor['excess']})"
+            )
             report.append("   Suggested splits:")
             for suggestion in refactor["suggested_splits"]:
                 report.append(f"     • {suggestion}")
@@ -440,7 +448,9 @@ def main() -> int:
         "--ci-gate", action="store_true", help="Run CI gate check (fails if any violations found)"
     )
     parser.add_argument(
-        "--refactor", action="store_true", help="Generate refactoring suggestions for LOC violations"
+        "--refactor",
+        action="store_true",
+        help="Generate refactoring suggestions for LOC violations",
     )
     parser.add_argument(
         "--json", action="store_true", help="Output results as JSON instead of text"

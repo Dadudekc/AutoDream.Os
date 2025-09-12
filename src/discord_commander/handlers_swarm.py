@@ -266,10 +266,19 @@ class SwarmCommandHandlers:
 
             # Broadcast to all agents using the consolidated messaging system
             success = broadcast_message(urgent_message, sender)
-            
+
             # Create results dict for compatibility
             results = {}
-            for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]:
+            for agent_id in [
+                "Agent-1",
+                "Agent-2",
+                "Agent-3",
+                "Agent-4",
+                "Agent-5",
+                "Agent-6",
+                "Agent-7",
+                "Agent-8",
+            ]:
                 results[agent_id] = success
 
             successful_count = sum(results.values())

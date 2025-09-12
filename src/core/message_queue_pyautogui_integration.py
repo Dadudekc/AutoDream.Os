@@ -16,17 +16,15 @@ License: MIT
 """
 
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
-from .message_queue_interfaces import IQueueEntry
 from .messaging_core import (
     UnifiedMessage,
     UnifiedMessagePriority,
-    UnifiedMessageTag,
     UnifiedMessageType,
 )
 from .messaging_pyautogui import (
-    PYAUTOGUI_AVAILABLE,
     deliver_message_pyautogui,
     get_agent_coordinates,
 )
@@ -48,6 +46,7 @@ class MessageQueuePyAutoGUIIntegration:
         Returns:
             Callback function that can be used with the message queue system
         """
+
         def pyautogui_delivery_callback(message_data: Any) -> bool:
             """Deliver message via PyAutoGUI to the target agent."""
             try:
@@ -71,10 +70,14 @@ class MessageQueuePyAutoGUIIntegration:
                 self.delivery_attempts += 1
                 if success:
                     self.successful_deliveries += 1
-                    logger.info(f"Successfully delivered message to {unified_message.recipient} via PyAutoGUI")
+                    logger.info(
+                        f"Successfully delivered message to {unified_message.recipient} via PyAutoGUI"
+                    )
                 else:
                     self.failed_deliveries += 1
-                    logger.error(f"Failed to deliver message to {unified_message.recipient} via PyAutoGUI")
+                    logger.error(
+                        f"Failed to deliver message to {unified_message.recipient} via PyAutoGUI"
+                    )
 
                 return success
 
@@ -97,29 +100,33 @@ class MessageQueuePyAutoGUIIntegration:
         """
         try:
             # Handle different input formats
-            if hasattr(message_data, 'message'):
+            if hasattr(message_data, "message"):
                 # QueueEntry format
-                content = getattr(message_data.message, 'content', str(message_data.message))
-                recipient = getattr(message_data.message, 'recipient', getattr(message_data, 'recipient', 'unknown'))
-                sender = getattr(message_data.message, 'sender', getattr(message_data, 'sender', 'system'))
-                message_type = getattr(message_data.message, 'message_type', 'text')
-                priority = getattr(message_data.message, 'priority', 'regular')
+                content = getattr(message_data.message, "content", str(message_data.message))
+                recipient = getattr(
+                    message_data.message, "recipient", getattr(message_data, "recipient", "unknown")
+                )
+                sender = getattr(
+                    message_data.message, "sender", getattr(message_data, "sender", "system")
+                )
+                message_type = getattr(message_data.message, "message_type", "text")
+                priority = getattr(message_data.message, "priority", "regular")
 
             elif isinstance(message_data, dict):
                 # Dictionary format
-                content = message_data.get('content', message_data.get('message', ''))
-                recipient = message_data.get('recipient', message_data.get('agent', 'unknown'))
-                sender = message_data.get('sender', 'system')
-                message_type = message_data.get('message_type', 'text')
-                priority = message_data.get('priority', 'regular')
+                content = message_data.get("content", message_data.get("message", ""))
+                recipient = message_data.get("recipient", message_data.get("agent", "unknown"))
+                sender = message_data.get("sender", "system")
+                message_type = message_data.get("message_type", "text")
+                priority = message_data.get("priority", "regular")
 
             else:
                 # Raw message format
                 content = str(message_data)
-                recipient = getattr(message_data, 'recipient', 'unknown')
-                sender = getattr(message_data, 'sender', 'system')
-                message_type = getattr(message_data, 'message_type', 'text')
-                priority = getattr(message_data, 'priority', 'regular')
+                recipient = getattr(message_data, "recipient", "unknown")
+                sender = getattr(message_data, "sender", "system")
+                message_type = getattr(message_data, "message_type", "text")
+                priority = getattr(message_data, "priority", "regular")
 
             # Convert string values to enums
             message_type_enum = self._parse_message_type(message_type)
@@ -133,7 +140,7 @@ class MessageQueuePyAutoGUIIntegration:
                 message_type=message_type_enum,
                 priority=priority_enum,
                 tags=[],  # Can be extended to parse tags from message_data
-                metadata={'source': 'message_queue', 'delivery_method': 'pyautogui'}
+                metadata={"source": "message_queue", "delivery_method": "pyautogui"},
             )
 
         except Exception as e:
@@ -143,33 +150,37 @@ class MessageQueuePyAutoGUIIntegration:
     def _parse_message_type(self, message_type: str) -> UnifiedMessageType:
         """Parse message type string to UnifiedMessageType enum."""
         type_mapping = {
-            'text': UnifiedMessageType.TEXT,
-            'broadcast': UnifiedMessageType.BROADCAST,
-            'onboarding': UnifiedMessageType.ONBOARDING,
-            'agent_to_agent': UnifiedMessageType.AGENT_TO_AGENT,
-            'captain_to_agent': UnifiedMessageType.CAPTAIN_TO_AGENT,
-            'system_to_agent': UnifiedMessageType.SYSTEM_TO_AGENT,
-            'human_to_agent': UnifiedMessageType.HUMAN_TO_AGENT,
+            "text": UnifiedMessageType.TEXT,
+            "broadcast": UnifiedMessageType.BROADCAST,
+            "onboarding": UnifiedMessageType.ONBOARDING,
+            "agent_to_agent": UnifiedMessageType.AGENT_TO_AGENT,
+            "captain_to_agent": UnifiedMessageType.CAPTAIN_TO_AGENT,
+            "system_to_agent": UnifiedMessageType.SYSTEM_TO_AGENT,
+            "human_to_agent": UnifiedMessageType.HUMAN_TO_AGENT,
         }
         return type_mapping.get(message_type.lower(), UnifiedMessageType.TEXT)
 
     def _parse_priority(self, priority: str) -> UnifiedMessagePriority:
         """Parse priority string to UnifiedMessagePriority enum."""
         priority_mapping = {
-            'regular': UnifiedMessagePriority.REGULAR,
-            'urgent': UnifiedMessagePriority.URGENT,
-            'high': UnifiedMessagePriority.URGENT,  # Map high to urgent
-            'low': UnifiedMessagePriority.REGULAR,  # Map low to regular
+            "regular": UnifiedMessagePriority.REGULAR,
+            "urgent": UnifiedMessagePriority.URGENT,
+            "high": UnifiedMessagePriority.URGENT,  # Map high to urgent
+            "low": UnifiedMessagePriority.REGULAR,  # Map low to regular
         }
         return priority_mapping.get(priority.lower(), UnifiedMessagePriority.REGULAR)
 
     def get_delivery_statistics(self) -> dict[str, int]:
         """Get delivery statistics for monitoring."""
         return {
-            'total_attempts': self.delivery_attempts,
-            'successful_deliveries': self.successful_deliveries,
-            'failed_deliveries': self.failed_deliveries,
-            'success_rate': (self.successful_deliveries / self.delivery_attempts * 100) if self.delivery_attempts > 0 else 0.0
+            "total_attempts": self.delivery_attempts,
+            "successful_deliveries": self.successful_deliveries,
+            "failed_deliveries": self.failed_deliveries,
+            "success_rate": (
+                (self.successful_deliveries / self.delivery_attempts * 100)
+                if self.delivery_attempts > 0
+                else 0.0
+            ),
         }
 
     def reset_statistics(self) -> None:
@@ -182,12 +193,14 @@ class MessageQueuePyAutoGUIIntegration:
 # Global integration instance
 _message_queue_integration = None
 
+
 def get_message_queue_pyautogui_integration() -> MessageQueuePyAutoGUIIntegration:
     """Get global message queue PyAutoGUI integration instance."""
     global _message_queue_integration
     if _message_queue_integration is None:
         _message_queue_integration = MessageQueuePyAutoGUIIntegration()
     return _message_queue_integration
+
 
 def create_queue_pyautogui_delivery_callback() -> Callable[[Any], bool]:
     """Create a PyAutoGUI delivery callback for the message queue system.
@@ -198,10 +211,12 @@ def create_queue_pyautogui_delivery_callback() -> Callable[[Any], bool]:
     integration = get_message_queue_pyautogui_integration()
     return integration.create_pyautogui_delivery_callback()
 
+
 def get_queue_delivery_statistics() -> dict[str, int]:
     """Get current delivery statistics."""
     integration = get_message_queue_pyautogui_integration()
     return integration.get_delivery_statistics()
+
 
 def reset_queue_delivery_statistics() -> None:
     """Reset delivery statistics."""
@@ -215,7 +230,7 @@ def enqueue_message_with_pyautogui_delivery(
     message: Any,
     recipient: str,
     message_type: str = "text",
-    priority: str = "regular"
+    priority: str = "regular",
 ) -> str | None:
     """Enqueue a message with PyAutoGUI delivery.
 
@@ -235,12 +250,12 @@ def enqueue_message_with_pyautogui_delivery(
 
         # Format message for queue
         queue_message = {
-            'content': str(message),
-            'recipient': recipient,
-            'sender': 'system',
-            'message_type': message_type,
-            'priority': priority,
-            'timestamp': 'auto'  # Will be set by queue
+            "content": str(message),
+            "recipient": recipient,
+            "sender": "system",
+            "message_type": message_type,
+            "priority": priority,
+            "timestamp": "auto",  # Will be set by queue
         }
 
         # Enqueue with PyAutoGUI delivery

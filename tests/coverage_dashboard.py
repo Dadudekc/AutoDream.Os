@@ -8,11 +8,10 @@ Generates detailed reports, tracks progress, and provides actionable insights.
 """
 
 import json
-import os
 import subprocess
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from pathlib import Path
+from typing import Any
 
 
 class CoverageDashboard:
@@ -24,7 +23,7 @@ class CoverageDashboard:
         self.reports_dir = Path("coverage_reports")
         self.reports_dir.mkdir(exist_ok=True)
 
-    def generate_coverage_report(self) -> Dict[str, Any]:
+    def generate_coverage_report(self) -> dict[str, Any]:
         """Generate comprehensive coverage report."""
         try:
             # Run pytest with coverage
@@ -76,18 +75,18 @@ class CoverageDashboard:
                 "target_coverage": 85
             }
 
-    def _parse_coverage_data(self) -> Dict[str, Any]:
+    def _parse_coverage_data(self) -> dict[str, Any]:
         """Parse coverage JSON data."""
         try:
             coverage_file = Path("coverage_latest.json")
             if coverage_file.exists():
-                with open(coverage_file, 'r') as f:
+                with open(coverage_file) as f:
                     return json.load(f)
         except Exception:
             pass
         return {}
 
-    def _save_report(self, report: Dict[str, Any]):
+    def _save_report(self, report: dict[str, Any]):
         """Save coverage report to file."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = self.reports_dir / f"coverage_report_{timestamp}.json"

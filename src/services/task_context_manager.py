@@ -13,7 +13,7 @@ from typing import Any
 
 from .agent_vector_utils import format_search_result, generate_recommendations
 from .vector_database import get_vector_database_service, search_vector_database
-from .vector_database.vector_database_models import SearchQuery, DocumentType
+from .vector_database.vector_database_models import SearchQuery
 
 
 class TaskContextManager:
@@ -23,7 +23,7 @@ class TaskContextManager:
         """Initialize task context manager."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize vector integration
         try:
             self.vector_db = get_vector_database_service()
@@ -45,7 +45,7 @@ class TaskContextManager:
         try:
             if self.vector_integration["status"] != "connected":
                 return self._get_fallback_context(task_description)
-            
+
             # Search for similar tasks and solutions
             similar_tasks = self._search_similar_tasks(task_description)
             related_messages = self._search_related_messages(task_description)
@@ -68,7 +68,7 @@ class TaskContextManager:
                 "error": str(e),
                 "context_loaded": False,
             }
-    
+
     def _search_similar_tasks(self, task_description: str) -> list[Any]:
         """Search for similar tasks in agent work."""
         try:
@@ -81,7 +81,7 @@ class TaskContextManager:
         except Exception as e:
             self.logger.error(f"Error searching similar tasks: {e}")
             return []
-    
+
     def _search_related_messages(self, task_description: str) -> list[Any]:
         """Search for related messages in agent inbox."""
         try:
@@ -94,7 +94,7 @@ class TaskContextManager:
         except Exception as e:
             self.logger.error(f"Error searching related messages: {e}")
             return []
-    
+
     def _search_devlog_insights(self, task_description: str) -> list[Any]:
         """Search for devlog insights related to the task."""
         try:
@@ -107,7 +107,7 @@ class TaskContextManager:
         except Exception as e:
             self.logger.error(f"Error searching devlog insights: {e}")
             return []
-    
+
     def _get_fallback_context(self, task_description: str) -> dict[str, Any]:
         """Get fallback context when vector DB is unavailable."""
         return {

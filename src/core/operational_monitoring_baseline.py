@@ -9,16 +9,15 @@ including SLA impact analysis, monitoring capacity planning, and alert threshold
 from __future__ import annotations
 
 import json
-import os
 import platform
-import psutil
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
-
 from pathlib import Path
+from typing import Any
+
+import psutil
 
 
 class MonitoringPriority(Enum):
@@ -42,15 +41,15 @@ class SLATier(Enum):
 class OperationalMetric:
     """Represents a single operational metric."""
     name: str
-    value: Union[int, float, str, bool]
+    value: int | float | str | bool
     unit: str
     timestamp: datetime
     priority: MonitoringPriority
     sla_impact: bool = False
-    baseline_value: Optional[Union[int, float]] = None
-    threshold_warning: Optional[Union[int, float]] = None
-    threshold_critical: Optional[Union[int, float]] = None
-    trend_direction: Optional[str] = None  # "up", "down", "stable"
+    baseline_value: int | float | None = None
+    threshold_warning: int | float | None = None
+    threshold_critical: int | float | None = None
+    trend_direction: str | None = None  # "up", "down", "stable"
 
 
 @dataclass
@@ -58,11 +57,11 @@ class SystemHealthStatus:
     """Comprehensive system health status."""
     timestamp: datetime
     overall_status: str = "unknown"
-    components: Dict[str, Dict[str, Any]] = field(default_factory=dict)
-    alerts: List[Dict[str, Any]] = field(default_factory=list)
-    metrics: List[OperationalMetric] = field(default_factory=list)
-    sla_compliance: Dict[str, bool] = field(default_factory=dict)
-    consolidation_impact: Dict[str, Any] = field(default_factory=dict)
+    components: dict[str, dict[str, Any]] = field(default_factory=dict)
+    alerts: list[dict[str, Any]] = field(default_factory=list)
+    metrics: list[OperationalMetric] = field(default_factory=list)
+    sla_compliance: dict[str, bool] = field(default_factory=dict)
+    consolidation_impact: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -72,9 +71,9 @@ class SLAAnalysis:
     current_uptime_percentage: float
     required_uptime_percentage: float
     compliance_status: bool
-    risk_assessment: Dict[str, Any]
-    consolidation_impact: Dict[str, Any]
-    mitigation_strategies: List[str]
+    risk_assessment: dict[str, Any]
+    consolidation_impact: dict[str, Any]
+    mitigation_strategies: list[str]
 
 
 class OperationalMonitoringBaseline:
@@ -90,17 +89,17 @@ class OperationalMonitoringBaseline:
         self.baseline_directory.mkdir(exist_ok=True)
 
         # Baseline data storage
-        self.baseline_data: Dict[str, Any] = {}
-        self.sla_analysis: Dict[str, SLAAnalysis] = {}
-        self.monitoring_capacity: Dict[str, Any] = {}
-        self.alert_thresholds: Dict[str, Dict[str, Union[int, float]]] = {}
+        self.baseline_data: dict[str, Any] = {}
+        self.sla_analysis: dict[str, SLAAnalysis] = {}
+        self.monitoring_capacity: dict[str, Any] = {}
+        self.alert_thresholds: dict[str, dict[str, int | float]] = {}
 
         # Historical data for trend analysis
-        self.metric_history: Dict[str, List[OperationalMetric]] = {}
-        self.health_history: List[SystemHealthStatus] = []
+        self.metric_history: dict[str, list[OperationalMetric]] = {}
+        self.health_history: list[SystemHealthStatus] = []
 
         # Consolidation impact tracking
-        self.consolidation_impacts: Dict[str, Dict[str, Any]] = {}
+        self.consolidation_impacts: dict[str, dict[str, Any]] = {}
 
         # Initialize baseline
         self._initialize_baseline()
@@ -118,7 +117,7 @@ class OperationalMonitoringBaseline:
         baseline_file = self.baseline_directory / "operational_baseline.json"
         if baseline_file.exists():
             try:
-                with open(baseline_file, 'r') as f:
+                with open(baseline_file) as f:
                     self.baseline_data = json.load(f)
                 print("✅ Loaded existing operational baseline")
             except Exception as e:
@@ -187,7 +186,7 @@ class OperationalMonitoringBaseline:
         }
         return uptime_map.get(component, 99.5)
 
-    def _assess_operational_risks(self, component: str, compliance_status: bool) -> Dict[str, Any]:
+    def _assess_operational_risks(self, component: str, compliance_status: bool) -> dict[str, Any]:
         """Assess operational risks for SLA compliance."""
         risks = {
             "sla_breach_risk": "low" if compliance_status else "high",
@@ -205,7 +204,7 @@ class OperationalMonitoringBaseline:
 
         return risks
 
-    def _analyze_consolidation_impact(self, component: str) -> Dict[str, Any]:
+    def _analyze_consolidation_impact(self, component: str) -> dict[str, Any]:
         """Analyze potential consolidation impact on component."""
         impacts = {
             "file_reduction_impact": "low",
@@ -224,7 +223,7 @@ class OperationalMonitoringBaseline:
 
         return impacts
 
-    def _generate_mitigation_strategies(self, component: str, compliance_status: bool) -> List[str]:
+    def _generate_mitigation_strategies(self, component: str, compliance_status: bool) -> list[str]:
         """Generate mitigation strategies for SLA compliance."""
         strategies = [
             "Implement comprehensive monitoring before consolidation",
@@ -327,7 +326,7 @@ class OperationalMonitoringBaseline:
             },
         }
 
-    def collect_operational_metrics(self) -> List[OperationalMetric]:
+    def collect_operational_metrics(self) -> list[OperationalMetric]:
         """Collect comprehensive operational metrics."""
         metrics = []
 
@@ -355,7 +354,7 @@ class OperationalMonitoringBaseline:
 
         return metrics
 
-    def _collect_system_metrics(self) -> List[OperationalMetric]:
+    def _collect_system_metrics(self) -> list[OperationalMetric]:
         """Collect system-level operational metrics."""
         metrics = []
 
@@ -407,7 +406,7 @@ class OperationalMonitoringBaseline:
 
         return metrics
 
-    def _collect_application_metrics(self) -> List[OperationalMetric]:
+    def _collect_application_metrics(self) -> list[OperationalMetric]:
         """Collect application-level operational metrics."""
         metrics = []
 
@@ -441,7 +440,7 @@ class OperationalMonitoringBaseline:
 
         return metrics
 
-    def _collect_consolidation_metrics(self) -> List[OperationalMetric]:
+    def _collect_consolidation_metrics(self) -> list[OperationalMetric]:
         """Collect consolidation-specific operational metrics."""
         metrics = []
 
@@ -472,7 +471,7 @@ class OperationalMonitoringBaseline:
 
         return metrics
 
-    def _collect_sla_metrics(self) -> List[OperationalMetric]:
+    def _collect_sla_metrics(self) -> list[OperationalMetric]:
         """Collect SLA compliance metrics."""
         metrics = []
 
@@ -539,7 +538,7 @@ class OperationalMonitoringBaseline:
 
         return health_status
 
-    def _analyze_component_health(self, metrics: List[OperationalMetric]) -> Dict[str, Dict[str, Any]]:
+    def _analyze_component_health(self, metrics: list[OperationalMetric]) -> dict[str, dict[str, Any]]:
         """Analyze health of individual system components."""
         components = {}
 
@@ -574,7 +573,7 @@ class OperationalMonitoringBaseline:
 
         return components
 
-    def _generate_alerts(self, metrics: List[OperationalMetric]) -> List[Dict[str, Any]]:
+    def _generate_alerts(self, metrics: list[OperationalMetric]) -> list[dict[str, Any]]:
         """Generate alerts based on metric thresholds."""
         alerts = []
 
@@ -609,8 +608,8 @@ class OperationalMonitoringBaseline:
 
         return alerts
 
-    def _determine_overall_status(self, components: Dict[str, Dict[str, Any]],
-                                alerts: List[Dict[str, Any]]) -> str:
+    def _determine_overall_status(self, components: dict[str, dict[str, Any]],
+                                alerts: list[dict[str, Any]]) -> str:
         """Determine overall system health status."""
         if any(component["status"] == "critical" for component in components.values()):
             return "critical"
@@ -623,7 +622,7 @@ class OperationalMonitoringBaseline:
         else:
             return "healthy"
 
-    def _assess_current_consolidation_impact(self, metrics: List[OperationalMetric]) -> Dict[str, Any]:
+    def _assess_current_consolidation_impact(self, metrics: list[OperationalMetric]) -> dict[str, Any]:
         """Assess current consolidation impact on system."""
         consolidation_metrics = [m for m in metrics if "consolidation" in m.name.lower()]
 
@@ -647,7 +646,7 @@ class OperationalMonitoringBaseline:
 
         return impact_assessment
 
-    def generate_operational_report(self) -> Dict[str, Any]:
+    def generate_operational_report(self) -> dict[str, Any]:
         """Generate comprehensive operational monitoring report."""
         current_health = self.perform_system_health_check()
 
@@ -688,7 +687,7 @@ class OperationalMonitoringBaseline:
 
         return report
 
-    def _generate_operational_recommendations(self, health: SystemHealthStatus) -> List[str]:
+    def _generate_operational_recommendations(self, health: SystemHealthStatus) -> list[str]:
         """Generate operational recommendations based on current health."""
         recommendations = []
 
@@ -761,7 +760,7 @@ class OperationalMonitoringBaseline:
 
         print(f"✅ Operational baseline snapshot saved: {snapshot_file}")
 
-    def export_operational_dashboard_data(self) -> Dict[str, Any]:
+    def export_operational_dashboard_data(self) -> dict[str, Any]:
         """Export data for operational monitoring dashboards."""
         current_health = self.perform_system_health_check()
 
@@ -802,7 +801,7 @@ class OperationalMonitoringBaseline:
 
         return dashboard_data
 
-    def get_consolidation_safety_status(self) -> Dict[str, Any]:
+    def get_consolidation_safety_status(self) -> dict[str, Any]:
         """Get consolidation safety status based on operational monitoring."""
         current_health = self.perform_system_health_check()
 

@@ -9,7 +9,6 @@ Mission: Autonomous Cleanup - V2 Compliance
 Status: SSOT Consolidation in Progress
 """
 
-from ...utils.config_core import get_config
 from .fsm_models import StateDefinition, TransitionDefinition, TransitionType
 
 # Core FSM definitions

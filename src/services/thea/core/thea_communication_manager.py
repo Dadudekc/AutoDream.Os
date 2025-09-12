@@ -9,13 +9,13 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any
+from pathlib import Path
+from typing import Any
 
-from ..config.thea_config import TheaConfig, get_thea_config
-from ..browser.thea_browser_service import TheaBrowserService
 from ..authentication.thea_authentication_service import TheaAuthenticationService
+from ..browser.thea_browser_service import TheaBrowserService
+from ..config.thea_config import TheaConfig, get_thea_config
 from ..messaging.thea_messaging_service import TheaMessagingService
 from ..responses.thea_response_service import TheaResponseService
 
@@ -23,7 +23,7 @@ from ..responses.thea_response_service import TheaResponseService
 class TheaCommunicationManager:
     """Main orchestrator for Thea communication system."""
 
-    def __init__(self, config: Optional[TheaConfig] = None):
+    def __init__(self, config: TheaConfig | None = None):
         self.config = config or get_thea_config()
 
         # Initialize services
@@ -48,7 +48,7 @@ class TheaCommunicationManager:
         print("✅ SYSTEM INITIALIZATION COMPLETE")
         return True
 
-    def run_communication_cycle(self, message: Optional[str] = None) -> bool:
+    def run_communication_cycle(self, message: str | None = None) -> bool:
         """Run the complete send/receive communication cycle."""
         print("🐝 V2_SWARM THEA COMMUNICATION CYCLE")
         print("=" * 60)
@@ -216,7 +216,7 @@ Thank you!
         finally:
             self.cleanup()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current system status."""
         return {
             "browser_initialized": self.browser_service.driver is not None,

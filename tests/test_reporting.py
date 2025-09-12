@@ -9,13 +9,14 @@ Author: Agent-4 (Quality Assurance Captain)
 License: MIT
 """
 
-import pytest
-import json
 import csv
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, List, Any
+import json
 import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+import pytest
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -29,7 +30,7 @@ class CoverageReporter:
         self.report_dir.mkdir(exist_ok=True)
         self.timestamp = datetime.now()
 
-    def generate_coverage_report(self, coverage_data: Dict[str, Any]) -> str:
+    def generate_coverage_report(self, coverage_data: dict[str, Any]) -> str:
         """Generate comprehensive coverage report."""
         report_path = self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
 
@@ -46,7 +47,7 @@ class CoverageReporter:
 
         return str(report_path)
 
-    def generate_html_report(self, coverage_data: Dict[str, Any]) -> str:
+    def generate_html_report(self, coverage_data: dict[str, Any]) -> str:
         """Generate HTML coverage report."""
         html_path = self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.html"
 
@@ -57,7 +58,7 @@ class CoverageReporter:
 
         return str(html_path)
 
-    def generate_csv_report(self, test_results: List[Dict[str, Any]]) -> str:
+    def generate_csv_report(self, test_results: list[dict[str, Any]]) -> str:
         """Generate CSV test results report."""
         csv_path = self.report_dir / f"test_results_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.csv"
 
@@ -70,7 +71,7 @@ class CoverageReporter:
 
         return str(csv_path)
 
-    def _calculate_summary(self, coverage_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_summary(self, coverage_data: dict[str, Any]) -> dict[str, Any]:
         """Calculate coverage summary statistics."""
         return {
             "total_coverage": coverage_data.get("totals", {}).get("percent_covered", 0),
@@ -80,7 +81,7 @@ class CoverageReporter:
             "target_achieved": coverage_data.get("totals", {}).get("percent_covered", 0) >= 85
         }
 
-    def _calculate_agent_breakdown(self, coverage_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_agent_breakdown(self, coverage_data: dict[str, Any]) -> dict[str, Any]:
         """Calculate coverage breakdown by agent assignment."""
         agent_coverage = {
             "agent1": {"files": [], "coverage": 0},  # Core systems
@@ -128,7 +129,7 @@ class CoverageReporter:
 
         return agent_coverage
 
-    def _generate_recommendations(self, coverage_data: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(self, coverage_data: dict[str, Any]) -> list[str]:
         """Generate coverage improvement recommendations."""
         recommendations = []
         summary = self._calculate_summary(coverage_data)
@@ -157,7 +158,7 @@ class CoverageReporter:
 
         return recommendations
 
-    def _create_html_report(self, coverage_data: Dict[str, Any]) -> str:
+    def _create_html_report(self, coverage_data: dict[str, Any]) -> str:
         """Create HTML report content."""
         summary = self._calculate_summary(coverage_data)
         agent_breakdown = self._calculate_agent_breakdown(coverage_data)
@@ -278,7 +279,7 @@ class ProgressTracker:
         }
         self.test_results.append(result)
 
-    def get_progress_summary(self) -> Dict[str, Any]:
+    def get_progress_summary(self) -> dict[str, Any]:
         """Get current progress summary."""
         total_tests = len(self.test_results)
         passed_tests = len([r for r in self.test_results if r["status"] == "passed"])

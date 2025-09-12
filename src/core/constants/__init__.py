@@ -1,18 +1,12 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import decision
-from . import fsm_constants
-from . import fsm_enums
-from . import fsm_models
-from . import fsm_utilities
-from . import manager
-from . import paths
-
 # Import FSM constants - try direct import first
 import importlib.util
-import sys
 import os
+import sys
+
+from . import decision, fsm_constants, fsm_enums, fsm_models, fsm_utilities, manager, paths
 
 # Load FSM constants module directly
 fsm_constants_path = os.path.join(os.path.dirname(__file__), 'fsm.py')

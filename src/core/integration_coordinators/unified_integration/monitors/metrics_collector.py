@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Metrics Collector
@@ -12,6 +13,7 @@ License: MIT
 """
 from datetime import datetime
 from typing import Any
+
 from ..models import IntegrationMetrics, IntegrationType
 
 

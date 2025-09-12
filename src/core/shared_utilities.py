@@ -13,8 +13,8 @@ from __future__ import annotations
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, TypeVar, Generic
 from datetime import datetime
+from typing import Any, Generic, TypeVar
 
 # Type variables for generic utilities
 T = TypeVar('T')
@@ -119,7 +119,7 @@ class ErrorHandler(BaseUtility):
         self.logger.error(f"Error in {context or 'unknown'}: {error}")
         return True
 
-    def get_error_summary(self) -> Dict[str, Any]:
+    def get_error_summary(self) -> dict[str, Any]:
         """Get error summary."""
         return {
             'error_count': self.error_count,
@@ -153,7 +153,7 @@ class InitializationManager(BaseUtility):
         """Check if initialized."""
         return self.initialized
 
-    def get_init_time(self) -> Optional[datetime]:
+    def get_init_time(self) -> datetime | None:
         """Get initialization time."""
         return self.init_time
 
@@ -217,7 +217,7 @@ class ResultManager(BaseUtility, Generic[T]):
         """Get all results."""
         return self.results.copy()
 
-    def get_last_result(self) -> Optional[T]:
+    def get_last_result(self) -> T | None:
         """Get last result."""
         return self.last_result
 
@@ -292,7 +292,7 @@ class ValidationManager(BaseUtility):
         """Add a validation rule."""
         self.validation_rules[name] = rule
 
-    def validate(self, data: Any) -> Dict[str, Any]:
+    def validate(self, data: Any) -> dict[str, Any]:
         """Validate data against all rules."""
         results = {}
 

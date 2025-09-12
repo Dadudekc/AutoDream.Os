@@ -9,10 +9,10 @@ Author: Agent-4 (Quality Assurance Captain) - Coordinating Agent-2 Tests
 License: MIT
 """
 
-import pytest
-from unittest.mock import Mock, MagicMock
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -58,7 +58,7 @@ class TestSOLIDPrinciples:
     @pytest.mark.agent2
     def test_liskov_substitution_principle(self):
         """Test that subclasses can replace base classes."""
-        from src.infrastructure.unified_browser_service import BrowserAdapter, ChromeBrowserAdapter
+        from src.infrastructure.unified_browser_service import ChromeBrowserAdapter
 
         # ChromeBrowserAdapter should be substitutable for BrowserAdapter
         adapter = ChromeBrowserAdapter()
@@ -252,10 +252,10 @@ class TestArchitecturalIntegrity:
     def test_module_coupling(self):
         """Test that modules have appropriate coupling."""
         # Test that infrastructure doesn't depend on application logic
-        from src.infrastructure.unified_browser_service import UnifiedBrowserService
-
         # Should not import application-specific modules
         import inspect
+
+        from src.infrastructure.unified_browser_service import UnifiedBrowserService
         source = inspect.getsource(UnifiedBrowserService)
 
         # Should not contain application imports
@@ -267,9 +267,9 @@ class TestArchitecturalIntegrity:
     def test_layer_separation(self):
         """Test separation between architectural layers."""
         # Infrastructure should not depend on domain logic
-        from src.infrastructure.unified_browser_service import UnifiedBrowserService
-
         import inspect
+
+        from src.infrastructure.unified_browser_service import UnifiedBrowserService
         source = inspect.getsource(UnifiedBrowserService)
 
         # Should not contain domain-specific logic
@@ -281,9 +281,9 @@ class TestArchitecturalIntegrity:
     def test_dependency_direction(self):
         """Test that dependencies point inward."""
         # Outer layers should depend on inner layers, not vice versa
-        from src.core.enhanced_unified_config import EnhancedUnifiedConfig
-
         import inspect
+
+        from src.core.enhanced_unified_config import EnhancedUnifiedConfig
         source = inspect.getsource(EnhancedUnifiedConfig)
 
         # Core should not depend on infrastructure

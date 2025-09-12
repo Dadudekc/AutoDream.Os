@@ -17,26 +17,25 @@ License: MIT
 """
 
 import asyncio
+import json
+import os
+from pathlib import Path
+from typing import Any
+
 import discord
 from discord.ext import commands
-import re
-from datetime import datetime
-from typing import Dict, List, Any, Optional
-from pathlib import Path
-import os
-import json
 
 try:
     from .agent_communication_engine_core import AgentCommunicationEngine
-    from .discord_commander_models import CommandResult
-    from .security_policies import allow_guild, allow_channel, allow_user
-    from .rate_limits import RateLimiter
-    from .structured_logging import configure_logging
-    from .guards import check_context
     from .command_router import CommandRouter
+    from .discord_commander_models import CommandResult
     from .embeds import EmbedManager
+    from .guards import check_context
     from .handlers_agents import AgentCommandHandlers
     from .handlers_swarm import SwarmCommandHandlers
+    from .rate_limits import RateLimiter
+    from .security_policies import allow_channel, allow_guild, allow_user
+    from .structured_logging import configure_logging
     try:
         from ..integration.messaging_gateway import MessagingGateway
         from .handlers_agent_summary import setup as setup_agent_summary
@@ -49,23 +48,24 @@ except ImportError as e:
     print(f"⚠️ Primary imports failed: {e}")
     try:
         from agent_communication_engine_core import AgentCommunicationEngine
-        from discord_commander_models import CommandResult
-        from security_policies import allow_guild, allow_channel, allow_user
-        from rate_limits import RateLimiter
-        from structured_logging import configure_logging
-        from guards import check_context
         from command_router import CommandRouter
+        from discord_commander_models import CommandResult
         from embeds import EmbedManager
+        from guards import check_context
         from handlers_agents import AgentCommandHandlers
         from handlers_swarm import SwarmCommandHandlers
+        from rate_limits import RateLimiter
+        from security_policies import allow_channel, allow_guild, allow_user
+        from structured_logging import configure_logging
         try:
-            from integration.messaging_gateway import MessagingGateway
             from handlers_agent_summary import setup as setup_agent_summary
+
+            from integration.messaging_gateway import MessagingGateway
         except ImportError as ie:
             print(f"⚠️ Fallback imports failed: {ie}")
             MessagingGateway = None
             setup_agent_summary = None
-    except ImportError as fe:
+    except ImportError:
         # Final fallbacks
         AgentCommunicationEngine = None
         CommandResult = None
@@ -145,7 +145,7 @@ class DiscordAgentBot(commands.Bot):
         config_path = Path("config/discord_bot_config.json")
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     config = json.load(f)
                     self.allowed_channels = config.get('allowed_channels', [])
                     self.admin_users = config.get('admin_users', [])
@@ -154,11 +154,11 @@ class DiscordAgentBot(commands.Bot):
             except Exception as e:
                 print(f"⚠️  Failed to load Discord bot config: {e}")
 
-    def _load_agent_coordinates(self) -> Dict[str, Dict[str, Any]]:
+    def _load_agent_coordinates(self) -> dict[str, dict[str, Any]]:
         """Load agent coordinates configuration."""
         coordinates_path = os.getenv('COORDINATES_PATH', 'config/coordinates.json')
         try:
-            with open(coordinates_path, 'r') as f:
+            with open(coordinates_path) as f:
                 data = json.load(f)
                 return data.get('agents', {})
         except Exception as e:
@@ -291,7 +291,7 @@ class DiscordAgentBot(commands.Bot):
         # Apply rate limiting
         try:
             await self.rate_limiter.acquire(message.author.id)
-        except Exception as e:
+        except Exception:
             # Rate limit exceeded, silently ignore
             return
         finally:
@@ -399,7 +399,7 @@ class DiscordAgentBot(commands.Bot):
                             error_embed = self.embed_manager.create_response_embed(
                                 'error',
                                 title="❌ Agent Communication Error",
-                                description=f"Error communicating with agent.",
+                                description="Error communicating with agent.",
                                 error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
@@ -418,7 +418,7 @@ class DiscordAgentBot(commands.Bot):
                             error_embed = self.embed_manager.create_response_embed(
                                 'error',
                                 title="❌ Swarm Broadcast Error",
-                                description=f"Error broadcasting to swarm.",
+                                description="Error broadcasting to swarm.",
                                 error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
@@ -437,7 +437,7 @@ class DiscordAgentBot(commands.Bot):
                             error_embed = self.embed_manager.create_response_embed(
                                 'error',
                                 title="❌ Urgent Broadcast Error",
-                                description=f"Error sending urgent broadcast.",
+                                description="Error sending urgent broadcast.",
                                 error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
@@ -455,7 +455,7 @@ class DiscordAgentBot(commands.Bot):
             )
             await message.channel.send(embed=error_embed)
 
-    def get_command_stats(self) -> Dict[str, Any]:
+    def get_command_stats(self) -> dict[str, Any]:
         """Get bot command statistics."""
         return {
             'active_agent_commands': self.agent_handlers.get_active_command_count(),
@@ -517,17 +517,17 @@ class DiscordAgentBotManager:
         self.bot = DiscordAgentBot()
         return self.bot
 
-    def save_config(self, config: Dict[str, Any]):
+    def save_config(self, config: dict[str, Any]):
         """Save bot configuration."""
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_path, 'w') as f:
             json.dump(config, f, indent=2)
 
-    def load_config(self) -> Dict[str, Any]:
+    def load_config(self) -> dict[str, Any]:
         """Load bot configuration."""
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     return json.load(f)
             except Exception as e:
                 print(f"⚠️  Failed to load bot config: {e}")

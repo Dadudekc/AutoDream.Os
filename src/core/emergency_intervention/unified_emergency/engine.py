@@ -17,7 +17,6 @@ from datetime import datetime
 from typing import Any
 
 from ...common.base_engine import BaseEngine
-
 from ..models import (
     Emergency,
     EmergencyContext,

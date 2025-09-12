@@ -15,7 +15,7 @@ import logging
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 try:
     import pyautogui as pg
@@ -43,7 +43,7 @@ class Phase2OnboardingMessages:
                 "focus": "PyAutoGUI Service Consolidation, Handler Framework, Vector Database Service"
             },
             "Agent-2": {
-                "role": "Architecture & Design Specialist", 
+                "role": "Architecture & Design Specialist",
                 "chunk": "Chunk 001 (Core)",
                 "target": "50 → 15 files (70% reduction)",
                 "focus": "Messaging System Consolidation, Analytics Engine, Configuration System"
@@ -206,16 +206,16 @@ Captain Agent-4 (QA & Coordination)
 ⚡ **WE. ARE. SWARM. ⚡️🔥**
 """
 
-    def send_phase2_messages_to_all_agents(self) -> Dict[str, Any]:
+    def send_phase2_messages_to_all_agents(self) -> dict[str, Any]:
         """Send Phase 2 onboarding messages to all 8 agents."""
         logger.info("🚀 Sending Phase 2 consolidation onboarding messages to all agents")
-        
+
         results = []
         for agent_id in self.agent_assignments.keys():
             try:
                 message = self.generate_phase2_message(agent_id)
                 success = self._send_message_to_agent(agent_id, message)
-                
+
                 results.append({
                     "agent_id": agent_id,
                     "success": success,
@@ -223,12 +223,12 @@ Captain Agent-4 (QA & Coordination)
                     "target": self.agent_assignments[agent_id]["target"],
                     "timestamp": datetime.now().isoformat()
                 })
-                
+
                 if success:
                     logger.info(f"✅ Phase 2 message sent to {agent_id}")
                 else:
                     logger.error(f"❌ Failed to send Phase 2 message to {agent_id}")
-                    
+
             except Exception as e:
                 logger.error(f"❌ Error sending message to {agent_id}: {e}")
                 results.append({
@@ -237,12 +237,12 @@ Captain Agent-4 (QA & Coordination)
                     "error": str(e),
                     "timestamp": datetime.now().isoformat()
                 })
-        
+
         successful = sum(1 for r in results if r.get("success", False))
         total = len(results)
-        
+
         logger.info(f"📊 Phase 2 onboarding complete: {successful}/{total} agents notified")
-        
+
         return {
             "success": successful > 0,
             "total_agents": total,
@@ -257,51 +257,51 @@ Captain Agent-4 (QA & Coordination)
         if not pg:
             logger.warning("PyAutoGUI not available - simulating message delivery")
             return True
-            
+
         try:
             # Load coordinates
             coord_file = Path("cursor_agent_coords.json")
             if not coord_file.exists():
                 logger.error("Coordinate file not found")
                 return False
-                
+
             coords_data = json.loads(coord_file.read_text(encoding="utf-8"))
             agent_coords = coords_data.get("agents", {}).get(agent_id, {})
             onboarding_coords = agent_coords.get("onboarding_input_coords", [0, 0])
-            
+
             if onboarding_coords == [0, 0]:
                 logger.warning(f"No onboarding coordinates found for {agent_id}")
                 return False
-            
+
             # Focus agent window
             self._focus_agent_window(agent_id)
             time.sleep(0.2)
-            
+
             # Open new tab with Ctrl+N for onboarding
             pg.hotkey("ctrl", "n")
             time.sleep(0.3)
-            
+
             # Click on onboarding input coordinates
             pg.click(onboarding_coords[0], onboarding_coords[1])
             time.sleep(0.1)
-            
+
             # Clear existing content
             pg.hotkey("ctrl", "a")
             pg.typewrite(["backspace"])
             time.sleep(0.1)
-            
+
             # Use clipboard for better message delivery
             import pyperclip
             pyperclip.copy(message)
             pg.hotkey("ctrl", "v")
             time.sleep(0.2)
-            
+
             # Send the message
             pg.press("enter")
             time.sleep(0.1)
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to send onboarding message to {agent_id}: {e}")
             return False
@@ -327,7 +327,7 @@ Captain Agent-4 (QA & Coordination)
 **Consolidation Targets by Agent:**
 
 """
-        
+
         for agent_id, assignment in self.agent_assignments.items():
             summary += f"""
 **{agent_id}** - {assignment['role']}
@@ -335,8 +335,8 @@ Captain Agent-4 (QA & Coordination)
 - Target: {assignment['target']}
 - Focus: {assignment['focus']}
 """
-        
-        summary += f"""
+
+        summary += """
 
 **Overall Consolidation Goals:**
 - Total Files: 1,421 → ~400-500 files (65-70% reduction)
@@ -353,18 +353,18 @@ Captain Agent-4 (QA & Coordination)
 
 🐝 **WE ARE SWARM - CONSOLIDATION EXECUTION READY!**
 """
-        
+
         return summary
 
 
 def main():
     """Main function for Phase 2 onboarding message delivery."""
     onboarding = Phase2OnboardingMessages()
-    
+
     # Generate and send messages to all agents
     result = onboarding.send_phase2_messages_to_all_agents()
     print(f"Phase 2 onboarding result: {result}")
-    
+
     # Generate consolidation summary
     summary = onboarding.generate_consolidation_summary()
     print(summary)

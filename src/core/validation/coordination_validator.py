@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Coordination & Communication Validation Engine - Agent Cellphone V2
@@ -14,6 +15,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any
+
 import yaml
 
 
@@ -214,7 +216,7 @@ class CoordinationValidator:
             all_issues), 'errors': len(errors), 'warnings': len(warnings),
             'info': len(info), 'issues': all_issues, 'validation_summary':
             {'passed': overall_result == ValidationResult.PASS,
-            'has_errors': len(errors) > 0, 'has_warnings': len(warnings) > 
+            'has_errors': len(errors) > 0, 'has_warnings': len(warnings) >
             0, 'compliance_score': self._calculate_compliance_score(
             all_issues)}}
 
@@ -236,7 +238,7 @@ class CoordinationValidator:
     def get_validation_report(self, target_system: str=None) ->dict[str, Any]:
         """Generate comprehensive validation report."""
         if target_system:
-            system_issues = [issue for issue in self.validation_history if 
+            system_issues = [issue for issue in self.validation_history if
                 issue.component == target_system]
         else:
             system_issues = self.validation_history
@@ -247,5 +249,5 @@ class CoordinationValidator:
             'compliance_metrics': {'overall_compliance': self.
             _calculate_compliance_score(self.validation_history),
             'system_compliance': self._calculate_compliance_score(
-            system_issues) if system_issues else 100.0}, 'recent_issues': 
+            system_issues) if system_issues else 100.0}, 'recent_issues':
             system_issues[-10:] if system_issues else []}

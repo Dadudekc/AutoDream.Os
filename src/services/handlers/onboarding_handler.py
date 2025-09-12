@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Onboarding Handler - V2 Compliant Module
@@ -15,6 +16,7 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 from datetime import datetime
+
 from ...automation.ui_onboarding import UIOnboarder, UIUnavailableError
 from ...core.workspace_agent_registry import AgentRegistry
 from ...quality.proof_ledger import run_tdd_proof

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Configuration Consolidator - V2 Compliance Module
@@ -17,17 +18,17 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 from pathlib import Path
-from typing import Dict, List, Optional
-from .config_core import config_manager
+
 from .config_scanners import (
+    ConfigConstantScanner,
     ConfigurationScanner,
     EnvironmentVariableScanner,
     HardcodedValueScanner,
-    ConfigConstantScanner,
-    SettingsPatternScanner
+    SettingsPatternScanner,
 )
 from .file_scanner import FileScanner
 from .pattern_analyzer import PatternAnalyzer
+
 
 @dataclass
 class ConfigPattern:
@@ -50,8 +51,8 @@ class ConfigurationConsolidator:
     def __init__(
         self,
         config_manager=None,
-        file_scanner: Optional[FileScanner] = None,
-        pattern_analyzer: Optional[PatternAnalyzer] = None
+        file_scanner: FileScanner | None = None,
+        pattern_analyzer: PatternAnalyzer | None = None
     ):
         """Initialize consolidator with dependency injection."""
         self.config_manager = config_manager
@@ -60,7 +61,7 @@ class ConfigurationConsolidator:
         self.consolidated_count = 0
         self.migrated_files: set[Path] = set()
 
-    def _create_default_scanners(self) -> List[ConfigurationScanner]:
+    def _create_default_scanners(self) -> list[ConfigurationScanner]:
         """Create default set of configuration scanners."""
         return [
             EnvironmentVariableScanner(),
@@ -69,7 +70,7 @@ class ConfigurationConsolidator:
             SettingsPatternScanner()
         ]
 
-    def scan_configuration_patterns(self, root_dir: Path) -> Dict[str, List[ConfigPattern]]:
+    def scan_configuration_patterns(self, root_dir: Path) -> dict[str, list[ConfigPattern]]:
         """Scan for configuration patterns in the codebase."""
         logger.info('🔍 Scanning for configuration patterns...')
 
@@ -92,7 +93,7 @@ class ConfigurationConsolidator:
 
         return patterns_by_type
 
-    def consolidate_patterns(self) -> Dict[str, Any]:
+    def consolidate_patterns(self) -> dict[str, Any]:
         """Consolidate found patterns into actionable insights."""
         statistics = self.pattern_analyzer.get_statistics()
         unique_keys = self.pattern_analyzer.get_unique_keys()

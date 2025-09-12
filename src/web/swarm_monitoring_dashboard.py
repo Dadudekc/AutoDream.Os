@@ -18,11 +18,12 @@ Assignment: Web Monitoring Interface (90 min)
 import asyncio
 import json
 import logging
-import time
 import threading
-from datetime import datetime, timedelta
+import time
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Union
+from typing import Any
+
 try:
     import psutil
     PSUTIL_AVAILABLE = True
@@ -30,7 +31,7 @@ except ImportError:
     psutil = None
     PSUTIL_AVAILABLE = False
 
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -54,12 +55,12 @@ class AgentStatus(BaseModel):
     status: str
     current_phase: str
     last_updated: datetime
-    current_mission: Optional[str] = None
-    mission_priority: Optional[str] = None
-    progress_percentage: Optional[float] = None
-    active_tasks: List[str] = []
-    completed_tasks: List[str] = []
-    coordination_status: Dict[str, Any] = {}
+    current_mission: str | None = None
+    mission_priority: str | None = None
+    progress_percentage: float | None = None
+    active_tasks: list[str] = []
+    completed_tasks: list[str] = []
+    coordination_status: dict[str, Any] = {}
 
 
 class Alert(BaseModel):
@@ -106,12 +107,12 @@ class SwarmMonitoringDashboard:
         self.app.mount("/static", StaticFiles(directory=str(self.static_dir)), name="static")
 
         # Data storage
-        self.connected_clients: List[WebSocket] = []
-        self.agent_status_cache: Dict[str, AgentStatus] = {}
-        self.alerts: List[Alert] = []
-        self.system_metrics: Dict[str, Any] = {}
+        self.connected_clients: list[WebSocket] = []
+        self.agent_status_cache: dict[str, AgentStatus] = {}
+        self.alerts: list[Alert] = []
+        self.system_metrics: dict[str, Any] = {}
         self.is_running = False
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: threading.Thread | None = None
 
         # Setup routes
         self._setup_routes()
@@ -217,7 +218,7 @@ class SwarmMonitoringDashboard:
                 logger.error(f"Error resolving alert: {e}")
                 raise HTTPException(status_code=500, detail=str(e))
 
-    async def _get_all_agents_status(self) -> List[AgentStatus]:
+    async def _get_all_agents_status(self) -> list[AgentStatus]:
         """Get status of all agents from their status.json files"""
         agents_status = []
 
@@ -227,7 +228,7 @@ class SwarmMonitoringDashboard:
 
             try:
                 if status_file.exists():
-                    with open(status_file, 'r', encoding='utf-8') as f:
+                    with open(status_file, encoding='utf-8') as f:
                         data = json.load(f)
 
                     # Convert timestamp strings to datetime
@@ -274,7 +275,7 @@ class SwarmMonitoringDashboard:
 
         return agents_status
 
-    async def _get_system_metrics(self) -> Dict[str, Any]:
+    async def _get_system_metrics(self) -> dict[str, Any]:
         """Get system performance metrics"""
         try:
             if not PSUTIL_AVAILABLE:
@@ -325,7 +326,7 @@ class SwarmMonitoringDashboard:
                 "timestamp": datetime.now().isoformat()
             }
 
-    async def _calculate_consolidation_progress(self) -> Dict[str, Any]:
+    async def _calculate_consolidation_progress(self) -> dict[str, Any]:
         """Calculate overall consolidation progress"""
         try:
             agents_status = await self._get_all_agents_status()
@@ -362,7 +363,7 @@ class SwarmMonitoringDashboard:
             logger.error(f"Error calculating consolidation progress: {e}")
             return {"error": str(e)}
 
-    async def _get_dashboard_data(self) -> Dict[str, Any]:
+    async def _get_dashboard_data(self) -> dict[str, Any]:
         """Get comprehensive dashboard data for WebSocket updates"""
         try:
             agents_status = await self._get_all_agents_status()

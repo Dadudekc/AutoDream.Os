@@ -1,9 +1,9 @@
 """
 Technical Analysis Indicators
 """
+
 import numpy as np
 import pandas as pd
-from typing import List, Tuple, Optional
 
 
 class TechnicalIndicators:
@@ -30,7 +30,7 @@ class TechnicalIndicators:
 
     @staticmethod
     def macd(data: pd.Series, fast_period: int = 12, slow_period: int = 26,
-             signal_period: int = 9) -> Tuple[pd.Series, pd.Series, pd.Series]:
+             signal_period: int = 9) -> tuple[pd.Series, pd.Series, pd.Series]:
         """MACD (Moving Average Convergence Divergence)"""
         fast_ema = TechnicalIndicators.ema(data, fast_period)
         slow_ema = TechnicalIndicators.ema(data, slow_period)
@@ -40,7 +40,7 @@ class TechnicalIndicators:
         return macd_line, signal_line, histogram
 
     @staticmethod
-    def bollinger_bands(data: pd.Series, period: int = 20, std_dev: float = 2.0) -> Tuple[pd.Series, pd.Series, pd.Series]:
+    def bollinger_bands(data: pd.Series, period: int = 20, std_dev: float = 2.0) -> tuple[pd.Series, pd.Series, pd.Series]:
         """Bollinger Bands"""
         sma = TechnicalIndicators.sma(data, period)
         std = data.rolling(window=period).std()
@@ -50,7 +50,7 @@ class TechnicalIndicators:
 
     @staticmethod
     def stochastic_oscillator(high: pd.Series, low: pd.Series, close: pd.Series,
-                            k_period: int = 14, d_period: int = 3) -> Tuple[pd.Series, pd.Series]:
+                            k_period: int = 14, d_period: int = 3) -> tuple[pd.Series, pd.Series]:
         """Stochastic Oscillator"""
         lowest_low = low.rolling(window=k_period).min()
         highest_high = high.rolling(window=k_period).max()

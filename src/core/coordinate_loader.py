@@ -5,16 +5,16 @@ Mock Coordinate Loader for Testing
 Provides mock coordinate loading functionality for smoke testing.
 """
 
-from typing import Dict, Tuple, List, Optional, Any
 import json
 from pathlib import Path
+from typing import Any
 
 
-def _load_coordinates() -> Dict[str, Dict[str, Any]]:
+def _load_coordinates() -> dict[str, dict[str, Any]]:
     """Load agent coordinates from the cursor_agent_coords.json SSOT."""
     coord_file = Path("cursor_agent_coords.json")
     data = json.loads(coord_file.read_text(encoding="utf-8"))
-    agents: Dict[str, Dict[str, Any]] = {}
+    agents: dict[str, dict[str, Any]] = {}
     for agent_id, info in data.get("agents", {}).items():
         chat = info.get("chat_input_coordinates", [0, 0])
         agents[agent_id] = {
@@ -26,7 +26,7 @@ def _load_coordinates() -> Dict[str, Dict[str, Any]]:
     return agents
 
 
-COORDINATES: Dict[str, Dict[str, Any]] = _load_coordinates()
+COORDINATES: dict[str, dict[str, Any]] = _load_coordinates()
 
 
 class CoordinateLoader:
@@ -36,7 +36,7 @@ class CoordinateLoader:
         """Initialize coordinate loader."""
         self.coordinates = COORDINATES.copy()
 
-    def get_all_agents(self) -> List[str]:
+    def get_all_agents(self) -> list[str]:
         """Get all agent IDs."""
         return list(self.coordinates.keys())
 
@@ -44,13 +44,13 @@ class CoordinateLoader:
         """Check if agent is active."""
         return agent_id in self.coordinates
 
-    def get_chat_coordinates(self, agent_id: str) -> Tuple[int, int]:
+    def get_chat_coordinates(self, agent_id: str) -> tuple[int, int]:
         """Get chat coordinates for agent."""
         if agent_id in self.coordinates:
             return self.coordinates[agent_id]["coords"]
         raise ValueError(f"No coordinates found for agent {agent_id}")
 
-    def get_onboarding_coordinates(self, agent_id: str) -> Tuple[int, int]:
+    def get_onboarding_coordinates(self, agent_id: str) -> tuple[int, int]:
         """Get onboarding coordinates for agent."""
         # For now, use the same coordinates as chat coordinates
         # In a real implementation, this would be different onboarding-specific coordinates
@@ -62,7 +62,7 @@ class CoordinateLoader:
             return self.coordinates[agent_id].get("description", "")
         return ""
 
-    def get_agent_info(self, agent_id: str) -> Optional[Dict]:
+    def get_agent_info(self, agent_id: str) -> dict | None:
         """Get agent information."""
         return self.coordinates.get(agent_id)
 

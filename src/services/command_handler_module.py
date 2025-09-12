@@ -9,8 +9,9 @@ Command execution and processing utilities
 """
 
 import logging
-from typing import Dict, List, Any
 from datetime import datetime
+from typing import Any
+
 
 class CommandHandler:
     """Handles command execution and processing"""
@@ -18,7 +19,7 @@ class CommandHandler:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def process_command(self, request) -> Dict[str, Any]:
+    def process_command(self, request) -> dict[str, Any]:
         """Process a command request"""
         command = request.data.get('command', '')
         args = request.data.get('args', [])
@@ -36,7 +37,7 @@ class CommandHandler:
         else:
             return self._handle_generic_command(command, args, kwargs)
 
-    def _handle_agent_command(self, command: str, args: List, kwargs: Dict) -> Dict[str, Any]:
+    def _handle_agent_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle agent-specific commands"""
         cmd_parts = command.split('_', 2)
         if len(cmd_parts) < 3:
@@ -54,7 +55,7 @@ class CommandHandler:
         else:
             return {"error": f"Unknown agent action: {action}"}
 
-    def _handle_task_command(self, command: str, args: List, kwargs: Dict) -> Dict[str, Any]:
+    def _handle_task_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle task-related commands"""
         cmd_parts = command.split('_', 1)
         if len(cmd_parts) < 2:
@@ -71,7 +72,7 @@ class CommandHandler:
         else:
             return {"error": f"Unknown task action: {action}"}
 
-    def _handle_system_command(self, command: str, args: List, kwargs: Dict) -> Dict[str, Any]:
+    def _handle_system_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle system-level commands"""
         cmd_parts = command.split('_', 1)
         if len(cmd_parts) < 2:
@@ -88,7 +89,7 @@ class CommandHandler:
         else:
             return {"error": f"Unknown system action: {action}"}
 
-    def _handle_generic_command(self, command: str, args: List, kwargs: Dict) -> Dict[str, Any]:
+    def _handle_generic_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle generic commands"""
         return {
             "command": command,
@@ -99,29 +100,29 @@ class CommandHandler:
         }
 
     # Supporting methods
-    def get_agent_status(self, agent_id: str) -> Dict[str, Any]:
+    def get_agent_status(self, agent_id: str) -> dict[str, Any]:
         return {"agent_id": agent_id, "status": "active"}
 
-    def assign_task_to_agent(self, agent_id: str, task: str) -> Dict[str, Any]:
+    def assign_task_to_agent(self, agent_id: str, task: str) -> dict[str, Any]:
         return {"agent_id": agent_id, "task": task, "status": "assigned"}
 
-    def coordinate_with_agent(self, agent_id: str, message: str) -> Dict[str, Any]:
+    def coordinate_with_agent(self, agent_id: str, message: str) -> dict[str, Any]:
         return {"agent_id": agent_id, "message": message, "status": "coordinated"}
 
-    def create_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    def create_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         return {"task_id": f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}", **task_data}
 
-    def update_task(self, task_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+    def update_task(self, task_id: str, updates: dict[str, Any]) -> dict[str, Any]:
         return {"task_id": task_id, "updates": updates, "status": "updated"}
 
-    def complete_task(self, task_id: str) -> Dict[str, Any]:
+    def complete_task(self, task_id: str) -> dict[str, Any]:
         return {"task_id": task_id, "status": "completed"}
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         return {"system_health": "operational"}
 
-    def restart_system_component(self, component: str) -> Dict[str, Any]:
+    def restart_system_component(self, component: str) -> dict[str, Any]:
         return {"component": component, "status": "restarting"}
 
-    def check_system_health(self) -> Dict[str, Any]:
+    def check_system_health(self) -> dict[str, Any]:
         return {"overall_health": "good"}

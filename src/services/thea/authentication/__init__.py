@@ -8,6 +8,6 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-from .thea_authentication_service import TheaAuthenticationService, AuthStatus
+from .thea_authentication_service import AuthStatus, TheaAuthenticationService
 
 __all__ = ['TheaAuthenticationService', 'AuthStatus']

@@ -10,10 +10,10 @@ Author: V2 Implementation Team
 License: MIT
 """
 
-from typing import Any, Dict, Optional
+from typing import Any
 
+from .coordinator_interfaces import ICoordinatorRegistry
 from .unified_logging_system import get_logger
-from .coordinator_interfaces import ICoordinatorRegistry, ICoordinator
 
 
 class CoordinatorRegistry(ICoordinatorRegistry):
@@ -22,7 +22,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
     def __init__(self):
         """Initialize coordinator registry."""
         self.logger = get_logger(__name__)
-        self._coordinators: Dict[str, Any] = {}
+        self._coordinators: dict[str, Any] = {}
         self.logger.info("CoordinatorRegistry initialized")
 
     def register_coordinator(self, coordinator: Any) -> bool:
@@ -45,11 +45,11 @@ class CoordinatorRegistry(ICoordinatorRegistry):
             self.logger.error(f"Error registering coordinator: {e}")
             return False
 
-    def get_coordinator(self, name: str) -> Optional[Any]:
+    def get_coordinator(self, name: str) -> Any | None:
         """Get coordinator by name."""
         return self._coordinators.get(name)
 
-    def get_all_coordinators(self) -> Dict[str, Any]:
+    def get_all_coordinators(self) -> dict[str, Any]:
         """Get all registered coordinators."""
         return self._coordinators.copy()
 
@@ -72,7 +72,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
             self.logger.error(f"Error unregistering coordinator '{name}': {e}")
             return False
 
-    def get_coordinator_statuses(self) -> Dict[str, Dict[str, Any]]:
+    def get_coordinator_statuses(self) -> dict[str, dict[str, Any]]:
         """Get status of all coordinators."""
         try:
             statuses = {}
@@ -115,7 +115,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
 
 
 # Global registry instance
-_registry_instance: Optional[CoordinatorRegistry] = None
+_registry_instance: CoordinatorRegistry | None = None
 
 
 def get_coordinator_registry() -> CoordinatorRegistry:

@@ -13,16 +13,16 @@ Author: Agent-4 (Captain - Discord Integration Coordinator)
 License: MIT
 """
 
-import sys
 import asyncio
+import sys
 from pathlib import Path
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 try:
-    from discord_commander.discord_agent_bot import DiscordCommandParser, DiscordAgentBotManager
     from discord_commander.agent_communication_engine_refactored import AgentCommunicationEngine
+    from discord_commander.discord_agent_bot import DiscordAgentBotManager, DiscordCommandParser
 except ImportError:
     print("❌ Failed to import test modules")
     sys.exit(1)

@@ -16,17 +16,15 @@ Mission: Phase 2 Consolidation - Core Debate System Unification
 License: MIT
 """
 
-import os
+import argparse
 import sys
 import time
-import json
 import uuid
-import argparse
 import xml.etree.ElementTree as ET
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, List, Optional, Any, Tuple
 from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Fix imports when running as a script
 if __name__ == "__main__":
@@ -37,11 +35,11 @@ if __name__ == "__main__":
 # Import consolidated messaging system
 try:
     from src.core.messaging_pyautogui import (
-        send_message_with_fallback,
+        PYAUTOGUI_AVAILABLE,
         broadcast_message_to_agents,
         get_agent_coordinates,
         load_coordinates_from_json,
-        PYAUTOGUI_AVAILABLE
+        send_message_with_fallback,
     )
     MESSAGING_AVAILABLE = True
 except ImportError:
@@ -61,8 +59,8 @@ class DebateParticipant:
     agent_id: str
     specialty: str
     contribution_count: int = 0
-    last_contribution: Optional[datetime] = None
-    coordinates: Optional[Tuple[int, int]] = None
+    last_contribution: datetime | None = None
+    coordinates: tuple[int, int] | None = None
 
 
 @dataclass
@@ -84,8 +82,8 @@ class ConsolidatedDebateService:
 
     def __init__(self, debate_file: str = "swarm_debate_consolidation.xml"):
         self.debate_file = Path(debate_file)
-        self.participants: Dict[str, DebateParticipant] = {}
-        self.arguments: List[DebateArgument] = []
+        self.participants: dict[str, DebateParticipant] = {}
+        self.arguments: list[DebateArgument] = []
         self.debate_topic = "Architecture Consolidation Strategy"
 
         # Initialize subsystems
@@ -212,7 +210,7 @@ class ConsolidatedDebateService:
                 coordinates=coords
             )
 
-    def get_debate_status(self) -> Dict[str, Any]:
+    def get_debate_status(self) -> dict[str, Any]:
         """Get comprehensive debate status."""
         return {
             "topic": self.debate_topic,
@@ -227,7 +225,7 @@ class ConsolidatedDebateService:
             }
         }
 
-    def invite_all_agents(self) -> Dict[str, bool]:
+    def invite_all_agents(self) -> dict[str, bool]:
         """Invite all agents to participate in the debate."""
         if not MESSAGING_AVAILABLE:
             print("❌ Messaging system not available for invitations")
@@ -265,7 +263,7 @@ Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
         print(f"✅ Debate invitations sent: {successful}/{len(results)} successful")
         return results
 
-    def notify_pending_agents(self) -> Dict[str, bool]:
+    def notify_pending_agents(self) -> dict[str, bool]:
         """Notify agents who haven't contributed yet."""
         if not MESSAGING_AVAILABLE:
             print("❌ Messaging system not available for notifications")
@@ -307,7 +305,7 @@ Use: python debate_participation_tool.py --agent-id YOUR_AGENT --add-argument
         print(f"✅ Pending agent notifications: {successful}/{len(results)} successful")
         return results
 
-    def get_arguments_summary(self) -> Dict[str, Any]:
+    def get_arguments_summary(self) -> dict[str, Any]:
         """Get summary of arguments by option."""
         option_counts = {}
         option_quality = {}

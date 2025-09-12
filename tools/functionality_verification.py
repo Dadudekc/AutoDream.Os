@@ -12,14 +12,13 @@ Usage:
     python tools/functionality_verification.py --compare
 """
 
-import sys
-import os
-import json
 import hashlib
+import json
 import subprocess
-from pathlib import Path
+import sys
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from pathlib import Path
+from typing import Any
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -34,7 +33,7 @@ class FunctionalityVerifier:
         self.results_dir = self.project_root / "verification_results"
         self.results_dir.mkdir(exist_ok=True)
 
-    def generate_functionality_signature(self) -> Dict[str, Any]:
+    def generate_functionality_signature(self) -> dict[str, Any]:
         """Generate comprehensive functionality signature."""
 
         signature = {
@@ -87,7 +86,7 @@ class FunctionalityVerifier:
 
         return file_path.suffix == ".py"
 
-    def _extract_functions(self, content: str) -> List[str]:
+    def _extract_functions(self, content: str) -> list[str]:
         """Extract function definitions from Python code."""
         import re
         functions = []
@@ -98,7 +97,7 @@ class FunctionalityVerifier:
                 functions.append(match.group(1))
         return functions
 
-    def _extract_classes(self, content: str) -> List[str]:
+    def _extract_classes(self, content: str) -> list[str]:
         """Extract class definitions from Python code."""
         import re
         classes = []
@@ -109,7 +108,7 @@ class FunctionalityVerifier:
                 classes.append(match.group(1))
         return classes
 
-    def _extract_imports(self, content: str) -> List[str]:
+    def _extract_imports(self, content: str) -> list[str]:
         """Extract import statements from Python code."""
         import re
         imports = []
@@ -124,20 +123,20 @@ class FunctionalityVerifier:
                     imports.append(match.group(1))
         return list(set(imports))  # Remove duplicates
 
-    def save_baseline(self, signature: Dict[str, Any]) -> None:
+    def save_baseline(self, signature: dict[str, Any]) -> None:
         """Save functionality baseline."""
         with open(self.baseline_file, 'w', encoding='utf-8') as f:
             json.dump(signature, f, indent=2, ensure_ascii=False)
         print(f"✅ Baseline saved to {self.baseline_file}")
 
-    def load_baseline(self) -> Optional[Dict[str, Any]]:
+    def load_baseline(self) -> dict[str, Any] | None:
         """Load functionality baseline."""
         if self.baseline_file.exists():
-            with open(self.baseline_file, 'r', encoding='utf-8') as f:
+            with open(self.baseline_file, encoding='utf-8') as f:
                 return json.load(f)
         return None
 
-    def compare_with_baseline(self, current_signature: Dict[str, Any]) -> Dict[str, Any]:
+    def compare_with_baseline(self, current_signature: dict[str, Any]) -> dict[str, Any]:
         """Compare current state with baseline."""
         baseline = self.load_baseline()
         if not baseline:
@@ -206,7 +205,7 @@ class FunctionalityVerifier:
 
         return comparison
 
-    def run_agent_specific_verification(self, agent_id: str) -> Dict[str, Any]:
+    def run_agent_specific_verification(self, agent_id: str) -> dict[str, Any]:
         """Run agent-specific functionality verification."""
         results = {
             "agent_id": agent_id,
@@ -266,10 +265,10 @@ class FunctionalityVerifier:
 
         return results
 
-    def _get_agent_tests(self, agent_id: str) -> Dict[str, str]:
+    def _get_agent_tests(self, agent_id: str) -> dict[str, str]:
         """Get agent-specific test commands."""
         base_tests = {
-            "import_test": f"python -c \"import sys; sys.path.insert(0, '.'); from src.services.* import *; print('Imports OK')\"",
+            "import_test": "python -c \"import sys; sys.path.insert(0, '.'); from src.services.* import *; print('Imports OK')\"",
             "basic_functionality": "python -c \"print('Basic Python OK')\""
         }
 
@@ -310,8 +309,8 @@ class FunctionalityVerifier:
 
         return tests
 
-    def generate_verification_report(self, comparison: Dict[str, Any],
-                                   agent_results: List[Dict[str, Any]]) -> str:
+    def generate_verification_report(self, comparison: dict[str, Any],
+                                   agent_results: list[dict[str, Any]]) -> str:
         """Generate comprehensive verification report."""
         report = []
         report.append("# 🔍 CONSOLIDATION VERIFICATION REPORT")
@@ -438,7 +437,7 @@ def main():
         with open(report_file, 'w', encoding='utf-8') as f:
             f.write(report)
 
-        print(f"✅ Comprehensive verification complete")
+        print("✅ Comprehensive verification complete")
         print(f"📄 Report saved to: {report_file}")
 
         # Print summary

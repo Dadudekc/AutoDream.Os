@@ -11,22 +11,23 @@ License: MIT
 
 import json
 import os
-import requests
 from datetime import datetime
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any
+
+import requests
 
 
 class DiscordWebhookIntegration:
     """Discord webhook integration for DevLog notifications."""
 
-    def __init__(self, webhook_url: Optional[str] = None):
+    def __init__(self, webhook_url: str | None = None):
         """Initialize Discord webhook integration."""
         self.webhook_url = webhook_url or self._load_webhook_url()
         self.session = requests.Session()
         self.session.timeout = 10
 
-    def _load_webhook_url(self) -> Optional[str]:
+    def _load_webhook_url(self) -> str | None:
         """Load webhook URL from environment or config."""
         # Try environment variable first
         webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
@@ -36,7 +37,7 @@ class DiscordWebhookIntegration:
             config_path = Path("config/discord_config.json")
             if config_path.exists():
                 try:
-                    with open(config_path, 'r') as f:
+                    with open(config_path) as f:
                         config = json.load(f)
                         webhook_url = config.get("webhook_url")
                 except Exception:
@@ -44,7 +45,7 @@ class DiscordWebhookIntegration:
 
         return webhook_url
 
-    def send_devlog_notification(self, devlog_data: Dict[str, Any]) -> bool:
+    def send_devlog_notification(self, devlog_data: dict[str, Any]) -> bool:
         """Send devlog notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -73,7 +74,7 @@ class DiscordWebhookIntegration:
             print(f"❌ Error sending devlog notification: {e}")
             return False
 
-    def send_agent_status_notification(self, agent_status: Dict[str, Any]) -> bool:
+    def send_agent_status_notification(self, agent_status: dict[str, Any]) -> bool:
         """Send agent status notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -101,7 +102,7 @@ class DiscordWebhookIntegration:
             print(f"❌ Error sending agent status notification: {e}")
             return False
 
-    def send_swarm_coordination_notification(self, coordination_data: Dict[str, Any]) -> bool:
+    def send_swarm_coordination_notification(self, coordination_data: dict[str, Any]) -> bool:
         """Send swarm coordination notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -129,7 +130,7 @@ class DiscordWebhookIntegration:
             print(f"❌ Error sending coordination notification: {e}")
             return False
 
-    def _create_devlog_embed(self, devlog_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_devlog_embed(self, devlog_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for devlog notification."""
         title = devlog_data.get("title", "DevLog Update")
         description = devlog_data.get("description", "")
@@ -175,7 +176,7 @@ class DiscordWebhookIntegration:
 
         return embed
 
-    def _create_agent_status_embed(self, agent_status: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_agent_status_embed(self, agent_status: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for agent status notification."""
         agent_id = agent_status.get("agent_id", "Unknown")
         status = agent_status.get("status", "unknown")
@@ -217,7 +218,7 @@ class DiscordWebhookIntegration:
 
         return embed
 
-    def _create_coordination_embed(self, coordination_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_coordination_embed(self, coordination_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for swarm coordination notification."""
         topic = coordination_data.get("topic", "Swarm Coordination")
         priority = coordination_data.get("priority", "NORMAL")

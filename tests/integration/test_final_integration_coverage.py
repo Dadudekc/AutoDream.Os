@@ -11,23 +11,27 @@ Target: 92% integration coverage
 Timeline: FINAL ASSIGNMENT - Execute immediately
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
 import sys
 import time
 from pathlib import Path
-from typing import Dict, Any, List
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 # Import consolidated services for final integration testing
 try:
+    from services.consolidated_coordination_service import ConsolidatedCoordinationService
     from services.consolidated_messaging_service import ConsolidatedMessagingService
     from services.consolidated_vector_service import ConsolidatedVectorService
-    from services.consolidated_coordination_service import ConsolidatedCoordinationService
-    from services.models.messaging_models import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
-    from services.models.vector_models import VectorDocument, EmbeddingModel
+    from services.models.messaging_models import (
+        UnifiedMessage,
+        UnifiedMessagePriority,
+        UnifiedMessageType,
+    )
+    from services.models.vector_models import EmbeddingModel, VectorDocument
     SERVICES_AVAILABLE = True
 except ImportError:
     SERVICES_AVAILABLE = False

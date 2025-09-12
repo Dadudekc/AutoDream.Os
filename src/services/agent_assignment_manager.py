@@ -10,8 +10,8 @@ License: MIT
 
 import json
 import os
-from typing import Dict, Optional
-from .architectural_models import ArchitecturalPrinciple, AgentAssignment
+
+from .architectural_models import ArchitecturalPrinciple
 
 
 class AgentAssignmentManager:
@@ -20,7 +20,7 @@ class AgentAssignmentManager:
     def __init__(self, config_path: str = "src/config/architectural_assignments.json"):
         """Initialize assignment manager."""
         self.config_path = config_path
-        self.assignments: Dict[str, ArchitecturalPrinciple] = {}
+        self.assignments: dict[str, ArchitecturalPrinciple] = {}
         self._load_assignments()
 
     def _load_assignments(self) -> None:
@@ -42,7 +42,7 @@ class AgentAssignmentManager:
         # Try to load from configuration file
         if os.path.exists(self.config_path):
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config = json.load(f)
                     # Convert string principles back to enum
                     for agent, principle_str in config.items():
@@ -52,7 +52,7 @@ class AgentAssignmentManager:
                 # Use defaults if config loading fails
                 pass
 
-    def get_agent_principle(self, agent_id: str) -> Optional[ArchitecturalPrinciple]:
+    def get_agent_principle(self, agent_id: str) -> ArchitecturalPrinciple | None:
         """Get the architectural principle assigned to an agent."""
         return self.assignments.get(agent_id)
 
@@ -73,7 +73,7 @@ class AgentAssignmentManager:
             # Silently fail if saving fails
             pass
 
-    def get_all_assignments(self) -> Dict[str, ArchitecturalPrinciple]:
+    def get_all_assignments(self) -> dict[str, ArchitecturalPrinciple]:
         """Get all agent assignments."""
         return self.assignments.copy()
 

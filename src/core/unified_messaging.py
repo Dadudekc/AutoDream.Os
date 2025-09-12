@@ -11,18 +11,18 @@ consolidating functionality from:
 """
 
 import logging
-from typing import Dict, Any, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 class UnifiedMessagingSystem:
     """Unified messaging system for all agent communication"""
-    
+
     def __init__(self):
         self.logger = logger
         self.coordinate_manager = None
         self.pyautogui_handler = None
-    
+
     def send_message(self, message: str, target: str, **kwargs) -> bool:
         """Send a message to a target agent or system"""
         try:
@@ -32,8 +32,8 @@ class UnifiedMessagingSystem:
         except Exception as e:
             self.logger.error(f"Failed to send message: {e}")
             return False
-    
-    def receive_message(self, source: str) -> Optional[Dict[str, Any]]:
+
+    def receive_message(self, source: str) -> dict[str, Any] | None:
         """Receive a message from a source agent or system"""
         try:
             self.logger.info(f"Receiving message from {source}")
@@ -42,7 +42,7 @@ class UnifiedMessagingSystem:
         except Exception as e:
             self.logger.error(f"Failed to receive message: {e}")
             return None
-    
+
     def broadcast_message(self, message: str, **kwargs) -> bool:
         """Broadcast a message to all agents"""
         try:

@@ -12,9 +12,8 @@ Author: Agent-3 (Infrastructure & DevOps)
 """
 
 import sys
-from pathlib import Path
-import json
 from datetime import datetime
+from pathlib import Path
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -33,7 +32,7 @@ def post_devlog_to_discord(devlog_path: str) -> bool:
 
     try:
         # Read the devlog content
-        with open(devlog_file, 'r', encoding='utf-8') as f:
+        with open(devlog_file, encoding='utf-8') as f:
             content = f.read()
 
         # Parse devlog metadata from filename

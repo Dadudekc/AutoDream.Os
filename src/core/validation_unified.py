@@ -19,15 +19,15 @@ License: MIT
 
 from __future__ import annotations
 
+import json
 import logging
+import re
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
-import re
-import json
+from typing import Any
 
 # ============================================================================
 # VALIDATION ENUMS AND MODELS
@@ -88,11 +88,11 @@ class ValidationResult:
     status: ValidationStatus
     severity: ValidationSeverity
     message: str
-    field_name: Optional[str] = None
+    field_name: str | None = None
     field_value: Any = None
     expected_value: Any = None
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -104,14 +104,14 @@ class ValidationRule:
     field_name: str
     data_type: DataType
     required: bool = False
-    min_length: Optional[int] = None
-    max_length: Optional[int] = None
-    min_value: Optional[float] = None
-    max_value: Optional[float] = None
-    pattern: Optional[str] = None
-    custom_validator: Optional[str] = None
+    min_length: int | None = None
+    max_length: int | None = None
+    min_value: float | None = None
+    max_value: float | None = None
+    pattern: str | None = None
+    custom_validator: str | None = None
     enabled: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -120,10 +120,10 @@ class ValidationSchema:
     schema_id: str
     name: str
     version: str
-    rules: List[ValidationRule] = field(default_factory=list)
+    rules: list[ValidationRule] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
-    updated_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    updated_at: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -136,9 +136,9 @@ class ValidationReport:
     invalid_count: int = 0
     warning_count: int = 0
     error_count: int = 0
-    results: List[ValidationResult] = field(default_factory=list)
+    results: list[ValidationResult] = field(default_factory=list)
     generated_at: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 # ============================================================================
@@ -147,40 +147,40 @@ class ValidationReport:
 
 class Validator(ABC):
     """Base validator interface."""
-    
+
     def __init__(self, validator_id: str, name: str):
         self.validator_id = validator_id
         self.name = name
         self.logger = logging.getLogger(f"validator.{name}")
         self.is_active = False
-    
+
     @abstractmethod
     def validate(self, data: Any, rule: ValidationRule) -> ValidationResult:
         """Validate data against rule."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get validator capabilities."""
         pass
 
 
 class SchemaValidator(ABC):
     """Base schema validator interface."""
-    
+
     def __init__(self, validator_id: str, name: str):
         self.validator_id = validator_id
         self.name = name
         self.logger = logging.getLogger(f"schema_validator.{name}")
         self.is_active = False
-    
+
     @abstractmethod
-    def validate_schema(self, data: Dict[str, Any], schema: ValidationSchema) -> ValidationReport:
+    def validate_schema(self, data: dict[str, Any], schema: ValidationSchema) -> ValidationReport:
         """Validate data against schema."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get schema validator capabilities."""
         pass
 
@@ -191,13 +191,13 @@ class SchemaValidator(ABC):
 
 class DataTypeValidator(Validator):
     """Data type validator implementation."""
-    
+
     def __init__(self, validator_id: str = None):
         super().__init__(
             validator_id or str(uuid.uuid4()),
             "DataTypeValidator"
         )
-    
+
     def validate(self, data: Any, rule: ValidationRule) -> ValidationResult:
         """Validate data type."""
         try:
@@ -212,7 +212,7 @@ class DataTypeValidator(Validator):
                     field_name=rule.field_name,
                     field_value=data
                 )
-            
+
             # Skip validation if data is None and not required
             if data is None and not rule.required:
                 return ValidationResult(
@@ -224,7 +224,7 @@ class DataTypeValidator(Validator):
                     field_name=rule.field_name,
                     field_value=data
                 )
-            
+
             # Validate data type
             if not self._validate_type(data, rule.data_type):
                 return ValidationResult(
@@ -237,7 +237,7 @@ class DataTypeValidator(Validator):
                     field_value=data,
                     expected_value=rule.data_type.value
                 )
-            
+
             return ValidationResult(
                 result_id=str(uuid.uuid4()),
                 validation_type=rule.validation_type,
@@ -258,11 +258,11 @@ class DataTypeValidator(Validator):
                 field_name=rule.field_name,
                 field_value=data
             )
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get data type validation capabilities."""
         return ["data_type_validation", "type_checking", "required_field_validation"]
-    
+
     def _validate_type(self, data: Any, data_type: DataType) -> bool:
         """Validate data against specific type."""
         try:
@@ -290,7 +290,7 @@ class DataTypeValidator(Validator):
                 return True
         except Exception:
             return False
-    
+
     def _is_float(self, value: str) -> bool:
         """Check if string is a valid float."""
         try:
@@ -298,22 +298,22 @@ class DataTypeValidator(Validator):
             return True
         except ValueError:
             return False
-    
+
     def _is_valid_email(self, email: str) -> bool:
         """Check if string is a valid email."""
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         return re.match(pattern, email) is not None
-    
+
     def _is_valid_url(self, url: str) -> bool:
         """Check if string is a valid URL."""
         pattern = r'^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?)?$'
         return re.match(pattern, url) is not None
-    
+
     def _is_valid_phone(self, phone: str) -> bool:
         """Check if string is a valid phone number."""
         pattern = r'^\+?1?[-.\s]?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$'
         return re.match(pattern, phone) is not None
-    
+
     def _is_valid_json(self, data: Any) -> bool:
         """Check if data is valid JSON."""
         try:
@@ -326,13 +326,13 @@ class DataTypeValidator(Validator):
 
 class ConstraintValidator(Validator):
     """Constraint validator implementation."""
-    
+
     def __init__(self, validator_id: str = None):
         super().__init__(
             validator_id or str(uuid.uuid4()),
             "ConstraintValidator"
         )
-    
+
     def validate(self, data: Any, rule: ValidationRule) -> ValidationResult:
         """Validate constraints."""
         try:
@@ -347,7 +347,7 @@ class ConstraintValidator(Validator):
                     field_name=rule.field_name,
                     field_value=data
                 )
-            
+
             # Validate length constraints
             if isinstance(data, str):
                 if rule.min_length is not None and len(data) < rule.min_length:
@@ -361,7 +361,7 @@ class ConstraintValidator(Validator):
                         field_value=data,
                         expected_value=f"min_length: {rule.min_length}"
                     )
-                
+
                 if rule.max_length is not None and len(data) > rule.max_length:
                     return ValidationResult(
                         result_id=str(uuid.uuid4()),
@@ -373,7 +373,7 @@ class ConstraintValidator(Validator):
                         field_value=data,
                         expected_value=f"max_length: {rule.max_length}"
                     )
-            
+
             # Validate numeric constraints
             if isinstance(data, (int, float)):
                 if rule.min_value is not None and data < rule.min_value:
@@ -387,7 +387,7 @@ class ConstraintValidator(Validator):
                         field_value=data,
                         expected_value=f"min_value: {rule.min_value}"
                     )
-                
+
                 if rule.max_value is not None and data > rule.max_value:
                     return ValidationResult(
                         result_id=str(uuid.uuid4()),
@@ -399,7 +399,7 @@ class ConstraintValidator(Validator):
                         field_value=data,
                         expected_value=f"max_value: {rule.max_value}"
                     )
-            
+
             # Validate pattern constraints
             if rule.pattern and isinstance(data, str):
                 if not re.match(rule.pattern, data):
@@ -413,7 +413,7 @@ class ConstraintValidator(Validator):
                         field_value=data,
                         expected_value=f"pattern: {rule.pattern}"
                     )
-            
+
             return ValidationResult(
                 result_id=str(uuid.uuid4()),
                 validation_type=rule.validation_type,
@@ -434,8 +434,8 @@ class ConstraintValidator(Validator):
                 field_name=rule.field_name,
                 field_value=data
             )
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get constraint validation capabilities."""
         return ["constraint_validation", "length_validation", "range_validation", "pattern_validation"]
 
@@ -446,42 +446,42 @@ class ConstraintValidator(Validator):
 
 class JSONSchemaValidator(SchemaValidator):
     """JSON schema validator implementation."""
-    
+
     def __init__(self, validator_id: str = None):
         super().__init__(
             validator_id or str(uuid.uuid4()),
             "JSONSchemaValidator"
         )
-    
-    def validate_schema(self, data: Dict[str, Any], schema: ValidationSchema) -> ValidationReport:
+
+    def validate_schema(self, data: dict[str, Any], schema: ValidationSchema) -> ValidationReport:
         """Validate data against schema."""
         try:
             report = ValidationReport(
                 report_id=str(uuid.uuid4()),
                 schema_id=schema.schema_id
             )
-            
+
             # Create validators
             data_type_validator = DataTypeValidator()
             constraint_validator = ConstraintValidator()
-            
+
             # Validate each field
             for rule in schema.rules:
                 if not rule.enabled:
                     continue
-                
+
                 field_value = data.get(rule.field_name)
                 report.total_validations += 1
-                
+
                 # Validate data type
                 type_result = data_type_validator.validate(field_value, rule)
                 report.results.append(type_result)
-                
+
                 if type_result.status == ValidationStatus.VALID:
                     # Validate constraints
                     constraint_result = constraint_validator.validate(field_value, rule)
                     report.results.append(constraint_result)
-                    
+
                     if constraint_result.status == ValidationStatus.VALID:
                         report.valid_count += 1
                     else:
@@ -496,7 +496,7 @@ class JSONSchemaValidator(SchemaValidator):
                         report.warning_count += 1
                     elif type_result.severity in [ValidationSeverity.ERROR, ValidationSeverity.CRITICAL]:
                         report.error_count += 1
-            
+
             return report
         except Exception as e:
             self.logger.error(f"Failed to validate schema: {e}")
@@ -515,8 +515,8 @@ class JSONSchemaValidator(SchemaValidator):
                     message=f"Schema validation error: {e}"
                 )]
             )
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get JSON schema validation capabilities."""
         return ["json_schema_validation", "field_validation", "schema_validation"]
 
@@ -527,13 +527,13 @@ class JSONSchemaValidator(SchemaValidator):
 
 class ValidationManager:
     """Validation management system."""
-    
+
     def __init__(self):
-        self.validators: List[Validator] = []
-        self.schema_validators: List[SchemaValidator] = []
-        self.schemas: Dict[str, ValidationSchema] = {}
+        self.validators: list[Validator] = []
+        self.schema_validators: list[SchemaValidator] = []
+        self.schemas: dict[str, ValidationSchema] = {}
         self.logger = logging.getLogger("validation_manager")
-    
+
     def register_validator(self, validator: Validator) -> bool:
         """Register validator."""
         try:
@@ -543,7 +543,7 @@ class ValidationManager:
         except Exception as e:
             self.logger.error(f"Failed to register validator {validator.name}: {e}")
             return False
-    
+
     def register_schema_validator(self, validator: SchemaValidator) -> bool:
         """Register schema validator."""
         try:
@@ -553,7 +553,7 @@ class ValidationManager:
         except Exception as e:
             self.logger.error(f"Failed to register schema validator {validator.name}: {e}")
             return False
-    
+
     def register_schema(self, schema: ValidationSchema) -> bool:
         """Register validation schema."""
         try:
@@ -563,17 +563,17 @@ class ValidationManager:
         except Exception as e:
             self.logger.error(f"Failed to register schema {schema.name}: {e}")
             return False
-    
+
     def validate_data(self, data: Any, rule: ValidationRule) -> ValidationResult:
         """Validate data using appropriate validator."""
         for validator in self.validators:
             if rule.validation_type in validator.get_capabilities():
                 return validator.validate(data, rule)
-        
+
         # Fallback to first available validator
         if self.validators:
             return self.validators[0].validate(data, rule)
-        
+
         return ValidationResult(
             result_id=str(uuid.uuid4()),
             validation_type=rule.validation_type,
@@ -581,21 +581,21 @@ class ValidationManager:
             severity=ValidationSeverity.ERROR,
             message="No validator available"
         )
-    
-    def validate_schema(self, data: Dict[str, Any], schema_id: str) -> Optional[ValidationReport]:
+
+    def validate_schema(self, data: dict[str, Any], schema_id: str) -> ValidationReport | None:
         """Validate data against schema."""
         schema = self.schemas.get(schema_id)
         if not schema:
             self.logger.error(f"Schema {schema_id} not found")
             return None
-        
+
         for validator in self.schema_validators:
             if "schema_validation" in validator.get_capabilities():
                 return validator.validate_schema(data, schema)
-        
+
         return None
-    
-    def get_validation_status(self) -> Dict[str, Any]:
+
+    def get_validation_status(self) -> dict[str, Any]:
         """Get validation system status."""
         return {
             "validators_registered": len(self.validators),
@@ -608,30 +608,30 @@ class ValidationManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_validator(validator_type: str, validator_id: str = None) -> Optional[Validator]:
+def create_validator(validator_type: str, validator_id: str = None) -> Validator | None:
     """Create validator by type."""
     validators = {
         "data_type": DataTypeValidator,
         "constraint": ConstraintValidator
     }
-    
+
     validator_class = validators.get(validator_type)
     if validator_class:
         return validator_class(validator_id)
-    
+
     return None
 
 
-def create_schema_validator(validator_type: str, validator_id: str = None) -> Optional[SchemaValidator]:
+def create_schema_validator(validator_type: str, validator_id: str = None) -> SchemaValidator | None:
     """Create schema validator by type."""
     validators = {
         "json": JSONSchemaValidator
     }
-    
+
     validator_class = validators.get(validator_type)
     if validator_class:
         return validator_class(validator_id)
-    
+
     return None
 
 
@@ -648,31 +648,31 @@ def main():
     """Main execution function."""
     print("Validation Unified - Consolidated Validation System")
     print("=" * 55)
-    
+
     # Create validation manager
     manager = create_validation_manager()
     print("✅ Validation manager created")
-    
+
     # Create and register validators
     validator_types = ["data_type", "constraint"]
-    
+
     for validator_type in validator_types:
         validator = create_validator(validator_type)
         if validator and manager.register_validator(validator):
             print(f"✅ {validator.name} registered")
         else:
             print(f"❌ Failed to register {validator_type} validator")
-    
+
     # Create and register schema validators
     schema_validator_types = ["json"]
-    
+
     for validator_type in schema_validator_types:
         validator = create_schema_validator(validator_type)
         if validator and manager.register_schema_validator(validator):
             print(f"✅ {validator.name} registered")
         else:
             print(f"❌ Failed to register {validator_type} schema validator")
-    
+
     # Test validation functionality
     test_rule = ValidationRule(
         rule_id="test_rule_001",
@@ -684,16 +684,16 @@ def main():
         min_length=3,
         max_length=10
     )
-    
+
     result = manager.validate_data("test", test_rule)
     if result.status == ValidationStatus.VALID:
         print(f"✅ Validation test passed: {result.message}")
     else:
         print(f"❌ Validation test failed: {result.message}")
-    
+
     status = manager.get_validation_status()
     print(f"✅ Validation system status: {status}")
-    
+
     print(f"\nTotal validators registered: {len(manager.validators)}")
     print(f"Total schema validators registered: {len(manager.schema_validators)}")
     print("Validation Unified system test completed successfully!")

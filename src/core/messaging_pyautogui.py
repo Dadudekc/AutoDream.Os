@@ -19,12 +19,9 @@ import logging
 import os
 import sys
 import time
-from typing import Dict, List, Optional, Tuple
 
 from .messaging_core import (
     UnifiedMessage,
-    UnifiedMessagePriority,
-    UnifiedMessageType,
 )
 
 logger = logging.getLogger(__name__)
@@ -70,11 +67,11 @@ def _get_coordinate_loader():
     return get_coordinate_loader()
 
 
-def load_coordinates_from_json() -> Dict[str, Tuple[int, int]]:
+def load_coordinates_from_json() -> dict[str, tuple[int, int]]:
     """Load agent coordinates using SSOT coordinate loader."""
     try:
         loader = _get_coordinate_loader()
-        coordinates: Dict[str, Tuple[int, int]] = {}
+        coordinates: dict[str, tuple[int, int]] = {}
         for agent_id in loader.get_all_agents():
             try:
                 if getattr(loader, "is_agent_active", lambda _a: True)(agent_id):
@@ -89,7 +86,7 @@ def load_coordinates_from_json() -> Dict[str, Tuple[int, int]]:
         return {}
 
 
-def get_agent_coordinates(agent_id: str) -> Optional[Tuple[int, int]]:
+def get_agent_coordinates(agent_id: str) -> tuple[int, int] | None:
     """Get coordinates for a specific agent via SSOT loader."""
     try:
         loader = _get_coordinate_loader()
@@ -158,7 +155,7 @@ def _paste_or_type(text: str) -> None:
     pyautogui.typewrite(text, interval=0.0)
 
 
-def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) -> bool:
+def deliver_message_pyautogui(message: UnifiedMessage, coords: tuple[int, int]) -> bool:
     """Deliver message via PyAutoGUI to specific coordinates."""
     if not PYAUTOGUI_AVAILABLE:
         logger.error("PyAutoGUI not available/enabled")
@@ -187,10 +184,10 @@ def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) 
 
 
 def deliver_bulk_messages_pyautogui(
-    messages: List[UnifiedMessage], agent_order: Optional[List[str]] = None
-) -> Dict[str, bool]:
+    messages: list[UnifiedMessage], agent_order: list[str] | None = None
+) -> dict[str, bool]:
     """Deliver multiple messages via PyAutoGUI."""
-    results: Dict[str, bool] = {}
+    results: dict[str, bool] = {}
     if not PYAUTOGUI_AVAILABLE:
         logger.error("PyAutoGUI not available/enabled")
         return results
@@ -222,12 +219,12 @@ def cleanup_pyautogui_resources() -> bool:
 class PyAutoGUIMessagingDelivery:
     """Simple wrapper class for PyAutoGUI messaging functions."""
 
-    def __init__(self, agents: Optional[Dict[str, Tuple[int, int]]] = None):
+    def __init__(self, agents: dict[str, tuple[int, int]] | None = None):
         self.agents = agents or {}
 
     def send_message(self, message: UnifiedMessage) -> bool:
         return self.send_message_via_pyautogui(message)
-    
+
     def deliver_message(self, message: UnifiedMessage) -> bool:
         """Alias for send_message to match expected interface."""
         return self.send_message_via_pyautogui(message)
@@ -237,7 +234,7 @@ class PyAutoGUIMessagingDelivery:
         message: UnifiedMessage,
         use_paste: bool = True,           # retained for API compatibility
         new_tab_method: str = "ctrl_t",   # deprecated; no-op
-        use_new_tab: Optional[bool] = None,  # deprecated; no-op
+        use_new_tab: bool | None = None,  # deprecated; no-op
     ) -> bool:
         if not PYAUTOGUI_AVAILABLE:
             logger.error("PyAutoGUI not available/enabled")

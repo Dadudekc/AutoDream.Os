@@ -2,11 +2,11 @@
 Base Trading Strategy Framework
 """
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Any, Tuple
 from enum import Enum
+from typing import Any
+
 import pandas as pd
 from loguru import logger
-
 from strategies.indicators import TechnicalIndicators
 
 
@@ -21,7 +21,7 @@ class StrategyResult:
     """Result of strategy analysis"""
 
     def __init__(self, symbol: str, signal: Signal, confidence: float,
-                 indicators: Dict[str, Any] = None, metadata: Dict[str, Any] = None):
+                 indicators: dict[str, Any] = None, metadata: dict[str, Any] = None):
         self.symbol = symbol
         self.signal = signal
         self.confidence = confidence
@@ -33,7 +33,7 @@ class StrategyResult:
 class BaseStrategy(ABC):
     """Abstract base class for trading strategies"""
 
-    def __init__(self, name: str, parameters: Dict[str, Any] = None):
+    def __init__(self, name: str, parameters: dict[str, Any] = None):
         self.name = name
         self.parameters = parameters or {}
         self.indicators = TechnicalIndicators()
@@ -106,7 +106,7 @@ class BaseStrategy(ABC):
 class TrendFollowingStrategy(BaseStrategy):
     """Example trend following strategy using moving averages"""
 
-    def __init__(self, parameters: Dict[str, Any] = None):
+    def __init__(self, parameters: dict[str, Any] = None):
         super().__init__("Trend Following", parameters)
 
     def analyze(self, data: pd.DataFrame, symbol: str) -> StrategyResult:
@@ -162,7 +162,7 @@ class TrendFollowingStrategy(BaseStrategy):
 class MeanReversionStrategy(BaseStrategy):
     """Example mean reversion strategy using RSI and Bollinger Bands"""
 
-    def __init__(self, parameters: Dict[str, Any] = None):
+    def __init__(self, parameters: dict[str, Any] = None):
         super().__init__("Mean Reversion", parameters)
 
     def analyze(self, data: pd.DataFrame, symbol: str) -> StrategyResult:
@@ -210,7 +210,7 @@ class StrategyManager:
     """Manages multiple trading strategies"""
 
     def __init__(self):
-        self.strategies: Dict[str, BaseStrategy] = {}
+        self.strategies: dict[str, BaseStrategy] = {}
 
     def add_strategy(self, strategy: BaseStrategy):
         """Add a strategy to the manager"""
@@ -223,11 +223,11 @@ class StrategyManager:
             del self.strategies[strategy_name]
             logger.info(f"❌ Strategy removed: {strategy_name}")
 
-    def get_strategies(self) -> List[str]:
+    def get_strategies(self) -> list[str]:
         """Get list of available strategies"""
         return list(self.strategies.keys())
 
-    def analyze_symbol(self, symbol: str, data: pd.DataFrame) -> List[StrategyResult]:
+    def analyze_symbol(self, symbol: str, data: pd.DataFrame) -> list[StrategyResult]:
         """Analyze symbol with all strategies"""
         results = []
         for strategy_name, strategy in self.strategies.items():
@@ -240,7 +240,7 @@ class StrategyManager:
 
         return results
 
-    def get_consensus_signal(self, results: List[StrategyResult]) -> Tuple[Signal, float]:
+    def get_consensus_signal(self, results: list[StrategyResult]) -> tuple[Signal, float]:
         """Get consensus signal from multiple strategy results"""
         if not results:
             return Signal.HOLD, 0.0

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """Authoritative cleanup auditor.
 
@@ -9,6 +10,7 @@ logger = logging.getLogger(__name__)
 - Emits JSON and Markdown reports under runtime/reports/
 """
 from __future__ import annotations
+
 import argparse
 import fnmatch
 import hashlib
@@ -19,6 +21,7 @@ import subprocess
 import sys
 import time
 from collections import defaultdict
+
 CONFIG_PATH = os.path.join('tools', 'audit_config.json')
 AUDITIGNORE_PATH = '.auditignore'
 

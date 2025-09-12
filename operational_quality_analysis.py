@@ -7,10 +7,10 @@ Phase 3: Quality Assessment - V2 compliance, violations, anti-patterns
 Operational perspective on system stability and quality metrics
 """
 
-import os
-from pathlib import Path
-import re
 import json
+import re
+from pathlib import Path
+
 
 def analyze_code_quality():
     """Analyze code quality from operational perspective"""
@@ -41,7 +41,7 @@ def analyze_code_quality():
         v2_compliance['total_files'] += 1
 
         try:
-            with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read()
 
                 # Check for type hints
@@ -66,7 +66,7 @@ def analyze_code_quality():
                 if 'config' in content.lower() or 'settings' in content.lower():
                     v2_compliance['config_management'] += 1
 
-        except Exception as e:
+        except Exception:
             continue
 
     print('V2 Compliance Metrics:')
@@ -90,7 +90,7 @@ def analyze_code_quality():
 
     for py_file in src_path.rglob('*.py'):
         try:
-            with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read()
                 lines = content.split('\n')
 
@@ -128,7 +128,7 @@ def analyze_code_quality():
                 if len(magic_numbers) > 10:  # Arbitrary threshold
                     anti_patterns['magic_numbers'].append(str(py_file))
 
-        except Exception as e:
+        except Exception:
             continue
 
     print('Anti-Pattern Detection Results:')
@@ -150,7 +150,7 @@ def analyze_code_quality():
 
     for py_file in src_path.rglob('*.py'):
         try:
-            with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read()
 
                 # Check for error-prone patterns
@@ -174,7 +174,7 @@ def analyze_code_quality():
                 if 'try:' in content and 'finally:' in content:
                     stability_metrics['exception_safety'] += 1
 
-        except Exception as e:
+        except Exception:
             continue
 
     print('Stability Assessment Results:')

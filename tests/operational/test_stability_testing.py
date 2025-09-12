@@ -8,23 +8,18 @@ Tests long-running operations, resource usage patterns, and system endurance.
 Author: Agent-8 (Operations & Support Specialist)
 """
 
-import pytest
-import time
-import threading
-import psutil
-import os
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List, Optional, Callable
 import gc
-import sys
-import signal
-import subprocess
+import os
+import threading
+import time
+
+import pytest
 
 # Import system components for stability testing
 try:
     from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
-    from src.core.unified_messaging import UnifiedMessagingCore
     from src.core.unified_logging_system import UnifiedLoggingSystem
+    from src.core.unified_messaging import UnifiedMessagingCore
     STABILITY_COMPONENTS_AVAILABLE = True
 except ImportError:
     STABILITY_COMPONENTS_AVAILABLE = False
@@ -66,7 +61,7 @@ class TestLongRunningOperations:
                         if isinstance(value, (int, float)) and 'percent' in key:
                             assert 0 <= value <= 100
 
-            except Exception as e:
+            except Exception:
                 error_count += 1
                 # Allow some errors but not excessive
                 assert error_count < 5, f"Too many monitoring errors: {error_count}"
@@ -113,7 +108,7 @@ class TestLongRunningOperations:
         success_rate = success_count / message_count if message_count > 0 else 0
         messages_per_second = message_count / duration if duration > 0 else 0
 
-        print(f"Messaging stability test results:")
+        print("Messaging stability test results:")
         print(f"- Messages sent: {message_count}")
         print(f"- Success rate: {success_rate:.2%}")
         print(f"- Messages/second: {messages_per_second:.1f}")
@@ -145,7 +140,7 @@ class TestResourceUsageStability:
 
         final_memory = system_monitor.get_system_health()['memory_percent']
 
-        print(f"Memory usage test:")
+        print("Memory usage test:")
         print(f"- Initial: {initial_memory:.1f}%")
         print(f"- Peak: {peak_memory:.1f}%")
         print(f"- Final: {final_memory:.1f}%")
@@ -173,7 +168,7 @@ class TestResourceUsageStability:
         peak_cpu = system_monitor.get_system_health()['cpu_percent']
         final_cpu = system_monitor.get_system_health()['cpu_percent']
 
-        print(f"CPU usage test:")
+        print("CPU usage test:")
         print(f"- Initial: {initial_cpu:.1f}%")
         print(f"- Peak: {peak_cpu:.1f}%")
         print(f"- Final: {final_cpu:.1f}%")
@@ -197,7 +192,7 @@ class TestResourceUsageStability:
 
         # Read files back
         for filename in test_files:
-            with open(filename, 'r') as f:
+            with open(filename) as f:
                 content = f.read()
                 assert len(content) == 10000
 
@@ -210,7 +205,7 @@ class TestResourceUsageStability:
 
         final_disk = system_monitor.get_system_health()['disk_usage']
 
-        print(f"Disk I/O test:")
+        print("Disk I/O test:")
         print(f"- Initial usage: {initial_disk:.1f}%")
         print(f"- Final usage: {final_disk:.1f}%")
         print(f"- Files created/read: {len(test_files)}")
@@ -252,7 +247,7 @@ class TestConcurrentOperationStability:
         for thread in threads:
             thread.join()
 
-        print(f"Concurrent monitoring test:")
+        print("Concurrent monitoring test:")
         print(f"- Workers: {num_workers}")
         print(f"- Total operations: {len(results)}")
         print(f"- Errors: {len(errors)}")
@@ -295,7 +290,7 @@ class TestConcurrentOperationStability:
         for thread in threads:
             thread.join()
 
-        print(f"Concurrent messaging test:")
+        print("Concurrent messaging test:")
         print(f"- Workers: {num_workers}")
         print(f"- Messages sent: {len(results)}")
         print(f"- Success rate: {sum(1 for r in results if r[2]) / len(results):.2%}")
@@ -374,7 +369,7 @@ class TestLoadTestingScenarios:
         end_time = time.time()
         total_duration = end_time - start_time
 
-        print(f"Burst load test:")
+        print("Burst load test:")
         print(f"- Operations performed: {len(burst_operations)}")
         print(f"- Duration: {total_duration:.2f}s")
         print(".1f")
@@ -410,7 +405,7 @@ class TestRecoveryAndResilience:
         successful_ops = sum(1 for op in operations_during_states if op[1])
         total_ops = len(operations_during_states)
 
-        print(f"Service restart resilience test:")
+        print("Service restart resilience test:")
         print(f"- Total operations: {total_ops}")
         print(f"- Successful operations: {successful_ops}")
         print(".2%")
@@ -499,7 +494,7 @@ class TestSystemEndurance:
         total_checks = len(stability_checks)
         stability_rate = stable_checks / total_checks if total_checks > 0 else 0
 
-        print(f"\\nExtended endurance test results:")
+        print("\\nExtended endurance test results:")
         print(f"- Duration: {endurance_duration}s")
         print(f"- Stability checks: {total_checks}")
         print(f"- Stable periods: {stable_checks}")
@@ -535,7 +530,7 @@ class TestSystemEndurance:
         memory_growth = peak_memory - initial_memory
         memory_recovery = peak_memory - final_memory
 
-        print(f"Memory leak detection test:")
+        print("Memory leak detection test:")
         print(f"- Initial memory: {initial_memory:.1f}%")
         print(f"- Peak memory: {peak_memory:.1f}%")
         print(f"- Final memory: {final_memory:.1f}%")
@@ -603,7 +598,7 @@ class TestStabilityIntegrationScenarios:
         total_operations = len(integration_results)
         success_rate = successful_operations / total_operations if total_operations > 0 else 0
 
-        print(f"Full system integration stability test:")
+        print("Full system integration stability test:")
         print(f"- Total operations: {total_operations}")
         print(f"- Successful operations: {successful_operations}")
         print(".2%")

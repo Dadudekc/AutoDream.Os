@@ -24,7 +24,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 # ============================================================================
 # AGENT MODELS
@@ -66,26 +66,26 @@ class AgentContext:
     """Agent context information."""
     agent_id: str
     current_phase: str = "foundation"
-    active_tasks: List[str] = field(default_factory=list)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
+    active_tasks: list[str] = field(default_factory=list)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
     last_activity: datetime = field(default_factory=datetime.now)
-    context_data: Dict[str, Any] = field(default_factory=dict)
-    
+    context_data: dict[str, Any] = field(default_factory=dict)
+
     def update_activity(self) -> None:
         """Update last activity timestamp."""
         self.last_activity = datetime.now()
-    
+
     def add_task(self, task_id: str) -> None:
         """Add task to active tasks."""
         if task_id not in self.active_tasks:
             self.active_tasks.append(task_id)
-    
+
     def remove_task(self, task_id: str) -> None:
         """Remove task from active tasks."""
         if task_id in self.active_tasks:
             self.active_tasks.remove(task_id)
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "agent_id": self.agent_id,
@@ -105,16 +105,16 @@ class AgentTask:
     task_type: str = ""
     priority: TaskPriority = TaskPriority.MEDIUM
     status: AgentStatus = AgentStatus.IDLE
-    assigned_agent: Optional[str] = None
+    assigned_agent: str | None = None
     created_at: datetime = field(default_factory=datetime.now)
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    estimated_duration: Optional[timedelta] = None
-    actual_duration: Optional[timedelta] = None
-    requirements: List[str] = field(default_factory=list)
-    dependencies: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    estimated_duration: timedelta | None = None
+    actual_duration: timedelta | None = None
+    requirements: list[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def assign_to_agent(self, agent_id: str) -> bool:
         """Assign task to agent."""
         if self.status == AgentStatus.IDLE:
@@ -122,7 +122,7 @@ class AgentTask:
             self.status = AgentStatus.BUSY
             return True
         return False
-    
+
     def start_task(self) -> bool:
         """Start task execution."""
         if self.status == AgentStatus.BUSY:
@@ -130,7 +130,7 @@ class AgentTask:
             self.started_at = datetime.now()
             return True
         return False
-    
+
     def complete_task(self) -> bool:
         """Complete task."""
         if self.status == AgentStatus.COORDINATING:
@@ -140,7 +140,7 @@ class AgentTask:
                 self.actual_duration = self.completed_at - self.started_at
             return True
         return False
-    
+
     def fail_task(self) -> bool:
         """Mark task as failed."""
         if self.status in [AgentStatus.BUSY, AgentStatus.COORDINATING]:
@@ -148,8 +148,8 @@ class AgentTask:
             self.completed_at = datetime.now()
             return True
         return False
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "task_id": self.task_id,
@@ -176,29 +176,29 @@ class AgentInfo:
     agent_name: str
     agent_type: str
     status: AgentStatus = AgentStatus.IDLE
-    capabilities: List[AgentCapability] = field(default_factory=list)
+    capabilities: list[AgentCapability] = field(default_factory=list)
     last_seen: datetime = field(default_factory=datetime.now)
-    current_tasks: List[str] = field(default_factory=list)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    current_tasks: list[str] = field(default_factory=list)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def is_online(self, timeout_seconds: int = 300) -> bool:
         """Check if agent is online."""
         return (datetime.now() - self.last_seen).total_seconds() < timeout_seconds
-    
+
     def can_accept_task(self) -> bool:
         """Check if agent can accept new tasks."""
         return self.status in [AgentStatus.IDLE, AgentStatus.BUSY] and len(self.current_tasks) < 5
-    
+
     def has_capability(self, capability: AgentCapability) -> bool:
         """Check if agent has specific capability."""
         return capability in self.capabilities
-    
+
     def update_activity(self) -> None:
         """Update last seen timestamp."""
         self.last_seen = datetime.now()
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "agent_id": self.agent_id,
@@ -219,22 +219,22 @@ class AgentInfo:
 
 class AgentStrategy(ABC):
     """Base agent strategy interface."""
-    
+
     def __init__(self, name: str):
         self.name = name
         self.logger = logging.getLogger(self.__class__.__name__)
-    
+
     @abstractmethod
     def can_handle(self, task: AgentTask) -> bool:
         """Check if strategy can handle task."""
         pass
-    
+
     @abstractmethod
     def execute(self, task: AgentTask, agent: AgentInfo) -> bool:
         """Execute strategy for task."""
         pass
-    
-    def get_strategy_info(self) -> Dict[str, Any]:
+
+    def get_strategy_info(self) -> dict[str, Any]:
         """Get strategy information."""
         return {
             "name": self.name,
@@ -244,35 +244,35 @@ class AgentStrategy(ABC):
 
 class ConsolidationStrategy(AgentStrategy):
     """Consolidation strategy for Agent-2."""
-    
+
     def __init__(self):
         super().__init__("consolidation")
-    
+
     def can_handle(self, task: AgentTask) -> bool:
         """Check if can handle consolidation tasks."""
         return "consolidation" in task.task_name.lower() or "consolidate" in task.task_name.lower()
-    
+
     def execute(self, task: AgentTask, agent: AgentInfo) -> bool:
         """Execute consolidation strategy."""
         try:
             self.logger.info(f"Executing consolidation strategy for {task.task_name}")
-            
+
             # Update agent activity
             agent.update_activity()
             agent.current_tasks.append(task.task_id)
-            
+
             # Simulate consolidation work
             task.start_task()
-            
+
             # Update performance metrics
             if "consolidation_tasks" not in agent.performance_metrics:
                 agent.performance_metrics["consolidation_tasks"] = 0
             agent.performance_metrics["consolidation_tasks"] += 1
-            
+
             # Complete task
             task.complete_task()
             agent.current_tasks.remove(task.task_id)
-            
+
             self.logger.info(f"Consolidation strategy completed for {task.task_name}")
             return True
         except Exception as e:
@@ -283,35 +283,35 @@ class ConsolidationStrategy(AgentStrategy):
 
 class AnalysisStrategy(AgentStrategy):
     """Analysis strategy."""
-    
+
     def __init__(self):
         super().__init__("analysis")
-    
+
     def can_handle(self, task: AgentTask) -> bool:
         """Check if can handle analysis tasks."""
         return "analysis" in task.task_name.lower() or "analyze" in task.task_name.lower()
-    
+
     def execute(self, task: AgentTask, agent: AgentInfo) -> bool:
         """Execute analysis strategy."""
         try:
             self.logger.info(f"Executing analysis strategy for {task.task_name}")
-            
+
             # Update agent activity
             agent.update_activity()
             agent.current_tasks.append(task.task_id)
-            
+
             # Simulate analysis work
             task.start_task()
-            
+
             # Update performance metrics
             if "analysis_tasks" not in agent.performance_metrics:
                 agent.performance_metrics["analysis_tasks"] = 0
             agent.performance_metrics["analysis_tasks"] += 1
-            
+
             # Complete task
             task.complete_task()
             agent.current_tasks.remove(task.task_id)
-            
+
             self.logger.info(f"Analysis strategy completed for {task.task_name}")
             return True
         except Exception as e:
@@ -322,35 +322,35 @@ class AnalysisStrategy(AgentStrategy):
 
 class CoordinationStrategy(AgentStrategy):
     """Coordination strategy."""
-    
+
     def __init__(self):
         super().__init__("coordination")
-    
+
     def can_handle(self, task: AgentTask) -> bool:
         """Check if can handle coordination tasks."""
         return "coordination" in task.task_name.lower() or "coordinate" in task.task_name.lower()
-    
+
     def execute(self, task: AgentTask, agent: AgentInfo) -> bool:
         """Execute coordination strategy."""
         try:
             self.logger.info(f"Executing coordination strategy for {task.task_name}")
-            
+
             # Update agent activity
             agent.update_activity()
             agent.current_tasks.append(task.task_id)
-            
+
             # Simulate coordination work
             task.start_task()
-            
+
             # Update performance metrics
             if "coordination_tasks" not in agent.performance_metrics:
                 agent.performance_metrics["coordination_tasks"] = 0
             agent.performance_metrics["coordination_tasks"] += 1
-            
+
             # Complete task
             task.complete_task()
             agent.current_tasks.remove(task.task_id)
-            
+
             self.logger.info(f"Coordination strategy completed for {task.task_name}")
             return True
         except Exception as e:
@@ -365,36 +365,36 @@ class CoordinationStrategy(AgentStrategy):
 
 class AgentCoordinationManager:
     """Agent coordination manager."""
-    
+
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.agents: Dict[str, AgentInfo] = {}
-        self.tasks: Dict[str, AgentTask] = {}
-        self.strategies: Dict[str, AgentStrategy] = {}
-        self.contexts: Dict[str, AgentContext] = {}
+        self.agents: dict[str, AgentInfo] = {}
+        self.tasks: dict[str, AgentTask] = {}
+        self.strategies: dict[str, AgentStrategy] = {}
+        self.contexts: dict[str, AgentContext] = {}
         self._register_default_strategies()
-    
+
     def _register_default_strategies(self):
         """Register default strategies."""
         self.strategies["consolidation"] = ConsolidationStrategy()
         self.strategies["analysis"] = AnalysisStrategy()
         self.strategies["coordination"] = CoordinationStrategy()
-    
+
     def register_agent(self, agent: AgentInfo) -> bool:
         """Register an agent."""
         try:
             self.agents[agent.agent_id] = agent
-            
+
             # Create agent context
             context = AgentContext(agent_id=agent.agent_id)
             self.contexts[agent.agent_id] = context
-            
+
             self.logger.info(f"Registered agent: {agent.agent_id}")
             return True
         except Exception as e:
             self.logger.error(f"Failed to register agent {agent.agent_id}: {e}")
             return False
-    
+
     def create_task(self, task: AgentTask) -> bool:
         """Create a task."""
         try:
@@ -404,69 +404,69 @@ class AgentCoordinationManager:
         except Exception as e:
             self.logger.error(f"Failed to create task {task.task_id}: {e}")
             return False
-    
+
     def assign_task(self, task_id: str, agent_id: str) -> bool:
         """Assign task to agent."""
         try:
             if task_id in self.tasks and agent_id in self.agents:
                 task = self.tasks[task_id]
                 agent = self.agents[agent_id]
-                
+
                 if task.assign_to_agent(agent_id):
                     # Update agent context
                     if agent_id in self.contexts:
                         self.contexts[agent_id].add_task(task_id)
-                    
+
                     self.logger.info(f"Assigned task {task_id} to agent {agent_id}")
                     return True
             return False
         except Exception as e:
             self.logger.error(f"Failed to assign task {task_id}: {e}")
             return False
-    
+
     def execute_task(self, task_id: str) -> bool:
         """Execute task using appropriate strategy."""
         try:
             if task_id not in self.tasks:
                 return False
-            
+
             task = self.tasks[task_id]
             if not task.assigned_agent or task.assigned_agent not in self.agents:
                 return False
-            
+
             agent = self.agents[task.assigned_agent]
-            
+
             # Find suitable strategy
             suitable_strategy = None
             for strategy in self.strategies.values():
                 if strategy.can_handle(task):
                     suitable_strategy = strategy
                     break
-            
+
             if not suitable_strategy:
                 self.logger.warning(f"No suitable strategy found for task {task_id}")
                 return False
-            
+
             # Execute strategy
             success = suitable_strategy.execute(task, agent)
-            
+
             # Update agent context
             if task.assigned_agent in self.contexts:
                 context = self.contexts[task.assigned_agent]
                 context.update_activity()
                 if task.status == AgentStatus.IDLE:
                     context.remove_task(task_id)
-            
+
             return success
         except Exception as e:
             self.logger.error(f"Failed to execute task {task_id}: {e}")
             return False
-    
-    def get_agent_context(self, agent_id: str) -> Optional[AgentContext]:
+
+    def get_agent_context(self, agent_id: str) -> AgentContext | None:
         """Get agent context."""
         return self.contexts.get(agent_id)
-    
-    def get_coordination_status(self) -> Dict[str, Any]:
+
+    def get_coordination_status(self) -> dict[str, Any]:
         """Get coordination status."""
         return {
             "total_agents": len(self.agents),
@@ -486,7 +486,7 @@ def create_agent_info(
     agent_id: str,
     agent_name: str,
     agent_type: str,
-    capabilities: List[AgentCapability] = None
+    capabilities: list[AgentCapability] = None
 ) -> AgentInfo:
     """Create agent information."""
     return AgentInfo(
@@ -528,11 +528,11 @@ def main():
     """Main execution function."""
     print("Agent Coordination - Consolidated Agent Management")
     print("=" * 50)
-    
+
     # Create coordination manager
     manager = create_agent_coordination_manager()
     print(f"Agent coordination manager created: {manager.get_coordination_status()}")
-    
+
     # Create test agent
     agent = create_agent_info(
         "agent-2",
@@ -542,7 +542,7 @@ def main():
     )
     manager.register_agent(agent)
     print(f"Agent registered: {agent.to_dict()}")
-    
+
     # Create test task
     task = create_agent_task(
         "Consolidate Core Modules",
@@ -551,17 +551,17 @@ def main():
     )
     manager.create_task(task)
     print(f"Task created: {task.to_dict()}")
-    
+
     # Assign and execute task
     if manager.assign_task(task.task_id, agent.agent_id):
         success = manager.execute_task(task.task_id)
         print(f"Task execution result: {success}")
-    
+
     # Get agent context
     context = manager.get_agent_context(agent.agent_id)
     if context:
         print(f"Agent context: {context.to_dict()}")
-    
+
     print("\nAgent Coordination initialization complete!")
 
 

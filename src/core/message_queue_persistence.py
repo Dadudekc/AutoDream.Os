@@ -9,21 +9,22 @@ License: MIT
 """
 
 import json
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any
 
-from .message_queue_interfaces import IQueuePersistence, IQueueEntry
+from .message_queue_interfaces import IQueueEntry, IQueuePersistence
 
 
 class FileQueuePersistence(IQueuePersistence):
     """Handles file-based queue persistence operations."""
 
-    def __init__(self, queue_file: Path, lock_manager: Optional[Any] = None):
+    def __init__(self, queue_file: Path, lock_manager: Any | None = None):
         """Initialize file persistence."""
         self.queue_file = queue_file
         self.lock_manager = lock_manager
 
-    def load_entries(self) -> List[IQueueEntry]:
+    def load_entries(self) -> list[IQueueEntry]:
         """Load queue entries from JSON file."""
         if not self.queue_file.exists():
             return []
@@ -38,7 +39,7 @@ class FileQueuePersistence(IQueuePersistence):
             print(f"Failed to load queue entries: {e}")
             return []
 
-    def save_entries(self, entries: List[IQueueEntry]) -> None:
+    def save_entries(self, entries: list[IQueueEntry]) -> None:
         """Save queue entries to JSON file."""
         try:
             data = [entry.to_dict() for entry in entries]
@@ -71,7 +72,7 @@ class QueueEntry:
         status: str,
         created_at: Any,
         updated_at: Any,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: dict[str, Any] | None = None
     ):
         """Initialize queue entry."""
         self.message = message
@@ -82,7 +83,7 @@ class QueueEntry:
         self.updated_at = updated_at
         self.metadata = metadata or {}
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             'message': self.message,
@@ -95,7 +96,7 @@ class QueueEntry:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'QueueEntry':
+    def from_dict(cls, data: dict[str, Any]) -> 'QueueEntry':
         """Create from dictionary."""
         return cls(
             message=data['message'],

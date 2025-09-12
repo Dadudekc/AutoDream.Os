@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from .vector_database import get_vector_database_service, search_vector_database
-from .vector_database.vector_database_models import SearchQuery, DocumentType
+from .vector_database.vector_database_models import SearchQuery
 
 
 class AgentStatusManager:
@@ -25,7 +25,7 @@ class AgentStatusManager:
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
         self.workspace_path = Path(f"agent_workspaces/{agent_id}")
-        
+
         # Initialize vector integration
         try:
             self.vector_db = get_vector_database_service()
@@ -46,7 +46,7 @@ class AgentStatusManager:
             recent_work_count = self._get_recent_work_count()
             pending_tasks_count = self._get_pending_tasks_count()
             last_activity = self._get_last_activity()
-            
+
             return {
                 "agent_id": self.agent_id,
                 "status": "active",
@@ -72,7 +72,7 @@ class AgentStatusManager:
             # Get actual stats from vector database
             total_documents = self._get_total_documents()
             agent_documents = self._get_agent_documents()
-            
+
             return {
                 "total_documents": total_documents,
                 "agent_documents": agent_documents,
@@ -84,13 +84,13 @@ class AgentStatusManager:
         except Exception as e:
             self.logger.error(f"Error getting integration stats: {e}")
             return {"integration_status": "error", "error": str(e)}
-    
+
     def _get_recent_work_count(self) -> int:
         """Get count of recent work items."""
         try:
             if self.vector_integration["status"] != "connected":
                 return 0
-                
+
             query = SearchQuery(
                 query=f"agent:{self.agent_id}",
                 collection_name="agent_work",
@@ -100,57 +100,57 @@ class AgentStatusManager:
             return len(results)
         except Exception:
             return 0
-    
+
     def _get_pending_tasks_count(self) -> int:
         """Get count of pending tasks."""
         try:
             if not self.workspace_path.exists():
                 return 0
-                
+
             inbox_path = self.workspace_path / "inbox"
             if not inbox_path.exists():
                 return 0
-                
+
             return len(list(inbox_path.glob("*.md")))
         except Exception:
             return 0
-    
+
     def _get_last_activity(self) -> str:
         """Get last activity timestamp."""
         try:
             if not self.workspace_path.exists():
                 return datetime.now().isoformat()
-                
+
             # Find most recent file modification
             recent_files = []
             for pattern in ["**/*.py", "**/*.md", "**/*.json"]:
                 recent_files.extend(self.workspace_path.glob(pattern))
-            
+
             if recent_files:
                 latest_file = max(recent_files, key=lambda f: f.stat().st_mtime)
                 return datetime.fromtimestamp(latest_file.stat().st_mtime).isoformat()
-            
+
             return datetime.now().isoformat()
         except Exception:
             return datetime.now().isoformat()
-    
+
     def _get_total_documents(self) -> int:
         """Get total documents in vector database."""
         try:
             if self.vector_integration["status"] != "connected":
                 return 0
-                
+
             stats = self.vector_db.get_stats()
             return stats.total_documents
         except Exception:
             return 0
-    
+
     def _get_agent_documents(self) -> int:
         """Get documents specific to this agent."""
         try:
             if self.vector_integration["status"] != "connected":
                 return 0
-                
+
             query = SearchQuery(
                 query=f"agent:{self.agent_id}",
                 collection_name="agent_work",

@@ -9,12 +9,11 @@ Author: Agent-7 - Web Development Specialist
 """
 
 import logging
-from pathlib import Path
 from datetime import datetime
-from typing import Any
+from pathlib import Path
 
-from .vector_database import get_vector_database_service, add_document_to_vector_db
-from .vector_database.vector_database_models import VectorDocument, DocumentType
+from .vector_database import add_document_to_vector_db, get_vector_database_service
+from .vector_database.vector_database_models import DocumentType, VectorDocument
 
 
 class WorkIndexer:
@@ -25,7 +24,7 @@ class WorkIndexer:
         self.agent_id = agent_id
         self.workspace_path = Path(f"agent_workspaces/{agent_id}")
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize vector integration
         try:
             self.vector_db = get_vector_database_service()
@@ -108,7 +107,7 @@ class WorkIndexer:
 
             indexed_count = 0
             message_files = list(inbox_path.glob("*.md"))
-            
+
             for message_file in message_files:
                 try:
                     content = message_file.read_text(encoding='utf-8')

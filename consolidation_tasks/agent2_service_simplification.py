@@ -11,10 +11,9 @@ TARGET: src/core/integration_coordinators/ (25+ files → 1 file)
 Author: Agent-2 - Architecture & Design Specialist
 """
 
-import os
 import shutil
 from pathlib import Path
-from typing import Dict, Any
+
 
 class ServiceSimplificationAgent:
     """Agent responsible for simplifying service over-engineering."""

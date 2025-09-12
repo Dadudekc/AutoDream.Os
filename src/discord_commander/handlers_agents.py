@@ -18,15 +18,15 @@ License: MIT
 
 import asyncio
 from datetime import datetime
-from typing import Dict, Any, Optional
 from pathlib import Path
+from typing import Any
 
 try:
-    from .embeds import EmbedManager
     from .discord_commander_models import CommandResult
+    from .embeds import EmbedManager
 except ImportError:
-    from embeds import EmbedManager
     from discord_commander_models import CommandResult
+    from embeds import EmbedManager
 
 
 class AgentCommandHandlers:
@@ -36,9 +36,9 @@ class AgentCommandHandlers:
         """Initialize agent command handlers."""
         self.agent_engine = agent_engine
         self.embed_manager = embed_manager
-        self.active_commands: Dict[str, Dict[str, Any]] = {}
+        self.active_commands: dict[str, dict[str, Any]] = {}
 
-    async def handle_prompt_command(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_prompt_command(self, context: dict[str, Any]) -> dict[str, Any] | None:
         """
         Handle agent prompt command.
 
@@ -96,7 +96,7 @@ class AgentCommandHandlers:
             'follow_up': True
         }
 
-    async def handle_prompt_followup(self, command_id: str, result: CommandResult) -> Dict[str, Any]:
+    async def handle_prompt_followup(self, command_id: str, result: CommandResult) -> dict[str, Any]:
         """
         Handle followup for prompt command after agent communication.
 
@@ -139,7 +139,7 @@ class AgentCommandHandlers:
             'edit': True
         }
 
-    async def handle_status_command(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_status_command(self, context: dict[str, Any]) -> dict[str, Any] | None:
         """
         Handle agent status command.
 
@@ -195,7 +195,7 @@ class AgentCommandHandlers:
             'embed': updated_embed
         }
 
-    async def _get_agent_status(self, agent_id: str) -> Dict[str, Any]:
+    async def _get_agent_status(self, agent_id: str) -> dict[str, Any]:
         """
         Get agent status information.
 
@@ -257,7 +257,7 @@ class AgentCommandHandlers:
         """Get count of active commands."""
         return len(self.active_commands)
 
-    def get_agent_command_stats(self, agent_id: str) -> Dict[str, Any]:
+    def get_agent_command_stats(self, agent_id: str) -> dict[str, Any]:
         """Get command statistics for specific agent."""
         agent_commands = [
             cmd for cmd in self.active_commands.values()
@@ -285,7 +285,7 @@ class AgentCommandHandlers:
         if to_remove:
             print(f"🧹 Cleaned up {len(to_remove)} old commands")
 
-    async def handle_direct_agent_command(self, agent_number: int, message: str, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_direct_agent_command(self, agent_number: int, message: str, context: dict[str, Any]) -> dict[str, Any] | None:
         """
         Handle direct agent commands like !agent1, !agent2, etc.
 
@@ -359,7 +359,7 @@ class AgentCommandHandlers:
             'follow_up': True
         }
 
-    async def handle_direct_agent_followup(self, command_id: str, result: CommandResult) -> Dict[str, Any]:
+    async def handle_direct_agent_followup(self, command_id: str, result: CommandResult) -> dict[str, Any]:
         """
         Handle followup for direct agent command.
 

@@ -10,9 +10,8 @@ Author: V2_SWARM_CAPTAIN
 """
 
 import os
-import json
 from pathlib import Path
-from typing import Dict, List, Any
+
 
 def analyze_current_structure():
     """Analyze current src/ structure and identify consolidation opportunities."""
@@ -340,8 +339,8 @@ def main():
     structure = analyze_current_structure()
     print("📁 CURRENT STRUCTURE ANALYSIS:")
     print(f"   • Total directories with Python files: {len(structure)}")
-    print(f"   • Largest: core/analytics/ (23+ files)")
-    print(f"   • Managers: core/managers/ (16 files)")
+    print("   • Largest: core/analytics/ (23+ files)")
+    print("   • Managers: core/managers/ (16 files)")
     print()
 
     # Generate plan
@@ -363,7 +362,7 @@ def main():
     print(f"   📊 Files before: {savings['files_before']}")
     print(f"   💾 Files after: ~{savings['files_after']}")
     print(f"   📉 Reduction: {savings['reduction_percentage']}%")
-    print(f"   🎯 Target range: 150-200 files (73-83% reduction)")
+    print("   🎯 Target range: 150-200 files (73-83% reduction)")
     print()
 
     print("⚠️  RISK BREAKDOWN:")

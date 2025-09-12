@@ -16,22 +16,22 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Mission: EMERGENCY PYTEST COVERAGE - UNIT TESTING EXECUTION
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 try:
     from services.consolidated_messaging_service import (
-        ConsolidatedMessagingService,
         MESSAGING_AVAILABLE,
         PYAUTOGUI_AVAILABLE,
         PYPERCLIP_AVAILABLE,
-        SWARM_AGENTS
+        SWARM_AGENTS,
+        ConsolidatedMessagingService,
     )
     SERVICES_AVAILABLE = True
 except ImportError:

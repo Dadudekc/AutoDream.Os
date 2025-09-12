@@ -8,10 +8,11 @@ Utility operations and data processing
 @license MIT
 """
 
-import logging
 import json
-from typing import Dict, Any
+import logging
 from datetime import datetime
+from typing import Any
+
 
 class UtilityHandler:
     """Handles utility operations and data processing"""
@@ -19,7 +20,7 @@ class UtilityHandler:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def process_utility(self, request) -> Dict[str, Any]:
+    def process_utility(self, request) -> dict[str, Any]:
         """Process a utility request"""
         utility_type = request.data.get('type', '')
         params = request.data.get('params', {})
@@ -33,7 +34,7 @@ class UtilityHandler:
         else:
             return {"error": f"Unknown utility type: {utility_type}"}
 
-    def format_data(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    def format_data(self, params: dict[str, Any]) -> dict[str, Any]:
         """Format data according to specifications"""
         data = params.get('data')
         format_type = params.get('format_type', 'json')
@@ -45,7 +46,7 @@ class UtilityHandler:
         else:
             return {"error": f"Unsupported format type: {format_type}"}
 
-    def validate_data(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    def validate_data(self, params: dict[str, Any]) -> dict[str, Any]:
         """Validate data against schema"""
         data = params.get('data')
         schema = params.get('schema', {})
@@ -62,7 +63,7 @@ class UtilityHandler:
             "validated_at": datetime.now().isoformat()
         }
 
-    def transform_data(self, params: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_data(self, params: dict[str, Any]) -> dict[str, Any]:
         """Transform data according to rules"""
         data = params.get('data')
         transformations = params.get('transformations', [])

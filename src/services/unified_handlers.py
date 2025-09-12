@@ -23,8 +23,14 @@ MODULAR ARCHITECTURE:
 
 # Import the new modular orchestrator
 try:
-    from .handlers_orchestrator import UnifiedHandlersOrchestrator, create_unified_handlers_orchestrator
-    from .handlers_orchestrator import HandlerType, HandlerPriority, HandlerStatus, HandlerRequest
+    from .handlers_orchestrator import (
+        HandlerPriority,
+        HandlerRequest,
+        HandlerStatus,
+        HandlerType,
+        UnifiedHandlersOrchestrator,
+        create_unified_handlers_orchestrator,
+    )
 except ImportError as e:
     import logging
     logging.warning(f"Failed to import handlers orchestrator: {e}")

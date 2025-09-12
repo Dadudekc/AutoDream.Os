@@ -15,23 +15,23 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Coverage Target: 85%+
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
+import json
 import sys
 import tempfile
-import json
-from typing import Dict, Tuple
+from pathlib import Path
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from services.consolidated_messaging_service import (
-    ConsolidatedMessagingService,
     MESSAGING_AVAILABLE,
     PYAUTOGUI_AVAILABLE,
     PYPERCLIP_AVAILABLE,
-    SWARM_AGENTS
+    SWARM_AGENTS,
+    ConsolidatedMessagingService,
 )
 
 

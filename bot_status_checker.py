@@ -10,10 +10,11 @@ Usage:
 """
 
 import os
+import subprocess
 import sys
 import time
-import subprocess
 from pathlib import Path
+
 
 def check_bot_process():
     """Check if Discord bot process is running"""

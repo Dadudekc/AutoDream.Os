@@ -9,17 +9,16 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-import time
-import pyperclip
 import webbrowser
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Optional, Dict, Any
 
-from ..browser.thea_browser_service import TheaBrowserService, BrowserMode
-from ..responses.thea_response_service import TheaResponseService
+import pyperclip
+
 from ...thea.config.thea_config import TheaConfig
+from ..browser.thea_browser_service import BrowserMode, TheaBrowserService
+from ..responses.thea_response_service import TheaResponseService
 
 
 class MessageStatus(Enum):
@@ -152,11 +151,11 @@ Please acknowledge this test message and provide guidance for our next prioritie
 Thank you!
 WE ARE SWARM"""
 
-    def load_message_template(self) -> Optional[str]:
+    def load_message_template(self) -> str | None:
         """Load message from template file."""
         try:
             if self.config.message_template_path.exists():
-                with open(self.config.message_template_path, 'r', encoding='utf-8') as f:
+                with open(self.config.message_template_path, encoding='utf-8') as f:
                     return f.read().strip()
         except Exception as e:
             print(f"⚠️  Could not load message template: {e}")

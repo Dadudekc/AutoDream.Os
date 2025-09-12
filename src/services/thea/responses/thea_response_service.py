@@ -9,16 +9,15 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-import time
 import json
-import pyautogui
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Optional, Dict, Any, Tuple
 
-from ..browser.thea_browser_service import TheaBrowserService
+import pyautogui
+
 from ...thea.config.thea_config import TheaConfig
+from ..browser.thea_browser_service import TheaBrowserService
 
 
 class ResponseStatus(Enum):
@@ -77,7 +76,7 @@ class TheaResponseService:
         input("🎯 Press Enter when Thea has finished responding...")
         return True
 
-    def capture_response(self) -> Optional[Path]:
+    def capture_response(self) -> Path | None:
         """Capture Thea's response via screenshot and extract text."""
         print("\n📸 CAPTURING THEA'S RESPONSE")
         print("=" * 50)
@@ -110,7 +109,7 @@ class TheaResponseService:
 
         return text
 
-    def _take_screenshot(self) -> Optional[Path]:
+    def _take_screenshot(self) -> Path | None:
         """Take screenshot of the current page."""
         try:
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -155,7 +154,7 @@ class TheaResponseService:
         # Create conversation log
         self._create_conversation_log(sent_message_path, screenshot_path, timestamp, extracted_response)
 
-    def _find_latest_sent_message(self) -> Optional[Path]:
+    def _find_latest_sent_message(self) -> Path | None:
         """Find the most recent sent message file."""
         try:
             message_files = list(self.config.responses_dir.glob("sent_message_*.txt"))
@@ -165,7 +164,7 @@ class TheaResponseService:
             pass
         return None
 
-    def _create_conversation_log(self, sent_message_path: Optional[Path], screenshot_path: Path,
+    def _create_conversation_log(self, sent_message_path: Path | None, screenshot_path: Path,
                                 timestamp: str, extracted_response: str) -> None:
         """Create a comprehensive conversation log."""
         try:
@@ -174,7 +173,7 @@ class TheaResponseService:
             # Load sent message
             sent_message = ""
             if sent_message_path and sent_message_path.exists():
-                with open(sent_message_path, 'r', encoding='utf-8') as f:
+                with open(sent_message_path, encoding='utf-8') as f:
                     sent_message = f.read()
 
             response_section = ""

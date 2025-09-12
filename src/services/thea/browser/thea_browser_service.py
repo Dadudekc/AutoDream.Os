@@ -9,9 +9,9 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-from enum import Enum
-from typing import Optional, Dict, Any, List
 from contextlib import contextmanager
+from enum import Enum
+from typing import Any
 
 from ...thea.config.thea_config import TheaConfig
 
@@ -35,9 +35,9 @@ class TheaBrowserService:
         """Check if Selenium dependencies are available."""
         try:
             import selenium
+            import undetected_chromedriver as uc
             from selenium import webdriver
             from webdriver_manager.chrome import ChromeDriverManager
-            import undetected_chromedriver as uc
             return True
         except ImportError:
             return False
@@ -142,15 +142,15 @@ class TheaBrowserService:
 
         try:
             from selenium.webdriver.common.by import By
-            from selenium.webdriver.support.ui import WebDriverWait
             from selenium.webdriver.support import expected_conditions as EC
+            from selenium.webdriver.support.ui import WebDriverWait
 
             wait = WebDriverWait(self.driver, timeout)
             return wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
         except Exception:
             return None
 
-    def find_input_field(self) -> Optional[Any]:
+    def find_input_field(self) -> Any | None:
         """Find the message input field using configured selectors."""
         if not self.driver:
             return None
@@ -171,7 +171,6 @@ class TheaBrowserService:
             return False
 
         try:
-            from selenium.webdriver.common.by import By
             from selenium.webdriver.common.keys import Keys
 
             input_field = self.find_input_field()
@@ -198,13 +197,13 @@ class TheaBrowserService:
             print(f"❌ Selenium message sending failed: {e}")
             return False
 
-    def get_cookies(self) -> List[Dict[str, Any]]:
+    def get_cookies(self) -> list[dict[str, Any]]:
         """Get browser cookies."""
         if not self.driver:
             return []
         return self.driver.get_cookies()
 
-    def add_cookies(self, cookies: List[Dict[str, Any]]) -> None:
+    def add_cookies(self, cookies: list[dict[str, Any]]) -> None:
         """Add cookies to browser."""
         if not self.driver:
             return

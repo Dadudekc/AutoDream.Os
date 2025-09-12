@@ -11,7 +11,7 @@ License: MIT
 import re
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import List
+
 from .config_consolidator import ConfigPattern
 
 
@@ -19,7 +19,7 @@ class ConfigurationScanner(ABC):
     """Abstract base class for configuration scanners."""
 
     @abstractmethod
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan a file for specific configuration patterns."""
         pass
 
@@ -37,7 +37,7 @@ class EnvironmentVariableScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "environment_variables"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find environment variable usage patterns."""
         patterns = []
         for i, line in enumerate(lines, 1):
@@ -64,7 +64,7 @@ class HardcodedValueScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "hardcoded_values"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find hardcoded configuration values."""
         patterns = []
         config_patterns = [
@@ -115,7 +115,7 @@ class ConfigConstantScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "config_constants"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find configuration constant definitions."""
         patterns = []
         for i, line in enumerate(lines, 1):
@@ -156,7 +156,7 @@ class SettingsPatternScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "settings_patterns"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find settings-related patterns."""
         patterns = []
         settings_keywords = ['settings', 'config', 'configuration', 'options']

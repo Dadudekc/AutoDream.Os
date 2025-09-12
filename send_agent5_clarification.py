@@ -3,8 +3,9 @@
 Send debate status clarification request to Agent-5.
 """
 
-import pyautogui
 import time
+
+import pyautogui
 import pyperclip
 
 # The clarification request message
@@ -44,21 +45,21 @@ def format_message_for_delivery(message_content, sender, recipient, message_type
             "---",
             "",
             f"You are **{recipient}**",
-            f"Timestamp: 2025-09-09 14:20:00.000000",
+            "Timestamp: 2025-09-09 14:20:00.000000",
             "",
             "### 📬 INBOX CHECK",
             "Review your inbox at:",
             "",
-            f"```",
+            "```",
             f"agent_workspaces/{recipient}/inbox/",
-            f"```",
+            "```",
             "",
             "### ✉️ MESSAGE SENDING",
             "Use this command:",
             "",
-            f"```",
+            "```",
             f"python -c \"from src.core.messaging_core import send_message, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag; send_message('your message', '{recipient}', 'target_agent', UnifiedMessageType.AGENT_TO_AGENT, UnifiedMessagePriority.REGULAR, [UnifiedMessageTag.SYSTEM])\"",
-            f"```",
+            "```",
             "",
             "### 📝 DISCORD DEVLOG",
             "Create and post your devlog in the `devlogs/` directory.",
@@ -73,7 +74,7 @@ def format_message_for_delivery(message_content, sender, recipient, message_type
             "",
             "### 🔄 PROTOCOL",
             "1. **Update Status** – set task & focus for this cycle",
-            "2. **Review Project** – check relevant files & context", 
+            "2. **Review Project** – check relevant files & context",
             "3. **Check Inbox** – read/respond to pending messages",
             "4. **Message Agents** – coordinate using the command above",
             "5. **Create Devlog** – record task, actions, commit, status & post to Discord",
@@ -92,7 +93,7 @@ def send_to_agent5():
         # Agent-5 coordinates
         x, y = (652, 421)
         recipient = "Agent-5"
-        
+
         formatted_message = format_message_for_delivery(
             message_content=clarification_message,
             sender="CAPTAIN",
@@ -101,9 +102,9 @@ def send_to_agent5():
             priority="URGENT",
             tags=["system", "debate"]
         )
-        
+
         print(f"📤 Sending clarification request to {recipient} at ({x}, {y})...")
-        
+
         # Focus and clear
         pyautogui.moveTo(x, y, duration=0.5)
         pyautogui.click()
@@ -112,21 +113,21 @@ def send_to_agent5():
         time.sleep(0.1)
         pyautogui.press("delete")
         time.sleep(0.1)
-        
+
         # Copy formatted message to clipboard
         pyperclip.copy(formatted_message)
         time.sleep(0.1)
-        
+
         # Paste the message
         pyautogui.hotkey("ctrl", "v")
         time.sleep(0.5)
-        
+
         # Send the message
         pyautogui.press("enter")
-        
+
         print(f"✅ {recipient} clarification request sent successfully!")
         return True
-        
+
     except Exception as e:
         print(f"❌ Failed to send to {recipient}: {e}")
         return False
@@ -138,9 +139,9 @@ if __name__ == "__main__":
     print("Coordinates: (652, 421)")
     print("Press Ctrl+C to cancel, or Enter to continue...")
     input()
-    
+
     success = send_to_agent5()
-    
+
     if success:
         print("\n🎉 SUCCESS: Agent-5 received the clarification request!")
         print("🐝 SWARM COORDINATION: Agent-5 status clarification requested!")

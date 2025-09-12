@@ -3,25 +3,31 @@
 Coordinate Swarm Restoration - Send messages to all agents
 """
 
-import sys
 import os
+import sys
 import time
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
+from src.core.messaging_core import (
+    UnifiedMessage,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+    UnifiedMessageType,
+)
 from src.services.messaging_pyautogui import PyAutoGUIMessagingDelivery
-from src.core.messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
+
 
 def send_swarm_coordination_messages():
     """Send coordination messages to all agents for feature restoration."""
-    
+
     # Create messaging delivery instance
     messaging = PyAutoGUIMessagingDelivery()
-    
+
     # Target agents
     target_agents = ["Agent-1", "Agent-3", "Agent-4", "Agent-6", "Agent-7"]
-    
+
     # Base message content
     base_content = """🚨 SWARM COORDINATION - PyAutoGUI Messaging System OPERATIONAL!
 
@@ -58,18 +64,18 @@ We need to work together to restore all old features:
             tags=[UnifiedMessageTag.COORDINATION],
             metadata={"restoration": True, "coordination": True}
         )
-        
+
         print(f"📤 Sending coordination message to {agent}...")
         result = messaging.send_message(message)
-        
+
         if result:
             print(f"✅ Message sent successfully to {agent}")
         else:
             print(f"❌ Failed to send message to {agent}")
-        
+
         # Small delay between messages
         time.sleep(2)
-    
+
     print("\n🎉 All coordination messages sent!")
     print("🐝 WE ARE SWARM - Ready for feature restoration coordination!")
 

@@ -17,7 +17,7 @@ License: MIT
 
 import logging
 import time
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 from .models.messaging_models import (
     SenderType,
@@ -30,22 +30,22 @@ logger = logging.getLogger(__name__)
 
 class ConsolidatedCoordinationService:
     """Unified coordination service combining strategy, command handling, and coordination."""
-    
+
     def __init__(self, name: str = "ConsolidatedCoordinator"):
         """Initialize the consolidated coordination service."""
         self.name = name
         self.logger = logging.getLogger(__name__)
         self.status = {"name": name, "status": "active"}
-        
+
         # Initialize coordination components
         self.coordination_rules = self._initialize_coordination_rules()
         self.routing_table = self._initialize_routing_table()
         self.command_count = 0
         self.successful_commands = 0
         self.failed_commands = 0
-        self.command_history: List[Dict[str, Any]] = []
+        self.command_history: list[dict[str, Any]] = []
 
-    def _initialize_coordination_rules(self) -> Dict[str, Any]:
+    def _initialize_coordination_rules(self) -> dict[str, Any]:
         """Initialize coordination rules."""
         return {
             "priority_routing": {
@@ -69,7 +69,7 @@ class ConsolidatedCoordinationService:
             }
         }
 
-    def _initialize_routing_table(self) -> Dict[str, Any]:
+    def _initialize_routing_table(self) -> dict[str, Any]:
         """Initialize routing table."""
         return {
             "immediate": {"timeout": 0, "retries": 3},
@@ -88,17 +88,17 @@ class ConsolidatedCoordinationService:
         priority_strategy = self.coordination_rules["priority_routing"].get(
             message.priority, "standard"
         )
-        
+
         # Type-based routing
         type_strategy = self.coordination_rules["type_routing"].get(
             message.message_type, "standard"
         )
-        
+
         # Sender-based routing
         sender_strategy = self.coordination_rules["sender_routing"].get(
             message.sender_type, "standard"
         )
-        
+
         # Combine strategies (highest priority wins)
         if sender_strategy == "highest_priority":
             return sender_strategy
@@ -109,11 +109,11 @@ class ConsolidatedCoordinationService:
         else:
             return priority_strategy
 
-    def apply_coordination_rules(self, message: UnifiedMessage) -> Dict[str, Any]:
+    def apply_coordination_rules(self, message: UnifiedMessage) -> dict[str, Any]:
         """Apply coordination rules to a message."""
         strategy = self.determine_coordination_strategy(message)
         routing_config = self.routing_table.get(strategy, self.routing_table["standard"])
-        
+
         return {
             "strategy": strategy,
             "timeout": routing_config["timeout"],
@@ -130,14 +130,14 @@ class ConsolidatedCoordinationService:
         ]
         return command in supported_commands
 
-    async def process_command(self, command: str, args: Dict[str, Any], 
-                            coordinate_handler=None, message_handler=None, 
-                            service=None) -> Dict[str, Any]:
+    async def process_command(self, command: str, args: dict[str, Any],
+                            coordinate_handler=None, message_handler=None,
+                            service=None) -> dict[str, Any]:
         """Process CLI command."""
         try:
             self.command_count += 1
             start_time = time.time()
-            
+
             if command == "coordinates":
                 result = await self._handle_coordinates_command(coordinate_handler)
             elif command == "list_agents":
@@ -156,7 +156,7 @@ class ConsolidatedCoordinationService:
                     "error": f"Unknown command: {command}",
                     "data": {}
                 }
-            
+
             # Record command execution
             execution_time = time.time() - start_time
             self.command_history.append({
@@ -166,14 +166,14 @@ class ConsolidatedCoordinationService:
                 "execution_time": execution_time,
                 "timestamp": time.time()
             })
-            
+
             if result.get("success", False):
                 self.successful_commands += 1
             else:
                 self.failed_commands += 1
-            
+
             return result
-            
+
         except Exception as e:
             self.logger.error(f"Error processing command {command}: {e}")
             self.failed_commands += 1
@@ -183,7 +183,7 @@ class ConsolidatedCoordinationService:
                 "data": {}
             }
 
-    async def _handle_coordinates_command(self, coordinate_handler) -> Dict[str, Any]:
+    async def _handle_coordinates_command(self, coordinate_handler) -> dict[str, Any]:
         """Handle coordinates command."""
         if not coordinate_handler:
             return {
@@ -191,7 +191,7 @@ class ConsolidatedCoordinationService:
                 "error": "Coordinate handler not available",
                 "data": {}
             }
-        
+
         try:
             coordinates = await coordinate_handler.get_all_coordinates()
             return {
@@ -208,17 +208,17 @@ class ConsolidatedCoordinationService:
                 "data": {}
             }
 
-    async def _handle_list_agents_command(self) -> Dict[str, Any]:
+    async def _handle_list_agents_command(self) -> dict[str, Any]:
         """Handle list agents command."""
         try:
             # Mock agent list - in real implementation, this would query the registry
             agents = [f"Agent-{i}" for i in range(1, 9)]
             formatted_agents = "\n".join(f"• {agent}" for agent in agents)
-            
+
             self.logger.info(f"\n🤖 Available Agents ({len(agents)}):")
             for agent in agents:
                 self.logger.info(f"  - {agent}")
-            
+
             return {
                 "success": True,
                 "data": {
@@ -234,7 +234,7 @@ class ConsolidatedCoordinationService:
                 "data": {}
             }
 
-    async def _handle_status_command(self) -> Dict[str, Any]:
+    async def _handle_status_command(self) -> dict[str, Any]:
         """Handle status command."""
         return {
             "success": True,
@@ -249,7 +249,7 @@ class ConsolidatedCoordinationService:
             }
         }
 
-    async def _handle_help_command(self) -> Dict[str, Any]:
+    async def _handle_help_command(self) -> dict[str, Any]:
         """Handle help command."""
         help_text = """
 Available Commands:
@@ -260,7 +260,7 @@ Available Commands:
   ping         - Ping coordinator
   shutdown     - Shutdown coordinator
         """
-        
+
         return {
             "success": True,
             "data": {
@@ -271,7 +271,7 @@ Available Commands:
             }
         }
 
-    async def _handle_ping_command(self) -> Dict[str, Any]:
+    async def _handle_ping_command(self) -> dict[str, Any]:
         """Handle ping command."""
         return {
             "success": True,
@@ -282,7 +282,7 @@ Available Commands:
             }
         }
 
-    async def _handle_shutdown_command(self) -> Dict[str, Any]:
+    async def _handle_shutdown_command(self) -> dict[str, Any]:
         """Handle shutdown command."""
         self.shutdown()
         return {
@@ -293,7 +293,7 @@ Available Commands:
             }
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get coordinator status."""
         return self.status
 
@@ -301,7 +301,7 @@ Available Commands:
         """Get coordinator name."""
         return self.name
 
-    def get_command_stats(self) -> Dict[str, Any]:
+    def get_command_stats(self) -> dict[str, Any]:
         """Get command execution statistics."""
         return {
             "total_commands": self.command_count,
@@ -311,7 +311,7 @@ Available Commands:
             "recent_commands": self.command_history[-10:]  # Last 10 commands
         }
 
-    def process_message(self, message: UnifiedMessage) -> Dict[str, Any]:
+    def process_message(self, message: UnifiedMessage) -> dict[str, Any]:
         """Process a single message."""
         self.command_count += 1
 
@@ -368,7 +368,7 @@ Available Commands:
             })
             return {"success": False, "error": str(e), "strategy": "error", "status": "failed", "timestamp": time.time()}
 
-    def process_bulk_messages(self, messages: List[UnifiedMessage]) -> List[Dict[str, Any]]:
+    def process_bulk_messages(self, messages: list[UnifiedMessage]) -> list[dict[str, Any]]:
         """Process multiple messages in batch."""
         results = []
         for message in messages:
@@ -376,7 +376,7 @@ Available Commands:
             results.append(result)
         return results
 
-    def validate_message(self, message: UnifiedMessage) -> Dict[str, Any]:
+    def validate_message(self, message: UnifiedMessage) -> dict[str, Any]:
         """Validate message before processing."""
         is_valid = True
         errors = []
@@ -436,7 +436,7 @@ Available Commands:
 
         return "standard"
 
-    def get_routing_config(self, strategy: str) -> Optional[Dict[str, Any]]:
+    def get_routing_config(self, strategy: str) -> dict[str, Any] | None:
         """Get routing configuration for a strategy."""
         if strategy in self.routing_table:
             return self.routing_table[strategy]
@@ -447,7 +447,7 @@ Available Commands:
         if rule_type in self.coordination_rules:
             self.coordination_rules[rule_type][key] = value
 
-    def get_service_status(self) -> Dict[str, Any]:
+    def get_service_status(self) -> dict[str, Any]:
         """Get service status."""
         import time
         return {
@@ -477,7 +477,7 @@ Available Commands:
 
         return True
 
-    def get_coordination_rules(self) -> Dict[str, Any]:
+    def get_coordination_rules(self) -> dict[str, Any]:
         """Get coordination rules."""
         return self.coordination_rules
 
@@ -489,7 +489,7 @@ Available Commands:
         self.command_history.clear()
         self.logger.info("Service reset to initial state")
 
-    def _execute_coordination_strategy(self, message: UnifiedMessage, strategy: str, message_obj: UnifiedMessage = None) -> Dict[str, Any]:
+    def _execute_coordination_strategy(self, message: UnifiedMessage, strategy: str, message_obj: UnifiedMessage = None) -> dict[str, Any]:
         """Execute the determined coordination strategy."""
         # Simulate strategy execution
         base_result = {

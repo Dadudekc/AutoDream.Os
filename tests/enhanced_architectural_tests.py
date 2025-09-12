@@ -5,12 +5,12 @@ Comprehensive SOLID Principles, Dependency Injection, and Architectural Pattern 
 Includes Integration Testing and Performance Benchmarks for Swarm Coverage Initiative
 """
 
-import sys
-import os
-import time
-from pathlib import Path
 import json
+import os
+import sys
+import time
 from datetime import datetime
+from pathlib import Path
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
@@ -148,7 +148,7 @@ class EnhancedArchitecturalTestSuite:
             self.log_test_result(
                 "DIP - Dependency Inversion (Enhanced)",
                 has_constructor_injection,
-                f"Constructor injection available, dependencies properly abstracted"
+                "Constructor injection available, dependencies properly abstracted"
             )
         except Exception as e:
             self.log_test_result("DIP - Dependency Inversion (Enhanced)", False, f"Dependency test failed: {e}")
@@ -273,8 +273,8 @@ class EnhancedArchitecturalTestSuite:
 
         # Cross-service Communication
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             msg_service = ConsolidatedMessagingService()
             coord_loader = CoordinateLoader()
@@ -439,7 +439,7 @@ class EnhancedArchitecturalTestSuite:
         with open("enhanced_architectural_test_report.json", "w") as f:
             json.dump(report_data, f, indent=2)
 
-        print(f"\n🎯 Enhanced test summary saved to: enhanced_architectural_test_report.json")
+        print("\n🎯 Enhanced test summary saved to: enhanced_architectural_test_report.json")
 
 def main():
     """Main execution function"""

@@ -6,7 +6,6 @@ Defines the browser interface contract for the domain layer.
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, Any
 from dataclasses import dataclass
 
 

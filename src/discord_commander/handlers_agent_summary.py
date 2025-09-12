@@ -10,9 +10,10 @@ License: MIT
 """
 
 from __future__ import annotations
+
 import discord
 from discord.ext import commands
-from typing import Optional
+
 
 class AgentSummary(commands.Cog):
     """Discord cog for agent summary commands"""
@@ -22,7 +23,7 @@ class AgentSummary(commands.Cog):
         self.bot = bot
         self.gateway = gateway
 
-    async def _send_and_ack(self, ctx: commands.Context, agent_key: str, context: Optional[str] = None):
+    async def _send_and_ack(self, ctx: commands.Context, agent_key: str, context: str | None = None):
         """Send summary request and acknowledge via Discord"""
         try:
             # Send the summary request via PyAutoGUI

@@ -2,8 +2,8 @@
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
 # Import only core modules that don't cause circular dependencies
-from . import config
-from . import constants
+from . import config, constants
+
 
 # Lazy imports for modules that may have circular dependencies
 def _lazy_import(module_name):

@@ -14,19 +14,15 @@ License: MIT
 from __future__ import annotations
 
 import logging
+import threading
 import time
 import uuid
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Callable, Union
-from pathlib import Path
-import threading
-import json
+from typing import Any, Protocol
 
-from ..contracts import OrchestrationContext, OrchestrationResult, Step
-from ..registry import StepRegistry
+from ..contracts import OrchestrationContext, Step
 
 
 class LifecyclePhase(Enum):
@@ -70,14 +66,14 @@ class AgentState:
     agent_id: str
     current_phase: LifecyclePhase = LifecyclePhase.INITIALIZING
     status: LifecycleStatus = LifecycleStatus.ACTIVE
-    capabilities: List[AgentCapability] = field(default_factory=list)
-    context: Dict[str, Any] = field(default_factory=dict)
-    observations: List[Dict[str, Any]] = field(default_factory=list)
-    decisions: List[Dict[str, Any]] = field(default_factory=list)
-    actions_taken: List[Dict[str, Any]] = field(default_factory=list)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
+    capabilities: list[AgentCapability] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    observations: list[dict[str, Any]] = field(default_factory=list)
+    decisions: list[dict[str, Any]] = field(default_factory=list)
+    actions_taken: list[dict[str, Any]] = field(default_factory=list)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
     last_activity: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -88,10 +84,10 @@ class LifecycleTransition:
     from_phase: LifecyclePhase
     to_phase: LifecyclePhase
     trigger: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     timestamp: datetime = field(default_factory=datetime.now)
     success: bool = True
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
 
 class SwarmAgent(Protocol):
@@ -101,33 +97,33 @@ class SwarmAgent(Protocol):
     def agent_id(self) -> str: ...
 
     @property
-    def capabilities(self) -> List[AgentCapability]: ...
+    def capabilities(self) -> list[AgentCapability]: ...
 
-    def observe(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def observe(self, context: dict[str, Any]) -> dict[str, Any]:
         """Phase 1: Observation - Gather information from environment."""
         ...
 
-    def analyze(self, observations: Dict[str, Any]) -> Dict[str, Any]:
+    def analyze(self, observations: dict[str, Any]) -> dict[str, Any]:
         """Phase 2: Analysis - Process and analyze observations."""
         ...
 
-    def debate(self, analysis: Dict[str, Any], peer_inputs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def debate(self, analysis: dict[str, Any], peer_inputs: list[dict[str, Any]]) -> dict[str, Any]:
         """Phase 3: Debate - Participate in swarm decision-making."""
         ...
 
-    def decide(self, debate_results: Dict[str, Any]) -> Dict[str, Any]:
+    def decide(self, debate_results: dict[str, Any]) -> dict[str, Any]:
         """Phase 4: Decision - Make final determination."""
         ...
 
-    def act(self, decision: Dict[str, Any]) -> Dict[str, Any]:
+    def act(self, decision: dict[str, Any]) -> dict[str, Any]:
         """Phase 5: Action - Execute the decision."""
         ...
 
-    def reflect(self, action_results: Dict[str, Any]) -> Dict[str, Any]:
+    def reflect(self, action_results: dict[str, Any]) -> dict[str, Any]:
         """Phase 6: Reflection - Learn from action outcomes."""
         ...
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current agent status."""
         ...
 
@@ -135,7 +131,7 @@ class SwarmAgent(Protocol):
 class LifecycleStrategy(Protocol):
     """Strategy pattern for lifecycle management."""
 
-    def should_transition(self, agent: SwarmAgent, current_state: AgentState, context: Dict[str, Any]) -> Optional[LifecyclePhase]: ...
+    def should_transition(self, agent: SwarmAgent, current_state: AgentState, context: dict[str, Any]) -> LifecyclePhase | None: ...
 
     def validate_transition(self, agent: SwarmAgent, from_phase: LifecyclePhase, to_phase: LifecyclePhase) -> bool: ...
 
@@ -172,7 +168,7 @@ class SwarmLifecycleStrategy:
             LifecyclePhase.REFLECTING: 300,     # 5 minutes
         }
 
-    def should_transition(self, agent: SwarmAgent, current_state: AgentState, context: Dict[str, Any]) -> Optional[LifecyclePhase]:
+    def should_transition(self, agent: SwarmAgent, current_state: AgentState, context: dict[str, Any]) -> LifecyclePhase | None:
         """Determine if agent should transition to next phase."""
         current_phase = current_state.current_phase
 
@@ -230,14 +226,14 @@ class SwarmLifecycleStrategy:
 class LifecycleCoordinator:
     """Lifecycle Coordinator - Intent-Oriented Subsystem for agent lifecycle management."""
 
-    def __init__(self, strategy: Optional[LifecycleStrategy] = None):
+    def __init__(self, strategy: LifecycleStrategy | None = None):
         self.logger = logging.getLogger(__name__)
         self.strategy = strategy or SwarmLifecycleStrategy()
 
         # Agent registry
-        self.registered_agents: Dict[str, SwarmAgent] = {}
-        self.agent_states: Dict[str, AgentState] = {}
-        self.lifecycle_history: List[LifecycleTransition] = []
+        self.registered_agents: dict[str, SwarmAgent] = {}
+        self.agent_states: dict[str, AgentState] = {}
+        self.lifecycle_history: list[LifecycleTransition] = []
 
         # Coordination settings
         self.coordination_cycle_seconds = 60  # Check every minute
@@ -245,7 +241,7 @@ class LifecycleCoordinator:
 
         # Monitoring
         self.monitoring_active = False
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: threading.Thread | None = None
 
     def register_agent(self, agent: SwarmAgent) -> bool:
         """Register an agent with the lifecycle coordinator."""
@@ -310,7 +306,7 @@ class LifecycleCoordinator:
             self.monitoring_thread.join(timeout=10)
         self.logger.info("Lifecycle coordination stopped")
 
-    def execute_lifecycle_cycle(self, agent_id: str, context: Dict[str, Any]) -> Optional[LifecycleTransition]:
+    def execute_lifecycle_cycle(self, agent_id: str, context: dict[str, Any]) -> LifecycleTransition | None:
         """Execute a complete lifecycle cycle for an agent."""
         if agent_id not in self.registered_agents:
             return None
@@ -351,7 +347,7 @@ class LifecycleCoordinator:
             self.logger.error(f"Error in lifecycle cycle for {agent_id}: {e}")
             return self._transition_agent(agent, state, LifecyclePhase.ERROR, "cycle_error", context)
 
-    def force_transition(self, agent_id: str, to_phase: LifecyclePhase, trigger: str, context: Dict[str, Any]) -> Optional[LifecycleTransition]:
+    def force_transition(self, agent_id: str, to_phase: LifecyclePhase, trigger: str, context: dict[str, Any]) -> LifecycleTransition | None:
         """Force an agent to transition to a specific phase."""
         if agent_id not in self.registered_agents:
             return None
@@ -361,7 +357,7 @@ class LifecycleCoordinator:
 
         return self._transition_agent(agent, state, to_phase, trigger, context)
 
-    def get_agent_status(self, agent_id: str) -> Optional[Dict[str, Any]]:
+    def get_agent_status(self, agent_id: str) -> dict[str, Any] | None:
         """Get comprehensive status for an agent."""
         if agent_id not in self.registered_agents:
             return None
@@ -385,7 +381,7 @@ class LifecycleCoordinator:
             }
         }
 
-    def get_coordination_stats(self) -> Dict[str, Any]:
+    def get_coordination_stats(self) -> dict[str, Any]:
         """Get coordination statistics."""
         stats = {
             "total_agents": len(self.registered_agents),
@@ -420,7 +416,7 @@ class LifecycleCoordinator:
 
         return stats
 
-    def _execute_phase(self, agent: SwarmAgent, state: AgentState, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_phase(self, agent: SwarmAgent, state: AgentState, context: dict[str, Any]) -> dict[str, Any]:
         """Execute the current phase for an agent."""
         phase = state.current_phase
 
@@ -446,7 +442,7 @@ class LifecycleCoordinator:
             return {"status": "idle", "phase": phase.value}
 
     def _transition_agent(self, agent: SwarmAgent, state: AgentState, to_phase: LifecyclePhase,
-                         trigger: str, context: Dict[str, Any]) -> LifecycleTransition:
+                         trigger: str, context: dict[str, Any]) -> LifecycleTransition:
         """Transition an agent to a new phase."""
         from_phase = state.current_phase
 
@@ -554,7 +550,7 @@ class LifecycleOrchestrationStep(Step):
     def name(self) -> str:
         return f"lifecycle_{self.operation}"
 
-    def run(self, ctx: OrchestrationContext, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def run(self, ctx: OrchestrationContext, payload: dict[str, Any]) -> dict[str, Any]:
         """Execute lifecycle operation."""
         try:
             if self.operation == "register":
@@ -599,7 +595,7 @@ class LifecycleOrchestrationStep(Step):
 
 
 # Factory function for creating LifecycleCoordinator instances
-def create_lifecycle_coordinator(strategy: Optional[LifecycleStrategy] = None) -> LifecycleCoordinator:
+def create_lifecycle_coordinator(strategy: LifecycleStrategy | None = None) -> LifecycleCoordinator:
     """Factory function for LifecycleCoordinator creation."""
     return LifecycleCoordinator(strategy=strategy)
 

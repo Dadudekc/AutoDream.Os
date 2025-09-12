@@ -5,12 +5,12 @@ Provides import resolution, marker configuration, and integration utilities
 to address critical issues identified in Agent-4's baseline analysis
 """
 
-import sys
-import os
-import pytest
-from pathlib import Path
 import json
+import os
+import sys
 from datetime import datetime
+from pathlib import Path
+
 
 # Comprehensive import resolution framework
 class ImportResolver:
@@ -117,7 +117,7 @@ class MarkerConfigurator:
 
     def generate_pytest_ini_config(self):
         """Generate pytest.ini configuration with markers"""
-        config = f"""[tool:pytest]
+        config = """[tool:pytest]
 markers =
 """
         for marker, description in self.registered_markers.items():
@@ -199,8 +199,8 @@ class IntegrationTestHelper:
         results = {}
 
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             msg_service = ConsolidatedMessagingService()
             coord_loader = CoordinateLoader()

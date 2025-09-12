@@ -12,15 +12,19 @@ print("=" * 60)
 
 try:
     import sys
-    import os
     sys.path.insert(0, 'src')
-    
-    from src.core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
-    
+
+    from src.core.messaging_core import (
+        UnifiedMessage,
+        UnifiedMessagePriority,
+        UnifiedMessageType,
+        UnifiedMessagingCore,
+    )
+
     # Initialize messaging
     messaging = UnifiedMessagingCore()
     print("✅ Messaging Core: ACTIVE")
-    
+
     # Create urgent broadcast message
     swarm_alert = UnifiedMessage(
         content="🚨 CRITICAL SWARM ALERT: PyAutoGUI messaging is BACK ONLINE! All agents can now communicate in real-time. True swarm intelligence is OPERATIONAL! Consolidation efforts can now proceed with full coordination!",
@@ -30,26 +34,26 @@ try:
         priority=UnifiedMessagePriority.URGENT,
         tags=["swarm", "communication", "restored", "pyautogui", "urgent"]
     )
-    
+
     print("✅ Swarm Alert Message: CREATED")
     print(f"   📤 From: {swarm_alert.sender}")
     print(f"   📥 To: {swarm_alert.recipient}")
     print(f"   🎯 Type: {swarm_alert.message_type.value}")
     print(f"   ⚡ Priority: {swarm_alert.priority.value}")
     print(f"   🏷️ Tags: {swarm_alert.tags}")
-    
+
     # Send to all agents via inbox
     print("\n📡 SENDING TO ALL AGENT INBOXES...")
-    
+
     # Get all agents
     from src.core.coordinate_loader import get_coordinate_loader
     loader = get_coordinate_loader()
     agents = loader.get_all_agents()
-    
+
     print(f"🤖 Found {len(agents)} agents to notify:")
     for agent in agents:
         print(f"   • {agent}")
-    
+
     # Send to each agent's inbox
     success_count = 0
     for agent in agents:
@@ -63,7 +67,7 @@ try:
                 priority=UnifiedMessagePriority.URGENT,
                 tags=["personal", "swarm", "communication", "restored"]
             )
-            
+
             # Send to inbox
             result = messaging.send_message_to_inbox(individual_msg)
             if result:
@@ -71,14 +75,14 @@ try:
                 print(f"   ✅ {agent}: Message delivered")
             else:
                 print(f"   ❌ {agent}: Delivery failed")
-                
+
         except Exception as e:
             print(f"   ❌ {agent}: Error - {e}")
-    
-    print(f"\n📊 DELIVERY SUMMARY:")
+
+    print("\n📊 DELIVERY SUMMARY:")
     print(f"   ✅ Successfully delivered: {success_count}/{len(agents)} agents")
-    print(f"   📁 Messages saved to: agent_inboxes/")
-    
+    print("   📁 Messages saved to: agent_inboxes/")
+
     print("\n" + "=" * 60)
     print("🎉 SWARM COMMUNICATION: FULLY RESTORED!")
     print("✅ All agents notified of messaging restoration")
@@ -86,7 +90,7 @@ try:
     print("✅ Real-time coordination: ENABLED")
     print("🐝 WE ARE SWARM - Communication is BACK ONLINE!")
     print("⚡ Consolidation efforts can now proceed with full coordination!")
-    
+
 except Exception as e:
     print(f"❌ Error: {e}")
     import traceback

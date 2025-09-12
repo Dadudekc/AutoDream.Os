@@ -12,8 +12,7 @@ License: MIT
 """
 
 import logging
-from typing import Dict, List, Any, Optional
-from pathlib import Path
+from typing import Any
 
 from ..messaging_cli_coordinate_management.utilities import load_coords_file
 from ..onboarding_handler import OnboardingHandler
@@ -25,12 +24,12 @@ logger = logging.getLogger(__name__)
 
 class UtilityHandler:
     """Handles utility commands for messaging system."""
-    
+
     def __init__(self):
         """Initialize utility handler."""
         self.logger = logger
-    
-    def check_status(self, agent_id: Optional[str] = None) -> Dict[str, Any]:
+
+    def check_status(self, agent_id: str | None = None) -> dict[str, Any]:
         """Check status of agents or specific agent using onboarding handler.
 
         Args:
@@ -83,8 +82,8 @@ class UtilityHandler:
         except Exception as e:
             self.logger.error(f"Error checking status: {e}")
             return {"error": str(e)}
-    
-    def list_agents(self) -> List[Dict[str, Any]]:
+
+    def list_agents(self) -> list[dict[str, Any]]:
         """List all available agents from onboarding handler.
 
         Returns:
@@ -111,8 +110,8 @@ class UtilityHandler:
         except Exception as e:
             self.logger.error(f"Error listing agents: {e}")
             return []
-    
-    def get_coordinates(self, agent_id: str) -> Optional[Dict[str, Any]]:
+
+    def get_coordinates(self, agent_id: str) -> dict[str, Any] | None:
         """Get coordinates for a specific agent from coordinate file.
 
         Args:
@@ -150,8 +149,8 @@ class UtilityHandler:
         except Exception as e:
             self.logger.error(f"Error getting coordinates for {agent_id}: {e}")
             return None
-    
-    def get_history(self, agent_id: Optional[str] = None) -> List[Dict[str, Any]]:
+
+    def get_history(self, agent_id: str | None = None) -> list[dict[str, Any]]:
         """Get message history for agents from vector database.
 
         Args:

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Role Command Handler - V2 Compliant Module
@@ -12,7 +13,7 @@ V2 Compliance: < 300 lines, single responsibility.
 Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class RoleCommandHandler:

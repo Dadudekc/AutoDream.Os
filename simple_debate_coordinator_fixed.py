@@ -9,12 +9,11 @@ without complex import dependencies.
 Author: Agent-4 (Strategic Oversight & Emergency Intervention Manager)
 """
 
-import os
 import sys
 import time
-from pathlib import Path
-from typing import Dict, List, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Add src to path for minimal imports
 project_root = Path(__file__).parent
@@ -29,7 +28,7 @@ try:
 
     coords_file = project_root / "cursor_agent_coords.json"
     if coords_file.exists():
-        with open(coords_file, 'r') as f:
+        with open(coords_file) as f:
             coordinates_data = json.load(f)
         COORDINATE_SYSTEM_AVAILABLE = True
         print("✅ Coordinate system loaded from JSON")
@@ -75,7 +74,7 @@ class SimpleDebateCoordinator:
             return (coords.get('x', 0), coords.get('y', 0))
         return (0, 0)
 
-    def check_system_status(self) -> Dict[str, Any]:
+    def check_system_status(self) -> dict[str, Any]:
         """Check system status."""
         print("🔍 Checking system status...")
 
@@ -152,7 +151,7 @@ As a {specialist_role}, your perspective is crucial for this critical decision.
             print(f"❌ Error processing {agent_id}: {e}")
             return False
 
-    def coordinate_debate(self) -> Dict[str, Any]:
+    def coordinate_debate(self) -> dict[str, Any]:
         """Coordinate debate invitation to all agents."""
         print("🎯 INITIATING PHASE 1 VERIFICATION DEBATE")
         print("=" * 60)

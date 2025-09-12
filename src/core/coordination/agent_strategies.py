@@ -8,9 +8,9 @@ V2 Compliance: Under 300-line limit with strategy pattern
 @License: MIT
 """
 
-from enum import Enum
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List
+from enum import Enum
+from typing import Any
 
 from ...core.validation.unified_validation_orchestrator import get_unified_validator
 
@@ -29,17 +29,17 @@ class AgentCoordinatorStrategy(ABC):
     """Abstract base class for agent coordinator strategies."""
 
     @abstractmethod
-    async def coordinate_agent(self, agent_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def coordinate_agent(self, agent_data: dict[str, Any]) -> dict[str, Any]:
         """Execute agent-specific coordination logic."""
         pass
 
     @abstractmethod
-    def get_agent_metrics(self) -> Dict[str, Any]:
+    def get_agent_metrics(self) -> dict[str, Any]:
         """Get agent-specific performance metrics."""
         pass
 
     @abstractmethod
-    def get_vector_insights(self, context: str) -> List[str]:
+    def get_vector_insights(self, context: str) -> list[str]:
         """Get vector-enhanced insights for agent coordination."""
         pass
 
@@ -47,7 +47,7 @@ class AgentCoordinatorStrategy(ABC):
 class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
     """V2 Compliant strategy for Agent-1 coordination (Integration & Core Systems)."""
 
-    async def coordinate_agent(self, agent_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def coordinate_agent(self, agent_data: dict[str, Any]) -> dict[str, Any]:
         """Execute Agent-1 coordination logic with vector enhancement."""
         return {
             "status": "coordinated",
@@ -57,7 +57,7 @@ class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
             "vector_insights": self.get_vector_insights("integration"),
         }
 
-    def get_agent_metrics(self) -> Dict[str, Any]:
+    def get_agent_metrics(self) -> dict[str, Any]:
         """Get Agent-1 coordination metrics."""
         return {
             "integration_efficiency": 90,
@@ -66,7 +66,7 @@ class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
             "v2_compliance_score": 100,
         }
 
-    def get_vector_insights(self, context: str) -> List[str]:
+    def get_vector_insights(self, context: str) -> list[str]:
         """Get vector-enhanced insights for Agent-1 coordination."""
         return [
             "Integration patterns show 85% success rate with modular architecture",
@@ -78,7 +78,7 @@ class Agent1CoordinatorStrategy(AgentCoordinatorStrategy):
 class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
     """V2 Compliant strategy for Agent-6 coordination (Gaming & Entertainment)."""
 
-    async def coordinate_agent(self, agent_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def coordinate_agent(self, agent_data: dict[str, Any]) -> dict[str, Any]:
         """Execute Agent-6 coordination logic with vector enhancement."""
         return {
             "status": "coordinated",
@@ -88,7 +88,7 @@ class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
             "vector_insights": self.get_vector_insights("coordination"),
         }
 
-    def get_agent_metrics(self) -> Dict[str, Any]:
+    def get_agent_metrics(self) -> dict[str, Any]:
         """Get Agent-6 coordination metrics."""
         return {
             "coordination_efficiency": 95,
@@ -97,7 +97,7 @@ class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
             "vector_integration_score": 95,
         }
 
-    def get_vector_insights(self, context: str) -> List[str]:
+    def get_vector_insights(self, context: str) -> list[str]:
         """Get vector-enhanced insights for Agent-6 coordination."""
         return [
             "Coordination patterns show 95% success rate with vector enhancement",
@@ -109,7 +109,7 @@ class Agent6CoordinatorStrategy(AgentCoordinatorStrategy):
 class Agent7CoordinatorStrategy(AgentCoordinatorStrategy):
     """V2 Compliant strategy for Agent-7 coordination (Web Development)."""
 
-    async def coordinate_agent(self, agent_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def coordinate_agent(self, agent_data: dict[str, Any]) -> dict[str, Any]:
         """Execute Agent-7 coordination logic with vector enhancement."""
         return {
             "status": "coordinated",
@@ -119,7 +119,7 @@ class Agent7CoordinatorStrategy(AgentCoordinatorStrategy):
             "vector_insights": self.get_vector_insights("web_development"),
         }
 
-    def get_agent_metrics(self) -> Dict[str, Any]:
+    def get_agent_metrics(self) -> dict[str, Any]:
         """Get Agent-7 coordination metrics."""
         return {
             "frontend_coverage": 95,
@@ -128,7 +128,7 @@ class Agent7CoordinatorStrategy(AgentCoordinatorStrategy):
             "v2_compliance_score": 100,
         }
 
-    def get_vector_insights(self, context: str) -> List[str]:
+    def get_vector_insights(self, context: str) -> list[str]:
         """Get vector-enhanced insights for Agent-7 coordination."""
         return [
             "Web development patterns show 90% success rate with component architecture",
@@ -164,7 +164,7 @@ class AgentStrategyFactory:
         return strategy_map[agent_type]
 
     @staticmethod
-    def get_all_strategies() -> Dict[AgentType, AgentCoordinatorStrategy]:
+    def get_all_strategies() -> dict[AgentType, AgentCoordinatorStrategy]:
         """Get all available strategies.
 
         Returns:

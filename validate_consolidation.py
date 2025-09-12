@@ -8,19 +8,19 @@ Validates that consolidation maintains functionality and improves maintainabilit
 Author: V2 SWARM CAPTAIN
 """
 
+import importlib
 import os
 import sys
-import importlib
 from pathlib import Path
-from typing import Dict, List, Any
+
 
 class ConsolidationValidator:
     """Validates consolidation results."""
 
     def __init__(self):
         self.project_root = Path("D:/Agent_Cellphone_V2_Repository")
-        self.issues: List[str] = []
-        self.successes: List[str] = []
+        self.issues: list[str] = []
+        self.successes: list[str] = []
 
     def validate_file_count(self) -> bool:
         """Validate that file count has been reduced."""
@@ -129,7 +129,7 @@ class ConsolidationValidator:
                 if file.endswith('.py'):
                     file_path = os.path.join(root, file)
                     try:
-                        with open(file_path, 'r') as f:
+                        with open(file_path) as f:
                             content = f.read()
 
                         # Check for over-engineering patterns

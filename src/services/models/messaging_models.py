@@ -1,10 +1,11 @@
 """Messaging models for the unified messaging system."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Optional, Dict, Any, List
+from typing import Any
 from uuid import uuid4
 
 
@@ -50,12 +51,12 @@ class Message:
     priority: MessagePriority
     status: MessageStatus
     created_at: datetime
-    sent_at: Optional[datetime] = None
-    delivered_at: Optional[datetime] = None
-    read_at: Optional[datetime] = None
-    metadata: Optional[Dict[str, Any]] = None
-    reply_to: Optional[str] = None
-    thread_id: Optional[str] = None
+    sent_at: datetime | None = None
+    delivered_at: datetime | None = None
+    read_at: datetime | None = None
+    metadata: dict[str, Any] | None = None
+    reply_to: str | None = None
+    thread_id: str | None = None
 
     @classmethod
     def create(
@@ -65,9 +66,9 @@ class Message:
         content: str,
         message_type: MessageType = MessageType.CHAT,
         priority: MessagePriority = MessagePriority.NORMAL,
-        metadata: Optional[Dict[str, Any]] = None,
-        reply_to: Optional[str] = None,
-        thread_id: Optional[str] = None
+        metadata: dict[str, Any] | None = None,
+        reply_to: str | None = None,
+        thread_id: str | None = None
     ) -> Message:
         """Create a new message."""
         return cls(
@@ -90,7 +91,7 @@ class AgentMessage:
     """Message specifically for agent communication."""
     message: Message
     agent_id: str
-    coordinates: Optional[tuple[int, int]] = None
+    coordinates: tuple[int, int] | None = None
     delivery_method: str = "pyautogui"
     retry_count: int = 0
     max_retries: int = 3
@@ -104,14 +105,14 @@ class AgentMessage:
 class MessageThread:
     """Message thread for conversation tracking."""
     id: str
-    participants: List[str]
+    participants: list[str]
     created_at: datetime
     last_activity: datetime
-    messages: List[Message]
-    metadata: Optional[Dict[str, Any]] = None
+    messages: list[Message]
+    metadata: dict[str, Any] | None = None
 
     @classmethod
-    def create(cls, participants: List[str], metadata: Optional[Dict[str, Any]] = None) -> MessageThread:
+    def create(cls, participants: list[str], metadata: dict[str, Any] | None = None) -> MessageThread:
         """Create a new message thread."""
         thread_id = str(uuid4())
         now = datetime.now()
@@ -133,7 +134,7 @@ class InboxMessage:
     received_at: datetime
     is_read: bool = False
     is_archived: bool = False
-    tags: List[str] = None
+    tags: list[str] = None
 
     def __post_init__(self):
         if self.tags is None:
@@ -146,10 +147,10 @@ class MessageDeliveryResult:
     message_id: str
     success: bool
     delivery_method: str
-    delivered_at: Optional[datetime] = None
-    error_message: Optional[str] = None
+    delivered_at: datetime | None = None
+    error_message: str | None = None
     retry_required: bool = False
-    coordinates_used: Optional[tuple[int, int]] = None
+    coordinates_used: tuple[int, int] | None = None
 
 
 @dataclass
@@ -158,10 +159,10 @@ class AgentStatus:
     agent_id: str
     is_online: bool
     last_seen: datetime
-    current_task: Optional[str] = None
-    coordinates: Optional[tuple[int, int]] = None
-    capabilities: List[str] = None
-    status_message: Optional[str] = None
+    current_task: str | None = None
+    coordinates: tuple[int, int] | None = None
+    capabilities: list[str] = None
+    status_message: str | None = None
 
     def __post_init__(self):
         if self.capabilities is None:
@@ -172,7 +173,7 @@ class AgentStatus:
 class MessageQueue:
     """Message queue for processing."""
     agent_id: str
-    messages: List[Message]
+    messages: list[Message]
     max_size: int = 100
     created_at: datetime = None
 
@@ -187,7 +188,7 @@ class MessageQueue:
         self.messages.append(message)
         return True
 
-    def get_next_message(self) -> Optional[Message]:
+    def get_next_message(self) -> Message | None:
         """Get next message from queue."""
         if not self.messages:
             return None

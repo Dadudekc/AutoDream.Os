@@ -18,16 +18,12 @@ License: MIT
 
 from __future__ import annotations
 
-import json
 import logging
-import os
 import uuid
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 # ============================================================================
 # AGENT CONTEXT MANAGEMENT
@@ -109,7 +105,7 @@ class DocumentationService:
             self.logger.error(f"Failed to index documentation {doc_id}: {e}")
             return False
 
-    def search_documentation(self, query: str) -> List[dict]:
+    def search_documentation(self, query: str) -> list[dict]:
         """Search documentation."""
         try:
             results = []
@@ -120,13 +116,13 @@ class DocumentationService:
                         "content": doc_data["content"],
                         "metadata": doc_data["metadata"]
                     })
-            
+
             self.search_history.append({
                 "timestamp": datetime.now(),
                 "query": query,
                 "results_count": len(results)
             })
-            
+
             return results
         except Exception as e:
             self.logger.error(f"Failed to search documentation: {e}")
@@ -162,7 +158,7 @@ class MessageQueueEntry:
     priority: int = 0
     status: MessageQueueStatus = MessageQueueStatus.PENDING
     created_at: datetime = field(default_factory=datetime.now)
-    processed_at: Optional[datetime] = None
+    processed_at: datetime | None = None
     retry_count: int = 0
     max_retries: int = 3
     metadata: dict = field(default_factory=dict)
@@ -196,7 +192,7 @@ class MessageQueueManager:
     def __init__(self, max_size: int = 1000):
         self.max_size = max_size
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.queue: List[MessageQueueEntry] = []
+        self.queue: list[MessageQueueEntry] = []
         self.statistics = {
             "total_processed": 0,
             "total_failed": 0,
@@ -209,13 +205,13 @@ class MessageQueueManager:
         if len(self.queue) >= self.max_size:
             self.logger.warning("Queue is full, removing oldest entry")
             self.queue.pop(0)
-        
+
         entry = MessageQueueEntry(
             message=message,
             priority=priority,
             metadata=metadata or {}
         )
-        
+
         # Insert based on priority (higher priority first)
         inserted = False
         for i, existing_entry in enumerate(self.queue):
@@ -223,22 +219,22 @@ class MessageQueueManager:
                 self.queue.insert(i, entry)
                 inserted = True
                 break
-        
+
         if not inserted:
             self.queue.append(entry)
-        
+
         self.logger.info(f"Enqueued message with priority {priority}")
         return entry.id
 
-    def dequeue(self) -> Optional[MessageQueueEntry]:
+    def dequeue(self) -> MessageQueueEntry | None:
         """Dequeue the highest priority message."""
         if not self.queue:
             return None
-        
+
         entry = self.queue.pop(0)
         entry.status = MessageQueueStatus.PROCESSING
         entry.processed_at = datetime.now()
-        
+
         self.logger.info(f"Dequeued message {entry.id}")
         return entry
 
@@ -249,7 +245,7 @@ class MessageQueueManager:
                 entry.status = MessageQueueStatus.COMPLETED
                 self.statistics["total_processed"] += 1
                 return True
-        
+
         self.logger.warning(f"Entry {entry_id} not found")
         return False
 
@@ -260,7 +256,7 @@ class MessageQueueManager:
                 entry.status = MessageQueueStatus.FAILED
                 self.statistics["total_failed"] += 1
                 return True
-        
+
         self.logger.warning(f"Entry {entry_id} not found")
         return False
 
@@ -273,7 +269,7 @@ class MessageQueueManager:
                 entry.processed_at = None
                 self.statistics["total_retries"] += 1
                 return True
-        
+
         self.logger.warning(f"Entry {entry_id} cannot be retried")
         return False
 
@@ -282,7 +278,7 @@ class MessageQueueManager:
         status_counts = {}
         for status in MessageQueueStatus:
             status_counts[status.value] = sum(1 for entry in self.queue if entry.status == status)
-        
+
         return {
             "total_entries": len(self.queue),
             "status_counts": status_counts,
@@ -294,10 +290,10 @@ class MessageQueueManager:
         initial_count = len(self.queue)
         self.queue = [entry for entry in self.queue if not entry.is_expired(ttl_seconds)]
         removed_count = initial_count - len(self.queue)
-        
+
         if removed_count > 0:
             self.logger.info(f"Cleaned up {removed_count} expired entries")
-        
+
         return removed_count
 
 
@@ -328,23 +324,23 @@ class MetricsManager:
 
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.metrics: List[Metric] = []
-        self.metric_history: Dict[str, List[float]] = {}
+        self.metrics: list[Metric] = []
+        self.metric_history: dict[str, list[float]] = {}
 
     def record_metric(self, name: str, value: float, tags: dict = None) -> bool:
         """Record a metric."""
         try:
             metric = Metric(name=name, value=value, tags=tags or {})
             self.metrics.append(metric)
-            
+
             if name not in self.metric_history:
                 self.metric_history[name] = []
             self.metric_history[name].append(value)
-            
+
             # Keep only last 1000 values per metric
             if len(self.metric_history[name]) > 1000:
                 self.metric_history[name] = self.metric_history[name][-1000:]
-            
+
             return True
         except Exception as e:
             self.logger.error(f"Failed to record metric {name}: {e}")
@@ -354,7 +350,7 @@ class MetricsManager:
         """Get metric summary."""
         if name not in self.metric_history:
             return {"error": "Metric not found"}
-        
+
         values = self.metric_history[name]
         return {
             "name": name,
@@ -365,7 +361,7 @@ class MetricsManager:
             "latest": values[-1] if values else None
         }
 
-    def get_all_metrics(self) -> List[dict]:
+    def get_all_metrics(self) -> list[dict]:
         """Get all metrics."""
         return [metric.to_dict() for metric in self.metrics]
 
@@ -393,7 +389,7 @@ class AgentInfo:
     agent_type: str
     status: str = "unknown"
     last_seen: datetime = field(default_factory=datetime.now)
-    capabilities: List[str] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
     metadata: dict = field(default_factory=dict)
 
     def is_online(self, timeout_seconds: int = 300) -> bool:
@@ -418,7 +414,7 @@ class WorkspaceAgentRegistry:
 
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.agents: Dict[str, AgentInfo] = {}
+        self.agents: dict[str, AgentInfo] = {}
 
     def register_agent(self, agent_info: AgentInfo) -> bool:
         """Register an agent."""
@@ -454,19 +450,19 @@ class WorkspaceAgentRegistry:
             self.logger.error(f"Failed to update agent status {agent_id}: {e}")
             return False
 
-    def get_agent(self, agent_id: str) -> Optional[AgentInfo]:
+    def get_agent(self, agent_id: str) -> AgentInfo | None:
         """Get agent information."""
         return self.agents.get(agent_id)
 
-    def get_all_agents(self) -> List[AgentInfo]:
+    def get_all_agents(self) -> list[AgentInfo]:
         """Get all agents."""
         return list(self.agents.values())
 
-    def get_online_agents(self) -> List[AgentInfo]:
+    def get_online_agents(self) -> list[AgentInfo]:
         """Get online agents."""
         return [agent for agent in self.agents.values() if agent.is_online()]
 
-    def get_agents_by_type(self, agent_type: str) -> List[AgentInfo]:
+    def get_agents_by_type(self, agent_type: str) -> list[AgentInfo]:
         """Get agents by type."""
         return [agent for agent in self.agents.values() if agent.agent_type == agent_type]
 
@@ -474,11 +470,11 @@ class WorkspaceAgentRegistry:
         """Get registry statistics."""
         total_agents = len(self.agents)
         online_agents = len(self.get_online_agents())
-        
+
         type_counts = {}
         for agent in self.agents.values():
             type_counts[agent.agent_type] = type_counts.get(agent.agent_type, 0) + 1
-        
+
         return {
             "total_agents": total_agents,
             "online_agents": online_agents,
@@ -524,27 +520,27 @@ def main():
     """Main execution function."""
     print("Core Manager System - Consolidated Manager Classes")
     print("=" * 50)
-    
+
     # Create agent context manager
     context_manager = create_agent_context_manager("agent-2")
     context_manager.set_context("phase", "consolidation")
     print(f"Agent context manager created: {context_manager.get_context_summary()}")
-    
+
     # Create documentation service
     doc_service = create_documentation_service()
     doc_service.index_documentation("consolidation_plan", "Chunk 001 consolidation plan")
     print(f"Documentation service created: {doc_service.get_documentation_stats()}")
-    
+
     # Create message queue manager
     queue_manager = create_message_queue_manager()
     queue_manager.enqueue("Test message", priority=1)
     print(f"Message queue manager created: {queue_manager.get_queue_status()}")
-    
+
     # Create metrics manager
     metrics_manager = create_metrics_manager()
     metrics_manager.record_metric("consolidation_progress", 25.0)
     print(f"Metrics manager created: {metrics_manager.get_metric_summary('consolidation_progress')}")
-    
+
     # Create workspace agent registry
     agent_registry = create_workspace_agent_registry()
     agent_info = AgentInfo(
@@ -555,7 +551,7 @@ def main():
     )
     agent_registry.register_agent(agent_info)
     print(f"Workspace agent registry created: {agent_registry.get_registry_stats()}")
-    
+
     print("\nCore Manager System initialization complete!")
 
 

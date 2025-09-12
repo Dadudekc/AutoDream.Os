@@ -9,14 +9,14 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import time
 import logging
-from typing import Optional, Dict, Any
+import time
+from typing import Any
 
-from .config import TheaConfigManager
 from .browser_ops import TheaBrowserOperations, TheaElementFinder
+from .config import TheaConfigManager
+from .content_scraper import TheaContentProcessor, TheaContentScraper
 from .response_collector import TheaResponseCollector, TheaResponseMonitor
-from .content_scraper import TheaContentScraper, TheaContentProcessor
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +91,7 @@ class TheaManagerProfile:
             logger.error(f"❌ Thea Manager profile initialization failed: {e}")
             return False
 
-    def send_message_and_wait(self, message: str, timeout: float = 120.0) -> Optional[str]:
+    def send_message_and_wait(self, message: str, timeout: float = 120.0) -> str | None:
         """
         Send a message and wait for response.
 
@@ -136,7 +136,7 @@ class TheaManagerProfile:
             logger.error(f"❌ Error in send_message_and_wait: {e}")
             return None
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current profile status."""
         try:
             status = {
@@ -166,7 +166,7 @@ class TheaManagerProfile:
                 'driver_available': self.driver is not None
             }
 
-    def scrape_current_content(self) -> Optional[Any]:
+    def scrape_current_content(self) -> Any | None:
         """Scrape current content from the page."""
         try:
             if not self.response_collector:
@@ -181,7 +181,7 @@ class TheaManagerProfile:
             logger.error(f"Content scraping failed: {e}")
             return None
 
-    def validate_setup(self) -> Dict[str, Any]:
+    def validate_setup(self) -> dict[str, Any]:
         """Validate that the Thea Manager setup is correct."""
         issues = []
 

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Contract Handler - V2 Compliant Module
@@ -13,6 +14,7 @@ Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 License: MIT
 """
 from typing import Any
+
 from ..contract_system.manager import ContractManager
 from ..contract_system.storage import ContractStorage
 

@@ -10,8 +10,8 @@ Author: V2 Implementation Team
 License: MIT
 """
 
-from typing import Dict, Any
 import logging
+from typing import Any
 
 from .onboarding_handler import OnboardingHandler
 
@@ -95,7 +95,7 @@ Best regards,
 V2 Swarm Captain
 """
 
-    def _generate_welcome_back_message(self, agent_id: str, agent_status: Dict[str, Any], style: str) -> str:
+    def _generate_welcome_back_message(self, agent_id: str, agent_status: dict[str, Any], style: str) -> str:
         """Generate welcome back message for existing agent."""
         role = agent_status.get("role", "Specialist")
         onboarded_at = agent_status.get("onboarded_at", "recently")
@@ -136,7 +136,7 @@ Best regards,
 V2 Swarm Captain
 """
 
-    def get_service_status(self) -> Dict[str, Any]:
+    def get_service_status(self) -> dict[str, Any]:
         """Get onboarding service status."""
         try:
             onboarded_agents = self.onboarding_handler.list_onboarded_agents()

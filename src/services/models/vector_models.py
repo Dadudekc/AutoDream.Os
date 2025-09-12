@@ -8,10 +8,10 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from typing import Any
 
 
 class EmbeddingModel(Enum):
@@ -47,13 +47,13 @@ class VectorDocument:
 
     id: str
     content: str
-    embedding: List[float]
-    metadata: Dict[str, Any]
+    embedding: list[float]
+    metadata: dict[str, Any]
     created_at: datetime
     updated_at: datetime
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'VectorDocument':
+    def from_dict(cls, data: dict[str, Any]) -> 'VectorDocument':
         """Create from dictionary."""
         return cls(
             id=data['id'],
@@ -64,7 +64,7 @@ class VectorDocument:
             updated_at=datetime.fromisoformat(data['updated_at'])
         )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             'id': self.id,
@@ -81,40 +81,40 @@ class EmbeddingResult:
     """Result of embedding operation."""
 
     document_id: str
-    embedding: List[float]
+    embedding: list[float]
     model: EmbeddingModel
     tokens_used: int
     processing_time: float
     success: bool
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
 
 @dataclass
 class SearchQuery:
     """Search query for vector database."""
-    
+
     query_text: str
     search_type: SearchType = SearchType.SIMILARITY
     limit: int = 10
     similarity_threshold: float = 0.0
-    filters: Optional[Dict[str, Any]] = None
+    filters: dict[str, Any] | None = None
 
 
 @dataclass
 class SearchResult:
     """Result of vector database search."""
-    
+
     document_id: str
     content: str
     similarity_score: float
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
 class SimilaritySearchResult:
     """Result of similarity search."""
 
-    query_embedding: List[float]
-    results: List[Dict[str, Any]]
+    query_embedding: list[float]
+    results: list[dict[str, Any]]
     search_time: float
     total_candidates: int

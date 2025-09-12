@@ -20,22 +20,19 @@ License: MIT
 """
 
 import logging
-import json
-import os
 from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 class ConsolidatedMiscellaneousService:
     """Unified service for miscellaneous operations and utilities."""
-    
+
     def __init__(self, agent_id: str = "default"):
         """Initialize the consolidated miscellaneous service."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize components
         self.config = self._load_config()
         self.constants = self._load_constants()
@@ -45,7 +42,7 @@ class ConsolidatedMiscellaneousService:
         self.task_manager = TaskContextManager()
         self.work_indexer = WorkIndexer()
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load system configuration."""
         return {
             "agent_id": self.agent_id,
@@ -56,7 +53,7 @@ class ConsolidatedMiscellaneousService:
             "timeout_seconds": 30
         }
 
-    def _load_constants(self) -> Dict[str, Any]:
+    def _load_constants(self) -> dict[str, Any]:
         """Load system constants."""
         return {
             "AGENTS": [f"Agent-{i}" for i in range(1, 9)],
@@ -69,41 +66,41 @@ class ConsolidatedMiscellaneousService:
         }
 
     # Database Operations
-    def execute_query(self, query: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def execute_query(self, query: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
         """Execute database query."""
         return self.database.execute_query(query, params)
 
-    def get_agent_data(self, agent_id: str) -> Optional[Dict[str, Any]]:
+    def get_agent_data(self, agent_id: str) -> dict[str, Any] | None:
         """Get agent data from database."""
         return self.database.get_agent_data(agent_id)
 
-    def update_agent_data(self, agent_id: str, data: Dict[str, Any]) -> bool:
+    def update_agent_data(self, agent_id: str, data: dict[str, Any]) -> bool:
         """Update agent data in database."""
         return self.database.update_agent_data(agent_id, data)
 
     # Learning and Recommendations
-    def get_learning_recommendations(self, agent_id: str) -> List[Dict[str, Any]]:
+    def get_learning_recommendations(self, agent_id: str) -> list[dict[str, Any]]:
         """Get learning recommendations for agent."""
         return self.learning_recommender.get_recommendations(agent_id)
 
-    def get_task_recommendations(self, task_description: str) -> List[Dict[str, Any]]:
+    def get_task_recommendations(self, task_description: str) -> list[dict[str, Any]]:
         """Get task recommendations based on description."""
         return self.recommendation_engine.get_recommendations(task_description)
 
-    def generate_insights(self, agent_id: str) -> Dict[str, Any]:
+    def generate_insights(self, agent_id: str) -> dict[str, Any]:
         """Generate insights for agent."""
         return self.recommendation_engine.generate_insights(agent_id)
 
     # Task Management
-    def create_task_context(self, task_description: str) -> Dict[str, Any]:
+    def create_task_context(self, task_description: str) -> dict[str, Any]:
         """Create task context."""
         return self.task_manager.create_context(task_description)
 
-    def get_task_context(self, task_id: str) -> Optional[Dict[str, Any]]:
+    def get_task_context(self, task_id: str) -> dict[str, Any] | None:
         """Get task context by ID."""
         return self.task_manager.get_context(task_id)
 
-    def update_task_context(self, task_id: str, updates: Dict[str, Any]) -> bool:
+    def update_task_context(self, task_id: str, updates: dict[str, Any]) -> bool:
         """Update task context."""
         return self.task_manager.update_context(task_id, updates)
 
@@ -112,11 +109,11 @@ class ConsolidatedMiscellaneousService:
         """Index work item."""
         return self.work_indexer.index_work(work_content, work_type)
 
-    def search_work_items(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def search_work_items(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
         """Search work items."""
         return self.work_indexer.search_work(query, limit)
 
-    def get_work_stats(self) -> Dict[str, Any]:
+    def get_work_stats(self) -> dict[str, Any]:
         """Get work indexing statistics."""
         return self.work_indexer.get_stats()
 
@@ -148,20 +145,20 @@ class ConsolidatedMiscellaneousService:
         """Get system constant."""
         return self.constants.get(key)
 
-    def get_all_constants(self) -> Dict[str, Any]:
+    def get_all_constants(self) -> dict[str, Any]:
         """Get all system constants."""
         return self.constants.copy()
 
-    def get_agents_list(self) -> List[str]:
+    def get_agents_list(self) -> list[str]:
         """Get list of all agents."""
         return self.constants.get("AGENTS", [])
 
-    def get_principles_list(self) -> List[str]:
+    def get_principles_list(self) -> list[str]:
         """Get list of all principles."""
         return self.constants.get("PRINCIPLES", [])
 
     # System Utilities
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status."""
         return {
             "agent_id": self.agent_id,
@@ -174,7 +171,7 @@ class ConsolidatedMiscellaneousService:
             "timestamp": datetime.now().isoformat()
         }
 
-    def get_system_info(self) -> Dict[str, Any]:
+    def get_system_info(self) -> dict[str, Any]:
         """Get system information."""
         return {
             "version": self.constants.get("SYSTEM_VERSION", "unknown"),
@@ -185,30 +182,30 @@ class ConsolidatedMiscellaneousService:
             "config_keys": list(self.config.keys())
         }
 
-    def validate_system_integrity(self) -> Dict[str, Any]:
+    def validate_system_integrity(self) -> dict[str, Any]:
         """Validate system integrity."""
         issues = []
         recommendations = []
-        
+
         # Check configuration
         if not self.config:
             issues.append("Configuration not loaded")
             recommendations.append("Reload system configuration")
-        
+
         # Check database
         if not self.database:
             issues.append("Database not available")
             recommendations.append("Initialize database connection")
-        
+
         # Check components
         if not self.learning_recommender:
             issues.append("Learning recommender not available")
             recommendations.append("Initialize learning recommender")
-        
+
         if not self.recommendation_engine:
             issues.append("Recommendation engine not available")
             recommendations.append("Initialize recommendation engine")
-        
+
         return {
             "integrity_check": len(issues) == 0,
             "issues": issues,
@@ -219,12 +216,12 @@ class ConsolidatedMiscellaneousService:
 
 class CursorDatabase:
     """Simple cursor database implementation."""
-    
+
     def __init__(self):
         """Initialize database."""
         self.data = {}
-        
-    def execute_query(self, query: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+
+    def execute_query(self, query: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
         """Execute database query."""
         try:
             # Mock implementation
@@ -239,12 +236,12 @@ class CursorDatabase:
                 "success": False,
                 "error": str(e)
             }
-    
-    def get_agent_data(self, agent_id: str) -> Optional[Dict[str, Any]]:
+
+    def get_agent_data(self, agent_id: str) -> dict[str, Any] | None:
         """Get agent data."""
         return self.data.get(agent_id)
-    
-    def update_agent_data(self, agent_id: str, data: Dict[str, Any]) -> bool:
+
+    def update_agent_data(self, agent_id: str, data: dict[str, Any]) -> bool:
         """Update agent data."""
         try:
             self.data[agent_id] = data
@@ -255,8 +252,8 @@ class CursorDatabase:
 
 class LearningRecommender:
     """Learning recommendation system."""
-    
-    def get_recommendations(self, agent_id: str) -> List[Dict[str, Any]]:
+
+    def get_recommendations(self, agent_id: str) -> list[dict[str, Any]]:
         """Get learning recommendations."""
         return [
             {
@@ -270,8 +267,8 @@ class LearningRecommender:
 
 class RecommendationEngine:
     """Recommendation engine."""
-    
-    def get_recommendations(self, query: str) -> List[Dict[str, Any]]:
+
+    def get_recommendations(self, query: str) -> list[dict[str, Any]]:
         """Get recommendations based on query."""
         return [
             {
@@ -280,8 +277,8 @@ class RecommendationEngine:
                 "type": "task"
             }
         ]
-    
-    def generate_insights(self, agent_id: str) -> Dict[str, Any]:
+
+    def generate_insights(self, agent_id: str) -> dict[str, Any]:
         """Generate insights."""
         return {
             "agent_id": agent_id,
@@ -292,12 +289,12 @@ class RecommendationEngine:
 
 class TaskContextManager:
     """Task context management."""
-    
+
     def __init__(self):
         """Initialize task manager."""
         self.tasks = {}
-        
-    def create_context(self, description: str) -> Dict[str, Any]:
+
+    def create_context(self, description: str) -> dict[str, Any]:
         """Create task context."""
         task_id = f"task_{len(self.tasks) + 1}"
         self.tasks[task_id] = {
@@ -306,12 +303,12 @@ class TaskContextManager:
             "status": "active"
         }
         return self.tasks[task_id]
-    
-    def get_context(self, task_id: str) -> Optional[Dict[str, Any]]:
+
+    def get_context(self, task_id: str) -> dict[str, Any] | None:
         """Get task context."""
         return self.tasks.get(task_id)
-    
-    def update_context(self, task_id: str, updates: Dict[str, Any]) -> bool:
+
+    def update_context(self, task_id: str, updates: dict[str, Any]) -> bool:
         """Update task context."""
         if task_id in self.tasks:
             self.tasks[task_id].update(updates)
@@ -321,11 +318,11 @@ class TaskContextManager:
 
 class WorkIndexer:
     """Work indexing system."""
-    
+
     def __init__(self):
         """Initialize work indexer."""
         self.work_items = []
-        
+
     def index_work(self, content: str, work_type: str = "general") -> bool:
         """Index work item."""
         try:
@@ -337,8 +334,8 @@ class WorkIndexer:
             return True
         except Exception:
             return False
-    
-    def search_work(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
+
+    def search_work(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
         """Search work items."""
         results = []
         for item in self.work_items:
@@ -347,8 +344,8 @@ class WorkIndexer:
                 if len(results) >= limit:
                     break
         return results
-    
-    def get_stats(self) -> Dict[str, Any]:
+
+    def get_stats(self) -> dict[str, Any]:
         """Get indexing statistics."""
         return {
             "total_items": len(self.work_items),

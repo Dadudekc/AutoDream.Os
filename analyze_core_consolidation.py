@@ -13,12 +13,11 @@ License: MIT
 import ast
 import json
 import os
-import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 
-def analyze_python_file(file_path: str) -> Dict[str, Any]:
+def analyze_python_file(file_path: str) -> dict[str, Any]:
     """Analyze a Python file and extract metadata."""
     try:
         with open(file_path, encoding="utf-8") as f:
@@ -76,10 +75,10 @@ def analyze_python_file(file_path: str) -> Dict[str, Any]:
         }
 
 
-def categorize_file(file_path: str, analysis: Dict[str, Any]) -> str:
+def categorize_file(file_path: str, analysis: dict[str, Any]) -> str:
     """Categorize a file based on its path and content."""
     relative_path = analysis.get("relative_path", "")
-    
+
     # Main categories
     if "analytics" in relative_path:
         return "analytics"
@@ -135,24 +134,24 @@ def categorize_file(file_path: str, analysis: Dict[str, Any]) -> str:
         return "core"
 
 
-def find_consolidation_opportunities(analyses: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+def find_consolidation_opportunities(analyses: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     """Find consolidation opportunities by category."""
     categorized = {}
-    
+
     for analysis in analyses:
         category = categorize_file(analysis["file_path"], analysis)
         if category not in categorized:
             categorized[category] = []
         categorized[category].append(analysis)
-    
+
     # Sort by complexity and size for consolidation prioritization
     for category in categorized:
         categorized[category].sort(key=lambda x: (x["complexity"], x["line_count"]), reverse=True)
-    
+
     return categorized
 
 
-def generate_consolidation_plan(categorized: Dict[str, List[Dict[str, Any]]]) -> Dict[str, Any]:
+def generate_consolidation_plan(categorized: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
     """Generate consolidation plan with specific recommendations."""
     plan = {
         "consolidation_targets": {},
@@ -162,14 +161,14 @@ def generate_consolidation_plan(categorized: Dict[str, List[Dict[str, Any]]]) ->
         "total_files": sum(len(files) for files in categorized.values()),
         "target_reduction": 0.70
     }
-    
+
     for category, files in categorized.items():
         file_count = len(files)
         target_count = max(1, int(file_count * (1 - plan["target_reduction"])))
-        
+
         # Calculate consolidation ratio
         consolidation_ratio = file_count / target_count if target_count > 0 else 1
-        
+
         plan["consolidation_targets"][category] = {
             "current_files": file_count,
             "target_files": target_count,
@@ -177,7 +176,7 @@ def generate_consolidation_plan(categorized: Dict[str, List[Dict[str, Any]]]) ->
             "consolidation_ratio": round(consolidation_ratio, 1),
             "files": files
         }
-        
+
         # Prioritize consolidations
         if file_count > 10 and consolidation_ratio > 2:
             plan["high_priority_consolidations"].append({
@@ -198,14 +197,14 @@ def generate_consolidation_plan(categorized: Dict[str, List[Dict[str, Any]]]) ->
                 "category": category,
                 "files": file_count
             })
-    
+
     return plan
 
 
 def main():
     """Main analysis function."""
     print("🔍 Analyzing src/core directory for consolidation opportunities...")
-    
+
     # Find all Python files in src/core
     core_files = []
     for root, dirs, files in os.walk("src/core"):
@@ -213,40 +212,40 @@ def main():
             if file.endswith(".py"):
                 file_path = os.path.join(root, file)
                 core_files.append(file_path)
-    
+
     print(f"📊 Found {len(core_files)} Python files in src/core")
-    
+
     # Analyze each file
     analyses = []
     for file_path in core_files:
         print(f"Analyzing: {file_path}")
         analysis = analyze_python_file(file_path)
         analyses.append(analysis)
-    
+
     # Categorize files
     categorized = find_consolidation_opportunities(analyses)
-    
+
     # Generate consolidation plan
     plan = generate_consolidation_plan(categorized)
-    
+
     # Print summary
-    print(f"\n📋 CONSOLIDATION ANALYSIS SUMMARY:")
+    print("\n📋 CONSOLIDATION ANALYSIS SUMMARY:")
     print(f"   Total files: {plan['total_files']}")
     print(f"   Target reduction: {plan['target_reduction']*100}%")
     print(f"   Target files: {int(plan['total_files'] * (1 - plan['target_reduction']))}")
-    
-    print(f"\n🎯 HIGH PRIORITY CONSOLIDATIONS:")
+
+    print("\n🎯 HIGH PRIORITY CONSOLIDATIONS:")
     for item in plan["high_priority_consolidations"]:
         print(f"   {item['category']}: {item['files']} → {item['target']} files (ratio: {item['ratio']:.1f})")
-    
-    print(f"\n📝 LOW PRIORITY CONSOLIDATIONS:")
+
+    print("\n📝 LOW PRIORITY CONSOLIDATIONS:")
     for item in plan["low_priority_consolidations"]:
         print(f"   {item['category']}: {item['files']} → {item['target']} files (ratio: {item['ratio']:.1f})")
-    
-    print(f"\n✅ PRESERVE AS IS:")
+
+    print("\n✅ PRESERVE AS IS:")
     for item in plan["preserve_as_is"]:
         print(f"   {item['category']}: {item['files']} files")
-    
+
     # Save detailed analysis
     with open("core_consolidation_analysis.json", "w", encoding="utf-8") as f:
         json.dump({
@@ -254,14 +253,14 @@ def main():
             "categorized_files": categorized,
             "individual_analyses": analyses
         }, f, indent=2)
-    
-    print(f"\n📁 Detailed analysis saved: core_consolidation_analysis.json")
-    
+
+    print("\n📁 Detailed analysis saved: core_consolidation_analysis.json")
+
     return plan
 
 
 if __name__ == "__main__":
     exit_code = main()
-    print()  
+    print()
     print("⚡ WE. ARE. SWARM. ⚡️🔥")
     exit(exit_code)

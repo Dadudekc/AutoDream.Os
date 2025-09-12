@@ -3,8 +3,8 @@
 Trading Robot Project Completion Summary
 """
 import os
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 
 def get_project_stats():
@@ -32,7 +32,7 @@ def get_project_stats():
 
                 filepath = Path(root) / file
                 try:
-                    with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                    with open(filepath, encoding='utf-8', errors='ignore') as f:
                         lines = len(f.readlines())
                         stats['total_lines'] += lines
 

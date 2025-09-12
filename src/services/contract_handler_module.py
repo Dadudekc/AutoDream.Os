@@ -9,8 +9,9 @@ Contract operations and management
 """
 
 import logging
-from typing import Dict, Any
 from datetime import datetime
+from typing import Any
+
 
 class ContractHandler:
     """Handles contract operations and management"""
@@ -18,7 +19,7 @@ class ContractHandler:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def process_contract(self, request) -> Dict[str, Any]:
+    def process_contract(self, request) -> dict[str, Any]:
         """Process a contract request"""
         action = request.data.get('action', '')
         contract_data = request.data.get('contract_data', {})
@@ -34,7 +35,7 @@ class ContractHandler:
         else:
             return {"error": f"Unknown contract action: {action}"}
 
-    def create_contract(self, contract_data: Dict[str, Any]) -> Dict[str, Any]:
+    def create_contract(self, contract_data: dict[str, Any]) -> dict[str, Any]:
         """Create a new contract"""
         contract_id = f"contract_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
@@ -48,7 +49,7 @@ class ContractHandler:
         self.logger.info(f"Contract created: {contract_id}")
         return contract
 
-    def update_contract(self, contract_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+    def update_contract(self, contract_id: str, updates: dict[str, Any]) -> dict[str, Any]:
         """Update an existing contract"""
         return {
             "contract_id": contract_id,
@@ -57,7 +58,7 @@ class ContractHandler:
             "status": "updated"
         }
 
-    def terminate_contract(self, contract_id: str) -> Dict[str, Any]:
+    def terminate_contract(self, contract_id: str) -> dict[str, Any]:
         """Terminate a contract"""
         return {
             "contract_id": contract_id,
@@ -65,7 +66,7 @@ class ContractHandler:
             "status": "terminated"
         }
 
-    def validate_contract(self, contract_data: Dict[str, Any]) -> Dict[str, Any]:
+    def validate_contract(self, contract_data: dict[str, Any]) -> dict[str, Any]:
         """Validate contract data"""
         required_fields = ["parties", "terms", "duration"]
         missing_fields = [field for field in required_fields if field not in contract_data]

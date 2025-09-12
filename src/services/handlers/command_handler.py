@@ -2,6 +2,7 @@
 import logging
 import time
 from typing import Any
+
 try:
     from ..agent_registry import format_agent_list
     from ..utils.agent_registry import list_agents as registry_list_agents

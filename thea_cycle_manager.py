@@ -16,9 +16,9 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any, TYPE_CHECKING
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .thea_response_handler import TheaResponseHandler
@@ -38,7 +38,7 @@ class TheaCycleManager:
     def run_communication_cycle(
         self,
         comm_instance: Any,
-        message: Optional[str] = None
+        message: str | None = None
     ) -> bool:
         """Run the complete send/receive communication cycle.
 
@@ -107,7 +107,7 @@ Thank you!
             # Phase 3: Capture Response
             print("\n🚀 STARTING PHASE 3: RESPONSE CAPTURE")
             response_handler = TheaResponseHandler(self.responses_dir, comm_instance.thea_url)
-            screenshot_path: Optional[Path] = response_handler.capture_response(
+            screenshot_path: Path | None = response_handler.capture_response(
                 comm_instance._extract_thea_response_text()
             )
 

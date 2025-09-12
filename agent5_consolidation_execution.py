@@ -11,13 +11,11 @@ Date: 2025-09-09
 Phase: Consolidation Execution
 """
 
-import os
-import sys
 import json
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Any
 
 # Configure logging
 logging.basicConfig(
@@ -32,23 +30,23 @@ logger = logging.getLogger(__name__)
 
 class Agent5ConsolidationExecutor:
     """Agent-5 Consolidation Execution Coordinator"""
-    
+
     def __init__(self):
         self.project_root = Path(__file__).parent
         self.execution_status = {}
         self.coordination_results = {}
-        
+
     def execute_core_consolidation_validation(self) -> bool:
         """Execute core modules consolidation validation"""
         try:
             logger.info("🚀 Starting core modules consolidation validation")
-            
+
             # Import and run core consolidation validator
             from agent5_core_consolidation_validator import Agent5CoreConsolidationValidator
-            
+
             validator = Agent5CoreConsolidationValidator()
             success = validator.execute_consolidation_validation()
-            
+
             if success:
                 logger.info("✅ Core modules consolidation validation completed successfully")
                 self.execution_status["core_validation"] = "COMPLETED"
@@ -57,23 +55,23 @@ class Agent5ConsolidationExecutor:
                 logger.error("❌ Core modules consolidation validation failed")
                 self.execution_status["core_validation"] = "FAILED"
                 return False
-                
+
         except Exception as e:
             logger.error(f"Error in core consolidation validation: {e}")
             self.execution_status["core_validation"] = "ERROR"
             return False
-    
+
     def execute_business_intelligence_analysis(self) -> bool:
         """Execute business intelligence analysis"""
         try:
             logger.info("🚀 Starting business intelligence analysis")
-            
+
             # Import and run business intelligence dashboard
             from agent5_business_intelligence_dashboard import Agent5BusinessIntelligenceDashboard
-            
+
             dashboard = Agent5BusinessIntelligenceDashboard()
             success = dashboard.execute_business_intelligence_analysis()
-            
+
             if success:
                 logger.info("✅ Business intelligence analysis completed successfully")
                 self.execution_status["business_intelligence"] = "COMPLETED"
@@ -82,23 +80,25 @@ class Agent5ConsolidationExecutor:
                 logger.error("❌ Business intelligence analysis failed")
                 self.execution_status["business_intelligence"] = "FAILED"
                 return False
-                
+
         except Exception as e:
             logger.error(f"Error in business intelligence analysis: {e}")
             self.execution_status["business_intelligence"] = "ERROR"
             return False
-    
+
     def execute_consolidation_coordination(self) -> bool:
         """Execute consolidation coordination"""
         try:
             logger.info("🚀 Starting consolidation coordination")
-            
+
             # Import and run consolidation coordination manager
-            from agent5_consolidation_coordination_manager import Agent5ConsolidationCoordinationManager
-            
+            from agent5_consolidation_coordination_manager import (
+                Agent5ConsolidationCoordinationManager,
+            )
+
             manager = Agent5ConsolidationCoordinationManager()
             success = manager.execute_consolidation_coordination()
-            
+
             if success:
                 logger.info("✅ Consolidation coordination completed successfully")
                 self.execution_status["consolidation_coordination"] = "COMPLETED"
@@ -107,22 +107,22 @@ class Agent5ConsolidationExecutor:
                 logger.error("❌ Consolidation coordination failed")
                 self.execution_status["consolidation_coordination"] = "FAILED"
                 return False
-                
+
         except Exception as e:
             logger.error(f"Error in consolidation coordination: {e}")
             self.execution_status["consolidation_coordination"] = "ERROR"
             return False
-    
-    def create_agent5_status_report(self) -> Dict:
+
+    def create_agent5_status_report(self) -> dict:
         """Create comprehensive status report for Agent-5"""
         try:
             logger.info("Creating Agent-5 status report...")
-            
+
             # Calculate overall success rate
             total_tasks = len(self.execution_status)
             completed_tasks = sum(1 for status in self.execution_status.values() if status == "COMPLETED")
             success_rate = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-            
+
             report = {
                 "timestamp": datetime.now().isoformat(),
                 "agent": "Agent-5",
@@ -151,40 +151,40 @@ class Agent5ConsolidationExecutor:
                     "consolidation_coordination": "ACTIVE"
                 }
             }
-            
+
             # Save status report
             report_file = self.project_root / "agent5_consolidation_status_report.json"
             with open(report_file, 'w', encoding='utf-8') as f:
                 json.dump(report, f, indent=2)
-            
+
             logger.info(f"Agent-5 status report saved: {report_file}")
             return report
-            
+
         except Exception as e:
             logger.error(f"Error creating Agent-5 status report: {e}")
             return {}
-    
+
     def execute_consolidation_system(self) -> bool:
         """Execute complete consolidation system for Agent-5"""
         try:
             logger.info("🚀 Starting Agent-5 Consolidation System Execution")
             logger.info("🐝 WE ARE SWARM - Agent-5 Business Intelligence & Coordination Active")
-            
+
             # 1. Execute core consolidation validation
             if not self.execute_core_consolidation_validation():
                 logger.error("Core consolidation validation failed, continuing with other tasks...")
-            
+
             # 2. Execute business intelligence analysis
             if not self.execute_business_intelligence_analysis():
                 logger.error("Business intelligence analysis failed, continuing with other tasks...")
-            
+
             # 3. Execute consolidation coordination
             if not self.execute_consolidation_coordination():
                 logger.error("Consolidation coordination failed, continuing with other tasks...")
-            
+
             # 4. Create comprehensive status report
             status_report = self.create_agent5_status_report()
-            
+
             # 5. Generate final execution report
             execution_report = {
                 "timestamp": datetime.now().isoformat(),
@@ -210,17 +210,17 @@ class Agent5ConsolidationExecutor:
                     "Prepare for Phase 2 transition"
                 ]
             }
-            
+
             # Save execution report
             report_file = self.project_root / "agent5_consolidation_execution_report.json"
             with open(report_file, 'w', encoding='utf-8') as f:
                 json.dump(execution_report, f, indent=2)
-            
+
             logger.info("🎉 Agent-5 Consolidation System Execution completed!")
             logger.info(f"📊 Execution Report: {report_file}")
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Error in Agent-5 consolidation system execution: {e}")
             return False
@@ -229,22 +229,22 @@ def main():
     """Main execution function"""
     try:
         executor = Agent5ConsolidationExecutor()
-        
+
         # Check if we're in the right directory
         if not (Path.cwd() / "src").exists():
             logger.error("Not in project root directory. Please run from project root.")
             return 1
-        
+
         # Execute consolidation system
         success = executor.execute_consolidation_system()
-        
+
         if success:
             logger.info("✅ Agent-5 Consolidation System Execution completed successfully!")
             return 0
         else:
             logger.error("❌ Agent-5 Consolidation System Execution failed!")
             return 1
-            
+
     except Exception as e:
         logger.error(f"Fatal error in Agent-5 consolidation system execution: {e}")
         return 1

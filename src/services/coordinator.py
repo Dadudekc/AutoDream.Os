@@ -8,19 +8,19 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class Coordinator:
     """Basic coordinator implementation."""
 
-    def __init__(self, name: str, logger: Optional[Any] = None):
+    def __init__(self, name: str, logger: Any | None = None):
         """Initialize coordinator."""
         self.name = name
         self.logger = logger
         self.status = {"name": name, "status": "active"}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get coordinator status."""
         return self.status
 

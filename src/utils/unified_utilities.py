@@ -12,25 +12,22 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
-import os
-import sys
 import logging
 from pathlib import Path
-from typing import Any, Dict, Optional
 
 
 class UnifiedUtility:
     """Unified utility class providing common functionality."""
-    
+
     def __init__(self):
         """Initialize unified utility."""
         self.path = Path
         self.logger = logging.getLogger(__name__)
-    
+
     def join_paths(self, *paths):
         """Join paths using pathlib."""
         return Path(*paths)
-    
+
     def get_project_root(self) -> Path:
         """Get the project root directory."""
         current_file = Path(__file__).resolve()
@@ -39,11 +36,11 @@ class UnifiedUtility:
             if (parent / "pyproject.toml").exists():
                 return parent
         return current_file.parent
-    
+
     def get_config_path(self, config_name: str) -> Path:
         """Get path to a configuration file."""
         return self.get_project_root() / "config" / config_name
-    
+
     def ensure_directory(self, path: Path) -> None:
         """Ensure directory exists."""
         path.mkdir(parents=True, exist_ok=True)

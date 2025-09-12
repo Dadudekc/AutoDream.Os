@@ -9,7 +9,7 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 
 class IMessageQueueLogger(Protocol):
@@ -31,10 +31,10 @@ class IQueueEntry(Protocol):
     @property
     def queue_id(self) -> str: ...
 
-    def to_dict(self) -> Dict[str, Any]: ...
+    def to_dict(self) -> dict[str, Any]: ...
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'IQueueEntry': ...
+    def from_dict(cls, data: dict[str, Any]) -> 'IQueueEntry': ...
 
 
 class IMessageQueue(ABC):
@@ -46,7 +46,7 @@ class IMessageQueue(ABC):
         pass
 
     @abstractmethod
-    def dequeue(self, batch_size: Optional[int] = None) -> List[IQueueEntry]:
+    def dequeue(self, batch_size: int | None = None) -> list[IQueueEntry]:
         """Get next messages for processing."""
         pass
 
@@ -61,7 +61,7 @@ class IMessageQueue(ABC):
         pass
 
     @abstractmethod
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get queue statistics."""
         pass
 
@@ -75,12 +75,12 @@ class IQueuePersistence(ABC):
     """Abstract interface for queue persistence operations."""
 
     @abstractmethod
-    def load_entries(self) -> List[IQueueEntry]:
+    def load_entries(self) -> list[IQueueEntry]:
         """Load queue entries from storage."""
         pass
 
     @abstractmethod
-    def save_entries(self, entries: List[IQueueEntry]) -> None:
+    def save_entries(self, entries: list[IQueueEntry]) -> None:
         """Save queue entries to storage."""
         pass
 

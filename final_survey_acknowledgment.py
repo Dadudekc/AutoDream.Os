@@ -9,10 +9,11 @@ Final acknowledgment of survey completion and implementation readiness confirmat
 import json
 import time
 
+
 def load_coordinates():
     """Load Captain Agent-4 coordinates for final acknowledgment."""
     try:
-        with open("cursor_agent_coords.json", 'r', encoding='utf-8') as f:
+        with open("cursor_agent_coords.json", encoding='utf-8') as f:
             data = json.load(f)
         coords = data.get("agents", {}).get("Agent-4", {}).get("chat_input_coordinates", [0, 0])
         return tuple(coords)

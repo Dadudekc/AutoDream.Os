@@ -9,20 +9,17 @@ Author: Agent-8 (Operations & Support Specialist)
 FINAL PYTEST ASSIGNMENT - Enhanced Coverage
 """
 
-import pytest
 import time
-import psutil
-import threading
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List, Optional, Callable
-import json
-import os
+from typing import Any
+from unittest.mock import patch
+
+import pytest
 
 # Import monitoring components for comprehensive testing
 try:
+    from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     from src.core.operational_monitoring_baseline import OperationalMonitoringBaseline
     from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
-    from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     from src.core.unified_logging_system import UnifiedLoggingSystem
     MONITORING_AVAILABLE = True
 except ImportError:
@@ -39,7 +36,7 @@ except ImportError:
         def check_system_resilience(self) -> bool:
             return True
 
-        def get_monitoring_health(self) -> Dict[str, Any]:
+        def get_monitoring_health(self) -> dict[str, Any]:
             return {
                 'status': 'healthy',
                 'uptime': 3600,
@@ -52,7 +49,7 @@ except ImportError:
             self.alerts = []
             self.metrics_history = []
 
-        def get_system_metrics(self) -> Dict[str, Any]:
+        def get_system_metrics(self) -> dict[str, Any]:
             return {
                 'cpu_usage': 45.2,
                 'memory_usage': 62.8,
@@ -70,7 +67,7 @@ except ImportError:
                 metrics['disk_usage'] < 95
             )
 
-        def get_performance_alerts(self) -> List[Dict[str, Any]]:
+        def get_performance_alerts(self) -> list[dict[str, Any]]:
             return self.alerts
 
         def add_performance_alert(self, alert_type: str, message: str, severity: str = 'warning'):
@@ -88,7 +85,7 @@ except ImportError:
             self.checks = []
             self.last_check_time = None
 
-        def run_comprehensive_checks(self) -> List[Dict[str, Any]]:
+        def run_comprehensive_checks(self) -> list[dict[str, Any]]:
             self.last_check_time = time.time()
             return [
                 {'check_name': 'cpu', 'status': 'healthy', 'value': 45.2},
@@ -100,7 +97,7 @@ except ImportError:
         def get_overall_health_score(self) -> float:
             return 95.2
 
-        def get_health_trends(self) -> Dict[str, Any]:
+        def get_health_trends(self) -> dict[str, Any]:
             return {
                 'cpu_trend': 'stable',
                 'memory_trend': 'increasing',
@@ -121,7 +118,7 @@ except ImportError:
             }
             self.logs.append(log_entry)
 
-        def get_recent_logs(self, count: int = 10) -> List[Dict[str, Any]]:
+        def get_recent_logs(self, count: int = 10) -> list[dict[str, Any]]:
             return self.logs[-count:] if self.logs else []
 
         def get_error_count(self) -> int:

@@ -12,10 +12,9 @@ License: MIT
 import argparse
 import sys
 import uuid
+import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, Optional
-import xml.etree.ElementTree as ET
 
 
 class DebateParticipationTool:

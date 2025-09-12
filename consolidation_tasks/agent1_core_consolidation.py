@@ -11,10 +11,9 @@ TARGET: src/core/managers/ (36+ files → 1 file)
 Author: Agent-1 - Integration & Core Systems Specialist
 """
 
-import os
 import shutil
 from pathlib import Path
-from typing import Dict, Any, List
+
 
 class CoreConsolidationAgent:
     """Agent responsible for consolidating core over-engineering."""
@@ -55,7 +54,7 @@ class CoreConsolidationAgent:
         print(f"✅ Created consolidated managers.py with {len(essential_functions)} functions")
         print("❌ Ready to remove old managers/ directory after testing")
 
-    def extract_essential_functions(self, managers_dir: Path) -> Dict[str, str]:
+    def extract_essential_functions(self, managers_dir: Path) -> dict[str, str]:
         """Extract essential functions from manager files."""
         essential_functions = {}
 
@@ -71,7 +70,7 @@ class CoreConsolidationAgent:
                 continue
 
             try:
-                with open(py_file, 'r') as f:
+                with open(py_file) as f:
                     content = f.read()
 
                 # Extract function definitions
@@ -87,7 +86,7 @@ class CoreConsolidationAgent:
 
         return essential_functions
 
-    def generate_consolidated_managers(self, functions: Dict[str, str]) -> str:
+    def generate_consolidated_managers(self, functions: dict[str, str]) -> str:
         """Generate consolidated managers.py content."""
         header = '''#!/usr/bin/env python3
 """

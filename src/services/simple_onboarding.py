@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Simple Onboarding - UI-Based Agent Onboarding
@@ -16,6 +17,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
 try:
     import pyautogui as pg
 except Exception:
@@ -208,7 +210,7 @@ class SimpleOnboarding:
                 data = json.loads(self.status_file.read_text(encoding='utf-8'))
             except Exception:
                 data = {}
-        data['agent_status'] = {agent: 'PENDING' for agent in self.role_map}
+        data['agent_status'] = dict.fromkeys(self.role_map, 'PENDING')
         data['last_updated'] = self._now_iso()
         self.status_file.write_text(json.dumps(data, indent=2), encoding=
             'utf-8')

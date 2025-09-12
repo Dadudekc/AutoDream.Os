@@ -10,11 +10,9 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
-import os
 import shutil
-from pathlib import Path
-from typing import List, Optional
 from datetime import datetime
+from pathlib import Path
 
 
 class BackupManager:
@@ -31,7 +29,7 @@ class BackupManager:
         self.dest = Path(dest)
         self.dest.mkdir(parents=True, exist_ok=True)
 
-    def create_backup(self, agents: Optional[List[str]] = None) -> str:
+    def create_backup(self, agents: list[str] | None = None) -> str:
         """Create backup of agent state.
 
         Args:
@@ -64,7 +62,7 @@ class BackupManager:
 
         return str(backup_dir)
 
-    def list_backups(self) -> List[str]:
+    def list_backups(self) -> list[str]:
         """List all available backups.
 
         Returns:

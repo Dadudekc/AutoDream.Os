@@ -15,10 +15,9 @@ License: MIT
 """
 
 import logging
-from typing import Dict, Any, Optional, Callable, List, Protocol
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
+from typing import Any, Protocol
 
 logger = logging.getLogger(__name__)
 
@@ -26,22 +25,22 @@ logger = logging.getLogger(__name__)
 # DIP: Abstract interfaces for dependency injection
 class IGameSessionManager(Protocol):
     """Interface for game session management (ISP: Segregated interface)."""
-    def create_session(self, game_type: str, player_id: str) -> Optional[Dict[str, Any]]: ...
-    def get_session(self, session_id: str) -> Optional[Dict[str, Any]]: ...
+    def create_session(self, game_type: str, player_id: str) -> dict[str, Any] | None: ...
+    def get_session(self, session_id: str) -> dict[str, Any] | None: ...
     def end_session(self, session_id: str) -> bool: ...
-    def get_active_sessions(self) -> List[Dict[str, Any]]: ...
+    def get_active_sessions(self) -> list[dict[str, Any]]: ...
 
 
 class IEntertainmentSystemManager(Protocol):
     """Interface for entertainment system management (ISP: Segregated interface)."""
     def register_system(self, system_id: str, system_type: str) -> bool: ...
-    def get_system(self, system_id: str) -> Optional[Dict[str, Any]]: ...
-    def get_all_systems(self) -> List[Dict[str, Any]]: ...
+    def get_system(self, system_id: str) -> dict[str, Any] | None: ...
+    def get_all_systems(self) -> list[dict[str, Any]]: ...
 
 
 class IIntegrationHandler(Protocol):
     """Interface for integration event handlers (ISP: Segregated interface)."""
-    def handle_event(self, event: Dict[str, Any]) -> Dict[str, Any]: ...
+    def handle_event(self, event: dict[str, Any]) -> dict[str, Any]: ...
 
 
 class IntegrationStatus(Enum):
@@ -76,7 +75,7 @@ class GameSession:
         self.score = 0
         self.level = 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
         return {
             "session_id": self.session_id,
@@ -99,7 +98,7 @@ class EntertainmentSystem:
         self.status = "active"
         self.last_activity = datetime.now()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
         return {
             "system_id": self.system_id,
@@ -114,9 +113,9 @@ class GameSessionManager:
     """Game session manager - Single Responsibility: Session management."""
 
     def __init__(self):
-        self.sessions: Dict[str, GameSession] = {}
+        self.sessions: dict[str, GameSession] = {}
 
-    def create_session(self, game_type: str, player_id: str) -> Optional[Dict[str, Any]]:
+    def create_session(self, game_type: str, player_id: str) -> dict[str, Any] | None:
         """Create a new game session."""
         try:
             session_id = f"session_{int(datetime.now().timestamp())}"
@@ -130,7 +129,7 @@ class GameSessionManager:
             logger.error(f"Error creating game session: {e}")
             return None
 
-    def get_session(self, session_id: str) -> Optional[Dict[str, Any]]:
+    def get_session(self, session_id: str) -> dict[str, Any] | None:
         """Get game session."""
         session = self.sessions.get(session_id)
         return session.to_dict() if session else None
@@ -148,7 +147,7 @@ class GameSessionManager:
             logger.error(f"Error ending game session: {e}")
             return False
 
-    def get_active_sessions(self) -> List[Dict[str, Any]]:
+    def get_active_sessions(self) -> list[dict[str, Any]]:
         """Get active game sessions."""
         return [
             session.to_dict()
@@ -162,7 +161,7 @@ class EntertainmentSystemManager:
     """Entertainment system manager - Single Responsibility: System management."""
 
     def __init__(self):
-        self.systems: Dict[str, EntertainmentSystem] = {}
+        self.systems: dict[str, EntertainmentSystem] = {}
 
     def register_system(self, system_id: str, system_type: str) -> bool:
         """Register entertainment system."""
@@ -175,12 +174,12 @@ class EntertainmentSystemManager:
             logger.error(f"Error registering entertainment system: {e}")
             return False
 
-    def get_system(self, system_id: str) -> Optional[Dict[str, Any]]:
+    def get_system(self, system_id: str) -> dict[str, Any] | None:
         """Get entertainment system."""
         system = self.systems.get(system_id)
         return system.to_dict() if system else None
 
-    def get_all_systems(self) -> List[Dict[str, Any]]:
+    def get_all_systems(self) -> list[dict[str, Any]]:
         """Get all entertainment systems."""
         return [system.to_dict() for system in self.systems.values()]
 
@@ -192,7 +191,7 @@ class IntegrationEventHandler:
     def __init__(self, session_manager: IGameSessionManager):
         self.session_manager = session_manager
 
-    def handle_event(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def handle_event(self, event: dict[str, Any]) -> dict[str, Any]:
         """Handle integration events."""
         try:
             event_type = event.get("type", "unknown")
@@ -209,7 +208,7 @@ class IntegrationEventHandler:
             logger.error(f"Error handling event: {e}")
             return {"success": False, "error": str(e)}
 
-    def _handle_create_session(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_create_session(self, event: dict[str, Any]) -> dict[str, Any]:
         """Handle session creation event."""
         game_type = event.get("game_type", "strategy")
         player_id = event.get("player_id", "unknown")
@@ -219,12 +218,12 @@ class IntegrationEventHandler:
             "session_id": session.get("session_id") if session else None,
         }
 
-    def _handle_end_session(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_end_session(self, event: dict[str, Any]) -> dict[str, Any]:
         """Handle session end event."""
         session_id = event.get("session_id")
         return {"success": self.session_manager.end_session(session_id)}
 
-    def _handle_get_session(self, event: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_get_session(self, event: dict[str, Any]) -> dict[str, Any]:
         """Handle session retrieval event."""
         session_id = event.get("session_id")
         session = self.session_manager.get_session(session_id)
@@ -239,9 +238,9 @@ class GamingIntegrationCore:
     """Gaming integration core - SOLID Compliant: Uses composition and interfaces."""
 
     def __init__(self,
-                 config: Optional[Dict[str, Any]] = None,
-                 session_manager: Optional[IGameSessionManager] = None,
-                 system_manager: Optional[IEntertainmentSystemManager] = None):
+                 config: dict[str, Any] | None = None,
+                 session_manager: IGameSessionManager | None = None,
+                 system_manager: IEntertainmentSystemManager | None = None):
         """Initialize with dependency injection."""
         self.config = config or {}
         self.status = IntegrationStatus.DISCONNECTED
@@ -251,7 +250,7 @@ class GamingIntegrationCore:
         self.system_manager = system_manager or EntertainmentSystemManager()
 
         # OCP: Event handlers can be extended without modifying core
-        self.event_handlers: Dict[str, IIntegrationHandler] = {}
+        self.event_handlers: dict[str, IIntegrationHandler] = {}
         self.is_initialized = False
 
         self._initialize_integration()
@@ -282,7 +281,7 @@ class GamingIntegrationCore:
             self.status = IntegrationStatus.ERROR
 
     # SRP: Delegate session operations to session manager
-    def create_game_session(self, game_type: GameType, player_id: str) -> Optional[Dict[str, Any]]:
+    def create_game_session(self, game_type: GameType, player_id: str) -> dict[str, Any] | None:
         """Create a new game session - delegates to session manager."""
         if not self.is_initialized:
             logger.warning("Gaming integration not initialized")
@@ -291,7 +290,7 @@ class GamingIntegrationCore:
         game_type_str = game_type.value if hasattr(game_type, 'value') else str(game_type)
         return self.session_manager.create_session(game_type_str, player_id)
 
-    def get_game_session(self, session_id: str) -> Optional[Dict[str, Any]]:
+    def get_game_session(self, session_id: str) -> dict[str, Any] | None:
         """Get game session - delegates to session manager."""
         return self.session_manager.get_session(session_id)
 
@@ -299,7 +298,7 @@ class GamingIntegrationCore:
         """End game session - delegates to session manager."""
         return self.session_manager.end_session(session_id)
 
-    def get_active_sessions(self) -> List[Dict[str, Any]]:
+    def get_active_sessions(self) -> list[dict[str, Any]]:
         """Get active game sessions - delegates to session manager."""
         return self.session_manager.get_active_sessions()
 
@@ -308,11 +307,11 @@ class GamingIntegrationCore:
         """Register entertainment system - delegates to system manager."""
         return self.system_manager.register_system(system_id, system_type)
 
-    def get_entertainment_system(self, system_id: str) -> Optional[Dict[str, Any]]:
+    def get_entertainment_system(self, system_id: str) -> dict[str, Any] | None:
         """Get entertainment system - delegates to system manager."""
         return self.system_manager.get_system(system_id)
 
-    def get_all_entertainment_systems(self) -> List[Dict[str, Any]]:
+    def get_all_entertainment_systems(self) -> list[dict[str, Any]]:
         """Get all entertainment systems - delegates to system manager."""
         return self.system_manager.get_all_systems()
 
@@ -321,7 +320,7 @@ class GamingIntegrationCore:
         """Register event handler - Open-Closed Principle."""
         self.event_handlers[name] = handler
 
-    def handle_event(self, handler_name: str, event: Dict[str, Any]) -> Dict[str, Any]:
+    def handle_event(self, handler_name: str, event: dict[str, Any]) -> dict[str, Any]:
         """Handle event using registered handler."""
         handler = self.event_handlers.get(handler_name)
         if handler:
@@ -337,7 +336,7 @@ class GamingIntegrationCore:
         """Check if integration is connected."""
         return self.status == IntegrationStatus.CONNECTED
 
-    def get_core_health(self) -> Dict[str, Any]:
+    def get_core_health(self) -> dict[str, Any]:
         """Get core health status."""
         return {
             "status": self.get_status(),
@@ -348,7 +347,7 @@ class GamingIntegrationCore:
         }
 
 # Factory function for backward compatibility
-def create_gaming_integration_core(config: Optional[Dict[str, Any]] = None) -> GamingIntegrationCore:
+def create_gaming_integration_core(config: dict[str, Any] | None = None) -> GamingIntegrationCore:
     """Factory function for creating GamingIntegrationCore instances."""
     return GamingIntegrationCore(config)
 

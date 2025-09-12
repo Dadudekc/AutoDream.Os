@@ -13,10 +13,10 @@ Usage:
     python switch_agent_mode.py --status    # Show current mode
 """
 
-import json
 import argparse
-from pathlib import Path
+import json
 from datetime import datetime
+from pathlib import Path
 
 
 def switch_agent_mode(mode: int) -> None:

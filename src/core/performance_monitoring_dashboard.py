@@ -10,17 +10,16 @@ consolidation progress tracking, and operational health monitoring.
 from __future__ import annotations
 
 import json
-import time
 import threading
+import time
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from pathlib import Path
+from typing import Any
 
 import psutil
-
-from pathlib import Path
 
 
 class DashboardType(Enum):
@@ -44,16 +43,16 @@ class MetricType(Enum):
 class DashboardMetric:
     """Represents a metric for dashboard display."""
     name: str
-    value: Union[int, float, str, bool]
+    value: int | float | str | bool
     unit: str
     metric_type: MetricType
     timestamp: datetime
     category: str
     priority: str = "medium"
-    trend: Optional[str] = None  # "up", "down", "stable"
-    baseline: Optional[Union[int, float]] = None
-    threshold_warning: Optional[Union[int, float]] = None
-    threshold_critical: Optional[Union[int, float]] = None
+    trend: str | None = None  # "up", "down", "stable"
+    baseline: int | float | None = None
+    threshold_warning: int | float | None = None
+    threshold_critical: int | float | None = None
 
 
 @dataclass
@@ -62,10 +61,10 @@ class DashboardWidget:
     id: str
     title: str
     widget_type: str  # "chart", "gauge", "table", "alert"
-    metrics: List[str] = field(default_factory=list)
-    config: Dict[str, Any] = field(default_factory=dict)
-    position: Dict[str, int] = field(default_factory=dict)
-    size: Dict[str, int] = field(default_factory=dict)
+    metrics: list[str] = field(default_factory=list)
+    config: dict[str, Any] = field(default_factory=dict)
+    position: dict[str, int] = field(default_factory=dict)
+    size: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -73,10 +72,10 @@ class ConsolidationPhase:
     """Represents a consolidation phase with metrics."""
     name: str
     start_time: datetime
-    end_time: Optional[datetime] = None
+    end_time: datetime | None = None
     status: str = "pending"  # "pending", "active", "completed", "failed"
-    metrics: Dict[str, Any] = field(default_factory=dict)
-    alerts: List[Dict[str, Any]] = field(default_factory=list)
+    metrics: dict[str, Any] = field(default_factory=dict)
+    alerts: list[dict[str, Any]] = field(default_factory=list)
 
 
 class PerformanceMonitoringDashboard:
@@ -96,14 +95,14 @@ class PerformanceMonitoringDashboard:
         self.dashboard_directory.mkdir(exist_ok=True)
 
         # Dashboard data storage
-        self.dashboards: Dict[str, Dict[str, Any]] = {}
-        self.widgets: Dict[str, DashboardWidget] = {}
-        self.metrics_history: Dict[str, deque] = {}
+        self.dashboards: dict[str, dict[str, Any]] = {}
+        self.widgets: dict[str, DashboardWidget] = {}
+        self.metrics_history: dict[str, deque] = {}
 
         # Real-time data
-        self.realtime_metrics: Dict[str, DashboardMetric] = {}
-        self.active_alerts: List[Dict[str, Any]] = []
-        self.consolidation_phases: List[ConsolidationPhase] = []
+        self.realtime_metrics: dict[str, DashboardMetric] = {}
+        self.active_alerts: list[dict[str, Any]] = []
+        self.consolidation_phases: list[ConsolidationPhase] = []
 
         # Dashboard update settings
         self.update_interval_seconds = 30
@@ -114,7 +113,7 @@ class PerformanceMonitoringDashboard:
         self._initialize_dashboards()
 
         # Start background monitoring
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: threading.Thread | None = None
 
     def _initialize_dashboards(self) -> None:
         """Initialize all performance monitoring dashboards."""
@@ -781,7 +780,7 @@ class PerformanceMonitoringDashboard:
                 "timestamp": timestamp,
             })
 
-    def _generate_alert(self, alert_data: Dict[str, Any]) -> None:
+    def _generate_alert(self, alert_data: dict[str, Any]) -> None:
         """Generate and store an alert."""
         self.active_alerts.append(alert_data)
 
@@ -801,7 +800,7 @@ class PerformanceMonitoringDashboard:
 
         self.metrics_history[metric.name].append(metric)
 
-    def _calculate_trend(self, metric_name: str, current_value: Union[int, float]) -> str:
+    def _calculate_trend(self, metric_name: str, current_value: int | float) -> str:
         """Calculate trend for a metric."""
         if metric_name not in self.metrics_history:
             return "stable"
@@ -827,7 +826,7 @@ class PerformanceMonitoringDashboard:
         for dashboard_id in self.dashboards:
             self.dashboards[dashboard_id]["last_updated"] = datetime.now()
 
-    def get_dashboard_data(self, dashboard_id: str) -> Dict[str, Any]:
+    def get_dashboard_data(self, dashboard_id: str) -> dict[str, Any]:
         """Get data for a specific dashboard."""
         if dashboard_id not in self.dashboards:
             return {"error": f"Dashboard {dashboard_id} not found"}
@@ -846,7 +845,7 @@ class PerformanceMonitoringDashboard:
 
         return dashboard
 
-    def _get_widget_data(self, widget: DashboardWidget) -> Dict[str, Any]:
+    def _get_widget_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Get data for a specific widget."""
         data = {
             "title": widget.title,
@@ -878,7 +877,7 @@ class PerformanceMonitoringDashboard:
 
         return data
 
-    def _get_dashboard_summary(self, dashboard_id: str) -> Dict[str, Any]:
+    def _get_dashboard_summary(self, dashboard_id: str) -> dict[str, Any]:
         """Get summary data for a dashboard."""
         if dashboard_id == "operational":
             return {
@@ -918,7 +917,7 @@ class PerformanceMonitoringDashboard:
 
         return {}
 
-    def export_dashboard_snapshot(self, dashboard_id: str) -> Dict[str, Any]:
+    def export_dashboard_snapshot(self, dashboard_id: str) -> dict[str, Any]:
         """Export a complete dashboard snapshot."""
         snapshot = {
             "timestamp": datetime.now().isoformat(),
@@ -934,7 +933,7 @@ class PerformanceMonitoringDashboard:
 
         return snapshot
 
-    def get_all_dashboards_summary(self) -> Dict[str, Any]:
+    def get_all_dashboards_summary(self) -> dict[str, Any]:
         """Get a summary of all dashboards."""
         return {
             "timestamp": datetime.now().isoformat(),

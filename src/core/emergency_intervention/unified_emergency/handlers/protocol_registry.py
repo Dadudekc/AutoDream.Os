@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Protocol Registry Handler
@@ -11,7 +12,14 @@ Author: Agent-8 (SSOT & System Integration Specialist)
 License: MIT
 """
 from typing import Any
-from ..models import EmergencyInterventionModels, EmergencySeverity, EmergencyType, InterventionAction, InterventionProtocol
+
+from ..models import (
+    EmergencyInterventionModels,
+    EmergencySeverity,
+    EmergencyType,
+    InterventionAction,
+    InterventionProtocol,
+)
 
 
 class ProtocolRegistry:

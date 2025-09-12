@@ -17,37 +17,34 @@ License: MIT
 """
 
 import asyncio
+import os
+from pathlib import Path
+from typing import Any
+
 import discord
 from discord.ext import commands
-import re
-from datetime import datetime
-from typing import Dict, List, Any, Optional
-from pathlib import Path
-import os
 
 try:
     from .agent_communication_engine_refactored import AgentCommunicationEngine
-    from .discord_commander_models import CommandResult
-    from .security_policies import allow_guild, allow_channel, allow_user
-    from .rate_limits import RateLimiter
-    from .structured_logging import configure_logging
-    from .guards import check_context
     from .command_router import CommandRouter
+    from .discord_commander_models import CommandResult
     from .embeds import EmbedManager
+    from .guards import check_context
     from .handlers_agents import AgentCommandHandlers
     from .handlers_swarm import SwarmCommandHandlers
+    from .rate_limits import RateLimiter
+    from .security_policies import allow_channel, allow_guild, allow_user
+    from .structured_logging import configure_logging
 except ImportError:
     # Fallback for direct execution
     from agent_communication_engine_refactored import AgentCommunicationEngine
-    from discord_commander_models import CommandResult
-    from security_policies import allow_guild, allow_channel, allow_user
-    from rate_limits import RateLimiter
-    from structured_logging import configure_logging
-    from guards import check_context
     from command_router import CommandRouter
     from embeds import EmbedManager
     from handlers_agents import AgentCommandHandlers
     from handlers_swarm import SwarmCommandHandlers
+    from rate_limits import RateLimiter
+    from security_policies import allow_channel, allow_guild, allow_user
+    from structured_logging import configure_logging
 
 
 class DiscordAgentBot(commands.Bot):
@@ -88,7 +85,7 @@ class DiscordAgentBot(commands.Bot):
         config_path = Path("config/discord_bot_config.json")
         if config_path.exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     config = json.load(f)
                     self.allowed_channels = config.get('allowed_channels', [])
                     self.admin_users = config.get('admin_users', [])
@@ -97,11 +94,11 @@ class DiscordAgentBot(commands.Bot):
             except Exception as e:
                 print(f"⚠️  Failed to load Discord bot config: {e}")
 
-    def _load_agent_map(self) -> Dict[str, Dict[str, str]]:
+    def _load_agent_map(self) -> dict[str, dict[str, str]]:
         """Load agent mapping configuration."""
         agent_map_path = os.getenv('AGENT_MAP_PATH', 'config/agent_map.json')
         try:
-            with open(agent_map_path, 'r') as f:
+            with open(agent_map_path) as f:
                 return json.load(f)
         except Exception as e:
             print(f"⚠️  Failed to load agent map: {e}. Using defaults.")
@@ -147,7 +144,7 @@ class DiscordAgentBot(commands.Bot):
         # Apply rate limiting
         try:
             await self.rate_limiter.acquire(message.author.id)
-        except Exception as e:
+        except Exception:
             # Rate limit exceeded, silently ignore
             return
         finally:
@@ -253,7 +250,7 @@ class DiscordAgentBot(commands.Bot):
                             error_embed = self.embed_manager.create_response_embed(
                                 'error',
                                 title="❌ Agent Communication Error",
-                                description=f"Error communicating with agent.",
+                                description="Error communicating with agent.",
                                 error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
@@ -272,7 +269,7 @@ class DiscordAgentBot(commands.Bot):
                             error_embed = self.embed_manager.create_response_embed(
                                 'error',
                                 title="❌ Swarm Broadcast Error",
-                                description=f"Error broadcasting to swarm.",
+                                description="Error broadcasting to swarm.",
                                 error=str(e)
                             )
                             await response_msg.edit(embed=error_embed)
@@ -290,7 +287,7 @@ class DiscordAgentBot(commands.Bot):
             )
             await message.channel.send(embed=error_embed)
 
-    def get_command_stats(self) -> Dict[str, Any]:
+    def get_command_stats(self) -> dict[str, Any]:
         """Get bot command statistics."""
         return {
             'active_agent_commands': self.agent_handlers.get_active_command_count(),
@@ -320,17 +317,17 @@ class DiscordAgentBotManager:
         self.bot = DiscordAgentBot()
         return self.bot
 
-    def save_config(self, config: Dict[str, Any]):
+    def save_config(self, config: dict[str, Any]):
         """Save bot configuration."""
         self.config_path.parent.mkdir(parents=True, exist_ok=True)
         with open(self.config_path, 'w') as f:
             json.dump(config, f, indent=2)
 
-    def load_config(self) -> Dict[str, Any]:
+    def load_config(self) -> dict[str, Any]:
         """Load bot configuration."""
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     return json.load(f)
             except Exception as e:
                 print(f"⚠️  Failed to load bot config: {e}")

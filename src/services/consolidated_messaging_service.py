@@ -20,7 +20,7 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 # Fix imports when running as a script
 if __name__ == "__main__":
@@ -31,25 +31,26 @@ if __name__ == "__main__":
 
 # Import from PyAutoGUI messaging system (SSOT)
 try:
-    from src.core.messaging_pyautogui import (
-        format_message_for_delivery,
-        deliver_message_pyautogui,
-        deliver_bulk_messages_pyautogui,
-        send_message_to_inbox,
-        send_message_with_fallback,
-        broadcast_message_to_agents,
-        get_agent_workspaces_status,
-        get_agent_coordinates,
-        load_coordinates_from_json,
-        PyAutoGUIMessagingDelivery,
-        PYAUTOGUI_AVAILABLE,
-        PYPERCLIP_AVAILABLE,
-    )
-    from src.core.coordinate_loader import get_coordinate_loader
+    from enum import Enum
 
     # Create fallback classes for unified messaging compatibility
-    from typing import List, Dict, Any, Optional
-    from enum import Enum
+    from typing import Any, Dict, List, Optional
+
+    from src.core.coordinate_loader import get_coordinate_loader
+    from src.core.messaging_pyautogui import (
+        PYAUTOGUI_AVAILABLE,
+        PYPERCLIP_AVAILABLE,
+        PyAutoGUIMessagingDelivery,
+        broadcast_message_to_agents,
+        deliver_bulk_messages_pyautogui,
+        deliver_message_pyautogui,
+        format_message_for_delivery,
+        get_agent_coordinates,
+        get_agent_workspaces_status,
+        load_coordinates_from_json,
+        send_message_to_inbox,
+        send_message_with_fallback,
+    )
 
     class UnifiedMessageType(Enum):
         AGENT_TO_AGENT = "agent_to_agent"
@@ -71,7 +72,7 @@ try:
     class UnifiedMessage:
         def __init__(self, content: str, sender: str, recipient: str,
                      message_type: UnifiedMessageType, priority: UnifiedMessagePriority,
-                     tags: List[UnifiedMessageTag], timestamp: Optional[str] = None):
+                     tags: list[UnifiedMessageTag], timestamp: str | None = None):
             self.content = content
             self.sender = sender
             self.recipient = recipient
@@ -103,7 +104,7 @@ try:
         results = deliver_bulk_messages_pyautogui(messages)
         return all(results.values())
 
-    def list_agents() -> List[str]:
+    def list_agents() -> list[str]:
         """List all available agents"""
         coords = load_coordinates_from_json()
         return list(coords.keys())
@@ -112,7 +113,7 @@ try:
         """Get messaging core instance"""
         return PyAutoGUIMessagingDelivery()
 
-    def show_message_history(agent_id: Optional[str] = None) -> Optional[List[Dict[str, Any]]]:
+    def show_message_history(agent_id: str | None = None) -> list[dict[str, Any]] | None:
         """Show message history (placeholder)"""
         logger.info(f"Message history for {agent_id or 'all agents'}")
         return []
@@ -128,7 +129,9 @@ def get_coordinate_loader():
     """Get coordinate loader instance."""
     if MESSAGING_AVAILABLE:
         try:
-            from src.core.coordinate_loader import get_coordinate_loader as core_get_coordinate_loader
+            from src.core.coordinate_loader import (
+                get_coordinate_loader as core_get_coordinate_loader,
+            )
             return core_get_coordinate_loader()
         except ImportError:
             pass
@@ -187,12 +190,12 @@ class ConsolidatedMessagingService:
         self.coordinate_loader = get_coordinate_loader() if MESSAGING_AVAILABLE else None
         self.pyautogui_delivery = PyAutoGUIMessagingDelivery() if MESSAGING_AVAILABLE else None
         self.logger = logging.getLogger(__name__)
-        
-    def load_coordinates_from_json(self) -> Dict[str, Tuple[int, int]]:
+
+    def load_coordinates_from_json(self) -> dict[str, tuple[int, int]]:
         """Load agent coordinates using SSOT coordinate loader."""
         if not self.coordinate_loader:
             return {}
-            
+
         coordinates = {}
         for agent_id in self.coordinate_loader.get_all_agents():
             if self.coordinate_loader.is_agent_active(agent_id):
@@ -226,13 +229,13 @@ class ConsolidatedMessagingService:
             logger.error(f"❌ Failed to send enhanced message to {agent_id}: {e}")
             return False
 
-    def send_message_unified(self, agent_id: str, message: str, 
+    def send_message_unified(self, agent_id: str, message: str,
                            priority: str = "NORMAL", tag: str = "GENERAL") -> bool:
         """Send message using unified messaging system."""
         if not MESSAGING_AVAILABLE:
             logger.error("❌ Messaging system not available")
             return False
-            
+
         try:
             # Create unified message
             unified_message = UnifiedMessage(
@@ -243,26 +246,26 @@ class ConsolidatedMessagingService:
                 priority=UnifiedMessagePriority[priority.upper()],
                 tag=UnifiedMessageTag[tag.upper()]
             )
-            
+
             # Send via core system
             result = send_message(unified_message)
             logger.info(f"✅ Message sent to {agent_id} via unified system")
             return result
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to send unified message to {agent_id}: {e}")
             return False
 
     def broadcast_message_swarm(self, message: str, priority: str = "NORMAL",
-                               tag: str = "GENERAL") -> Dict[str, bool]:
+                               tag: str = "GENERAL") -> dict[str, bool]:
         """Broadcast message to all swarm agents using enhanced PyAutoGUI SSOT."""
         if not self.pyautogui_available:
             logger.error("❌ PyAutoGUI messaging system not available for broadcast")
-            return {agent: False for agent in SWARM_AGENTS}
+            return dict.fromkeys(SWARM_AGENTS, False)
 
         if self.dry_run:
             logger.info(f"🔍 DRY RUN BROADCAST: {message} to all agents")
-            return {agent: True for agent in SWARM_AGENTS}
+            return dict.fromkeys(SWARM_AGENTS, True)
 
         try:
             # Use enhanced broadcast_message_to_agents from SSOT
@@ -272,35 +275,35 @@ class ConsolidatedMessagingService:
 
         except Exception as e:
             logger.error(f"❌ Broadcast failed: {e}")
-            return {agent: False for agent in SWARM_AGENTS}
+            return dict.fromkeys(SWARM_AGENTS, False)
 
-    def list_available_agents(self) -> List[str]:
+    def list_available_agents(self) -> list[str]:
         """List all available agents."""
         if MESSAGING_AVAILABLE and self.coordinate_loader:
             return list(self.coordinate_loader.get_all_agents())
         return SWARM_AGENTS
 
-    def show_message_history(self, agent_id: Optional[str] = None) -> None:
+    def show_message_history(self, agent_id: str | None = None) -> None:
         """Show message history for agent or all agents."""
         if not MESSAGING_AVAILABLE:
             logger.error("❌ Messaging system not available")
             return
-            
+
         try:
             show_message_history(agent_id)
         except Exception as e:
             logger.error(f"❌ Failed to show message history: {e}")
 
-    def run_cli_interface(self, args: Optional[List[str]] = None) -> None:
+    def run_cli_interface(self, args: list[str] | None = None) -> None:
         """Run the CLI interface for messaging operations."""
         parser = argparse.ArgumentParser(description="Consolidated Messaging Service CLI")
         parser.add_argument("--agent", "-a", help="Target agent ID")
         parser.add_argument("--message", "-m", help="Message content")
-        parser.add_argument("--priority", "-p", choices=["LOW", "NORMAL", "HIGH", "URGENT"], 
+        parser.add_argument("--priority", "-p", choices=["LOW", "NORMAL", "HIGH", "URGENT"],
                           default="NORMAL", help="Message priority")
-        parser.add_argument("--tag", "-t", choices=["GENERAL", "COORDINATION", "TASK", "STATUS"], 
+        parser.add_argument("--tag", "-t", choices=["GENERAL", "COORDINATION", "TASK", "STATUS"],
                           default="GENERAL", help="Message tag")
-        parser.add_argument("--broadcast", "-b", action="store_true", 
+        parser.add_argument("--broadcast", "-b", action="store_true",
                           help="Broadcast to all agents")
         parser.add_argument("--list-agents", "-l", action="store_true",
                           help="List available agents")
@@ -340,17 +343,17 @@ class ConsolidatedMessagingService:
         # Handle headless flag logic
         if parsed_args.thea_no_headless:
             parsed_args.thea_headless = False
-        
+
         if parsed_args.dry_run:
             self.dry_run = True
-            
+
         if parsed_args.list_agents:
             agents = self.list_available_agents()
             print("Available agents:")
             for agent in agents:
                 print(f"  - {agent}")
             return
-            
+
         if parsed_args.history:
             self.show_message_history(parsed_args.agent)
             return
@@ -362,24 +365,24 @@ class ConsolidatedMessagingService:
         if parsed_args.show_coords:
             self.show_current_coordinates()
             return
-            
+
         if parsed_args.broadcast:
             if not parsed_args.message:
                 print("❌ Error: Message required for broadcast")
                 return
-                
+
             results = self.broadcast_message_swarm(
-                parsed_args.message, 
-                parsed_args.priority, 
+                parsed_args.message,
+                parsed_args.priority,
                 parsed_args.tag
             )
-            
-            print(f"Broadcast results:")
+
+            print("Broadcast results:")
             for agent, success in results.items():
                 status = "✅" if success else "❌"
                 print(f"  {status} {agent}")
             return
-            
+
         # Handle task assistance pipeline
         if parsed_args.task_assistance:
             self.handle_task_assistance(
@@ -435,7 +438,7 @@ class ConsolidatedMessagingService:
         else:
             parser.print_help()
 
-    def broadcast_message(self, content: str, sender: str = "Agent-1") -> Dict[str, bool]:
+    def broadcast_message(self, content: str, sender: str = "Agent-1") -> dict[str, bool]:
         """Broadcast message to all agents."""
         agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
         results = {}
@@ -443,23 +446,23 @@ class ConsolidatedMessagingService:
         if not self.service_available:
             self.logger.warning("⚠️ Messaging system not available for broadcast")
             # Return False for all agents when messaging unavailable
-            return {agent: False for agent in agents}
+            return dict.fromkeys(agents, False)
 
         try:
             # Use the imported broadcast_message function if available
             if MESSAGING_AVAILABLE:
                 broadcast_result = broadcast_message(content, sender)
                 # Assume broadcast succeeds for all agents
-                return {agent: broadcast_result for agent in agents}
+                return dict.fromkeys(agents, broadcast_result)
             else:
                 self.logger.info(f"🔍 DRY RUN BROADCAST: {content} from {sender}")
                 # Dry run succeeds for all agents
-                return {agent: True for agent in agents}
+                return dict.fromkeys(agents, True)
         except Exception as e:
             self.logger.error(f"❌ Broadcast failed: {e}")
-            return {agent: False for agent in agents}
+            return dict.fromkeys(agents, False)
 
-    def list_agents(self) -> List[str]:
+    def list_agents(self) -> list[str]:
         """List all available agents."""
         if not self.service_available:
             # Return default agent list
@@ -474,7 +477,7 @@ class ConsolidatedMessagingService:
             self.logger.error(f"❌ List agents failed: {e}")
             return []
 
-    def show_message_history(self) -> Optional[List[Dict[str, Any]]]:
+    def show_message_history(self) -> list[dict[str, Any]] | None:
         """Show message history."""
         if not self.service_available:
             return []
@@ -488,7 +491,7 @@ class ConsolidatedMessagingService:
             self.logger.error(f"❌ Show message history failed: {e}")
             return []
 
-    def get_agent_workspaces_status(self) -> Dict[str, Any]:
+    def get_agent_workspaces_status(self) -> dict[str, Any]:
         """Get status of agent workspaces and inboxes."""
         if not self.pyautogui_available:
             self.logger.warning("⚠️ PyAutoGUI messaging system not available for status check")
@@ -579,7 +582,7 @@ class ConsolidatedMessagingService:
             "🎯 AGENT TASK ASSISTANCE REQUEST",
             "",
             f"**Agent ID:** {agent_id or 'Unknown Agent'}",
-            f"**Request Type:** Task Assistance",
+            "**Request Type:** Task Assistance",
             f"**Timestamp:** {time.strftime('%Y-%m-%d %H:%M:%S')}",
             "",
             "## Task Description",
@@ -631,8 +634,8 @@ class ConsolidatedMessagingService:
                 return
 
             # Import and use the autonomous Thea communication system
-            import sys
             import os
+            import sys
             from pathlib import Path
 
             # Add project root to path for imports
@@ -688,7 +691,7 @@ class ConsolidatedMessagingService:
                 return
 
             import json
-            with open(coord_file, 'r', encoding='utf-8') as f:
+            with open(coord_file, encoding='utf-8') as f:
                 data = json.load(f)
 
             print("📊 CURRENT AGENT COORDINATES")

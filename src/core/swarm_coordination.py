@@ -24,7 +24,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 # ============================================================================
 # SWARM MODELS
@@ -68,21 +68,21 @@ class SwarmAgent:
     agent_name: str
     role: AgentRole
     status: SwarmStatus = SwarmStatus.INITIALIZING
-    capabilities: List[str] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
     current_phase: SwarmPhase = SwarmPhase.FOUNDATION
     last_activity: datetime = field(default_factory=datetime.now)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    performance_metrics: dict[str, float] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def is_active(self, timeout_seconds: int = 300) -> bool:
         """Check if agent is active."""
         return (datetime.now() - self.last_activity).total_seconds() < timeout_seconds
-    
+
     def update_activity(self) -> None:
         """Update last activity timestamp."""
         self.last_activity = datetime.now()
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "agent_id": self.agent_id,
@@ -106,16 +106,16 @@ class SwarmTask:
     phase: SwarmPhase = SwarmPhase.FOUNDATION
     priority: int = 0
     status: SwarmStatus = SwarmStatus.INITIALIZING
-    assigned_agent: Optional[str] = None
+    assigned_agent: str | None = None
     created_at: datetime = field(default_factory=datetime.now)
-    started_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
-    estimated_duration: Optional[timedelta] = None
-    actual_duration: Optional[timedelta] = None
-    requirements: List[str] = field(default_factory=list)
-    dependencies: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    estimated_duration: timedelta | None = None
+    actual_duration: timedelta | None = None
+    requirements: list[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def assign_to_agent(self, agent_id: str) -> bool:
         """Assign task to agent."""
         if self.status == SwarmStatus.INITIALIZING:
@@ -123,7 +123,7 @@ class SwarmTask:
             self.status = SwarmStatus.ACTIVE
             return True
         return False
-    
+
     def start_task(self) -> bool:
         """Start task execution."""
         if self.status == SwarmStatus.ACTIVE:
@@ -131,7 +131,7 @@ class SwarmTask:
             self.started_at = datetime.now()
             return True
         return False
-    
+
     def complete_task(self) -> bool:
         """Complete task."""
         if self.status == SwarmStatus.COORDINATING:
@@ -141,8 +141,8 @@ class SwarmTask:
                 self.actual_duration = self.completed_at - self.started_at
             return True
         return False
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "task_id": self.task_id,
@@ -174,21 +174,21 @@ class SwarmMetrics:
     average_task_duration: float = 0.0
     coordination_efficiency: float = 0.0
     last_updated: datetime = field(default_factory=datetime.now)
-    
+
     def get_completion_rate(self) -> float:
         """Get task completion rate."""
         if self.total_tasks == 0:
             return 0.0
         return self.completed_tasks / self.total_tasks
-    
+
     def get_success_rate(self) -> float:
         """Get task success rate."""
         completed = self.completed_tasks + self.failed_tasks
         if completed == 0:
             return 0.0
         return self.completed_tasks / completed
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "total_agents": self.total_agents,
@@ -210,37 +210,37 @@ class SwarmMetrics:
 
 class SwarmEngine(ABC):
     """Base swarm engine interface."""
-    
+
     def __init__(self, name: str):
         self.name = name
         self.logger = logging.getLogger(self.__class__.__name__)
         self.is_running = False
-    
+
     @abstractmethod
     def start(self) -> bool:
         """Start the engine."""
         pass
-    
+
     @abstractmethod
     def stop(self) -> bool:
         """Stop the engine."""
         pass
-    
+
     @abstractmethod
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get engine status."""
         pass
 
 
 class PerformanceMonitoringEngine(SwarmEngine):
     """Performance monitoring engine for swarm coordination."""
-    
+
     def __init__(self):
         super().__init__("performance_monitoring")
         self.metrics = SwarmMetrics()
         self.monitoring_interval = 30.0  # seconds
         self.last_monitoring = datetime.now()
-    
+
     def start(self) -> bool:
         """Start performance monitoring."""
         try:
@@ -250,7 +250,7 @@ class PerformanceMonitoringEngine(SwarmEngine):
         except Exception as e:
             self.logger.error(f"Failed to start performance monitoring: {e}")
             return False
-    
+
     def stop(self) -> bool:
         """Stop performance monitoring."""
         try:
@@ -260,8 +260,8 @@ class PerformanceMonitoringEngine(SwarmEngine):
         except Exception as e:
             self.logger.error(f"Failed to stop performance monitoring: {e}")
             return False
-    
-    def get_status(self) -> Dict[str, Any]:
+
+    def get_status(self) -> dict[str, Any]:
         """Get performance monitoring status."""
         return {
             "name": self.name,
@@ -270,34 +270,34 @@ class PerformanceMonitoringEngine(SwarmEngine):
             "last_monitoring": self.last_monitoring.isoformat(),
             "metrics": self.metrics.to_dict()
         }
-    
-    def update_metrics(self, agents: List[SwarmAgent], tasks: List[SwarmTask]) -> None:
+
+    def update_metrics(self, agents: list[SwarmAgent], tasks: list[SwarmTask]) -> None:
         """Update performance metrics."""
         self.metrics.total_agents = len(agents)
         self.metrics.active_agents = sum(1 for agent in agents if agent.is_active())
         self.metrics.total_tasks = len(tasks)
         self.metrics.completed_tasks = sum(1 for task in tasks if task.status == SwarmStatus.ACTIVE and task.completed_at)
         self.metrics.failed_tasks = sum(1 for task in tasks if task.status == SwarmStatus.ERROR)
-        
+
         # Calculate average task duration
         completed_tasks = [task for task in tasks if task.actual_duration]
         if completed_tasks:
             total_duration = sum(task.actual_duration.total_seconds() for task in completed_tasks)
             self.metrics.average_task_duration = total_duration / len(completed_tasks)
-        
+
         self.metrics.last_updated = datetime.now()
         self.last_monitoring = datetime.now()
 
 
 class TaskCoordinationEngine(SwarmEngine):
     """Task coordination engine for swarm management."""
-    
+
     def __init__(self):
         super().__init__("task_coordination")
-        self.tasks: Dict[str, SwarmTask] = {}
-        self.agents: Dict[str, SwarmAgent] = {}
-        self.task_queue: List[SwarmTask] = []
-    
+        self.tasks: dict[str, SwarmTask] = {}
+        self.agents: dict[str, SwarmAgent] = {}
+        self.task_queue: list[SwarmTask] = []
+
     def start(self) -> bool:
         """Start task coordination."""
         try:
@@ -307,7 +307,7 @@ class TaskCoordinationEngine(SwarmEngine):
         except Exception as e:
             self.logger.error(f"Failed to start task coordination: {e}")
             return False
-    
+
     def stop(self) -> bool:
         """Stop task coordination."""
         try:
@@ -317,8 +317,8 @@ class TaskCoordinationEngine(SwarmEngine):
         except Exception as e:
             self.logger.error(f"Failed to stop task coordination: {e}")
             return False
-    
-    def get_status(self) -> Dict[str, Any]:
+
+    def get_status(self) -> dict[str, Any]:
         """Get task coordination status."""
         return {
             "name": self.name,
@@ -327,7 +327,7 @@ class TaskCoordinationEngine(SwarmEngine):
             "queued_tasks": len(self.task_queue),
             "total_agents": len(self.agents)
         }
-    
+
     def add_task(self, task: SwarmTask) -> bool:
         """Add task to coordination queue."""
         try:
@@ -338,14 +338,14 @@ class TaskCoordinationEngine(SwarmEngine):
         except Exception as e:
             self.logger.error(f"Failed to add task {task.task_id}: {e}")
             return False
-    
+
     def assign_task(self, task_id: str, agent_id: str) -> bool:
         """Assign task to agent."""
         try:
             if task_id in self.tasks and agent_id in self.agents:
                 task = self.tasks[task_id]
                 agent = self.agents[agent_id]
-                
+
                 if task.assign_to_agent(agent_id):
                     agent.update_activity()
                     self.logger.info(f"Assigned task {task_id} to agent {agent_id}")
@@ -354,7 +354,7 @@ class TaskCoordinationEngine(SwarmEngine):
         except Exception as e:
             self.logger.error(f"Failed to assign task {task_id}: {e}")
             return False
-    
+
     def register_agent(self, agent: SwarmAgent) -> bool:
         """Register agent with coordination engine."""
         try:
@@ -372,16 +372,16 @@ class TaskCoordinationEngine(SwarmEngine):
 
 class SwarmCoordinationOrchestrator:
     """Swarm coordination orchestrator."""
-    
+
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.agents: Dict[str, SwarmAgent] = {}
-        self.tasks: Dict[str, SwarmTask] = {}
+        self.agents: dict[str, SwarmAgent] = {}
+        self.tasks: dict[str, SwarmTask] = {}
         self.performance_engine = PerformanceMonitoringEngine()
         self.task_engine = TaskCoordinationEngine()
         self.current_phase = SwarmPhase.FOUNDATION
         self.metrics = SwarmMetrics()
-    
+
     def initialize(self) -> bool:
         """Initialize swarm coordination."""
         try:
@@ -392,7 +392,7 @@ class SwarmCoordinationOrchestrator:
         except Exception as e:
             self.logger.error(f"Failed to initialize swarm coordination: {e}")
             return False
-    
+
     def register_agent(self, agent: SwarmAgent) -> bool:
         """Register agent with swarm."""
         try:
@@ -404,7 +404,7 @@ class SwarmCoordinationOrchestrator:
         except Exception as e:
             self.logger.error(f"Failed to register agent {agent.agent_id}: {e}")
             return False
-    
+
     def create_task(self, task: SwarmTask) -> bool:
         """Create task in swarm."""
         try:
@@ -416,31 +416,31 @@ class SwarmCoordinationOrchestrator:
         except Exception as e:
             self.logger.error(f"Failed to create task {task.task_id}: {e}")
             return False
-    
+
     def coordinate_swarm(self) -> bool:
         """Coordinate swarm activities."""
         try:
             # Update performance metrics
             self.performance_engine.update_metrics(list(self.agents.values()), list(self.tasks.values()))
-            
+
             # Assign pending tasks
             pending_tasks = [task for task in self.tasks.values() if task.status == SwarmStatus.INITIALIZING]
             available_agents = [agent for agent in self.agents.values() if agent.is_active()]
-            
+
             for task in pending_tasks:
                 if available_agents:
                     # Simple assignment strategy - assign to first available agent
                     agent = available_agents[0]
                     if self.task_engine.assign_task(task.task_id, agent.agent_id):
                         available_agents.remove(agent)  # Remove from available list
-            
+
             self.logger.info(f"Coordinated {len(pending_tasks)} tasks with {len(available_agents)} available agents")
             return True
         except Exception as e:
             self.logger.error(f"Failed to coordinate swarm: {e}")
             return False
-    
-    def get_swarm_status(self) -> Dict[str, Any]:
+
+    def get_swarm_status(self) -> dict[str, Any]:
         """Get comprehensive swarm status."""
         return {
             "current_phase": self.current_phase.value,
@@ -452,7 +452,7 @@ class SwarmCoordinationOrchestrator:
             "task_engine": self.task_engine.get_status(),
             "metrics": self.metrics.to_dict()
         }
-    
+
     def shutdown(self) -> bool:
         """Shutdown swarm coordination."""
         try:
@@ -473,7 +473,7 @@ def create_swarm_agent(
     agent_id: str,
     agent_name: str,
     role: AgentRole,
-    capabilities: List[str] = None
+    capabilities: list[str] = None
 ) -> SwarmAgent:
     """Create a swarm agent."""
     return SwarmAgent(
@@ -522,12 +522,12 @@ def main():
     """Main execution function."""
     print("Swarm Coordination - Consolidated Swarm Management")
     print("=" * 50)
-    
+
     # Create swarm orchestrator
     orchestrator = create_swarm_coordination_orchestrator()
     orchestrator.initialize()
     print(f"Swarm orchestrator created: {orchestrator.get_swarm_status()}")
-    
+
     # Create test agents
     agent2 = create_swarm_agent(
         "agent-2",
@@ -537,7 +537,7 @@ def main():
     )
     orchestrator.register_agent(agent2)
     print(f"Agent-2 registered: {agent2.to_dict()}")
-    
+
     # Create test task
     task = create_swarm_task(
         "Consolidate Core Modules",
@@ -547,15 +547,15 @@ def main():
     )
     orchestrator.create_task(task)
     print(f"Task created: {task.to_dict()}")
-    
+
     # Coordinate swarm
     success = orchestrator.coordinate_swarm()
     print(f"Swarm coordination result: {success}")
-    
+
     # Get final status
     final_status = orchestrator.get_swarm_status()
     print(f"Final swarm status: {final_status}")
-    
+
     print("\nSwarm Coordination initialization complete!")
 
 

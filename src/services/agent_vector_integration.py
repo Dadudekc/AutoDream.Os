@@ -16,10 +16,10 @@ Author: Agent-7 (Web Development Specialist)
 Mission: V2 Compliance Refactoring
 """
 
+from .agent_status_manager import AgentStatusManager
+from .recommendation_engine import RecommendationEngine
 from .task_context_manager import TaskContextManager
 from .work_indexer import WorkIndexer
-from .recommendation_engine import RecommendationEngine
-from .agent_status_manager import AgentStatusManager
 
 
 class AgentVectorIntegration:

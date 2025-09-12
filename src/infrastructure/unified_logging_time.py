@@ -20,12 +20,12 @@ License: MIT
 import logging
 import sys
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta, timezone
 from enum import Enum
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
-from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -258,7 +258,7 @@ class SystemClock(ClockInterface):
     def _get_timezone(self) -> timezone:
         """Get timezone from configuration."""
         if self.config.timezone == "UTC":
-            return timezone.utc
+            return UTC
         else:
             # For simplicity, using UTC offset parsing
             # In production, you might want to use pytz or dateutil
@@ -266,7 +266,7 @@ class SystemClock(ClockInterface):
                 offset_hours = int(self.config.timezone.replace('UTC', ''))
                 return timezone(timedelta(hours=offset_hours))
             except:
-                return timezone.utc
+                return UTC
 
     def now(self) -> datetime:
         """Get current time in configured timezone."""
@@ -274,7 +274,7 @@ class SystemClock(ClockInterface):
 
     def utcnow(self) -> datetime:
         """Get current UTC time."""
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
 
     def from_timestamp(self, timestamp: float) -> datetime:
         """Create datetime from Unix timestamp."""
@@ -372,7 +372,7 @@ class LogStatistics:
     def __init__(self, logger: UnifiedLogger):
         """Initialize log statistics."""
         self.logger = logger
-        self.stats: Dict[str, int] = {
+        self.stats: dict[str, int] = {
             'debug': 0,
             'info': 0,
             'warning': 0,
@@ -385,7 +385,7 @@ class LogStatistics:
         if level.lower() in self.stats:
             self.stats[level.lower()] += 1
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> dict[str, int]:
         """Get logging statistics."""
         return self.stats.copy()
 
@@ -400,8 +400,8 @@ class UnifiedLoggingTimeService:
 
     def __init__(
         self,
-        logging_config: Optional[LoggingConfig] = None,
-        time_config: Optional[TimeConfig] = None
+        logging_config: LoggingConfig | None = None,
+        time_config: TimeConfig | None = None
     ):
         """Initialize unified logging and time service."""
         self.logging_config = logging_config or LoggingConfig()
@@ -504,7 +504,7 @@ class UnifiedLoggingTimeService:
         return self.calculator.get_age_seconds(dt)
 
     # Statistics and monitoring
-    def get_log_stats(self) -> Dict[str, int]:
+    def get_log_stats(self) -> dict[str, int]:
         """Get logging statistics."""
         return self.log_stats.get_stats()
 
@@ -512,7 +512,7 @@ class UnifiedLoggingTimeService:
         """Reset logging statistics."""
         self.log_stats.reset_stats()
 
-    def get_service_info(self) -> Dict[str, Any]:
+    def get_service_info(self) -> dict[str, Any]:
         """Get comprehensive service information."""
         return {
             "current_time": self.format_datetime(self.now()),

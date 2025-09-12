@@ -7,16 +7,18 @@ Simple PyAutoGUI script to deliver clarification response to Agent-6.
 """
 
 import time
+
 import pyautogui
 import pyperclip
 
+
 def deliver_response_to_agent6():
     """Deliver clarification response to Agent-6 via PyAutoGUI."""
-    
+
     # Agent-6 coordinates (from the swarm coordinate system)
     # Agent-6 is at (1612, 419) on Monitor 2 (Right Screen)
     agent6_coords = (1612, 419)
-    
+
     # Response message
     response_message = """[A2A] Agent-2 → Agent-6
 Priority: HIGH
@@ -52,38 +54,38 @@ Timestamp: 2025-09-09T03:45:00Z"""
 
     try:
         print("🐝 Agent-2 delivering response to Agent-6...")
-        
+
         # Move to Agent-6's coordinates
         pyautogui.moveTo(agent6_coords[0], agent6_coords[1], duration=0.5)
         print(f"📍 Moved to Agent-6 coordinates: {agent6_coords}")
-        
+
         # Click to focus
         pyautogui.click()
         time.sleep(0.5)
         print("🖱️ Clicked to focus Agent-6")
-        
+
         # Clear any existing content
         pyautogui.hotkey('ctrl', 'a')
         time.sleep(0.1)
         pyautogui.press('delete')
         time.sleep(0.1)
         print("🧹 Cleared existing content")
-        
+
         # Copy message to clipboard and paste
         pyperclip.copy(response_message)
         time.sleep(0.1)
         pyautogui.hotkey('ctrl', 'v')
         time.sleep(0.2)
         print("📋 Pasted response message")
-        
+
         # Send the message
         pyautogui.press('enter')
         time.sleep(0.5)
         print("📤 Message sent to Agent-6")
-        
+
         print("✅ Response successfully delivered to Agent-6!")
         return True
-        
+
     except Exception as e:
         print(f"❌ Error delivering response: {e}")
         return False
@@ -92,11 +94,11 @@ if __name__ == "__main__":
     print("🚀 Starting Agent-2 response delivery...")
     print("⚠️  Please ensure Cursor IDE is open and Agent-6's chat is visible")
     print("⏳ Starting in 3 seconds...")
-    
+
     time.sleep(3)
-    
+
     success = deliver_response_to_agent6()
-    
+
     if success:
         print("🎉 Mission accomplished! Agent-6 has received the clarification response.")
     else:

@@ -9,12 +9,11 @@ on the consolidation topic. Tests the full agent coordination capabilities.
 Author: V2 SWARM CAPTAIN
 """
 
-import os
 import sys
 import time
-from pathlib import Path
-from typing import Dict, List, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Add src to path for imports
 project_root = Path(__file__).parent
@@ -24,21 +23,22 @@ sys.path.insert(0, str(src_path))
 # Import the core Cursor automation system
 from core.coordinate_loader import get_coordinate_loader
 from services.messaging_pyautogui import (
-    get_agent_coordinates,
     deliver_message_pyautogui,
-    load_coordinates_from_json
+    get_agent_coordinates,
+    load_coordinates_from_json,
 )
 
 # Try to import additional messaging components
 try:
     from services.messaging_handlers_engine import MessagingHandlersEngine
     from services.onboarding_handler import OnboardingHandler
+
     from services.models.messaging_models import (
-        UnifiedMessage,
         RecipientType,
         SenderType,
+        UnifiedMessage,
+        UnifiedMessagePriority,
         UnifiedMessageType,
-        UnifiedMessagePriority
     )
     FULL_MESSAGING_AVAILABLE = True
     print("✅ Full messaging system available")
@@ -80,7 +80,7 @@ class AgentDebateCoordinator:
             "Agent-8": "Operations & Support Specialist"
         }
 
-    def check_system_status(self) -> Dict[str, Any]:
+    def check_system_status(self) -> dict[str, Any]:
         """Check if the Cursor automation and coordination systems are operational."""
         print("🔍 Checking Cursor automation system status...")
 
@@ -217,7 +217,7 @@ As a {specialist_role}, your perspective is crucial for this critical architectu
             print(f"❌ Error in Cursor automation for {agent_id}: {e}")
             return False
 
-    def coordinate_full_agent_debate(self) -> Dict[str, Any]:
+    def coordinate_full_agent_debate(self) -> dict[str, Any]:
         """Coordinate debate invitation to all agents."""
         print("🎯 INITIATING FULL AGENT DEBATE COORDINATION")
         print("=" * 60)
@@ -387,8 +387,8 @@ def main():
             json.dump(debate_status, f, indent=2)
 
         print("\n✅ Debate coordination complete!")
-        print(f"📄 Results saved to: debate_coordination_results.json")
-        print(f"📚 Materials saved to: ARCHITECTURE_CONSOLIDATION_DEBATE_MATERIALS.md")
+        print("📄 Results saved to: debate_coordination_results.json")
+        print("📚 Materials saved to: ARCHITECTURE_CONSOLIDATION_DEBATE_MATERIALS.md")
 
         # Summary
         successful = debate_status["successful_invitations"]

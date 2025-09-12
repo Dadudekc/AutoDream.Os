@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Messaging Gateway - Discord ↔ PyAutoGUI Bridge (V2)
 ===================================================
@@ -13,15 +12,15 @@ License: MIT
 """
 from __future__ import annotations
 
-import json
-import os
-import uuid
-import time
-import logging
 import importlib
-from dataclasses import dataclass, asdict
+import json
+import logging
+import os
+import time
+import uuid
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple, Callable
+from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +33,7 @@ def _import_symbol(spec: str, default_attr: str = "UnifiedMessagingSystem") -> A
     Returns the attribute (class/callable). Raises ImportError on failure.
     """
     mod_name: str
-    attr_name: Optional[str] = None
+    attr_name: str | None = None
 
     if ":" in spec:
         mod_name, attr_name = spec.split(":", 1)
@@ -53,8 +52,8 @@ def _import_symbol(spec: str, default_attr: str = "UnifiedMessagingSystem") -> A
     return getattr(module, default_attr)
 
 
-def _first_ok(candidates: Tuple[str, ...]) -> Any:
-    last_err: Optional[Exception] = None
+def _first_ok(candidates: tuple[str, ...]) -> Any:
+    last_err: Exception | None = None
     for spec in candidates:
         try:
             return _import_symbol(spec)
@@ -73,9 +72,9 @@ class DispatchResult:
     backend: str
     status: str
     ts: float
-    extra: Dict[str, Any]
+    extra: dict[str, Any]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -89,7 +88,7 @@ class MessagingGateway:
     - Deterministic, structured DispatchResult responses
     """
 
-    _CORE_SPECS: Tuple[str, ...] = (
+    _CORE_SPECS: tuple[str, ...] = (
         # Most explicit (module + class)
         "src.core.unified_messaging:UnifiedMessagingSystem",
         "core.unified_messaging:UnifiedMessagingSystem",
@@ -103,7 +102,7 @@ class MessagingGateway:
 
     def __init__(self,
                  coordinates_path: str = "config/coordinates.json",
-                 dry_run: Optional[bool] = None):
+                 dry_run: bool | None = None):
         # Resolve core
         try:
             UMS = _first_ok(self._CORE_SPECS)
@@ -145,22 +144,22 @@ class MessagingGateway:
     @staticmethod
     def _basic_core():
         class BasicMessagingCore:
-            def send_message(self, message: str, target: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+            def send_message(self, message: str, target: dict[str, Any], **kwargs) -> dict[str, Any]:
                 print(f"📤 [BASIC] {target.get('window_title','?')}: {message[:60]}...")
                 return {"ok": True, "channel": kwargs.get("channel", "pyautogui")}
 
-            def receive_message(self, source: Dict[str, Any]):
+            def receive_message(self, source: dict[str, Any]):
                 print(f"📥 [BASIC] receive from {source.get('window_title','?')}")
                 return {"ok": True, "messages": []}
 
-            def broadcast_message(self, message: str, **kwargs) -> Dict[str, Any]:
+            def broadcast_message(self, message: str, **kwargs) -> dict[str, Any]:
                 print(f"📢 [BASIC] broadcast: {message[:60]}...")
                 return {"ok": True}
         return BasicMessagingCore()
 
     # ----- Config & Normalization -------------------------------------------
 
-    def _load_agent_coordinates(self) -> Dict[str, Dict[str, Any]]:
+    def _load_agent_coordinates(self) -> dict[str, dict[str, Any]]:
         try:
             p = Path(self.coordinates_path)
             data = json.loads(p.read_text(encoding="utf-8"))
@@ -181,7 +180,7 @@ class MessagingGateway:
                 } for i in range(1, 5)
             }
 
-    def _normalize_target(self, agent_key: str) -> Dict[str, Any]:
+    def _normalize_target(self, agent_key: str) -> dict[str, Any]:
         info = self.agent_coordinates.get(agent_key, {})
         if not info:
             raise KeyError(f"Unknown agent '{agent_key}' in coordinates.")
@@ -203,14 +202,14 @@ class MessagingGateway:
     def list_available_agents(self):
         return list(self.agent_coordinates.keys())
 
-    def get_agent_status(self, agent_key: str) -> Dict[str, Any]:
+    def get_agent_status(self, agent_key: str) -> dict[str, Any]:
         tgt = self._normalize_target(agent_key)
         try:
             return self.core.receive_message(tgt)
         except Exception as e:
             return {"ok": False, "error": str(e)}
 
-    def request_agent_summary(self, agent_key: str, requested_by: str, context: Optional[str] = None) -> DispatchResult:
+    def request_agent_summary(self, agent_key: str, requested_by: str, context: str | None = None) -> DispatchResult:
         prompt = self.summary_template
         if context:
             prompt += f"\nContext: {context}"
@@ -219,7 +218,7 @@ class MessagingGateway:
     def send_pyautogui(self,
                        agent_key: str,
                        text: str,
-                       meta: Optional[Dict[str, Any]] = None) -> DispatchResult:
+                       meta: dict[str, Any] | None = None) -> DispatchResult:
         """
         Synchronous send. Returns structured DispatchResult.
         Resilient to core signature variations.

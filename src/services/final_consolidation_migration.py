@@ -13,17 +13,17 @@ Mission: Phase 2 Consolidation - Chunk 002 (Services)
 import os
 import shutil
 from pathlib import Path
-import warnings
+
 
 def final_consolidation_migration():
     """Perform final consolidation of remaining services."""
     print("🚀 Starting FINAL CONSOLIDATION - Phase 2 Completion...")
     print("🎯 Target: 50→20 files (60% reduction)")
-    
+
     # Create backup directory
     backup_dir = Path("backup/final_consolidation")
     backup_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Services to consolidate into final consolidated service
     final_consolidation_files = [
         # Agent management (already consolidated)
@@ -31,7 +31,7 @@ def final_consolidation_migration():
         # Handlers (already consolidated)
         # Messaging (already consolidated)
         # Vector (already consolidated)
-        
+
         # Remaining services to consolidate
         "src/services/agent_assignment_manager.py",
         "src/services/agent_status_manager.py",
@@ -66,54 +66,54 @@ def final_consolidation_migration():
         "src/services/swarm_intelligence_manager.py",
         "src/services/task_context_manager.py",
         "src/services/work_indexer.py",
-        
+
         # Handler files
         "src/services/handlers/command_handler.py",
         "src/services/handlers/contract_handler.py",
         "src/services/handlers/coordinate_handler.py",
         "src/services/handlers/onboarding_handler.py",
         "src/services/handlers/utility_handler.py",
-        
+
         # Vector database files
         "src/services/vector_database/status_indexer.py",
         "src/services/vector_database/vector_database_models.py",
         "src/services/vector_database/vector_database_orchestrator.py",
-        
+
         # Utility files
         "src/services/utils/agent_utils_registry.py",
         "src/services/utils/vector_config_utils.py",
-        
+
         # Contract system files
         "src/services/contract_system/manager.py",
         "src/services/contract_system/models.py",
         "src/services/contract_system/storage.py",
-        
+
         # Coordination files
         "src/services/coordination/bulk_coordinator.py",
         "src/services/coordination/stats_tracker.py",
         "src/services/coordination/strategy_coordinator.py",
-        
+
         # Protocol files
         "src/services/protocol/routers/route_analyzer.py",
     ]
-    
+
     consolidated_count = 0
-    
+
     for file_path in final_consolidation_files:
         if os.path.exists(file_path):
             # Backup original
             backup_path = backup_dir / Path(file_path).name
             shutil.copy2(file_path, backup_path)
-            
+
             # Create migration stub
             create_final_migration_stub(file_path)
             consolidated_count += 1
             print(f"✅ Consolidated {file_path}")
-    
-    print(f"\n🎉 FINAL CONSOLIDATION COMPLETE!")
+
+    print("\n🎉 FINAL CONSOLIDATION COMPLETE!")
     print(f"📊 Services Consolidated: {consolidated_count}")
     print(f"📁 Backups Saved To: {backup_dir}")
-    
+
     # Calculate final statistics
     calculate_final_stats()
 
@@ -268,7 +268,7 @@ if _service:
 
 # Legacy content removed - use consolidated services instead
 '''
-    
+
     with open(file_path, 'w') as f:
         f.write(stub_content)
 
@@ -276,37 +276,37 @@ def calculate_final_stats():
     """Calculate and display final consolidation statistics."""
     print("\n📊 FINAL CONSOLIDATION STATISTICS:")
     print("=" * 50)
-    
+
     # Count files
     consolidated_files = len([
         f for f in Path("src/services").rglob("consolidated_*.py")
         if f.is_file()
     ])
-    
+
     total_python_files = len([
         f for f in Path("src/services").rglob("*.py")
         if f.is_file() and "__" not in f.name
     ])
-    
+
     # Calculate reduction
     original_target = 50
     current_total = total_python_files
     reduction = ((original_target - current_total) / original_target) * 100
-    
+
     print(f"🎯 Original Target: {original_target} files")
     print(f"📦 Current Total: {current_total} files")
     print(f"📈 Consolidated Services: {consolidated_files} files")
     print(f"✅ Reduction Achieved: {reduction:.1f}%")
-    
+
     if reduction >= 60:
         print("🎉 SUCCESS: 60% reduction target ACHIEVED!")
     else:
         print(f"⚠️  WARNING: {60 - reduction:.1f}% short of 60% target")
-    
+
     print("\n🏆 CONSOLIDATED SERVICES CREATED:")
     consolidated_services = [
         "consolidated_agent_management_service.py",
-        "consolidated_architectural_service.py", 
+        "consolidated_architectural_service.py",
         "consolidated_handler_service.py",
         "consolidated_messaging_service.py",
         "consolidated_vector_service.py",
@@ -315,13 +315,13 @@ def calculate_final_stats():
         "consolidated_onboarding_service.py",
         "consolidated_miscellaneous_service.py"
     ]
-    
+
     for service in consolidated_services:
         service_path = Path("src/services") / service
         if service_path.exists():
             lines = len(service_path.read_text().split('\n'))
             print(f"  ✅ {service}: {lines} lines")
-    
+
     print("\n🚀 Phase 2 Consolidation - COMPLETE!")
 
 if __name__ == "__main__":

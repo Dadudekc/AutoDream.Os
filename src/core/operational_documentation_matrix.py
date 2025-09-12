@@ -13,9 +13,8 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
-
 from pathlib import Path
+from typing import Any
 
 
 class RiskLevel(Enum):
@@ -43,17 +42,17 @@ class OperationalProcedure:
         self.title = title
         self.phase = phase
         self.description = ""
-        self.steps: List[str] = []
-        self.prerequisites: List[str] = []
-        self.success_criteria: List[str] = []
-        self.rollback_procedures: List[str] = []
+        self.steps: list[str] = []
+        self.prerequisites: list[str] = []
+        self.success_criteria: list[str] = []
+        self.rollback_procedures: list[str] = []
         self.responsible_party = ""
         self.estimated_duration = ""
         self.risk_level = RiskLevel.LOW
         self.last_updated = datetime.now()
         self.version = "1.0"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert procedure to dictionary."""
         return {
             "procedure_id": self.procedure_id,
@@ -83,12 +82,12 @@ class RiskAssessment:
         self.impact_level = RiskLevel.LOW
         self.probability = RiskLevel.LOW
         self.overall_risk = RiskLevel.LOW
-        self.affected_components: List[str] = []
-        self.trigger_conditions: List[str] = []
+        self.affected_components: list[str] = []
+        self.trigger_conditions: list[str] = []
         self.impact_description = ""
-        self.mitigation_strategies: List[str] = []
-        self.contingency_plans: List[str] = []
-        self.monitoring_indicators: List[str] = []
+        self.mitigation_strategies: list[str] = []
+        self.contingency_plans: list[str] = []
+        self.monitoring_indicators: list[str] = []
         self.responsible_party = ""
         self.review_date = datetime.now() + timedelta(days=30)
         self.status = "active"
@@ -109,7 +108,7 @@ class RiskAssessment:
         else:
             return RiskLevel.CRITICAL
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert risk assessment to dictionary."""
         return {
             "risk_id": self.risk_id,
@@ -139,10 +138,10 @@ class OperationalRunbook:
     version: str = "1.0"
     created_date: datetime = field(default_factory=datetime.now)
     last_updated: datetime = field(default_factory=datetime.now)
-    procedures: Dict[str, OperationalProcedure] = field(default_factory=dict)
-    risk_assessments: Dict[str, RiskAssessment] = field(default_factory=dict)
-    escalation_matrix: Dict[str, List[str]] = field(default_factory=dict)
-    contact_directory: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    procedures: dict[str, OperationalProcedure] = field(default_factory=dict)
+    risk_assessments: dict[str, RiskAssessment] = field(default_factory=dict)
+    escalation_matrix: dict[str, list[str]] = field(default_factory=dict)
+    contact_directory: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def add_procedure(self, procedure: OperationalProcedure) -> None:
         """Add a procedure to the runbook."""
@@ -154,15 +153,15 @@ class OperationalRunbook:
         self.risk_assessments[risk.risk_id] = risk
         self.last_updated = datetime.now()
 
-    def get_procedures_by_phase(self, phase: OperationalPhase) -> List[OperationalProcedure]:
+    def get_procedures_by_phase(self, phase: OperationalPhase) -> list[OperationalProcedure]:
         """Get procedures for a specific phase."""
         return [p for p in self.procedures.values() if p.phase == phase]
 
-    def get_risks_by_level(self, level: RiskLevel) -> List[RiskAssessment]:
+    def get_risks_by_level(self, level: RiskLevel) -> list[RiskAssessment]:
         """Get risks by risk level."""
         return [r for r in self.risk_assessments.values() if r.calculate_overall_risk() == level]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert runbook to dictionary."""
         return {
             "runbook_id": self.runbook_id,
@@ -652,7 +651,7 @@ class OperationalDocumentationMatrix:
             }
         }
 
-    def generate_operational_report(self) -> Dict[str, Any]:
+    def generate_operational_report(self) -> dict[str, Any]:
         """Generate comprehensive operational documentation report."""
         report = {
             "timestamp": datetime.now().isoformat(),
@@ -708,11 +707,11 @@ class OperationalDocumentationMatrix:
 
         return report
 
-    def get_procedures_by_phase(self, phase: OperationalPhase) -> List[OperationalProcedure]:
+    def get_procedures_by_phase(self, phase: OperationalPhase) -> list[OperationalProcedure]:
         """Get procedures for a specific phase."""
         return self.runbook.get_procedures_by_phase(phase)
 
-    def get_risks_by_level(self, level: RiskLevel) -> List[RiskAssessment]:
+    def get_risks_by_level(self, level: RiskLevel) -> list[RiskAssessment]:
         """Get risks by risk level."""
         return self.runbook.get_risks_by_level(level)
 

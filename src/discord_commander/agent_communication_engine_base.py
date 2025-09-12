@@ -11,14 +11,13 @@ License: MIT
 
 import logging
 from abc import ABC
-from typing import Optional
 
 try:
     from ...utils.unified_utilities import get_unified_utility
 except ImportError:
     # Fallback for direct execution
-    import sys
     import os
+    import sys
     sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
     from utils.unified_utilities import get_unified_utility
 

@@ -1,13 +1,11 @@
 """
 Risk Management System for Trading Robot
 """
-from typing import Dict, List, Optional, Any, Tuple
-from decimal import Decimal
 from datetime import datetime, time
-import numpy as np
-from loguru import logger
+from typing import Any
 
 from config.settings import config
+from loguru import logger
 
 
 class RiskManager:
@@ -24,7 +22,7 @@ class RiskManager:
         self.trade_history = []
 
     def validate_trade(self, symbol: str, quantity: int, price: float,
-                      side: str, order_type: str = "market") -> Tuple[bool, str]:
+                      side: str, order_type: str = "market") -> tuple[bool, str]:
         """Validate if a trade meets risk management criteria"""
 
         # Check daily loss limit
@@ -168,7 +166,7 @@ class RiskManager:
 
         logger.info(f"📊 Trade recorded: {side} {quantity} {symbol} @ ${price:.2f}")
 
-    def get_portfolio_risk_metrics(self) -> Dict[str, Any]:
+    def get_portfolio_risk_metrics(self) -> dict[str, Any]:
         """Get current portfolio risk metrics"""
         total_exposure = 0.0
         position_count = len(self.positions)
@@ -283,7 +281,7 @@ class RiskMonitor:
         self.monitoring = False
         logger.info("👁️ Risk monitoring stopped")
 
-    def check_risk_limits(self) -> List[str]:
+    def check_risk_limits(self) -> list[str]:
         """Check all risk limits and return alerts"""
         alerts = []
         metrics = self.risk_manager.get_portfolio_risk_metrics()
@@ -310,7 +308,7 @@ class RiskMonitor:
 
         return alerts
 
-    def log_alerts(self, alerts: List[str]):
+    def log_alerts(self, alerts: list[str]):
         """Log risk alerts"""
         for alert in alerts:
             logger.warning(alert)

@@ -1,8 +1,9 @@
 from __future__ import annotations
-import os
-from typing import Set
 
-def _ids(env_key: str) -> Set[int]:
+import os
+
+
+def _ids(env_key: str) -> set[int]:
     raw = os.getenv(env_key, "")
     return {int(x.strip()) for x in raw.split(",") if x.strip().isdigit()}
 

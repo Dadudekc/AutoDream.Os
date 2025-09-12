@@ -6,12 +6,12 @@ Comprehensive test configuration for V2_SWARM codebase.
 Provides shared fixtures, test utilities, and coverage configuration.
 """
 
-import pytest
-import tempfile
-import shutil
 import os
+import shutil
+import tempfile
 from pathlib import Path
-from typing import Generator, Any
+
+import pytest
 
 
 # Test configuration
@@ -135,7 +135,7 @@ class TestUtils:
     @staticmethod
     def assert_file_contains(file_path: str, content: str):
         """Assert that a file contains specific content."""
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             file_content = f.read()
         assert content in file_content, f"Content '{content}' not found in {file_path}"
 

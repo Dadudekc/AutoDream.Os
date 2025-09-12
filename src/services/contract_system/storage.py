@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Contract System Storage - V2 Compliant Module
@@ -16,6 +17,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
 from .models import Contract, Task, TaskStatus
 
 
@@ -175,7 +177,7 @@ class ContractStorage:
                 TaskStatus.COMPLETED])
             total_points = sum(c.total_points for c in contracts)
             completed_points = sum(c.completed_points for c in contracts)
-            completion_rate = (completed_points / total_points * 100 if 
+            completion_rate = (completed_points / total_points * 100 if
                 total_points > 0 else 0)
             current_tasks = []
             for contract in contracts:

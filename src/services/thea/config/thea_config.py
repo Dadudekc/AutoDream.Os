@@ -10,9 +10,9 @@ License: MIT
 """
 
 import os
-from pathlib import Path
-from typing import Dict, Any, Optional
 from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
 
 
 @dataclass
@@ -24,8 +24,8 @@ class TheaConfig:
     chatgpt_base_url: str = "https://chatgpt.com"
 
     # Authentication
-    username: Optional[str] = None
-    password: Optional[str] = None
+    username: str | None = None
+    password: str | None = None
     cookie_file: str = "thea_cookies.json"
     use_cookies: bool = True
 
@@ -51,7 +51,7 @@ class TheaConfig:
     message_template_path: Path = field(default_factory=lambda: Path("messages/thea_consultation_message.md"))
 
     # Selenium options
-    selenium_options: Dict[str, Any] = field(default_factory=lambda: {
+    selenium_options: dict[str, Any] = field(default_factory=lambda: {
         "no_sandbox": True,
         "disable_dev_shm_usage": True,
         "disable_gpu": True,
@@ -102,7 +102,7 @@ class TheaConfig:
             use_cookies=not getattr(args, 'no_cookies', False),
         )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert config to dictionary."""
         return {
             'thea_url': self.thea_url,
@@ -121,7 +121,7 @@ class TheaConfig:
 
 
 # Global config instance
-_config_instance: Optional[TheaConfig] = None
+_config_instance: TheaConfig | None = None
 
 
 def get_thea_config() -> TheaConfig:

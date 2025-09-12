@@ -22,37 +22,36 @@ import logging
 import threading
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
-
 from pathlib import Path
+from typing import Any
 
 # Import existing monitoring systems
 try:
     from .automated_health_check_system import (
         AutomatedHealthCheckSystem,
+        HealthCheckResult,
         HealthCheckType,
         HealthStatus,
-        HealthCheckResult
     )
 except ImportError:
     AutomatedHealthCheckSystem = None
 
 try:
     from .performance_monitoring_dashboard import (
-        PerformanceMonitoringDashboard,
         DashboardType,
-        MetricType
+        MetricType,
+        PerformanceMonitoringDashboard,
     )
 except ImportError:
     PerformanceMonitoringDashboard = None
 
 try:
     from .operational_monitoring_baseline import (
-        OperationalMonitoringBaseline,
         MonitoringPriority,
-        SLATier
+        OperationalMonitoringBaseline,
+        SLATier,
     )
 except ImportError:
     OperationalMonitoringBaseline = None
@@ -85,8 +84,8 @@ class MonitoringAlert:
     message: str
     timestamp: datetime
     resolved: bool = False
-    resolved_at: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    resolved_at: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -99,7 +98,7 @@ class SwarmMonitoringStatus:
     coordinate_system: HealthStatus = HealthStatus.UNKNOWN
     message_queue: HealthStatus = HealthStatus.UNKNOWN
     last_updated: datetime = field(default_factory=datetime.now)
-    active_alerts: List[MonitoringAlert] = field(default_factory=list)
+    active_alerts: list[MonitoringAlert] = field(default_factory=list)
 
 
 class UnifiedMonitoringCoordinator:
@@ -112,8 +111,8 @@ class UnifiedMonitoringCoordinator:
         """Initialize the unified monitoring coordinator."""
         self.logger = logging.getLogger(__name__)
         self.monitoring_status = SwarmMonitoringStatus()
-        self.alert_history: List[MonitoringAlert] = []
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.alert_history: list[MonitoringAlert] = []
+        self.monitoring_thread: threading.Thread | None = None
         self.is_monitoring = False
 
         # Initialize monitoring systems
@@ -261,7 +260,6 @@ class UnifiedMonitoringCoordinator:
         try:
             # Import and test PyAutoGUI
             import pyautogui
-            import pyperclip
 
             # Test basic PyAutoGUI functionality
             screen_size = pyautogui.size()
@@ -341,7 +339,7 @@ class UnifiedMonitoringCoordinator:
         try:
             coord_file = Path("cursor_agent_coords.json")
             if coord_file.exists():
-                with open(coord_file, 'r') as f:
+                with open(coord_file) as f:
                     coords_data = json.load(f)
 
                 agents_with_coords = len(coords_data.get('agents', {}))
@@ -370,7 +368,7 @@ class UnifiedMonitoringCoordinator:
         try:
             queue_file = Path("message_queue/queue.json")
             if queue_file.exists():
-                with open(queue_file, 'r') as f:
+                with open(queue_file) as f:
                     queue_data = json.load(f)
 
                 queue_size = len(queue_data)
@@ -396,7 +394,7 @@ class UnifiedMonitoringCoordinator:
             )
 
     def _create_alert(self, component: SwarmComponent, level: MonitoringAlertLevel,
-                     message: str, metadata: Optional[Dict[str, Any]] = None):
+                     message: str, metadata: dict[str, Any] | None = None):
         """Create a new monitoring alert."""
         alert = MonitoringAlert(
             alert_id=f"alert_{int(time.time())}_{component.value}",
@@ -427,7 +425,7 @@ class UnifiedMonitoringCoordinator:
 
         self.logger.info(f"📊 Monitoring Status: {json.dumps(status_summary, indent=2)}")
 
-    def get_monitoring_report(self) -> Dict[str, Any]:
+    def get_monitoring_report(self) -> dict[str, Any]:
         """Generate a comprehensive monitoring report."""
         return {
             'timestamp': datetime.now().isoformat(),

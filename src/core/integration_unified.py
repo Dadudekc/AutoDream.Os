@@ -23,9 +23,9 @@ import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
+from typing import Any
 
 # ============================================================================
 # INTEGRATION ENUMS AND MODELS
@@ -87,8 +87,8 @@ class IntegrationInfo:
     health: IntegrationHealth
     endpoint: str
     created_at: datetime = field(default_factory=datetime.now)
-    last_heartbeat: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    last_heartbeat: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -98,11 +98,11 @@ class IntegrationRequest:
     integration_id: str
     method: str
     endpoint: str
-    headers: Dict[str, str] = field(default_factory=dict)
+    headers: dict[str, str] = field(default_factory=dict)
     payload: Any = None
     timeout: int = 30
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -111,12 +111,12 @@ class IntegrationResponse:
     response_id: str
     request_id: str
     status_code: int
-    headers: Dict[str, str] = field(default_factory=dict)
+    headers: dict[str, str] = field(default_factory=dict)
     data: Any = None
-    error_message: Optional[str] = None
+    error_message: str | None = None
     response_time: float = 0.0
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -136,7 +136,7 @@ class IntegrationMetrics:
 
 class IntegrationConnector(ABC):
     """Base integration connector interface."""
-    
+
     def __init__(self, integration_id: str, name: str, integration_type: IntegrationType):
         self.integration_id = integration_id
         self.name = name
@@ -145,27 +145,27 @@ class IntegrationConnector(ABC):
         self.health = IntegrationHealth.UNKNOWN
         self.logger = logging.getLogger(f"integration.{name}")
         self.metrics = IntegrationMetrics(integration_id=integration_id)
-    
+
     @abstractmethod
     def connect(self) -> bool:
         """Connect to the integration."""
         pass
-    
+
     @abstractmethod
     def disconnect(self) -> bool:
         """Disconnect from the integration."""
         pass
-    
+
     @abstractmethod
     def send_request(self, request: IntegrationRequest) -> IntegrationResponse:
         """Send request to the integration."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get integration capabilities."""
         pass
-    
+
     def update_metrics(self, response_time: float, success: bool) -> None:
         """Update integration metrics."""
         self.metrics.total_requests += 1
@@ -173,7 +173,7 @@ class IntegrationConnector(ABC):
             self.metrics.successful_requests += 1
         else:
             self.metrics.failed_requests += 1
-        
+
         # Update average response time
         total_time = self.metrics.average_response_time * (self.metrics.total_requests - 1)
         self.metrics.average_response_time = (total_time + response_time) / self.metrics.total_requests
@@ -186,7 +186,7 @@ class IntegrationConnector(ABC):
 
 class APIConnector(IntegrationConnector):
     """API integration connector."""
-    
+
     def __init__(self, integration_id: str = None):
         super().__init__(
             integration_id or str(uuid.uuid4()),
@@ -195,7 +195,7 @@ class APIConnector(IntegrationConnector):
         )
         self.base_url = ""
         self.api_key = ""
-    
+
     def connect(self) -> bool:
         """Connect to API."""
         try:
@@ -208,7 +208,7 @@ class APIConnector(IntegrationConnector):
             self.status = IntegrationStatus.ERROR
             self.health = IntegrationHealth.UNHEALTHY
             return False
-    
+
     def disconnect(self) -> bool:
         """Disconnect from API."""
         try:
@@ -219,14 +219,14 @@ class APIConnector(IntegrationConnector):
         except Exception as e:
             self.logger.error(f"Failed to disconnect from API: {e}")
             return False
-    
+
     def send_request(self, request: IntegrationRequest) -> IntegrationResponse:
         """Send API request."""
         start_time = datetime.now()
         try:
             # Implementation for API request
             response_time = (datetime.now() - start_time).total_seconds()
-            
+
             response = IntegrationResponse(
                 response_id=str(uuid.uuid4()),
                 request_id=request.request_id,
@@ -234,13 +234,13 @@ class APIConnector(IntegrationConnector):
                 data={"message": "API request successful"},
                 response_time=response_time
             )
-            
+
             self.update_metrics(response_time, True)
             return response
         except Exception as e:
             response_time = (datetime.now() - start_time).total_seconds()
             self.update_metrics(response_time, False)
-            
+
             return IntegrationResponse(
                 response_id=str(uuid.uuid4()),
                 request_id=request.request_id,
@@ -248,15 +248,15 @@ class APIConnector(IntegrationConnector):
                 error_message=str(e),
                 response_time=response_time
             )
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get API capabilities."""
         return ["http_requests", "rest_api", "json_processing"]
 
 
 class DatabaseConnector(IntegrationConnector):
     """Database integration connector."""
-    
+
     def __init__(self, integration_id: str = None):
         super().__init__(
             integration_id or str(uuid.uuid4()),
@@ -265,7 +265,7 @@ class DatabaseConnector(IntegrationConnector):
         )
         self.connection_string = ""
         self.database_name = ""
-    
+
     def connect(self) -> bool:
         """Connect to database."""
         try:
@@ -278,7 +278,7 @@ class DatabaseConnector(IntegrationConnector):
             self.status = IntegrationStatus.ERROR
             self.health = IntegrationHealth.UNHEALTHY
             return False
-    
+
     def disconnect(self) -> bool:
         """Disconnect from database."""
         try:
@@ -289,14 +289,14 @@ class DatabaseConnector(IntegrationConnector):
         except Exception as e:
             self.logger.error(f"Failed to disconnect from database: {e}")
             return False
-    
+
     def send_request(self, request: IntegrationRequest) -> IntegrationResponse:
         """Send database request."""
         start_time = datetime.now()
         try:
             # Implementation for database request
             response_time = (datetime.now() - start_time).total_seconds()
-            
+
             response = IntegrationResponse(
                 response_id=str(uuid.uuid4()),
                 request_id=request.request_id,
@@ -304,13 +304,13 @@ class DatabaseConnector(IntegrationConnector):
                 data={"rows_affected": 1, "query_result": "success"},
                 response_time=response_time
             )
-            
+
             self.update_metrics(response_time, True)
             return response
         except Exception as e:
             response_time = (datetime.now() - start_time).total_seconds()
             self.update_metrics(response_time, False)
-            
+
             return IntegrationResponse(
                 response_id=str(uuid.uuid4()),
                 request_id=request.request_id,
@@ -318,15 +318,15 @@ class DatabaseConnector(IntegrationConnector):
                 error_message=str(e),
                 response_time=response_time
             )
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get database capabilities."""
         return ["sql_queries", "data_retrieval", "data_modification"]
 
 
 class MessageQueueConnector(IntegrationConnector):
     """Message queue integration connector."""
-    
+
     def __init__(self, integration_id: str = None):
         super().__init__(
             integration_id or str(uuid.uuid4()),
@@ -335,7 +335,7 @@ class MessageQueueConnector(IntegrationConnector):
         )
         self.queue_name = ""
         self.broker_url = ""
-    
+
     def connect(self) -> bool:
         """Connect to message queue."""
         try:
@@ -348,7 +348,7 @@ class MessageQueueConnector(IntegrationConnector):
             self.status = IntegrationStatus.ERROR
             self.health = IntegrationHealth.UNHEALTHY
             return False
-    
+
     def disconnect(self) -> bool:
         """Disconnect from message queue."""
         try:
@@ -359,14 +359,14 @@ class MessageQueueConnector(IntegrationConnector):
         except Exception as e:
             self.logger.error(f"Failed to disconnect from message queue: {e}")
             return False
-    
+
     def send_request(self, request: IntegrationRequest) -> IntegrationResponse:
         """Send message queue request."""
         start_time = datetime.now()
         try:
             # Implementation for message queue request
             response_time = (datetime.now() - start_time).total_seconds()
-            
+
             response = IntegrationResponse(
                 response_id=str(uuid.uuid4()),
                 request_id=request.request_id,
@@ -374,13 +374,13 @@ class MessageQueueConnector(IntegrationConnector):
                 data={"message_id": str(uuid.uuid4()), "status": "queued"},
                 response_time=response_time
             )
-            
+
             self.update_metrics(response_time, True)
             return response
         except Exception as e:
             response_time = (datetime.now() - start_time).total_seconds()
             self.update_metrics(response_time, False)
-            
+
             return IntegrationResponse(
                 response_id=str(uuid.uuid4()),
                 request_id=request.request_id,
@@ -388,8 +388,8 @@ class MessageQueueConnector(IntegrationConnector):
                 error_message=str(e),
                 response_time=response_time
             )
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get message queue capabilities."""
         return ["message_publishing", "message_consuming", "queue_management"]
 
@@ -400,11 +400,11 @@ class MessageQueueConnector(IntegrationConnector):
 
 class IntegrationManager:
     """Integration management system."""
-    
+
     def __init__(self):
-        self.connectors: Dict[str, IntegrationConnector] = {}
+        self.connectors: dict[str, IntegrationConnector] = {}
         self.logger = logging.getLogger("integration_manager")
-    
+
     def register_connector(self, connector: IntegrationConnector) -> bool:
         """Register integration connector."""
         try:
@@ -414,7 +414,7 @@ class IntegrationManager:
         except Exception as e:
             self.logger.error(f"Failed to register integration connector {connector.name}: {e}")
             return False
-    
+
     def connect_all(self) -> bool:
         """Connect all registered connectors."""
         success = True
@@ -422,7 +422,7 @@ class IntegrationManager:
             if not connector.connect():
                 success = False
         return success
-    
+
     def disconnect_all(self) -> bool:
         """Disconnect all registered connectors."""
         success = True
@@ -430,17 +430,17 @@ class IntegrationManager:
             if not connector.disconnect():
                 success = False
         return success
-    
-    def send_request(self, integration_id: str, request: IntegrationRequest) -> Optional[IntegrationResponse]:
+
+    def send_request(self, integration_id: str, request: IntegrationRequest) -> IntegrationResponse | None:
         """Send request to specific integration."""
         connector = self.connectors.get(integration_id)
         if not connector:
             self.logger.error(f"Integration {integration_id} not found")
             return None
-        
+
         return connector.send_request(request)
-    
-    def get_integration_status(self) -> Dict[str, Any]:
+
+    def get_integration_status(self) -> dict[str, Any]:
         """Get integration status."""
         status = {
             "total_connectors": len(self.connectors),
@@ -448,20 +448,20 @@ class IntegrationManager:
             "healthy_connectors": 0,
             "connectors": {}
         }
-        
+
         for connector in self.connectors.values():
             if connector.status == IntegrationStatus.CONNECTED:
                 status["connected_connectors"] += 1
             if connector.health == IntegrationHealth.HEALTHY:
                 status["healthy_connectors"] += 1
-            
+
             status["connectors"][connector.integration_id] = {
                 "name": connector.name,
                 "type": connector.integration_type.value,
                 "status": connector.status.value,
                 "health": connector.health.value
             }
-        
+
         return status
 
 
@@ -469,18 +469,18 @@ class IntegrationManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_integration_connector(connector_type: str, integration_id: str = None) -> Optional[IntegrationConnector]:
+def create_integration_connector(connector_type: str, integration_id: str = None) -> IntegrationConnector | None:
     """Create integration connector by type."""
     connectors = {
         "api": APIConnector,
         "database": DatabaseConnector,
         "message_queue": MessageQueueConnector
     }
-    
+
     connector_class = connectors.get(connector_type)
     if connector_class:
         return connector_class(integration_id)
-    
+
     return None
 
 
@@ -497,27 +497,27 @@ def main():
     """Main execution function."""
     print("Integration Unified - Consolidated Integration System")
     print("=" * 55)
-    
+
     # Create integration manager
     manager = create_integration_manager()
     print("✅ Integration manager created")
-    
+
     # Create and register connectors
     connector_types = ["api", "database", "message_queue"]
-    
+
     for connector_type in connector_types:
         connector = create_integration_connector(connector_type)
         if connector and manager.register_connector(connector):
             print(f"✅ {connector.name} registered")
         else:
             print(f"❌ Failed to register {connector_type} connector")
-    
+
     # Connect all connectors
     if manager.connect_all():
         print("✅ All integration connectors connected")
     else:
         print("❌ Some integration connectors failed to connect")
-    
+
     # Test integration functionality
     test_request = IntegrationRequest(
         request_id="test_request_001",
@@ -526,16 +526,16 @@ def main():
         endpoint="/test",
         payload={"test": "data"}
     )
-    
+
     response = manager.send_request(test_request.integration_id, test_request)
     if response and response.status_code == 200:
         print(f"✅ Integration request successful: {response.data}")
     else:
         print("❌ Integration request failed")
-    
+
     status = manager.get_integration_status()
     print(f"✅ Integration system status: {status}")
-    
+
     print(f"\nTotal connectors registered: {len(manager.connectors)}")
     print("Integration Unified system test completed successfully!")
     return 0

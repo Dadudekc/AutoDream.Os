@@ -10,9 +10,9 @@ Author: V2 Implementation Team
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
-
 import logging
+from typing import Any
+
 from .vector_database_engine import VectorDatabaseEngine
 from .vector_database_models import (
     CollectionConfig,
@@ -29,7 +29,7 @@ from .vector_database_models import (
 class VectorDatabaseService:
     """Service interface for vector database operations."""
 
-    def __init__(self, config: Optional[VectorDatabaseConfig] = None):
+    def __init__(self, config: VectorDatabaseConfig | None = None):
         """Initialize vector database service."""
         self.logger = logging.getLogger(__name__)
         self.engine = VectorDatabaseEngine(config)
@@ -49,8 +49,8 @@ class VectorDatabaseService:
         query: str,
         collection_name: str = "default",
         limit: int = 10,
-        document_types: Optional[List[DocumentType]] = None
-    ) -> List[SearchResult]:
+        document_types: list[DocumentType] | None = None
+    ) -> list[SearchResult]:
         """Search documents in the vector database."""
         search_query = SearchQuery(
             query=query,
@@ -64,7 +64,7 @@ class VectorDatabaseService:
         self,
         document_id: str,
         collection_name: str = "default"
-    ) -> Optional[VectorDocument]:
+    ) -> VectorDocument | None:
         """Retrieve a document by ID."""
         return self.engine.get_document(document_id, collection_name)
 
@@ -84,7 +84,7 @@ class VectorDatabaseService:
         """Get database statistics."""
         return self.engine.get_stats()
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get service status."""
         return {
             "service": "vector_database",
@@ -98,7 +98,7 @@ class VectorDatabaseService:
 
 
 # Global service instance
-_service_instance: Optional[VectorDatabaseService] = None
+_service_instance: VectorDatabaseService | None = None
 
 
 def get_vector_database_service() -> VectorDatabaseService:
@@ -122,8 +122,8 @@ def search_vector_database(
     query: str,
     collection_name: str = "default",
     limit: int = 10,
-    document_types: Optional[List[DocumentType]] = None
-) -> List[SearchResult]:
+    document_types: list[DocumentType] | None = None
+) -> list[SearchResult]:
     """Search the vector database."""
     service = get_vector_database_service()
     return service.search_documents(query, collection_name, limit, document_types)

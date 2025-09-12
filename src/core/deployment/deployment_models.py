@@ -17,12 +17,10 @@ License: MIT
 
 from __future__ import annotations
 
-import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional, Any
-from pathlib import Path
+from typing import Any
 
 # Import unified configuration system
 from ..unified_config import get_unified_config
@@ -84,7 +82,7 @@ class MassDeploymentTarget:
     pattern_type: str
     priority: str = DeploymentPriority.MEDIUM.value
     agent_id: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate target after initialization."""
@@ -101,7 +99,7 @@ class DeploymentMetrics:
     """Metrics for deployment operations."""
 
     start_time: datetime = field(default_factory=datetime.now)
-    end_time: Optional[datetime] = None
+    end_time: datetime | None = None
     successful_deployments: int = 0
     failed_deployments: int = 0
     total_deployments: int = 0

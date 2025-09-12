@@ -12,8 +12,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -23,13 +23,13 @@ class AgentContextManager:
 
     def __init__(self):
         """Initialize the agent context manager."""
-        self._contexts: Dict[str, Dict[str, Any]] = {}
-        self._metadata: Dict[str, Any] = {
+        self._contexts: dict[str, dict[str, Any]] = {}
+        self._metadata: dict[str, Any] = {
             "created_at": datetime.now().isoformat(),
             "version": "1.0.0"
         }
 
-    def set_agent_context(self, agent_id: str, context: Dict[str, Any]) -> bool:
+    def set_agent_context(self, agent_id: str, context: dict[str, Any]) -> bool:
         """
         Set context for an agent.
 
@@ -52,7 +52,7 @@ class AgentContextManager:
             logger.error(f"Failed to set context for agent {agent_id}: {e}")
             return False
 
-    def get_agent_context(self, agent_id: str) -> Optional[Dict[str, Any]]:
+    def get_agent_context(self, agent_id: str) -> dict[str, Any] | None:
         """
         Get context for an agent.
 
@@ -64,7 +64,7 @@ class AgentContextManager:
         """
         return self._contexts.get(agent_id)
 
-    def update_agent_context(self, agent_id: str, updates: Dict[str, Any]) -> bool:
+    def update_agent_context(self, agent_id: str, updates: dict[str, Any]) -> bool:
         """
         Update context for an agent.
 
@@ -120,11 +120,11 @@ class AgentContextManager:
         return list(self._contexts.keys())
 
     @property
-    def agent_contexts(self) -> Dict[str, Dict[str, Any]]:
+    def agent_contexts(self) -> dict[str, dict[str, Any]]:
         """Get all agent contexts."""
         return self._contexts
 
-    def get_context_summary(self) -> Dict[str, Any]:
+    def get_context_summary(self) -> dict[str, Any]:
         """
         Get summary of all agent contexts.
 

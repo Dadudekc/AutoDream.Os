@@ -11,10 +11,11 @@ Usage:
 Author: V2_SWARM_CAPTAIN
 """
 
+import json
 import sys
 import time
-import json
 from pathlib import Path
+
 
 def load_agent_coordinates():
     """Load agent coordinates from SSOT file."""
@@ -24,7 +25,7 @@ def load_agent_coordinates():
         return {}
 
     try:
-        with open(coord_file, 'r', encoding='utf-8') as f:
+        with open(coord_file, encoding='utf-8') as f:
             data = json.load(f)
 
         coordinates = {}
@@ -161,7 +162,7 @@ def main():
     print("📝 Generated personalized onboarding message")
 
     # Send message via PyAutoGUI
-    print(f"\n🤖 Re-onboarding Agent-7 (Web Development Specialist)")
+    print("\n🤖 Re-onboarding Agent-7 (Web Development Specialist)")
     success = send_pyautogui_message(agent_data['chat_coords'], message)
 
     if success:

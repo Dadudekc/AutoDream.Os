@@ -141,9 +141,9 @@ def format_message_for_delivery(message: UnifiedMessage) -> str:
         formatted += f"\n{message.content}\n"
         formatted += f"\nYou are {message.recipient}\n"
         formatted += f"Timestamp: {message.timestamp}\n"
-        formatted += f"\n📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory\n"
+        formatted += "\n📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory\n"
         formatted += f"📬 INBOX CHECK REMINDER: Check your inbox at agent_workspaces/{message.recipient}/inbox/ for new messages\n"
-        formatted += f"📊 STATUS UPDATE REMINDER: Update your status and report progress to maintain swarm coordination"
+        formatted += "📊 STATUS UPDATE REMINDER: Update your status and report progress to maintain swarm coordination"
         return formatted
     except Exception as e:
         logging.error(f"Error formatting message: {e}")

@@ -3,14 +3,13 @@ Live Trading Executor
 """
 import asyncio
 from datetime import datetime, time
-from typing import Dict, List, Optional, Any, Tuple
-from decimal import Decimal
-import pandas as pd
-from loguru import logger
+from typing import Any
 
+import pandas as pd
 from core.alpaca_client import AlpacaClient
 from core.risk_manager import RiskManager
-from strategies.base_strategy import StrategyManager, StrategyResult, Signal
+from loguru import logger
+from strategies.base_strategy import Signal, StrategyManager
 
 
 class LiveExecutor:
@@ -195,7 +194,7 @@ class LiveExecutor:
                 logger.error(f"❌ Error in position monitor: {e}")
                 await asyncio.sleep(30)
 
-    async def _check_position_levels(self, position: Dict[str, Any]):
+    async def _check_position_levels(self, position: dict[str, Any]):
         """Check stop loss and take profit levels for a position"""
         try:
             symbol = position['symbol']
@@ -307,11 +306,11 @@ class LiveExecutor:
             self.symbols_to_trade.remove(symbol)
             logger.info(f"➖ Symbol removed from trading list: {symbol}")
 
-    def get_trading_symbols(self) -> List[str]:
+    def get_trading_symbols(self) -> list[str]:
         """Get list of symbols being traded"""
         return self.symbols_to_trade.copy()
 
-    def get_executor_status(self) -> Dict[str, Any]:
+    def get_executor_status(self) -> dict[str, Any]:
         """Get executor status"""
         return {
             "is_running": self.is_running,

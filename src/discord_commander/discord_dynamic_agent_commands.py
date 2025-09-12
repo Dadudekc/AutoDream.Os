@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Dynamic Agent Commands (V2)
 - One source of truth (config/agent_aliases.json)
@@ -7,10 +6,11 @@ Dynamic Agent Commands (V2)
 - Uses MessagingGateway for Agents 1-4 (PyAutoGUI), engine inbox for others
 """
 from __future__ import annotations
+
+import asyncio
 import json
 from pathlib import Path
-from typing import Dict, List, Tuple
-import asyncio
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -21,7 +21,7 @@ SUMMARY_PROMPT = (
     "- Keep it under 60 seconds.\n"
 )
 
-def _load_alias_map() -> Tuple[Dict[str, str], Dict[str, List[str]]]:
+def _load_alias_map() -> tuple[dict[str, str], dict[str, list[str]]]:
     cfg = Path("config/agent_aliases.json")
     if not cfg.exists():
         # Defaults if missing
@@ -30,7 +30,7 @@ def _load_alias_map() -> Tuple[Dict[str, str], Dict[str, List[str]]]:
         }
     else:
         data = json.loads(cfg.read_text(encoding="utf-8"))
-    alias_to_agent: Dict[str, str] = {}
+    alias_to_agent: dict[str, str] = {}
     for agent, aliases in data.items():
         for alias in aliases:
             alias_to_agent[alias.lower()] = agent
@@ -75,10 +75,10 @@ def _mk_err_embed(title: str, desc: str) -> discord.Embed:
 
 async def _agent_autocomplete(
     interaction: discord.Interaction, current: str
-) -> List[app_commands.Choice[str]]:
+) -> list[app_commands.Choice[str]]:
     alias_to_agent, by_agent = _load_alias_map()
     seen = set()
-    out: List[app_commands.Choice[str]] = []
+    out: list[app_commands.Choice[str]] = []
     q = current.lower()
     # Prefer canonical names, then aliases
     for ag in sorted(by_agent.keys()):

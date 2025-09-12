@@ -7,12 +7,14 @@ Pytest configuration and fixtures for operational tests.
 Author: Agent-8 (Operations & Support Specialist)
 """
 
-import pytest
-import time
-import psutil
 import os
 import sys
-from typing import Dict, Any, Generator
+import time
+from collections.abc import Generator
+from typing import Any
+
+import psutil
+import pytest
 
 # Add src to path for operational tests
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
@@ -40,7 +42,7 @@ def operational_test_setup():
     pass
 
 @pytest.fixture
-def system_monitor() -> Generator[Dict[str, Any], None, None]:
+def system_monitor() -> Generator[dict[str, Any], None, None]:
     """Provide system monitoring capabilities for tests."""
 
     class OperationalSystemMonitor:
@@ -50,7 +52,7 @@ def system_monitor() -> Generator[Dict[str, Any], None, None]:
             self.baseline_disk = psutil.disk_usage('/').percent
             self.start_time = time.time()
 
-        def get_system_health(self) -> Dict[str, Any]:
+        def get_system_health(self) -> dict[str, Any]:
             """Get comprehensive system health metrics."""
             return {
                 'cpu_percent': psutil.cpu_percent(interval=0.1),
@@ -82,7 +84,7 @@ def system_monitor() -> Generator[Dict[str, Any], None, None]:
             """Check if system is operationally stable."""
             return self.check_stability()
 
-        def get_performance_delta(self) -> Dict[str, float]:
+        def get_performance_delta(self) -> dict[str, float]:
             """Get performance changes from baseline."""
             current = self.get_system_health()
 
@@ -112,7 +114,7 @@ def system_monitor() -> Generator[Dict[str, Any], None, None]:
     yield monitor
 
 @pytest.fixture
-def operational_test_config() -> Dict[str, Any]:
+def operational_test_config() -> dict[str, Any]:
     """Configuration for operational tests."""
     return {
         # Test duration settings
@@ -138,7 +140,7 @@ def operational_test_config() -> Dict[str, Any]:
     }
 
 @pytest.fixture
-def performance_baseline(system_monitor) -> Dict[str, Any]:
+def performance_baseline(system_monitor) -> dict[str, Any]:
     """Establish performance baseline for tests."""
     # Allow system to stabilize
     time.sleep(2)
@@ -147,7 +149,7 @@ def performance_baseline(system_monitor) -> Dict[str, Any]:
     baseline = system_monitor.get_system_health()
 
     # Log baseline
-    print(f"Performance baseline established:")
+    print("Performance baseline established:")
     print(f"  CPU: {baseline['cpu_percent']:.1f}%")
     print(f"  Memory: {baseline['memory_percent']:.1f}%")
     print(f"  Disk: {baseline['disk_usage']:.1f}%")

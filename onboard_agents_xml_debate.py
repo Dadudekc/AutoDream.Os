@@ -13,22 +13,19 @@ Author: V2_SWARM_CAPTAIN
 """
 
 import sys
-import os
 import time
-import json
-from pathlib import Path
 
 # Import modules directly (no src prefix needed when running from project root)
 try:
     from core.coordinate_loader import get_coordinate_loader
     from services.messaging_pyautogui import deliver_message_pyautogui
     from services.models.messaging_models import (
-        UnifiedMessage,
         RecipientType,
         SenderType,
-        UnifiedMessageType,
+        UnifiedMessage,
         UnifiedMessagePriority,
-        UnifiedMessageTag
+        UnifiedMessageTag,
+        UnifiedMessageType,
     )
     print("✅ Successfully imported coordinate and messaging modules")
 except ImportError as e:
@@ -229,10 +226,10 @@ def main():
             print(f"   • {agent}")
 
     print(f"\n📋 Total agents: {len(agents_to_onboard)}")
-    print(f"🎯 Debate system: ACTIVE")
-    print(f"📁 XML file: swarm_debate_consolidation.xml")
-    print(f"🛠️  Tool: debate_participation_tool.py")
-    print(f"⏰ Deadline: 2025-09-16")
+    print("🎯 Debate system: ACTIVE")
+    print("📁 XML file: swarm_debate_consolidation.xml")
+    print("🛠️  Tool: debate_participation_tool.py")
+    print("⏰ Deadline: 2025-09-16")
 
     print("\n🐝 SWARM DEBATE SYSTEM READY!")
     print("🎯 Agents are now onboarded and can participate immediately")

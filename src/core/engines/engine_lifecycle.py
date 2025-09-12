@@ -8,9 +8,9 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
+
 from .contracts import EngineContext, EngineResult
 
 
@@ -20,8 +20,8 @@ class EngineLifecycleManager:
     def __init__(self, engine_id: str):
         """Initialize lifecycle manager."""
         self.engine_id = engine_id
-        self.initialized_at: Optional[datetime] = None
-        self.last_operation_at: Optional[datetime] = None
+        self.initialized_at: datetime | None = None
+        self.last_operation_at: datetime | None = None
 
     def initialize_engine(self, context: EngineContext) -> EngineResult:
         """Initialize the engine."""

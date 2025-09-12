@@ -7,20 +7,20 @@ consolidating functionality from various analytics engines and processors.
 """
 
 import logging
-from typing import Dict, Any, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 class UnifiedAnalyticsFramework:
     """Unified analytics framework for all agent operations"""
-    
+
     def __init__(self):
         self.logger = logger
         self.engines = {}
         self.processors = {}
         self.coordinators = {}
-    
-    def analyze_data(self, data: Any, analysis_type: str) -> Dict[str, Any]:
+
+    def analyze_data(self, data: Any, analysis_type: str) -> dict[str, Any]:
         """Analyze data using the appropriate analytics engine"""
         try:
             self.logger.info(f"Analyzing data with type: {analysis_type}")
@@ -29,8 +29,8 @@ class UnifiedAnalyticsFramework:
         except Exception as e:
             self.logger.error(f"Failed to analyze data: {e}")
             return {"status": "error", "error": str(e)}
-    
-    def process_metrics(self, metrics: List[Dict[str, Any]]) -> Dict[str, Any]:
+
+    def process_metrics(self, metrics: list[dict[str, Any]]) -> dict[str, Any]:
         """Process metrics using the unified framework"""
         try:
             self.logger.info(f"Processing {len(metrics)} metrics")

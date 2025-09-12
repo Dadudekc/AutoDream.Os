@@ -8,12 +8,11 @@ and system resilience across V2_SWARM components.
 Author: Agent-8 (Operations & Support Specialist)
 """
 
-import pytest
-import time
-from unittest.mock import Mock, patch, MagicMock, call
-from typing import Dict, Any, List, Optional
 import sys
-import os
+import time
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Import error handling components
 try:

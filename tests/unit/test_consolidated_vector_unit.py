@@ -16,12 +16,12 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Mission: EMERGENCY PYTEST COVERAGE - UNIT TESTING EXECUTION
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-import numpy as np
 import sys
 from pathlib import Path
-from typing import List, Dict, Any
+from unittest.mock import Mock, patch
+
+import numpy as np
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
@@ -30,11 +30,11 @@ try:
     from services.consolidated_vector_service import ConsolidatedVectorService
     from services.models.vector_models import (
         EmbeddingModel,
-        VectorDocument,
+        SearchQuery,
+        SearchResult,
         VectorDatabaseConfig,
         VectorDatabaseResult,
-        SearchQuery,
-        SearchResult
+        VectorDocument,
     )
     SERVICES_AVAILABLE = True
 except ImportError:

@@ -2,18 +2,15 @@
 Trading Robot Web Dashboard
 """
 import asyncio
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any
-import json
+from datetime import datetime
+from typing import Any
+
+import uvicorn
+from config.settings import config
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import uvicorn
 from loguru import logger
-import pandas as pd
-
-from config.settings import config
 
 
 class TradingDashboard:
@@ -23,7 +20,7 @@ class TradingDashboard:
         self.trading_engine = trading_engine
         self.app = FastAPI(title="Trading Robot Dashboard")
         self.templates = Jinja2Templates(directory="web/templates")
-        self.connected_clients: List[WebSocket] = []
+        self.connected_clients: list[WebSocket] = []
         self.is_running = False
 
         # Setup routes
@@ -170,7 +167,7 @@ class TradingDashboard:
         except Exception as e:
             logger.error(f"❌ Error stopping dashboard: {e}")
 
-    async def broadcast_update(self, data: Dict[str, Any]):
+    async def broadcast_update(self, data: dict[str, Any]):
         """Broadcast update to all connected clients"""
         disconnected_clients = []
 
@@ -185,7 +182,7 @@ class TradingDashboard:
             if client in self.connected_clients:
                 self.connected_clients.remove(client)
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get current trading status"""
         try:
             account_info = await self.trading_engine.get_account_info()

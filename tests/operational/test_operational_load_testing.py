@@ -9,16 +9,12 @@ Author: Agent-8 (Operations & Support Specialist)
 FINAL PYTEST ASSIGNMENT - Enhanced Coverage
 """
 
-import pytest
-import time
-import threading
-import psutil
 import os
-import signal
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List, Optional, Callable
-import concurrent.futures
 import statistics
+import threading
+import time
+
+import pytest
 
 # Import operational components for load testing
 try:
@@ -187,7 +183,7 @@ class TestConcurrentLoadScenarios:
                     f.write(data)
 
                 # Read data back
-                with open(temp_file, 'r') as f:
+                with open(temp_file) as f:
                     content = f.read()
                     assert len(content) == 102400
 

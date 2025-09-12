@@ -16,15 +16,15 @@ Author: Agent-4 (Captain - Discord Integration Coordinator)
 License: MIT
 """
 
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from typing import Any
 
 try:
-    from .embeds import EmbedManager
     from .discord_commander_models import CommandResult
+    from .embeds import EmbedManager
 except ImportError:
-    from embeds import EmbedManager
     from discord_commander_models import CommandResult
+    from embeds import EmbedManager
 
 
 class SwarmCommandHandlers:
@@ -34,9 +34,9 @@ class SwarmCommandHandlers:
         """Initialize swarm command handlers."""
         self.agent_engine = agent_engine
         self.embed_manager = embed_manager
-        self.active_broadcasts: Dict[str, Dict[str, Any]] = {}
+        self.active_broadcasts: dict[str, dict[str, Any]] = {}
 
-    async def handle_swarm_command(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_swarm_command(self, context: dict[str, Any]) -> dict[str, Any] | None:
         """
         Handle swarm broadcast command.
 
@@ -77,7 +77,7 @@ class SwarmCommandHandlers:
             'follow_up': True
         }
 
-    async def handle_swarm_followup(self, command_id: str, result: CommandResult) -> Dict[str, Any]:
+    async def handle_swarm_followup(self, command_id: str, result: CommandResult) -> dict[str, Any]:
         """
         Handle followup for swarm command after broadcast completion.
 
@@ -119,7 +119,7 @@ class SwarmCommandHandlers:
             'edit': True
         }
 
-    async def handle_urgent_command(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def handle_urgent_command(self, context: dict[str, Any]) -> dict[str, Any] | None:
         """
         Handle urgent/emergency broadcast command with high priority.
 
@@ -175,7 +175,7 @@ class SwarmCommandHandlers:
             'follow_up': True
         }
 
-    async def handle_urgent_followup(self, command_id: str, result: CommandResult) -> Dict[str, Any]:
+    async def handle_urgent_followup(self, command_id: str, result: CommandResult) -> dict[str, Any]:
         """
         Handle followup for urgent broadcast after delivery.
 
@@ -312,11 +312,11 @@ class SwarmCommandHandlers:
                 data={'error': str(e)}
             )
 
-    def get_swarm_agent_list(self) -> List[str]:
+    def get_swarm_agent_list(self) -> list[str]:
         """Get list of all swarm agents."""
         return self.agent_engine.get_all_agent_names()
 
-    def get_swarm_stats(self) -> Dict[str, Any]:
+    def get_swarm_stats(self) -> dict[str, Any]:
         """Get swarm-wide statistics."""
         agents = self.get_swarm_agent_list()
         active_broadcasts = len(self.active_broadcasts)
@@ -328,7 +328,7 @@ class SwarmCommandHandlers:
             'swarm_status': 'operational'
         }
 
-    async def coordinate_swarm_action(self, action: str, parameters: Dict[str, Any]) -> CommandResult:
+    async def coordinate_swarm_action(self, action: str, parameters: dict[str, Any]) -> CommandResult:
         """
         Coordinate a specific action across the swarm.
 
@@ -399,7 +399,7 @@ class SwarmCommandHandlers:
         """Get count of active broadcasts."""
         return len(self.active_broadcasts)
 
-    def get_broadcast_stats(self) -> Dict[str, Any]:
+    def get_broadcast_stats(self) -> dict[str, Any]:
         """Get broadcast statistics."""
         total_broadcasts = len(self.active_broadcasts)
         broadcast_types = {}

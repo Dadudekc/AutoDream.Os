@@ -12,8 +12,8 @@ License: MIT
 """
 
 import logging
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -31,14 +31,14 @@ class VectorIntegrationAnalytics:
             "last_updated": datetime.now().isoformat()
         }
 
-    def track_integration(self, integration_id: str, metrics: Dict[str, Any]) -> bool:
+    def track_integration(self, integration_id: str, metrics: dict[str, Any]) -> bool:
         """Track a vector integration event."""
         self.logger.info(f"Tracking integration: {integration_id}")
         self.analytics_data["integrations_tracked"] += 1
         self.analytics_data["performance_metrics"][integration_id] = metrics
         return True
 
-    def get_integration_stats(self, integration_id: str = None) -> Dict[str, Any]:
+    def get_integration_stats(self, integration_id: str = None) -> dict[str, Any]:
         """Get integration statistics."""
         if integration_id:
             return self.analytics_data["performance_metrics"].get(integration_id, {})
@@ -50,7 +50,7 @@ class VectorIntegrationAnalytics:
             "last_updated": self.analytics_data["last_updated"]
         }
 
-    def analyze_performance_trends(self) -> Dict[str, Any]:
+    def analyze_performance_trends(self) -> dict[str, Any]:
         """Analyze performance trends across integrations."""
         self.logger.info("Analyzing performance trends")
 

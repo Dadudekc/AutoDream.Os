@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Manager Migration Codemod - Phase-2 Manager Consolidation
@@ -13,6 +14,7 @@ Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
 from __future__ import annotations
+
 import argparse
 import difflib
 import json

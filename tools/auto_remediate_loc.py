@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Auto-Remediate LOC Violations
@@ -14,12 +15,12 @@ Outputs:
     runtime/refactor_suggestions.txt - Human-readable suggestions
 """
 from __future__ import annotations
+
 import ast
-import os
 import json
-import textwrap
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any
+
 MAX_FILE_LOC = 400
 MAX_CLASS_LOC = 100
 MAX_FUNCTION_LOC = 50
@@ -42,10 +43,10 @@ def count_lines(node: ast.AST) ->int:
     return 0
 
 
-def analyze_file_loc(path: Path) ->Dict[str, Any]:
+def analyze_file_loc(path: Path) ->dict[str, Any]:
     """Analyze file for LOC violations."""
     try:
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, encoding='utf-8') as f:
             content = f.read()
         lines = content.splitlines()
         file_loc = len(lines)
@@ -59,7 +60,7 @@ def analyze_file_loc(path: Path) ->Dict[str, Any]:
         return {'type': 'error', 'path': str(path), 'error': str(e)}
 
 
-def analyze_class_loc(path: Path, tree: ast.Module) ->List[Dict[str, Any]]:
+def analyze_class_loc(path: Path, tree: ast.Module) ->list[dict[str, Any]]:
     """Analyze classes for LOC violations."""
     violations = []
     for node in ast.walk(tree):
@@ -75,7 +76,7 @@ def analyze_class_loc(path: Path, tree: ast.Module) ->List[Dict[str, Any]]:
     return violations
 
 
-def analyze_function_loc(path: Path, tree: ast.Module) ->List[Dict[str, Any]]:
+def analyze_function_loc(path: Path, tree: ast.Module) ->list[dict[str, Any]]:
     """Analyze functions for LOC violations."""
     violations = []
     for node in ast.walk(tree):
@@ -91,7 +92,7 @@ def analyze_function_loc(path: Path, tree: ast.Module) ->List[Dict[str, Any]]:
     return violations
 
 
-def generate_file_split_suggestion(path: Path, content: str) ->Dict[str, Any]:
+def generate_file_split_suggestion(path: Path, content: str) ->dict[str, Any]:
     """Generate file splitting suggestion."""
     filename = path.stem
     dir_name = path.parent
@@ -122,7 +123,7 @@ def generate_file_split_suggestion(path: Path, content: str) ->Dict[str, Any]:
 
 
 def generate_class_split_suggestion(path: Path, class_node: ast.ClassDef
-    ) ->Dict[str, Any]:
+    ) ->dict[str, Any]:
     """Generate class splitting suggestion."""
     methods = []
     properties = []
@@ -143,20 +144,20 @@ def generate_class_split_suggestion(path: Path, class_node: ast.ClassDef
 
 
 def generate_function_split_suggestion(path: Path, func_node: ast.FunctionDef
-    ) ->Dict[str, Any]:
+    ) ->dict[str, Any]:
     """Generate function splitting suggestion."""
     return {'suggested_extracts': [
         f'Extract helper functions from {func_node.name}',
-        f'Split into smaller functions with single responsibilities',
-        f'Move complex logic to separate utility functions'],
+        'Split into smaller functions with single responsibilities',
+        'Move complex logic to separate utility functions'],
         'estimated_functions': 2, 'complexity_indicators': ['nested_loops',
         'complex_conditionals', 'large_function']}
 
 
-def generate_refactor_plan() ->Dict[str, Any]:
+def generate_refactor_plan() ->dict[str, Any]:
     """Generate complete refactor plan."""
     issues = []
-    summary = {'files_analyzed': 0, 'syntax_errors': 0, 'file_violations': 
+    summary = {'files_analyzed': 0, 'syntax_errors': 0, 'file_violations':
         0, 'class_violations': 0, 'function_violations': 0,
         'total_violations': 0}
     logger.info('Scanning for LOC violations...')
@@ -172,7 +173,7 @@ def generate_refactor_plan() ->Dict[str, Any]:
             else:
                 summary['syntax_errors'] += 1
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
             tree = ast.parse(content)
             class_violations = analyze_class_loc(py_file, tree)
@@ -194,7 +195,7 @@ def generate_refactor_plan() ->Dict[str, Any]:
         MAX_CLASS_LOC, 'max_function_loc': MAX_FUNCTION_LOC}}
 
 
-def generate_text_report(plan: Dict[str, Any]) ->str:
+def generate_text_report(plan: dict[str, Any]) ->str:
     """Generate human-readable text report."""
     summary = plan['summary']
     report = []

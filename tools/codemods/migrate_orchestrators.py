@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """Zero-dep codemod to migrate legacy orchestrator imports/usages.
 
@@ -7,11 +8,13 @@ logger = logging.getLogger(__name__)
 - Uses simple token/line replace (safe subset) — review diff before commit
 """
 from __future__ import annotations
+
 import argparse
 import difflib
 import json
 import os
 import sys
+
 MAP = {}
 
 

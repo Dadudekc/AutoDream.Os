@@ -6,9 +6,8 @@ Thank Agent-3 for DevOps Contribution
 Send appreciation message to Agent-3 for their valuable DevOps analysis.
 """
 
-import sys
 import time
-from pathlib import Path
+
 
 # Direct PyAutoGUI approach since import issues persist
 def send_thank_you():

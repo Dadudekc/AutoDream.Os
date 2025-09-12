@@ -9,10 +9,10 @@ Author: Agent-4 (Quality Assurance Captain) - Coordinating Agent-3 Tests
 License: MIT
 """
 
-import pytest
-from unittest.mock import Mock, MagicMock, patch
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -299,8 +299,9 @@ class TestScalabilityTesting:
     def test_memory_usage_monitoring(self):
         """Test memory usage under load."""
         # Test memory usage patterns
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         initial_memory = process.memory_info().rss

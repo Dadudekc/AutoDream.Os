@@ -20,7 +20,7 @@ import os
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -163,7 +163,7 @@ class UnifiedConfigManager:
         """Get all configuration values."""
         return {key: value.value for key, value in self.configs.items()}
 
-    def get_config_metadata(self, key: str) -> Optional[ConfigValue]:
+    def get_config_metadata(self, key: str) -> ConfigValue | None:
         """Get configuration metadata."""
         return self.configs.get(key)
 
@@ -173,7 +173,7 @@ class UnifiedConfigManager:
         # In a production system, this would reload from files, databases, etc.
         self._load_default_configs()
 
-    def validate_configs(self) -> List[str]:
+    def validate_configs(self) -> list[str]:
         """Validate configuration values."""
         errors = []
 
@@ -212,7 +212,7 @@ def reload_config() -> None:
     config_manager.reload_configs()
 
 
-def validate_config() -> List[str]:
+def validate_config() -> list[str]:
     """Validate configuration in the SINGLE SOURCE OF TRUTH."""
     return config_manager.validate_configs()
 
@@ -223,7 +223,7 @@ def get_all_config() -> dict[str, Any]:
 
 
 # SPECIALIZED CONFIG GETTERS FOR BACKWARD COMPATIBILITY
-def get_agent_config() -> 'AgentConfig':
+def get_agent_config() -> AgentConfig:
     """Get agent-specific configuration."""
     from .unified_config import AgentConfig
     return AgentConfig(
@@ -234,7 +234,7 @@ def get_agent_config() -> 'AgentConfig':
     )
 
 
-def get_timeout_config() -> 'TimeoutConfig':
+def get_timeout_config() -> TimeoutConfig:
     """Get timeout configuration."""
     from .unified_config import TimeoutConfig
     return TimeoutConfig(
@@ -246,7 +246,7 @@ def get_timeout_config() -> 'TimeoutConfig':
     )
 
 
-def get_threshold_config() -> 'ThresholdConfig':
+def get_threshold_config() -> ThresholdConfig:
     """Get threshold configuration."""
     from .unified_config import ThresholdConfig
     return ThresholdConfig(
@@ -256,7 +256,7 @@ def get_threshold_config() -> 'ThresholdConfig':
     )
 
 
-def get_test_config() -> 'TestConfig':
+def get_test_config() -> TestConfig:
     """Get test configuration."""
     from .unified_config import TestConfig
     return TestConfig(

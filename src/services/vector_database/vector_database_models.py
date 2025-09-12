@@ -13,7 +13,7 @@ License: MIT
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class DocumentType(Enum):
@@ -33,9 +33,9 @@ class VectorDocument:
 
     id: str
     content: str
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     document_type: DocumentType = DocumentType.AGENT_WORK
-    embedding: Optional[List[float]] = None
+    embedding: list[float] | None = None
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
     version: int = 1
@@ -54,9 +54,9 @@ class CollectionConfig:
     """Configuration for a document collection."""
 
     name: str
-    description: Optional[str] = None
-    max_documents: Optional[int] = None
-    document_types: List[DocumentType] = field(default_factory=lambda: [DocumentType.AGENT_WORK])
+    description: str | None = None
+    max_documents: int | None = None
+    document_types: list[DocumentType] = field(default_factory=lambda: [DocumentType.AGENT_WORK])
     created_at: datetime = field(default_factory=datetime.now)
 
 
@@ -67,7 +67,7 @@ class VectorDatabaseConfig:
     max_collections: int = 100
     max_documents_per_collection: int = 10000
     enable_persistence: bool = False
-    persistence_path: Optional[str] = None
+    persistence_path: str | None = None
     default_collection: str = "default"
     similarity_threshold: float = 0.7
     max_search_results: int = 50
@@ -81,8 +81,8 @@ class SearchQuery:
     collection_name: str = "default"
     limit: int = 10
     similarity_threshold: float = 0.7
-    document_types: Optional[List[DocumentType]] = None
-    metadata_filters: Optional[Dict[str, Any]] = None
+    document_types: list[DocumentType] | None = None
+    metadata_filters: dict[str, Any] | None = None
 
 
 @dataclass
@@ -93,8 +93,8 @@ class SearchResult:
     similarity_score: float
     rank: int
     collection_name: str
-    highlights: List[str] = field(default_factory=list)
-    matched_terms: List[str] = field(default_factory=list)
+    highlights: list[str] = field(default_factory=list)
+    matched_terms: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -103,10 +103,10 @@ class VectorDatabaseResult:
 
     success: bool
     message: str = ""
-    data: Optional[Any] = None
+    data: Any | None = None
     documents_affected: int = 0
     execution_time: float = 0.0
-    error_details: Optional[str] = None
+    error_details: str | None = None
 
 
 @dataclass
@@ -119,9 +119,9 @@ class VectorDatabaseStats:
     average_similarity: float = 0.0
     cache_hit_rate: float = 0.0
     uptime_seconds: float = 0.0
-    last_backup: Optional[datetime] = None
+    last_backup: datetime | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert stats to dictionary."""
         return {
             "total_collections": self.total_collections,

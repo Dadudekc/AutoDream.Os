@@ -5,19 +5,46 @@ try:
     from .agent_communication_engine_base import AgentCommunicationEngineBase
     from .agent_communication_engine_core import AgentCommunicationEngineCore
     from .agent_communication_engine_operations import AgentCommunicationEngineOperations
-    from .agent_communication_engine_refactored import AgentCommunicationEngine, create_agent_communication_engine
-    from .discord_commander_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
+    from .agent_communication_engine_refactored import (
+        AgentCommunicationEngine,
+        create_agent_communication_engine,
+    )
+    from .discord_commander import (
+        DiscordCommander,
+        get_discord_commander,
+        start_discord_devlog_monitoring,
+    )
+    from .discord_commander_models import (
+        AgentCommand,
+        CommandResult,
+        CommunicationStats,
+        DiscordMessage,
+        create_command_result,
+    )
     from .discord_webhook_integration import DiscordWebhookIntegration
-    from .discord_commander import DiscordCommander, get_discord_commander, start_discord_devlog_monitoring
 except ImportError:
     # Fallback for direct execution
     from agent_communication_engine_base import AgentCommunicationEngineBase
     from agent_communication_engine_core import AgentCommunicationEngineCore
     from agent_communication_engine_operations import AgentCommunicationEngineOperations
-    from agent_communication_engine_refactored import AgentCommunicationEngine, create_agent_communication_engine
-    from discord_commander_models import CommandResult, create_command_result, DiscordMessage, AgentCommand, CommunicationStats
+    from agent_communication_engine_refactored import (
+        AgentCommunicationEngine,
+        create_agent_communication_engine,
+    )
+    from discord_commander_models import (
+        AgentCommand,
+        CommandResult,
+        CommunicationStats,
+        DiscordMessage,
+        create_command_result,
+    )
     from discord_webhook_integration import DiscordWebhookIntegration
-    from discord_commander import DiscordCommander, get_discord_commander, start_discord_devlog_monitoring
+
+    from discord_commander import (
+        DiscordCommander,
+        get_discord_commander,
+        start_discord_devlog_monitoring,
+    )
 
 __all__ = [
     # Base classes

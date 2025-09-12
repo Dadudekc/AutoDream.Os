@@ -15,7 +15,7 @@ import logging
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 try:
     import pyautogui as pg
@@ -34,7 +34,7 @@ class PhaseTransitionOnboarding:
         self.coordinate_loader = self._load_coordinate_loader()
         self.agent_roles = self._load_agent_roles()
         self.phase_configs = self._load_phase_configs()
-        
+
     def _load_coordinate_loader(self):
         """Load coordinate loader for agent positioning."""
         try:
@@ -44,11 +44,11 @@ class PhaseTransitionOnboarding:
             logger.error(f"Failed to load coordinate loader: {e}")
             return None
 
-    def _load_agent_roles(self) -> Dict[str, str]:
+    def _load_agent_roles(self) -> dict[str, str]:
         """Load agent role assignments."""
         return {
             "Agent-1": "Integration & Core Systems Specialist",
-            "Agent-2": "Architecture & Design Specialist", 
+            "Agent-2": "Architecture & Design Specialist",
             "Agent-3": "Infrastructure & DevOps Specialist",
             "Agent-4": "Quality Assurance Specialist (CAPTAIN)",
             "Agent-5": "Business Intelligence Specialist",
@@ -57,7 +57,7 @@ class PhaseTransitionOnboarding:
             "Agent-8": "Operations & Support Specialist"
         }
 
-    def _load_phase_configs(self) -> Dict[str, Dict[str, Any]]:
+    def _load_phase_configs(self) -> dict[str, dict[str, Any]]:
         """Load phase-specific configurations."""
         return {
             "Cycle 1": {
@@ -86,20 +86,20 @@ class PhaseTransitionOnboarding:
             }
         }
 
-    def initiate_phase_transition(self, from_phase: str, to_phase: str) -> Dict[str, Any]:
+    def initiate_phase_transition(self, from_phase: str, to_phase: str) -> dict[str, Any]:
         """Initiate phase transition for all agents."""
         logger.info(f"🚀 Initiating phase transition: {from_phase} → {to_phase}")
-        
+
         try:
             # Validate phase transition
             if to_phase not in self.phase_configs:
                 raise ValueError(f"Unknown phase: {to_phase}")
-            
+
             # Get all agents
             agents = self._get_all_agents()
             if not agents:
                 raise ValueError("No agents found for phase transition")
-            
+
             # Prepare phase transition
             transition_data = {
                 "from_phase": from_phase,
@@ -108,19 +108,19 @@ class PhaseTransitionOnboarding:
                 "agents": agents,
                 "phase_config": self.phase_configs[to_phase]
             }
-            
+
             # Send phase transition messages to all agents
             results = []
             for agent_id in agents:
                 result = self._send_phase_transition_message(agent_id, to_phase)
                 results.append(result)
-            
+
             # Update phase status
             self._update_phase_status(to_phase, transition_data)
-            
+
             # Generate transition summary
             summary = self._generate_transition_summary(transition_data, results)
-            
+
             return {
                 "success": True,
                 "from_phase": from_phase,
@@ -131,7 +131,7 @@ class PhaseTransitionOnboarding:
                 "summary": summary,
                 "timestamp": datetime.now().isoformat()
             }
-            
+
         except Exception as e:
             logger.error(f"Error initiating phase transition: {e}")
             return {
@@ -140,18 +140,18 @@ class PhaseTransitionOnboarding:
                 "timestamp": datetime.now().isoformat()
             }
 
-    def _send_phase_transition_message(self, agent_id: str, phase: str) -> Dict[str, Any]:
+    def _send_phase_transition_message(self, agent_id: str, phase: str) -> dict[str, Any]:
         """Send phase transition message to specific agent."""
         try:
             role = self.agent_roles.get(agent_id, "Specialist")
             phase_config = self.phase_configs.get(phase, {})
             agent_assignment = phase_config.get("agent_assignments", {}).get(agent_id, "General support")
-            
+
             message = self._generate_phase_transition_message(agent_id, role, phase, phase_config, agent_assignment)
-            
+
             # Send via UI automation
             success = self._send_ui_message(agent_id, message)
-            
+
             return {
                 "agent_id": agent_id,
                 "success": success,
@@ -159,7 +159,7 @@ class PhaseTransitionOnboarding:
                 "assignment": agent_assignment,
                 "timestamp": datetime.now().isoformat()
             }
-            
+
         except Exception as e:
             logger.error(f"Error sending phase transition message to {agent_id}: {e}")
             return {
@@ -169,13 +169,13 @@ class PhaseTransitionOnboarding:
                 "timestamp": datetime.now().isoformat()
             }
 
-    def _generate_phase_transition_message(self, agent_id: str, role: str, phase: str, 
-                                         phase_config: Dict[str, Any], assignment: str) -> str:
+    def _generate_phase_transition_message(self, agent_id: str, role: str, phase: str,
+                                         phase_config: dict[str, Any], assignment: str) -> str:
         """Generate phase transition message."""
         phase_name = phase_config.get("name", phase)
         description = phase_config.get("description", "")
         targets = phase_config.get("targets", [])
-        
+
         return f"""
 🎯 **PHASE TRANSITION ONBOARDING - {phase_name.upper()}**
 
@@ -228,31 +228,31 @@ Captain Agent-4 (QA & Coordination)
         if not pg or not self.coordinate_loader:
             logger.warning("PyAutoGUI or coordinate loader not available - skipping UI automation")
             return False
-            
+
         try:
             import pyperclip
-            
+
             # Get agent coordinates
             chat_coords = self.coordinate_loader.get_chat_coordinates(agent_id)
-            
+
             # Focus agent window
             self._focus_agent_window(agent_id)
-            
+
             # Click on chat input
             pg.click(chat_coords[0], chat_coords[1])
             time.sleep(0.1)
-            
+
             # Copy message to clipboard
             pyperclip.copy(message)
-            
+
             # Paste message
             pg.hotkey("ctrl", "a")  # Select all existing text
             pg.hotkey("ctrl", "v")  # Paste new message
             time.sleep(0.1)
-            
+
             logger.info(f"✅ Phase transition message sent to {agent_id} via copy/paste")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to send phase transition message to {agent_id}: {e}")
             return False
@@ -270,13 +270,13 @@ Captain Agent-4 (QA & Coordination)
             pg.hotkey("alt", "tab")
         time.sleep(0.1)
 
-    def _get_all_agents(self) -> List[str]:
+    def _get_all_agents(self) -> list[str]:
         """Get all available agents."""
         if self.coordinate_loader:
             return self.coordinate_loader.get_all_agents()
         return list(self.agent_roles.keys())
 
-    def _update_phase_status(self, phase: str, transition_data: Dict[str, Any]):
+    def _update_phase_status(self, phase: str, transition_data: dict[str, Any]):
         """Update phase status."""
         try:
             data = {
@@ -284,17 +284,17 @@ Captain Agent-4 (QA & Coordination)
                 "last_transition": transition_data,
                 "timestamp": datetime.now().isoformat()
             }
-            
+
             self.status_file.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            
+
         except Exception as e:
             logger.error(f"Error updating phase status: {e}")
 
-    def _generate_transition_summary(self, transition_data: Dict[str, Any], results: List[Dict[str, Any]]) -> str:
+    def _generate_transition_summary(self, transition_data: dict[str, Any], results: list[dict[str, Any]]) -> str:
         """Generate phase transition summary."""
         successful = sum(1 for r in results if r.get("success", False))
         total = len(results)
-        
+
         return f"""
 📊 **PHASE TRANSITION SUMMARY**
 
@@ -314,15 +314,15 @@ Captain Agent-4 (QA & Coordination)
 **Status:** {'✅ SUCCESSFUL' if successful == total else '⚠️ PARTIAL SUCCESS'}
 """
 
-    def get_current_phase_status(self) -> Dict[str, Any]:
+    def get_current_phase_status(self) -> dict[str, Any]:
         """Get current phase status."""
         try:
             if not self.status_file.exists():
                 return {"current_phase": "Unknown", "status": "No phase data"}
-            
+
             data = json.loads(self.status_file.read_text(encoding="utf-8"))
             return data
-            
+
         except Exception as e:
             logger.error(f"Error getting phase status: {e}")
             return {"error": str(e)}
@@ -331,15 +331,15 @@ Captain Agent-4 (QA & Coordination)
 def main():
     """Main function for testing phase transition onboarding."""
     onboarding = PhaseTransitionOnboarding()
-    
+
     # Test phase transition
     result = onboarding.initiate_phase_transition("Cycle 1", "Phase 2")
     print(f"Phase transition result: {result}")
-    
+
     # Get current status
     status = onboarding.get_current_phase_status()
     print(f"Current phase status: {status}")
-    
+
     return 0 if result.get('success', False) else 1
 
 

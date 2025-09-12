@@ -11,11 +11,11 @@ Usage:
 Author: V2_SWARM_CAPTAIN
 """
 
-import sys
-import os
-import time
 import json
+import sys
+import time
 from pathlib import Path
+
 
 def load_agent_coordinates():
     """Load agent coordinates from SSOT file."""
@@ -25,7 +25,7 @@ def load_agent_coordinates():
         return {}
 
     try:
-        with open(coord_file, 'r', encoding='utf-8') as f:
+        with open(coord_file, encoding='utf-8') as f:
             data = json.load(f)
 
         coordinates = {}
@@ -249,9 +249,9 @@ def main():
             print(f"   • {agent}")
 
     print(f"\n📋 Total agents targeted: {len(target_agents)}")
-    print(f"🎯 Debate system: ACTIVE")
-    print(f"📁 XML file: swarm_debate_consolidation.xml")
-    print(f"🛠️  Tool: debate_participation_tool.py")
+    print("🎯 Debate system: ACTIVE")
+    print("📁 XML file: swarm_debate_consolidation.xml")
+    print("🛠️  Tool: debate_participation_tool.py")
 
     print("\n🐝 AGENTS NOW HAVE FRESH ONBOARDING MESSAGES!")
     print("🎯 They can participate immediately with refreshed instructions")

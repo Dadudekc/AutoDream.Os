@@ -6,12 +6,12 @@ SOLID Refactoring Verification Plan - Agent Cellphone V2
 Comprehensive verification strategy for SOLID-compliant architecture.
 Tests all components, integrations, and V2 compliance requirements.
 """
+# ruff: noqa: S101  # Assert statements are appropriate for verification scripts
 
 import sys
-import os
 import time
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -30,7 +30,7 @@ class VerificationSuite:
         }
         self.start_time = time.time()
 
-    def run_all_verifications(self) -> Dict[str, Any]:
+    def run_all_verifications(self) -> dict[str, Any]:
         """Run complete verification suite."""
         print("🚀 STARTING SOLID REFACTORING VERIFICATION SUITE")
         print("=" * 60)
@@ -84,7 +84,6 @@ class VerificationSuite:
         """Test CoordinatorRegistry SOLID compliance."""
         try:
             from core.coordinator_registry import CoordinatorRegistry
-            from core.coordinator_status_parser import CoordinatorStatusParser
 
             # Mock logger
             class MockLogger:
@@ -110,7 +109,8 @@ class VerificationSuite:
             success = registry.register_coordinator(coord)
 
             assert success, "Coordinator registration failed"
-            assert registry.get_coordinator("test-coordinator") == coord, "Coordinator retrieval failed"
+            assert (registry.get_coordinator("test-coordinator") == coord,
+                    "Coordinator retrieval failed")
 
             self.results["unit_tests"]["coordinator_registry"] = "PASSED"
             print("  ✅ CoordinatorRegistry: PASSED")
@@ -147,9 +147,10 @@ class VerificationSuite:
     def _test_message_queue(self):
         """Test MessageQueue SOLID compliance."""
         try:
-            from core.message_queue import MessageQueue, QueueConfig
-            import tempfile
             import os
+            import tempfile
+
+            from core.message_queue import MessageQueue, QueueConfig
 
             # Use temporary directory to avoid conflicts
             with tempfile.TemporaryDirectory() as temp_dir:
@@ -192,9 +193,10 @@ class VerificationSuite:
     def _test_queue_persistence(self):
         """Test QueuePersistence."""
         try:
-            from core.message_queue_persistence import FileQueuePersistence, QueueEntry
-            from pathlib import Path
             import tempfile
+            from pathlib import Path
+
+            from core.message_queue_persistence import FileQueuePersistence, QueueEntry
 
             with tempfile.TemporaryDirectory() as temp_dir:
                 queue_file = Path(temp_dir) / "test_queue.json"
@@ -226,8 +228,8 @@ class VerificationSuite:
     def _test_queue_statistics(self):
         """Test QueueStatistics."""
         try:
-            from core.message_queue_statistics import QueueStatisticsCalculator
             from core.message_queue_persistence import QueueEntry
+            from core.message_queue_statistics import QueueStatisticsCalculator
 
             calculator = QueueStatisticsCalculator()
 
@@ -259,8 +261,8 @@ class VerificationSuite:
     def _test_interfaces(self):
         """Test interface compliance."""
         try:
-            from core.message_queue_interfaces import IMessageQueue, IQueuePersistence
             from core.message_queue import MessageQueue
+            from core.message_queue_interfaces import IMessageQueue, IQueuePersistence
             from core.message_queue_persistence import FileQueuePersistence
 
             # Test interface implementation
@@ -292,8 +294,8 @@ class VerificationSuite:
     def _test_messaging_integration(self):
         """Test messaging system integration."""
         try:
+            from core.message_queue import AsyncQueueProcessor, MessageQueue
             from services.messaging_core import UnifiedMessagingCore
-            from core.message_queue import MessageQueue, AsyncQueueProcessor
 
             # Test unified messaging with queue integration
             core = UnifiedMessagingCore()
@@ -431,9 +433,10 @@ class VerificationSuite:
     def _test_queue_performance(self):
         """Test queue performance."""
         try:
-            from core.message_queue import MessageQueue, QueueConfig
-            import tempfile
             import os
+            import tempfile
+
+            from core.message_queue import MessageQueue, QueueConfig
 
             with tempfile.TemporaryDirectory() as temp_dir:
                 config = QueueConfig(
@@ -562,7 +565,7 @@ class VerificationSuite:
             self.results["compliance_tests"]["v2_standards"] = f"FAILED: {e}"
             print(f"  ❌ V2 Standards: FAILED - {e}")
 
-    def _generate_report(self) -> Dict[str, Any]:
+    def _generate_report(self) -> dict[str, Any]:
         """Generate comprehensive verification report."""
         end_time = time.time()
         duration = end_time - self.start_time
@@ -574,7 +577,8 @@ class VerificationSuite:
 
         passed_tests = sum(1 for result in all_tests if result == "PASSED")
         total_tests = len(all_tests)
-        success_rate = (passed_tests / total_tests * 100) if total_tests > 0 else 0
+        success_rate = ((passed_tests / total_tests * 100)
+                         if total_tests > 0 else 0)
 
         overall_status = "PASSED" if success_rate >= 95 else "WARNING" if success_rate >= 80 else "FAILED"
 

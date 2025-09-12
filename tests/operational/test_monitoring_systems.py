@@ -8,18 +8,15 @@ Covers performance monitoring, health dashboards, and alerting systems.
 Author: Agent-8 (Operations & Support Specialist)
 """
 
-import pytest
 import time
-import psutil
-import threading
-import os
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List
+from unittest.mock import patch
+
+import pytest
 
 # Import system components to test
 try:
-    from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
     from src.core.automated_health_check_system import AutomatedHealthCheckSystem
+    from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
     from src.core.unified_logging_system import UnifiedLoggingSystem
     MONITORING_AVAILABLE = True
 except ImportError:

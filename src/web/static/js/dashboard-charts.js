@@ -1,7 +1,7 @@
 /**
  * Dashboard Charts Module - V2 Compliant
  * Handles all chart initialization and management
- * 
+ *
  * @author Agent-7 - Web Development Specialist
  * @version 2.0.0
  * @license MIT
@@ -28,7 +28,7 @@ function initializeContractChart(data) {
     if (document.getElementById('contractChart')) {
         const ctx = document.getElementById('contractChart').getContext('2d');
         const contractSummary = data.contract_summary || {};
-        
+
         charts.contractChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -58,7 +58,7 @@ function initializeWorkloadChart(data) {
     if (document.getElementById('workloadChart')) {
         const ctx = document.getElementById('workloadChart').getContext('2d');
         const workloadData = data.workload_distribution || {};
-        
+
         charts.workloadChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -95,7 +95,7 @@ function initializeAgentPerformanceChart(data) {
     if (document.getElementById('agentPerformanceChart')) {
         const ctx = document.getElementById('agentPerformanceChart').getContext('2d');
         const agents = data.agents || [];
-        
+
         charts.agentPerformanceChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -128,7 +128,7 @@ function initializeHealthTrendChart(data) {
     if (document.getElementById('healthTrendChart')) {
         const ctx = document.getElementById('healthTrendChart').getContext('2d');
         const healthHistory = data.performance_history || {};
-        
+
         charts.healthTrendChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -163,7 +163,7 @@ function initializeContractStatusChart(data) {
     if (document.getElementById('contractStatusChart')) {
         const ctx = document.getElementById('contractStatusChart').getContext('2d');
         const contractSummary = data.contract_summary || {};
-        
+
         charts.contractStatusChart = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -193,7 +193,7 @@ function initializeWorkloadDistributionChart(data) {
     if (document.getElementById('workloadDistributionChart')) {
         const ctx = document.getElementById('workloadDistributionChart').getContext('2d');
         const workloadData = data.workload_distribution || {};
-        
+
         charts.workloadDistributionChart = new Chart(ctx, {
             type: 'doughnut',
             data: {

@@ -1,7 +1,7 @@
 /**
  * Dashboard Alerts Module - V2 Compliant
  * Handles alert management functionality
- * 
+ *
  * @author Agent-7 - Web Development Specialist
  * @version 2.0.0
  * @license MIT
@@ -15,13 +15,13 @@
 function showAlert(type, message) {
     // Simple alert display - could be enhanced with toast notifications
     console.log(`${type.toUpperCase()}: ${message}`);
-    
+
     // Create visual alert if alert container exists
     const alertContainer = document.getElementById('alertsContainer');
     if (alertContainer) {
         const alertElement = createAlertElement(type, message);
         alertContainer.insertAdjacentHTML('afterbegin', alertElement);
-        
+
         // Auto-remove after 5 seconds
         setTimeout(() => {
             const firstAlert = alertContainer.querySelector('.alert-item');

@@ -1,8 +1,8 @@
 /**
  * Dashboard Agent Performance Views Module - V2 Compliant
  * Handles agent performance view rendering
- * 
- * @author Agent-7 - Web Development Specialist  
+ *
+ * @author Agent-7 - Web Development Specialist
  * @version 2.0.0
  * @license MIT
  */

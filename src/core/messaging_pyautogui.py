@@ -20,9 +20,47 @@ import os
 import sys
 import time
 
-from .messaging_core import (
-    UnifiedMessage,
-)
+# Import unified message classes (avoid circular import)
+try:
+    from ..core.messaging_core import UnifiedMessage
+except ImportError:
+    # Fallback definitions to avoid circular import
+    from enum import Enum
+
+    class UnifiedMessageType(Enum):
+        AGENT_TO_AGENT = "agent_to_agent"
+        BROADCAST = "broadcast"
+        SYSTEM_TO_AGENT = "system_to_agent"
+
+    class UnifiedMessagePriority(Enum):
+        LOW = "low"
+        NORMAL = "normal"
+        HIGH = "high"
+        URGENT = "urgent"
+
+    class UnifiedMessageTag(Enum):
+        GENERAL = "general"
+        COORDINATION = "coordination"
+        TASK = "task"
+        STATUS = "status"
+
+    class UnifiedMessage:
+        def __init__(
+            self,
+            content: str,
+            sender: str,
+            recipient: str,
+            message_type: UnifiedMessageType,
+            priority: UnifiedMessagePriority,
+            tags: list[UnifiedMessageTag] = None,
+        ):
+            self.content = content
+            self.sender = sender
+            self.recipient = recipient
+            self.message_type = message_type
+            self.priority = priority
+            self.tags = tags or []
+
 
 logger = logging.getLogger(__name__)
 
@@ -61,9 +99,11 @@ DELETE_KEY = "backspace"  # safer than delete for text fields on most UIs
 
 # -------------------- Coordinate Loader (SSOT) -------------------- #
 
+
 def _get_coordinate_loader():
     # Single source-of-truth import path
     from .coordinate_loader import get_coordinate_loader  # local SSOT
+
     return get_coordinate_loader()
 
 
@@ -98,6 +138,7 @@ def get_agent_coordinates(agent_id: str) -> tuple[int, int] | None:
 
 # -------------------- Formatting -------------------- #
 
+
 def format_message_for_delivery(message: UnifiedMessage) -> str:
     """Format message for delivery with agent identification."""
     try:
@@ -130,6 +171,7 @@ def format_message_for_delivery(message: UnifiedMessage) -> str:
 
 
 # -------------------- Delivery Core -------------------- #
+
 
 def _focus_and_clear(x: int, y: int) -> None:
     """Focus the input and clear it."""
@@ -173,7 +215,9 @@ def deliver_message_pyautogui(message: UnifiedMessage, coords: tuple[int, int]) 
             _paste_or_type(formatted_message)
             time.sleep(PAUSE_S)
             pyautogui.press("enter")
-            logger.info("Message delivered to %s at %s (attempt %d)", message.recipient, coords, attempt)
+            logger.info(
+                "Message delivered to %s at %s (attempt %d)", message.recipient, coords, attempt
+            )
             return True
         except Exception as e:
             logger.warning("Deliver attempt %d failed for %s: %s", attempt, message.recipient, e)
@@ -209,7 +253,11 @@ def cleanup_pyautogui_resources() -> bool:
     try:
         if PYAUTOGUI_AVAILABLE:
             # nothing to cleanup explicitly; keep FAILSAFE on
-            logger.info("PyAutoGUI resources validated; FAILSAFE=%s, PAUSE=%.2f", pyautogui.FAILSAFE, pyautogui.PAUSE)
+            logger.info(
+                "PyAutoGUI resources validated; FAILSAFE=%s, PAUSE=%.2f",
+                pyautogui.FAILSAFE,
+                pyautogui.PAUSE,
+            )
         return True
     except Exception as e:
         logger.error("Error during cleanup: %s", e)
@@ -232,8 +280,8 @@ class PyAutoGUIMessagingDelivery:
     def send_message_via_pyautogui(
         self,
         message: UnifiedMessage,
-        use_paste: bool = True,           # retained for API compatibility
-        new_tab_method: str = "ctrl_t",   # deprecated; no-op
+        use_paste: bool = True,  # retained for API compatibility
+        new_tab_method: str = "ctrl_t",  # deprecated; no-op
         use_new_tab: bool | None = None,  # deprecated; no-op
     ) -> bool:
         if not PYAUTOGUI_AVAILABLE:
@@ -244,4 +292,3 @@ class PyAutoGUIMessagingDelivery:
             logger.error("Missing coordinates for %s", message.recipient)
             return False
         return deliver_message_pyautogui(message, coords)
-

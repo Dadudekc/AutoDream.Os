@@ -28,7 +28,7 @@ export class VectorDatabaseUI {
             this.setupDocumentManagement();
             this.setupAnalyticsDashboard();
             this.setupRealTimeUpdates();
-            
+
             this.logger.log('✅ Vector Database UI initialized');
         } catch (error) {
             this.logger.error('❌ Failed to initialize UI:', error);
@@ -70,7 +70,7 @@ export class VectorDatabaseUI {
 
         analyticsContainer.appendChild(metricsDisplay);
         analyticsContainer.appendChild(chartsContainer);
-        
+
         this.elements.analyticsContainer = analyticsContainer;
         this.elements.metricsDisplay = metricsDisplay;
         this.elements.chartsContainer = chartsContainer;
@@ -86,7 +86,7 @@ export class VectorDatabaseUI {
 
         updateContainer.appendChild(statusIndicator);
         updateContainer.appendChild(lastUpdate);
-        
+
         this.elements.updateContainer = updateContainer;
         this.elements.statusIndicator = statusIndicator;
         this.elements.lastUpdate = lastUpdate;
@@ -98,15 +98,15 @@ export class VectorDatabaseUI {
     createElement(tag, className, attributes = {}, textContent = '') {
         const element = document.createElement(tag);
         element.className = className;
-        
+
         Object.entries(attributes).forEach(([key, value]) => {
             element.setAttribute(key, value);
         });
-        
+
         if (textContent) {
             element.textContent = textContent;
         }
-        
+
         return element;
     }
 
@@ -163,7 +163,7 @@ export class VectorDatabaseUI {
      */
     displaySearchResults(results) {
         const resultsContainer = this.createElement('div', 'search-results');
-        
+
         results.forEach(result => {
             const resultElement = this.createElement('div', 'search-result');
             resultElement.innerHTML = `
@@ -182,7 +182,7 @@ export class VectorDatabaseUI {
         if (existingResults) {
             existingResults.remove();
         }
-        
+
         document.body.appendChild(resultsContainer);
     }
 
@@ -191,7 +191,7 @@ export class VectorDatabaseUI {
      */
     displayDocuments(documents) {
         this.elements.docList.innerHTML = '';
-        
+
         documents.forEach(doc => {
             const docElement = this.createElement('div', 'document-item');
             docElement.innerHTML = `

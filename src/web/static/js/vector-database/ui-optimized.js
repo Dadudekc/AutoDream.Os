@@ -18,7 +18,7 @@ export class VectorDatabaseUIOptimized {
         this.debounceTimers = new Map();
         this.renderQueue = [];
         this.isRendering = false;
-        
+
         // Performance optimizations
         this.domCache = new Map();
         this.batchOperations = [];
@@ -32,7 +32,7 @@ export class VectorDatabaseUIOptimized {
             this.setupDocumentManagement();
             this.setupAnalyticsDashboard();
             this.setupRealTimeUpdates();
-            
+
             this.logger.log('✅ Vector Database UI (Optimized) initialized');
         } catch (error) {
             this.logger.error('❌ Failed to initialize UI:', error);
@@ -48,7 +48,7 @@ export class VectorDatabaseUIOptimized {
 /** Handle delegated click events */
     handleDelegatedClick(event) {
         const target = event.target;
-        
+
         if (target.matches('.search-button')) {
             this.handleSearch();
         } else if (target.matches('.add-document-button')) {
@@ -71,13 +71,13 @@ export class VectorDatabaseUIOptimized {
         if (timer) {
             clearTimeout(timer);
         }
-        
+
         const newTimer = setTimeout(() => {
             if (query.trim()) {
                 this.handleSearch();
             }
         }, 300);
-        
+
         this.debounceTimers.set('search', newTimer);
     }
 /** Setup search interface with performance optimizations */
@@ -101,7 +101,7 @@ export class VectorDatabaseUIOptimized {
         const chartsContainer = this.createElement('div', 'charts-container', { id: 'charts-container' });
         analyticsContainer.appendChild(metricsDisplay);
         analyticsContainer.appendChild(chartsContainer);
-        
+
         this.elements.set('analyticsContainer', analyticsContainer);
         this.elements.set('metricsDisplay', metricsDisplay);
         this.elements.set('chartsContainer', chartsContainer);
@@ -113,7 +113,7 @@ export class VectorDatabaseUIOptimized {
         const lastUpdate = this.createElement('div', 'last-update', { id: 'last-update' });
         updateContainer.appendChild(statusIndicator);
         updateContainer.appendChild(lastUpdate);
-        
+
         this.elements.set('updateContainer', updateContainer);
         this.elements.set('statusIndicator', statusIndicator);
         this.elements.set('lastUpdate', lastUpdate);
@@ -122,16 +122,16 @@ export class VectorDatabaseUIOptimized {
     createElement(tag, className, attributes = {}, textContent = '') {
         const element = document.createElement(tag);
         element.className = className;
-        
+
         // Batch attribute setting
         Object.entries(attributes).forEach(([key, value]) => {
             element.setAttribute(key, value);
         });
-        
+
         if (textContent) {
             element.textContent = textContent;
         }
-        
+
         return element;
     }
 /** Handle search action with performance optimizations */
@@ -163,7 +163,7 @@ export class VectorDatabaseUIOptimized {
         // Use document fragment for batch DOM operations
         const fragment = document.createDocumentFragment();
         const resultsContainer = this.createElement('div', 'search-results');
-        
+
         // Batch create result elements
         results.forEach(result => {
             const resultElement = this.createElement('div', 'search-result');
@@ -190,13 +190,13 @@ export class VectorDatabaseUIOptimized {
 /** Display documents with virtual scrolling for large datasets */
     displayDocuments(documents) {
         const docList = this.elements.get('docList');
-        
+
         // Clear existing content
         docList.innerHTML = '';
-        
+
         // Use document fragment for batch operations
         const fragment = document.createDocumentFragment();
-        
+
         documents.forEach(doc => {
             const docElement = this.createElement('div', 'document-item');
             docElement.innerHTML = `
@@ -209,13 +209,13 @@ export class VectorDatabaseUIOptimized {
             `;
             fragment.appendChild(docElement);
         });
-        
+
         docList.appendChild(fragment);
     }
 /** Display analytics metrics with optimized rendering */
     displayAnalytics(metrics) {
         const metricsDisplay = this.elements.get('metricsDisplay');
-        
+
         // Use template literals for better performance
         metricsDisplay.innerHTML = `
             <div class="metric">
@@ -251,7 +251,7 @@ export class VectorDatabaseUIOptimized {
 /** Batch DOM updates for better performance */
     batchDOMUpdate(operation) {
         this.batchOperations.push(operation);
-        
+
         if (!this.isRendering) {
             this.isRendering = true;
             this.rafId = requestAnimationFrame(() => {
@@ -271,19 +271,19 @@ export class VectorDatabaseUIOptimized {
         // Clear debounce timers
         this.debounceTimers.forEach(timer => clearTimeout(timer));
         this.debounceTimers.clear();
-        
+
         // Cancel pending animation frame
         if (this.rafId) {
             cancelAnimationFrame(this.rafId);
         }
-        
+
         // Clear caches
         this.domCache.clear();
         this.elements.clear();
-        
+
         // Remove event listeners
         this.eventListeners.clear();
-        
+
         this.logger.log('🧹 Vector Database UI cleanup completed');
     }
 }

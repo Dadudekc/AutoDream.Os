@@ -229,7 +229,14 @@ class AgentStrategy(ABC):
     """Base agent strategy interface."""
 
     def __init__(self, name: str):
+        """Initialize the coordinator with a name.
+
+        Args:
+            name: Name identifier for the coordinator
+        """
         self.name = name
+        self.status = "initialized"
+        self.last_updated = datetime.now()
         self.logger = logging.getLogger(self.__class__.__name__)
 
     @abstractmethod
@@ -560,6 +567,8 @@ def main():
         print(f"Agent context: {context.to_dict()}")
 
     print("\nAgent Coordination initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

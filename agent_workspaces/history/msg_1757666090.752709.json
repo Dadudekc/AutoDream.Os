@@ -1,0 +1,14 @@
+{
+  "content": "bey\n\n- 3 bullets: (1) current task, (2) blockers, (3) ETA.\n- This is a message from the GENERAL to the core agents.\n",
+  "recipient": "Cursor - Agent-4",
+  "sender": "DiscordOps",
+  "message_type": "text",
+  "priority": "regular",
+  "tags": [],
+  "metadata": {},
+  "timestamp": "2025-09-12T03:34:50.752709",
+  "message_id": "msg_1757666090.752709",
+  "delivery_method": "inbox",
+  "status": "pending",
+  "recipient_type": "agent"
+}

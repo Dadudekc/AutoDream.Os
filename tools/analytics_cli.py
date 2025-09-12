@@ -31,6 +31,28 @@ class AnalyticsCLI:
         self.analytics_service.start()
 
     def show_dashboard(self, dashboard_type: str = "overview") -> None:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.analytics_cli import Analytics_Cli
+
+# Initialize and use
+instance = Analytics_Cli()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Analytics_Cli(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Display dashboard data in terminal."""
         print(f"🐝 Advanced Analytics Dashboard - {dashboard_type.upper()}")
         print("=" * 60)
@@ -60,32 +82,37 @@ class AnalyticsCLI:
         """Display overview dashboard in terminal."""
         kpis = data.get("kpis", {})
 
-        print("📊 Key Performance Indicators:"        print(".1f")
+        print("📊 Key Performance Indicators:")
+        print(".1f")
         print(".2f")
         print(".1f")
         print(f"   Active Agents: {kpis.get('active_agents', 'N/A')}")
 
         alerts = data.get("alerts", [])
         if alerts:
-            print("\n🚨 Active Alerts:"            for alert in alerts:
+            print("\n🚨 Active Alerts:")
+            for alert in alerts:
                 print(f"   {alert['level'].upper()}: {alert['message']}")
 
         insights = data.get("insights", [])
         if insights:
-            print("\n💡 AI Insights:"            for insight in insights:
+            print("\n💡 AI Insights:")
+            for insight in insights:
                 print(f"   • {insight}")
 
     def _display_performance_dashboard(self, data: Dict[str, Any]) -> None:
         """Display performance dashboard in terminal."""
         metrics = data.get("metrics", {})
 
-        print("⚡ Performance Metrics:"        print("   Response Times: Coming soon...")
+        print("⚡ Performance Metrics:")
+        print("   Response Times: Coming soon...")
         print("   Throughput: Coming soon...")
         print("   Resource Usage: Coming soon...")
 
         recommendations = data.get("recommendations", [])
         if recommendations:
-            print("\n🎯 Performance Recommendations:"            for rec in recommendations:
+            print("\n🎯 Performance Recommendations:")
+            for rec in recommendations:
                 print(f"   • {rec}")
 
     def _display_usage_dashboard(self, data: Dict[str, Any]) -> None:
@@ -115,7 +142,8 @@ class AnalyticsCLI:
 
         alerts = data.get("alerts", [])
         if alerts:
-            print("\n🚨 Quality Alerts:"            for alert in alerts:
+            print("\n🚨 Quality Alerts:")
+            for alert in alerts:
                 print(f"   {alert['level'].upper()}: {alert['message']}")
 
     def generate_report(self, report_type: str = "daily", output_file: Optional[str] = None) -> None:
@@ -184,8 +212,8 @@ class AnalyticsCLI:
 
         print(f"🤖 Agent: {agent_id}")
         print(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
-        print("
-📈 Usage Metrics:"        print(f"   Total Activities: {metrics.get('total_activities', 'N/A')}")
+        print("\n📈 Usage Metrics:")
+        print(f"   Total Activities: {metrics.get('total_activities', 'N/A')}")
         print(f"   Tasks Completed: {metrics.get('tasks_completed', 'N/A')}")
         print(".2f")
         print(".1f")
@@ -196,16 +224,18 @@ class AnalyticsCLI:
 
         insights = data.get("insights", [])
         if insights:
-            print("\n💡 Insights:"            for insight in insights:
+            print("\n💡 Insights:")
+            for insight in insights:
                 print(f"   • {insight}")
 
     def _display_system_usage_analytics(self, data: Dict[str, Any]) -> None:
         """Display system-wide usage analytics."""
         metrics = data.get("system_metrics", {})
 
-        print("🌐 System-wide Analytics"        print(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
-        print("
-📊 System Metrics:"        print(f"   Total Agents: {metrics.get('total_agents', 'N/A')}")
+        print("🌐 System-wide Analytics")
+        print(f"Analysis Period: {data.get('analysis_period_hours', 'N/A')} hours")
+        print("\n📊 System Metrics:")
+        print(f"   Total Agents: {metrics.get('total_agents', 'N/A')}")
         print(f"   Total Activities: {metrics.get('total_system_activity', 'N/A')}")
         print(f"   Total Tasks: {metrics.get('total_system_tasks', 'N/A')}")
         print(".2f")
@@ -214,16 +244,19 @@ class AnalyticsCLI:
         rankings = data.get("agent_rankings", {})
 
         if "most_active_agents" in rankings:
-            print("\n🏆 Most Active Agents:"            for agent in rankings["most_active_agents"][:3]:
+            print("\n🏆 Most Active Agents:")
+            for agent in rankings["most_active_agents"][:3]:
                 print(f"   {agent['agent']}: {agent['activities']} activities")
 
         if "most_efficient_agents" in rankings:
-            print("\n⚡ Most Efficient Agents:"            for agent in rankings["most_efficient_agents"][:3]:
+            print("\n⚡ Most Efficient Agents:")
+            for agent in rankings["most_efficient_agents"][:3]:
                 print(".2f")
 
         insights = data.get("system_insights", [])
         if insights:
-            print("\n💡 System Insights:"            for insight in insights:
+            print("\n💡 System Insights:")
+            for insight in insights:
                 print(f"   • {insight}")
 
     def collect_custom_metric(self, name: str, value: Any, tags: Optional[Dict[str, str]] = None) -> None:

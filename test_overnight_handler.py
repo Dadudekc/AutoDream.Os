@@ -2,8 +2,9 @@
 """
 Test script for Overnight Command Handler
 """
-import sys
+
 import os
+import sys
 
 sys.path.append("src")
 

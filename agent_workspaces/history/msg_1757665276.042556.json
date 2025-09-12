@@ -1,0 +1,14 @@
+{
+  "content": "Test message from Discord bot integration",
+  "recipient": "Agent-1",
+  "sender": "Discord Bot",
+  "message_type": "text",
+  "priority": "regular",
+  "tags": [],
+  "metadata": {},
+  "timestamp": "2025-09-12T03:21:16.042556",
+  "message_id": "msg_1757665276.042556",
+  "delivery_method": "inbox",
+  "status": "pending",
+  "recipient_type": "agent"
+}

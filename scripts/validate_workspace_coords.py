@@ -10,6 +10,27 @@ from pathlib import Path
 
 
 def load_ssot_agents(coord_file: Path) -> set[str]:
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python validate_workspace_coords.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.validate_workspace_coords import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.validate_workspace_coords import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
     """Return agent IDs defined in the SSOT coordinate file."""
     data = json.loads(coord_file.read_text(encoding="utf-8"))
     return set(data.get("agents", {}).keys())

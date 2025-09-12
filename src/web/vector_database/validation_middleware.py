@@ -18,6 +18,28 @@ class ValidationMiddleware:
     """Validation middleware decorators."""
 
     def validate_request(self, validator_func: Callable) -> Callable:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.vector_database.validation_middleware import Validation_Middleware
+
+# Initialize and use
+instance = Validation_Middleware()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Validation_Middleware(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Request validation decorator."""
 
         def decorator(f: Callable) -> Callable:

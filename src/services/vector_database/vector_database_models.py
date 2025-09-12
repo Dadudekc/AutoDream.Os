@@ -30,6 +30,30 @@ class DocumentType(Enum):
 
 @dataclass
 class VectorDocument:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.vector_database.vector_database_models import Vector_Database_ModelsService
+
+# Initialize service
+service = Vector_Database_ModelsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Vector_Database_ModelsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Represents a document stored in the vector database."""
 
     id: str

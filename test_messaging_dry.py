@@ -2,9 +2,9 @@
 """
 Test script with dry-run mode to verify MessagingGateway functionality
 """
+
 import asyncio
 import sys
-import os
 
 sys.path.append("src")
 
@@ -35,12 +35,12 @@ async def test_message_dry_run():
 
         print("✅ Message processed successfully!")
         print("-" * 30)
-        print(f'Status: {result.get("status")}')
-        print(f'Agent: {result.get("agent")}')
-        print(f'Backend: {result.get("backend")}')
-        print(f'Request ID: {result.get("request_id")}')
-        print(f'Timestamp: {result.get("timestamp")}')
-        print(f'Extra: {result.get("extra")}')
+        print(f"Status: {result.get('status')}")
+        print(f"Agent: {result.get('agent')}")
+        print(f"Backend: {result.get('backend')}")
+        print(f"Request ID: {result.get('request_id')}")
+        print(f"Timestamp: {result.get('timestamp')}")
+        print(f"Extra: {result.get('extra')}")
 
         if result.get("status") == "skipped":
             print("🎯 DRY RUN SUCCESSFUL - No UI interaction attempted")

@@ -22,6 +22,30 @@ class VectorDatabaseEngine:
     """Simple vector database engine stub."""
 
     def __init__(self, config: dict[str, Any]):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.vector_database.vector_database_engine import Vector_Database_EngineService
+
+# Initialize service
+service = Vector_Database_EngineService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Vector_Database_EngineService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize the vector database engine."""
         self.config = config
         self.logger = logging.getLogger(__name__)

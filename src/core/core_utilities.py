@@ -202,6 +202,9 @@ def flatten_dict(data: dict[str, Any], separator: str = ".") -> dict[str, Any]:
     """Flatten nested dictionary."""
 
     def _flatten(obj, parent_key="", sep="."):
+    """# Example usage:
+result = _flatten("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         items = []
         if isinstance(obj, dict):
             for k, v in obj.items():
@@ -575,6 +578,8 @@ def main():
     print(f"Email validation: {is_valid_email(test_email)}")
 
     print("\nCore Utilities initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

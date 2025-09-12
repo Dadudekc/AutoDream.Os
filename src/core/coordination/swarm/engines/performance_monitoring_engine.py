@@ -22,6 +22,33 @@ class PerformanceMonitoringEngine:
     """Engine for performance monitoring and metrics collection."""
 
     def __init__(self, config):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.coordination.swarm.engines.performance_monitoring_engine import Performance_Monitoring_Engine
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Performance_Monitoring_Engine(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize performance monitoring engine."""
         self.logger = logging.getLogger(__name__)
         self.config = config

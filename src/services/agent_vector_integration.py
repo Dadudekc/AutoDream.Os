@@ -51,6 +51,30 @@ class AgentVectorIntegration:
         return self.task_context.get_task_context(task_description)
 
     def index_agent_work(self, file_path: str, work_type: str = "code"):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.agent_vector_integration import Agent_Vector_IntegrationService
+
+# Initialize service
+service = Agent_Vector_IntegrationService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Agent_Vector_IntegrationService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Delegate to work indexer."""
         return self.work_indexer.index_agent_work(file_path, work_type)
 

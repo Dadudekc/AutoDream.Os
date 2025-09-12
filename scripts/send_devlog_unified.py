@@ -46,12 +46,11 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import requests
 
 
-def load_discord_config() -> Optional[dict]:
+def load_discord_config() -> dict | None:
     """Load Discord channel configuration."""
     config_file = Path("config/discord_channels.json")
     if not config_file.exists():
@@ -60,14 +59,14 @@ def load_discord_config() -> Optional[dict]:
         return None
 
     try:
-        with open(config_file, "r", encoding="utf-8") as f:
+        with open(config_file, encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"❌ Failed to load Discord config: {e}")
         return None
 
 
-def get_channel_config(config: dict, agent_id: str) -> Optional[dict]:
+def get_channel_config(config: dict, agent_id: str) -> dict | None:
     """Get channel configuration for agent with multiple key format fallbacks."""
     if not config:
         return None
@@ -88,10 +87,10 @@ def get_channel_config(config: dict, agent_id: str) -> Optional[dict]:
     return None
 
 
-def parse_devlog_content(filepath: Path) -> Optional[dict]:
+def parse_devlog_content(filepath: Path) -> dict | None:
     """Parse devlog file content and extract metadata."""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         if not content.strip():
@@ -240,9 +239,6 @@ def send_to_discord_channel(
         return True
 
     # Implement actual Discord API integration with bot token
-    import asyncio
-    import os
-    from typing import Optional
 
     # Check for Discord bot token
     bot_token = os.getenv("DISCORD_BOT_TOKEN")
@@ -438,7 +434,7 @@ Configuration:
         sys.exit(1)
 
     # Show devlog summary
-    print(f"📊 DevLog Summary:")
+    print("📊 DevLog Summary:")
     print(f"   Title: {devlog_data['title']}")
     print(f"   Category: {devlog_data['category']}")
     print(f"   Words: {devlog_data['word_count']}")

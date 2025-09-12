@@ -63,6 +63,28 @@ def should_exclude_file(path: Path) -> bool:
 
 
 def count_lines(node: ast.AST) -> int:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.analysis_cli import Analysis_Cli
+
+# Initialize and use
+instance = Analysis_Cli()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Analysis_Cli(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Count lines of code for an AST node."""
     if hasattr(node, "end_lineno") and hasattr(node, "lineno"):
         return (node.end_lineno or 0) - (node.lineno or 0) + 1

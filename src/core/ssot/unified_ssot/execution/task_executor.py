@@ -21,6 +21,33 @@ class TaskExecutor:
     """SSOT task execution functionality."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.ssot.unified_ssot.execution.task_executor import Task_Executor
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Task_Executor(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize task executor."""
         self.active_tasks: dict[str, SSOTExecutionTask] = {}
         self.completed_tasks: list[SSOTExecutionTask] = []

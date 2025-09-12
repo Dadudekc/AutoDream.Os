@@ -4,6 +4,30 @@ This module exposes a repository for querying Cursor task entries. The
 underlying database is SQLite and its path is provided via the
 ``CURSOR_DB_PATH`` environment variable. This design keeps configuration as a
 single source of truth and follows the repository pattern for data access.
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.cursor_db import Cursor_DbService
+
+# Initialize service
+service = Cursor_DbService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Cursor_DbService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
 """
 
 from __future__ import annotations

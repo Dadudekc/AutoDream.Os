@@ -18,6 +18,7 @@ export { FormEnhancement } from './forms.js';
 export { Accordion, LazyLoading, TouchSupport, BreakpointHandler } from './ui-components.js';
 export { Layout } from './layout.js';
 export { Config } from './config.js';
+export { api } from './api.js';
 
 // ================================
 // DASHBOARD MODULES

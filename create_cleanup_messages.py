@@ -4,6 +4,7 @@
 import os
 from datetime import datetime
 
+
 def create_cleanup_messages():
     """Create cleanup contract availability messages for all agents."""
 
@@ -44,14 +45,23 @@ All agents are encouraged to participate in this critical cleanup mission!
 🐝 WE ARE SWARM - United in cleanup, coordinated in execution!"""
 
     # Create message for each agent
-    agents = ['Agent-1', 'Agent-2', 'Agent-3', 'Agent-4', 'Agent-5', 'Agent-6', 'Agent-7', 'Agent-8']
+    agents = [
+        "Agent-1",
+        "Agent-2",
+        "Agent-3",
+        "Agent-4",
+        "Agent-5",
+        "Agent-6",
+        "Agent-7",
+        "Agent-8",
+    ]
     timestamp = datetime.now().isoformat()
 
     for agent in agents:
-        inbox_dir = f'agent_workspaces/{agent}/inbox'
+        inbox_dir = f"agent_workspaces/{agent}/inbox"
         os.makedirs(inbox_dir, exist_ok=True)
 
-        filename = f'CLEANUP_CONTRACTS_AVAILABLE_{datetime.now().strftime("%Y%m%d_%H%M%S")}.md'
+        filename = f"CLEANUP_CONTRACTS_AVAILABLE_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
         filepath = os.path.join(inbox_dir, filename)
 
         agent_message = f"""# 🚨 CLEANUP CONTRACTS AVAILABLE - Agent {agent}
@@ -72,10 +82,11 @@ All agents are encouraged to participate in this critical cleanup mission!
 
 **Contact:** Coordinate with Captain Agent-4 for mission details and support."""
 
-        with open(filepath, 'w', encoding='utf-8') as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(agent_message)
 
-        print(f'✅ Created cleanup contract message for {agent}')
+        print(f"✅ Created cleanup contract message for {agent}")
+
 
 if __name__ == "__main__":
     create_cleanup_messages()

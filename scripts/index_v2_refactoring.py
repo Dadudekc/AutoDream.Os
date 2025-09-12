@@ -20,6 +20,27 @@ class V2RefactoringIndexer:
     """Indexer for V2 compliance refactoring work."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python index_v2_refactoring.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.index_v2_refactoring import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.index_v2_refactoring import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
         """Initialize the indexer."""
         self.vector_db = create_vector_database(
             "simple",

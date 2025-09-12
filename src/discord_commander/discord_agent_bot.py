@@ -22,9 +22,8 @@ import os
 from pathlib import Path
 from typing import Any
 
-from discord.ext import commands
-
 import discord
+from discord.ext import commands
 
 try:
     from .agent_communication_engine_core import (

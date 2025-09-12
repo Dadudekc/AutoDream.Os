@@ -20,6 +20,28 @@ class TheaBrowserOperations:
     """Handles basic browser operations for Thea Manager."""
 
     def __init__(self, driver: Any, config_manager: Any):
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.thea_modules.browser_ops import Browser_Ops
+
+# Initialize and use
+instance = Browser_Ops()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Browser_Ops(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Initialize browser operations with driver and configuration."""
         self.driver = driver
         self.config_manager = config_manager

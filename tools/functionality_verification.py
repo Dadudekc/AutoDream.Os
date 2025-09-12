@@ -35,6 +35,28 @@ class FunctionalityVerifier:
         self.results_dir.mkdir(exist_ok=True)
 
     def generate_functionality_signature(self) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.functionality_verification import Functionality_Verification
+
+# Initialize and use
+instance = Functionality_Verification()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Functionality_Verification(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Generate comprehensive functionality signature."""
 
         signature = {

@@ -149,6 +149,21 @@ class IntegrationConnector(ABC):
     """Base integration connector interface."""
 
     def __init__(self, integration_id: str, name: str, integration_type: IntegrationType):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.integration_id = integration_id
         self.name = name
         self.integration_type = integration_type

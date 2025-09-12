@@ -220,6 +220,18 @@ class SwarmEngine(ABC):
     """Base swarm engine interface."""
 
     def __init__(self, name: str):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
         self.name = name
         self.logger = logging.getLogger(self.__class__.__name__)
         self.is_running = False
@@ -559,6 +571,8 @@ def main():
     print(f"Final swarm status: {final_status}")
 
     print("\nSwarm Coordination initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

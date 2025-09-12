@@ -15,13 +15,13 @@ V2 Compliance: < 300 lines, single responsibility.
 Author: Agent-7 - Web Development Specialist
 License: MIT
 """
+import sys
 from datetime import datetime
+from pathlib import Path
 
 from ...automation.ui_onboarding import UIOnboarder, UIUnavailableError
 from ...core.workspace_agent_registry import AgentRegistry
 from ...quality.proof_ledger import run_tdd_proof
-import sys
-from pathlib import Path
 
 # Add templates directory to path for imports
 templates_dir = Path(__file__).resolve().parents[4] / "templates"
@@ -30,6 +30,7 @@ if str(templates_dir) not in sys.path:
 
 # Import from templates package
 from templates.onboarding_roles import ROLES, build_role_message
+
 from ...utils.backup import BackupManager
 from ...utils.confirm import confirm
 
@@ -47,6 +48,30 @@ class OnboardingHandler:
         )
 
     def handle(self, args) -> bool:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.handlers.onboarding_handler import Onboarding_HandlerService
+
+# Initialize service
+service = Onboarding_HandlerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Onboarding_HandlerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Handle the command."""
         return self.handle_onboarding_commands(args)
 

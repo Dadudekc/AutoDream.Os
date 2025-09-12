@@ -145,6 +145,24 @@ class SSOTManager(ABC):
     """Base SSOT manager interface."""
 
     def __init__(self, manager_id: str, name: str, ssot_type: SSOTType):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.manager_id = manager_id
         self.name = name
         self.ssot_type = ssot_type

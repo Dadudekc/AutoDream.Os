@@ -36,6 +36,27 @@ class Violation:
 
 
 class PythonStandardEnforcer:
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python enforce_python_standards.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.enforce_python_standards import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.enforce_python_standards import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
     """Enforces Dream.OS Python coding standards."""
 
     def __init__(self):
@@ -179,6 +200,78 @@ class PythonStandardEnforcer:
 
         return loc
 
+    def _check_comment_formatting(
+        self, file_path: str, line_number: int, line: str, comment_type: str
+    ) -> None:
+        """Check formatting of TODO/FIXME/XXX comments."""
+        # Expected format: "# TODO: description" or "# FIXME: description" or "# XXX: description"
+        expected_prefix = f"# {comment_type}:"
+
+        # Check if it's already properly formatted
+        if line.lower().startswith(expected_prefix.lower()):
+            # Check for proper capitalization
+            if not line.startswith(f"# {comment_type}:"):
+                self.violations.append(
+                    Violation(
+                        file_path=file_path,
+                        line_number=line_number,
+                        violation_type=f"{comment_type.lower()}_capitalization",
+                        message=f"{comment_type} should be capitalized as '{comment_type}: description'",
+                        severity="info",
+                    )
+                )
+            # Check for space after colon
+            elif ": " not in line:
+                self.violations.append(
+                    Violation(
+                        file_path=file_path,
+                        line_number=line_number,
+                        violation_type=f"{comment_type.lower()}_spacing",
+                        message=f"{comment_type} should have space after colon: '{comment_type}: description'",
+                        severity="info",
+                    )
+                )
+            # Check for meaningful description
+            else:
+                description = line.split(f"{comment_type}:", 1)[1].strip()
+                if not description or len(description) < 3:
+                    self.violations.append(
+                        Violation(
+                            file_path=file_path,
+                            line_number=line_number,
+                            violation_type=f"{comment_type.lower()}_description",
+                            message=f"{comment_type} should have meaningful description (at least 3 characters)",
+                            severity="info",
+                        )
+                    )
+        else:
+            # Not properly formatted - suggest correction
+            suggestion = ""
+            if line.startswith("#"):
+                # Replace incorrect format
+                if f"# {comment_type.lower()}:" in line.lower():
+                    suggestion = line.lower().replace(
+                        f"# {comment_type.lower()}:", f"# {comment_type}:"
+                    )
+                elif f"#{comment_type.lower()}:" in line.lower():
+                    suggestion = line.lower().replace(
+                        f"#{comment_type.lower()}:", f"# {comment_type}:"
+                    )
+                else:
+                    suggestion = line.replace("#", f"# {comment_type}:", 1)
+            else:
+                suggestion = f"# {comment_type}: {line.strip()}"
+
+            self.violations.append(
+                Violation(
+                    file_path=file_path,
+                    line_number=line_number,
+                    violation_type=f"{comment_type.lower()}_format",
+                    message=f"{comment_type} comment should be formatted as '{expected_prefix} description'. Suggested: {suggestion}",
+                    severity="info",
+                )
+            )
+
     def _check_coding_violations(self, file_path: str, content: str, lines: list[str]) -> None:
         """Check for other coding standard violations."""
         # Check for print statements in non-test files
@@ -193,18 +286,21 @@ class PythonStandardEnforcer:
                 )
             )
 
-        # Check for TODO comments without proper formatting
+        # Check for TODO/FIXME comments with proper formatting
         for i, line in enumerate(lines, 1):
-            if "TODO" in line and "TODO:" not in line:
-                self.violations.append(
-                    Violation(
-                        file_path=file_path,
-                        line_number=i,
-                        violation_type="todo_format",
-                        message="TODO comment should be formatted as 'TODO: description'",
-                        severity="info",
-                    )
-                )
+            stripped_line = line.strip()
+
+            # Check for TODO comments
+            if "todo" in stripped_line.lower():
+                self._check_comment_formatting(file_path, i, stripped_line, "TODO")
+
+            # Check for FIXME comments
+            if "fixme" in stripped_line.lower():
+                self._check_comment_formatting(file_path, i, stripped_line, "FIXME")
+
+            # Check for XXX comments (less common but should be formatted)
+            if "xxx" in stripped_line.lower() and not stripped_line.lower().startswith("# xxx"):
+                self._check_comment_formatting(file_path, i, stripped_line, "XXX")
 
         # Check for long lines (> 100 characters)
         for i, line in enumerate(lines, 1):

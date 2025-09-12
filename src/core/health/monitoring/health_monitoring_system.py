@@ -24,10 +24,9 @@ Usage:
 from __future__ import annotations
 
 import logging
-import threading
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 try:
     from .health_alerting import HealthAlertingSystem
@@ -58,9 +57,9 @@ class HealthMonitoringSystem:
         self.config_dir.mkdir(parents=True, exist_ok=True)
 
         # Core components
-        self.health_service: Optional[HealthMonitoringService] = None
-        self.alerting_system: Optional[HealthAlertingSystem] = None
-        self.web_dashboard: Optional[HealthMonitoringDashboard] = None
+        self.health_service: HealthMonitoringService | None = None
+        self.alerting_system: HealthAlertingSystem | None = None
+        self.web_dashboard: HealthMonitoringDashboard | None = None
 
         # System state
         self.system_active = False
@@ -115,6 +114,33 @@ class HealthMonitoringSystem:
             self.web_dashboard = None
 
     def _setup_alerting_integration(self) -> None:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.health.monitoring.health_monitoring_system import Health_Monitoring_System
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Health_Monitoring_System(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Setup integration between health service and alerting system."""
         if self.health_service and self.alerting_system:
             # Add alerting handler to health service
@@ -214,7 +240,7 @@ class HealthMonitoringSystem:
             return None
         return self.health_service.get_health_snapshot()
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status."""
         status = {
             "system_active": self.system_active,
@@ -243,7 +269,7 @@ class HealthMonitoringSystem:
 
         return status
 
-    def export_system_data(self) -> Dict[str, str]:
+    def export_system_data(self) -> dict[str, str]:
         """Export all system data."""
         exports = {}
 
@@ -255,7 +281,7 @@ class HealthMonitoringSystem:
 
         return exports
 
-    def get_component_status(self, component_name: str) -> Dict[str, Any]:
+    def get_component_status(self, component_name: str) -> dict[str, Any]:
         """Get detailed status for a specific component."""
         if not self.health_service:
             return {"error": "Health service not available"}
@@ -301,7 +327,7 @@ class HealthMonitoringSystem:
             ),
         }
 
-    def _determine_component_health(self, component: str, metrics: Dict, alerts: List) -> str:
+    def _determine_component_health(self, component: str, metrics: dict, alerts: List) -> str:
         """Determine health status for a component."""
         # Check for critical alerts
         critical_alerts = [a for a in alerts if a["severity"] == "CRITICAL" and not a["resolved"]]
@@ -326,7 +352,7 @@ class HealthMonitoringSystem:
 
         return "healthy"
 
-    def configure_alert_channel(self, channel: str, config: Dict[str, Any]) -> bool:
+    def configure_alert_channel(self, channel: str, config: dict[str, Any]) -> bool:
         """Configure an alert notification channel."""
         if not self.alerting_system:
             return False
@@ -347,7 +373,7 @@ class HealthMonitoringSystem:
             logger.error(f"❌ Failed to configure alert channel {channel}: {e}")
             return False
 
-    def create_custom_alert_rule(self, rule_config: Dict[str, Any]) -> bool:
+    def create_custom_alert_rule(self, rule_config: dict[str, Any]) -> bool:
         """Create a custom alert rule."""
         if not self.alerting_system:
             return False

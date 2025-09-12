@@ -16,6 +16,30 @@ class MessageIdentityClarification:
     """Handles message formatting with agent identity clarification."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.message_identity_clarification import Message_Identity_ClarificationService
+
+# Initialize service
+service = Message_Identity_ClarificationService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Message_Identity_ClarificationService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize the message identity clarification system."""
         pass
 

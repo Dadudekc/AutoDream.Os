@@ -1,12 +1,12 @@
 from __future__ import annotations
-from typing import List
+
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 def hard_onboarding(
-    agents: List[str],
+    agents: list[str],
     mode: str,
     assign_roles: str,
     dry_run: bool,

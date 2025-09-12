@@ -3,6 +3,30 @@
 ===========================
 
 Refresh agent status embeddings in the unified vector database.
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.status_embedding_indexer import Status_Embedding_IndexerService
+
+# Initialize service
+service = Status_Embedding_IndexerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Status_Embedding_IndexerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
 """
 
 from __future__ import annotations

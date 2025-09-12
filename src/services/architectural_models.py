@@ -33,6 +33,30 @@ class ArchitecturalPrinciple(Enum):
 
 @dataclass
 class ArchitecturalGuidance:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.architectural_models import Architectural_ModelsService
+
+# Initialize service
+service = Architectural_ModelsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Architectural_ModelsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Structured guidance for each architectural principle."""
 
     principle: ArchitecturalPrinciple

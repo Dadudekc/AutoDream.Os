@@ -2,9 +2,9 @@
 """
 Test script to verify MessagingGateway functionality
 """
+
 import asyncio
 import sys
-import os
 
 sys.path.append("src")
 
@@ -35,11 +35,11 @@ async def test_message():
 
         print("✅ Message sent successfully!")
         print("-" * 30)
-        print(f'Status: {result.get("status")}')
-        print(f'Agent: {result.get("agent")}')
-        print(f'Backend: {result.get("backend")}')
-        print(f'Request ID: {result.get("request_id")}')
-        print(f'Timestamp: {result.get("timestamp")}')
+        print(f"Status: {result.get('status')}")
+        print(f"Agent: {result.get('agent')}")
+        print(f"Backend: {result.get('backend')}")
+        print(f"Request ID: {result.get('request_id')}")
+        print(f"Timestamp: {result.get('timestamp')}")
 
         if result.get("status") == "sent":
             print("🎉 MESSAGING SYSTEM IS OPERATIONAL!")

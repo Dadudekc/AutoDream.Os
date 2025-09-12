@@ -11,6 +11,33 @@ from ...utils.config_core import get_config
 
 Provides common helpers for consolidating scattered files into a
 central single source of truth (SSOT).
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.consolidation.base import Base
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Base(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
 """
 
 

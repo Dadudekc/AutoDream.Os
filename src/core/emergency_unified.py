@@ -142,6 +142,30 @@ class EmergencyHandler(ABC):
     """Base emergency handler interface."""
 
     def __init__(self, handler_id: str, name: str):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.handler_id = handler_id
         self.name = name
         self.logger = logging.getLogger(f"emergency.{name}")

@@ -24,9 +24,8 @@ def activate_vector_database_integration():
     logger.info("=" * 70)
     try:
         from core.vector_database_strategic_oversight import VectorDatabaseStrategicOversight
-        from services.vector_messaging_integration import VectorMessagingIntegration
-
         from services.agent_vector_integration import AgentVectorIntegration
+        from services.vector_messaging_integration import VectorMessagingIntegration
 
         logger.info("✅ Vector database components imported successfully")
         logger.info("\n🔄 Initializing Vector Messaging Integration...")
@@ -118,6 +117,27 @@ def activate_vector_database_integration():
 **Status**: Vector database integration fully operational
 **Command**: Continue mission execution with enhanced capabilities
 **Enhancement**: Intelligent coordination and optimization active
+
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python activate_vector_database_integration.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.activate_vector_database_integration import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.activate_vector_database_integration import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
 
 **WE. ARE. SWARM.** ⚡️🔥"""
         with open("agent_workspaces/Agent-8/inbox/vector_db_activation_complete.md", "w") as f:

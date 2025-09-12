@@ -33,6 +33,27 @@ class V2ComplianceChecker:
         }
 
     def analyze_file_sizes(self) -> list[dict[str, Any]]:
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python cleanup_v2_compliance.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.cleanup_v2_compliance import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.cleanup_v2_compliance import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
         """Analyze file sizes for V2 compliance."""
         large_files = []
         src_dir = self.project_root / "src"

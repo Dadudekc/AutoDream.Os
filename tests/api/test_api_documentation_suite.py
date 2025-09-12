@@ -10,11 +10,6 @@ Created: 2025-09-12
 Coverage Target: 85%+ for API documentation components
 """
 
-import json
-import os
-import sys
-from unittest.mock import Mock, patch
-
 import pytest
 
 # Import API documentation components
@@ -28,24 +23,28 @@ except ImportError:
     class OpenAPISpec:
         def __init__(self, *args, **kwargs):
             pass
+
         def generate_spec(self, *args, **kwargs):
             return {"openapi": "3.0.3", "info": {"title": "Test API"}}
 
     class SwaggerUI:
         def __init__(self, *args, **kwargs):
             pass
+
         def render(self, *args, **kwargs):
             return "<html>Swagger UI</html>"
 
     class APIVersioning:
         def __init__(self, *args, **kwargs):
             pass
+
         def get_version(self, *args, **kwargs):
             return "v1.0"
 
     class DeveloperPortal:
         def __init__(self, *args, **kwargs):
             pass
+
         def generate_docs(self, *args, **kwargs):
             return {"status": "generated"}
 
@@ -61,16 +60,11 @@ class TestOpenAPISpecification:
             "info": {
                 "title": "V2 SWARM API",
                 "version": "1.0.0",
-                "description": "Comprehensive API for V2 SWARM system"
+                "description": "Comprehensive API for V2 SWARM system",
             },
-            "servers": [
-                {"url": "https://api.v2swarm.com/v1", "description": "Production server"}
-            ],
+            "servers": [{"url": "https://api.v2swarm.com/v1", "description": "Production server"}],
             "paths": {},
-            "components": {
-                "schemas": {},
-                "securitySchemes": {}
-            }
+            "components": {"schemas": {}, "securitySchemes": {}},
         }
 
         # Validate required fields
@@ -90,7 +84,7 @@ class TestOpenAPISpecification:
             "/api/v1/messages",
             "/api/v1/coordination",
             "/api/v1/analytics",
-            "/api/v1/health"
+            "/api/v1/health",
         ]
 
         # Verify each endpoint has documentation
@@ -108,9 +102,9 @@ class TestOpenAPISpecification:
                     "id": {"type": "string"},
                     "name": {"type": "string"},
                     "status": {"type": "string"},
-                    "capabilities": {"type": "array", "items": {"type": "string"}}
+                    "capabilities": {"type": "array", "items": {"type": "string"}},
                 },
-                "required": ["id", "name"]
+                "required": ["id", "name"],
             },
             "Message": {
                 "type": "object",
@@ -118,19 +112,19 @@ class TestOpenAPISpecification:
                     "id": {"type": "string"},
                     "content": {"type": "string"},
                     "sender": {"type": "string"},
-                    "timestamp": {"type": "string", "format": "date-time"}
+                    "timestamp": {"type": "string", "format": "date-time"},
                 },
-                "required": ["content", "sender"]
+                "required": ["content", "sender"],
             },
             "Error": {
                 "type": "object",
                 "properties": {
                     "error": {"type": "string"},
                     "message": {"type": "string"},
-                    "status_code": {"type": "integer"}
+                    "status_code": {"type": "integer"},
                 },
-                "required": ["error", "message"]
-            }
+                "required": ["error", "message"],
+            },
         }
 
         # Validate schema structure
@@ -143,16 +137,8 @@ class TestOpenAPISpecification:
     def test_security_schemes(self):
         """Test that security schemes are properly configured."""
         security_schemes = {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            },
-            "apiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "X-API-Key"
-            }
+            "bearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+            "apiKeyAuth": {"type": "apiKey", "in": "header", "name": "X-API-Key"},
         }
 
         # Validate security schemes
@@ -173,15 +159,7 @@ class TestOpenAPISpecification:
         spec = {
             "openapi": "3.0.3",
             "info": {"title": "Test API", "version": "1.0.0"},
-            "paths": {
-                "/test": {
-                    "get": {
-                        "responses": {
-                            "200": {"description": "Success"}
-                        }
-                    }
-                }
-            }
+            "paths": {"/test": {"get": {"responses": {"200": {"description": "Success"}}}}},
         }
 
         # Basic validation checks
@@ -229,10 +207,7 @@ class TestSwaggerUIIntegration:
             "filter": True,
             "showExtensions": True,
             "showCommonExtensions": True,
-            "syntaxHighlight": {
-                "activate": True,
-                "theme": "arta"
-            }
+            "syntaxHighlight": {"activate": True, "theme": "arta"},
         }
 
         # Validate configuration
@@ -249,14 +224,14 @@ class TestSwaggerUIIntegration:
                 "endpoint": "/api/v1/agents",
                 "method": "GET",
                 "expected_status": 200,
-                "response_schema": ["id", "name", "status"]
+                "response_schema": ["id", "name", "status"],
             },
             {
                 "endpoint": "/api/v1/messages",
                 "method": "POST",
                 "request_body": {"content": "test", "sender": "agent-1"},
-                "expected_status": 201
-            }
+                "expected_status": 201,
+            },
         ]
 
         for scenario in test_scenarios:
@@ -299,7 +274,7 @@ class TestAPIVersioningStrategy:
             "/api/v1/agents",
             "/api/v2/messages",
             "/api/v1/coordination/status",
-            "/api/v2/analytics/metrics"
+            "/api/v2/analytics/metrics",
         ]
 
         for url in url_patterns:
@@ -313,7 +288,7 @@ class TestAPIVersioningStrategy:
         compatibility_rules = {
             "v1.0.0": ["v1.0.1", "v1.1.0"],
             "v1.1.0": ["v1.1.1", "v1.2.0"],
-            "v2.0.0": ["v2.0.1", "v2.1.0"]
+            "v2.0.0": ["v2.0.1", "v2.1.0"],
         }
 
         # Test backward compatibility
@@ -332,12 +307,12 @@ class TestAPIVersioningStrategy:
         deprecation_headers = {
             "Deprecation": "true",
             "Sunset": "2025-12-31",
-            "Link": '</api/v2/agents>; rel="successor-version"'
+            "Link": '</api/v2/agents>; rel="successor-version"',
         }
 
         assert deprecation_headers["Deprecation"] == "true"
         assert "Sunset" in deprecation_headers
-        assert "rel=\"successor-version\"" in deprecation_headers["Link"]
+        assert 'rel="successor-version"' in deprecation_headers["Link"]
 
     def test_migration_guides(self):
         """Test API migration guide generation."""
@@ -346,17 +321,14 @@ class TestAPIVersioningStrategy:
             "to_version": "v2.0.0",
             "breaking_changes": [
                 "Authentication method changed from API key to JWT",
-                "Response format updated for agent status"
+                "Response format updated for agent status",
             ],
             "migration_steps": [
                 "Update authentication headers",
                 "Handle new response schema",
-                "Test with new endpoints"
+                "Test with new endpoints",
             ],
-            "timeline": {
-                "deprecation_date": "2025-06-01",
-                "sunset_date": "2025-12-31"
-            }
+            "timeline": {"deprecation_date": "2025-06-01", "sunset_date": "2025-12-31"},
         }
 
         assert migration_guide["from_version"] != migration_guide["to_version"]
@@ -386,7 +358,7 @@ fetch('https://api.v2swarm.com/v1/agents')
             "curl": """
 curl -X GET "https://api.v2swarm.com/v1/agents" \\
      -H "Authorization: Bearer YOUR_TOKEN"
-"""
+""",
         }
 
         # Validate examples
@@ -407,12 +379,17 @@ curl -X GET "https://api.v2swarm.com/v1/agents" \\
             "copy_to_clipboard",
             "syntax_highlighting",
             "try_it_out",
-            "response_preview"
+            "response_preview",
         ]
 
         # Mock interactive functionality
         for feature in interactive_features:
-            assert feature in ["copy_to_clipboard", "syntax_highlighting", "try_it_out", "response_preview"]
+            assert feature in [
+                "copy_to_clipboard",
+                "syntax_highlighting",
+                "try_it_out",
+                "response_preview",
+            ]
 
     def test_api_changelog(self):
         """Test API changelog generation and formatting."""
@@ -423,17 +400,17 @@ curl -X GET "https://api.v2swarm.com/v1/agents" \\
                 "changes": [
                     {"type": "added", "description": "New agent coordination endpoints"},
                     {"type": "changed", "description": "Updated error response format"},
-                    {"type": "deprecated", "description": "Old authentication method deprecated"}
-                ]
+                    {"type": "deprecated", "description": "Old authentication method deprecated"},
+                ],
             },
             {
                 "version": "v2.0.0",
                 "date": "2025-08-01",
                 "changes": [
                     {"type": "breaking", "description": "JWT authentication required"},
-                    {"type": "added", "description": "New analytics API"}
-                ]
-            }
+                    {"type": "added", "description": "New analytics API"},
+                ],
+            },
         ]
 
         # Validate changelog structure
@@ -445,7 +422,14 @@ curl -X GET "https://api.v2swarm.com/v1/agents" \\
             for change in entry["changes"]:
                 assert "type" in change
                 assert "description" in change
-                assert change["type"] in ["added", "changed", "deprecated", "removed", "fixed", "breaking"]
+                assert change["type"] in [
+                    "added",
+                    "changed",
+                    "deprecated",
+                    "removed",
+                    "fixed",
+                    "breaking",
+                ]
 
     def test_developer_resources(self):
         """Test developer resource organization."""
@@ -453,18 +437,18 @@ curl -X GET "https://api.v2swarm.com/v1/agents" \\
             "getting_started": {
                 "quick_start_guide": "Available",
                 "authentication_guide": "Available",
-                "sdk_downloads": ["python", "javascript", "java"]
+                "sdk_downloads": ["python", "javascript", "java"],
             },
             "api_reference": {
                 "interactive_docs": "Available",
                 "openapi_spec": "Available",
-                "postman_collection": "Available"
+                "postman_collection": "Available",
             },
             "support": {
                 "documentation": "Available",
                 "community_forum": "Available",
-                "support_ticket": "Available"
-            }
+                "support_ticket": "Available",
+            },
         }
 
         # Validate resource availability
@@ -479,14 +463,14 @@ curl -X GET "https://api.v2swarm.com/v1/agents" \\
             "endpoint_search",
             "parameter_search",
             "response_code_search",
-            "tag_based_filtering"
+            "tag_based_filtering",
         ]
 
         navigation_features = [
             "breadcrumb_navigation",
             "related_endpoints",
             "version_switcher",
-            "bookmarking"
+            "bookmarking",
         ]
 
         # Validate features
@@ -501,29 +485,21 @@ class TestAPIQualityAssurance:
 
     def test_documentation_completeness(self):
         """Test that documentation is complete for all endpoints."""
-        required_fields = [
-            "summary",
-            "description",
-            "parameters",
-            "responses",
-            "examples"
-        ]
+        required_fields = ["summary", "description", "parameters", "responses", "examples"]
 
         # Mock endpoint documentation check
         endpoint_docs = {
             "summary": "Get agent information",
             "description": "Retrieves detailed information about a specific agent",
-            "parameters": [
-                {"name": "agent_id", "required": True, "type": "string"}
-            ],
+            "parameters": [{"name": "agent_id", "required": True, "type": "string"}],
             "responses": {
                 "200": {"description": "Agent information retrieved successfully"},
-                "404": {"description": "Agent not found"}
+                "404": {"description": "Agent not found"},
             },
             "examples": {
                 "python": "requests.get('/api/v1/agents/123')",
-                "curl": "curl /api/v1/agents/123"
-            }
+                "curl": "curl /api/v1/agents/123",
+            },
         }
 
         # Check completeness
@@ -550,7 +526,10 @@ class TestAPIQualityAssurance:
         """Test documentation consistency across versions."""
         # Mock version comparison
         v1_responses = {"200": {"description": "Success"}, "404": {"description": "Not found"}}
-        v2_responses = {"200": {"description": "Success"}, "404": {"description": "Resource not found"}}
+        v2_responses = {
+            "200": {"description": "Success"},
+            "404": {"description": "Resource not found"},
+        }
 
         # Check consistency patterns
         common_responses = set(v1_responses.keys()) & set(v2_responses.keys())
@@ -559,19 +538,9 @@ class TestAPIQualityAssurance:
     def test_performance_documentation(self):
         """Test API performance documentation."""
         performance_docs = {
-            "rate_limits": {
-                "requests_per_minute": 1000,
-                "burst_limit": 100
-            },
-            "response_times": {
-                "average": "150ms",
-                "p95": "500ms",
-                "p99": "2s"
-            },
-            "throughput": {
-                "concurrent_requests": 100,
-                "data_transfer": "10MB/s"
-            }
+            "rate_limits": {"requests_per_minute": 1000, "burst_limit": 100},
+            "response_times": {"average": "150ms", "p95": "500ms", "p99": "2s"},
+            "throughput": {"concurrent_requests": 100, "data_transfer": "10MB/s"},
         }
 
         # Validate performance metrics

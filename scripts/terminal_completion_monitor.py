@@ -15,6 +15,27 @@ Usage:
 The script uses the SSOT `COMPLETION_SIGNAL` from `config/messaging.yml` via
 `src.core.constants`, allowing tests and dependent modules to import it
 directly.
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python terminal_completion_monitor.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.terminal_completion_monitor import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.terminal_completion_monitor import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
 """
 import argparse
 import json

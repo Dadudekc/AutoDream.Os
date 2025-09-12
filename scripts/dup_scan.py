@@ -34,6 +34,27 @@ class DuplicationResult:
 
 
 class DuplicationScanner:
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python dup_scan.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.dup_scan import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.dup_scan import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
     """Advanced duplication scanner for swarm codebase"""
 
     def __init__(self, root_path: str = "."):

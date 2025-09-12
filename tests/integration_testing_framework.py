@@ -17,19 +17,14 @@ Author: Agent-7 (Web Development Specialist)
 Version: 2.0.0
 """
 
-import asyncio
 import json
-import os
 import sys
-import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
-from unittest.mock import Mock, patch
+from typing import Any
 
-import pytest
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -71,12 +66,12 @@ class TestResult:
     status: TestStatus
     duration: float
     start_time: datetime
-    end_time: Optional[datetime] = None
-    error_message: Optional[str] = None
-    stack_trace: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    assertions: List[Dict[str, Any]] = field(default_factory=list)
-    dependencies: List[str] = field(default_factory=list)
+    end_time: datetime | None = None
+    error_message: str | None = None
+    stack_trace: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    assertions: list[dict[str, Any]] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -87,9 +82,9 @@ class TestSuite:
     name: str
     description: str
     test_type: TestType
-    tests: List[str] = field(default_factory=list)
-    dependencies: List[str] = field(default_factory=list)
-    environment: Dict[str, Any] = field(default_factory=dict)
+    tests: list[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
+    environment: dict[str, Any] = field(default_factory=dict)
     timeout: int = 300  # 5 minutes default
     parallel_execution: bool = False
     retry_count: int = 0
@@ -112,9 +107,9 @@ class IntegrationTestFramework:
         self.api_base_url = f"{self.base_url}/{api_version}"
 
         # Test execution tracking
-        self.test_results: List[TestResult] = []
-        self.test_suites: Dict[str, TestSuite] = {}
-        self.execution_context: Dict[str, Any] = {}
+        self.test_results: list[TestResult] = []
+        self.test_suites: dict[str, TestSuite] = {}
+        self.execution_context: dict[str, Any] = {}
 
         # HTTP client with retry logic
         self.session = self._create_http_session()
@@ -149,7 +144,7 @@ class IntegrationTestFramework:
 
         return session
 
-    def _load_openapi_spec(self) -> Dict[str, Any]:
+    def _load_openapi_spec(self) -> dict[str, Any]:
         """Load OpenAPI specification for API validation."""
         spec_path = Path(__file__).parent.parent / "docs" / "api" / "openapi_specification.yaml"
 
@@ -160,7 +155,7 @@ class IntegrationTestFramework:
         try:
             import yaml
 
-            with open(spec_path, "r", encoding="utf-8") as f:
+            with open(spec_path, encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except ImportError:
             print("Warning: PyYAML not available for OpenAPI spec loading")
@@ -174,7 +169,7 @@ class IntegrationTestFramework:
         self.test_suites[suite.suite_id] = suite
         print(f"Registered test suite: {suite.name} ({suite.suite_id})")
 
-    def execute_test_suite(self, suite_id: str) -> List[TestResult]:
+    def execute_test_suite(self, suite_id: str) -> list[TestResult]:
         """Execute a registered test suite."""
         if suite_id not in self.test_suites:
             raise ValueError(f"Test suite {suite_id} not found")
@@ -233,7 +228,7 @@ class IntegrationTestFramework:
         path: str,
         method: str = "GET",
         expected_status: int = 200,
-        request_data: Optional[Dict] = None,
+        request_data: dict | None = None,
     ) -> TestResult:
         """Validate API endpoint against OpenAPI specification."""
 
@@ -291,7 +286,7 @@ class IntegrationTestFramework:
 
         return result
 
-    def _validate_response_against_spec(self, response_data: Dict, path: str, method: str) -> None:
+    def _validate_response_against_spec(self, response_data: dict, path: str, method: str) -> None:
         """Validate response against OpenAPI specification."""
         # Implementation would validate response structure against OpenAPI spec
         # This is a simplified version
@@ -545,7 +540,7 @@ class IntegrationTestFramework:
         return result
 
     # Reporting and Analytics
-    def generate_test_report(self, output_format: str = "json") -> Union[str, Dict]:
+    def generate_test_report(self, output_format: str = "json") -> str | dict:
         """Generate comprehensive test execution report."""
 
         report = {

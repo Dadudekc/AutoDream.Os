@@ -1,6 +1,42 @@
+"""
+Deliveryautogui_Delivery Module
+
+This module provides service functionality for the swarm system.
+
+Component Type: Service
+Priority: High
+Dependencies: None
+
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.messaging.deliveryautogui_delivery import Deliveryautogui_DeliveryService
+
+# Initialize service
+service = Deliveryautogui_DeliveryService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Deliveryautogui_DeliveryService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
+"""
 from __future__ import annotations
-import time, logging
-from typing import Tuple
+
+import logging
+import time
+
 from ..models import UnifiedMessage
 
 logger = logging.getLogger(__name__)
@@ -43,7 +79,7 @@ def _paste_or_type(pg, pc, text: str):
     pg.typewrite(text, interval=0.01)
 
 
-def deliver_message_pyautogui(message: UnifiedMessage, coords: Tuple[int, int]) -> bool:
+def deliver_message_pyautogui(message: UnifiedMessage, coords: tuple[int, int]) -> bool:
     pg, pc = _lazy_import()
     x, y = coords
     formatted = f"[{message.sender}] {message.content}"

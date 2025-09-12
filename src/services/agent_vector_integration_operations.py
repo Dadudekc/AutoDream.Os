@@ -27,6 +27,30 @@ class AgentVectorIntegrationOperations:
 
     V2 Compliance: < 100 lines, facade pattern, single responsibility.
     This class orchestrates all extended operation components.
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.agent_vector_integration_operations import Agent_Vector_Integration_OperationsService
+
+# Initialize service
+service = Agent_Vector_Integration_OperationsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Agent_Vector_Integration_OperationsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """
 
     def __init__(self, agent_id: str, config_path: str | None = None):

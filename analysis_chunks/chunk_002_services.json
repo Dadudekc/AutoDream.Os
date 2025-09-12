@@ -987,30 +987,6 @@
       }
     },
     {
-      "file_path": "src\\services\\unified_database_services.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
       "file_path": "src\\services\\unified_handlers.py",
       "analysis": {
         "language": ".py",
@@ -1107,6 +1083,30 @@
       }
     },
     {
+      "file_path": "src\\services\\advanced_analytics_service.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\services\\consolidated_messaging_service.py",
       "analysis": {
         "language": ".py",
@@ -1155,7 +1155,7 @@
       }
     },
     {
-      "file_path": "src\\services\\coordination\\stats_tracker.py",
+      "file_path": "src\\services\\unified_database_services.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1179,7 +1179,7 @@
       }
     },
     {
-      "file_path": "src\\services\\coordination\\bulk_coordinator.py",
+      "file_path": "src\\services\\coordination\\stats_tracker.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -1423,11 +1423,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\services\\unified_database_services.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "src\\services\\unified_handlers.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1448,6 +1443,11 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "src\\services\\advanced_analytics_service.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\services\\consolidated_messaging_service.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1458,12 +1458,12 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\services\\coordination\\stats_tracker.py",
+      "file_path": "src\\services\\unified_database_services.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
-      "file_path": "src\\services\\coordination\\bulk_coordinator.py",
+      "file_path": "src\\services\\coordination\\stats_tracker.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     }

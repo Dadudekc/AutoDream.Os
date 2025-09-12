@@ -3,10 +3,10 @@
 
 # Consolidated configuration management (Phase 2 Batch 2A)
 from .consolidated_config_management import (
+    ConfigurationConsolidator,  # Backwards compatibility
     UnifiedConfigurationManager,
     scan_and_consolidate_config,
     validate_configuration_setup,
-    ConfigurationConsolidator,  # Backwards compatibility
 )
 
 # Note: Individual config modules removed in favor of consolidation

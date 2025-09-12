@@ -29,6 +29,28 @@ def should_skip_file(path: Path) -> bool:
 
 
 def transform_file(file_path: Path) -> bool:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.codemods.replace_prints_with_logger import Replace_Prints_With_Logger
+
+# Initialize and use
+instance = Replace_Prints_With_Logger()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Replace_Prints_With_Logger(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """
     Transform print() statements to logging in a single file.
     Returns True if file was modified, False otherwise.

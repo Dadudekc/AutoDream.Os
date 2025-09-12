@@ -20,6 +20,30 @@ class CoordinateHandler:
         self.logger = logging.getLogger(__name__)
 
     def process_coordinate(self, request) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.coordinate_handler_module import Coordinate_Handler_ModuleService
+
+# Initialize service
+service = Coordinate_Handler_ModuleService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Coordinate_Handler_ModuleService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Process a coordination request"""
         coordination_type = request.data.get("type", "")
         participants = request.data.get("participants", [])

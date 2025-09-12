@@ -5,7 +5,7 @@
   "agent_name": "Business Intelligence Specialist & Co-Captain",
   "contract_type": "CLEANUP_CONSOLIDATION",
   "priority": "HIGH",
-  "status": "AVAILABLE",
+  "status": "ASSIGNED",
 
   "contract_details": {
     "description": "Systematically clean and consolidate business intelligence modules while preserving all functionality. Focus on eliminating duplication, improving test coverage, and organizing code structure.",

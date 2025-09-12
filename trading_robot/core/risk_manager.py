@@ -5,8 +5,9 @@ Risk Management System for Trading Robot
 from datetime import datetime, time
 from typing import Any
 
-from config.settings import config
 from loguru import logger
+
+from config.settings import config
 
 
 class RiskManager:

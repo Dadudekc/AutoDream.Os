@@ -43,6 +43,28 @@ class DuplicationAnalyzer:
         ]
 
     def scan_codebase(self) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.duplication_analyzer import Duplication_Analyzer
+
+# Initialize and use
+instance = Duplication_Analyzer()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Duplication_Analyzer(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Scan entire codebase for potential duplications."""
         print("🔍 Scanning codebase for duplications...")
 

@@ -29,6 +29,30 @@ class ConsolidatedUtilityService:
     """Unified utility service combining registry, performance analysis, and compliance validation."""
 
     def __init__(self, agent_id: str = "default"):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.consolidated_utility_service import Consolidated_Utility_ServiceService
+
+# Initialize service
+service = Consolidated_Utility_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Consolidated_Utility_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize the consolidated utility service."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)

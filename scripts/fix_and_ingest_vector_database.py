@@ -4,6 +4,27 @@ Development.
 
 This script addresses the character encoding issues in the existing vector database and
 ensures proper ingestion of all project documentation for autonomous development.
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python fix_and_ingest_vector_database.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.fix_and_ingest_vector_database import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.fix_and_ingest_vector_database import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
 """
 
 import logging

@@ -22,10 +22,10 @@ License: MIT
 """
 
 import logging
-import os
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -36,11 +36,11 @@ class UIUnavailableError(RuntimeError):
 
 @dataclass
 class OnboardCoords:
-    chat_input: Tuple[int, int]
-    onboarding_input: Tuple[int, int]
+    chat_input: tuple[int, int]
+    onboarding_input: tuple[int, int]
 
     @staticmethod
-    def from_any(coords: Any) -> "OnboardCoords":
+    def from_any(coords: Any) -> OnboardCoords:
         """
         Accepts:
           - dict with keys: chat_input_coordinates, onboarding_coordinates
@@ -48,7 +48,7 @@ class OnboardCoords:
           - object with same attributes
         """
 
-        def _get(obj: Any, *names: str) -> Optional[Tuple[int, int]]:
+        def _get(obj: Any, *names: str) -> tuple[int, int] | None:
             for n in names:
                 if isinstance(obj, dict) and n in obj:
                     return tuple(obj[n])  # type: ignore
@@ -108,7 +108,7 @@ class UIOnboarder:
         last = None
         for i in range(self.retries + 1):
             try:
-                logger.debug(f"[UI] {name} (try {i+1}/{self.retries+1})")
+                logger.debug(f"[UI] {name} (try {i + 1}/{self.retries + 1})")
                 if not self.dry_run:
                     fn()
                 else:

@@ -265,6 +265,7 @@ class SwarmCommandHandlers:
             urgent_message = f"🚨 URGENT: {message}"
 
             # Broadcast to all agents using the consolidated messaging system
+            # The messaging system should handle urgent priority automatically
             success = broadcast_message(urgent_message, sender)
 
             # Create results dict for compatibility

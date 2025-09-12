@@ -7,11 +7,12 @@ from datetime import datetime
 from typing import Any
 
 import uvicorn
-from config.settings import config
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from loguru import logger
+
+from config.settings import config
 
 
 class TradingDashboard:

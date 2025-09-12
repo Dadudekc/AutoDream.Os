@@ -14,11 +14,9 @@ Author: Agent-5 (Business Intelligence Specialist)
 Test Coverage Target: 90%+
 """
 
-import asyncio
-import json
 import sys
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 import pytest
 

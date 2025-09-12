@@ -18,6 +18,28 @@ class TheaLoginConfig:
 
 
 class TheaLoginHandler:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.thea_login_handler import Thea_Login_Handler
+
+# Initialize and use
+instance = Thea_Login_Handler()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Thea_Login_Handler(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Basic login handler stub."""
 
     def __init__(self, config: TheaLoginConfig | None = None):

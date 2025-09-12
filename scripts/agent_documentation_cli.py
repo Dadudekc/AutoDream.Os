@@ -3,6 +3,27 @@
 
 Command-line interface for AI agents to interact with the vectorized documentation
 system.
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python agent_documentation_cli.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.agent_documentation_cli import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.agent_documentation_cli import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
 """
 
 import logging

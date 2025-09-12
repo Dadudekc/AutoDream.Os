@@ -13,12 +13,10 @@ Author: Agent-7 (Web Development Specialist)
 Test Type: API Testing
 """
 
-import json
 import sys
 import uuid
 from pathlib import Path
-from typing import Dict, Any
-from unittest.mock import Mock
+from typing import Any
 
 import pytest
 
@@ -284,9 +282,9 @@ class TestAgentAPISuite:
             # Verify all returned agents have correct status
             agents_data = status_result.metadata.get("response_data", [])
             for agent in agents_data:
-                assert (
-                    agent["status"] == "ACTIVE_AGENT_MODE"
-                ), f"Agent {agent['agent_id']} has incorrect status"
+                assert agent["status"] == "ACTIVE_AGENT_MODE", (
+                    f"Agent {agent['agent_id']} has incorrect status"
+                )
 
             # Test agent status monitoring (simulated)
             # In real implementation, this would test status update mechanisms
@@ -474,12 +472,12 @@ class TestAgentAPISuite:
         return result
 
     # Helper methods
-    def _test_status_monitoring(self) -> Dict[str, Any]:
+    def _test_status_monitoring(self) -> dict[str, Any]:
         """Test agent status monitoring functionality."""
         # Simulate status monitoring test
         return {"monitoring_active": True, "status_checks": 5, "status_updates": 3}
 
-    def _test_coordination_api(self) -> Dict[str, Any]:
+    def _test_coordination_api(self) -> dict[str, Any]:
         """Test agent coordination API functionality."""
         # Simulate coordination API test
         return {
@@ -488,7 +486,7 @@ class TestAgentAPISuite:
             "inter_agent_communication": "verified",
         }
 
-    def _test_concurrent_requests(self) -> Dict[str, Any]:
+    def _test_concurrent_requests(self) -> dict[str, Any]:
         """Test concurrent request handling."""
         # Simulate concurrent request test
         return {"concurrent_requests": "handled", "request_count": 10, "success_rate": 100}

@@ -20,6 +20,30 @@ def format_search_result(result) -> dict[str, Any]:
 
 
 def generate_recommendations(similar_tasks) -> list[str]:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.agent_vector_utils import Agent_Vector_UtilsService
+
+# Initialize service
+service = Agent_Vector_UtilsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Agent_Vector_UtilsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Generate recommendations based on similar tasks."""
     recommendations = []
     if similar_tasks:

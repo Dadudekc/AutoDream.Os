@@ -42,7 +42,7 @@ def test_performance_optimizations():
             title=f"Performance Test Task {i}",
             description=f"Description for performance test {i}",
             assigned_agent_id=f"Agent-{i % 5}" if i % 2 == 0 else None,
-            created_at=f"2025-09-11T{i%24:02d}:00:00",
+            created_at=f"2025-09-11T{i % 24:02d}:00:00",
             priority=(i % 5) + 1,
         )
         tasks.append(task)

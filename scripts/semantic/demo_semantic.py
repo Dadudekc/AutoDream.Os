@@ -47,6 +47,27 @@ def demo_routing():
 
 
 def demo_similarity():
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python demo_semantic.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.semantic.demo_semantic import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.semantic.demo_semantic import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
     """Demonstrate status similarity search."""
     print("\n🔍 STATUS SIMILARITY SEARCH DEMO")
     print("=" * 50)

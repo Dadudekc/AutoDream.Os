@@ -16,14 +16,11 @@ Usage: python tools/test_coverage_improvement.py --analyze --target messaging
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-
-import pytest
+from typing import Any
 
 
 class TestCoverageImprover:
@@ -35,7 +32,7 @@ class TestCoverageImprover:
         self.tools_dir = project_root / "tools"
         self.reports_dir = project_root / "runtime" / "reports"
 
-    def analyze_current_coverage(self, target: str = "all") -> Dict[str, Any]:
+    def analyze_current_coverage(self, target: str = "all") -> dict[str, Any]:
         """Analyze current test coverage for specified target."""
         print(f"🔍 Analyzing test coverage for target: {target}")
 
@@ -56,7 +53,7 @@ class TestCoverageImprover:
             "timestamp": self._get_timestamp(),
         }
 
-    def _run_coverage_analysis(self, target: str) -> Dict[str, Any]:
+    def _run_coverage_analysis(self, target: str) -> dict[str, Any]:
         """Run coverage analysis for target."""
         coverage_cmd = [
             sys.executable,
@@ -98,7 +95,7 @@ class TestCoverageImprover:
         }
         return targets.get(target, "src")
 
-    def _analyze_coverage_gaps(self, coverage_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _analyze_coverage_gaps(self, coverage_data: dict[str, Any]) -> list[dict[str, Any]]:
         """Analyze coverage gaps from coverage data."""
         gaps = []
 
@@ -144,8 +141,8 @@ class TestCoverageImprover:
         return gaps
 
     def _generate_recommendations(
-        self, gaps: List[Dict[str, Any]], target: str
-    ) -> List[Dict[str, Any]]:
+        self, gaps: list[dict[str, Any]], target: str
+    ) -> list[dict[str, Any]]:
         """Generate recommendations for improving coverage."""
         recommendations = []
 
@@ -225,7 +222,7 @@ class TestCoverageImprover:
 
         return recommendations
 
-    def improve_test_reliability(self, target: str = "all") -> Dict[str, Any]:
+    def improve_test_reliability(self, target: str = "all") -> dict[str, Any]:
         """Improve test reliability by identifying and fixing flaky tests."""
         print(f"🔧 Improving test reliability for target: {target}")
 
@@ -242,7 +239,7 @@ class TestCoverageImprover:
             "timestamp": self._get_timestamp(),
         }
 
-    def _run_reliability_tests(self, target: str, runs: int = 3) -> Dict[str, Any]:
+    def _run_reliability_tests(self, target: str, runs: int = 3) -> dict[str, Any]:
         """Run tests multiple times to detect flakiness."""
         results = []
 
@@ -285,8 +282,8 @@ class TestCoverageImprover:
         }
 
     def _analyze_and_fix_flaky_tests(
-        self, reliability_results: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, reliability_results: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Analyze flaky tests and suggest fixes."""
         fixes = []
 
@@ -309,7 +306,7 @@ class TestCoverageImprover:
 
         return fixes
 
-    def generate_ci_cd_integration(self) -> Dict[str, Any]:
+    def generate_ci_cd_integration(self) -> dict[str, Any]:
         """Generate CI/CD integration configuration."""
         print("🔗 Generating CI/CD integration configuration")
 
@@ -355,7 +352,7 @@ class TestCoverageImprover:
             "timestamp": self._get_timestamp(),
         }
 
-    def _generate_github_actions_workflow(self) -> Dict[str, Any]:
+    def _generate_github_actions_workflow(self) -> dict[str, Any]:
         """Generate GitHub Actions workflow for CI/CD."""
         workflow = {
             "name": "Test Coverage CI",
@@ -391,7 +388,7 @@ class TestCoverageImprover:
 
         return workflow
 
-    def save_report(self, report: Dict[str, Any], report_type: str) -> str:
+    def save_report(self, report: dict[str, Any], report_type: str) -> str:
         """Save analysis report to file."""
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
@@ -411,7 +408,9 @@ class TestCoverageImprover:
 
         return datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    def run_full_analysis(self, target: str = "messaging") -> Dict[str, Any]:
+    def run_full_analysis(
+        self, target: str = "messaging", html_report: bool = False
+    ) -> dict[str, Any]:
         """Run full analysis suite."""
         print(f"🚀 Starting full test coverage analysis for: {target}")
 
@@ -446,7 +445,7 @@ class TestCoverageImprover:
         report_path = self.save_report(full_report, "full_test_coverage")
 
         print("✅ Full analysis complete!")
-        print(f"📊 Summary:")
+        print("📊 Summary:")
         print(f"   - Coverage gaps: {len(coverage_report.get('gaps', []))}")
         print(f"   - Recommendations: {len(coverage_report.get('recommendations', []))}")
         print(
@@ -456,19 +455,21 @@ class TestCoverageImprover:
 
         return full_report
 
-    def analyze_error_handling_coverage(self, target: str) -> Dict[str, Any]:
+    def analyze_error_handling_coverage(self, target: str) -> dict[str, Any]:
         """Analyze error handling module integration test coverage."""
         print("🔍 Analyzing error handling integration coverage...")
 
         # Run error handling specific tests
         error_test_cmd = [
-            sys.executable, "-m", "pytest",
+            sys.executable,
+            "-m",
+            "pytest",
             "--cov-report=json",
             "--cov=src.core.error_handling",
             "--cov=src.core.error_handling_unified",
             "tests/operational/test_error_handling.py",
             "tests/integration/test_cross_service_integration.py",
-            "-v"
+            "-v",
         ]
 
         try:
@@ -480,10 +481,10 @@ class TestCoverageImprover:
             coverage_percentage = 0
             if result.returncode == 0:
                 # Extract coverage percentage from output
-                for line in result.stdout.split('\n'):
-                    if 'TOTAL' in line and '%' in line:
+                for line in result.stdout.split("\n"):
+                    if "TOTAL" in line and "%" in line:
                         try:
-                            coverage_percentage = float(line.split()[-1].replace('%', ''))
+                            coverage_percentage = float(line.split()[-1].replace("%", ""))
                             break
                         except (ValueError, IndexError):
                             pass
@@ -498,13 +499,13 @@ class TestCoverageImprover:
                     "circuit_breaker",
                     "error_analysis_engine",
                     "error_recovery",
-                    "retry_mechanisms"
+                    "retry_mechanisms",
                 ],
                 "integration_tests_covered": [
                     "messaging_error_handling",
                     "coordination_error_recovery",
-                    "vector_search_error_scenarios"
-                ]
+                    "vector_search_error_scenarios",
+                ],
             }
 
         except subprocess.TimeoutExpired:
@@ -512,20 +513,22 @@ class TestCoverageImprover:
                 "target": target,
                 "error": "Error handling coverage analysis timed out",
                 "coverage_percentage": 0,
-                "tests_run": False
+                "tests_run": False,
             }
 
-    def run_performance_benchmarking(self, target: str) -> Dict[str, Any]:
+    def run_performance_benchmarking(self, target: str) -> dict[str, Any]:
         """Run performance benchmarking for test execution."""
         print("⚡ Running performance benchmarking...")
 
         # Run performance tests
         perf_cmd = [
-            sys.executable, "-m", "pytest",
+            sys.executable,
+            "-m",
+            "pytest",
             "tests/performance/",
             "--durations=10",
             "--tb=no",
-            "-q"
+            "-q",
         ]
 
         try:
@@ -546,8 +549,11 @@ class TestCoverageImprover:
                 "target_execution_time": 60,
                 "performance_metrics": {
                     "test_execution_efficiency": "high" if benchmarks_met else "needs_improvement",
-                    "bottleneck_detection": len([line for line in result.stdout.split('\n') if 'slowest' in line.lower()]) > 0
-                }
+                    "bottleneck_detection": len(
+                        [line for line in result.stdout.split("\n") if "slowest" in line.lower()]
+                    )
+                    > 0,
+                },
             }
 
         except subprocess.TimeoutExpired:
@@ -555,16 +561,16 @@ class TestCoverageImprover:
                 "target": target,
                 "error": "Performance benchmarking timed out",
                 "execution_time_seconds": 120,
-                "benchmarks_met": False
+                "benchmarks_met": False,
             }
 
     def generate_intelligent_recommendations(
         self,
-        coverage_report: Dict[str, Any],
-        reliability_report: Dict[str, Any],
-        error_handling_report: Dict[str, Any],
-        performance_report: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        coverage_report: dict[str, Any],
+        reliability_report: dict[str, Any],
+        error_handling_report: dict[str, Any],
+        performance_report: dict[str, Any],
+    ) -> list[dict[str, Any]]:
         """Generate intelligent recommendations based on all analysis data."""
         recommendations = []
 
@@ -573,92 +579,102 @@ class TestCoverageImprover:
         if len(coverage_gaps) > 0:
             high_priority_gaps = [gap for gap in coverage_gaps if gap.get("severity") == "high"]
             if high_priority_gaps:
-                recommendations.append({
-                    "priority": "CRITICAL",
-                    "category": "coverage",
-                    "title": "Address High-Priority Coverage Gaps",
-                    "description": f"Focus on {len(high_priority_gaps)} files with <50% coverage immediately",
-                    "action_items": [
-                        "Prioritize unit tests for critical business logic",
-                        "Add integration tests for high-risk components",
-                        "Review and refactor complex functions for testability"
-                    ],
-                    "estimated_effort": "High",
-                    "impact": "Critical for system reliability"
-                })
+                recommendations.append(
+                    {
+                        "priority": "CRITICAL",
+                        "category": "coverage",
+                        "title": "Address High-Priority Coverage Gaps",
+                        "description": f"Focus on {len(high_priority_gaps)} files with <50% coverage immediately",
+                        "action_items": [
+                            "Prioritize unit tests for critical business logic",
+                            "Add integration tests for high-risk components",
+                            "Review and refactor complex functions for testability",
+                        ],
+                        "estimated_effort": "High",
+                        "impact": "Critical for system reliability",
+                    }
+                )
 
         # Error handling recommendations
         error_coverage = error_handling_report.get("coverage_percentage", 0)
         if error_coverage < 80:
-            recommendations.append({
-                "priority": "HIGH",
-                "category": "error_handling",
-                "title": "Improve Error Handling Test Coverage",
-                "description": f"Current error handling coverage: {error_coverage:.1f}%. Target: 85%+",
-                "action_items": [
-                    "Add integration tests for error recovery scenarios",
-                    "Test error propagation across service boundaries",
-                    "Validate error handling in edge cases",
-                    "Add chaos engineering tests for failure scenarios"
-                ],
-                "estimated_effort": "Medium",
-                "impact": "Critical for system resilience"
-            })
+            recommendations.append(
+                {
+                    "priority": "HIGH",
+                    "category": "error_handling",
+                    "title": "Improve Error Handling Test Coverage",
+                    "description": f"Current error handling coverage: {error_coverage:.1f}%. Target: 85%+",
+                    "action_items": [
+                        "Add integration tests for error recovery scenarios",
+                        "Test error propagation across service boundaries",
+                        "Validate error handling in edge cases",
+                        "Add chaos engineering tests for failure scenarios",
+                    ],
+                    "estimated_effort": "Medium",
+                    "impact": "Critical for system resilience",
+                }
+            )
 
         # Performance recommendations
         if not performance_report.get("benchmarks_met", True):
-            recommendations.append({
-                "priority": "MEDIUM",
-                "category": "performance",
-                "title": "Optimize Test Execution Performance",
-                "description": f"Test execution time: {performance_report.get('execution_time_seconds', 0):.1f}s. Target: <60s",
-                "action_items": [
-                    "Implement parallel test execution",
-                    "Optimize test setup and teardown",
-                    "Add selective test running for CI/CD",
-                    "Cache expensive test fixtures"
-                ],
+            recommendations.append(
+                {
+                    "priority": "MEDIUM",
+                    "category": "performance",
+                    "title": "Optimize Test Execution Performance",
+                    "description": f"Test execution time: {performance_report.get('execution_time_seconds', 0):.1f}s. Target: <60s",
+                    "action_items": [
+                        "Implement parallel test execution",
+                        "Optimize test setup and teardown",
+                        "Add selective test running for CI/CD",
+                        "Cache expensive test fixtures",
+                    ],
                     "estimated_effort": "Medium",
-                    "impact": "Improves development velocity"
-            })
+                    "impact": "Improves development velocity",
+                }
+            )
 
         # Reliability recommendations
         if reliability_report.get("reliability_results", {}).get("is_flaky", False):
-            recommendations.append({
-                "priority": "HIGH",
-                "category": "reliability",
-                "title": "Address Flaky Test Issues",
-                "description": "Flaky tests detected in test suite affecting CI/CD reliability",
-                "action_items": [
-                    "Identify and isolate external dependencies",
-                    "Add proper test isolation and cleanup",
-                    "Implement retry mechanisms for transient failures",
-                    "Add timing-based test stability checks"
-                ],
-                "estimated_effort": "High",
-                "impact": "Critical for CI/CD pipeline reliability"
-            })
+            recommendations.append(
+                {
+                    "priority": "HIGH",
+                    "category": "reliability",
+                    "title": "Address Flaky Test Issues",
+                    "description": "Flaky tests detected in test suite affecting CI/CD reliability",
+                    "action_items": [
+                        "Identify and isolate external dependencies",
+                        "Add proper test isolation and cleanup",
+                        "Implement retry mechanisms for transient failures",
+                        "Add timing-based test stability checks",
+                    ],
+                    "estimated_effort": "High",
+                    "impact": "Critical for CI/CD pipeline reliability",
+                }
+            )
 
         # Cross-cutting recommendations
-        if (len(coverage_gaps) > 5 and error_coverage < 70):
-            recommendations.append({
-                "priority": "CRITICAL",
-                "category": "system_health",
-                "title": "Comprehensive Test Infrastructure Overhaul",
-                "description": "Multiple test quality issues require coordinated improvement approach",
-                "action_items": [
-                    "Conduct full test audit and gap analysis",
-                    "Develop prioritized improvement roadmap",
-                    "Allocate dedicated testing sprint",
-                    "Establish test quality metrics and monitoring"
-                ],
-                "estimated_effort": "High",
-                "impact": "Fundamental improvement of test infrastructure"
-            })
+        if len(coverage_gaps) > 5 and error_coverage < 70:
+            recommendations.append(
+                {
+                    "priority": "CRITICAL",
+                    "category": "system_health",
+                    "title": "Comprehensive Test Infrastructure Overhaul",
+                    "description": "Multiple test quality issues require coordinated improvement approach",
+                    "action_items": [
+                        "Conduct full test audit and gap analysis",
+                        "Develop prioritized improvement roadmap",
+                        "Allocate dedicated testing sprint",
+                        "Establish test quality metrics and monitoring",
+                    ],
+                    "estimated_effort": "High",
+                    "impact": "Fundamental improvement of test infrastructure",
+                }
+            )
 
         return recommendations
 
-    def generate_html_report(self, report_data: Dict[str, Any]) -> str:
+    def generate_html_report(self, report_data: dict[str, Any]) -> str:
         """Generate comprehensive HTML report."""
         timestamp = report_data.get("timestamp", "unknown")
         target = report_data.get("target", "unknown")
@@ -699,19 +715,19 @@ class TestCoverageImprover:
     <div class="summary-grid">
         <div class="metric-card">
             <div class="metric-title">Overall Quality Score</div>
-            <div class="metric-value status-good">{report_data['summary']['overall_quality_score']:.1f}/100</div>
+            <div class="metric-value status-good">{report_data["summary"]["overall_quality_score"]:.1f}/100</div>
         </div>
         <div class="metric-card">
             <div class="metric-title">Coverage Gaps Found</div>
-            <div class="metric-value status-warning">{report_data['summary']['coverage_gaps_found']}</div>
+            <div class="metric-value status-warning">{report_data["summary"]["coverage_gaps_found"]}</div>
         </div>
         <div class="metric-card">
             <div class="metric-title">Error Handling Coverage</div>
-            <div class="metric-value status-good">{report_data['error_handling_analysis']['coverage_percentage']:.1f}%</div>
+            <div class="metric-value status-good">{report_data["error_handling_analysis"]["coverage_percentage"]:.1f}%</div>
         </div>
         <div class="metric-card">
             <div class="metric-title">Intelligent Recommendations</div>
-            <div class="metric-value">{report_data['summary']['intelligent_recommendations_count']}</div>
+            <div class="metric-value">{report_data["summary"]["intelligent_recommendations_count"]}</div>
         </div>
     </div>
 
@@ -722,16 +738,18 @@ class TestCoverageImprover:
         gaps = report_data.get("coverage_analysis", {}).get("gaps", [])
         if gaps:
             for gap in gaps[:10]:  # Show first 10 gaps
-                severity_class = "status-danger" if gap.get("severity") == "high" else "status-warning"
+                severity_class = (
+                    "status-danger" if gap.get("severity") == "high" else "status-warning"
+                )
                 html_content += f"""
         <div class="gap-item">
-            <strong class="{severity_class}">{gap.get('file', 'Unknown')}</strong>
-            <span>Coverage: {gap.get('coverage_percentage', 0)}%</span>
-            <span>Severity: {gap.get('severity', 'medium').upper()}</span>
+            <strong class="{severity_class}">{gap.get("file", "Unknown")}</strong>
+            <span>Coverage: {gap.get("coverage_percentage", 0)}%</span>
+            <span>Severity: {gap.get("severity", "medium").upper()}</span>
         </div>
 """
         else:
-            html_content += "<p class="good-status">✅ No significant coverage gaps detected!</p>"
+            html_content += '<p class="good-status">✅ No significant coverage gaps detected!</p>'
 
         html_content += """
     </div>
@@ -746,12 +764,12 @@ class TestCoverageImprover:
                 priority_class = f"priority-{rec.get('priority', 'medium').lower()}"
                 html_content += f"""
         <div class="recommendation-item {priority_class}">
-            <h4>{rec.get('title', 'Unknown')}</h4>
-            <p><strong>Priority:</strong> {rec.get('priority', 'Unknown')}</p>
-            <p><strong>Category:</strong> {rec.get('category', 'Unknown')}</p>
-            <p>{rec.get('description', '')}</p>
-            <p><strong>Estimated Effort:</strong> {rec.get('estimated_effort', 'Unknown')}</p>
-            <p><strong>Impact:</strong> {rec.get('impact', 'Unknown')}</p>
+            <h4>{rec.get("title", "Unknown")}</h4>
+            <p><strong>Priority:</strong> {rec.get("priority", "Unknown")}</p>
+            <p><strong>Category:</strong> {rec.get("category", "Unknown")}</p>
+            <p>{rec.get("description", "")}</p>
+            <p><strong>Estimated Effort:</strong> {rec.get("estimated_effort", "Unknown")}</p>
+            <p><strong>Impact:</strong> {rec.get("impact", "Unknown")}</p>
         </div>
 """
         else:
@@ -768,17 +786,17 @@ class TestCoverageImprover:
         html_filepath = self.reports_dir / html_filename
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
-        with open(html_filepath, 'w', encoding='utf-8') as f:
+        with open(html_filepath, "w", encoding="utf-8") as f:
             f.write(html_content)
 
         return str(html_filepath)
 
     def _calculate_overall_quality_score(
         self,
-        coverage_report: Dict[str, Any],
-        reliability_report: Dict[str, Any],
-        error_handling_report: Dict[str, Any],
-        performance_report: Dict[str, Any]
+        coverage_report: dict[str, Any],
+        reliability_report: dict[str, Any],
+        error_handling_report: dict[str, Any],
+        performance_report: dict[str, Any],
     ) -> float:
         """Calculate overall quality score from all analysis components."""
         score = 0
@@ -820,7 +838,9 @@ def main():
     parser.add_argument("--reliability", action="store_true", help="Run reliability improvement")
     parser.add_argument("--ci-cd", action="store_true", help="Generate CI/CD integration")
     parser.add_argument("--full", action="store_true", help="Run full analysis suite")
-    parser.add_argument("--html-report", action="store_true", help="Generate HTML report for full analysis")
+    parser.add_argument(
+        "--html-report", action="store_true", help="Generate HTML report for full analysis"
+    )
     parser.add_argument(
         "--project-root", type=Path, default=Path("."), help="Project root directory"
     )

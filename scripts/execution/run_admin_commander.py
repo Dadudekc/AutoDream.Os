@@ -6,6 +6,27 @@ This script launches the Discord Administrator Commander with Administrator priv
 for comprehensive server management capabilities.
 
 Author: Agent-7 - V2 SWARM CAPTAIN
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python run_admin_commander.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.execution.run_admin_commander import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.execution.run_admin_commander import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
 """
 
 # Load environment variables from .env file

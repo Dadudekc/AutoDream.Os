@@ -2,7 +2,7 @@
 """
 Inspect MessagingGateway configuration and core
 """
-import os
+
 import sys
 
 sys.path.append("src")

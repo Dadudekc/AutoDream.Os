@@ -18,6 +18,33 @@ class StrictValidator:
     """Handles strict SSOT component validation."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.ssot.unified_ssot.validators.strict_validator import Strict_Validator
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Strict_Validator(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize strict validator."""
         self.validation_rules = {
             "required_documentation": ["description", "usage_examples"],

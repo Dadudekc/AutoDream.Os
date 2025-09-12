@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -13,7 +15,6 @@ Zero-dep codemod to migrate legacy manager imports/usages.
 Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
-from __future__ import annotations
 
 import argparse
 import difflib
@@ -33,6 +34,28 @@ def load_map(path: str) -> dict:
 
 
 def transform(text: str, mapping: dict) -> str:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.codemods.migrate_managers import Migrate_Managers
+
+# Initialize and use
+instance = Migrate_Managers()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Migrate_Managers(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Transform text using mapping rules."""
     result = text
     for old_pattern, new_pattern in mapping.items():

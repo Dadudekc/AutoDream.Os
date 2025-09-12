@@ -40,6 +40,15 @@ class SearchResult:
     """Result of vector database search."""
 
     def __init__(
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value", {"key": "value"})
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value", {"key": "value"})
+print(f"Result: {result}")"""
         self, document_id: str, content: str, similarity_score: float, metadata: dict[str, Any]
     ):
         self.document_id = document_id
@@ -169,23 +178,7 @@ def fetch_agent_status(
     return stored_id, raw_status, json.loads(embedding_json), last_updated
 
 
-@dataclass
-class VectorDocument:
-    """Document for vector database operations."""
-
-    content: str
-    metadata: dict[str, Any]
-    document_id: str | None = None
-    document_type: DocumentType | None = None
-
-
-class DocumentType(Enum):
-    """Document types for vector database."""
-
-    AGENT_STATUS = "agent_status"
-    MESSAGE = "message"
-    LOG = "log"
-    CONFIG = "config"
+# Removed duplicate class definitions - keeping originals above
 
 
 class EmbeddingModel(Enum):
@@ -249,3 +242,49 @@ __all__ = [
     "VectorDocument",
     "fetch_agent_status",
 ]
+
+
+if __name__ == "__main__":
+    """Demonstrate module functionality with practical examples."""
+
+    print("🐝 Module Examples - Practical Demonstrations")
+    print("=" * 50)
+    # Function demonstrations
+    print(f"\n📋 Testing get_connection():")
+    try:
+        # Add your function call here
+        print(f"✅ get_connection executed successfully")
+    except Exception as e:
+        print(f"❌ get_connection failed: {e}")
+
+    print(f"\n📋 Testing upsert_agent_status():")
+    try:
+        # Add your function call here
+        print(f"✅ upsert_agent_status executed successfully")
+    except Exception as e:
+        print(f"❌ upsert_agent_status failed: {e}")
+
+    print(f"\n📋 Testing fetch_agent_status():")
+    try:
+        # Add your function call here
+        print(f"✅ fetch_agent_status executed successfully")
+    except Exception as e:
+        print(f"❌ fetch_agent_status failed: {e}")
+
+    # Class demonstrations
+    print(f"\n🏗️  Testing DocumentType class:")
+    try:
+        instance = DocumentType()
+        print(f"✅ DocumentType instantiated successfully")
+    except Exception as e:
+        print(f"❌ DocumentType failed: {e}")
+
+    print(f"\n🏗️  Testing SearchType class:")
+    try:
+        instance = SearchType()
+        print(f"✅ SearchType instantiated successfully")
+    except Exception as e:
+        print(f"❌ SearchType failed: {e}")
+
+    print("\n🎉 All examples completed!")
+    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

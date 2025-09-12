@@ -5,7 +5,7 @@
   "agent_name": "SSOT & System Integration Specialist",
   "contract_type": "QUALITY_CLEANUP",
   "priority": "HIGH",
-  "status": "AVAILABLE",
+  "status": "ASSIGNED",
 
   "contract_details": {
     "description": "Systematically clean and enhance code quality systems while preserving functionality. Focus on improving testing infrastructure, eliminating code smells, and ensuring consistent standards.",

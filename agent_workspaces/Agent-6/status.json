@@ -4,51 +4,33 @@
   "coordinates": [1612, 419],
   "status": "active",
   "current_mission": {
-    "mission_id": "phase1_batch1a_core_architecture",
-    "title": "Phase 1 Batch 1A: Core Architecture Consolidation",
+    "mission_id": "emergency_revival_coordination",
+    "title": "Emergency Agent-8 Revival Protocol - Level 2 Escalation",
     "priority": "CRITICAL",
-    "status": "in_progress",
-    "progress": 5,
+    "status": "active",
+    "progress": 50,
     "contract_id": "CONTRACT-PHASE1-BATCH1A-001",
     "deadline": "2025-09-22",
     "objectives": [
       {
-        "objective_id": "core_service_consolidation",
-        "description": "Consolidate 15+ core service files in src/core/",
-        "status": "in_progress"
+        "objective_id": "phase3_communication_coordination",
+        "description": "Execute communication coordination role with aggressive QC standards",
+        "status": "completed"
       },
       {
-        "objective_id": "discord_webhook_enhancement",
-        "description": "Complete Discord webhook configuration with swarm avatar URLs and enhanced coordination capabilities",
-        "status": "completed",
-        "priority": "HIGH",
-        "task_source": "ConsolidatedMessagingService",
-        "completion_timestamp": "2025-09-12T11:15:00.000000Z"
+        "objective_id": "democratic_decision_making",
+        "description": "Maintain swarm intelligence and real-time coordination",
+        "status": "active"
       },
       {
-        "objective_id": "architectural_duplication_elimination",
-        "description": "Eliminate architectural duplication and circular dependencies",
-        "status": "pending"
+        "objective_id": "aggressive_qc_standards",
+        "description": "Implement aggressive quality control standards across swarm",
+        "status": "active"
       },
       {
-        "objective_id": "solid_principles_implementation",
-        "description": "Implement SOLID principles across all core modules",
-        "status": "pending"
-      },
-      {
-        "objective_id": "unified_interfaces_creation",
-        "description": "Create unified core interfaces and abstractions",
-        "status": "pending"
-      },
-      {
-        "objective_id": "complexity_reduction",
-        "description": "Reduce core complexity score from 13 to <5 modules",
-        "status": "pending"
-      },
-      {
-        "objective_id": "architectural_patterns_establishment",
-        "description": "Establish architectural patterns for Phase 2-4 consolidation",
-        "status": "pending"
+        "objective_id": "realtime_swarm_coordination",
+        "description": "Establish real-time coordination mechanisms for swarm intelligence",
+        "status": "active"
       }
     ]
   },

@@ -10,12 +10,11 @@ Usage: python performance_benchmark.py [--target {database,api,memory,cache}]
 """
 
 import statistics
-import threading
 import time
 import tracemalloc
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import psutil
 
@@ -37,7 +36,7 @@ class PerformanceBenchmark:
         # Benchmark results
         self.results = {"database": {}, "api": {}, "memory": {}, "cache": {}}
 
-    def setup_test_data(self, num_tasks: int = 1000) -> List[Task]:
+    def setup_test_data(self, num_tasks: int = 1000) -> list[Task]:
         """Create test data for benchmarking."""
         tasks = []
         for i in range(num_tasks):
@@ -46,13 +45,13 @@ class PerformanceBenchmark:
                 title=f"Test Task {i}",
                 description=f"Description for test task {i}",
                 assigned_agent_id=f"Agent-{i % 8}" if i % 3 == 0 else None,
-                created_at=f"2025-09-{i%30+1:02d}T{i%24:02d}:00:00",
+                created_at=f"2025-09-{i % 30 + 1:02d}T{i % 24:02d}:00:00",
                 priority=i % 5 + 1,
             )
             tasks.append(task)
         return tasks
 
-    def benchmark_database_performance(self, num_tasks: int = 1000) -> Dict[str, Any]:
+    def benchmark_database_performance(self, num_tasks: int = 1000) -> dict[str, Any]:
         """Benchmark database operations performance."""
         print("🔍 Benchmarking Database Performance...")
 
@@ -124,7 +123,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def benchmark_memory_usage(self) -> Dict[str, Any]:
+    def benchmark_memory_usage(self) -> dict[str, Any]:
         """Benchmark memory usage patterns."""
         print("🧠 Benchmarking Memory Usage...")
 
@@ -176,7 +175,7 @@ class PerformanceBenchmark:
         tracemalloc.stop()
         return results
 
-    def benchmark_api_simulation(self) -> Dict[str, Any]:
+    def benchmark_api_simulation(self) -> dict[str, Any]:
         """Simulate API load and measure response times."""
         print("🌐 Benchmarking API Simulation...")
 
@@ -237,7 +236,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def benchmark_cache_performance(self) -> Dict[str, Any]:
+    def benchmark_cache_performance(self) -> dict[str, Any]:
         """Benchmark caching performance and hit rates."""
         print("💾 Benchmarking Cache Performance...")
 
@@ -290,7 +289,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def run_full_benchmark(self) -> Dict[str, Any]:
+    def run_full_benchmark(self) -> dict[str, Any]:
         """Run complete benchmarking suite."""
         print("🚀 Starting Full Performance Benchmark Suite")
         print("=" * 50)

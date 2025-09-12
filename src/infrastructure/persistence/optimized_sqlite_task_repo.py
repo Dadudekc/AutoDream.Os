@@ -9,17 +9,16 @@ V2 Compliance: <400 lines, single responsibility, performance optimization.
 """
 
 import hashlib
-import logging
 import sqlite3
 import threading
 import time
 from collections.abc import Iterable
 from contextlib import contextmanager
-from typing import Any, Optional
+from typing import Any
 
 from ...domain.entities.task import Task
 from ...domain.ports.task_repository import TaskRepository
-from ...domain.value_objects.ids import AgentId, TaskId
+from ...domain.value_objects.ids import TaskId
 
 
 class QueryCache:
@@ -31,7 +30,29 @@ class QueryCache:
         self._ttl = ttl
         self._lock = threading.Lock()
 
-    def get(self, key: str) -> Optional[Any]:
+    def get(self, key: str) -> Any | None:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.persistence.optimized_sqlite_task_repo import Optimized_Sqlite_Task_Repo
+
+# Initialize and use
+instance = Optimized_Sqlite_Task_Repo()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Optimized_Sqlite_Task_Repo(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Get cached data if not expired."""
         with self._lock:
             if key in self._cache:
@@ -186,7 +207,7 @@ class OptimizedSqliteTaskRepository(TaskRepository):
             priority=row[7],
         )
 
-    def get(self, task_id: TaskId) -> Optional[Task]:
+    def get(self, task_id: TaskId) -> Task | None:
         """
         Retrieve a task by ID with caching.
 

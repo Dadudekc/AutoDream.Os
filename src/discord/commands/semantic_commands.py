@@ -14,10 +14,9 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 try:
-    from discord.ext import commands
-
     import discord
     from discord import app_commands
+    from discord.ext import commands
 
     DISCORD_AVAILABLE = True
 except ImportError:

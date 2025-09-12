@@ -9,12 +9,44 @@ Author: Agent-3 (Infrastructure & DevOps Specialist)
 License: MIT
 """
 
+import datetime
+from datetime import timedelta
+import heapq
+from typing import List, Dict, Any
+
 
 class MessageQueueUtils:
     """Utility functions for message queue operations."""
 
     @staticmethod
     def calculate_priority_score(priority: str, created_at: datetime) -> int:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.utils.message_queue_utils import Message_Queue_Utils
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Message_Queue_Utils(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Calculate priority score for queue entry."""
         base_scores = {"urgent": 1000, "normal": 500, "low": 100}
 

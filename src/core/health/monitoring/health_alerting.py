@@ -18,13 +18,14 @@ import logging
 import smtplib
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any
 
 try:
     from ..automated_health_check_system import HealthCheckResult, HealthStatus
@@ -45,7 +46,7 @@ except ImportError:
 try:
     from .health_monitoring_service import AlertSeverity, HealthMetric
 except ImportError:
-    from health_monitoring_service import AlertSeverity, HealthMetric
+    from health_monitoring_service import AlertSeverity
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,33 @@ class AlertChannel(Enum):
 
 
 class AlertPriority(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.health.monitoring.health_alerting import Health_Alerting
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Health_Alerting(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Alert priority levels."""
 
     LOW = "low"
@@ -79,11 +107,11 @@ class AlertRule:
     condition: str  # Python expression to evaluate
     severity: AlertSeverity
     priority: AlertPriority
-    channels: List[AlertChannel]
+    channels: list[AlertChannel]
     cooldown_minutes: int = 15
     enabled: bool = True
     description: str = ""
-    last_triggered: Optional[datetime] = None
+    last_triggered: datetime | None = None
 
 
 @dataclass
@@ -95,11 +123,11 @@ class AlertNotification:
     message: str
     severity: AlertSeverity
     priority: AlertPriority
-    channels: List[AlertChannel]
+    channels: list[AlertChannel]
     timestamp: datetime
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     resolved: bool = False
-    resolved_at: Optional[datetime] = None
+    resolved_at: datetime | None = None
 
 
 @dataclass
@@ -108,7 +136,7 @@ class AlertChannelConfig:
 
     channel: AlertChannel
     enabled: bool = True
-    config: Dict[str, Any] = field(default_factory=dict)
+    config: dict[str, Any] = field(default_factory=dict)
 
 
 class HealthAlertingSystem:
@@ -123,23 +151,23 @@ class HealthAlertingSystem:
     - Configurable alert rules and policies
     """
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: str | None = None):
         self.config_path = config_path or "config/health_alerting.json"
         self.data_directory = Path("data/health_alerting")
         self.data_directory.mkdir(parents=True, exist_ok=True)
 
         # Alert configuration
-        self.alert_rules: Dict[str, AlertRule] = {}
-        self.channel_configs: Dict[AlertChannel, AlertChannelConfig] = {}
+        self.alert_rules: dict[str, AlertRule] = {}
+        self.channel_configs: dict[AlertChannel, AlertChannelConfig] = {}
 
         # Alert management
-        self.active_alerts: Dict[str, AlertNotification] = {}
-        self.alert_history: List[AlertNotification] = []
-        self.alert_handlers: Dict[AlertChannel, Callable[[AlertNotification], None]] = {}
+        self.active_alerts: dict[str, AlertNotification] = {}
+        self.alert_history: list[AlertNotification] = []
+        self.alert_handlers: dict[AlertChannel, Callable[[AlertNotification], None]] = {}
 
         # Alert control
         self.alerting_active = False
-        self.alert_thread: Optional[threading.Thread] = None
+        self.alert_thread: threading.Thread | None = None
         self.check_interval_seconds = 10
 
         # Load configuration and setup
@@ -152,7 +180,7 @@ class HealthAlertingSystem:
         config_file = Path(self.config_path)
         if config_file.exists():
             try:
-                with open(config_file, "r") as f:
+                with open(config_file) as f:
                     config = json.load(f)
 
                 # Load alert rules
@@ -240,7 +268,8 @@ class HealthAlertingSystem:
             AlertChannelConfig(channel=AlertChannel.CONSOLE, enabled=True),
             AlertChannelConfig(channel=AlertChannel.LOG, enabled=True),
             AlertChannelConfig(
-                channel=AlertChannel.MESSAGING, enabled=False  # Requires additional setup
+                channel=AlertChannel.MESSAGING,
+                enabled=False,  # Requires additional setup
             ),
         ]
 
@@ -297,7 +326,7 @@ class HealthAlertingSystem:
                 logger.error(f"❌ Alerting loop error: {e}")
                 time.sleep(5)
 
-    def process_health_event(self, event_type: str, data: Dict[str, Any]) -> None:
+    def process_health_event(self, event_type: str, data: dict[str, Any]) -> None:
         """Process a health monitoring event and generate alerts if needed."""
         try:
             # Evaluate alert rules
@@ -319,7 +348,7 @@ class HealthAlertingSystem:
         except Exception as e:
             logger.warning(f"⚠️ Error processing health event: {e}")
 
-    def _evaluate_condition(self, condition: str, event_type: str, data: Dict[str, Any]) -> bool:
+    def _evaluate_condition(self, condition: str, event_type: str, data: dict[str, Any]) -> bool:
         """Evaluate an alert condition."""
         try:
             # Create safe evaluation context
@@ -337,7 +366,7 @@ class HealthAlertingSystem:
             logger.warning(f"⚠️ Error evaluating condition '{condition}': {e}")
             return False
 
-    def _trigger_alert(self, rule: AlertRule, event_type: str, data: Dict[str, Any]) -> None:
+    def _trigger_alert(self, rule: AlertRule, event_type: str, data: dict[str, Any]) -> None:
         """Trigger an alert based on a rule."""
         alert_id = f"alert_{int(time.time())}_{rule.id}"
 
@@ -367,7 +396,7 @@ class HealthAlertingSystem:
         logger.warning(f"🚨 ALERT TRIGGERED: {rule.name} - {alert.message}")
 
     def _generate_alert_message(
-        self, rule: AlertRule, event_type: str, data: Dict[str, Any]
+        self, rule: AlertRule, event_type: str, data: dict[str, Any]
     ) -> str:
         """Generate alert message from rule and data."""
         message = f"{rule.name}: "
@@ -463,7 +492,7 @@ Health Alert Notification
 Title: {alert.title}
 Severity: {alert.severity.value.upper()}
 Priority: {alert.priority.value.upper()}
-Time: {alert.timestamp.strftime('%Y-%m-%d %H:%M:%S')}
+Time: {alert.timestamp.strftime("%Y-%m-%d %H:%M:%S")}
 
 Message:
 {alert.message}
@@ -563,7 +592,7 @@ System Health Monitor
 
 Severity: {alert.severity.value.upper()}
 Priority: {alert.priority.value.upper()}
-Time: {alert.timestamp.strftime('%Y-%m-%d %H:%M:%S')}
+Time: {alert.timestamp.strftime("%Y-%m-%d %H:%M:%S")}
 
 This is an automated alert from the system health monitor.
             """.strip()
@@ -647,7 +676,7 @@ This is an automated alert from the system health monitor.
             return True
         return False
 
-    def get_alert_statistics(self) -> Dict[str, Any]:
+    def get_alert_statistics(self) -> dict[str, Any]:
         """Get alert statistics."""
         now = datetime.now()
         last_24h = now - timedelta(hours=24)
@@ -668,7 +697,7 @@ This is an automated alert from the system health monitor.
             "avg_resolution_time_hours": self._calculate_avg_resolution_time(recent_alerts),
         }
 
-    def _calculate_avg_resolution_time(self, alerts: List[AlertNotification]) -> float:
+    def _calculate_avg_resolution_time(self, alerts: list[AlertNotification]) -> float:
         """Calculate average resolution time for alerts."""
         resolved_alerts = [a for a in alerts if a.resolved and a.resolved_at]
         if not resolved_alerts:
@@ -678,7 +707,7 @@ This is an automated alert from the system health monitor.
 
         return (total_time / len(resolved_alerts)) / 3600  # Convert to hours
 
-    def export_alert_data(self, filepath: Optional[str] = None) -> str:
+    def export_alert_data(self, filepath: str | None = None) -> str:
         """Export alert data to JSON file."""
         if not filepath:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

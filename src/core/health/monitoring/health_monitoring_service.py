@@ -19,11 +19,12 @@ import json
 import logging
 import threading
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 import psutil
 
@@ -88,6 +89,33 @@ class ServiceType(Enum):
 
 
 class AlertSeverity(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.health.monitoring.health_monitoring_service import Health_Monitoring_Service
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Health_Monitoring_Service(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Alert severity levels."""
 
     INFO = "info"
@@ -118,9 +146,9 @@ class HealthMetric:
     unit: str
     timestamp: datetime
     category: str
-    threshold_warning: Optional[float] = None
-    threshold_critical: Optional[float] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    threshold_warning: float | None = None
+    threshold_critical: float | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -128,9 +156,9 @@ class SystemHealthSnapshot:
     """Complete snapshot of system health."""
 
     timestamp: datetime
-    services: Dict[str, HealthStatus] = field(default_factory=dict)
-    metrics: Dict[str, HealthMetric] = field(default_factory=dict)
-    alerts: List[MonitoringAlert] = field(default_factory=list)
+    services: dict[str, HealthStatus] = field(default_factory=dict)
+    metrics: dict[str, HealthMetric] = field(default_factory=dict)
+    alerts: list[MonitoringAlert] = field(default_factory=list)
     overall_status: HealthStatus = HealthStatus.UNKNOWN
     uptime_seconds: float = 0.0
 
@@ -147,7 +175,7 @@ class HealthMonitoringService:
     - Web dashboard integration
     """
 
-    def __init__(self, config_path: Optional[str] = None):
+    def __init__(self, config_path: str | None = None):
         self.config_path = config_path or "config/health_monitoring.json"
         self.data_directory = Path("data/health_monitoring")
         self.data_directory.mkdir(parents=True, exist_ok=True)
@@ -158,21 +186,21 @@ class HealthMonitoringService:
         self.monitoring_coordinator = None
 
         # Service monitoring
-        self.service_endpoints: Dict[str, ServiceEndpoint] = {}
-        self.service_health_history: Dict[str, List[HealthStatus]] = {}
+        self.service_endpoints: dict[str, ServiceEndpoint] = {}
+        self.service_health_history: dict[str, list[HealthStatus]] = {}
 
         # Metrics collection
-        self.metrics_buffer: List[HealthMetric] = []
+        self.metrics_buffer: list[HealthMetric] = []
         self.metrics_retention_hours = 24
 
         # Alerting system
-        self.active_alerts: Dict[str, MonitoringAlert] = {}
-        self.alert_history: List[MonitoringAlert] = []
-        self.alert_handlers: List[Callable[[MonitoringAlert], None]] = []
+        self.active_alerts: dict[str, MonitoringAlert] = {}
+        self.alert_history: list[MonitoringAlert] = []
+        self.alert_handlers: list[Callable[[MonitoringAlert], None]] = []
 
         # Monitoring control
         self.monitoring_active = False
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: threading.Thread | None = None
         self.collection_interval_seconds = 30
 
         # Initialize components
@@ -205,7 +233,7 @@ class HealthMonitoringService:
         config_file = Path(self.config_path)
         if config_file.exists():
             try:
-                with open(config_file, "r") as f:
+                with open(config_file) as f:
                     config = json.load(f)
 
                 self.collection_interval_seconds = config.get("collection_interval_seconds", 30)
@@ -487,7 +515,7 @@ class HealthMonitoringService:
                 )
 
     def _generate_alert(
-        self, component: str, severity: AlertSeverity, message: str, metadata: Dict[str, Any]
+        self, component: str, severity: AlertSeverity, message: str, metadata: dict[str, Any]
     ) -> None:
         """Generate a monitoring alert."""
         alert_id = f"alert_{int(time.time())}_{component}_{severity.value}"
@@ -590,7 +618,7 @@ class HealthMonitoringService:
             uptime_seconds=time.time(),  # Simplified uptime
         )
 
-    def export_health_data(self, filepath: Optional[str] = None) -> str:
+    def export_health_data(self, filepath: str | None = None) -> str:
         """Export current health data to JSON file."""
         if not filepath:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

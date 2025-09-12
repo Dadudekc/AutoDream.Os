@@ -37,6 +37,28 @@ CACHE_FILE = "dependency_cache.json"
 # Language Analyzer
 # ---------------------------------
 class LanguageAnalyzer:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.projectscanner import Projectscanner
+
+# Initialize and use
+instance = Projectscanner()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Projectscanner(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Handles language-specific code analysis for different programming languages."""
 
     def __init__(self):

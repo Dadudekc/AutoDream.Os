@@ -66,6 +66,28 @@ class AgentStatus(BaseModel):
 
 
 class Alert(BaseModel):
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.swarm_monitoring_dashboard import Swarm_Monitoring_Dashboard
+
+# Initialize and use
+instance = Swarm_Monitoring_Dashboard()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Swarm_Monitoring_Dashboard(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Alert model"""
 
     alert_id: str

@@ -80,6 +80,30 @@ class UnifiedHandlersService:
         return self._legacy_process_request(request)
 
     def submit_request(self, handler_type, data, priority=None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.unified_handlers import Unified_HandlersService
+
+# Initialize service
+service = Unified_HandlersService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Unified_HandlersService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Delegate to orchestrator"""
         if self._orchestrator:
             return self._orchestrator.submit_request(handler_type, data, priority)

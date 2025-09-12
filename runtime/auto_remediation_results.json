@@ -1,0 +1,4873 @@
+{
+  "total_violations": 695,
+  "auto_remediated": 269,
+  "manual_required": 426,
+  "failed_remediation": 0,
+  "remediation_details": [
+    {
+      "type": "function_loc",
+      "path": "demo_health_monitoring_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "syntax_error",
+      "path": "error_handling_demo.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "performance_benchmark.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "performance_benchmark.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "performance_benchmark.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "performance_benchmark.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "performance_benchmark.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "performance_benchmark.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "performance_benchmark.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "simple_performance_test.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "test_hard_onboarding.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "create_cleanup_messages.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "validate_contract_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "test_a2a_format.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_coordination_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent5_consolidation_execution.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_execution.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_consolidation_execution.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "agent5_core_consolidation_validator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent5_core_consolidation_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_consolidation_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_consolidation_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_consolidation_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_consolidation_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "agent5_core_modules_coordinator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent5_core_modules_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent5_core_modules_validator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "agent6_documentation_consolidator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent6_documentation_consolidator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent6_documentation_consolidator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent6_documentation_consolidator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "agent6_web_interface_coordinator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent6_web_interface_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent6_web_interface_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent6_web_interface_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent6_web_interface_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent6_web_interface_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "comprehensive_project_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "operational_quality_analysis.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "test_message_queue_pyautogui_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "test_backwards_compatibility.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\backtesting\\backtester.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "trading_robot\\backtesting\\backtester.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "trading_robot\\backtesting\\backtester.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\core\\alpaca_client.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "trading_robot\\core\\alpaca_client.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\core\\risk_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\core\\trading_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\execution\\live_executor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "trading_robot\\execution\\live_executor.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\strategies\\indicators.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "trading_robot\\web\\dashboard.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "trading_robot\\web\\dashboard.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "trading_robot\\web\\dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "consolidation_tasks\\agent2_service_simplification.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "consolidation_tasks\\agent2_service_simplification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "consolidation_tasks\\agent2_service_simplification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "consolidation_tasks\\agent1_core_consolidation.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "consolidation_tasks\\agent1_core_consolidation.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "consolidation_tasks\\agent1_core_consolidation.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "consolidation_tasks\\agent1_core_consolidation.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "consolidation_tasks\\agent1_core_consolidation.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "templates\\onboarding_roles.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "templates\\onboarding_roles.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\web\\simple_monitoring_dashboard.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\web\\simple_monitoring_dashboard.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\simple_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\simple_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\web\\swarm_monitoring_dashboard.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\web\\swarm_monitoring_dashboard.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\swarm_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\swarm_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\swarm_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\web\\analytics_dashboard.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\web\\analytics_dashboard.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\analytics_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\analytics_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\vector_database\\search_utils.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\web\\vector_database\\document_utils.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\web\\vector_database\\document_utils.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\message_identity_clarification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\agent_vector_integration_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\architectural_principles.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\architectural_principles.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\swarm_intelligence_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\swarm_intelligence_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\agent_status_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\command_handler_module.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\compliance_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_agent_management_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\consolidated_architectural_service.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_architectural_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_architectural_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_architectural_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\consolidated_coordination_service.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_coordination_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_coordination_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_coordination_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_debate_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_debate_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_handler_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_miscellaneous_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_utility_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_vector_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\handlers_orchestrator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\handlers_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\learning_recommender.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\onboarding_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\performance_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\recommendation_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\simple_onboarding.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\simple_onboarding.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\simple_onboarding.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\unified_vector_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\work_indexer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\work_indexer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\work_indexer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\advanced_analytics_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\consolidated_messaging_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\messaging_cli_refactored.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\messaging_cli_refactored.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\messaging_cli_refactored.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\services\\unified_database_services.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\unified_database_services.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\coordination\\stats_tracker.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\coordination\\stats_tracker.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\coordination\\bulk_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\coordination\\strategy_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\handlers\\command_handler.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\handlers\\onboarding_handler.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\handlers\\onboarding_handler.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\handlers\\utility_handler.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\handlers\\utility_handler.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\protocol\\routers\\route_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\protocol\\routers\\route_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\thea\\core\\thea_communication_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\thea\\core\\thea_communication_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\thea\\authentication\\thea_authentication_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\thea\\browser\\thea_browser_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\thea\\messaging\\thea_messaging_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\thea\\responses\\thea_response_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\thea\\responses\\thea_response_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\services\\thea\\config\\thea_config.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\services\\messaging\\cli.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\documentation_indexing_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\documentation_indexing_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\search_history_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\search_history_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\unified_import_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\message_queue_pyautogui_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\message_queue_pyautogui_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\agent_context_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\agent_coordination.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\agent_coordination.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\analytics_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\automated_health_check_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\config_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\config_core.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\coordination_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\coordination_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_configuration.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\core_configuration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\core_configuration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_coordination.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_interfaces.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_manager_system.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\core_manager_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_unified_system.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_utilities.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\core_utilities.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\core_validation.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\core_validation.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\emergency_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\engines_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\enhanced_communication_protocols.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_communication_protocols.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\enhanced_unified_config.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_unified_config.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\enhanced_unified_config.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\env_loader.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\env_loader.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\error_handling_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\error_handling_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\error_handling_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\integration_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\message_queue.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\message_queue.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\message_queue.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\message_queue_statistics.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\message_queue_statistics.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\onboarding_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\onboarding_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\operational_monitoring_baseline.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\operational_monitoring_baseline.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\operational_monitoring_baseline.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\operational_monitoring_baseline.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_monitoring_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\performance_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\refactoring_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\refactoring_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\refactoring_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\ssot_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\ssot_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\ssot_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\swarm_coordination.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\unified_config.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\unified_config.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\unified_config.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\unified_monitoring_coordinator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\unified_monitoring_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\validation_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\vector_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_unified.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\vector_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\config_monitor.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\config_monitor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\config_monitor.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\enhanced_config_system.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_config_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_config_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_config_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\enhanced_config_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\enhanced_config_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\engines\\coordination_analytics_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\engines\\metrics_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\intelligence\\anomaly_detection_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\intelligence\\business_intelligence_engine_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\intelligence\\predictive_modeling_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\intelligence\\business_intelligence_engine_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\intelligence\\pattern_analysis\\anomaly_detector.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\orchestrators\\coordination_analytics_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\processors\\insight_processor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\analytics\\processors\\prediction_processor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\consolidation\\utility_consolidation\\utility_consolidation_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\consolidation\\utility_consolidation\\utility_consolidation_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\coordination\\swarm\\engines\\performance_monitoring_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\coordination\\swarm\\engines\\task_coordination_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\coordination\\swarm\\orchestrators\\swarm_coordination_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\data_optimization\\data_optimization_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\deployment\\deployment_orchestrator_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\deployment\\coordinators\\target_discovery.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\deployment\\coordinators\\metrics_tracker.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\deployment\\engines\\deployment_discovery_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\deployment\\engines\\deployment_metrics_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\code_analysis_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\elimination_strategy_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\dry_elimination_engine_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\dry_elimination_engine_orchestrator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\file_discovery_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\metrics_reporting_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\dry_eliminator\\engines\\metrics_reporting_engine.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\orchestrators\\elimination_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\dry_eliminator\\orchestrators\\results_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\engines\\action_executor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_executor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_executor.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_initializer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\handlers\\protocol_registry.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_logger.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\emergency_intervention\\unified_emergency\\orchestrators\\emergency_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\communication_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\configuration_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\coordination_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\integration_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\ml_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\monitoring_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\orchestration_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\processing_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\storage_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\utility_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\validation_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\analysis_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\data_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\performance_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\security_core_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\engines\\engine_monitoring.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\engines\\engine_state.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\coordinators\\enhanced_integration_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\engines\\integration_coordination_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\engines\\integration_performance_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\engines\\integration_task_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\engines\\integration_optimization_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\orchestrators\\coordination_engine_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\orchestrators\\coordination_engine_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\enhanced_integration\\orchestrators\\task_processor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\error_handling\\error_analysis_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\error_handling\\error_handling_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\error_handling\\retry_safety_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\error_handling\\retry_safety_engine.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\error_handling\\coordination_error_handler.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\error_handling\\advanced_error_handler.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\error_handling\\advanced_error_handler.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\error_handling\\advanced_error_handler.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\error_handling\\automated_recovery.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\error_handling\\automated_recovery.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\error_handling\\automated_recovery.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\file_locking\\file_locking_engine_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\file_locking\\file_locking_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\file_locking\\operations\\lock_queries.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\import_system\\import_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\import_system\\import_utilities.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\import_system\\import_registry.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration\\analytics\\analytics_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration\\analytics\\forecast_generator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\integration\\analytics\\forecast_generator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration\\analytics\\recommendation_engine_analysis.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration\\analytics\\recommendation_engine_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration_coordinators\\unified_integration\\monitor_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\integration_coordinators\\unified_integration\\monitor_engine.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration_coordinators\\unified_integration\\coordinators\\config_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\integration_coordinators\\unified_integration\\coordinators\\health_monitor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\intelligent_context_emergency.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\intelligent_context_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\intelligent_context_search.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\engines\\agent_assignment_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\engines\\risk_assessment_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\unified_intelligent_context\\engine_search.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\intelligent_context\\unified_intelligent_context\\search_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers\\core_configuration_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\core_configuration_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\core_configuration_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers\\core_resource_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\core_resource_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\core_resource_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\core_resource_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers\\base_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\base_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\base_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\base_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\base_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers\\core_monitoring_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\core_monitoring_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\core_monitoring_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers\\execution\\base_execution_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\execution\\base_execution_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\execution\\base_execution_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\execution\\execution_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\monitoring\\metrics_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\monitoring\\metrics_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\monitoring\\metrics_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\monitoring\\metrics_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\managers\\monitoring\\base_monitoring_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\monitoring\\base_monitoring_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\monitoring\\base_monitoring_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\results\\performance_results_processor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\managers\\results\\base_results_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\results\\base_results_manager.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\managers\\results\\analysis_results_processor.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\debate_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\intervention_manager.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\intervention_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\intervention_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\lifecycle_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\message_router.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\message_router.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\message_router.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\orchestration\\intent_subsystems\\message_router.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\pattern_analysis\\unified_pattern_analysis\\analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\performance\\performance_monitoring_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance\\performance_monitoring_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\performance\\performance_cli.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\performance\\unified_dashboard\\reporter.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\performance\\unified_dashboard\\engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\performance\\unified_dashboard\\widget_manager.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\refactoring\\analysis_tools_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\refactoring\\file_analysis.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\refactoring\\refactor_tools.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\refactoring\\tools\\consolidation_tools.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\refactoring\\tools\\extraction_tools.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\refactoring\\tools\\extraction_tools.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\refactoring\\tools\\extraction_tools.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\refactoring\\tools\\extraction_tools.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\refactoring\\tools\\extraction_tools.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\refactoring\\tools\\optimization_tools.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot\\unified_ssot\\execution\\task_executor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot\\unified_ssot\\validators\\basic_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot\\unified_ssot\\validators\\standard_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\ssot\\unified_ssot\\validators\\strict_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\utils\\message_queue_utils.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\utils\\agent_matching.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\validation\\coordination_validator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\validation\\performance_benchmark\\benchmark_runner_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\validation\\performance_benchmark\\benchmark_runner_core.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\validation\\performance_benchmark\\benchmark_runner_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\validation\\performance_benchmark\\benchmark_runner_operations.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzer_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factory_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factory_extended.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\factory_methods.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\prediction_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\vector_strategic_oversight\\unified_strategic_oversight\\analyzers\\swarm_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\quality\\quality_assurance_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\quality\\quality_gates.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\quality\\quality_gates.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\quality_gates.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\quality_gates.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\quality_gates.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\quality_gates.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\quality\\testing_coordinator.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\quality\\testing_coordinator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\testing_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\testing_coordinator.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\quality\\v2_compliance_executor.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\quality\\v2_compliance_executor.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\quality\\v2_compliance_executor.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\agent_communication\\agent_communication_engine_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\semantic\\semantic_router.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\health\\monitoring\\health_alerting.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\health\\monitoring\\health_alerting.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_alerting.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_alerting.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\health\\monitoring\\health_dashboard.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\health\\monitoring\\health_dashboard.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_dashboard.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\health\\monitoring\\health_monitoring_service.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\health\\monitoring\\health_monitoring_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_monitoring_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\health\\monitoring\\health_monitoring_system.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\health\\monitoring\\health_monitoring_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\health\\monitoring\\health_monitoring_system.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_system_core.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_system_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_system_core.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_scheduler.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_scheduler.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_scheduler.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\backup_disaster_recovery\\business_continuity_planner.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\backup_disaster_recovery\\business_continuity_planner.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\business_continuity_planner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\business_continuity_planner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\business_continuity_planner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\business_continuity_planner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_monitoring.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_monitoring.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_monitoring.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_monitoring.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_cli.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\core\\backup_disaster_recovery\\backup_cli.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\application\\use_cases\\assign_task_uc.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\application\\use_cases\\assign_task_uc.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\application\\use_cases\\complete_task_uc.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\architecture\\unified_architecture_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\automation\\ui_onboarding.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\agent_communication_engine_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\command_router.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\command_router.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\discord_agent_bot.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\discord_agent_bot.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_agent_bot.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_agent_bot.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_agent_bot.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_backup.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_backup.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_backup.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_backup.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_clean.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_clean.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_agent_bot_clean.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\discord_commander.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\discord_webhook_integration.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\discord_webhook_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\embeds.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\embeds.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\embeds.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\handlers_agent_summary.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\handlers_agents.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\handlers_agents.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\handlers_swarm.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\handlers_swarm.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\handlers_swarm.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\handlers_swarm.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\discord_dynamic_agent_commands.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\discord_commander\\enhanced_discord_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\domain\\entities\\agent.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\domain\\services\\assignment_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\gaming\\performance_validation.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\gaming\\gaming_integration_core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\gaming\\handlers\\gaming_alert_handlers.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\gaming\\integration\\core.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\infrastructure\\unified_browser_service.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_browser_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_browser_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\infrastructure\\unified_logging_time.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_logging_time.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_logging_time.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\infrastructure\\unified_persistence.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_persistence.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_persistence.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\unified_persistence.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\infrastructure\\unified_persistence.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\infrastructure\\infrastructure_monitoring_integration.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\infrastructure_monitoring_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\browser\\thea_modules\\browser_ops.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\browser\\thea_modules\\content_scraper.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\infrastructure\\browser\\thea_modules\\content_scraper.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\browser\\thea_modules\\profile.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\browser\\thea_modules\\response_collector.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\infrastructure\\browser\\thea_modules\\response_collector.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\infrastructure\\logging\\unified_logging_system.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\logging\\unified_logging_system.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\persistence\\sqlite_agent_repo.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\persistence\\sqlite_task_repo.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\infrastructure\\persistence\\optimized_sqlite_task_repo.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\infrastructure\\persistence\\optimized_sqlite_task_repo.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\quality\\proof_ledger.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\core\\dependency_injection.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\trading_robot\\core\\dependency_injection.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\trading_repository.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\implementations\\in_memory_trading_repository.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\implementations\\trading_repository_impl.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\interfaces\\position_repository_interface.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\interfaces\\trading_repository_interface.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\models\\portfolio.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\repositories\\models\\position.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\services\\trading_service.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\trading_robot\\services\\trading_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\trading_robot\\services\\trading_service.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\services\\analytics\\market_trend_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\services\\analytics\\risk_analysis_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\services\\analytics\\trading_bi_orchestrator.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\trading_robot\\services\\analytics\\performance_metrics_engine.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\utils\\consolidated_config_management.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\utils\\consolidated_config_management.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "src\\utils\\consolidated_file_operations.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "src\\integration\\messaging_gateway.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\duplication_analyzer.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\duplication_analyzer.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\duplication_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\duplication_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\duplication_analyzer.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\analysis_cli.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\analysis_cli.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\analysis_cli.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\analysis_cli.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\analysis_cli.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\audit_cleanup.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\functionality_verification.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\functionality_verification.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\functionality_verification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\functionality_verification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\functionality_verification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\functionality_verification.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\projectscanner.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\analytics_cli.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "syntax_error",
+      "path": "tools\\analytics_cli.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\auto_remediate_loc.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\auto_remediate_loc.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\auto_remediate_loc.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\auto_remediate_loc.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\auto_remediate_loc.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "tools\\test_coverage_improvement.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "tools\\test_coverage_improvement.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\test_coverage_improvement.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\test_coverage_improvement.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\test_coverage_improvement.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\test_coverage_improvement.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\codemods\\migrate_managers.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "tools\\codemods\\replace_prints_with_logger.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent_workspaces\\Agent-4\\cleanup_workspace.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "agent_workspaces\\Agent-7\\agent7_vector_database_integration.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent_workspaces\\Agent-7\\agent7_vector_database_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "agent_workspaces\\Agent-7\\agent7_vector_database_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\enforce_python_standards.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\enforce_python_standards.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\fix_and_ingest_vector_database.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\index_v2_refactoring.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\index_v2_refactoring.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\index_v2_refactoring.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "scripts\\agent_cycle.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\agent_cycle.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\agent_cycle.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "syntax_error",
+      "path": "scripts\\agent_onboarding.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\cleanup_v2_compliance.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\cleanup_v2_compliance.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\dup_scan.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\setup_enhanced_discord.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\setup_enhanced_discord.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\setup_enhanced_discord.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\test_discord_agent_bot.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\v2_release_summary.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\activate_vector_database_integration.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\cleanup_overnight_sequence.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\cleanup_overnight_sequence.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "file_loc",
+      "path": "scripts\\send_devlog_unified.py",
+      "severity": "critical",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\send_devlog_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\send_devlog_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\send_devlog_unified.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\test_devlog_sender.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "class_loc",
+      "path": "scripts\\test_enhanced_discord.py",
+      "severity": "major",
+      "remediation_status": "manual_required",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\test_enhanced_discord.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\test_enhanced_discord.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    },
+    {
+      "type": "function_loc",
+      "path": "scripts\\utilities\\setup_discord_bot.py",
+      "severity": "minor",
+      "remediation_status": "would_auto_remediate",
+      "details": ""
+    }
+  ]
+}

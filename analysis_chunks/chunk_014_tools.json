@@ -195,30 +195,6 @@
       }
     },
     {
-      "file_path": "tools\\auto_remediate_loc.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "module 'ast' has no attribute 'Decorator'"
-      }
-    },
-    {
       "file_path": "tools\\captain_snapshot.py",
       "analysis": {
         "language": ".py",
@@ -352,6 +328,78 @@
     },
     {
       "file_path": "tools\\run_project_scan.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\analytics_cli.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "unterminated string literal (detected at line 187) (<unknown>, line 187)"
+      }
+    },
+    {
+      "file_path": "tools\\auto_remediate_loc.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "tools\\test_coverage_improvement.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -472,7 +520,7 @@
     }
   ],
   "summary": {
-    "total_files": 23,
+    "total_files": 25,
     "total_lines": 0,
     "total_functions": 0,
     "total_classes": 0,
@@ -480,7 +528,7 @@
     "file_types": {
       ".json": 4,
       ".sh": 2,
-      ".py": 16,
+      ".py": 18,
       ".ps1": 1
     },
     "avg_complexity_by_type": {
@@ -542,11 +590,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "tools\\auto_remediate_loc.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "tools\\captain_snapshot.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -583,6 +626,21 @@
     },
     {
       "file_path": "tools\\run_project_scan.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\analytics_cli.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\auto_remediate_loc.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "tools\\test_coverage_improvement.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

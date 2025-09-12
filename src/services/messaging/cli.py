@@ -1,6 +1,43 @@
+"""
+Cli Module
+
+This module provides service functionality for the swarm system.
+
+Component Type: Service
+Priority: High
+Dependencies: src.services.messaging
+
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.messaging.cli import CliService
+
+# Initialize service
+service = CliService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(CliService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
+"""
 from __future__ import annotations
-import argparse, logging, sys
+
+import argparse
+import logging
 import os
+import sys
 
 # Handle both module import and direct script execution
 if __name__ == "__main__":
@@ -12,17 +49,17 @@ if __name__ == "__main__":
     sys.path.insert(0, parent_dir)
 
     # Use absolute imports when run as script
-    from src.services.messaging.service import MessagingService
     from src.services.messaging.coordinates import list_agents
-    from src.services.messaging.task_handlers import handle_claim, handle_complete
     from src.services.messaging.onboarding_bridge import hard_onboarding
+    from src.services.messaging.service import MessagingService
+    from src.services.messaging.task_handlers import handle_claim, handle_complete
     from src.services.messaging.thea_handlers import send_to_thea
 else:
     # Use relative imports when imported as module
-    from .service import MessagingService
     from .coordinates import list_agents
-    from .task_handlers import handle_claim, handle_complete
     from .onboarding_bridge import hard_onboarding
+    from .service import MessagingService
+    from .task_handlers import handle_claim, handle_complete
     from .thea_handlers import send_to_thea
 
 logger = logging.getLogger(__name__)

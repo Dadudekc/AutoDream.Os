@@ -14,11 +14,10 @@ Author: Agent-5 (Business Intelligence Specialist)
 Test Coverage Target: 95%+ for integration scenarios
 """
 
-import asyncio
 import sys
 import time
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -27,13 +26,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 # Import messaging components
 try:
-    from integration.messaging_gateway import MessagingGateway, send_discord_message_to_agent
-    from services.consolidated_messaging_service import ConsolidatedMessagingService
     from core.orchestration.intent_subsystems.message_router import (
-        MessageRouter,
         MessagePriority,
+        MessageRouter,
         MessageType,
     )
+    from integration.messaging_gateway import MessagingGateway, send_discord_message_to_agent
+    from services.consolidated_messaging_service import ConsolidatedMessagingService
 
     MESSAGING_AVAILABLE = True
 except ImportError as e:

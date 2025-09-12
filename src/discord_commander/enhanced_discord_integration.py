@@ -268,7 +268,6 @@ class EnhancedDiscordWebhookManager:
         """Send message via Discord API using channel ID."""
         import asyncio
         import os
-        from typing import Optional
 
         # Check for Discord bot token
         bot_token = os.getenv("DISCORD_BOT_TOKEN")
@@ -930,7 +929,7 @@ async def send_devlog_to_discord(agent_id: str, devlog_file: str) -> bool:
             print(f"❌ Devlog file not found: {devlog_file}")
             return False
 
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         # Extract title from first header
@@ -994,7 +993,7 @@ async def send_devlog_to_discord(agent_id: str, devlog_file: str) -> bool:
         if success:
             print(f"✅ DevLog sent: {agent_id} -> {channel.value} ({title})")
         else:
-            print(f"❌ Failed to send devlog to Discord")
+            print("❌ Failed to send devlog to Discord")
 
         return success
 

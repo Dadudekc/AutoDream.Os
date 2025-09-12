@@ -26,6 +26,30 @@ class EmbeddingModel(Enum):
 
 
 class DocumentType(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.models.vector_models import Vector_ModelsService
+
+# Initialize service
+service = Vector_ModelsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Vector_ModelsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Document types for vector database."""
 
     MESSAGE = "message"

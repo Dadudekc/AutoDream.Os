@@ -26,9 +26,50 @@ class AgentCommunicationEngineCore(AgentCommunicationEngineBase):
     """Core agent communication operations for Discord commander"""
 
     async def send_to_agent_inbox(self, agent: str, message: str, sender: str) -> CommandResult:
-        """Send message directly to agent's inbox"""
+        """Send message directly to agent's inbox using the messaging system"""
         try:
-            # Create inbox path
+            # Try to use the consolidated messaging system first
+            try:
+                from ...services.consolidated_messaging_service import (
+                    ConsolidatedMessagingService, 
+                    UnifiedMessage, 
+                    UnifiedMessageType, 
+                    UnifiedMessagePriority
+                )
+                
+                # Get messaging service instance
+                messaging_service = ConsolidatedMessagingService()
+                
+                # Create unified message
+                unified_message = UnifiedMessage(
+                    content=message,
+                    recipient=agent,
+                    sender=sender,
+                    message_type=UnifiedMessageType.TEXT,
+                    priority=UnifiedMessagePriority.REGULAR
+                )
+                
+                # Send via messaging system (call the method on the service instance)
+                success = messaging_service.send_message(unified_message)
+                
+                if success:
+                    self.logger.info(f"Message sent to {agent} via messaging system")
+                    return create_command_result(
+                        success=True,
+                        message=f"Message successfully delivered to {agent} via messaging system",
+                        data={"method": "messaging_system", "agent": agent},
+                        agent=agent,
+                    )
+                else:
+                    # Fallback to inbox file method
+                    self.logger.warning(f"Messaging system failed for {agent}, falling back to inbox file")
+                    
+            except ImportError as e:
+                self.logger.warning(f"Messaging system not available: {e}, using inbox file method")
+            except Exception as e:
+                self.logger.warning(f"Messaging system error: {e}, using inbox file method")
+            
+            # Fallback: Create inbox path
             inbox_path = self._get_unified_utility().path.join(
                 os.getcwd(), "agent_workspaces", agent, "inbox"
             )
@@ -53,15 +94,15 @@ class AgentCommunicationEngineCore(AgentCommunicationEngineBase):
             return create_command_result(
                 success=True,
                 message=f"Message successfully delivered to {agent}'s inbox",
-                data={"filename": message_filename, "path": message_file_path},
+                data={"filename": message_filename, "path": message_file_path, "method": "inbox_file"},
                 agent=agent,
             )
 
         except Exception as e:
-            self.logger.error(f"Failed to send message to {agent}'s inbox: {e}")
+            self.logger.error(f"Failed to send message to {agent}: {e}")
             return create_command_result(
                 success=False,
-                message=(f"Failed to deliver message to {agent}'s inbox: {str(e)}"),
+                message=(f"Failed to deliver message to {agent}: {str(e)}"),
                 agent=agent,
             )
 

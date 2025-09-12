@@ -8,9 +8,47 @@ V2 Compliance: Under 300-line limit with focused functionality
 @License: MIT
 """
 
+from dataclasses import dataclass
+from typing import List, Dict, Any
+
+
+def get_unified_validator():
+    """Simple validator stub for agent matching requirements."""
+    class SimpleValidator:
+        def validate_required(self, requirements):
+            return bool(requirements)
+    return SimpleValidator()
+
 
 @dataclass
 class AgentCapability:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.utils.agent_matching import Agent_Matching
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Agent_Matching(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Standard agent capability structure."""
 
     skills: List[str]

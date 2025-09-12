@@ -150,6 +150,27 @@ class ValidationSchema:
     """Validation schema for structured data."""
 
     def __init__(self, name: str = "default"):
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.name = name
         self.rules: dict[str, ValidationRule] = {}
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -543,6 +564,8 @@ def main():
     print(f"Validation result: {result.to_dict()}")
 
     print("\nCore Validation initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

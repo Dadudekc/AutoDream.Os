@@ -1,14 +1,51 @@
+"""
+Task_Handlers Module
+
+This module provides service functionality for the swarm system.
+
+Component Type: Service
+Priority: High
+Dependencies: None
+
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.messaging.task_handlers import Task_HandlersService
+
+# Initialize service
+service = Task_HandlersService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Task_HandlersService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
+"""
 from __future__ import annotations
-from typing import Any, Dict
-from .service import MessagingService
-from .models import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
+
+from typing import Any
+
 from .coordinates import get_agent_coordinates
 from .delivery.pyautogui_delivery import deliver_message_pyautogui
+from .models import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageTag, UnifiedMessageType
+from .service import MessagingService
 
 
-def claim_task(agent: str) -> Dict[str, Any] | None:
+def claim_task(agent: str) -> dict[str, Any] | None:
     # plug in your real queue here
-    import uuid, random
+    import random
+    import uuid
 
     if random.random() < 0.3:
         return None

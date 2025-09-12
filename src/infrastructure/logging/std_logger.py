@@ -39,6 +39,28 @@ class StdLogger(Logger):
         return mapping[level]
 
     def debug(self, message: str, **context: Any) -> None:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.logging.std_logger import Std_Logger
+
+# Initialize and use
+instance = Std_Logger()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Std_Logger(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """
         Log debug message.
 

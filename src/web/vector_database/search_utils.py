@@ -15,6 +15,28 @@ class SearchUtils:
     """Utility functions for search operations."""
 
     def simulate_vector_search(self, request: SearchRequest) -> list[SearchResult]:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.vector_database.search_utils import Search_Utils
+
+# Initialize and use
+instance = Search_Utils()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Search_Utils(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Simulate vector database search."""
         mock_results = [
             SearchResult(

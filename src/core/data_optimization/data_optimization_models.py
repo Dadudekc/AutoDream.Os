@@ -26,6 +26,33 @@ class ProcessingStrategy(Enum):
 
 
 class OptimizationLevel(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.data_optimization.data_optimization_models import Data_Optimization_Models
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Data_Optimization_Models(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Optimization levels."""
 
     BASIC = "basic"

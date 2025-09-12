@@ -15,6 +15,30 @@ class Coordinator:
     """Basic coordinator implementation."""
 
     def __init__(self, name: str, logger: Any | None = None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.coordinator import CoordinatorService
+
+# Initialize service
+service = CoordinatorService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(CoordinatorService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize coordinator."""
         self.name = name
         self.logger = logger

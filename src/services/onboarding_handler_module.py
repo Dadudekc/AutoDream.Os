@@ -20,6 +20,30 @@ class OnboardingHandler:
         self.logger = logging.getLogger(__name__)
 
     def process_onboarding(self, request) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.onboarding_handler_module import Onboarding_Handler_ModuleService
+
+# Initialize service
+service = Onboarding_Handler_ModuleService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Onboarding_Handler_ModuleService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Process an onboarding request"""
         onboarding_type = request.data.get("type", "")
         user_data = request.data.get("user_data", {})

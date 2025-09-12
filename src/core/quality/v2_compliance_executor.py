@@ -25,6 +25,33 @@ class V2Violation:
 
 @dataclass
 class ModularizationPlan:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.quality.v2_compliance_executor import V2_Compliance_Executor
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = V2_Compliance_Executor(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """File modularization plan data structure."""
 
     original_file: str

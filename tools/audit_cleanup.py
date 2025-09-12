@@ -7,6 +7,28 @@ from __future__ import annotations
 - Compares against last commit (if git available)
 - Risk guards: abort if .py count < MIN_PY or drop > MAX_PY_DROP unless --force
 - Emits JSON and Markdown reports under runtime/reports/
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.audit_cleanup import Audit_Cleanup
+
+# Initialize and use
+instance = Audit_Cleanup()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Audit_Cleanup(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
 """
 
 import logging

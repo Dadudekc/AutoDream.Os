@@ -15,9 +15,8 @@ import logging
 import subprocess
 import sys
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
 
 # Setup logging
 logging.basicConfig(
@@ -66,8 +65,31 @@ class CleanupSequenceCoordinator:
         self.current_phase = None
         self.start_time = None
         self.sequence_log = []
+        self.last_onboarding_check = None
+        self.onboarding_interval_hours = 1  # Check every hour
 
-    def log_sequence_event(self, event: str, details: Dict = None):
+    def log_sequence_event(self, event: str, details: dict = None):
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python cleanup_overnight_sequence.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.cleanup_overnight_sequence import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.cleanup_overnight_sequence import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
         """Log sequence events for tracking."""
         timestamp = datetime.now().isoformat()
         log_entry = {
@@ -79,7 +101,42 @@ class CleanupSequenceCoordinator:
         self.sequence_log.append(log_entry)
         logger.info(f"📝 {event}: {details or 'No details'}")
 
-    def execute_messaging_command(self, command: str, args: List[str] = None) -> bool:
+    def should_check_onboarding(self) -> bool:
+        """Check if it's time for hourly onboarding verification."""
+        if self.last_onboarding_check is None:
+            return True
+
+        time_since_last_check = datetime.now() - self.last_onboarding_check
+        return time_since_last_check.total_seconds() >= (self.onboarding_interval_hours * 3600)
+
+    def perform_hourly_onboarding_check(self, phase_key: str) -> bool:
+        """Perform hourly onboarding verification and re-onboarding if needed."""
+        self.last_onboarding_check = datetime.now()
+        phase_config = PHASE_SEQUENCE[phase_key]
+        agent = phase_config["agent"]
+
+        logger.info(f"🔄 HOURLY ONBOARDING CHECK: {agent} for {phase_key}")
+
+        # Check if agent is still active and working on the correct task
+        if not self.check_phase_completion(phase_key):
+            logger.warning(f"⚠️ Agent {agent} not actively working on {phase_key}")
+            self.log_sequence_event("agent_inactive_detected", {"agent": agent, "phase": phase_key})
+
+            # Re-onboard the agent
+            if self.assign_contract_to_agent(phase_key):
+                logger.info(f"✅ Agent {agent} re-onboarded successfully")
+                self.log_sequence_event("agent_reonboarded", {"agent": agent, "phase": phase_key})
+                return True
+            else:
+                logger.error(f"❌ Failed to re-onboard agent {agent}")
+                self.log_sequence_event("agent_reonboarding_failed", {"agent": agent, "phase": phase_key})
+                return False
+
+        logger.info(f"✅ Agent {agent} confirmed active on {phase_key}")
+        self.log_sequence_event("agent_status_confirmed", {"agent": agent, "phase": phase_key})
+        return True
+
+    def execute_messaging_command(self, command: str, args: list[str] = None) -> bool:
         """Execute messaging CLI commands using consolidated messaging service."""
         try:
             cmd = [sys.executable, "src/services/consolidated_messaging_service.py", command]
@@ -88,7 +145,11 @@ class CleanupSequenceCoordinator:
 
             logger.info(f"🚀 Executing consolidated messaging: {' '.join(cmd)}")
             result = subprocess.run(
-                cmd, cwd=REPO_ROOT, capture_output=True, text=True, timeout=300  # 5 minute timeout
+                cmd,
+                cwd=REPO_ROOT,
+                capture_output=True,
+                text=True,
+                timeout=300,  # 5 minute timeout
             )
 
             if result.returncode == 0:
@@ -122,12 +183,12 @@ class CleanupSequenceCoordinator:
 **Phase:** {phase_key.upper()}
 **Agent:** {agent}
 **Task:** {description}
-**Duration:** {phase_config['duration_hours']} hours
+**Duration:** {phase_config["duration_hours"]} hours
 
-**Contract:** {phase_config['contract']}
+**Contract:** {phase_config["contract"]}
 
 **Immediate Actions Required:**
-1. Read contract: `contracts/{phase_config['contract']}`
+1. Read contract: `contracts/{phase_config["contract"]}`
 2. Claim contract by updating status to "ASSIGNED"
 3. Begin systematic cleanup execution
 4. Report progress via devlogs
@@ -148,7 +209,7 @@ class CleanupSequenceCoordinator:
             "--message", [message, "--agent", agent, "--priority", "URGENT"]
         )
 
-    def assign_contract_to_agent(self, phase_key: str) -> bool:
+    def assign_contract_to_agent(self, phase_key: str, use_dry_run: bool = False) -> bool:
         """Assign contract to agent using onboarding system."""
         phase_config = PHASE_SEQUENCE[phase_key]
         agent = phase_config["agent"]
@@ -167,8 +228,12 @@ class CleanupSequenceCoordinator:
                 "cleanup",
                 "--assign-roles",
                 f"{agent}:CLEANUP_{phase_key.upper()}",
-                "--dry-run",  # Start with dry run for safety
             ]
+
+            # Add dry-run flag if requested (for initial assignment only)
+            if use_dry_run:
+                cmd.append("--dry-run")
+                logger.info(f"🧪 Using dry-run mode for {agent}")
 
             result = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True, timeout=120)
 
@@ -186,7 +251,7 @@ class CleanupSequenceCoordinator:
             return False
 
     def execute_phase(self, phase_key: str) -> bool:
-        """Execute a complete cleanup phase."""
+        """Execute a complete cleanup phase with hourly onboarding checks."""
         self.current_phase = phase_key
         phase_config = PHASE_SEQUENCE[phase_key]
 
@@ -198,17 +263,41 @@ class CleanupSequenceCoordinator:
             self.log_sequence_event("notification_failed", {"phase": phase_key})
             return False
 
-        # Step 2: Assign contract
-        if not self.assign_contract_to_agent(phase_key):
+        # Step 2: Initial contract assignment (with dry-run for safety)
+        if not self.assign_contract_to_agent(phase_key, use_dry_run=True):
             self.log_sequence_event("contract_assignment_failed", {"phase": phase_key})
             return False
 
-        # Step 3: Wait for phase duration
+        # Step 3: Execute phase with hourly onboarding checks
         duration_hours = phase_config["duration_hours"]
-        logger.info(f"⏰ Waiting {duration_hours} hours for phase completion...")
-        time.sleep(duration_hours * 3600)  # Convert to seconds
+        logger.info(f"⏰ Executing {phase_key.upper()} for {duration_hours} hours with hourly onboarding checks")
 
-        # Step 4: Check phase completion
+        hours_completed = 0
+        while hours_completed < duration_hours:
+            # Perform hourly onboarding check
+            if not self.perform_hourly_onboarding_check(phase_key):
+                logger.error(f"❌ Onboarding check failed for {phase_key}")
+                return False
+
+            # Wait for next hour (or remaining time)
+            remaining_hours = duration_hours - hours_completed
+            sleep_hours = min(1, remaining_hours)  # Sleep for 1 hour or remaining time
+
+            if sleep_hours > 0:
+                logger.info(f"😴 Sleeping for {sleep_hours} hour(s)... ({hours_completed + sleep_hours}/{duration_hours} hours complete)")
+                time.sleep(sleep_hours * 3600)  # Convert to seconds
+                hours_completed += sleep_hours
+
+            # Log progress
+            self.log_sequence_event("hourly_check_completed", {
+                "phase": phase_key,
+                "hours_completed": hours_completed,
+                "total_hours": duration_hours
+            })
+
+        # Step 4: Final completion check
+        logger.info(f"🏁 Phase {phase_key.upper()} duration completed, performing final check...")
+
         if self.check_phase_completion(phase_key):
             self.log_sequence_event("phase_completed", {"phase": phase_key})
             logger.info(f"✅ PHASE COMPLETED: {phase_key.upper()}")
@@ -230,7 +319,7 @@ class CleanupSequenceCoordinator:
             return False
 
         try:
-            with open(status_file, "r") as f:
+            with open(status_file) as f:
                 status = json.load(f)
 
             # Check if current task matches the phase

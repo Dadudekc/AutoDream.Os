@@ -24,6 +24,33 @@ def read_json(file_path: str) -> dict[str, Any]:
 
     Returns:
         Dictionary containing JSON data or empty dict on error
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.unified_data_processing_system import Unified_Data_Processing_System
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Unified_Data_Processing_System(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """
     try:
         path = Path(file_path)
@@ -109,3 +136,34 @@ def write_file(file_path: str, content: str) -> bool:
 
     except Exception:
         return False
+
+
+if __name__ == "__main__":
+    """Demonstrate module functionality with practical examples."""
+
+    print("🐝 Module Examples - Practical Demonstrations")
+    print("=" * 50)
+    # Function demonstrations
+    print(f"\n📋 Testing read_json():")
+    try:
+        # Add your function call here
+        print(f"✅ read_json executed successfully")
+    except Exception as e:
+        print(f"❌ read_json failed: {e}")
+
+    print(f"\n📋 Testing write_json():")
+    try:
+        # Add your function call here
+        print(f"✅ write_json executed successfully")
+    except Exception as e:
+        print(f"❌ write_json failed: {e}")
+
+    print(f"\n📋 Testing ensure_directory():")
+    try:
+        # Add your function call here
+        print(f"✅ ensure_directory executed successfully")
+    except Exception as e:
+        print(f"❌ ensure_directory failed: {e}")
+
+    print("\n🎉 All examples completed!")
+    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

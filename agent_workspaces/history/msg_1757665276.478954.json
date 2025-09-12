@@ -1,0 +1,14 @@
+{
+  "content": "Test broadcast from Discord bot",
+  "recipient": "agents",
+  "sender": "Discord Bot",
+  "message_type": "broadcast",
+  "priority": "regular",
+  "tags": [],
+  "metadata": {},
+  "timestamp": "2025-09-12T03:21:16.478954",
+  "message_id": "msg_1757665276.478954",
+  "delivery_method": "inbox",
+  "status": "pending",
+  "recipient_type": "agent"
+}

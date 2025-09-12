@@ -140,6 +140,11 @@ class AutomatedHealthCheckSystem:
     """
 
     def __init__(self, health_check_directory: str = "health_checks"):
+        """Initialize automated health check system.
+
+        Args:
+            health_check_directory: Directory to store health check files
+        """
         self.health_check_directory = Path(health_check_directory)
         self.health_check_directory.mkdir(exist_ok=True)
 

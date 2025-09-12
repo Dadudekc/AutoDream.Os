@@ -58,6 +58,28 @@ class TheaManagerProfile:
             self._setup_browser_components()
 
     def initialize(self, driver: Any = None) -> bool:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.thea_modules.profile import Profile
+
+# Initialize and use
+instance = Profile()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Profile(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """
         Initialize the Thea Manager profile.
 

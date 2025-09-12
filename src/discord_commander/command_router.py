@@ -105,6 +105,8 @@ class CommandRouter:
                     return cmd_type, [match.group(1)], ""
                 elif cmd_type == "swarm":
                     return cmd_type, [match.group(1)], ""
+                elif cmd_type == "urgent":
+                    return cmd_type, [match.group(1)], ""
                 else:
                     return cmd_type, [], ""
 

@@ -1,0 +1,14 @@
+{
+  "content": "Test message via redirect",
+  "recipient": "Agent-1",
+  "sender": "Test",
+  "message_type": "text",
+  "priority": "regular",
+  "tags": [],
+  "metadata": {},
+  "timestamp": "2025-09-12T03:22:54.126776",
+  "message_id": "msg_1757665374.126776",
+  "delivery_method": "inbox",
+  "status": "pending",
+  "recipient_type": "agent"
+}

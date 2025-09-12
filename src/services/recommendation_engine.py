@@ -20,6 +20,30 @@ class RecommendationEngine:
     """Handles recommendation and insight generation."""
 
     def __init__(self, agent_id: str, config_path: str | None = None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.recommendation_engine import Recommendation_EngineService
+
+# Initialize service
+service = Recommendation_EngineService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Recommendation_EngineService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize recommendation engine."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)

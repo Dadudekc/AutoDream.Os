@@ -13,7 +13,6 @@ License: MIT
 
 from __future__ import annotations
 
-import asyncio
 import importlib
 import json
 import logging
@@ -30,7 +29,7 @@ log = logging.getLogger(__name__)
 # -------- Utilities ----------------------------------------------------------
 
 
-def _import_symbol(spec: str, default_attr: str = "UnifiedMessagingSystem") -> Any:
+def _import_symbol(spec: str, default_attr: str = "ConsolidatedMessagingService") -> Any:
     """
     Import "pkg.mod:Class" or "pkg.mod.Class" or bare module "pkg.mod" (then default_attr).
     Returns the attribute (class/callable). Raises ImportError on failure.
@@ -63,7 +62,7 @@ def _first_ok(candidates: tuple[str, ...]) -> Any:
         except Exception as e:
             last_err = e
             continue
-    raise ImportError(f"UnifiedMessagingSystem not found. Last error: {last_err}")
+    raise ImportError(f"ConsolidatedMessagingService not found. Last error: {last_err}")
 
 
 # -------- Data Models --------------------------------------------------------
@@ -87,22 +86,22 @@ class DispatchResult:
 
 class MessagingGateway:
     """
-    Routes messages to agents' UI via UnifiedMessagingSystem (PyAutoGUI channel).
+    Routes messages to agents' UI via ConsolidatedMessagingService (PyAutoGUI channel).
     - Config-driven coordinates with normalization
-    - Safe fallback core if UMS unavailable
+    - Safe fallback core if CMS unavailable
     - Deterministic, structured DispatchResult responses
     """
 
     _CORE_SPECS: tuple[str, ...] = (
         # Most explicit (module + class)
-        "src.core.unified_messaging:UnifiedMessagingSystem",
-        "core.unified_messaging:UnifiedMessagingSystem",
+        "src.services.messaging.consolidated_messaging_service:ConsolidatedMessagingService",
+        "services.messaging.consolidated_messaging_service:ConsolidatedMessagingService",
         # Dotted class path variants
-        "src.core.unified_messaging.UnifiedMessagingSystem",
-        "core.unified_messaging.UnifiedMessagingSystem",
+        "src.services.messaging.consolidated_messaging_service.ConsolidatedMessagingService",
+        "services.messaging.consolidated_messaging_service.ConsolidatedMessagingService",
         # Bare module → default attr lookup
-        "src.core.unified_messaging",
-        "core.unified_messaging",
+        "src.services.messaging.consolidated_messaging_service",
+        "services.messaging.consolidated_messaging_service",
     )
 
     def __init__(
@@ -110,10 +109,10 @@ class MessagingGateway:
     ):
         # Resolve core
         try:
-            UMS = _first_ok(self._CORE_SPECS)
-            self.core = UMS()  # type: ignore[call-arg]
-            self.backend_name = "unified_messaging"
-            log.info("UnifiedMessagingSystem loaded for PyAutoGUI dispatch.")
+            CMS = _first_ok(self._CORE_SPECS)
+            self.core = CMS()  # type: ignore[call-arg]
+            self.backend_name = "consolidated_messaging"
+            log.info("ConsolidatedMessagingService loaded for PyAutoGUI dispatch.")
         except Exception as e:
             log.warning("Falling back to BasicMessagingCore: %s", e)
             self.core = self._basic_core()

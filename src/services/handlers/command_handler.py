@@ -17,6 +17,30 @@ except ImportError:
 
 
 class CommandHandler:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.handlers.command_handler import Command_HandlerService
+
+# Initialize service
+service = Command_HandlerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Command_HandlerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Handler for CLI command processing and response handling."""
 
     def can_handle(self, args) -> bool:

@@ -10,6 +10,30 @@ from uuid import uuid4
 
 
 class MessageType(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.models.messaging_models import Messaging_ModelsService
+
+# Initialize service
+service = Messaging_ModelsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Messaging_ModelsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Types of messages in the system."""
 
     CHAT = "chat"

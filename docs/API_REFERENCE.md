@@ -29,7 +29,7 @@
 ```python
 class UnifiedMessage:
     """Core message structure for unified messaging."""
-    
+
     def __init__(
         self,
         content: str,
@@ -46,7 +46,7 @@ class UnifiedMessage:
     ):
         """
         Initialize unified message.
-        
+
         Args:
             content: Message content
             sender: Sender identifier
@@ -111,13 +111,13 @@ class UnifiedMessageTag(Enum):
 async def send_message(message: UnifiedMessage) -> bool:
     """
     Send message using PyAutoGUI system with inbox fallback.
-    
+
     Args:
         message: UnifiedMessage object to send
-        
+
     Returns:
         bool: True if message sent successfully, False otherwise
-        
+
     Example:
         >>> message = UnifiedMessage(
         ...     content="Hello from system",
@@ -136,14 +136,14 @@ async def send_message(message: UnifiedMessage) -> bool:
 async def broadcast_message(content: str, sender: str) -> bool:
     """
     Broadcast message to all agents.
-    
+
     Args:
         content: Message content to broadcast
         sender: Sender identifier
-        
+
     Returns:
         bool: True if broadcast successful, False otherwise
-        
+
     Example:
         >>> success = await broadcast_message("System maintenance in 5 minutes", "Agent-8")
         >>> print(f"Broadcast sent: {success}")
@@ -155,10 +155,10 @@ async def broadcast_message(content: str, sender: str) -> bool:
 async def list_agents() -> list[str]:
     """
     List all available agents.
-    
+
     Returns:
         list[str]: List of agent identifiers
-        
+
     Example:
         >>> agents = await list_agents()
         >>> print(f"Available agents: {agents}")
@@ -180,11 +180,11 @@ async def list_agents() -> list[str]:
 ```python
 class BackupSystemCore:
     """Core backup and disaster recovery system."""
-    
+
     def __init__(self, config_path: Optional[str] = None):
         """
         Initialize backup system with configuration.
-        
+
         Args:
             config_path: Path to backup configuration file
         """
@@ -195,22 +195,22 @@ class BackupSystemCore:
 ##### **create_backup**
 ```python
 async def create_backup(
-    self, 
+    self,
     backup_type: str = "incremental",
     source_path: Optional[str] = None,
     custom_name: Optional[str] = None
 ) -> Dict[str, Any]:
     """
     Create a backup of specified type.
-    
+
     Args:
         backup_type: Type of backup ('full', 'incremental', 'differential')
         source_path: Path to backup (default: current directory)
         custom_name: Custom name for backup
-        
+
     Returns:
         Dict[str, Any]: Backup result with metadata
-        
+
     Example:
         >>> backup_system = BackupSystemCore()
         >>> result = await backup_system.create_backup("full", ".", "system_backup")
@@ -221,25 +221,25 @@ async def create_backup(
 ##### **restore_backup**
 ```python
 async def restore_backup(
-    self, 
-    backup_id: str, 
+    self,
+    backup_id: str,
     target_path: str,
     point_in_time: Optional[datetime] = None
 ) -> Dict[str, Any]:
     """
     Restore backup to target path.
-    
+
     Args:
         backup_id: ID of backup to restore
         target_path: Path to restore to
         point_in_time: Specific point in time to restore to
-        
+
     Returns:
         Dict[str, Any]: Restoration result
-        
+
     Example:
         >>> result = await backup_system.restore_backup(
-        ...     "full_20240101_020000", 
+        ...     "full_20240101_020000",
         ...     "/restore/path"
         ... )
         >>> print(f"Restore completed: {result['status']}")
@@ -251,13 +251,13 @@ async def restore_backup(
 async def list_backups(self, backup_type: Optional[str] = None) -> List[Dict[str, Any]]:
     """
     List available backups.
-    
+
     Args:
         backup_type: Filter by backup type (optional)
-        
+
     Returns:
         List[Dict[str, Any]]: List of backup metadata
-        
+
     Example:
         >>> backups = await backup_system.list_backups("full")
         >>> for backup in backups:
@@ -275,11 +275,11 @@ async def list_backups(self, backup_type: Optional[str] = None) -> List[Dict[str
 ```python
 class BusinessContinuityPlanner:
     """Business continuity planning and disaster recovery framework."""
-    
+
     def __init__(self, config_path: Optional[str] = None):
         """
         Initialize business continuity planner.
-        
+
         Args:
             config_path: Path to BCP configuration file
         """
@@ -290,20 +290,20 @@ class BusinessContinuityPlanner:
 ##### **create_recovery_plan**
 ```python
 async def create_recovery_plan(
-    self, 
-    disaster_type: DisasterType, 
+    self,
+    disaster_type: DisasterType,
     affected_systems: List[str]
 ) -> Dict[str, Any]:
     """
     Create a comprehensive recovery plan for a disaster scenario.
-    
+
     Args:
         disaster_type: Type of disaster (HARDWARE_FAILURE, DATA_CORRUPTION, etc.)
         affected_systems: List of affected system identifiers
-        
+
     Returns:
         Dict[str, Any]: Complete recovery plan
-        
+
     Example:
         >>> bcp = BusinessContinuityPlanner()
         >>> plan = await bcp.create_recovery_plan(
@@ -319,13 +319,13 @@ async def create_recovery_plan(
 async def test_business_continuity_plan(self, plan_id: Optional[str] = None) -> Dict[str, Any]:
     """
     Test the business continuity plan through simulation.
-    
+
     Args:
         plan_id: Specific plan ID to test (optional)
-        
+
     Returns:
         Dict[str, Any]: Test results and recommendations
-        
+
     Example:
         >>> test_result = await bcp.test_business_continuity_plan()
         >>> print(f"BCP test score: {test_result['overall_score']:.2f}")
@@ -346,11 +346,11 @@ async def test_business_continuity_plan(self, plan_id: Optional[str] = None) -> 
 ```python
 class DiscordAgentBot(commands.Bot):
     """Streamlined Discord bot for V2_SWARM agent coordination."""
-    
+
     def __init__(self, command_prefix: str = "!", intents=None):
         """
         Initialize Discord agent bot.
-        
+
         Args:
             command_prefix: Command prefix for Discord commands
             intents: Discord intents configuration
@@ -373,7 +373,7 @@ async def on_ready(self):
 async def on_message(self, message):
     """
     Event handler for incoming messages.
-    
+
     Args:
         message: Discord message object
     """
@@ -389,11 +389,11 @@ async def on_message(self, message):
 ```python
 class SwarmCommandHandlers:
     """Handles swarm-wide commands (broadcast, coordination)."""
-    
+
     def __init__(self, agent_engine, embed_manager: EmbedManager):
         """
         Initialize swarm command handlers.
-        
+
         Args:
             agent_engine: Agent communication engine
             embed_manager: Discord embed manager
@@ -407,10 +407,10 @@ class SwarmCommandHandlers:
 async def handle_swarm_command(self, context: dict[str, Any]) -> dict[str, Any] | None:
     """
     Handle swarm broadcast command.
-    
+
     Args:
         context: Command context containing author, channel, message, etc.
-        
+
     Returns:
         dict[str, Any] | None: Response data or None if command should be ignored
     """
@@ -430,11 +430,11 @@ async def handle_swarm_command(self, context: dict[str, Any]) -> dict[str, Any] 
 ```python
 class CoordinateLoader:
     """Single source of truth for agent coordinate management."""
-    
+
     def __init__(self, config_path: str = "config/coordinates.json"):
         """
         Initialize coordinate loader.
-        
+
         Args:
             config_path: Path to coordinates configuration file
         """
@@ -447,16 +447,16 @@ class CoordinateLoader:
 def get_agent_coordinates(self, agent_id: str) -> tuple[int, int]:
     """
     Get coordinates for a specific agent.
-    
+
     Args:
         agent_id: Agent identifier (e.g., 'Agent-1')
-        
+
     Returns:
         tuple[int, int]: (x, y) coordinates
-        
+
     Raises:
         ValueError: If agent not found or coordinates invalid
-        
+
     Example:
         >>> loader = CoordinateLoader()
         >>> coords = loader.get_agent_coordinates("Agent-1")
@@ -470,10 +470,10 @@ def get_agent_coordinates(self, agent_id: str) -> tuple[int, int]:
 def get_all_agents(self) -> list[str]:
     """
     Get list of all available agents.
-    
+
     Returns:
         list[str]: List of agent identifiers
-        
+
     Example:
         >>> agents = loader.get_all_agents()
         >>> print(f"Available agents: {agents}")
@@ -486,13 +486,13 @@ def get_all_agents(self) -> list[str]:
 def is_agent_active(self, agent_id: str) -> bool:
     """
     Check if agent is active.
-    
+
     Args:
         agent_id: Agent identifier
-        
+
     Returns:
         bool: True if agent is active, False otherwise
-        
+
     Example:
         >>> is_active = loader.is_agent_active("Agent-1")
         >>> print(f"Agent-1 active: {is_active}")
@@ -513,7 +513,7 @@ def is_agent_active(self, agent_id: str) -> bool:
 ```python
 class RoleManager:
     """Manages agent roles and onboarding processes."""
-    
+
     def __init__(self):
         """Initialize role manager."""
 ```
@@ -525,10 +525,10 @@ class RoleManager:
 def get_available_roles(self) -> list[str]:
     """
     Get list of available role modes.
-    
+
     Returns:
         list[str]: List of available role modes
-        
+
     Example:
         >>> role_manager = RoleManager()
         >>> roles = role_manager.get_available_roles()
@@ -540,26 +540,26 @@ def get_available_roles(self) -> list[str]:
 ##### **onboard_agent**
 ```python
 async def onboard_agent(
-    self, 
-    agent_id: str, 
-    role_mode: str, 
+    self,
+    agent_id: str,
+    role_mode: str,
     style: str = "friendly"
 ) -> bool:
     """
     Onboard agent with specific role mode.
-    
+
     Args:
         agent_id: Agent identifier
         role_mode: Role mode to assign
         style: Onboarding style ('friendly' or 'professional')
-        
+
     Returns:
         bool: True if onboarding successful, False otherwise
-        
+
     Example:
         >>> success = await role_manager.onboard_agent(
-        ...     "Agent-5", 
-        ...     "production_ready", 
+        ...     "Agent-5",
+        ...     "production_ready",
         ...     "professional"
         ... )
         >>> print(f"Onboarding successful: {success}")
@@ -580,7 +580,7 @@ async def onboard_agent(
 ```python
 class PerformanceMonitor:
     """Monitors system performance and metrics."""
-    
+
     def __init__(self):
         """Initialize performance monitor."""
 ```
@@ -592,10 +592,10 @@ class PerformanceMonitor:
 async def get_system_metrics(self) -> Dict[str, Any]:
     """
     Get current system performance metrics.
-    
+
     Returns:
         Dict[str, Any]: System metrics including CPU, memory, disk usage
-        
+
     Example:
         >>> monitor = PerformanceMonitor()
         >>> metrics = await monitor.get_system_metrics()
@@ -608,10 +608,10 @@ async def get_system_metrics(self) -> Dict[str, Any]:
 async def start_monitoring(self, interval: int = 60):
     """
     Start continuous performance monitoring.
-    
+
     Args:
         interval: Monitoring interval in seconds
-        
+
     Example:
         >>> await monitor.start_monitoring(30)  # Monitor every 30 seconds
     """
@@ -631,11 +631,11 @@ async def start_monitoring(self, interval: int = 60):
 ```python
 class UnifiedConfig:
     """Unified configuration management system."""
-    
+
     def __init__(self, config_path: str = "config/unified_config.yaml"):
         """
         Initialize unified configuration.
-        
+
         Args:
             config_path: Path to configuration file
         """
@@ -648,14 +648,14 @@ class UnifiedConfig:
 def get_config(self, key: str, default: Any = None) -> Any:
     """
     Get configuration value by key.
-    
+
     Args:
         key: Configuration key (supports dot notation)
         default: Default value if key not found
-        
+
     Returns:
         Any: Configuration value
-        
+
     Example:
         >>> config = UnifiedConfig()
         >>> db_url = config.get_config("database.url", "sqlite:///default.db")
@@ -668,11 +668,11 @@ def get_config(self, key: str, default: Any = None) -> Any:
 def set_config(self, key: str, value: Any) -> None:
     """
     Set configuration value.
-    
+
     Args:
         key: Configuration key (supports dot notation)
         value: Value to set
-        
+
     Example:
         >>> config.set_config("messaging.timeout", 30)
     """
@@ -693,13 +693,13 @@ def set_config(self, key: str, value: Any) -> None:
 def get_logger(name: str) -> logging.Logger:
     """
     Get configured logger instance.
-    
+
     Args:
         name: Logger name (usually __name__)
-        
+
     Returns:
         logging.Logger: Configured logger instance
-        
+
     Example:
         >>> from src.utils.unified_logging_manager import get_logger
         >>> logger = get_logger(__name__)
@@ -712,14 +712,14 @@ def get_logger(name: str) -> logging.Logger:
 def validate_coordinates(x: int, y: int) -> bool:
     """
     Validate coordinate values.
-    
+
     Args:
         x: X coordinate
         y: Y coordinate
-        
+
     Returns:
         bool: True if coordinates are valid, False otherwise
-        
+
     Example:
         >>> is_valid = validate_coordinates(-1269, 481)
         >>> print(f"Coordinates valid: {is_valid}")
@@ -735,13 +735,13 @@ def validate_coordinates(x: int, y: int) -> bool:
 ```python
 import asyncio
 from src.services.consolidated_messaging_service import (
-    UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, 
+    UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority,
     UnifiedMessageTag, send_message, broadcast_message
 )
 
 async def messaging_example():
     """Complete messaging workflow example."""
-    
+
     # Create a message
     message = UnifiedMessage(
         content="Hello from Agent-8!",
@@ -751,14 +751,14 @@ async def messaging_example():
         priority=UnifiedMessagePriority.NORMAL,
         tags=[UnifiedMessageTag.COORDINATION]
     )
-    
+
     # Send the message
     success = await send_message(message)
     print(f"Message sent: {success}")
-    
+
     # Broadcast to all agents
     broadcast_success = await broadcast_message(
-        "System maintenance scheduled for tonight", 
+        "System maintenance scheduled for tonight",
         "Agent-8"
     )
     print(f"Broadcast sent: {broadcast_success}")
@@ -777,18 +777,18 @@ from src.core.backup_disaster_recovery import (
 
 async def backup_recovery_example():
     """Complete backup and recovery workflow example."""
-    
+
     # Initialize backup system
     backup_system = BackupSystemCore()
-    
+
     # Create a full backup
     backup_result = await backup_system.create_backup("full", ".", "system_backup")
     print(f"Backup created: {backup_result['backup_id']}")
-    
+
     # List available backups
     backups = await backup_system.list_backups()
     print(f"Available backups: {len(backups)}")
-    
+
     # Create business continuity plan
     bcp = BusinessContinuityPlanner()
     recovery_plan = await bcp.create_recovery_plan(
@@ -796,7 +796,7 @@ async def backup_recovery_example():
         ["messaging_system", "agent_coordination"]
     )
     print(f"Recovery plan created: {recovery_plan['plan_id']}")
-    
+
     # Test business continuity plan
     test_result = await bcp.test_business_continuity_plan()
     print(f"BCP test score: {test_result['overall_score']:.2f}")
@@ -812,14 +812,14 @@ from src.core.coordinate_loader import get_coordinate_loader
 
 def coordinate_example():
     """Coordinate management example."""
-    
+
     # Get coordinate loader
     loader = get_coordinate_loader()
-    
+
     # Get all agents
     agents = loader.get_all_agents()
     print(f"Available agents: {agents}")
-    
+
     # Get coordinates for each agent
     for agent_id in agents:
         try:
@@ -827,7 +827,7 @@ def coordinate_example():
             print(f"{agent_id}: {coords}")
         except ValueError as e:
             print(f"Error getting coordinates for {agent_id}: {e}")
-    
+
     # Check if agent is active
     for agent_id in agents:
         is_active = loader.is_agent_active(agent_id)
@@ -874,22 +874,22 @@ from src.core.coordinate_loader import get_coordinate_loader, CoordinateError
 async def robust_messaging_example():
     """Example with proper error handling."""
     logger = logging.getLogger(__name__)
-    
+
     try:
         # Get coordinates with error handling
         loader = get_coordinate_loader()
         coords = loader.get_agent_coordinates("Agent-1")
         print(f"Agent-1 coordinates: {coords}")
-        
+
     except CoordinateError as e:
         logger.error(f"Coordinate error: {e}")
         return False
-    
+
     try:
         # Send message with error handling
         success = await send_message(message)
         return success
-        
+
     except MessagingError as e:
         logger.error(f"Messaging error: {e}")
         return False

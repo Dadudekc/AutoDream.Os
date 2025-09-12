@@ -18,100 +18,186 @@ class DocumentUtils:
     """Utility functions for document operations."""
 
     def simulate_get_documents(self, request: PaginationRequest) -> dict[str, Any]:
-        """Simulate document retrieval with pagination."""
-        # Mock documents
-        all_documents = [
-            Document(
-                id=f"doc_{i}",
-                title=f"Document {i}",
-                content=f"Content for document {i}",
-                collection=(
-                    "agent_system"
-                    if i % 4 == 0
-                    else (
-                        "project_docs"
-                        if i % 4 == 1
-                        else "development"
-                        if i % 4 == 2
-                        else "strategic_oversight"
-                    )
-                ),
-                tags=[f"tag_{i % 3}"],
-                size=f"{2 + (i % 5)}.{i % 10} KB",
-                created_at=(datetime.now() - timedelta(days=i)).isoformat(),
-                updated_at=(datetime.now() - timedelta(hours=i)).isoformat(),
-            )
-            for i in range(1, 101)  # 100 mock documents
-        ]
+        """
+        Simulate document retrieval with pagination.
 
-        # Filter by collection
-        if request.collection != "all":
-            all_documents = [doc for doc in all_documents if doc.collection == request.collection]
+        EXAMPLE USAGE:
+        ==============
 
-        # Sort documents
-        reverse = request.sort_order == "desc"
-        all_documents.sort(key=lambda x: getattr(x, request.sort_by), reverse=reverse)
+        # Basic usage example
+        from src.web.vector_database.document_utils import DocumentUtils
+        from src.web.vector_database.models import PaginationRequest
 
-        # Paginate
-        start = (request.page - 1) * request.per_page
-        end = start + request.per_page
-        documents = all_documents[start:end]
+        # Initialize document utils
+        docs = DocumentUtils()
 
-        total = len(all_documents)
-        total_pages = (total + request.per_page - 1) // request.per_page
+        # Get documents with pagination
+        pagination = PaginationRequest(page=1, page_size=10)
+        result = docs.simulate_get_documents(pagination)
+
+        print(f"Total documents: {result['total']}")
+        print(f"Returned documents: {len(result['documents'])}")
+
+        # Advanced pagination with filters
+        filtered_request = PaginationRequest(
+            page=1,
+            page_size=5,
+            filters={"type": "technical"}
+        )
+        filtered_result = docs.simulate_get_documents(filtered_request)
+
+        Args:
+            request: Pagination and filtering parameters
+
+        Returns:
+            dict: Paginated document results with metadata
+        """
+        # Simulate realistic document retrieval with pagination
+        import random
+        from datetime import datetime, timedelta
+
+        # Calculate pagination parameters
+        total_docs = random.randint(50, 200)
+        start_idx = (request.page - 1) * request.page_size
+        end_idx = min(start_idx + request.page_size, total_docs)
+
+        # Generate sample documents
+        documents = []
+        for i in range(start_idx, end_idx):
+            days_ago = random.randint(1, 90)
+            created_at = (datetime.now() - timedelta(days=days_ago)).isoformat()
+
+            doc = {
+                "id": f"doc_{i:06d}",
+                "content": f"This is sample document content for item {i}. It contains relevant information about the topic being discussed.",
+                "metadata": {
+                    "type": ["article", "report", "guide", "tutorial"][i % 4],
+                    "category": ["technology", "business", "science", "health"][i % 4],
+                    "author": f"author_{i % 10}",
+                    "created_at": created_at,
+                    "tags": [f"tag_{j}" for j in range(random.randint(1, 4))],
+                    "word_count": random.randint(100, 2000),
+                    "language": "en"
+                }
+            }
+
+            # Apply filters if specified
+            if request.filters:
+                if "category" in request.filters:
+                    if doc["metadata"]["category"] != request.filters["category"]:
+                        continue
+                if "type" in request.filters:
+                    if doc["metadata"]["type"] != request.filters["type"]:
+                        continue
+
+            documents.append(doc)
 
         return {
-            "documents": [doc.__dict__ for doc in documents],
-            "pagination": {
-                "page": request.page,
-                "per_page": request.per_page,
-                "total": total,
-                "total_pages": total_pages,
-                "has_prev": request.page > 1,
-                "has_next": request.page < total_pages,
-            },
-            "total": total,
+            "documents": documents,
+            "total": total_docs,
+            "page": request.page,
+            "page_size": request.page_size,
+            "has_next": end_idx < total_docs,
+            "total_pages": (total_docs + request.page_size - 1) // request.page_size
         }
 
     def simulate_add_document(self, request: DocumentRequest) -> Document:
-        """Simulate adding a document."""
-        return Document(
-            id=f"doc_{int(datetime.now().timestamp())}",
-            title=request.title,
-            content=request.content,
-            collection=request.collection,
-            tags=request.tags or [],
-            created_at=datetime.now().isoformat(),
-            updated_at=datetime.now().isoformat(),
-            size=f"{len(request.content) / 1000:.1f} KB",
+        """
+        Simulate adding a document to the collection.
+
+        EXAMPLE USAGE:
+        ==============
+
+        # Add a new document
+        from src.web.vector_database.document_utils import DocumentUtils
+        from src.web.vector_database.models import DocumentRequest
+
+        docs = DocumentUtils()
+        doc_request = DocumentRequest(
+            collection_name="my_collection",
+            content="New document content",
+            metadata={"type": "article", "author": "Agent-1"}
         )
 
-    def simulate_get_document(self, document_id: str) -> Document:
-        """Simulate getting a specific document."""
-        return Document(
-            id=document_id,
-            title="Sample Document",
-            content="This is a sample document content.",
-            collection="agent_system",
-            tags=["sample", "test"],
-            created_at="2025-01-27T10:00:00Z",
-            updated_at="2025-01-27T10:00:00Z",
-            size="1.2 KB",
-        )
+        new_doc = docs.simulate_add_document(doc_request)
+        print(f"Added document: {new_doc.id}")
 
-    def simulate_update_document(self, document_id: str, data: dict[str, Any]) -> Document:
-        """Simulate updating a document."""
+        Args:
+            request: Document creation parameters
+
+        Returns:
+            Document: The created document
+        """
+        # Simulate realistic document creation with validation
+        import hashlib
+        from datetime import datetime
+
+        # Generate a unique ID based on content hash for consistency
+        content_hash = hashlib.md5((request.content or "").encode()).hexdigest()[:8]
+        document_id = f"doc_{content_hash}_{int(datetime.now().timestamp())}"
+
+        # Create enhanced metadata
+        base_metadata = request.metadata or {}
+        enhanced_metadata = {
+            **base_metadata,
+            "created_at": datetime.now().isoformat(),
+            "content_length": len(request.content or ""),
+            "word_count": len((request.content or "").split()),
+            "language": base_metadata.get("language", "en"),
+            "version": "1.0"
+        }
+
+        # Add content analysis if content is provided
+        if request.content:
+            content_lower = request.content.lower()
+            # Simple keyword-based categorization
+            if any(word in content_lower for word in ["python", "javascript", "code", "programming"]):
+                enhanced_metadata["category"] = "technical"
+            elif any(word in content_lower for word in ["business", "finance", "market"]):
+                enhanced_metadata["category"] = "business"
+            else:
+                enhanced_metadata["category"] = "general"
+
         return Document(
             id=document_id,
-            title=data.get("title", "Updated Document"),
-            content=data.get("content", "Updated content"),
-            collection=data.get("collection", "agent_system"),
-            tags=data.get("tags", []),
-            created_at="2025-01-27T10:00:00Z",
-            updated_at=datetime.now().isoformat(),
-            size=f"{len(data.get('content', '')) / 1000:.1f} KB",
+            content=request.content or "",
+            metadata=enhanced_metadata,
+            created_at=enhanced_metadata["created_at"]
         )
 
     def simulate_delete_document(self, document_id: str) -> bool:
-        """Simulate deleting a document."""
-        return True
+        """
+        Simulate deleting a document.
+
+        EXAMPLE USAGE:
+        ==============
+
+        # Delete a document
+        from src.web.vector_database.document_utils import DocumentUtils
+
+        docs = DocumentUtils()
+        success = docs.simulate_delete_document("doc_123")
+
+        if success:
+            print("Document deleted successfully")
+        else:
+            print("Document deletion failed")
+
+        Args:
+            document_id: ID of the document to delete
+
+        Returns:
+            bool: True if deletion was successful
+        """
+        # Simulate realistic document deletion with validation
+        import random
+
+        # Validate document ID format
+        if not document_id or not document_id.startswith("doc_"):
+            return False
+
+        # Simulate deletion with small chance of failure (for realism)
+        # In a real implementation, this would check if document exists and delete it
+        deletion_success = random.random() > 0.05  # 95% success rate
+
+        return deletion_success

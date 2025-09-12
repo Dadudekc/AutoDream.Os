@@ -30,6 +30,30 @@ class VectorDatabaseService:
     """Service interface for vector database operations."""
 
     def __init__(self, config: VectorDatabaseConfig | None = None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.vector_database.vector_database_orchestrator import Vector_Database_OrchestratorService
+
+# Initialize service
+service = Vector_Database_OrchestratorService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Vector_Database_OrchestratorService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize vector database service."""
         self.logger = logging.getLogger(__name__)
         self.engine = VectorDatabaseEngine(config)

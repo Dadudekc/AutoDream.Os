@@ -15,6 +15,30 @@ class EmbeddingService:
     """Service for generating text embeddings."""
 
     def __init__(self, model: EmbeddingModel = EmbeddingModel.SENTENCE_TRANSFORMERS):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.embedding_service import Embedding_ServiceService
+
+# Initialize service
+service = Embedding_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Embedding_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize embedding service."""
         self.model = model
         self._sentence_transformer = None

@@ -26,7 +26,7 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ConfigPattern:
     """Represents a configuration pattern found in code."""
+
     file_path: Path
     line_number: int
     pattern_type: str
@@ -42,38 +43,40 @@ class ConfigPattern:
     context: str
     source: str
     confidence: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class ConfigValidationResult:
     """Result of configuration validation."""
+
     is_valid: bool
-    errors: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
-    suggestions: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    suggestions: list[str] = field(default_factory=list)
 
 
 @dataclass
 class ConfigConsolidationResult:
     """Result of configuration consolidation."""
+
     patterns_found: int
     files_scanned: int
-    consolidation_suggestions: List[str]
+    consolidation_suggestions: list[str]
     validation_results: ConfigValidationResult
-    consolidated_config: Dict[str, Any] = field(default_factory=dict)
+    consolidated_config: dict[str, Any] = field(default_factory=dict)
 
 
 class ConfigurationScanner(ABC):
     """Abstract base class for configuration scanners."""
 
     @abstractmethod
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan a file for configuration patterns."""
         pass
 
     @abstractmethod
-    def get_pattern_types(self) -> List[str]:
+    def get_pattern_types(self) -> list[str]:
         """Get the types of patterns this scanner detects."""
         pass
 
@@ -81,17 +84,17 @@ class ConfigurationScanner(ABC):
 class EnvironmentVariableScanner(ConfigurationScanner):
     """Scans for environment variable usage patterns."""
 
-    def get_pattern_types(self) -> List[str]:
+    def get_pattern_types(self) -> list[str]:
         return ["env_var", "getenv", "environ"]
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for environment variable patterns."""
         patterns = []
         env_patterns = [
             (r'os\.getenv\(["\']([^"\']+)["\']', "getenv"),
             (r'os\.environ\.get\(["\']([^"\']+)["\']', "environ_get"),
             (r'os\.environ\["([^"]+)"\]', "environ_direct"),
-            (r'os\.environ\[\'([^\']+)\'\]', "environ_direct"),
+            (r"os\.environ\[\'([^\']+)\'\]", "environ_direct"),
         ]
 
         for i, line in enumerate(lines, 1):
@@ -99,16 +102,18 @@ class EnvironmentVariableScanner(ConfigurationScanner):
                 matches = re.finditer(pattern, line)
                 for match in matches:
                     var_name = match.group(1)
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type=pattern_type,
-                        key=var_name,
-                        value=f"os.getenv('{var_name}')",
-                        context=line.strip(),
-                        source="environment_variable",
-                        confidence=0.9
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type=pattern_type,
+                            key=var_name,
+                            value=f"os.getenv('{var_name}')",
+                            context=line.strip(),
+                            source="environment_variable",
+                            confidence=0.9,
+                        )
+                    )
 
         return patterns
 
@@ -116,48 +121,63 @@ class EnvironmentVariableScanner(ConfigurationScanner):
 class HardcodedValueScanner(ConfigurationScanner):
     """Scans for hardcoded configuration values."""
 
-    def get_pattern_types(self) -> List[str]:
+    def get_pattern_types(self) -> list[str]:
         return ["hardcoded_string", "hardcoded_number", "hardcoded_bool"]
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for hardcoded values that might be configuration."""
         patterns = []
 
         # Skip certain file types
-        if file_path.suffix in ['.pyc', '.pyo', '.pyd']:
+        if file_path.suffix in [".pyc", ".pyo", ".pyd"]:
             return patterns
-        if 'test' in file_path.name.lower():
+        if "test" in file_path.name.lower():
             return patterns
 
         # Look for potential config patterns
         config_indicators = [
-            'host', 'port', 'url', 'path', 'dir', 'file', 'timeout', 'retry',
-            'max', 'min', 'default', 'config', 'setting'
+            "host",
+            "port",
+            "url",
+            "path",
+            "dir",
+            "file",
+            "timeout",
+            "retry",
+            "max",
+            "min",
+            "default",
+            "config",
+            "setting",
         ]
 
         for i, line in enumerate(lines, 1):
             line_lower = line.lower()
 
             # Check for config-like variable assignments
-            if '=' in line and any(indicator in line_lower for indicator in config_indicators):
+            if "=" in line and any(indicator in line_lower for indicator in config_indicators):
                 # Extract variable name and value
-                parts = line.split('=', 1)
+                parts = line.split("=", 1)
                 if len(parts) == 2:
                     var_name = parts[0].strip()
                     var_value = parts[1].strip()
 
                     # Skip imports, function calls, etc.
-                    if not any(skip in var_name.lower() for skip in ['import', 'from', 'def ', 'class ']):
-                        patterns.append(ConfigPattern(
-                            file_path=file_path,
-                            line_number=i,
-                            pattern_type="hardcoded_value",
-                            key=var_name,
-                            value=var_value,
-                            context=line.strip(),
-                            source="hardcoded_assignment",
-                            confidence=0.6
-                        ))
+                    if not any(
+                        skip in var_name.lower() for skip in ["import", "from", "def ", "class "]
+                    ):
+                        patterns.append(
+                            ConfigPattern(
+                                file_path=file_path,
+                                line_number=i,
+                                pattern_type="hardcoded_value",
+                                key=var_name,
+                                value=var_value,
+                                context=line.strip(),
+                                source="hardcoded_assignment",
+                                confidence=0.6,
+                            )
+                        )
 
         return patterns
 
@@ -165,15 +185,15 @@ class HardcodedValueScanner(ConfigurationScanner):
 class ConfigConstantScanner(ConfigurationScanner):
     """Scans for configuration constants."""
 
-    def get_pattern_types(self) -> List[str]:
+    def get_pattern_types(self) -> list[str]:
         return ["constant", "config_constant"]
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for configuration constants."""
         patterns = []
 
         # Look for ALL_CAPS variable assignments (potential constants)
-        constant_pattern = re.compile(r'^([A-Z][A-Z0-9_]*)\s*=\s*(.+)')
+        constant_pattern = re.compile(r"^([A-Z][A-Z0-9_]*)\s*=\s*(.+)")
 
         for i, line in enumerate(lines, 1):
             match = constant_pattern.match(line.strip())
@@ -182,18 +202,29 @@ class ConfigConstantScanner(ConfigurationScanner):
                 const_value = match.group(2).strip()
 
                 # Check if it looks like configuration
-                config_keywords = ['host', 'port', 'url', 'path', 'timeout', 'max', 'min', 'default']
+                config_keywords = [
+                    "host",
+                    "port",
+                    "url",
+                    "path",
+                    "timeout",
+                    "max",
+                    "min",
+                    "default",
+                ]
                 if any(keyword in const_name.lower() for keyword in config_keywords):
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type="config_constant",
-                        key=const_name,
-                        value=const_value,
-                        context=line.strip(),
-                        source="constant_definition",
-                        confidence=0.8
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type="config_constant",
+                            key=const_name,
+                            value=const_value,
+                            context=line.strip(),
+                            source="constant_definition",
+                            confidence=0.8,
+                        )
+                    )
 
         return patterns
 
@@ -201,34 +232,36 @@ class ConfigConstantScanner(ConfigurationScanner):
 class SettingsPatternScanner(ConfigurationScanner):
     """Scans for settings.py style configuration patterns."""
 
-    def get_pattern_types(self) -> List[str]:
+    def get_pattern_types(self) -> list[str]:
         return ["django_settings", "flask_config", "app_config"]
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan for application configuration patterns."""
         patterns = []
 
         # Look for common config patterns
         config_patterns = [
-            (r'DEBUG\s*=\s*(True|False)', "debug_setting"),
+            (r"DEBUG\s*=\s*(True|False)", "debug_setting"),
             (r'SECRET_KEY\s*=\s*["\'][^"\']+["\']', "secret_key"),
             (r'DATABASE_URL\s*=\s*["\'][^"\']+["\']', "database_url"),
-            (r'ALLOWED_HOSTS\s*=\s*\[.*\]', "allowed_hosts"),
+            (r"ALLOWED_HOSTS\s*=\s*\[.*\]", "allowed_hosts"),
         ]
 
         for i, line in enumerate(lines, 1):
             for pattern, pattern_type in config_patterns:
                 if re.search(pattern, line):
-                    patterns.append(ConfigPattern(
-                        file_path=file_path,
-                        line_number=i,
-                        pattern_type=pattern_type,
-                        key=pattern_type.upper(),
-                        value=line.strip(),
-                        context=line.strip(),
-                        source="settings_pattern",
-                        confidence=0.7
-                    ))
+                    patterns.append(
+                        ConfigPattern(
+                            file_path=file_path,
+                            line_number=i,
+                            pattern_type=pattern_type,
+                            key=pattern_type.upper(),
+                            value=line.strip(),
+                            context=line.strip(),
+                            source="settings_pattern",
+                            confidence=0.7,
+                        )
+                    )
 
         return patterns
 
@@ -241,11 +274,11 @@ class UnifiedConfigurationManager:
     cohesive system for managing application configuration.
     """
 
-    def __init__(self, scan_directories: Optional[List[str]] = None):
+    def __init__(self, scan_directories: list[str] | None = None):
         self.scan_directories = scan_directories or ["src"]
-        self.scanners: List[ConfigurationScanner] = []
-        self.scan_results: Dict[str, List[ConfigPattern]] = {}
-        self.consolidated_config: Dict[str, Any] = {}
+        self.scanners: list[ConfigurationScanner] = []
+        self.scan_results: dict[str, list[ConfigPattern]] = {}
+        self.consolidated_config: dict[str, Any] = {}
 
         # Initialize default scanners
         self._initialize_scanners()
@@ -263,7 +296,9 @@ class UnifiedConfigurationManager:
         """Add a custom configuration scanner."""
         self.scanners.append(scanner)
 
-    def scan_configurations(self, directories: Optional[List[str]] = None) -> Dict[str, List[ConfigPattern]]:
+    def scan_configurations(
+        self, directories: list[str] | None = None
+    ) -> dict[str, list[ConfigPattern]]:
         """Scan specified directories for configuration patterns."""
         scan_dirs = directories or self.scan_directories
         self.scan_results = {}
@@ -284,7 +319,7 @@ class UnifiedConfigurationManager:
     def _scan_file(self, file_path: Path) -> None:
         """Scan a single file for configuration patterns."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 lines = f.readlines()
 
             all_patterns = []
@@ -293,7 +328,9 @@ class UnifiedConfigurationManager:
                     patterns = scanner.scan_file(file_path, lines)
                     all_patterns.extend(patterns)
                 except Exception as e:
-                    logger.warning(f"Scanner {scanner.__class__.__name__} failed on {file_path}: {e}")
+                    logger.warning(
+                        f"Scanner {scanner.__class__.__name__} failed on {file_path}: {e}"
+                    )
 
             if all_patterns:
                 self.scan_results[str(file_path)] = all_patterns
@@ -317,21 +354,23 @@ class UnifiedConfigurationManager:
             files_scanned=total_files,
             consolidation_suggestions=consolidation_suggestions,
             validation_results=validation_result,
-            consolidated_config=self.consolidated_config
+            consolidated_config=self.consolidated_config,
         )
 
-    def _analyze_consolidation_opportunities(self) -> List[str]:
+    def _analyze_consolidation_opportunities(self) -> list[str]:
         """Analyze scan results for consolidation opportunities."""
         suggestions = []
 
         # Count pattern types
-        pattern_counts: Dict[str, int] = {}
-        env_vars: Set[str] = set()
-        hardcoded_values: List[ConfigPattern] = []
+        pattern_counts: dict[str, int] = {}
+        env_vars: set[str] = set()
+        hardcoded_values: list[ConfigPattern] = []
 
         for patterns in self.scan_results.values():
             for pattern in patterns:
-                pattern_counts[pattern.pattern_type] = pattern_counts.get(pattern.pattern_type, 0) + 1
+                pattern_counts[pattern.pattern_type] = (
+                    pattern_counts.get(pattern.pattern_type, 0) + 1
+                )
 
                 if pattern.pattern_type in ["getenv", "environ_get", "environ_direct"]:
                     env_vars.add(pattern.key)
@@ -340,17 +379,25 @@ class UnifiedConfigurationManager:
 
         # Generate suggestions
         if len(env_vars) > 0:
-            suggestions.append(f"Found {len(env_vars)} environment variables that could be centralized in a config file")
+            suggestions.append(
+                f"Found {len(env_vars)} environment variables that could be centralized in a config file"
+            )
 
         if len(hardcoded_values) > 10:
-            suggestions.append(f"Found {len(hardcoded_values)} potential hardcoded configuration values that should be externalized")
+            suggestions.append(
+                f"Found {len(hardcoded_values)} potential hardcoded configuration values that should be externalized"
+            )
 
         if pattern_counts.get("config_constant", 0) > 5:
-            suggestions.append(f"Found {pattern_counts['config_constant']} configuration constants that could be consolidated")
+            suggestions.append(
+                f"Found {pattern_counts['config_constant']} configuration constants that could be consolidated"
+            )
 
         # Suggest centralization
         if len(self.scan_results) > 5:
-            suggestions.append(f"Configuration scattered across {len(self.scan_results)} files - consider centralizing")
+            suggestions.append(
+                f"Configuration scattered across {len(self.scan_results)} files - consider centralizing"
+            )
 
         return suggestions
 
@@ -379,16 +426,15 @@ class UnifiedConfigurationManager:
                 if pattern.pattern_type == "hardcoded_value":
                     value_lower = str(pattern.value).lower()
                     if any(sensitive in value_lower for sensitive in sensitive_patterns):
-                        errors.append(f"Potential hardcoded sensitive data in {pattern.file_path}:{pattern.line_number}")
+                        errors.append(
+                            f"Potential hardcoded sensitive data in {pattern.file_path}:{pattern.line_number}"
+                        )
 
         if not errors and not warnings:
             suggestions.append("Configuration validation passed - no issues found")
 
         return ConfigValidationResult(
-            is_valid=len(errors) == 0,
-            errors=errors,
-            warnings=warnings,
-            suggestions=suggestions
+            is_valid=len(errors) == 0, errors=errors, warnings=warnings, suggestions=suggestions
         )
 
     def generate_config_file(self, output_path: str = "config/consolidated_config.json") -> str:
@@ -396,14 +442,16 @@ class UnifiedConfigurationManager:
         config_data = {
             "metadata": {
                 "generated_by": "UnifiedConfigurationManager",
-                "timestamp": str(Path(output_path).stat().st_mtime) if Path(output_path).exists() else None,
+                "timestamp": (
+                    str(Path(output_path).stat().st_mtime) if Path(output_path).exists() else None
+                ),
                 "scan_directories": self.scan_directories,
-                "patterns_found": sum(len(patterns) for patterns in self.scan_results.values())
+                "patterns_found": sum(len(patterns) for patterns in self.scan_results.values()),
             },
             "environment_variables": {},
             "constants": {},
             "settings": {},
-            "validation": {}
+            "validation": {},
         }
 
         # Extract environment variables
@@ -416,8 +464,9 @@ class UnifiedConfigurationManager:
         config_data["environment_variables"] = {
             var: {
                 "required": True,
-                "description": f"Used in {len([p for patterns in self.scan_results.values() for p in patterns if p.key == var])} locations"
-            } for var in sorted(env_vars)
+                "description": f"Used in {len([p for patterns in self.scan_results.values() for p in patterns if p.key == var])} locations",
+            }
+            for var in sorted(env_vars)
         }
 
         # Extract constants
@@ -433,7 +482,7 @@ class UnifiedConfigurationManager:
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(config_data, f, indent=2)
 
         logger.info(f"✅ Consolidated configuration generated: {output_path}")
@@ -442,11 +491,13 @@ class UnifiedConfigurationManager:
     def export_scan_results(self, output_path: str = "reports/config_scan_results.json") -> str:
         """Export detailed scan results."""
         results_data = {
-            "scan_timestamp": str(Path(output_path).stat().st_mtime) if Path(output_path).exists() else None,
+            "scan_timestamp": (
+                str(Path(output_path).stat().st_mtime) if Path(output_path).exists() else None
+            ),
             "scan_directories": self.scan_directories,
             "total_files_scanned": len(self.scan_results),
             "total_patterns_found": sum(len(patterns) for patterns in self.scan_results.values()),
-            "results_by_file": {}
+            "results_by_file": {},
         }
 
         # Convert patterns to serializable format
@@ -459,15 +510,16 @@ class UnifiedConfigurationManager:
                     "value": str(p.value),
                     "context": p.context,
                     "source": p.source,
-                    "confidence": p.confidence
-                } for p in patterns
+                    "confidence": p.confidence,
+                }
+                for p in patterns
             ]
 
         # Write results file
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(results_data, f, indent=2)
 
         logger.info(f"✅ Scan results exported: {output_path}")
@@ -475,14 +527,16 @@ class UnifiedConfigurationManager:
 
 
 # Convenience functions
-def scan_and_consolidate_config(directories: Optional[List[str]] = None) -> ConfigConsolidationResult:
+def scan_and_consolidate_config(
+    directories: list[str] | None = None,
+) -> ConfigConsolidationResult:
     """Convenience function to scan and consolidate configurations."""
     manager = UnifiedConfigurationManager(directories)
     manager.scan_configurations()
     return manager.consolidate_configurations()
 
 
-def validate_configuration_setup(directories: Optional[List[str]] = None) -> ConfigValidationResult:
+def validate_configuration_setup(directories: list[str] | None = None) -> ConfigValidationResult:
     """Validate current configuration setup."""
     manager = UnifiedConfigurationManager(directories)
     manager.scan_configurations()

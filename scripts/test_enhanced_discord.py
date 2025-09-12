@@ -88,7 +88,7 @@ class EnhancedDiscordTester:
         # Check webhook URLs configured
         if self.config_file.exists():
             try:
-                with open(self.config_file, "r") as f:
+                with open(self.config_file) as f:
                     config = json.load(f)
 
                 configured_webhooks = 0
@@ -185,7 +185,7 @@ class EnhancedDiscordTester:
         try:
             # Import enhanced integration
             sys.path.append(str(self.discord_dir))
-            from enhanced_discord_integration import AgentChannel, EnhancedDiscordCommander
+            from enhanced_discord_integration import EnhancedDiscordCommander
 
             # Create commander instance
             commander = EnhancedDiscordCommander()

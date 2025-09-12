@@ -24,6 +24,33 @@ def read_file(filepath):
 
 
 def write_file(filepath, content):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.utils.simple_utils import Simple_Utils
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Simple_Utils(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Write content to file."""
     try:
         os.makedirs(os.path.dirname(filepath), exist_ok=True)

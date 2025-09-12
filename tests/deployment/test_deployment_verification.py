@@ -16,21 +16,18 @@ Author: Agent-7 (Web Development Specialist)
 Test Type: Deployment Verification
 """
 
-import json
-import os
 import sys
 import time
-import subprocess
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
+from typing import Any
 
 import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
-from tests.integration_testing_framework import IntegrationTestFramework, TestResult, TestStatus
+from tests.integration_testing_framework import IntegrationTestFramework, TestStatus
 
 
 class DeploymentVerificationSystem:
@@ -56,7 +53,7 @@ class DeploymentVerificationSystem:
         }
         return env_urls.get(self.environment, "http://localhost:8000")
 
-    def run_full_deployment_verification(self) -> Dict[str, Any]:
+    def run_full_deployment_verification(self) -> dict[str, Any]:
         """Run complete deployment verification suite."""
         print(f"Starting deployment verification for {self.environment} environment...")
 
@@ -132,7 +129,7 @@ class DeploymentVerificationSystem:
 
         return results
 
-    def verify_system_health(self) -> Dict[str, Any]:
+    def verify_system_health(self) -> dict[str, Any]:
         """Verify system health and basic functionality."""
         result = {"status": "running", "timestamp": datetime.now().isoformat(), "checks": {}}
 
@@ -174,7 +171,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_service_availability(self) -> Dict[str, Any]:
+    def verify_service_availability(self) -> dict[str, Any]:
         """Verify all core services are available and responsive."""
         result = {
             "status": "running",
@@ -246,7 +243,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_api_endpoints(self) -> Dict[str, Any]:
+    def verify_api_endpoints(self) -> dict[str, Any]:
         """Verify all API endpoints are functional and properly documented."""
         result = {
             "status": "running",
@@ -314,7 +311,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_database_connectivity(self) -> Dict[str, Any]:
+    def verify_database_connectivity(self) -> dict[str, Any]:
         """Verify database connectivity and basic operations."""
         result = {
             "status": "running",
@@ -366,7 +363,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_configuration_integrity(self) -> Dict[str, Any]:
+    def verify_configuration_integrity(self) -> dict[str, Any]:
         """Verify configuration integrity and consistency."""
         result = {"status": "running", "timestamp": datetime.now().isoformat(), "config_checks": []}
 
@@ -415,7 +412,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_performance_baselines(self) -> Dict[str, Any]:
+    def verify_performance_baselines(self) -> dict[str, Any]:
         """Verify performance meets baseline requirements."""
         result = {
             "status": "running",
@@ -472,7 +469,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_security_posture(self) -> Dict[str, Any]:
+    def verify_security_posture(self) -> dict[str, Any]:
         """Verify security posture and basic security controls."""
         result = {
             "status": "running",
@@ -491,7 +488,9 @@ class DeploymentVerificationSystem:
             for endpoint, method in protected_endpoints:
                 # Test without authentication (should fail)
                 unauth_result = self.framework.validate_api_endpoint(
-                    endpoint, method, expected_status=401  # Unauthorized
+                    endpoint,
+                    method,
+                    expected_status=401,  # Unauthorized
                 )
 
                 if unauth_result.status == TestStatus.PASSED:
@@ -540,7 +539,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_external_integrations(self) -> Dict[str, Any]:
+    def verify_external_integrations(self) -> dict[str, Any]:
         """Verify external service integrations."""
         result = {
             "status": "running",
@@ -584,7 +583,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_monitoring_systems(self) -> Dict[str, Any]:
+    def verify_monitoring_systems(self) -> dict[str, Any]:
         """Verify monitoring and logging systems."""
         result = {
             "status": "running",
@@ -626,7 +625,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def verify_rollback_capability(self) -> Dict[str, Any]:
+    def verify_rollback_capability(self) -> dict[str, Any]:
         """Verify rollback capability and procedures."""
         result = {
             "status": "running",
@@ -667,7 +666,7 @@ class DeploymentVerificationSystem:
 
         return result
 
-    def generate_deployment_report(self) -> Dict[str, Any]:
+    def generate_deployment_report(self) -> dict[str, Any]:
         """Generate comprehensive deployment verification report."""
         if not self.verification_results:
             return {"error": "No verification results available. Run verification first."}
@@ -702,7 +701,7 @@ class DeploymentVerificationSystem:
 
         return report
 
-    def _generate_recommendations(self) -> List[str]:
+    def _generate_recommendations(self) -> list[str]:
         """Generate deployment recommendations based on verification results."""
         recommendations = []
 

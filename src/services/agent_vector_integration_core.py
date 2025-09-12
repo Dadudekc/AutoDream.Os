@@ -2,6 +2,30 @@
 """Agent Vector Integration Core - V2 Compliance Module.
 
 Provides core integration functionality for agent vector operations.
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.agent_vector_integration_core import Agent_Vector_Integration_CoreService
+
+# Initialize service
+service = Agent_Vector_Integration_CoreService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Agent_Vector_Integration_CoreService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
 """
 
 import logging

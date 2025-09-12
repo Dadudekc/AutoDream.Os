@@ -50,6 +50,30 @@ class SimpleOnboarding:
         dry_run: bool = False,
         status_file: str | Path = "status.json",
     ):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.simple_onboarding import Simple_OnboardingService
+
+# Initialize service
+service = Simple_OnboardingService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Simple_OnboardingService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """
         Enhanced Simple Onboarding with Mode QA Pack Features:
           1) Focus chat input → paste WRAP-UP message (template-driven)

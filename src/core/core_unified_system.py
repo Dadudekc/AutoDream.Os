@@ -38,7 +38,14 @@ class BaseUtility(ABC):
     """Base class for all shared utilities."""
 
     def __init__(self, name: str = None):
-        self.name = name or self.__class__.__name__
+        """Initialize unified system.
+
+        Args:
+            name: Optional name for the system
+        """
+        self.name = name or "unified_system"
+        self.status = "initialized"
+        self.components = {}
         self.logger = logging.getLogger(self.name)
 
     @abstractmethod
@@ -660,6 +667,8 @@ def main():
     print(f"Import manager created: {len(import_manager.import_cache)} cached modules")
 
     print("\nCore Unified System initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

@@ -33,6 +33,28 @@ def load_agents_index() -> dict[str, Any]:
 
 
 def calculate_staleness(last_updated: str) -> tuple[int, str]:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.captain_snapshot import Captain_Snapshot
+
+# Initialize and use
+instance = Captain_Snapshot()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Captain_Snapshot(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Calculate staleness in minutes and return status."""
     try:
         if last_updated.endswith("Z"):

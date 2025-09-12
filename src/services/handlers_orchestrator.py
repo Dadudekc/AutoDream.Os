@@ -85,6 +85,30 @@ class HandlerRequest:
 
 
 class UnifiedHandlersOrchestrator:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.handlers_orchestrator import Handlers_OrchestratorService
+
+# Initialize service
+service = Handlers_OrchestratorService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Handlers_OrchestratorService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """
     Main orchestrator for all handler operations
     Coordinates all handler modules for V2 compliance

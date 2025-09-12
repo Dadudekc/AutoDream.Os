@@ -150,6 +150,21 @@ class VectorEngine(ABC):
     """Base vector engine interface."""
 
     def __init__(self, vector_id: str, name: str, vector_type: VectorType):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.vector_id = vector_id
         self.name = name
         self.vector_type = vector_type

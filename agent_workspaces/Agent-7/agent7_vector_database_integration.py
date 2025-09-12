@@ -12,6 +12,27 @@ Author: Agent-7 - Web Development Specialist
 License: MIT
 """
 
+# Import required modules
+import json
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List
+
+
+# Fallback utility function
+def get_unified_utility():
+    """Fallback utility function for unified utilities."""
+    class Utility:
+        def Path(self, path_str: str) -> Path:
+            return Path(path_str)
+    return Utility()
+
+# Fallback logger function
+def get_logger(name: str):
+    """Fallback logger function."""
+    import logging
+    return logging.getLogger(name)
+
 # Import fallback for vector database service
 try:
     from ...core.unified_logging_system import get_logger
@@ -69,7 +90,7 @@ class Agent7VectorDatabaseIntegration:
 
         try:
             with open(status_file, encoding="utf-8") as f:
-                status_data = read_json(f)
+                status_data = json.load(f)
 
             # Index main status document
             status_doc = VectorDocument(

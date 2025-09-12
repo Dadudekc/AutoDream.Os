@@ -27,11 +27,20 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 
-# Import enhanced unified configuration system
-from ..core.enhanced_unified_config import get_enhanced_config
-
-# Get enhanced unified config instance
-_unified_config = get_enhanced_config()
+# Import enhanced unified configuration system with fallback
+try:
+    from ..core.enhanced_unified_config import get_enhanced_config
+    _unified_config = get_enhanced_config()
+except ImportError:
+    # Fallback configuration for Agent-7 Web chunk support
+    class _FallbackConfig:
+        def get_timeout_config(self):
+            return {
+                "SCRAPE_TIMEOUT": 30.0,
+                "QUALITY_CHECK_INTERVAL": 10.0,
+                "RESPONSE_WAIT_TIMEOUT": 120.0
+            }
+    _unified_config = _FallbackConfig()
 
 
 @dataclass

@@ -5,7 +5,7 @@
   "agent_name": "Configuration & Infrastructure Specialist",
   "contract_type": "INFRASTRUCTURE_OPTIMIZATION",
   "priority": "HIGH",
-  "status": "AVAILABLE",
+  "status": "ASSIGNED",
 
   "contract_details": {
     "description": "Optimize system configuration and infrastructure following recent reset. Rebuild and enhance configuration management, deployment pipelines, and infrastructure monitoring.",

@@ -148,6 +148,24 @@ class Manager(ABC):
     """Base manager interface."""
 
     def __init__(self, manager_id: str, name: str, manager_type: ManagerType):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.manager_id = manager_id
         self.name = name
         self.manager_type = manager_type

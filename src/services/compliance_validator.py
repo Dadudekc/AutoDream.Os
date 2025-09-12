@@ -17,6 +17,30 @@ class ComplianceValidator:
     def validate_agent_compliance(
         self, agent_id: str, principle: ArchitecturalPrinciple, code_changes: list[str]
     ) -> ComplianceValidationResult:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.compliance_validator import Compliance_ValidatorService
+
+# Initialize service
+service = Compliance_ValidatorService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Compliance_ValidatorService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Validate that an agent's changes comply with their assigned principle."""
 
         issues = []

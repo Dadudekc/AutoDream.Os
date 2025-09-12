@@ -23,6 +23,28 @@ class ChromeUndetected:
         self.driver = None
 
     def open(self, profile: str | None = None) -> None:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.chrome_undetected import Chrome_Undetected
+
+# Initialize and use
+instance = Chrome_Undetected()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Chrome_Undetected(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Open Chrome browser."""
         if not SELENIUM_AVAILABLE:
             raise ImportError("Selenium is required for browser functionality")

@@ -90,6 +90,9 @@ class OperationalMonitoringBaseline:
     """
 
     def __init__(self, baseline_directory: str = "operational_baseline"):
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
         self.baseline_directory = Path(baseline_directory)
         self.baseline_directory.mkdir(exist_ok=True)
 

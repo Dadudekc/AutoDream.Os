@@ -23,6 +23,28 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.simple_monitoring_dashboard import Simple_Monitoring_Dashboard
+
+# Initialize and use
+instance = Simple_Monitoring_Dashboard()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Simple_Monitoring_Dashboard(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Handle GET requests"""
         try:
             if self.path == "/":

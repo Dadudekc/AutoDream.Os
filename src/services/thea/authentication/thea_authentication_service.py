@@ -30,6 +30,30 @@ class AuthStatus(Enum):
 
 
 class TheaCookieManager:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.thea.authentication.thea_authentication_service import Thea_Authentication_ServiceService
+
+# Initialize service
+service = Thea_Authentication_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Thea_Authentication_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Manages cookie persistence for Thea authentication."""
 
     def __init__(self, cookie_file: str = "thea_cookies.json"):

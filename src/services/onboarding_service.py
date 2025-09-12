@@ -22,6 +22,30 @@ class OnboardingService:
     """Concrete implementation of IOnboardingService protocol."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.onboarding_service import Onboarding_ServiceService
+
+# Initialize service
+service = Onboarding_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Onboarding_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize onboarding service."""
         self.logger = logger
         self.onboarding_handler = OnboardingHandler()

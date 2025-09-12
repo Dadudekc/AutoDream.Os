@@ -1,5 +1,5 @@
 {
-  "analysis_timestamp": "2025-09-12T00:07:27.847113",
+  "analysis_timestamp": "2025-09-12T01:35:56.360187",
   "project_root": "D:\\Agent_Cellphone_V2_Repository",
   "chunk_size": 50,
   "total_directories": 14,
@@ -8,22 +8,23 @@
       ".": {
         "files": {
           "": 5,
-          ".py": 18,
+          ".md": 52,
           ".yaml": 2,
-          ".md": 45,
           ".example": 2,
           ".cjs": 1,
+          ".py": 31,
           ".toml": 1,
-          ".json": 11,
-          ".txt": 2,
+          ".json": 19,
+          ".txt": 3,
+          ".log": 1,
           ".pid": 1,
           ".ps1": 1,
           ".js": 1,
           ".ini": 2
         },
-        "file_count": 92,
-        "subdirs": 31,
-        "total_files": 92
+        "file_count": 122,
+        "subdirs": 35,
+        "total_files": 122
       },
       "analysis": {
         "files": {
@@ -61,17 +62,50 @@
       },
       ".ruff_cache\\0.13.0": {
         "files": {
-          "": 48
+          "": 53
         },
-        "file_count": 48,
+        "file_count": 53,
         "subdirs": 0,
-        "total_files": 48
+        "total_files": 53
       },
       "analysis_chunks": {
+        "files": {
+          ".json": 15,
+          ".md": 1
+        },
+        "file_count": 16,
+        "subdirs": 0,
+        "total_files": 16
+      },
+      "reports": {
+        "files": {
+          ".json": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "logs": {
         "files": {},
         "file_count": 0,
         "subdirs": 0,
         "total_files": 0
+      },
+      "backups": {
+        "files": {
+          ".db": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "test_consolidated_ops": {
+        "files": {
+          ".json": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
       },
       ".pytest_cache": {
         "files": {
@@ -93,29 +127,29 @@
       },
       ".pytest_cache\\v\\cache": {
         "files": {
-          "": 1
+          "": 2
         },
-        "file_count": 1,
+        "file_count": 2,
         "subdirs": 0,
-        "total_files": 1
+        "total_files": 2
       },
       "contracts": {
         "files": {
-          ".json": 6,
+          ".json": 15,
           ".yaml": 1,
-          ".md": 2
+          ".md": 4
         },
-        "file_count": 9,
+        "file_count": 20,
         "subdirs": 1,
-        "total_files": 9
+        "total_files": 20
       },
       "contracts\\archive": {
         "files": {
-          ".json": 1
+          ".json": 2
         },
-        "file_count": 1,
+        "file_count": 2,
         "subdirs": 0,
-        "total_files": 1
+        "total_files": 2
       },
       "trading_robot": {
         "files": {
@@ -199,12 +233,12 @@
       },
       "runtime": {
         "files": {
-          ".json": 3,
+          ".json": 4,
           ".txt": 3
         },
-        "file_count": 6,
-        "subdirs": 5,
-        "total_files": 6
+        "file_count": 7,
+        "subdirs": 7,
+        "total_files": 7
       },
       "runtime\\agent_logs": {
         "files": {
@@ -245,11 +279,11 @@
       "runtime\\reports": {
         "files": {
           ".md": 5,
-          ".json": 3
+          ".json": 5
         },
-        "file_count": 8,
+        "file_count": 10,
         "subdirs": 0,
-        "total_files": 8
+        "total_files": 10
       },
       "runtime\\semantic": {
         "files": {},
@@ -271,6 +305,192 @@
         "file_count": 2,
         "subdirs": 0,
         "total_files": 2
+      },
+      "runtime\\backups": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 24,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053017": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053047": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053111": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053118": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053124": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053142": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053148": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053217": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053224": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053241": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053247": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053316": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053326": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-053326\\backup_20250912-003326": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-054538": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-054550": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-054656": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-054713": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-054713\\backup_20250912-004713": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-055003": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-055045": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-055047": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-055047\\backup_20250912-005048": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-055119": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-055429": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-060351": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-060400": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "runtime\\backups\\hard_onboarding\\20250912-060400\\backup_20250912-010400": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "runtime\\agent_state": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
       },
       "consolidation_tasks": {
         "files": {
@@ -310,11 +530,11 @@
       },
       "messages": {
         "files": {
-          ".md": 9
+          ".md": 11
         },
-        "file_count": 9,
+        "file_count": 11,
         "subdirs": 0,
-        "total_files": 9
+        "total_files": 11
       },
       "thea_meeting_responses": {
         "files": {
@@ -327,19 +547,20 @@
       "tests": {
         "files": {
           ".md": 5,
-          ".py": 17
+          ".py": 19,
+          "": 1
         },
-        "file_count": 22,
-        "subdirs": 6,
-        "total_files": 22
+        "file_count": 25,
+        "subdirs": 12,
+        "total_files": 25
       },
       "tests\\integration": {
         "files": {
-          ".py": 2
+          ".py": 6
         },
-        "file_count": 2,
+        "file_count": 6,
         "subdirs": 0,
-        "total_files": 2
+        "total_files": 6
       },
       "tests\\operational": {
         "files": {
@@ -361,11 +582,11 @@
       },
       "tests\\unit": {
         "files": {
-          ".py": 3
+          ".py": 5
         },
-        "file_count": 3,
+        "file_count": 5,
         "subdirs": 0,
-        "total_files": 3
+        "total_files": 5
       },
       "tests\\performance": {
         "files": {
@@ -391,13 +612,62 @@
         "subdirs": 0,
         "total_files": 2
       },
-      "templates": {
+      "tests\\automation": {
         "files": {
-          ".md": 1
+          ".py": 1
         },
         "file_count": 1,
         "subdirs": 0,
         "total_files": 1
+      },
+      "tests\\messaging": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "tests\\e2e": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "tests\\api": {
+        "files": {
+          ".py": 2
+        },
+        "file_count": 2,
+        "subdirs": 0,
+        "total_files": 2
+      },
+      "tests\\deployment": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "tests\\contracts": {
+        "files": {
+          ".py": 1
+        },
+        "file_count": 1,
+        "subdirs": 0,
+        "total_files": 1
+      },
+      "templates": {
+        "files": {
+          ".md": 1,
+          ".py": 2
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
       },
       "infra": {
         "files": {},
@@ -431,11 +701,12 @@
       },
       "src\\web": {
         "files": {
-          ".py": 2
+          ".py": 3,
+          ".html": 3
         },
-        "file_count": 2,
+        "file_count": 6,
         "subdirs": 3,
-        "total_files": 2
+        "total_files": 6
       },
       "src\\web\\static": {
         "files": {},
@@ -445,11 +716,11 @@
       },
       "src\\web\\static\\js": {
         "files": {
-          ".js": 54
+          ".js": 55
         },
-        "file_count": 54,
+        "file_count": 55,
         "subdirs": 11,
-        "total_files": 54
+        "total_files": 55
       },
       "src\\web\\static\\js\\architecture": {
         "files": {
@@ -581,11 +852,11 @@
       },
       "src\\services": {
         "files": {
-          ".py": 48
+          ".py": 49
         },
-        "file_count": 48,
-        "subdirs": 7,
-        "total_files": 48
+        "file_count": 49,
+        "subdirs": 8,
+        "total_files": 49
       },
       "src\\services\\coordination": {
         "files": {
@@ -699,13 +970,29 @@
         "subdirs": 0,
         "total_files": 2
       },
+      "src\\services\\messaging": {
+        "files": {
+          ".py": 10
+        },
+        "file_count": 10,
+        "subdirs": 1,
+        "total_files": 10
+      },
+      "src\\services\\messaging\\delivery": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
       "src\\core": {
         "files": {
-          ".py": 59
+          ".py": 64
         },
-        "file_count": 59,
-        "subdirs": 29,
-        "total_files": 59
+        "file_count": 64,
+        "subdirs": 31,
+        "total_files": 64
       },
       "src\\core\\analytics": {
         "files": {
@@ -993,11 +1280,11 @@
       },
       "src\\core\\error_handling": {
         "files": {
-          ".py": 15
+          ".py": 17
         },
-        "file_count": 15,
+        "file_count": 17,
         "subdirs": 2,
-        "total_files": 15
+        "total_files": 17
       },
       "src\\core\\error_handling\\circuit_breaker": {
         "files": {
@@ -1391,6 +1678,28 @@
         "subdirs": 0,
         "total_files": 8
       },
+      "src\\core\\health": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "src\\core\\health\\monitoring": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
+      },
+      "src\\core\\backup_disaster_recovery": {
+        "files": {
+          ".py": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
+      },
       "src\\application": {
         "files": {
           ".py": 1
@@ -1522,11 +1831,11 @@
       },
       "src\\infrastructure": {
         "files": {
-          ".py": 4
+          ".py": 5
         },
-        "file_count": 4,
+        "file_count": 5,
         "subdirs": 4,
-        "total_files": 4
+        "total_files": 5
       },
       "src\\infrastructure\\browser": {
         "files": {
@@ -1546,19 +1855,19 @@
       },
       "src\\infrastructure\\logging": {
         "files": {
-          ".py": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "src\\infrastructure\\persistence": {
-        "files": {
           ".py": 3
         },
         "file_count": 3,
         "subdirs": 0,
         "total_files": 3
+      },
+      "src\\infrastructure\\persistence": {
+        "files": {
+          ".py": 4
+        },
+        "file_count": 4,
+        "subdirs": 0,
+        "total_files": 4
       },
       "src\\infrastructure\\time": {
         "files": {
@@ -1655,19 +1964,11 @@
       },
       "src\\utils": {
         "files": {
-          ".py": 12
+          ".py": 6
         },
-        "file_count": 12,
-        "subdirs": 1,
-        "total_files": 12
-      },
-      "src\\utils\\config_core": {
-        "files": {
-          ".py": 2
-        },
-        "file_count": 2,
+        "file_count": 6,
         "subdirs": 0,
-        "total_files": 2
+        "total_files": 6
       },
       "src\\integration": {
         "files": {
@@ -1695,12 +1996,12 @@
         "files": {
           ".json": 4,
           ".sh": 2,
-          ".py": 12,
+          ".py": 14,
           ".ps1": 1
         },
-        "file_count": 19,
+        "file_count": 21,
         "subdirs": 1,
-        "total_files": 19
+        "total_files": 21
       },
       "tools\\codemods": {
         "files": {
@@ -1719,28 +2020,31 @@
         "total_files": 1
       },
       "agent_workspaces": {
-        "files": {},
-        "file_count": 0,
-        "subdirs": 9,
-        "total_files": 0
+        "files": {
+          ".ok": 1
+        },
+        "file_count": 1,
+        "subdirs": 10,
+        "total_files": 1
       },
       "agent_workspaces\\Agent-1": {
         "files": {
           ".md": 2,
           ".py": 2,
-          ".json": 1
+          ".json": 2,
+          ".txt": 1
         },
-        "file_count": 5,
+        "file_count": 7,
         "subdirs": 1,
-        "total_files": 5
+        "total_files": 7
       },
       "agent_workspaces\\Agent-1\\inbox": {
         "files": {
-          ".md": 5
+          ".md": 10
         },
-        "file_count": 5,
+        "file_count": 10,
         "subdirs": 0,
-        "total_files": 5
+        "total_files": 10
       },
       "agent_workspaces\\Agent-8": {
         "files": {
@@ -1791,44 +2095,45 @@
       },
       "agent_workspaces\\Agent-8\\inbox": {
         "files": {
-          ".md": 3
+          ".md": 6
         },
-        "file_count": 3,
+        "file_count": 6,
         "subdirs": 0,
-        "total_files": 3
+        "total_files": 6
       },
       "agent_workspaces\\Agent-2": {
         "files": {
           ".md": 2,
-          ".json": 1
+          ".json": 2
+        },
+        "file_count": 4,
+        "subdirs": 1,
+        "total_files": 4
+      },
+      "agent_workspaces\\Agent-2\\inbox": {
+        "files": {
+          ".md": 6
+        },
+        "file_count": 6,
+        "subdirs": 0,
+        "total_files": 6
+      },
+      "agent_workspaces\\Agent-3": {
+        "files": {
+          ".json": 2,
+          ".txt": 1
         },
         "file_count": 3,
         "subdirs": 1,
         "total_files": 3
       },
-      "agent_workspaces\\Agent-2\\inbox": {
-        "files": {
-          ".md": 2
-        },
-        "file_count": 2,
-        "subdirs": 0,
-        "total_files": 2
-      },
-      "agent_workspaces\\Agent-3": {
-        "files": {
-          ".json": 1
-        },
-        "file_count": 1,
-        "subdirs": 1,
-        "total_files": 1
-      },
       "agent_workspaces\\Agent-3\\inbox": {
         "files": {
-          ".md": 5
+          ".md": 9
         },
-        "file_count": 5,
+        "file_count": 9,
         "subdirs": 0,
-        "total_files": 5
+        "total_files": 9
       },
       "agent_workspaces\\Agent-4": {
         "files": {
@@ -1842,11 +2147,11 @@
       },
       "agent_workspaces\\Agent-4\\inbox": {
         "files": {
-          ".md": 2
+          ".md": 4
         },
-        "file_count": 2,
+        "file_count": 4,
         "subdirs": 0,
-        "total_files": 2
+        "total_files": 4
       },
       "agent_workspaces\\Agent-5": {
         "files": {
@@ -1859,28 +2164,28 @@
       },
       "agent_workspaces\\Agent-5\\inbox": {
         "files": {
-          ".md": 6
+          ".md": 9
         },
-        "file_count": 6,
+        "file_count": 9,
         "subdirs": 0,
-        "total_files": 6
+        "total_files": 9
       },
       "agent_workspaces\\Agent-6": {
         "files": {
           ".json": 2,
-          ".md": 2
+          ".md": 9
         },
-        "file_count": 4,
+        "file_count": 11,
         "subdirs": 1,
-        "total_files": 4
+        "total_files": 11
       },
       "agent_workspaces\\Agent-6\\inbox": {
         "files": {
-          ".md": 2
+          ".md": 5
         },
-        "file_count": 2,
+        "file_count": 5,
         "subdirs": 0,
-        "total_files": 2
+        "total_files": 5
       },
       "agent_workspaces\\Agent-7": {
         "files": {
@@ -1894,11 +2199,12 @@
       },
       "agent_workspaces\\Agent-7\\inbox": {
         "files": {
-          ".md": 2
+          ".md": 5,
+          ".json": 1
         },
-        "file_count": 2,
+        "file_count": 6,
         "subdirs": 0,
-        "total_files": 2
+        "total_files": 6
       },
       "agent_workspaces\\meeting": {
         "files": {
@@ -1907,6 +2213,20 @@
         "file_count": 1,
         "subdirs": 0,
         "total_files": 1
+      },
+      "agent_workspaces\\Captain Agent-4": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 1,
+        "total_files": 0
+      },
+      "agent_workspaces\\Captain Agent-4\\inbox": {
+        "files": {
+          ".md": 3
+        },
+        "file_count": 3,
+        "subdirs": 0,
+        "total_files": 3
       },
       ".cursor": {
         "files": {},
@@ -1957,11 +2277,11 @@
         "files": {
           ".yml": 1,
           ".json": 6,
-          ".yaml": 2
+          ".yaml": 3
         },
-        "file_count": 9,
+        "file_count": 10,
         "subdirs": 0,
-        "total_files": 9
+        "total_files": 10
       },
       "data": {
         "files": {
@@ -1969,7 +2289,7 @@
           ".json": 1
         },
         "file_count": 3,
-        "subdirs": 2,
+        "subdirs": 4,
         "total_files": 3
       },
       "data\\vector_db": {
@@ -2002,13 +2322,25 @@
         "subdirs": 0,
         "total_files": 9
       },
+      "data\\health_monitoring": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
+      "data\\health_alerting": {
+        "files": {},
+        "file_count": 0,
+        "subdirs": 0,
+        "total_files": 0
+      },
       "devlogs": {
         "files": {
-          ".md": 213
+          ".md": 231
         },
-        "file_count": 213,
+        "file_count": 231,
         "subdirs": 7,
-        "total_files": 213
+        "total_files": 231
       },
       "devlogs\\agent_work": {
         "files": {
@@ -2068,11 +2400,11 @@
       },
       "docs": {
         "files": {
-          ".md": 16
+          ".md": 23
         },
-        "file_count": 16,
+        "file_count": 23,
         "subdirs": 9,
-        "total_files": 16
+        "total_files": 23
       },
       "docs\\adr": {
         "files": {
@@ -2140,11 +2472,12 @@
       },
       "docs\\api": {
         "files": {
-          ".md": 10
+          ".md": 11,
+          ".yaml": 1
         },
-        "file_count": 10,
+        "file_count": 12,
         "subdirs": 0,
-        "total_files": 10
+        "total_files": 12
       },
       "docs\\web": {
         "files": {
@@ -2222,12 +2555,12 @@
         "files": {
           ".sh": 1,
           ".yaml": 1,
-          ".py": 19,
+          ".py": 22,
           ".md": 2
         },
-        "file_count": 23,
+        "file_count": 26,
         "subdirs": 4,
-        "total_files": 23
+        "total_files": 26
       },
       "scripts\\execution": {
         "files": {
@@ -2262,34 +2595,37 @@
         "total_files": 2
       }
     },
-    "total_files": 2079,
-    "total_dirs": 279,
+    "total_files": 2279,
+    "total_dirs": 328,
     "file_types": {
-      "": 213,
-      ".py": 764,
-      ".yaml": 15,
-      ".md": 649,
+      "": 220,
+      ".md": 724,
+      ".yaml": 17,
       ".example": 2,
       ".cjs": 1,
+      ".py": 828,
       ".toml": 1,
-      ".json": 146,
-      ".txt": 35,
+      ".json": 188,
+      ".txt": 38,
+      ".log": 1,
       ".pid": 1,
       ".ps1": 2,
-      ".js": 183,
+      ".js": 184,
       ".ini": 2,
       ".tag": 2,
+      ".db": 3,
       ".yml": 7,
       ".jsonl": 8,
       ".npy": 1,
       ".png": 14,
       ".dockerfile": 1,
       ".service": 1,
+      ".html": 3,
       ".css": 6,
       ".sh": 3,
       ".pyd": 1,
+      ".ok": 1,
       ".mdc": 10,
-      ".db": 2,
       ".sqlite3": 1,
       ".bin": 4,
       ".lock": 4
@@ -2315,21 +2651,21 @@
       "directory": "src/web",
       "file_path": "analysis_chunks\\chunk_003_web.json",
       "files_analyzed": 50,
-      "consolidation_opportunities": 5
+      "consolidation_opportunities": 7
     },
     {
       "chunk_id": 4,
       "directory": "src/utils",
       "file_path": "analysis_chunks\\chunk_004_utils.json",
-      "files_analyzed": 14,
-      "consolidation_opportunities": 14
+      "files_analyzed": 6,
+      "consolidation_opportunities": 6
     },
     {
       "chunk_id": 5,
       "directory": "src/infrastructure",
       "file_path": "analysis_chunks\\chunk_005_infrastructure.json",
-      "files_analyzed": 22,
-      "consolidation_opportunities": 22
+      "files_analyzed": 25,
+      "consolidation_opportunities": 25
     },
     {
       "chunk_id": 6,
@@ -2370,8 +2706,8 @@
       "chunk_id": 11,
       "directory": "tests",
       "file_path": "analysis_chunks\\chunk_011_tests.json",
-      "files_analyzed": 46,
-      "consolidation_opportunities": 46
+      "files_analyzed": 50,
+      "consolidation_opportunities": 50
     },
     {
       "chunk_id": 12,
@@ -2384,15 +2720,15 @@
       "chunk_id": 13,
       "directory": "scripts",
       "file_path": "analysis_chunks\\chunk_013_scripts.json",
-      "files_analyzed": 34,
-      "consolidation_opportunities": 34
+      "files_analyzed": 37,
+      "consolidation_opportunities": 37
     },
     {
       "chunk_id": 14,
       "directory": "tools",
       "file_path": "analysis_chunks\\chunk_014_tools.json",
-      "files_analyzed": 23,
-      "consolidation_opportunities": 23
+      "files_analyzed": 25,
+      "consolidation_opportunities": 25
     }
   ]
 }

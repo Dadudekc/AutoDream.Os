@@ -13,13 +13,10 @@ Author: Agent-7 (Web Development Specialist)
 Test Type: Integration Testing
 """
 
-import json
 import sys
-import time
 import uuid
 from pathlib import Path
-from typing import Dict, Any, List
-from unittest.mock import Mock, patch
+from typing import Any
 
 import pytest
 
@@ -394,27 +391,27 @@ class TestCrossServiceIntegration:
         return result
 
     # Helper methods for cross-service testing
-    def _verify_coordination_processing(self, agent_id: str) -> Dict[str, Any]:
+    def _verify_coordination_processing(self, agent_id: str) -> dict[str, Any]:
         """Verify that coordination service processed messages."""
         # Simulate coordination processing verification
         return {"processed": True, "coordination_actions": 2, "agent_status_updated": True}
 
-    def _test_message_coordination_sync(self, agent_id: str) -> Dict[str, Any]:
+    def _test_message_coordination_sync(self, agent_id: str) -> dict[str, Any]:
         """Test message-coordination synchronization."""
         # Simulate synchronization test
         return {"synchronized": True, "message_count": 3, "coordination_events": 2}
 
-    def _test_analytics_vector_feedback(self) -> Dict[str, Any]:
+    def _test_analytics_vector_feedback(self) -> dict[str, Any]:
         """Test analytics-vector feedback loop."""
         # Simulate feedback loop test
         return {"feedback_processed": True, "analytics_generated": 5, "vector_optimizations": 2}
 
-    def _verify_agent_message_status(self, agent_id: str) -> Dict[str, Any]:
+    def _verify_agent_message_status(self, agent_id: str) -> dict[str, Any]:
         """Verify agent message processing status."""
         # Simulate message status verification
         return {"messages_processed": 2, "status_updated": True, "coordination_triggered": True}
 
-    def _test_agent_message_consistency(self, agent_ids: List[str]) -> Dict[str, Any]:
+    def _test_agent_message_consistency(self, agent_ids: list[str]) -> dict[str, Any]:
         """Test consistency between agent and message services."""
         # Simulate consistency check
         return {
@@ -423,12 +420,12 @@ class TestCrossServiceIntegration:
             "consistency_score": 100,
         }
 
-    def _test_gateway_data_flow(self) -> Dict[str, Any]:
+    def _test_gateway_data_flow(self) -> dict[str, Any]:
         """Test data flow through API gateway."""
         # Simulate gateway data flow test
         return {"data_flow_successful": True, "services_tested": 4, "data_integrity": "verified"}
 
-    def _test_gateway_error_handling(self) -> Dict[str, Any]:
+    def _test_gateway_error_handling(self) -> dict[str, Any]:
         """Test API gateway error handling."""
         # Simulate error handling test
         return {
@@ -437,7 +434,7 @@ class TestCrossServiceIntegration:
             "fallback_mechanisms": "functional",
         }
 
-    def _execute_full_system_workflow(self) -> Dict[str, Any]:
+    def _execute_full_system_workflow(self) -> dict[str, Any]:
         """Execute complete end-to-end system workflow."""
         # Simulate full system workflow
         return {
@@ -447,12 +444,12 @@ class TestCrossServiceIntegration:
             "data_processed": "verified",
         }
 
-    def _verify_cross_service_consistency(self) -> Dict[str, Any]:
+    def _verify_cross_service_consistency(self) -> dict[str, Any]:
         """Verify data consistency across all services."""
         # Simulate cross-service consistency check
         return {"data_consistent": True, "services_checked": 5, "consistency_violations": 0}
 
-    def _test_system_under_load(self) -> Dict[str, Any]:
+    def _test_system_under_load(self) -> dict[str, Any]:
         """Test system performance under load."""
         # Simulate load testing
         return {
@@ -462,7 +459,7 @@ class TestCrossServiceIntegration:
             "error_rate": 0.01,
         }
 
-    def _test_system_resilience(self) -> Dict[str, Any]:
+    def _test_system_resilience(self) -> dict[str, Any]:
         """Test system resilience and recovery."""
         # Simulate resilience testing
         return {

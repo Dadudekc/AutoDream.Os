@@ -1,0 +1,130 @@
+{
+  "contract_id": "CONTRACT-AGENT6-DOCUMENTATION-CLEANUP-001",
+  "contract_title": "Documentation Cleanup & Content Deduplication Mission",
+  "agent_id": "Agent-6",
+  "agent_name": "Documentation & Content Management Specialist",
+  "contract_type": "DOCUMENTATION_CLEANUP",
+  "priority": "MEDIUM",
+  "status": "AVAILABLE",
+
+  "contract_details": {
+    "description": "Comprehensive documentation cleanup mission focusing on eliminating duplicate content, consolidating scattered documentation, standardizing formats, and creating a unified, maintainable documentation ecosystem.",
+
+    "background": "Agent-6 specializes in documentation and technical writing. This contract addresses the critical need for documentation consolidation to improve information accessibility and reduce maintenance overhead.",
+
+    "objectives": [
+      "Analyze all documentation files for duplicate content",
+      "Consolidate scattered documentation into logical groupings",
+      "Eliminate outdated and redundant documentation",
+      "Standardize documentation formats and templates",
+      "Create unified documentation navigation structure",
+      "Implement documentation quality standards",
+      "Update and refresh outdated technical content",
+      "Validate documentation accuracy and completeness"
+    ],
+
+    "deliverables": [
+      "Documentation duplication analysis and cleanup report",
+      "Consolidated documentation structure and navigation",
+      "Standardized documentation templates and formats",
+      "Unified documentation quality standards",
+      "Updated and refreshed technical documentation",
+      "Documentation maintenance guidelines",
+      "Content organization and tagging system",
+      "Documentation validation and testing reports"
+    ],
+
+    "technical_requirements": [
+      "Documentation analysis and comparison tools",
+      "Content management and organization platforms",
+      "Documentation generation and publishing tools",
+      "Search and indexing systems for documentation",
+      "Version control and collaboration platforms",
+      "Documentation quality analysis tools",
+      "Content migration and consolidation tools",
+      "Automated documentation validation frameworks"
+    ],
+
+    "estimated_effort": "3 development cycles",
+    "deadline": "2025-09-21",
+    "stakeholders": ["Captain Agent-4", "Agent-7", "Agent-5"],
+
+    "success_criteria": [
+      "Documentation files consolidated by >50% through deduplication",
+      "Duplicate content eliminated across all documentation",
+      "Documentation structure organized with clear navigation",
+      "Standardized formats and templates implemented",
+      "Outdated documentation updated and refreshed",
+      "Documentation quality standards established and followed",
+      "Unified search and navigation system operational",
+      "Documentation maintenance effort reduced by >40%"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Captain Agent-4",
+    "created_at": "2025-09-13T00:40:00Z",
+    "assigned_at": null,
+    "completed_at": null,
+    "last_updated": "2025-09-13T00:40:00Z",
+
+    "tags": [
+      "cleanup",
+      "documentation",
+      "deduplication",
+      "consolidation",
+      "organization",
+      "standards",
+      "quality",
+      "maintenance"
+    ],
+
+    "dependencies": [
+      "Documentation inventory and analysis completed",
+      "Content management tools configured",
+      "Documentation publishing platforms available",
+      "Version control for documentation operational"
+    ],
+
+    "resources_required": [
+      "Documentation analysis and comparison tools",
+      "Content management and organization platforms",
+      "Documentation generation and publishing systems",
+      "Search and indexing frameworks",
+      "Version control and collaboration tools",
+      "Documentation quality analysis utilities",
+      "Content migration and consolidation tools",
+      "Automated documentation validation systems"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 450,
+    "skill_unlocks": [
+      "Documentation Cleanup Master",
+      "Content Deduplication Expert",
+      "Technical Writing Organization Specialist",
+      "Documentation Quality Guru",
+      "Content Management Champion",
+      "Documentation Architecture Expert"
+    ],
+    "reputation_bonus": "Documentation Excellence Champion",
+    "network_unlocks": [
+      "Access to Technical Writing Working Group",
+      "Documentation Management Community",
+      "Content Organization Standards Team",
+      "Documentation Quality Best Practices Group",
+      "Content Management Network",
+      "Knowledge Management Council"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-13T00:40:00Z",
+      "action": "CONTRACT_CREATED",
+      "actor": "Captain Agent-4",
+      "details": "Created documentation cleanup and deduplication contract for Agent-6 (Medium Priority)"
+    }
+  ]
+}

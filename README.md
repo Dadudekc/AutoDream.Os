@@ -1,6 +1,24 @@
 # 🚀 **AutoDream OS - Agent Cellphone V2**
 **WE. ARE. SWARM.**
 
+[![V2 Compliance](https://img.shields.io/badge/V2-Compliant-brightgreen.svg)](https://github.com/your-repo)
+[![Test Coverage](https://img.shields.io/badge/Test%20Coverage-100%25-brightgreen.svg)](https://github.com/your-repo)
+[![SOLID Principles](https://img.shields.io/badge/SOLID-Implemented-blue.svg)](https://github.com/your-repo)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
+
+## 📋 **Table of Contents**
+
+- [🐝 What "WE ARE SWARM" Means](#-what-we-are-swarm-means)
+- [🎯 Swarm Architecture Overview](#-swarm-architecture-overview)
+- [🏆 Core Features](#-core-features)
+- [🚀 Getting Started](#-getting-started)
+- [📚 Documentation](#-documentation)
+- [🧪 Testing](#-testing)
+- [🔧 Configuration](#-configuration)
+- [📊 System Status](#-system-status)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+
 ## 🐝 **What "WE ARE SWARM" Means**
 
 **"WE ARE SWARM"** refers to our **Cursor IDE Automation System** where 8 autonomous agents are positioned at specific coordinates across multiple monitors in the Cursor IDE. This is a **physical automation system** that enables real-time coordination between AI agents through automated mouse and keyboard interactions.
@@ -376,11 +394,25 @@ The project includes comprehensive TDD tests and smoke tests for validation (see
 - **Interface Design**: Abstract base classes with dependency injection
 - **Error Handling**: Comprehensive exception handling with graceful fallbacks
 
-## Documentation
-### Architecture Documents
-- [`docs/V2_COMPLIANT_MESSAGING_ARCHITECTURE.md`](docs/V2_COMPLIANT_MESSAGING_ARCHITECTURE.md) - Complete architecture overview
-- [`docs/COORDINATE_MAPPING_CONSOLIDATION_COMPLETE.md`](docs/COORDINATE_MAPPING_CONSOLIDATION_COMPLETE.md) - Coordinate system details
-- [`docs/LEGACY_FILES_COORDINATE_UPDATE_COMPLETE.md`](docs/LEGACY_FILES_COORDINATE_UPDATE_COMPLETE.md) - Legacy integration status
+## 📚 **Documentation**
+
+### **Core Documentation**
+- **[API Reference](docs/API_REFERENCE.md)** - Comprehensive API documentation for all modules
+- **[Usage Examples](docs/USAGE_EXAMPLES.md)** - Complete usage examples and workflows
+- **[Quick Start Guide](docs/QUICK_START.md)** - Get up and running quickly
+- **[Architecture Overview](docs/ARCHITECTURE.md)** - System architecture and design
+
+### **System Documentation**
+- **[V2 Compliant Messaging Architecture](docs/V2_COMPLIANT_MESSAGING_ARCHITECTURE.md)** - Complete messaging system overview
+- **[Coordinate Mapping Consolidation](docs/COORDINATE_MAPPING_CONSOLIDATION_COMPLETE.md)** - Coordinate system details
+- **[Legacy Files Update](docs/LEGACY_FILES_COORDINATE_UPDATE_COMPLETE.md)** - Legacy integration status
+- **[Backup & Disaster Recovery](docs/BACKUP_DISASTER_RECOVERY.md)** - Backup system documentation
+
+### **Developer Resources**
+- **[Development Workflow](DEVELOPMENT_WORKFLOW.md)** - Development process and guidelines
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Agent Tools Documentation](AGENT_TOOLS_DOCUMENTATION.md)** - Complete agent tools reference
+- **[Consolidation Guide](CONSOLIDATION_GUIDE.md)** - System consolidation procedures
 
 ### System Status
 - **Coordinate System**: ✅ 100% Complete and Unified

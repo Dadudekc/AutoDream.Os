@@ -29,6 +29,28 @@ class ScrapedContent:
     processing_time: float = 0.0
 
     def __post_init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.browser.thea_modules.content_scraper import Content_Scraper
+
+# Initialize and use
+instance = Content_Scraper()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Content_Scraper(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Initialize default values."""
         if self.metadata is None:
             self.metadata = {}

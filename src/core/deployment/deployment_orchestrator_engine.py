@@ -12,12 +12,16 @@ License: MIT
 import logging
 
 from .deployment_coordinator import DeploymentCoordinator
-from .deployment_models import (
-    DEFAULT_AGENT_DOMAINS,
-    DeploymentConfig,
+from .models.data_models import (
     DeploymentMetrics,
     MassDeploymentTarget,
     MaximumEfficiencyDeploymentStatus,
+)
+from .models.config_models import (
+    DeploymentConfig,
+)
+from .models.factory_functions import (
+    DEFAULT_AGENT_DOMAINS,
     create_default_config,
     create_deployment_status,
 )
@@ -27,6 +31,33 @@ class DeploymentOrchestratorEngine:
     """Core engine for deployment orchestrator operations."""
 
     def __init__(self, config: DeploymentConfig | None = None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.deployment.deployment_orchestrator_engine import Deployment_Orchestrator_Engine
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Deployment_Orchestrator_Engine(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize deployment orchestrator engine."""
         self.config = config or create_default_config()
         self.logger = logging.getLogger(__name__)

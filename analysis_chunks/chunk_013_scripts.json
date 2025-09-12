@@ -500,30 +500,6 @@
       }
     },
     {
-      "file_path": "scripts\\test_enhanced_discord.py",
-      "analysis": {
-        "language": ".py",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "decorators": [],
-        "docstrings": 0,
-        "line_count": 0,
-        "non_empty_lines": 0,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 0,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_main": false,
-        "has_tests": false,
-        "has_async": false,
-        "has_type_hints": false,
-        "error": "unterminated string literal (detected at line 286) (<unknown>, line 286)"
-      }
-    },
-    {
       "file_path": "scripts\\v2_release_summary.py",
       "analysis": {
         "language": ".py",
@@ -596,7 +572,55 @@
       }
     },
     {
-      "file_path": "scripts\\test_devlog_sender.py",
+      "file_path": "scripts\\cleanup_overnight_sequence.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "scripts\\configure_discord_webhooks.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "scripts\\consolidated_messaging.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -621,6 +645,54 @@
     },
     {
       "file_path": "scripts\\send_devlog_unified.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "scripts\\test_devlog_sender.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
+      "file_path": "scripts\\test_enhanced_discord.py",
       "analysis": {
         "language": ".py",
         "functions": [],
@@ -909,7 +981,7 @@
     }
   ],
   "summary": {
-    "total_files": 34,
+    "total_files": 37,
     "total_lines": 455,
     "total_functions": 0,
     "total_classes": 0,
@@ -917,7 +989,7 @@
     "file_types": {
       ".sh": 1,
       ".yml": 1,
-      ".py": 30,
+      ".py": 33,
       ".md": 2
     },
     "avg_complexity_by_type": {
@@ -1014,11 +1086,6 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "scripts\\test_enhanced_discord.py",
-      "reason": "Small file - potential merge candidate",
-      "priority": "MEDIUM"
-    },
-    {
       "file_path": "scripts\\v2_release_summary.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
@@ -1034,12 +1101,32 @@
       "priority": "MEDIUM"
     },
     {
-      "file_path": "scripts\\test_devlog_sender.py",
+      "file_path": "scripts\\cleanup_overnight_sequence.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\configure_discord_webhooks.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\consolidated_messaging.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },
     {
       "file_path": "scripts\\send_devlog_unified.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\test_devlog_sender.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "scripts\\test_enhanced_discord.py",
       "reason": "Small file - potential merge candidate",
       "priority": "MEDIUM"
     },

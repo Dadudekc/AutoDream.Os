@@ -13,13 +13,10 @@ Author: Agent-7 (Web Development Specialist)
 Test Type: End-to-End (E2E)
 """
 
-import json
 import sys
-import time
 import uuid
 from pathlib import Path
-from typing import Dict, Any
-from unittest.mock import Mock, patch
+from typing import Any
 
 import pytest
 
@@ -253,12 +250,12 @@ class TestAgentLifecycleE2E:
         return result
 
     # Helper methods for E2E test implementation
-    def _test_agent_coordination(self) -> Dict[str, Any]:
+    def _test_agent_coordination(self) -> dict[str, Any]:
         """Test agent coordination mechanisms."""
         # Simulate agent coordination
         return {"status": "passed", "coordination_events": 3, "agents_coordinated": 2}
 
-    def _simulate_task_execution(self) -> Dict[str, Any]:
+    def _simulate_task_execution(self) -> dict[str, Any]:
         """Simulate task execution for agent."""
         # Simulate task execution
         return {"completed": True, "tasks_executed": 2, "execution_time": 45.5}
@@ -268,7 +265,7 @@ class TestAgentLifecycleE2E:
         # Simulate setting up coordination scenario
         return ["agent-1", "agent-2", "agent-7"]
 
-    def _test_message_exchange(self, agents: list) -> Dict[str, Any]:
+    def _test_message_exchange(self, agents: list) -> dict[str, Any]:
         """Test message exchange between agents."""
         # Simulate message exchange
         return {
@@ -277,17 +274,17 @@ class TestAgentLifecycleE2E:
             "message_types": ["coordination", "status", "task"],
         }
 
-    def _test_state_synchronization(self, agents: list) -> Dict[str, Any]:
+    def _test_state_synchronization(self, agents: list) -> dict[str, Any]:
         """Test state synchronization between agents."""
         # Simulate state synchronization
         return {"states_synchronized": True, "sync_events": 3, "consistency_verified": True}
 
-    def _test_task_delegation(self, agents: list) -> Dict[str, Any]:
+    def _test_task_delegation(self, agents: list) -> dict[str, Any]:
         """Test task delegation between agents."""
         # Simulate task delegation
         return {"tasks_delegated": 2, "tasks_completed": 2, "delegation_efficiency": 95.5}
 
-    def _simulate_agent_failure(self) -> Dict[str, Any]:
+    def _simulate_agent_failure(self) -> dict[str, Any]:
         """Simulate agent failure scenario."""
         # Simulate agent failure
         return {
@@ -296,7 +293,7 @@ class TestAgentLifecycleE2E:
             "failure_duration": 30,
         }
 
-    def _test_failure_detection(self) -> Dict[str, Any]:
+    def _test_failure_detection(self) -> dict[str, Any]:
         """Test failure detection mechanisms."""
         # Simulate failure detection
         return {
@@ -305,7 +302,7 @@ class TestAgentLifecycleE2E:
             "detection_time": 5,
         }
 
-    def _test_recovery_mechanism(self) -> Dict[str, Any]:
+    def _test_recovery_mechanism(self) -> dict[str, Any]:
         """Test recovery mechanism activation."""
         # Simulate recovery activation
         return {
@@ -314,7 +311,7 @@ class TestAgentLifecycleE2E:
             "recovery_time": 10,
         }
 
-    def _test_agent_restoration(self) -> Dict[str, Any]:
+    def _test_agent_restoration(self) -> dict[str, Any]:
         """Test agent restoration process."""
         # Simulate agent restoration
         return {
@@ -323,7 +320,7 @@ class TestAgentLifecycleE2E:
             "restoration_time": 15,
         }
 
-    def _verify_system_state(self) -> Dict[str, Any]:
+    def _verify_system_state(self) -> dict[str, Any]:
         """Verify overall system state after recovery."""
         # Simulate system state verification
         return {

@@ -23,7 +23,7 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import requests
 
@@ -45,10 +45,10 @@ class DiscordWebhookIntegration:
         "devlog": "https://i.imgur.com/dKoWQ7W.png",  # Swarm DevLog Monitor avatar
         "status": "https://i.imgur.com/8wJzQ2N.png",  # Swarm Status Monitor avatar
         "coordinator": "https://i.imgur.com/Rt5Qz8K.png",  # Swarm Coordinator avatar
-        "contract": "https://i.imgur.com/MvLkW9P.png",    # Swarm Contract Manager avatar
-        "error": "https://i.imgur.com/Hq8Tx4L.png",      # Swarm Error Handler avatar
-        "recovery": "https://i.imgur.com/Yp4Nx8R.png",   # Swarm Recovery Specialist avatar
-        "agent": "https://i.imgur.com/6w8Qx9M.png"       # Generic Agent avatar
+        "contract": "https://i.imgur.com/MvLkW9P.png",  # Swarm Contract Manager avatar
+        "error": "https://i.imgur.com/Hq8Tx4L.png",  # Swarm Error Handler avatar
+        "recovery": "https://i.imgur.com/Yp4Nx8R.png",  # Swarm Recovery Specialist avatar
+        "agent": "https://i.imgur.com/6w8Qx9M.png",  # Generic Agent avatar
     }
 
     def __init__(self, webhook_url: str | None = None):
@@ -298,7 +298,7 @@ class DiscordWebhookIntegration:
         try:
             data_file = Path("data/webhook_coordination.json")
             if data_file.exists():
-                with open(data_file, 'r') as f:
+                with open(data_file) as f:
                     data = json.load(f)
                     self.active_missions = data.get("active_missions", {})
                     self.agent_status_cache = data.get("agent_status_cache", {})
@@ -318,10 +318,10 @@ class DiscordWebhookIntegration:
                 "agent_status_cache": self.agent_status_cache,
                 "contract_assignments": self.contract_assignments,
                 "coordination_events": self.coordination_events[-100:],  # Keep last 100 events
-                "last_updated": datetime.utcnow().isoformat()
+                "last_updated": datetime.utcnow().isoformat(),
             }
 
-            with open(data_file, 'w') as f:
+            with open(data_file, "w") as f:
                 json.dump(data, f, indent=2)
         except Exception as e:
             print(f"⚠️ Could not save coordination data: {e}")
@@ -330,7 +330,7 @@ class DiscordWebhookIntegration:
     # ENHANCED COORDINATION METHODS
     # ===========================================
 
-    def send_contract_assignment_notification(self, contract_data: Dict[str, Any]) -> bool:
+    def send_contract_assignment_notification(self, contract_data: dict[str, Any]) -> bool:
         """Send contract assignment notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -355,7 +355,7 @@ class DiscordWebhookIntegration:
                 self.contract_assignments[contract_id] = {
                     "assigned_to": contract_data.get("agent_id", "Unknown"),
                     "timestamp": datetime.utcnow().isoformat(),
-                    "status": "assigned"
+                    "status": "assigned",
                 }
                 self._save_coordination_data()
 
@@ -368,7 +368,7 @@ class DiscordWebhookIntegration:
             print(f"❌ Error sending contract notification: {e}")
             return False
 
-    def send_mission_progress_notification(self, mission_data: Dict[str, Any]) -> bool:
+    def send_mission_progress_notification(self, mission_data: dict[str, Any]) -> bool:
         """Send mission progress notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -394,7 +394,7 @@ class DiscordWebhookIntegration:
                 self.active_missions[mission_id] = {
                     "progress": progress,
                     "last_update": datetime.utcnow().isoformat(),
-                    "agent": mission_data.get("agent_id", "Unknown")
+                    "agent": mission_data.get("agent_id", "Unknown"),
                 }
                 self._save_coordination_data()
 
@@ -407,7 +407,7 @@ class DiscordWebhookIntegration:
             print(f"❌ Error sending mission progress notification: {e}")
             return False
 
-    def send_error_recovery_notification(self, error_data: Dict[str, Any]) -> bool:
+    def send_error_recovery_notification(self, error_data: dict[str, Any]) -> bool:
         """Send error recovery notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -437,7 +437,7 @@ class DiscordWebhookIntegration:
             print(f"❌ Error sending error recovery notification: {e}")
             return False
 
-    def send_coordination_event_notification(self, event_data: Dict[str, Any]) -> bool:
+    def send_coordination_event_notification(self, event_data: dict[str, Any]) -> bool:
         """Send coordination event notification to Discord."""
         if not self.webhook_url:
             print("❌ No Discord webhook URL configured")
@@ -459,12 +459,14 @@ class DiscordWebhookIntegration:
                 print(f"✅ Coordination event notification sent: {event_type}")
 
                 # Track coordination event
-                self.coordination_events.append({
-                    "event_type": event_type,
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "participants": event_data.get("participants", []),
-                    "details": event_data.get("details", "")
-                })
+                self.coordination_events.append(
+                    {
+                        "event_type": event_type,
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "participants": event_data.get("participants", []),
+                        "details": event_data.get("details", ""),
+                    }
+                )
                 self._save_coordination_data()
 
                 return True
@@ -480,7 +482,7 @@ class DiscordWebhookIntegration:
     # ENHANCED EMBED CREATION METHODS
     # ===========================================
 
-    def _create_contract_assignment_embed(self, contract_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_contract_assignment_embed(self, contract_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for contract assignment notification."""
         contract_id = contract_data.get("contract_id", "Unknown")
         title = contract_data.get("contract_title", "Contract Assignment")
@@ -490,10 +492,10 @@ class DiscordWebhookIntegration:
 
         # Color based on priority
         priority_colors = {
-            "LOW": 0x95A5A6,      # Gray
-            "NORMAL": 0x3498DB,   # Blue
-            "HIGH": 0xF39C12,     # Orange
-            "CRITICAL": 0xE74C3C, # Red
+            "LOW": 0x95A5A6,  # Gray
+            "NORMAL": 0x3498DB,  # Blue
+            "HIGH": 0xF39C12,  # Orange
+            "CRITICAL": 0xE74C3C,  # Red
         }
 
         embed = {
@@ -504,7 +506,11 @@ class DiscordWebhookIntegration:
                 {"name": "Agent", "value": agent_id, "inline": True},
                 {"name": "Priority", "value": priority, "inline": True},
                 {"name": "Deadline", "value": deadline, "inline": True},
-                {"name": "XP Reward", "value": str(contract_data.get("experience_points", 0)), "inline": True},
+                {
+                    "name": "XP Reward",
+                    "value": str(contract_data.get("experience_points", 0)),
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM Contract Manager",
@@ -514,7 +520,7 @@ class DiscordWebhookIntegration:
 
         return embed
 
-    def _create_mission_progress_embed(self, mission_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_mission_progress_embed(self, mission_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for mission progress notification."""
         mission_id = mission_data.get("mission_id", "Unknown")
         title = mission_data.get("title", "Mission Progress")
@@ -540,7 +546,11 @@ class DiscordWebhookIntegration:
                 {"name": "Agent", "value": agent_id, "inline": True},
                 {"name": "Progress", "value": f"{progress}%", "inline": True},
                 {"name": "Status", "value": status.title(), "inline": True},
-                {"name": "Last Update", "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"), "inline": True},
+                {
+                    "name": "Last Update",
+                    "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM Mission Tracker",
@@ -550,7 +560,7 @@ class DiscordWebhookIntegration:
 
         return embed
 
-    def _create_error_recovery_embed(self, error_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_error_recovery_embed(self, error_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for error recovery notification."""
         error_type = error_data.get("error_type", "Unknown Error")
         recovery_status = error_data.get("recovery_status", "Unknown")
@@ -571,7 +581,11 @@ class DiscordWebhookIntegration:
             "fields": [
                 {"name": "Agent", "value": agent_id, "inline": True},
                 {"name": "Recovery Status", "value": recovery_status.title(), "inline": True},
-                {"name": "Timestamp", "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"), "inline": True},
+                {
+                    "name": "Timestamp",
+                    "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM Recovery Specialist",
@@ -581,7 +595,7 @@ class DiscordWebhookIntegration:
 
         return embed
 
-    def _create_coordination_event_embed(self, event_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_coordination_event_embed(self, event_data: dict[str, Any]) -> dict[str, Any]:
         """Create Discord embed for coordination event notification."""
         event_type = event_data.get("event_type", "Coordination Event")
         participants = event_data.get("participants", [])
@@ -589,10 +603,10 @@ class DiscordWebhookIntegration:
 
         # Color based on priority
         priority_colors = {
-            "LOW": 0x95A5A6,      # Gray
-            "NORMAL": 0x3498DB,   # Blue
-            "HIGH": 0xF39C12,     # Orange
-            "URGENT": 0xE74C3C,   # Red
+            "LOW": 0x95A5A6,  # Gray
+            "NORMAL": 0x3498DB,  # Blue
+            "HIGH": 0xF39C12,  # Orange
+            "URGENT": 0xE74C3C,  # Red
         }
 
         embed = {
@@ -601,8 +615,16 @@ class DiscordWebhookIntegration:
             "color": priority_colors.get(priority, 0x3498DB),
             "fields": [
                 {"name": "Priority", "value": priority, "inline": True},
-                {"name": "Participants", "value": ", ".join(participants) if participants else "All Agents", "inline": True},
-                {"name": "Timestamp", "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"), "inline": True},
+                {
+                    "name": "Participants",
+                    "value": ", ".join(participants) if participants else "All Agents",
+                    "inline": True,
+                },
+                {
+                    "name": "Timestamp",
+                    "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM Event Coordinator",
@@ -616,7 +638,7 @@ class DiscordWebhookIntegration:
     # COORDINATION STATUS METHODS
     # ===========================================
 
-    def get_coordination_status(self) -> Dict[str, Any]:
+    def get_coordination_status(self) -> dict[str, Any]:
         """Get comprehensive coordination status."""
         return {
             "active_missions": self.active_missions,
@@ -625,14 +647,14 @@ class DiscordWebhookIntegration:
             "coordination_events_count": len(self.coordination_events),
             "webhook_configured": bool(self.webhook_url),
             "swarm_avatars": self.SWARM_AVATARS,
-            "last_updated": datetime.utcnow().isoformat()
+            "last_updated": datetime.utcnow().isoformat(),
         }
 
-    def update_agent_status_cache(self, agent_id: str, status_data: Dict[str, Any]) -> None:
+    def update_agent_status_cache(self, agent_id: str, status_data: dict[str, Any]) -> None:
         """Update agent status cache."""
         self.agent_status_cache[agent_id] = {
             **status_data,
-            "last_updated": datetime.utcnow().isoformat()
+            "last_updated": datetime.utcnow().isoformat(),
         }
         self._save_coordination_data()
 

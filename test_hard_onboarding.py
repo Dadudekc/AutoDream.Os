@@ -9,12 +9,10 @@ This ensures the --hard-onboarding flag works correctly with all its parameters.
 Author: Agent-4 - Strategic Oversight & QA Manager
 """
 
-import argparse
 import logging
 import sys
-import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 # Setup logging
 logging.basicConfig(
@@ -80,9 +78,9 @@ class HardOnboardingTester:
             assert args.hard_onboarding == True, "hard_onboarding flag not set"
             assert args.agents == "Agent-1,Agent-2", "agents not parsed correctly"
             assert args.onboarding_mode == "cleanup", "onboarding_mode not parsed"
-            assert (
-                args.assign_roles == "Agent-1:CLEANUP_CORE,Agent-2:CLEANUP_WEB"
-            ), "assign_roles not parsed"
+            assert args.assign_roles == "Agent-1:CLEANUP_CORE,Agent-2:CLEANUP_WEB", (
+                "assign_roles not parsed"
+            )
             assert args.dry_run == True, "dry_run flag not set"
 
             self.log_test_result(

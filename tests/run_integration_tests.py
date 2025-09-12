@@ -30,7 +30,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -53,7 +53,7 @@ class IntegrationTestRunner:
         self.test_results = []
         self.execution_summary = {}
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """Run complete integration test suite."""
         print("🐝 Starting Swarm Intelligence Integration Test Suite")
         print("=" * 60)
@@ -129,7 +129,7 @@ class IntegrationTestRunner:
             },
         }
 
-    def run_e2e_tests(self) -> List[TestResult]:
+    def run_e2e_tests(self) -> list[TestResult]:
         """Run end-to-end test suite."""
         results = []
 
@@ -145,7 +145,7 @@ class IntegrationTestRunner:
 
         return results
 
-    def run_api_tests(self) -> List[TestResult]:
+    def run_api_tests(self) -> list[TestResult]:
         """Run API testing suite."""
         results = []
 
@@ -161,7 +161,7 @@ class IntegrationTestRunner:
 
         return results
 
-    def run_integration_tests(self) -> List[TestResult]:
+    def run_integration_tests(self) -> list[TestResult]:
         """Run cross-service integration tests."""
         results = []
 
@@ -179,7 +179,7 @@ class IntegrationTestRunner:
 
         return results
 
-    def run_deployment_tests(self) -> List[TestResult]:
+    def run_deployment_tests(self) -> list[TestResult]:
         """Run deployment verification tests."""
         results = []
 
@@ -233,7 +233,7 @@ class IntegrationTestRunner:
 
         return results
 
-    def _generate_summary(self, results: List[TestResult], total_duration: float) -> Dict[str, Any]:
+    def _generate_summary(self, results: list[TestResult], total_duration: float) -> dict[str, Any]:
         """Generate execution summary."""
         total_tests = len(results)
         passed = len([r for r in results if r.status == TestStatus.PASSED])
@@ -262,7 +262,7 @@ class IntegrationTestRunner:
             },
         }
 
-    def _result_to_dict(self, result: TestResult) -> Dict[str, Any]:
+    def _result_to_dict(self, result: TestResult) -> dict[str, Any]:
         """Convert TestResult to dictionary."""
         return {
             "test_id": result.test_id,
@@ -297,7 +297,7 @@ class IntegrationTestRunner:
 
         print(f"Report saved to: {filename}")
 
-    def _save_html_report(self, filename: str, report_data: Dict[str, Any]) -> None:
+    def _save_html_report(self, filename: str, report_data: dict[str, Any]) -> None:
         """Save HTML formatted report."""
         html_content = f"""
 <!DOCTYPE html>
@@ -323,30 +323,30 @@ class IntegrationTestRunner:
 <body>
     <div class="header">
         <h1>🐝 Swarm Intelligence Integration Test Report</h1>
-        <p>Generated: {report_data['integration_test_report']['generated_at']}</p>
+        <p>Generated: {report_data["integration_test_report"]["generated_at"]}</p>
         <p>Environment: {self.environment} | Base URL: {self.base_url}</p>
     </div>
 
     <div class="summary">
         <h2>Test Summary</h2>
         <div class="metric">
-            <div style="font-size: 2em; font-weight: bold;">{report_data['integration_test_report']['total_tests']}</div>
+            <div style="font-size: 2em; font-weight: bold;">{report_data["integration_test_report"]["total_tests"]}</div>
             <div>Total Tests</div>
         </div>
         <div class="metric passed">
-            <div style="font-size: 2em; font-weight: bold;">{report_data['integration_test_report']['passed']}</div>
+            <div style="font-size: 2em; font-weight: bold;">{report_data["integration_test_report"]["passed"]}</div>
             <div>Passed</div>
         </div>
         <div class="metric failed">
-            <div style="font-size: 2em; font-weight: bold;">{report_data['integration_test_report']['failed']}</div>
+            <div style="font-size: 2em; font-weight: bold;">{report_data["integration_test_report"]["failed"]}</div>
             <div>Failed</div>
         </div>
         <div class="metric error">
-            <div style="font-size: 2em; font-weight: bold;">{report_data['integration_test_report']['errors']}</div>
+            <div style="font-size: 2em; font-weight: bold;">{report_data["integration_test_report"]["errors"]}</div>
             <div>Errors</div>
         </div>
         <div class="metric">
-            <div style="font-size: 2em; font-weight: bold;">{report_data['integration_test_report']['success_rate']:.1%}</div>
+            <div style="font-size: 2em; font-weight: bold;">{report_data["integration_test_report"]["success_rate"]:.1%}</div>
             <div>Success Rate</div>
         </div>
     </div>
@@ -358,10 +358,10 @@ class IntegrationTestRunner:
             status_class = result["status"].lower()
             html_content += f"""
     <div class="test-result {status_class}">
-        <h4>{result['test_name']}</h4>
-        <p><strong>Status:</strong> {result['status']} | <strong>Duration:</strong> {result['duration']:.2f}s</p>
-        <p><strong>Type:</strong> {result['test_type']}</p>
-        {"<p><strong>Error:</strong> " + result['error_message'] + "</p>" if result.get('error_message') else ""}
+        <h4>{result["test_name"]}</h4>
+        <p><strong>Status:</strong> {result["status"]} | <strong>Duration:</strong> {result["duration"]:.2f}s</p>
+        <p><strong>Type:</strong> {result["test_type"]}</p>
+        {"<p><strong>Error:</strong> " + result["error_message"] + "</p>" if result.get("error_message") else ""}
     </div>
 """
 

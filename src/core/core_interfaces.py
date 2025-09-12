@@ -39,6 +39,33 @@ class CoordinatorStatus(Enum):
 
 @dataclass
 class CoordinatorInfo:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.core_interfaces import Core_Interfaces
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Core_Interfaces(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Coordinator information structure."""
 
     coordinator_id: str
@@ -603,6 +630,8 @@ def main():
     print(f"System info created: {system_info.to_dict()}")
 
     print("\nCore Interfaces initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

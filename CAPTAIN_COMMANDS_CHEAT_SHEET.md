@@ -53,6 +53,28 @@ python src/services/consolidated_messaging_service.py --broadcast --message "SYS
 python src/services/consolidated_messaging_service.py --agent Agent-X --message "AGENT RESTART: Resume with enhanced messaging protocol. Follow 5-step workflow." --priority URGENT --tag COORDINATION
 ```
 
+### **🚨 URGENT AGENT REVIVAL SYSTEM (NEW):**
+```bash
+# Single agent revival with ctrl+enter interruption
+python src/services/messaging_cli_refactored.py --revive-agent --agent Agent-5
+
+# Swarm-wide revival emergency protocol
+python src/services/messaging_cli_refactored.py --revive-all
+
+# Automated status monitoring and revival
+python src/services/messaging_cli_refactored.py --monitor-status --stall-threshold 300
+
+# Continuous revival daemon (background monitoring)
+python src/services/messaging_cli_refactored.py --revival-daemon --stall-threshold 600
+```
+
+#### **Revival System Features:**
+- **Ctrl+Enter Interruption:** Sends single ctrl+enter to interrupt running agents
+- **Status Monitoring:** Automatically detects stalled agents based on timestamp analysis
+- **Smart Thresholds:** Configurable stall detection (default 300 seconds)
+- **Automated Revival:** Background daemon continuously monitors and revives agents
+- **Targeted Revival:** Individual agent or swarm-wide emergency revival
+
 ---
 
 ## 📢 **ENHANCED BROADCAST COMMANDS** (All Agents)
@@ -854,7 +876,7 @@ python src/services/consolidated_messaging_service.py \
 ---
 *Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager*
 *Created: 2025-09-08*
-*Last Updated: 2025-09-09 - COMPREHENSIVE UPDATE COMPLETE*
+*Last Updated: 2025-09-12 - AGENT REVIVAL SYSTEM ADDED*
 *Documentation Coverage: 100% ✅*
 
 ---
@@ -867,7 +889,7 @@ python src/services/consolidated_messaging_service.py \
 
 | Category | Commands | Documentation | Primary Use Case |
 |----------|----------|---------------|------------------|
-| **Messaging** | 8 commands | Core messaging service | Swarm communication |
+| **Messaging** | 12 commands | Core messaging service | Swarm communication & revival |
 | **Performance** | 12 commands | `CAPTAIN_HANDBOOK_PERFORMANCE_CLI.md` | System monitoring/optimization |
 | **Core Systems** | 11 commands | `CAPTAIN_HANDBOOK_CORE_SYSTEMS.md` | Advanced analysis/DRY elimination |
 | **Scripts** | 15+ commands | `CAPTAIN_HANDBOOK_SCRIPTS_COMPLETE.md` | Automation workflows |
@@ -960,11 +982,12 @@ python simple_discord_devlog_poster.py --status "System operational - all agents
 - ✅ **Emergency Protocols** - Crisis management and recovery procedures
 
 ### **📈 FINAL IMPACT METRICS:**
-- **Total Commands Documented:** 80+ commands across all systems
+- **Total Commands Documented:** 84+ commands across all systems
 - **Documentation Coverage:** 100% of all available commands
 - **Gap Reduction:** From 35% to 100% coverage (65 percentage point improvement)
 - **New Documentation Files:** 6 comprehensive handbook sections created
 - **Workflow Automation:** Complete automation workflows documented
+- **Agent Revival System:** 4 new emergency revival commands added
 
 ### **🎯 CAPTAIN CAPABILITY ENHANCEMENT:**
 - **Complete Command Access:** All project commands documented and accessible

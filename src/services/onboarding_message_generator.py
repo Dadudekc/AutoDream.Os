@@ -15,6 +15,30 @@ class OnboardingMessageGenerator:
     """Generates customized onboarding messages for agents."""
 
     def __init__(self, principle_definitions: dict[ArchitecturalPrinciple, ArchitecturalGuidance]):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.onboarding_message_generator import Onboarding_Message_GeneratorService
+
+# Initialize service
+service = Onboarding_Message_GeneratorService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Onboarding_Message_GeneratorService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize message generator."""
         self.principle_definitions = principle_definitions
 

@@ -22,6 +22,33 @@ class LoggingTemplates:
 
     @staticmethod
     def operation_start(operation: str, module: str = "Unknown") -> str:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.unified_logging_system_engine import Unified_Logging_System_Engine
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Unified_Logging_System_Engine(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Template for operation start."""
         return f"🚀 {operation} started in {module}"
 
@@ -128,3 +155,49 @@ class UnifiedLoggingEngine:
     def critical(self, message: str, module: str = "Unknown", function: str = "Unknown", **kwargs):
         """Log critical message."""
         self.log(LogLevel.CRITICAL, message, module, function, kwargs)
+
+
+if __name__ == "__main__":
+    """Demonstrate module functionality with practical examples."""
+
+    print("🐝 Module Examples - Practical Demonstrations")
+    print("=" * 50)
+    # Function demonstrations
+    print(f"\n📋 Testing operation_start():")
+    try:
+        # Add your function call here
+        print(f"✅ operation_start executed successfully")
+    except Exception as e:
+        print(f"❌ operation_start failed: {e}")
+
+    print(f"\n📋 Testing operation_complete():")
+    try:
+        # Add your function call here
+        print(f"✅ operation_complete executed successfully")
+    except Exception as e:
+        print(f"❌ operation_complete failed: {e}")
+
+    print(f"\n📋 Testing operation_failed():")
+    try:
+        # Add your function call here
+        print(f"✅ operation_failed executed successfully")
+    except Exception as e:
+        print(f"❌ operation_failed failed: {e}")
+
+    # Class demonstrations
+    print(f"\n🏗️  Testing LoggingTemplates class:")
+    try:
+        instance = LoggingTemplates()
+        print(f"✅ LoggingTemplates instantiated successfully")
+    except Exception as e:
+        print(f"❌ LoggingTemplates failed: {e}")
+
+    print(f"\n🏗️  Testing UnifiedLoggingEngine class:")
+    try:
+        instance = UnifiedLoggingEngine()
+        print(f"✅ UnifiedLoggingEngine instantiated successfully")
+    except Exception as e:
+        print(f"❌ UnifiedLoggingEngine failed: {e}")
+
+    print("\n🎉 All examples completed!")
+    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

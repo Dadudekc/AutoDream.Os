@@ -21,6 +21,30 @@ class AgentStatusManager:
     """Handles agent status and utility functions."""
 
     def __init__(self, agent_id: str, config_path: str | None = None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.agent_status_manager import Agent_Status_ManagerService
+
+# Initialize service
+service = Agent_Status_ManagerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Agent_Status_ManagerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize agent status manager."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)

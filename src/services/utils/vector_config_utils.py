@@ -12,6 +12,30 @@ def load_simple_config(agent_id: str, config_path: str | None = None) -> dict[st
         Identifier for the agent using the vector integration.
     config_path: Optional[str]
         Optional path to a configuration file (currently unused).
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.utils.vector_config_utils import Vector_Config_UtilsService
+
+# Initialize service
+service = Vector_Config_UtilsService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Vector_Config_UtilsService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """
     return {
         "collection_name": f"agent_{agent_id}",

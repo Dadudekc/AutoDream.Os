@@ -1,0 +1,130 @@
+{
+  "contract_id": "CONTRACT-AGENT2-UTILITIES-INFRASTRUCTURE-001",
+  "contract_title": "Utilities & Infrastructure Consolidation & Optimization Mission",
+  "agent_id": "Agent-2",
+  "agent_name": "Infrastructure & Configuration Specialist",
+  "contract_type": "INFRASTRUCTURE_CONSOLIDATION",
+  "priority": "HIGH",
+  "status": "AVAILABLE",
+
+  "contract_details": {
+    "description": "High-priority utilities and infrastructure consolidation focusing on configuration management, monitoring enhancement, and utility function optimization. Standardize infrastructure components and improve operational efficiency.",
+
+    "background": "Agent-2 specializes in infrastructure and configuration management. This contract addresses critical utility consolidation tasks following Phase 1 completion.",
+
+    "objectives": [
+      "Consolidate utility functions across all modules",
+      "Standardize configuration management systems",
+      "Improve infrastructure monitoring and alerting",
+      "Create unified logging system architecture",
+      "Optimize file handling and I/O utilities",
+      "Implement infrastructure health checks",
+      "Create configuration validation systems",
+      "Document infrastructure dependencies and relationships"
+    ],
+
+    "deliverables": [
+      "Consolidated utility function library",
+      "Unified configuration management system",
+      "Enhanced infrastructure monitoring dashboard",
+      "Standardized logging system implementation",
+      "Optimized file handling utilities",
+      "Infrastructure health check framework",
+      "Configuration validation and testing suite",
+      "Infrastructure documentation and runbooks"
+    ],
+
+    "technical_requirements": [
+      "Infrastructure monitoring and alerting tools",
+      "Configuration management frameworks",
+      "Logging and observability platforms",
+      "File system optimization utilities",
+      "Health check and monitoring frameworks",
+      "Configuration validation tools",
+      "Infrastructure automation tools",
+      "Performance monitoring dashboards"
+    ],
+
+    "estimated_effort": "2 development cycles",
+    "deadline": "2025-09-17",
+    "stakeholders": ["Captain Agent-4", "Agent-1", "Agent-8"],
+
+    "success_criteria": [
+      "Utility functions consolidated across all modules",
+      "Configuration management standardized",
+      "Infrastructure monitoring enhanced with real-time alerts",
+      "Unified logging system implemented and operational",
+      "File I/O operations optimized by >50%",
+      "Infrastructure health checks automated and monitored",
+      "Configuration validation systems operational",
+      "Zero infrastructure functionality regressions"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Captain Agent-4",
+    "created_at": "2025-09-12T23:25:00Z",
+    "assigned_at": null,
+    "completed_at": null,
+    "last_updated": "2025-09-12T23:25:00Z",
+
+    "tags": [
+      "cleanup",
+      "infrastructure",
+      "utilities",
+      "configuration",
+      "monitoring",
+      "logging",
+      "optimization",
+      "documentation"
+    ],
+
+    "dependencies": [
+      "PHASE 1 completion (Agent-6 + Agent-5)",
+      "Repository analysis completed",
+      "Infrastructure baseline assessment available",
+      "Configuration management tools operational"
+    ],
+
+    "resources_required": [
+      "Infrastructure monitoring platforms",
+      "Configuration management frameworks",
+      "Logging and observability tools",
+      "File system optimization utilities",
+      "Health check frameworks",
+      "Configuration validation systems",
+      "Infrastructure automation tools",
+      "Performance monitoring dashboards"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 450,
+    "skill_unlocks": [
+      "Infrastructure Architect",
+      "Configuration Management Expert",
+      "Monitoring Systems Specialist",
+      "Logging System Guru",
+      "Utility Optimization Champion",
+      "Infrastructure Automation Expert"
+    ],
+    "reputation_bonus": "Infrastructure Excellence Champion",
+    "network_unlocks": [
+      "Access to Infrastructure Working Group",
+      "Configuration Management Community",
+      "Monitoring Standards Team",
+      "Logging Best Practices Group",
+      "Infrastructure Automation Network",
+      "DevOps Excellence Council"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-12T23:25:00Z",
+      "action": "CONTRACT_CREATED",
+      "actor": "Captain Agent-4",
+      "details": "Created utilities & infrastructure consolidation contract for Agent-2 (PHASE 2 Batch 2A)"
+    }
+  ]
+}

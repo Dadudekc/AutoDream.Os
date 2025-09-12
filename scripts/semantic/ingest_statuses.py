@@ -1,3 +1,34 @@
+"""
+Ingest_Statuses Module
+
+This module provides script functionality for the swarm system.
+
+Component Type: Script
+Priority: Medium
+Dependencies: src.core.semantic
+
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python ingest_statuses.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.semantic.ingest_statuses import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.semantic.ingest_statuses import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
+"""
 from __future__ import annotations
 
 import argparse

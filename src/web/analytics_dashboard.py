@@ -10,13 +10,7 @@ Author: Agent-5 (Business Intelligence Specialist)
 License: MIT
 """
 
-import asyncio
-import json
-import threading
-import time
-from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
 
 import uvicorn
 from fastapi import FastAPI, HTTPException, Request
@@ -43,14 +37,35 @@ class AnalyticsDashboardWeb:
         self._setup_routes()
 
     def _setup_routes(self) -> None:
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.analytics_dashboard import Analytics_Dashboard
+
+# Initialize and use
+instance = Analytics_Dashboard()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Analytics_Dashboard(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
         """Setup FastAPI routes."""
 
         @self.app.get("/", response_class=HTMLResponse)
         async def dashboard_overview(request: Request):
             """Main dashboard overview page."""
             return self.templates.TemplateResponse(
-                "dashboard.html",
-                {"request": request, "title": "Analytics Dashboard"}
+                "dashboard.html", {"request": request, "title": "Analytics Dashboard"}
             )
 
         @self.app.get("/api/dashboard/{dashboard_type}")
@@ -63,7 +78,7 @@ class AnalyticsDashboardWeb:
                 raise HTTPException(status_code=500, detail=str(e))
 
         @self.app.get("/api/analytics/usage")
-        async def get_usage_analytics(agent_id: Optional[str] = None, hours_back: int = 24):
+        async def get_usage_analytics(agent_id: str | None = None, hours_back: int = 24):
             """Get usage analytics data."""
             try:
                 data = self.analytics_service.get_usage_analytics(agent_id, hours_back)
@@ -119,24 +134,21 @@ class AnalyticsDashboardWeb:
         async def performance_dashboard(request: Request):
             """Performance dashboard page."""
             return self.templates.TemplateResponse(
-                "performance.html",
-                {"request": request, "title": "Performance Dashboard"}
+                "performance.html", {"request": request, "title": "Performance Dashboard"}
             )
 
         @self.app.get("/usage", response_class=HTMLResponse)
         async def usage_dashboard(request: Request):
             """Usage analytics dashboard page."""
             return self.templates.TemplateResponse(
-                "usage.html",
-                {"request": request, "title": "Usage Analytics"}
+                "usage.html", {"request": request, "title": "Usage Analytics"}
             )
 
         @self.app.get("/reports", response_class=HTMLResponse)
         async def reports_page(request: Request):
             """Reports page."""
             return self.templates.TemplateResponse(
-                "reports.html",
-                {"request": request, "title": "Business Intelligence Reports"}
+                "reports.html", {"request": request, "title": "Business Intelligence Reports"}
             )
 
     def start(self, host: str = "localhost", port: int = 8001) -> None:

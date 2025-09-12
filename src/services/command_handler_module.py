@@ -20,6 +20,30 @@ class CommandHandler:
         self.logger = logging.getLogger(__name__)
 
     def process_command(self, request) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.command_handler_module import Command_Handler_ModuleService
+
+# Initialize service
+service = Command_Handler_ModuleService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Command_Handler_ModuleService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Process a command request"""
         command = request.data.get("command", "")
         args = request.data.get("args", [])

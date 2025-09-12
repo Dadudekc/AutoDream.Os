@@ -18,17 +18,12 @@ class ErrorHandlerMiddleware:
     """Error handling middleware decorators."""
 
     def error_handler(self, f: Callable) -> Callable:
-        """Error handling decorator."""
-
+        """Decorator for handling errors in vector database operations."""
         @wraps(f)
         def decorated_function(*args, **kwargs):
             try:
                 return f(*args, **kwargs)
             except Exception as e:
                 current_app.logger.error(f"Error in {f.__name__}: {str(e)}")
-                return (
-                    jsonify({"success": False, "error": f"Operation failed: {str(e)}"}),
-                    500,
-                )
-
+                return jsonify({"error": "Internal server error", "details": str(e)}), 500
         return decorated_function

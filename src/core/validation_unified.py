@@ -160,6 +160,24 @@ class Validator(ABC):
     """Base validator interface."""
 
     def __init__(self, validator_id: str, name: str):
+    """# Example usage:
+result = __init__("example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
+    """# Example usage:
+result = __init__("example_value", "example_value", "example_value")
+print(f"Result: {result}")"""
         self.validator_id = validator_id
         self.name = name
         self.logger = logging.getLogger(f"validator.{name}")

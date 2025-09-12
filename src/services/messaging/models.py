@@ -1,7 +1,9 @@
 from __future__ import annotations
+
+import time
+import uuid
 from enum import Enum
-from typing import Any, List, Dict, Optional
-import time, uuid
+from typing import Any
 
 
 class DeliveryMethod(str, Enum):
@@ -63,10 +65,10 @@ class UnifiedMessage:
         recipient: str,
         message_type: UnifiedMessageType,
         priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-        tags: Optional[List[UnifiedMessageTag]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-        message_id: Optional[str] = None,
-        timestamp: Optional[str] = None,
+        tags: list[UnifiedMessageTag] | None = None,
+        metadata: dict[str, Any] | None = None,
+        message_id: str | None = None,
+        timestamp: str | None = None,
         sender_type: SenderType = SenderType.SYSTEM,
         recipient_type: RecipientType = RecipientType.AGENT,
     ):

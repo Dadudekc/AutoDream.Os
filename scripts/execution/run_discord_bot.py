@@ -55,6 +55,27 @@ logger = logging.getLogger(__name__)
 
 
 def check_environment():
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python run_discord_bot.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.execution.run_discord_bot import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.execution.run_discord_bot import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
     """Check if required environment variables are set."""
     required_vars = ["DISCORD_BOT_TOKEN"]
     missing_vars = []

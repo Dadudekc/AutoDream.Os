@@ -290,7 +290,7 @@ webhook = DiscordWebhookIntegration()
 # Test connection
 if webhook.test_webhook_connection():
     print("✅ Discord webhook connection successful!")
-    
+
     # Send test notification with swarm avatar
     test_data = {
         "title": "Discord Webhook Enhancement Complete",

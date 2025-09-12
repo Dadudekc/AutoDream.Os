@@ -26,6 +26,28 @@ class VectorDatabaseUtils:
 
     V2 Compliance: < 100 lines, facade pattern, single responsibility.
     This class orchestrates all utility components.
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.vector_database.utils import Utils
+
+# Initialize and use
+instance = Utils()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Utils(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """
 
     def __init__(self):

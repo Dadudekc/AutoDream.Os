@@ -34,7 +34,14 @@ class AgentContextManager:
     """Manages agent context and state."""
 
     def __init__(self, agent_id: str = "agent-2"):
+        """Initialize core manager system.
+
+        Args:
+            agent_id: Identifier for the managing agent
+        """
         self.agent_id = agent_id
+        self.status = "initialized"
+        self.components = {}
         self.logger = logging.getLogger(self.__class__.__name__)
         self.context = {}
         self.state_history = []
@@ -562,6 +569,8 @@ def main():
     print(f"Workspace agent registry created: {agent_registry.get_registry_stats()}")
 
     print("\nCore Manager System initialization complete!")
+
+    return 0  # Success exit code
 
 
 if __name__ == "__main__":

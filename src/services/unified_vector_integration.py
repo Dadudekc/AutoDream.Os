@@ -32,6 +32,30 @@ class VectorDocument:
 
 @dataclass
 class VectorSearchResult:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.unified_vector_integration import Unified_Vector_IntegrationService
+
+# Initialize service
+service = Unified_Vector_IntegrationService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Unified_Vector_IntegrationService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Vector search result structure."""
 
     document: VectorDocument

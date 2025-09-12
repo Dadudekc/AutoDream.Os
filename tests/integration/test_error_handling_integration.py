@@ -10,10 +10,8 @@ Created: 2025-09-12
 Coverage Target: 85%+ for all error handling modules
 """
 
-import asyncio
-import sys
 import time
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
+from unittest.mock import AsyncMock, Mock
 
 import pytest
 
@@ -37,48 +35,56 @@ except ImportError as e:
     class AdvancedErrorHandler:
         def __init__(self, *args, **kwargs):
             pass
+
         async def handle_error(self, *args, **kwargs):
             return None
 
     class AutomatedRecovery:
         def __init__(self, *args, **kwargs):
             pass
+
         def recover_from_error(self, *args, **kwargs):
             return True
 
     class CircuitBreaker:
         def __init__(self, *args, **kwargs):
             pass
+
         def call(self, *args, **kwargs):
             return None
 
     class CoordinationErrorHandler:
         def __init__(self, *args, **kwargs):
             pass
+
         async def handle_coordination_error(self, *args, **kwargs):
             return None
 
     class ErrorAnalysisEngine:
         def __init__(self, *args, **kwargs):
             pass
+
         def analyze_error(self, *args, **kwargs):
             return {"severity": "medium", "category": "test_error"}
 
     class ErrorRecovery:
         def __init__(self, *args, **kwargs):
             pass
+
         def recover(self, *args, **kwargs):
             return True
 
     class RetryMechanisms:
         def __init__(self, *args, **kwargs):
             pass
+
         async def execute_with_retry(self, *args, **kwargs):
             return None
 
     class SpecializedHandlers:
         def __init__(self, *args, **kwargs):
             pass
+
         def handle_specialized_error(self, *args, **kwargs):
             return None
 
@@ -99,7 +105,7 @@ class TestErrorHandlingIntegration:
             "analysis_engine": ErrorAnalysisEngine(),
             "error_recovery": ErrorRecovery(),
             "retry_mechanisms": RetryMechanisms(),
-            "specialized_handlers": SpecializedHandlers()
+            "specialized_handlers": SpecializedHandlers(),
         }
 
     @pytest.fixture
@@ -118,7 +124,9 @@ class TestErrorHandlingIntegration:
         mock_service.add_vectors = AsyncMock(return_value={"status": "success"})
         return mock_service
 
-    async def test_error_propagation_across_services(self, error_components, mock_messaging_service, mock_vector_service):
+    async def test_error_propagation_across_services(
+        self, error_components, mock_messaging_service, mock_vector_service
+    ):
         """Test error propagation and handling across multiple services."""
         # Setup error scenario
         mock_messaging_service.send_message.side_effect = Exception("Network timeout")
@@ -134,7 +142,7 @@ class TestErrorHandlingIntegration:
             "operation": "send_message",
             "error": "Network timeout",
             "timestamp": time.time(),
-            "correlation_id": "test-correlation-123"
+            "correlation_id": "test-correlation-123",
         }
 
         # Test error analysis
@@ -158,6 +166,7 @@ class TestErrorHandlingIntegration:
 
         # Mock failing function
         call_count = 0
+
         async def failing_function():
             nonlocal call_count
             call_count += 1
@@ -168,9 +177,7 @@ class TestErrorHandlingIntegration:
         # Test circuit breaker with retry
         async def circuit_breaker_with_retry():
             return await retry_mechanisms.execute_with_retry(
-                failing_function,
-                max_attempts=5,
-                backoff_factor=0.1
+                failing_function, max_attempts=5, backoff_factor=0.1
             )
 
         # Execute through circuit breaker
@@ -190,18 +197,18 @@ class TestErrorHandlingIntegration:
             {
                 "type": "database_connection_error",
                 "message": "Connection to database lost",
-                "context": {"database": "main", "timeout": 30}
+                "context": {"database": "main", "timeout": 30},
             },
             {
                 "type": "api_rate_limit_error",
                 "message": "API rate limit exceeded",
-                "context": {"service": "external_api", "limit": 100, "reset_time": 60}
+                "context": {"service": "external_api", "limit": 100, "reset_time": 60},
             },
             {
                 "type": "file_system_error",
                 "message": "Disk space exhausted",
-                "context": {"filesystem": "/data", "available_space": 0}
-            }
+                "context": {"filesystem": "/data", "available_space": 0},
+            },
         ]
 
         for scenario in error_scenarios:
@@ -213,7 +220,9 @@ class TestErrorHandlingIntegration:
             recovery_result = error_recovery.recover(scenario)
             assert isinstance(recovery_result, bool)
 
-    async def test_cross_service_error_recovery(self, error_components, mock_messaging_service, mock_vector_service):
+    async def test_cross_service_error_recovery(
+        self, error_components, mock_messaging_service, mock_vector_service
+    ):
         """Test error recovery across multiple services."""
         # Setup cascading failure scenario
         original_send = mock_messaging_service.send_message
@@ -240,7 +249,7 @@ class TestErrorHandlingIntegration:
             "operation": "cross_service_transaction",
             "services_involved": ["messaging", "vector"],
             "error_chain": ["messaging_failure", "vector_failure"],
-            "business_impact": "high"
+            "business_impact": "high",
         }
 
         # Test advanced error handling
@@ -265,30 +274,29 @@ class TestErrorHandlingIntegration:
             {
                 "error": Exception("Connection timeout"),
                 "context": {"service": "database", "operation": "connect"},
-                "expected_category": "connection_error"
+                "expected_category": "connection_error",
             },
             {
                 "error": ValueError("Invalid input parameter"),
                 "context": {"service": "validation", "operation": "validate"},
-                "expected_category": "validation_error"
+                "expected_category": "validation_error",
             },
             {
                 "error": PermissionError("Access denied"),
                 "context": {"service": "filesystem", "operation": "write"},
-                "expected_category": "permission_error"
+                "expected_category": "permission_error",
             },
             {
                 "error": RuntimeError("Unexpected system state"),
                 "context": {"service": "state_machine", "operation": "transition"},
-                "expected_category": "runtime_error"
-            }
+                "expected_category": "runtime_error",
+            },
         ]
 
         for test_case in test_errors:
-            analysis_result = analysis_engine.analyze_error({
-                "error": test_case["error"],
-                "context": test_case["context"]
-            })
+            analysis_result = analysis_engine.analyze_error(
+                {"error": test_case["error"], "context": test_case["context"]}
+            )
 
             assert "severity" in analysis_result
             assert "category" in analysis_result
@@ -314,7 +322,7 @@ class TestErrorHandlingIntegration:
             return await retry_mechanisms.execute_with_retry(
                 lambda: unreliable_operation(len(attempt_log) + 1),
                 max_attempts=5,
-                backoff_factor=0.01  # Fast for testing
+                backoff_factor=0.01,  # Fast for testing
             )
 
         # Execute through circuit breaker
@@ -326,7 +334,6 @@ class TestErrorHandlingIntegration:
 
     def test_error_handling_performance_under_load(self, error_components):
         """Test error handling performance under simulated load."""
-        import threading
         import concurrent.futures
 
         advanced_handler = error_components["advanced_handler"]
@@ -340,7 +347,7 @@ class TestErrorHandlingIntegration:
                     "thread_id": thread_id,
                     "error_id": i,
                     "error": Exception(f"Thread {thread_id} error {i}"),
-                    "timestamp": time.time()
+                    "timestamp": time.time(),
                 }
 
                 # Test analysis engine performance
@@ -348,12 +355,14 @@ class TestErrorHandlingIntegration:
                 analysis_result = analysis_engine.analyze_error(error_context)
                 end_time = time.time()
 
-                results.append({
-                    "thread_id": thread_id,
-                    "error_id": i,
-                    "analysis_time": end_time - start_time,
-                    "result": analysis_result
-                })
+                results.append(
+                    {
+                        "thread_id": thread_id,
+                        "error_id": i,
+                        "analysis_time": end_time - start_time,
+                        "result": analysis_result,
+                    }
+                )
 
             return results
 
@@ -388,20 +397,20 @@ class TestErrorHandlingIntegration:
                 "name": "rapid_failures",
                 "description": "Simulate rapid consecutive failures",
                 "failure_pattern": [True] * 10,  # 10 consecutive failures
-                "expected_behavior": "circuit_breaker_open"
+                "expected_behavior": "circuit_breaker_open",
             },
             {
                 "name": "intermittent_failures",
                 "description": "Simulate intermittent failure pattern",
                 "failure_pattern": [True, False, True, False, True, False],
-                "expected_behavior": "recovery_attempted"
+                "expected_behavior": "recovery_attempted",
             },
             {
                 "name": "gradual_recovery",
                 "description": "Simulate gradual service recovery",
                 "failure_pattern": [True, True, True, False, False, False],
-                "expected_behavior": "circuit_breaker_closed"
-            }
+                "expected_behavior": "circuit_breaker_closed",
+            },
         ]
 
         for scenario in chaos_scenarios:
@@ -409,7 +418,10 @@ class TestErrorHandlingIntegration:
 
             async def chaos_operation():
                 nonlocal failure_index
-                should_fail = failure_index < len(scenario["failure_pattern"]) and scenario["failure_pattern"][failure_index]
+                should_fail = (
+                    failure_index < len(scenario["failure_pattern"])
+                    and scenario["failure_pattern"][failure_index]
+                )
                 failure_index += 1
 
                 if should_fail:
@@ -433,7 +445,7 @@ class TestErrorHandlingIntegration:
             recovery_context = {
                 "scenario": scenario["name"],
                 "failure_pattern": scenario["failure_pattern"],
-                "results": results
+                "results": results,
             }
 
             recovery_result = automated_recovery.recover_from_error(recovery_context)
@@ -454,7 +466,7 @@ class TestErrorHandlingIntegration:
                 "severity": severities[i % len(severities)],
                 "timestamp": time.time() + i,
                 "service": f"service_{i % 3}",
-                "operation": f"operation_{i % 5}"
+                "operation": f"operation_{i % 5}",
             }
             test_errors.append(error_context)
 
@@ -485,14 +497,17 @@ class TestErrorHandlingIntegration:
 
 
 @pytest.mark.integration
-@pytest.mark.parametrize("error_type", [
-    "network_timeout",
-    "database_connection_lost",
-    "api_rate_limit_exceeded",
-    "file_system_full",
-    "memory_exhaustion",
-    "service_unavailable"
-])
+@pytest.mark.parametrize(
+    "error_type",
+    [
+        "network_timeout",
+        "database_connection_lost",
+        "api_rate_limit_exceeded",
+        "file_system_full",
+        "memory_exhaustion",
+        "service_unavailable",
+    ],
+)
 async def test_error_type_specific_handling(error_type, error_components):
     """Test error type specific handling strategies."""
     specialized_handlers = error_components["specialized_handlers"]
@@ -503,33 +518,33 @@ async def test_error_type_specific_handling(error_type, error_components):
         "network_timeout": {
             "error": TimeoutError("Connection timed out"),
             "context": {"timeout": 30, "retries": 3},
-            "expected_recovery_strategy": "retry_with_backoff"
+            "expected_recovery_strategy": "retry_with_backoff",
         },
         "database_connection_lost": {
             "error": ConnectionError("Database connection lost"),
             "context": {"database": "main", "pool_size": 10},
-            "expected_recovery_strategy": "connection_pool_refresh"
+            "expected_recovery_strategy": "connection_pool_refresh",
         },
         "api_rate_limit_exceeded": {
             "error": Exception("Rate limit exceeded"),
             "context": {"limit": 100, "reset_time": 60},
-            "expected_recovery_strategy": "exponential_backoff"
+            "expected_recovery_strategy": "exponential_backoff",
         },
         "file_system_full": {
             "error": OSError("No space left on device"),
             "context": {"filesystem": "/data", "cleanup_required": True},
-            "expected_recovery_strategy": "disk_cleanup"
+            "expected_recovery_strategy": "disk_cleanup",
         },
         "memory_exhaustion": {
             "error": MemoryError("Memory exhausted"),
             "context": {"process": "worker", "memory_limit": "1GB"},
-            "expected_recovery_strategy": "memory_cleanup"
+            "expected_recovery_strategy": "memory_cleanup",
         },
         "service_unavailable": {
             "error": Exception("Service temporarily unavailable"),
             "context": {"service": "external_api", "retry_after": 30},
-            "expected_recovery_strategy": "circuit_breaker"
-        }
+            "expected_recovery_strategy": "circuit_breaker",
+        },
     }
 
     scenario = error_scenarios[error_type]

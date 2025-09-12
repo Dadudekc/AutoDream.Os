@@ -21,6 +21,27 @@ class EnhancedDiscordSetup:
     """Setup class for enhanced Discord integration."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python setup_enhanced_discord.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.setup_enhanced_discord import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.setup_enhanced_discord import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
         """Initialize setup class."""
         self.config_dir = Path("config")
         self.scripts_dir = Path("scripts")

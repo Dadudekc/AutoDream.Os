@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -6,8 +8,29 @@ logger = logging.getLogger(__name__)
 - Dry-run by default; print unified diffs
 - --write to apply in-place
 - Uses simple token/line replace (safe subset) — review diff before commit
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from tools.codemods.migrate_orchestrators import Migrate_Orchestrators
+
+# Initialize and use
+instance = Migrate_Orchestrators()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Migrate_Orchestrators(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
 """
-from __future__ import annotations
 
 import argparse
 import difflib

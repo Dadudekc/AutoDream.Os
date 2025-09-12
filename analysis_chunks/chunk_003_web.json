@@ -51,6 +51,66 @@
       }
     },
     {
+      "file_path": "src\\web\\api_docs.html",
+      "analysis": {
+        "language": ".html",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\api_examples.html",
+      "analysis": {
+        "language": ".html",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\changelog.html",
+      "analysis": {
+        "language": ".html",
+        "functions": [],
+        "classes": {},
+        "line_count": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "error": "Unsupported file type"
+      }
+    },
+    {
+      "file_path": "src\\web\\analytics_dashboard.py",
+      "analysis": {
+        "language": ".py",
+        "functions": [],
+        "classes": {},
+        "imports": [],
+        "decorators": [],
+        "docstrings": 0,
+        "line_count": 0,
+        "non_empty_lines": 0,
+        "comment_lines": 0,
+        "complexity": 0,
+        "file_size": 0,
+        "import_count": 0,
+        "function_count": 0,
+        "class_count": 0,
+        "has_main": false,
+        "has_tests": false,
+        "has_async": false,
+        "has_type_hints": false,
+        "error": "module 'ast' has no attribute 'Decorator'"
+      }
+    },
+    {
       "file_path": "src\\web\\static\\js\\agent-coordination-manager.js",
       "analysis": {
         "language": ".js",
@@ -2403,175 +2463,23 @@
         "has_jquery": true,
         "has_react": false
       }
-    },
-    {
-      "file_path": "src\\web\\static\\js\\dashboard-views.js",
-      "analysis": {
-        "language": ".js",
-        "functions": [
-          "renderAgentPerformanceView",
-          "renderAlerts"
-        ],
-        "classes": {},
-        "imports": [],
-        "exports": [],
-        "async_functions": [],
-        "arrow_functions": [],
-        "line_count": 119,
-        "non_empty_lines": 114,
-        "comment_lines": 18,
-        "complexity": 2,
-        "file_size": 4931,
-        "import_count": 0,
-        "function_count": 2,
-        "class_count": 0,
-        "has_async": false,
-        "has_arrow_functions": false,
-        "has_es6": true,
-        "has_jquery": true,
-        "has_react": false
-      }
-    },
-    {
-      "file_path": "src\\web\\static\\js\\performance-unified.js",
-      "analysis": {
-        "language": ".js",
-        "functions": [],
-        "classes": {
-          "UnifiedPerformanceOrchestrator": {
-            "methods": []
-          },
-          "BundleAnalyzer": {
-            "methods": []
-          },
-          "DOMPerformanceAnalyzer": {
-            "methods": []
-          },
-          "RecommendationEngine": {
-            "methods": []
-          },
-          "FrontendPerformanceMonitor": {
-            "methods": []
-          }
-        },
-        "imports": [],
-        "exports": [
-          [
-            "",
-            "",
-            "UnifiedPerformanceOrchestrator"
-          ]
-        ],
-        "async_functions": [],
-        "arrow_functions": [],
-        "line_count": 123,
-        "non_empty_lines": 106,
-        "comment_lines": 30,
-        "complexity": 5,
-        "file_size": 3444,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 5,
-        "has_async": false,
-        "has_arrow_functions": false,
-        "has_es6": true,
-        "has_jquery": false,
-        "has_react": false
-      }
-    },
-    {
-      "file_path": "src\\web\\static\\js\\components.js",
-      "analysis": {
-        "language": ".js",
-        "functions": [
-          "initializeComponents"
-        ],
-        "classes": {},
-        "imports": [
-          "./navigation.js",
-          "./modal.js",
-          "./forms.js",
-          "./ui-components.js"
-        ],
-        "exports": [
-          [
-            "",
-            "components",
-            ""
-          ],
-          [
-            "initializeComponents",
-            "",
-            ""
-          ]
-        ],
-        "async_functions": [],
-        "arrow_functions": [],
-        "line_count": 31,
-        "non_empty_lines": 22,
-        "comment_lines": 2,
-        "complexity": 1,
-        "file_size": 917,
-        "import_count": 4,
-        "function_count": 1,
-        "class_count": 0,
-        "has_async": false,
-        "has_arrow_functions": false,
-        "has_es6": true,
-        "has_jquery": false,
-        "has_react": false
-      }
-    },
-    {
-      "file_path": "src\\web\\static\\js\\config.js",
-      "analysis": {
-        "language": ".js",
-        "functions": [],
-        "classes": {},
-        "imports": [],
-        "exports": [
-          [
-            "",
-            "breakpoints",
-            ""
-          ],
-          [
-            "",
-            "config",
-            ""
-          ]
-        ],
-        "async_functions": [],
-        "arrow_functions": [],
-        "line_count": 15,
-        "non_empty_lines": 14,
-        "comment_lines": 0,
-        "complexity": 0,
-        "file_size": 266,
-        "import_count": 0,
-        "function_count": 0,
-        "class_count": 0,
-        "has_async": false,
-        "has_arrow_functions": false,
-        "has_es6": false,
-        "has_jquery": false,
-        "has_react": false
-      }
     }
   ],
   "summary": {
     "total_files": 50,
-    "total_lines": 15393,
-    "total_functions": 153,
-    "total_classes": 81,
-    "total_imports": 54,
+    "total_lines": 15105,
+    "total_functions": 150,
+    "total_classes": 76,
+    "total_imports": 50,
     "file_types": {
-      ".py": 2,
-      ".js": 48
+      ".py": 3,
+      ".html": 3,
+      ".js": 44
     },
     "avg_complexity_by_type": {
       ".py": 0.0,
-      ".js": 4.875
+      ".html": 0.0,
+      ".js": 5.136363636363637
     }
   },
   "consolidation_opportunities": [
@@ -2586,19 +2494,29 @@
       "priority": "MEDIUM"
     },
     {
+      "file_path": "src\\web\\api_docs.html",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\api_examples.html",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\changelog.html",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
+      "file_path": "src\\web\\analytics_dashboard.py",
+      "reason": "Small file - potential merge candidate",
+      "priority": "MEDIUM"
+    },
+    {
       "file_path": "src\\web\\static\\js\\dashboard-config-manager.js",
       "reason": "Low complexity - consolidation candidate",
       "priority": "LOW"
-    },
-    {
-      "file_path": "src\\web\\static\\js\\components.js",
-      "reason": "Small file - potential merge candidate",
-      "priority": "LOW"
-    },
-    {
-      "file_path": "src\\web\\static\\js\\config.js",
-      "reason": "Small file - potential merge candidate",
-      "priority": "HIGH"
     }
   ],
   "imports_analysis": {
@@ -2683,12 +2601,6 @@
       "./dashboard-navigation.js",
       "./dashboard-data-manager.js",
       "./dashboard-ui-helpers.js"
-    ],
-    "src\\web\\static\\js\\components.js": [
-      "./navigation.js",
-      "./modal.js",
-      "./forms.js",
-      "./ui-components.js"
     ]
   }
 }

@@ -30,6 +30,30 @@ class RouteAnalyzer:
     """Analyzes route options and calculates scores.
 
     Handles route analysis, scoring, and selection logic for message routing decisions.
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.protocol.routers.route_analyzer import Route_AnalyzerService
+
+# Initialize service
+service = Route_AnalyzerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Route_AnalyzerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """
 
     def __init__(self, config: OptimizationConfig | None = None):

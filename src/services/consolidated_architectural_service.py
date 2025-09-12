@@ -33,6 +33,30 @@ class AgentAssignmentManager:
 
 
 class ArchitecturalPrinciple(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.consolidated_architectural_service import Consolidated_Architectural_ServiceService
+
+# Initialize service
+service = Consolidated_Architectural_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Consolidated_Architectural_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Core architectural principles for professional development."""
 
     # SOLID Principles

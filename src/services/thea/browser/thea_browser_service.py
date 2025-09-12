@@ -24,6 +24,30 @@ class BrowserMode(Enum):
 
 
 class TheaBrowserService:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.thea.browser.thea_browser_service import Thea_Browser_ServiceService
+
+# Initialize service
+service = Thea_Browser_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Thea_Browser_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Browser service for Thea automation."""
 
     def __init__(self, config: TheaConfig):

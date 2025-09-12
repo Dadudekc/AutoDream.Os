@@ -26,6 +26,28 @@ class VectorDatabaseMiddleware:
 
     V2 Compliance: < 100 lines, facade pattern, single responsibility.
     This class orchestrates all middleware components.
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.web.vector_database.middleware import Middleware
+
+# Initialize and use
+instance = Middleware()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Middleware(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """
 
     def __init__(self):

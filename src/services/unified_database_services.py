@@ -17,8 +17,8 @@ License: MIT
 from __future__ import annotations
 
 import logging
-import sqlite3
 import re
+import sqlite3
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -33,6 +33,30 @@ class DatabaseConnectionError(Exception):
 
 
 class SQLQueryBuilder:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.unified_database_services import Unified_Database_ServicesService
+
+# Initialize service
+service = Unified_Database_ServicesService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Unified_Database_ServicesService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Secure SQL query builder with proper parameterization."""
 
     # Table name validation regex - only allow alphanumeric, underscore, and hyphen
@@ -218,11 +242,11 @@ class DatabaseQueryBuilder(SQLQueryBuilder):
             query += f" ORDER BY {', '.join(order_by)}"
 
         if limit is not None:
-            query += f" LIMIT ?"
+            query += " LIMIT ?"
             values.append(limit)
 
         if offset is not None:
-            query += f" OFFSET ?"
+            query += " OFFSET ?"
             values.append(offset)
 
         return query, values

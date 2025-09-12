@@ -31,6 +31,30 @@ class ArchitecturalOnboardingManager:
     responsibilities and validation rules to maintain professional code quality.
 
     Uses dependency injection and delegates to specialized components.
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.architectural_onboarding import Architectural_OnboardingService
+
+# Initialize service
+service = Architectural_OnboardingService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Architectural_OnboardingService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """
 
     def __init__(

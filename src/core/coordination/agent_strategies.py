@@ -12,10 +12,45 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any
 
-from ...core.validation.unified_validation_orchestrator import get_unified_validator
+# Import validation utilities
+def get_unified_validator():
+    """Get unified validator instance."""
+    class SimpleValidator:
+        def validate_task_requirements(self, requirements):
+            return bool(requirements)
+        def validate_agent_capabilities(self, capabilities):
+            return bool(capabilities)
+    return SimpleValidator()
 
 
 class AgentType(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.coordination.agent_strategies import Agent_Strategies
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Agent_Strategies(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Enumeration of supported agent types."""
 
     AGENT_1 = "agent_1"

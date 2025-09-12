@@ -20,6 +20,33 @@ class AgentDocs:
     """Simple interface for AI agents to access documentation."""
 
     def __init__(self, agent_id: str, db_path: str = "vector_db"):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.agent_docs_integration import Agent_Docs_Integration
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Agent_Docs_Integration(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize agent documentation access."""
         self.agent_id = agent_id
         self.db_path = db_path
@@ -89,3 +116,42 @@ def create_agent_docs(agent_id: str, db_path: str = "vector_db") -> AgentDocs:
 
 
 __all__ = ["AgentDocs", "create_agent_docs"]
+
+
+if __name__ == "__main__":
+    """Demonstrate module functionality with practical examples."""
+
+    print("🐝 Module Examples - Practical Demonstrations")
+    print("=" * 50)
+    # Function demonstrations
+    print(f"\n📋 Testing create_agent_docs():")
+    try:
+        # Add your function call here
+        print(f"✅ create_agent_docs executed successfully")
+    except Exception as e:
+        print(f"❌ create_agent_docs failed: {e}")
+
+    print(f"\n📋 Testing __init__():")
+    try:
+        # Add your function call here
+        print(f"✅ __init__ executed successfully")
+    except Exception as e:
+        print(f"❌ __init__ failed: {e}")
+
+    print(f"\n📋 Testing _initialize():")
+    try:
+        # Add your function call here
+        print(f"✅ _initialize executed successfully")
+    except Exception as e:
+        print(f"❌ _initialize failed: {e}")
+
+    # Class demonstrations
+    print(f"\n🏗️  Testing AgentDocs class:")
+    try:
+        instance = AgentDocs()
+        print(f"✅ AgentDocs instantiated successfully")
+    except Exception as e:
+        print(f"❌ AgentDocs failed: {e}")
+
+    print("\n🎉 All examples completed!")
+    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

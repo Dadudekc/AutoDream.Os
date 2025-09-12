@@ -25,7 +25,7 @@ def configure_webhooks():
     print("=" * 40)
 
     # Load current config
-    with open(config_file, "r") as f:
+    with open(config_file) as f:
         config = json.load(f)
 
     # Configure each channel

@@ -1,16 +1,16 @@
 from __future__ import annotations
+
 import logging
-from typing import Dict, Any
+
+from .coordinates import get_agent_coordinates
+from .coordinates import list_agents as _list_agents
+from .delivery.fallback import send_with_fallback
 from .models import (
     UnifiedMessage,
     UnifiedMessageType,
-    UnifiedMessagePriority,
-    UnifiedMessageTag,
     map_priority,
     map_tag,
 )
-from .delivery.fallback import send_with_fallback
-from .coordinates import list_agents as _list_agents, get_agent_coordinates
 
 logger = logging.getLogger(__name__)
 
@@ -39,8 +39,8 @@ class MessagingService:
 
     def broadcast(
         self, content: str, sender: str = "ConsolidatedMessagingService"
-    ) -> Dict[str, bool]:
-        results: Dict[str, bool] = {}
+    ) -> dict[str, bool]:
+        results: dict[str, bool] = {}
         for a in _list_agents():
             results[a] = self.send(a, content)
         return results

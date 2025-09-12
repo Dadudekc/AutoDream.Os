@@ -13,20 +13,15 @@ This module provides a comprehensive web dashboard for monitoring:
 
 from __future__ import annotations
 
-import json
 import threading
-import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
-from flask import Flask, jsonify, render_template_string, request
+from flask import Flask, jsonify, render_template_string
 
 from .health_monitoring_service import (
-    AlertSeverity,
     HealthMonitoringService,
-    HealthStatus,
     SystemHealthSnapshot,
 )
 
@@ -40,15 +35,42 @@ class DashboardWidget:
     widget_type: str  # 'chart', 'gauge', 'table', 'alert'
     data_source: str
     refresh_interval: int = 30
-    size: Dict[str, int] = field(default_factory=lambda: {"width": 4, "height": 3})
-    config: Dict[str, Any] = field(default_factory=dict)
+    size: dict[str, int] = field(default_factory=lambda: {"width": 4, "height": 3})
+    config: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class DashboardLayout:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.health.monitoring.health_dashboard import Health_Dashboard
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Health_Dashboard(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
     """Dashboard layout configuration."""
 
-    widgets: List[DashboardWidget] = field(default_factory=list)
+    widgets: list[DashboardWidget] = field(default_factory=list)
     theme: str = "dark"
     refresh_interval: int = 30
 
@@ -80,7 +102,7 @@ class HealthMonitoringDashboard:
         self.layout = self._create_default_layout()
 
         # Web server control
-        self.server_thread: Optional[threading.Thread] = None
+        self.server_thread: threading.Thread | None = None
         self.server_running = False
 
         # Setup routes
@@ -221,7 +243,7 @@ class HealthMonitoringDashboard:
             filepath = self.health_service.export_health_data()
             return jsonify({"exported": filepath})
 
-    def _snapshot_to_dict(self, snapshot: SystemHealthSnapshot) -> Dict[str, Any]:
+    def _snapshot_to_dict(self, snapshot: SystemHealthSnapshot) -> dict[str, Any]:
         """Convert health snapshot to dictionary."""
         return {
             "timestamp": snapshot.timestamp.isoformat(),
@@ -234,7 +256,7 @@ class HealthMonitoringDashboard:
             "uptime_seconds": snapshot.uptime_seconds,
         }
 
-    def _metric_to_dict(self, metric) -> Dict[str, Any]:
+    def _metric_to_dict(self, metric) -> dict[str, Any]:
         """Convert metric to dictionary."""
         return {
             "name": metric.name,
@@ -246,7 +268,7 @@ class HealthMonitoringDashboard:
             "threshold_critical": metric.threshold_critical,
         }
 
-    def _alert_to_dict(self, alert) -> Dict[str, Any]:
+    def _alert_to_dict(self, alert) -> dict[str, Any]:
         """Convert alert to dictionary."""
         return {
             "alert_id": alert.alert_id,

@@ -68,6 +68,30 @@ class DebateParticipant:
 
 @dataclass
 class DebateArgument:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.consolidated_debate_service import Consolidated_Debate_ServiceService
+
+# Initialize service
+service = Consolidated_Debate_ServiceService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Consolidated_Debate_ServiceService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
     """Represents a debate argument."""
 
     id: str

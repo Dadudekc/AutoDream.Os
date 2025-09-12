@@ -8,10 +8,10 @@ are properly configured and accessible.
 """
 
 import json
-import os
-import yaml
-from typing import Dict, List, Any
 from pathlib import Path
+from typing import Any
+
+import yaml
 
 
 class ContractSystemValidator:
@@ -26,10 +26,10 @@ class ContractSystemValidator:
             "missing_files": 0,
             "yaml_validation": True,
             "contract_references": [],
-            "errors": []
+            "errors": [],
         }
 
-    def validate_contract_system(self) -> Dict[str, Any]:
+    def validate_contract_system(self) -> dict[str, Any]:
         """Validate the entire contract system."""
         print("🔍 CONTRACT SYSTEM VALIDATION")
         print("=" * 50)
@@ -59,13 +59,11 @@ class ContractSystemValidator:
             return False
 
         try:
-            with open(swarm_contract_path, 'r', encoding='utf-8') as f:
+            with open(swarm_contract_path, encoding="utf-8") as f:
                 swarm_data = yaml.safe_load(f)
 
             # Validate required sections
-            required_sections = [
-                "swarm_contract"
-            ]
+            required_sections = ["swarm_contract"]
 
             for section in required_sections:
                 if section not in swarm_data:
@@ -97,7 +95,9 @@ class ContractSystemValidator:
             return True
 
         except Exception as e:
-            self.validation_results["errors"].append(f"❌ Error validating swarm_contract.yaml: {e}")
+            self.validation_results["errors"].append(
+                f"❌ Error validating swarm_contract.yaml: {e}"
+            )
             return False
 
     def _validate_contract_files(self) -> None:
@@ -120,13 +120,18 @@ class ContractSystemValidator:
     def _validate_single_contract(self, contract_path: Path) -> None:
         """Validate a single contract file."""
         try:
-            with open(contract_path, 'r', encoding='utf-8') as f:
+            with open(contract_path, encoding="utf-8") as f:
                 contract_data = json.load(f)
 
             # Validate required fields
             required_fields = [
-                "contract_id", "contract_title", "agent_id",
-                "contract_type", "priority", "status", "contract_details"
+                "contract_id",
+                "contract_title",
+                "agent_id",
+                "contract_type",
+                "priority",
+                "status",
+                "contract_details",
             ]
 
             for field in required_fields:
@@ -151,13 +156,15 @@ class ContractSystemValidator:
 
             # Add to valid contracts
             self.validation_results["valid_contracts"] += 1
-            self.validation_results["contract_references"].append({
-                "id": contract_data["contract_id"],
-                "title": contract_data["contract_title"],
-                "file": contract_path.name,
-                "priority": contract_data["priority"],
-                "status": contract_data["status"]
-            })
+            self.validation_results["contract_references"].append(
+                {
+                    "id": contract_data["contract_id"],
+                    "title": contract_data["contract_title"],
+                    "file": contract_path.name,
+                    "priority": contract_data["priority"],
+                    "status": contract_data["status"],
+                }
+            )
 
             print(f"✅ Validated contract: {contract_path.name}")
 
@@ -172,7 +179,7 @@ class ContractSystemValidator:
         swarm_contract_path = self.contracts_dir / "swarm_contract.yaml"
 
         try:
-            with open(swarm_contract_path, 'r', encoding='utf-8') as f:
+            with open(swarm_contract_path, encoding="utf-8") as f:
                 swarm_data = yaml.safe_load(f)
 
             available_contracts = swarm_data.get("available_contracts", {})
@@ -193,7 +200,9 @@ class ContractSystemValidator:
                     self.validation_results["missing_files"] += 1
 
         except Exception as e:
-            self.validation_results["errors"].append(f"❌ Error validating contract references: {e}")
+            self.validation_results["errors"].append(
+                f"❌ Error validating contract references: {e}"
+            )
 
     def _print_validation_summary(self) -> None:
         """Print validation summary."""
@@ -203,7 +212,9 @@ class ContractSystemValidator:
         print(f"Valid Contracts: {self.validation_results['valid_contracts']}")
         print(f"Invalid Contracts: {self.validation_results['invalid_contracts']}")
         print(f"Missing Files: {self.validation_results['missing_files']}")
-        print(f"YAML Validation: {'✅ PASSED' if self.validation_results['yaml_validation'] else '❌ FAILED'}")
+        print(
+            f"YAML Validation: {'✅ PASSED' if self.validation_results['yaml_validation'] else '❌ FAILED'}"
+        )
 
         if self.validation_results["contract_references"]:
             print("\n📋 Available Contracts:")

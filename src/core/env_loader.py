@@ -24,6 +24,33 @@ class EnvironmentLoader:
     """Loads and validates environment variables for unified configuration."""
 
     def __init__(self, env_file: Path | None = None):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.env_loader import Env_Loader
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Env_Loader(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize environment loader."""
         self.env_file = env_file or Path(".env")
         self.logger = logging.getLogger(__name__)

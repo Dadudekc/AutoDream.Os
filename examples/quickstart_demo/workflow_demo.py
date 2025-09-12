@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
 """Quickstart agent workflow demo.
 
 This script demonstrates a minimal, self-contained agent representation."""
-from __future__ import annotations
 
 from dataclasses import dataclass
 

@@ -26,13 +26,13 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
 from queue import Queue
+from typing import Any
 
 
 class LogLevel(Enum):
     """Unified log levels across all SWARM operations."""
+
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
@@ -41,7 +41,30 @@ class LogLevel(Enum):
 
 
 class LogFormat(Enum):
+
+EXAMPLE USAGE:
+==============
+
+# Basic usage example
+from src.infrastructure.logging.unified_logging_system import Unified_Logging_System
+
+# Initialize and use
+instance = Unified_Logging_System()
+result = instance.execute()
+print(f"Execution result: {result}")
+
+# Advanced configuration
+config = {
+    "option1": "value1",
+    "option2": True
+}
+
+instance = Unified_Logging_System(config)
+advanced_result = instance.execute_advanced()
+print(f"Advanced result: {advanced_result}")
+
     """Available log output formats."""
+
     CONSOLE = "console"
     JSON = "json"
     STRUCTURED = "structured"
@@ -50,6 +73,7 @@ class LogFormat(Enum):
 
 class LogOutput(Enum):
     """Available log output destinations."""
+
     CONSOLE = "console"
     FILE = "file"
     BOTH = "both"
@@ -58,6 +82,7 @@ class LogOutput(Enum):
 @dataclass
 class LogEntry:
     """Represents a structured log entry."""
+
     timestamp: datetime
     level: LogLevel
     logger_name: str
@@ -65,19 +90,20 @@ class LogEntry:
     module: str = ""
     function: str = ""
     line: int = 0
-    correlation_id: Optional[str] = None
-    swarm_context: Dict[str, Any] = field(default_factory=dict)
-    extra_data: Dict[str, Any] = field(default_factory=dict)
-    performance_metrics: Dict[str, Any] = field(default_factory=dict)
+    correlation_id: str | None = None
+    swarm_context: dict[str, Any] = field(default_factory=dict)
+    extra_data: dict[str, Any] = field(default_factory=dict)
+    performance_metrics: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class LogConfig:
     """Configuration for the unified logging system."""
+
     level: LogLevel = LogLevel.INFO
     format: LogFormat = LogFormat.STRUCTURED
     output: LogOutput = LogOutput.BOTH
-    log_file: Optional[str] = None
+    log_file: str | None = None
     max_file_size_mb: int = 10
     backup_count: int = 5
     enable_performance_monitoring: bool = True
@@ -91,18 +117,18 @@ class StructuredFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         """Format log record as enhanced structured JSON."""
         # Extract SWARM context if available
-        swarm_context = getattr(record, 'swarm_context', {})
-        correlation_id = getattr(record, 'correlation_id', None)
-        performance_metrics = getattr(record, 'performance_metrics', {})
+        swarm_context = getattr(record, "swarm_context", {})
+        correlation_id = getattr(record, "correlation_id", None)
+        performance_metrics = getattr(record, "performance_metrics", {})
 
         log_entry = {
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "level": record.levelname,
             "logger": record.name,
             "message": record.getMessage(),
-            "module": getattr(record, 'module', record.module),
-            "function": getattr(record, 'funcName', record.funcName),
-            "line": getattr(record, 'lineno', record.lineno),
+            "module": getattr(record, "module", record.module),
+            "function": getattr(record, "funcName", record.funcName),
+            "line": getattr(record, "lineno", record.lineno),
         }
 
         # Add SWARM-specific fields
@@ -116,7 +142,7 @@ class StructuredFormatter(logging.Formatter):
             log_entry["performance"] = performance_metrics
 
         # Add any extra fields
-        if hasattr(record, 'extra_fields'):
+        if hasattr(record, "extra_fields"):
             log_entry.update(record.extra_fields)
 
         # Add exception info if present
@@ -143,7 +169,7 @@ class UnifiedLogger:
     - Thread-safe operations
     """
 
-    _instance: Optional[UnifiedLogger] = None
+    _instance: UnifiedLogger | None = None
     _lock = threading.Lock()
 
     def __new__(cls) -> UnifiedLogger:
@@ -153,20 +179,18 @@ class UnifiedLogger:
             return cls._instance
 
     def __init__(self):
-        if hasattr(self, '_initialized'):
+        if hasattr(self, "_initialized"):
             return
 
         self._initialized = True
         self.config = LogConfig()
-        self.loggers: Dict[str, logging.Logger] = {}
+        self.loggers: dict[str, logging.Logger] = {}
         self.performance_queue: Queue = Queue()
         self.shutdown_event = threading.Event()
 
         # Start performance monitoring thread
         self.performance_thread = threading.Thread(
-            target=self._performance_monitor,
-            daemon=True,
-            name="LogPerformanceMonitor"
+            target=self._performance_monitor, daemon=True, name="LogPerformanceMonitor"
         )
         self.performance_thread.start()
 
@@ -210,7 +234,7 @@ class UnifiedLogger:
             file_handler = RotatingFileHandler(
                 self.config.log_file,
                 maxBytes=self.config.max_file_size_mb * 1024 * 1024,
-                backupCount=self.config.backup_count
+                backupCount=self.config.backup_count,
             )
 
             if self.config.format in [LogFormat.JSON, LogFormat.STRUCTURED]:
@@ -232,45 +256,48 @@ class UnifiedLogger:
         """Set correlation ID for request tracing."""
         self._correlation_id = correlation_id
 
-    def get_correlation_id(self) -> Optional[str]:
+    def get_correlation_id(self) -> str | None:
         """Get current correlation ID."""
-        return getattr(self, '_correlation_id', None)
+        return getattr(self, "_correlation_id", None)
 
     def add_swarm_context(self, **context) -> None:
         """Add SWARM-specific context to all future log entries."""
-        self._swarm_context = getattr(self, '_swarm_context', {})
+        self._swarm_context = getattr(self, "_swarm_context", {})
         self._swarm_context.update(context)
 
-    def get_swarm_context(self) -> Dict[str, Any]:
+    def get_swarm_context(self) -> dict[str, Any]:
         """Get current SWARM context."""
-        return getattr(self, '_swarm_context', {})
+        return getattr(self, "_swarm_context", {})
 
-    def log_performance_metric(self, operation: str, duration_ms: float,
-                             metadata: Optional[Dict[str, Any]] = None) -> None:
+    def log_performance_metric(
+        self, operation: str, duration_ms: float, metadata: dict[str, Any] | None = None
+    ) -> None:
         """Log a performance metric."""
         if self.config.enable_performance_monitoring:
-            self.performance_queue.put({
-                'operation': operation,
-                'duration_ms': duration_ms,
-                'timestamp': datetime.now(),
-                'metadata': metadata or {}
-            })
+            self.performance_queue.put(
+                {
+                    "operation": operation,
+                    "duration_ms": duration_ms,
+                    "timestamp": datetime.now(),
+                    "metadata": metadata or {},
+                }
+            )
 
     def _performance_monitor(self) -> None:
         """Monitor and aggregate performance metrics."""
-        performance_data: Dict[str, List[float]] = {}
+        performance_data: dict[str, list[float]] = {}
 
         while not self.shutdown_event.is_set():
             try:
                 # Process performance metrics
                 while not self.performance_queue.empty():
                     metric = self.performance_queue.get_nowait()
-                    operation = metric['operation']
+                    operation = metric["operation"]
 
                     if operation not in performance_data:
                         performance_data[operation] = []
 
-                    performance_data[operation].append(metric['duration_ms'])
+                    performance_data[operation].append(metric["duration_ms"])
 
                     # Keep only last 100 measurements per operation
                     if len(performance_data[operation]) > 100:
@@ -282,33 +309,33 @@ class UnifiedLogger:
 
                 time.sleep(10)  # Check every 10 seconds
 
-            except Exception as e:
+            except Exception:
                 # Don't let performance monitoring break the main system
                 time.sleep(60)
 
-    def _log_performance_summary(self, performance_data: Dict[str, List[float]]) -> None:
+    def _log_performance_summary(self, performance_data: dict[str, list[float]]) -> None:
         """Log aggregated performance summary."""
         summary = {}
         for operation, durations in performance_data.items():
             if durations:
                 summary[operation] = {
-                    'count': len(durations),
-                    'avg_ms': sum(durations) / len(durations),
-                    'min_ms': min(durations),
-                    'max_ms': max(durations),
-                    'p95_ms': sorted(durations)[int(len(durations) * 0.95)]
+                    "count": len(durations),
+                    "avg_ms": sum(durations) / len(durations),
+                    "min_ms": min(durations),
+                    "max_ms": max(durations),
+                    "p95_ms": sorted(durations)[int(len(durations) * 0.95)],
                 }
 
         perf_logger = self.get_logger("performance")
-        perf_logger.info("Performance metrics summary", extra_fields={
-            'performance_summary': summary,
-            'time_window': '5_minutes'
-        })
+        perf_logger.info(
+            "Performance metrics summary",
+            extra_fields={"performance_summary": summary, "time_window": "5_minutes"},
+        )
 
     def shutdown(self) -> None:
         """Shutdown the logging system gracefully."""
         self.shutdown_event.set()
-        if hasattr(self, 'performance_thread'):
+        if hasattr(self, "performance_thread"):
             self.performance_thread.join(timeout=5)
 
 
@@ -323,17 +350,23 @@ class SwarmLogger:
         self._logger = logger
         self._unified_logger = unified_logger
 
-    def _prepare_log_record(self, level: LogLevel, message: str,
-                          correlation_id: Optional[str] = None,
-                          swarm_context: Optional[Dict[str, Any]] = None,
-                          performance_metrics: Optional[Dict[str, Any]] = None,
-                          extra: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def _prepare_log_record(
+        self,
+        level: LogLevel,
+        message: str,
+        correlation_id: str | None = None,
+        swarm_context: dict[str, Any] | None = None,
+        performance_metrics: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """Prepare log record with SWARM context."""
 
         # Get correlation ID from various sources
-        corr_id = (correlation_id or
-                  self._unified_logger.get_correlation_id() or
-                  getattr(threading.current_thread(), 'correlation_id', None))
+        corr_id = (
+            correlation_id
+            or self._unified_logger.get_correlation_id()
+            or getattr(threading.current_thread(), "correlation_id", None)
+        )
 
         # Merge SWARM contexts
         swarm_ctx = {}
@@ -344,65 +377,87 @@ class SwarmLogger:
         # Prepare extra fields for logging
         extra_fields = extra or {}
         if corr_id:
-            extra_fields['correlation_id'] = corr_id
+            extra_fields["correlation_id"] = corr_id
         if swarm_ctx:
-            extra_fields['swarm_context'] = swarm_ctx
+            extra_fields["swarm_context"] = swarm_ctx
         if performance_metrics:
-            extra_fields['performance_metrics'] = performance_metrics
+            extra_fields["performance_metrics"] = performance_metrics
 
-        return {
-            'level': level,
-            'message': message,
-            'extra': extra_fields
-        }
+        return {"level": level, "message": message, "extra": extra_fields}
 
-    def debug(self, message: str, correlation_id: Optional[str] = None,
-             swarm_context: Optional[Dict[str, Any]] = None,
-             performance_metrics: Optional[Dict[str, Any]] = None,
-             extra: Optional[Dict[str, Any]] = None) -> None:
+    def debug(
+        self,
+        message: str,
+        correlation_id: str | None = None,
+        swarm_context: dict[str, Any] | None = None,
+        performance_metrics: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
+    ) -> None:
         """Log debug message with SWARM context."""
-        record = self._prepare_log_record(LogLevel.DEBUG, message, correlation_id,
-                                        swarm_context, performance_metrics, extra)
-        self._logger.debug(record['message'], extra=record['extra'])
+        record = self._prepare_log_record(
+            LogLevel.DEBUG, message, correlation_id, swarm_context, performance_metrics, extra
+        )
+        self._logger.debug(record["message"], extra=record["extra"])
 
-    def info(self, message: str, correlation_id: Optional[str] = None,
-            swarm_context: Optional[Dict[str, Any]] = None,
-            performance_metrics: Optional[Dict[str, Any]] = None,
-            extra: Optional[Dict[str, Any]] = None) -> None:
+    def info(
+        self,
+        message: str,
+        correlation_id: str | None = None,
+        swarm_context: dict[str, Any] | None = None,
+        performance_metrics: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
+    ) -> None:
         """Log info message with SWARM context."""
-        record = self._prepare_log_record(LogLevel.INFO, message, correlation_id,
-                                        swarm_context, performance_metrics, extra)
-        self._logger.info(record['message'], extra=record['extra'])
+        record = self._prepare_log_record(
+            LogLevel.INFO, message, correlation_id, swarm_context, performance_metrics, extra
+        )
+        self._logger.info(record["message"], extra=record["extra"])
 
-    def warning(self, message: str, correlation_id: Optional[str] = None,
-               swarm_context: Optional[Dict[str, Any]] = None,
-               performance_metrics: Optional[Dict[str, Any]] = None,
-               extra: Optional[Dict[str, Any]] = None) -> None:
+    def warning(
+        self,
+        message: str,
+        correlation_id: str | None = None,
+        swarm_context: dict[str, Any] | None = None,
+        performance_metrics: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
+    ) -> None:
         """Log warning message with SWARM context."""
-        record = self._prepare_log_record(LogLevel.WARNING, message, correlation_id,
-                                        swarm_context, performance_metrics, extra)
-        self._logger.warning(record['message'], extra=record['extra'])
+        record = self._prepare_log_record(
+            LogLevel.WARNING, message, correlation_id, swarm_context, performance_metrics, extra
+        )
+        self._logger.warning(record["message"], extra=record["extra"])
 
-    def error(self, message: str, correlation_id: Optional[str] = None,
-             swarm_context: Optional[Dict[str, Any]] = None,
-             performance_metrics: Optional[Dict[str, Any]] = None,
-             extra: Optional[Dict[str, Any]] = None) -> None:
+    def error(
+        self,
+        message: str,
+        correlation_id: str | None = None,
+        swarm_context: dict[str, Any] | None = None,
+        performance_metrics: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
+    ) -> None:
         """Log error message with SWARM context."""
-        record = self._prepare_log_record(LogLevel.ERROR, message, correlation_id,
-                                        swarm_context, performance_metrics, extra)
-        self._logger.error(record['message'], extra=record['extra'])
+        record = self._prepare_log_record(
+            LogLevel.ERROR, message, correlation_id, swarm_context, performance_metrics, extra
+        )
+        self._logger.error(record["message"], extra=record["extra"])
 
-    def critical(self, message: str, correlation_id: Optional[str] = None,
-                swarm_context: Optional[Dict[str, Any]] = None,
-                performance_metrics: Optional[Dict[str, Any]] = None,
-                extra: Optional[Dict[str, Any]] = None) -> None:
+    def critical(
+        self,
+        message: str,
+        correlation_id: str | None = None,
+        swarm_context: dict[str, Any] | None = None,
+        performance_metrics: dict[str, Any] | None = None,
+        extra: dict[str, Any] | None = None,
+    ) -> None:
         """Log critical message with SWARM context."""
-        record = self._prepare_log_record(LogLevel.CRITICAL, message, correlation_id,
-                                        swarm_context, performance_metrics, extra)
-        self._logger.critical(record['message'], extra=record['extra'])
+        record = self._prepare_log_record(
+            LogLevel.CRITICAL, message, correlation_id, swarm_context, performance_metrics, extra
+        )
+        self._logger.critical(record["message"], extra=record["extra"])
 
-    def log_performance(self, operation: str, duration_ms: float,
-                       metadata: Optional[Dict[str, Any]] = None) -> None:
+    def log_performance(
+        self, operation: str, duration_ms: float, metadata: dict[str, Any] | None = None
+    ) -> None:
         """Log a performance metric."""
         self._unified_logger.log_performance_metric(operation, duration_ms, metadata)
 
@@ -416,17 +471,14 @@ def get_unified_logger(name: str = "swarm") -> SwarmLogger:
     return _unified_logger.get_logger(name)
 
 
-def configure_logging(level: LogLevel = LogLevel.INFO,
-                     format: LogFormat = LogFormat.STRUCTURED,
-                     output: LogOutput = LogOutput.BOTH,
-                     log_file: Optional[str] = None) -> None:
+def configure_logging(
+    level: LogLevel = LogLevel.INFO,
+    format: LogFormat = LogFormat.STRUCTURED,
+    output: LogOutput = LogOutput.BOTH,
+    log_file: str | None = None,
+) -> None:
     """Configure the unified logging system."""
-    config = LogConfig(
-        level=level,
-        format=format,
-        output=output,
-        log_file=log_file
-    )
+    config = LogConfig(level=level, format=format, output=output, log_file=log_file)
     _unified_logger.configure(config)
 
 

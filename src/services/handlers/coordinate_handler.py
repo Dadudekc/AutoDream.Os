@@ -30,6 +30,30 @@ class CoordinateHandler:
     """Handler for agent coordinate management and validation."""
 
     def can_handle(self, args) -> bool:
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.handlers.coordinate_handler import Coordinate_HandlerService
+
+# Initialize service
+service = Coordinate_HandlerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Coordinate_HandlerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Check if this handler can handle the given arguments."""
         return False
 

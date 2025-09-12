@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="V2 SWARM - Advanced Agent Coordination Platform">
+    <title>V2 SWARM - Agent Coordination Platform</title>
+
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Critical CSS - Above the fold content -->
+    <style>
+        /* Critical rendering path optimization */
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .app-container { display: none; }
+        .app-container.loaded { display: block; }
+    </style>
+
+    <!-- Non-critical CSS loaded asynchronously -->
+    <link rel="preload" href="static/css/unified.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="static/css/unified.css"></noscript>
+
+    <!-- Performance monitoring -->
+    <script>
+        // Performance monitoring start
+        window.performanceStart = performance.now();
+
+        // Service Worker registration for caching
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading">
+        <div class="loading-spinner">
+            <h2>🐝 Initializing V2 SWARM...</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app-container" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">🐝 V2 SWARM</h1>
+                <nav class="main-navigation">
+                    <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+                    <button class="nav-btn" data-view="agents">Agents</button>
+                    <button class="nav-btn" data-view="analytics">Analytics</button>
+                    <button class="nav-btn" data-view="settings">Settings</button>
+                </nav>
+                <div class="header-status">
+                    <span class="status-indicator online"></span>
+                    <span class="status-text">System Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view active">
+                <div class="dashboard-grid">
+                    <!-- System Overview -->
+                    <div class="dashboard-card system-overview">
+                        <h3>System Overview</h3>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <span class="metric-value" id="active-agents">0</span>
+                                <span class="metric-label">Active Agents</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="total-tasks">0</span>
+                                <span class="metric-label">Total Tasks</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="system-health">98%</span>
+                                <span class="metric-label">System Health</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agent Coordination -->
+                    <div class="dashboard-card agent-coordination">
+                        <h3>Agent Coordination</h3>
+                        <div id="agent-coordination-container">
+                            <p>Loading agent coordination data...</p>
+                        </div>
+                    </div>
+
+                    <!-- Performance Metrics -->
+                    <div class="dashboard-card performance-metrics">
+                        <h3>Performance Metrics</h3>
+                        <canvas id="performance-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="dashboard-card recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div id="activity-feed" class="activity-feed">
+                            <div class="activity-item">
+                                <span class="activity-time">2 min ago</span>
+                                <span class="activity-text">System initialization completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agents View -->
+            <section id="agents-view" class="view">
+                <div class="agents-container">
+                    <h2>Agent Management</h2>
+                    <div id="agents-list" class="agents-grid">
+                        <p>Loading agents...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="analytics-view" class="view">
+                <div class="analytics-container">
+                    <h2>System Analytics</h2>
+                    <div class="analytics-charts">
+                        <canvas id="analytics-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings View -->
+            <section id="settings-view" class="view">
+                <div class="settings-container">
+                    <h2>System Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <h3>Performance Settings</h3>
+                            <label class="setting-item">
+                                <input type="checkbox" id="aggressive-optimization" checked>
+                                <span>Enable Aggressive Optimization</span>
+                            </label>
+                            <label class="setting-item">
+                                <input type="checkbox" id="triple-checking" checked>
+                                <span>Triple-Checking Protocols</span>
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <h3>Monitoring</h3>
+                            <label class="setting-item">
+                                <input type="checkbox" id="progress-reporting" checked>
+                                <span>Progress Reporting (3min intervals)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2025 V2 SWARM - Agent Coordination Platform</p>
+                <div class="footer-status">
+                    <span id="connection-status">Connected</span> |
+                    <span id="last-update">Last update: <span id="update-time">-</span></span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Error Boundary -->
+    <div id="error-boundary" class="error-boundary hidden">
+        <div class="error-content">
+            <h2>⚠️ System Error</h2>
+            <p>An error occurred while loading the application.</p>
+            <button id="retry-btn" class="btn-primary">Retry</button>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="agent-card-template">
+        <div class="agent-card">
+            <div class="agent-header">
+                <h4 class="agent-name"></h4>
+                <span class="agent-status"></span>
+            </div>
+            <div class="agent-details">
+                <p class="agent-role"></p>
+                <div class="agent-metrics">
+                    <span class="metric">Tasks: <span class="task-count">0</span></span>
+                    <span class="metric">Uptime: <span class="uptime">0%</span></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <!-- Critical scripts loaded immediately -->
+    <script src="static/js/app.js" defer></script>
+    <script src="static/js/index.js" defer></script>
+
+    <!-- Non-critical scripts loaded after main content -->
+    <script>
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            const loadTime = performance.now() - window.performanceStart;
+            console.log(`Page load time: ${loadTime.toFixed(2)}ms`);
+
+            // Update loading progress
+            const loadingProgress = document.getElementById('loading-progress');
+            if (loadingProgress) {
+                loadingProgress.style.width = '100%';
+            }
+
+            // Hide loading screen and show app
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('app-container').classList.add('loaded');
+            }, 500);
+        });
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            document.getElementById('error-boundary').classList.remove('hidden');
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            document.getElementById('error-boundary').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

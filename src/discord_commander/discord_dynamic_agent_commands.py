@@ -12,10 +12,9 @@ import asyncio
 import json
 from pathlib import Path
 
-from discord.ext import commands
-
 import discord
 from discord import app_commands
+from discord.ext import commands
 
 SUMMARY_PROMPT = (
     "- 3 bullets: (1) current task, (2) blockers, (3) ETA.\n"

@@ -5,8 +5,9 @@ Core Trading Engine for Alpaca Trading Robot
 import asyncio
 
 import alpaca_trade_api as tradeapi
-from config.settings import config
 from loguru import logger
+
+from config.settings import config
 
 
 class TradingEngine:

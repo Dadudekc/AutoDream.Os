@@ -14,10 +14,11 @@ License: MIT
 import logging
 from typing import Any
 
-# Coordinate functionality now handled by consolidated messaging service
-from .onboarding_handler import OnboardingHandler
 from ..vector_database import get_vector_database_service, search_vector_database
 from ..vector_database.vector_database_models import SearchQuery
+
+# Coordinate functionality now handled by consolidated messaging service
+from .onboarding_handler import OnboardingHandler
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,30 @@ class UtilityHandler:
     """Handles utility commands for messaging system."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.handlers.utility_handler import Utility_HandlerService
+
+# Initialize service
+service = Utility_HandlerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Utility_HandlerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize utility handler."""
         self.logger = logger
 

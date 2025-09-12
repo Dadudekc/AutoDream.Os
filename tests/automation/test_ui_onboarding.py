@@ -1,5 +1,7 @@
 from __future__ import annotations
-import types, sys
+
+import sys
+import types
 
 
 def fake_pg(calllog):

@@ -1,0 +1,113 @@
+{
+  "contract_id": "TEMPLATE-DOCUMENTATION-DEDUPLICATION-001",
+  "contract_title": "Documentation Consolidation & Deduplication",
+  "agent_id": "TEMPLATE_AGENT",
+  "agent_name": "Technical Documentation Specialist",
+
+  "contract_type": "DOCUMENTATION_DEDUPLICATION",
+  "priority": "MEDIUM",
+  "status": "TEMPLATE",
+
+  "contract_details": {
+    "description": "Implement comprehensive documentation deduplication and consolidation to create a single source of truth, eliminate redundant documentation, and establish automated documentation maintenance processes.",
+    "background": "Documentation duplication across multiple repositories, wikis, and formats has created maintenance challenges, outdated information, and confusion for developers and stakeholders throughout the swarm.",
+
+    "objectives": [
+      "Audit all documentation sources and identify duplication patterns",
+      "Create unified documentation platform and eliminate redundant content",
+      "Establish automated documentation generation from code",
+      "Implement documentation quality standards and consistency checks",
+      "Create centralized knowledge base with search and navigation",
+      "Establish documentation maintenance and update procedures"
+    ],
+
+    "deliverables": [
+      "Documentation duplication analysis report with consolidation strategy",
+      "Unified documentation platform with centralized knowledge base",
+      "Automated documentation generation system from code and APIs",
+      "Documentation quality standards and consistency validation tools",
+      "Search and navigation system for comprehensive knowledge discovery",
+      "Documentation maintenance workflow with automated updates"
+    ],
+
+    "technical_requirements": [
+      "Documentation platforms (Confluence, GitBook, MkDocs, Docusaurus)",
+      "Documentation generation tools (Sphinx, JSDoc, Swagger/OpenAPI)",
+      "Version control systems for documentation management",
+      "Search and indexing platforms for knowledge discovery",
+      "Documentation quality and consistency checking tools",
+      "Automated testing frameworks for documentation validation"
+    ],
+
+    "estimated_effort": "3-4 development cycles",
+    "deadline": "2025-10-05",
+    "stakeholders": ["Captain Agent-4", "Agent-6", "Agent-1"],
+
+    "success_criteria": [
+      "Documentation duplication reduced by 75%+ across all sources",
+      "Unified documentation platform established as single source of truth",
+      "Automated documentation generation covering 90%+ of APIs and code",
+      "Documentation quality standards enforced with 95%+ compliance",
+      "Search and navigation reducing information discovery time by 80%",
+      "Documentation maintenance automated with 85%+ content updates"
+    ]
+  },
+
+  "contract_metadata": {
+    "created_by": "Captain Agent-4",
+    "created_at": "2025-09-12T18:00:00Z",
+    "last_updated": "2025-09-12T18:00:00Z",
+
+    "tags": [
+      "documentation_deduplication",
+      "knowledge_management",
+      "technical_writing",
+      "automation",
+      "consistency",
+      "maintenance"
+    ],
+
+    "dependencies": [
+      "Documentation inventory and content analysis completed",
+      "Unified documentation platform selected and configured",
+      "Version control strategy for documentation established",
+      "Stakeholder requirements for documentation structure gathered"
+    ],
+
+    "resources_required": [
+      "Documentation platforms and generation tools",
+      "Version control systems and collaboration platforms",
+      "Search and indexing systems for knowledge discovery",
+      "Documentation quality and validation tools",
+      "Automated testing frameworks for content validation",
+      "Training and adoption support for documentation standards"
+    ]
+  },
+
+  "contract_rewards": {
+    "experience_points": 475,
+    "skill_unlocks": [
+      "Technical Documentation Architect",
+      "Knowledge Management Specialist",
+      "Documentation Automation Expert",
+      "Content Quality Assurance Specialist",
+      "Information Architecture Designer",
+      "Documentation Governance Expert"
+    ],
+    "reputation_bonus": "Documentation Excellence Champion",
+    "network_unlocks": [
+      "Access to Technical Documentation Working Group",
+      "Knowledge Management Community",
+      "Documentation Automation Network"
+    ]
+  },
+
+  "contract_history": [
+    {
+      "timestamp": "2025-09-12T18:00:00Z",
+      "action": "TEMPLATE_CREATED",
+      "actor": "Captain Agent-4",
+      "details": "Documentation deduplication contract template created for unified knowledge management and automated documentation systems"
+    }
+  ]
+}

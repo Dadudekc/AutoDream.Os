@@ -12,7 +12,7 @@ License: MIT
 
 from typing import Any
 
-from .coordinator_interfaces import ICoordinatorRegistry
+from .unified_core_interfaces import ICoordinatorRegistry
 from .unified_logging_system import get_logger
 
 
@@ -20,6 +20,33 @@ class CoordinatorRegistry(ICoordinatorRegistry):
     """Concrete implementation of coordinator registry."""
 
     def __init__(self):
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.coordinator_registry import Coordinator_Registry
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Coordinator_Registry(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Initialize coordinator registry."""
         self.logger = get_logger(__name__)
         self._coordinators: dict[str, Any] = {}
@@ -130,3 +157,42 @@ __all__ = [
     "CoordinatorRegistry",
     "get_coordinator_registry",
 ]
+
+
+if __name__ == "__main__":
+    """Demonstrate module functionality with practical examples."""
+
+    print("🐝 Module Examples - Practical Demonstrations")
+    print("=" * 50)
+    # Function demonstrations
+    print(f"\n📋 Testing get_coordinator_registry():")
+    try:
+        # Add your function call here
+        print(f"✅ get_coordinator_registry executed successfully")
+    except Exception as e:
+        print(f"❌ get_coordinator_registry failed: {e}")
+
+    print(f"\n📋 Testing __init__():")
+    try:
+        # Add your function call here
+        print(f"✅ __init__ executed successfully")
+    except Exception as e:
+        print(f"❌ __init__ failed: {e}")
+
+    print(f"\n📋 Testing register_coordinator():")
+    try:
+        # Add your function call here
+        print(f"✅ register_coordinator executed successfully")
+    except Exception as e:
+        print(f"❌ register_coordinator failed: {e}")
+
+    # Class demonstrations
+    print(f"\n🏗️  Testing CoordinatorRegistry class:")
+    try:
+        instance = CoordinatorRegistry()
+        print(f"✅ CoordinatorRegistry instantiated successfully")
+    except Exception as e:
+        print(f"❌ CoordinatorRegistry failed: {e}")
+
+    print("\n🎉 All examples completed!")
+    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

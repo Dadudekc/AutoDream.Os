@@ -18,6 +18,30 @@ class AgentAssignmentManager:
     """Manages agent-to-principle assignments with persistence."""
 
     def __init__(self, config_path: str = "src/config/architectural_assignments.json"):
+
+EXAMPLE USAGE:
+==============
+
+# Import the service
+from src.services.agent_assignment_manager import Agent_Assignment_ManagerService
+
+# Initialize service
+service = Agent_Assignment_ManagerService()
+
+# Basic service operation
+response = service.handle_request(request_data)
+print(f"Service response: {response}")
+
+# Service with dependency injection
+from src.core.dependency_container import Container
+
+container = Container()
+service = container.get(Agent_Assignment_ManagerService)
+
+# Execute service method
+result = service.execute_operation(input_data, context)
+print(f"Operation result: {result}")
+
         """Initialize assignment manager."""
         self.config_path = config_path
         self.assignments: dict[str, ArchitecturalPrinciple] = {}

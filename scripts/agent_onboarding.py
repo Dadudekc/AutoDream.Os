@@ -28,6 +28,27 @@ class AgentOnboarding:
         }
 
     def get_available_agent_id(self):
+
+EXAMPLE USAGE:
+==============
+
+# Run the script directly
+python agent_onboarding.py --input-file data.json --output-dir ./results
+
+# Or import and use programmatically
+from scripts.agent_onboarding import main
+
+# Execute with custom arguments
+import sys
+sys.argv = ['script', '--verbose', '--config', 'config.json']
+main()
+
+# Advanced usage with custom configuration
+from scripts.agent_onboarding import ScriptRunner
+
+runner = ScriptRunner(config_file='custom_config.json')
+runner.execute_all_operations()
+
         """Find an available agent ID for assignment."""
         for agent_id in self.available_agents.keys():
             status_file = self.workspace_root / agent_id / "status.json"

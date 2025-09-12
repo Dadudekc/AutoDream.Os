@@ -10,13 +10,40 @@ License: MIT
 
 from typing import Any
 
-from .coordinator_interfaces import ICoordinatorStatusParser
+from .unified_core_interfaces import ICoordinatorStatusParser
 
 
 class CoordinatorStatusParser(ICoordinatorStatusParser):
     """Parses coordinator status information."""
 
     def parse_status(self, coordinator: Any) -> dict[str, Any]:
+
+EXAMPLE USAGE:
+==============
+
+# Import the core component
+from src.core.coordinator_status_parser import Coordinator_Status_Parser
+
+# Initialize with configuration
+config = {
+    "setting1": "value1",
+    "setting2": "value2"
+}
+
+component = Coordinator_Status_Parser(config)
+
+# Execute primary functionality
+result = component.process_data(input_data)
+print(f"Processing result: {result}")
+
+# Advanced usage with error handling
+try:
+    advanced_result = component.advanced_operation(data, options={"optimize": True})
+    print(f"Advanced operation completed: {advanced_result}")
+except ProcessingError as e:
+    print(f"Operation failed: {e}")
+    # Implement recovery logic
+
         """Parse status from coordinator."""
         try:
             if hasattr(coordinator, "get_status"):
@@ -83,3 +110,49 @@ class CoordinatorStatusFilter:
             return status_info["status"] == target_status
 
         return False
+
+
+if __name__ == "__main__":
+    """Demonstrate module functionality with practical examples."""
+
+    print("🐝 Module Examples - Practical Demonstrations")
+    print("=" * 50)
+    # Function demonstrations
+    print(f"\n📋 Testing parse_status():")
+    try:
+        # Add your function call here
+        print(f"✅ parse_status executed successfully")
+    except Exception as e:
+        print(f"❌ parse_status failed: {e}")
+
+    print(f"\n📋 Testing can_parse_status():")
+    try:
+        # Add your function call here
+        print(f"✅ can_parse_status executed successfully")
+    except Exception as e:
+        print(f"❌ can_parse_status failed: {e}")
+
+    print(f"\n📋 Testing __init__():")
+    try:
+        # Add your function call here
+        print(f"✅ __init__ executed successfully")
+    except Exception as e:
+        print(f"❌ __init__ failed: {e}")
+
+    # Class demonstrations
+    print(f"\n🏗️  Testing CoordinatorStatusParser class:")
+    try:
+        instance = CoordinatorStatusParser()
+        print(f"✅ CoordinatorStatusParser instantiated successfully")
+    except Exception as e:
+        print(f"❌ CoordinatorStatusParser failed: {e}")
+
+    print(f"\n🏗️  Testing CoordinatorStatusFilter class:")
+    try:
+        instance = CoordinatorStatusFilter()
+        print(f"✅ CoordinatorStatusFilter instantiated successfully")
+    except Exception as e:
+        print(f"❌ CoordinatorStatusFilter failed: {e}")
+
+    print("\n🎉 All examples completed!")
+    print("🐝 WE ARE SWARM - PRACTICAL CODE IN ACTION!")

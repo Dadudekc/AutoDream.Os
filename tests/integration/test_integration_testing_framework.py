@@ -11,21 +11,18 @@ Coverage Target: 85%+ for integration testing components
 """
 
 import asyncio
-import json
-import os
-import sys
 import time
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import Mock
 
 import pytest
 
 # Import integration testing framework components
 try:
-    from tests.integration_testing_framework import IntegrationTestingFramework
-    from tests.e2e.test_agent_lifecycle_e2e import AgentLifecycleE2ETest
     from tests.api.test_agent_api_suite import AgentAPISuiteTest
-    from tests.integration.test_cross_service_integration import CrossServiceIntegrationTest
     from tests.deployment.test_deployment_verification import DeploymentVerificationTest
+    from tests.e2e.test_agent_lifecycle_e2e import AgentLifecycleE2ETest
+    from tests.integration.test_cross_service_integration import CrossServiceIntegrationTest
+    from tests.integration_testing_framework import IntegrationTestingFramework
 
     INTEGRATION_FRAMEWORK_AVAILABLE = True
 except ImportError:
@@ -35,30 +32,35 @@ except ImportError:
     class IntegrationTestingFramework:
         def __init__(self, *args, **kwargs):
             pass
+
         async def run_test_suite(self, *args, **kwargs):
             return {"status": "completed", "results": []}
 
     class AgentLifecycleE2ETest:
         def __init__(self, *args, **kwargs):
             pass
+
         def test_agent_creation_lifecycle(self, *args, **kwargs):
             return True
 
     class AgentAPISuiteTest:
         def __init__(self, *args, **kwargs):
             pass
+
         def test_api_endpoints(self, *args, **kwargs):
             return True
 
     class CrossServiceIntegrationTest:
         def __init__(self, *args, **kwargs):
             pass
+
         def test_service_interactions(self, *args, **kwargs):
             return True
 
     class DeploymentVerificationTest:
         def __init__(self, *args, **kwargs):
             pass
+
         def test_deployment_health(self, *args, **kwargs):
             return True
 
@@ -72,12 +74,8 @@ class TestIntegrationTestingFramework:
             "test_timeout": 300,
             "parallel_execution": True,
             "max_workers": 4,
-            "reporting": {
-                "json_report": True,
-                "html_report": True,
-                "coverage_report": True
-            },
-            "environments": ["development", "staging", "production"]
+            "reporting": {"json_report": True, "html_report": True, "coverage_report": True},
+            "environments": ["development", "staging", "production"],
         }
 
         framework = IntegrationTestingFramework(config)
@@ -97,7 +95,7 @@ class TestIntegrationTestingFramework:
             "api_tests",
             "integration_tests",
             "performance_tests",
-            "deployment_tests"
+            "deployment_tests",
         ]
 
         # Mock test execution
@@ -109,12 +107,14 @@ class TestIntegrationTestingFramework:
     def test_test_configuration_management(self):
         """Test test configuration management."""
         config_manager = Mock()
-        config_manager.load_config = Mock(return_value={
-            "database_url": "postgresql://test:test@localhost/test",
-            "api_base_url": "http://localhost:8000/api/v1",
-            "test_data_path": "/tmp/test_data",
-            "mock_services": ["messaging", "vector", "coordination"]
-        })
+        config_manager.load_config = Mock(
+            return_value={
+                "database_url": "postgresql://test:test@localhost/test",
+                "api_base_url": "http://localhost:8000/api/v1",
+                "test_data_path": "/tmp/test_data",
+                "mock_services": ["messaging", "vector", "coordination"],
+            }
+        )
 
         config = config_manager.load_config()
 
@@ -135,9 +135,7 @@ class TestIntegrationTestingFramework:
         # Mock parallel execution
         test_tasks = []
         for i in range(5):
-            task = asyncio.create_task(
-                framework.run_test_suite(f"parallel_test_{i}")
-            )
+            task = asyncio.create_task(framework.run_test_suite(f"parallel_test_{i}"))
             test_tasks.append(task)
 
         # Execute in parallel
@@ -156,7 +154,7 @@ class TestIntegrationTestingFramework:
             {"suite": "e2e", "tests_run": 10, "passed": 9, "failed": 1, "skipped": 0},
             {"suite": "api", "tests_run": 25, "passed": 23, "failed": 2, "skipped": 0},
             {"suite": "integration", "tests_run": 15, "passed": 15, "failed": 0, "skipped": 0},
-            {"suite": "performance", "tests_run": 8, "passed": 7, "failed": 1, "skipped": 0}
+            {"suite": "performance", "tests_run": 8, "passed": 7, "failed": 1, "skipped": 0},
         ]
 
         # Calculate aggregates
@@ -168,7 +166,7 @@ class TestIntegrationTestingFramework:
         # Validate aggregates
         assert total_tests == 58  # 10 + 25 + 15 + 8
         assert total_passed == 54  # 9 + 23 + 15 + 7
-        assert total_failed == 4   # 1 + 2 + 0 + 1
+        assert total_failed == 4  # 1 + 2 + 0 + 1
         assert total_skipped == 0
 
         # Calculate success rate
@@ -183,11 +181,15 @@ class TestIntegrationTestingFramework:
                 {"name": "src/core/messaging.py", "coverage": 92.3},
                 {"name": "src/services/coordination.py", "coverage": 85.1},
                 {"name": "src/api/handlers.py", "coverage": 78.9},
-                {"name": "src/utils/helpers.py", "coverage": 95.2}
+                {"name": "src/utils/helpers.py", "coverage": 95.2},
             ],
             "gaps": [
-                {"file": "src/api/handlers.py", "lines": [45, 67, 89], "reason": "Error handling not tested"}
-            ]
+                {
+                    "file": "src/api/handlers.py",
+                    "lines": [45, 67, 89],
+                    "reason": "Error handling not tested",
+                }
+            ],
         }
 
         # Validate coverage data structure
@@ -223,7 +225,7 @@ class TestE2EAgentLifecycle:
             "capability_validation",
             "coordination_setup",
             "initial_task_assignment",
-            "activation_confirmation"
+            "activation_confirmation",
         ]
 
         # Mock lifecycle execution
@@ -238,7 +240,7 @@ class TestE2EAgentLifecycle:
             "resource_allocation",
             "task_processing",
             "result_validation",
-            "completion_reporting"
+            "completion_reporting",
         ]
 
         # Execute workflow
@@ -258,17 +260,21 @@ class TestE2EAgentLifecycle:
             "network_disconnect",
             "resource_exhaustion",
             "task_timeout",
-            "coordination_failure"
+            "coordination_failure",
         ]
 
         recovery_results = {}
         for scenario in failure_scenarios:
             # Simulate failure
-            failure_result = await e2e_test_instance.test_agent_creation_lifecycle(f"fail_{scenario}")
+            failure_result = await e2e_test_instance.test_agent_creation_lifecycle(
+                f"fail_{scenario}"
+            )
             assert failure_result == "failed" or failure_result is False
 
             # Test recovery
-            recovery_result = await e2e_test_instance.test_agent_creation_lifecycle(f"recover_{scenario}")
+            recovery_result = await e2e_test_instance.test_agent_creation_lifecycle(
+                f"recover_{scenario}"
+            )
             recovery_results[scenario] = recovery_result
             assert recovery_result is True or recovery_result == "recovered"
 
@@ -278,12 +284,14 @@ class TestE2EAgentLifecycle:
             "task_distribution",
             "result_aggregation",
             "conflict_resolution",
-            "load_balancing"
+            "load_balancing",
         ]
 
         # Test multi-agent scenarios
         for scenario in coordination_scenarios:
-            result = await e2e_test_instance.test_agent_creation_lifecycle(f"multi_agent_{scenario}")
+            result = await e2e_test_instance.test_agent_creation_lifecycle(
+                f"multi_agent_{scenario}"
+            )
             assert result is True or result == "coordinated"
 
     def test_performance_under_load(self, e2e_test_instance):
@@ -291,13 +299,15 @@ class TestE2EAgentLifecycle:
         load_scenarios = [
             {"concurrent_agents": 5, "expected_duration": "< 30s"},
             {"concurrent_agents": 10, "expected_duration": "< 60s"},
-            {"concurrent_agents": 20, "expected_duration": "< 120s"}
+            {"concurrent_agents": 20, "expected_duration": "< 120s"},
         ]
 
         for scenario in load_scenarios:
             start_time = time.time()
             # Simulate load test
-            result = e2e_test_instance.test_agent_creation_lifecycle(f"load_{scenario['concurrent_agents']}")
+            result = e2e_test_instance.test_agent_creation_lifecycle(
+                f"load_{scenario['concurrent_agents']}"
+            )
             end_time = time.time()
 
             duration = end_time - start_time
@@ -321,7 +331,7 @@ class TestAgentAPISuite:
             "/api/v1/agents",
             "/api/v1/messages",
             "/api/v1/coordination",
-            "/api/v1/analytics"
+            "/api/v1/analytics",
         ]
 
         crud_operations = ["create", "read", "update", "delete"]
@@ -338,7 +348,7 @@ class TestAgentAPISuite:
             "unauthorized_access",
             "resource_not_found",
             "rate_limit_exceeded",
-            "server_error"
+            "server_error",
         ]
 
         for scenario in error_scenarios:
@@ -355,7 +365,7 @@ class TestAgentAPISuite:
             "expired_jwt_token",
             "invalid_jwt_token",
             "insufficient_permissions",
-            "admin_access"
+            "admin_access",
         ]
 
         for scenario in auth_scenarios:
@@ -367,13 +377,19 @@ class TestAgentAPISuite:
         """Test API performance under various conditions."""
         performance_tests = [
             {"endpoint": "/api/v1/agents", "expected_response_time": "< 200ms", "concurrency": 10},
-            {"endpoint": "/api/v1/messages", "expected_response_time": "< 500ms", "concurrency": 50},
-            {"endpoint": "/api/v1/analytics", "expected_response_time": "< 2s", "concurrency": 5}
+            {
+                "endpoint": "/api/v1/messages",
+                "expected_response_time": "< 500ms",
+                "concurrency": 50,
+            },
+            {"endpoint": "/api/v1/analytics", "expected_response_time": "< 2s", "concurrency": 5},
         ]
 
         for test_case in performance_tests:
             start_time = time.time()
-            result = api_test_instance.test_api_endpoints(f"perf_{test_case['endpoint'].replace('/', '_')}")
+            result = api_test_instance.test_api_endpoints(
+                f"perf_{test_case['endpoint'].replace('/', '_')}"
+            )
             end_time = time.time()
 
             duration = end_time - start_time
@@ -387,11 +403,13 @@ class TestAgentAPISuite:
         schema_tests = [
             {"endpoint": "/api/v1/agents", "schema": "AgentList"},
             {"endpoint": "/api/v1/messages", "schema": "MessageList"},
-            {"endpoint": "/api/v1/coordination/status", "schema": "CoordinationStatus"}
+            {"endpoint": "/api/v1/coordination/status", "schema": "CoordinationStatus"},
         ]
 
         for test_case in schema_tests:
-            result = api_test_instance.test_api_endpoints(f"schema_{test_case['endpoint'].replace('/', '_')}")
+            result = api_test_instance.test_api_endpoints(
+                f"schema_{test_case['endpoint'].replace('/', '_')}"
+            )
             assert result is True or result == "validated"
 
 
@@ -409,11 +427,13 @@ class TestCrossServiceIntegration:
             "message_routing_to_coordination",
             "coordination_response_to_messaging",
             "error_propagation_across_services",
-            "load_balancing_message_distribution"
+            "load_balancing_message_distribution",
         ]
 
         for scenario in integration_scenarios:
-            result = await integration_test_instance.test_service_interactions(f"msg_coord_{scenario}")
+            result = await integration_test_instance.test_service_interactions(
+                f"msg_coord_{scenario}"
+            )
             assert result is True or result == "integrated"
 
     async def test_vector_analytics_integration(self, integration_test_instance):
@@ -422,11 +442,13 @@ class TestCrossServiceIntegration:
             "vector_search_result_analysis",
             "analytics_driven_vector_queries",
             "performance_metric_collection",
-            "result_caching_validation"
+            "result_caching_validation",
         ]
 
         for scenario in analytics_scenarios:
-            result = await integration_test_instance.test_service_interactions(f"vec_anal_{scenario}")
+            result = await integration_test_instance.test_service_interactions(
+                f"vec_anal_{scenario}"
+            )
             assert result is True or result == "integrated"
 
     async def test_agent_messaging_integration(self, integration_test_instance):
@@ -435,11 +457,13 @@ class TestCrossServiceIntegration:
             "agent_message_broadcast",
             "message_acknowledgment_handling",
             "agent_status_update_propagation",
-            "task_assignment_message_flow"
+            "task_assignment_message_flow",
         ]
 
         for scenario in agent_scenarios:
-            result = await integration_test_instance.test_service_interactions(f"agent_msg_{scenario}")
+            result = await integration_test_instance.test_service_interactions(
+                f"agent_msg_{scenario}"
+            )
             assert result is True or result == "integrated"
 
     def test_data_consistency_across_services(self, integration_test_instance):
@@ -448,7 +472,7 @@ class TestCrossServiceIntegration:
             "message_id_consistency",
             "agent_status_synchronization",
             "coordination_state_consistency",
-            "analytics_data_accuracy"
+            "analytics_data_accuracy",
         ]
 
         for check in consistency_checks:
@@ -461,16 +485,20 @@ class TestCrossServiceIntegration:
             "messaging_service_down",
             "vector_service_timeout",
             "coordination_service_error",
-            "analytics_service_unavailable"
+            "analytics_service_unavailable",
         ]
 
         for scenario in failure_scenarios:
             # Test failure isolation
-            result = await integration_test_instance.test_service_interactions(f"failure_{scenario}")
+            result = await integration_test_instance.test_service_interactions(
+                f"failure_{scenario}"
+            )
             assert result == "isolated" or result is True
 
             # Test recovery after failure
-            recovery_result = await integration_test_instance.test_service_interactions(f"recovery_{scenario}")
+            recovery_result = await integration_test_instance.test_service_interactions(
+                f"recovery_{scenario}"
+            )
             assert recovery_result == "recovered" or recovery_result is True
 
 
@@ -489,7 +517,7 @@ class TestDeploymentVerification:
             "database_connections",
             "external_service_dependencies",
             "message_queue_connectivity",
-            "cache_service_availability"
+            "cache_service_availability",
         ]
 
         for check in health_checks:
@@ -503,7 +531,7 @@ class TestDeploymentVerification:
             "database_connection_strings",
             "api_keys_and_secrets",
             "service_endpoints",
-            "security_certificates"
+            "security_certificates",
         ]
 
         for validation in config_validations:
@@ -517,7 +545,7 @@ class TestDeploymentVerification:
             "authorization_policies",
             "data_encryption",
             "network_security",
-            "audit_logging"
+            "audit_logging",
         ]
 
         for check in security_checks:
@@ -531,7 +559,7 @@ class TestDeploymentVerification:
             {"metric": "database_query_time", "threshold": "< 100ms"},
             {"metric": "message_processing_time", "threshold": "< 2s"},
             {"metric": "memory_usage", "threshold": "< 80%"},
-            {"metric": "cpu_usage", "threshold": "< 70%"}
+            {"metric": "cpu_usage", "threshold": "< 70%"},
         ]
 
         for baseline in performance_baselines:
@@ -544,7 +572,7 @@ class TestDeploymentVerification:
             "failed_deployment_detection",
             "automatic_rollback_execution",
             "data_integrity_preservation",
-            "service_availability_maintenance"
+            "service_availability_maintenance",
         ]
 
         for scenario in rollback_scenarios:
@@ -562,7 +590,7 @@ class TestIntegrationFrameworkQuality:
             "api_tests": 90,
             "integration_tests": 80,
             "deployment_tests": 75,
-            "performance_tests": 70
+            "performance_tests": 70,
         }
 
         # Mock coverage results
@@ -571,7 +599,7 @@ class TestIntegrationFrameworkQuality:
             "api_tests": 92,
             "integration_tests": 82,
             "deployment_tests": 78,
-            "performance_tests": 72
+            "performance_tests": 72,
         }
 
         # Validate coverage targets are met
@@ -585,7 +613,7 @@ class TestIntegrationFrameworkQuality:
             "test_pass_rate": 95.5,
             "flaky_test_rate": 2.1,
             "test_execution_time_stability": 92.3,
-            "resource_utilization_efficiency": 88.7
+            "resource_utilization_efficiency": 88.7,
         }
 
         # Validate reliability thresholds
@@ -600,7 +628,7 @@ class TestIntegrationFrameworkQuality:
             "pipeline_success_rate": 96.2,
             "average_deployment_time": "8m 30s",
             "rollback_success_rate": 98.1,
-            "environment_consistency": 94.7
+            "environment_consistency": 94.7,
         }
 
         # Validate CI/CD quality metrics

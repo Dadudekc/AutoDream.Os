@@ -1,9 +1,8 @@
 """
 Trading Robot Configuration Settings
 """
+
 from pydantic_settings import BaseSettings
-from typing import Optional, List
-import os
 
 
 class TradingConfig(BaseSettings):
@@ -31,11 +30,11 @@ class TradingConfig(BaseSettings):
     # Trading Hours (EST)
     market_open_hour: int = 9
     market_close_hour: int = 16
-    trading_days: List[str] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    trading_days: list[str] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
     # Database Configuration
     database_url: str = "sqlite:///trading_robot.db"
-    redis_url: Optional[str] = None
+    redis_url: str | None = None
 
     # Web Dashboard
     web_host: str = "0.0.0.0"
@@ -57,7 +56,7 @@ class TradingConfig(BaseSettings):
     email_smtp_port: int = 587
     email_username: str = ""
     email_password: str = ""
-    alert_email_recipients: List[str] = []
+    alert_email_recipients: list[str] = []
 
     # Emergency Configuration
     emergency_stop_enabled: bool = True

@@ -16,41 +16,40 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 from .models.vector_models import (
+    CollectionConfig,
+    DocumentType,
     EmbeddingModel,
-    EmbeddingResult,
-    VectorDocument,
+    SearchQuery,
+    SearchResult,
     VectorDatabaseConfig,
     VectorDatabaseResult,
     VectorDatabaseStats,
-    SearchQuery,
-    SearchResult,
-    CollectionConfig,
-    DocumentType
+    VectorDocument,
 )
 
 logger = logging.getLogger(__name__)
 
 class ConsolidatedVectorService:
     """Unified vector database service combining orchestration, integration, and embeddings."""
-    
-    def __init__(self, agent_id: str = "default", config: Optional[VectorDatabaseConfig] = None):
+
+    def __init__(self, agent_id: str = "default", config: VectorDatabaseConfig | None = None):
         """Initialize the consolidated vector service."""
         self.agent_id = agent_id
         self.config = config or VectorDatabaseConfig()
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize embedding service
         self.embedding_model = EmbeddingModel.SENTENCE_TRANSFORMERS
         self._sentence_transformer = None
         self._openai_client = None
-        
+
         # Initialize vector database engine
         self._engine = None
         self._initialize_engine()
-        
+
         self.logger.info(f"ConsolidatedVectorService initialized for agent {agent_id}")
 
     def _initialize_engine(self):
@@ -62,11 +61,11 @@ class ConsolidatedVectorService:
             self.logger.warning("Vector database engine not available - using mock")
             self._engine = None
 
-    def generate_embeddings(self, texts: List[str], model: Optional[EmbeddingModel] = None) -> List[List[float]]:
+    def generate_embeddings(self, texts: list[str], model: EmbeddingModel | None = None) -> list[list[float]]:
         """Generate embeddings for texts."""
         if model:
             self.embedding_model = model
-            
+
         if self.embedding_model == EmbeddingModel.SENTENCE_TRANSFORMERS:
             return self._encode_sentence_transformers(texts)
         elif self.embedding_model == EmbeddingModel.OPENAI:
@@ -74,25 +73,25 @@ class ConsolidatedVectorService:
         else:
             raise ValueError(f"Unsupported model: {self.embedding_model}")
 
-    def _encode_sentence_transformers(self, texts: List[str]) -> List[List[float]]:
+    def _encode_sentence_transformers(self, texts: list[str]) -> list[list[float]]:
         """Encode using sentence transformers."""
         try:
             if self._sentence_transformer is None:
                 from sentence_transformers import SentenceTransformer
                 self._sentence_transformer = SentenceTransformer("all-MiniLM-L6-v2")
-            
+
             embeddings = self._sentence_transformer.encode(texts)
             return embeddings.tolist()
         except ImportError:
             raise ImportError("sentence-transformers not installed")
 
-    def _encode_openai(self, texts: List[str]) -> List[List[float]]:
+    def _encode_openai(self, texts: list[str]) -> list[list[float]]:
         """Encode using OpenAI."""
         try:
             if self._openai_client is None:
                 import openai
                 self._openai_client = openai.OpenAI()
-            
+
             response = self._openai_client.embeddings.create(
                 model="text-embedding-ada-002",
                 input=texts
@@ -105,75 +104,75 @@ class ConsolidatedVectorService:
         """Add a document to the vector database."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
-        
+
         return self._engine.add_document(document, collection_name)
 
-    def search_documents(self, query: str, collection_name: str = "default", 
-                        limit: int = 10, document_types: Optional[List[DocumentType]] = None) -> List[SearchResult]:
+    def search_documents(self, query: str, collection_name: str = "default",
+                        limit: int = 10, document_types: list[DocumentType] | None = None) -> list[SearchResult]:
         """Search documents in the vector database."""
         if not self._engine:
             return []
-        
+
         search_query = SearchQuery(
             query=query,
             collection_name=collection_name,
             limit=limit,
             document_types=document_types or []
         )
-        
+
         return self._engine.search_documents(search_query)
 
-    def get_document(self, document_id: str, collection_name: str = "default") -> Optional[VectorDocument]:
+    def get_document(self, document_id: str, collection_name: str = "default") -> VectorDocument | None:
         """Get a document by ID."""
         if not self._engine:
             return None
-        
+
         return self._engine.get_document(document_id, collection_name)
 
     def delete_document(self, document_id: str, collection_name: str = "default") -> VectorDatabaseResult:
         """Delete a document by ID."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
-        
+
         return self._engine.delete_document(document_id, collection_name)
 
     def get_collection_stats(self, collection_name: str = "default") -> VectorDatabaseStats:
         """Get collection statistics."""
         if not self._engine:
             return VectorDatabaseStats(total_documents=0, total_vectors=0, collection_size=0)
-        
+
         return self._engine.get_collection_stats(collection_name)
 
-    def create_collection(self, collection_name: str, config: Optional[CollectionConfig] = None) -> VectorDatabaseResult:
+    def create_collection(self, collection_name: str, config: CollectionConfig | None = None) -> VectorDatabaseResult:
         """Create a new collection."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
-        
+
         return self._engine.create_collection(collection_name, config)
 
     def delete_collection(self, collection_name: str) -> VectorDatabaseResult:
         """Delete a collection."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
-        
+
         return self._engine.delete_collection(collection_name)
 
-    def list_collections(self) -> List[str]:
+    def list_collections(self) -> list[str]:
         """List all collections."""
         if not self._engine:
             return []
-        
+
         return self._engine.list_collections()
 
-    def get_task_context(self, task_description: str) -> Dict[str, Any]:
+    def get_task_context(self, task_description: str) -> dict[str, Any]:
         """Get task context using vector search."""
         # Generate embedding for task description
         embeddings = self.generate_embeddings([task_description])
         task_embedding = embeddings[0]
-        
+
         # Search for similar documents
         results = self.search_documents(task_description, limit=5)
-        
+
         return {
             "task_description": task_description,
             "task_embedding": task_embedding,
@@ -186,7 +185,7 @@ class ConsolidatedVectorService:
         # Generate embedding
         embeddings = self.generate_embeddings([work_content])
         work_embedding = embeddings[0]
-        
+
         # Create document
         document = VectorDocument(
             id=f"{self.agent_id}_{work_type}_{hash(work_content)}",
@@ -198,13 +197,13 @@ class ConsolidatedVectorService:
                 "timestamp": str(logging.time.time())
             }
         )
-        
+
         return self.add_document(document, f"agent_work_{self.agent_id}")
 
-    def get_recommendations(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def get_recommendations(self, query: str, limit: int = 5) -> list[dict[str, Any]]:
         """Get recommendations based on query."""
         results = self.search_documents(query, limit=limit)
-        
+
         recommendations = []
         for result in results:
             recommendations.append({
@@ -213,19 +212,19 @@ class ConsolidatedVectorService:
                 "metadata": result.document.metadata,
                 "document_id": result.document.id
             })
-        
+
         return recommendations
 
-    def get_agent_status_summary(self) -> Dict[str, Any]:
+    def get_agent_status_summary(self) -> dict[str, Any]:
         """Get agent status summary."""
         collections = self.list_collections()
         agent_collections = [c for c in collections if c.startswith(f"agent_work_{self.agent_id}")]
-        
+
         total_documents = 0
         for collection in agent_collections:
             stats = self.get_collection_stats(collection)
             total_documents += stats.total_documents
-        
+
         return {
             "agent_id": self.agent_id,
             "collections": agent_collections,
@@ -237,23 +236,23 @@ class ConsolidatedVectorService:
         """Clean up old documents."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
-        
+
         # This would need to be implemented in the engine
         # For now, return success
         return VectorDatabaseResult(success=True, message=f"Cleanup completed for documents older than {days_old} days")
 
-    def export_collection(self, collection_name: str, format: str = "json") -> Dict[str, Any]:
+    def export_collection(self, collection_name: str, format: str = "json") -> dict[str, Any]:
         """Export collection data."""
         if not self._engine:
             return {"error": "Vector database engine not available"}
-        
+
         # This would need to be implemented in the engine
         return {"collection": collection_name, "format": format, "status": "exported"}
 
-    def import_collection(self, collection_name: str, data: Dict[str, Any]) -> VectorDatabaseResult:
+    def import_collection(self, collection_name: str, data: dict[str, Any]) -> VectorDatabaseResult:
         """Import collection data."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
-        
+
         # This would need to be implemented in the engine
         return VectorDatabaseResult(success=True, message=f"Collection {collection_name} imported successfully")

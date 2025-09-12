@@ -17,13 +17,12 @@ Author: Agent-4 (Quality Assurance Captain)
 Mission: EMERGENCY PYTEST COVERAGE - COORDINATION LEAD
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
 import sys
-import asyncio
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-from datetime import datetime, timedelta
+from unittest.mock import patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -275,8 +274,9 @@ class TestPerformanceMetrics:
     def test_memory_usage_tracking(self):
         """Test memory usage tracking."""
         try:
-            import psutil
             import os
+
+            import psutil
 
             # Get current memory usage
             process = psutil.Process(os.getpid())
@@ -349,8 +349,8 @@ if __name__ == "__main__":
     print("AGENT-4 QUALITY ASSURANCE COORDINATION TESTS")
     print("=" * 50)
     print(f"Test file: {__file__}")
-    print(f"Coverage target: 85%+ coordination coverage")
-    print(f"Test execution: IMMEDIATE - PYTEST_MODE_ACTIVE")
+    print("Coverage target: 85%+ coordination coverage")
+    print("Test execution: IMMEDIATE - PYTEST_MODE_ACTIVE")
     print()
     print("Running pytest on this file...")
     print("Command: pytest tests/test_agent4_coordination.py -v --cov=src --cov-report=term-missing")

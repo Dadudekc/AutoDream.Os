@@ -23,9 +23,9 @@ import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
+from typing import Any
 
 # ============================================================================
 # PERFORMANCE ENUMS AND MODELS
@@ -81,7 +81,7 @@ class PerformanceData:
     unit: str
     timestamp: datetime = field(default_factory=datetime.now)
     source: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -95,7 +95,7 @@ class PerformanceAlert:
     current_value: float
     timestamp: datetime = field(default_factory=datetime.now)
     acknowledged: bool = False
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -105,9 +105,9 @@ class PerformanceReport:
     title: str
     period_start: datetime
     period_end: datetime
-    metrics: Dict[PerformanceMetric, List[PerformanceData]] = field(default_factory=dict)
-    alerts: List[PerformanceAlert] = field(default_factory=list)
-    summary: Dict[str, Any] = field(default_factory=dict)
+    metrics: dict[PerformanceMetric, list[PerformanceData]] = field(default_factory=dict)
+    alerts: list[PerformanceAlert] = field(default_factory=list)
+    summary: dict[str, Any] = field(default_factory=dict)
     generated_at: datetime = field(default_factory=datetime.now)
 
 
@@ -128,44 +128,44 @@ class PerformanceThreshold:
 
 class PerformanceMonitor(ABC):
     """Base performance monitor interface."""
-    
+
     def __init__(self, monitor_id: str, name: str):
         self.monitor_id = monitor_id
         self.name = name
         self.logger = logging.getLogger(f"performance.{name}")
         self.is_active = False
-        self.thresholds: Dict[PerformanceMetric, PerformanceThreshold] = {}
-    
+        self.thresholds: dict[PerformanceMetric, PerformanceThreshold] = {}
+
     @abstractmethod
     def start_monitoring(self) -> bool:
         """Start performance monitoring."""
         pass
-    
+
     @abstractmethod
     def stop_monitoring(self) -> bool:
         """Stop performance monitoring."""
         pass
-    
+
     @abstractmethod
-    def collect_metrics(self) -> List[PerformanceData]:
+    def collect_metrics(self) -> list[PerformanceData]:
         """Collect performance metrics."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get monitoring capabilities."""
         pass
-    
+
     def set_threshold(self, metric: PerformanceMetric, threshold: PerformanceThreshold) -> None:
         """Set performance threshold."""
         self.thresholds[metric] = threshold
-    
-    def check_thresholds(self, data: PerformanceData) -> Optional[PerformanceAlert]:
+
+    def check_thresholds(self, data: PerformanceData) -> PerformanceAlert | None:
         """Check if data exceeds thresholds."""
         threshold = self.thresholds.get(data.metric)
         if not threshold or not threshold.enabled:
             return None
-        
+
         if data.value >= threshold.critical_threshold:
             return PerformanceAlert(
                 alert_id=str(uuid.uuid4()),
@@ -193,36 +193,36 @@ class PerformanceMonitor(ABC):
                 threshold=threshold.warning_threshold,
                 current_value=data.value
             )
-        
+
         return None
 
 
 class PerformanceDashboard(ABC):
     """Base performance dashboard interface."""
-    
+
     def __init__(self, dashboard_id: str, name: str):
         self.dashboard_id = dashboard_id
         self.name = name
         self.logger = logging.getLogger(f"dashboard.{name}")
         self.is_active = False
-    
+
     @abstractmethod
     def start_dashboard(self) -> bool:
         """Start performance dashboard."""
         pass
-    
+
     @abstractmethod
     def stop_dashboard(self) -> bool:
         """Stop performance dashboard."""
         pass
-    
+
     @abstractmethod
-    def update_display(self, data: List[PerformanceData]) -> None:
+    def update_display(self, data: list[PerformanceData]) -> None:
         """Update dashboard display."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get dashboard capabilities."""
         pass
 
@@ -233,14 +233,14 @@ class PerformanceDashboard(ABC):
 
 class SystemPerformanceMonitor(PerformanceMonitor):
     """System performance monitor implementation."""
-    
+
     def __init__(self, monitor_id: str = None):
         super().__init__(
             monitor_id or str(uuid.uuid4()),
             "SystemPerformanceMonitor"
         )
-        self.monitoring_data: Dict[PerformanceMetric, float] = {}
-    
+        self.monitoring_data: dict[PerformanceMetric, float] = {}
+
     def start_monitoring(self) -> bool:
         """Start system performance monitoring."""
         try:
@@ -250,7 +250,7 @@ class SystemPerformanceMonitor(PerformanceMonitor):
         except Exception as e:
             self.logger.error(f"Failed to start system performance monitoring: {e}")
             return False
-    
+
     def stop_monitoring(self) -> bool:
         """Stop system performance monitoring."""
         try:
@@ -260,14 +260,14 @@ class SystemPerformanceMonitor(PerformanceMonitor):
         except Exception as e:
             self.logger.error(f"Failed to stop system performance monitoring: {e}")
             return False
-    
-    def collect_metrics(self) -> List[PerformanceData]:
+
+    def collect_metrics(self) -> list[PerformanceData]:
         """Collect system performance metrics."""
         try:
             metrics = []
-            
+
             # Simulate metric collection
-            for metric in [PerformanceMetric.CPU_USAGE, PerformanceMetric.MEMORY_USAGE, 
+            for metric in [PerformanceMetric.CPU_USAGE, PerformanceMetric.MEMORY_USAGE,
                           PerformanceMetric.DISK_USAGE, PerformanceMetric.RESPONSE_TIME]:
                 value = self.monitoring_data.get(metric, 0.0)
                 data = PerformanceData(
@@ -278,16 +278,16 @@ class SystemPerformanceMonitor(PerformanceMonitor):
                     source="system_monitor"
                 )
                 metrics.append(data)
-            
+
             return metrics
         except Exception as e:
             self.logger.error(f"Failed to collect system metrics: {e}")
             return []
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get system monitoring capabilities."""
         return ["cpu_monitoring", "memory_monitoring", "disk_monitoring", "response_time_monitoring"]
-    
+
     def _get_metric_unit(self, metric: PerformanceMetric) -> str:
         """Get unit for metric."""
         units = {
@@ -301,7 +301,7 @@ class SystemPerformanceMonitor(PerformanceMonitor):
             PerformanceMetric.AVAILABILITY: "%"
         }
         return units.get(metric, "")
-    
+
     def update_metric(self, metric: PerformanceMetric, value: float) -> None:
         """Update metric value."""
         self.monitoring_data[metric] = value
@@ -309,14 +309,14 @@ class SystemPerformanceMonitor(PerformanceMonitor):
 
 class ApplicationPerformanceMonitor(PerformanceMonitor):
     """Application performance monitor implementation."""
-    
+
     def __init__(self, monitor_id: str = None):
         super().__init__(
             monitor_id or str(uuid.uuid4()),
             "ApplicationPerformanceMonitor"
         )
-        self.application_metrics: Dict[str, float] = {}
-    
+        self.application_metrics: dict[str, float] = {}
+
     def start_monitoring(self) -> bool:
         """Start application performance monitoring."""
         try:
@@ -326,7 +326,7 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
         except Exception as e:
             self.logger.error(f"Failed to start application performance monitoring: {e}")
             return False
-    
+
     def stop_monitoring(self) -> bool:
         """Stop application performance monitoring."""
         try:
@@ -336,14 +336,14 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
         except Exception as e:
             self.logger.error(f"Failed to stop application performance monitoring: {e}")
             return False
-    
-    def collect_metrics(self) -> List[PerformanceData]:
+
+    def collect_metrics(self) -> list[PerformanceData]:
         """Collect application performance metrics."""
         try:
             metrics = []
-            
+
             # Simulate application metric collection
-            for metric in [PerformanceMetric.RESPONSE_TIME, PerformanceMetric.THROUGHPUT, 
+            for metric in [PerformanceMetric.RESPONSE_TIME, PerformanceMetric.THROUGHPUT,
                           PerformanceMetric.ERROR_RATE, PerformanceMetric.AVAILABILITY]:
                 value = self.application_metrics.get(metric.value, 0.0)
                 data = PerformanceData(
@@ -354,16 +354,16 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
                     source="application_monitor"
                 )
                 metrics.append(data)
-            
+
             return metrics
         except Exception as e:
             self.logger.error(f"Failed to collect application metrics: {e}")
             return []
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get application monitoring capabilities."""
         return ["response_time_monitoring", "throughput_monitoring", "error_rate_monitoring", "availability_monitoring"]
-    
+
     def _get_metric_unit(self, metric: PerformanceMetric) -> str:
         """Get unit for metric."""
         units = {
@@ -377,7 +377,7 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
             PerformanceMetric.AVAILABILITY: "%"
         }
         return units.get(metric, "")
-    
+
     def update_metric(self, metric: PerformanceMetric, value: float) -> None:
         """Update metric value."""
         self.application_metrics[metric.value] = value
@@ -389,14 +389,14 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
 
 class RealTimeDashboard(PerformanceDashboard):
     """Real-time performance dashboard implementation."""
-    
+
     def __init__(self, dashboard_id: str = None):
         super().__init__(
             dashboard_id or str(uuid.uuid4()),
             "RealTimeDashboard"
         )
-        self.display_data: Dict[str, Any] = {}
-    
+        self.display_data: dict[str, Any] = {}
+
     def start_dashboard(self) -> bool:
         """Start real-time dashboard."""
         try:
@@ -406,7 +406,7 @@ class RealTimeDashboard(PerformanceDashboard):
         except Exception as e:
             self.logger.error(f"Failed to start real-time dashboard: {e}")
             return False
-    
+
     def stop_dashboard(self) -> bool:
         """Stop real-time dashboard."""
         try:
@@ -416,8 +416,8 @@ class RealTimeDashboard(PerformanceDashboard):
         except Exception as e:
             self.logger.error(f"Failed to stop real-time dashboard: {e}")
             return False
-    
-    def update_display(self, data: List[PerformanceData]) -> None:
+
+    def update_display(self, data: list[PerformanceData]) -> None:
         """Update real-time dashboard display."""
         try:
             for metric_data in data:
@@ -426,26 +426,26 @@ class RealTimeDashboard(PerformanceDashboard):
                     "unit": metric_data.unit,
                     "timestamp": metric_data.timestamp.isoformat()
                 }
-            
+
             self.logger.debug(f"Dashboard updated with {len(data)} metrics")
         except Exception as e:
             self.logger.error(f"Failed to update dashboard display: {e}")
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get real-time dashboard capabilities."""
         return ["real_time_display", "metric_visualization", "live_updates"]
 
 
 class HistoricalDashboard(PerformanceDashboard):
     """Historical performance dashboard implementation."""
-    
+
     def __init__(self, dashboard_id: str = None):
         super().__init__(
             dashboard_id or str(uuid.uuid4()),
             "HistoricalDashboard"
         )
-        self.historical_data: List[PerformanceData] = []
-    
+        self.historical_data: list[PerformanceData] = []
+
     def start_dashboard(self) -> bool:
         """Start historical dashboard."""
         try:
@@ -455,7 +455,7 @@ class HistoricalDashboard(PerformanceDashboard):
         except Exception as e:
             self.logger.error(f"Failed to start historical dashboard: {e}")
             return False
-    
+
     def stop_dashboard(self) -> bool:
         """Stop historical dashboard."""
         try:
@@ -465,20 +465,20 @@ class HistoricalDashboard(PerformanceDashboard):
         except Exception as e:
             self.logger.error(f"Failed to stop historical dashboard: {e}")
             return False
-    
-    def update_display(self, data: List[PerformanceData]) -> None:
+
+    def update_display(self, data: list[PerformanceData]) -> None:
         """Update historical dashboard display."""
         try:
             self.historical_data.extend(data)
             # Keep only last 1000 data points
             if len(self.historical_data) > 1000:
                 self.historical_data = self.historical_data[-1000:]
-            
+
             self.logger.debug(f"Historical dashboard updated with {len(data)} new data points")
         except Exception as e:
             self.logger.error(f"Failed to update historical dashboard: {e}")
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get historical dashboard capabilities."""
         return ["historical_display", "trend_analysis", "data_aggregation"]
 
@@ -489,13 +489,13 @@ class HistoricalDashboard(PerformanceDashboard):
 
 class PerformanceManager:
     """Performance management system."""
-    
+
     def __init__(self):
-        self.monitors: List[PerformanceMonitor] = []
-        self.dashboards: List[PerformanceDashboard] = []
-        self.alerts: List[PerformanceAlert] = []
+        self.monitors: list[PerformanceMonitor] = []
+        self.dashboards: list[PerformanceDashboard] = []
+        self.alerts: list[PerformanceAlert] = []
         self.logger = logging.getLogger("performance_manager")
-    
+
     def register_monitor(self, monitor: PerformanceMonitor) -> bool:
         """Register performance monitor."""
         try:
@@ -505,7 +505,7 @@ class PerformanceManager:
         except Exception as e:
             self.logger.error(f"Failed to register performance monitor {monitor.name}: {e}")
             return False
-    
+
     def register_dashboard(self, dashboard: PerformanceDashboard) -> bool:
         """Register performance dashboard."""
         try:
@@ -515,7 +515,7 @@ class PerformanceManager:
         except Exception as e:
             self.logger.error(f"Failed to register performance dashboard {dashboard.name}: {e}")
             return False
-    
+
     def start_all_monitoring(self) -> bool:
         """Start all performance monitors."""
         success = True
@@ -523,7 +523,7 @@ class PerformanceManager:
             if not monitor.start_monitoring():
                 success = False
         return success
-    
+
     def start_all_dashboards(self) -> bool:
         """Start all performance dashboards."""
         success = True
@@ -531,16 +531,16 @@ class PerformanceManager:
             if not dashboard.start_dashboard():
                 success = False
         return success
-    
-    def collect_all_metrics(self) -> List[PerformanceData]:
+
+    def collect_all_metrics(self) -> list[PerformanceData]:
         """Collect metrics from all monitors."""
         all_metrics = []
-        
+
         for monitor in self.monitors:
             try:
                 metrics = monitor.collect_metrics()
                 all_metrics.extend(metrics)
-                
+
                 # Check for alerts
                 for metric_data in metrics:
                     alert = monitor.check_thresholds(metric_data)
@@ -548,18 +548,18 @@ class PerformanceManager:
                         self.alerts.append(alert)
             except Exception as e:
                 self.logger.error(f"Failed to collect metrics from {monitor.name}: {e}")
-        
+
         return all_metrics
-    
-    def update_all_dashboards(self, data: List[PerformanceData]) -> None:
+
+    def update_all_dashboards(self, data: list[PerformanceData]) -> None:
         """Update all dashboards with data."""
         for dashboard in self.dashboards:
             try:
                 dashboard.update_display(data)
             except Exception as e:
                 self.logger.error(f"Failed to update dashboard {dashboard.name}: {e}")
-    
-    def get_performance_status(self) -> Dict[str, Any]:
+
+    def get_performance_status(self) -> dict[str, Any]:
         """Get performance system status."""
         return {
             "monitors_registered": len(self.monitors),
@@ -573,31 +573,31 @@ class PerformanceManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_performance_monitor(monitor_type: str, monitor_id: str = None) -> Optional[PerformanceMonitor]:
+def create_performance_monitor(monitor_type: str, monitor_id: str = None) -> PerformanceMonitor | None:
     """Create performance monitor by type."""
     monitors = {
         "system": SystemPerformanceMonitor,
         "application": ApplicationPerformanceMonitor
     }
-    
+
     monitor_class = monitors.get(monitor_type)
     if monitor_class:
         return monitor_class(monitor_id)
-    
+
     return None
 
 
-def create_performance_dashboard(dashboard_type: str, dashboard_id: str = None) -> Optional[PerformanceDashboard]:
+def create_performance_dashboard(dashboard_type: str, dashboard_id: str = None) -> PerformanceDashboard | None:
     """Create performance dashboard by type."""
     dashboards = {
         "realtime": RealTimeDashboard,
         "historical": HistoricalDashboard
     }
-    
+
     dashboard_class = dashboards.get(dashboard_type)
     if dashboard_class:
         return dashboard_class(dashboard_id)
-    
+
     return None
 
 
@@ -614,52 +614,52 @@ def main():
     """Main execution function."""
     print("Performance Unified - Consolidated Performance System")
     print("=" * 55)
-    
+
     # Create performance manager
     manager = create_performance_manager()
     print("✅ Performance manager created")
-    
+
     # Create and register monitors
     monitor_types = ["system", "application"]
-    
+
     for monitor_type in monitor_types:
         monitor = create_performance_monitor(monitor_type)
         if monitor and manager.register_monitor(monitor):
             print(f"✅ {monitor.name} registered")
         else:
             print(f"❌ Failed to register {monitor_type} monitor")
-    
+
     # Create and register dashboards
     dashboard_types = ["realtime", "historical"]
-    
+
     for dashboard_type in dashboard_types:
         dashboard = create_performance_dashboard(dashboard_type)
         if dashboard and manager.register_dashboard(dashboard):
             print(f"✅ {dashboard.name} registered")
         else:
             print(f"❌ Failed to register {dashboard_type} dashboard")
-    
+
     # Start all monitoring and dashboards
     if manager.start_all_monitoring():
         print("✅ All performance monitors started")
     else:
         print("❌ Some performance monitors failed to start")
-    
+
     if manager.start_all_dashboards():
         print("✅ All performance dashboards started")
     else:
         print("❌ Some performance dashboards failed to start")
-    
+
     # Test performance functionality
     metrics = manager.collect_all_metrics()
     print(f"✅ Collected {len(metrics)} performance metrics")
-    
+
     manager.update_all_dashboards(metrics)
     print("✅ All dashboards updated with metrics")
-    
+
     status = manager.get_performance_status()
     print(f"✅ Performance system status: {status}")
-    
+
     print(f"\nTotal monitors registered: {len(manager.monitors)}")
     print(f"Total dashboards registered: {len(manager.dashboards)}")
     print("Performance Unified system test completed successfully!")

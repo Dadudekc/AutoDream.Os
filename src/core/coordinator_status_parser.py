@@ -8,14 +8,15 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, Optional
+from typing import Any
+
 from .coordinator_interfaces import ICoordinatorStatusParser
 
 
 class CoordinatorStatusParser(ICoordinatorStatusParser):
     """Parses coordinator status information."""
 
-    def parse_status(self, coordinator: Any) -> Dict[str, Any]:
+    def parse_status(self, coordinator: Any) -> dict[str, Any]:
         """Parse status from coordinator."""
         try:
             if hasattr(coordinator, "get_status"):
@@ -53,9 +54,9 @@ class CoordinatorStatusFilter:
 
     def get_coordinators_by_status(
         self,
-        coordinators: Dict[str, Any],
+        coordinators: dict[str, Any],
         status: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get coordinators filtered by status."""
         filtered = {}
 
@@ -69,7 +70,7 @@ class CoordinatorStatusFilter:
 
         return filtered
 
-    def _matches_status(self, status_info: Dict[str, Any], target_status: str) -> bool:
+    def _matches_status(self, status_info: dict[str, Any], target_status: str) -> bool:
         """Check if status info matches target status."""
         # Check coordination_status field
         if "coordination_status" in status_info:

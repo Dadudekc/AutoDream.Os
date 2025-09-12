@@ -23,9 +23,9 @@ import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
+from typing import Any
 
 # ============================================================================
 # ENGINE ENUMS AND MODELS
@@ -83,10 +83,10 @@ class EngineInfo:
     name: str
     engine_type: EngineType
     status: EngineStatus
-    capabilities: List[EngineCapability] = field(default_factory=list)
+    capabilities: list[EngineCapability] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
-    last_heartbeat: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    last_heartbeat: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -108,7 +108,7 @@ class EngineConfig:
     timeout_seconds: int = 300
     retry_attempts: int = 3
     enable_monitoring: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 # ============================================================================
@@ -117,7 +117,7 @@ class EngineConfig:
 
 class Engine(ABC):
     """Base engine interface."""
-    
+
     def __init__(self, engine_id: str, name: str, engine_type: EngineType):
         self.engine_id = engine_id
         self.name = name
@@ -126,41 +126,41 @@ class Engine(ABC):
         self.logger = logging.getLogger(f"engine.{name}")
         self.metrics = EngineMetrics(engine_id=engine_id)
         self.config = EngineConfig(engine_id=engine_id)
-    
+
     @abstractmethod
     def start(self) -> bool:
         """Start the engine."""
         pass
-    
+
     @abstractmethod
     def stop(self) -> bool:
         """Stop the engine."""
         pass
-    
+
     @abstractmethod
     def pause(self) -> bool:
         """Pause the engine."""
         pass
-    
+
     @abstractmethod
     def resume(self) -> bool:
         """Resume the engine."""
         pass
-    
+
     @abstractmethod
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[EngineCapability]:
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get engine capabilities."""
         pass
-    
+
     def update_metrics(self) -> None:
         """Update engine metrics."""
         self.metrics.last_updated = datetime.now()
-    
+
     def get_metrics(self) -> EngineMetrics:
         """Get engine metrics."""
         return self.metrics
@@ -172,15 +172,15 @@ class Engine(ABC):
 
 class AnalysisCoreEngine(Engine):
     """Analysis core engine implementation."""
-    
+
     def __init__(self, engine_id: str = None):
         super().__init__(
             engine_id or str(uuid.uuid4()),
             "AnalysisCoreEngine",
             EngineType.CORE
         )
-        self.analysis_tasks: List[Dict[str, Any]] = []
-    
+        self.analysis_tasks: list[dict[str, Any]] = []
+
     def start(self) -> bool:
         """Start analysis engine."""
         try:
@@ -191,7 +191,7 @@ class AnalysisCoreEngine(Engine):
             self.logger.error(f"Failed to start analysis engine: {e}")
             self.status = EngineStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop analysis engine."""
         try:
@@ -201,26 +201,26 @@ class AnalysisCoreEngine(Engine):
         except Exception as e:
             self.logger.error(f"Failed to stop analysis engine: {e}")
             return False
-    
+
     def pause(self) -> bool:
         """Pause analysis engine."""
         self.status = EngineStatus.PAUSED
         return True
-    
+
     def resume(self) -> bool:
         """Resume analysis engine."""
         self.status = EngineStatus.RUNNING
         return True
-    
+
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         return self.status
-    
-    def get_capabilities(self) -> List[EngineCapability]:
+
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get analysis capabilities."""
         return [EngineCapability.ANALYSIS, EngineCapability.DATA_PROCESSING]
-    
-    def analyze_data(self, data: Any) -> Dict[str, Any]:
+
+    def analyze_data(self, data: Any) -> dict[str, Any]:
         """Analyze data using the engine."""
         try:
             # Implementation for data analysis
@@ -240,15 +240,15 @@ class AnalysisCoreEngine(Engine):
 
 class CommunicationCoreEngine(Engine):
     """Communication core engine implementation."""
-    
+
     def __init__(self, engine_id: str = None):
         super().__init__(
             engine_id or str(uuid.uuid4()),
             "CommunicationCoreEngine",
             EngineType.CORE
         )
-        self.message_queue: List[Dict[str, Any]] = []
-    
+        self.message_queue: list[dict[str, Any]] = []
+
     def start(self) -> bool:
         """Start communication engine."""
         try:
@@ -259,7 +259,7 @@ class CommunicationCoreEngine(Engine):
             self.logger.error(f"Failed to start communication engine: {e}")
             self.status = EngineStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop communication engine."""
         try:
@@ -269,26 +269,26 @@ class CommunicationCoreEngine(Engine):
         except Exception as e:
             self.logger.error(f"Failed to stop communication engine: {e}")
             return False
-    
+
     def pause(self) -> bool:
         """Pause communication engine."""
         self.status = EngineStatus.PAUSED
         return True
-    
+
     def resume(self) -> bool:
         """Resume communication engine."""
         self.status = EngineStatus.RUNNING
         return True
-    
+
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         return self.status
-    
-    def get_capabilities(self) -> List[EngineCapability]:
+
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get communication capabilities."""
         return [EngineCapability.COMMUNICATION, EngineCapability.INTEGRATION]
-    
-    def send_message(self, message: Dict[str, Any]) -> bool:
+
+    def send_message(self, message: dict[str, Any]) -> bool:
         """Send message using the engine."""
         try:
             self.message_queue.append(message)
@@ -303,15 +303,15 @@ class CommunicationCoreEngine(Engine):
 
 class ConfigurationCoreEngine(Engine):
     """Configuration core engine implementation."""
-    
+
     def __init__(self, engine_id: str = None):
         super().__init__(
             engine_id or str(uuid.uuid4()),
             "ConfigurationCoreEngine",
             EngineType.CORE
         )
-        self.configurations: Dict[str, Any] = {}
-    
+        self.configurations: dict[str, Any] = {}
+
     def start(self) -> bool:
         """Start configuration engine."""
         try:
@@ -322,7 +322,7 @@ class ConfigurationCoreEngine(Engine):
             self.logger.error(f"Failed to start configuration engine: {e}")
             self.status = EngineStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop configuration engine."""
         try:
@@ -332,25 +332,25 @@ class ConfigurationCoreEngine(Engine):
         except Exception as e:
             self.logger.error(f"Failed to stop configuration engine: {e}")
             return False
-    
+
     def pause(self) -> bool:
         """Pause configuration engine."""
         self.status = EngineStatus.PAUSED
         return True
-    
+
     def resume(self) -> bool:
         """Resume configuration engine."""
         self.status = EngineStatus.RUNNING
         return True
-    
+
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         return self.status
-    
-    def get_capabilities(self) -> List[EngineCapability]:
+
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get configuration capabilities."""
         return [EngineCapability.CONFIGURATION, EngineCapability.DATA_PROCESSING]
-    
+
     def set_configuration(self, key: str, value: Any) -> bool:
         """Set configuration value."""
         try:
@@ -362,8 +362,8 @@ class ConfigurationCoreEngine(Engine):
             self.logger.error(f"Failed to set configuration {key}: {e}")
             self.metrics.error_count += 1
             return False
-    
-    def get_configuration(self, key: str) -> Optional[Any]:
+
+    def get_configuration(self, key: str) -> Any | None:
         """Get configuration value."""
         return self.configurations.get(key)
 
@@ -374,15 +374,15 @@ class ConfigurationCoreEngine(Engine):
 
 class MLCoreEngine(Engine):
     """Machine learning core engine implementation."""
-    
+
     def __init__(self, engine_id: str = None):
         super().__init__(
             engine_id or str(uuid.uuid4()),
             "MLCoreEngine",
             EngineType.ML
         )
-        self.models: Dict[str, Any] = {}
-    
+        self.models: dict[str, Any] = {}
+
     def start(self) -> bool:
         """Start ML engine."""
         try:
@@ -393,7 +393,7 @@ class MLCoreEngine(Engine):
             self.logger.error(f"Failed to start ML engine: {e}")
             self.status = EngineStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop ML engine."""
         try:
@@ -403,25 +403,25 @@ class MLCoreEngine(Engine):
         except Exception as e:
             self.logger.error(f"Failed to stop ML engine: {e}")
             return False
-    
+
     def pause(self) -> bool:
         """Pause ML engine."""
         self.status = EngineStatus.PAUSED
         return True
-    
+
     def resume(self) -> bool:
         """Resume ML engine."""
         self.status = EngineStatus.RUNNING
         return True
-    
+
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         return self.status
-    
-    def get_capabilities(self) -> List[EngineCapability]:
+
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get ML capabilities."""
         return [EngineCapability.MACHINE_LEARNING, EngineCapability.DATA_PROCESSING]
-    
+
     def train_model(self, model_name: str, data: Any) -> bool:
         """Train ML model."""
         try:
@@ -442,15 +442,15 @@ class MLCoreEngine(Engine):
 
 class PerformanceCoreEngine(Engine):
     """Performance core engine implementation."""
-    
+
     def __init__(self, engine_id: str = None):
         super().__init__(
             engine_id or str(uuid.uuid4()),
             "PerformanceCoreEngine",
             EngineType.PERFORMANCE
         )
-        self.performance_data: Dict[str, Any] = {}
-    
+        self.performance_data: dict[str, Any] = {}
+
     def start(self) -> bool:
         """Start performance engine."""
         try:
@@ -461,7 +461,7 @@ class PerformanceCoreEngine(Engine):
             self.logger.error(f"Failed to start performance engine: {e}")
             self.status = EngineStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop performance engine."""
         try:
@@ -471,31 +471,31 @@ class PerformanceCoreEngine(Engine):
         except Exception as e:
             self.logger.error(f"Failed to stop performance engine: {e}")
             return False
-    
+
     def pause(self) -> bool:
         """Pause performance engine."""
         self.status = EngineStatus.PAUSED
         return True
-    
+
     def resume(self) -> bool:
         """Resume performance engine."""
         self.status = EngineStatus.RUNNING
         return True
-    
+
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         return self.status
-    
-    def get_capabilities(self) -> List[EngineCapability]:
+
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get performance capabilities."""
         return [EngineCapability.MONITORING, EngineCapability.OPTIMIZATION]
-    
+
     def measure_performance(self, operation: str, duration: float) -> None:
         """Measure operation performance."""
         try:
             if operation not in self.performance_data:
                 self.performance_data[operation] = []
-            
+
             self.performance_data[operation].append({
                 "duration": duration,
                 "timestamp": datetime.now()
@@ -512,15 +512,15 @@ class PerformanceCoreEngine(Engine):
 
 class StorageCoreEngine(Engine):
     """Storage core engine implementation."""
-    
+
     def __init__(self, engine_id: str = None):
         super().__init__(
             engine_id or str(uuid.uuid4()),
             "StorageCoreEngine",
             EngineType.STORAGE
         )
-        self.storage_data: Dict[str, Any] = {}
-    
+        self.storage_data: dict[str, Any] = {}
+
     def start(self) -> bool:
         """Start storage engine."""
         try:
@@ -531,7 +531,7 @@ class StorageCoreEngine(Engine):
             self.logger.error(f"Failed to start storage engine: {e}")
             self.status = EngineStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop storage engine."""
         try:
@@ -541,25 +541,25 @@ class StorageCoreEngine(Engine):
         except Exception as e:
             self.logger.error(f"Failed to stop storage engine: {e}")
             return False
-    
+
     def pause(self) -> bool:
         """Pause storage engine."""
         self.status = EngineStatus.PAUSED
         return True
-    
+
     def resume(self) -> bool:
         """Resume storage engine."""
         self.status = EngineStatus.RUNNING
         return True
-    
+
     def get_status(self) -> EngineStatus:
         """Get engine status."""
         return self.status
-    
-    def get_capabilities(self) -> List[EngineCapability]:
+
+    def get_capabilities(self) -> list[EngineCapability]:
         """Get storage capabilities."""
         return [EngineCapability.STORAGE, EngineCapability.DATA_PROCESSING]
-    
+
     def store_data(self, key: str, data: Any) -> bool:
         """Store data using the engine."""
         try:
@@ -571,8 +571,8 @@ class StorageCoreEngine(Engine):
             self.logger.error(f"Failed to store data with key {key}: {e}")
             self.metrics.error_count += 1
             return False
-    
-    def retrieve_data(self, key: str) -> Optional[Any]:
+
+    def retrieve_data(self, key: str) -> Any | None:
         """Retrieve data using the engine."""
         return self.storage_data.get(key)
 
@@ -583,11 +583,11 @@ class StorageCoreEngine(Engine):
 
 class EngineRegistry:
     """Engine registry for managing engines."""
-    
+
     def __init__(self):
-        self.engines: Dict[str, Engine] = {}
+        self.engines: dict[str, Engine] = {}
         self.logger = logging.getLogger("engine_registry")
-    
+
     def register_engine(self, engine: Engine) -> bool:
         """Register engine in registry."""
         try:
@@ -597,7 +597,7 @@ class EngineRegistry:
         except Exception as e:
             self.logger.error(f"Failed to register engine {engine.name}: {e}")
             return False
-    
+
     def unregister_engine(self, engine_id: str) -> bool:
         """Unregister engine from registry."""
         try:
@@ -609,16 +609,16 @@ class EngineRegistry:
         except Exception as e:
             self.logger.error(f"Failed to unregister engine {engine_id}: {e}")
             return False
-    
-    def get_engine(self, engine_id: str) -> Optional[Engine]:
+
+    def get_engine(self, engine_id: str) -> Engine | None:
         """Get engine by ID."""
         return self.engines.get(engine_id)
-    
-    def get_engines_by_type(self, engine_type: EngineType) -> List[Engine]:
+
+    def get_engines_by_type(self, engine_type: EngineType) -> list[Engine]:
         """Get engines by type."""
         return [engine for engine in self.engines.values() if engine.engine_type == engine_type]
-    
-    def get_all_engines(self) -> List[Engine]:
+
+    def get_all_engines(self) -> list[Engine]:
         """Get all registered engines."""
         return list(self.engines.values())
 
@@ -627,7 +627,7 @@ class EngineRegistry:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_engine(engine_type: EngineType, engine_id: str = None) -> Optional[Engine]:
+def create_engine(engine_type: EngineType, engine_id: str = None) -> Engine | None:
     """Create engine by type."""
     engines = {
         EngineType.CORE: {
@@ -645,13 +645,13 @@ def create_engine(engine_type: EngineType, engine_id: str = None) -> Optional[En
             "storage": StorageCoreEngine
         }
     }
-    
+
     type_engines = engines.get(engine_type, {})
     if type_engines:
         # Return first available engine for the type
         engine_class = next(iter(type_engines.values()))
         return engine_class(engine_id)
-    
+
     return None
 
 
@@ -668,11 +668,11 @@ def main():
     """Main execution function."""
     print("Engines Unified - Consolidated Engine System")
     print("=" * 50)
-    
+
     # Create engine registry
     registry = create_engine_registry()
     print("✅ Engine registry created")
-    
+
     # Create and register engines
     engines_to_create = [
         (EngineType.CORE, "analysis"),
@@ -682,27 +682,27 @@ def main():
         (EngineType.PERFORMANCE, "performance"),
         (EngineType.STORAGE, "storage")
     ]
-    
+
     for engine_type, engine_name in engines_to_create:
         engine = create_engine(engine_type)
         if engine and registry.register_engine(engine):
             print(f"✅ {engine.name} registered")
         else:
             print(f"❌ Failed to register {engine_name} engine")
-    
+
     # Start all engines
     for engine in registry.get_all_engines():
         if engine.start():
             print(f"✅ {engine.name} started")
         else:
             print(f"❌ Failed to start {engine.name}")
-    
+
     # Test engine functionality
     analysis_engine = registry.get_engines_by_type(EngineType.CORE)[0]
     if isinstance(analysis_engine, AnalysisCoreEngine):
         result = analysis_engine.analyze_data("test data")
         print(f"✅ Analysis result: {result}")
-    
+
     print(f"\nTotal engines registered: {len(registry.get_all_engines())}")
     print("Engines Unified system test completed successfully!")
     return 0

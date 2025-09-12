@@ -17,10 +17,7 @@ License: MIT
 
 import time
 import webbrowser
-from typing import Optional, Any, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from .simple_thea_communication import SimpleTheaCommunication
+from typing import Any
 
 
 class TheaAuthModule:

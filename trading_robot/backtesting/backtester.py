@@ -1,16 +1,14 @@
 """
 Backtesting System for Trading Strategies
 """
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Tuple
-from decimal import Decimal
-import matplotlib.pyplot as plt
-from loguru import logger
+from datetime import datetime
 
-from strategies.base_strategy import BaseStrategy, StrategyResult, Signal, StrategyManager
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from core.alpaca_client import AlpacaClient
+from loguru import logger
+from strategies.base_strategy import BaseStrategy, Signal, StrategyResult
 
 
 class BacktestResult:
@@ -105,8 +103,8 @@ class Backtester:
         self.commission = 0.001  # 0.1% commission
 
     def run_backtest(self, strategy: BaseStrategy, data: pd.DataFrame,
-                    symbol: str, start_date: Optional[datetime] = None,
-                    end_date: Optional[datetime] = None) -> BacktestResult:
+                    symbol: str, start_date: datetime | None = None,
+                    end_date: datetime | None = None) -> BacktestResult:
         """Run backtest for a strategy on historical data"""
 
         logger.info(f"🚀 Starting backtest for {strategy.name} on {symbol}")
@@ -249,7 +247,7 @@ class Backtester:
             del self.positions[symbol]
 
     def run_walk_forward_optimization(self, strategy: BaseStrategy, data: pd.DataFrame,
-                                    symbol: str, train_window: int = 252, test_window: int = 63) -> List[BacktestResult]:
+                                    symbol: str, train_window: int = 252, test_window: int = 63) -> list[BacktestResult]:
         """Run walk-forward optimization"""
         results = []
         total_days = len(data)

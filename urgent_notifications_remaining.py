@@ -6,13 +6,14 @@ Urgent Notifications for Remaining Agents
 Send urgent notifications to Agent-2, Agent-5, and Agent-7 who haven't contributed yet.
 """
 
-import time
 import json
+import time
+
 
 def load_coordinates():
     """Load agent coordinates."""
     try:
-        with open("cursor_agent_coords.json", 'r', encoding='utf-8') as f:
+        with open("cursor_agent_coords.json", encoding='utf-8') as f:
             data = json.load(f)
 
         coordinates = {}

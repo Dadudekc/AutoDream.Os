@@ -8,8 +8,7 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Optional
-from .architectural_models import ArchitecturalPrinciple, ArchitecturalGuidance
+from .architectural_models import ArchitecturalGuidance, ArchitecturalPrinciple
 
 
 class OnboardingMessageGenerator:

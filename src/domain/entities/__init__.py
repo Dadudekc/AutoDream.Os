@@ -1,8 +1,7 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import agent
-from . import task
+from . import agent, task
 
 __all__ = [
     'agent',

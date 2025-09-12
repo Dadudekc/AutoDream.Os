@@ -16,14 +16,14 @@ Usage:
     python tools/analysis_cli.py --ci-gate
 """
 from __future__ import annotations
-import logging
-import ast
-import os
-import sys
-import json
+
 import argparse
+import ast
+import json
+import logging
+import sys
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Any
 
 logger = logging.getLogger(__name__)
 MAX_FILE_LOC = 400
@@ -53,10 +53,10 @@ def count_lines(node: ast.AST) ->int:
     return 0
 
 
-def analyze_python_file(file_path: Path) ->Dict[str, Any]:
+def analyze_python_file(file_path: Path) ->dict[str, Any]:
     """Analyze a single Python file for V2 compliance violations."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             source = f.read()
         violations = []
         lines = source.splitlines()
@@ -128,7 +128,7 @@ def analyze_python_file(file_path: Path) ->Dict[str, Any]:
             'stats': {'total_lines': 0, 'total_violations': 1}}
 
 
-def analyze_project(root_path: Path, max_files: int=100000) ->Dict[str, Any]:
+def analyze_project(root_path: Path, max_files: int=100000) ->dict[str, Any]:
     """Analyze entire project for V2 compliance violations."""
     all_files = []
     violations_summary = {'syntax_errors': 0, 'file_loc_violations': 0,
@@ -166,7 +166,7 @@ def analyze_project(root_path: Path, max_files: int=100000) ->Dict[str, Any]:
         'max_line_length': MAX_LINE_LENGTH}}
 
 
-def ci_gate_check(results: Dict[str, Any]) ->Tuple[bool, str]:
+def ci_gate_check(results: dict[str, Any]) ->tuple[bool, str]:
     """Check if project passes CI gate (no critical violations)."""
     summary = results['summary']
     critical_issues = summary['syntax_errors']
@@ -186,7 +186,7 @@ def ci_gate_check(results: Dict[str, Any]) ->Tuple[bool, str]:
     return True, 'SUCCESS CI GATE PASSED: No V2 compliance violations found'
 
 
-def format_violations_text(results: Dict[str, Any]) ->str:
+def format_violations_text(results: dict[str, Any]) ->str:
     """Format violations as human-readable text."""
     summary = results['summary']
     files = results['files']

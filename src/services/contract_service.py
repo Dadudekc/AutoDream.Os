@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Contract Service - Agent Cellphone V2
@@ -63,7 +64,7 @@ class ContractDefinitions:
             'Implement V2 compliance for infrastructure and DevOps systems'
             }, 'Agent-6': {'name':
             'Coordination & Communication V2 Compliance', 'category':
-            'Coordination & Communication', 'priority': 'HIGH', 'points': 
+            'Coordination & Communication', 'priority': 'HIGH', 'points':
             500, 'description':
             'Implement V2 compliance for coordination and communication systems'
             }, 'Agent-8': {'name':

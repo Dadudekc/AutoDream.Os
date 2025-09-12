@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Vector Database Integration Activation Script
@@ -12,6 +13,7 @@ Author: Captain Agent-4 - Strategic Oversight & Emergency Intervention Manager
 import json
 import sys
 from pathlib import Path
+
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
@@ -23,8 +25,9 @@ def activate_vector_database_integration():
     logger.info('=' * 70)
     try:
         from core.vector_database_strategic_oversight import VectorDatabaseStrategicOversight
-        from services.agent_vector_integration import AgentVectorIntegration
         from services.vector_messaging_integration import VectorMessagingIntegration
+
+        from services.agent_vector_integration import AgentVectorIntegration
         logger.info('✅ Vector database components imported successfully')
         logger.info('\n🔄 Initializing Vector Messaging Integration...')
         vector_messaging = VectorMessagingIntegration()

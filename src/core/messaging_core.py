@@ -16,14 +16,12 @@ License: MIT
 from __future__ import annotations
 
 import logging
-import os
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol
 from pathlib import Path
+from typing import Any, Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -86,8 +84,8 @@ class UnifiedMessage:
     recipient: str
     message_type: UnifiedMessageType
     priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR
-    tags: List[UnifiedMessageTag] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: list[UnifiedMessageTag] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = field(default_factory=datetime.now)
     sender_type: SenderType = SenderType.SYSTEM
@@ -111,8 +109,8 @@ class IOnboardingService(Protocol):
 class UnifiedMessagingCore:
     """SINGLE SOURCE OF TRUTH for all messaging functionality."""
 
-    def __init__(self, delivery_service: Optional[IMessageDelivery] = None,
-                 onboarding_service: Optional[IOnboardingService] = None):
+    def __init__(self, delivery_service: IMessageDelivery | None = None,
+                 onboarding_service: IOnboardingService | None = None):
         """Initialize the unified messaging core."""
         self.delivery_service = delivery_service
         self.onboarding_service = onboarding_service
@@ -142,8 +140,8 @@ class UnifiedMessagingCore:
     def send_message(self, content: str, sender: str, recipient: str,
                     message_type: UnifiedMessageType,
                     priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                    tags: Optional[List[UnifiedMessageTag]] = None,
-                    metadata: Optional[Dict[str, Any]] = None) -> bool:
+                    tags: list[UnifiedMessageTag] | None = None,
+                    metadata: dict[str, Any] | None = None) -> bool:
         """Send a message using the unified messaging system."""
         message = UnifiedMessage(
             content=content,
@@ -254,8 +252,8 @@ def get_messaging_core() -> UnifiedMessagingCore:
 def send_message(content: str, sender: str, recipient: str,
                 message_type: UnifiedMessageType,
                 priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
-                tags: Optional[List[UnifiedMessageTag]] = None,
-                metadata: Optional[Dict[str, Any]] = None) -> bool:
+                tags: list[UnifiedMessageTag] | None = None,
+                metadata: dict[str, Any] | None = None) -> bool:
     """Send message using the SINGLE SOURCE OF TRUTH."""
     return messaging_core.send_message(content, sender, recipient, message_type, priority, tags, metadata)
 

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Captain Snapshot Tool - Multi-Agent Status Overview
@@ -12,7 +13,9 @@ Author: Agent-4 - Strategic Oversight & Emergency Intervention Manager
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+
 from core.unified_utilities import get_logger, read_json
+
 ROOT = Path(__file__).resolve().parents[1]
 INDEX_FILE = ROOT / 'runtime' / 'agents_index.json'
 

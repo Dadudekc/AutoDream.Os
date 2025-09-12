@@ -1,9 +1,11 @@
 import logging
+
 logger = logging.getLogger(__name__)
-import time
 import json
-from pathlib import Path
+import time
 from datetime import datetime
+from pathlib import Path
+
 logger.info('Simple Overnight Monitoring Started')
 logger.info('Press Ctrl+C to stop...')
 cycle_count = 0
@@ -16,7 +18,7 @@ while True:
         status_file = agent_dir / 'status.json'
         if status_file.exists():
             try:
-                with open(status_file, 'r') as f:
+                with open(status_file) as f:
                     status = json.load(f)
                 if status.get('state') == 'ACTIVE':
                     active_count += 1

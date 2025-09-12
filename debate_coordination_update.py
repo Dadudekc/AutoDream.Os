@@ -15,7 +15,7 @@ def check_debate_status():
         return
 
     try:
-        with open(debate_file, 'r', encoding='utf-8') as f:
+        with open(debate_file, encoding='utf-8') as f:
             content = f.read()
 
         # Count arguments by author
@@ -62,7 +62,7 @@ def check_debate_status():
 
         print()
         print("📈 PROGRESS METRICS:")
-        print(f"   🎯 Target: 2+ contributions per agent")
+        print("   🎯 Target: 2+ contributions per agent")
         print(f"   ✅ Active (2+): {active_agents}/{total_agents} agents")
         print(f"   ⏳ Moderate (1): {moderate_agents}/{total_agents} agents")
         print(f"   ❌ Low (0): {low_agents}/{total_agents} agents")

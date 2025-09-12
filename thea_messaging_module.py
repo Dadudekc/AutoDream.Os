@@ -16,14 +16,11 @@ License: MIT
 """
 
 import time
-import pyperclip
 import webbrowser
-from datetime import datetime
 from pathlib import Path
-from typing import Optional, Any, TYPE_CHECKING
+from typing import Any
 
-if TYPE_CHECKING:
-    from .simple_thea_communication import SimpleTheaCommunication
+import pyperclip
 
 
 class TheaMessagingModule:
@@ -82,9 +79,9 @@ class TheaMessagingModule:
             print("-" * 30)
 
             from selenium.webdriver.common.by import By
-            from selenium.webdriver.support.ui import WebDriverWait
-            from selenium.webdriver.support import expected_conditions as EC
             from selenium.webdriver.common.keys import Keys
+            from selenium.webdriver.support import expected_conditions as EC
+            from selenium.webdriver.support.ui import WebDriverWait
 
             # Navigate to Thea if not already there
             if "thea-manager" not in comm_instance.driver.current_url:

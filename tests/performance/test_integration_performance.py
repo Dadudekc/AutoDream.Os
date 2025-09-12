@@ -15,25 +15,29 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Mission: FINAL PYTEST COVERAGE - PERFORMANCE VALIDATION
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
+import os
+import statistics
 import sys
 import time
-import psutil
-import os
 from pathlib import Path
-from typing import Dict, Any, List, Tuple
-import statistics
+from unittest.mock import Mock, patch
+
+import psutil
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 try:
+    from services.consolidated_coordination_service import ConsolidatedCoordinationService
     from services.consolidated_messaging_service import ConsolidatedMessagingService
     from services.consolidated_vector_service import ConsolidatedVectorService
-    from services.consolidated_coordination_service import ConsolidatedCoordinationService
-    from services.models.messaging_models import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
-    from services.models.vector_models import VectorDocument, EmbeddingModel
+    from services.models.messaging_models import (
+        UnifiedMessage,
+        UnifiedMessagePriority,
+        UnifiedMessageType,
+    )
+    from services.models.vector_models import EmbeddingModel, VectorDocument
     SERVICES_AVAILABLE = True
 except ImportError:
     SERVICES_AVAILABLE = False

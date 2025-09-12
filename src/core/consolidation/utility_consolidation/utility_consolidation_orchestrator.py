@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Utility Consolidation Orchestrator - V2 Compliance Module
@@ -13,6 +14,7 @@ import json
 import os
 from datetime import datetime
 from typing import Any
+
 from .utility_consolidation_engine import UtilityConsolidationEngine
 from .utility_consolidation_models import ConsolidationConfig, ConsolidationResult
 

@@ -17,12 +17,11 @@ License: MIT
 
 from __future__ import annotations
 
-import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
+from typing import Any, Protocol
 
 # ============================================================================
 # COORDINATOR INTERFACES
@@ -43,7 +42,7 @@ class CoordinatorInfo:
     coordinator_name: str
     status: CoordinatorStatus = CoordinatorStatus.IDLE
     last_activity: datetime = field(default_factory=datetime.now)
-    capabilities: List[str] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
     metadata: dict = field(default_factory=dict)
 
     def is_active(self, timeout_seconds: int = 300) -> bool:
@@ -110,12 +109,12 @@ class ICoordinatorRegistry(ABC):
         pass
 
     @abstractmethod
-    def get_coordinator(self, coordinator_id: str) -> Optional[ICoordinator]:
+    def get_coordinator(self, coordinator_id: str) -> ICoordinator | None:
         """Get a coordinator by ID."""
         pass
 
     @abstractmethod
-    def list_coordinators(self) -> List[ICoordinator]:
+    def list_coordinators(self) -> list[ICoordinator]:
         """List all coordinators."""
         pass
 
@@ -154,7 +153,7 @@ class Message:
     priority: MessagePriority = MessagePriority.NORMAL
     status: MessageStatus = MessageStatus.PENDING
     created_at: datetime = field(default_factory=datetime.now)
-    processed_at: Optional[datetime] = None
+    processed_at: datetime | None = None
     retry_count: int = 0
     max_retries: int = 3
     metadata: dict = field(default_factory=dict)
@@ -183,12 +182,12 @@ class IMessageQueue(ABC):
         pass
 
     @abstractmethod
-    def dequeue(self) -> Optional[Message]:
+    def dequeue(self) -> Message | None:
         """Dequeue a message."""
         pass
 
     @abstractmethod
-    def peek(self) -> Optional[Message]:
+    def peek(self) -> Message | None:
         """Peek at the next message without removing it."""
         pass
 
@@ -259,7 +258,7 @@ class AgentInfo:
     agent_name: str
     agent_type: str
     status: AgentStatus = AgentStatus.IDLE
-    capabilities: List[AgentCapability] = field(default_factory=list)
+    capabilities: list[AgentCapability] = field(default_factory=list)
     last_seen: datetime = field(default_factory=datetime.now)
     metadata: dict = field(default_factory=dict)
 
@@ -337,17 +336,17 @@ class IAgentRegistry(ABC):
         pass
 
     @abstractmethod
-    def get_agent(self, agent_id: str) -> Optional[IAgent]:
+    def get_agent(self, agent_id: str) -> IAgent | None:
         """Get an agent by ID."""
         pass
 
     @abstractmethod
-    def list_agents(self) -> List[IAgent]:
+    def list_agents(self) -> list[IAgent]:
         """List all agents."""
         pass
 
     @abstractmethod
-    def get_agents_by_capability(self, capability: AgentCapability) -> List[IAgent]:
+    def get_agents_by_capability(self, capability: AgentCapability) -> list[IAgent]:
         """Get agents by capability."""
         pass
 
@@ -455,7 +454,7 @@ class ISystemMonitor(ABC):
         pass
 
     @abstractmethod
-    def get_alerts(self) -> List[dict]:
+    def get_alerts(self) -> list[dict]:
         """Get system alerts."""
         pass
 
@@ -492,7 +491,7 @@ class IValidationService(Protocol):
         """Validate data."""
         ...
 
-    def get_validation_errors(self) -> List[str]:
+    def get_validation_errors(self) -> list[str]:
         """Get validation errors."""
         ...
 
@@ -504,7 +503,7 @@ class ILoggingService(Protocol):
         """Log a message."""
         ...
 
-    def get_logs(self, level: str = None) -> List[dict]:
+    def get_logs(self, level: str = None) -> list[dict]:
         """Get logs."""
         ...
 
@@ -516,7 +515,7 @@ class ILoggingService(Protocol):
 def create_coordinator_info(
     coordinator_id: str,
     coordinator_name: str,
-    capabilities: List[str] = None
+    capabilities: list[str] = None
 ) -> CoordinatorInfo:
     """Create coordinator information."""
     return CoordinatorInfo(
@@ -545,7 +544,7 @@ def create_agent_info(
     agent_id: str,
     agent_name: str,
     agent_type: str,
-    capabilities: List[AgentCapability] = None
+    capabilities: list[AgentCapability] = None
 ) -> AgentInfo:
     """Create agent information."""
     return AgentInfo(
@@ -577,7 +576,7 @@ def main():
     """Main execution function."""
     print("Core Interfaces - Consolidated Interface Definitions")
     print("=" * 50)
-    
+
     # Create coordinator info
     coordinator_info = create_coordinator_info(
         "coord-1",
@@ -585,7 +584,7 @@ def main():
         ["consolidation", "coordination"]
     )
     print(f"Coordinator info created: {coordinator_info.to_dict()}")
-    
+
     # Create message
     message = create_message(
         "Test consolidation message",
@@ -593,7 +592,7 @@ def main():
         {"phase": "consolidation"}
     )
     print(f"Message created: {message.to_dict()}")
-    
+
     # Create agent info
     agent_info = create_agent_info(
         "agent-2",
@@ -602,7 +601,7 @@ def main():
         [AgentCapability.ANALYSIS, AgentCapability.CONSOLIDATION]
     )
     print(f"Agent info created: {agent_info.to_dict()}")
-    
+
     # Create system info
     system_info = create_system_info(
         "core-system",
@@ -610,7 +609,7 @@ def main():
         "2.0.0"
     )
     print(f"System info created: {system_info.to_dict()}")
-    
+
     print("\nCore Interfaces initialization complete!")
 
 

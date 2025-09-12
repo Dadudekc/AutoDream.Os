@@ -5,11 +5,12 @@ Provides solutions for import errors, file corruption, and integration gaps
 identified in Agent-4's baseline analysis - No external dependencies required
 """
 
-import sys
-import os
-from pathlib import Path
 import json
+import os
+import sys
 from datetime import datetime
+from pathlib import Path
+
 
 class CriticalIssueSolver:
     """Solutions for critical testing issues identified by Agent-4"""

@@ -9,8 +9,9 @@ Coordination and task management operations
 """
 
 import logging
-from typing import Dict, List, Any
 from datetime import datetime
+from typing import Any
+
 
 class CoordinateHandler:
     """Handles coordination and task management operations"""
@@ -18,7 +19,7 @@ class CoordinateHandler:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def process_coordinate(self, request) -> Dict[str, Any]:
+    def process_coordinate(self, request) -> dict[str, Any]:
         """Process a coordination request"""
         coordination_type = request.data.get('type', '')
         participants = request.data.get('participants', [])
@@ -33,7 +34,7 @@ class CoordinateHandler:
         else:
             return {"error": f"Unknown coordination type: {coordination_type}"}
 
-    def coordinate_task(self, participants: List[str], context: Dict[str, Any]) -> Dict[str, Any]:
+    def coordinate_task(self, participants: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Coordinate a task among participants"""
         task_id = context.get('task_id', f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
@@ -44,7 +45,7 @@ class CoordinateHandler:
             "status": "coordinated"
         }
 
-    def coordinate_project(self, participants: List[str], context: Dict[str, Any]) -> Dict[str, Any]:
+    def coordinate_project(self, participants: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Coordinate a project among participants"""
         project_id = context.get('project_id', f"project_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
@@ -55,7 +56,7 @@ class CoordinateHandler:
             "status": "coordinated"
         }
 
-    def coordinate_communication(self, participants: List[str], context: Dict[str, Any]) -> Dict[str, Any]:
+    def coordinate_communication(self, participants: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Coordinate communication among participants"""
         message = context.get('message', '')
         channel = context.get('channel', 'default')

@@ -9,9 +9,9 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import time
 import logging
-from typing import Optional, Dict, Any
+import time
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class TheaResponseCollector:
         self._polling_active = False
         self._last_cursor_position = None
 
-    def collect_full_response(self, timeout: float = 120.0) -> Optional[str]:
+    def collect_full_response(self, timeout: float = 120.0) -> str | None:
         """
         Collect full response using enhanced DOM polling and cursor detection.
 
@@ -88,7 +88,7 @@ class TheaResponseCollector:
             logger.error(f"❌ Error during response collection: {e}")
             return None
 
-    def _extract_current_response(self) -> Optional[str]:
+    def _extract_current_response(self) -> str | None:
         """Extract current response from the page."""
         try:
             # Try primary selector first
@@ -175,7 +175,7 @@ class TheaResponseCollector:
             time.sleep(0.5)
         return False
 
-    def get_response_metadata(self) -> Dict[str, Any]:
+    def get_response_metadata(self) -> dict[str, Any]:
         """Get metadata about the current response."""
         return {
             'has_response': self._extract_current_response() is not None,
@@ -199,7 +199,7 @@ class TheaResponseMonitor:
         self._start_time = time.time()
         self._last_update = self._start_time
 
-    def get_progress(self) -> Dict[str, Any]:
+    def get_progress(self) -> dict[str, Any]:
         """Get current progress of response collection."""
         if not self._start_time:
             return {'status': 'not_started'}

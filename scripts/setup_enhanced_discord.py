@@ -14,9 +14,7 @@ License: MIT
 """
 
 import json
-import os
 from pathlib import Path
-from typing import Dict, Any, Optional
 
 
 class EnhancedDiscordSetup:
@@ -109,7 +107,7 @@ class EnhancedDiscordSetup:
 
         try:
             # Load template
-            with open(self.template_file, 'r') as f:
+            with open(self.template_file) as f:
                 template_config = json.load(f)
 
             # Check if config already exists

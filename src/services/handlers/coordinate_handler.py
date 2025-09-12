@@ -11,6 +11,7 @@ License: MIT
 import logging
 import time
 from typing import Any
+
 try:
     from ...core.unified_data_processing_system import read_json, write_json
     from ..models.messaging_models import RecipientType, SenderType
@@ -53,7 +54,7 @@ class CoordinateHandler:
         """
         try:
             current_time = time.time()
-            if (self.last_coordinate_load and self.coordinates_cache and 
+            if (self.last_coordinate_load and self.coordinates_cache and
                 current_time - self.last_coordinate_load < self.
                 cache_ttl_seconds):
                 return {'success': True, 'coordinates': self.

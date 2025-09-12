@@ -4,8 +4,8 @@ Onboarding Service for Agent Messaging System
 Provides onboarding functionality for new agents joining the SWARM
 """
 
-from typing import Dict, Any, Optional
 import logging
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class OnboardingService:
         self.logger = logger
         self.templates = self._load_onboarding_templates()
 
-    def _load_onboarding_templates(self) -> Dict[str, str]:
+    def _load_onboarding_templates(self) -> dict[str, str]:
         """Load onboarding message templates"""
         return {
             "standard": """
@@ -96,7 +96,7 @@ Coordinates: {coordinates}
             self.logger.error(f"Failed to generate onboarding message for {agent_id}: {e}")
             return f"Welcome {agent_id}! You have been onboarded to the Agent Cellphone V2 system."
 
-    def _get_agent_info(self, agent_id: str) -> Dict[str, Any]:
+    def _get_agent_info(self, agent_id: str) -> dict[str, Any]:
         """Get agent information from coordinate loader"""
         try:
             from .coordinate_loader import get_coordinate_loader
@@ -150,8 +150,8 @@ Coordinates: {coordinates}
     def create_agent_workspace(self, agent_id: str) -> bool:
         """Create the workspace structure for a new agent"""
         try:
-            import os
             import json
+            import os
 
             # Create directories
             workspace_path = f"agent_workspaces/{agent_id}"

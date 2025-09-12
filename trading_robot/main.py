@@ -5,15 +5,16 @@ Alpaca Trading Robot - Main Entry Point
 import asyncio
 import signal
 import sys
-from loguru import logger
 from pathlib import Path
+
+from loguru import logger
 
 # Add current directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
+from config.settings import config
 from core.trading_engine import TradingEngine
 from web.dashboard import TradingDashboard
-from config.settings import config
 
 
 class TradingRobot:

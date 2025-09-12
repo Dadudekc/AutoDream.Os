@@ -16,9 +16,9 @@ License: MIT
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Tuple
-from datetime import datetime, timedelta
 from collections import defaultdict
+from datetime import datetime, timedelta
+from typing import Any
 
 from .architectural_models import ArchitecturalPrinciple, ComplianceValidationResult
 
@@ -26,23 +26,23 @@ logger = logging.getLogger(__name__)
 
 class ConsolidatedUtilityService:
     """Unified utility service combining registry, performance analysis, and compliance validation."""
-    
+
     def __init__(self, agent_id: str = "default"):
         """Initialize the consolidated utility service."""
         self.agent_id = agent_id
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize agent registry
         self.agents = self._initialize_agent_registry()
-        
+
         # Initialize performance tracking
         self.performance_metrics = defaultdict(list)
         self.compliance_history = []
-        
+
         # Initialize configuration
         self.config = self._load_config()
 
-    def _initialize_agent_registry(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_agent_registry(self) -> dict[str, dict[str, Any]]:
         """Initialize agent registry."""
         return {
             "Agent-1": {
@@ -87,7 +87,7 @@ class ConsolidatedUtilityService:
             },
         }
 
-    def _load_config(self) -> Dict[str, Any]:
+    def _load_config(self) -> dict[str, Any]:
         """Load utility service configuration."""
         return {
             "analysis_period_days": 30,
@@ -109,15 +109,15 @@ class ConsolidatedUtilityService:
         }
 
     # Agent Registry Methods
-    def list_agents(self) -> List[str]:
+    def list_agents(self) -> list[str]:
         """Return sorted list of agent identifiers."""
         return sorted(self.agents.keys())
 
-    def get_agent_info(self, agent_id: str) -> Optional[Dict[str, Any]]:
+    def get_agent_info(self, agent_id: str) -> dict[str, Any] | None:
         """Get agent information by ID."""
         return self.agents.get(agent_id)
 
-    def get_agent_coordinates(self, agent_id: str) -> Optional[Tuple[int, int]]:
+    def get_agent_coordinates(self, agent_id: str) -> tuple[int, int] | None:
         """Get agent coordinates."""
         agent_info = self.get_agent_info(agent_id)
         if agent_info and "coords" in agent_info:
@@ -125,13 +125,13 @@ class ConsolidatedUtilityService:
             return (coords["x"], coords["y"])
         return None
 
-    def get_agent_inbox(self, agent_id: str) -> Optional[str]:
+    def get_agent_inbox(self, agent_id: str) -> str | None:
         """Get agent inbox path."""
         agent_info = self.get_agent_info(agent_id)
         return agent_info.get("inbox") if agent_info else None
 
-    def register_agent(self, agent_id: str, description: str, 
-                      coords: Tuple[int, int], inbox: str) -> bool:
+    def register_agent(self, agent_id: str, description: str,
+                      coords: tuple[int, int], inbox: str) -> bool:
         """Register a new agent."""
         try:
             self.agents[agent_id] = {
@@ -146,28 +146,28 @@ class ConsolidatedUtilityService:
             return False
 
     # Performance Analysis Methods
-    def record_performance_metric(self, metric_name: str, value: float, 
-                                timestamp: Optional[datetime] = None) -> None:
+    def record_performance_metric(self, metric_name: str, value: float,
+                                timestamp: datetime | None = None) -> None:
         """Record a performance metric."""
         if timestamp is None:
             timestamp = datetime.now()
-        
+
         self.performance_metrics[metric_name].append({
             "value": value,
             "timestamp": timestamp
         })
 
-    def get_performance_summary(self, days: int = 30) -> Dict[str, Any]:
+    def get_performance_summary(self, days: int = 30) -> dict[str, Any]:
         """Get performance summary for the last N days."""
         cutoff_date = datetime.now() - timedelta(days=days)
-        
+
         summary = {}
         for metric_name, values in self.performance_metrics.items():
             recent_values = [
-                v["value"] for v in values 
+                v["value"] for v in values
                 if v["timestamp"] >= cutoff_date
             ]
-            
+
             if recent_values:
                 summary[metric_name] = {
                     "count": len(recent_values),
@@ -176,34 +176,34 @@ class ConsolidatedUtilityService:
                     "max": max(recent_values),
                     "latest": recent_values[-1]
                 }
-        
+
         return summary
 
-    def analyze_performance_trends(self, metric_name: str, days: int = 30) -> Dict[str, Any]:
+    def analyze_performance_trends(self, metric_name: str, days: int = 30) -> dict[str, Any]:
         """Analyze performance trends for a specific metric."""
         cutoff_date = datetime.now() - timedelta(days=days)
         values = [
             v["value"] for v in self.performance_metrics.get(metric_name, [])
             if v["timestamp"] >= cutoff_date
         ]
-        
+
         if len(values) < 2:
             return {"trend": "insufficient_data", "values": values}
-        
+
         # Simple trend analysis
         first_half = values[:len(values)//2]
         second_half = values[len(values)//2:]
-        
+
         first_avg = sum(first_half) / len(first_half)
         second_avg = sum(second_half) / len(second_half)
-        
+
         if second_avg > first_avg * 1.1:
             trend = "improving"
         elif second_avg < first_avg * 0.9:
             trend = "declining"
         else:
             trend = "stable"
-        
+
         return {
             "trend": trend,
             "values": values,
@@ -212,11 +212,11 @@ class ConsolidatedUtilityService:
             "change_percent": ((second_avg - first_avg) / first_avg) * 100
         }
 
-    def get_performance_recommendations(self) -> List[str]:
+    def get_performance_recommendations(self) -> list[str]:
         """Get performance improvement recommendations."""
         recommendations = []
         summary = self.get_performance_summary()
-        
+
         for metric_name, data in summary.items():
             threshold = self.config["performance_thresholds"].get(metric_name, 0.5)
             if data["average"] < threshold:
@@ -224,12 +224,12 @@ class ConsolidatedUtilityService:
                     f"Improve {metric_name}: current {data['average']:.2f}, "
                     f"target {threshold:.2f}"
                 )
-        
+
         return recommendations
 
     # Compliance Validation Methods
-    def validate_agent_compliance(self, agent_id: str, principle: ArchitecturalPrinciple, 
-                                code_changes: List[str]) -> ComplianceValidationResult:
+    def validate_agent_compliance(self, agent_id: str, principle: ArchitecturalPrinciple,
+                                code_changes: list[str]) -> ComplianceValidationResult:
         """Validate that an agent's changes comply with their assigned principle."""
         issues = []
         recommendations = []
@@ -249,7 +249,7 @@ class ConsolidatedUtilityService:
                 issues.extend(validation_issues)
 
         recommendations = self._generate_recommendations(principle, issues)
-        
+
         # Record compliance check
         self.compliance_history.append({
             "agent_id": agent_id,
@@ -266,89 +266,89 @@ class ConsolidatedUtilityService:
             recommendations=recommendations
         )
 
-    def _validate_single_responsibility(self, code: str) -> List[str]:
+    def _validate_single_responsibility(self, code: str) -> list[str]:
         """Validate Single Responsibility Principle."""
         issues = []
-        
+
         # Check for multiple responsibilities in a single class/function
         if "class " in code and code.count("def ") > 10:
             issues.append("Class has too many methods - consider splitting responsibilities")
-        
+
         if "def " in code and code.count("if ") > 5:
             issues.append("Function has too many conditional branches - consider splitting")
-        
+
         return issues
 
-    def _validate_dry_principle(self, code: str) -> List[str]:
+    def _validate_dry_principle(self, code: str) -> list[str]:
         """Validate Don't Repeat Yourself principle."""
         issues = []
-        
+
         # Simple duplicate code detection
         lines = code.split('\n')
         for i, line in enumerate(lines):
             if line.strip() and lines.count(line) > 2:
                 issues.append(f"Duplicate code detected at line {i+1}: {line[:50]}...")
-        
+
         return issues
 
-    def _validate_kiss_principle(self, code: str) -> List[str]:
+    def _validate_kiss_principle(self, code: str) -> list[str]:
         """Validate Keep It Simple, Stupid principle."""
         issues = []
-        
+
         # Check for overly complex code
         if len(code.split('\n')) > self.config["compliance_thresholds"]["max_file_lines"]:
             line_count = len(code.split('\n'))
             max_lines = self.config['compliance_thresholds']['max_file_lines']
             issues.append(f"File too long: {line_count} lines (max: {max_lines})")
-        
+
         # Check for complex nested structures
         if code.count('    ') > 20:  # Deep nesting
             issues.append("Code has excessive nesting - consider simplifying")
-        
+
         return issues
 
-    def _validate_open_closed(self, code: str) -> List[str]:
+    def _validate_open_closed(self, code: str) -> list[str]:
         """Validate Open-Closed Principle."""
         issues = []
-        
+
         # Check for hardcoded values that should be configurable
         if code.count('"') > 20:  # Many string literals
             issues.append("Consider extracting hardcoded strings to configuration")
-        
+
         return issues
 
-    def _generate_recommendations(self, principle: ArchitecturalPrinciple, 
-                                issues: List[str]) -> List[str]:
+    def _generate_recommendations(self, principle: ArchitecturalPrinciple,
+                                issues: list[str]) -> list[str]:
         """Generate recommendations based on issues."""
         recommendations = []
-        
+
         if principle == ArchitecturalPrinciple.SINGLE_RESPONSIBILITY:
             recommendations.append("Split large classes into smaller, focused classes")
             recommendations.append("Extract complex methods into separate functions")
-        
+
         elif principle == ArchitecturalPrinciple.DONT_REPEAT_YOURSELF:
             recommendations.append("Extract common code into reusable functions")
             recommendations.append("Use configuration files for repeated values")
-        
+
         elif principle == ArchitecturalPrinciple.KEEP_IT_SIMPLE_STUPID:
             recommendations.append("Break down complex functions into simpler ones")
             recommendations.append("Use descriptive variable and function names")
-        
+
         elif principle == ArchitecturalPrinciple.OPEN_CLOSED:
             recommendations.append("Use dependency injection for external dependencies")
             recommendations.append("Design interfaces for extensibility")
-        
+
         return recommendations
 
-    def get_compliance_summary(self) -> Dict[str, Any]:
+    def get_compliance_summary(self) -> dict[str, Any]:
         """Get compliance validation summary."""
         if not self.compliance_history:
             return {"total_checks": 0, "compliant_checks": 0, "compliance_rate": 0.0}
-        
+
         total_checks = len(self.compliance_history)
         compliant_checks = sum(1 for check in self.compliance_history if check["compliant"])
         compliance_rate = (compliant_checks / total_checks) * 100
-        
+
         return {
             "total_checks": total_checks,
             "compliant_checks": compliant_checks,
@@ -356,7 +356,7 @@ class ConsolidatedUtilityService:
             "recent_checks": self.compliance_history[-10:]  # Last 10 checks
         }
 
-    def get_service_status(self) -> Dict[str, Any]:
+    def get_service_status(self) -> dict[str, Any]:
         """Get overall service status."""
         return {
             "agent_id": self.agent_id,

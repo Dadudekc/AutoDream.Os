@@ -10,10 +10,9 @@ License: MIT
 """
 
 import asyncio
-import time
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, Optional, List
-from datetime import datetime, timedelta
+from typing import Any
 
 try:
     from .agent_communication_engine_refactored import AgentCommunicationEngine
@@ -27,7 +26,7 @@ except ImportError:
 class DiscordCommander:
     """Main Discord commander for V2_SWARM DevLog integration."""
 
-    def __init__(self, webhook_url: Optional[str] = None):
+    def __init__(self, webhook_url: str | None = None):
         """Initialize Discord commander."""
         self.agent_engine = AgentCommunicationEngine()
         self.webhook_integration = DiscordWebhookIntegration(webhook_url)
@@ -76,7 +75,7 @@ class DiscordCommander:
         except Exception as e:
             print(f"❌ Error checking devlogs: {e}")
 
-    def _find_new_devlogs(self) -> List[Path]:
+    def _find_new_devlogs(self) -> list[Path]:
         """Find devlog files newer than last check."""
         new_files = []
 
@@ -93,7 +92,7 @@ class DiscordCommander:
         """Process a single devlog file."""
         try:
             # Read devlog content
-            with open(devlog_path, 'r', encoding='utf-8') as f:
+            with open(devlog_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Extract metadata from filename
@@ -125,7 +124,7 @@ class DiscordCommander:
         except Exception as e:
             print(f"❌ Error processing devlog {devlog_path}: {e}")
 
-    def _parse_devlog_filename(self, filename: str) -> Dict[str, str]:
+    def _parse_devlog_filename(self, filename: str) -> dict[str, str]:
         """Parse metadata from devlog filename."""
         # Example: 2025-09-09_094500_general_Agent-3_Project_Status_Update.md
         parts = filename.replace('.md', '').split('_')
@@ -163,7 +162,7 @@ class DiscordCommander:
 
         return summary[:max_length].strip()
 
-    async def _notify_agents_of_devlog(self, devlog_data: Dict[str, Any]):
+    async def _notify_agents_of_devlog(self, devlog_data: dict[str, Any]):
         """Notify relevant agents about the devlog."""
         try:
             agent = devlog_data.get("agent", "Unknown")
@@ -226,7 +225,7 @@ class DiscordCommander:
         if self.webhook_integration.send_swarm_coordination_notification(coordination_data):
             print(f"✅ Coordination notification sent: {topic}")
         else:
-            print(f"❌ Failed to send coordination notification")
+            print("❌ Failed to send coordination notification")
 
     def stop_monitoring(self):
         """Stop devlog monitoring."""
@@ -275,7 +274,7 @@ class DiscordCommander:
 _discord_commander_instance = None
 
 
-def get_discord_commander(webhook_url: Optional[str] = None) -> DiscordCommander:
+def get_discord_commander(webhook_url: str | None = None) -> DiscordCommander:
     """Get Discord commander instance (singleton pattern)."""
     global _discord_commander_instance
     if _discord_commander_instance is None:
@@ -283,7 +282,7 @@ def get_discord_commander(webhook_url: Optional[str] = None) -> DiscordCommander
     return _discord_commander_instance
 
 
-async def start_discord_devlog_monitoring(webhook_url: Optional[str] = None, check_interval: int = 60):
+async def start_discord_devlog_monitoring(webhook_url: str | None = None, check_interval: int = 60):
     """Start Discord DevLog monitoring (convenience function)."""
     commander = get_discord_commander(webhook_url)
     await commander.start_devlog_monitoring(check_interval)

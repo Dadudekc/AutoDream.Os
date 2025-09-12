@@ -10,17 +10,15 @@ alerts, and consolidation-specific health validations.
 from __future__ import annotations
 
 import json
-import subprocess
 import threading
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from pathlib import Path
+from typing import Any
 
 import psutil
-
-from pathlib import Path
 
 
 class HealthCheckType(Enum):
@@ -51,11 +49,11 @@ class HealthCheckResult:
     status: HealthStatus
     response_time_ms: float
     timestamp: datetime
-    details: Dict[str, Any] = field(default_factory=dict)
-    error_message: Optional[str] = None
-    recommendations: List[str] = field(default_factory=list)
+    details: dict[str, Any] = field(default_factory=dict)
+    error_message: str | None = None
+    recommendations: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary."""
         return {
             "check_id": self.check_id,
@@ -81,8 +79,8 @@ class HealthCheck:
     interval_seconds: int
     timeout_seconds: int
     enabled: bool = True
-    last_execution: Optional[datetime] = None
-    last_result: Optional[HealthCheckResult] = None
+    last_execution: datetime | None = None
+    last_result: HealthCheckResult | None = None
     failure_count: int = 0
     success_count: int = 0
 
@@ -108,7 +106,7 @@ class HealthCheck:
         else:
             self.failure_count += 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert health check to dictionary."""
         return {
             "check_id": self.check_id,
@@ -142,15 +140,15 @@ class AutomatedHealthCheckSystem:
         self.health_check_directory.mkdir(exist_ok=True)
 
         # Health check registry
-        self.health_checks: Dict[str, HealthCheck] = {}
+        self.health_checks: dict[str, HealthCheck] = {}
 
         # Health check results storage
-        self.results_history: List[HealthCheckResult] = []
+        self.results_history: list[HealthCheckResult] = []
         self.max_history_size = 10000
 
         # Alert system
-        self.alerts: List[Dict[str, Any]] = []
-        self.alert_thresholds: Dict[str, int] = {
+        self.alerts: list[dict[str, Any]] = []
+        self.alert_thresholds: dict[str, int] = {
             "consecutive_failures": 3,
             "response_time_threshold_ms": 5000,
             "alert_cooldown_minutes": 15,
@@ -158,7 +156,7 @@ class AutomatedHealthCheckSystem:
 
         # Monitoring control
         self.is_monitoring_active = False
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: threading.Thread | None = None
         self.check_interval_seconds = 30
 
         # Initialize health checks
@@ -766,7 +764,7 @@ class AutomatedHealthCheckSystem:
             if result.timestamp > cutoff_time
         ]
 
-    def get_health_status_summary(self) -> Dict[str, Any]:
+    def get_health_status_summary(self) -> dict[str, Any]:
         """Get a summary of current health status."""
         total_checks = len(self.health_checks)
         enabled_checks = len([c for c in self.health_checks.values() if c.enabled])
@@ -817,7 +815,7 @@ class AutomatedHealthCheckSystem:
             "monitoring_status": "active" if self.is_monitoring_active else "inactive",
         }
 
-    def get_detailed_health_report(self) -> Dict[str, Any]:
+    def get_detailed_health_report(self) -> dict[str, Any]:
         """Get a detailed health report."""
         report = {
             "timestamp": datetime.now().isoformat(),
@@ -859,7 +857,7 @@ class AutomatedHealthCheckSystem:
                 return True
         return False
 
-    def get_consolidation_readiness_status(self) -> Dict[str, Any]:
+    def get_consolidation_readiness_status(self) -> dict[str, Any]:
         """Get consolidation readiness status based on health checks."""
         status = {
             "consolidation_ready": True,

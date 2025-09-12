@@ -14,19 +14,17 @@ License: MIT
 from __future__ import annotations
 
 import logging
+import queue
+import threading
 import time
 import uuid
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Tuple, Union
 from pathlib import Path
-import threading
-import queue
+from typing import Any, Protocol
 
-from ..contracts import OrchestrationContext, OrchestrationResult, Step
-from ..registry import StepRegistry
+from ..contracts import OrchestrationContext, Step
 
 
 class MessagePriority(Enum):
@@ -71,7 +69,7 @@ class MessageTag:
     """Message tag structure."""
     name: str
     value: Any
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -81,7 +79,7 @@ class MessageAttachment:
     content_type: str
     data: bytes
     size: int
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -93,12 +91,12 @@ class Message:
     message_type: MessageType
     priority: MessagePriority
     content: str
-    tags: List[MessageTag] = field(default_factory=list)
-    attachments: List[MessageAttachment] = field(default_factory=list)
+    tags: list[MessageTag] = field(default_factory=list)
+    attachments: list[MessageAttachment] = field(default_factory=list)
     timestamp: datetime = field(default_factory=datetime.now)
-    expires_at: Optional[datetime] = None
-    correlation_id: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    expires_at: datetime | None = None
+    correlation_id: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -108,9 +106,9 @@ class DeliveryResult:
     status: MessageStatus
     method: DeliveryMethod
     attempts: int
-    delivered_at: Optional[datetime]
-    error_message: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    delivered_at: datetime | None
+    error_message: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class MessageHandler(Protocol):
@@ -150,7 +148,7 @@ class PriorityBasedRoutingRule:
 class AgentBasedRoutingRule:
     """Routing rule based on agent characteristics."""
 
-    def __init__(self, agent_patterns: List[str], delivery_method: DeliveryMethod):
+    def __init__(self, agent_patterns: list[str], delivery_method: DeliveryMethod):
         self.agent_patterns = agent_patterns
         self.delivery_method = delivery_method
 
@@ -204,8 +202,10 @@ class PyAutoGUIHandler:
 
         try:
             # Import required modules
-            import pyautogui
-            from src.core.messaging_pyautogui import deliver_message_pyautogui, get_agent_coordinates
+            from src.core.messaging_pyautogui import (
+                deliver_message_pyautogui,
+                get_agent_coordinates,
+            )
 
             # Get recipient coordinates
             coords = get_agent_coordinates(message.recipient)
@@ -327,7 +327,7 @@ class InboxHandler:
             f"**Priority**: {message.priority.value}",
             f"**Message ID**: {message.id}",
             f"**Timestamp**: {message.timestamp.isoformat()}",
-            f"**Delivery Method**: Inbox Fallback (MessageRouter)",
+            "**Delivery Method**: Inbox Fallback (MessageRouter)",
         ]
 
         if message.correlation_id:
@@ -366,9 +366,9 @@ class InboxHandler:
                 "",
                 "### 📊 METADATA",
                 "",
-                f"```json",
+                "```json",
                 f"{message.metadata}",
-                f"```",
+                "```",
                 ""
             ])
 
@@ -382,13 +382,13 @@ class MessageRouter:
         self.logger = logging.getLogger(__name__)
 
         # Initialize handlers
-        self.handlers: Dict[DeliveryMethod, MessageHandler] = {
+        self.handlers: dict[DeliveryMethod, MessageHandler] = {
             DeliveryMethod.PYAUTOGUI: PyAutoGUIHandler(),
             DeliveryMethod.INBOX: InboxHandler()
         }
 
         # Initialize routing rules (priority-based)
-        self.routing_rules: List[RoutingRule] = [
+        self.routing_rules: list[RoutingRule] = [
             # Urgent messages get PyAutoGUI priority
             PriorityBasedRoutingRule(MessagePriority.URGENT, DeliveryMethod.PYAUTOGUI),
             # High priority messages try PyAutoGUI first
@@ -401,8 +401,8 @@ class MessageRouter:
 
         # Message queues
         self.message_queue: queue.Queue = queue.Queue()
-        self.delivery_results: Dict[str, DeliveryResult] = {}
-        self.retry_counts: Dict[str, int] = {}
+        self.delivery_results: dict[str, DeliveryResult] = {}
+        self.retry_counts: dict[str, int] = {}
 
         # Start processing thread
         self.processing_thread = threading.Thread(target=self._process_message_queue, daemon=True)
@@ -427,14 +427,14 @@ class MessageRouter:
         self.logger.info(f"Message queued for delivery: {message.id} to {message.recipient}")
         return message.id
 
-    def send_bulk_messages(self, messages: List[Message]) -> List[str]:
+    def send_bulk_messages(self, messages: list[Message]) -> list[str]:
         """Send multiple messages."""
         message_ids = []
         for message in messages:
             message_ids.append(self.send_message(message))
         return message_ids
 
-    def broadcast_message(self, message: Message, recipients: List[str]) -> List[str]:
+    def broadcast_message(self, message: Message, recipients: list[str]) -> list[str]:
         """Broadcast message to multiple recipients."""
         message_ids = []
         for recipient in recipients:
@@ -504,11 +504,11 @@ class MessageRouter:
             except Exception as e:
                 self.logger.error(f"Message processing error: {e}")
 
-    def get_delivery_status(self, message_id: str) -> Optional[DeliveryResult]:
+    def get_delivery_status(self, message_id: str) -> DeliveryResult | None:
         """Get delivery status for a message."""
         return self.delivery_results.get(message_id)
 
-    def get_delivery_stats(self) -> Dict[str, Any]:
+    def get_delivery_stats(self) -> dict[str, Any]:
         """Get delivery statistics."""
         stats = {
             "total_messages": len(self.delivery_results),
@@ -542,10 +542,10 @@ class MessageRouter:
                       content: str,
                       message_type: MessageType = MessageType.AGENT_TO_AGENT,
                       priority: MessagePriority = MessagePriority.NORMAL,
-                      tags: Optional[List[MessageTag]] = None,
-                      attachments: Optional[List[MessageAttachment]] = None,
-                      correlation_id: Optional[str] = None,
-                      expires_in_hours: Optional[int] = None) -> Message:
+                      tags: list[MessageTag] | None = None,
+                      attachments: list[MessageAttachment] | None = None,
+                      correlation_id: str | None = None,
+                      expires_in_hours: int | None = None) -> Message:
         """Create a new message."""
         message_id = str(uuid.uuid4())
 
@@ -578,7 +578,7 @@ class MessageRouterOrchestrationStep(Step):
     def name(self) -> str:
         return f"message_router_{self.operation}"
 
-    def run(self, ctx: OrchestrationContext, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def run(self, ctx: OrchestrationContext, payload: dict[str, Any]) -> dict[str, Any]:
         """Execute message routing operation."""
         try:
             if self.operation == "send":

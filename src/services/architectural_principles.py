@@ -8,16 +8,14 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from enum import Enum
-from typing import Dict
-from .architectural_models import ArchitecturalPrinciple, ArchitecturalGuidance
+from .architectural_models import ArchitecturalGuidance, ArchitecturalPrinciple
 
 
 class PrincipleDefinitions:
     """Centralized definitions for all architectural principles."""
 
     @staticmethod
-    def get_all_principles() -> Dict[ArchitecturalPrinciple, ArchitecturalGuidance]:
+    def get_all_principles() -> dict[ArchitecturalPrinciple, ArchitecturalGuidance]:
         """Get all architectural principle definitions."""
         return {
             ArchitecturalPrinciple.SINGLE_RESPONSIBILITY: ArchitecturalGuidance(

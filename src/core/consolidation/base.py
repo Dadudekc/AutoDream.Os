@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from pathlib import Path
-from typing import Iterable
 import os
 import shutil
+from collections.abc import Iterable
+from pathlib import Path
 
 from ...utils.config_core import get_config
 

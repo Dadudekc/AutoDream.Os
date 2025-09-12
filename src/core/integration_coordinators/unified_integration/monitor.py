@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Integration Monitor - V2 Compliance Refactored
@@ -20,6 +21,7 @@ License: MIT
 """
 from collections.abc import Callable
 from typing import Any
+
 from .models import IntegrationConfig, IntegrationMetrics, IntegrationType
 from .monitors import AlertManager, MetricsCollector, MonitoringThread
 

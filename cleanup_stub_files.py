@@ -5,11 +5,9 @@ Moves identified empty/stub files to archive before deletion
 Based on comprehensive field analysis
 """
 
-import os
+import logging
 import shutil
 from pathlib import Path
-from typing import List, Tuple
-import logging
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -64,7 +62,7 @@ EMPTY_FILES = [
 def count_lines(file_path: Path) -> int:
     """Count lines in a file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             return len(f.readlines())
     except Exception as e:
         logger.warning(f"Could not read {file_path}: {e}")
@@ -81,7 +79,7 @@ def is_empty_or_stub(file_path: Path) -> bool:
 
     # Check if file contains only comments, imports, or basic structure
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read().strip()
 
         # Empty after removing comments and whitespace

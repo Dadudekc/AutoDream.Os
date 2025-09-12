@@ -16,10 +16,10 @@ Author: Agent-2 (Architecture & Design Specialist) - V2 Refactoring
 Mission: V2 Compliance Refactoring
 """
 
-from .workflow_optimizer import WorkflowOptimizer
-from .swarm_intelligence_manager import SwarmIntelligenceManager
-from .performance_analyzer import PerformanceAnalyzer
 from .learning_recommender import LearningRecommender
+from .performance_analyzer import PerformanceAnalyzer
+from .swarm_intelligence_manager import SwarmIntelligenceManager
+from .workflow_optimizer import WorkflowOptimizer
 
 
 class AgentVectorIntegrationOperations:

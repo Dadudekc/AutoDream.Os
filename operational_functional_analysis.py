@@ -7,9 +7,9 @@ Phase 2: Functional Analysis - Services, capabilities, relationships
 Operational perspective on system interdependencies and service interactions
 """
 
-import os
-from pathlib import Path
 import json
+from pathlib import Path
+
 
 def analyze_functional_relationships():
     """Analyze functional relationships and service interdependencies"""
@@ -89,7 +89,7 @@ def analyze_functional_relationships():
 
     for py_file in src_path.rglob('*.py'):
         try:
-            with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read()
 
                 # Count different import patterns
@@ -105,7 +105,7 @@ def analyze_functional_relationships():
                 if any(pkg in content for pkg in ['import requests', 'import pyautogui', 'import yaml']):
                     import_patterns['external_dependencies'] += 1
 
-        except Exception as e:
+        except Exception:
             continue
 
     print('Import relationship patterns:')
@@ -136,7 +136,7 @@ def analyze_functional_relationships():
 
     for py_file in src_path.rglob('*.py'):
         try:
-            with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read().lower()
 
                 for cap, keywords in capability_keywords.items():

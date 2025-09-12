@@ -17,15 +17,9 @@ License: MIT
 """
 
 import logging
-from typing import Optional, Dict, List, Any
 
 # Import modular components
-from .thea_modules import (
-    TheaManagerProfile,
-    TheaConfigManager,
-    TheaManagerConfig,
-    ScrapedContent
-)
+from .thea_modules import ScrapedContent, TheaConfigManager, TheaManagerConfig, TheaManagerProfile
 
 logger = logging.getLogger(__name__)
 

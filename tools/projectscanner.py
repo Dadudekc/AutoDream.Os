@@ -8,8 +8,9 @@ import logging
 import os
 import queue
 import threading
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class LanguageAnalyzer:
         self.rust_parser = self._init_tree_sitter_language("rust")
         self.js_parser = self._init_tree_sitter_language("javascript")
 
-    def _init_tree_sitter_language(self, lang_name: str) -> Optional[Parser]:
+    def _init_tree_sitter_language(self, lang_name: str) -> Parser | None:
         """
         Initializes and returns a Parser for the given language name (rust, javascript).
         Adjust grammar_paths to point at your compiled .so files if using tree-sitter.
@@ -953,7 +954,7 @@ class ProjectScanner:
         with cache_path.open("w", encoding="utf-8") as f:
             json.dump(self.cache, f, indent=4)
 
-    def scan_project(self, progress_callback: Optional[Callable] = None):
+    def scan_project(self, progress_callback: Callable | None = None):
         """
         Orchestrates the project scan:
         - Finds Python, Rust, JS, TS files with os.walk()

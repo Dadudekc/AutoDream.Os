@@ -16,11 +16,13 @@ Coverage Areas:
 - Operational resilience
 """
 
-import pytest
-from typing import Dict, Any
-import time
-import psutil
 import os
+import time
+from typing import Any, Dict
+
+import psutil
+import pytest
+
 
 @pytest.fixture
 def operational_test_config():
@@ -43,7 +45,7 @@ def system_monitor():
             self.baseline_memory = psutil.virtual_memory().percent
             self.start_time = time.time()
 
-        def get_system_health(self) -> Dict[str, Any]:
+        def get_system_health(self) -> dict[str, Any]:
             """Get current system health metrics."""
             return {
                 'cpu_percent': psutil.cpu_percent(interval=0.1),

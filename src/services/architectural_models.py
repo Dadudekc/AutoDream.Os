@@ -10,7 +10,6 @@ License: MIT
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
 
 
 class ArchitecturalPrinciple(Enum):
@@ -39,10 +38,10 @@ class ArchitecturalGuidance:
     principle: ArchitecturalPrinciple
     display_name: str
     description: str
-    responsibilities: List[str]
-    guidelines: List[str]
-    examples: List[str]
-    validation_rules: List[str]
+    responsibilities: list[str]
+    guidelines: list[str]
+    examples: list[str]
+    validation_rules: list[str]
 
 
 @dataclass
@@ -62,6 +61,6 @@ class ComplianceValidationResult:
     agent_id: str
     principle: ArchitecturalPrinciple
     compliant: bool
-    issues: List[str]
-    recommendations: List[str]
+    issues: list[str]
+    recommendations: list[str]
     validated_at: str

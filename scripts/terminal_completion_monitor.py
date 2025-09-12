@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+
 logger = logging.getLogger(__name__)
 """Monitor terminal logs for completion signals.
 
@@ -24,9 +25,10 @@ import time
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
+
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from services.cursor_db import CursorTaskRepository
 from core.constants.manager import COMPLETION_SIGNAL
+from services.cursor_db import CursorTaskRepository
 
 
 @dataclass
@@ -56,7 +58,7 @@ class TerminalCompletionMonitor:
         self.event_queue = event_queue
         self.verbose = verbose
         self.task_repo = task_repo
-        self._positions: dict[Path, int] = {p: (0) for p in self.sources}
+        self._positions: dict[Path, int] = dict.fromkeys(self.sources, 0)
 
     def _emit(self, event: CompletionEvent) ->None:
         if self.output_path:

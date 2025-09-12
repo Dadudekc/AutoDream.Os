@@ -6,11 +6,11 @@ Week 1 Day 1: Duplicate Analysis & Planning
 Analyze 11 duplicate groups identified in dependency analysis and create detailed elimination strategy.
 """
 
-import os
-import json
 import datetime
+import json
+from collections import Counter
 from pathlib import Path
-from collections import defaultdict, Counter
+
 
 def load_dependency_analysis():
     """Load the dependency analysis results from the backup."""
@@ -20,7 +20,7 @@ def load_dependency_analysis():
 
     analysis_file = backup_dir / 'dependency_analysis' / 'dependency_analysis_report.json'
     if analysis_file.exists():
-        with open(analysis_file, 'r') as f:
+        with open(analysis_file) as f:
             return json.load(f)
 
     return None

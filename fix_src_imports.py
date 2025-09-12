@@ -7,7 +7,6 @@ This script systematically fixes imports that start with 'src.'
 by removing the unnecessary prefix when running from project root.
 """
 
-import os
 import re
 from pathlib import Path
 
@@ -25,7 +24,7 @@ def fix_src_imports():
 
         try:
             # Read the file
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
 
             # Look for src. imports

@@ -4,10 +4,16 @@ Send messaging system guide to all agents
 """
 
 import sys
-import os
+
 sys.path.append('.')
 
-from src.core.messaging_core import send_message, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
+from src.core.messaging_core import (
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+    UnifiedMessageType,
+    send_message,
+)
+
 
 def main():
     agents = ['Agent-1', 'Agent-3', 'Agent-4', 'Agent-5', 'Agent-6', 'Agent-7', 'Agent-8']

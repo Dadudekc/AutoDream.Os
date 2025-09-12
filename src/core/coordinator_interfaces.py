@@ -9,7 +9,7 @@ License: MIT
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Protocol
+from typing import Any, Protocol
 
 
 class ICoordinatorLogger(Protocol):
@@ -28,7 +28,7 @@ class ICoordinator(Protocol):
     @property
     def name(self) -> str: ...
 
-    def get_status(self) -> Dict[str, Any]: ...
+    def get_status(self) -> dict[str, Any]: ...
 
     def shutdown(self) -> None: ...
 
@@ -42,12 +42,12 @@ class ICoordinatorRegistry(ABC):
         pass
 
     @abstractmethod
-    def get_coordinator(self, name: str) -> Optional[Any]:
+    def get_coordinator(self, name: str) -> Any | None:
         """Get coordinator by name."""
         pass
 
     @abstractmethod
-    def get_all_coordinators(self) -> Dict[str, Any]:
+    def get_all_coordinators(self) -> dict[str, Any]:
         """Get all registered coordinators."""
         pass
 
@@ -57,7 +57,7 @@ class ICoordinatorRegistry(ABC):
         pass
 
     @abstractmethod
-    def get_coordinator_statuses(self) -> Dict[str, Dict[str, Any]]:
+    def get_coordinator_statuses(self) -> dict[str, dict[str, Any]]:
         """Get status of all coordinators."""
         pass
 
@@ -75,6 +75,6 @@ class ICoordinatorRegistry(ABC):
 class ICoordinatorStatusParser(Protocol):
     """Interface for parsing coordinator status."""
 
-    def parse_status(self, coordinator: Any) -> Dict[str, Any]: ...
+    def parse_status(self, coordinator: Any) -> dict[str, Any]: ...
 
     def can_parse_status(self, coordinator: Any) -> bool: ...

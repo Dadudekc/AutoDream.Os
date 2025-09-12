@@ -11,10 +11,10 @@ from __future__ import annotations
 import json
 import sqlite3
 from collections.abc import Sequence
-from pathlib import Path
 from dataclasses import dataclass
-from typing import Dict, Any, Optional
 from enum import Enum
+from pathlib import Path
+from typing import Any
 
 
 class DocumentType(Enum):
@@ -36,8 +36,8 @@ class SearchType(Enum):
 
 class SearchResult:
     """Result of vector database search."""
-    
-    def __init__(self, document_id: str, content: str, similarity_score: float, metadata: Dict[str, Any]):
+
+    def __init__(self, document_id: str, content: str, similarity_score: float, metadata: dict[str, Any]):
         self.document_id = document_id
         self.content = content
         self.similarity_score = similarity_score
@@ -46,8 +46,8 @@ class SearchResult:
 
 class VectorDocument:
     """Vector document representation."""
-    
-    def __init__(self, id: str, content: str, embedding: list, metadata: Dict[str, Any]):
+
+    def __init__(self, id: str, content: str, embedding: list, metadata: dict[str, Any]):
         self.id = id
         self.content = content
         self.embedding = embedding
@@ -64,7 +64,7 @@ class EmbeddingModel(Enum):
 
 class VectorDatabaseStats:
     """Vector database statistics."""
-    
+
     def __init__(self):
         self.total_documents = 0
         self.collections = {}
@@ -79,13 +79,13 @@ AGENT_STATUS_TABLE = "agent_status_embeddings"
 @dataclass
 class CollectionConfig:
     """Configuration for vector database collections."""
-    
+
     name: str
     description: str
     embedding_dimension: int
     similarity_threshold: float = 0.7
     max_documents: int = 10000
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: dict[str, Any] | None = None
 
 SCHEMA = f"""
 CREATE TABLE IF NOT EXISTS {AGENT_STATUS_TABLE} (
@@ -167,9 +167,9 @@ class VectorDocument:
     """Document for vector database operations."""
 
     content: str
-    metadata: Dict[str, Any]
-    document_id: Optional[str] = None
-    document_type: Optional['DocumentType'] = None
+    metadata: dict[str, Any]
+    document_id: str | None = None
+    document_type: DocumentType | None = None
 
 
 class DocumentType(Enum):
@@ -197,8 +197,8 @@ class SearchQuery:
     query_text: str
     limit: int = 10
     threshold: float = 0.0
-    search_type: Optional['SearchType'] = None
-    metadata_filter: Optional[Dict[str, Any]] = None
+    search_type: SearchType | None = None
+    metadata_filter: dict[str, Any] | None = None
 
 
 class SearchType(Enum):
@@ -215,7 +215,7 @@ class SearchResult:
 
     document: VectorDocument
     score: float
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
@@ -224,8 +224,8 @@ class VectorDatabaseStats:
 
     total_documents: int
     total_collections: int
-    last_updated: Optional[str] = None
-    storage_size: Optional[int] = None
+    last_updated: str | None = None
+    storage_size: int | None = None
 
 
 __all__ = [

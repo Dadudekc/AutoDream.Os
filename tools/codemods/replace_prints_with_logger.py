@@ -9,11 +9,11 @@ Usage:
     python tools/codemods/replace_prints_with_logger.py
 """
 from __future__ import annotations
-import os
-import sys
+
 import ast
-import astor
 from pathlib import Path
+
+import astor
 
 
 def should_skip_file(path: Path) ->bool:
@@ -34,7 +34,7 @@ def transform_file(file_path: Path) ->bool:
     Returns True if file was modified, False otherwise.
     """
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             source = f.read()
         tree = ast.parse(source)
         changed = False
@@ -118,7 +118,7 @@ def main():
             continue
         files_processed += 1
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
             print_count = content.count('print(')
             if print_count == 0:

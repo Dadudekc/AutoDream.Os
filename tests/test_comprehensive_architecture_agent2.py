@@ -17,11 +17,10 @@ Author: Agent-2 (Architecture & Design Specialist)
 Assignment: Comprehensive pytest coverage for architectural components
 """
 
-import sys
-import os
-from pathlib import Path
-from unittest.mock import Mock, MagicMock, patch
 import inspect
+import os
+import sys
+from pathlib import Path
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
@@ -110,8 +109,8 @@ class TestSOLIDPrinciplesCompliance:
 
         try:
             # Test service inheritance and polymorphism
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Both should implement similar interfaces for substitutability
             msg_service = ConsolidatedMessagingService()
@@ -220,7 +219,7 @@ class TestDependencyInjectionPatterns:
 
             if dependency_params:
                 print(f"✅ Constructor Injection: Found {len(dependency_params)} dependency parameters")
-                print(f"✅ Architectural Dependencies: ArchitecturalPrinciple enum available")
+                print("✅ Architectural Dependencies: ArchitecturalPrinciple enum available")
             else:
                 print("⚠️ Constructor Injection: No dependency parameters found")
 
@@ -396,8 +395,8 @@ class TestArchitecturalIntegrity:
 
         try:
             # Test import relationships - check for ArchitecturalPrinciple usage
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.services.consolidated_architectural_service import ArchitecturalPrinciple
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Verify ArchitecturalPrinciple is accessible and used properly
             assert hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')

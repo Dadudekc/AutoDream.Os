@@ -24,7 +24,7 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ class ConfigurationScanner(ABC):
     """Abstract base class for configuration scanners."""
 
     @abstractmethod
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Scan a file for specific configuration patterns."""
         pass
 
@@ -63,7 +63,7 @@ class EnvironmentVariableScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "environment_variables"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find environment variable usage patterns."""
         patterns = []
         for i, line in enumerate(lines, 1):
@@ -90,7 +90,7 @@ class HardcodedValueScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "hardcoded_values"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find hardcoded configuration values."""
         patterns = []
         config_patterns = [
@@ -141,7 +141,7 @@ class ConfigConstantScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "config_constants"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find configuration constant definitions."""
         patterns = []
         for i, line in enumerate(lines, 1):
@@ -182,7 +182,7 @@ class SettingsPatternScanner(ConfigurationScanner):
     def pattern_type(self) -> str:
         return "settings_patterns"
 
-    def scan_file(self, file_path: Path, lines: List[str]) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path, lines: list[str]) -> list[ConfigPattern]:
         """Find settings-related patterns."""
         patterns = []
         settings_keywords = ['settings', 'config', 'configuration', 'options']
@@ -207,7 +207,7 @@ class SettingsPatternScanner(ConfigurationScanner):
 class FileScanner:
     """Handles file scanning operations for configuration patterns."""
 
-    def __init__(self, scanners: List[ConfigurationScanner]):
+    def __init__(self, scanners: list[ConfigurationScanner]):
         """Initialize file scanner with available scanners."""
         self.scanners = scanners
         self.skip_patterns = self._get_skip_patterns()
@@ -224,7 +224,7 @@ class FileScanner:
         file_str = str(file_path)
         return any(pattern in file_str for pattern in self.skip_patterns)
 
-    def scan_file(self, file_path: Path) -> List[ConfigPattern]:
+    def scan_file(self, file_path: Path) -> list[ConfigPattern]:
         """Scan a single file for configuration patterns."""
         if self.should_skip_file(file_path):
             return []
@@ -245,7 +245,7 @@ class FileScanner:
 
         return patterns
 
-    def scan_directory(self, root_dir: Path) -> List[ConfigPattern]:
+    def scan_directory(self, root_dir: Path) -> list[ConfigPattern]:
         """Scan all Python files in a directory."""
         all_patterns = []
 
@@ -263,7 +263,7 @@ class UnifiedConfigurationConsolidator:
     def __init__(
         self,
         config_manager=None,
-        file_scanner: Optional[FileScanner] = None
+        file_scanner: FileScanner | None = None
     ):
         """Initialize consolidator with dependency injection."""
         self.config_manager = config_manager
@@ -271,7 +271,7 @@ class UnifiedConfigurationConsolidator:
         self.consolidated_count = 0
         self.migrated_files: set[Path] = set()
 
-    def _create_default_scanners(self) -> List[ConfigurationScanner]:
+    def _create_default_scanners(self) -> list[ConfigurationScanner]:
         """Create default set of configuration scanners."""
         return [
             EnvironmentVariableScanner(),
@@ -280,7 +280,7 @@ class UnifiedConfigurationConsolidator:
             SettingsPatternScanner()
         ]
 
-    def scan_configuration_patterns(self, root_dir: Path) -> Dict[str, List[ConfigPattern]]:
+    def scan_configuration_patterns(self, root_dir: Path) -> dict[str, list[ConfigPattern]]:
         """Scan for configuration patterns in the codebase."""
         logger.info('🔍 Scanning for configuration patterns...')
 
@@ -304,7 +304,7 @@ class UnifiedConfigurationConsolidator:
 
         return patterns_by_type
 
-    def consolidate_patterns(self, patterns_by_type: Dict[str, List[ConfigPattern]]) -> Dict[str, Any]:
+    def consolidate_patterns(self, patterns_by_type: dict[str, list[ConfigPattern]]) -> dict[str, Any]:
         """Consolidate found patterns into actionable insights."""
         statistics = {}
         unique_keys = set()
@@ -326,7 +326,7 @@ class UnifiedConfigurationConsolidator:
         logger.info(f'📊 Consolidated {results["total_patterns"]} patterns')
         return results
 
-    def generate_consolidation_report(self, results: Dict[str, Any]) -> str:
+    def generate_consolidation_report(self, results: dict[str, Any]) -> str:
         """Generate a comprehensive consolidation report."""
         report = f"""
 # 🔧 Configuration Consolidation Report
@@ -365,7 +365,7 @@ class UnifiedConfigurationConsolidator:
         return report
 
 
-def run_configuration_consolidation(root_dir: Path = None) -> Dict[str, Any]:
+def run_configuration_consolidation(root_dir: Path = None) -> dict[str, Any]:
     """Run the complete configuration consolidation process."""
     if root_dir is None:
         root_dir = Path(__file__).resolve().parents[2]

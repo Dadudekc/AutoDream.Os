@@ -5,7 +5,6 @@ Chrome Undetected Browser Adapter
 Basic Chrome browser adapter using undetected-chromedriver.
 """
 
-from typing import Optional
 
 try:
     from selenium import webdriver
@@ -18,7 +17,7 @@ except ImportError:
 class ChromeUndetected:
     """Basic Chrome browser adapter."""
 
-    def __init__(self, user_data_dir: Optional[str] = None, headless: bool = False):
+    def __init__(self, user_data_dir: str | None = None, headless: bool = False):
         self.user_data_dir = user_data_dir
         self.headless = headless
         self.driver = None

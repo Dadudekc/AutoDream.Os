@@ -8,14 +8,11 @@ Provides agent status tracking, consolidation progress, and basic monitoring.
 """
 
 import http.server
-import socketserver
 import json
-import threading
-import time
+import socketserver
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
-import os
+
 
 class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
     """HTTP request handler for the SWARM monitoring dashboard"""
@@ -108,7 +105,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
 
             try:
                 if status_file.exists():
-                    with open(status_file, 'r', encoding='utf-8') as f:
+                    with open(status_file, encoding='utf-8') as f:
                         data = json.load(f)
 
                     agent_status = {
@@ -186,139 +183,139 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
 
     def generate_dashboard_html(self):
         """Generate the dashboard HTML content"""
-        return f"""<!DOCTYPE html>
+        return """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🐝 SWARM Monitoring Dashboard</title>
     <style>
-        * {{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }}
+        }
 
-        body {{
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-        }}
+        }
 
-        .header {{
+        .header {
             text-align: center;
             margin-bottom: 30px;
             color: white;
-        }}
+        }
 
-        .header h1 {{
+        .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }}
+        }
 
-        .dashboard-grid {{
+        .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
-        }}
+        }
 
-        .card {{
+        .card {
             background: white;
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }}
+        }
 
-        .card h3 {{
+        .card h3 {
             color: #667eea;
             margin-bottom: 15px;
             font-size: 1.3rem;
-        }}
+        }
 
-        .status-grid {{
+        .status-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
-        }}
+        }
 
-        .agent-card {{
+        .agent-card {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 12px;
             border-left: 4px solid #28a745;
             font-size: 0.9rem;
-        }}
+        }
 
-        .agent-card.offline {{
+        .agent-card.offline {
             border-left-color: #dc3545;
             opacity: 0.7;
-        }}
+        }
 
-        .agent-card.error {{
+        .agent-card.error {
             border-left-color: #ffc107;
-        }}
+        }
 
-        .agent-id {{
+        .agent-id {
             font-weight: bold;
             margin-bottom: 5px;
-        }}
+        }
 
-        .agent-status {{
+        .agent-status {
             color: #666;
             font-size: 0.8rem;
-        }}
+        }
 
-        .progress-bar {{
+        .progress-bar {
             width: 100%;
             height: 20px;
             background: #e9ecef;
             border-radius: 10px;
             overflow: hidden;
             margin: 10px 0;
-        }}
+        }
 
-        .progress-fill {{
+        .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #28a745, #20c997);
             transition: width 0.3s ease;
-        }}
+        }
 
-        .metric {{
+        .metric {
             text-align: center;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
             margin: 5px 0;
-        }}
+        }
 
-        .metric-value {{
+        .metric-value {
             font-size: 1.8rem;
             font-weight: bold;
             color: #667eea;
-        }}
+        }
 
-        .metric-label {{
+        .metric-label {
             font-size: 0.9rem;
             color: #666;
-        }}
+        }
 
-        .footer {{
+        .footer {
             text-align: center;
             margin-top: 30px;
             color: white;
             opacity: 0.8;
-        }}
+        }
 
-        .refresh-btn {{
+        .refresh-btn {
             background: #667eea;
             color: white;
             border: none;
@@ -326,17 +323,17 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
             border-radius: 5px;
             cursor: pointer;
             margin: 10px;
-        }}
+        }
 
-        .refresh-btn:hover {{
+        .refresh-btn:hover {
             background: #5a67d8;
-        }}
+        }
 
-        @media (max-width: 768px) {{
-            .dashboard-grid {{
+        @media (max-width: 768px) {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-            }}
-        }}
+            }
+        }
     </style>
 </head>
 <body>
@@ -402,14 +399,14 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
         let lastUpdateTime = new Date();
 
         // Load data on page load
-        document.addEventListener('DOMContentLoaded', function() {{
+        document.addEventListener('DOMContentLoaded', function() {
             refreshData();
             // Auto-refresh every 30 seconds
             setInterval(refreshData, 30000);
-        }});
+        });
 
-        async function refreshData() {{
-            try {{
+        async function refreshData() {
+            try {
                 // Fetch agent status
                 const agentsResponse = await fetch('/api/agents/status');
                 const agentsData = await agentsResponse.json();
@@ -428,65 +425,65 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
                 updateProgress(progressData);
                 updateTimestamp(agentsData.timestamp);
 
-            }} catch (error) {{
+            } catch (error) {
                 console.error('Error refreshing data:', error);
                 document.getElementById('agent-status').innerHTML =
                     '<div class="agent-card error"><div class="agent-id">Error</div><div class="agent-status">Failed to load data</div></div>';
-            }}
-        }}
+            }
+        }
 
-        function updateAgentStatus(data) {{
+        function updateAgentStatus(data) {
             const container = document.getElementById('agent-status');
             const agents = data.agents || [];
 
-            if (agents.length === 0) {{
+            if (agents.length === 0) {
                 container.innerHTML = '<div class="agent-card"><div class="agent-id">No agents found</div></div>';
                 return;
-            }}
+            }
 
-            container.innerHTML = agents.map(agent => {{
+            container.innerHTML = agents.map(agent => {
                 const statusClass = agent.status === 'OFFLINE' ? 'offline' :
                                   agent.status === 'ERROR' ? 'error' : '';
                 return `
-                    <div class="agent-card ${{statusClass}}">
-                        <div class="agent-id">${{agent.agent_id}}</div>
-                        <div class="agent-status">${{agent.status}}</div>
+                    <div class="agent-card ${statusClass}">
+                        <div class="agent-id">${agent.agent_id}</div>
+                        <div class="agent-status">${agent.status}</div>
                         <div style="font-size: 0.7rem; color: #888; margin-top: 3px;">
-                            Tasks: ${{agent.active_tasks || 0}}/${{(agent.active_tasks || 0) + (agent.completed_tasks || 0)}}
+                            Tasks: ${agent.active_tasks || 0}/${(agent.active_tasks || 0) + (agent.completed_tasks || 0)}
                         </div>
                     </div>
                 `;
-            }}).join('');
-        }}
+            }).join('');
+        }
 
-        function updateSystemStatus(data) {{
+        function updateSystemStatus(data) {
             document.getElementById('server-status').textContent = data.server_status || 'UNKNOWN';
             document.getElementById('active-agents').textContent = data.monitoring_mode || 'SIMPLE';
-        }}
+        }
 
-        function updateProgress(data) {{
+        function updateProgress(data) {
             const fill = document.getElementById('progress-fill');
             const text = document.getElementById('progress-text');
             const details = document.getElementById('consolidation-details');
 
-            if (data.error) {{
-                text.textContent = `Error: ${{data.error}}`;
+            if (data.error) {
+                text.textContent = `Error: ${data.error}`;
                 return;
-            }}
+            }
 
             const percentage = data.overall_progress || 0;
-            fill.style.width = `${{percentage}}%`;
-            text.textContent = `${{percentage}}% Complete - ${{data.active_agents || 0}}/${{data.total_agents || 8}} Agents`;
+            fill.style.width = `${percentage}%`;
+            text.textContent = `${percentage}% Complete - ${data.active_agents || 0}/${data.total_agents || 8} Agents`;
 
             document.getElementById('total-tasks').textContent =
                 (data.total_active_tasks || 0) + (data.total_completed_tasks || 0);
-        }}
+        }
 
-        function updateTimestamp(timestamp) {{
+        function updateTimestamp(timestamp) {
             const timeElement = document.getElementById('update-time');
             timeElement.textContent = new Date(timestamp).toLocaleString();
             lastUpdateTime = new Date(timestamp);
-        }}
+        }
     </script>
 </body>
 </html>"""

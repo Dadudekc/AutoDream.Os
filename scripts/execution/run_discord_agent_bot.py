@@ -15,11 +15,11 @@ Author: Agent-4 (Captain - Discord Integration Coordinator)
 License: MIT
 """
 
-import sys
-import os
-from pathlib import Path
-import asyncio
 import argparse
+import asyncio
+import os
+import sys
+from pathlib import Path
 
 # Load environment variables from .env file
 try:
@@ -35,9 +35,9 @@ sys.path.insert(0, str(project_root))
 
 try:
     from src.discord_commander.discord_agent_bot import (
+        get_discord_bot_manager,
         start_discord_agent_bot,
         test_discord_bot_connection,
-        get_discord_bot_manager
     )
 except ImportError as e:
     print(f"❌ Failed to import Discord bot modules: {e}")
@@ -167,7 +167,7 @@ def main():
         return
 
     # Start the bot
-    print(f"🚀 Starting V2_SWARM Discord Agent Bot...")
+    print("🚀 Starting V2_SWARM Discord Agent Bot...")
     print(f"🤖 Token: {'***' + token[-10:] if len(token) > 10 else token}")
     print("=" * 60)
 

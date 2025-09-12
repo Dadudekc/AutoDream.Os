@@ -1,11 +1,11 @@
 import asyncio
 import time
-from typing import Dict
+
 
 class RateLimiter:
     def __init__(self, global_per_sec: int = 5, user_cooldown_sec: int = 2):
         self._sem = asyncio.Semaphore(global_per_sec)
-        self._last: Dict[int, float] = {}
+        self._last: dict[int, float] = {}
         self._cooldown = user_cooldown_sec
 
     async def acquire(self, user_id: int):

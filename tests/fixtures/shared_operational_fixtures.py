@@ -9,14 +9,16 @@ Author: Agent-8 (Operations & Support Specialist)
 FINAL PYTEST ASSIGNMENT - Shared Resources
 """
 
-import pytest
-import time
-import psutil
-import threading
-from unittest.mock import Mock, MagicMock, patch
-from typing import Dict, Any, List, Optional, Callable, Generator
-import tempfile
 import os
+import tempfile
+import time
+from collections.abc import Callable
+from typing import Any
+from unittest.mock import Mock, patch
+
+import psutil
+import pytest
+
 
 # Shared mock classes for cross-agent testing
 class SharedMockClasses:
@@ -92,7 +94,7 @@ class SharedTestData:
     """Shared test data generators for consistent testing."""
 
     @staticmethod
-    def generate_user_data(count: int = 10) -> List[Dict[str, Any]]:
+    def generate_user_data(count: int = 10) -> list[dict[str, Any]]:
         """Generate sample user data for testing."""
         users = []
         for i in range(count):
@@ -107,7 +109,7 @@ class SharedTestData:
         return users
 
     @staticmethod
-    def generate_transaction_data(count: int = 20) -> List[Dict[str, Any]]:
+    def generate_transaction_data(count: int = 20) -> list[dict[str, Any]]:
         """Generate sample transaction data for testing."""
         transactions = []
         for i in range(count):
@@ -122,7 +124,7 @@ class SharedTestData:
         return transactions
 
     @staticmethod
-    def generate_system_metrics_history(duration_seconds: int = 300) -> List[Dict[str, Any]]:
+    def generate_system_metrics_history(duration_seconds: int = 300) -> list[dict[str, Any]]:
         """Generate historical system metrics for testing."""
         metrics_history = []
         start_time = time.time() - duration_seconds
@@ -337,7 +339,7 @@ class SharedPerformanceBaselines:
     """Shared utilities for establishing performance baselines."""
 
     @staticmethod
-    def establish_cpu_baseline(duration: int = 10) -> Dict[str, float]:
+    def establish_cpu_baseline(duration: int = 10) -> dict[str, float]:
         """Establish CPU usage baseline."""
         cpu_readings = []
 
@@ -352,7 +354,7 @@ class SharedPerformanceBaselines:
         }
 
     @staticmethod
-    def establish_memory_baseline(duration: int = 10) -> Dict[str, float]:
+    def establish_memory_baseline(duration: int = 10) -> dict[str, float]:
         """Establish memory usage baseline."""
         memory_readings = []
 
@@ -367,7 +369,7 @@ class SharedPerformanceBaselines:
         }
 
     @staticmethod
-    def establish_disk_baseline(duration: int = 10) -> Dict[str, float]:
+    def establish_disk_baseline(duration: int = 10) -> dict[str, float]:
         """Establish disk usage baseline."""
         disk_readings = []
 

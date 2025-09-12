@@ -7,9 +7,10 @@ Comprehensive analysis of src/ directory from operational perspective
 for consolidation planning (683 → ~250 files)
 """
 
+import json
 import os
 from pathlib import Path
-import json
+
 
 def analyze_src_structure():
     """Perform comprehensive operational analysis of src/ directory"""
@@ -104,7 +105,7 @@ def analyze_src_structure():
             empty_files.append(filepath)
         elif size < 100:
             try:
-                with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(filepath, encoding='utf-8', errors='ignore') as f:
                     content = f.read()
                     if len(content.strip()) < 50:
                         stub_files.append((filepath, size, len(content.strip())))

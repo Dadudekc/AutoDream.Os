@@ -9,7 +9,7 @@ Simple tool to check Discord bot status without Unicode issues.
 import os
 import subprocess
 import sys
-from pathlib import Path
+
 
 def check_bot_status():
     """Check if the Discord bot is running and connected"""

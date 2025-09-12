@@ -18,10 +18,11 @@ TOTAL: 5 modules + 1 orchestrator (V2 compliant)
 """
 
 import logging
-from typing import Dict, List, Optional, Any, Callable
-from datetime import datetime, timedelta
-from dataclasses import dataclass, asdict
+from collections.abc import Callable
+from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any
 
 # Import modular handlers
 try:
@@ -67,11 +68,11 @@ class HandlerRequest:
     id: str
     type: HandlerType
     priority: HandlerPriority
-    data: Dict[str, Any]
+    data: dict[str, Any]
     created_at: datetime
     status: HandlerStatus = HandlerStatus.PENDING
-    result: Optional[Any] = None
-    error: Optional[str] = None
+    result: Any | None = None
+    error: str | None = None
 
 # ================================
 # UNIFIED HANDLERS ORCHESTRATOR
@@ -85,9 +86,9 @@ class UnifiedHandlersOrchestrator:
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self._handlers: Dict[HandlerType, Callable] = {}
-        self._active_requests: Dict[str, HandlerRequest] = {}
-        self._command_history: List[Dict[str, Any]] = []
+        self._handlers: dict[HandlerType, Callable] = {}
+        self._active_requests: dict[str, HandlerRequest] = {}
+        self._command_history: list[dict[str, Any]] = []
 
         # Initialize modular handlers
         self._initialize_handlers()
@@ -148,7 +149,7 @@ class UnifiedHandlersOrchestrator:
 
         return request
 
-    def submit_request(self, handler_type: HandlerType, data: Dict[str, Any],
+    def submit_request(self, handler_type: HandlerType, data: dict[str, Any],
                       priority: HandlerPriority = HandlerPriority.NORMAL) -> str:
         """
         Submit a new handler request
@@ -167,7 +168,7 @@ class UnifiedHandlersOrchestrator:
         self._active_requests[request_id] = request
         return request_id
 
-    def get_request_status(self, request_id: str) -> Optional[HandlerRequest]:
+    def get_request_status(self, request_id: str) -> HandlerRequest | None:
         """Get status of a handler request"""
         return self._active_requests.get(request_id)
 
@@ -175,7 +176,7 @@ class UnifiedHandlersOrchestrator:
     # ROLE COMMAND HANDLER METHODS
     # ================================
 
-    def _handle_role_command(self, request: HandlerRequest) -> Dict[str, Any]:
+    def _handle_role_command(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle role-based commands"""
         role = request.data.get('role', '')
         command = request.data.get('command', '')
@@ -191,7 +192,7 @@ class UnifiedHandlersOrchestrator:
         else:
             return {"error": f"Unknown role: {role}"}
 
-    def _handle_coordinator_command(self, command: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_coordinator_command(self, command: str, context: dict[str, Any]) -> dict[str, Any]:
         """Handle coordinator role commands"""
         if command == "coordinate_agents":
             return self.coordinate_agents(context.get('agents', []))
@@ -200,7 +201,7 @@ class UnifiedHandlersOrchestrator:
         else:
             return {"error": f"Unknown coordinator command: {command}"}
 
-    def _handle_specialist_command(self, command: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_specialist_command(self, command: str, context: dict[str, Any]) -> dict[str, Any]:
         """Handle specialist role commands"""
         if command == "analyze_domain":
             return self.analyze_domain(context.get('domain', ''))
@@ -209,7 +210,7 @@ class UnifiedHandlersOrchestrator:
         else:
             return {"error": f"Unknown specialist command: {command}"}
 
-    def _handle_analyst_command(self, command: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _handle_analyst_command(self, command: str, context: dict[str, Any]) -> dict[str, Any]:
         """Handle analyst role commands"""
         if command == "generate_report":
             return self.generate_report(context.get('report_type', ''))
@@ -222,7 +223,7 @@ class UnifiedHandlersOrchestrator:
     # OVERNIGHT HANDLER METHODS
     # ================================
 
-    def _handle_overnight(self, request: HandlerRequest) -> Dict[str, Any]:
+    def _handle_overnight(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle overnight processing operations"""
         operation = request.data.get('operation', '')
         schedule = request.data.get('schedule', {})
@@ -236,7 +237,7 @@ class UnifiedHandlersOrchestrator:
         else:
             return {"error": f"Unknown overnight operation: {operation}"}
 
-    def schedule_overnight_task(self, schedule: Dict[str, Any]) -> Dict[str, Any]:
+    def schedule_overnight_task(self, schedule: dict[str, Any]) -> dict[str, Any]:
         """Schedule a task for overnight processing"""
         task_id = f"overnight_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
@@ -247,7 +248,7 @@ class UnifiedHandlersOrchestrator:
             "status": "scheduled"
         }
 
-    def process_overnight_batch(self, schedule: Dict[str, Any]) -> Dict[str, Any]:
+    def process_overnight_batch(self, schedule: dict[str, Any]) -> dict[str, Any]:
         """Process batch operations overnight"""
         batch_id = f"batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
@@ -258,7 +259,7 @@ class UnifiedHandlersOrchestrator:
             "status": "processing"
         }
 
-    def perform_overnight_maintenance(self, schedule: Dict[str, Any]) -> Dict[str, Any]:
+    def perform_overnight_maintenance(self, schedule: dict[str, Any]) -> dict[str, Any]:
         """Perform maintenance operations overnight"""
         return {
             "maintenance_type": schedule.get('type', 'general'),
@@ -270,14 +271,14 @@ class UnifiedHandlersOrchestrator:
     # AGENT ASSIGNMENT HANDLER METHODS
     # ================================
 
-    def _handle_agent_assignment(self, request: HandlerRequest) -> Dict[str, Any]:
+    def _handle_agent_assignment(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle agent assignment operations"""
         agent_id = request.data.get('agent_id', '')
         task_data = request.data.get('task_data', {})
 
         return self.assign_task_to_agent(agent_id, task_data)
 
-    def assign_task_to_agent(self, agent_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    def assign_task_to_agent(self, agent_id: str, task_data: dict[str, Any]) -> dict[str, Any]:
         """Assign a task to an agent"""
         task_id = task_data.get('id', f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
@@ -292,7 +293,7 @@ class UnifiedHandlersOrchestrator:
     # AGENT STATUS HANDLER METHODS
     # ================================
 
-    def _handle_agent_status(self, request: HandlerRequest) -> Dict[str, Any]:
+    def _handle_agent_status(self, request: HandlerRequest) -> dict[str, Any]:
         """Handle agent status operations"""
         agent_id = request.data.get('agent_id', '')
         status_type = request.data.get('type', 'info')
@@ -306,7 +307,7 @@ class UnifiedHandlersOrchestrator:
         else:
             return {"error": f"Unknown status type: {status_type}"}
 
-    def get_agent_status(self, agent_id: str) -> Dict[str, Any]:
+    def get_agent_status(self, agent_id: str) -> dict[str, Any]:
         """Get status of an agent"""
         return {
             "agent_id": agent_id,
@@ -317,7 +318,7 @@ class UnifiedHandlersOrchestrator:
             "position": [0, 0]
         }
 
-    def update_agent_status(self, agent_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+    def update_agent_status(self, agent_id: str, updates: dict[str, Any]) -> dict[str, Any]:
         """Update agent status"""
         return {
             "agent_id": agent_id,
@@ -326,7 +327,7 @@ class UnifiedHandlersOrchestrator:
             "status": "updated"
         }
 
-    def check_agent_health(self, agent_id: str) -> Dict[str, Any]:
+    def check_agent_health(self, agent_id: str) -> dict[str, Any]:
         """Check health of an agent"""
         return {
             "agent_id": agent_id,
@@ -339,7 +340,7 @@ class UnifiedHandlersOrchestrator:
     # SUPPORTING METHODS
     # ================================
 
-    def create_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    def create_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Create a new task"""
         task_id = f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
@@ -352,7 +353,7 @@ class UnifiedHandlersOrchestrator:
 
         return task
 
-    def update_task(self, task_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+    def update_task(self, task_id: str, updates: dict[str, Any]) -> dict[str, Any]:
         """Update an existing task"""
         return {
             "task_id": task_id,
@@ -361,7 +362,7 @@ class UnifiedHandlersOrchestrator:
             "status": "updated"
         }
 
-    def complete_task(self, task_id: str) -> Dict[str, Any]:
+    def complete_task(self, task_id: str) -> dict[str, Any]:
         """Mark a task as completed"""
         return {
             "task_id": task_id,
@@ -369,7 +370,7 @@ class UnifiedHandlersOrchestrator:
             "status": "completed"
         }
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         try:
             from src.core.coordinate_loader import get_coordinate_loader
@@ -386,7 +387,7 @@ class UnifiedHandlersOrchestrator:
             "timestamp": datetime.now().isoformat()
         }
 
-    def coordinate_agents(self, agents: List[str]) -> Dict[str, Any]:
+    def coordinate_agents(self, agents: list[str]) -> dict[str, Any]:
         """Coordinate multiple agents"""
         return {
             "agents": agents,
@@ -395,7 +396,7 @@ class UnifiedHandlersOrchestrator:
             "status": "coordinated"
         }
 
-    def assign_tasks(self, assignments: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def assign_tasks(self, assignments: list[dict[str, Any]]) -> dict[str, Any]:
         """Assign tasks to agents"""
         results = []
         for assignment in assignments:
@@ -411,7 +412,7 @@ class UnifiedHandlersOrchestrator:
             "assigned_at": datetime.now().isoformat()
         }
 
-    def analyze_domain(self, domain: str) -> Dict[str, Any]:
+    def analyze_domain(self, domain: str) -> dict[str, Any]:
         """Analyze a domain for expertise"""
         return {
             "domain": domain,
@@ -420,7 +421,7 @@ class UnifiedHandlersOrchestrator:
             "status": "analyzed"
         }
 
-    def provide_expertise(self, topic: str) -> Dict[str, Any]:
+    def provide_expertise(self, topic: str) -> dict[str, Any]:
         """Provide expertise on a topic"""
         return {
             "topic": topic,
@@ -429,7 +430,7 @@ class UnifiedHandlersOrchestrator:
             "status": "provided"
         }
 
-    def generate_report(self, report_type: str) -> Dict[str, Any]:
+    def generate_report(self, report_type: str) -> dict[str, Any]:
         """Generate an analysis report"""
         return {
             "report_type": report_type,
@@ -437,7 +438,7 @@ class UnifiedHandlersOrchestrator:
             "status": "generated"
         }
 
-    def analyze_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def analyze_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Analyze provided data"""
         return {
             "data_points": len(data),
@@ -461,7 +462,7 @@ class UnifiedHandlersOrchestrator:
         if len(self._command_history) > 1000:
             self._command_history = self._command_history[-1000:]
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get service status"""
         return {
             "version": "2.0.0",

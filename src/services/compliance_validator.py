@@ -8,7 +8,6 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, List
 from .architectural_models import ArchitecturalPrinciple, ComplianceValidationResult
 
 
@@ -19,7 +18,7 @@ class ComplianceValidator:
         self,
         agent_id: str,
         principle: ArchitecturalPrinciple,
-        code_changes: List[str]
+        code_changes: list[str]
     ) -> ComplianceValidationResult:
         """Validate that an agent's changes comply with their assigned principle."""
 
@@ -53,7 +52,7 @@ class ComplianceValidator:
             validated_at=self._get_current_timestamp()
         )
 
-    def _validate_single_responsibility(self, change: str) -> List[str]:
+    def _validate_single_responsibility(self, change: str) -> list[str]:
         """Validate Single Responsibility Principle."""
         issues = []
         if "class" in change.lower() and len(change.split()) > 10:
@@ -62,7 +61,7 @@ class ComplianceValidator:
             issues.append("Class has too many methods - consider splitting responsibilities")
         return issues
 
-    def _validate_dry_principle(self, change: str) -> List[str]:
+    def _validate_dry_principle(self, change: str) -> list[str]:
         """Validate DRY Principle."""
         issues = []
         if change.count("def ") > 5:
@@ -71,7 +70,7 @@ class ComplianceValidator:
             issues.append("Repeated loop patterns detected - consider utility functions")
         return issues
 
-    def _validate_kiss_principle(self, change: str) -> List[str]:
+    def _validate_kiss_principle(self, change: str) -> list[str]:
         """Validate KISS Principle."""
         issues = []
         if len(change.split("\n")) > 50:
@@ -82,7 +81,7 @@ class ComplianceValidator:
             issues.append("Complex boolean expressions - consider simplifying logic")
         return issues
 
-    def _validate_open_closed(self, change: str) -> List[str]:
+    def _validate_open_closed(self, change: str) -> list[str]:
         """Validate Open-Closed Principle."""
         issues = []
         if "if " in change and "type" in change.lower():
@@ -94,8 +93,8 @@ class ComplianceValidator:
     def _generate_recommendations(
         self,
         principle: ArchitecturalPrinciple,
-        issues: List[str]
-    ) -> List[str]:
+        issues: list[str]
+    ) -> list[str]:
         """Generate recommendations based on validation issues."""
         recommendations = []
 

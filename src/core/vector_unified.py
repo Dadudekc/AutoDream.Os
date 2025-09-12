@@ -23,9 +23,10 @@ import logging
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
+from typing import Any
+
 import numpy as np
 
 # ============================================================================
@@ -82,8 +83,8 @@ class VectorInfo:
     dimensions: int
     status: VectorStatus
     created_at: datetime = field(default_factory=datetime.now)
-    last_updated: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    last_updated: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -92,7 +93,7 @@ class VectorData:
     vector_id: str
     data: np.ndarray
     vector_type: VectorType
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
 
@@ -103,7 +104,7 @@ class VectorSearchResult:
     vector_id: str
     similarity_score: float
     distance: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
 
@@ -116,7 +117,7 @@ class VectorAnalyticsResult:
     confidence: float = 0.0
     processing_time: float = 0.0
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -135,7 +136,7 @@ class VectorMetrics:
 
 class VectorEngine(ABC):
     """Base vector engine interface."""
-    
+
     def __init__(self, vector_id: str, name: str, vector_type: VectorType):
         self.vector_id = vector_id
         self.name = name
@@ -143,45 +144,45 @@ class VectorEngine(ABC):
         self.status = VectorStatus.INITIALIZING
         self.logger = logging.getLogger(f"vector.{name}")
         self.metrics = VectorMetrics(vector_id=vector_id)
-    
+
     @abstractmethod
     def start(self) -> bool:
         """Start the vector engine."""
         pass
-    
+
     @abstractmethod
     def stop(self) -> bool:
         """Stop the vector engine."""
         pass
-    
+
     @abstractmethod
     def add_vector(self, vector_data: VectorData) -> bool:
         """Add vector to the engine."""
         pass
-    
+
     @abstractmethod
-    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
+    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> list[VectorSearchResult]:
         """Search for similar vectors."""
         pass
-    
+
     @abstractmethod
-    def get_capabilities(self) -> List[str]:
+    def get_capabilities(self) -> list[str]:
         """Get vector engine capabilities."""
         pass
 
 
 class VectorDatabaseEngine(VectorEngine):
     """Vector database engine implementation."""
-    
+
     def __init__(self, vector_id: str = None):
         super().__init__(
             vector_id or str(uuid.uuid4()),
             "VectorDatabaseEngine",
             VectorType.DENSE
         )
-        self.vectors: Dict[str, VectorData] = {}
-        self.index: Dict[str, np.ndarray] = {}
-    
+        self.vectors: dict[str, VectorData] = {}
+        self.index: dict[str, np.ndarray] = {}
+
     def start(self) -> bool:
         """Start vector database engine."""
         try:
@@ -192,7 +193,7 @@ class VectorDatabaseEngine(VectorEngine):
             self.logger.error(f"Failed to start vector database engine: {e}")
             self.status = VectorStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop vector database engine."""
         try:
@@ -202,7 +203,7 @@ class VectorDatabaseEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to stop vector database engine: {e}")
             return False
-    
+
     def add_vector(self, vector_data: VectorData) -> bool:
         """Add vector to database."""
         try:
@@ -214,17 +215,17 @@ class VectorDatabaseEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to add vector {vector_data.vector_id}: {e}")
             return False
-    
-    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
+
+    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> list[VectorSearchResult]:
         """Search for similar vectors."""
         try:
             results = []
-            
+
             for vector_id, vector_data in self.vectors.items():
                 # Calculate cosine similarity
                 similarity = self._calculate_cosine_similarity(query_vector, vector_data.data)
                 distance = 1 - similarity  # Convert similarity to distance
-                
+
                 result = VectorSearchResult(
                     result_id=str(uuid.uuid4()),
                     vector_id=vector_id,
@@ -233,28 +234,28 @@ class VectorDatabaseEngine(VectorEngine):
                     metadata=vector_data.metadata
                 )
                 results.append(result)
-            
+
             # Sort by similarity score (descending) and return top_k
             results.sort(key=lambda x: x.similarity_score, reverse=True)
             return results[:top_k]
         except Exception as e:
             self.logger.error(f"Failed to search vectors: {e}")
             return []
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get vector database capabilities."""
         return ["vector_storage", "similarity_search", "vector_indexing"]
-    
+
     def _calculate_cosine_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
         """Calculate cosine similarity between two vectors."""
         try:
             dot_product = np.dot(vec1, vec2)
             norm1 = np.linalg.norm(vec1)
             norm2 = np.linalg.norm(vec2)
-            
+
             if norm1 == 0 or norm2 == 0:
                 return 0.0
-            
+
             return dot_product / (norm1 * norm2)
         except Exception as e:
             self.logger.error(f"Failed to calculate cosine similarity: {e}")
@@ -263,15 +264,15 @@ class VectorDatabaseEngine(VectorEngine):
 
 class VectorAnalyticsEngine(VectorEngine):
     """Vector analytics engine implementation."""
-    
+
     def __init__(self, vector_id: str = None):
         super().__init__(
             vector_id or str(uuid.uuid4()),
             "VectorAnalyticsEngine",
             VectorType.DENSE
         )
-        self.analytics_data: Dict[str, Any] = {}
-    
+        self.analytics_data: dict[str, Any] = {}
+
     def start(self) -> bool:
         """Start vector analytics engine."""
         try:
@@ -282,7 +283,7 @@ class VectorAnalyticsEngine(VectorEngine):
             self.logger.error(f"Failed to start vector analytics engine: {e}")
             self.status = VectorStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop vector analytics engine."""
         try:
@@ -292,7 +293,7 @@ class VectorAnalyticsEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to stop vector analytics engine: {e}")
             return False
-    
+
     def add_vector(self, vector_data: VectorData) -> bool:
         """Add vector for analytics."""
         try:
@@ -303,17 +304,17 @@ class VectorAnalyticsEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to add vector {vector_data.vector_id} for analytics: {e}")
             return False
-    
-    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
+
+    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> list[VectorSearchResult]:
         """Search vectors using analytics."""
         try:
             results = []
-            
+
             for vector_id, vector_data in self.analytics_data.items():
                 # Use different similarity metrics for analytics
                 similarity = self._calculate_euclidean_similarity(query_vector, vector_data.data)
                 distance = np.linalg.norm(query_vector - vector_data.data)
-                
+
                 result = VectorSearchResult(
                     result_id=str(uuid.uuid4()),
                     vector_id=vector_id,
@@ -322,18 +323,18 @@ class VectorAnalyticsEngine(VectorEngine):
                     metadata=vector_data.metadata
                 )
                 results.append(result)
-            
+
             # Sort by similarity score (descending) and return top_k
             results.sort(key=lambda x: x.similarity_score, reverse=True)
             return results[:top_k]
         except Exception as e:
             self.logger.error(f"Failed to search vectors with analytics: {e}")
             return []
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get vector analytics capabilities."""
         return ["vector_analytics", "clustering", "classification", "pattern_recognition"]
-    
+
     def _calculate_euclidean_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
         """Calculate euclidean similarity between two vectors."""
         try:
@@ -344,40 +345,40 @@ class VectorAnalyticsEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to calculate euclidean similarity: {e}")
             return 0.0
-    
-    def perform_clustering(self, vectors: List[VectorData], n_clusters: int = 3) -> VectorAnalyticsResult:
+
+    def perform_clustering(self, vectors: list[VectorData], n_clusters: int = 3) -> VectorAnalyticsResult:
         """Perform vector clustering."""
         try:
             start_time = datetime.now()
-            
+
             # Simple k-means clustering implementation
             if len(vectors) < n_clusters:
                 n_clusters = len(vectors)
-            
+
             # Initialize centroids randomly
             centroids = []
             for i in range(n_clusters):
                 if i < len(vectors):
                     centroids.append(vectors[i].data)
-            
+
             # Assign vectors to clusters
             clusters = {}
             for i, vector in enumerate(vectors):
                 closest_centroid = 0
                 min_distance = float('inf')
-                
+
                 for j, centroid in enumerate(centroids):
                     distance = np.linalg.norm(vector.data - centroid)
                     if distance < min_distance:
                         min_distance = distance
                         closest_centroid = j
-                
+
                 if closest_centroid not in clusters:
                     clusters[closest_centroid] = []
                 clusters[closest_centroid].append(vector.vector_id)
-            
+
             processing_time = (datetime.now() - start_time).total_seconds()
-            
+
             result = VectorAnalyticsResult(
                 result_id=str(uuid.uuid4()),
                 operation=VectorOperation.CLUSTERING,
@@ -389,7 +390,7 @@ class VectorAnalyticsEngine(VectorEngine):
                 confidence=0.85,
                 processing_time=processing_time
             )
-            
+
             self.metrics.total_operations += 1
             return result
         except Exception as e:
@@ -405,15 +406,15 @@ class VectorAnalyticsEngine(VectorEngine):
 
 class VectorIntegrationEngine(VectorEngine):
     """Vector integration engine implementation."""
-    
+
     def __init__(self, vector_id: str = None):
         super().__init__(
             vector_id or str(uuid.uuid4()),
             "VectorIntegrationEngine",
             VectorType.DENSE
         )
-        self.integration_data: Dict[str, Any] = {}
-    
+        self.integration_data: dict[str, Any] = {}
+
     def start(self) -> bool:
         """Start vector integration engine."""
         try:
@@ -424,7 +425,7 @@ class VectorIntegrationEngine(VectorEngine):
             self.logger.error(f"Failed to start vector integration engine: {e}")
             self.status = VectorStatus.ERROR
             return False
-    
+
     def stop(self) -> bool:
         """Stop vector integration engine."""
         try:
@@ -434,7 +435,7 @@ class VectorIntegrationEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to stop vector integration engine: {e}")
             return False
-    
+
     def add_vector(self, vector_data: VectorData) -> bool:
         """Add vector for integration."""
         try:
@@ -445,17 +446,17 @@ class VectorIntegrationEngine(VectorEngine):
         except Exception as e:
             self.logger.error(f"Failed to add vector {vector_data.vector_id} for integration: {e}")
             return False
-    
-    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
+
+    def search_vectors(self, query_vector: np.ndarray, top_k: int = 10) -> list[VectorSearchResult]:
         """Search vectors using integration."""
         try:
             results = []
-            
+
             for vector_id, vector_data in self.integration_data.items():
                 # Use dot product similarity for integration
                 similarity = self._calculate_dot_product_similarity(query_vector, vector_data.data)
                 distance = 1 - similarity
-                
+
                 result = VectorSearchResult(
                     result_id=str(uuid.uuid4()),
                     vector_id=vector_id,
@@ -464,18 +465,18 @@ class VectorIntegrationEngine(VectorEngine):
                     metadata=vector_data.metadata
                 )
                 results.append(result)
-            
+
             # Sort by similarity score (descending) and return top_k
             results.sort(key=lambda x: x.similarity_score, reverse=True)
             return results[:top_k]
         except Exception as e:
             self.logger.error(f"Failed to search vectors with integration: {e}")
             return []
-    
-    def get_capabilities(self) -> List[str]:
+
+    def get_capabilities(self) -> list[str]:
         """Get vector integration capabilities."""
         return ["vector_integration", "system_integration", "data_integration"]
-    
+
     def _calculate_dot_product_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
         """Calculate dot product similarity between two vectors."""
         try:
@@ -483,10 +484,10 @@ class VectorIntegrationEngine(VectorEngine):
             # Normalize by vector magnitudes
             norm1 = np.linalg.norm(vec1)
             norm2 = np.linalg.norm(vec2)
-            
+
             if norm1 == 0 or norm2 == 0:
                 return 0.0
-            
+
             return dot_product / (norm1 * norm2)
         except Exception as e:
             self.logger.error(f"Failed to calculate dot product similarity: {e}")
@@ -499,11 +500,11 @@ class VectorIntegrationEngine(VectorEngine):
 
 class VectorCoordinator:
     """Vector coordination system."""
-    
+
     def __init__(self):
-        self.engines: Dict[str, VectorEngine] = {}
+        self.engines: dict[str, VectorEngine] = {}
         self.logger = logging.getLogger("vector_coordinator")
-    
+
     def register_engine(self, engine: VectorEngine) -> bool:
         """Register vector engine."""
         try:
@@ -513,7 +514,7 @@ class VectorCoordinator:
         except Exception as e:
             self.logger.error(f"Failed to register vector engine {engine.name}: {e}")
             return False
-    
+
     def start_all_engines(self) -> bool:
         """Start all registered engines."""
         success = True
@@ -521,7 +522,7 @@ class VectorCoordinator:
             if not engine.start():
                 success = False
         return success
-    
+
     def stop_all_engines(self) -> bool:
         """Stop all registered engines."""
         success = True
@@ -529,18 +530,18 @@ class VectorCoordinator:
             if not engine.stop():
                 success = False
         return success
-    
-    def search_all_engines(self, query_vector: np.ndarray, top_k: int = 10) -> List[VectorSearchResult]:
+
+    def search_all_engines(self, query_vector: np.ndarray, top_k: int = 10) -> list[VectorSearchResult]:
         """Search across all engines."""
         all_results = []
-        
+
         for engine in self.engines.values():
             try:
                 results = engine.search_vectors(query_vector, top_k)
                 all_results.extend(results)
             except Exception as e:
                 self.logger.error(f"Failed to search engine {engine.name}: {e}")
-        
+
         # Sort all results by similarity score and return top_k
         all_results.sort(key=lambda x: x.similarity_score, reverse=True)
         return all_results[:top_k]
@@ -550,18 +551,18 @@ class VectorCoordinator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_vector_engine(engine_type: str, vector_id: str = None) -> Optional[VectorEngine]:
+def create_vector_engine(engine_type: str, vector_id: str = None) -> VectorEngine | None:
     """Create vector engine by type."""
     engines = {
         "database": VectorDatabaseEngine,
         "analytics": VectorAnalyticsEngine,
         "integration": VectorIntegrationEngine
     }
-    
+
     engine_class = engines.get(engine_type)
     if engine_class:
         return engine_class(vector_id)
-    
+
     return None
 
 
@@ -578,27 +579,27 @@ def main():
     """Main execution function."""
     print("Vector Unified - Consolidated Vector System")
     print("=" * 45)
-    
+
     # Create vector coordinator
     coordinator = create_vector_coordinator()
     print("✅ Vector coordinator created")
-    
+
     # Create and register vector engines
     engine_types = ["database", "analytics", "integration"]
-    
+
     for engine_type in engine_types:
         engine = create_vector_engine(engine_type)
         if engine and coordinator.register_engine(engine):
             print(f"✅ {engine.name} registered")
         else:
             print(f"❌ Failed to register {engine_type} engine")
-    
+
     # Start all engines
     if coordinator.start_all_engines():
         print("✅ All vector engines started")
     else:
         print("❌ Some vector engines failed to start")
-    
+
     # Test vector functionality
     test_vector = VectorData(
         vector_id="test_vector_001",
@@ -606,17 +607,17 @@ def main():
         vector_type=VectorType.DENSE,
         metadata={"test": True}
     )
-    
+
     # Add test vector to all engines
     for engine in coordinator.engines.values():
         if engine.add_vector(test_vector):
             print(f"✅ Test vector added to {engine.name}")
-    
+
     # Test search functionality
     query_vector = np.array([1.1, 2.1, 3.1, 4.1, 5.1])
     search_results = coordinator.search_all_engines(query_vector, top_k=5)
     print(f"✅ Search completed with {len(search_results)} results")
-    
+
     print(f"\nTotal engines registered: {len(coordinator.engines)}")
     print("Vector Unified system test completed successfully!")
     return 0

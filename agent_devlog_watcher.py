@@ -1,8 +1,6 @@
 
 import time
-import json
 from pathlib import Path
-from datetime import datetime
 
 print("Agent DevLog Watcher Started")
 print("Monitoring for new agent activity...")

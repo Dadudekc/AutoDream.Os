@@ -27,7 +27,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 
 import yaml
 
@@ -270,7 +270,7 @@ class BackupManager:
         self.dest = Path(dest)
         self.dest.mkdir(parents=True, exist_ok=True)
 
-    def create_backup(self, agents: Optional[List[str]] = None) -> str:
+    def create_backup(self, agents: list[str] | None = None) -> str:
         """Create backup of agent state.
 
         Args:
@@ -303,7 +303,7 @@ class BackupManager:
 
         return str(backup_dir)
 
-    def list_backups(self) -> List[str]:
+    def list_backups(self) -> list[str]:
         """List all available backups.
 
         Returns:
@@ -379,7 +379,7 @@ class FileValidationResult:
     writable: bool
     size_bytes: int
     modified_time: datetime | None
-    errors: List[str]
+    errors: list[str]
 
 
 class FileValidator:
@@ -420,11 +420,11 @@ class FileValidator:
 class UnifiedFileScanner:
     """Unified file scanner combining scanning operations."""
 
-    def __init__(self, skip_patterns: Optional[Set[str]] = None):
+    def __init__(self, skip_patterns: set[str] | None = None):
         """Initialize file scanner with skip patterns."""
         self.skip_patterns = skip_patterns or self._get_default_skip_patterns()
 
-    def _get_default_skip_patterns(self) -> Set[str]:
+    def _get_default_skip_patterns(self) -> set[str]:
         """Get default patterns for files that should be skipped."""
         return {
             '__pycache__', '.git', 'venv', 'env', 'node_modules',
@@ -436,7 +436,7 @@ class UnifiedFileScanner:
         file_str = str(file_path)
         return any(pattern in file_str for pattern in self.skip_patterns)
 
-    def scan_directory(self, root_dir: Path, pattern: str = "*.py") -> List[Path]:
+    def scan_directory(self, root_dir: Path, pattern: str = "*.py") -> list[Path]:
         """Scan directory for files matching pattern."""
         matching_files = []
         for file_path in root_dir.rglob(pattern):
@@ -444,7 +444,7 @@ class UnifiedFileScanner:
                 matching_files.append(file_path)
         return matching_files
 
-    def get_directory_stats(self, root_dir: Path) -> Dict[str, Any]:
+    def get_directory_stats(self, root_dir: Path) -> dict[str, Any]:
         """Get comprehensive directory statistics."""
         stats = {
             'total_files': 0,
@@ -536,10 +536,10 @@ class UnifiedFileUtils:
     def validate_file(self, file_path: str) -> FileValidationResult:
         return self.validator.validate_file_path(file_path)
 
-    def scan_directory(self, root_dir: Path, pattern: str = "*.py") -> List[Path]:
+    def scan_directory(self, root_dir: Path, pattern: str = "*.py") -> list[Path]:
         return self.scanner.scan_directory(root_dir, pattern)
 
-    def get_directory_stats(self, root_dir: Path) -> Dict[str, Any]:
+    def get_directory_stats(self, root_dir: Path) -> dict[str, Any]:
         return self.scanner.get_directory_stats(root_dir)
 
 

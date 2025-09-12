@@ -19,7 +19,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -56,10 +56,10 @@ class ArchitecturalGuidance:
     principle: ArchitecturalPrinciple
     display_name: str
     description: str
-    responsibilities: List[str]
-    guidelines: List[str]
-    examples: List[str]
-    validation_rules: List[str]
+    responsibilities: list[str]
+    guidelines: list[str]
+    examples: list[str]
+    validation_rules: list[str]
 
 
 @dataclass
@@ -79,8 +79,8 @@ class ComplianceValidationResult:
     agent_id: str
     principle: ArchitecturalPrinciple
     compliant: bool
-    issues: List[str]
-    recommendations: List[str]
+    issues: list[str]
+    recommendations: list[str]
     validated_at: str
 
 
@@ -88,7 +88,7 @@ class PrincipleDefinitions:
     """Centralized definitions for all architectural principles."""
 
     @staticmethod
-    def get_all_principles() -> Dict[ArchitecturalPrinciple, ArchitecturalGuidance]:
+    def get_all_principles() -> dict[ArchitecturalPrinciple, ArchitecturalGuidance]:
         """Get all architectural principle definitions."""
         return {
             ArchitecturalPrinciple.SINGLE_RESPONSIBILITY: ArchitecturalGuidance(
@@ -369,7 +369,7 @@ class ComplianceValidator:
         }
 
     def validate_compliance(self, agent_id: str, principle: ArchitecturalPrinciple,
-                           code_analysis: Dict[str, Any]) -> ComplianceValidationResult:
+                           code_analysis: dict[str, Any]) -> ComplianceValidationResult:
         """Validate compliance with architectural principle."""
         validator = self.validation_rules.get(principle, self._default_validation)
         issues = validator(code_analysis)
@@ -384,42 +384,42 @@ class ComplianceValidator:
             validated_at=datetime.now().isoformat()
         )
 
-    def _validate_single_responsibility(self, code_analysis: Dict[str, Any]) -> List[str]:
+    def _validate_single_responsibility(self, code_analysis: dict[str, Any]) -> list[str]:
         """Validate Single Responsibility Principle compliance."""
         issues = []
         # Implementation would analyze code for multiple responsibilities
         return issues
 
-    def _validate_open_closed(self, code_analysis: Dict[str, Any]) -> List[str]:
+    def _validate_open_closed(self, code_analysis: dict[str, Any]) -> list[str]:
         """Validate Open/Closed Principle compliance."""
         issues = []
         # Implementation would check for extension vs modification patterns
         return issues
 
-    def _validate_liskov_substitution(self, code_analysis: Dict[str, Any]) -> List[str]:
+    def _validate_liskov_substitution(self, code_analysis: dict[str, Any]) -> list[str]:
         """Validate Liskov Substitution Principle compliance."""
         issues = []
         # Implementation would analyze inheritance hierarchies
         return issues
 
-    def _validate_interface_segregation(self, code_analysis: Dict[str, Any]) -> List[str]:
+    def _validate_interface_segregation(self, code_analysis: dict[str, Any]) -> list[str]:
         """Validate Interface Segregation Principle compliance."""
         issues = []
         # Implementation would check interface design
         return issues
 
-    def _validate_dependency_inversion(self, code_analysis: Dict[str, Any]) -> List[str]:
+    def _validate_dependency_inversion(self, code_analysis: dict[str, Any]) -> list[str]:
         """Validate Dependency Inversion Principle compliance."""
         issues = []
         # Implementation would check dependency patterns
         return issues
 
-    def _default_validation(self, code_analysis: Dict[str, Any]) -> List[str]:
+    def _default_validation(self, code_analysis: dict[str, Any]) -> list[str]:
         """Default validation for unspecified principles."""
         return []
 
     def _generate_recommendations(self, principle: ArchitecturalPrinciple,
-                                 issues: List[str]) -> List[str]:
+                                 issues: list[str]) -> list[str]:
         """Generate recommendations based on validation issues."""
         recommendations = []
         if issues:
@@ -434,13 +434,13 @@ class ConsolidatedArchitecturalService:
     def __init__(self, agent_id: str = "default"):
         """Initialize the consolidated architectural service."""
         self.agent_id = agent_id
-        
+
         # Initialize assignment manager
         self.assignment_manager = self._create_assignment_manager()
-        
+
         # Initialize compliance validator
         self.compliance_validator = self._create_compliance_validator()
-        
+
         # Initialize onboarding manager
         self.onboarding_manager = ArchitecturalOnboardingManager(
             self.assignment_manager,
@@ -455,16 +455,16 @@ class ConsolidatedArchitecturalService:
         """Create compliance validator."""
         return ComplianceValidator()
 
-    def get_principle_guidance(self, principle: ArchitecturalPrinciple) -> Optional[ArchitecturalGuidance]:
+    def get_principle_guidance(self, principle: ArchitecturalPrinciple) -> ArchitecturalGuidance | None:
         """Get guidance for a specific principle."""
         principles = PrincipleDefinitions.get_all_principles()
         return principles.get(principle)
 
-    def get_all_principles(self) -> Dict[ArchitecturalPrinciple, ArchitecturalGuidance]:
+    def get_all_principles(self) -> dict[ArchitecturalPrinciple, ArchitecturalGuidance]:
         """Get all architectural principles."""
         return PrincipleDefinitions.get_all_principles()
 
-    def get_agent_principle(self, agent_id: str) -> Optional[ArchitecturalPrinciple]:
+    def get_agent_principle(self, agent_id: str) -> ArchitecturalPrinciple | None:
         """Get the principle assigned to an agent."""
         return self.assignment_manager.get_agent_principle(agent_id)
 
@@ -472,7 +472,7 @@ class ConsolidatedArchitecturalService:
         """Assign a principle to an agent."""
         self.assignment_manager.assign_principle(agent_id, principle)
 
-    def validate_agent_compliance(self, agent_id: str, code_changes: List[str]) -> ComplianceValidationResult:
+    def validate_agent_compliance(self, agent_id: str, code_changes: list[str]) -> ComplianceValidationResult:
         """Validate agent compliance with their assigned principle."""
         principle = self.get_agent_principle(agent_id)
         if not principle:
@@ -484,19 +484,19 @@ class ConsolidatedArchitecturalService:
                 recommendations=["Assign an architectural principle to the agent"],
                 validated_at=datetime.now().isoformat()
             )
-        
+
         return self.compliance_validator.validate_agent_compliance(
             agent_id, principle, code_changes
         )
 
-    def onboard_agent(self, agent_id: str, principle: Optional[ArchitecturalPrinciple] = None) -> Dict[str, Any]:
+    def onboard_agent(self, agent_id: str, principle: ArchitecturalPrinciple | None = None) -> dict[str, Any]:
         """Onboard an agent with architectural responsibilities."""
         if principle:
             self.assign_principle(agent_id, principle)
-        
+
         return self.onboarding_manager.onboard_agent(agent_id)
 
-    def get_agent_onboarding_status(self, agent_id: str) -> Dict[str, Any]:
+    def get_agent_onboarding_status(self, agent_id: str) -> dict[str, Any]:
         """Get onboarding status for an agent."""
         return self.onboarding_manager.get_onboarding_status(agent_id)
 
@@ -504,11 +504,11 @@ class ConsolidatedArchitecturalService:
         """Generate onboarding message for an agent."""
         return self.onboarding_manager.generate_onboarding_message(agent_id)
 
-    def get_comprehensive_principle_report(self, principle: ArchitecturalPrinciple) -> Dict[str, Any]:
+    def get_comprehensive_principle_report(self, principle: ArchitecturalPrinciple) -> dict[str, Any]:
         """Get comprehensive report for a principle."""
         guidance = self.get_principle_guidance(principle)
         agents = self.assignment_manager.get_agents_by_principle(principle)
-        
+
         return {
             "principle": principle.value,
             "display_name": guidance.display_name if guidance else "Unknown",
@@ -518,17 +518,17 @@ class ConsolidatedArchitecturalService:
             "agent_count": len(agents)
         }
 
-    def get_system_architecture_summary(self) -> Dict[str, Any]:
+    def get_system_architecture_summary(self) -> dict[str, Any]:
         """Get summary of system architecture."""
         all_assignments = self.assignment_manager.get_all_assignments()
         all_principles = self.get_all_principles()
-        
+
         principle_counts = {}
         for principle in ArchitecturalPrinciple:
             principle_counts[principle.value] = len(
                 self.assignment_manager.get_agents_by_principle(principle)
             )
-        
+
         return {
             "total_agents": len(all_assignments),
             "total_principles": len(all_principles),
@@ -546,7 +546,7 @@ class ArchitecturalOnboardingManager:
         self.assignment_manager = assignment_manager
         self.compliance_validator = compliance_validator
 
-    def onboard_agent(self, agent_id: str) -> Dict[str, Any]:
+    def onboard_agent(self, agent_id: str) -> dict[str, Any]:
         """Onboard an agent with architectural responsibilities."""
         principle = self.assignment_manager.get_agent_principle(agent_id)
         if not principle:
@@ -558,7 +558,7 @@ class ArchitecturalOnboardingManager:
 
         # Generate onboarding guidance
         guidance = self._generate_onboarding_guidance(agent_id, principle)
-        
+
         return {
             "success": True,
             "agent_id": agent_id,
@@ -567,7 +567,7 @@ class ArchitecturalOnboardingManager:
             "onboarding_status": "completed"
         }
 
-    def get_onboarding_status(self, agent_id: str) -> Dict[str, Any]:
+    def get_onboarding_status(self, agent_id: str) -> dict[str, Any]:
         """Get onboarding status."""
         principle = self.assignment_manager.get_agent_principle(agent_id)
         return {
@@ -582,7 +582,7 @@ class ArchitecturalOnboardingManager:
         principle = self.assignment_manager.get_agent_principle(agent_id)
         if not principle:
             return f"Agent {agent_id}: Please assign an architectural principle first."
-        
+
         return f"""
 🐝 **Architectural Onboarding Complete for {agent_id}**
 
@@ -598,7 +598,7 @@ class ArchitecturalOnboardingManager:
 **Remember:** "WE ARE SWARM" - Architectural excellence through collaboration!
         """.strip()
 
-    def _generate_onboarding_guidance(self, agent_id: str, principle: ArchitecturalPrinciple) -> Dict[str, Any]:
+    def _generate_onboarding_guidance(self, agent_id: str, principle: ArchitecturalPrinciple) -> dict[str, Any]:
         """Generate onboarding guidance."""
         return {
             "principle": principle.value,

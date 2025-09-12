@@ -15,7 +15,7 @@ import webbrowser
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Any
 
 from ...thea.config.thea_config import TheaConfig
 
@@ -34,7 +34,7 @@ class TheaCookieManager:
     def __init__(self, cookie_file: str = "thea_cookies.json"):
         self.cookie_file = Path(cookie_file)
 
-    def save_cookies(self, cookies: List[Dict[str, Any]]) -> bool:
+    def save_cookies(self, cookies: list[dict[str, Any]]) -> bool:
         """Save cookies to file with metadata."""
         try:
             cookie_data = {
@@ -53,13 +53,13 @@ class TheaCookieManager:
             print(f"❌ Failed to save cookies: {e}")
             return False
 
-    def load_cookies(self) -> Tuple[List[Dict[str, Any]], bool]:
+    def load_cookies(self) -> tuple[list[dict[str, Any]], bool]:
         """Load cookies from file and check validity."""
         if not self.cookie_file.exists():
             return [], False
 
         try:
-            with open(self.cookie_file, 'r') as f:
+            with open(self.cookie_file) as f:
                 data = json.load(f)
 
             # Handle both old and new cookie formats

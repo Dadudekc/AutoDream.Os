@@ -15,7 +15,7 @@ import logging
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 try:
     import pyautogui as pg
@@ -34,7 +34,7 @@ class AgentRestartProtocol:
         self.coordinate_loader = self._load_coordinate_loader()
         self.onboarding_service = self._load_onboarding_service()
         self.agent_roles = self._load_agent_roles()
-        
+
     def _load_coordinate_loader(self):
         """Load coordinate loader for agent positioning."""
         try:
@@ -53,11 +53,11 @@ class AgentRestartProtocol:
             logger.error(f"Failed to load onboarding service: {e}")
             return None
 
-    def _load_agent_roles(self) -> Dict[str, str]:
+    def _load_agent_roles(self) -> dict[str, str]:
         """Load agent role assignments."""
         return {
             "Agent-1": "Integration & Core Systems Specialist",
-            "Agent-2": "Architecture & Design Specialist", 
+            "Agent-2": "Architecture & Design Specialist",
             "Agent-3": "Infrastructure & DevOps Specialist",
             "Agent-4": "Quality Assurance Specialist (CAPTAIN)",
             "Agent-5": "Business Intelligence Specialist",
@@ -72,27 +72,27 @@ class AgentRestartProtocol:
             current_status = self._get_agent_status(agent_id)
             if not current_status:
                 return True  # Agent not found, likely restarted
-            
+
             # Check if agent is in restart state
             return current_status.get("status") == "RESTARTING"
         except Exception as e:
             logger.error(f"Error detecting agent restart for {agent_id}: {e}")
             return False
 
-    def handle_agent_restart(self, agent_id: str, phase: str = "Cycle 1") -> Dict[str, Any]:
+    def handle_agent_restart(self, agent_id: str, phase: str = "Cycle 1") -> dict[str, Any]:
         """Handle agent restart with phase transition onboarding."""
         logger.info(f"🔄 Handling agent restart for {agent_id} in {phase}")
-        
+
         try:
             # Generate phase transition message
             message = self._generate_phase_transition_message(agent_id, phase)
-            
+
             # Send onboarding message via UI automation
             success = self._send_onboarding_message(agent_id, message)
-            
+
             # Update agent status
             self._update_agent_status(agent_id, "ACTIVE", phase)
-            
+
             return {
                 "agent_id": agent_id,
                 "success": success,
@@ -100,7 +100,7 @@ class AgentRestartProtocol:
                 "message_sent": success,
                 "timestamp": datetime.now().isoformat()
             }
-            
+
         except Exception as e:
             logger.error(f"Error handling agent restart for {agent_id}: {e}")
             return {
@@ -113,7 +113,7 @@ class AgentRestartProtocol:
     def _generate_phase_transition_message(self, agent_id: str, phase: str) -> str:
         """Generate phase transition onboarding message."""
         role = self.agent_roles.get(agent_id, "Specialist")
-        
+
         if phase == "Cycle 1":
             phase_context = """
 🎯 **CYCLE 1 FOUNDATION AUDIT - DEPENDENCY ANALYSIS PHASE**
@@ -202,28 +202,28 @@ Captain Agent-4 (QA & Coordination)
         if not pg or not self.coordinate_loader:
             logger.warning("PyAutoGUI or coordinate loader not available - skipping UI automation")
             return False
-            
+
         try:
             # Get agent coordinates
             chat_coords = self.coordinate_loader.get_chat_coordinates(agent_id)
-            
+
             # Focus agent window
             self._focus_agent_window(agent_id)
-            
+
             # Click on chat input
             pg.click(chat_coords[0], chat_coords[1])
             time.sleep(0.1)
-            
+
             # Copy message to clipboard and paste
             import pyperclip
             pyperclip.copy(message)
             pg.hotkey("ctrl", "a")  # Select all existing text
             pg.hotkey("ctrl", "v")  # Paste new message
             time.sleep(0.1)
-            
+
             logger.info(f"✅ Onboarding message sent to {agent_id}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to send onboarding message to {agent_id}: {e}")
             return False
@@ -241,7 +241,7 @@ Captain Agent-4 (QA & Coordination)
             pg.hotkey("alt", "tab")
         time.sleep(0.1)
 
-    def _get_agent_status(self, agent_id: str) -> Optional[Dict[str, Any]]:
+    def _get_agent_status(self, agent_id: str) -> dict[str, Any] | None:
         """Get current agent status."""
         try:
             if self.status_file.exists():
@@ -257,31 +257,31 @@ Captain Agent-4 (QA & Coordination)
             data = {}
             if self.status_file.exists():
                 data = json.loads(self.status_file.read_text(encoding="utf-8"))
-            
+
             if "agents" not in data:
                 data["agents"] = {}
-            
+
             data["agents"][agent_id] = {
                 "status": status,
                 "phase": phase,
                 "last_updated": datetime.now().isoformat(),
                 "restart_count": data["agents"].get(agent_id, {}).get("restart_count", 0) + 1
             }
-            
+
             self.status_file.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            
+
         except Exception as e:
             logger.error(f"Error updating agent status: {e}")
 
-    def get_restart_summary(self) -> Dict[str, Any]:
+    def get_restart_summary(self) -> dict[str, Any]:
         """Get summary of agent restart activity."""
         try:
             if not self.status_file.exists():
                 return {"total_agents": 0, "active_agents": 0, "restart_activity": []}
-            
+
             data = json.loads(self.status_file.read_text(encoding="utf-8"))
             agents = data.get("agents", {})
-            
+
             active_count = sum(1 for agent in agents.values() if agent.get("status") == "ACTIVE")
             restart_activity = [
                 {
@@ -293,14 +293,14 @@ Captain Agent-4 (QA & Coordination)
                 }
                 for agent_id, agent_data in agents.items()
             ]
-            
+
             return {
                 "total_agents": len(agents),
                 "active_agents": active_count,
                 "restart_activity": restart_activity,
                 "last_updated": data.get("last_updated", datetime.now().isoformat())
             }
-            
+
         except Exception as e:
             logger.error(f"Error getting restart summary: {e}")
             return {"error": str(e)}
@@ -309,13 +309,13 @@ Captain Agent-4 (QA & Coordination)
 def main():
     """Main function for testing agent restart protocol."""
     protocol = AgentRestartProtocol()
-    
+
     # Test agent restart detection and handling
     for agent_id in ["Agent-1", "Agent-2", "Agent-3", "Agent-4"]:
         if protocol.detect_agent_restart(agent_id):
             result = protocol.handle_agent_restart(agent_id, "Cycle 1")
             print(f"Agent restart handled: {result}")
-    
+
     # Get restart summary
     summary = protocol.get_restart_summary()
     print(f"Restart summary: {summary}")

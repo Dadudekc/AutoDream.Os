@@ -15,15 +15,12 @@ from __future__ import annotations
 
 import logging
 import time
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Union
-from pathlib import Path
+from typing import Any, Protocol
 
-from ..contracts import OrchestrationContext, OrchestrationResult, Step
-from ..registry import StepRegistry
+from ..contracts import OrchestrationContext, Step
 
 
 class DebateStatus(Enum):
@@ -57,8 +54,8 @@ class DebateArgument:
     technical_feasibility: float
     business_value: float
     timestamp: datetime
-    votes: Dict[str, int] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    votes: dict[str, int] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -68,32 +65,32 @@ class DebateSession:
     topic: str
     status: DebateStatus = DebateStatus.PENDING
     current_phase: DebatePhase = DebatePhase.INITIALIZATION
-    participants: List[str] = field(default_factory=list)
-    arguments: List[DebateArgument] = field(default_factory=list)
-    options: List[str] = field(default_factory=list)
+    participants: list[str] = field(default_factory=list)
+    arguments: list[DebateArgument] = field(default_factory=list)
+    options: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=datetime.now)
-    deadline: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    deadline: datetime | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class DebateStrategy(Protocol):
     """Strategy pattern for debate management."""
 
-    def initialize_debate(self, topic: str, options: List[str], participants: List[str]) -> DebateSession: ...
+    def initialize_debate(self, topic: str, options: list[str], participants: list[str]) -> DebateSession: ...
 
-    def collect_arguments(self, session: DebateSession, arguments: List[DebateArgument]) -> DebateSession: ...
+    def collect_arguments(self, session: DebateSession, arguments: list[DebateArgument]) -> DebateSession: ...
 
-    def analyze_arguments(self, session: DebateSession) -> Dict[str, Any]: ...
+    def analyze_arguments(self, session: DebateSession) -> dict[str, Any]: ...
 
-    def conduct_voting(self, session: DebateSession) -> Dict[str, Any]: ...
+    def conduct_voting(self, session: DebateSession) -> dict[str, Any]: ...
 
-    def reach_consensus(self, session: DebateSession, analysis: Dict[str, Any]) -> str: ...
+    def reach_consensus(self, session: DebateSession, analysis: dict[str, Any]) -> str: ...
 
 
 class SwarmDebateStrategy:
     """Swarm-optimized debate strategy."""
 
-    def initialize_debate(self, topic: str, options: List[str], participants: List[str]) -> DebateSession:
+    def initialize_debate(self, topic: str, options: list[str], participants: list[str]) -> DebateSession:
         """Initialize a new debate session."""
         session_id = f"debate_{int(time.time())}_{len(participants)}agents"
 
@@ -107,7 +104,7 @@ class SwarmDebateStrategy:
 
         return session
 
-    def collect_arguments(self, session: DebateSession, arguments: List[DebateArgument]) -> DebateSession:
+    def collect_arguments(self, session: DebateSession, arguments: list[DebateArgument]) -> DebateSession:
         """Collect and validate arguments."""
         # Filter arguments by participants
         valid_arguments = [
@@ -120,7 +117,7 @@ class SwarmDebateStrategy:
 
         return session
 
-    def analyze_arguments(self, session: DebateSession) -> Dict[str, Any]:
+    def analyze_arguments(self, session: DebateSession) -> dict[str, Any]:
         """Analyze collected arguments."""
         analysis = {
             "total_arguments": len(session.arguments),
@@ -163,7 +160,7 @@ class SwarmDebateStrategy:
 
         return analysis
 
-    def conduct_voting(self, session: DebateSession) -> Dict[str, Any]:
+    def conduct_voting(self, session: DebateSession) -> dict[str, Any]:
         """Conduct voting on arguments."""
         voting_results = {
             "votes_cast": 0,
@@ -179,7 +176,7 @@ class SwarmDebateStrategy:
 
         return voting_results
 
-    def reach_consensus(self, session: DebateSession, analysis: Dict[str, Any]) -> str:
+    def reach_consensus(self, session: DebateSession, analysis: dict[str, Any]) -> str:
         """Reach consensus based on analysis."""
         # Find option with highest average quality
         avg_quality = analysis.get("average_quality_by_option", {})
@@ -194,14 +191,14 @@ class SwarmDebateStrategy:
 class DebateEngine:
     """Debate Engine - Intent-Oriented Subsystem for debate coordination."""
 
-    def __init__(self, strategy: Optional[DebateStrategy] = None):
+    def __init__(self, strategy: DebateStrategy | None = None):
         self.logger = logging.getLogger(__name__)
         self.strategy = strategy or SwarmDebateStrategy()
-        self.active_sessions: Dict[str, DebateSession] = {}
-        self.completed_sessions: Dict[str, DebateSession] = {}
-        self.debate_history: List[DebateSession] = []
+        self.active_sessions: dict[str, DebateSession] = {}
+        self.completed_sessions: dict[str, DebateSession] = {}
+        self.debate_history: list[DebateSession] = []
 
-    def create_debate(self, topic: str, options: List[str], participants: List[str]) -> str:
+    def create_debate(self, topic: str, options: list[str], participants: list[str]) -> str:
         """Create a new debate session."""
         session = self.strategy.initialize_debate(topic, options, participants)
         self.active_sessions[session.session_id] = session
@@ -224,7 +221,7 @@ class DebateEngine:
         self.logger.info(f"Argument submitted to {session_id} by {argument.author_agent}")
         return True
 
-    def analyze_debate(self, session_id: str) -> Dict[str, Any]:
+    def analyze_debate(self, session_id: str) -> dict[str, Any]:
         """Analyze a debate session."""
         if session_id not in self.active_sessions:
             self.logger.error(f"Debate session not found: {session_id}")
@@ -236,7 +233,7 @@ class DebateEngine:
         self.logger.info(f"Debate analysis completed for {session_id}")
         return analysis
 
-    def conduct_voting(self, session_id: str) -> Dict[str, Any]:
+    def conduct_voting(self, session_id: str) -> dict[str, Any]:
         """Conduct voting for a debate session."""
         if session_id not in self.active_sessions:
             self.logger.error(f"Debate session not found: {session_id}")
@@ -272,7 +269,7 @@ class DebateEngine:
         self.logger.info(f"Debate resolved: {session_id} - {consensus}")
         return consensus
 
-    def get_session_status(self, session_id: str) -> Optional[Dict[str, Any]]:
+    def get_session_status(self, session_id: str) -> dict[str, Any] | None:
         """Get status of a debate session."""
         session = (self.active_sessions.get(session_id) or
                   self.completed_sessions.get(session_id))
@@ -292,14 +289,14 @@ class DebateEngine:
             "deadline": session.deadline.isoformat() if session.deadline else None
         }
 
-    def list_active_sessions(self) -> List[Dict[str, Any]]:
+    def list_active_sessions(self) -> list[dict[str, Any]]:
         """List all active debate sessions."""
         return [
             self.get_session_status(session_id)
             for session_id in self.active_sessions.keys()
         ]
 
-    def get_debate_history(self) -> List[Dict[str, Any]]:
+    def get_debate_history(self) -> list[dict[str, Any]]:
         """Get debate history."""
         return [
             {
@@ -325,7 +322,7 @@ class DebateOrchestrationStep(Step):
     def name(self) -> str:
         return f"debate_{self.operation}"
 
-    def run(self, ctx: OrchestrationContext, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def run(self, ctx: OrchestrationContext, payload: dict[str, Any]) -> dict[str, Any]:
         """Execute debate operation."""
         try:
             if self.operation == "create":
@@ -358,7 +355,7 @@ class DebateOrchestrationStep(Step):
 
 
 # Factory function for creating DebateEngine instances
-def create_debate_engine(strategy: Optional[DebateStrategy] = None) -> DebateEngine:
+def create_debate_engine(strategy: DebateStrategy | None = None) -> DebateEngine:
     """Factory function for DebateEngine creation."""
     return DebateEngine(strategy=strategy)
 

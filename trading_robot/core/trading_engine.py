@@ -2,13 +2,10 @@
 Core Trading Engine for Alpaca Trading Robot
 """
 import asyncio
-from datetime import datetime, time
-from typing import Dict, List, Optional, Any
-from decimal import Decimal
-import alpaca_trade_api as tradeapi
-from loguru import logger
 
+import alpaca_trade_api as tradeapi
 from config.settings import config
+from loguru import logger
 
 
 class TradingEngine:
@@ -161,7 +158,7 @@ class TradingEngine:
             return []
 
     async def place_order(self, symbol: str, qty: int, side: str, order_type: str = "market",
-                         time_in_force: str = "gtc", limit_price: Optional[float] = None):
+                         time_in_force: str = "gtc", limit_price: float | None = None):
         """Place a trading order"""
         try:
             if not self.market_open and order_type != "limit":

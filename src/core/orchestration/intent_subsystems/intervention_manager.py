@@ -14,19 +14,15 @@ License: MIT
 from __future__ import annotations
 
 import logging
+import threading
 import time
-import uuid
-from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol, Callable, Union
-from pathlib import Path
-import threading
-import json
+from typing import Any, Protocol
 
-from ..contracts import OrchestrationContext, OrchestrationResult, Step
-from ..registry import StepRegistry
+from ..contracts import OrchestrationContext, Step
 
 
 class InterventionPriority(Enum):
@@ -73,7 +69,7 @@ class InterventionTrigger:
     condition_type: str
     threshold: Any
     comparison: str  # "gt", "lt", "eq", "contains", etc.
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -81,10 +77,10 @@ class InterventionAction:
     """Intervention action definition."""
     action_type: str
     target: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     timeout_seconds: int = 30
     retry_count: int = 3
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -92,11 +88,11 @@ class InterventionResult:
     """Result of intervention execution."""
     intervention_id: str
     status: InterventionStatus
-    actions_executed: List[str]
-    metrics_before: Dict[str, Any]
-    metrics_after: Dict[str, Any]
+    actions_executed: list[str]
+    metrics_before: dict[str, Any]
+    metrics_after: dict[str, Any]
     execution_time: float
-    errors: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
     timestamp: datetime = field(default_factory=datetime.now)
 
 
@@ -109,19 +105,19 @@ class InterventionProtocol:
     intervention_type: InterventionType
     priority: InterventionPriority
     scope: InterventionScope
-    triggers: List[InterventionTrigger]
-    actions: List[InterventionAction]
+    triggers: list[InterventionTrigger]
+    actions: list[InterventionAction]
     cooldown_period: int = 300  # 5 minutes default
     max_executions_per_hour: int = 10
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class InterventionStrategy(Protocol):
     """Strategy pattern for intervention management."""
 
-    def detect_intervention_needed(self, context: Dict[str, Any]) -> Optional[InterventionProtocol]: ...
+    def detect_intervention_needed(self, context: dict[str, Any]) -> InterventionProtocol | None: ...
 
-    def execute_intervention(self, protocol: InterventionProtocol, context: Dict[str, Any]) -> InterventionResult: ...
+    def execute_intervention(self, protocol: InterventionProtocol, context: dict[str, Any]) -> InterventionResult: ...
 
     def validate_intervention_effectiveness(self, result: InterventionResult) -> bool: ...
 
@@ -132,7 +128,7 @@ class SwarmInterventionStrategy:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def detect_intervention_needed(self, context: Dict[str, Any]) -> Optional[InterventionProtocol]:
+    def detect_intervention_needed(self, context: dict[str, Any]) -> InterventionProtocol | None:
         """Detect if intervention is needed based on context."""
         # System health check
         system_health = context.get("system_health", {})
@@ -155,7 +151,7 @@ class SwarmInterventionStrategy:
 
         return None
 
-    def execute_intervention(self, protocol: InterventionProtocol, context: Dict[str, Any]) -> InterventionResult:
+    def execute_intervention(self, protocol: InterventionProtocol, context: dict[str, Any]) -> InterventionResult:
         """Execute the intervention protocol."""
         start_time = time.time()
         intervention_id = f"intervention_{int(time.time())}_{protocol.protocol_id}"
@@ -243,7 +239,7 @@ class SwarmInterventionStrategy:
             actions=actions
         )
 
-    def _create_agent_failure_protocol(self, failed_agents: List[str]) -> InterventionProtocol:
+    def _create_agent_failure_protocol(self, failed_agents: list[str]) -> InterventionProtocol:
         """Create agent failure intervention protocol."""
         actions = []
         for agent in failed_agents:
@@ -290,7 +286,7 @@ class SwarmInterventionStrategy:
             actions=actions
         )
 
-    def _execute_action(self, action: InterventionAction, context: Dict[str, Any]):
+    def _execute_action(self, action: InterventionAction, context: dict[str, Any]):
         """Execute a specific intervention action."""
         if action.action_type == "scale_resources":
             self._scale_resources(action.parameters)
@@ -305,7 +301,7 @@ class SwarmInterventionStrategy:
         else:
             raise ValueError(f"Unknown action type: {action.action_type}")
 
-    def _collect_system_metrics(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _collect_system_metrics(self, context: dict[str, Any]) -> dict[str, Any]:
         """Collect current system metrics."""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -314,29 +310,29 @@ class SwarmInterventionStrategy:
             "communication_status": context.get("communication_status", {})
         }
 
-    def _scale_resources(self, params: Dict[str, Any]):
+    def _scale_resources(self, params: dict[str, Any]):
         """Scale system resources."""
         resource_type = params.get("resource_type")
         scale_factor = params.get("scale_factor", 1.1)
         self.logger.info(f"Scaling {resource_type} resources by factor {scale_factor}")
 
-    def _notify_admin(self, params: Dict[str, Any]):
+    def _notify_admin(self, params: dict[str, Any]):
         """Notify system administrator."""
         message = params.get("message", "System intervention triggered")
         self.logger.warning(f"ADMIN NOTIFICATION: {message}")
 
-    def _restart_agent(self, params: Dict[str, Any]):
+    def _restart_agent(self, params: dict[str, Any]):
         """Restart a failed agent."""
         agent_id = params.get("agent_id")
         restart_type = params.get("restart_type", "hard")
         self.logger.info(f"Restarting agent {agent_id} with {restart_type} restart")
 
-    def _reset_communication(self, params: Dict[str, Any]):
+    def _reset_communication(self, params: dict[str, Any]):
         """Reset communication channels."""
         reset_type = params.get("reset_type", "soft")
         self.logger.info(f"Resetting communication channels with {reset_type} reset")
 
-    def _switch_backup_channel(self, params: Dict[str, Any]):
+    def _switch_backup_channel(self, params: dict[str, Any]):
         """Switch to backup communication channel."""
         backup_channel = params.get("backup_channel", "inbox")
         self.logger.info(f"Switching to backup communication channel: {backup_channel}")
@@ -345,29 +341,29 @@ class SwarmInterventionStrategy:
 class InterventionManager:
     """Intervention Manager - Intent-Oriented Subsystem for emergency intervention handling."""
 
-    def __init__(self, strategy: Optional[InterventionStrategy] = None):
+    def __init__(self, strategy: InterventionStrategy | None = None):
         self.logger = logging.getLogger(__name__)
         self.strategy = strategy or SwarmInterventionStrategy()
 
         # Intervention tracking
-        self.active_interventions: Dict[str, InterventionResult] = {}
-        self.intervention_history: List[InterventionResult] = []
-        self.protocol_registry: Dict[str, InterventionProtocol] = {}
+        self.active_interventions: dict[str, InterventionResult] = {}
+        self.intervention_history: list[InterventionResult] = []
+        self.protocol_registry: dict[str, InterventionProtocol] = {}
 
         # Cooldown tracking
-        self.last_execution_times: Dict[str, datetime] = {}
-        self.execution_counts: Dict[str, int] = {}
+        self.last_execution_times: dict[str, datetime] = {}
+        self.execution_counts: dict[str, int] = {}
 
         # Monitoring thread
         self.monitoring_active = False
-        self.monitoring_thread: Optional[threading.Thread] = None
+        self.monitoring_thread: threading.Thread | None = None
 
     def register_protocol(self, protocol: InterventionProtocol):
         """Register an intervention protocol."""
         self.protocol_registry[protocol.protocol_id] = protocol
         self.logger.info(f"Registered intervention protocol: {protocol.name}")
 
-    def start_monitoring(self, context_provider: Callable[[], Dict[str, Any]]):
+    def start_monitoring(self, context_provider: Callable[[], dict[str, Any]]):
         """Start continuous monitoring for intervention triggers."""
         if self.monitoring_active:
             return
@@ -388,7 +384,7 @@ class InterventionManager:
             self.monitoring_thread.join(timeout=5)
         self.logger.info("Intervention monitoring stopped")
 
-    def trigger_intervention(self, protocol_id: str, context: Dict[str, Any]) -> Optional[str]:
+    def trigger_intervention(self, protocol_id: str, context: dict[str, Any]) -> str | None:
         """Manually trigger an intervention."""
         if protocol_id not in self.protocol_registry:
             self.logger.error(f"Unknown intervention protocol: {protocol_id}")
@@ -423,7 +419,7 @@ class InterventionManager:
 
         return intervention_id
 
-    def detect_and_trigger(self, context: Dict[str, Any]) -> Optional[str]:
+    def detect_and_trigger(self, context: dict[str, Any]) -> str | None:
         """Automatically detect and trigger appropriate intervention."""
         protocol = self.strategy.detect_intervention_needed(context)
         if protocol:
@@ -435,7 +431,7 @@ class InterventionManager:
 
         return None
 
-    def get_intervention_status(self, intervention_id: str) -> Optional[Dict[str, Any]]:
+    def get_intervention_status(self, intervention_id: str) -> dict[str, Any] | None:
         """Get status of a specific intervention."""
         result = self.active_interventions.get(intervention_id)
         if not result:
@@ -459,7 +455,7 @@ class InterventionManager:
             "timestamp": result.timestamp.isoformat()
         }
 
-    def get_intervention_stats(self) -> Dict[str, Any]:
+    def get_intervention_stats(self) -> dict[str, Any]:
         """Get intervention statistics."""
         stats = {
             "total_interventions": len(self.intervention_history),
@@ -487,7 +483,7 @@ class InterventionManager:
 
         return stats
 
-    def _monitoring_loop(self, context_provider: Callable[[], Dict[str, Any]]):
+    def _monitoring_loop(self, context_provider: Callable[[], dict[str, Any]]):
         """Continuous monitoring loop for intervention triggers."""
         while self.monitoring_active:
             try:
@@ -537,7 +533,7 @@ class InterventionOrchestrationStep(Step):
     def name(self) -> str:
         return f"intervention_{self.operation}"
 
-    def run(self, ctx: OrchestrationContext, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def run(self, ctx: OrchestrationContext, payload: dict[str, Any]) -> dict[str, Any]:
         """Execute intervention operation."""
         try:
             if self.operation == "trigger":
@@ -572,7 +568,7 @@ class InterventionOrchestrationStep(Step):
 
 
 # Factory function for creating InterventionManager instances
-def create_intervention_manager(strategy: Optional[InterventionStrategy] = None) -> InterventionManager:
+def create_intervention_manager(strategy: InterventionStrategy | None = None) -> InterventionManager:
     """Factory function for InterventionManager creation."""
     return InterventionManager(strategy=strategy)
 

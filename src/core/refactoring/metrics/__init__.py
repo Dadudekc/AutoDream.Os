@@ -7,6 +7,6 @@ from .definitions import MetricsManager, RefactoringMetrics, update_metrics
 __all__ = [
     'definitions',
     'MetricsManager',
-    'RefactoringMetrics', 
+    'RefactoringMetrics',
     'update_metrics',
 ]

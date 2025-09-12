@@ -18,19 +18,19 @@ License: MIT
 
 import asyncio
 import json
-import os
-import requests
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any
+
+import requests
 
 # Swarm imports
 try:
     from ..core.unified_config import get_config
-    from ..utils.unified_logging_time import UnifiedLoggingTimeService
     from ..infrastructure.unified_persistence import UnifiedPersistenceService
+    from ..utils.unified_logging_time import UnifiedLoggingTimeService
 except ImportError:
     # Fallback for standalone execution
     get_config = lambda: {"discord": {}}
@@ -55,13 +55,13 @@ class AgentChannel(Enum):
 class DiscordChannelConfig:
     """Configuration for a Discord channel."""
     name: str
-    webhook_url: Optional[str] = None
-    channel_id: Optional[str] = None
+    webhook_url: str | None = None
+    channel_id: str | None = None
     description: str = ""
-    agent: Optional[str] = None
+    agent: str | None = None
     color: int = 0x3498db
     enabled: bool = True
-    permissions: Dict[str, bool] = field(default_factory=lambda: {
+    permissions: dict[str, bool] = field(default_factory=lambda: {
         "read_messages": True,
         "send_messages": True,
         "embed_links": True,
@@ -74,9 +74,9 @@ class DiscordChannelConfig:
 class DiscordMessage:
     """Discord message structure."""
     content: str
-    embeds: List[Dict[str, Any]] = field(default_factory=list)
-    username: Optional[str] = None
-    avatar_url: Optional[str] = None
+    embeds: list[dict[str, Any]] = field(default_factory=list)
+    username: str | None = None
+    avatar_url: str | None = None
     tts: bool = False
 
 
@@ -90,7 +90,7 @@ class AgentNotification:
     priority: str = "NORMAL"
     category: str = "general"
     timestamp: datetime = field(default_factory=datetime.utcnow)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class EnhancedDiscordWebhookManager:
@@ -99,7 +99,7 @@ class EnhancedDiscordWebhookManager:
     def __init__(self, config_path: str = "config/discord_channels.json"):
         """Initialize enhanced webhook manager."""
         self.config_path = Path(config_path)
-        self.channels: Dict[AgentChannel, DiscordChannelConfig] = {}
+        self.channels: dict[AgentChannel, DiscordChannelConfig] = {}
         self.session = requests.Session()
         self.session.timeout = 15
         self._load_channel_config()
@@ -108,7 +108,7 @@ class EnhancedDiscordWebhookManager:
         """Load channel configuration from file."""
         if self.config_path.exists():
             try:
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     data = json.load(f)
                     for channel_name, config_data in data.items():
                         channel = AgentChannel(channel_name)
@@ -203,7 +203,7 @@ class EnhancedDiscordWebhookManager:
             return True
         return False
 
-    def get_channel_config(self, channel: AgentChannel) -> Optional[DiscordChannelConfig]:
+    def get_channel_config(self, channel: AgentChannel) -> DiscordChannelConfig | None:
         """Get configuration for a channel."""
         return self.channels.get(channel)
 
@@ -246,11 +246,11 @@ class EnhancedDiscordWebhookManager:
         )
         return self.send_to_channel(channel, test_message)
 
-    def get_all_channels(self) -> List[AgentChannel]:
+    def get_all_channels(self) -> list[AgentChannel]:
         """Get all configured channels."""
         return list(self.channels.keys())
 
-    def get_agent_channel(self, agent_id: str) -> Optional[AgentChannel]:
+    def get_agent_channel(self, agent_id: str) -> AgentChannel | None:
         """Get channel for specific agent."""
         for channel, config in self.channels.items():
             if config.agent == agent_id:
@@ -274,7 +274,7 @@ class AgentChannelCoordinator:
         except Exception as e:
             print(f"⚠️  Service initialization warning: {e}")
 
-    def create_agent_notification_embed(self, notification: AgentNotification) -> Dict[str, Any]:
+    def create_agent_notification_embed(self, notification: AgentNotification) -> dict[str, Any]:
         """Create Discord embed for agent notification."""
         config = self.webhook_manager.get_channel_config(notification.channel)
         color = config.color if config else 0x3498db
@@ -491,7 +491,7 @@ class EnhancedDevLogMonitor:
         except Exception as e:
             print(f"❌ Error checking devlogs: {e}")
 
-    def _find_new_devlogs(self) -> List[Path]:
+    def _find_new_devlogs(self) -> list[Path]:
         """Find devlog files newer than last check."""
         new_files = []
 
@@ -508,7 +508,7 @@ class EnhancedDevLogMonitor:
         """Process a single devlog file with enhanced notifications."""
         try:
             # Read devlog content
-            with open(devlog_path, 'r', encoding='utf-8') as f:
+            with open(devlog_path, encoding='utf-8') as f:
                 content = f.read()
 
             # Extract metadata from filename
@@ -535,7 +535,7 @@ class EnhancedDevLogMonitor:
         except Exception as e:
             print(f"❌ Error processing devlog {devlog_path}: {e}")
 
-    async def _send_devlog_notifications(self, devlog_data: Dict[str, Any]) -> None:
+    async def _send_devlog_notifications(self, devlog_data: dict[str, Any]) -> None:
         """Send devlog notifications to appropriate channels."""
         agent = devlog_data.get("agent", "Unknown")
         category = devlog_data.get("category", "general")
@@ -567,7 +567,7 @@ class EnhancedDevLogMonitor:
             priority="LOW"
         )
 
-    def _parse_devlog_filename(self, filename: str) -> Dict[str, str]:
+    def _parse_devlog_filename(self, filename: str) -> dict[str, str]:
         """Parse metadata from devlog filename."""
         parts = filename.replace('.md', '').split('_')
 
@@ -700,7 +700,7 @@ class EnhancedDiscordCommander:
         """Configure webhook URL for a channel."""
         return self.webhook_manager.set_channel_webhook(channel, webhook_url)
 
-    def get_channel_info(self) -> Dict[str, Any]:
+    def get_channel_info(self) -> dict[str, Any]:
         """Get information about all configured channels."""
         info = {
             "total_channels": len(self.webhook_manager.channels),

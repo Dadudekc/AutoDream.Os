@@ -15,10 +15,11 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any
+
+from .agent_assignment_manager import AgentAssignmentManager
 from .architectural_models import ArchitecturalPrinciple
 from .architectural_principles import PrincipleDefinitions
-from .agent_assignment_manager import AgentAssignmentManager
 from .compliance_validator import ComplianceValidator
 from .onboarding_message_generator import OnboardingMessageGenerator
 
@@ -34,9 +35,9 @@ class ArchitecturalOnboardingManager:
 
     def __init__(
         self,
-        assignment_manager: Optional[AgentAssignmentManager] = None,
-        message_generator: Optional[OnboardingMessageGenerator] = None,
-        compliance_validator: Optional[ComplianceValidator] = None
+        assignment_manager: AgentAssignmentManager | None = None,
+        message_generator: OnboardingMessageGenerator | None = None,
+        compliance_validator: ComplianceValidator | None = None
     ):
         """Initialize the architectural onboarding manager with dependency injection."""
         self.assignment_manager = assignment_manager or AgentAssignmentManager()
@@ -45,7 +46,7 @@ class ArchitecturalOnboardingManager:
         )
         self.compliance_validator = compliance_validator or ComplianceValidator()
 
-    def get_agent_principle(self, agent_id: str) -> Optional[ArchitecturalPrinciple]:
+    def get_agent_principle(self, agent_id: str) -> ArchitecturalPrinciple | None:
         """Get the architectural principle assigned to an agent."""
         return self.assignment_manager.get_agent_principle(agent_id)
 
@@ -58,7 +59,7 @@ class ArchitecturalOnboardingManager:
         """Assign a principle to an agent."""
         self.assignment_manager.assign_principle(agent_id, principle)
 
-    def get_all_assignments(self) -> Dict[str, ArchitecturalPrinciple]:
+    def get_all_assignments(self) -> dict[str, ArchitecturalPrinciple]:
         """Get all agent assignments."""
         return self.assignment_manager.get_all_assignments()
 
@@ -70,7 +71,7 @@ class ArchitecturalOnboardingManager:
 
         return self.message_generator.create_onboarding_message(agent_id, principle)
 
-    def validate_agent_compliance(self, agent_id: str, code_changes: List[str]) -> Dict[str, Any]:
+    def validate_agent_compliance(self, agent_id: str, code_changes: list[str]) -> dict[str, Any]:
         """Validate that an agent's changes comply with their assigned principle."""
         principle = self.get_agent_principle(agent_id)
         if not principle:
@@ -95,7 +96,7 @@ class ArchitecturalOnboardingManager:
             "guidance": guidance.description if guidance else None,
         }
 
-    def get_all_principles(self) -> List[ArchitecturalPrinciple]:
+    def get_all_principles(self) -> list[ArchitecturalPrinciple]:
         """Get all available architectural principles."""
         principles = PrincipleDefinitions.get_all_principles()
         return list(principles.keys())
@@ -108,7 +109,7 @@ class ArchitecturalOnboardingManager:
         except Exception:
             return False
 
-    def get_agents_by_principle(self, principle: ArchitecturalPrinciple) -> List[str]:
+    def get_agents_by_principle(self, principle: ArchitecturalPrinciple) -> list[str]:
         """Get all agents assigned to a specific principle."""
         return self.assignment_manager.get_agents_by_principle(principle)
 

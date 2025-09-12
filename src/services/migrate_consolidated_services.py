@@ -13,42 +13,43 @@ import os
 import shutil
 from pathlib import Path
 
+
 def migrate_consolidated_services():
     """Migrate from old services to consolidated services."""
     print("🔄 Starting consolidated services migration...")
-    
+
     # Create backup directory
     backup_dir = Path("backup/consolidated_services")
     backup_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Files to be replaced with stubs
     old_files = [
         # Messaging services
         "src/services/messaging_core.py",
-        "src/services/messaging_cli.py", 
+        "src/services/messaging_cli.py",
         "src/services/messaging_pyautogui.py",
-        
+
         # Onboarding services (already handled)
         "src/services/onboarding_service.py",
         "src/services/simple_onboarding.py",
         "src/services/onboarding_message_generator.py",
-        
+
         # Vector services
         "src/services/vector_database/vector_database_orchestrator.py",
         "src/services/agent_vector_integration.py",
         "src/services/embedding_service.py",
-        
+
         # Coordination services
         "src/services/coordination/strategy_coordinator.py",
         "src/services/handlers/command_handler.py",
         "src/services/coordinator.py",
-        
+
         # Utility services
         "src/services/utils/agent_utils_registry.py",
         "src/services/performance_analyzer.py",
         "src/services/compliance_validator.py"
     ]
-    
+
     # Create migration stubs
     for old_file in old_files:
         if os.path.exists(old_file):
@@ -56,11 +57,11 @@ def migrate_consolidated_services():
             backup_path = backup_dir / Path(old_file).name
             shutil.copy2(old_file, backup_path)
             print(f"✅ Backed up {old_file} to {backup_path}")
-            
+
             # Create stub
             create_migration_stub(old_file)
             print(f"✅ Created migration stub for {old_file}")
-    
+
     print("🎉 Consolidated services migration completed!")
     print(f"📁 Backups saved to: {backup_dir}")
 
@@ -126,7 +127,7 @@ except ImportError as e:
 
 # Legacy content removed - use consolidated services instead
 '''
-    
+
     with open(file_path, 'w') as f:
         f.write(stub_content)
 

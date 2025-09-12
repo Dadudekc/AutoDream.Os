@@ -8,6 +8,6 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-from .thea_response_service import TheaResponseService, ResponseStatus
+from .thea_response_service import ResponseStatus, TheaResponseService
 
 __all__ = ['TheaResponseService', 'ResponseStatus']

@@ -11,11 +11,11 @@ Usage:
 Author: V2_SWARM_CAPTAIN
 """
 
-import sys
-import os
-import time
 import json
+import sys
+import time
 from pathlib import Path
+
 
 def get_agent_specialties():
     """Get agent specialties for personalized onboarding."""
@@ -31,7 +31,7 @@ def load_agent_coordinates():
         return {}
 
     try:
-        with open(coord_file, 'r', encoding='utf-8') as f:
+        with open(coord_file, encoding='utf-8') as f:
             data = json.load(f)
 
         coordinates = {}
@@ -164,7 +164,7 @@ def onboard_agent7():
 
     agent_id = "Agent-7"
     if agent_id not in coordinates:
-        print(f"❌ Agent-7 coordinates not found in coordinate file")
+        print("❌ Agent-7 coordinates not found in coordinate file")
         return False
 
     agent_data = coordinates[agent_id]
@@ -190,13 +190,13 @@ def onboard_agent7():
 
 🐝 SWARM COORDINATION TEAM"""
 
-    print(f"📨 Sending urgent re-onboarding message to Agent-7...")
+    print("📨 Sending urgent re-onboarding message to Agent-7...")
 
     # Send message via PyAutoGUI
     success = send_pyautogui_message(agent_data['chat_coords'], urgent_message)
 
     if success:
-        print(f"✅ Successfully re-onboarded Agent-7 with corrected coordinates")
+        print("✅ Successfully re-onboarded Agent-7 with corrected coordinates")
         print(f"📍 Used coordinates: {agent_data['chat_coords']}")
 
         # Verify the coordinates are reasonable
@@ -207,7 +207,7 @@ def onboard_agent7():
 
         return True
     else:
-        print(f"❌ Failed to re-onboard Agent-7")
+        print("❌ Failed to re-onboard Agent-7")
         print("💡 Try manually checking the coordinates in cursor_agent_coords.json")
         return False
 

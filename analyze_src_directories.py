@@ -4,31 +4,31 @@ Comprehensive Source Directory Analysis Tool
 Analyzes src/ and services/ directories and generates detailed reports.
 """
 
+import ast
 import json
 import os
-import sys
-from pathlib import Path
-from typing import Dict, List, Any, Set
-import ast
 import re
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
+from pathlib import Path
+from typing import Any
 
-def analyze_python_file(file_path: str) -> Dict[str, Any]:
+
+def analyze_python_file(file_path: str) -> dict[str, Any]:
     """Analyze a Python file and extract comprehensive metadata."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
-        
+
         # Parse AST
         tree = ast.parse(content)
-        
+
         functions = []
         classes = {}
         imports = []
         decorators = []
         docstrings = []
         complexity_indicators = 0
-        
+
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef):
                 functions.append(node.name)
@@ -57,12 +57,12 @@ def analyze_python_file(file_path: str) -> Dict[str, Any]:
             elif isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str):
                 if node.value.value.strip().startswith(('"""', "'''")):
                     docstrings.append(node.value.value.strip())
-        
+
         # Calculate additional metrics
         lines = content.splitlines()
         non_empty_lines = [line for line in lines if line.strip()]
         comment_lines = [line for line in lines if line.strip().startswith('#')]
-        
+
         return {
             "language": ".py",
             "functions": functions,
@@ -98,22 +98,22 @@ def analyze_python_file(file_path: str) -> Dict[str, Any]:
             "error": str(e)
         }
 
-def analyze_js_file(file_path: str) -> Dict[str, Any]:
+def analyze_js_file(file_path: str) -> dict[str, Any]:
     """Analyze a JavaScript file and extract metadata."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
-        
+
         # Enhanced regex-based analysis for JS
         functions = re.findall(r'function\s+(\w+)\s*\(', content)
         classes = re.findall(r'class\s+(\w+)', content)
         imports = re.findall(r'import\s+.*?from\s+[\'"]([^\'"]+)[\'"]', content)
         exports = re.findall(r'export\s+(?:default\s+)?(?:function\s+(\w+)|const\s+(\w+)|class\s+(\w+))', content)
-        
+
         lines = content.splitlines()
         non_empty_lines = [line for line in lines if line.strip()]
         comment_lines = [line for line in lines if line.strip().startswith(('//', '/*', '*'))]
-        
+
         return {
             "language": ".js",
             "functions": functions,
@@ -147,21 +147,21 @@ def analyze_js_file(file_path: str) -> Dict[str, Any]:
             "error": str(e)
         }
 
-def analyze_md_file(file_path: str) -> Dict[str, Any]:
+def analyze_md_file(file_path: str) -> dict[str, Any]:
     """Analyze a Markdown file and extract metadata."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
-        
+
         # Extract headers, code blocks, links
         headers = re.findall(r'^#+\s+(.+)$', content, re.MULTILINE)
         code_blocks = re.findall(r'```(\w+)?\n(.*?)```', content, re.DOTALL)
         links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
         images = re.findall(r'!\[([^\]]*)\]\(([^)]+)\)', content)
-        
+
         lines = content.splitlines()
         non_empty_lines = [line for line in lines if line.strip()]
-        
+
         return {
             "language": ".md",
             "functions": [],
@@ -193,18 +193,18 @@ def analyze_md_file(file_path: str) -> Dict[str, Any]:
             "error": str(e)
         }
 
-def analyze_yaml_file(file_path: str) -> Dict[str, Any]:
+def analyze_yaml_file(file_path: str) -> dict[str, Any]:
     """Analyze a YAML file and extract metadata."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
-        
+
         # Enhanced YAML analysis
         lines = content.splitlines()
         keys = [line.split(':')[0].strip() for line in lines if ':' in line and not line.startswith('#')]
         comments = [line for line in lines if line.strip().startswith('#')]
         non_empty_lines = [line for line in lines if line.strip()]
-        
+
         return {
             "language": ".yml",
             "functions": [],
@@ -232,10 +232,10 @@ def analyze_yaml_file(file_path: str) -> Dict[str, Any]:
             "error": str(e)
         }
 
-def analyze_file(file_path: str) -> Dict[str, Any]:
+def analyze_file(file_path: str) -> dict[str, Any]:
     """Analyze a file based on its extension."""
     ext = Path(file_path).suffix.lower()
-    
+
     if ext == '.py':
         return analyze_python_file(file_path)
     elif ext == '.js':
@@ -255,41 +255,41 @@ def analyze_file(file_path: str) -> Dict[str, Any]:
             "error": "Unsupported file type"
         }
 
-def get_directory_structure(root_path: str, max_depth: int = 3) -> Dict[str, Any]:
+def get_directory_structure(root_path: str, max_depth: int = 3) -> dict[str, Any]:
     """Get directory structure with file counts."""
     structure = {}
     total_files = 0
     total_dirs = 0
-    
+
     for root, dirs, files in os.walk(root_path):
         rel_path = os.path.relpath(root, root_path)
         if rel_path == '.':
             rel_path = ''
-        
+
         # Count files by extension
         file_counts = Counter(Path(f).suffix.lower() for f in files)
-        
+
         structure[rel_path or '.'] = {
             "files": file_counts,
             "file_count": len(files),
             "subdirs": len(dirs),
             "total_files": len(files)
         }
-        
+
         total_files += len(files)
         total_dirs += len(dirs)
-        
+
         # Limit depth
         if root.count(os.sep) - root_path.count(os.sep) >= max_depth:
             dirs[:] = []
-    
+
     return {
         "structure": structure,
         "total_files": total_files,
         "total_dirs": total_dirs
     }
 
-def analyze_directories(directories: List[str]) -> Dict[str, Any]:
+def analyze_directories(directories: list[str]) -> dict[str, Any]:
     """Analyze multiple directories comprehensively."""
     all_analysis = {}
     total_files = 0
@@ -300,49 +300,49 @@ def analyze_directories(directories: List[str]) -> Dict[str, Any]:
     file_types = Counter()
     complexity_by_type = defaultdict(list)
     imports_by_file = defaultdict(list)
-    
+
     for directory in directories:
         if not os.path.exists(directory):
             print(f"Directory not found: {directory}")
             continue
-            
+
         print(f"Analyzing directory: {directory}")
         directory_analysis = {}
-        
+
         for root, dirs, files in os.walk(directory):
             for file in files:
                 file_path = os.path.join(root, file)
                 rel_path = os.path.relpath(file_path, directory)
-                
+
                 print(f"  Analyzing: {rel_path}")
                 analysis = analyze_file(file_path)
                 directory_analysis[rel_path] = analysis
-                
+
                 # Update totals
                 total_files += 1
                 total_lines += analysis.get('line_count', 0)
                 total_functions += analysis.get('function_count', 0)
                 total_classes += analysis.get('class_count', 0)
                 total_imports += analysis.get('import_count', 0)
-                
+
                 # Track file types
                 file_type = analysis.get('language', 'unknown')
                 file_types[file_type] += 1
-                
+
                 # Track complexity by type
                 complexity_by_type[file_type].append(analysis.get('complexity', 0))
-                
+
                 # Track imports
                 if analysis.get('imports'):
                     imports_by_file[rel_path] = analysis['imports']
-        
+
         all_analysis[directory] = directory_analysis
-    
+
     # Calculate averages
     avg_complexity_by_type = {}
     for file_type, complexities in complexity_by_type.items():
         avg_complexity_by_type[file_type] = sum(complexities) / len(complexities) if complexities else 0
-    
+
     return {
         "directories": all_analysis,
         "summary": {
@@ -365,18 +365,18 @@ def main():
         "src",
         "src/services"
     ]
-    
+
     print("🔍 Starting comprehensive source directory analysis...")
-    
+
     # Analyze directories
     analysis_results = analyze_directories(directories_to_analyze)
-    
+
     # Get directory structures
     directory_structures = {}
     for directory in directories_to_analyze:
         if os.path.exists(directory):
             directory_structures[directory] = get_directory_structure(directory)
-    
+
     # Generate comprehensive project analysis
     project_analysis = {
         "analysis_timestamp": str(Path().cwd()),
@@ -386,11 +386,11 @@ def main():
         "summary": analysis_results["summary"],
         "imports_analysis": analysis_results["imports_analysis"]
     }
-    
+
     # Save project analysis
     with open('src_directories_project_analysis.json', 'w', encoding='utf-8') as f:
         json.dump(project_analysis, f, indent=2)
-    
+
     # Generate ChatGPT context
     chatgpt_context = {
         "project_root": os.getcwd(),
@@ -402,11 +402,11 @@ def main():
         "directory_structures": directory_structures,
         "imports_analysis": analysis_results["imports_analysis"]
     }
-    
+
     # Save ChatGPT context
     with open('src_directories_chatgpt_context.json', 'w', encoding='utf-8') as f:
         json.dump(chatgpt_context, f, indent=2)
-    
+
     # Generate detailed summary report
     summary_report = f"""# 📊 **SRC DIRECTORIES COMPREHENSIVE ANALYSIS REPORT**
 
@@ -428,26 +428,26 @@ def main():
 
 ### **File Type Distribution:**
 """
-    
+
     for file_type, count in analysis_results["summary"]["file_types"].items():
         percentage = (count / analysis_results["summary"]["total_files"]) * 100
         summary_report += f"- **{file_type}:** {count} files ({percentage:.1f}%)\n"
-    
-    summary_report += f"""
+
+    summary_report += """
 ### **Average Complexity by File Type:**
 """
-    
+
     for file_type, avg_complexity in analysis_results["summary"]["avg_complexity_by_type"].items():
         summary_report += f"- **{file_type}:** {avg_complexity:.2f}\n"
-    
-    summary_report += f"""
+
+    summary_report += """
 ---
 
 ## 🏗️ **DIRECTORY STRUCTURE ANALYSIS**
 
 ### **Directory Breakdown:**
 """
-    
+
     for directory, structure in directory_structures.items():
         summary_report += f"""
 #### **{directory}/**
@@ -455,7 +455,7 @@ def main():
 - **Total Directories:** {structure["total_dirs"]}
 - **File Distribution:** {dict(structure["structure"]['.']["files"]) if '.' in structure["structure"] else 'N/A'}
 """
-    
+
     summary_report += f"""
 ---
 
@@ -494,21 +494,21 @@ This analysis provides the foundation for our **Option 2 (Balanced Consolidation
 
 **🐝 WE ARE SWARM - Comprehensive source directory analysis complete!**
 """
-    
+
     # Save summary report
     with open('SRC_DIRECTORIES_ANALYSIS_SUMMARY.md', 'w', encoding='utf-8') as f:
         f.write(summary_report)
-    
-    print(f"\n✅ Analysis complete!")
+
+    print("\n✅ Analysis complete!")
     print(f"📊 Files analyzed: {analysis_results['summary']['total_files']}")
     print(f"📝 Total lines: {analysis_results['summary']['total_lines']:,}")
     print(f"🔧 Total functions: {analysis_results['summary']['total_functions']}")
     print(f"🏗️ Total classes: {analysis_results['summary']['total_classes']}")
     print(f"📦 Total imports: {analysis_results['summary']['total_imports']}")
-    print(f"📁 Generated files:")
-    print(f"   - src_directories_project_analysis.json")
-    print(f"   - src_directories_chatgpt_context.json")
-    print(f"   - SRC_DIRECTORIES_ANALYSIS_SUMMARY.md")
+    print("📁 Generated files:")
+    print("   - src_directories_project_analysis.json")
+    print("   - src_directories_chatgpt_context.json")
+    print("   - SRC_DIRECTORIES_ANALYSIS_SUMMARY.md")
 
 if __name__ == "__main__":
     main()

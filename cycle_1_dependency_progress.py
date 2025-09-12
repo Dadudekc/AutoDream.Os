@@ -9,10 +9,11 @@ Update Captain on dependency analysis findings and next steps.
 import json
 import time
 
+
 def load_coordinates():
     """Load Captain Agent-4 coordinates for progress update."""
     try:
-        with open("cursor_agent_coords.json", 'r', encoding='utf-8') as f:
+        with open("cursor_agent_coords.json", encoding='utf-8') as f:
             data = json.load(f)
         coords = data.get("agents", {}).get("Agent-4", {}).get("chat_input_coordinates", [0, 0])
         return tuple(coords)
@@ -24,7 +25,6 @@ def load_dependency_summary():
     """Load the latest dependency analysis summary."""
     try:
         # Find the most recent backup directory
-        import os
         from pathlib import Path
 
         backup_base = Path('backups')
@@ -42,7 +42,7 @@ def load_dependency_summary():
         # Load dependency analysis summary
         summary_file = latest_backup / 'dependency_analysis' / 'analysis_summary.json'
         if summary_file.exists():
-            with open(summary_file, 'r') as f:
+            with open(summary_file) as f:
                 return json.load(f)
 
     except Exception as e:

@@ -9,8 +9,9 @@ User and service onboarding operations
 """
 
 import logging
-from typing import Dict, Any
 from datetime import datetime
+from typing import Any
+
 
 class OnboardingHandler:
     """Handles onboarding operations for users and services"""
@@ -18,7 +19,7 @@ class OnboardingHandler:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def process_onboarding(self, request) -> Dict[str, Any]:
+    def process_onboarding(self, request) -> dict[str, Any]:
         """Process an onboarding request"""
         onboarding_type = request.data.get('type', '')
         user_data = request.data.get('user_data', {})
@@ -32,7 +33,7 @@ class OnboardingHandler:
         else:
             return {"error": f"Unknown onboarding type: {onboarding_type}"}
 
-    def onboard_user(self, user_data: Dict[str, Any]) -> Dict[str, Any]:
+    def onboard_user(self, user_data: dict[str, Any]) -> dict[str, Any]:
         """Onboard a new user"""
         user_id = f"user_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
@@ -46,7 +47,7 @@ class OnboardingHandler:
         self.logger.info(f"User onboarded: {user_id}")
         return user
 
-    def onboard_agent(self, agent_data: Dict[str, Any]) -> Dict[str, Any]:
+    def onboard_agent(self, agent_data: dict[str, Any]) -> dict[str, Any]:
         """Onboard a new agent"""
         agent_id = agent_data.get('id', f"agent_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
@@ -63,7 +64,7 @@ class OnboardingHandler:
         self.logger.info(f"Agent onboarded: {agent_id}")
         return agent
 
-    def onboard_service(self, service_data: Dict[str, Any]) -> Dict[str, Any]:
+    def onboard_service(self, service_data: dict[str, Any]) -> dict[str, Any]:
         """Onboard a new service"""
         service_id = f"service_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 

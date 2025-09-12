@@ -11,14 +11,11 @@ Date: 2025-09-09
 Phase: 2 - High-Impact Optimization
 """
 
-import os
-import sys
 import json
-import re
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Any
 
 # Configure logging
 logging.basicConfig(
@@ -33,13 +30,13 @@ logger = logging.getLogger(__name__)
 
 class Agent6DocumentationConsolidator:
     """Agent-6 Documentation Consolidator for Phase 2 consolidation"""
-    
+
     def __init__(self):
         self.project_root = Path(__file__).parent
         self.documentation_map = {}
         self.consolidation_changes = {}
         self.api_documentation = {}
-        
+
     def initialize_documentation_map(self) -> None:
         """Initialize documentation mapping for all modules"""
         self.documentation_map = {
@@ -156,38 +153,38 @@ class Agent6DocumentationConsolidator:
                 }
             }
         }
-    
-    def create_api_documentation(self, module_name: str, module_info: Dict) -> bool:
+
+    def create_api_documentation(self, module_name: str, module_info: dict) -> bool:
         """Create API documentation for a consolidated module"""
         try:
             logger.info(f"Creating API documentation for {module_name}")
-            
+
             # Create docs directory if it doesn't exist
             docs_dir = self.project_root / "docs" / "api"
             docs_dir.mkdir(parents=True, exist_ok=True)
-            
+
             # Generate API documentation content
             doc_content = self.generate_api_documentation_content(module_name, module_info)
-            
+
             # Write documentation file
             doc_file = docs_dir / f"{module_name}.md"
             with open(doc_file, 'w', encoding='utf-8') as f:
                 f.write(doc_content)
-            
+
             logger.info(f"API documentation created: {doc_file}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error creating API documentation for {module_name}: {e}")
             return False
-    
-    def generate_api_documentation_content(self, module_name: str, module_info: Dict) -> str:
+
+    def generate_api_documentation_content(self, module_name: str, module_info: dict) -> str:
         """Generate API documentation content for a module"""
         try:
             # Extract module information
             target_file = module_info.get("target", "")
             source_files = module_info.get("files", [])
-            
+
             # Generate documentation content
             content = f"""# {module_name.replace('_', ' ').title()} API Documentation
 
@@ -242,11 +239,11 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
 
 ### **Source Files Consolidated:**
 """
-            
+
             # Add source files list
             for file_path in source_files:
                 content += f"- `{file_path}`\n"
-            
+
             content += f"""
 ### **Consolidation Benefits:**
 - **Reduced Complexity:** {len(source_files)} files consolidated into 1
@@ -279,58 +276,58 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
 
 **🐝 WE ARE SWARM - Documentation consolidated for Phase 2 optimization!**
 """
-            
+
             return content
-            
+
         except Exception as e:
             logger.error(f"Error generating API documentation content for {module_name}: {e}")
             return f"# {module_name} API Documentation\n\n*Documentation generation failed: {e}*"
-    
-    def update_existing_documentation(self, file_path: str, consolidation_changes: Dict) -> bool:
+
+    def update_existing_documentation(self, file_path: str, consolidation_changes: dict) -> bool:
         """Update existing documentation files with consolidation changes"""
         try:
             logger.info(f"Updating documentation: {file_path}")
-            
+
             if not Path(file_path).exists():
                 logger.warning(f"Documentation file not found: {file_path}")
                 return False
-            
+
             # Read existing documentation
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding='utf-8') as f:
                 content = f.read()
-            
+
             # Apply consolidation changes
             updated_content = self.apply_consolidation_changes(content, consolidation_changes)
-            
+
             # Write updated documentation
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(updated_content)
-            
+
             logger.info(f"Documentation updated: {file_path}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Error updating documentation {file_path}: {e}")
             return False
-    
-    def apply_consolidation_changes(self, content: str, changes: Dict) -> str:
+
+    def apply_consolidation_changes(self, content: str, changes: dict) -> str:
         """Apply consolidation changes to documentation content"""
         try:
             # Update import statements
             if "import_changes" in changes:
                 for old_import, new_import in changes["import_changes"].items():
                     content = content.replace(old_import, new_import)
-            
+
             # Update file references
             if "file_changes" in changes:
                 for old_file, new_file in changes["file_changes"].items():
                     content = content.replace(old_file, new_file)
-            
+
             # Update API references
             if "api_changes" in changes:
                 for old_api, new_api in changes["api_changes"].items():
                     content = content.replace(old_api, new_api)
-            
+
             # Add consolidation notice
             consolidation_notice = f"""
 ---
@@ -339,18 +336,18 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
 ---
 """
             content = consolidation_notice + content
-            
+
             return content
-            
+
         except Exception as e:
             logger.error(f"Error applying consolidation changes: {e}")
             return content
-    
-    def create_consolidation_summary(self) -> Dict:
+
+    def create_consolidation_summary(self) -> dict:
         """Create a summary of all consolidation changes"""
         try:
             logger.info("Creating consolidation summary...")
-            
+
             summary = {
                 "timestamp": datetime.now().isoformat(),
                 "phase": "Phase 2 Consolidation",
@@ -360,7 +357,7 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                 "api_documentation": {},
                 "changes_applied": self.consolidation_changes
             }
-            
+
             # Generate summary for each module category
             for category, modules in self.documentation_map.items():
                 summary["consolidation_summary"][category] = {
@@ -368,7 +365,7 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                     "modules": list(modules.keys()),
                     "status": "PENDING"
                 }
-            
+
             # Generate API documentation summary
             for category, modules in self.documentation_map.items():
                 for module_name, module_info in modules.items():
@@ -377,38 +374,38 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                             "file": module_info["documentation"],
                             "status": "PENDING"
                         }
-            
+
             # Save consolidation summary
             summary_file = self.project_root / "agent6_consolidation_summary.json"
             with open(summary_file, 'w', encoding='utf-8') as f:
                 json.dump(summary, f, indent=2)
-            
+
             logger.info(f"Consolidation summary saved: {summary_file}")
             return summary
-            
+
         except Exception as e:
             logger.error(f"Error creating consolidation summary: {e}")
             return {}
-    
+
     def execute_documentation_consolidation(self) -> bool:
         """Execute the complete documentation consolidation process"""
         try:
             logger.info("🚀 Starting Phase 2 Documentation Consolidation")
             logger.info("🐝 WE ARE SWARM - Agent-6 Documentation Active")
-            
+
             # 1. Initialize documentation map
             self.initialize_documentation_map()
-            
+
             # 2. Create API documentation for all modules
             for category, modules in self.documentation_map.items():
                 for module_name, module_info in modules.items():
                     if not self.create_api_documentation(module_name, module_info):
                         logger.error(f"Failed to create API documentation for {module_name}")
                         return False
-            
+
             # 3. Create consolidation summary
             summary = self.create_consolidation_summary()
-            
+
             # 4. Generate documentation report
             report = {
                 "timestamp": datetime.now().isoformat(),
@@ -423,17 +420,17 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                     "Prepare for next phase transition"
                 ]
             }
-            
+
             # Save documentation report
             report_file = self.project_root / "agent6_documentation_report.json"
             with open(report_file, 'w', encoding='utf-8') as f:
                 json.dump(report, f, indent=2)
-            
+
             logger.info("🎉 Phase 2 Documentation Consolidation completed successfully!")
             logger.info(f"📊 Documentation Report: {report_file}")
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Error in Phase 2 documentation consolidation: {e}")
             return False
@@ -442,22 +439,22 @@ def main():
     """Main execution function"""
     try:
         consolidator = Agent6DocumentationConsolidator()
-        
+
         # Check if we're in the right directory
         if not (Path.cwd() / "src").exists():
             logger.error("Not in project root directory. Please run from project root.")
             return 1
-        
+
         # Execute documentation consolidation
         success = consolidator.execute_documentation_consolidation()
-        
+
         if success:
             logger.info("✅ Phase 2 Documentation Consolidation completed successfully!")
             return 0
         else:
             logger.error("❌ Phase 2 Documentation Consolidation failed!")
             return 1
-            
+
     except Exception as e:
         logger.error(f"Fatal error in Phase 2 documentation consolidation: {e}")
         return 1

@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 """
 Performance CLI - V2 Compliance Module
@@ -13,9 +14,18 @@ License: MIT
 import argparse
 import json
 import sys
+
 from .performance_dashboard import get_performance_dashboard
-from .performance_monitoring_system import get_performance_monitor, start_performance_monitoring, stop_performance_monitoring
-from .performance_optimization_engine import get_optimization_engine, start_performance_optimization, stop_performance_optimization
+from .performance_monitoring_system import (
+    get_performance_monitor,
+    start_performance_monitoring,
+    stop_performance_monitoring,
+)
+from .performance_optimization_engine import (
+    get_optimization_engine,
+    start_performance_optimization,
+    stop_performance_optimization,
+)
 
 
 def main():

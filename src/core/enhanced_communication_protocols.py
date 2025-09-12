@@ -18,16 +18,16 @@ Date: 2025-09-10
 License: MIT
 """
 
-import os
-import time
 import logging
-import asyncio
-from typing import Dict, List, Optional, Tuple, Any, Callable
+import os
+import queue
+import threading
+import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import threading
-import queue
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +73,7 @@ class AgentHealthStatus:
     last_seen: datetime = field(default_factory=datetime.now)
     consecutive_failures: int = 0
     circuit_breaker_tripped: bool = False
-    circuit_breaker_reset_time: Optional[datetime] = None
+    circuit_breaker_reset_time: datetime | None = None
 
     def record_success(self):
         """Record successful communication."""
@@ -107,10 +107,10 @@ class EnhancedCommunicationProtocols:
 
     def __init__(self):
         self.metrics = ProtocolMetrics()
-        self.agent_health: Dict[str, AgentHealthStatus] = {}
+        self.agent_health: dict[str, AgentHealthStatus] = {}
         self.message_queue = queue.Queue()
         self.retry_queue = queue.Queue()
-        self.delivery_workers: List[threading.Thread] = []
+        self.delivery_workers: list[threading.Thread] = []
 
         # Protocol configuration
         self.max_retries = int(os.getenv("MAX_RETRY_ATTEMPTS", "5"))
@@ -156,7 +156,7 @@ class EnhancedCommunicationProtocols:
             except Exception as e:
                 logger.error(f"Delivery worker error: {e}")
 
-    def _process_message_delivery(self, message_data: Dict[str, Any]):
+    def _process_message_delivery(self, message_data: dict[str, Any]):
         """Process individual message delivery with enhanced protocols."""
         recipient = message_data.get("recipient")
         content = message_data.get("content")
@@ -226,7 +226,7 @@ class EnhancedCommunicationProtocols:
         logger.error(f"❌ All delivery channels failed for {recipient}")
         return False
 
-    def _get_delivery_channels(self, priority: CommunicationPriority) -> List[DeliveryChannel]:
+    def _get_delivery_channels(self, priority: CommunicationPriority) -> list[DeliveryChannel]:
         """Get ordered list of delivery channels based on priority."""
         if priority in [CommunicationPriority.CRITICAL, CommunicationPriority.URGENT]:
             return [DeliveryChannel.PYAUTOGUI, DeliveryChannel.INBOX, DeliveryChannel.DIRECT_API]
@@ -261,7 +261,7 @@ class EnhancedCommunicationProtocols:
                 raise ValueError(f"No coordinates for {recipient}")
 
             # Create unified message for formatting
-            from .messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
+            from .messaging_core import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageType
             message = UnifiedMessage(
                 content=content,
                 sender="Agent-6",
@@ -279,8 +279,9 @@ class EnhancedCommunicationProtocols:
     def _deliver_inbox(self, recipient: str, content: str) -> bool:
         """Deliver via inbox fallback."""
         try:
-            from .messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
             from pathlib import Path
+
+            from .messaging_core import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageType
 
             message = UnifiedMessage(
                 content=content,
@@ -328,7 +329,7 @@ class EnhancedCommunicationProtocols:
 
     def send_message(self, recipient: str, content: str,
                     priority: CommunicationPriority = CommunicationPriority.NORMAL,
-                    callback: Optional[Callable[[bool, Optional[str]], None]] = None) -> bool:
+                    callback: Callable[[bool, str | None], None] | None = None) -> bool:
         """Send message with enhanced protocols."""
         if not self._is_agent_healthy(recipient):
             logger.warning(f"⚠️ Cannot send to unhealthy agent: {recipient}")
@@ -346,7 +347,7 @@ class EnhancedCommunicationProtocols:
         return True
 
     def broadcast_message(self, content: str,
-                         priority: CommunicationPriority = CommunicationPriority.NORMAL) -> Dict[str, bool]:
+                         priority: CommunicationPriority = CommunicationPriority.NORMAL) -> dict[str, bool]:
         """Broadcast message to all agents."""
         results = {}
         for agent_id in self.agent_health.keys():
@@ -354,7 +355,7 @@ class EnhancedCommunicationProtocols:
             results[agent_id] = success
         return results
 
-    def get_protocol_status(self) -> Dict[str, Any]:
+    def get_protocol_status(self) -> dict[str, Any]:
         """Get comprehensive protocol status."""
         return {
             "metrics": {
@@ -401,7 +402,7 @@ class EnhancedCommunicationProtocols:
 
 # ==================== Global Instance ====================
 
-_enhanced_protocols: Optional[EnhancedCommunicationProtocols] = None
+_enhanced_protocols: EnhancedCommunicationProtocols | None = None
 
 def get_enhanced_protocols() -> EnhancedCommunicationProtocols:
     """Get global enhanced protocols instance."""
@@ -418,11 +419,11 @@ def send_enhanced_message(recipient: str, content: str,
     return get_enhanced_protocols().send_message(recipient, content, priority)
 
 def broadcast_enhanced_message(content: str,
-                              priority: CommunicationPriority = CommunicationPriority.NORMAL) -> Dict[str, bool]:
+                              priority: CommunicationPriority = CommunicationPriority.NORMAL) -> dict[str, bool]:
     """Convenience function for broadcasting enhanced messages."""
     return get_enhanced_protocols().broadcast_message(content, priority)
 
-def get_protocol_health() -> Dict[str, Any]:
+def get_protocol_health() -> dict[str, Any]:
     """Get protocol health status."""
     return get_enhanced_protocols().get_protocol_status()
 

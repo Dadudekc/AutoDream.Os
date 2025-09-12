@@ -8,7 +8,6 @@ from datetime import datetime
 from typing import Any
 
 from ..constants.manager import COMPLETION_SIGNAL
-
 from .contracts import Manager, ManagerContext, ManagerResult
 
 

@@ -20,14 +20,11 @@ License: MIT
 from __future__ import annotations
 
 import logging
-import os
 import sys
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
-from pathlib import Path
-from typing import Any, Generic, TypeVar
+from typing import Any, TypeVar
 
 # Type variables for generic utilities
 T = TypeVar("T")
@@ -148,7 +145,7 @@ class InitializationManager(BaseUtility):
         """Initialize the manager."""
         if self.is_initialized:
             return True
-        
+
         self.is_initialized = True
         self.init_time = datetime.now()
         self.logger.info("InitializationManager initialized")
@@ -407,13 +404,13 @@ class UnifiedConfig:
         """Get configuration value by key."""
         keys = key.split(".")
         value = self
-        
+
         for k in keys:
             if hasattr(value, k):
                 value = getattr(value, k)
             else:
                 return default
-        
+
         return value
 
     def set_config(self, key: str, value: Any) -> bool:
@@ -421,13 +418,13 @@ class UnifiedConfig:
         try:
             keys = key.split(".")
             target = self
-            
+
             for k in keys[:-1]:
                 if hasattr(target, k):
                     target = getattr(target, k)
                 else:
                     return False
-            
+
             setattr(target, keys[-1], value)
             return True
         except Exception:
@@ -481,7 +478,7 @@ class ImportManager:
         """Import a module with caching."""
         if module_name in self.import_cache:
             return self.import_cache[module_name]
-        
+
         try:
             module = __import__(module_name)
             self.import_cache[module_name] = module
@@ -529,7 +526,7 @@ class LoggingSystem:
     def setup_logging(self):
         """Setup logging configuration."""
         log_level = getattr(logging, self.config.log_level.upper(), logging.INFO)
-        
+
         # Configure root logger
         logging.basicConfig(
             level=log_level,
@@ -630,23 +627,23 @@ def main():
     """Main execution function."""
     print("Core Unified System - Consolidated Core Modules")
     print("=" * 50)
-    
+
     # Create unified configuration
     config = create_unified_config()
     print(f"Configuration created: {config.validate()}")
-    
+
     # Create logging system
     logging_system = create_logging_system(config)
     print(f"Logging system created: {len(logging_system.log_handlers)} handlers")
-    
+
     # Create data processing engine
     data_engine = create_data_processing_engine(config)
     print(f"Data processing engine created: {len(data_engine.processors)} processors")
-    
+
     # Create import manager
     import_manager = create_import_manager()
     print(f"Import manager created: {len(import_manager.import_cache)} cached modules")
-    
+
     print("\nCore Unified System initialization complete!")
 
 

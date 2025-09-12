@@ -9,13 +9,13 @@ Bypasses complex service layers for reliable execution.
 Author: V2 SWARM CAPTAIN
 """
 
-import os
-import sys
 import json
+import sys
 import time
-from pathlib import Path
-from typing import Dict, List, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any
+
 
 class SimpleCursorDebateCoordinator:
     """Simple coordinator using direct Cursor automation."""
@@ -37,11 +37,11 @@ class SimpleCursorDebateCoordinator:
             "Agent-8": "Operations & Support Specialist"
         }
 
-    def load_cursor_coordinates(self) -> Dict[str, Any]:
+    def load_cursor_coordinates(self) -> dict[str, Any]:
         """Load agent coordinates from Cursor automation config."""
         coord_file = self.project_root / "cursor_agent_coords.json"
         if coord_file.exists():
-            with open(coord_file, 'r') as f:
+            with open(coord_file) as f:
                 return json.load(f)
         return {}
 
@@ -57,7 +57,7 @@ class SimpleCursorDebateCoordinator:
 
         return None
 
-    def check_cursor_system_status(self) -> Dict[str, Any]:
+    def check_cursor_system_status(self) -> dict[str, Any]:
         """Check Cursor automation system status."""
         print("🔍 Checking Cursor automation system...")
 
@@ -159,7 +159,7 @@ As a {specialist_role}, your perspective is crucial for this critical architectu
 *V2 SWARM CAPTAIN*
         """
 
-    def coordinate_agent_debate(self) -> Dict[str, Any]:
+    def coordinate_agent_debate(self) -> dict[str, Any]:
         """Coordinate debate invitations to all agents."""
         print("🎯 COORDINATING AGENT CONSOLIDATION DEBATE")
         print("=" * 60)
@@ -316,7 +316,7 @@ def main():
         successful = debate_results["successful_invitations"]
         total = debate_results["total_agents"]
 
-        print(f"\n🎉 DEBATE COORDINATION COMPLETE!")
+        print("\n🎉 DEBATE COORDINATION COMPLETE!")
         print(f"✅ {successful}/{total} agents successfully invited")
         print("🎯 The swarm debate on consolidation has begun!")
         print("📄 Check cursor_debate_coordination_results.json for details")

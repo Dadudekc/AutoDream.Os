@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Verification script for V2 compliant refactored Thea system."""
+# ruff: noqa: S101  # Assert statements are appropriate for verification scripts
 
 import sys
 from pathlib import Path
@@ -49,15 +50,17 @@ def test_original_vs_refactored():
         # Test 5: Verify configuration is maintained
         print("\n⚙️  TEST 5: VERIFYING CONFIGURATION")
         assert comm.thea_url == "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager?model=gpt-5-thinking"
-        assert comm.use_selenium == False
+        assert not comm.use_selenium
         assert comm.responses_dir.exists()
         print("✅ Configuration matches original")
 
         # Test 6: Test modular delegation (without user interaction)
         print("\n🔗 TEST 6: TESTING MODULAR DELEGATION")
         # We can't test the full flow without user interaction, but we can verify delegation works
-        assert callable(comm.response_handler.capture_response), "❌ Response handler delegation broken"
-        assert callable(comm.cycle_manager.run_communication_cycle), "❌ Cycle manager delegation broken"
+        assert callable(comm.response_handler.capture_response), \
+               "❌ Response handler delegation broken"
+        assert callable(comm.cycle_manager.run_communication_cycle), \
+               "❌ Cycle manager delegation broken"
         print("✅ Modular delegation working")
 
         print("\n🎉 ALL TESTS PASSED!")
@@ -78,6 +81,7 @@ if __name__ == "__main__":
     success = test_original_vs_refactored()
     if success:
         print("\n🚀 READY FOR PRACTICAL TESTING!")
-        print("Run: python simple_thea_communication.py --no-selenium --message 'Your test message'")
+        print("Run: python simple_thea_communication.py --no-selenium "
+              "--message 'Your test message'")
     else:
         print("\n💥 SYSTEM NEEDS FIXING BEFORE PRACTICAL TESTING")

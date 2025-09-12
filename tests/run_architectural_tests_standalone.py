@@ -17,11 +17,10 @@ Author: Agent-2 (Architecture & Design Specialist)
 Mission: URGENT PYTEST COVERAGE - Standalone Execution Mode
 """
 
-import sys
-import os
-from pathlib import Path
 import inspect
+import sys
 import time
+from pathlib import Path
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
@@ -107,8 +106,8 @@ def run_solid_principles_tests():
 
     # Test Liskov Substitution Principle
     try:
-        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
         from src.core.coordinate_loader import CoordinateLoader
+        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         msg_service = ConsolidatedMessagingService()
         coord_loader = CoordinateLoader()
@@ -137,8 +136,8 @@ def run_solid_principles_tests():
 
     # Test Dependency Inversion Principle
     try:
-        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
         from src.services.consolidated_architectural_service import ArchitecturalPrinciple
+        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         msg_service = ConsolidatedMessagingService()
         has_principles = hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
@@ -187,8 +186,8 @@ def run_dependency_injection_tests():
 
     # Test Factory Pattern
     try:
-        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
         from src.core.coordinate_loader import get_coordinate_loader
+        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         msg_service = ConsolidatedMessagingService()
         coord_loader = get_coordinate_loader()
@@ -289,8 +288,8 @@ def run_integrity_tests():
 
     # Test Module Coupling
     try:
-        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
         from src.services.consolidated_architectural_service import ArchitecturalPrinciple
+        from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         service = ConsolidatedMessagingService()
         has_principles = hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')

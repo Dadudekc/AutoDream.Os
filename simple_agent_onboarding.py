@@ -12,11 +12,11 @@ Usage:
 Author: V2_SWARM_CAPTAIN
 """
 
-import sys
-import os
-import time
 import json
+import sys
+import time
 from pathlib import Path
+
 
 def get_agent_specialties():
     """Get agent specialties for personalized onboarding."""
@@ -39,7 +39,7 @@ def load_agent_coordinates():
         return {}
 
     try:
-        with open(coord_file, 'r', encoding='utf-8') as f:
+        with open(coord_file, encoding='utf-8') as f:
             data = json.load(f)
 
         coordinates = {}
@@ -253,10 +253,10 @@ def main():
             print(f"   • {agent}")
 
     print(f"\n📋 Total agents targeted: {len(agents_to_onboard)}")
-    print(f"🎯 Debate system: ACTIVE")
-    print(f"📁 XML file: swarm_debate_consolidation.xml")
-    print(f"🛠️  Tool: debate_participation_tool.py")
-    print(f"⏰ Deadline: 2025-09-16")
+    print("🎯 Debate system: ACTIVE")
+    print("📁 XML file: swarm_debate_consolidation.xml")
+    print("🛠️  Tool: debate_participation_tool.py")
+    print("⏰ Deadline: 2025-09-16")
 
     print("\n🐝 SWARM DEBATE SYSTEM READY!")
     print("🎯 Agents are now onboarded and can participate immediately")

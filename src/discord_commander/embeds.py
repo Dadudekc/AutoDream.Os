@@ -16,9 +16,10 @@ Author: Agent-4 (Captain - Discord Integration Coordinator)
 License: MIT
 """
 
-import discord
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Any
+
+import discord
 
 
 class EmbedBuilder:
@@ -188,7 +189,7 @@ class EmbedBuilder:
         return cls.add_footer(embed, author)
 
     @classmethod
-    def update_status_embed(cls, embed: discord.Embed, agent_id: str, status_info: Dict[str, Any]) -> discord.Embed:
+    def update_status_embed(cls, embed: discord.Embed, agent_id: str, status_info: dict[str, Any]) -> discord.Embed:
         """Update status embed with agent information."""
         embed.title = "📊 Agent Status"
         embed.description = f"Status information for **{agent_id}**"
@@ -231,7 +232,7 @@ class EmbedBuilder:
         """Update swarm embed for successful broadcast."""
         embed.color = cls.COLORS['success']
         embed.title = "✅ Swarm Broadcast Complete"
-        embed.description = f"Message broadcast to all agents!"
+        embed.description = "Message broadcast to all agents!"
         embed.add_field(name="📨 Recipients", value=f"{recipient_count} agents", inline=True)
         return embed
 
@@ -308,7 +309,7 @@ class EmbedBuilder:
         return embed
 
     @classmethod
-    def create_agents_embed(cls, agents: List[str], author) -> discord.Embed:
+    def create_agents_embed(cls, agents: list[str], author) -> discord.Embed:
         """Create embed listing all available agents."""
         embed = cls.create_base_embed(
             title="🤖 V2_SWARM Agents",

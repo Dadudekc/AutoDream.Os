@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-from . import fsm_config
-
 from pathlib import Path
 from typing import Any
+
+from . import fsm_config
 
 __all__ = [
     'fsm_config',

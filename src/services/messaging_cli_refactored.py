@@ -9,28 +9,29 @@ SOLID Principles: Single Responsibility, Open-Closed
 Author: Agent-6 - V2 Compliance Refactor
 """
 
-import argparse, logging, sys
+import argparse
+import logging
+import sys
 from pathlib import Path
-from typing import Optional
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
+    from src.core.coordinate_loader import get_coordinate_loader
     from src.core.messaging_core import (
         UnifiedMessage,
-        UnifiedMessageType,
         UnifiedMessagePriority,
         UnifiedMessageTag,
-        send_message,
+        UnifiedMessageType,
         broadcast_message,
+        get_messaging_core,
         list_agents,
+        send_message,
         show_message_history,
-        get_messaging_core
     )
     from src.services.messaging_pyautogui import send_message_pyautogui
-    from src.core.coordinate_loader import get_coordinate_loader
     MESSAGING_AVAILABLE = True
 except ImportError as e:
     logger.error(f"❌ Messaging system not available: {e}")

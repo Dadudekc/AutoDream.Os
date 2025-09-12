@@ -10,26 +10,27 @@ Mission: Architecture & Design V2 Compliance Implementation
 Status: V2_COMPLIANT_IMPLEMENTATION
 """
 
-from typing import Dict, List, Set, Tuple, Optional, Any, TYPE_CHECKING
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from typing import TYPE_CHECKING
 
 import ast
+
 import astor
-import shutil
-from .tools.consolidation_tools import ConsolidationTools, ConsolidationPlan
-from .tools.optimization_tools import OptimizationTools, OptimizationPlan
+
+from .tools.consolidation_tools import ConsolidationPlan, ConsolidationTools
+from .tools.optimization_tools import OptimizationPlan, OptimizationTools
 
 
 @dataclass
 class ExtractionPlan:
     """Plan for extracting code from a file."""
     source_file: str
-    target_files: List[str]
-    extraction_rules: List[str]
+    target_files: list[str]
+    extraction_rules: list[str]
     estimated_impact: str
 
 from ..unified_import_system import get_unified_import_system
@@ -63,11 +64,11 @@ class RefactorTools:
         """Execute consolidation plan."""
         return self.consolidation_tools.execute_consolidation(plan)
 
-    def find_duplicate_files(self, directory: str) -> List[List[str]]:
+    def find_duplicate_files(self, directory: str) -> list[list[str]]:
         """Find duplicate files in directory."""
         return self.consolidation_tools._find_duplicate_files(directory)
 
-    def analyze_duplicates(self, directory: str) -> Dict[str, Any]:
+    def analyze_duplicates(self, directory: str) -> dict[str, Any]:
         """Analyze duplicate files in directory."""
         return self.consolidation_tools.analyze_duplicates(directory)
 
@@ -81,7 +82,7 @@ class RefactorTools:
         return self.optimization_tools.execute_optimization(plan, file_path)
 
     # Utility methods
-    def get_tool_status(self) -> Dict[str, Any]:
+    def get_tool_status(self) -> dict[str, Any]:
         """Get status of all refactoring tools."""
         return {
             "extraction_tools": "active",
@@ -90,7 +91,7 @@ class RefactorTools:
             "unified_imports": "active",
         }
 
-    def analyze_file(self, file_path: str) -> Dict[str, Any]:
+    def analyze_file(self, file_path: str) -> dict[str, Any]:
         """Analyze file for refactoring opportunities."""
         try:
             source_path = self.unified_imports.Path(file_path)
@@ -125,7 +126,7 @@ class RefactorTools:
             )
 
             return extraction_success and optimization_success
-        except Exception as e:
+        except Exception:
             return False
 
 
@@ -164,7 +165,7 @@ def execute_consolidation(plan: ConsolidationPlan) -> bool:
     return get_refactor_tools().execute_consolidation(plan)
 
 
-def find_duplicate_files(directory: str) -> List[List[str]]:
+def find_duplicate_files(directory: str) -> list[list[str]]:
     """Find duplicate files in directory."""
     return get_refactor_tools().find_duplicate_files(directory)
 
@@ -179,25 +180,24 @@ def execute_optimization(plan: OptimizationPlan, file_path: str) -> bool:
     return get_refactor_tools().execute_optimization(plan, file_path)
 
 
-from .analysis_tools import FileAnalysis, ArchitecturePattern, DuplicateFile
 
 
 @dataclass
 class ConsolidationPlan:
     """Plan for consolidating duplicate code."""
-    duplicate_groups: List[List[str]]
-    consolidation_targets: List[str]
-    consolidation_rules: List[str]
+    duplicate_groups: list[list[str]]
+    consolidation_targets: list[str]
+    consolidation_rules: list[str]
     estimated_savings: int
 
 
 @dataclass
 class OptimizationPlan:
     """Plan for optimizing code structure."""
-    optimization_targets: List[str]
-    optimization_rules: List[str]
-    performance_improvements: List[str]
-    v2_compliance_improvements: List[str]
+    optimization_targets: list[str]
+    optimization_rules: list[str]
+    performance_improvements: list[str]
+    v2_compliance_improvements: list[str]
 
 
 def create_extraction_plan(file_path: str) -> ExtractionPlan:
@@ -211,7 +211,7 @@ def create_extraction_plan(file_path: str) -> ExtractionPlan:
         ExtractionPlan object with detailed extraction strategy
     """
     analysis = analyze_file_for_extraction(file_path)
-    
+
     if not analysis.v2_compliance:
         # File exceeds V2 compliance limit, needs extraction
         target_files = [
@@ -219,14 +219,14 @@ def create_extraction_plan(file_path: str) -> ExtractionPlan:
             f"{Path(file_path).stem}_models.py",
             f"{Path(file_path).stem}_utils.py"
         ]
-        
+
         extraction_rules = [
             "Extract data models to separate file",
             "Extract utility functions to separate file",
             "Keep core logic in main file",
             "Ensure each file is under 400 lines"
         ]
-        
+
         return ExtractionPlan(
             source_file=file_path,
             target_files=target_files,
@@ -257,18 +257,18 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
     try:
         if not plan.target_files:
             return True  # No extraction needed
-        
+
         source_path = Path(plan.source_file)
         source_content = source_path.read_text(encoding='utf-8')
-        
+
         # Parse the source file
         tree = ast.parse(source_content)
-        
+
         # Extract different components
         models = _extract_models(tree)
         utils = _extract_utils(tree)
         core = _extract_core(tree)
-        
+
         # Write extracted files
         for target_file in plan.target_files:
             target_path = Path(target_file)
@@ -278,7 +278,7 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
                 target_path.write_text(utils, encoding='utf-8')
             elif "core" in target_file:
                 target_path.write_text(core, encoding='utf-8')
-        
+
         return True
     except Exception as e:
         print(f"Extraction failed: {e}")
@@ -296,18 +296,18 @@ def create_consolidation_plan(directory: str) -> ConsolidationPlan:
         ConsolidationPlan object with consolidation strategy
     """
     duplicates = find_duplicate_files(directory)
-    
+
     duplicate_groups = []
     consolidation_targets = []
     consolidation_rules = []
     estimated_savings = 0
-    
+
     for duplicate in duplicates:
         duplicate_groups.append([duplicate.original_file] + duplicate.duplicate_files)
         consolidation_targets.append(duplicate.original_file)
         consolidation_rules.append(f"Consolidate {len(duplicate.duplicate_files)} duplicates into {duplicate.original_file}")
         estimated_savings += len(duplicate.duplicate_files) * 100  # Rough estimate
-    
+
     return ConsolidationPlan(
         duplicate_groups=duplicate_groups,
         consolidation_targets=consolidation_targets,
@@ -332,7 +332,7 @@ def perform_consolidation(plan: ConsolidationPlan) -> bool:
                 # Keep the first file, remove duplicates
                 for duplicate_file in duplicate_group[1:]:
                     Path(duplicate_file).unlink()
-        
+
         return True
     except Exception as e:
         print(f"Consolidation failed: {e}")
@@ -350,19 +350,19 @@ def create_optimization_plan(directory: str) -> OptimizationPlan:
         OptimizationPlan object with optimization strategy
     """
     patterns = analyze_architecture_patterns(directory)
-    
+
     optimization_targets = []
     optimization_rules = []
     performance_improvements = []
     v2_compliance_improvements = []
-    
+
     for pattern in patterns:
         if pattern.confidence < 0.8:
             optimization_targets.extend(pattern.files)
             optimization_rules.append(f"Improve {pattern.name} implementation")
             performance_improvements.append(f"Better {pattern.name} performance")
             v2_compliance_improvements.append(f"Ensure {pattern.name} follows V2 standards")
-    
+
     return OptimizationPlan(
         optimization_targets=optimization_targets,
         optimization_rules=optimization_rules,
@@ -371,7 +371,7 @@ def create_optimization_plan(directory: str) -> OptimizationPlan:
     )
 
 
-def perform_optimization(plan: Dict[str, Any]) -> Dict[str, Any]:
+def perform_optimization(plan: dict[str, Any]) -> dict[str, Any]:
     """Perform the actual optimization."""
     result = {"success": True, "applied_optimizations": [], "quality_score_improvement": 0.0, "errors": []}
     for target in plan["optimization_targets"]:
@@ -402,7 +402,7 @@ def perform_optimization(plan: OptimizationPlan) -> bool:
         for target_file in plan.optimization_targets:
             # Apply optimization rules
             _apply_optimization_rules(target_file, plan.optimization_rules)
-        
+
         return True
     except Exception as e:
         print(f"Optimization failed: {e}")
@@ -412,58 +412,58 @@ def perform_optimization(plan: OptimizationPlan) -> bool:
 def _extract_models(tree: ast.AST) -> str:
     """Extract model classes from AST."""
     models = []
-    
+
     for node in ast.walk(tree):
         if isinstance(node, ast.ClassDef):
             if any(base in astor.to_source(node).lower() for base in ['model', 'data', 'entity']):
                 models.append(astor.to_source(node))
-    
+
     return "\n".join(models) if models else "# No models found"
 
 
 def _extract_utils(tree: ast.AST) -> str:
     """Extract utility functions from AST."""
     utils = []
-    
+
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef):
             if not node.name.startswith('_') and 'util' in astor.to_source(node).lower():
                 utils.append(astor.to_source(node))
-    
+
     return "\n".join(utils) if utils else "# No utilities found"
 
 
 def _extract_core(tree: ast.AST) -> str:
     """Extract core logic from AST."""
     core_elements = []
-    
+
     for node in ast.walk(tree):
         if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
             if not any(base in astor.to_source(node).lower() for base in ['model', 'util', 'data']):
                 core_elements.append(astor.to_source(node))
-    
+
     return "\n".join(core_elements) if core_elements else "# No core logic found"
 
 
-def _apply_optimization_rules(file_path: str, rules: List[str]) -> None:
+def _apply_optimization_rules(file_path: str, rules: list[str]) -> None:
     """Apply optimization rules to a file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             content = f.read()
-        
+
         # Apply basic optimizations
         optimized_content = content
-        
+
         # Remove unused imports
         optimized_content = _remove_unused_imports(optimized_content)
-        
+
         # Optimize class structure
         optimized_content = _optimize_class_structure(optimized_content)
-        
+
         # Write optimized content back
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(optimized_content)
-            
+
     except Exception as e:
         print(f"Failed to optimize {file_path}: {e}")
 
@@ -473,11 +473,11 @@ def _remove_unused_imports(content: str) -> str:
     # Basic implementation - in practice, would use more sophisticated analysis
     lines = content.split('\n')
     filtered_lines = []
-    
+
     for line in lines:
         if not line.strip().startswith('import ') or '#' in line:
             filtered_lines.append(line)
-    
+
     return '\n'.join(filtered_lines)
 
 

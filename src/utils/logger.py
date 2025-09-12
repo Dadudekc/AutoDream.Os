@@ -10,13 +10,12 @@ Author: V2 SWARM CAPTAIN
 License: MIT
 """
 
+import json
 import logging
 import logging.config
-import json
-import os
 from datetime import datetime
-from typing import Dict, Any, Optional
 from pathlib import Path
+from typing import Any
 
 
 class StructuredFormatter(logging.Formatter):
@@ -91,27 +90,27 @@ class V2Logger:
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
 
-    def debug(self, message: str, extra: Optional[Dict[str, Any]] = None):
+    def debug(self, message: str, extra: dict[str, Any] | None = None):
         """Log debug message."""
         self._log(logging.DEBUG, message, extra)
 
-    def info(self, message: str, extra: Optional[Dict[str, Any]] = None):
+    def info(self, message: str, extra: dict[str, Any] | None = None):
         """Log info message."""
         self._log(logging.INFO, message, extra)
 
-    def warning(self, message: str, extra: Optional[Dict[str, Any]] = None):
+    def warning(self, message: str, extra: dict[str, Any] | None = None):
         """Log warning message."""
         self._log(logging.WARNING, message, extra)
 
-    def error(self, message: str, extra: Optional[Dict[str, Any]] = None):
+    def error(self, message: str, extra: dict[str, Any] | None = None):
         """Log error message."""
         self._log(logging.ERROR, message, extra)
 
-    def critical(self, message: str, extra: Optional[Dict[str, Any]] = None):
+    def critical(self, message: str, extra: dict[str, Any] | None = None):
         """Log critical message."""
         self._log(logging.CRITICAL, message, extra)
 
-    def _log(self, level: int, message: str, extra: Optional[Dict[str, Any]] = None):
+    def _log(self, level: int, message: str, extra: dict[str, Any] | None = None):
         """Internal logging method."""
         if extra:
             # Add extra fields to log record

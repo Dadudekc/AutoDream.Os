@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -8,6 +8,6 @@ class CommandResult:
 
     success: bool
     message: str
-    data: Optional[Any] = None
-    execution_time: Optional[float] = None
-    agent: Optional[str] = None
+    data: Any | None = None
+    execution_time: float | None = None
+    agent: str | None = None

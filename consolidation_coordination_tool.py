@@ -13,14 +13,12 @@ Usage:
     python consolidation_coordination_tool.py --verify --agent-id Agent-X
 """
 
-import sys
-import os
 import json
-import hashlib
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, List, Any, Optional
+import sys
 from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Add project root to path
 project_root = Path(__file__).parent
@@ -33,15 +31,15 @@ class ConsolidationBatch:
     agent_id: str
     domain: str
     description: str
-    files_affected: List[str]
+    files_affected: list[str]
     risk_level: str  # LOW, MEDIUM, HIGH
     estimated_effort: str  # SMALL, MEDIUM, LARGE
-    dependencies: List[str]
+    dependencies: list[str]
     rollback_plan: str
-    verification_steps: List[str]
+    verification_steps: list[str]
     status: str = "PLANNED"  # PLANNED, IN_PROGRESS, COMPLETED, ROLLED_BACK
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
-    completed_at: Optional[str] = None
+    completed_at: str | None = None
 
 @dataclass
 class AgentConsolidationPlan:
@@ -50,11 +48,11 @@ class AgentConsolidationPlan:
     domain: str
     survey_completed: bool
     total_files: int
-    consolidation_candidates: List[Dict[str, Any]]
-    batches: List[ConsolidationBatch]
-    dependencies: List[str]
-    risk_assessment: Dict[str, Any]
-    verification_plan: Dict[str, Any]
+    consolidation_candidates: list[dict[str, Any]]
+    batches: list[ConsolidationBatch]
+    dependencies: list[str]
+    risk_assessment: dict[str, Any]
+    verification_plan: dict[str, Any]
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
     updated_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
@@ -88,7 +86,7 @@ class ConsolidationCoordinator:
         return plan
 
     def plan_consolidation_batch(self, agent_id: str, description: str,
-                               files_affected: List[str], risk_level: str = "MEDIUM") -> ConsolidationBatch:
+                               files_affected: list[str], risk_level: str = "MEDIUM") -> ConsolidationBatch:
         """Create a consolidation batch plan."""
 
         batch_id = f"batch_{agent_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -111,7 +109,7 @@ class ConsolidationCoordinator:
         return batch
 
     def coordinate_with_agents(self, requesting_agent: str, coordination_type: str,
-                             details: Dict[str, Any]) -> Dict[str, Any]:
+                             details: dict[str, Any]) -> dict[str, Any]:
         """Coordinate consolidation efforts between agents."""
 
         coordination_request = {
@@ -131,7 +129,7 @@ class ConsolidationCoordinator:
 
         return coordination_request
 
-    def verify_consolidation(self, agent_id: str, batch_id: str) -> Dict[str, Any]:
+    def verify_consolidation(self, agent_id: str, batch_id: str) -> dict[str, Any]:
         """Verify consolidation results and provide status."""
 
         verification_results = {
@@ -154,7 +152,7 @@ class ConsolidationCoordinator:
 
         return verification_results
 
-    def rollback_batch(self, batch_id: str, reason: str) -> Dict[str, Any]:
+    def rollback_batch(self, batch_id: str, reason: str) -> dict[str, Any]:
         """Rollback a consolidation batch."""
 
         rollback_results = {
@@ -170,7 +168,7 @@ class ConsolidationCoordinator:
         # Load batch details
         batch_file = self.batches_dir / f"{batch_id}.json"
         if batch_file.exists():
-            with open(batch_file, 'r', encoding='utf-8') as f:
+            with open(batch_file, encoding='utf-8') as f:
                 batch_data = json.load(f)
 
             # Execute rollback
@@ -191,7 +189,7 @@ class ConsolidationCoordinator:
             return len(list(domain_path.rglob("*.py")))
         return 0
 
-    def _identify_consolidation_candidates(self, domain: str) -> List[Dict[str, Any]]:
+    def _identify_consolidation_candidates(self, domain: str) -> list[dict[str, Any]]:
         """Identify consolidation candidates in a domain."""
         # This would integrate with the duplication analyzer
         candidates = []
@@ -215,7 +213,7 @@ class ConsolidationCoordinator:
 
         return candidates
 
-    def _identify_dependencies(self, domain: str) -> List[str]:
+    def _identify_dependencies(self, domain: str) -> list[str]:
         """Identify domain dependencies."""
         dependencies = []
         if domain == "services":
@@ -226,7 +224,7 @@ class ConsolidationCoordinator:
             dependencies.extend(["services", "core"])
         return dependencies
 
-    def _assess_domain_risks(self, domain: str) -> Dict[str, Any]:
+    def _assess_domain_risks(self, domain: str) -> dict[str, Any]:
         """Assess consolidation risks for a domain."""
         return {
             "overall_risk": "MEDIUM",
@@ -236,7 +234,7 @@ class ConsolidationCoordinator:
             "coordination_needed": ["CAPTAIN", "Quality Assurance"]
         }
 
-    def _create_verification_plan(self, domain: str) -> Dict[str, Any]:
+    def _create_verification_plan(self, domain: str) -> dict[str, Any]:
         """Create verification plan for a domain."""
         return {
             "automated_tests": ["unit_tests", "integration_tests"],
@@ -259,7 +257,7 @@ class ConsolidationCoordinator:
         }
         return domain_map.get(agent_id, "unknown")
 
-    def _estimate_effort(self, files_affected: List[str]) -> str:
+    def _estimate_effort(self, files_affected: list[str]) -> str:
         """Estimate consolidation effort."""
         file_count = len(files_affected)
         if file_count <= 2:
@@ -269,7 +267,7 @@ class ConsolidationCoordinator:
         else:
             return "LARGE"
 
-    def _identify_batch_dependencies(self, files_affected: List[str]) -> List[str]:
+    def _identify_batch_dependencies(self, files_affected: list[str]) -> list[str]:
         """Identify dependencies for a batch."""
         dependencies = []
         for file in files_affected:
@@ -279,11 +277,11 @@ class ConsolidationCoordinator:
                 dependencies.append("api_clients")
         return list(set(dependencies))
 
-    def _create_rollback_plan(self, files_affected: List[str]) -> str:
+    def _create_rollback_plan(self, files_affected: list[str]) -> str:
         """Create rollback plan for affected files."""
         return f"Restore original versions of {len(files_affected)} files from git or backups"
 
-    def _create_verification_steps(self, files_affected: List[str]) -> List[str]:
+    def _create_verification_steps(self, files_affected: list[str]) -> list[str]:
         """Create verification steps for consolidation."""
         steps = [
             "Run unit tests for affected modules",
@@ -293,7 +291,7 @@ class ConsolidationCoordinator:
         ]
         return steps
 
-    def _run_automated_verification(self, batch_id: str) -> Dict[str, Any]:
+    def _run_automated_verification(self, batch_id: str) -> dict[str, Any]:
         """Run automated verification tests."""
         return {
             "automated_tests_passed": 8,
@@ -301,7 +299,7 @@ class ConsolidationCoordinator:
             "automated_success_rate": 0.8
         }
 
-    def _run_manual_verification(self, agent_id: str, batch_id: str) -> Dict[str, Any]:
+    def _run_manual_verification(self, agent_id: str, batch_id: str) -> dict[str, Any]:
         """Run manual verification checks."""
         return {
             "manual_checks_completed": 5,
@@ -309,7 +307,7 @@ class ConsolidationCoordinator:
             "manual_verification_status": "PASSED"
         }
 
-    def _execute_rollback(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_rollback(self, batch_data: dict[str, Any]) -> dict[str, Any]:
         """Execute rollback for a batch."""
         return {
             "files_restored": batch_data.get("files_affected", []),
@@ -359,7 +357,7 @@ class ConsolidationCoordinator:
         with open(batch_file, 'w', encoding='utf-8') as f:
             json.dump(batch_dict, f, indent=2, ensure_ascii=False)
 
-    def _batch_to_dict(self, batch: ConsolidationBatch) -> Dict[str, Any]:
+    def _batch_to_dict(self, batch: ConsolidationBatch) -> dict[str, Any]:
         """Convert batch to dictionary."""
         return {
             "batch_id": batch.batch_id,

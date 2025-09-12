@@ -9,7 +9,7 @@ License: MIT
 """
 
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class EngineState(Enum):
@@ -44,9 +44,9 @@ class EngineStateManager:
         """Initialize state manager."""
         self.engine_id = engine_id
         self.current_state = initial_state
-        self.state_history: List[Dict[str, Any]] = []
+        self.state_history: list[dict[str, Any]] = []
         self.error_count = 0
-        self.last_error: Optional[str] = None
+        self.last_error: str | None = None
 
         # Record initial state
         self._record_state_change(initial_state, "initialization")
@@ -69,7 +69,7 @@ class EngineStateManager:
         """Check if transition to target state is valid."""
         return target_state in self.VALID_TRANSITIONS.get(self.current_state, [])
 
-    def get_valid_transitions(self) -> List[EngineState]:
+    def get_valid_transitions(self) -> list[EngineState]:
         """Get list of valid transitions from current state."""
         return self.VALID_TRANSITIONS.get(self.current_state, [])
 
@@ -108,7 +108,7 @@ class EngineStateManager:
             "reason": reason
         })
 
-    def get_state_summary(self) -> Dict[str, Any]:
+    def get_state_summary(self) -> dict[str, Any]:
         """Get comprehensive state summary."""
         return {
             "engine_id": self.engine_id,

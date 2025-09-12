@@ -16,11 +16,11 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Mission: EMERGENCY PYTEST COVERAGE - UNIT TESTING EXECUTION
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from unittest.mock import patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))

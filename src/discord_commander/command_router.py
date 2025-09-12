@@ -17,8 +17,8 @@ License: MIT
 """
 
 import re
-from typing import Dict, List, Tuple, Any
 from datetime import datetime
+from typing import Any
 
 
 class CommandRouter:
@@ -81,7 +81,7 @@ class CommandRouter:
             }
         }
 
-    def parse_command(self, message: str) -> Tuple[str, List[str], str]:
+    def parse_command(self, message: str) -> tuple[str, list[str], str]:
         """
         Parse Discord command and return (command_type, args, remaining_text)
 
@@ -110,7 +110,7 @@ class CommandRouter:
 
         return 'unknown', [], message
 
-    def validate_command(self, cmd_type: str, args: List[str], content: str) -> Tuple[bool, str]:
+    def validate_command(self, cmd_type: str, args: list[str], content: str) -> tuple[bool, str]:
         """
         Validate command parameters and content.
 
@@ -154,11 +154,11 @@ class CommandRouter:
 
         return True, ""
 
-    def get_command_metadata(self, cmd_type: str) -> Dict[str, Any]:
+    def get_command_metadata(self, cmd_type: str) -> dict[str, Any]:
         """Get metadata for a command type."""
         return self.command_metadata.get(cmd_type, {})
 
-    def get_all_commands(self) -> Dict[str, Dict[str, Any]]:
+    def get_all_commands(self) -> dict[str, dict[str, Any]]:
         """Get all available commands with metadata."""
         return self.command_metadata.copy()
 
@@ -197,7 +197,7 @@ class CommandRouter:
 
         return content.strip()
 
-    def create_command_context(self, cmd_type: str, args: List[str], author, channel) -> Dict[str, Any]:
+    def create_command_context(self, cmd_type: str, args: list[str], author, channel) -> dict[str, Any]:
         """Create command execution context."""
         return {
             'command_type': cmd_type,

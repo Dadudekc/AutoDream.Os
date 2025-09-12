@@ -10,11 +10,11 @@ Author: Agent-2 (Architecture & Design Specialist)
 Mission: Phase 2 Consolidation - Chunk SVC-02 (Vector Integration)
 """
 
-import logging
 import hashlib
-from typing import Any, Dict, List, Optional
+import logging
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +23,8 @@ class VectorDocument:
     """Vector document structure."""
     id: str
     content: str
-    embedding: Optional[List[float]] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    embedding: list[float] | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
 @dataclass
@@ -48,12 +48,12 @@ class UnifiedVectorIntegration:
     Single responsibility: unified vector operations with caching and search.
     """
 
-    def __init__(self, config: Optional[VectorIntegrationConfig] = None):
+    def __init__(self, config: VectorIntegrationConfig | None = None):
         self.config = config or VectorIntegrationConfig()
         self.logger = logging.getLogger(__name__)
         self._initialized = False
-        self._document_cache: Dict[str, VectorDocument] = {}
-        self._embedding_cache: Dict[str, List[float]] = {}
+        self._document_cache: dict[str, VectorDocument] = {}
+        self._embedding_cache: dict[str, list[float]] = {}
 
     async def initialize(self) -> bool:
         """Initialize the vector integration service."""
@@ -82,7 +82,7 @@ class UnifiedVectorIntegration:
         self.logger.info(f"Stored document: {document.id}")
         return document.id
 
-    async def generate_embedding(self, text: str) -> List[float]:
+    async def generate_embedding(self, text: str) -> list[float]:
         """Generate embedding for text using configured model."""
         # Check cache first
         cache_key = hash(text)
@@ -101,7 +101,7 @@ class UnifiedVectorIntegration:
         self._embedding_cache[cache_key] = embedding
         return embedding
 
-    def _generate_sentence_transformer_embedding(self, text: str) -> List[float]:
+    def _generate_sentence_transformer_embedding(self, text: str) -> list[float]:
         """Generate embedding using sentence transformers."""
         try:
             from sentence_transformers import SentenceTransformer
@@ -110,7 +110,7 @@ class UnifiedVectorIntegration:
         except ImportError:
             return self._generate_fallback_embedding(text)
 
-    async def _generate_openai_embedding(self, text: str) -> List[float]:
+    async def _generate_openai_embedding(self, text: str) -> list[float]:
         """Generate embedding using OpenAI."""
         try:
             import openai
@@ -119,7 +119,7 @@ class UnifiedVectorIntegration:
         except ImportError:
             return self._generate_fallback_embedding(text)
 
-    def _generate_fallback_embedding(self, text: str) -> List[float]:
+    def _generate_fallback_embedding(self, text: str) -> list[float]:
         """Generate fallback hash-based embedding."""
         hash_obj = hashlib.md5(text.encode())
         hash_bytes = hash_obj.digest()
@@ -131,7 +131,7 @@ class UnifiedVectorIntegration:
             embedding.append(normalized)
         return embedding[:384]
 
-    async def search_similar(self, query: str, limit: Optional[int] = None) -> List[VectorSearchResult]:
+    async def search_similar(self, query: str, limit: int | None = None) -> list[VectorSearchResult]:
         """Search for documents similar to query."""
         if not self._initialized:
             raise RuntimeError("Service not initialized")
@@ -144,7 +144,7 @@ class UnifiedVectorIntegration:
         for doc_id, doc in self._document_cache.items():
             if doc.embedding:
                 # Simple cosine similarity approximation
-                similarity = sum(a*b for a, b in zip(query_embedding[:10], doc.embedding[:10]))
+                similarity = sum(a*b for a, b in zip(query_embedding[:10], doc.embedding[:10], strict=False))
                 if similarity >= self.config.similarity_threshold:
                     results.append(VectorSearchResult(document=doc, score=similarity))
 
@@ -152,7 +152,7 @@ class UnifiedVectorIntegration:
         results.sort(key=lambda x: x.score, reverse=True)
         return results[:limit]
 
-    async def get_agent_context(self, agent_id: str) -> Dict[str, Any]:
+    async def get_agent_context(self, agent_id: str) -> dict[str, Any]:
         """Get vector-based context for agent."""
         query = f"agent {agent_id} context"
         similar_docs = await self.search_similar(query, limit=5)
@@ -169,7 +169,7 @@ class UnifiedVectorIntegration:
             ]
         }
 
-    async def update_agent_vectors(self, agent_id: str, data: Dict[str, Any]) -> bool:
+    async def update_agent_vectors(self, agent_id: str, data: dict[str, Any]) -> bool:
         """Update agent vector representations."""
         try:
             content = f"Agent {agent_id} data: {str(data)}"
@@ -184,7 +184,7 @@ class UnifiedVectorIntegration:
             self.logger.error(f"Failed to update agent vectors: {e}")
             return False
 
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> dict[str, Any]:
         """Get service statistics."""
         return {
             "initialized": self._initialized,
@@ -194,7 +194,7 @@ class UnifiedVectorIntegration:
         }
 
 # Factory function for V2 compliance
-def create_unified_vector_integration(config: Optional[VectorIntegrationConfig] = None):
+def create_unified_vector_integration(config: VectorIntegrationConfig | None = None):
     """Factory function for UnifiedVectorIntegration."""
     return UnifiedVectorIntegration(config)
 

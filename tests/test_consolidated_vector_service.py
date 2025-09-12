@@ -15,28 +15,27 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Coverage Target: 85%+
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
-import numpy as np
-from pathlib import Path
 import sys
-from typing import List, Dict, Any, Optional
+from pathlib import Path
+from unittest.mock import Mock, patch
+
+import numpy as np
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from services.consolidated_vector_service import ConsolidatedVectorService
 from services.models.vector_models import (
+    CollectionConfig,
+    DocumentType,
     EmbeddingModel,
-    EmbeddingResult,
-    VectorDocument,
+    SearchQuery,
+    SearchResult,
     VectorDatabaseConfig,
     VectorDatabaseResult,
     VectorDatabaseStats,
-    SearchQuery,
-    SearchResult,
-    CollectionConfig,
-    DocumentType
+    VectorDocument,
 )
 
 

@@ -14,21 +14,22 @@ import os
 import shutil
 from pathlib import Path
 
+
 def migrate_onboarding_services():
     """Migrate from old onboarding services to consolidated service."""
     print("🔄 Starting onboarding services migration...")
-    
+
     # Files to be replaced
     old_files = [
         "src/services/onboarding_service.py",
-        "src/services/simple_onboarding.py", 
+        "src/services/simple_onboarding.py",
         "src/services/onboarding_message_generator.py"
     ]
-    
+
     # Create backup directory
     backup_dir = Path("backup/onboarding_services")
     backup_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Backup old files
     print("📦 Creating backups of old services...")
     for file_path in old_files:
@@ -36,10 +37,10 @@ def migrate_onboarding_services():
             backup_path = backup_dir / Path(file_path).name
             shutil.copy2(file_path, backup_path)
             print(f"  ✅ Backed up {file_path} -> {backup_path}")
-    
+
     # Create stub files that import from consolidated service
     print("🔧 Creating migration stubs...")
-    
+
     # onboarding_service.py stub
     with open("src/services/onboarding_service.py", "w") as f:
         f.write('''#!/usr/bin/env python3
@@ -75,7 +76,7 @@ warnings.warn(
 # Legacy content removed - use consolidated_onboarding_service instead
 OnboardingService = ConsolidatedOnboardingService
 ''')
-    
+
     # simple_onboarding.py stub
     with open("src/services/simple_onboarding.py", "w") as f:
         f.write('''#!/usr/bin/env python3
@@ -111,7 +112,7 @@ warnings.warn(
 # Legacy content removed - use consolidated_onboarding_service instead
 SimpleOnboarding = ConsolidatedOnboardingService
 ''')
-    
+
     # onboarding_message_generator.py stub
     with open("src/services/onboarding_message_generator.py", "w") as f:
         f.write('''#!/usr/bin/env python3
@@ -147,14 +148,14 @@ warnings.warn(
 # Legacy content removed - use consolidated_onboarding_service instead
 OnboardingMessageGenerator = ConsolidatedOnboardingService
 ''')
-    
+
     print("✅ Migration stubs created successfully!")
     print("📋 Next steps:")
     print("  1. Update all imports to use consolidated_onboarding_service")
     print("  2. Test the consolidated service functionality")
     print("  3. Remove stub files after migration is complete")
     print("  4. Update documentation to reference new service")
-    
+
     return True
 
 if __name__ == "__main__":

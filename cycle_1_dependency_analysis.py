@@ -6,12 +6,13 @@ Cycle 1: Dependency Analysis
 Analyze dependencies across all 218 backed up web infrastructure files.
 """
 
-import os
-import json
-import re
-from pathlib import Path
-from collections import defaultdict, Counter
 import datetime
+import json
+import os
+import re
+from collections import Counter, defaultdict
+from pathlib import Path
+
 
 def find_backup_directory():
     """Find the most recent web infrastructure backup directory."""
@@ -48,7 +49,7 @@ def analyze_javascript_dependencies(js_files):
 
     for js_file in js_files:
         try:
-            with open(js_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(js_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read()
                 file_size = len(content)
                 dependencies['file_sizes'][str(js_file)] = file_size
@@ -110,7 +111,7 @@ def analyze_python_dependencies(py_files):
 
     for py_file in py_files:
         try:
-            with open(py_file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding='utf-8', errors='ignore') as f:
                 content = f.read()
                 file_size = len(content)
                 dependencies['file_sizes'][str(py_file)] = file_size
@@ -274,7 +275,7 @@ def perform_dependency_analysis():
             else:
                 other_files.append(file_path)
 
-    print(f"📊 Files to analyze:")
+    print("📊 Files to analyze:")
     print(f"   Total files: {len(all_files)}")
     print(f"   JavaScript files: {len(js_files)}")
     print(f"   Python files: {len(py_files)}")

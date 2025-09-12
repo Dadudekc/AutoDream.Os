@@ -1,10 +1,12 @@
 # AUTO-GENERATED __init__.py
 # DO NOT EDIT MANUALLY - changes may be overwritten
 
-from . import status_indexer
-from . import vector_database_engine
-from . import vector_database_models
-from . import vector_database_orchestrator
+from . import (
+    status_indexer,
+    vector_database_engine,
+    vector_database_models,
+    vector_database_orchestrator,
+)
 
 # Import service functions
 from .vector_database_orchestrator import VectorDatabaseService

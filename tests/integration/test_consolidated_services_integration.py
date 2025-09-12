@@ -15,23 +15,26 @@ Author: Agent-1 (Integration & Core Systems Specialist)
 Mission: EMERGENCY PYTEST COVERAGE - INTEGRATION TESTING LEAD
 """
 
-import pytest
-from unittest.mock import Mock, patch, MagicMock
 import sys
-import asyncio
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from unittest.mock import Mock, patch
+
+import pytest
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 # Import consolidated services for integration testing
 try:
+    from services.consolidated_coordination_service import ConsolidatedCoordinationService
     from services.consolidated_messaging_service import ConsolidatedMessagingService
     from services.consolidated_vector_service import ConsolidatedVectorService
-    from services.consolidated_coordination_service import ConsolidatedCoordinationService
-    from services.models.messaging_models import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
-    from services.models.vector_models import VectorDocument, EmbeddingModel
+    from services.models.messaging_models import (
+        UnifiedMessage,
+        UnifiedMessagePriority,
+        UnifiedMessageType,
+    )
+    from services.models.vector_models import EmbeddingModel, VectorDocument
     SERVICES_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️  Services not available: {e}")

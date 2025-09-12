@@ -18,16 +18,13 @@ from __future__ import annotations
 
 import logging
 import sqlite3
-import json
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 from uuid import uuid4
-
-from ..core.unified_config import UnifiedConfig
 
 
 class DatabaseConnectionError(Exception):
@@ -66,7 +63,7 @@ class DatabaseStats:
     failed_queries: int = 0
     cache_hits: int = 0
     cache_misses: int = 0
-    last_backup: Optional[datetime] = None
+    last_backup: datetime | None = None
     database_size: int = 0
 
 
@@ -76,11 +73,11 @@ class DatabaseConnectionManager:
     def __init__(self, config: DatabaseConfig):
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self._connections: Dict[str, sqlite3.Connection] = {}
+        self._connections: dict[str, sqlite3.Connection] = {}
         self._stats = DatabaseStats()
 
     @contextmanager
-    def get_connection(self, connection_id: Optional[str] = None):
+    def get_connection(self, connection_id: str | None = None):
         """Get a database connection."""
         if connection_id is None:
             connection_id = str(uuid4())
@@ -165,8 +162,8 @@ class DatabaseQueryBuilder:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def build_select(self, table: str, columns: List[str] = None,
-                    where: Dict[str, Any] = None, order_by: List[str] = None,
+    def build_select(self, table: str, columns: list[str] = None,
+                    where: dict[str, Any] = None, order_by: list[str] = None,
                     limit: int = None, offset: int = None) -> str:
         """Build SELECT query."""
         columns_str = "*" if not columns else ", ".join(columns)
@@ -192,7 +189,7 @@ class DatabaseQueryBuilder:
 
         return query
 
-    def build_insert(self, table: str, data: Dict[str, Any]) -> tuple[str, list]:
+    def build_insert(self, table: str, data: dict[str, Any]) -> tuple[str, list]:
         """Build INSERT query."""
         columns = list(data.keys())
         placeholders = ["?" for _ in columns]
@@ -201,8 +198,8 @@ class DatabaseQueryBuilder:
         query = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(placeholders)})"
         return query, values
 
-    def build_update(self, table: str, data: Dict[str, Any],
-                    where: Dict[str, Any]) -> tuple[str, list]:
+    def build_update(self, table: str, data: dict[str, Any],
+                    where: dict[str, Any]) -> tuple[str, list]:
         """Build UPDATE query."""
         set_clauses = []
         values = []
@@ -222,7 +219,7 @@ class DatabaseQueryBuilder:
 
         return query, values
 
-    def build_delete(self, table: str, where: Dict[str, Any]) -> tuple[str, list]:
+    def build_delete(self, table: str, where: dict[str, Any]) -> tuple[str, list]:
         """Build DELETE query."""
         query = f"DELETE FROM {table}"
 
@@ -251,7 +248,7 @@ class DatabaseModel(ABC):
         pass
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'DatabaseModel':
+    def from_dict(cls, data: dict[str, Any]) -> DatabaseModel:
         """Create instance from dictionary."""
         instance = cls()
         for key, value in data.items():
@@ -259,7 +256,7 @@ class DatabaseModel(ABC):
                 setattr(instance, key, value)
         return instance
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {key: getattr(self, key) for key in dir(self)
                 if not key.startswith('_') and not callable(getattr(self, key))}
@@ -271,7 +268,7 @@ class DatabaseValidator:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def validate_data(self, model_class: type, data: Dict[str, Any]) -> bool:
+    def validate_data(self, model_class: type, data: dict[str, Any]) -> bool:
         """Validate data against model requirements."""
         try:
             # Basic validation - check required fields
@@ -295,7 +292,7 @@ class DatabaseValidator:
 class UnifiedDatabaseService:
     """Unified database service."""
 
-    def __init__(self, config: Optional[DatabaseConfig] = None):
+    def __init__(self, config: DatabaseConfig | None = None):
         self.config = config or DatabaseConfig()
         self.logger = logging.getLogger(__name__)
 
@@ -305,7 +302,7 @@ class UnifiedDatabaseService:
         self.validator = DatabaseValidator()
 
         # Model registry
-        self._models: Dict[str, type] = {}
+        self._models: dict[str, type] = {}
 
         self.logger.info("✅ Unified Database Service initialized")
 
@@ -330,7 +327,7 @@ class UnifiedDatabaseService:
 
             conn.commit()
 
-    def insert(self, model_class: type, data: Dict[str, Any]) -> str:
+    def insert(self, model_class: type, data: dict[str, Any]) -> str:
         """Insert a record."""
         if not self.validator.validate_data(model_class, data):
             raise DatabaseValidationError("Invalid data")
@@ -352,8 +349,8 @@ class UnifiedDatabaseService:
                 self.logger.error(f"Insert failed: {e}")
                 raise DatabaseOperationError(f"Insert failed: {e}")
 
-    def select(self, model_class: type, where: Dict[str, Any] = None,
-              order_by: List[str] = None, limit: int = None) -> List[Dict[str, Any]]:
+    def select(self, model_class: type, where: dict[str, Any] = None,
+              order_by: list[str] = None, limit: int = None) -> list[dict[str, Any]]:
         """Select records."""
         query = self.query_builder.build_select(
             model_class.table_name,
@@ -380,7 +377,7 @@ class UnifiedDatabaseService:
                 self.logger.error(f"Select failed: {e}")
                 raise DatabaseOperationError(f"Select failed: {e}")
 
-    def update(self, model_class: type, data: Dict[str, Any], where: Dict[str, Any]) -> int:
+    def update(self, model_class: type, data: dict[str, Any], where: dict[str, Any]) -> int:
         """Update records."""
         if not self.validator.validate_data(model_class, data):
             raise DatabaseValidationError("Invalid data")
@@ -402,7 +399,7 @@ class UnifiedDatabaseService:
                 self.logger.error(f"Update failed: {e}")
                 raise DatabaseOperationError(f"Update failed: {e}")
 
-    def delete(self, model_class: type, where: Dict[str, Any]) -> int:
+    def delete(self, model_class: type, where: dict[str, Any]) -> int:
         """Delete records."""
         query, values = self.query_builder.build_delete(model_class.table_name, where)
 
@@ -421,7 +418,7 @@ class UnifiedDatabaseService:
                 self.logger.error(f"Delete failed: {e}")
                 raise DatabaseOperationError(f"Delete failed: {e}")
 
-    def execute_raw_query(self, query: str, parameters: tuple = ()) -> List[Dict[str, Any]]:
+    def execute_raw_query(self, query: str, parameters: tuple = ()) -> list[dict[str, Any]]:
         """Execute a raw SQL query."""
         with self.connection_manager.get_connection() as conn:
             try:
@@ -472,7 +469,7 @@ class UnifiedDatabaseService:
 
 
 # Factory function for creating database service instances
-def create_unified_database_service(config: Optional[DatabaseConfig] = None) -> UnifiedDatabaseService:
+def create_unified_database_service(config: DatabaseConfig | None = None) -> UnifiedDatabaseService:
     """Factory function for UnifiedDatabaseService creation."""
     return UnifiedDatabaseService(config=config)
 

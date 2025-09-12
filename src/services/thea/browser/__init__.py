@@ -8,6 +8,6 @@ Author: Agent-4 (Captain) - V2_SWARM
 License: MIT
 """
 
-from .thea_browser_service import TheaBrowserService, BrowserMode
+from .thea_browser_service import BrowserMode, TheaBrowserService
 
 __all__ = ['TheaBrowserService', 'BrowserMode']

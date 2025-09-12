@@ -1,13 +1,13 @@
 """
 Alpaca API Client Wrapper
 """
-from typing import Dict, List, Optional, Any
 from datetime import datetime, timedelta
-import alpaca_trade_api as tradeapi
-from loguru import logger
-import pandas as pd
+from typing import Any
 
+import alpaca_trade_api as tradeapi
+import pandas as pd
 from config.settings import config
+from loguru import logger
 
 
 class AlpacaClient:
@@ -40,7 +40,7 @@ class AlpacaClient:
         """Check if connected to Alpaca API"""
         return self._connected
 
-    def get_account_info(self) -> Dict[str, Any]:
+    def get_account_info(self) -> dict[str, Any]:
         """Get account information"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -59,7 +59,7 @@ class AlpacaClient:
             logger.error(f"❌ Error getting account info: {e}")
             return {}
 
-    def get_positions(self) -> List[Dict[str, Any]]:
+    def get_positions(self) -> list[dict[str, Any]]:
         """Get current positions"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -79,7 +79,7 @@ class AlpacaClient:
             logger.error(f"❌ Error getting positions: {e}")
             return []
 
-    def get_orders(self, status: str = "open") -> List[Dict[str, Any]]:
+    def get_orders(self, status: str = "open") -> list[dict[str, Any]]:
         """Get orders by status"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -103,7 +103,7 @@ class AlpacaClient:
             return []
 
     def get_historical_data(self, symbol: str, timeframe: str = "1Min",
-                           start: Optional[datetime] = None, end: Optional[datetime] = None,
+                           start: datetime | None = None, end: datetime | None = None,
                            limit: int = 1000) -> pd.DataFrame:
         """Get historical market data"""
         if not self._connected:
@@ -147,7 +147,7 @@ class AlpacaClient:
             return pd.DataFrame()
 
     def submit_market_order(self, symbol: str, qty: int, side: str,
-                           time_in_force: str = "gtc") -> Dict[str, Any]:
+                           time_in_force: str = "gtc") -> dict[str, Any]:
         """Submit a market order"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -176,7 +176,7 @@ class AlpacaClient:
             raise
 
     def submit_limit_order(self, symbol: str, qty: int, side: str,
-                          limit_price: float, time_in_force: str = "gtc") -> Dict[str, Any]:
+                          limit_price: float, time_in_force: str = "gtc") -> dict[str, Any]:
         """Submit a limit order"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -218,7 +218,7 @@ class AlpacaClient:
             logger.error(f"❌ Error cancelling order {order_id}: {e}")
             raise
 
-    def get_market_clock(self) -> Dict[str, Any]:
+    def get_market_clock(self) -> dict[str, Any]:
         """Get market clock information"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")

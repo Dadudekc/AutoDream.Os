@@ -26,10 +26,14 @@ except ImportError:
 print("\n📡 STEP 2: TESTING CONSOLIDATED MESSAGING SYSTEM...")
 try:
     import sys
-    import os
     sys.path.insert(0, 'src')
 
-    from src.core.messaging_core import UnifiedMessagingCore, UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority
+    from src.core.messaging_core import (
+        UnifiedMessage,
+        UnifiedMessagePriority,
+        UnifiedMessageType,
+        UnifiedMessagingCore,
+    )
     print("✅ Consolidated Messaging Core: LOADED")
 
     messaging = UnifiedMessagingCore()

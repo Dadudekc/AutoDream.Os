@@ -21,22 +21,22 @@ Architecture:
 @license MIT
 """
 
-from typing import Any, Dict, List, Optional, Callable
 import asyncio
 import uuid
+from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 from .message_queue_interfaces import (
     IMessageQueue,
+    IMessageQueueLogger,
+    IQueueEntry,
     IQueuePersistence,
     IQueueProcessor,
-    IQueueConfig,
-    IMessageQueueLogger,
-    IQueueEntry
 )
 from .message_queue_persistence import FileQueuePersistence, QueueEntry
-from .message_queue_statistics import QueueStatisticsCalculator, QueueHealthMonitor
+from .message_queue_statistics import QueueHealthMonitor, QueueStatisticsCalculator
 
 
 class QueueConfig:
@@ -71,11 +71,11 @@ class MessageQueue(IMessageQueue):
 
     def __init__(
         self,
-        config: Optional[QueueConfig] = None,
-        persistence: Optional[IQueuePersistence] = None,
-        statistics_calculator: Optional[QueueStatisticsCalculator] = None,
-        health_monitor: Optional[QueueHealthMonitor] = None,
-        logger: Optional[IMessageQueueLogger] = None
+        config: QueueConfig | None = None,
+        persistence: IQueuePersistence | None = None,
+        statistics_calculator: QueueStatisticsCalculator | None = None,
+        health_monitor: QueueHealthMonitor | None = None,
+        logger: IMessageQueueLogger | None = None
     ):
         """Initialize message queue with dependency injection."""
         self.config = config or QueueConfig()
@@ -93,7 +93,7 @@ class MessageQueue(IMessageQueue):
     def enqueue(
         self,
         message: Any,
-        delivery_callback: Optional[Callable[[Any], bool]] = None,
+        delivery_callback: Callable[[Any], bool] | None = None,
     ) -> str:
         """Add message to queue with priority-based ordering.
 
@@ -150,7 +150,7 @@ class MessageQueue(IMessageQueue):
         # Default priority
         return 0.5
 
-    def dequeue(self, batch_size: Optional[int] = None) -> List[IQueueEntry]:
+    def dequeue(self, batch_size: int | None = None) -> list[IQueueEntry]:
         """Get next messages for processing based on priority.
 
         Args:
@@ -249,7 +249,7 @@ class MessageQueue(IMessageQueue):
 
         return self.persistence.atomic_operation(_mark_failed_operation)
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive queue statistics."""
 
         def _get_statistics_operation():
@@ -288,7 +288,7 @@ class MessageQueue(IMessageQueue):
 
         return self.persistence.atomic_operation(_cleanup_operation)
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get comprehensive queue health status."""
 
         def _get_health_operation():
@@ -311,7 +311,7 @@ class AsyncQueueProcessor(IQueueProcessor):
         self,
         queue: IMessageQueue,
         delivery_callback: Callable[[Any], bool],
-        logger: Optional[IMessageQueueLogger] = None
+        logger: IMessageQueueLogger | None = None
     ):
         """Initialize queue processor with dependency injection."""
         self.queue = queue

@@ -9,22 +9,16 @@ Author: Agent-8 (Operations & Support Specialist)
 Emergency Pytest Assignment - Additional Coverage
 """
 
-import pytest
-import time
 import threading
-import psutil
-import os
-import signal
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, Any, List, Optional, Callable
-import subprocess
-import sys
+import time
+
+import pytest
 
 # Import operational components for testing
 try:
+    from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     from src.core.operational_monitoring_baseline import OperationalMonitoringBaseline
     from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
-    from src.core.automated_health_check_system import AutomatedHealthCheckSystem
     OPERATIONAL_COMPONENTS_AVAILABLE = True
 except ImportError:
     OPERATIONAL_COMPONENTS_AVAILABLE = False
@@ -101,7 +95,7 @@ class TestSystemResilienceUnderLoad:
         total_operations = sum(len_results for _, len_results in results if isinstance(len_results, int))
         successful_users = len([r for r in results if r[1] > 0])
 
-        print(f"Concurrent user simulation test:")
+        print("Concurrent user simulation test:")
         print(f"- Simulated users: {concurrent_users}")
         print(f"- Operations per user: {operations_per_user}")
         print(f"- Total operations: {total_operations}")
@@ -144,7 +138,7 @@ class TestSystemResilienceUnderLoad:
                 for _ in range(3)
             )
 
-            print(f"Memory pressure test:")
+            print("Memory pressure test:")
             print(f"- Initial memory: {initial_memory:.1f}%")
             print(f"- Peak memory: {peak_memory:.1f}%")
             print(f"- Memory objects created: {len(memory_stress_objects)}")
@@ -205,7 +199,7 @@ class TestSystemResilienceUnderLoad:
         failed_ops = len([op for op in network_operations if op[0] in ['failure', 'retry_failure']])
         success_rate = successful_ops / len(network_operations) if network_operations else 0
 
-        print(f"Network failure resilience test:")
+        print("Network failure resilience test:")
         print(f"- Total operations: {len(network_operations)}")
         print(f"- Successful operations: {successful_ops}")
         print(f"- Failed operations: {failed_ops}")
@@ -268,7 +262,7 @@ class TestOperationalRecoveryScenarios:
         # Analyze restart recovery
         restart_duration = restart_events[-1][1] - restart_events[0][1] if len(restart_events) > 1 else 0
 
-        print(f"Service restart recovery test:")
+        print("Service restart recovery test:")
         print(f"- Restart successful: {restart_successful}")
         print(f"- Restart duration: {restart_duration:.2f}s")
         print(f"- Monitoring points: {len(monitoring_points)}")
@@ -310,7 +304,7 @@ class TestOperationalRecoveryScenarios:
         successful_reloads = len([e for e in reload_events if e[1] == 'completed'])
         total_reloads = len(config_changes)
 
-        print(f"Configuration reload resilience test:")
+        print("Configuration reload resilience test:")
         print(f"- Config changes: {total_reloads}")
         print(f"- Successful reloads: {successful_reloads}")
         print(f"- Reload success rate: {successful_reloads/total_reloads:.2%}")
@@ -367,7 +361,7 @@ class TestOperationalRecoveryScenarios:
         successful_scenarios = len([r for r in recovery_results if r['success']])
         total_scenarios = len(exhaustion_scenarios)
 
-        print(f"\\nResource exhaustion recovery test:")
+        print("\\nResource exhaustion recovery test:")
         print(f"- Scenarios tested: {total_scenarios}")
         print(f"- Successful recoveries: {successful_scenarios}")
         print(".2%")
@@ -410,7 +404,7 @@ class TestOperationalMonitoringIntegration:
             system_health = system_monitor.get_system_health()
             monitoring_results['system_health'] = system_health
 
-            print(f"Monitoring system integration test:")
+            print("Monitoring system integration test:")
             print(f"- Performance metrics: {len(perf_metrics) if perf_metrics else 0}")
             print(f"- Health checks: {len(health_checks)}")
             print(f"- Operational status: {operational_status}")
@@ -476,7 +470,7 @@ class TestOperationalMonitoringIntegration:
         significant_events = len([c for c in alert_correlations if c.get('significant_change', False)])
         total_events = len(system_events)
 
-        print(f"\\nMonitoring alert correlation test:")
+        print("\\nMonitoring alert correlation test:")
         print(f"- Total events: {total_events}")
         print(f"- Significant changes detected: {significant_events}")
         print(".1f")
@@ -542,7 +536,7 @@ class TestEmergencyOperationalScenarios:
         # Analyze emergency recovery
         total_duration = shutdown_events[-1][1] - shutdown_events[0][1] if len(shutdown_events) > 1 else 0
 
-        print(f"Emergency shutdown recovery test:")
+        print("Emergency shutdown recovery test:")
         print(f"- Recovery successful: {recovery_successful}")
         print(f"- Total duration: {total_duration:.2f}s")
         print(f"- Monitoring points: {len(emergency_monitoring)}")
@@ -599,7 +593,7 @@ class TestEmergencyOperationalScenarios:
         successful_responses = len([r for r in failure_responses.values() if not r.startswith('failed')])
         total_failures = len(failure_scenarios)
 
-        print(f"Multi-failure scenario resilience test:")
+        print("Multi-failure scenario resilience test:")
         print(f"- Failure scenarios: {total_failures}")
         print(f"- Successful responses: {successful_responses}")
         print(".1f")

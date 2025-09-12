@@ -15,10 +15,10 @@ Author: Agent-3 - Infrastructure & DevOps Specialist
 Mission: V2 Compliance Refactoring
 """
 
-from .search_utils import SearchUtils
-from .document_utils import DocumentUtils
 from .analytics_utils import AnalyticsUtils
 from .collection_utils import CollectionUtils
+from .document_utils import DocumentUtils
+from .search_utils import SearchUtils
 
 
 class VectorDatabaseUtils:

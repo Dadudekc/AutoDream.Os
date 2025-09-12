@@ -8,8 +8,14 @@ Training script to teach all agents how to respond via PyAutoGUI messaging.
 
 import logging
 import time
+
+from src.core.messaging_core import (
+    UnifiedMessage,
+    UnifiedMessagePriority,
+    UnifiedMessageTag,
+    UnifiedMessageType,
+)
 from src.services.messaging_pyautogui import PyAutoGUIMessagingDelivery
-from src.core.messaging_core import UnifiedMessage, UnifiedMessageType, UnifiedMessagePriority, UnifiedMessageTag
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -18,7 +24,7 @@ def send_pyautogui_training():
     """Send PyAutoGUI response training to all agents."""
     try:
         logger.info('🚀 Sending PyAutoGUI response training to all agents.')
-        
+
         # Check PyAutoGUI availability
         try:
             import pyautogui
@@ -31,7 +37,7 @@ def send_pyautogui_training():
 
         # Create messaging delivery instance
         messaging = PyAutoGUIMessagingDelivery()
-        
+
         # Agent coordinates for training
         agents = [
             ('Agent-1', '(-1269, 481)'),
@@ -42,7 +48,7 @@ def send_pyautogui_training():
             ('Agent-7', '(920, 851)'),
             ('Agent-8', '(1611, 941)')
         ]
-        
+
         for agent_id, coords in agents:
             try:
                 # Create training message
@@ -91,23 +97,23 @@ def send_pyautogui_training():
                     tags=[UnifiedMessageTag.COORDINATION, UnifiedMessageTag.SYSTEM],
                     metadata={'delivery_method': 'PYAUTOGUI', 'training': True, 'coordinates': coords}
                 )
-                
+
                 logger.info(f'📤 Sending training to {agent_id}...')
                 result = messaging.send_message(training_message)
-                
+
                 if result:
                     logger.info(f'✅ Training sent to {agent_id} successfully!')
                 else:
                     logger.error(f'❌ Failed to send training to {agent_id}')
-                    
+
                 time.sleep(1)  # Brief pause between messages
-                
+
             except Exception as e:
                 logger.error(f'❌ Error sending training to {agent_id}: {e}')
-        
+
         logger.info('🎉 PyAutoGUI training broadcast complete!')
         return True
-        
+
     except Exception as e:
         logger.error(f'❌ Error in PyAutoGUI training: {e}')
         return False

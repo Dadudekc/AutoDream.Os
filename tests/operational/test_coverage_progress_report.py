@@ -8,12 +8,12 @@ Tracks progress toward 85%+ test coverage target for operational systems.
 Author: Agent-8 (Operations & Support Specialist)
 """
 
-import pytest
-import time
-import os
-from pathlib import Path
-from datetime import datetime
 import json
+from datetime import datetime
+from pathlib import Path
+
+import pytest
+
 
 class OperationalTestCoverageReporter:
     """Reports on operational test coverage progress."""
@@ -209,8 +209,8 @@ def generate_operational_test_report():
     with open(md_report_file, 'w', encoding='utf-8') as f:
         f.write("# Operational Test Coverage Progress Report\n\n")
         f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write(f"**Agent:** Agent-8 (Operations & Support Specialist)\n\n")
-        f.write(f"**Assignment:** Achieve 85%+ test coverage for operational systems\n\n")
+        f.write("**Agent:** Agent-8 (Operations & Support Specialist)\n\n")
+        f.write("**Assignment:** Achieve 85%+ test coverage for operational systems\n\n")
 
         f.write("## 📊 Coverage Metrics\n\n")
         metrics = report['coverage_metrics']
@@ -246,7 +246,7 @@ def generate_operational_test_report():
                 f.write(f"- {step}\n")
             f.write("\n")
 
-    print(f"✅ Operational test coverage report generated:")
+    print("✅ Operational test coverage report generated:")
     print(f"   JSON: {report_file}")
     print(f"   Markdown: {md_report_file}")
 

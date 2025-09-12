@@ -10,8 +10,9 @@ License: MIT
 """
 
 import logging
+from collections.abc import Callable
 from enum import Enum
-from typing import TypeVar, Callable, Optional, Dict, Any
+from typing import Any, TypeVar
 
 # Type variable for generic return types
 T = TypeVar("T")
@@ -25,7 +26,7 @@ class RecoveryStrategy:
     def __init__(self, name: str):
         self.name = name
 
-    def execute(self, error_context: Dict[str, Any]) -> bool:
+    def execute(self, error_context: dict[str, Any]) -> bool:
         """Execute the recovery strategy."""
         raise NotImplementedError("Subclasses must implement execute method")
 
@@ -42,15 +43,15 @@ class ErrorHandlingOrchestrator:
         """Register a retry mechanism."""
         self.retry_mechanisms[component] = config
 
-    def get_system_health_report(self) -> Dict[str, Any]:
+    def get_system_health_report(self) -> dict[str, Any]:
         """Get system health report."""
         return {"status": "operational", "error_count": 0}
 
-    def get_component_status(self, component: str) -> Dict[str, Any]:
+    def get_component_status(self, component: str) -> dict[str, Any]:
         """Get component status."""
         return {"component": component, "status": "operational"}
 
-    def cleanup_stale_data(self) -> Dict[str, int]:
+    def cleanup_stale_data(self) -> dict[str, int]:
         """Clean up stale data."""
         return {"cleaned_records": 0}
 
@@ -155,7 +156,7 @@ class CircuitBreaker:
             )
 
 
-def handle_errors(operation: Callable, error_handler: Optional[Callable] = None):
+def handle_errors(operation: Callable, error_handler: Callable | None = None):
     """Decorator for error handling."""
 
     def wrapper(*args, **kwargs):
@@ -258,7 +259,7 @@ class CoordinationErrorHandler:
         config = RetryConfig(max_attempts=max_attempts, base_delay=base_delay, max_delay=max_delay)
         self.orchestrator.register_retry_mechanism(component, config)
 
-    def get_error_report(self) -> Dict[str, Any]:
+    def get_error_report(self) -> dict[str, Any]:
         """Generate comprehensive error report."""
         return self.orchestrator.get_system_health_report()
 
@@ -266,11 +267,11 @@ class CoordinationErrorHandler:
         """Add a custom recovery strategy."""
         self.recovery_manager.add_strategy(strategy)
 
-    def get_component_status(self, component: str) -> Dict[str, Any]:
+    def get_component_status(self, component: str) -> dict[str, Any]:
         """Get detailed status for a specific component."""
         return self.orchestrator.get_component_status(component)
 
-    def cleanup_stale_data(self) -> Dict[str, int]:
+    def cleanup_stale_data(self) -> dict[str, int]:
         """Clean up stale error data and logs."""
         return self.orchestrator.cleanup_stale_data()
 

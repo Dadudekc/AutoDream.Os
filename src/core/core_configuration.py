@@ -19,11 +19,10 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 # ============================================================================
 # ENVIRONMENT CONFIGURATION
@@ -47,7 +46,7 @@ class EnvironmentConfig:
     log_dir: str = "logs"
     temp_dir: str = "temp"
     config_dir: str = "config"
-    
+
     def validate(self) -> bool:
         """Validate environment configuration."""
         return (
@@ -85,11 +84,11 @@ class AgentConfig:
     task_timeout: float = 300.0
     heartbeat_interval: float = 30.0
     status_report_interval: float = 60.0
-    capabilities: List[str] = field(default_factory=lambda: [
+    capabilities: list[str] = field(default_factory=lambda: [
         "analysis", "consolidation", "architecture", "design"
     ])
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def validate(self) -> bool:
         """Validate agent configuration."""
         return (
@@ -122,8 +121,8 @@ class SystemConfig:
     metrics_collection_interval: float = 30.0
     cleanup_interval: float = 300.0
     backup_interval: float = 3600.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def validate(self) -> bool:
         """Validate system configuration."""
         return (
@@ -164,8 +163,8 @@ class ValidationConfig:
     enable_format_validation: bool = True
     max_validation_errors: int = 100
     validation_timeout: float = 30.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    
+    metadata: dict[str, Any] = field(default_factory=dict)
+
     def validate(self) -> bool:
         """Validate validation configuration."""
         return (
@@ -191,7 +190,7 @@ class UnifiedConfiguration:
     agent: AgentConfig = field(default_factory=AgentConfig)
     system: SystemConfig = field(default_factory=SystemConfig)
     validation: ValidationConfig = field(default_factory=ValidationConfig)
-    
+
     def validate(self) -> bool:
         """Validate unified configuration."""
         return all([
@@ -200,8 +199,8 @@ class UnifiedConfiguration:
             self.system.validate(),
             self.validation.validate()
         ])
-    
-    def to_dict(self) -> Dict[str, Any]:
+
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "environment": {
@@ -248,31 +247,31 @@ class UnifiedConfiguration:
                 "metadata": self.validation.metadata
             }
         }
-    
-    def save_to_file(self, file_path: Union[str, Path]) -> bool:
+
+    def save_to_file(self, file_path: str | Path) -> bool:
         """Save configuration to file."""
         try:
             file_path = Path(file_path)
             file_path.parent.mkdir(parents=True, exist_ok=True)
-            
+
             with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(self.to_dict(), f, indent=2, ensure_ascii=False)
-            
+
             return True
         except Exception as e:
             logging.error(f"Failed to save configuration to {file_path}: {e}")
             return False
-    
-    def load_from_file(self, file_path: Union[str, Path]) -> bool:
+
+    def load_from_file(self, file_path: str | Path) -> bool:
         """Load configuration from file."""
         try:
             file_path = Path(file_path)
             if not file_path.exists():
                 return False
-            
-            with open(file_path, 'r', encoding='utf-8') as f:
+
+            with open(file_path, encoding='utf-8') as f:
                 data = json.load(f)
-            
+
             # Load environment config
             if "environment" in data:
                 env_data = data["environment"]
@@ -285,7 +284,7 @@ class UnifiedConfiguration:
                     temp_dir=env_data.get("temp_dir", "temp"),
                     config_dir=env_data.get("config_dir", "config")
                 )
-            
+
             # Load agent config
             if "agent" in data:
                 agent_data = data["agent"]
@@ -301,7 +300,7 @@ class UnifiedConfiguration:
                     capabilities=agent_data.get("capabilities", []),
                     metadata=agent_data.get("metadata", {})
                 )
-            
+
             # Load system config
             if "system" in data:
                 system_data = data["system"]
@@ -317,7 +316,7 @@ class UnifiedConfiguration:
                     backup_interval=system_data.get("backup_interval", 3600.0),
                     metadata=system_data.get("metadata", {})
                 )
-            
+
             # Load validation config
             if "validation" in data:
                 validation_data = data["validation"]
@@ -331,7 +330,7 @@ class UnifiedConfiguration:
                     validation_timeout=validation_data.get("validation_timeout", 30.0),
                     metadata=validation_data.get("metadata", {})
                 )
-            
+
             return True
         except Exception as e:
             logging.error(f"Failed to load configuration from {file_path}: {e}")
@@ -344,13 +343,13 @@ class UnifiedConfiguration:
 
 class ConfigurationManager:
     """Configuration manager for unified configuration system."""
-    
-    def __init__(self, config_file: Union[str, Path] = "config/unified_config.json"):
+
+    def __init__(self, config_file: str | Path = "config/unified_config.json"):
         self.config_file = Path(config_file)
         self.logger = logging.getLogger(self.__class__.__name__)
         self.config = UnifiedConfiguration()
         self.load_config()
-    
+
     def load_config(self) -> bool:
         """Load configuration from file."""
         if self.config_file.exists():
@@ -358,15 +357,15 @@ class ConfigurationManager:
         else:
             self.logger.info(f"Configuration file {self.config_file} not found, using defaults")
             return True
-    
+
     def save_config(self) -> bool:
         """Save configuration to file."""
         return self.config.save_to_file(self.config_file)
-    
+
     def get_config(self) -> UnifiedConfiguration:
         """Get current configuration."""
         return self.config
-    
+
     def update_config(self, **kwargs) -> bool:
         """Update configuration values."""
         try:
@@ -376,17 +375,17 @@ class ConfigurationManager:
                 else:
                     self.logger.warning(f"Unknown configuration key: {key}")
                     return False
-            
+
             return self.config.validate()
         except Exception as e:
             self.logger.error(f"Failed to update configuration: {e}")
             return False
-    
+
     def validate_config(self) -> bool:
         """Validate current configuration."""
         return self.config.validate()
-    
-    def get_config_summary(self) -> Dict[str, Any]:
+
+    def get_config_summary(self) -> dict[str, Any]:
         """Get configuration summary."""
         return {
             "config_file": str(self.config_file),
@@ -454,7 +453,7 @@ def create_unified_configuration() -> UnifiedConfiguration:
 
 
 def create_configuration_manager(
-    config_file: Union[str, Path] = "config/unified_config.json"
+    config_file: str | Path = "config/unified_config.json"
 ) -> ConfigurationManager:
     """Create configuration manager."""
     return ConfigurationManager(config_file)
@@ -468,28 +467,28 @@ def main():
     """Main execution function."""
     print("Core Configuration - Consolidated Configuration System")
     print("=" * 50)
-    
+
     # Create configuration manager
     config_manager = create_configuration_manager()
     print(f"Configuration manager created: {config_manager.get_config_summary()}")
-    
+
     # Create individual configurations
     env_config = create_environment_config(Environment.DEVELOPMENT, True, "DEBUG")
     print(f"Environment config created: {env_config.validate()}")
-    
+
     agent_config = create_agent_config("agent-2", "Architecture & Design Specialist")
     print(f"Agent config created: {agent_config.validate()}")
-    
+
     system_config = create_system_config("Core Unified System", "2.0.0")
     print(f"System config created: {system_config.validate()}")
-    
+
     validation_config = create_validation_config(ValidationLevel.STANDARD)
     print(f"Validation config created: {validation_config.validate()}")
-    
+
     # Create unified configuration
     unified_config = create_unified_configuration()
     print(f"Unified configuration created: {unified_config.validate()}")
-    
+
     print("\nCore Configuration initialization complete!")
 
 

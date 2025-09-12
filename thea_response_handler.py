@@ -17,9 +17,10 @@ License: MIT
 """
 
 import json
-from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any, Tuple
+from pathlib import Path
+from typing import Any
+
 import pyautogui
 
 
@@ -39,8 +40,8 @@ class TheaResponseHandler:
     def capture_response(
         self,
         extracted_response: str,
-        detector: Optional[Any] = None
-    ) -> Optional[Path]:
+        detector: Any | None = None
+    ) -> Path | None:
         """Capture Thea's response via screenshot and extract response text.
 
         Args:
@@ -89,7 +90,7 @@ class TheaResponseHandler:
         sent_message, sent_message_path = self._load_sent_message()
 
         # Save comprehensive metadata
-        metadata: Dict[str, Any] = {
+        metadata: dict[str, Any] = {
             "timestamp": datetime.now().isoformat(),
             "screenshot_path": str(screenshot_path),
             "sent_message_path": str(sent_message_path) if sent_message_path else None,
@@ -129,21 +130,21 @@ class TheaResponseHandler:
 
         return screenshot_path
 
-    def _load_sent_message(self) -> Tuple[str, Optional[Path]]:
+    def _load_sent_message(self) -> tuple[str, Path | None]:
         """Load the most recent sent message for reference.
 
         Returns:
             Tuple[str, Optional[Path]]: Message content and file path
         """
         sent_message: str = ""
-        sent_message_path: Optional[Path] = None
+        sent_message_path: Path | None = None
 
         try:
             # Find the most recent sent message file
             message_files = list(self.responses_dir.glob("sent_message_*.txt"))
             if message_files:
                 sent_message_path = max(message_files, key=lambda x: x.stat().st_mtime)
-                with open(sent_message_path, 'r', encoding='utf-8') as f:
+                with open(sent_message_path, encoding='utf-8') as f:
                     sent_message = f.read()
         except Exception as e:
             print(f"⚠️  Could not load sent message: {e}")
@@ -153,7 +154,7 @@ class TheaResponseHandler:
     def _create_conversation_log(
         self,
         sent_message: str,
-        sent_message_path: Optional[Path],
+        sent_message_path: Path | None,
         screenshot_path: Path,
         user_observation: str,
         timestamp: str,

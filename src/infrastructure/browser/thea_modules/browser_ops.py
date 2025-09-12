@@ -9,9 +9,9 @@ Author: Agent-2 (Architecture & Design Specialist)
 License: MIT
 """
 
-import time
 import logging
-from typing import Optional, Dict, List, Any, Tuple
+import time
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -104,7 +104,7 @@ class TheaBrowserOperations:
             time.sleep(1.0)
         return False
 
-    def _find_input_element(self) -> Optional[Any]:
+    def _find_input_element(self) -> Any | None:
         """Find the input element using primary and fallback selectors."""
         selectors = self.config_manager.get_selectors()
         fallback_selectors = self.config_manager.get_fallback_selectors()
@@ -128,7 +128,7 @@ class TheaBrowserOperations:
 
         return None
 
-    def _find_send_button(self) -> Optional[Any]:
+    def _find_send_button(self) -> Any | None:
         """Find the send button using primary and fallback selectors."""
         selectors = self.config_manager.get_selectors()
         fallback_selectors = self.config_manager.get_fallback_selectors()
@@ -182,7 +182,7 @@ class TheaBrowserOperations:
         except Exception:
             return False
 
-    def get_page_status(self) -> Dict[str, Any]:
+    def get_page_status(self) -> dict[str, Any]:
         """Get current page status information."""
         try:
             return {
@@ -210,7 +210,7 @@ class TheaElementFinder:
         self.driver = driver
         self.max_retries = max_retries
 
-    def find_element_with_retry(self, selector: str, timeout: float = 10.0) -> Optional[Any]:
+    def find_element_with_retry(self, selector: str, timeout: float = 10.0) -> Any | None:
         """
         Find element with retry logic.
 
@@ -233,7 +233,7 @@ class TheaElementFinder:
 
         return None
 
-    def find_elements_with_retry(self, selector: str, timeout: float = 10.0) -> List[Any]:
+    def find_elements_with_retry(self, selector: str, timeout: float = 10.0) -> list[Any]:
         """
         Find elements with retry logic.
 
@@ -256,7 +256,7 @@ class TheaElementFinder:
 
         return []
 
-    def wait_for_element(self, selector: str, timeout: float = 30.0) -> Optional[Any]:
+    def wait_for_element(self, selector: str, timeout: float = 30.0) -> Any | None:
         """
         Wait for element to appear.
 

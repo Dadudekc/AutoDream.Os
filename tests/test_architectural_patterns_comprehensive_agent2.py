@@ -18,12 +18,12 @@ Mission: URGENT PYTEST COVERAGE - Architectural Pattern Validation
 Target: 85%+ design pattern coverage
 """
 
-import sys
-import os
-import pytest
-from pathlib import Path
-from unittest.mock import Mock, MagicMock, patch, PropertyMock
 import inspect
+import os
+import sys
+from pathlib import Path
+
+import pytest
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
@@ -92,8 +92,8 @@ class TestSOLIDPrinciplesComprehensive:
         print("🧪 Testing Open-Closed Principle - Comprehensive...")
 
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Test extensibility without modification
             service = ConsolidatedMessagingService()
@@ -127,8 +127,8 @@ class TestSOLIDPrinciplesComprehensive:
         print("🧪 Testing Liskov Substitution Principle - Comprehensive...")
 
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Test substitutable behavior
             msg_service = ConsolidatedMessagingService()
@@ -163,8 +163,8 @@ class TestSOLIDPrinciplesComprehensive:
         print("🧪 Testing Interface Segregation Principle - Comprehensive...")
 
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Test focused interfaces
             msg_service = ConsolidatedMessagingService()
@@ -190,7 +190,7 @@ class TestSOLIDPrinciplesComprehensive:
                 coord_focus_ratio = len(coord_focus_methods) / len(coord_methods)
                 assert coord_focus_ratio > 0.5, ".2f"
 
-            print(f"✅ ISP: Interfaces properly segregated with focused responsibilities")
+            print("✅ ISP: Interfaces properly segregated with focused responsibilities")
             assert True
 
         except ImportError as e:
@@ -207,8 +207,8 @@ class TestSOLIDPrinciplesComprehensive:
         print("🧪 Testing Dependency Inversion Principle - Comprehensive...")
 
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import CoordinateLoader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Test dependency abstraction
             msg_service = ConsolidatedMessagingService()
@@ -322,8 +322,8 @@ class TestDependencyInjectionComprehensive:
 
         try:
             # Test service instantiation patterns
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.core.coordinate_loader import get_coordinate_loader
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Test factory-like instantiation
             msg_service = ConsolidatedMessagingService()
@@ -520,8 +520,8 @@ class TestArchitecturalIntegrityComprehensive:
         print("🧪 Testing Module Coupling - Comprehensive...")
 
         try:
-            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
             from src.services.consolidated_architectural_service import ArchitecturalPrinciple
+            from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
             # Test architectural integration
             service = ConsolidatedMessagingService()

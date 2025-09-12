@@ -8,14 +8,14 @@ Author: Agent-1 (System Recovery Specialist)
 License: MIT
 """
 
-from typing import Any, Dict, List
-from datetime import datetime as dt, timedelta
+from datetime import datetime as dt
+from typing import Any
 
 
 class QueueStatisticsCalculator:
     """Calculates comprehensive queue statistics."""
 
-    def calculate_statistics(self, entries: List[Any]) -> Dict[str, Any]:
+    def calculate_statistics(self, entries: list[Any]) -> dict[str, Any]:
         """Calculate comprehensive queue statistics."""
         if not entries:
             return self._get_empty_statistics()
@@ -90,7 +90,7 @@ class QueueStatisticsCalculator:
 
         return stats
 
-    def _get_empty_statistics(self) -> Dict[str, Any]:
+    def _get_empty_statistics(self) -> dict[str, Any]:
         """Get statistics for empty queue."""
         return {
             "total_entries": 0,
@@ -132,7 +132,7 @@ class QueueStatisticsCalculator:
         else:
             return "retried_many"
 
-    def _format_age_statistics(self, stats: Dict[str, Any]) -> Dict[str, Any]:
+    def _format_age_statistics(self, stats: dict[str, Any]) -> dict[str, Any]:
         """Format age statistics into human-readable format."""
         formatted = {}
 
@@ -167,7 +167,7 @@ class QueueHealthMonitor:
         """Initialize health monitor."""
         self.stats_calculator = stats_calculator
 
-    def assess_health(self, entries: List[Any]) -> Dict[str, Any]:
+    def assess_health(self, entries: list[Any]) -> dict[str, Any]:
         """Assess overall queue health."""
         stats = self.stats_calculator.calculate_statistics(entries)
 
@@ -193,7 +193,7 @@ class QueueHealthMonitor:
 
         return health
 
-    def _check_queue_size_health(self, health: Dict[str, Any], stats: Dict[str, Any]) -> None:
+    def _check_queue_size_health(self, health: dict[str, Any], stats: dict[str, Any]) -> None:
         """Check queue size health."""
         total_entries = stats["total_entries"]
         if total_entries > 1000:
@@ -203,7 +203,7 @@ class QueueHealthMonitor:
             health["issues"].append(f"Queue size elevated: {total_entries} entries")
             health["recommendations"].append("Monitor processing capacity")
 
-    def _check_processing_health(self, health: Dict[str, Any], stats: Dict[str, Any]) -> None:
+    def _check_processing_health(self, health: dict[str, Any], stats: dict[str, Any]) -> None:
         """Check processing health."""
         processing_entries = stats["processing_entries"]
         total_entries = stats["total_entries"]
@@ -214,14 +214,14 @@ class QueueHealthMonitor:
                 health["issues"].append(".1%")
                 health["recommendations"].append("Check for stuck processing entries")
 
-    def _check_age_health(self, health: Dict[str, Any], stats: Dict[str, Any]) -> None:
+    def _check_age_health(self, health: dict[str, Any], stats: dict[str, Any]) -> None:
         """Check message age health."""
         average_age = stats["average_age"]
         if average_age > 3600:  # 1 hour
             health["issues"].append(f"Messages are aging: average {stats['average_age_formatted']}")
             health["recommendations"].append("Increase processing capacity or optimize message handling")
 
-    def _check_failure_health(self, health: Dict[str, Any], stats: Dict[str, Any]) -> None:
+    def _check_failure_health(self, health: dict[str, Any], stats: dict[str, Any]) -> None:
         """Check failure rate health."""
         failed_entries = stats["failed_entries"]
         total_entries = stats["total_entries"]

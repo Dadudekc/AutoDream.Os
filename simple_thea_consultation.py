@@ -14,9 +14,10 @@ Author: Agent-1 - V2_SWARM Manual Thea Consultation
 
 import argparse
 import webbrowser
-import pyperclip
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
+import pyperclip
 
 
 def read_message(message_file: Path = None) -> str:

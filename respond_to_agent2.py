@@ -9,10 +9,11 @@ Send response to Agent-2 via PyAutoGUI messaging system.
 import json
 import time
 
+
 def load_coordinates():
     """Load agent coordinates for Agent-2."""
     try:
-        with open("cursor_agent_coords.json", 'r', encoding='utf-8') as f:
+        with open("cursor_agent_coords.json", encoding='utf-8') as f:
             data = json.load(f)
         coords = data.get("agents", {}).get("Agent-2", {}).get("chat_input_coordinates", [0, 0])
         return tuple(coords)

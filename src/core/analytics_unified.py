@@ -31,8 +31,10 @@ from typing import Any
 # ANALYTICS ENUMS AND MODELS
 # ============================================================================
 
+
 class AnalyticsStatus(Enum):
     """Analytics status enumeration."""
+
     INITIALIZING = "initializing"
     RUNNING = "running"
     PAUSED = "paused"
@@ -43,6 +45,7 @@ class AnalyticsStatus(Enum):
 
 class AnalyticsType(Enum):
     """Analytics type enumeration."""
+
     INTELLIGENCE = "intelligence"
     PROCESSING = "processing"
     COORDINATION = "coordination"
@@ -57,6 +60,7 @@ class AnalyticsType(Enum):
 
 class IntelligenceType(Enum):
     """Intelligence type enumeration."""
+
     PATTERN_RECOGNITION = "pattern_recognition"
     ANOMALY_DETECTION = "anomaly_detection"
     PREDICTIVE_ANALYTICS = "predictive_analytics"
@@ -66,6 +70,7 @@ class IntelligenceType(Enum):
 
 class ProcessingMode(Enum):
     """Processing mode enumeration."""
+
     REALTIME = "realtime"
     BATCH = "batch"
     STREAMING = "streaming"
@@ -76,9 +81,11 @@ class ProcessingMode(Enum):
 # ANALYTICS MODELS
 # ============================================================================
 
+
 @dataclass
 class AnalyticsInfo:
     """Analytics information model."""
+
     analytics_id: str
     name: str
     analytics_type: AnalyticsType
@@ -93,6 +100,7 @@ class AnalyticsInfo:
 @dataclass
 class AnalyticsData:
     """Analytics data model."""
+
     data_id: str
     source: str
     data_type: str
@@ -104,6 +112,7 @@ class AnalyticsData:
 @dataclass
 class AnalyticsResult:
     """Analytics result model."""
+
     result_id: str
     analytics_id: str
     data_id: str
@@ -118,6 +127,7 @@ class AnalyticsResult:
 @dataclass
 class AnalyticsMetrics:
     """Analytics metrics model."""
+
     analytics_id: str
     total_processed: int = 0
     successful_processed: int = 0
@@ -129,6 +139,7 @@ class AnalyticsMetrics:
 # ============================================================================
 # ANALYTICS INTERFACES
 # ============================================================================
+
 
 class AnalyticsEngine(ABC):
     """Base analytics engine interface."""
@@ -171,7 +182,9 @@ class AnalyticsEngine(ABC):
 
         # Update average processing time
         total_time = self.metrics.average_processing_time * (self.metrics.total_processed - 1)
-        self.metrics.average_processing_time = (total_time + processing_time) / self.metrics.total_processed
+        self.metrics.average_processing_time = (
+            total_time + processing_time
+        ) / self.metrics.total_processed
         self.metrics.last_updated = datetime.now()
 
 
@@ -215,6 +228,7 @@ class ProcessingEngine(AnalyticsEngine):
 # INTELLIGENCE ENGINES
 # ============================================================================
 
+
 class PatternRecognitionEngine(IntelligenceEngine):
     """Pattern recognition intelligence engine."""
 
@@ -222,7 +236,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
         super().__init__(
             analytics_id or str(uuid.uuid4()),
             "PatternRecognitionEngine",
-            IntelligenceType.PATTERN_RECOGNITION
+            IntelligenceType.PATTERN_RECOGNITION,
         )
         self.patterns: dict[str, Any] = {}
 
@@ -255,7 +269,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
             result_data = {
                 "patterns_found": len(self.patterns),
                 "data_type": data.data_type,
-                "confidence": 0.85
+                "confidence": 0.85,
             }
 
             result = AnalyticsResult(
@@ -265,7 +279,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
                 result_type="pattern_recognition",
                 result_data=result_data,
                 confidence=0.85,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
             self.update_metrics(result.processing_time, True)
@@ -280,7 +294,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
                 result_type="pattern_recognition",
                 result_data={"error": str(e)},
                 confidence=0.0,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
     def get_capabilities(self) -> list[str]:
@@ -296,11 +310,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
         start_time = datetime.now()
         try:
             # Implementation for anomaly detection
-            result_data = {
-                "anomalies_detected": 0,
-                "data_type": data.data_type,
-                "confidence": 0.90
-            }
+            result_data = {"anomalies_detected": 0, "data_type": data.data_type, "confidence": 0.90}
 
             result = AnalyticsResult(
                 result_id=str(uuid.uuid4()),
@@ -309,7 +319,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
                 result_type="anomaly_detection",
                 result_data=result_data,
                 confidence=0.90,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
             self.update_metrics(result.processing_time, True)
@@ -324,7 +334,7 @@ class PatternRecognitionEngine(IntelligenceEngine):
                 result_type="anomaly_detection",
                 result_data={"error": str(e)},
                 confidence=0.0,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
 
@@ -335,7 +345,7 @@ class AnomalyDetectionEngine(IntelligenceEngine):
         super().__init__(
             analytics_id or str(uuid.uuid4()),
             "AnomalyDetectionEngine",
-            IntelligenceType.ANOMALY_DETECTION
+            IntelligenceType.ANOMALY_DETECTION,
         )
         self.baseline_data: dict[str, Any] = {}
 
@@ -368,7 +378,7 @@ class AnomalyDetectionEngine(IntelligenceEngine):
             result_data = {
                 "anomalies_detected": 0,
                 "data_type": data.data_type,
-                "baseline_established": len(self.baseline_data) > 0
+                "baseline_established": len(self.baseline_data) > 0,
             }
 
             result = AnalyticsResult(
@@ -378,7 +388,7 @@ class AnomalyDetectionEngine(IntelligenceEngine):
                 result_type="anomaly_detection",
                 result_data=result_data,
                 confidence=0.92,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
             self.update_metrics(result.processing_time, True)
@@ -393,7 +403,7 @@ class AnomalyDetectionEngine(IntelligenceEngine):
                 result_type="anomaly_detection",
                 result_data={"error": str(e)},
                 confidence=0.0,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
     def get_capabilities(self) -> list[str]:
@@ -413,14 +423,13 @@ class AnomalyDetectionEngine(IntelligenceEngine):
 # PROCESSING ENGINES
 # ============================================================================
 
+
 class RealtimeProcessingEngine(ProcessingEngine):
     """Real-time processing engine."""
 
     def __init__(self, analytics_id: str = None):
         super().__init__(
-            analytics_id or str(uuid.uuid4()),
-            "RealtimeProcessingEngine",
-            ProcessingMode.REALTIME
+            analytics_id or str(uuid.uuid4()), "RealtimeProcessingEngine", ProcessingMode.REALTIME
         )
         self.processing_queue: list[AnalyticsData] = []
 
@@ -466,7 +475,7 @@ class RealtimeProcessingEngine(ProcessingEngine):
             result_data = {
                 "processed_realtime": True,
                 "data_type": data.data_type,
-                "queue_size": len(self.processing_queue)
+                "queue_size": len(self.processing_queue),
             }
 
             result = AnalyticsResult(
@@ -476,7 +485,7 @@ class RealtimeProcessingEngine(ProcessingEngine):
                 result_type="realtime_processing",
                 result_data=result_data,
                 confidence=0.95,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
             self.update_metrics(result.processing_time, True)
@@ -491,7 +500,7 @@ class RealtimeProcessingEngine(ProcessingEngine):
                 result_type="realtime_processing",
                 result_data={"error": str(e)},
                 confidence=0.0,
-                processing_time=(datetime.now() - start_time).total_seconds()
+                processing_time=(datetime.now() - start_time).total_seconds(),
             )
 
 
@@ -500,9 +509,7 @@ class BatchProcessingEngine(ProcessingEngine):
 
     def __init__(self, analytics_id: str = None):
         super().__init__(
-            analytics_id or str(uuid.uuid4()),
-            "BatchProcessingEngine",
-            ProcessingMode.BATCH
+            analytics_id or str(uuid.uuid4()), "BatchProcessingEngine", ProcessingMode.BATCH
         )
         self.batch_data: list[AnalyticsData] = []
 
@@ -537,7 +544,7 @@ class BatchProcessingEngine(ProcessingEngine):
             result_type="batch_queued",
             result_data={"queued_for_batch": True},
             confidence=1.0,
-            processing_time=0.0
+            processing_time=0.0,
         )
 
     def get_capabilities(self) -> list[str]:
@@ -555,7 +562,7 @@ class BatchProcessingEngine(ProcessingEngine):
                 result_data = {
                     "processed_batch": True,
                     "data_type": data.data_type,
-                    "batch_size": len(data_list)
+                    "batch_size": len(data_list),
                 }
 
                 result = AnalyticsResult(
@@ -565,7 +572,7 @@ class BatchProcessingEngine(ProcessingEngine):
                     result_type="batch_processing",
                     result_data=result_data,
                     confidence=0.90,
-                    processing_time=(datetime.now() - start_time).total_seconds()
+                    processing_time=(datetime.now() - start_time).total_seconds(),
                 )
 
                 results.append(result)
@@ -586,6 +593,7 @@ class BatchProcessingEngine(ProcessingEngine):
 # ============================================================================
 # ANALYTICS COORDINATION
 # ============================================================================
+
 
 class AnalyticsCoordinator:
     """Analytics coordination system."""
@@ -620,7 +628,9 @@ class AnalyticsCoordinator:
                 success = False
         return success
 
-    def process_data(self, data: AnalyticsData, engine_type: AnalyticsType | None = None) -> list[AnalyticsResult]:
+    def process_data(
+        self, data: AnalyticsData, engine_type: AnalyticsType | None = None
+    ) -> list[AnalyticsResult]:
         """Process data using appropriate engines."""
         results = []
 
@@ -639,11 +649,14 @@ class AnalyticsCoordinator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_intelligence_engine(intelligence_type: IntelligenceType, analytics_id: str = None) -> IntelligenceEngine | None:
+
+def create_intelligence_engine(
+    intelligence_type: IntelligenceType, analytics_id: str = None
+) -> IntelligenceEngine | None:
     """Create intelligence engine by type."""
     engines = {
         IntelligenceType.PATTERN_RECOGNITION: PatternRecognitionEngine,
-        IntelligenceType.ANOMALY_DETECTION: AnomalyDetectionEngine
+        IntelligenceType.ANOMALY_DETECTION: AnomalyDetectionEngine,
     }
 
     engine_class = engines.get(intelligence_type)
@@ -653,11 +666,13 @@ def create_intelligence_engine(intelligence_type: IntelligenceType, analytics_id
     return None
 
 
-def create_processing_engine(processing_mode: ProcessingMode, analytics_id: str = None) -> ProcessingEngine | None:
+def create_processing_engine(
+    processing_mode: ProcessingMode, analytics_id: str = None
+) -> ProcessingEngine | None:
     """Create processing engine by mode."""
     engines = {
         ProcessingMode.REALTIME: RealtimeProcessingEngine,
-        ProcessingMode.BATCH: BatchProcessingEngine
+        ProcessingMode.BATCH: BatchProcessingEngine,
     }
 
     engine_class = engines.get(processing_mode)
@@ -676,6 +691,7 @@ def create_analytics_coordinator() -> AnalyticsCoordinator:
 # MAIN EXECUTION
 # ============================================================================
 
+
 def main():
     """Main execution function."""
     print("Analytics Unified - Consolidated Analytics System")
@@ -688,7 +704,7 @@ def main():
     # Create and register intelligence engines
     intelligence_engines = [
         IntelligenceType.PATTERN_RECOGNITION,
-        IntelligenceType.ANOMALY_DETECTION
+        IntelligenceType.ANOMALY_DETECTION,
     ]
 
     for intelligence_type in intelligence_engines:
@@ -699,10 +715,7 @@ def main():
             print(f"❌ Failed to register {intelligence_type.value} engine")
 
     # Create and register processing engines
-    processing_modes = [
-        ProcessingMode.REALTIME,
-        ProcessingMode.BATCH
-    ]
+    processing_modes = [ProcessingMode.REALTIME, ProcessingMode.BATCH]
 
     for processing_mode in processing_modes:
         engine = create_processing_engine(processing_mode)
@@ -719,10 +732,7 @@ def main():
 
     # Test analytics functionality
     test_data = AnalyticsData(
-        data_id="test_data_001",
-        source="test_source",
-        data_type="test_data",
-        content="test content"
+        data_id="test_data_001", source="test_source", data_type="test_data", content="test content"
     )
 
     results = coordinator.process_data(test_data)

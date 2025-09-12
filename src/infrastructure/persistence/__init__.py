@@ -4,6 +4,6 @@
 from . import sqlite_agent_repo, sqlite_task_repo
 
 __all__ = [
-    'sqlite_agent_repo',
-    'sqlite_task_repo',
+    "sqlite_agent_repo",
+    "sqlite_task_repo",
 ]

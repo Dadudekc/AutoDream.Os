@@ -4,5 +4,5 @@
 from . import route_analyzer
 
 __all__ = [
-    'route_analyzer',
+    "route_analyzer",
 ]

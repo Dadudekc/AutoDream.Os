@@ -27,8 +27,10 @@ from typing import Any, Protocol
 # COORDINATOR INTERFACES
 # ============================================================================
 
+
 class CoordinatorStatus(Enum):
     """Coordinator status enumeration."""
+
     IDLE = "idle"
     BUSY = "busy"
     ERROR = "error"
@@ -38,6 +40,7 @@ class CoordinatorStatus(Enum):
 @dataclass
 class CoordinatorInfo:
     """Coordinator information structure."""
+
     coordinator_id: str
     coordinator_name: str
     status: CoordinatorStatus = CoordinatorStatus.IDLE
@@ -57,7 +60,7 @@ class CoordinatorInfo:
             "status": self.status.value,
             "last_activity": self.last_activity.isoformat(),
             "capabilities": self.capabilities,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -128,8 +131,10 @@ class ICoordinatorRegistry(ABC):
 # MESSAGE QUEUE INTERFACES
 # ============================================================================
 
+
 class MessagePriority(Enum):
     """Message priority enumeration."""
+
     LOW = 1
     NORMAL = 2
     HIGH = 3
@@ -138,6 +143,7 @@ class MessagePriority(Enum):
 
 class MessageStatus(Enum):
     """Message status enumeration."""
+
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -148,6 +154,7 @@ class MessageStatus(Enum):
 @dataclass
 class Message:
     """Message data structure."""
+
     id: str
     content: str
     priority: MessagePriority = MessagePriority.NORMAL
@@ -169,7 +176,7 @@ class Message:
             "processed_at": self.processed_at.isoformat() if self.processed_at else None,
             "retry_count": self.retry_count,
             "max_retries": self.max_retries,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -230,8 +237,10 @@ class IMessageProcessor(ABC):
 # AGENT INTERFACES
 # ============================================================================
 
+
 class AgentStatus(Enum):
     """Agent status enumeration."""
+
     IDLE = "idle"
     BUSY = "busy"
     ERROR = "error"
@@ -241,6 +250,7 @@ class AgentStatus(Enum):
 
 class AgentCapability(Enum):
     """Agent capability enumeration."""
+
     ANALYSIS = "analysis"
     CONSOLIDATION = "consolidation"
     COORDINATION = "coordination"
@@ -254,6 +264,7 @@ class AgentCapability(Enum):
 @dataclass
 class AgentInfo:
     """Agent information structure."""
+
     agent_id: str
     agent_name: str
     agent_type: str
@@ -279,7 +290,7 @@ class AgentInfo:
             "status": self.status.value,
             "capabilities": [cap.value for cap in self.capabilities],
             "last_seen": self.last_seen.isoformat(),
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -360,8 +371,10 @@ class IAgentRegistry(ABC):
 # SYSTEM INTERFACES
 # ============================================================================
 
+
 class SystemStatus(Enum):
     """System status enumeration."""
+
     HEALTHY = "healthy"
     WARNING = "warning"
     ERROR = "error"
@@ -372,6 +385,7 @@ class SystemStatus(Enum):
 @dataclass
 class SystemInfo:
     """System information structure."""
+
     system_id: str
     system_name: str
     status: SystemStatus = SystemStatus.HEALTHY
@@ -392,7 +406,7 @@ class SystemInfo:
             "version": self.version,
             "uptime": self.uptime.isoformat(),
             "uptime_seconds": self.get_uptime_seconds(),
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -468,6 +482,7 @@ class ISystemMonitor(ABC):
 # PROTOCOL DEFINITIONS
 # ============================================================================
 
+
 class IMessageDelivery(Protocol):
     """Message delivery protocol."""
 
@@ -512,65 +527,50 @@ class ILoggingService(Protocol):
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_coordinator_info(
-    coordinator_id: str,
-    coordinator_name: str,
-    capabilities: list[str] = None
+    coordinator_id: str, coordinator_name: str, capabilities: list[str] = None
 ) -> CoordinatorInfo:
     """Create coordinator information."""
     return CoordinatorInfo(
         coordinator_id=coordinator_id,
         coordinator_name=coordinator_name,
-        capabilities=capabilities or []
+        capabilities=capabilities or [],
     )
 
 
 def create_message(
-    content: str,
-    priority: MessagePriority = MessagePriority.NORMAL,
-    metadata: dict = None
+    content: str, priority: MessagePriority = MessagePriority.NORMAL, metadata: dict = None
 ) -> Message:
     """Create a message."""
     import uuid
+
     return Message(
-        id=str(uuid.uuid4()),
-        content=content,
-        priority=priority,
-        metadata=metadata or {}
+        id=str(uuid.uuid4()), content=content, priority=priority, metadata=metadata or {}
     )
 
 
 def create_agent_info(
-    agent_id: str,
-    agent_name: str,
-    agent_type: str,
-    capabilities: list[AgentCapability] = None
+    agent_id: str, agent_name: str, agent_type: str, capabilities: list[AgentCapability] = None
 ) -> AgentInfo:
     """Create agent information."""
     return AgentInfo(
         agent_id=agent_id,
         agent_name=agent_name,
         agent_type=agent_type,
-        capabilities=capabilities or []
+        capabilities=capabilities or [],
     )
 
 
-def create_system_info(
-    system_id: str,
-    system_name: str,
-    version: str = "1.0.0"
-) -> SystemInfo:
+def create_system_info(system_id: str, system_name: str, version: str = "1.0.0") -> SystemInfo:
     """Create system information."""
-    return SystemInfo(
-        system_id=system_id,
-        system_name=system_name,
-        version=version
-    )
+    return SystemInfo(system_id=system_id, system_name=system_name, version=version)
 
 
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -579,17 +579,13 @@ def main():
 
     # Create coordinator info
     coordinator_info = create_coordinator_info(
-        "coord-1",
-        "Consolidation Coordinator",
-        ["consolidation", "coordination"]
+        "coord-1", "Consolidation Coordinator", ["consolidation", "coordination"]
     )
     print(f"Coordinator info created: {coordinator_info.to_dict()}")
 
     # Create message
     message = create_message(
-        "Test consolidation message",
-        MessagePriority.HIGH,
-        {"phase": "consolidation"}
+        "Test consolidation message", MessagePriority.HIGH, {"phase": "consolidation"}
     )
     print(f"Message created: {message.to_dict()}")
 
@@ -598,16 +594,12 @@ def main():
         "agent-2",
         "Architecture & Design Specialist",
         "consolidation",
-        [AgentCapability.ANALYSIS, AgentCapability.CONSOLIDATION]
+        [AgentCapability.ANALYSIS, AgentCapability.CONSOLIDATION],
     )
     print(f"Agent info created: {agent_info.to_dict()}")
 
     # Create system info
-    system_info = create_system_info(
-        "core-system",
-        "Core Unified System",
-        "2.0.0"
-    )
+    system_info = create_system_info("core-system", "Core Unified System", "2.0.0")
     print(f"System info created: {system_info.to_dict()}")
 
     print("\nCore Interfaces initialization complete!")

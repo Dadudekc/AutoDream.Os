@@ -2,12 +2,12 @@
 Semantic search package for agent coordination intelligence.
 """
 
-from .status_index import StatusIndex
-from .utils import json_to_text, flatten_json
 from .embeddings import EmbeddingProvider, build_provider
-from .vector_store import VectorStore
-from .semantic_router import SemanticRouter
 from .router_hooks import route_message, similar_status
+from .semantic_router import SemanticRouter
+from .status_index import StatusIndex
+from .utils import flatten_json, json_to_text
+from .vector_store import VectorStore
 
 __all__ = [
     "StatusIndex",
@@ -18,5 +18,5 @@ __all__ = [
     "VectorStore",
     "SemanticRouter",
     "route_message",
-    "similar_status"
+    "similar_status",
 ]

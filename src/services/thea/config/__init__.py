@@ -11,4 +11,4 @@ License: MIT
 
 from .thea_config import TheaConfig, get_thea_config
 
-__all__ = ['TheaConfig', 'get_thea_config']
+__all__ = ["TheaConfig", "get_thea_config"]

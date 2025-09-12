@@ -32,6 +32,7 @@ from .models.vector_models import (
 
 logger = logging.getLogger(__name__)
 
+
 class ConsolidatedVectorService:
     """Unified vector database service combining orchestration, integration, and embeddings."""
 
@@ -56,12 +57,15 @@ class ConsolidatedVectorService:
         """Initialize the vector database engine."""
         try:
             from .vector_database.vector_database_engine import VectorDatabaseEngine
+
             self._engine = VectorDatabaseEngine(self.config)
         except ImportError:
             self.logger.warning("Vector database engine not available - using mock")
             self._engine = None
 
-    def generate_embeddings(self, texts: list[str], model: EmbeddingModel | None = None) -> list[list[float]]:
+    def generate_embeddings(
+        self, texts: list[str], model: EmbeddingModel | None = None
+    ) -> list[list[float]]:
         """Generate embeddings for texts."""
         if model:
             self.embedding_model = model
@@ -78,6 +82,7 @@ class ConsolidatedVectorService:
         try:
             if self._sentence_transformer is None:
                 from sentence_transformers import SentenceTransformer
+
                 self._sentence_transformer = SentenceTransformer("all-MiniLM-L6-v2")
 
             embeddings = self._sentence_transformer.encode(texts)
@@ -90,25 +95,32 @@ class ConsolidatedVectorService:
         try:
             if self._openai_client is None:
                 import openai
+
                 self._openai_client = openai.OpenAI()
 
             response = self._openai_client.embeddings.create(
-                model="text-embedding-ada-002",
-                input=texts
+                model="text-embedding-ada-002", input=texts
             )
             return [embedding.embedding for embedding in response.data]
         except ImportError:
             raise ImportError("openai not installed")
 
-    def add_document(self, document: VectorDocument, collection_name: str = "default") -> VectorDatabaseResult:
+    def add_document(
+        self, document: VectorDocument, collection_name: str = "default"
+    ) -> VectorDatabaseResult:
         """Add a document to the vector database."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
 
         return self._engine.add_document(document, collection_name)
 
-    def search_documents(self, query: str, collection_name: str = "default",
-                        limit: int = 10, document_types: list[DocumentType] | None = None) -> list[SearchResult]:
+    def search_documents(
+        self,
+        query: str,
+        collection_name: str = "default",
+        limit: int = 10,
+        document_types: list[DocumentType] | None = None,
+    ) -> list[SearchResult]:
         """Search documents in the vector database."""
         if not self._engine:
             return []
@@ -117,19 +129,23 @@ class ConsolidatedVectorService:
             query=query,
             collection_name=collection_name,
             limit=limit,
-            document_types=document_types or []
+            document_types=document_types or [],
         )
 
         return self._engine.search_documents(search_query)
 
-    def get_document(self, document_id: str, collection_name: str = "default") -> VectorDocument | None:
+    def get_document(
+        self, document_id: str, collection_name: str = "default"
+    ) -> VectorDocument | None:
         """Get a document by ID."""
         if not self._engine:
             return None
 
         return self._engine.get_document(document_id, collection_name)
 
-    def delete_document(self, document_id: str, collection_name: str = "default") -> VectorDatabaseResult:
+    def delete_document(
+        self, document_id: str, collection_name: str = "default"
+    ) -> VectorDatabaseResult:
         """Delete a document by ID."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
@@ -143,7 +159,9 @@ class ConsolidatedVectorService:
 
         return self._engine.get_collection_stats(collection_name)
 
-    def create_collection(self, collection_name: str, config: CollectionConfig | None = None) -> VectorDatabaseResult:
+    def create_collection(
+        self, collection_name: str, config: CollectionConfig | None = None
+    ) -> VectorDatabaseResult:
         """Create a new collection."""
         if not self._engine:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
@@ -177,10 +195,12 @@ class ConsolidatedVectorService:
             "task_description": task_description,
             "task_embedding": task_embedding,
             "similar_documents": results,
-            "agent_id": self.agent_id
+            "agent_id": self.agent_id,
         }
 
-    def index_agent_work(self, work_content: str, work_type: str = "general") -> VectorDatabaseResult:
+    def index_agent_work(
+        self, work_content: str, work_type: str = "general"
+    ) -> VectorDatabaseResult:
         """Index agent work content."""
         # Generate embedding
         embeddings = self.generate_embeddings([work_content])
@@ -194,8 +214,8 @@ class ConsolidatedVectorService:
             metadata={
                 "agent_id": self.agent_id,
                 "work_type": work_type,
-                "timestamp": str(logging.time.time())
-            }
+                "timestamp": str(logging.time.time()),
+            },
         )
 
         return self.add_document(document, f"agent_work_{self.agent_id}")
@@ -206,12 +226,14 @@ class ConsolidatedVectorService:
 
         recommendations = []
         for result in results:
-            recommendations.append({
-                "content": result.document.content,
-                "similarity": result.similarity,
-                "metadata": result.document.metadata,
-                "document_id": result.document.id
-            })
+            recommendations.append(
+                {
+                    "content": result.document.content,
+                    "similarity": result.similarity,
+                    "metadata": result.document.metadata,
+                    "document_id": result.document.id,
+                }
+            )
 
         return recommendations
 
@@ -229,7 +251,7 @@ class ConsolidatedVectorService:
             "agent_id": self.agent_id,
             "collections": agent_collections,
             "total_documents": total_documents,
-            "status": "active" if total_documents > 0 else "inactive"
+            "status": "active" if total_documents > 0 else "inactive",
         }
 
     def cleanup_old_documents(self, days_old: int = 30) -> VectorDatabaseResult:
@@ -239,7 +261,9 @@ class ConsolidatedVectorService:
 
         # This would need to be implemented in the engine
         # For now, return success
-        return VectorDatabaseResult(success=True, message=f"Cleanup completed for documents older than {days_old} days")
+        return VectorDatabaseResult(
+            success=True, message=f"Cleanup completed for documents older than {days_old} days"
+        )
 
     def export_collection(self, collection_name: str, format: str = "json") -> dict[str, Any]:
         """Export collection data."""
@@ -255,4 +279,6 @@ class ConsolidatedVectorService:
             return VectorDatabaseResult(success=False, error="Vector database engine not available")
 
         # This would need to be implemented in the engine
-        return VectorDatabaseResult(success=True, message=f"Collection {collection_name} imported successfully")
+        return VectorDatabaseResult(
+            success=True, message=f"Collection {collection_name} imported successfully"
+        )

@@ -17,6 +17,7 @@ import pytest
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
+
 class TestConfigurationManagement:
     """Test configuration management system."""
 
@@ -29,8 +30,8 @@ class TestConfigurationManagement:
 
             config = EnhancedUnifiedConfig()
             assert config is not None
-            assert hasattr(config, 'get_config')
-            assert hasattr(config, 'get_agent_config')
+            assert hasattr(config, "get_config")
+            assert hasattr(config, "get_agent_config")
         except ImportError:
             pytest.skip("Configuration system not available")
 
@@ -57,7 +58,7 @@ class TestConfigurationManagement:
             config = get_enhanced_config()
             agent_config = config.get_agent_config("test_agent")
             # Should return None for non-existent agent, which is fine
-            assert agent_config is None or hasattr(agent_config, 'agent_id')
+            assert agent_config is None or hasattr(agent_config, "agent_id")
         except ImportError:
             pytest.skip("Configuration system not available")
 
@@ -70,9 +71,10 @@ class TestConfigurationManagement:
 
             config = EnhancedUnifiedConfig()
             # Should handle environment variables
-            assert hasattr(config, 'env_loader')
+            assert hasattr(config, "env_loader")
         except ImportError:
             pytest.skip("Configuration system not available")
+
 
 class TestServiceIntegrations:
     """Test service integration scenarios."""
@@ -84,8 +86,8 @@ class TestServiceIntegrations:
         service = mock_unified_browser_service
 
         # Should integrate all browser components
-        assert hasattr(service, 'browser_adapter')
-        assert hasattr(service, 'session_manager')
+        assert hasattr(service, "browser_adapter")
+        assert hasattr(service, "session_manager")
 
     @pytest.mark.integration
     @pytest.mark.agent3
@@ -97,8 +99,8 @@ class TestServiceIntegrations:
             config = get_enhanced_config()
 
             # Should integrate with environment and file systems
-            assert hasattr(config, 'env_loader')
-            assert hasattr(config, '_load_agent_configurations')
+            assert hasattr(config, "env_loader")
+            assert hasattr(config, "_load_agent_configurations")
         except ImportError:
             pytest.skip("Configuration system not available")
 
@@ -109,9 +111,10 @@ class TestServiceIntegrations:
         service = mock_messaging_service
 
         # Should integrate with queue and communication systems
-        assert hasattr(service, 'send_message')
-        assert hasattr(service, 'receive_message')
-        assert hasattr(service, 'get_queue_status')
+        assert hasattr(service, "send_message")
+        assert hasattr(service, "receive_message")
+        assert hasattr(service, "get_queue_status")
+
 
 class TestDeploymentTests:
     """Test deployment and infrastructure scenarios."""
@@ -150,7 +153,7 @@ class TestDeploymentTests:
         adapter = ChromeBrowserAdapter()
 
         # Should have cleanup methods
-        assert hasattr(adapter, 'stop')
+        assert hasattr(adapter, "stop")
         # Should handle cleanup gracefully even when not started
         adapter.stop()  # Should not crash
 
@@ -163,8 +166,9 @@ class TestDeploymentTests:
         service = UnifiedBrowserService.__new__(UnifiedBrowserService)
 
         # Should provide health check capabilities
-        assert hasattr(service, 'is_browser_running')
-        assert hasattr(service, 'get_browser_info')
+        assert hasattr(service, "is_browser_running")
+        assert hasattr(service, "get_browser_info")
+
 
 class TestInfrastructureMonitoring:
     """Test infrastructure monitoring capabilities."""
@@ -196,6 +200,7 @@ class TestInfrastructureMonitoring:
         result = service.log_event("test_error")
         assert result is True
 
+
 class TestEnvironmentHandling:
     """Test environment-specific handling."""
 
@@ -210,7 +215,7 @@ class TestEnvironmentHandling:
             system_config = config.get_system_config()
 
             # Should have environment configuration
-            assert hasattr(system_config, 'environment')
+            assert hasattr(system_config, "environment")
         except ImportError:
             pytest.skip("Configuration system not available")
 
@@ -239,6 +244,7 @@ class TestEnvironmentHandling:
         # Should return False for navigation failures
         assert result is False
 
+
 class TestInfrastructureSecurity:
     """Test infrastructure security measures."""
 
@@ -253,7 +259,7 @@ class TestInfrastructureSecurity:
 
             # Should handle sensitive data appropriately
             # (This is more of a design test than runtime)
-            assert hasattr(config, 'env_loader')
+            assert hasattr(config, "env_loader")
         except ImportError:
             pytest.skip("Configuration system not available")
 
@@ -274,6 +280,7 @@ class TestInfrastructureSecurity:
         except Exception:
             # Should handle exceptions gracefully
             pass
+
 
 class TestScalabilityTesting:
     """Test infrastructure scalability."""
@@ -310,6 +317,7 @@ class TestScalabilityTesting:
         services = []
         for i in range(10):
             from src.infrastructure.unified_browser_service import create_browser_service
+
             service = create_browser_service()
             services.append(service)
 

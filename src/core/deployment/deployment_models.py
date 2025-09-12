@@ -31,6 +31,7 @@ _unified_config = get_unified_config()
 
 class DeploymentPriority(Enum):
     """Deployment priority levels."""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -39,6 +40,7 @@ class DeploymentPriority(Enum):
 
 class PatternType(Enum):
     """Types of patterns for deployment."""
+
     LOGGING = "logging"
     MANAGER = "manager"
     CONFIG = "config"
@@ -51,7 +53,9 @@ class DeploymentConfig:
     """Configuration for deployment operations using unified config system."""
 
     # Use unified config values where applicable
-    max_concurrent_deployments: int = _unified_config.agents.agent_count if hasattr(_unified_config.agents, 'agent_count') else 5
+    max_concurrent_deployments: int = (
+        _unified_config.agents.agent_count if hasattr(_unified_config.agents, "agent_count") else 5
+    )
     deployment_timeout_seconds: int = int(_unified_config.timeouts.response_wait_timeout)
     retry_attempts: int = 3
     target_efficiency_score: float = 0.85

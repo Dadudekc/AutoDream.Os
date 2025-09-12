@@ -31,8 +31,10 @@ logger = logging.getLogger(__name__)
 # ENUMS AND DATA STRUCTURES
 # ============================================================================
 
+
 class ConfigEnvironment(str, Enum):
     """Configuration environment types."""
+
     DEVELOPMENT = "development"
     TESTING = "testing"
     PRODUCTION = "production"
@@ -41,6 +43,7 @@ class ConfigEnvironment(str, Enum):
 
 class ConfigSource(str, Enum):
     """Configuration source types."""
+
     ENVIRONMENT = "environment"
     FILE = "file"
     DEFAULT = "default"
@@ -50,6 +53,7 @@ class ConfigSource(str, Enum):
 @dataclass
 class ConfigValue:
     """Configuration value with metadata."""
+
     value: Any
     source: ConfigSource
     environment: ConfigEnvironment
@@ -61,6 +65,7 @@ class ConfigValue:
 @dataclass
 class AgentConfig:
     """Agent-specific configuration."""
+
     agent_id: str
     coordinates: tuple | None = None
     capabilities: list[str] = field(default_factory=list)
@@ -72,6 +77,7 @@ class AgentConfig:
 @dataclass
 class SystemConfig:
     """System-wide configuration."""
+
     environment: ConfigEnvironment = ConfigEnvironment.DEVELOPMENT
     debug_mode: bool = False
     log_level: str = "INFO"
@@ -82,6 +88,7 @@ class SystemConfig:
 # ============================================================================
 # ENVIRONMENT LOADER
 # ============================================================================
+
 
 class EnvironmentLoader:
     """Loads and validates environment variables for unified configuration."""
@@ -99,17 +106,17 @@ class EnvironmentLoader:
             return False
 
         try:
-            with open(self.env_file, encoding='utf-8') as f:
+            with open(self.env_file, encoding="utf-8") as f:
                 for line_num, line in enumerate(f, 1):
                     line = line.strip()
 
                     # Skip comments and empty lines
-                    if not line or line.startswith('#'):
+                    if not line or line.startswith("#"):
                         continue
 
                     # Parse key=value pairs
-                    if '=' in line:
-                        key, value = line.split('=', 1)
+                    if "=" in line:
+                        key, value = line.split("=", 1)
                         key = key.strip()
                         value = value.strip()
 
@@ -140,13 +147,13 @@ class EnvironmentLoader:
 
         try:
             if var_type == bool:
-                return str(value).lower() in ('true', '1', 'yes', 'on')
+                return str(value).lower() in ("true", "1", "yes", "on")
             elif var_type == int:
                 return int(value)
             elif var_type == float:
                 return float(value)
             elif var_type == list:
-                return [item.strip() for item in str(value).split(',')]
+                return [item.strip() for item in str(value).split(",")]
             else:
                 return str(value)
         except (ValueError, TypeError) as e:
@@ -157,6 +164,7 @@ class EnvironmentLoader:
 # ============================================================================
 # ENHANCED UNIFIED CONFIGURATION SYSTEM
 # ============================================================================
+
 
 class EnhancedUnifiedConfig:
     """Enhanced unified configuration system consolidating all configuration management."""
@@ -184,7 +192,9 @@ class EnhancedUnifiedConfig:
         self._system_config.debug_mode = self.env_loader.get_env_var("DEBUG_MODE", False, bool)
         self._system_config.log_level = self.env_loader.get_env_var("LOG_LEVEL", "INFO")
         self._system_config.max_retries = self.env_loader.get_env_var("MAX_RETRIES", 3, int)
-        self._system_config.default_timeout = self.env_loader.get_env_var("DEFAULT_TIMEOUT", 30.0, float)
+        self._system_config.default_timeout = self.env_loader.get_env_var(
+            "DEFAULT_TIMEOUT", 30.0, float
+        )
 
         # Load agent configurations
         self._load_agent_configurations()
@@ -199,6 +209,7 @@ class EnhancedUnifiedConfig:
         if coords_file.exists():
             try:
                 import json
+
                 with open(coords_file) as f:
                     coords_data = json.load(f)
 
@@ -206,10 +217,16 @@ class EnhancedUnifiedConfig:
                     self._agent_configs[agent_id] = AgentConfig(
                         agent_id=agent_id,
                         coordinates=tuple(coords) if coords else None,
-                        capabilities=self.env_loader.get_env_var(f"{agent_id.upper()}_CAPABILITIES", [], list),
+                        capabilities=self.env_loader.get_env_var(
+                            f"{agent_id.upper()}_CAPABILITIES", [], list
+                        ),
                         timeout_config=self._get_agent_timeout_config(agent_id),
-                        priority=self.env_loader.get_env_var(f"{agent_id.upper()}_PRIORITY", 1, int),
-                        active=self.env_loader.get_env_var(f"{agent_id.upper()}_ACTIVE", True, bool)
+                        priority=self.env_loader.get_env_var(
+                            f"{agent_id.upper()}_PRIORITY", 1, int
+                        ),
+                        active=self.env_loader.get_env_var(
+                            f"{agent_id.upper()}_ACTIVE", True, bool
+                        ),
                     )
             except Exception as e:
                 self.logger.error(f"Failed to load agent coordinates: {e}")
@@ -218,9 +235,15 @@ class EnhancedUnifiedConfig:
         """Get timeout configuration for specific agent."""
         return {
             "default": self.env_loader.get_env_var(f"{agent_id.upper()}_TIMEOUT", 30.0, float),
-            "messaging": self.env_loader.get_env_var(f"{agent_id.upper()}_MESSAGING_TIMEOUT", 10.0, float),
-            "processing": self.env_loader.get_env_var(f"{agent_id.upper()}_PROCESSING_TIMEOUT", 60.0, float),
-            "coordination": self.env_loader.get_env_var(f"{agent_id.upper()}_COORDINATION_TIMEOUT", 15.0, float)
+            "messaging": self.env_loader.get_env_var(
+                f"{agent_id.upper()}_MESSAGING_TIMEOUT", 10.0, float
+            ),
+            "processing": self.env_loader.get_env_var(
+                f"{agent_id.upper()}_PROCESSING_TIMEOUT", 60.0, float
+            ),
+            "coordination": self.env_loader.get_env_var(
+                f"{agent_id.upper()}_COORDINATION_TIMEOUT", 15.0, float
+            ),
         }
 
     def _load_core_configurations(self):
@@ -238,17 +261,19 @@ class EnhancedUnifiedConfig:
             "SECURITY_TEST_TIMEOUT": (180, "Security test timeout"),
             "API_TEST_TIMEOUT": (240, "API test timeout"),
             "COORDINATION_TEST_TIMEOUT": (180, "Coordination test timeout"),
-            "LEARNING_TEST_TIMEOUT": (180, "Learning test timeout")
+            "LEARNING_TEST_TIMEOUT": (180, "Learning test timeout"),
         }
 
         for key, (default, description) in timeout_configs.items():
-            value = self.env_loader.get_env_var(key, default, float if isinstance(default, float) else int)
+            value = self.env_loader.get_env_var(
+                key, default, float if isinstance(default, float) else int
+            )
             self._config_cache[key] = ConfigValue(
                 value=value,
                 source=ConfigSource.ENVIRONMENT if key in os.environ else ConfigSource.DEFAULT,
                 environment=self._system_config.environment,
                 description=description,
-                required=False
+                required=False,
             )
 
         # PyAutoGUI configurations
@@ -257,17 +282,19 @@ class EnhancedUnifiedConfig:
             "PYAUTO_PAUSE_S": (0.05, "PyAutoGUI pause duration"),
             "PYAUTO_MOVE_DURATION": (0.4, "PyAutoGUI move duration"),
             "PYAUTO_SEND_RETRIES": (2, "PyAutoGUI send retries"),
-            "PYAUTO_RETRY_SLEEP_S": (0.3, "PyAutoGUI retry sleep duration")
+            "PYAUTO_RETRY_SLEEP_S": (0.3, "PyAutoGUI retry sleep duration"),
         }
 
         for key, (default, description) in pyautogui_configs.items():
-            value = self.env_loader.get_env_var(key, default, bool if isinstance(default, bool) else float)
+            value = self.env_loader.get_env_var(
+                key, default, bool if isinstance(default, bool) else float
+            )
             self._config_cache[key] = ConfigValue(
                 value=value,
                 source=ConfigSource.ENVIRONMENT if key in os.environ else ConfigSource.DEFAULT,
                 environment=self._system_config.environment,
                 description=description,
-                required=False
+                required=False,
             )
 
         # Messaging configurations
@@ -275,17 +302,19 @@ class EnhancedUnifiedConfig:
             "MESSAGING_RETRY_ATTEMPTS": (3, "Messaging retry attempts"),
             "MESSAGING_TIMEOUT": (30.0, "Messaging timeout"),
             "BROADCAST_DELAY": (0.5, "Broadcast delay between agents"),
-            "MESSAGE_QUEUE_SIZE": (1000, "Message queue size limit")
+            "MESSAGE_QUEUE_SIZE": (1000, "Message queue size limit"),
         }
 
         for key, (default, description) in messaging_configs.items():
-            value = self.env_loader.get_env_var(key, default, int if isinstance(default, int) else float)
+            value = self.env_loader.get_env_var(
+                key, default, int if isinstance(default, int) else float
+            )
             self._config_cache[key] = ConfigValue(
                 value=value,
                 source=ConfigSource.ENVIRONMENT if key in os.environ else ConfigSource.DEFAULT,
                 environment=self._system_config.environment,
                 description=description,
-                required=False
+                required=False,
             )
 
     def get_config(self, key: str, default: Any = None) -> Any:
@@ -304,23 +333,27 @@ class EnhancedUnifiedConfig:
 
     def get_timeout_config(self) -> dict[str, Any]:
         """Get timeout configuration."""
-        return {key: config.value for key, config in self._config_cache.items()
-                if "TIMEOUT" in key or "INTERVAL" in key}
+        return {
+            key: config.value
+            for key, config in self._config_cache.items()
+            if "TIMEOUT" in key or "INTERVAL" in key
+        }
 
     def get_threshold_config(self) -> dict[str, Any]:
         """Get threshold configuration."""
         threshold_configs = {
             "MIN_SUCCESS_RATE": self.env_loader.get_env_var("MIN_SUCCESS_RATE", 0.85, float),
             "MAX_ERROR_RATE": self.env_loader.get_env_var("MAX_ERROR_RATE", 0.15, float),
-            "PERFORMANCE_THRESHOLD": self.env_loader.get_env_var("PERFORMANCE_THRESHOLD", 0.8, float),
-            "QUALITY_THRESHOLD": self.env_loader.get_env_var("QUALITY_THRESHOLD", 0.9, float)
+            "PERFORMANCE_THRESHOLD": self.env_loader.get_env_var(
+                "PERFORMANCE_THRESHOLD", 0.8, float
+            ),
+            "QUALITY_THRESHOLD": self.env_loader.get_env_var("QUALITY_THRESHOLD", 0.9, float),
         }
         return threshold_configs
 
     def get_test_config(self) -> dict[str, Any]:
         """Get test configuration."""
-        return {key: config.value for key, config in self._config_cache.items()
-                if "TEST" in key}
+        return {key: config.value for key, config in self._config_cache.items() if "TEST" in key}
 
     def set_config(self, key: str, value: Any, source: ConfigSource = ConfigSource.RUNTIME) -> None:
         """Set configuration value at runtime."""
@@ -328,7 +361,7 @@ class EnhancedUnifiedConfig:
             value=value,
             source=source,
             environment=self._system_config.environment,
-            description=f"Runtime configuration for {key}"
+            description=f"Runtime configuration for {key}",
         )
 
     def validate_configuration(self) -> dict[str, list[str]]:
@@ -354,7 +387,7 @@ class EnhancedUnifiedConfig:
                     "debug_mode": self._system_config.debug_mode,
                     "log_level": self._system_config.log_level,
                     "max_retries": self._system_config.max_retries,
-                    "default_timeout": self._system_config.default_timeout
+                    "default_timeout": self._system_config.default_timeout,
                 },
                 "agent_configs": {
                     agent_id: {
@@ -363,8 +396,9 @@ class EnhancedUnifiedConfig:
                         "capabilities": config.capabilities,
                         "timeout_config": config.timeout_config,
                         "priority": config.priority,
-                        "active": config.active
-                    } for agent_id, config in self._agent_configs.items()
+                        "active": config.active,
+                    }
+                    for agent_id, config in self._agent_configs.items()
                 },
                 "config_values": {
                     key: {
@@ -372,14 +406,16 @@ class EnhancedUnifiedConfig:
                         "source": config.source.value,
                         "environment": config.environment.value,
                         "description": config.description,
-                        "required": config.required
-                    } for key, config in self._config_cache.items()
+                        "required": config.required,
+                    }
+                    for key, config in self._config_cache.items()
                 },
-                "export_timestamp": str(datetime.now())
+                "export_timestamp": str(datetime.now()),
             }
 
             import json
-            with open(filepath, 'w', encoding='utf-8') as f:
+
+            with open(filepath, "w", encoding="utf-8") as f:
                 json.dump(config_data, f, indent=2, default=str)
 
             self.logger.info(f"Configuration exported to: {filepath}")
@@ -399,6 +435,7 @@ enhanced_config = EnhancedUnifiedConfig()
 # ============================================================================
 # PUBLIC API - Single point of access for all configuration
 # ============================================================================
+
 
 def get_enhanced_config() -> EnhancedUnifiedConfig:
     """Get the SINGLE SOURCE OF TRUTH enhanced configuration system."""
@@ -454,6 +491,7 @@ def export_configuration(filepath: str) -> bool:
 # LEGACY COMPATIBILITY FUNCTIONS
 # ============================================================================
 
+
 def get_config_logger():
     """Legacy compatibility function."""
     return logging.getLogger(__name__)
@@ -470,11 +508,9 @@ __all__ = [
     "AgentConfig",
     "SystemConfig",
     "ConfigValue",
-
     # Enums
     "ConfigEnvironment",
     "ConfigSource",
-
     # Public API functions
     "get_enhanced_config",
     "get_config",
@@ -486,7 +522,6 @@ __all__ = [
     "set_config",
     "validate_configuration",
     "export_configuration",
-
     # Legacy compatibility
     "get_config_logger",
 ]
@@ -495,6 +530,7 @@ __all__ = [
 # ============================================================================
 # VALIDATION AND HEALTH CHECKS
 # ============================================================================
+
 
 def validate_enhanced_config_system() -> bool:
     """Validate the enhanced configuration system is properly configured."""

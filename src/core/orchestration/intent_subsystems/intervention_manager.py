@@ -27,6 +27,7 @@ from ..contracts import OrchestrationContext, Step
 
 class InterventionPriority(Enum):
     """Intervention priority levels."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -35,6 +36,7 @@ class InterventionPriority(Enum):
 
 class InterventionType(Enum):
     """Intervention type enumeration."""
+
     SYSTEM_HEALTH = "system_health"
     RESOURCE_OVERLOAD = "resource_overload"
     COMMUNICATION_FAILURE = "communication_failure"
@@ -47,6 +49,7 @@ class InterventionType(Enum):
 
 class InterventionStatus(Enum):
     """Intervention status enumeration."""
+
     DETECTED = "detected"
     ANALYZING = "analyzing"
     EXECUTING = "executing"
@@ -57,6 +60,7 @@ class InterventionStatus(Enum):
 
 class InterventionScope(Enum):
     """Intervention scope enumeration."""
+
     AGENT_SPECIFIC = "agent_specific"
     SUBSYSTEM_SPECIFIC = "subsystem_specific"
     SYSTEM_WIDE = "system_wide"
@@ -66,6 +70,7 @@ class InterventionScope(Enum):
 @dataclass
 class InterventionTrigger:
     """Intervention trigger conditions."""
+
     condition_type: str
     threshold: Any
     comparison: str  # "gt", "lt", "eq", "contains", etc.
@@ -75,6 +80,7 @@ class InterventionTrigger:
 @dataclass
 class InterventionAction:
     """Intervention action definition."""
+
     action_type: str
     target: str
     parameters: dict[str, Any]
@@ -86,6 +92,7 @@ class InterventionAction:
 @dataclass
 class InterventionResult:
     """Result of intervention execution."""
+
     intervention_id: str
     status: InterventionStatus
     actions_executed: list[str]
@@ -99,6 +106,7 @@ class InterventionResult:
 @dataclass
 class InterventionProtocol:
     """Complete intervention protocol."""
+
     protocol_id: str
     name: str
     description: str
@@ -115,9 +123,13 @@ class InterventionProtocol:
 class InterventionStrategy(Protocol):
     """Strategy pattern for intervention management."""
 
-    def detect_intervention_needed(self, context: dict[str, Any]) -> InterventionProtocol | None: ...
+    def detect_intervention_needed(
+        self, context: dict[str, Any]
+    ) -> InterventionProtocol | None: ...
 
-    def execute_intervention(self, protocol: InterventionProtocol, context: dict[str, Any]) -> InterventionResult: ...
+    def execute_intervention(
+        self, protocol: InterventionProtocol, context: dict[str, Any]
+    ) -> InterventionResult: ...
 
     def validate_intervention_effectiveness(self, result: InterventionResult) -> bool: ...
 
@@ -140,7 +152,9 @@ class SwarmInterventionStrategy:
 
         # Agent failure detection
         agent_status = context.get("agent_status", {})
-        failed_agents = [aid for aid, status in agent_status.items() if status.get("status") == "failed"]
+        failed_agents = [
+            aid for aid, status in agent_status.items() if status.get("status") == "failed"
+        ]
         if failed_agents:
             return self._create_agent_failure_protocol(failed_agents)
 
@@ -151,7 +165,9 @@ class SwarmInterventionStrategy:
 
         return None
 
-    def execute_intervention(self, protocol: InterventionProtocol, context: dict[str, Any]) -> InterventionResult:
+    def execute_intervention(
+        self, protocol: InterventionProtocol, context: dict[str, Any]
+    ) -> InterventionResult:
         """Execute the intervention protocol."""
         start_time = time.time()
         intervention_id = f"intervention_{int(time.time())}_{protocol.protocol_id}"
@@ -187,7 +203,7 @@ class SwarmInterventionStrategy:
             metrics_before=metrics_before,
             metrics_after=metrics_after,
             execution_time=execution_time,
-            errors=errors
+            errors=errors,
         )
 
         self.logger.info(f"Intervention {intervention_id} completed with status: {status.value}")
@@ -200,7 +216,9 @@ class SwarmInterventionStrategy:
             cpu_before = result.metrics_before.get("system_health", {}).get("cpu_percent", 100)
             cpu_after = result.metrics_after.get("system_health", {}).get("cpu_percent", 100)
 
-            memory_before = result.metrics_before.get("system_health", {}).get("memory_percent", 100)
+            memory_before = result.metrics_before.get("system_health", {}).get(
+                "memory_percent", 100
+            )
             memory_after = result.metrics_after.get("system_health", {}).get("memory_percent", 100)
 
             # Consider intervention effective if CPU or memory usage decreased by at least 10%
@@ -219,13 +237,13 @@ class SwarmInterventionStrategy:
             InterventionAction(
                 action_type="scale_resources",
                 target="system",
-                parameters={"resource_type": resource_type, "scale_factor": 1.2}
+                parameters={"resource_type": resource_type, "scale_factor": 1.2},
             ),
             InterventionAction(
                 action_type="notify_admin",
                 target="admin",
-                parameters={"message": f"Resource overload detected: {resource_type}"}
-            )
+                parameters={"message": f"Resource overload detected: {resource_type}"},
+            ),
         ]
 
         return InterventionProtocol(
@@ -236,18 +254,20 @@ class SwarmInterventionStrategy:
             priority=InterventionPriority.HIGH,
             scope=InterventionScope.SYSTEM_WIDE,
             triggers=[],
-            actions=actions
+            actions=actions,
         )
 
     def _create_agent_failure_protocol(self, failed_agents: list[str]) -> InterventionProtocol:
         """Create agent failure intervention protocol."""
         actions = []
         for agent in failed_agents:
-            actions.append(InterventionAction(
-                action_type="restart_agent",
-                target=agent,
-                parameters={"agent_id": agent, "restart_type": "graceful"}
-            ))
+            actions.append(
+                InterventionAction(
+                    action_type="restart_agent",
+                    target=agent,
+                    parameters={"agent_id": agent, "restart_type": "graceful"},
+                )
+            )
 
         return InterventionProtocol(
             protocol_id=f"agent_failure_{int(time.time())}",
@@ -257,7 +277,7 @@ class SwarmInterventionStrategy:
             priority=InterventionPriority.CRITICAL,
             scope=InterventionScope.SUBSYSTEM_SPECIFIC,
             triggers=[],
-            actions=actions
+            actions=actions,
         )
 
     def _create_communication_protocol(self) -> InterventionProtocol:
@@ -266,13 +286,13 @@ class SwarmInterventionStrategy:
             InterventionAction(
                 action_type="reset_communication_channels",
                 target="communication_system",
-                parameters={"reset_type": "soft"}
+                parameters={"reset_type": "soft"},
             ),
             InterventionAction(
                 action_type="switch_to_backup_channel",
                 target="communication_system",
-                parameters={"backup_channel": "inbox_fallback"}
-            )
+                parameters={"backup_channel": "inbox_fallback"},
+            ),
         ]
 
         return InterventionProtocol(
@@ -283,7 +303,7 @@ class SwarmInterventionStrategy:
             priority=InterventionPriority.HIGH,
             scope=InterventionScope.SYSTEM_WIDE,
             triggers=[],
-            actions=actions
+            actions=actions,
         )
 
     def _execute_action(self, action: InterventionAction, context: dict[str, Any]):
@@ -307,7 +327,7 @@ class SwarmInterventionStrategy:
             "timestamp": datetime.now().isoformat(),
             "system_health": context.get("system_health", {}),
             "agent_status": context.get("agent_status", {}),
-            "communication_status": context.get("communication_status", {})
+            "communication_status": context.get("communication_status", {}),
         }
 
     def _scale_resources(self, params: dict[str, Any]):
@@ -370,9 +390,7 @@ class InterventionManager:
 
         self.monitoring_active = True
         self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop,
-            args=(context_provider,),
-            daemon=True
+            target=self._monitoring_loop, args=(context_provider,), daemon=True
         )
         self.monitoring_thread.start()
         self.logger.info("Intervention monitoring started")
@@ -452,7 +470,7 @@ class InterventionManager:
             "errors": result.errors,
             "metrics_before": result.metrics_before,
             "metrics_after": result.metrics_after,
-            "timestamp": result.timestamp.isoformat()
+            "timestamp": result.timestamp.isoformat(),
         }
 
     def get_intervention_stats(self) -> dict[str, Any]:
@@ -464,7 +482,7 @@ class InterventionManager:
             "failed_interventions": 0,
             "by_type": {},
             "by_priority": {},
-            "recent_activity": []
+            "recent_activity": [],
         }
 
         for result in self.intervention_history[-20:]:  # Last 20 interventions
@@ -474,12 +492,14 @@ class InterventionManager:
                 stats["failed_interventions"] += 1
 
             # Count by type (would need to track protocol types)
-            stats["recent_activity"].append({
-                "id": result.intervention_id,
-                "status": result.status.value,
-                "timestamp": result.timestamp.isoformat(),
-                "actions": len(result.actions_executed)
-            })
+            stats["recent_activity"].append(
+                {
+                    "id": result.intervention_id,
+                    "status": result.status.value,
+                    "timestamp": result.timestamp.isoformat(),
+                    "actions": len(result.actions_executed),
+                }
+            )
 
         return stats
 
@@ -540,7 +560,9 @@ class InterventionOrchestrationStep(Step):
                 protocol_id = self.params.get("protocol_id")
                 context = self.params.get("context", payload)
                 if protocol_id:
-                    intervention_id = self.intervention_manager.trigger_intervention(protocol_id, context)
+                    intervention_id = self.intervention_manager.trigger_intervention(
+                        protocol_id, context
+                    )
                     payload["intervention_id"] = intervention_id
 
             elif self.operation == "detect":
@@ -568,7 +590,9 @@ class InterventionOrchestrationStep(Step):
 
 
 # Factory function for creating InterventionManager instances
-def create_intervention_manager(strategy: InterventionStrategy | None = None) -> InterventionManager:
+def create_intervention_manager(
+    strategy: InterventionStrategy | None = None,
+) -> InterventionManager:
     """Factory function for InterventionManager creation."""
     return InterventionManager(strategy=strategy)
 
@@ -586,5 +610,5 @@ __all__ = [
     "InterventionStrategy",
     "SwarmInterventionStrategy",
     "InterventionOrchestrationStep",
-    "create_intervention_manager"
+    "create_intervention_manager",
 ]

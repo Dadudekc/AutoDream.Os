@@ -30,8 +30,10 @@ from typing import Any, Protocol
 # COORDINATION ENUMS AND MODELS
 # ============================================================================
 
+
 class CoordinationStatus(Enum):
     """Coordination status enumeration."""
+
     INITIALIZING = "initializing"
     OPERATIONAL = "operational"
     ERROR = "error"
@@ -44,6 +46,7 @@ class CoordinationStatus(Enum):
 
 class TargetType(Enum):
     """Coordination target type enumeration."""
+
     AGENT = "agent"
     TASK = "task"
     RESOURCE = "resource"
@@ -52,6 +55,7 @@ class TargetType(Enum):
 
 class TaskStatus(Enum):
     """Task status enumeration."""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -61,6 +65,7 @@ class TaskStatus(Enum):
 
 class AgentStatus(Enum):
     """Agent status enumeration."""
+
     IDLE = "idle"
     BUSY = "busy"
     COORDINATING = "coordinating"
@@ -71,6 +76,7 @@ class AgentStatus(Enum):
 
 class SwarmStatus(Enum):
     """Swarm status enumeration."""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     COORDINATING = "coordinating"
@@ -81,6 +87,7 @@ class SwarmStatus(Enum):
 
 class SwarmPhase(Enum):
     """Swarm phase enumeration."""
+
     CYCLE_1 = "cycle_1"
     PHASE_2 = "phase_2"
     PHASE_3 = "phase_3"
@@ -91,9 +98,11 @@ class SwarmPhase(Enum):
 # COORDINATION MODELS
 # ============================================================================
 
+
 @dataclass
 class CoordinatorInfo:
     """Coordinator information model."""
+
     coordinator_id: str
     name: str
     status: CoordinationStatus
@@ -105,6 +114,7 @@ class CoordinatorInfo:
 @dataclass
 class TaskInfo:
     """Task information model."""
+
     task_id: str
     name: str
     status: TaskStatus
@@ -118,6 +128,7 @@ class TaskInfo:
 @dataclass
 class AgentInfo:
     """Agent information model."""
+
     agent_id: str
     name: str
     status: AgentStatus
@@ -130,6 +141,7 @@ class AgentInfo:
 @dataclass
 class SwarmInfo:
     """Swarm information model."""
+
     swarm_id: str
     name: str
     status: SwarmStatus
@@ -143,6 +155,7 @@ class SwarmInfo:
 # ============================================================================
 # COORDINATION INTERFACES
 # ============================================================================
+
 
 class Coordinator(Protocol):
     """Coordinator interface protocol."""
@@ -224,6 +237,7 @@ class SwarmCoordinator(Coordinator):
 # COORDINATION STRATEGIES
 # ============================================================================
 
+
 class AgentStrategy(ABC):
     """Base agent strategy interface."""
 
@@ -248,7 +262,9 @@ class ConsolidationStrategy(AgentStrategy):
 
     def can_handle_task(self, task: TaskInfo) -> bool:
         """Check if task is consolidation-related."""
-        return "consolidation" in task.name.lower() or "consolidate" in task.metadata.get("type", "")
+        return "consolidation" in task.name.lower() or "consolidate" in task.metadata.get(
+            "type", ""
+        )
 
     def execute_task(self, task: TaskInfo) -> bool:
         """Execute consolidation task."""
@@ -288,6 +304,7 @@ class AnalysisStrategy(AgentStrategy):
 # ============================================================================
 # COORDINATION ENGINES
 # ============================================================================
+
 
 class CoordinationEngine(ABC):
     """Base coordination engine interface."""
@@ -399,10 +416,7 @@ class PerformanceMonitoringEngine(CoordinationEngine):
 
     def record_metric(self, name: str, value: Any) -> None:
         """Record performance metric."""
-        self.metrics[name] = {
-            "value": value,
-            "timestamp": datetime.now()
-        }
+        self.metrics[name] = {"value": value, "timestamp": datetime.now()}
 
     def get_metrics(self) -> dict[str, Any]:
         """Get all metrics."""
@@ -412,6 +426,7 @@ class PerformanceMonitoringEngine(CoordinationEngine):
 # ============================================================================
 # COORDINATION ORCHESTRATORS
 # ============================================================================
+
 
 class SwarmCoordinationOrchestrator:
     """Swarm coordination orchestrator implementation."""
@@ -470,7 +485,7 @@ class SwarmCoordinationOrchestrator:
             "phase": swarm.phase.value,
             "agent_count": len(swarm.agents),
             "active_tasks": len(swarm.active_tasks),
-            "created_at": swarm.created_at.isoformat()
+            "created_at": swarm.created_at.isoformat(),
         }
 
 
@@ -478,12 +493,10 @@ class SwarmCoordinationOrchestrator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_coordination_engine(engine_type: str) -> CoordinationEngine | None:
     """Create coordination engine by type."""
-    engines = {
-        "task": TaskCoordinationEngine,
-        "performance": PerformanceMonitoringEngine
-    }
+    engines = {"task": TaskCoordinationEngine, "performance": PerformanceMonitoringEngine}
 
     engine_class = engines.get(engine_type)
     if engine_class:
@@ -499,10 +512,7 @@ def create_swarm_orchestrator() -> SwarmCoordinationOrchestrator:
 
 def create_agent_strategy(strategy_type: str) -> AgentStrategy | None:
     """Create agent strategy by type."""
-    strategies = {
-        "consolidation": ConsolidationStrategy,
-        "analysis": AnalysisStrategy
-    }
+    strategies = {"consolidation": ConsolidationStrategy, "analysis": AnalysisStrategy}
 
     strategy_class = strategies.get(strategy_type)
     if strategy_class:
@@ -514,6 +524,7 @@ def create_agent_strategy(strategy_type: str) -> AgentStrategy | None:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -533,7 +544,7 @@ def main():
         swarm_id="test_swarm_001",
         name="Test Swarm",
         status=SwarmStatus.ACTIVE,
-        phase=SwarmPhase.PHASE_2
+        phase=SwarmPhase.PHASE_2,
     )
 
     if orchestrator.create_swarm(swarm_info):
@@ -547,7 +558,7 @@ def main():
         agent_id="agent-2",
         name="Architecture & Design Specialist",
         status=AgentStatus.ACTIVE,
-        capabilities=["consolidation", "analysis", "architecture"]
+        capabilities=["consolidation", "analysis", "architecture"],
     )
 
     if orchestrator.join_swarm("test_swarm_001", agent_info):

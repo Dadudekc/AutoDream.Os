@@ -4,5 +4,5 @@
 from . import swarm_coordination_orchestrator
 
 __all__ = [
-    'swarm_coordination_orchestrator',
+    "swarm_coordination_orchestrator",
 ]

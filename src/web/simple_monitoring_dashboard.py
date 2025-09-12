@@ -44,9 +44,9 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
         """Serve the main dashboard HTML"""
         html_content = self.generate_dashboard_html()
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(html_content.encode('utf-8'))
+        self.wfile.write(html_content.encode("utf-8"))
 
     def serve_agents_status(self):
         """Serve agent status data as JSON"""
@@ -56,7 +56,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
                 "timestamp": datetime.now().isoformat(),
                 "agents": agents_data,
                 "total_agents": len(agents_data),
-                "active_agents": len([a for a in agents_data if a.get("status") != "OFFLINE"])
+                "active_agents": len([a for a in agents_data if a.get("status") != "OFFLINE"]),
             }
             self.send_json_response(response)
         except Exception as e:
@@ -69,7 +69,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
                 "timestamp": datetime.now().isoformat(),
                 "server_status": "RUNNING",
                 "uptime": "Monitoring Active",
-                "monitoring_mode": "SIMPLE_MODE"
+                "monitoring_mode": "SIMPLE_MODE",
             }
             self.send_json_response(system_info)
         except Exception as e:
@@ -90,10 +90,10 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
     def send_json_response(self, data):
         """Send JSON response"""
         self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
-        self.wfile.write(json.dumps(data, indent=2).encode('utf-8'))
+        self.wfile.write(json.dumps(data, indent=2).encode("utf-8"))
 
     def get_agents_status(self):
         """Get status of all agents from their status.json files"""
@@ -105,41 +105,45 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
 
             try:
                 if status_file.exists():
-                    with open(status_file, encoding='utf-8') as f:
+                    with open(status_file, encoding="utf-8") as f:
                         data = json.load(f)
 
                     agent_status = {
                         "agent_id": agent_id,
-                        "status": data.get('status', 'UNKNOWN'),
-                        "current_phase": data.get('current_phase', 'UNKNOWN'),
-                        "last_updated": data.get('last_updated', datetime.now().isoformat()),
-                        "current_mission": data.get('current_mission'),
-                        "mission_priority": data.get('mission_priority'),
-                        "progress_percentage": data.get('progress_percentage'),
-                        "active_tasks": len(data.get('current_tasks', [])),
-                        "completed_tasks": len(data.get('completed_tasks', []))
+                        "status": data.get("status", "UNKNOWN"),
+                        "current_phase": data.get("current_phase", "UNKNOWN"),
+                        "last_updated": data.get("last_updated", datetime.now().isoformat()),
+                        "current_mission": data.get("current_mission"),
+                        "mission_priority": data.get("mission_priority"),
+                        "progress_percentage": data.get("progress_percentage"),
+                        "active_tasks": len(data.get("current_tasks", [])),
+                        "completed_tasks": len(data.get("completed_tasks", [])),
                     }
                     agents_status.append(agent_status)
                 else:
-                    agents_status.append({
+                    agents_status.append(
+                        {
+                            "agent_id": agent_id,
+                            "status": "OFFLINE",
+                            "current_phase": "UNKNOWN",
+                            "last_updated": datetime.now().isoformat(),
+                            "active_tasks": 0,
+                            "completed_tasks": 0,
+                        }
+                    )
+
+            except Exception as e:
+                agents_status.append(
+                    {
                         "agent_id": agent_id,
-                        "status": "OFFLINE",
+                        "status": "ERROR",
                         "current_phase": "UNKNOWN",
                         "last_updated": datetime.now().isoformat(),
                         "active_tasks": 0,
-                        "completed_tasks": 0
-                    })
-
-            except Exception as e:
-                agents_status.append({
-                    "agent_id": agent_id,
-                    "status": "ERROR",
-                    "current_phase": "UNKNOWN",
-                    "last_updated": datetime.now().isoformat(),
-                    "active_tasks": 0,
-                    "completed_tasks": 0,
-                    "error": str(e)
-                })
+                        "completed_tasks": 0,
+                        "error": str(e),
+                    }
+                )
 
         return agents_status
 
@@ -154,13 +158,13 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
             active_agents = 0
 
             for agent in agents_status:
-                progress = agent.get('progress_percentage', 0)
+                progress = agent.get("progress_percentage", 0)
                 if progress:
                     total_progress += progress
                     active_agents += 1
 
-                active_tasks += agent.get('active_tasks', 0)
-                completed_tasks += agent.get('completed_tasks', 0)
+                active_tasks += agent.get("active_tasks", 0)
+                completed_tasks += agent.get("completed_tasks", 0)
 
             average_progress = total_progress / max(active_agents, 1)
 
@@ -170,7 +174,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
                 "active_agents": active_agents,
                 "total_active_tasks": active_tasks,
                 "total_completed_tasks": completed_tasks,
-                "total_agents": len(agents_status)
+                "total_agents": len(agents_status),
             }
 
         except Exception as e:
@@ -178,7 +182,7 @@ class SwarmMonitoringHandler(http.server.BaseHTTPRequestHandler):
                 "timestamp": datetime.now().isoformat(),
                 "error": str(e),
                 "overall_progress": 0,
-                "active_agents": 0
+                "active_agents": 0,
             }
 
     def generate_dashboard_html(self):

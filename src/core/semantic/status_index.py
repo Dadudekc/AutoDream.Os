@@ -4,17 +4,19 @@ Agent Status Similarity Index
 - Supports nearest-neighbor queries to find similar states
 - Surfaces top agents + similarity for coordination
 """
+
 from __future__ import annotations
-from typing import Dict, List, Tuple
-import os
+
 import json
+import os
+
 from .embeddings import build_provider
-from .vector_store import VectorStore
 from .utils import json_to_text
+from .vector_store import VectorStore
 
 
 class StatusIndex:
-    def __init__(self, cfg: Dict):
+    def __init__(self, cfg: dict):
         self.cfg = cfg
         self.provider = build_provider(cfg)
         sp = cfg.get("status_index", {})
@@ -35,16 +37,18 @@ class StatusIndex:
                 continue
             fpath = os.path.join(dir_path, name)
             try:
-                with open(fpath, "r", encoding="utf-8") as f:
+                with open(fpath, encoding="utf-8") as f:
                     data = json.load(f)
                 text = json_to_text(data, keep=self.keep_fields)
                 ids.append(os.path.splitext(name)[0])
-                metas.append({
-                    "type": "status",
-                    "agent_id": data.get("agent_id"),
-                    "status": data.get("status"),
-                    "source_file": fpath
-                })
+                metas.append(
+                    {
+                        "type": "status",
+                        "agent_id": data.get("agent_id"),
+                        "status": data.get("status"),
+                        "source_file": fpath,
+                    }
+                )
                 texts.append(text)
             except Exception:
                 continue
@@ -54,17 +58,18 @@ class StatusIndex:
         self.store.add(ids, vecs, metas)
         return len(ids)
 
-    def upsert_status(self, status_id: str, data: Dict):
+    def upsert_status(self, status_id: str, data: dict):
         text = json_to_text(data, keep=self.keep_fields)
         vec = self.provider.embed_texts([text])
-        self.store.add([status_id], vec, [{
-            "type": "status",
-            "agent_id": data.get("agent_id"),
-            "status": data.get("status")
-        }])
+        self.store.add(
+            [status_id],
+            vec,
+            [{"type": "status", "agent_id": data.get("agent_id"), "status": data.get("status")}],
+        )
 
-    def similar(self, status_like: Dict | str, top_k: int | None = None, min_conf: float | None = None
-                ) -> List[Tuple[str, float, Dict]]:
+    def similar(
+        self, status_like: dict | str, top_k: int | None = None, min_conf: float | None = None
+    ) -> list[tuple[str, float, dict]]:
         sp = self.cfg.get("status_index", {})
         k = int(top_k or sp.get("top_k", 3))
         th = float(min_conf or sp.get("min_confidence", 0.50))

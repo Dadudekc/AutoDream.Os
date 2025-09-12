@@ -30,8 +30,10 @@ from typing import Any
 # AGENT MODELS
 # ============================================================================
 
+
 class AgentStatus(Enum):
     """Agent status enumeration."""
+
     IDLE = "idle"
     BUSY = "busy"
     COORDINATING = "coordinating"
@@ -42,6 +44,7 @@ class AgentStatus(Enum):
 
 class AgentCapability(Enum):
     """Agent capability enumeration."""
+
     ANALYSIS = "analysis"
     CONSOLIDATION = "consolidation"
     COORDINATION = "coordination"
@@ -55,6 +58,7 @@ class AgentCapability(Enum):
 
 class TaskPriority(Enum):
     """Task priority enumeration."""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -64,6 +68,7 @@ class TaskPriority(Enum):
 @dataclass
 class AgentContext:
     """Agent context information."""
+
     agent_id: str
     current_phase: str = "foundation"
     active_tasks: list[str] = field(default_factory=list)
@@ -93,13 +98,14 @@ class AgentContext:
             "active_tasks": self.active_tasks,
             "performance_metrics": self.performance_metrics,
             "last_activity": self.last_activity.isoformat(),
-            "context_data": self.context_data
+            "context_data": self.context_data,
         }
 
 
 @dataclass
 class AgentTask:
     """Agent task representation."""
+
     task_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     task_name: str = ""
     task_type: str = ""
@@ -165,13 +171,14 @@ class AgentTask:
             "actual_duration": str(self.actual_duration) if self.actual_duration else None,
             "requirements": self.requirements,
             "dependencies": self.dependencies,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class AgentInfo:
     """Agent information structure."""
+
     agent_id: str
     agent_name: str
     agent_type: str
@@ -209,13 +216,14 @@ class AgentInfo:
             "last_seen": self.last_seen.isoformat(),
             "current_tasks": self.current_tasks,
             "performance_metrics": self.performance_metrics,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 # ============================================================================
 # AGENT STRATEGIES
 # ============================================================================
+
 
 class AgentStrategy(ABC):
     """Base agent strategy interface."""
@@ -236,10 +244,7 @@ class AgentStrategy(ABC):
 
     def get_strategy_info(self) -> dict[str, Any]:
         """Get strategy information."""
-        return {
-            "name": self.name,
-            "type": self.__class__.__name__
-        }
+        return {"name": self.name, "type": self.__class__.__name__}
 
 
 class ConsolidationStrategy(AgentStrategy):
@@ -363,6 +368,7 @@ class CoordinationStrategy(AgentStrategy):
 # AGENT COORDINATION MANAGER
 # ============================================================================
 
+
 class AgentCoordinationManager:
     """Agent coordination manager."""
 
@@ -473,8 +479,10 @@ class AgentCoordinationManager:
             "active_agents": sum(1 for agent in self.agents.values() if agent.is_online()),
             "total_tasks": len(self.tasks),
             "completed_tasks": sum(1 for task in self.tasks.values() if task.completed_at),
-            "failed_tasks": sum(1 for task in self.tasks.values() if task.status == AgentStatus.ERROR),
-            "strategies": len(self.strategies)
+            "failed_tasks": sum(
+                1 for task in self.tasks.values() if task.status == AgentStatus.ERROR
+            ),
+            "strategies": len(self.strategies),
         }
 
 
@@ -482,32 +490,24 @@ class AgentCoordinationManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_agent_info(
-    agent_id: str,
-    agent_name: str,
-    agent_type: str,
-    capabilities: list[AgentCapability] = None
+    agent_id: str, agent_name: str, agent_type: str, capabilities: list[AgentCapability] = None
 ) -> AgentInfo:
     """Create agent information."""
     return AgentInfo(
         agent_id=agent_id,
         agent_name=agent_name,
         agent_type=agent_type,
-        capabilities=capabilities or []
+        capabilities=capabilities or [],
     )
 
 
 def create_agent_task(
-    task_name: str,
-    task_type: str,
-    priority: TaskPriority = TaskPriority.MEDIUM
+    task_name: str, task_type: str, priority: TaskPriority = TaskPriority.MEDIUM
 ) -> AgentTask:
     """Create an agent task."""
-    return AgentTask(
-        task_name=task_name,
-        task_type=task_type,
-        priority=priority
-    )
+    return AgentTask(task_name=task_name, task_type=task_type, priority=priority)
 
 
 def create_agent_context(agent_id: str) -> AgentContext:
@@ -524,6 +524,7 @@ def create_agent_coordination_manager() -> AgentCoordinationManager:
 # MAIN EXECUTION
 # ============================================================================
 
+
 def main():
     """Main execution function."""
     print("Agent Coordination - Consolidated Agent Management")
@@ -538,17 +539,13 @@ def main():
         "agent-2",
         "Architecture & Design Specialist",
         "consolidation",
-        [AgentCapability.CONSOLIDATION, AgentCapability.ANALYSIS]
+        [AgentCapability.CONSOLIDATION, AgentCapability.ANALYSIS],
     )
     manager.register_agent(agent)
     print(f"Agent registered: {agent.to_dict()}")
 
     # Create test task
-    task = create_agent_task(
-        "Consolidate Core Modules",
-        "consolidation",
-        TaskPriority.HIGH
-    )
+    task = create_agent_task("Consolidate Core Modules", "consolidation", TaskPriority.HIGH)
     manager.create_task(task)
     print(f"Task created: {task.to_dict()}")
 

@@ -48,7 +48,7 @@ class CoreConsolidationAgent:
         consolidated_content = self.generate_consolidated_managers(essential_functions)
         consolidated_path = self.project_root / "src/core/managers.py"
 
-        with open(consolidated_path, 'w') as f:
+        with open(consolidated_path, "w") as f:
             f.write(consolidated_content)
 
         print(f"✅ Created consolidated managers.py with {len(essential_functions)} functions")
@@ -60,9 +60,14 @@ class CoreConsolidationAgent:
 
         # Key functions we need to preserve
         required_patterns = [
-            "get_config", "set_config", "load_config",
-            "execute_task", "monitor_status", "handle_error",
-            "register_service", "unregister_service"
+            "get_config",
+            "set_config",
+            "load_config",
+            "execute_task",
+            "monitor_status",
+            "handle_error",
+            "register_service",
+            "unregister_service",
         ]
 
         for py_file in managers_dir.glob("**/*.py"):
@@ -74,12 +79,16 @@ class CoreConsolidationAgent:
                     content = f.read()
 
                 # Extract function definitions
-                lines = content.split('\n')
+                lines = content.split("\n")
                 for i, line in enumerate(lines):
-                    if line.strip().startswith('def ') and any(pattern in line for pattern in required_patterns):
-                        func_name = line.split('def ')[1].split('(')[0].strip()
+                    if line.strip().startswith("def ") and any(
+                        pattern in line for pattern in required_patterns
+                    ):
+                        func_name = line.split("def ")[1].split("(")[0].strip()
                         # Extract function (simplified - in real implementation, parse properly)
-                        essential_functions[func_name] = f"def {func_name}(...): pass  # Consolidated from {py_file.name}"
+                        essential_functions[func_name] = (
+                            f"def {func_name}(...): pass  # Consolidated from {py_file.name}"
+                        )
 
             except Exception as e:
                 print(f"Warning: Could not process {py_file}: {e}")
@@ -207,7 +216,7 @@ def analyze_performance() -> Dict[str, Any]:
 '''
 
         analytics_path = self.project_root / "src/core/analytics.py"
-        with open(analytics_path, 'w') as f:
+        with open(analytics_path, "w") as f:
             f.write(analytics_content)
 
         print("✅ Created consolidated analytics.py")
@@ -235,6 +244,7 @@ def analyze_performance() -> Dict[str, Any]:
             print(f"❌ Consolidation failed: {e}")
             print("🔄 Rolling back changes...")
             # TODO: Implement rollback logic
+
 
 if __name__ == "__main__":
     agent = CoreConsolidationAgent()

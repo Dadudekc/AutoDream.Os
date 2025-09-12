@@ -12,6 +12,7 @@ from typing import Any
 @dataclass
 class TheaLoginConfig:
     """Configuration for Thea login."""
+
     max_retries: int = 3
     login_timeout_s: float = 30.0
 

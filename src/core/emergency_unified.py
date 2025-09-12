@@ -31,8 +31,10 @@ from typing import Any
 # EMERGENCY ENUMS AND MODELS
 # ============================================================================
 
+
 class EmergencyStatus(Enum):
     """Emergency status enumeration."""
+
     NORMAL = "normal"
     WARNING = "warning"
     CRITICAL = "critical"
@@ -43,6 +45,7 @@ class EmergencyStatus(Enum):
 
 class EmergencyType(Enum):
     """Emergency type enumeration."""
+
     SYSTEM_FAILURE = "system_failure"
     PERFORMANCE_DEGRADATION = "performance_degradation"
     SECURITY_BREACH = "security_breach"
@@ -54,6 +57,7 @@ class EmergencyType(Enum):
 
 class EmergencyPriority(Enum):
     """Emergency priority enumeration."""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -63,6 +67,7 @@ class EmergencyPriority(Enum):
 
 class InterventionType(Enum):
     """Intervention type enumeration."""
+
     AUTOMATIC = "automatic"
     MANUAL = "manual"
     ESCALATED = "escalated"
@@ -74,9 +79,11 @@ class InterventionType(Enum):
 # EMERGENCY MODELS
 # ============================================================================
 
+
 @dataclass
 class EmergencyInfo:
     """Emergency information model."""
+
     emergency_id: str
     emergency_type: EmergencyType
     status: EmergencyStatus
@@ -90,6 +97,7 @@ class EmergencyInfo:
 @dataclass
 class EmergencyAlert:
     """Emergency alert model."""
+
     alert_id: str
     emergency_id: str
     message: str
@@ -102,6 +110,7 @@ class EmergencyAlert:
 @dataclass
 class InterventionAction:
     """Intervention action model."""
+
     action_id: str
     emergency_id: str
     intervention_type: InterventionType
@@ -116,6 +125,7 @@ class InterventionAction:
 @dataclass
 class EmergencyMetrics:
     """Emergency metrics model."""
+
     total_emergencies: int = 0
     resolved_emergencies: int = 0
     active_emergencies: int = 0
@@ -126,6 +136,7 @@ class EmergencyMetrics:
 # ============================================================================
 # EMERGENCY INTERFACES
 # ============================================================================
+
 
 class EmergencyHandler(ABC):
     """Base emergency handler interface."""
@@ -181,14 +192,12 @@ class EmergencyMonitor(ABC):
 # EMERGENCY HANDLERS
 # ============================================================================
 
+
 class SystemFailureHandler(EmergencyHandler):
     """System failure emergency handler."""
 
     def __init__(self, handler_id: str = None):
-        super().__init__(
-            handler_id or str(uuid.uuid4()),
-            "SystemFailureHandler"
-        )
+        super().__init__(handler_id or str(uuid.uuid4()), "SystemFailureHandler")
 
     def can_handle(self, emergency: EmergencyInfo) -> bool:
         """Check if can handle system failure emergencies."""
@@ -202,7 +211,7 @@ class SystemFailureHandler(EmergencyHandler):
                 emergency_id=emergency.emergency_id,
                 intervention_type=InterventionType.AUTOMATIC,
                 description="Attempting system restart and recovery",
-                status=EmergencyStatus.WARNING
+                status=EmergencyStatus.WARNING,
             )
 
             # Implementation for system failure handling
@@ -229,10 +238,7 @@ class PerformanceDegradationHandler(EmergencyHandler):
     """Performance degradation emergency handler."""
 
     def __init__(self, handler_id: str = None):
-        super().__init__(
-            handler_id or str(uuid.uuid4()),
-            "PerformanceDegradationHandler"
-        )
+        super().__init__(handler_id or str(uuid.uuid4()), "PerformanceDegradationHandler")
 
     def can_handle(self, emergency: EmergencyInfo) -> bool:
         """Check if can handle performance degradation emergencies."""
@@ -246,7 +252,7 @@ class PerformanceDegradationHandler(EmergencyHandler):
                 emergency_id=emergency.emergency_id,
                 intervention_type=InterventionType.AUTOMATIC,
                 description="Optimizing system performance and resource allocation",
-                status=EmergencyStatus.WARNING
+                status=EmergencyStatus.WARNING,
             )
 
             # Implementation for performance degradation handling
@@ -273,10 +279,7 @@ class SecurityBreachHandler(EmergencyHandler):
     """Security breach emergency handler."""
 
     def __init__(self, handler_id: str = None):
-        super().__init__(
-            handler_id or str(uuid.uuid4()),
-            "SecurityBreachHandler"
-        )
+        super().__init__(handler_id or str(uuid.uuid4()), "SecurityBreachHandler")
 
     def can_handle(self, emergency: EmergencyInfo) -> bool:
         """Check if can handle security breach emergencies."""
@@ -290,7 +293,7 @@ class SecurityBreachHandler(EmergencyHandler):
                 emergency_id=emergency.emergency_id,
                 intervention_type=InterventionType.ESCALATED,
                 description="Implementing security measures and access restrictions",
-                status=EmergencyStatus.CRITICAL
+                status=EmergencyStatus.CRITICAL,
             )
 
             # Implementation for security breach handling
@@ -317,14 +320,12 @@ class SecurityBreachHandler(EmergencyHandler):
 # EMERGENCY MONITORS
 # ============================================================================
 
+
 class SystemHealthMonitor(EmergencyMonitor):
     """System health emergency monitor."""
 
     def __init__(self, monitor_id: str = None):
-        super().__init__(
-            monitor_id or str(uuid.uuid4()),
-            "SystemHealthMonitor"
-        )
+        super().__init__(monitor_id or str(uuid.uuid4()), "SystemHealthMonitor")
         self.monitoring_data: dict[str, Any] = {}
 
     def start_monitoring(self) -> bool:
@@ -363,7 +364,7 @@ class SystemHealthMonitor(EmergencyMonitor):
                     emergency_type=EmergencyType.PERFORMANCE_DEGRADATION,
                     status=EmergencyStatus.CRITICAL,
                     priority=EmergencyPriority.HIGH,
-                    description=f"High resource usage detected: CPU {cpu_usage}%, Memory {memory_usage}%"
+                    description=f"High resource usage detected: CPU {cpu_usage}%, Memory {memory_usage}%",
                 )
 
             return None
@@ -380,10 +381,7 @@ class SecurityMonitor(EmergencyMonitor):
     """Security emergency monitor."""
 
     def __init__(self, monitor_id: str = None):
-        super().__init__(
-            monitor_id or str(uuid.uuid4()),
-            "SecurityMonitor"
-        )
+        super().__init__(monitor_id or str(uuid.uuid4()), "SecurityMonitor")
         self.security_events: list[dict[str, Any]] = []
 
     def start_monitoring(self) -> bool:
@@ -413,7 +411,9 @@ class SecurityMonitor(EmergencyMonitor):
                 return None
 
             # Simulate security event detection
-            suspicious_events = [event for event in self.security_events if event.get("suspicious", False)]
+            suspicious_events = [
+                event for event in self.security_events if event.get("suspicious", False)
+            ]
 
             if len(suspicious_events) > 5:  # Threshold for security breach
                 return EmergencyInfo(
@@ -421,7 +421,7 @@ class SecurityMonitor(EmergencyMonitor):
                     emergency_type=EmergencyType.SECURITY_BREACH,
                     status=EmergencyStatus.EMERGENCY,
                     priority=EmergencyPriority.URGENT,
-                    description=f"Multiple suspicious security events detected: {len(suspicious_events)} events"
+                    description=f"Multiple suspicious security events detected: {len(suspicious_events)} events",
                 )
 
             return None
@@ -437,6 +437,7 @@ class SecurityMonitor(EmergencyMonitor):
 # ============================================================================
 # EMERGENCY ORCHESTRATOR
 # ============================================================================
+
 
 class EmergencyOrchestrator:
     """Emergency intervention orchestrator."""
@@ -538,7 +539,7 @@ class EmergencyOrchestrator:
             "total_emergencies": self.metrics.total_emergencies,
             "resolved_emergencies": self.metrics.resolved_emergencies,
             "handlers_registered": len(self.handlers),
-            "monitors_registered": len(self.monitors)
+            "monitors_registered": len(self.monitors),
         }
 
 
@@ -546,12 +547,13 @@ class EmergencyOrchestrator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_emergency_handler(handler_type: str, handler_id: str = None) -> EmergencyHandler | None:
     """Create emergency handler by type."""
     handlers = {
         "system_failure": SystemFailureHandler,
         "performance_degradation": PerformanceDegradationHandler,
-        "security_breach": SecurityBreachHandler
+        "security_breach": SecurityBreachHandler,
     }
 
     handler_class = handlers.get(handler_type)
@@ -563,10 +565,7 @@ def create_emergency_handler(handler_type: str, handler_id: str = None) -> Emerg
 
 def create_emergency_monitor(monitor_type: str, monitor_id: str = None) -> EmergencyMonitor | None:
     """Create emergency monitor by type."""
-    monitors = {
-        "system_health": SystemHealthMonitor,
-        "security": SecurityMonitor
-    }
+    monitors = {"system_health": SystemHealthMonitor, "security": SecurityMonitor}
 
     monitor_class = monitors.get(monitor_type)
     if monitor_class:
@@ -583,6 +582,7 @@ def create_emergency_orchestrator() -> EmergencyOrchestrator:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""

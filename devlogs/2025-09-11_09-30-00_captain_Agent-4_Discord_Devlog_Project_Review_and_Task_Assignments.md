@@ -155,10 +155,10 @@
 
 ## 📞 **CONTACT & COORDINATION**
 
-**Captain Agent-4 (Strategic Oversight & Emergency Intervention)**  
-**🐝 WE ARE SWARM Coordination Center**  
-**📧 Enhanced Messaging System Active**  
-**🚨 Emergency: Discord devlog notifications**  
+**Captain Agent-4 (Strategic Oversight & Emergency Intervention)**
+**🐝 WE ARE SWARM Coordination Center**
+**📧 Enhanced Messaging System Active**
+**🚨 Emergency: Discord devlog notifications**
 **⚡ Real-time: PyAutoGUI coordinate communication**
 
 ---

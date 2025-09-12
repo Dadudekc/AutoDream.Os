@@ -28,8 +28,10 @@ from typing import Any
 # ENVIRONMENT CONFIGURATION
 # ============================================================================
 
+
 class Environment(Enum):
     """Environment enumeration."""
+
     DEVELOPMENT = "development"
     STAGING = "staging"
     PRODUCTION = "production"
@@ -39,6 +41,7 @@ class Environment(Enum):
 @dataclass
 class EnvironmentConfig:
     """Environment configuration."""
+
     environment: Environment = Environment.DEVELOPMENT
     debug: bool = False
     log_level: str = "INFO"
@@ -50,11 +53,12 @@ class EnvironmentConfig:
     def validate(self) -> bool:
         """Validate environment configuration."""
         return (
-            self.environment in Environment and
-            self.log_level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] and
-            all(isinstance(path, str) and path for path in [
-                self.data_dir, self.log_dir, self.temp_dir, self.config_dir
-            ])
+            self.environment in Environment
+            and self.log_level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+            and all(
+                isinstance(path, str) and path
+                for path in [self.data_dir, self.log_dir, self.temp_dir, self.config_dir]
+            )
         )
 
 
@@ -62,8 +66,10 @@ class EnvironmentConfig:
 # AGENT CONFIGURATION
 # ============================================================================
 
+
 class AgentType(Enum):
     """Agent type enumeration."""
+
     ARCHITECTURE = "architecture"
     COORDINATION = "coordination"
     COMMUNICATION = "communication"
@@ -76,6 +82,7 @@ class AgentType(Enum):
 @dataclass
 class AgentConfig:
     """Agent configuration."""
+
     agent_id: str = "agent-2"
     agent_name: str = "Architecture & Design Specialist"
     agent_type: AgentType = AgentType.ARCHITECTURE
@@ -84,24 +91,27 @@ class AgentConfig:
     task_timeout: float = 300.0
     heartbeat_interval: float = 30.0
     status_report_interval: float = 60.0
-    capabilities: list[str] = field(default_factory=lambda: [
-        "analysis", "consolidation", "architecture", "design"
-    ])
+    capabilities: list[str] = field(
+        default_factory=lambda: ["analysis", "consolidation", "architecture", "design"]
+    )
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def validate(self) -> bool:
         """Validate agent configuration."""
         return (
-            bool(self.agent_id and self.agent_name) and
-            self.agent_type in AgentType and
-            all(value > 0 for value in [
-                self.max_concurrent_tasks,
-                self.task_timeout,
-                self.heartbeat_interval,
-                self.status_report_interval
-            ]) and
-            isinstance(self.capabilities, list) and
-            isinstance(self.metadata, dict)
+            bool(self.agent_id and self.agent_name)
+            and self.agent_type in AgentType
+            and all(
+                value > 0
+                for value in [
+                    self.max_concurrent_tasks,
+                    self.task_timeout,
+                    self.heartbeat_interval,
+                    self.status_report_interval,
+                ]
+            )
+            and isinstance(self.capabilities, list)
+            and isinstance(self.metadata, dict)
         )
 
 
@@ -109,9 +119,11 @@ class AgentConfig:
 # SYSTEM CONFIGURATION
 # ============================================================================
 
+
 @dataclass
 class SystemConfig:
     """System configuration."""
+
     system_name: str = "Core Unified System"
     system_version: str = "2.0.0"
     max_memory_usage: float = 0.8
@@ -126,19 +138,21 @@ class SystemConfig:
     def validate(self) -> bool:
         """Validate system configuration."""
         return (
-            bool(self.system_name) and
-            all(0 <= value <= 1 for value in [
-                self.max_memory_usage,
-                self.max_cpu_usage,
-                self.max_disk_usage
-            ]) and
-            all(value > 0 for value in [
-                self.health_check_interval,
-                self.metrics_collection_interval,
-                self.cleanup_interval,
-                self.backup_interval
-            ]) and
-            isinstance(self.metadata, dict)
+            bool(self.system_name)
+            and all(
+                0 <= value <= 1
+                for value in [self.max_memory_usage, self.max_cpu_usage, self.max_disk_usage]
+            )
+            and all(
+                value > 0
+                for value in [
+                    self.health_check_interval,
+                    self.metrics_collection_interval,
+                    self.cleanup_interval,
+                    self.backup_interval,
+                ]
+            )
+            and isinstance(self.metadata, dict)
         )
 
 
@@ -146,8 +160,10 @@ class SystemConfig:
 # VALIDATION CONFIGURATION
 # ============================================================================
 
+
 class ValidationLevel(Enum):
     """Validation level enumeration."""
+
     BASIC = "basic"
     STANDARD = "standard"
     STRICT = "strict"
@@ -156,6 +172,7 @@ class ValidationLevel(Enum):
 @dataclass
 class ValidationConfig:
     """Validation configuration."""
+
     validation_level: ValidationLevel = ValidationLevel.STANDARD
     enable_schema_validation: bool = True
     enable_type_validation: bool = True
@@ -168,14 +185,14 @@ class ValidationConfig:
     def validate(self) -> bool:
         """Validate validation configuration."""
         return (
-            self.validation_level in ValidationLevel and
-            isinstance(self.enable_schema_validation, bool) and
-            isinstance(self.enable_type_validation, bool) and
-            isinstance(self.enable_range_validation, bool) and
-            isinstance(self.enable_format_validation, bool) and
-            self.max_validation_errors > 0 and
-            self.validation_timeout > 0 and
-            isinstance(self.metadata, dict)
+            self.validation_level in ValidationLevel
+            and isinstance(self.enable_schema_validation, bool)
+            and isinstance(self.enable_type_validation, bool)
+            and isinstance(self.enable_range_validation, bool)
+            and isinstance(self.enable_format_validation, bool)
+            and self.max_validation_errors > 0
+            and self.validation_timeout > 0
+            and isinstance(self.metadata, dict)
         )
 
 
@@ -183,9 +200,11 @@ class ValidationConfig:
 # UNIFIED CONFIGURATION
 # ============================================================================
 
+
 @dataclass
 class UnifiedConfiguration:
     """Unified configuration system."""
+
     environment: EnvironmentConfig = field(default_factory=EnvironmentConfig)
     agent: AgentConfig = field(default_factory=AgentConfig)
     system: SystemConfig = field(default_factory=SystemConfig)
@@ -193,12 +212,14 @@ class UnifiedConfiguration:
 
     def validate(self) -> bool:
         """Validate unified configuration."""
-        return all([
-            self.environment.validate(),
-            self.agent.validate(),
-            self.system.validate(),
-            self.validation.validate()
-        ])
+        return all(
+            [
+                self.environment.validate(),
+                self.agent.validate(),
+                self.system.validate(),
+                self.validation.validate(),
+            ]
+        )
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
@@ -210,7 +231,7 @@ class UnifiedConfiguration:
                 "data_dir": self.environment.data_dir,
                 "log_dir": self.environment.log_dir,
                 "temp_dir": self.environment.temp_dir,
-                "config_dir": self.environment.config_dir
+                "config_dir": self.environment.config_dir,
             },
             "agent": {
                 "agent_id": self.agent.agent_id,
@@ -222,7 +243,7 @@ class UnifiedConfiguration:
                 "heartbeat_interval": self.agent.heartbeat_interval,
                 "status_report_interval": self.agent.status_report_interval,
                 "capabilities": self.agent.capabilities,
-                "metadata": self.agent.metadata
+                "metadata": self.agent.metadata,
             },
             "system": {
                 "system_name": self.system.system_name,
@@ -234,7 +255,7 @@ class UnifiedConfiguration:
                 "metrics_collection_interval": self.system.metrics_collection_interval,
                 "cleanup_interval": self.system.cleanup_interval,
                 "backup_interval": self.system.backup_interval,
-                "metadata": self.system.metadata
+                "metadata": self.system.metadata,
             },
             "validation": {
                 "validation_level": self.validation.validation_level.value,
@@ -244,8 +265,8 @@ class UnifiedConfiguration:
                 "enable_format_validation": self.validation.enable_format_validation,
                 "max_validation_errors": self.validation.max_validation_errors,
                 "validation_timeout": self.validation.validation_timeout,
-                "metadata": self.validation.metadata
-            }
+                "metadata": self.validation.metadata,
+            },
         }
 
     def save_to_file(self, file_path: str | Path) -> bool:
@@ -254,7 +275,7 @@ class UnifiedConfiguration:
             file_path = Path(file_path)
             file_path.parent.mkdir(parents=True, exist_ok=True)
 
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(self.to_dict(), f, indent=2, ensure_ascii=False)
 
             return True
@@ -269,7 +290,7 @@ class UnifiedConfiguration:
             if not file_path.exists():
                 return False
 
-            with open(file_path, encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 data = json.load(f)
 
             # Load environment config
@@ -282,7 +303,7 @@ class UnifiedConfiguration:
                     data_dir=env_data.get("data_dir", "data"),
                     log_dir=env_data.get("log_dir", "logs"),
                     temp_dir=env_data.get("temp_dir", "temp"),
-                    config_dir=env_data.get("config_dir", "config")
+                    config_dir=env_data.get("config_dir", "config"),
                 )
 
             # Load agent config
@@ -298,7 +319,7 @@ class UnifiedConfiguration:
                     heartbeat_interval=agent_data.get("heartbeat_interval", 30.0),
                     status_report_interval=agent_data.get("status_report_interval", 60.0),
                     capabilities=agent_data.get("capabilities", []),
-                    metadata=agent_data.get("metadata", {})
+                    metadata=agent_data.get("metadata", {}),
                 )
 
             # Load system config
@@ -311,24 +332,28 @@ class UnifiedConfiguration:
                     max_cpu_usage=system_data.get("max_cpu_usage", 0.8),
                     max_disk_usage=system_data.get("max_disk_usage", 0.9),
                     health_check_interval=system_data.get("health_check_interval", 60.0),
-                    metrics_collection_interval=system_data.get("metrics_collection_interval", 30.0),
+                    metrics_collection_interval=system_data.get(
+                        "metrics_collection_interval", 30.0
+                    ),
                     cleanup_interval=system_data.get("cleanup_interval", 300.0),
                     backup_interval=system_data.get("backup_interval", 3600.0),
-                    metadata=system_data.get("metadata", {})
+                    metadata=system_data.get("metadata", {}),
                 )
 
             # Load validation config
             if "validation" in data:
                 validation_data = data["validation"]
                 self.validation = ValidationConfig(
-                    validation_level=ValidationLevel(validation_data.get("validation_level", "standard")),
+                    validation_level=ValidationLevel(
+                        validation_data.get("validation_level", "standard")
+                    ),
                     enable_schema_validation=validation_data.get("enable_schema_validation", True),
                     enable_type_validation=validation_data.get("enable_type_validation", True),
                     enable_range_validation=validation_data.get("enable_range_validation", True),
                     enable_format_validation=validation_data.get("enable_format_validation", True),
                     max_validation_errors=validation_data.get("max_validation_errors", 100),
                     validation_timeout=validation_data.get("validation_timeout", 30.0),
-                    metadata=validation_data.get("metadata", {})
+                    metadata=validation_data.get("metadata", {}),
                 )
 
             return True
@@ -340,6 +365,7 @@ class UnifiedConfiguration:
 # ============================================================================
 # CONFIGURATION MANAGER
 # ============================================================================
+
 
 class ConfigurationManager:
     """Configuration manager for unified configuration system."""
@@ -393,7 +419,7 @@ class ConfigurationManager:
             "environment": self.config.environment.environment.value,
             "agent_id": self.config.agent.agent_id,
             "system_name": self.config.system.system_name,
-            "validation_level": self.config.validation.validation_level.value
+            "validation_level": self.config.validation.validation_level.value,
         }
 
 
@@ -401,50 +427,35 @@ class ConfigurationManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_environment_config(
-    environment: Environment = Environment.DEVELOPMENT,
-    debug: bool = False,
-    log_level: str = "INFO"
+    environment: Environment = Environment.DEVELOPMENT, debug: bool = False, log_level: str = "INFO"
 ) -> EnvironmentConfig:
     """Create environment configuration."""
-    return EnvironmentConfig(
-        environment=environment,
-        debug=debug,
-        log_level=log_level
-    )
+    return EnvironmentConfig(environment=environment, debug=debug, log_level=log_level)
 
 
 def create_agent_config(
     agent_id: str = "agent-2",
     agent_name: str = "Architecture & Design Specialist",
-    agent_type: AgentType = AgentType.ARCHITECTURE
+    agent_type: AgentType = AgentType.ARCHITECTURE,
 ) -> AgentConfig:
     """Create agent configuration."""
-    return AgentConfig(
-        agent_id=agent_id,
-        agent_name=agent_name,
-        agent_type=agent_type
-    )
+    return AgentConfig(agent_id=agent_id, agent_name=agent_name, agent_type=agent_type)
 
 
 def create_system_config(
-    system_name: str = "Core Unified System",
-    system_version: str = "2.0.0"
+    system_name: str = "Core Unified System", system_version: str = "2.0.0"
 ) -> SystemConfig:
     """Create system configuration."""
-    return SystemConfig(
-        system_name=system_name,
-        system_version=system_version
-    )
+    return SystemConfig(system_name=system_name, system_version=system_version)
 
 
 def create_validation_config(
-    validation_level: ValidationLevel = ValidationLevel.STANDARD
+    validation_level: ValidationLevel = ValidationLevel.STANDARD,
 ) -> ValidationConfig:
     """Create validation configuration."""
-    return ValidationConfig(
-        validation_level=validation_level
-    )
+    return ValidationConfig(validation_level=validation_level)
 
 
 def create_unified_configuration() -> UnifiedConfiguration:
@@ -453,7 +464,7 @@ def create_unified_configuration() -> UnifiedConfiguration:
 
 
 def create_configuration_manager(
-    config_file: str | Path = "config/unified_config.json"
+    config_file: str | Path = "config/unified_config.json",
 ) -> ConfigurationManager:
     """Create configuration manager."""
     return ConfigurationManager(config_file)
@@ -462,6 +473,7 @@ def create_configuration_manager(
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""

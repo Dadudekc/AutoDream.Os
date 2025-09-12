@@ -8,7 +8,7 @@ Staring at this **AutoDream OS** beast I've created - 8 autonomous agents scatte
  each occupying specific pixel coordinates in the Cursor IDE. The vision was **SWARM INTELLIGENCE** through physical automation
   - mouse cursors dancing between coordinates, agents coordinating through automated keyboard inputs.
 
-But damn... the breadth of it all hit me like a freight train. **WE ARE SWARM** isn't just a cool tagline - 
+But damn... the breadth of it all hit me like a freight train. **WE ARE SWARM** isn't just a cool tagline -
 it's a **production-grade multi-agent communication system** with:
 
 - **Unified messaging core** (currently refactoring to V2 compliance)
@@ -69,8 +69,8 @@ Now I just need to **bridge the remaining gaps** and make this thing sing.
 
 *#devlog #swarm #autodream #nosleep #softwareengineering*
 
-*Coffee cup count: 0*  
-*Lines of code reviewed: 2,847*  
-*Agents coordinated: 8*  
+*Coffee cup count: 0*
+*Lines of code reviewed: 2,847*
+*Agents coordinated: 8*
 *Hours awake: 18*
 *fell asleep before finishing...or posting*

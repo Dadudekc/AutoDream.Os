@@ -33,6 +33,7 @@ T = TypeVar("T")
 # SHARED UTILITIES (from shared_utilities.py)
 # ============================================================================
 
+
 class BaseUtility(ABC):
     """Base class for all shared utilities."""
 
@@ -260,6 +261,7 @@ class LoggingManager(BaseUtility):
 # UNIFIED CONFIGURATION (from unified_config.py)
 # ============================================================================
 
+
 @dataclass
 class TimeoutConfig:
     """Centralized timeout configurations."""
@@ -282,16 +284,19 @@ class TimeoutConfig:
 
     def validate(self) -> bool:
         """Validate timeout configuration."""
-        return all(value > 0 for value in [
-            self.scrape_timeout,
-            self.response_wait_timeout,
-            self.quality_check_interval,
-            self.metrics_collection_interval,
-            self.smoke_test_timeout,
-            self.unit_test_timeout,
-            self.integration_test_timeout,
-            self.performance_test_timeout
-        ])
+        return all(
+            value > 0
+            for value in [
+                self.scrape_timeout,
+                self.response_wait_timeout,
+                self.quality_check_interval,
+                self.metrics_collection_interval,
+                self.smoke_test_timeout,
+                self.unit_test_timeout,
+                self.integration_test_timeout,
+                self.performance_test_timeout,
+            ]
+        )
 
 
 @dataclass
@@ -312,13 +317,19 @@ class ThresholdConfig:
 
     def validate(self) -> bool:
         """Validate threshold configuration."""
-        return all(0 <= value <= 1 for value in [
-            self.min_success_rate,
-            self.max_error_rate,
-            self.min_coverage,
-            self.max_memory_usage,
-            self.max_cpu_usage
-        ]) and self.max_response_time > 0
+        return (
+            all(
+                0 <= value <= 1
+                for value in [
+                    self.min_success_rate,
+                    self.max_error_rate,
+                    self.min_coverage,
+                    self.max_memory_usage,
+                    self.max_cpu_usage,
+                ]
+            )
+            and self.max_response_time > 0
+        )
 
 
 @dataclass
@@ -340,12 +351,15 @@ class AgentConfig:
 
     def validate(self) -> bool:
         """Validate agent configuration."""
-        return all(value > 0 for value in [
-            self.max_concurrent_tasks,
-            self.task_timeout,
-            self.heartbeat_interval,
-            self.status_report_interval
-        ]) and bool(self.agent_id and self.agent_name)
+        return all(
+            value > 0
+            for value in [
+                self.max_concurrent_tasks,
+                self.task_timeout,
+                self.heartbeat_interval,
+                self.status_report_interval,
+            ]
+        ) and bool(self.agent_id and self.agent_name)
 
 
 @dataclass
@@ -368,9 +382,9 @@ class TestConfig:
     def validate(self) -> bool:
         """Validate test configuration."""
         return (
-            0 <= self.min_test_coverage <= 1 and
-            self.max_test_duration > 0 and
-            bool(self.test_data_dir and self.test_output_dir)
+            0 <= self.min_test_coverage <= 1
+            and self.max_test_duration > 0
+            and bool(self.test_data_dir and self.test_output_dir)
         )
 
 
@@ -391,14 +405,16 @@ class UnifiedConfig:
 
     def validate(self) -> bool:
         """Validate unified configuration."""
-        return all([
-            self.timeout.validate(),
-            self.threshold.validate(),
-            self.agent.validate(),
-            self.test.validate(),
-            self.environment in ["development", "staging", "production"],
-            self.log_level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-        ])
+        return all(
+            [
+                self.timeout.validate(),
+                self.threshold.validate(),
+                self.agent.validate(),
+                self.test.validate(),
+                self.environment in ["development", "staging", "production"],
+                self.log_level in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+            ]
+        )
 
     def get_config(self, key: str, default: Any = None) -> Any:
         """Get configuration value by key."""
@@ -435,6 +451,7 @@ class UnifiedConfig:
 # UNIFIED DATA PROCESSING (from unified_data_processing_system.py)
 # ============================================================================
 
+
 class DataProcessingEngine:
     """Unified data processing engine."""
 
@@ -456,15 +473,13 @@ class DataProcessingEngine:
 
     def get_status(self) -> dict:
         """Get processing engine status."""
-        return {
-            "processor_count": len(self.processors),
-            "config": self.config.__dict__
-        }
+        return {"processor_count": len(self.processors), "config": self.config.__dict__}
 
 
 # ============================================================================
 # UNIFIED IMPORT SYSTEM (from unified_import_system.py)
 # ============================================================================
+
 
 class ImportManager:
     """Unified import management system."""
@@ -482,20 +497,20 @@ class ImportManager:
         try:
             module = __import__(module_name)
             self.import_cache[module_name] = module
-            self.import_history.append({
-                "module": module_name,
-                "timestamp": datetime.now(),
-                "success": True
-            })
+            self.import_history.append(
+                {"module": module_name, "timestamp": datetime.now(), "success": True}
+            )
             return module
         except ImportError as e:
             self.logger.error(f"Failed to import {module_name}: {e}")
-            self.import_history.append({
-                "module": module_name,
-                "timestamp": datetime.now(),
-                "success": False,
-                "error": str(e)
-            })
+            self.import_history.append(
+                {
+                    "module": module_name,
+                    "timestamp": datetime.now(),
+                    "success": False,
+                    "error": str(e),
+                }
+            )
             return None
 
     def get_import_stats(self) -> dict:
@@ -506,13 +521,14 @@ class ImportManager:
             "total_imports": total_imports,
             "successful_imports": successful_imports,
             "success_rate": successful_imports / total_imports if total_imports > 0 else 0,
-            "cached_modules": len(self.import_cache)
+            "cached_modules": len(self.import_cache),
         }
 
 
 # ============================================================================
 # UNIFIED LOGGING SYSTEM (from unified_logging_system.py)
 # ============================================================================
+
 
 class LoggingSystem:
     """Unified logging system."""
@@ -530,11 +546,8 @@ class LoggingSystem:
         # Configure root logger
         logging.basicConfig(
             level=log_level,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.StreamHandler(sys.stdout),
-                logging.FileHandler('core_system.log')
-            ]
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            handlers=[logging.StreamHandler(sys.stdout), logging.FileHandler("core_system.log")],
         )
 
     def add_handler(self, handler):
@@ -551,13 +564,14 @@ class LoggingSystem:
         return {
             "log_level": self.config.log_level,
             "handlers": len(self.log_handlers),
-            "debug_mode": self.config.debug
+            "debug_mode": self.config.debug,
         }
 
 
 # ============================================================================
 # FACTORY FUNCTIONS
 # ============================================================================
+
 
 def create_cleanup_manager() -> CleanupManager:
     """Create a cleanup manager instance."""
@@ -622,6 +636,7 @@ def create_logging_system(config: UnifiedConfig = None) -> LoggingSystem:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""

@@ -10,9 +10,9 @@ from . import (
 )
 
 __all__ = [
-    'command_handler',
-    'contract_handler',
-    'coordinate_handler',
-    'onboarding_handler',
-    'utility_handler',
+    "command_handler",
+    "contract_handler",
+    "coordinate_handler",
+    "onboarding_handler",
+    "utility_handler",
 ]

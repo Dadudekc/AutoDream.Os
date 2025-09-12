@@ -48,7 +48,9 @@ class RecommendationEngine:
 
             # Search for similar contexts and solutions
             similar_contexts = self._search_similar_contexts(context)
-            recommendations = self._generate_recommendations_from_contexts(similar_contexts, context)
+            recommendations = self._generate_recommendations_from_contexts(
+                similar_contexts, context
+            )
 
             return recommendations
 
@@ -88,16 +90,14 @@ class RecommendationEngine:
     def _search_similar_contexts(self, context: str) -> list[Any]:
         """Search for similar contexts in vector database."""
         try:
-            query = SearchQuery(
-                query=context,
-                collection_name="agent_work",
-                limit=10
-            )
+            query = SearchQuery(query=context, collection_name="agent_work", limit=10)
             return search_vector_database(query)
         except Exception:
             return []
 
-    def _generate_recommendations_from_contexts(self, contexts: list[Any], original_context: str) -> list[dict[str, Any]]:
+    def _generate_recommendations_from_contexts(
+        self, contexts: list[Any], original_context: str
+    ) -> list[dict[str, Any]]:
         """Generate recommendations from similar contexts."""
         recommendations = []
 
@@ -107,38 +107,42 @@ class RecommendationEngine:
         # Extract common patterns and tags
         all_tags = []
         for context in contexts:
-            if hasattr(context, 'document') and context.document.tags:
+            if hasattr(context, "document") and context.document.tags:
                 all_tags.extend(context.document.tags)
 
         # Generate recommendations based on common patterns
         if all_tags:
             common_tags = Counter(all_tags).most_common(3)
             for tag, count in common_tags:
-                recommendations.append({
-                    "context": original_context,
-                    "recommendation": f"Consider using {tag} approach (used in {count} similar contexts)",
-                    "confidence": min(0.9, 0.5 + (count * 0.1)),
-                    "source": "vector_database",
-                    "type": "pattern_based"
-                })
+                recommendations.append(
+                    {
+                        "context": original_context,
+                        "recommendation": f"Consider using {tag} approach (used in {count} similar contexts)",
+                        "confidence": min(0.9, 0.5 + (count * 0.1)),
+                        "source": "vector_database",
+                        "type": "pattern_based",
+                    }
+                )
 
         # Add general recommendations
-        recommendations.extend([
-            {
-                "context": original_context,
-                "recommendation": "Review similar successful implementations",
-                "confidence": 0.8,
-                "source": "vector_database",
-                "type": "general"
-            },
-            {
-                "context": original_context,
-                "recommendation": "Consider best practices from historical data",
-                "confidence": 0.7,
-                "source": "vector_database",
-                "type": "best_practice"
-            }
-        ])
+        recommendations.extend(
+            [
+                {
+                    "context": original_context,
+                    "recommendation": "Review similar successful implementations",
+                    "confidence": 0.8,
+                    "source": "vector_database",
+                    "type": "general",
+                },
+                {
+                    "context": original_context,
+                    "recommendation": "Consider best practices from historical data",
+                    "confidence": 0.7,
+                    "source": "vector_database",
+                    "type": "best_practice",
+                },
+            ]
+        )
 
         return recommendations[:5]  # Limit to top 5 recommendations
 
@@ -150,7 +154,7 @@ class RecommendationEngine:
                 "recommendation": "Follow standard development practices",
                 "confidence": 0.6,
                 "source": "fallback",
-                "type": "general"
+                "type": "general",
             }
         ]
 
@@ -159,38 +163,44 @@ class RecommendationEngine:
         try:
             workflow_type = workflow_data.get("type", "general")
             query = SearchQuery(
-                query=f"workflow:{workflow_type}",
-                collection_name="workflow_patterns",
-                limit=20
+                query=f"workflow:{workflow_type}", collection_name="workflow_patterns", limit=20
             )
             return search_vector_database(query)
         except Exception:
             return []
 
-    def _generate_workflow_optimizations(self, patterns: list[Any], workflow_data: dict[str, Any]) -> list[dict[str, Any]]:
+    def _generate_workflow_optimizations(
+        self, patterns: list[Any], workflow_data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate workflow optimizations based on patterns."""
         optimizations = []
 
         if patterns:
-            optimizations.append({
-                "optimization_type": "task_prioritization",
-                "description": "Prioritize high-impact tasks first",
-                "estimated_improvement": "15%",
-                "confidence": 0.8
-            })
-            optimizations.append({
-                "optimization_type": "resource_allocation",
-                "description": "Optimize resource allocation based on historical patterns",
-                "estimated_improvement": "20%",
-                "confidence": 0.7
-            })
+            optimizations.append(
+                {
+                    "optimization_type": "task_prioritization",
+                    "description": "Prioritize high-impact tasks first",
+                    "estimated_improvement": "15%",
+                    "confidence": 0.8,
+                }
+            )
+            optimizations.append(
+                {
+                    "optimization_type": "resource_allocation",
+                    "description": "Optimize resource allocation based on historical patterns",
+                    "estimated_improvement": "20%",
+                    "confidence": 0.7,
+                }
+            )
         else:
-            optimizations.append({
-                "optimization_type": "general_optimization",
-                "description": "Apply general workflow optimization principles",
-                "estimated_improvement": "10%",
-                "confidence": 0.6
-            })
+            optimizations.append(
+                {
+                    "optimization_type": "general_optimization",
+                    "description": "Apply general workflow optimization principles",
+                    "estimated_improvement": "10%",
+                    "confidence": 0.6,
+                }
+            )
 
         return optimizations
 
@@ -198,12 +208,14 @@ class RecommendationEngine:
         """Get fallback optimization when vector DB is unavailable."""
         return {
             "workflow_id": workflow_data.get("workflow_id", "unknown"),
-            "optimizations": [{
-                "optimization_type": "basic_optimization",
-                "description": "Apply basic workflow optimization principles",
-                "estimated_improvement": "10%",
-                "confidence": 0.5
-            }],
+            "optimizations": [
+                {
+                    "optimization_type": "basic_optimization",
+                    "description": "Apply basic workflow optimization principles",
+                    "estimated_improvement": "10%",
+                    "confidence": 0.5,
+                }
+            ],
             "estimated_total_improvement": "10%",
             "confidence": 0.5,
         }

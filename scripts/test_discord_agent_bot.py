@@ -43,13 +43,21 @@ class DiscordAgentBotTester:
         print("=" * 40)
 
         test_commands = [
-            ("!prompt @Agent-4 Please analyze the current status", "prompt", ["Agent-4", "Please analyze the current status"]),
+            (
+                "!prompt @Agent-4 Please analyze the current status",
+                "prompt",
+                ["Agent-4", "Please analyze the current status"],
+            ),
             ("!status @Agent-1", "status", ["Agent-1"]),
-            ("!swarm Emergency test coverage mission", "swarm", ["Emergency test coverage mission"]),
+            (
+                "!swarm Emergency test coverage mission",
+                "swarm",
+                ["Emergency test coverage mission"],
+            ),
             ("!agents", "agents", []),
             ("!help", "help", []),
             ("!ping", "ping", []),
-            ("invalid command", "unknown", [])
+            ("invalid command", "unknown", []),
         ]
 
         passed = 0
@@ -74,7 +82,16 @@ class DiscordAgentBotTester:
         print("\n🧪 Testing Agent Validation")
         print("=" * 40)
 
-        valid_agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4", "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+        valid_agents = [
+            "Agent-1",
+            "Agent-2",
+            "Agent-3",
+            "Agent-4",
+            "Agent-5",
+            "Agent-6",
+            "Agent-7",
+            "Agent-8",
+        ]
         invalid_agents = ["Agent-9", "agent-1", "Agent-0", "Agent-10", "Bob", "Alice"]
 
         passed = 0
@@ -187,7 +204,7 @@ class DiscordAgentBotTester:
             ("Agent Validation", test2),
             ("Agent Listing", test3),
             ("Config Loading", test4),
-            ("Agent Communication", test5)
+            ("Agent Communication", test5),
         ]
 
         passed = 0

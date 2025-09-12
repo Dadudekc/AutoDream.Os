@@ -26,5 +26,5 @@ warnings.warn(
     "Use core.config_core instead (Single Source of Truth). "
     "Update your imports: from ..core.config_core import ...",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )

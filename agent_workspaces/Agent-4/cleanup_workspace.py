@@ -7,10 +7,9 @@ Automatically organizes and cleans up Agent-4's workspace inbox.
 Moves files to appropriate archive folders based on content and naming patterns.
 """
 
-import os
 import shutil
 from pathlib import Path
-from datetime import datetime
+
 
 class WorkspaceCleanup:
     """Clean up and organize Agent-4's workspace."""
@@ -22,14 +21,14 @@ class WorkspaceCleanup:
 
         # Create archive subdirectories if they don't exist
         self.archive_dirs = {
-            'acknowledgments': self.archive_path / 'acknowledgments',
-            'progress_reports': self.archive_path / 'progress_reports',
-            'consolidation': self.archive_path / 'consolidation',
-            'agent_communications': self.archive_path / 'agent_communications',
-            'duplicate_reports': self.archive_path / 'duplicate_reports',
-            'mission_reports': self.archive_path / 'mission_reports',
-            'system_reports': self.archive_path / 'system_reports',
-            'processed': self.archive_path / 'processed'
+            "acknowledgments": self.archive_path / "acknowledgments",
+            "progress_reports": self.archive_path / "progress_reports",
+            "consolidation": self.archive_path / "consolidation",
+            "agent_communications": self.archive_path / "agent_communications",
+            "duplicate_reports": self.archive_path / "duplicate_reports",
+            "mission_reports": self.archive_path / "mission_reports",
+            "system_reports": self.archive_path / "system_reports",
+            "processed": self.archive_path / "processed",
         }
 
         for dir_path in self.archive_dirs.values():
@@ -40,33 +39,37 @@ class WorkspaceCleanup:
         name_lower = filename.lower()
 
         # Agent communications
-        if 'co_captain_message' in name_lower:
-            return 'agent_communications'
-        if 'agent_' in name_lower and ('ack' in name_lower or 'acknowledgment' in name_lower):
-            return 'agent_communications'
+        if "co_captain_message" in name_lower:
+            return "agent_communications"
+        if "agent_" in name_lower and ("ack" in name_lower or "acknowledgment" in name_lower):
+            return "agent_communications"
 
         # Duplicate reports
-        if 'duplicate' in name_lower and 'agent_8' in name_lower:
-            return 'duplicate_reports'
+        if "duplicate" in name_lower and "agent_8" in name_lower:
+            return "duplicate_reports"
 
         # Progress reports
-        if 'progress_report' in name_lower or 'hourly' in name_lower:
-            return 'progress_reports'
+        if "progress_report" in name_lower or "hourly" in name_lower:
+            return "progress_reports"
 
         # Acknowledgments
-        if any(keyword in name_lower for keyword in ['acknowledgment', 'ack', 'confirmed', 'responded']):
-            return 'acknowledgments'
+        if any(
+            keyword in name_lower for keyword in ["acknowledgment", "ack", "confirmed", "responded"]
+        ):
+            return "acknowledgments"
 
         # Consolidation
-        if any(keyword in name_lower for keyword in ['consolidation', 'assignment', 'mission']):
-            return 'consolidation'
+        if any(keyword in name_lower for keyword in ["consolidation", "assignment", "mission"]):
+            return "consolidation"
 
         # System reports
-        if any(keyword in name_lower for keyword in ['system', 'activation', 'pytest', 'emergency']):
-            return 'system_reports'
+        if any(
+            keyword in name_lower for keyword in ["system", "activation", "pytest", "emergency"]
+        ):
+            return "system_reports"
 
         # Default to processed
-        return 'processed'
+        return "processed"
 
     def move_file(self, file_path, category):
         """Move a file to the appropriate archive category."""
@@ -111,7 +114,7 @@ class WorkspaceCleanup:
         print("\n📂 Archive Organization:")
         for category, dir_path in self.archive_dirs.items():
             if dir_path.exists():
-                file_count = len(list(dir_path.glob('*')))
+                file_count = len(list(dir_path.glob("*")))
                 if file_count > 0:
                     print(f"   {category}: {file_count} files")
 
@@ -121,15 +124,16 @@ class WorkspaceCleanup:
         print(f"📂 Workspace: {self.workspace_path.name}")
 
         # Count files in inbox
-        inbox_files = list(self.inbox_path.glob('*')) if self.inbox_path.exists() else []
+        inbox_files = list(self.inbox_path.glob("*")) if self.inbox_path.exists() else []
         print(f"📬 Inbox: {len(inbox_files)} files")
 
         # Count files in each archive category
         for category, dir_path in self.archive_dirs.items():
             if dir_path.exists():
-                file_count = len(list(dir_path.glob('*')))
+                file_count = len(list(dir_path.glob("*")))
                 if file_count > 0:
                     print(f"📁 {category}: {file_count} files")
+
 
 def main():
     """Main cleanup function."""
@@ -142,6 +146,7 @@ def main():
 
     print("\n🎉 Agent-4 workspace cleanup complete!")
     print("💡 Workspace is now organized and ready for new messages!")
+
 
 if __name__ == "__main__":
     main()

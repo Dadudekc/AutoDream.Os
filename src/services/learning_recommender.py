@@ -42,18 +42,38 @@ class LearningRecommender:
                 "knowledge_expansion",
                 "process_improvement",
                 "tool_mastery",
-                "collaboration_skills"
+                "collaboration_skills",
             ],
-            "priority_weights": {
-                "high": 1.0,
-                "medium": 0.7,
-                "low": 0.4
-            },
+            "priority_weights": {"high": 1.0, "medium": 0.7, "low": 0.4},
             "max_recommendations": 5,
-            "min_confidence": 0.6
+            "min_confidence": 0.6,
         }
 
-        # TODO: Load from config file if provided
+        # Load from config file if provided
+        if config_path:
+            try:
+                import json
+                from pathlib import Path
+
+                config_file = Path(config_path)
+                if config_file.exists() and config_file.is_file():
+                    with open(config_file, encoding="utf-8") as f:
+                        file_config = json.load(f)
+
+                    # Merge file config with defaults (file config takes precedence)
+                    merged_config = default_config.copy()
+                    merged_config.update(file_config)
+
+                    self.logger.info(f"Loaded learning recommender config from: {config_path}")
+                    return merged_config
+                else:
+                    self.logger.warning(f"Config file not found: {config_path}")
+            except json.JSONDecodeError as e:
+                self.logger.error(f"Invalid JSON in config file {config_path}: {e}")
+            except Exception as e:
+                self.logger.error(f"Error loading config from {config_path}: {e}")
+
+        # Return default config if no file provided or loading failed
         return default_config
 
     def get_learning_recommendations(self) -> list[dict[str, Any]]:
@@ -67,7 +87,7 @@ class LearningRecommender:
             skill_gaps = self._identify_skill_gaps(work_patterns)
             recommendations = self._generate_learning_recommendations(skill_gaps)
 
-            return recommendations[:self.config["max_recommendations"]]
+            return recommendations[: self.config["max_recommendations"]]
 
         except Exception as e:
             self.logger.error(f"Error getting learning recommendations: {e}")
@@ -78,9 +98,7 @@ class LearningRecommender:
         try:
             # Search for agent's recent work
             query = SearchQuery(
-                query=f"agent:{self.agent_id}",
-                collection_name="agent_work",
-                limit=50
+                query=f"agent:{self.agent_id}", collection_name="agent_work", limit=50
             )
             work_results = search_vector_database(query)
 
@@ -88,7 +106,7 @@ class LearningRecommender:
             work_types = []
             technologies = []
             for result in work_results:
-                if hasattr(result, 'document'):
+                if hasattr(result, "document"):
                     work_types.append(result.document.document_type.value)
                     if result.document.tags:
                         technologies.extend(result.document.tags)
@@ -96,7 +114,7 @@ class LearningRecommender:
             return {
                 "work_types": work_types,
                 "technologies": technologies,
-                "total_work_items": len(work_results)
+                "total_work_items": len(work_results),
             }
         except Exception as e:
             self.logger.error(f"Error analyzing work patterns: {e}")
@@ -130,32 +148,38 @@ class LearningRecommender:
         # Generate recommendations for identified gaps
         for gap in skill_gaps:
             if gap == "python":
-                recommendations.append({
-                    "recommendation_id": f"learn_python_{self.agent_id}",
-                    "type": "skill_development",
-                    "title": "Advanced Python Programming",
-                    "description": "Enhance Python skills for better code quality and efficiency",
-                    "priority": "high",
-                    "confidence": 0.9
-                })
+                recommendations.append(
+                    {
+                        "recommendation_id": f"learn_python_{self.agent_id}",
+                        "type": "skill_development",
+                        "title": "Advanced Python Programming",
+                        "description": "Enhance Python skills for better code quality and efficiency",
+                        "priority": "high",
+                        "confidence": 0.9,
+                    }
+                )
             elif gap == "vector_database":
-                recommendations.append({
-                    "recommendation_id": f"learn_vector_db_{self.agent_id}",
-                    "type": "knowledge_expansion",
-                    "title": "Vector Database Mastery",
-                    "description": "Learn advanced vector database techniques for better context retrieval",
-                    "priority": "high",
-                    "confidence": 0.8
-                })
+                recommendations.append(
+                    {
+                        "recommendation_id": f"learn_vector_db_{self.agent_id}",
+                        "type": "knowledge_expansion",
+                        "title": "Vector Database Mastery",
+                        "description": "Learn advanced vector database techniques for better context retrieval",
+                        "priority": "high",
+                        "confidence": 0.8,
+                    }
+                )
             elif gap == "coordination":
-                recommendations.append({
-                    "recommendation_id": f"learn_coordination_{self.agent_id}",
-                    "type": "collaboration_skills",
-                    "title": "Advanced Coordination Techniques",
-                    "description": "Learn advanced coordination patterns for better swarm performance",
-                    "priority": "medium",
-                    "confidence": 0.7
-                })
+                recommendations.append(
+                    {
+                        "recommendation_id": f"learn_coordination_{self.agent_id}",
+                        "type": "collaboration_skills",
+                        "title": "Advanced Coordination Techniques",
+                        "description": "Learn advanced coordination patterns for better swarm performance",
+                        "priority": "medium",
+                        "confidence": 0.7,
+                    }
+                )
 
         # Add general recommendations if no specific gaps
         if not recommendations:
@@ -172,7 +196,7 @@ class LearningRecommender:
                 "title": "General Skill Development",
                 "description": "Focus on improving core development skills",
                 "priority": "medium",
-                "confidence": 0.6
+                "confidence": 0.6,
             },
             {
                 "recommendation_id": f"learn_general_2_{self.agent_id}",
@@ -180,6 +204,6 @@ class LearningRecommender:
                 "title": "System Architecture",
                 "description": "Learn advanced system architecture patterns",
                 "priority": "medium",
-                "confidence": 0.6
-            }
+                "confidence": 0.6,
+            },
         ]

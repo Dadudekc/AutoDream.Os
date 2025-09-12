@@ -9,8 +9,8 @@ from typing import Any
 from . import fsm_config
 
 __all__ = [
-    'fsm_config',
-    'get_config',
+    "fsm_config",
+    "get_config",
 ]
 
 
@@ -29,9 +29,9 @@ def get_config(key: str | None = None, default: Any | None = None, path: str | N
             candidate_paths.append(Path(path))
         candidate_paths.extend(
             [
-                Path('config/production.yaml'),
-                Path('config/messaging.yml'),
-                Path('config/devlog_config.json'),
+                Path("config/production.yaml"),
+                Path("config/messaging.yml"),
+                Path("config/devlog_config.json"),
             ]
         )
 
@@ -39,10 +39,11 @@ def get_config(key: str | None = None, default: Any | None = None, path: str | N
         for p in candidate_paths:
             if not p.exists():
                 continue
-            text = p.read_text(encoding='utf-8')
+            text = p.read_text(encoding="utf-8")
             # Try YAML
             try:
                 import yaml  # type: ignore
+
                 loaded = yaml.safe_load(text)
                 if isinstance(loaded, dict):
                     merged.update(loaded)
@@ -52,6 +53,7 @@ def get_config(key: str | None = None, default: Any | None = None, path: str | N
             # Try JSON
             try:
                 import json
+
                 loaded = json.loads(text)
                 if isinstance(loaded, dict):
                     merged.update(loaded)
@@ -63,6 +65,7 @@ def get_config(key: str | None = None, default: Any | None = None, path: str | N
 
         # Env override (prefix ACV2_)
         import os
+
         env_key = f"ACV2_{key}"
         if env_key in os.environ:
             return os.environ[env_key]

@@ -4,5 +4,5 @@
 from . import legacy_adapter
 
 __all__ = [
-    'legacy_adapter',
+    "legacy_adapter",
 ]

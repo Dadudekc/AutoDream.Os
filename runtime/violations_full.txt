@@ -183,4 +183,3 @@ FILE src\services\handlers\contract_handler.py:
 
 FILE src\services\handlers\coordinate_handler.py:
   MAJOR Line 102: Found 7 print() statement(s) - use logging instead
-

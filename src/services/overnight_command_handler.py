@@ -19,13 +19,13 @@ from typing import Any
 class OvernightCommandHandler:
     """Handles overnight autonomous operations."""
 
-    def can_handle(self, args: Any) ->bool:
+    def can_handle(self, args: Any) -> bool:
         """Check if this handler can handle the given arguments."""
-        return hasattr(args, 'overnight') and args.overnight
+        return hasattr(args, "overnight") and args.overnight
 
-    def handle(self, args: Any) ->bool:
+    def handle(self, args: Any) -> bool:
         """Handle overnight operations."""
-        logger.info('🌙 Starting overnight autonomous work cycle...')
-        logger.info('This feature is currently under development.')
-        logger.info('Use messaging CLI commands for individual operations.')
+        logger.info("🌙 Starting overnight autonomous work cycle...")
+        logger.info("This feature is currently under development.")
+        logger.info("Use messaging CLI commands for individual operations.")
         return True

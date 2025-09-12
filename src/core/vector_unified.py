@@ -33,8 +33,10 @@ import numpy as np
 # VECTOR ENUMS AND MODELS
 # ============================================================================
 
+
 class VectorStatus(Enum):
     """Vector status enumeration."""
+
     INITIALIZING = "initializing"
     RUNNING = "running"
     PAUSED = "paused"
@@ -45,6 +47,7 @@ class VectorStatus(Enum):
 
 class VectorType(Enum):
     """Vector type enumeration."""
+
     DENSE = "dense"
     SPARSE = "sparse"
     BINARY = "binary"
@@ -53,6 +56,7 @@ class VectorType(Enum):
 
 class VectorOperation(Enum):
     """Vector operation enumeration."""
+
     SIMILARITY = "similarity"
     DISTANCE = "distance"
     CLUSTERING = "clustering"
@@ -63,6 +67,7 @@ class VectorOperation(Enum):
 
 class VectorMetric(Enum):
     """Vector metric enumeration."""
+
     COSINE = "cosine"
     EUCLIDEAN = "euclidean"
     MANHATTAN = "manhattan"
@@ -74,9 +79,11 @@ class VectorMetric(Enum):
 # VECTOR MODELS
 # ============================================================================
 
+
 @dataclass
 class VectorInfo:
     """Vector information model."""
+
     vector_id: str
     name: str
     vector_type: VectorType
@@ -90,6 +97,7 @@ class VectorInfo:
 @dataclass
 class VectorData:
     """Vector data model."""
+
     vector_id: str
     data: np.ndarray
     vector_type: VectorType
@@ -100,6 +108,7 @@ class VectorData:
 @dataclass
 class VectorSearchResult:
     """Vector search result model."""
+
     result_id: str
     vector_id: str
     similarity_score: float
@@ -111,6 +120,7 @@ class VectorSearchResult:
 @dataclass
 class VectorAnalyticsResult:
     """Vector analytics result model."""
+
     result_id: str
     operation: VectorOperation
     result_data: Any
@@ -123,6 +133,7 @@ class VectorAnalyticsResult:
 @dataclass
 class VectorMetrics:
     """Vector metrics model."""
+
     vector_id: str
     total_vectors: int = 0
     total_operations: int = 0
@@ -133,6 +144,7 @@ class VectorMetrics:
 # ============================================================================
 # VECTOR INTERFACES
 # ============================================================================
+
 
 class VectorEngine(ABC):
     """Base vector engine interface."""
@@ -175,11 +187,7 @@ class VectorDatabaseEngine(VectorEngine):
     """Vector database engine implementation."""
 
     def __init__(self, vector_id: str = None):
-        super().__init__(
-            vector_id or str(uuid.uuid4()),
-            "VectorDatabaseEngine",
-            VectorType.DENSE
-        )
+        super().__init__(vector_id or str(uuid.uuid4()), "VectorDatabaseEngine", VectorType.DENSE)
         self.vectors: dict[str, VectorData] = {}
         self.index: dict[str, np.ndarray] = {}
 
@@ -231,7 +239,7 @@ class VectorDatabaseEngine(VectorEngine):
                     vector_id=vector_id,
                     similarity_score=similarity,
                     distance=distance,
-                    metadata=vector_data.metadata
+                    metadata=vector_data.metadata,
                 )
                 results.append(result)
 
@@ -266,11 +274,7 @@ class VectorAnalyticsEngine(VectorEngine):
     """Vector analytics engine implementation."""
 
     def __init__(self, vector_id: str = None):
-        super().__init__(
-            vector_id or str(uuid.uuid4()),
-            "VectorAnalyticsEngine",
-            VectorType.DENSE
-        )
+        super().__init__(vector_id or str(uuid.uuid4()), "VectorAnalyticsEngine", VectorType.DENSE)
         self.analytics_data: dict[str, Any] = {}
 
     def start(self) -> bool:
@@ -320,7 +324,7 @@ class VectorAnalyticsEngine(VectorEngine):
                     vector_id=vector_id,
                     similarity_score=similarity,
                     distance=distance,
-                    metadata=vector_data.metadata
+                    metadata=vector_data.metadata,
                 )
                 results.append(result)
 
@@ -346,7 +350,9 @@ class VectorAnalyticsEngine(VectorEngine):
             self.logger.error(f"Failed to calculate euclidean similarity: {e}")
             return 0.0
 
-    def perform_clustering(self, vectors: list[VectorData], n_clusters: int = 3) -> VectorAnalyticsResult:
+    def perform_clustering(
+        self, vectors: list[VectorData], n_clusters: int = 3
+    ) -> VectorAnalyticsResult:
         """Perform vector clustering."""
         try:
             start_time = datetime.now()
@@ -365,7 +371,7 @@ class VectorAnalyticsEngine(VectorEngine):
             clusters = {}
             for i, vector in enumerate(vectors):
                 closest_centroid = 0
-                min_distance = float('inf')
+                min_distance = float("inf")
 
                 for j, centroid in enumerate(centroids):
                     distance = np.linalg.norm(vector.data - centroid)
@@ -385,10 +391,10 @@ class VectorAnalyticsEngine(VectorEngine):
                 result_data={
                     "n_clusters": n_clusters,
                     "clusters": clusters,
-                    "total_vectors": len(vectors)
+                    "total_vectors": len(vectors),
                 },
                 confidence=0.85,
-                processing_time=processing_time
+                processing_time=processing_time,
             )
 
             self.metrics.total_operations += 1
@@ -400,7 +406,7 @@ class VectorAnalyticsEngine(VectorEngine):
                 operation=VectorOperation.CLUSTERING,
                 result_data={"error": str(e)},
                 confidence=0.0,
-                processing_time=0.0
+                processing_time=0.0,
             )
 
 
@@ -409,9 +415,7 @@ class VectorIntegrationEngine(VectorEngine):
 
     def __init__(self, vector_id: str = None):
         super().__init__(
-            vector_id or str(uuid.uuid4()),
-            "VectorIntegrationEngine",
-            VectorType.DENSE
+            vector_id or str(uuid.uuid4()), "VectorIntegrationEngine", VectorType.DENSE
         )
         self.integration_data: dict[str, Any] = {}
 
@@ -462,7 +466,7 @@ class VectorIntegrationEngine(VectorEngine):
                     vector_id=vector_id,
                     similarity_score=similarity,
                     distance=distance,
-                    metadata=vector_data.metadata
+                    metadata=vector_data.metadata,
                 )
                 results.append(result)
 
@@ -498,6 +502,7 @@ class VectorIntegrationEngine(VectorEngine):
 # VECTOR COORDINATION
 # ============================================================================
 
+
 class VectorCoordinator:
     """Vector coordination system."""
 
@@ -531,7 +536,9 @@ class VectorCoordinator:
                 success = False
         return success
 
-    def search_all_engines(self, query_vector: np.ndarray, top_k: int = 10) -> list[VectorSearchResult]:
+    def search_all_engines(
+        self, query_vector: np.ndarray, top_k: int = 10
+    ) -> list[VectorSearchResult]:
         """Search across all engines."""
         all_results = []
 
@@ -551,12 +558,13 @@ class VectorCoordinator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_vector_engine(engine_type: str, vector_id: str = None) -> VectorEngine | None:
     """Create vector engine by type."""
     engines = {
         "database": VectorDatabaseEngine,
         "analytics": VectorAnalyticsEngine,
-        "integration": VectorIntegrationEngine
+        "integration": VectorIntegrationEngine,
     }
 
     engine_class = engines.get(engine_type)
@@ -574,6 +582,7 @@ def create_vector_coordinator() -> VectorCoordinator:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -605,7 +614,7 @@ def main():
         vector_id="test_vector_001",
         data=np.array([1.0, 2.0, 3.0, 4.0, 5.0]),
         vector_type=VectorType.DENSE,
-        metadata={"test": True}
+        metadata={"test": True},
     )
 
     # Add test vector to all engines

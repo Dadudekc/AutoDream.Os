@@ -21,6 +21,7 @@ import pytest
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
+
 class CoverageReporter:
     """Comprehensive test coverage reporting system."""
 
@@ -32,28 +33,32 @@ class CoverageReporter:
 
     def generate_coverage_report(self, coverage_data: dict[str, Any]) -> str:
         """Generate comprehensive coverage report."""
-        report_path = self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+        report_path = (
+            self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+        )
 
         report = {
             "timestamp": self.timestamp.isoformat(),
             "coverage": coverage_data,
             "summary": self._calculate_summary(coverage_data),
             "agent_breakdown": self._calculate_agent_breakdown(coverage_data),
-            "recommendations": self._generate_recommendations(coverage_data)
+            "recommendations": self._generate_recommendations(coverage_data),
         }
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(report, f, indent=2, default=str)
 
         return str(report_path)
 
     def generate_html_report(self, coverage_data: dict[str, Any]) -> str:
         """Generate HTML coverage report."""
-        html_path = self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.html"
+        html_path = (
+            self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.html"
+        )
 
         html_content = self._create_html_report(coverage_data)
 
-        with open(html_path, 'w') as f:
+        with open(html_path, "w") as f:
             f.write(html_content)
 
         return str(html_path)
@@ -64,7 +69,7 @@ class CoverageReporter:
 
         if test_results:
             fieldnames = test_results[0].keys()
-            with open(csv_path, 'w', newline='') as f:
+            with open(csv_path, "w", newline="") as f:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()
                 writer.writerows(test_results)
@@ -78,7 +83,7 @@ class CoverageReporter:
             "lines_covered": coverage_data.get("totals", {}).get("num_covered", 0),
             "lines_total": coverage_data.get("totals", {}).get("num_statements", 0),
             "files_covered": len(coverage_data.get("files", {})),
-            "target_achieved": coverage_data.get("totals", {}).get("percent_covered", 0) >= 85
+            "target_achieved": coverage_data.get("totals", {}).get("percent_covered", 0) >= 85,
         }
 
     def _calculate_agent_breakdown(self, coverage_data: dict[str, Any]) -> dict[str, Any]:
@@ -103,26 +108,39 @@ class CoverageReporter:
                 agent_coverage["agent1"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["architecture", "design", "pattern"]):
                 agent_coverage["agent2"]["files"].append(file_path)
-            elif any(keyword in file_path_str for keyword in ["infrastructure", "config", "deployment"]):
+            elif any(
+                keyword in file_path_str for keyword in ["infrastructure", "config", "deployment"]
+            ):
                 agent_coverage["agent3"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["quality", "test", "validation"]):
                 agent_coverage["agent4"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["business", "intelligence", "data"]):
                 agent_coverage["agent5"]["files"].append(file_path)
-            elif any(keyword in file_path_str for keyword in ["coordination", "communication", "pyautogui"]):
+            elif any(
+                keyword in file_path_str
+                for keyword in ["coordination", "communication", "pyautogui"]
+            ):
                 agent_coverage["agent6"]["files"].append(file_path)
             elif any(keyword in file_path_str for keyword in ["web", "js", "frontend"]):
                 agent_coverage["agent7"]["files"].append(file_path)
-            elif any(keyword in file_path_str for keyword in ["operations", "monitoring", "support"]):
+            elif any(
+                keyword in file_path_str for keyword in ["operations", "monitoring", "support"]
+            ):
                 agent_coverage["agent8"]["files"].append(file_path)
 
         # Calculate coverage percentages for each agent
         for agent, data in agent_coverage.items():
             if data["files"]:
-                total_lines = sum(files[file].get("summary", {}).get("num_statements", 0)
-                                for file in data["files"] if file in files)
-                covered_lines = sum(files[file].get("summary", {}).get("num_covered", 0)
-                                  for file in data["files"] if file in files)
+                total_lines = sum(
+                    files[file].get("summary", {}).get("num_statements", 0)
+                    for file in data["files"]
+                    if file in files
+                )
+                covered_lines = sum(
+                    files[file].get("summary", {}).get("num_covered", 0)
+                    for file in data["files"]
+                    if file in files
+                )
 
                 if total_lines > 0:
                     data["coverage"] = (covered_lines / total_lines) * 100
@@ -137,19 +155,24 @@ class CoverageReporter:
 
         # Overall coverage recommendations
         if summary["total_coverage"] < 85:
-            recommendations.append(f"Overall coverage is {summary['total_coverage']:.1f}%. "
-                                 "Need additional tests to reach 85% target.")
+            recommendations.append(
+                f"Overall coverage is {summary['total_coverage']:.1f}%. "
+                "Need additional tests to reach 85% target."
+            )
 
         # Agent-specific recommendations
         for agent, data in agent_breakdown.items():
             if data["coverage"] < 80 and data["files"]:
-                recommendations.append(f"{agent.upper()}: Coverage is {data['coverage']:.1f}% "
-                                     f"for {len(data['files'])} files. Additional tests needed.")
+                recommendations.append(
+                    f"{agent.upper()}: Coverage is {data['coverage']:.1f}% "
+                    f"for {len(data['files'])} files. Additional tests needed."
+                )
 
         # File-specific recommendations
         files = coverage_data.get("files", {})
         low_coverage_files = [
-            file_path for file_path, file_data in files.items()
+            file_path
+            for file_path, file_data in files.items()
             if file_data.get("summary", {}).get("percent_covered", 100) < 70
         ]
 
@@ -184,19 +207,19 @@ class CoverageReporter:
         <body>
             <div class="header">
                 <h1>V2_SWARM Test Coverage Report</h1>
-                <p>Generated: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S')}</p>
+                <p>Generated: {self.timestamp.strftime("%Y-%m-%d %H:%M:%S")}</p>
             </div>
 
             <div class="summary">
                 <h2>Coverage Summary</h2>
                 <p><strong>Total Coverage:</strong>
-                    <span class="{'status-good' if summary['target_achieved'] else 'status-bad'}">
-                        {summary['total_coverage']:.1f}%
+                    <span class="{"status-good" if summary["target_achieved"] else "status-bad"}">
+                        {summary["total_coverage"]:.1f}%
                     </span>
                 </p>
-                <p><strong>Lines Covered:</strong> {summary['lines_covered']:,} / {summary['lines_total']:,}</p>
-                <p><strong>Files Covered:</strong> {summary['files_covered']}</p>
-                <p><strong>85% Target:</strong> {'✅ Achieved' if summary['target_achieved'] else '❌ Not Achieved'}</p>
+                <p><strong>Lines Covered:</strong> {summary["lines_covered"]:,} / {summary["lines_total"]:,}</p>
+                <p><strong>Files Covered:</strong> {summary["files_covered"]}</p>
+                <p><strong>85% Target:</strong> {"✅ Achieved" if summary["target_achieved"] else "❌ Not Achieved"}</p>
             </div>
 
             <h2>Agent Coverage Breakdown</h2>
@@ -218,23 +241,25 @@ class CoverageReporter:
             "agent5": "Business Intelligence",
             "agent6": "Coordination & Communication",
             "agent7": "Web Development",
-            "agent8": "Operations & Support"
+            "agent8": "Operations & Support",
         }
 
         for agent, data in agent_breakdown.items():
             coverage_class = (
-                "status-good" if data["coverage"] >= 85 else
-                "status-warning" if data["coverage"] >= 70 else
-                "status-bad"
+                "status-good"
+                if data["coverage"] >= 85
+                else "status-warning"
+                if data["coverage"] >= 70
+                else "status-bad"
             )
 
             html += f"""
                 <tr>
                     <td>{agent.upper()}</td>
                     <td>{agent_info[agent]}</td>
-                    <td>{len(data['files'])}</td>
-                    <td class="{coverage_class}">{data['coverage']:.1f}%</td>
-                    <td>{'✅ Good' if data['coverage'] >= 85 else '⚠️ Needs Work' if data['coverage'] >= 70 else '❌ Critical'}</td>
+                    <td>{len(data["files"])}</td>
+                    <td class="{coverage_class}">{data["coverage"]:.1f}%</td>
+                    <td>{"✅ Good" if data["coverage"] >= 85 else "⚠️ Needs Work" if data["coverage"] >= 70 else "❌ Critical"}</td>
                 </tr>
             """
 
@@ -259,6 +284,7 @@ class CoverageReporter:
 
         return html
 
+
 class ProgressTracker:
     """Track test execution progress and provide updates."""
 
@@ -275,7 +301,7 @@ class ProgressTracker:
             "status": status,
             "duration": duration,
             "error": error,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
         self.test_results.append(result)
 
@@ -293,7 +319,7 @@ class ProgressTracker:
             "failed_tests": failed_tests,
             "pass_rate": (passed_tests / total_tests * 100) if total_tests > 0 else 0,
             "elapsed_time": elapsed_time,
-            "tests_per_second": total_tests / elapsed_time if elapsed_time > 0 else 0
+            "tests_per_second": total_tests / elapsed_time if elapsed_time > 0 else 0,
         }
 
     def generate_progress_report(self) -> str:
@@ -305,11 +331,11 @@ class ProgressTracker:
         =================================
 
         📊 Test Execution Summary:
-        - Total Tests: {summary['total_tests']}
-        - Passed: {summary['passed_tests']} ({summary['pass_rate']:.1f}%)
-        - Failed: {summary['failed_tests']}
-        - Elapsed Time: {summary['elapsed_time']:.1f}s
-        - Tests/Second: {summary['tests_per_second']:.1f}
+        - Total Tests: {summary["total_tests"]}
+        - Passed: {summary["passed_tests"]} ({summary["pass_rate"]:.1f}%)
+        - Failed: {summary["failed_tests"]}
+        - Elapsed Time: {summary["elapsed_time"]:.1f}s
+        - Tests/Second: {summary["tests_per_second"]:.1f}
 
         📈 Recent Test Results:
         """
@@ -322,16 +348,19 @@ class ProgressTracker:
 
         return report
 
+
 # Test fixtures for reporting
 @pytest.fixture(scope="session")
 def coverage_reporter():
     """Provide coverage reporter fixture."""
     return TestCoverageReporter()
 
+
 @pytest.fixture(scope="session")
 def progress_tracker():
     """Provide progress tracker fixture."""
     return TestProgressTracker()
+
 
 @pytest.fixture(autouse=True)
 def track_test_progress(request, progress_tracker):
@@ -343,21 +372,17 @@ def track_test_progress(request, progress_tracker):
         duration = (end_time - start_time).total_seconds()
 
         # Record test result
-        if hasattr(request.node, 'rep_call'):
+        if hasattr(request.node, "rep_call"):
             outcome = request.node.rep_call.outcome
             error = str(request.node.rep_call.excinfo) if request.node.rep_call.excinfo else None
         else:
             outcome = "unknown"
             error = None
 
-        progress_tracker.record_test_result(
-            request.node.name,
-            outcome,
-            duration,
-            error
-        )
+        progress_tracker.record_test_result(request.node.name, outcome, duration, error)
 
     request.addfinalizer(finalize)
+
 
 # Test the reporting system itself
 class TestReportingSystem:
@@ -373,20 +398,12 @@ class TestReportingSystem:
     def test_coverage_report_generation(self, coverage_reporter):
         """Test coverage report generation."""
         mock_coverage_data = {
-            "totals": {
-                "percent_covered": 85.5,
-                "num_covered": 1000,
-                "num_statements": 1200
-            },
+            "totals": {"percent_covered": 85.5, "num_covered": 1000, "num_statements": 1200},
             "files": {
                 "src/core/config.py": {
-                    "summary": {
-                        "percent_covered": 90.0,
-                        "num_covered": 100,
-                        "num_statements": 110
-                    }
+                    "summary": {"percent_covered": 90.0, "num_covered": 100, "num_statements": 110}
                 }
-            }
+            },
         }
 
         report_path = coverage_reporter.generate_coverage_report(mock_coverage_data)
@@ -404,10 +421,7 @@ class TestReportingSystem:
     @pytest.mark.unit
     def test_html_report_generation(self, coverage_reporter):
         """Test HTML report generation."""
-        mock_coverage_data = {
-            "totals": {"percent_covered": 75.0},
-            "files": {}
-        }
+        mock_coverage_data = {"totals": {"percent_covered": 75.0}, "files": {}}
 
         html_path = coverage_reporter.generate_html_report(mock_coverage_data)
         assert Path(html_path).exists()
@@ -443,6 +457,7 @@ class TestReportingSystem:
         assert "test_example" in report
         assert "✅" in report
 
+
 class TestCoverageReporterClass:
     """Test class for CoverageReporter functionality."""
 
@@ -459,6 +474,7 @@ class TestCoverageReporterClass:
         report_path = reporter.generate_coverage_report(coverage_data)
         assert Path(report_path).exists()
 
+
 class TestProgressTrackerClass:
     """Test class for ProgressTracker functionality."""
 
@@ -468,6 +484,7 @@ class TestProgressTrackerClass:
         assert tracker.start_time is not None
         assert tracker.test_results == []
         assert tracker.coverage_reports == []
+
 
 if __name__ == "__main__":
     # Example usage of the reporting system

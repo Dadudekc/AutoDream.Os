@@ -26,7 +26,7 @@ class AgentContextManager:
         self._contexts: dict[str, dict[str, Any]] = {}
         self._metadata: dict[str, Any] = {
             "created_at": datetime.now().isoformat(),
-            "version": "1.0.0"
+            "version": "1.0.0",
         }
 
     def set_agent_context(self, agent_id: str, context: dict[str, Any]) -> bool:
@@ -44,7 +44,7 @@ class AgentContextManager:
             self._contexts[agent_id] = {
                 **context,
                 "updated_at": datetime.now().isoformat(),
-                "agent_id": agent_id
+                "agent_id": agent_id,
             }
             logger.info(f"Context set for agent {agent_id}")
             return True
@@ -134,5 +134,5 @@ class AgentContextManager:
         return {
             "total_agents": len(self._contexts),
             "agent_ids": list(self._contexts.keys()),
-            "metadata": self._metadata
+            "metadata": self._metadata,
         }

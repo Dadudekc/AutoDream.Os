@@ -81,11 +81,11 @@ class OptimizationTools:
         lines = content.split("\n")
         for i, line in enumerate(lines):
             if len(line) > 100:  # Long lines
-                targets.append(f"Line {i+1}: Long line ({len(line)} chars)")
+                targets.append(f"Line {i + 1}: Long line ({len(line)} chars)")
             elif line.strip().startswith("#"):  # Comment lines
-                targets.append(f"Line {i+1}: Comment line")
+                targets.append(f"Line {i + 1}: Comment line")
             elif "import" in line and "," in line:  # Multiple imports
-                targets.append(f"Line {i+1}: Multiple imports")
+                targets.append(f"Line {i + 1}: Multiple imports")
 
         return targets[:10]  # Limit to 10 targets
 

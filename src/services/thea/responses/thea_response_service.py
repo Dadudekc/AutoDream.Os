@@ -22,6 +22,7 @@ from ..browser.thea_browser_service import TheaBrowserService
 
 class ResponseStatus(Enum):
     """Response detection status."""
+
     DETECTED = "detected"
     TIMEOUT = "timeout"
     CONTINUE_NEEDED = "continue_needed"
@@ -52,7 +53,7 @@ class TheaResponseService:
             stable_secs=self.config.stable_secs,
             poll=self.config.poll_interval,
             auto_continue=self.config.auto_continue,
-            max_continue_clicks=self.config.max_continue_clicks
+            max_continue_clicks=self.config.max_continue_clicks,
         )
 
         if result == ResponseWaitResult.COMPLETE:
@@ -141,18 +142,20 @@ class TheaResponseService:
             "thea_url": self.config.thea_url,
             "detection_method": "automated_dom_polling",
             "character_count": len(extracted_response) if extracted_response else 0,
-            "response_extracted": bool(extracted_response)
+            "response_extracted": bool(extracted_response),
         }
 
         # Save metadata
         json_path = self.config.responses_dir / f"response_metadata_{timestamp}.json"
-        with open(json_path, 'w') as f:
+        with open(json_path, "w") as f:
             json.dump(metadata, f, indent=2)
 
         print(f"✅ Metadata saved: {json_path}")
 
         # Create conversation log
-        self._create_conversation_log(sent_message_path, screenshot_path, timestamp, extracted_response)
+        self._create_conversation_log(
+            sent_message_path, screenshot_path, timestamp, extracted_response
+        )
 
     def _find_latest_sent_message(self) -> Path | None:
         """Find the most recent sent message file."""
@@ -164,8 +167,13 @@ class TheaResponseService:
             pass
         return None
 
-    def _create_conversation_log(self, sent_message_path: Path | None, screenshot_path: Path,
-                                timestamp: str, extracted_response: str) -> None:
+    def _create_conversation_log(
+        self,
+        sent_message_path: Path | None,
+        screenshot_path: Path,
+        timestamp: str,
+        extracted_response: str,
+    ) -> None:
         """Create a comprehensive conversation log."""
         try:
             log_path = self.config.responses_dir / f"conversation_log_{timestamp}.md"
@@ -173,7 +181,7 @@ class TheaResponseService:
             # Load sent message
             sent_message = ""
             if sent_message_path and sent_message_path.exists():
-                with open(sent_message_path, encoding='utf-8') as f:
+                with open(sent_message_path, encoding="utf-8") as f:
                     sent_message = f.read()
 
             response_section = ""
@@ -194,7 +202,7 @@ class TheaResponseService:
 **Note:** Check screenshot for response content"""
 
             log_content = f"""# Thea Conversation Log
-**Timestamp:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+**Timestamp:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Sent Message
 **File:** {sent_message_path}
@@ -211,14 +219,14 @@ class TheaResponseService:
 ## Technical Details
 - Response detection: Automated
 - Screenshot captured: Yes
-- Response text extracted: {'Yes' if extracted_response else 'No'}
+- Response text extracted: {"Yes" if extracted_response else "No"}
 - Metadata saved: Yes
 
 ---
 **Conversation logged by:** V2_SWARM Automated System
 """
 
-            with open(log_path, 'w', encoding='utf-8') as f:
+            with open(log_path, "w", encoding="utf-8") as f:
                 f.write(log_content)
 
             print(f"📋 Conversation log created: {log_path}")

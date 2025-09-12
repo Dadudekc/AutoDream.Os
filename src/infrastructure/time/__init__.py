@@ -4,5 +4,5 @@
 from . import system_clock
 
 __all__ = [
-    'system_clock',
+    "system_clock",
 ]

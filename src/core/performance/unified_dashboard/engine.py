@@ -197,11 +197,11 @@ class DashboardEngine(BaseEngine):
             "widgets": self.widget_manager.get_summary(),
             "alerts": {
                 "total_alerts": len(self.alerts),
-                "alert_levels": list(set(alert.level.value for alert in self.alerts.values())),
+                "alert_levels": list({alert.level.value for alert in self.alerts.values()}),
             },
             "reports": {
                 "total_reports": len(self.reports),
-                "report_types": list(set(report.report_type for report in self.reports.values())),
+                "report_types": list({report.report_type for report in self.reports.values()}),
             },
         }
 

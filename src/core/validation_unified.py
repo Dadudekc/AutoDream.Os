@@ -33,8 +33,10 @@ from typing import Any
 # VALIDATION ENUMS AND MODELS
 # ============================================================================
 
+
 class ValidationStatus(Enum):
     """Validation status enumeration."""
+
     VALID = "valid"
     INVALID = "invalid"
     WARNING = "warning"
@@ -44,6 +46,7 @@ class ValidationStatus(Enum):
 
 class ValidationType(Enum):
     """Validation type enumeration."""
+
     DATA_VALIDATION = "data_validation"
     SCHEMA_VALIDATION = "schema_validation"
     INPUT_VALIDATION = "input_validation"
@@ -54,6 +57,7 @@ class ValidationType(Enum):
 
 class ValidationSeverity(Enum):
     """Validation severity enumeration."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -62,6 +66,7 @@ class ValidationSeverity(Enum):
 
 class DataType(Enum):
     """Data type enumeration."""
+
     STRING = "string"
     INTEGER = "integer"
     FLOAT = "float"
@@ -80,9 +85,11 @@ class DataType(Enum):
 # VALIDATION MODELS
 # ============================================================================
 
+
 @dataclass
 class ValidationResult:
     """Validation result model."""
+
     result_id: str
     validation_type: ValidationType
     status: ValidationStatus
@@ -98,6 +105,7 @@ class ValidationResult:
 @dataclass
 class ValidationRule:
     """Validation rule model."""
+
     rule_id: str
     name: str
     validation_type: ValidationType
@@ -117,6 +125,7 @@ class ValidationRule:
 @dataclass
 class ValidationSchema:
     """Validation schema model."""
+
     schema_id: str
     name: str
     version: str
@@ -129,6 +138,7 @@ class ValidationSchema:
 @dataclass
 class ValidationReport:
     """Validation report model."""
+
     report_id: str
     schema_id: str
     total_validations: int = 0
@@ -144,6 +154,7 @@ class ValidationReport:
 # ============================================================================
 # VALIDATION INTERFACES
 # ============================================================================
+
 
 class Validator(ABC):
     """Base validator interface."""
@@ -189,14 +200,12 @@ class SchemaValidator(ABC):
 # VALIDATORS
 # ============================================================================
 
+
 class DataTypeValidator(Validator):
     """Data type validator implementation."""
 
     def __init__(self, validator_id: str = None):
-        super().__init__(
-            validator_id or str(uuid.uuid4()),
-            "DataTypeValidator"
-        )
+        super().__init__(validator_id or str(uuid.uuid4()), "DataTypeValidator")
 
     def validate(self, data: Any, rule: ValidationRule) -> ValidationResult:
         """Validate data type."""
@@ -210,7 +219,7 @@ class DataTypeValidator(Validator):
                     severity=ValidationSeverity.ERROR,
                     message=f"Field '{rule.field_name}' is required",
                     field_name=rule.field_name,
-                    field_value=data
+                    field_value=data,
                 )
 
             # Skip validation if data is None and not required
@@ -222,7 +231,7 @@ class DataTypeValidator(Validator):
                     severity=ValidationSeverity.INFO,
                     message=f"Field '{rule.field_name}' is valid (optional)",
                     field_name=rule.field_name,
-                    field_value=data
+                    field_value=data,
                 )
 
             # Validate data type
@@ -235,7 +244,7 @@ class DataTypeValidator(Validator):
                     message=f"Field '{rule.field_name}' must be of type {rule.data_type.value}",
                     field_name=rule.field_name,
                     field_value=data,
-                    expected_value=rule.data_type.value
+                    expected_value=rule.data_type.value,
                 )
 
             return ValidationResult(
@@ -245,7 +254,7 @@ class DataTypeValidator(Validator):
                 severity=ValidationSeverity.INFO,
                 message=f"Field '{rule.field_name}' has valid type",
                 field_name=rule.field_name,
-                field_value=data
+                field_value=data,
             )
         except Exception as e:
             self.logger.error(f"Failed to validate data type: {e}")
@@ -256,7 +265,7 @@ class DataTypeValidator(Validator):
                 severity=ValidationSeverity.CRITICAL,
                 message=f"Validation error: {e}",
                 field_name=rule.field_name,
-                field_value=data
+                field_value=data,
             )
 
     def get_capabilities(self) -> list[str]:
@@ -271,7 +280,9 @@ class DataTypeValidator(Validator):
             elif data_type == DataType.INTEGER:
                 return isinstance(data, int) or (isinstance(data, str) and data.isdigit())
             elif data_type == DataType.FLOAT:
-                return isinstance(data, (int, float)) or (isinstance(data, str) and self._is_float(data))
+                return isinstance(data, (int, float)) or (
+                    isinstance(data, str) and self._is_float(data)
+                )
             elif data_type == DataType.BOOLEAN:
                 return isinstance(data, bool) or data in ["true", "false", "1", "0", "yes", "no"]
             elif data_type == DataType.EMAIL:
@@ -301,17 +312,17 @@ class DataTypeValidator(Validator):
 
     def _is_valid_email(self, email: str) -> bool:
         """Check if string is a valid email."""
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         return re.match(pattern, email) is not None
 
     def _is_valid_url(self, url: str) -> bool:
         """Check if string is a valid URL."""
-        pattern = r'^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?)?$'
+        pattern = r"^https?://(?:[-\w.])+(?:\:[0-9]+)?(?:/(?:[\w/_.])*(?:\?(?:[\w&=%.])*)?(?:\#(?:[\w.])*)?)?$"
         return re.match(pattern, url) is not None
 
     def _is_valid_phone(self, phone: str) -> bool:
         """Check if string is a valid phone number."""
-        pattern = r'^\+?1?[-.\s]?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$'
+        pattern = r"^\+?1?[-.\s]?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$"
         return re.match(pattern, phone) is not None
 
     def _is_valid_json(self, data: Any) -> bool:
@@ -328,10 +339,7 @@ class ConstraintValidator(Validator):
     """Constraint validator implementation."""
 
     def __init__(self, validator_id: str = None):
-        super().__init__(
-            validator_id or str(uuid.uuid4()),
-            "ConstraintValidator"
-        )
+        super().__init__(validator_id or str(uuid.uuid4()), "ConstraintValidator")
 
     def validate(self, data: Any, rule: ValidationRule) -> ValidationResult:
         """Validate constraints."""
@@ -345,7 +353,7 @@ class ConstraintValidator(Validator):
                     severity=ValidationSeverity.INFO,
                     message=f"Field '{rule.field_name}' is valid (optional)",
                     field_name=rule.field_name,
-                    field_value=data
+                    field_value=data,
                 )
 
             # Validate length constraints
@@ -359,7 +367,7 @@ class ConstraintValidator(Validator):
                         message=f"Field '{rule.field_name}' must be at least {rule.min_length} characters",
                         field_name=rule.field_name,
                         field_value=data,
-                        expected_value=f"min_length: {rule.min_length}"
+                        expected_value=f"min_length: {rule.min_length}",
                     )
 
                 if rule.max_length is not None and len(data) > rule.max_length:
@@ -371,7 +379,7 @@ class ConstraintValidator(Validator):
                         message=f"Field '{rule.field_name}' must be at most {rule.max_length} characters",
                         field_name=rule.field_name,
                         field_value=data,
-                        expected_value=f"max_length: {rule.max_length}"
+                        expected_value=f"max_length: {rule.max_length}",
                     )
 
             # Validate numeric constraints
@@ -385,7 +393,7 @@ class ConstraintValidator(Validator):
                         message=f"Field '{rule.field_name}' must be at least {rule.min_value}",
                         field_name=rule.field_name,
                         field_value=data,
-                        expected_value=f"min_value: {rule.min_value}"
+                        expected_value=f"min_value: {rule.min_value}",
                     )
 
                 if rule.max_value is not None and data > rule.max_value:
@@ -397,7 +405,7 @@ class ConstraintValidator(Validator):
                         message=f"Field '{rule.field_name}' must be at most {rule.max_value}",
                         field_name=rule.field_name,
                         field_value=data,
-                        expected_value=f"max_value: {rule.max_value}"
+                        expected_value=f"max_value: {rule.max_value}",
                     )
 
             # Validate pattern constraints
@@ -411,7 +419,7 @@ class ConstraintValidator(Validator):
                         message=f"Field '{rule.field_name}' does not match required pattern",
                         field_name=rule.field_name,
                         field_value=data,
-                        expected_value=f"pattern: {rule.pattern}"
+                        expected_value=f"pattern: {rule.pattern}",
                     )
 
             return ValidationResult(
@@ -421,7 +429,7 @@ class ConstraintValidator(Validator):
                 severity=ValidationSeverity.INFO,
                 message=f"Field '{rule.field_name}' meets all constraints",
                 field_name=rule.field_name,
-                field_value=data
+                field_value=data,
             )
         except Exception as e:
             self.logger.error(f"Failed to validate constraints: {e}")
@@ -432,34 +440,34 @@ class ConstraintValidator(Validator):
                 severity=ValidationSeverity.CRITICAL,
                 message=f"Constraint validation error: {e}",
                 field_name=rule.field_name,
-                field_value=data
+                field_value=data,
             )
 
     def get_capabilities(self) -> list[str]:
         """Get constraint validation capabilities."""
-        return ["constraint_validation", "length_validation", "range_validation", "pattern_validation"]
+        return [
+            "constraint_validation",
+            "length_validation",
+            "range_validation",
+            "pattern_validation",
+        ]
 
 
 # ============================================================================
 # SCHEMA VALIDATORS
 # ============================================================================
 
+
 class JSONSchemaValidator(SchemaValidator):
     """JSON schema validator implementation."""
 
     def __init__(self, validator_id: str = None):
-        super().__init__(
-            validator_id or str(uuid.uuid4()),
-            "JSONSchemaValidator"
-        )
+        super().__init__(validator_id or str(uuid.uuid4()), "JSONSchemaValidator")
 
     def validate_schema(self, data: dict[str, Any], schema: ValidationSchema) -> ValidationReport:
         """Validate data against schema."""
         try:
-            report = ValidationReport(
-                report_id=str(uuid.uuid4()),
-                schema_id=schema.schema_id
-            )
+            report = ValidationReport(report_id=str(uuid.uuid4()), schema_id=schema.schema_id)
 
             # Create validators
             data_type_validator = DataTypeValidator()
@@ -488,13 +496,19 @@ class JSONSchemaValidator(SchemaValidator):
                         report.invalid_count += 1
                         if constraint_result.severity == ValidationSeverity.WARNING:
                             report.warning_count += 1
-                        elif constraint_result.severity in [ValidationSeverity.ERROR, ValidationSeverity.CRITICAL]:
+                        elif constraint_result.severity in [
+                            ValidationSeverity.ERROR,
+                            ValidationSeverity.CRITICAL,
+                        ]:
                             report.error_count += 1
                 else:
                     report.invalid_count += 1
                     if type_result.severity == ValidationSeverity.WARNING:
                         report.warning_count += 1
-                    elif type_result.severity in [ValidationSeverity.ERROR, ValidationSeverity.CRITICAL]:
+                    elif type_result.severity in [
+                        ValidationSeverity.ERROR,
+                        ValidationSeverity.CRITICAL,
+                    ]:
                         report.error_count += 1
 
             return report
@@ -507,13 +521,15 @@ class JSONSchemaValidator(SchemaValidator):
                 valid_count=0,
                 invalid_count=1,
                 error_count=1,
-                results=[ValidationResult(
-                    result_id=str(uuid.uuid4()),
-                    validation_type=ValidationType.SCHEMA_VALIDATION,
-                    status=ValidationStatus.INVALID,
-                    severity=ValidationSeverity.CRITICAL,
-                    message=f"Schema validation error: {e}"
-                )]
+                results=[
+                    ValidationResult(
+                        result_id=str(uuid.uuid4()),
+                        validation_type=ValidationType.SCHEMA_VALIDATION,
+                        status=ValidationStatus.INVALID,
+                        severity=ValidationSeverity.CRITICAL,
+                        message=f"Schema validation error: {e}",
+                    )
+                ],
             )
 
     def get_capabilities(self) -> list[str]:
@@ -524,6 +540,7 @@ class JSONSchemaValidator(SchemaValidator):
 # ============================================================================
 # VALIDATION MANAGER
 # ============================================================================
+
 
 class ValidationManager:
     """Validation management system."""
@@ -579,7 +596,7 @@ class ValidationManager:
             validation_type=rule.validation_type,
             status=ValidationStatus.INVALID,
             severity=ValidationSeverity.ERROR,
-            message="No validator available"
+            message="No validator available",
         )
 
     def validate_schema(self, data: dict[str, Any], schema_id: str) -> ValidationReport | None:
@@ -600,7 +617,7 @@ class ValidationManager:
         return {
             "validators_registered": len(self.validators),
             "schema_validators_registered": len(self.schema_validators),
-            "schemas_registered": len(self.schemas)
+            "schemas_registered": len(self.schemas),
         }
 
 
@@ -608,12 +625,10 @@ class ValidationManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_validator(validator_type: str, validator_id: str = None) -> Validator | None:
     """Create validator by type."""
-    validators = {
-        "data_type": DataTypeValidator,
-        "constraint": ConstraintValidator
-    }
+    validators = {"data_type": DataTypeValidator, "constraint": ConstraintValidator}
 
     validator_class = validators.get(validator_type)
     if validator_class:
@@ -622,11 +637,11 @@ def create_validator(validator_type: str, validator_id: str = None) -> Validator
     return None
 
 
-def create_schema_validator(validator_type: str, validator_id: str = None) -> SchemaValidator | None:
+def create_schema_validator(
+    validator_type: str, validator_id: str = None
+) -> SchemaValidator | None:
     """Create schema validator by type."""
-    validators = {
-        "json": JSONSchemaValidator
-    }
+    validators = {"json": JSONSchemaValidator}
 
     validator_class = validators.get(validator_type)
     if validator_class:
@@ -643,6 +658,7 @@ def create_validation_manager() -> ValidationManager:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -682,7 +698,7 @@ def main():
         data_type=DataType.STRING,
         required=True,
         min_length=3,
-        max_length=10
+        max_length=10,
     )
 
     result = manager.validate_data("test", test_rule)

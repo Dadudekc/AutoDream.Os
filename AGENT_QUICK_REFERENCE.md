@@ -1,7 +1,7 @@
 # 🚀 **AGENT QUICK REFERENCE CARD**
 
-**For:** All Swarm Agents  
-**Purpose:** Quick access to essential tools and commands  
+**For:** All Swarm Agents
+**Purpose:** Quick access to essential tools and commands
 **Last Updated:** 2025-09-09
 
 ---

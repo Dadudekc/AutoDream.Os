@@ -4,7 +4,7 @@
 from . import metrics_factory, mission_factory, report_factory
 
 __all__ = [
-    'metrics_factory',
-    'mission_factory',
-    'report_factory',
+    "metrics_factory",
+    "mission_factory",
+    "report_factory",
 ]

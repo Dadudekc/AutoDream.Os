@@ -100,9 +100,9 @@ class TheaResponseCollector:
 
             # Try fallback selectors
             fallback_selectors = [
-                '.message-content:last-child',
-                '.markdown:last-child',
-                '[data-message-id]:last-child'
+                ".message-content:last-child",
+                ".markdown:last-child",
+                "[data-message-id]:last-child",
             ]
 
             for selector in fallback_selectors:
@@ -178,10 +178,10 @@ class TheaResponseCollector:
     def get_response_metadata(self) -> dict[str, Any]:
         """Get metadata about the current response."""
         return {
-            'has_response': self._extract_current_response() is not None,
-            'is_complete': self._is_response_complete(),
-            'response_length': len(self._extract_current_response() or ""),
-            'timestamp': time.time()
+            "has_response": self._extract_current_response() is not None,
+            "is_complete": self._is_response_complete(),
+            "response_length": len(self._extract_current_response() or ""),
+            "timestamp": time.time(),
         }
 
 
@@ -202,17 +202,17 @@ class TheaResponseMonitor:
     def get_progress(self) -> dict[str, Any]:
         """Get current progress of response collection."""
         if not self._start_time:
-            return {'status': 'not_started'}
+            return {"status": "not_started"}
 
         elapsed = time.time() - self._start_time
         metadata = self.collector.get_response_metadata()
 
         return {
-            'status': 'in_progress' if not metadata['is_complete'] else 'complete',
-            'elapsed_time': elapsed,
-            'has_response': metadata['has_response'],
-            'response_length': metadata['response_length'],
-            'is_complete': metadata['is_complete']
+            "status": "in_progress" if not metadata["is_complete"] else "complete",
+            "elapsed_time": elapsed,
+            "has_response": metadata["has_response"],
+            "response_length": metadata["response_length"],
+            "is_complete": metadata["is_complete"],
         }
 
     def should_continue(self, max_time: float = 120.0) -> bool:

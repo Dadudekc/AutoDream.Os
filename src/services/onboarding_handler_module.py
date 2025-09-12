@@ -21,8 +21,8 @@ class OnboardingHandler:
 
     def process_onboarding(self, request) -> dict[str, Any]:
         """Process an onboarding request"""
-        onboarding_type = request.data.get('type', '')
-        user_data = request.data.get('user_data', {})
+        onboarding_type = request.data.get("type", "")
+        user_data = request.data.get("user_data", {})
 
         if onboarding_type == "user":
             return self.onboard_user(user_data)
@@ -41,7 +41,7 @@ class OnboardingHandler:
             "id": user_id,
             "onboarded_at": datetime.now().isoformat(),
             "status": "active",
-            **user_data
+            **user_data,
         }
 
         self.logger.info(f"User onboarded: {user_id}")
@@ -49,16 +49,16 @@ class OnboardingHandler:
 
     def onboard_agent(self, agent_data: dict[str, Any]) -> dict[str, Any]:
         """Onboard a new agent"""
-        agent_id = agent_data.get('id', f"agent_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        agent_id = agent_data.get("id", f"agent_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
         agent = {
             "id": agent_id,
-            "name": agent_data.get('name', 'Unknown Agent'),
-            "status": 'active',
-            "position": agent_data.get('position', (0, 0)),
+            "name": agent_data.get("name", "Unknown Agent"),
+            "status": "active",
+            "position": agent_data.get("position", (0, 0)),
             "last_active": datetime.now().isoformat(),
             "assigned_tasks": [],
-            "capabilities": agent_data.get('capabilities', [])
+            "capabilities": agent_data.get("capabilities", []),
         }
 
         self.logger.info(f"Agent onboarded: {agent_id}")
@@ -72,7 +72,7 @@ class OnboardingHandler:
             "id": service_id,
             "onboarded_at": datetime.now().isoformat(),
             "status": "active",
-            **service_data
+            **service_data,
         }
 
         self.logger.info(f"Service onboarded: {service_id}")

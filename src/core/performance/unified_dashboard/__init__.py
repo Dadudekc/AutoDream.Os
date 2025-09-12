@@ -4,8 +4,8 @@
 from . import engine, metric_manager, reporter, widget_manager
 
 __all__ = [
-    'engine',
-    'metric_manager',
-    'reporter',
-    'widget_manager',
+    "engine",
+    "metric_manager",
+    "reporter",
+    "widget_manager",
 ]

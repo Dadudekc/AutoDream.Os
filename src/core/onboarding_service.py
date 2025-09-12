@@ -9,6 +9,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class OnboardingService:
     """Service for handling agent onboarding messages and processes"""
 
@@ -70,7 +71,7 @@ Coordinates: {coordinates}
 - Message queue: ACTIVE
 
 **Ready for SWARM coordination** 🐝
-            """
+            """,
         }
 
     def generate_onboarding_message(self, agent_id: str, style: str = "standard") -> str:
@@ -86,7 +87,7 @@ Coordinates: {coordinates}
             message = template.format(
                 agent_id=agent_id,
                 description=agent_info.get("description", "SWARM Agent"),
-                coordinates=agent_info.get("coordinates", "(-308, 480)")
+                coordinates=agent_info.get("coordinates", "(-308, 480)"),
             )
 
             self.logger.info(f"Generated onboarding message for {agent_id}")
@@ -100,30 +101,29 @@ Coordinates: {coordinates}
         """Get agent information from coordinate loader"""
         try:
             from .coordinate_loader import get_coordinate_loader
+
             loader = get_coordinate_loader()
 
-            if hasattr(loader, 'get_agent_info'):
+            if hasattr(loader, "get_agent_info"):
                 return loader.get_agent_info(agent_id) or {}
 
             # Fallback to coordinate data
             coords = loader.get_chat_coordinates(agent_id)
             return {
                 "coordinates": f"({coords[0]}, {coords[1]})",
-                "description": f"Agent {agent_id.split('-')[1]}"
+                "description": f"Agent {agent_id.split('-')[1]}",
             }
 
         except Exception as e:
             self.logger.warning(f"Could not load agent info for {agent_id}: {e}")
-            return {
-                "coordinates": "(-308, 480)",
-                "description": "SWARM Agent"
-            }
+            return {"coordinates": "(-308, 480)", "description": "SWARM Agent"}
 
     def validate_onboarding(self, agent_id: str) -> bool:
         """Validate that an agent has been properly onboarded"""
         try:
             # Check if agent workspace exists
             import os
+
             workspace_path = f"agent_workspaces/{agent_id}"
             inbox_path = f"{workspace_path}/inbox"
             status_path = f"{workspace_path}/status.json"
@@ -167,11 +167,11 @@ Coordinates: {coordinates}
                 "agent_id": agent_id,
                 "status": "active",
                 "current_task": "Onboarding complete - ready for assignment",
-                "last_updated": str(__import__('datetime').datetime.now()),
-                "coordination_status": "available"
+                "last_updated": str(__import__("datetime").datetime.now()),
+                "coordination_status": "available",
             }
 
-            with open(f"{workspace_path}/status.json", 'w') as f:
+            with open(f"{workspace_path}/status.json", "w") as f:
                 json.dump(status_data, f, indent=2)
 
             self.logger.info(f"Created workspace for agent {agent_id}")

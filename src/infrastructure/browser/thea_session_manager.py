@@ -12,6 +12,7 @@ from typing import Any
 @dataclass
 class RateLimitConfig:
     """Configuration for rate limiting."""
+
     requests_per_minute: int = 10
     burst_limit: int = 5
 

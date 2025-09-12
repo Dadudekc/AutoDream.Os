@@ -117,7 +117,7 @@ class BusinessIntelligenceEngineOperations:
                     "type": "line",
                     "field": field,
                     "data": values,
-                    "labels": [f"Point {i+1}" for i in range(len(values))],
+                    "labels": [f"Point {i + 1}" for i in range(len(values))],
                 }
                 charts.append(chart_data)
 
@@ -147,7 +147,7 @@ class BusinessIntelligenceEngineOperations:
                                 "field": field,
                                 "value": value,
                                 "expected_range": (
-                                    f"{mean_val - 2*std_val:.2f} - {mean_val + 2*std_val:.2f}"
+                                    f"{mean_val - 2 * std_val:.2f} - {mean_val + 2 * std_val:.2f}"
                                 ),
                                 "severity": "medium",
                             }

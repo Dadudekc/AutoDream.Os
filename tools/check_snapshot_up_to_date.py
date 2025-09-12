@@ -17,30 +17,38 @@ try:
     from tools.projectscanner import ProjectScanner
 except Exception:
     logger.info(
-        'ERROR: Unable to import ProjectScanner. Update import path in tools/check_snapshot_up_to_date.py.'
-        )
+        "ERROR: Unable to import ProjectScanner. Update import path in tools/check_snapshot_up_to_date.py."
+    )
     sys.exit(2)
-ARTIFACTS = ['project_analysis.json', 'test_analysis.json',
-    'chatgpt_project_context.json', 'dependency_cache.json',
-    'analysis/agent_analysis.json', 'analysis/module_analysis.json',
-    'analysis/file_type_analysis.json', 'analysis/complexity_analysis.json',
-    'analysis/dependency_analysis.json', 'analysis/architecture_overview.json']
+ARTIFACTS = [
+    "project_analysis.json",
+    "test_analysis.json",
+    "chatgpt_project_context.json",
+    "dependency_cache.json",
+    "analysis/agent_analysis.json",
+    "analysis/module_analysis.json",
+    "analysis/file_type_analysis.json",
+    "analysis/complexity_analysis.json",
+    "analysis/dependency_analysis.json",
+    "analysis/architecture_overview.json",
+]
 
 
-def git_diff_has_changes(paths: list[str]) ->bool:
-    cmd = ['git', 'diff', '--quiet', '--'] + paths
+def git_diff_has_changes(paths: list[str]) -> bool:
+    cmd = ["git", "diff", "--quiet", "--"] + paths
     result = subprocess.run(cmd)
     return result.returncode != 0
 
 
-def main() ->None:
+def main() -> None:
     repo_root = REPO_ROOT
     try:
         import os
+
         os.chdir(repo_root)
     except Exception:
         pass
-    scanner = ProjectScanner(project_root='.')
+    scanner = ProjectScanner(project_root=".")
     scanner.scan_project()
     scanner.generate_init_files(overwrite=True)
     scanner.categorize_agents()
@@ -59,10 +67,10 @@ def main() ->None:
              `git commit -m "chore(snapshots): refresh project analysis"`
              Then push again.
 """
-            )
+        )
         sys.exit(1)
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

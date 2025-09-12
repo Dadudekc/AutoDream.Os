@@ -34,11 +34,11 @@ class OperationalTestCoverageReporter:
                 "monitoring_systems": self._analyze_monitoring_tests(),
                 "error_handling": self._analyze_error_handling_tests(),
                 "stability_testing": self._analyze_stability_tests(),
-                "integration_testing": self._analyze_integration_tests()
+                "integration_testing": self._analyze_integration_tests(),
             },
             "coverage_metrics": self._calculate_coverage_metrics(),
             "recommendations": self._generate_recommendations(),
-            "next_steps": self._identify_next_steps()
+            "next_steps": self._identify_next_steps(),
         }
 
         return report
@@ -46,75 +46,64 @@ class OperationalTestCoverageReporter:
     def _analyze_monitoring_tests(self):
         """Analyze monitoring system test coverage."""
         return {
-            "test_files": [
-                "test_monitoring_systems.py",
-                "test_system_resource_monitoring.py"
-            ],
+            "test_files": ["test_monitoring_systems.py", "test_system_resource_monitoring.py"],
             "test_cases": 25,
             "coverage_focus": [
                 "Performance monitoring dashboard",
                 "System resource monitoring",
                 "Automated health checks",
                 "Alerting and notifications",
-                "Unified logging system"
+                "Unified logging system",
             ],
             "current_coverage": "75%",
-            "status": "GOOD_PROGRESS"
+            "status": "GOOD_PROGRESS",
         }
 
     def _analyze_error_handling_tests(self):
         """Analyze error handling test coverage."""
         return {
-            "test_files": [
-                "test_error_handling.py",
-                "test_exception_management.py"
-            ],
+            "test_files": ["test_error_handling.py", "test_exception_management.py"],
             "test_cases": 20,
             "coverage_focus": [
                 "Unified error handler",
                 "Exception management",
                 "Error recovery mechanisms",
                 "Circuit breaker patterns",
-                "Fallback mechanisms"
+                "Fallback mechanisms",
             ],
             "current_coverage": "80%",
-            "status": "EXCELLENT_PROGRESS"
+            "status": "EXCELLENT_PROGRESS",
         }
 
     def _analyze_stability_tests(self):
         """Analyze stability testing coverage."""
         return {
-            "test_files": [
-                "test_stability_testing.py",
-                "test_resource_usage_stability.py"
-            ],
+            "test_files": ["test_stability_testing.py", "test_resource_usage_stability.py"],
             "test_cases": 18,
             "coverage_focus": [
                 "Long-running operations",
                 "Resource usage stability",
                 "Concurrent operation stability",
                 "Load testing scenarios",
-                "System endurance"
+                "System endurance",
             ],
             "current_coverage": "70%",
             "status": "GOOD_PROGRESS",
-            "notes": "Some tests affected by high CPU usage in test environment"
+            "notes": "Some tests affected by high CPU usage in test environment",
         }
 
     def _analyze_integration_tests(self):
         """Analyze integration test coverage."""
         return {
-            "test_files": [
-                "test_stability_integration_scenarios.py"
-            ],
+            "test_files": ["test_stability_integration_scenarios.py"],
             "test_cases": 5,
             "coverage_focus": [
                 "Cross-component integration",
                 "Full system stability",
-                "End-to-end operational flows"
+                "End-to-end operational flows",
             ],
             "current_coverage": "60%",
-            "status": "PROGRESSING"
+            "status": "PROGRESSING",
         }
 
     def _calculate_coverage_metrics(self):
@@ -133,8 +122,8 @@ class OperationalTestCoverageReporter:
                 "Resource management",
                 "Performance monitoring",
                 "Health checks",
-                "Alerting systems"
-            ]
+                "Alerting systems",
+            ],
         }
 
     def _generate_recommendations(self):
@@ -144,20 +133,20 @@ class OperationalTestCoverageReporter:
                 "Fix mock class method implementations",
                 "Adjust CPU usage thresholds for test environment",
                 "Add more integration test scenarios",
-                "Implement performance benchmarking tests"
+                "Implement performance benchmarking tests",
             ],
             "medium_term_goals": [
                 "Expand monitoring system test coverage",
                 "Add comprehensive error scenario testing",
                 "Implement automated performance regression testing",
-                "Create operational resilience validation tests"
+                "Create operational resilience validation tests",
             ],
             "best_practices": [
                 "Use realistic test data and scenarios",
                 "Implement proper test isolation",
                 "Add comprehensive test documentation",
-                "Establish test performance baselines"
-            ]
+                "Establish test performance baselines",
+            ],
         }
 
     def _identify_next_steps(self):
@@ -167,27 +156,28 @@ class OperationalTestCoverageReporter:
                 "Fix failing test cases (mock methods, CPU thresholds)",
                 "Add performance benchmarking tests",
                 "Implement automated test reporting",
-                "Expand error handling test scenarios"
+                "Expand error handling test scenarios",
             ],
             "week_2": [
                 "Achieve 85%+ coverage target",
                 "Implement comprehensive integration tests",
                 "Add operational resilience validation",
-                "Create automated test execution pipeline"
+                "Create automated test execution pipeline",
             ],
             "week_3_4": [
                 "Maintain and improve test coverage",
                 "Add performance regression testing",
                 "Implement continuous integration testing",
-                "Document test maintenance procedures"
+                "Document test maintenance procedures",
             ],
             "success_criteria": [
                 "85%+ test coverage achieved",
                 "All critical operational paths tested",
                 "Automated test execution working",
-                "Comprehensive test documentation complete"
-            ]
+                "Comprehensive test documentation complete",
+            ],
         }
+
 
 def generate_operational_test_report():
     """Generate and save operational test progress report."""
@@ -198,22 +188,28 @@ def generate_operational_test_report():
     report_dir = Path("tests/operational/reports")
     report_dir.mkdir(exist_ok=True)
 
-    report_file = report_dir / f"operational_test_coverage_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    report_file = (
+        report_dir
+        / f"operational_test_coverage_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    )
 
-    with open(report_file, 'w') as f:
+    with open(report_file, "w") as f:
         json.dump(report, f, indent=2)
 
     # Also save as markdown for readability
-    md_report_file = report_dir / f"operational_test_coverage_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    md_report_file = (
+        report_dir
+        / f"operational_test_coverage_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+    )
 
-    with open(md_report_file, 'w', encoding='utf-8') as f:
+    with open(md_report_file, "w", encoding="utf-8") as f:
         f.write("# Operational Test Coverage Progress Report\n\n")
         f.write(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         f.write("**Agent:** Agent-8 (Operations & Support Specialist)\n\n")
         f.write("**Assignment:** Achieve 85%+ test coverage for operational systems\n\n")
 
         f.write("## 📊 Coverage Metrics\n\n")
-        metrics = report['coverage_metrics']
+        metrics = report["coverage_metrics"]
         f.write(f"- **Overall Coverage:** {metrics['overall_coverage']}\n")
         f.write(f"- **Target Coverage:** {metrics['target_coverage']}\n")
         f.write(f"- **Progress to Target:** {metrics['progress_to_target']}\n")
@@ -222,25 +218,25 @@ def generate_operational_test_report():
         f.write(f"- **Categories:** {metrics['test_categories']}\n\n")
 
         f.write("## 🎯 Test Categories\n\n")
-        for category, data in report['test_categories'].items():
+        for category, data in report["test_categories"].items():
             f.write(f"### {category.replace('_', ' ').title()}\n")
             f.write(f"- **Status:** {data['status']}\n")
             f.write(f"- **Coverage:** {data['current_coverage']}\n")
             f.write(f"- **Test Cases:** {data['test_cases']}\n")
             f.write("- **Focus Areas:**\n")
-            for focus in data['coverage_focus']:
+            for focus in data["coverage_focus"]:
                 f.write(f"  - {focus}\n")
             f.write("\n")
 
         f.write("## 💡 Recommendations\n\n")
-        for action_type, actions in report['recommendations'].items():
+        for action_type, actions in report["recommendations"].items():
             f.write(f"### {action_type.replace('_', ' ').title()}\n")
             for action in actions:
                 f.write(f"- {action}\n")
             f.write("\n")
 
         f.write("## 📋 Next Steps\n\n")
-        for timeframe, steps in report['next_steps'].items():
+        for timeframe, steps in report["next_steps"].items():
             f.write(f"### {timeframe.replace('_', ' ').title()}\n")
             for step in steps:
                 f.write(f"- {step}\n")
@@ -252,6 +248,7 @@ def generate_operational_test_report():
 
     return report
 
+
 @pytest.mark.operational
 def test_operational_coverage_progress():
     """Test that operational coverage is progressing toward target."""
@@ -259,17 +256,18 @@ def test_operational_coverage_progress():
     report = reporter.generate_progress_report()
 
     # Verify we have reasonable coverage
-    coverage = float(report['coverage_metrics']['overall_coverage'].strip('%'))
+    coverage = float(report["coverage_metrics"]["overall_coverage"].strip("%"))
     assert coverage >= 70, f"Coverage too low: {coverage}%"
 
     # Verify we have multiple test categories
-    assert len(report['test_categories']) >= 3
+    assert len(report["test_categories"]) >= 3
 
     # Verify we have recommendations
-    assert len(report['recommendations']) > 0
+    assert len(report["recommendations"]) > 0
 
     # Verify we have next steps
-    assert len(report['next_steps']) > 0
+    assert len(report["next_steps"]) > 0
+
 
 if __name__ == "__main__":
     # Generate progress report when run directly

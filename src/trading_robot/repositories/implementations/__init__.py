@@ -4,6 +4,6 @@
 from . import in_memory_trading_repository, trading_repository_impl
 
 __all__ = [
-    'in_memory_trading_repository',
-    'trading_repository_impl',
+    "in_memory_trading_repository",
+    "trading_repository_impl",
 ]

@@ -31,8 +31,10 @@ from typing import Any
 # MANAGER ENUMS AND MODELS
 # ============================================================================
 
+
 class ManagerStatus(Enum):
     """Manager status enumeration."""
+
     INITIALIZING = "initializing"
     RUNNING = "running"
     PAUSED = "paused"
@@ -43,6 +45,7 @@ class ManagerStatus(Enum):
 
 class ManagerType(Enum):
     """Manager type enumeration."""
+
     EXECUTION = "execution"
     MONITORING = "monitoring"
     RESULTS = "results"
@@ -57,6 +60,7 @@ class ManagerType(Enum):
 
 class TaskPriority(Enum):
     """Task priority enumeration."""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -65,6 +69,7 @@ class TaskPriority(Enum):
 
 class ExecutionStatus(Enum):
     """Execution status enumeration."""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -77,9 +82,11 @@ class ExecutionStatus(Enum):
 # MANAGER MODELS
 # ============================================================================
 
+
 @dataclass
 class ManagerInfo:
     """Manager information model."""
+
     manager_id: str
     name: str
     manager_type: ManagerType
@@ -93,6 +100,7 @@ class ManagerInfo:
 @dataclass
 class TaskInfo:
     """Task information model."""
+
     task_id: str
     name: str
     priority: TaskPriority
@@ -107,6 +115,7 @@ class TaskInfo:
 @dataclass
 class ExecutionResult:
     """Execution result model."""
+
     result_id: str
     task_id: str
     manager_id: str
@@ -121,6 +130,7 @@ class ExecutionResult:
 @dataclass
 class ManagerMetrics:
     """Manager metrics model."""
+
     manager_id: str
     total_tasks: int = 0
     completed_tasks: int = 0
@@ -132,6 +142,7 @@ class ManagerMetrics:
 # ============================================================================
 # MANAGER INTERFACES
 # ============================================================================
+
 
 class Manager(ABC):
     """Base manager interface."""
@@ -175,7 +186,9 @@ class Manager(ABC):
 
         # Update average execution time
         total_time = self.metrics.average_execution_time * (self.metrics.total_tasks - 1)
-        self.metrics.average_execution_time = (total_time + execution_time) / self.metrics.total_tasks
+        self.metrics.average_execution_time = (
+            total_time + execution_time
+        ) / self.metrics.total_tasks
         self.metrics.last_updated = datetime.now()
 
     def get_metrics(self) -> ManagerMetrics:
@@ -187,15 +200,12 @@ class Manager(ABC):
 # EXECUTION MANAGERS
 # ============================================================================
 
+
 class ExecutionManager(Manager):
     """Execution manager implementation."""
 
     def __init__(self, manager_id: str = None):
-        super().__init__(
-            manager_id or str(uuid.uuid4()),
-            "ExecutionManager",
-            ManagerType.EXECUTION
-        )
+        super().__init__(manager_id or str(uuid.uuid4()), "ExecutionManager", ManagerType.EXECUTION)
         self.task_queue: list[TaskInfo] = []
 
     def start(self) -> bool:
@@ -228,11 +238,7 @@ class ExecutionManager(Manager):
             self.active_tasks[task.task_id] = task
 
             # Implementation for task execution
-            result_data = {
-                "task_name": task.name,
-                "execution_time": 0.0,
-                "status": "completed"
-            }
+            result_data = {"task_name": task.name, "execution_time": 0.0, "status": "completed"}
 
             execution_time = (datetime.now() - start_time).total_seconds()
             task.completed_at = datetime.now()
@@ -244,7 +250,7 @@ class ExecutionManager(Manager):
                 manager_id=self.manager_id,
                 success=True,
                 result_data=result_data,
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, True)
@@ -261,7 +267,7 @@ class ExecutionManager(Manager):
                 manager_id=self.manager_id,
                 success=False,
                 error_message=str(e),
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, False)
@@ -291,11 +297,7 @@ class WorkflowManager(Manager):
     """Workflow manager implementation."""
 
     def __init__(self, manager_id: str = None):
-        super().__init__(
-            manager_id or str(uuid.uuid4()),
-            "WorkflowManager",
-            ManagerType.EXECUTION
-        )
+        super().__init__(manager_id or str(uuid.uuid4()), "WorkflowManager", ManagerType.EXECUTION)
         self.workflows: dict[str, list[TaskInfo]] = {}
 
     def start(self) -> bool:
@@ -328,11 +330,7 @@ class WorkflowManager(Manager):
             self.active_tasks[task.task_id] = task
 
             # Implementation for workflow execution
-            result_data = {
-                "workflow_name": task.name,
-                "execution_time": 0.0,
-                "status": "completed"
-            }
+            result_data = {"workflow_name": task.name, "execution_time": 0.0, "status": "completed"}
 
             execution_time = (datetime.now() - start_time).total_seconds()
             task.completed_at = datetime.now()
@@ -344,7 +342,7 @@ class WorkflowManager(Manager):
                 manager_id=self.manager_id,
                 success=True,
                 result_data=result_data,
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, True)
@@ -361,7 +359,7 @@ class WorkflowManager(Manager):
                 manager_id=self.manager_id,
                 success=False,
                 error_message=str(e),
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, False)
@@ -387,14 +385,13 @@ class WorkflowManager(Manager):
 # MONITORING MANAGERS
 # ============================================================================
 
+
 class MonitoringManager(Manager):
     """Monitoring manager implementation."""
 
     def __init__(self, manager_id: str = None):
         super().__init__(
-            manager_id or str(uuid.uuid4()),
-            "MonitoringManager",
-            ManagerType.MONITORING
+            manager_id or str(uuid.uuid4()), "MonitoringManager", ManagerType.MONITORING
         )
         self.monitoring_data: dict[str, Any] = {}
 
@@ -431,7 +428,7 @@ class MonitoringManager(Manager):
             result_data = {
                 "monitoring_target": task.name,
                 "execution_time": 0.0,
-                "status": "completed"
+                "status": "completed",
             }
 
             execution_time = (datetime.now() - start_time).total_seconds()
@@ -444,7 +441,7 @@ class MonitoringManager(Manager):
                 manager_id=self.manager_id,
                 success=True,
                 result_data=result_data,
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, True)
@@ -461,7 +458,7 @@ class MonitoringManager(Manager):
                 manager_id=self.manager_id,
                 success=False,
                 error_message=str(e),
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, False)
@@ -474,17 +471,14 @@ class MonitoringManager(Manager):
 
     def record_metric(self, metric_name: str, value: Any) -> None:
         """Record a monitoring metric."""
-        self.monitoring_data[metric_name] = {
-            "value": value,
-            "timestamp": datetime.now()
-        }
+        self.monitoring_data[metric_name] = {"value": value, "timestamp": datetime.now()}
 
     def get_metrics_summary(self) -> dict[str, Any]:
         """Get monitoring metrics summary."""
         return {
             "total_metrics": len(self.monitoring_data),
             "last_updated": self.metrics.last_updated.isoformat(),
-            "manager_status": self.status.value
+            "manager_status": self.status.value,
         }
 
 
@@ -492,15 +486,12 @@ class MonitoringManager(Manager):
 # RESULTS MANAGERS
 # ============================================================================
 
+
 class ResultsManager(Manager):
     """Results manager implementation."""
 
     def __init__(self, manager_id: str = None):
-        super().__init__(
-            manager_id or str(uuid.uuid4()),
-            "ResultsManager",
-            ManagerType.RESULTS
-        )
+        super().__init__(manager_id or str(uuid.uuid4()), "ResultsManager", ManagerType.RESULTS)
         self.results: dict[str, ExecutionResult] = {}
 
     def start(self) -> bool:
@@ -533,11 +524,7 @@ class ResultsManager(Manager):
             self.active_tasks[task.task_id] = task
 
             # Implementation for results processing
-            result_data = {
-                "results_processed": True,
-                "execution_time": 0.0,
-                "status": "completed"
-            }
+            result_data = {"results_processed": True, "execution_time": 0.0, "status": "completed"}
 
             execution_time = (datetime.now() - start_time).total_seconds()
             task.completed_at = datetime.now()
@@ -549,7 +536,7 @@ class ResultsManager(Manager):
                 manager_id=self.manager_id,
                 success=True,
                 result_data=result_data,
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, True)
@@ -566,7 +553,7 @@ class ResultsManager(Manager):
                 manager_id=self.manager_id,
                 success=False,
                 error_message=str(e),
-                execution_time=execution_time
+                execution_time=execution_time,
             )
 
             self.update_metrics(execution_time, False)
@@ -595,6 +582,7 @@ class ResultsManager(Manager):
 # ============================================================================
 # MANAGER REGISTRY
 # ============================================================================
+
 
 class ManagerRegistry:
     """Manager registry for managing all managers."""
@@ -631,7 +619,9 @@ class ManagerRegistry:
 
     def get_managers_by_type(self, manager_type: ManagerType) -> list[Manager]:
         """Get managers by type."""
-        return [manager for manager in self.managers.values() if manager.manager_type == manager_type]
+        return [
+            manager for manager in self.managers.values() if manager.manager_type == manager_type
+        ]
 
     def get_all_managers(self) -> list[Manager]:
         """Get all registered managers."""
@@ -658,19 +648,13 @@ class ManagerRegistry:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_manager(manager_type: ManagerType, manager_id: str = None) -> Manager | None:
     """Create manager by type."""
     managers = {
-        ManagerType.EXECUTION: {
-            "execution": ExecutionManager,
-            "workflow": WorkflowManager
-        },
-        ManagerType.MONITORING: {
-            "monitoring": MonitoringManager
-        },
-        ManagerType.RESULTS: {
-            "results": ResultsManager
-        }
+        ManagerType.EXECUTION: {"execution": ExecutionManager, "workflow": WorkflowManager},
+        ManagerType.MONITORING: {"monitoring": MonitoringManager},
+        ManagerType.RESULTS: {"results": ResultsManager},
     }
 
     type_managers = managers.get(manager_type, {})
@@ -691,6 +675,7 @@ def create_manager_registry() -> ManagerRegistry:
 # MAIN EXECUTION
 # ============================================================================
 
+
 def main():
     """Main execution function."""
     print("Managers Unified - Consolidated Manager System")
@@ -705,7 +690,7 @@ def main():
         (ManagerType.EXECUTION, "execution"),
         (ManagerType.EXECUTION, "workflow"),
         (ManagerType.MONITORING, "monitoring"),
-        (ManagerType.RESULTS, "results")
+        (ManagerType.RESULTS, "results"),
     ]
 
     for manager_type, manager_name in managers_to_create:
@@ -729,7 +714,7 @@ def main():
             task_id="test_task_001",
             name="Test Task",
             priority=TaskPriority.MEDIUM,
-            status=ExecutionStatus.PENDING
+            status=ExecutionStatus.PENDING,
         )
 
         result = manager.execute_task(test_task)

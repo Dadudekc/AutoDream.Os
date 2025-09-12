@@ -28,7 +28,7 @@ class VectorIntegrationAnalytics:
             "integrations_tracked": 0,
             "performance_metrics": {},
             "error_rates": {},
-            "last_updated": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
     def track_integration(self, integration_id: str, metrics: dict[str, Any]) -> bool:
@@ -47,7 +47,7 @@ class VectorIntegrationAnalytics:
             "total_integrations": self.analytics_data["integrations_tracked"],
             "performance_metrics": self.analytics_data["performance_metrics"],
             "error_rates": self.analytics_data["error_rates"],
-            "last_updated": self.analytics_data["last_updated"]
+            "last_updated": self.analytics_data["last_updated"],
         }
 
     def analyze_performance_trends(self) -> dict[str, Any]:
@@ -59,8 +59,8 @@ class VectorIntegrationAnalytics:
             "trend_direction": "improving",
             "recommendations": [
                 "Consider increasing batch sizes for better throughput",
-                "Monitor memory usage during peak hours"
-            ]
+                "Monitor memory usage during peak hours",
+            ],
         }
 
         return trends
@@ -71,11 +71,11 @@ class VectorIntegrationAnalytics:
 Vector Integration Analytics Report
 ==================================
 
-Total Integrations Tracked: {self.analytics_data['integrations_tracked']}
-Last Updated: {self.analytics_data['last_updated']}
+Total Integrations Tracked: {self.analytics_data["integrations_tracked"]}
+Last Updated: {self.analytics_data["last_updated"]}
 
-Performance Trends: {self.analyze_performance_trends()['trend_direction']}
-Average Performance: {self.analyze_performance_trends()['average_performance']:.2%}
+Performance Trends: {self.analyze_performance_trends()["trend_direction"]}
+Average Performance: {self.analyze_performance_trends()["average_performance"]:.2%}
 """
         return report
 

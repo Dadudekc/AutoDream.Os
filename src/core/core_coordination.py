@@ -29,8 +29,10 @@ from typing import Any
 # COORDINATION TYPES
 # ============================================================================
 
+
 class CoordinationStatus(Enum):
     """Coordination status enumeration."""
+
     IDLE = "idle"
     BUSY = "busy"
     COORDINATING = "coordinating"
@@ -40,6 +42,7 @@ class CoordinationStatus(Enum):
 
 class TaskStatus(Enum):
     """Task status enumeration."""
+
     PENDING = "pending"
     ASSIGNED = "assigned"
     IN_PROGRESS = "in_progress"
@@ -50,6 +53,7 @@ class TaskStatus(Enum):
 
 class ResourceStatus(Enum):
     """Resource status enumeration."""
+
     AVAILABLE = "available"
     ALLOCATED = "allocated"
     BUSY = "busy"
@@ -61,9 +65,11 @@ class ResourceStatus(Enum):
 # COORDINATION MODELS
 # ============================================================================
 
+
 @dataclass
 class AgentInfo:
     """Agent information structure."""
+
     agent_id: str
     agent_name: str
     agent_type: str
@@ -79,7 +85,10 @@ class AgentInfo:
 
     def can_accept_task(self) -> bool:
         """Check if agent can accept new tasks."""
-        return self.status in [CoordinationStatus.IDLE, CoordinationStatus.BUSY] and len(self.current_tasks) < 5
+        return (
+            self.status in [CoordinationStatus.IDLE, CoordinationStatus.BUSY]
+            and len(self.current_tasks) < 5
+        )
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
@@ -91,13 +100,14 @@ class AgentInfo:
             "capabilities": self.capabilities,
             "last_seen": self.last_seen.isoformat(),
             "current_tasks": self.current_tasks,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class Task:
     """Task structure."""
+
     task_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     task_name: str = ""
     task_type: str = ""
@@ -161,13 +171,14 @@ class Task:
             "estimated_duration": str(self.estimated_duration) if self.estimated_duration else None,
             "actual_duration": str(self.actual_duration) if self.actual_duration else None,
             "requirements": self.requirements,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class Resource:
     """Resource structure."""
+
     resource_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     resource_name: str = ""
     resource_type: str = ""
@@ -215,13 +226,14 @@ class Resource:
             "current_usage": self.current_usage,
             "created_at": self.created_at.isoformat(),
             "last_updated": self.last_updated.isoformat(),
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 # ============================================================================
 # COORDINATION INTERFACES
 # ============================================================================
+
 
 class ICoordinator(ABC):
     """Base coordinator interface."""
@@ -342,6 +354,7 @@ class IResourceCoordinator(ICoordinator):
 # ============================================================================
 # COORDINATION IMPLEMENTATIONS
 # ============================================================================
+
 
 class AgentCoordinator(IAgentCoordinator):
     """Agent coordination implementation."""
@@ -573,47 +586,31 @@ class ResourceCoordinator(IResourceCoordinator):
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_agent_info(
-    agent_id: str,
-    agent_name: str,
-    agent_type: str,
-    capabilities: list[str] = None
+    agent_id: str, agent_name: str, agent_type: str, capabilities: list[str] = None
 ) -> AgentInfo:
     """Create agent information."""
     return AgentInfo(
         agent_id=agent_id,
         agent_name=agent_name,
         agent_type=agent_type,
-        capabilities=capabilities or []
+        capabilities=capabilities or [],
     )
 
 
 def create_task(
-    task_name: str,
-    task_type: str,
-    priority: int = 0,
-    requirements: list[str] = None
+    task_name: str, task_type: str, priority: int = 0, requirements: list[str] = None
 ) -> Task:
     """Create a task."""
     return Task(
-        task_name=task_name,
-        task_type=task_type,
-        priority=priority,
-        requirements=requirements or []
+        task_name=task_name, task_type=task_type, priority=priority, requirements=requirements or []
     )
 
 
-def create_resource(
-    resource_name: str,
-    resource_type: str,
-    capacity: int = 1
-) -> Resource:
+def create_resource(resource_name: str, resource_type: str, capacity: int = 1) -> Resource:
     """Create a resource."""
-    return Resource(
-        resource_name=resource_name,
-        resource_type=resource_type,
-        capacity=capacity
-    )
+    return Resource(resource_name=resource_name, resource_type=resource_type, capacity=capacity)
 
 
 def create_agent_coordinator() -> AgentCoordinator:
@@ -634,6 +631,7 @@ def create_resource_coordinator() -> ResourceCoordinator:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -659,21 +657,17 @@ def main():
         "agent-2",
         "Architecture & Design Specialist",
         "consolidation",
-        ["analysis", "consolidation", "architecture"]
+        ["analysis", "consolidation", "architecture"],
     )
 
     task = create_task(
         "Consolidate Core Modules",
         "consolidation",
         priority=1,
-        requirements=["analysis", "consolidation"]
+        requirements=["analysis", "consolidation"],
     )
 
-    resource = create_resource(
-        "Development Environment",
-        "computing",
-        capacity=5
-    )
+    resource = create_resource("Development Environment", "computing", capacity=5)
 
     # Register and test
     agent_coordinator.register_agent(agent_info)

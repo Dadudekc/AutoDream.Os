@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 class ConfigEnvironment(str, Enum):
     """Configuration environment types."""
+
     DEVELOPMENT = "development"
     TESTING = "testing"
     PRODUCTION = "production"
@@ -36,6 +37,7 @@ class ConfigEnvironment(str, Enum):
 
 class ConfigSource(str, Enum):
     """Configuration source types."""
+
     ENVIRONMENT = "environment"
     FILE = "file"
     DEFAULT = "default"
@@ -45,6 +47,7 @@ class ConfigSource(str, Enum):
 @dataclass
 class ConfigValue:
     """Configuration value with metadata."""
+
     value: Any
     source: ConfigSource
     environment: ConfigEnvironment
@@ -71,57 +74,46 @@ class UnifiedConfigManager:
             "DEFAULT_COORDINATE_MODE": "swarm",
             "AGENT_COUNT": 8,
             "CAPTAIN_ID": "captain-1",
-
             # Timeout Configuration
             "SCRAPE_TIMEOUT": 30.0,
             "RESPONSE_WAIT_TIMEOUT": 120.0,
             "QUALITY_CHECK_INTERVAL": 30.0,
             "PERFORMANCE_CHECK_INTERVAL": 60.0,
             "HEALTH_CHECK_TIMEOUT": 10.0,
-
             # Quality Configuration
             "QUALITY_CHECK_INTERVAL": 30.0,
             "HISTORY_WINDOW": 100,
             "ALERT_THRESHOLD": 0.8,
-
             # Performance Configuration
             "PERFORMANCE_METRICS_INTERVAL": 60.0,
             "MEMORY_THRESHOLD": 80.0,
             "CPU_THRESHOLD": 70.0,
-
             # Messaging Configuration
             "MESSAGE_QUEUE_SIZE": 1000,
             "MESSAGE_TIMEOUT": 30.0,
             "MAX_RETRIES": 3,
-
             # Browser Configuration
             "BROWSER_TIMEOUT": 30.0,
             "PAGE_LOAD_TIMEOUT": 60.0,
-
             # FSM Configuration
             "FSM_STATE_TIMEOUT": 300.0,
             "FSM_TRANSITION_TIMEOUT": 30.0,
-
             # Vector Database Configuration
             "VECTOR_DIMENSION": 768,
             "VECTOR_SIMILARITY_THRESHOLD": 0.8,
             "VECTOR_INDEX_SIZE": 10000,
-
             # Logging Configuration
             "LOG_LEVEL": "INFO",
             "LOG_MAX_SIZE": 10485760,  # 10MB
             "LOG_BACKUP_COUNT": 5,
-
             # Testing Configuration
             "TEST_TIMEOUT": 300.0,
             "TEST_PARALLEL_WORKERS": 4,
             "COVERAGE_THRESHOLD": 85.0,
-
             # Swarm Configuration
             "SWARM_COORDINATION_TIMEOUT": 60.0,
             "SWARM_AGENT_TIMEOUT": 30.0,
             "SWARM_MAX_AGENTS": 8,
-
             # Security Configuration
             "ENCRYPTION_KEY_SIZE": 256,
             "TOKEN_EXPIRY": 3600,  # 1 hour
@@ -142,10 +134,10 @@ class UnifiedConfigManager:
             # Convert string values to appropriate types
             if env_value.isdigit():
                 return int(env_value)
-            elif env_value.replace('.', '', 1).isdigit():
+            elif env_value.replace(".", "", 1).isdigit():
                 return float(env_value)
-            elif env_value.lower() in ('true', 'false'):
-                return env_value.lower() == 'true'
+            elif env_value.lower() in ("true", "false"):
+                return env_value.lower() == "true"
             return env_value
 
         return default
@@ -153,9 +145,7 @@ class UnifiedConfigManager:
     def set(self, key: str, value: Any, source: ConfigSource = ConfigSource.DEFAULT) -> None:
         """Set configuration value."""
         self.configs[key] = ConfigValue(
-            value=value,
-            source=source,
-            environment=ConfigEnvironment.DEVELOPMENT
+            value=value, source=source, environment=ConfigEnvironment.DEVELOPMENT
         )
         self.logger.debug(f"Configuration set: {key} = {value} (source: {source.value})")
 
@@ -181,7 +171,10 @@ class UnifiedConfigManager:
         if not isinstance(self.get("AGENT_COUNT"), int) or self.get("AGENT_COUNT") < 1:
             errors.append("AGENT_COUNT must be a positive integer")
 
-        if not isinstance(self.get("MESSAGE_QUEUE_SIZE"), int) or self.get("MESSAGE_QUEUE_SIZE") < 1:
+        if (
+            not isinstance(self.get("MESSAGE_QUEUE_SIZE"), int)
+            or self.get("MESSAGE_QUEUE_SIZE") < 1
+        ):
             errors.append("MESSAGE_QUEUE_SIZE must be a positive integer")
 
         # Validate timeout ranges
@@ -226,44 +219,48 @@ def get_all_config() -> dict[str, Any]:
 def get_agent_config() -> AgentConfig:
     """Get agent-specific configuration."""
     from .unified_config import AgentConfig
+
     return AgentConfig(
         default_mode=get_config("DEFAULT_MODE"),
         coordinate_mode=get_config("DEFAULT_COORDINATE_MODE"),
         agent_count=get_config("AGENT_COUNT"),
-        captain_id=get_config("CAPTAIN_ID")
+        captain_id=get_config("CAPTAIN_ID"),
     )
 
 
 def get_timeout_config() -> TimeoutConfig:
     """Get timeout configuration."""
     from .unified_config import TimeoutConfig
+
     return TimeoutConfig(
         scrape_timeout=get_config("SCRAPE_TIMEOUT"),
         response_wait_timeout=get_config("RESPONSE_WAIT_TIMEOUT"),
         quality_check_interval=get_config("QUALITY_CHECK_INTERVAL"),
         performance_check_interval=get_config("PERFORMANCE_METRICS_INTERVAL"),
-        health_check_timeout=get_config("HEALTH_CHECK_TIMEOUT")
+        health_check_timeout=get_config("HEALTH_CHECK_TIMEOUT"),
     )
 
 
 def get_threshold_config() -> ThresholdConfig:
     """Get threshold configuration."""
     from .unified_config import ThresholdConfig
+
     return ThresholdConfig(
         memory_threshold=get_config("MEMORY_THRESHOLD"),
         cpu_threshold=get_config("CPU_THRESHOLD"),
-        alert_threshold=get_config("ALERT_THRESHOLD")
+        alert_threshold=get_config("ALERT_THRESHOLD"),
     )
 
 
 def get_test_config() -> TestConfig:
     """Get test configuration."""
     from .unified_config import TestConfig
+
     return TestConfig(
         test_timeout=get_config("TEST_TIMEOUT"),
         parallel_workers=get_config("TEST_PARALLEL_WORKERS"),
         coverage_threshold=get_config("COVERAGE_THRESHOLD"),
-        history_window=get_config("HISTORY_WINDOW")
+        history_window=get_config("HISTORY_WINDOW"),
     )
 
 

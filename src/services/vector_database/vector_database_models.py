@@ -18,6 +18,7 @@ from typing import Any
 
 class DocumentType(Enum):
     """Types of documents stored in vector database."""
+
     AGENT_WORK = "agent_work"
     MESSAGE = "message"
     TASK = "task"

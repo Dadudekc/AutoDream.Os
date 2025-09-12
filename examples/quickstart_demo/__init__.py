@@ -4,6 +4,6 @@
 from . import dashboard_demo, workflow_demo
 
 __all__ = [
-    'dashboard_demo',
-    'workflow_demo',
+    "dashboard_demo",
+    "workflow_demo",
 ]

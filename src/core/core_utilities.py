@@ -32,6 +32,7 @@ from typing import Any
 # FILE OPERATIONS
 # ============================================================================
 
+
 def read_file(file_path: str | Path, encoding: str = "utf-8") -> str | None:
     """Read file content."""
     try:
@@ -48,7 +49,7 @@ def write_file(file_path: str | Path, content: str, encoding: str = "utf-8") -> 
         file_path = Path(file_path)
         file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(file_path, 'w', encoding=encoding) as f:
+        with open(file_path, "w", encoding=encoding) as f:
             f.write(content)
         return True
     except Exception as e:
@@ -112,7 +113,7 @@ def get_file_hash(file_path: str | Path, algorithm: str = "md5") -> str | None:
     """Get file hash."""
     try:
         hash_obj = hashlib.new(algorithm)
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_obj.update(chunk)
         return hash_obj.hexdigest()
@@ -144,6 +145,7 @@ def file_exists(file_path: str | Path) -> bool:
 # ============================================================================
 # DATA PROCESSING
 # ============================================================================
+
 
 def to_json(data: Any, indent: int = 2) -> str | None:
     """Convert data to JSON string."""
@@ -198,6 +200,7 @@ def merge_dicts(*dicts: dict[str, Any]) -> dict[str, Any]:
 
 def flatten_dict(data: dict[str, Any], separator: str = ".") -> dict[str, Any]:
     """Flatten nested dictionary."""
+
     def _flatten(obj, parent_key="", sep="."):
         items = []
         if isinstance(obj, dict):
@@ -247,6 +250,7 @@ def deep_set(data: dict[str, Any], key: str, value: Any) -> bool:
 # STRING MANIPULATION
 # ============================================================================
 
+
 def sanitize_string(text: str, max_length: int = None) -> str:
     """Sanitize string by removing special characters and limiting length."""
     if not isinstance(text, str):
@@ -270,7 +274,7 @@ def truncate_string(text: str, max_length: int, suffix: str = "...") -> str:
     if len(text) <= max_length:
         return text
 
-    return text[:max_length - len(suffix)] + suffix
+    return text[: max_length - len(suffix)] + suffix
 
 
 def format_string(template: str, **kwargs) -> str:
@@ -287,9 +291,9 @@ def extract_numbers(text: str) -> list[int | float]:
     import re
 
     numbers = []
-    for match in re.finditer(r'-?\d+\.?\d*', text):
+    for match in re.finditer(r"-?\d+\.?\d*", text):
         try:
-            if '.' in match.group():
+            if "." in match.group():
                 numbers.append(float(match.group()))
             else:
                 numbers.append(int(match.group()))
@@ -306,7 +310,8 @@ def clean_whitespace(text: str) -> str:
 
     # Replace multiple whitespace with single space
     import re
-    cleaned = re.sub(r'\s+', ' ', text)
+
+    cleaned = re.sub(r"\s+", " ", text)
 
     return cleaned.strip()
 
@@ -314,6 +319,7 @@ def clean_whitespace(text: str) -> str:
 # ============================================================================
 # DATE/TIME OPERATIONS
 # ============================================================================
+
 
 def get_timestamp() -> str:
     """Get current timestamp as string."""
@@ -328,7 +334,7 @@ def get_timestamp_utc() -> str:
 def parse_timestamp(timestamp: str) -> datetime | None:
     """Parse timestamp string to datetime object."""
     try:
-        return datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+        return datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
     except Exception as e:
         logging.error(f"Failed to parse timestamp {timestamp}: {e}")
         return None
@@ -374,6 +380,7 @@ def is_business_hours(dt: datetime, start_hour: int = 9, end_hour: int = 17) -> 
 # ============================================================================
 # MATHEMATICAL OPERATIONS
 # ============================================================================
+
 
 def clamp(value: int | float, min_value: int | float, max_value: int | float) -> int | float:
     """Clamp value between min and max."""
@@ -434,6 +441,7 @@ def median(values: list[int | float]) -> float:
 # IDENTIFIER GENERATION
 # ============================================================================
 
+
 def generate_id(prefix: str = "", length: int = 8) -> str:
     """Generate unique identifier."""
     if prefix:
@@ -455,24 +463,28 @@ def generate_uuid() -> str:
 # VALIDATION UTILITIES
 # ============================================================================
 
+
 def is_valid_email(email: str) -> bool:
     """Validate email address."""
     import re
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+    pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     return bool(re.match(pattern, email))
 
 
 def is_valid_url(url: str) -> bool:
     """Validate URL."""
     import re
-    pattern = r'^https?://[^\s/$.?#].[^\s]*$'
+
+    pattern = r"^https?://[^\s/$.?#].[^\s]*$"
     return bool(re.match(pattern, url))
 
 
 def is_valid_phone(phone: str) -> bool:
     """Validate phone number."""
     import re
-    pattern = r'^\+?1?[-.\s]?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$'
+
+    pattern = r"^\+?1?[-.\s]?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$"
     return bool(re.match(pattern, phone))
 
 
@@ -498,6 +510,7 @@ def is_negative(value: Any) -> bool:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""

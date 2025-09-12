@@ -34,7 +34,7 @@ class StructuredFormatter(logging.Formatter):
         }
 
         # Add extra fields if present
-        if hasattr(record, 'extra_fields'):
+        if hasattr(record, "extra_fields"):
             log_entry.update(record.extra_fields)
 
         # Add exception info if present
@@ -65,7 +65,7 @@ class V2Logger:
         # Console handler with structured format
         console_handler = logging.StreamHandler()
         console_formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         console_handler.setFormatter(console_formatter)
         self.logger.addHandler(console_handler)
@@ -83,9 +83,9 @@ class V2Logger:
         log_dir.mkdir(exist_ok=True)
 
         log_file = log_dir / f"{self.name}_{datetime.now().strftime('%Y%m%d')}.log"
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler = logging.FileHandler(log_file, encoding="utf-8")
         file_formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
         )
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
@@ -114,7 +114,7 @@ class V2Logger:
         """Internal logging method."""
         if extra:
             # Add extra fields to log record
-            extra_fields = {'extra_fields': extra}
+            extra_fields = {"extra_fields": extra}
             self.logger.log(level, message, extra=extra_fields)
         else:
             self.logger.log(level, message)

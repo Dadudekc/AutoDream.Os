@@ -17,6 +17,7 @@ import pytest
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
+
 class TestSOLIDPrinciples:
     """Test SOLID principle compliance."""
 
@@ -26,15 +27,16 @@ class TestSOLIDPrinciples:
         """Test that classes have single responsibility."""
         # Test unified browser service - single responsibility for browser operations
         from src.infrastructure.unified_browser_service import UnifiedBrowserService
+
         service = UnifiedBrowserService.__new__(UnifiedBrowserService)
 
         # Should only handle browser operations, not file I/O or networking
-        assert hasattr(service, 'start_browser')
-        assert hasattr(service, 'navigate_to_conversation')
-        assert hasattr(service, 'send_message')
+        assert hasattr(service, "start_browser")
+        assert hasattr(service, "navigate_to_conversation")
+        assert hasattr(service, "send_message")
         # Should not have file operations mixed in
-        assert not hasattr(service, 'read_file')
-        assert not hasattr(service, 'write_file')
+        assert not hasattr(service, "read_file")
+        assert not hasattr(service, "write_file")
 
     @pytest.mark.unit
     @pytest.mark.agent2
@@ -43,13 +45,14 @@ class TestSOLIDPrinciples:
         from src.infrastructure.unified_browser_service import BrowserAdapter
 
         # BrowserAdapter should be extensible without modification
-        adapter_methods = ['start', 'stop', 'navigate', 'get_current_url', 'get_title']
+        adapter_methods = ["start", "stop", "navigate", "get_current_url", "get_title"]
 
         for method in adapter_methods:
             assert hasattr(BrowserAdapter, method), f"BrowserAdapter missing {method}"
 
         # Should be abstract to force implementation
         import inspect
+
         for method in adapter_methods:
             base_method = getattr(BrowserAdapter, method)
             assert inspect.isabstract(base_method), f"{method} should be abstract"
@@ -64,7 +67,7 @@ class TestSOLIDPrinciples:
         adapter = ChromeBrowserAdapter()
 
         # Should implement all abstract methods
-        required_methods = ['start', 'stop', 'navigate', 'get_current_url', 'get_title']
+        required_methods = ["start", "stop", "navigate", "get_current_url", "get_title"]
         for method in required_methods:
             assert hasattr(adapter, method), f"ChromeBrowserAdapter missing {method}"
 
@@ -87,7 +90,7 @@ class TestSOLIDPrinciples:
         adapter_methods = dir(BrowserAdapter)
 
         # Should not have unrelated methods
-        unrelated_methods = ['save_file', 'send_email', 'process_payment']
+        unrelated_methods = ["save_file", "send_email", "process_payment"]
         for method in unrelated_methods:
             assert method not in adapter_methods, f"BrowserAdapter should not have {method}"
 
@@ -103,6 +106,7 @@ class TestSOLIDPrinciples:
         # Should use abstract interfaces, not concrete implementations
         # This is tested by the fact that it works with mock browser adapters
         assert service is not None
+
 
 class TestDependencyInjection:
     """Test dependency injection patterns."""
@@ -126,6 +130,7 @@ class TestDependencyInjection:
         # Test configuration service locator
         try:
             from src.core.enhanced_unified_config import get_enhanced_config
+
             config = get_enhanced_config()
             assert config is not None
         except ImportError:
@@ -139,7 +144,8 @@ class TestDependencyInjection:
 
         service = create_browser_service(headless=True)
         assert service is not None
-        assert hasattr(service, 'start_browser')
+        assert hasattr(service, "start_browser")
+
 
 class TestArchitecturalPatterns:
     """Test architectural pattern implementations."""
@@ -151,12 +157,13 @@ class TestArchitecturalPatterns:
         # Test configuration repository pattern
         try:
             from src.core.enhanced_unified_config import get_enhanced_config
+
             config = get_enhanced_config()
 
             # Should provide unified access to configuration data
             agent_config = config.get_agent_config("test_agent")
             # May return None if agent doesn't exist, which is fine
-            assert agent_config is None or hasattr(agent_config, 'agent_id')
+            assert agent_config is None or hasattr(agent_config, "agent_id")
         except ImportError:
             pytest.skip("Configuration system not available")
 
@@ -169,8 +176,8 @@ class TestArchitecturalPatterns:
         service = UnifiedBrowserService.__new__(UnifiedBrowserService)
 
         # Should provide simple interface to complex browser operations
-        assert hasattr(service, 'send_message')  # Simple method
-        assert hasattr(service, 'navigate_to_conversation')  # Hides complexity
+        assert hasattr(service, "send_message")  # Simple method
+        assert hasattr(service, "navigate_to_conversation")  # Hides complexity
 
     @pytest.mark.unit
     @pytest.mark.agent2
@@ -181,9 +188,9 @@ class TestArchitecturalPatterns:
         adapter = ChromeBrowserAdapter()
 
         # Should adapt selenium webdriver to unified interface
-        assert hasattr(adapter, 'start')
-        assert hasattr(adapter, 'navigate')
-        assert hasattr(adapter, 'find_element')
+        assert hasattr(adapter, "start")
+        assert hasattr(adapter, "navigate")
+        assert hasattr(adapter, "find_element")
 
     @pytest.mark.unit
     @pytest.mark.agent2
@@ -196,6 +203,7 @@ class TestArchitecturalPatterns:
         headed_config = BrowserConfig(headless=False)
 
         assert headless_config.headless != headed_config.headless
+
 
 class TestDesignPatternCompliance:
     """Test compliance with established design patterns."""
@@ -244,6 +252,7 @@ class TestDesignPatternCompliance:
         except ImportError:
             pytest.skip("Configuration system not available")
 
+
 class TestArchitecturalIntegrity:
     """Test overall architectural integrity."""
 
@@ -256,11 +265,12 @@ class TestArchitecturalIntegrity:
         import inspect
 
         from src.infrastructure.unified_browser_service import UnifiedBrowserService
+
         source = inspect.getsource(UnifiedBrowserService)
 
         # Should not contain application imports
-        assert 'application.' not in source
-        assert 'discord_commander.' not in source
+        assert "application." not in source
+        assert "discord_commander." not in source
 
     @pytest.mark.integration
     @pytest.mark.agent2
@@ -270,11 +280,12 @@ class TestArchitecturalIntegrity:
         import inspect
 
         from src.infrastructure.unified_browser_service import UnifiedBrowserService
+
         source = inspect.getsource(UnifiedBrowserService)
 
         # Should not contain domain-specific logic
-        assert 'business' not in source.lower()
-        assert 'domain' not in source.lower()
+        assert "business" not in source.lower()
+        assert "domain" not in source.lower()
 
     @pytest.mark.integration
     @pytest.mark.agent2
@@ -284,11 +295,13 @@ class TestArchitecturalIntegrity:
         import inspect
 
         from src.core.enhanced_unified_config import EnhancedUnifiedConfig
+
         source = inspect.getsource(EnhancedUnifiedConfig)
 
         # Core should not depend on infrastructure
-        assert 'infrastructure.' not in source
-        assert 'discord_commander.' not in source
+        assert "infrastructure." not in source
+        assert "discord_commander." not in source
+
 
 class TestErrorHandlingArchitecture:
     """Test error handling architectural patterns."""
@@ -312,6 +325,7 @@ class TestErrorHandlingArchitecture:
         # Should handle errors gracefully
         result = adapter.find_element("nonexistent")
         assert result is None  # Should return None for not found elements
+
 
 class TestPerformanceArchitecture:
     """Test performance-related architectural decisions."""

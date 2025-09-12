@@ -97,7 +97,7 @@ class MetricManager:
         """Get metrics summary."""
         return {
             "total_metrics": len(self.metrics),
-            "metric_types": list(set(metric.metric_type.value for metric in self.metrics.values())),
+            "metric_types": list({metric.metric_type.value for metric in self.metrics.values()}),
             "last_updated": max(
                 (metric.updated_at for metric in self.metrics.values()), default=None
             ),

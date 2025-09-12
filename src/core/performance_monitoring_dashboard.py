@@ -24,6 +24,7 @@ import psutil
 
 class DashboardType(Enum):
     """Types of monitoring dashboards."""
+
     OPERATIONAL = "operational"
     CONSOLIDATION = "consolidation"
     PERFORMANCE = "performance"
@@ -33,6 +34,7 @@ class DashboardType(Enum):
 
 class MetricType(Enum):
     """Types of performance metrics."""
+
     GAUGE = "gauge"
     COUNTER = "counter"
     HISTOGRAM = "histogram"
@@ -42,6 +44,7 @@ class MetricType(Enum):
 @dataclass
 class DashboardMetric:
     """Represents a metric for dashboard display."""
+
     name: str
     value: int | float | str | bool
     unit: str
@@ -58,6 +61,7 @@ class DashboardMetric:
 @dataclass
 class DashboardWidget:
     """Represents a dashboard widget."""
+
     id: str
     title: str
     widget_type: str  # "chart", "gauge", "table", "alert"
@@ -70,6 +74,7 @@ class DashboardWidget:
 @dataclass
 class ConsolidationPhase:
     """Represents a consolidation phase with metrics."""
+
     name: str
     start_time: datetime
     end_time: datetime | None = None
@@ -137,81 +142,96 @@ class PerformanceMonitoringDashboard:
         }
 
         # System resources widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="system_resources",
-            title="System Resources",
-            widget_type="chart",
-            metrics=["cpu_usage", "memory_usage", "disk_usage", "network_io"],
-            config={
-                "chart_type": "line",
-                "time_range": "5m",
-                "show_trends": True,
-                "thresholds": True,
-            },
-            position={"x": 0, "y": 0},
-            size={"width": 6, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="system_resources",
+                title="System Resources",
+                widget_type="chart",
+                metrics=["cpu_usage", "memory_usage", "disk_usage", "network_io"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "5m",
+                    "show_trends": True,
+                    "thresholds": True,
+                },
+                position={"x": 0, "y": 0},
+                size={"width": 6, "height": 4},
+            ),
+        )
 
         # SLA compliance widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="sla_compliance",
-            title="SLA Compliance",
-            widget_type="gauge",
-            metrics=["sla_uptime_core", "sla_uptime_messaging", "sla_uptime_analytics"],
-            config={
-                "gauge_type": "radial",
-                "thresholds": {"warning": 99.5, "critical": 99.0},
-                "show_percentage": True,
-            },
-            position={"x": 6, "y": 0},
-            size={"width": 3, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="sla_compliance",
+                title="SLA Compliance",
+                widget_type="gauge",
+                metrics=["sla_uptime_core", "sla_uptime_messaging", "sla_uptime_analytics"],
+                config={
+                    "gauge_type": "radial",
+                    "thresholds": {"warning": 99.5, "critical": 99.0},
+                    "show_percentage": True,
+                },
+                position={"x": 6, "y": 0},
+                size={"width": 3, "height": 4},
+            ),
+        )
 
         # Active alerts widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="active_alerts",
-            title="Active Alerts",
-            widget_type="table",
-            metrics=["alert_count_critical", "alert_count_warning", "alert_count_info"],
-            config={
-                "columns": ["severity", "component", "message", "timestamp"],
-                "max_rows": 10,
-                "auto_refresh": True,
-            },
-            position={"x": 9, "y": 0},
-            size={"width": 3, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="active_alerts",
+                title="Active Alerts",
+                widget_type="table",
+                metrics=["alert_count_critical", "alert_count_warning", "alert_count_info"],
+                config={
+                    "columns": ["severity", "component", "message", "timestamp"],
+                    "max_rows": 10,
+                    "auto_refresh": True,
+                },
+                position={"x": 9, "y": 0},
+                size={"width": 3, "height": 4},
+            ),
+        )
 
         # Performance trends widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="performance_trends",
-            title="Performance Trends",
-            widget_type="chart",
-            metrics=["response_time", "error_rate", "throughput"],
-            config={
-                "chart_type": "area",
-                "time_range": "1h",
-                "show_baseline": True,
-                "trend_analysis": True,
-            },
-            position={"x": 0, "y": 4},
-            size={"width": 8, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="performance_trends",
+                title="Performance Trends",
+                widget_type="chart",
+                metrics=["response_time", "error_rate", "throughput"],
+                config={
+                    "chart_type": "area",
+                    "time_range": "1h",
+                    "show_baseline": True,
+                    "trend_analysis": True,
+                },
+                position={"x": 0, "y": 4},
+                size={"width": 8, "height": 4},
+            ),
+        )
 
         # System health summary widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="health_summary",
-            title="Health Summary",
-            widget_type="table",
-            metrics=["overall_status", "component_health", "uptime_percentage"],
-            config={
-                "show_status_indicators": True,
-                "group_by_component": True,
-                "highlight_issues": True,
-            },
-            position={"x": 8, "y": 4},
-            size={"width": 4, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="health_summary",
+                title="Health Summary",
+                widget_type="table",
+                metrics=["overall_status", "component_health", "uptime_percentage"],
+                config={
+                    "show_status_indicators": True,
+                    "group_by_component": True,
+                    "highlight_issues": True,
+                },
+                position={"x": 8, "y": 4},
+                size={"width": 4, "height": 4},
+            ),
+        )
 
     def _create_consolidation_dashboard(self) -> None:
         """Create the consolidation progress dashboard."""
@@ -227,99 +247,120 @@ class PerformanceMonitoringDashboard:
         }
 
         # Consolidation progress widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="consolidation_progress",
-            title="Consolidation Progress",
-            widget_type="chart",
-            metrics=["files_consolidated", "files_remaining", "consolidation_rate"],
-            config={
-                "chart_type": "progress",
-                "show_percentage": True,
-                "target_value": 283,  # Target file reduction
-                "show_eta": True,
-            },
-            position={"x": 0, "y": 0},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="consolidation_progress",
+                title="Consolidation Progress",
+                widget_type="chart",
+                metrics=["files_consolidated", "files_remaining", "consolidation_rate"],
+                config={
+                    "chart_type": "progress",
+                    "show_percentage": True,
+                    "target_value": 283,  # Target file reduction
+                    "show_eta": True,
+                },
+                position={"x": 0, "y": 0},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
         # Phase status widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="phase_status",
-            title="Current Phase Status",
-            widget_type="table",
-            metrics=["phase_name", "phase_progress", "phase_eta", "phase_status"],
-            config={
-                "columns": ["phase", "progress", "status", "eta"],
-                "highlight_active_phase": True,
-                "show_blockers": True,
-            },
-            position={"x": 6, "y": 0},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="phase_status",
+                title="Current Phase Status",
+                widget_type="table",
+                metrics=["phase_name", "phase_progress", "phase_eta", "phase_status"],
+                config={
+                    "columns": ["phase", "progress", "status", "eta"],
+                    "highlight_active_phase": True,
+                    "show_blockers": True,
+                },
+                position={"x": 6, "y": 0},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
         # Performance impact widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="performance_impact",
-            title="Performance Impact",
-            widget_type="chart",
-            metrics=["cpu_impact", "memory_impact", "response_time_impact"],
-            config={
-                "chart_type": "line",
-                "time_range": "2h",
-                "show_baseline_comparison": True,
-                "impact_thresholds": {"warning": 10, "critical": 25},
-            },
-            position={"x": 0, "y": 3},
-            size={"width": 8, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="performance_impact",
+                title="Performance Impact",
+                widget_type="chart",
+                metrics=["cpu_impact", "memory_impact", "response_time_impact"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "2h",
+                    "show_baseline_comparison": True,
+                    "impact_thresholds": {"warning": 10, "critical": 25},
+                },
+                position={"x": 0, "y": 3},
+                size={"width": 8, "height": 3},
+            ),
+        )
 
         # Consolidation alerts widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="consolidation_alerts",
-            title="Consolidation Alerts",
-            widget_type="alert",
-            metrics=["consolidation_alerts", "rollback_triggers", "safety_checks"],
-            config={
-                "alert_types": ["blocking", "warning", "info"],
-                "auto_acknowledge_info": True,
-                "escalation_rules": True,
-            },
-            position={"x": 8, "y": 3},
-            size={"width": 4, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="consolidation_alerts",
+                title="Consolidation Alerts",
+                widget_type="alert",
+                metrics=["consolidation_alerts", "rollback_triggers", "safety_checks"],
+                config={
+                    "alert_types": ["blocking", "warning", "info"],
+                    "auto_acknowledge_info": True,
+                    "escalation_rules": True,
+                },
+                position={"x": 8, "y": 3},
+                size={"width": 4, "height": 3},
+            ),
+        )
 
         # File consolidation breakdown widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="file_breakdown",
-            title="File Consolidation Breakdown",
-            widget_type="chart",
-            metrics=["core_files", "services_files", "utilities_files", "infrastructure_files"],
-            config={
-                "chart_type": "pie",
-                "show_reduction_percentage": True,
-                "target_reductions": {
-                    "core": 70, "services": 62, "utilities": 58, "infrastructure": 58
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="file_breakdown",
+                title="File Consolidation Breakdown",
+                widget_type="chart",
+                metrics=["core_files", "services_files", "utilities_files", "infrastructure_files"],
+                config={
+                    "chart_type": "pie",
+                    "show_reduction_percentage": True,
+                    "target_reductions": {
+                        "core": 70,
+                        "services": 62,
+                        "utilities": 58,
+                        "infrastructure": 58,
+                    },
                 },
-            },
-            position={"x": 0, "y": 6},
-            size={"width": 6, "height": 3},
-        ))
+                position={"x": 0, "y": 6},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
         # Timeline widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="consolidation_timeline",
-            title="Consolidation Timeline",
-            widget_type="chart",
-            metrics=["timeline_milestones", "phase_durations", "delays"],
-            config={
-                "chart_type": "timeline",
-                "show_milestones": True,
-                "highlight_delays": True,
-                "target_completion": "2025-09-15",
-            },
-            position={"x": 6, "y": 6},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="consolidation_timeline",
+                title="Consolidation Timeline",
+                widget_type="chart",
+                metrics=["timeline_milestones", "phase_durations", "delays"],
+                config={
+                    "chart_type": "timeline",
+                    "show_milestones": True,
+                    "highlight_delays": True,
+                    "target_completion": "2025-09-15",
+                },
+                position={"x": 6, "y": 6},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
     def _create_performance_dashboard(self) -> None:
         """Create the detailed performance dashboard."""
@@ -335,100 +376,118 @@ class PerformanceMonitoringDashboard:
         }
 
         # CPU performance widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="cpu_performance",
-            title="CPU Performance",
-            widget_type="chart",
-            metrics=["cpu_user", "cpu_system", "cpu_idle", "cpu_iowait"],
-            config={
-                "chart_type": "stacked_area",
-                "time_range": "10m",
-                "show_peaks": True,
-                "thresholds": {"warning": 70, "critical": 85},
-            },
-            position={"x": 0, "y": 0},
-            size={"width": 6, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="cpu_performance",
+                title="CPU Performance",
+                widget_type="chart",
+                metrics=["cpu_user", "cpu_system", "cpu_idle", "cpu_iowait"],
+                config={
+                    "chart_type": "stacked_area",
+                    "time_range": "10m",
+                    "show_peaks": True,
+                    "thresholds": {"warning": 70, "critical": 85},
+                },
+                position={"x": 0, "y": 0},
+                size={"width": 6, "height": 4},
+            ),
+        )
 
         # Memory performance widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="memory_performance",
-            title="Memory Performance",
-            widget_type="chart",
-            metrics=["memory_used", "memory_available", "memory_cached", "swap_usage"],
-            config={
-                "chart_type": "line",
-                "time_range": "10m",
-                "show_trends": True,
-                "thresholds": {"warning": 75, "critical": 90},
-            },
-            position={"x": 6, "y": 0},
-            size={"width": 6, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="memory_performance",
+                title="Memory Performance",
+                widget_type="chart",
+                metrics=["memory_used", "memory_available", "memory_cached", "swap_usage"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "10m",
+                    "show_trends": True,
+                    "thresholds": {"warning": 75, "critical": 90},
+                },
+                position={"x": 6, "y": 0},
+                size={"width": 6, "height": 4},
+            ),
+        )
 
         # I/O performance widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="io_performance",
-            title="I/O Performance",
-            widget_type="chart",
-            metrics=["disk_read_bytes", "disk_write_bytes", "network_rx", "network_tx"],
-            config={
-                "chart_type": "line",
-                "time_range": "5m",
-                "show_rates": True,
-                "highlight_anomalies": True,
-            },
-            position={"x": 0, "y": 4},
-            size={"width": 8, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="io_performance",
+                title="I/O Performance",
+                widget_type="chart",
+                metrics=["disk_read_bytes", "disk_write_bytes", "network_rx", "network_tx"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "5m",
+                    "show_rates": True,
+                    "highlight_anomalies": True,
+                },
+                position={"x": 0, "y": 4},
+                size={"width": 8, "height": 3},
+            ),
+        )
 
         # Response time distribution widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="response_time_dist",
-            title="Response Time Distribution",
-            widget_type="chart",
-            metrics=["response_time_p50", "response_time_p95", "response_time_p99"],
-            config={
-                "chart_type": "histogram",
-                "time_range": "1h",
-                "percentiles": [50, 95, 99],
-                "thresholds": {"warning": 1000, "critical": 5000},
-            },
-            position={"x": 8, "y": 4},
-            size={"width": 4, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="response_time_dist",
+                title="Response Time Distribution",
+                widget_type="chart",
+                metrics=["response_time_p50", "response_time_p95", "response_time_p99"],
+                config={
+                    "chart_type": "histogram",
+                    "time_range": "1h",
+                    "percentiles": [50, 95, 99],
+                    "thresholds": {"warning": 1000, "critical": 5000},
+                },
+                position={"x": 8, "y": 4},
+                size={"width": 4, "height": 3},
+            ),
+        )
 
         # Throughput widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="throughput_metrics",
-            title="Throughput Metrics",
-            widget_type="chart",
-            metrics=["requests_per_second", "transactions_per_minute", "data_processed_mb"],
-            config={
-                "chart_type": "line",
-                "time_range": "15m",
-                "show_trends": True,
-                "baseline_comparison": True,
-            },
-            position={"x": 0, "y": 7},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="throughput_metrics",
+                title="Throughput Metrics",
+                widget_type="chart",
+                metrics=["requests_per_second", "transactions_per_minute", "data_processed_mb"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "15m",
+                    "show_trends": True,
+                    "baseline_comparison": True,
+                },
+                position={"x": 0, "y": 7},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
         # Error rate widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="error_rate",
-            title="Error Rate Analysis",
-            widget_type="chart",
-            metrics=["error_rate_4xx", "error_rate_5xx", "total_error_rate"],
-            config={
-                "chart_type": "line",
-                "time_range": "30m",
-                "thresholds": {"warning": 1.0, "critical": 5.0},
-                "show_error_types": True,
-            },
-            position={"x": 6, "y": 7},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="error_rate",
+                title="Error Rate Analysis",
+                widget_type="chart",
+                metrics=["error_rate_4xx", "error_rate_5xx", "total_error_rate"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "30m",
+                    "thresholds": {"warning": 1.0, "critical": 5.0},
+                    "show_error_types": True,
+                },
+                position={"x": 6, "y": 7},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
     def _create_sla_dashboard(self) -> None:
         """Create the SLA compliance dashboard."""
@@ -444,67 +503,79 @@ class PerformanceMonitoringDashboard:
         }
 
         # Overall SLA status widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="sla_overall_status",
-            title="Overall SLA Status",
-            widget_type="gauge",
-            metrics=["sla_overall_compliance"],
-            config={
-                "gauge_type": "radial",
-                "thresholds": {"warning": 99.5, "critical": 99.0},
-                "target_uptime": 99.9,
-                "show_trend": True,
-            },
-            position={"x": 0, "y": 0},
-            size={"width": 4, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="sla_overall_status",
+                title="Overall SLA Status",
+                widget_type="gauge",
+                metrics=["sla_overall_compliance"],
+                config={
+                    "gauge_type": "radial",
+                    "thresholds": {"warning": 99.5, "critical": 99.0},
+                    "target_uptime": 99.9,
+                    "show_trend": True,
+                },
+                position={"x": 0, "y": 0},
+                size={"width": 4, "height": 4},
+            ),
+        )
 
         # Component SLA status widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="component_sla_status",
-            title="Component SLA Status",
-            widget_type="table",
-            metrics=["component_sla_compliance", "component_uptime", "component_downtime"],
-            config={
-                "columns": ["component", "tier", "uptime", "compliance", "last_incident"],
-                "sort_by": "compliance",
-                "highlight_non_compliant": True,
-                "show_trends": True,
-            },
-            position={"x": 4, "y": 0},
-            size={"width": 8, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="component_sla_status",
+                title="Component SLA Status",
+                widget_type="table",
+                metrics=["component_sla_compliance", "component_uptime", "component_downtime"],
+                config={
+                    "columns": ["component", "tier", "uptime", "compliance", "last_incident"],
+                    "sort_by": "compliance",
+                    "highlight_non_compliant": True,
+                    "show_trends": True,
+                },
+                position={"x": 4, "y": 0},
+                size={"width": 8, "height": 4},
+            ),
+        )
 
         # SLA violation history widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="sla_violations",
-            title="SLA Violation History",
-            widget_type="chart",
-            metrics=["sla_violations_daily", "sla_violations_weekly", "sla_violations_monthly"],
-            config={
-                "chart_type": "bar",
-                "time_range": "30d",
-                "show_trend": True,
-                "violation_thresholds": True,
-            },
-            position={"x": 0, "y": 4},
-            size={"width": 8, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="sla_violations",
+                title="SLA Violation History",
+                widget_type="chart",
+                metrics=["sla_violations_daily", "sla_violations_weekly", "sla_violations_monthly"],
+                config={
+                    "chart_type": "bar",
+                    "time_range": "30d",
+                    "show_trend": True,
+                    "violation_thresholds": True,
+                },
+                position={"x": 0, "y": 4},
+                size={"width": 8, "height": 3},
+            ),
+        )
 
         # SLA risk assessment widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="sla_risk_assessment",
-            title="SLA Risk Assessment",
-            widget_type="table",
-            metrics=["sla_risk_level", "sla_risk_factors", "sla_mitigation_status"],
-            config={
-                "risk_levels": ["low", "medium", "high", "critical"],
-                "show_mitigation_actions": True,
-                "highlight_high_risk": True,
-            },
-            position={"x": 8, "y": 4},
-            size={"width": 4, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="sla_risk_assessment",
+                title="SLA Risk Assessment",
+                widget_type="table",
+                metrics=["sla_risk_level", "sla_risk_factors", "sla_mitigation_status"],
+                config={
+                    "risk_levels": ["low", "medium", "high", "critical"],
+                    "show_mitigation_actions": True,
+                    "highlight_high_risk": True,
+                },
+                position={"x": 8, "y": 4},
+                size={"width": 4, "height": 3},
+            ),
+        )
 
     def _create_alert_dashboard(self) -> None:
         """Create the alert management dashboard."""
@@ -520,67 +591,79 @@ class PerformanceMonitoringDashboard:
         }
 
         # Active alerts overview widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="active_alerts_overview",
-            title="Active Alerts Overview",
-            widget_type="table",
-            metrics=["alert_severity", "alert_count", "alert_trend"],
-            config={
-                "group_by_severity": True,
-                "show_recent_activity": True,
-                "auto_refresh": True,
-                "max_rows": 50,
-            },
-            position={"x": 0, "y": 0},
-            size={"width": 8, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="active_alerts_overview",
+                title="Active Alerts Overview",
+                widget_type="table",
+                metrics=["alert_severity", "alert_count", "alert_trend"],
+                config={
+                    "group_by_severity": True,
+                    "show_recent_activity": True,
+                    "auto_refresh": True,
+                    "max_rows": 50,
+                },
+                position={"x": 0, "y": 0},
+                size={"width": 8, "height": 4},
+            ),
+        )
 
         # Alert trends widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="alert_trends",
-            title="Alert Trends",
-            widget_type="chart",
-            metrics=["alerts_per_hour", "alerts_per_severity", "alert_resolution_time"],
-            config={
-                "chart_type": "line",
-                "time_range": "24h",
-                "show_resolution_trends": True,
-                "highlight_spikes": True,
-            },
-            position={"x": 8, "y": 0},
-            size={"width": 4, "height": 4},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="alert_trends",
+                title="Alert Trends",
+                widget_type="chart",
+                metrics=["alerts_per_hour", "alerts_per_severity", "alert_resolution_time"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "24h",
+                    "show_resolution_trends": True,
+                    "highlight_spikes": True,
+                },
+                position={"x": 8, "y": 0},
+                size={"width": 4, "height": 4},
+            ),
+        )
 
         # Alert distribution widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="alert_distribution",
-            title="Alert Distribution by Component",
-            widget_type="chart",
-            metrics=["alerts_by_component", "alerts_by_type"],
-            config={
-                "chart_type": "pie",
-                "show_percentages": True,
-                "highlight_top_contributors": True,
-            },
-            position={"x": 0, "y": 4},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="alert_distribution",
+                title="Alert Distribution by Component",
+                widget_type="chart",
+                metrics=["alerts_by_component", "alerts_by_type"],
+                config={
+                    "chart_type": "pie",
+                    "show_percentages": True,
+                    "highlight_top_contributors": True,
+                },
+                position={"x": 0, "y": 4},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
         # Alert response times widget
-        self._add_widget(dashboard_id, DashboardWidget(
-            id="alert_response_times",
-            title="Alert Response Times",
-            widget_type="chart",
-            metrics=["avg_response_time", "max_response_time", "response_time_trend"],
-            config={
-                "chart_type": "line",
-                "time_range": "7d",
-                "thresholds": {"warning": 300, "critical": 900},  # seconds
-                "show_sla_compliance": True,
-            },
-            position={"x": 6, "y": 4},
-            size={"width": 6, "height": 3},
-        ))
+        self._add_widget(
+            dashboard_id,
+            DashboardWidget(
+                id="alert_response_times",
+                title="Alert Response Times",
+                widget_type="chart",
+                metrics=["avg_response_time", "max_response_time", "response_time_trend"],
+                config={
+                    "chart_type": "line",
+                    "time_range": "7d",
+                    "thresholds": {"warning": 300, "critical": 900},  # seconds
+                    "show_sla_compliance": True,
+                },
+                position={"x": 6, "y": 4},
+                size={"width": 6, "height": 3},
+            ),
+        )
 
     def _add_widget(self, dashboard_id: str, widget: DashboardWidget) -> None:
         """Add a widget to a dashboard."""
@@ -642,54 +725,62 @@ class PerformanceMonitoringDashboard:
         try:
             # CPU metrics
             cpu_times = psutil.cpu_times_percent(interval=1)
-            self._add_metric(DashboardMetric(
-                name="cpu_user",
-                value=cpu_times.user,
-                unit="percentage",
-                metric_type=MetricType.GAUGE,
-                timestamp=timestamp,
-                category="system",
-                priority="high",
-                trend=self._calculate_trend("cpu_user", cpu_times.user),
-            ))
+            self._add_metric(
+                DashboardMetric(
+                    name="cpu_user",
+                    value=cpu_times.user,
+                    unit="percentage",
+                    metric_type=MetricType.GAUGE,
+                    timestamp=timestamp,
+                    category="system",
+                    priority="high",
+                    trend=self._calculate_trend("cpu_user", cpu_times.user),
+                )
+            )
 
-            self._add_metric(DashboardMetric(
-                name="cpu_system",
-                value=cpu_times.system,
-                unit="percentage",
-                metric_type=MetricType.GAUGE,
-                timestamp=timestamp,
-                category="system",
-                priority="high",
-            ))
+            self._add_metric(
+                DashboardMetric(
+                    name="cpu_system",
+                    value=cpu_times.system,
+                    unit="percentage",
+                    metric_type=MetricType.GAUGE,
+                    timestamp=timestamp,
+                    category="system",
+                    priority="high",
+                )
+            )
 
             # Memory metrics
             memory = psutil.virtual_memory()
-            self._add_metric(DashboardMetric(
-                name="memory_used",
-                value=memory.percent,
-                unit="percentage",
-                metric_type=MetricType.GAUGE,
-                timestamp=timestamp,
-                category="system",
-                priority="high",
-                threshold_warning=75.0,
-                threshold_critical=90.0,
-            ))
+            self._add_metric(
+                DashboardMetric(
+                    name="memory_used",
+                    value=memory.percent,
+                    unit="percentage",
+                    metric_type=MetricType.GAUGE,
+                    timestamp=timestamp,
+                    category="system",
+                    priority="high",
+                    threshold_warning=75.0,
+                    threshold_critical=90.0,
+                )
+            )
 
             # Disk metrics
-            disk = psutil.disk_usage('/')
-            self._add_metric(DashboardMetric(
-                name="disk_usage",
-                value=disk.percent,
-                unit="percentage",
-                metric_type=MetricType.GAUGE,
-                timestamp=timestamp,
-                category="system",
-                priority="medium",
-                threshold_warning=80.0,
-                threshold_critical=95.0,
-            ))
+            disk = psutil.disk_usage("/")
+            self._add_metric(
+                DashboardMetric(
+                    name="disk_usage",
+                    value=disk.percent,
+                    unit="percentage",
+                    metric_type=MetricType.GAUGE,
+                    timestamp=timestamp,
+                    category="system",
+                    priority="medium",
+                    threshold_warning=80.0,
+                    threshold_critical=95.0,
+                )
+            )
 
         except Exception as e:
             print(f"⚠️  Error collecting system metrics: {e}")
@@ -701,41 +792,47 @@ class PerformanceMonitoringDashboard:
         # Simulate consolidation progress (would be from actual consolidation process)
         consolidation_progress = min(15.0 + (time.time() % 60) / 4, 100.0)  # 15-25% range
 
-        self._add_metric(DashboardMetric(
-            name="consolidation_progress",
-            value=consolidation_progress,
-            unit="percentage",
-            metric_type=MetricType.GAUGE,
-            timestamp=timestamp,
-            category="consolidation",
-            priority="high",
-        ))
+        self._add_metric(
+            DashboardMetric(
+                name="consolidation_progress",
+                value=consolidation_progress,
+                unit="percentage",
+                metric_type=MetricType.GAUGE,
+                timestamp=timestamp,
+                category="consolidation",
+                priority="high",
+            )
+        )
 
         # Files consolidated
         files_consolidated = int((consolidation_progress / 100) * 283)
-        self._add_metric(DashboardMetric(
-            name="files_consolidated",
-            value=files_consolidated,
-            unit="files",
-            metric_type=MetricType.COUNTER,
-            timestamp=timestamp,
-            category="consolidation",
-            priority="medium",
-        ))
+        self._add_metric(
+            DashboardMetric(
+                name="files_consolidated",
+                value=files_consolidated,
+                unit="files",
+                metric_type=MetricType.COUNTER,
+                timestamp=timestamp,
+                category="consolidation",
+                priority="medium",
+            )
+        )
 
         # Performance impact simulation
         performance_impact = 2.0 + (time.time() % 30) / 10  # 2-5% impact
-        self._add_metric(DashboardMetric(
-            name="performance_impact",
-            value=performance_impact,
-            unit="percentage",
-            metric_type=MetricType.GAUGE,
-            timestamp=timestamp,
-            category="consolidation",
-            priority="high",
-            threshold_warning=10.0,
-            threshold_critical=25.0,
-        ))
+        self._add_metric(
+            DashboardMetric(
+                name="performance_impact",
+                value=performance_impact,
+                unit="percentage",
+                metric_type=MetricType.GAUGE,
+                timestamp=timestamp,
+                category="consolidation",
+                priority="high",
+                threshold_warning=10.0,
+                threshold_critical=25.0,
+            )
+        )
 
     def _check_alert_conditions(self) -> None:
         """Check for alert conditions and generate alerts."""
@@ -744,41 +841,47 @@ class PerformanceMonitoringDashboard:
         # Check CPU usage alert
         cpu_metric = self.realtime_metrics.get("cpu_user")
         if cpu_metric and cpu_metric.value >= 80.0:
-            self._generate_alert({
-                "id": f"cpu_high_{int(timestamp.timestamp())}",
-                "type": "warning" if cpu_metric.value < 90.0 else "critical",
-                "component": "system",
-                "message": f"High CPU usage: {cpu_metric.value:.1f}%",
-                "value": cpu_metric.value,
-                "threshold": 80.0,
-                "timestamp": timestamp,
-            })
+            self._generate_alert(
+                {
+                    "id": f"cpu_high_{int(timestamp.timestamp())}",
+                    "type": "warning" if cpu_metric.value < 90.0 else "critical",
+                    "component": "system",
+                    "message": f"High CPU usage: {cpu_metric.value:.1f}%",
+                    "value": cpu_metric.value,
+                    "threshold": 80.0,
+                    "timestamp": timestamp,
+                }
+            )
 
         # Check memory usage alert
         memory_metric = self.realtime_metrics.get("memory_used")
         if memory_metric and memory_metric.value >= 85.0:
-            self._generate_alert({
-                "id": f"memory_high_{int(timestamp.timestamp())}",
-                "type": "warning" if memory_metric.value < 95.0 else "critical",
-                "component": "system",
-                "message": f"High memory usage: {memory_metric.value:.1f}%",
-                "value": memory_metric.value,
-                "threshold": 85.0,
-                "timestamp": timestamp,
-            })
+            self._generate_alert(
+                {
+                    "id": f"memory_high_{int(timestamp.timestamp())}",
+                    "type": "warning" if memory_metric.value < 95.0 else "critical",
+                    "component": "system",
+                    "message": f"High memory usage: {memory_metric.value:.1f}%",
+                    "value": memory_metric.value,
+                    "threshold": 85.0,
+                    "timestamp": timestamp,
+                }
+            )
 
         # Check consolidation impact alert
         impact_metric = self.realtime_metrics.get("performance_impact")
         if impact_metric and impact_metric.value >= 15.0:
-            self._generate_alert({
-                "id": f"consolidation_impact_{int(timestamp.timestamp())}",
-                "type": "warning",
-                "component": "consolidation",
-                "message": f"High consolidation performance impact: {impact_metric.value:.1f}%",
-                "value": impact_metric.value,
-                "threshold": 15.0,
-                "timestamp": timestamp,
-            })
+            self._generate_alert(
+                {
+                    "id": f"consolidation_impact_{int(timestamp.timestamp())}",
+                    "type": "warning",
+                    "component": "consolidation",
+                    "message": f"High consolidation performance impact: {impact_metric.value:.1f}%",
+                    "value": impact_metric.value,
+                    "threshold": 15.0,
+                    "timestamp": timestamp,
+                }
+            )
 
     def _generate_alert(self, alert_data: dict[str, Any]) -> None:
         """Generate and store an alert."""
@@ -812,7 +915,9 @@ class PerformanceMonitoringDashboard:
         # Simple trend calculation based on last few points
         recent_values = [m.value for m in history[-3:]]
         avg_recent = sum(recent_values) / len(recent_values)
-        avg_previous = sum([m.value for m in history[-6:-3]]) / 3 if len(history) >= 6 else avg_recent
+        avg_previous = (
+            sum([m.value for m in history[-6:-3]]) / 3 if len(history) >= 6 else avg_recent
+        )
 
         if avg_recent > avg_previous * 1.05:
             return "up"
@@ -882,14 +987,16 @@ class PerformanceMonitoringDashboard:
         if dashboard_id == "operational":
             return {
                 "overall_status": "healthy",  # Would be calculated from metrics
-                "active_alerts": len([a for a in self.active_alerts if a["type"] in ["warning", "critical"]]),
+                "active_alerts": len(
+                    [a for a in self.active_alerts if a["type"] in ["warning", "critical"]]
+                ),
                 "system_load": "moderate",
                 "last_updated": datetime.now().isoformat(),
             }
         elif dashboard_id == "consolidation":
             return {
                 "progress_percentage": 15.0,  # Would be calculated from actual progress
-                "files_consolidated": 42,     # Would be calculated from actual consolidation
+                "files_consolidated": 42,  # Would be calculated from actual consolidation
                 "current_phase": "Phase 2A",
                 "estimated_completion": "2025-09-15",
             }
@@ -978,7 +1085,9 @@ def main():
 
     for dashboard_id, dashboard_info in all_dashboards["dashboards"].items():
         print(f"  📊 {dashboard_info['title']} ({dashboard_info['type']})")
-        print(f"     Widgets: {dashboard_info['widgets_count']} | Status: {dashboard_info['status']}")
+        print(
+            f"     Widgets: {dashboard_info['widgets_count']} | Status: {dashboard_info['status']}"
+        )
 
     # Show operational dashboard data
     print("\n🏥 OPERATIONAL DASHBOARD:")
@@ -1005,7 +1114,9 @@ def main():
     print("\n📈 SLA COMPLIANCE DASHBOARD:")
     sla_data = dashboard_system.get_dashboard_data("sla_compliance")
     print(f"  Overall Compliance: {sla_data['summary']['overall_compliance']:.1f}%")
-    print(f"  Components Compliant: {sla_data['summary']['components_compliant']}/{sla_data['summary']['components_total']}")
+    print(
+        f"  Components Compliant: {sla_data['summary']['components_compliant']}/{sla_data['summary']['components_total']}"
+    )
     print(f"  Risk Level: {sla_data['summary']['risk_level'].upper()}")
 
     # Show alert management dashboard data
@@ -1020,7 +1131,7 @@ def main():
     for dashboard_id in dashboard_system.dashboards.keys():
         snapshot = dashboard_system.export_dashboard_snapshot(dashboard_id)
         snapshot_file = dashboard_system.dashboard_directory / f"{dashboard_id}_snapshot.json"
-        with open(snapshot_file, 'w') as f:
+        with open(snapshot_file, "w") as f:
             json.dump(snapshot, f, indent=2, default=str)
         print(f"  ✅ {dashboard_id} dashboard snapshot saved")
 

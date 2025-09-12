@@ -4,5 +4,5 @@
 from . import simple_oversight
 
 __all__ = [
-    'simple_oversight',
+    "simple_oversight",
 ]

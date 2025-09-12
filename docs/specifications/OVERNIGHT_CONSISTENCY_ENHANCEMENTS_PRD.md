@@ -32,4 +32,3 @@ agents detect when their terminal tasks are complete.
 ### Phase 3: Terminal Completion Marker
 - Add a universal completion signal at the end of scripts or PowerShell commands.
 - Train agents to recognize this signal so they know exactly when a task is fully complete.
-

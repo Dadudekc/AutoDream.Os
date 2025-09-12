@@ -140,30 +140,32 @@ class TheaManagerProfile:
         """Get current profile status."""
         try:
             status = {
-                'initialized': self._initialized,
-                'last_activity': self._last_activity,
-                'driver_available': self.driver is not None,
+                "initialized": self._initialized,
+                "last_activity": self._last_activity,
+                "driver_available": self.driver is not None,
             }
 
             if self.driver and self.browser_ops:
                 page_status = self.browser_ops.get_page_status()
-                status.update({
-                    'page_status': page_status,
-                    'url': page_status.get('url', 'unknown'),
-                    'ready_for_input': page_status.get('ready_for_input', False)
-                })
+                status.update(
+                    {
+                        "page_status": page_status,
+                        "url": page_status.get("url", "unknown"),
+                        "ready_for_input": page_status.get("ready_for_input", False),
+                    }
+                )
 
             if self.response_monitor:
                 progress = self.response_monitor.get_progress()
-                status['response_progress'] = progress
+                status["response_progress"] = progress
 
             return status
 
         except Exception as e:
             return {
-                'initialized': self._initialized,
-                'error': str(e),
-                'driver_available': self.driver is not None
+                "initialized": self._initialized,
+                "error": str(e),
+                "driver_available": self.driver is not None,
             }
 
     def scrape_current_content(self) -> Any | None:
@@ -202,19 +204,21 @@ class TheaManagerProfile:
         # Check page status
         if self.browser_ops:
             page_status = self.browser_ops.get_page_status()
-            if not page_status.get('ready_for_input', False):
+            if not page_status.get("ready_for_input", False):
                 issues.append("Page not ready for input")
 
         return {
-            'valid': len(issues) == 0,
-            'issues': issues,
-            'config_valid': len(config_issues) == 0,
-            'browser_ready': self.driver is not None,
-            'components_initialized': all([
-                self.browser_ops is not None,
-                self.response_collector is not None,
-                self.content_scraper is not None
-            ])
+            "valid": len(issues) == 0,
+            "issues": issues,
+            "config_valid": len(config_issues) == 0,
+            "browser_ready": self.driver is not None,
+            "components_initialized": all(
+                [
+                    self.browser_ops is not None,
+                    self.response_collector is not None,
+                    self.content_scraper is not None,
+                ]
+            ),
         }
 
     def cleanup(self) -> None:
@@ -256,4 +260,6 @@ class TheaManagerProfile:
     def __repr__(self) -> str:
         """String representation of the profile."""
         status = "initialized" if self._initialized else "not initialized"
-        return f"TheaManagerProfile(status={status}, driver={'available' if self.driver else 'none'})"
+        return (
+            f"TheaManagerProfile(status={status}, driver={'available' if self.driver else 'none'})"
+        )

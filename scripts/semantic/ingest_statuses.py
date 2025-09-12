@@ -1,8 +1,10 @@
 from __future__ import annotations
+
 import argparse
 import sys
-import yaml
 from pathlib import Path
+
+import yaml
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent

@@ -37,7 +37,7 @@ class ArchitecturalOnboardingManager:
         self,
         assignment_manager: AgentAssignmentManager | None = None,
         message_generator: OnboardingMessageGenerator | None = None,
-        compliance_validator: ComplianceValidator | None = None
+        compliance_validator: ComplianceValidator | None = None,
     ):
         """Initialize the architectural onboarding manager with dependency injection."""
         self.assignment_manager = assignment_manager or AgentAssignmentManager()
@@ -75,12 +75,7 @@ class ArchitecturalOnboardingManager:
         """Validate that an agent's changes comply with their assigned principle."""
         principle = self.get_agent_principle(agent_id)
         if not principle:
-            return {
-                "compliant": True,
-                "principle": None,
-                "issues": [],
-                "recommendations": []
-            }
+            return {"compliant": True, "principle": None, "issues": [], "recommendations": []}
 
         result = self.compliance_validator.validate_agent_compliance(
             agent_id, principle, code_changes

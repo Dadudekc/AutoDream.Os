@@ -28,10 +28,12 @@ from .tools.optimization_tools import OptimizationPlan, OptimizationTools
 @dataclass
 class ExtractionPlan:
     """Plan for extracting code from a file."""
+
     source_file: str
     target_files: list[str]
     extraction_rules: list[str]
     estimated_impact: str
+
 
 from ..unified_import_system import get_unified_import_system
 
@@ -121,9 +123,7 @@ class RefactorTools:
 
             # Execute refactoring
             extraction_success = self.execute_extraction(extraction_plan)
-            optimization_success = self.execute_optimization(
-                optimization_plan, file_path
-            )
+            optimization_success = self.execute_optimization(optimization_plan, file_path)
 
             return extraction_success and optimization_success
         except Exception:
@@ -180,11 +180,10 @@ def execute_optimization(plan: OptimizationPlan, file_path: str) -> bool:
     return get_refactor_tools().execute_optimization(plan, file_path)
 
 
-
-
 @dataclass
 class ConsolidationPlan:
     """Plan for consolidating duplicate code."""
+
     duplicate_groups: list[list[str]]
     consolidation_targets: list[str]
     consolidation_rules: list[str]
@@ -194,6 +193,7 @@ class ConsolidationPlan:
 @dataclass
 class OptimizationPlan:
     """Plan for optimizing code structure."""
+
     optimization_targets: list[str]
     optimization_rules: list[str]
     performance_improvements: list[str]
@@ -203,10 +203,10 @@ class OptimizationPlan:
 def create_extraction_plan(file_path: str) -> ExtractionPlan:
     """
     Create an extraction plan for a file.
-    
+
     Args:
         file_path: Path to the file to extract from
-        
+
     Returns:
         ExtractionPlan object with detailed extraction strategy
     """
@@ -217,14 +217,14 @@ def create_extraction_plan(file_path: str) -> ExtractionPlan:
         target_files = [
             f"{Path(file_path).stem}_core.py",
             f"{Path(file_path).stem}_models.py",
-            f"{Path(file_path).stem}_utils.py"
+            f"{Path(file_path).stem}_utils.py",
         ]
 
         extraction_rules = [
             "Extract data models to separate file",
             "Extract utility functions to separate file",
             "Keep core logic in main file",
-            "Ensure each file is under 400 lines"
+            "Ensure each file is under 400 lines",
         ]
 
         return ExtractionPlan(
@@ -232,7 +232,7 @@ def create_extraction_plan(file_path: str) -> ExtractionPlan:
             target_files=target_files,
             extraction_rules=extraction_rules,
             estimated_impact="High - Will achieve V2 compliance",
-            v2_compliance_target=True
+            v2_compliance_target=True,
         )
     else:
         return ExtractionPlan(
@@ -240,17 +240,17 @@ def create_extraction_plan(file_path: str) -> ExtractionPlan:
             target_files=[],
             extraction_rules=[],
             estimated_impact="None - Already V2 compliant",
-            v2_compliance_target=False
+            v2_compliance_target=False,
         )
 
 
 def perform_extraction(plan: ExtractionPlan) -> bool:
     """
     Perform code extraction based on the plan.
-    
+
     Args:
         plan: ExtractionPlan object with extraction strategy
-        
+
     Returns:
         True if extraction was successful, False otherwise
     """
@@ -259,7 +259,7 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
             return True  # No extraction needed
 
         source_path = Path(plan.source_file)
-        source_content = source_path.read_text(encoding='utf-8')
+        source_content = source_path.read_text(encoding="utf-8")
 
         # Parse the source file
         tree = ast.parse(source_content)
@@ -273,11 +273,11 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
         for target_file in plan.target_files:
             target_path = Path(target_file)
             if "models" in target_file:
-                target_path.write_text(models, encoding='utf-8')
+                target_path.write_text(models, encoding="utf-8")
             elif "utils" in target_file:
-                target_path.write_text(utils, encoding='utf-8')
+                target_path.write_text(utils, encoding="utf-8")
             elif "core" in target_file:
-                target_path.write_text(core, encoding='utf-8')
+                target_path.write_text(core, encoding="utf-8")
 
         return True
     except Exception as e:
@@ -288,10 +288,10 @@ def perform_extraction(plan: ExtractionPlan) -> bool:
 def create_consolidation_plan(directory: str) -> ConsolidationPlan:
     """
     Create a consolidation plan for duplicate code.
-    
+
     Args:
         directory: Directory to analyze for consolidation
-        
+
     Returns:
         ConsolidationPlan object with consolidation strategy
     """
@@ -305,24 +305,26 @@ def create_consolidation_plan(directory: str) -> ConsolidationPlan:
     for duplicate in duplicates:
         duplicate_groups.append([duplicate.original_file] + duplicate.duplicate_files)
         consolidation_targets.append(duplicate.original_file)
-        consolidation_rules.append(f"Consolidate {len(duplicate.duplicate_files)} duplicates into {duplicate.original_file}")
+        consolidation_rules.append(
+            f"Consolidate {len(duplicate.duplicate_files)} duplicates into {duplicate.original_file}"
+        )
         estimated_savings += len(duplicate.duplicate_files) * 100  # Rough estimate
 
     return ConsolidationPlan(
         duplicate_groups=duplicate_groups,
         consolidation_targets=consolidation_targets,
         consolidation_rules=consolidation_rules,
-        estimated_savings=estimated_savings
+        estimated_savings=estimated_savings,
     )
 
 
 def perform_consolidation(plan: ConsolidationPlan) -> bool:
     """
     Perform code consolidation based on the plan.
-    
+
     Args:
         plan: ConsolidationPlan object with consolidation strategy
-        
+
     Returns:
         True if consolidation was successful, False otherwise
     """
@@ -342,10 +344,10 @@ def perform_consolidation(plan: ConsolidationPlan) -> bool:
 def create_optimization_plan(directory: str) -> OptimizationPlan:
     """
     Create an optimization plan for code structure.
-    
+
     Args:
         directory: Directory to analyze for optimization
-        
+
     Returns:
         OptimizationPlan object with optimization strategy
     """
@@ -367,13 +369,18 @@ def create_optimization_plan(directory: str) -> OptimizationPlan:
         optimization_targets=optimization_targets,
         optimization_rules=optimization_rules,
         performance_improvements=performance_improvements,
-        v2_compliance_improvements=v2_compliance_improvements
+        v2_compliance_improvements=v2_compliance_improvements,
     )
 
 
 def perform_optimization(plan: dict[str, Any]) -> dict[str, Any]:
     """Perform the actual optimization."""
-    result = {"success": True, "applied_optimizations": [], "quality_score_improvement": 0.0, "errors": []}
+    result = {
+        "success": True,
+        "applied_optimizations": [],
+        "quality_score_improvement": 0.0,
+        "errors": [],
+    }
     for target in plan["optimization_targets"]:
         try:
             optimization = {
@@ -391,10 +398,10 @@ def perform_optimization(plan: dict[str, Any]) -> dict[str, Any]:
 def perform_optimization(plan: OptimizationPlan) -> bool:
     """
     Perform code optimization based on the plan.
-    
+
     Args:
         plan: OptimizationPlan object with optimization strategy
-        
+
     Returns:
         True if optimization was successful, False otherwise
     """
@@ -415,7 +422,7 @@ def _extract_models(tree: ast.AST) -> str:
 
     for node in ast.walk(tree):
         if isinstance(node, ast.ClassDef):
-            if any(base in astor.to_source(node).lower() for base in ['model', 'data', 'entity']):
+            if any(base in astor.to_source(node).lower() for base in ["model", "data", "entity"]):
                 models.append(astor.to_source(node))
 
     return "\n".join(models) if models else "# No models found"
@@ -427,7 +434,7 @@ def _extract_utils(tree: ast.AST) -> str:
 
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef):
-            if not node.name.startswith('_') and 'util' in astor.to_source(node).lower():
+            if not node.name.startswith("_") and "util" in astor.to_source(node).lower():
                 utils.append(astor.to_source(node))
 
     return "\n".join(utils) if utils else "# No utilities found"
@@ -439,7 +446,7 @@ def _extract_core(tree: ast.AST) -> str:
 
     for node in ast.walk(tree):
         if isinstance(node, (ast.ClassDef, ast.FunctionDef)):
-            if not any(base in astor.to_source(node).lower() for base in ['model', 'util', 'data']):
+            if not any(base in astor.to_source(node).lower() for base in ["model", "util", "data"]):
                 core_elements.append(astor.to_source(node))
 
     return "\n".join(core_elements) if core_elements else "# No core logic found"
@@ -448,7 +455,7 @@ def _extract_core(tree: ast.AST) -> str:
 def _apply_optimization_rules(file_path: str, rules: list[str]) -> None:
     """Apply optimization rules to a file."""
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         # Apply basic optimizations
@@ -461,7 +468,7 @@ def _apply_optimization_rules(file_path: str, rules: list[str]) -> None:
         optimized_content = _optimize_class_structure(optimized_content)
 
         # Write optimized content back
-        with open(file_path, 'w', encoding='utf-8') as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(optimized_content)
 
     except Exception as e:
@@ -471,14 +478,14 @@ def _apply_optimization_rules(file_path: str, rules: list[str]) -> None:
 def _remove_unused_imports(content: str) -> str:
     """Remove unused imports from content."""
     # Basic implementation - in practice, would use more sophisticated analysis
-    lines = content.split('\n')
+    lines = content.split("\n")
     filtered_lines = []
 
     for line in lines:
-        if not line.strip().startswith('import ') or '#' in line:
+        if not line.strip().startswith("import ") or "#" in line:
             filtered_lines.append(line)
 
-    return '\n'.join(filtered_lines)
+    return "\n".join(filtered_lines)
 
 
 def _optimize_class_structure(content: str) -> str:

@@ -25,6 +25,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class ConsolidatedMiscellaneousService:
     """Unified service for miscellaneous operations and utilities."""
 
@@ -50,7 +51,7 @@ class ConsolidatedMiscellaneousService:
             "config_version": "2.0",
             "logging_level": "INFO",
             "max_connections": 10,
-            "timeout_seconds": 30
+            "timeout_seconds": 30,
         }
 
     def _load_constants(self) -> dict[str, Any]:
@@ -62,7 +63,7 @@ class ConsolidatedMiscellaneousService:
             "PRIORITIES": ["LOW", "NORMAL", "HIGH", "URGENT"],
             "SYSTEM_VERSION": "2.0",
             "MAX_FILE_SIZE": 400000,  # 400KB for V2 compliance
-            "DEFAULT_TIMEOUT": 30
+            "DEFAULT_TIMEOUT": 30,
         }
 
     # Database Operations
@@ -168,7 +169,7 @@ class ConsolidatedMiscellaneousService:
             "recommendation_status": "active" if self.recommendation_engine else "inactive",
             "task_manager_status": "active" if self.task_manager else "inactive",
             "work_indexer_status": "active" if self.work_indexer else "inactive",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def get_system_info(self) -> dict[str, Any]:
@@ -179,7 +180,7 @@ class ConsolidatedMiscellaneousService:
             "default_timeout": self.constants.get("DEFAULT_TIMEOUT", 30),
             "agent_count": len(self.get_agents_list()),
             "principle_count": len(self.get_principles_list()),
-            "config_keys": list(self.config.keys())
+            "config_keys": list(self.config.keys()),
         }
 
     def validate_system_integrity(self) -> dict[str, Any]:
@@ -210,7 +211,7 @@ class ConsolidatedMiscellaneousService:
             "integrity_check": len(issues) == 0,
             "issues": issues,
             "recommendations": recommendations,
-            "checked_at": datetime.now().isoformat()
+            "checked_at": datetime.now().isoformat(),
         }
 
 
@@ -225,17 +226,9 @@ class CursorDatabase:
         """Execute database query."""
         try:
             # Mock implementation
-            return {
-                "success": True,
-                "data": self.data,
-                "query": query,
-                "params": params
-            }
+            return {"success": True, "data": self.data, "query": query, "params": params}
         except Exception as e:
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def get_agent_data(self, agent_id: str) -> dict[str, Any] | None:
         """Get agent data."""
@@ -260,7 +253,7 @@ class LearningRecommender:
                 "topic": "V2 Compliance",
                 "description": "Learn about V2 compliance requirements",
                 "priority": "HIGH",
-                "agent_id": agent_id
+                "agent_id": agent_id,
             }
         ]
 
@@ -270,20 +263,14 @@ class RecommendationEngine:
 
     def get_recommendations(self, query: str) -> list[dict[str, Any]]:
         """Get recommendations based on query."""
-        return [
-            {
-                "recommendation": f"Process query: {query}",
-                "confidence": 0.8,
-                "type": "task"
-            }
-        ]
+        return [{"recommendation": f"Process query: {query}", "confidence": 0.8, "type": "task"}]
 
     def generate_insights(self, agent_id: str) -> dict[str, Any]:
         """Generate insights."""
         return {
             "agent_id": agent_id,
             "insights": ["Agent is active", "Good performance"],
-            "generated_at": datetime.now().isoformat()
+            "generated_at": datetime.now().isoformat(),
         }
 
 
@@ -300,7 +287,7 @@ class TaskContextManager:
         self.tasks[task_id] = {
             "description": description,
             "created_at": datetime.now().isoformat(),
-            "status": "active"
+            "status": "active",
         }
         return self.tasks[task_id]
 
@@ -326,11 +313,9 @@ class WorkIndexer:
     def index_work(self, content: str, work_type: str = "general") -> bool:
         """Index work item."""
         try:
-            self.work_items.append({
-                "content": content,
-                "type": work_type,
-                "indexed_at": datetime.now().isoformat()
-            })
+            self.work_items.append(
+                {"content": content, "type": work_type, "indexed_at": datetime.now().isoformat()}
+            )
             return True
         except Exception:
             return False
@@ -347,7 +332,4 @@ class WorkIndexer:
 
     def get_stats(self) -> dict[str, Any]:
         """Get indexing statistics."""
-        return {
-            "total_items": len(self.work_items),
-            "indexed_at": datetime.now().isoformat()
-        }
+        return {"total_items": len(self.work_items), "indexed_at": datetime.now().isoformat()}

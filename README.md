@@ -586,4 +586,3 @@ logger = get_logger(__name__)
 ```
 
 This centralizes configuration and removes the need for module-level `logging.basicConfig` calls.
-

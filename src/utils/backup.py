@@ -110,7 +110,7 @@ class BackupManager:
         backups = sorted(
             [p for p in self.dest.iterdir() if p.is_dir()],
             key=lambda p: p.stat().st_mtime,
-            reverse=True
+            reverse=True,
         )
 
         if len(backups) <= keep_count:

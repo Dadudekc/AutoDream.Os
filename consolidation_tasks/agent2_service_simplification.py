@@ -76,7 +76,7 @@ def get_integration_status() -> Dict[str, Any]:
 '''
 
         integration_path = self.project_root / "src/core/integration.py"
-        with open(integration_path, 'w') as f:
+        with open(integration_path, "w") as f:
             f.write(integration_content)
 
         print("✅ Created consolidated integration.py")
@@ -139,7 +139,7 @@ def get_optimization_recommendations() -> List[str]:
 '''
 
         optimization_path = self.project_root / "src/core/optimization.py"
-        with open(optimization_path, 'w') as f:
+        with open(optimization_path, "w") as f:
             f.write(optimization_content)
 
         print("✅ Created consolidated optimization.py")
@@ -174,6 +174,7 @@ def get_optimization_recommendations() -> List[str]:
 
         except Exception as e:
             print(f"❌ Service simplification failed: {e}")
+
 
 if __name__ == "__main__":
     agent = ServiceSimplificationAgent()

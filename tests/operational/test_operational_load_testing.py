@@ -20,16 +20,23 @@ import pytest
 try:
     from src.core.operational_monitoring_baseline import OperationalMonitoringBaseline
     from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
+
     LOAD_TESTING_AVAILABLE = True
 except ImportError:
     LOAD_TESTING_AVAILABLE = False
+
     # Create mock classes for load testing
     class OperationalMonitoringBaseline:
-        def get_operational_status(self): return "operational"
-        def check_system_resilience(self): return True
+        def get_operational_status(self):
+            return "operational"
+
+        def check_system_resilience(self):
+            return True
 
     class PerformanceMonitoringDashboard:
-        def get_system_metrics(self): return {'cpu': 50, 'memory': 60, 'disk': 40}
+        def get_system_metrics(self):
+            return {"cpu": 50, "memory": 60, "disk": 40}
+
 
 @pytest.mark.operational
 @pytest.mark.performance
@@ -56,7 +63,7 @@ class TestConcurrentLoadScenarios:
                     # Simulate complex business logic
                     result = 0
                     for j in range(1000):
-                        result += j ** 2
+                        result += j**2
 
                     # Simulate database operation
                     time.sleep(0.001)
@@ -71,16 +78,19 @@ class TestConcurrentLoadScenarios:
                     # Check system health during load
                     if i % 20 == 0:
                         health = system_monitor.get_system_health()
-                        if health['cpu_percent'] > 95:
+                        if health["cpu_percent"] > 95:
                             print(f"User {user_id}: High CPU detected ({health['cpu_percent']}%)")
 
                 user_end_time = time.time()
-                results.append({
-                    'user_id': user_id,
-                    'operations_completed': len(user_results),
-                    'duration': user_end_time - user_start_time,
-                    'avg_response_time': sum(response_times[-operations_per_user:]) / operations_per_user
-                })
+                results.append(
+                    {
+                        "user_id": user_id,
+                        "operations_completed": len(user_results),
+                        "duration": user_end_time - user_start_time,
+                        "avg_response_time": sum(response_times[-operations_per_user:])
+                        / operations_per_user,
+                    }
+                )
 
             except Exception as e:
                 errors.append(f"User {user_id}: {str(e)}")
@@ -105,8 +115,10 @@ class TestConcurrentLoadScenarios:
 
         # Analyze results
         successful_users = len(results)
-        total_operations = sum(r['operations_completed'] for r in results)
-        avg_response_time = statistics.mean([r['avg_response_time'] for r in results]) if results else 0
+        total_operations = sum(r["operations_completed"] for r in results)
+        avg_response_time = (
+            statistics.mean([r["avg_response_time"] for r in results]) if results else 0
+        )
 
         print("\nHigh concurrency load test results:")
         print(f"- Total users: {concurrent_users}")
@@ -117,8 +129,12 @@ class TestConcurrentLoadScenarios:
         print(f"- Errors: {len(errors)}")
 
         # Verify system resilience under load
-        assert successful_users >= concurrent_users * 0.9, f"Too many users failed: {successful_users}/{concurrent_users}"
-        assert total_operations >= concurrent_users * operations_per_user * 0.8, "Insufficient operations completed"
+        assert successful_users >= concurrent_users * 0.9, (
+            f"Too many users failed: {successful_users}/{concurrent_users}"
+        )
+        assert total_operations >= concurrent_users * operations_per_user * 0.8, (
+            "Insufficient operations completed"
+        )
         assert avg_response_time < 0.1, f"Response time too slow: {avg_response_time:.4f}s"
 
     def test_memory_intensive_operations(self, system_monitor):
@@ -139,14 +155,14 @@ class TestConcurrentLoadScenarios:
 
             # Record memory usage
             health = system_monitor.get_system_health()
-            memory_loads.append(health['memory_percent'])
+            memory_loads.append(health["memory_percent"])
             memory_peaks.append(max(memory_loads))
 
             # Simulate processing
             time.sleep(0.5)
 
             # Check if memory usage is getting too high
-            if health['memory_percent'] > 90:
+            if health["memory_percent"] > 90:
                 print(f"High memory usage detected: {health['memory_percent']:.1f}%")
                 break
 
@@ -178,8 +194,8 @@ class TestConcurrentLoadScenarios:
                 temp_files.append(temp_file)
 
                 # Write data to file
-                with open(temp_file, 'w') as f:
-                    data = 'x' * 102400  # 100KB of data
+                with open(temp_file, "w") as f:
+                    data = "x" * 102400  # 100KB of data
                     f.write(data)
 
                 # Read data back
@@ -188,19 +204,16 @@ class TestConcurrentLoadScenarios:
                     assert len(content) == 102400
 
                 # Record I/O operation
-                io_operations.append({
-                    'operation': i,
-                    'file': temp_file,
-                    'size': 102400,
-                    'timestamp': time.time()
-                })
+                io_operations.append(
+                    {"operation": i, "file": temp_file, "size": 102400, "timestamp": time.time()}
+                )
 
                 # Check disk usage periodically
                 if i % 5 == 0:
                     health = system_monitor.get_system_health()
                     print(f"I/O cycle {i}: Disk usage {health['disk_usage']:.1f}%")
 
-                    if health['disk_usage'] > 95:
+                    if health["disk_usage"] > 95:
                         print("High disk usage detected, stopping I/O test")
                         break
 
@@ -210,7 +223,7 @@ class TestConcurrentLoadScenarios:
             print("\nI/O intensive operations test:")
             print(f"- I/O operations completed: {len(io_operations)}")
             print(f"- I/O test duration: {io_duration:.2f} seconds")
-            print(f"- I/O operations per second: {len(io_operations)/io_duration:.0f}")
+            print(f"- I/O operations per second: {len(io_operations) / io_duration:.0f}")
 
         finally:
             # Clean up temporary files
@@ -223,6 +236,7 @@ class TestConcurrentLoadScenarios:
         # Verify I/O performance
         assert len(io_operations) >= 10, "Insufficient I/O operations completed"
         assert io_duration < 30, f"I/O operations took too long: {io_duration:.2f}s"
+
 
 @pytest.mark.operational
 @pytest.mark.performance
@@ -253,24 +267,28 @@ class TestStressTestScenarios:
                     # Check system health
                     if operations % 100 == 0:
                         health = system_monitor.get_system_health()
-                        if health['cpu_percent'] > 98:
+                        if health["cpu_percent"] > 98:
                             print(f"Worker {worker_id}: CPU at {health['cpu_percent']:.1f}%")
 
             except Exception as e:
                 errors += 1
                 print(f"Worker {worker_id} error: {e}")
 
-            stress_results.append({
-                'worker_id': worker_id,
-                'operations': operations,
-                'errors': errors,
-                'duration': time.time() - start_time
-            })
+            stress_results.append(
+                {
+                    "worker_id": worker_id,
+                    "operations": operations,
+                    "errors": errors,
+                    "duration": time.time() - start_time,
+                }
+            )
 
         # Start multiple stress workers
         num_workers = min(4, os.cpu_count() or 2)  # Don't overload the system
 
-        print(f"Starting sustained high load test with {num_workers} workers for {test_duration}s...")
+        print(
+            f"Starting sustained high load test with {num_workers} workers for {test_duration}s..."
+        )
 
         for i in range(num_workers):
             worker = threading.Thread(target=stress_worker, args=(i,))
@@ -289,10 +307,10 @@ class TestStressTestScenarios:
             worker.join()
 
         # Analyze stress test results
-        total_operations = sum(r['operations'] for r in stress_results)
-        total_errors = sum(r['errors'] for r in stress_results)
-        avg_cpu = statistics.mean([h['cpu_percent'] for h in monitoring_points])
-        peak_cpu = max([h['cpu_percent'] for h in monitoring_points])
+        total_operations = sum(r["operations"] for r in stress_results)
+        total_errors = sum(r["errors"] for r in stress_results)
+        avg_cpu = statistics.mean([h["cpu_percent"] for h in monitoring_points])
+        peak_cpu = max([h["cpu_percent"] for h in monitoring_points])
 
         print("\nSustained high load test results:")
         print(f"- Workers: {num_workers}")
@@ -300,7 +318,7 @@ class TestStressTestScenarios:
         print(f"- Total operations: {total_operations}")
         print(f"- Total errors: {total_errors}")
         print(f"- Peak CPU usage: {peak_cpu:.1f}%")
-        print(f"- Operations per second: {total_operations/test_duration:.1f}")
+        print(f"- Operations per second: {total_operations / test_duration:.1f}")
 
         # Verify system stability under sustained load
         assert total_operations > 1000, "Insufficient operations under load"
@@ -314,20 +332,20 @@ class TestStressTestScenarios:
         # Test CPU boundary
         print("Testing CPU boundary...")
         cpu_test_result = self._test_cpu_boundary(system_monitor)
-        boundary_tests.append(('cpu', cpu_test_result))
+        boundary_tests.append(("cpu", cpu_test_result))
 
         # Test memory boundary
         print("Testing memory boundary...")
         memory_test_result = self._test_memory_boundary(system_monitor)
-        boundary_tests.append(('memory', memory_test_result))
+        boundary_tests.append(("memory", memory_test_result))
 
         # Test disk boundary (less aggressive)
         print("Testing disk boundary...")
         disk_test_result = self._test_disk_boundary(system_monitor)
-        boundary_tests.append(('disk', disk_test_result))
+        boundary_tests.append(("disk", disk_test_result))
 
         # Analyze boundary test results
-        passed_tests = len([t for t in boundary_tests if t[1]['passed']])
+        passed_tests = len([t for t in boundary_tests if t[1]["passed"]])
         total_tests = len(boundary_tests)
 
         print("\nResource exhaustion boundary test results:")
@@ -335,11 +353,15 @@ class TestStressTestScenarios:
         print(f"- Tests passed: {passed_tests}")
 
         for resource, result in boundary_tests:
-            print(f"- {resource}: {'PASSED' if result['passed'] else 'FAILED'} "
-                  f"(peak: {result['peak']:.1f}%, threshold: {result['threshold']:.1f}%)")
+            print(
+                f"- {resource}: {'PASSED' if result['passed'] else 'FAILED'} "
+                f"(peak: {result['peak']:.1f}%, threshold: {result['threshold']:.1f}%)"
+            )
 
         # Verify system handles resource boundaries appropriately
-        assert passed_tests >= total_tests * 0.5, f"Too many boundary tests failed: {passed_tests}/{total_tests}"
+        assert passed_tests >= total_tests * 0.5, (
+            f"Too many boundary tests failed: {passed_tests}/{total_tests}"
+        )
 
     def _test_cpu_boundary(self, system_monitor):
         """Test CPU usage at boundary conditions."""
@@ -357,16 +379,16 @@ class TestStressTestScenarios:
 
             # Measure CPU usage
             health = system_monitor.get_system_health()
-            cpu_loads.append(health['cpu_percent'])
+            cpu_loads.append(health["cpu_percent"])
 
         peak_cpu = max(cpu_loads)
         threshold = 95  # CPU threshold
 
         return {
-            'passed': peak_cpu < threshold,
-            'peak': peak_cpu,
-            'threshold': threshold,
-            'loads': cpu_loads
+            "passed": peak_cpu < threshold,
+            "peak": peak_cpu,
+            "threshold": threshold,
+            "loads": cpu_loads,
         }
 
     def _test_memory_boundary(self, system_monitor):
@@ -381,10 +403,10 @@ class TestStressTestScenarios:
                 memory_blocks.append(block)
 
                 health = system_monitor.get_system_health()
-                memory_loads.append(health['memory_percent'])
+                memory_loads.append(health["memory_percent"])
 
                 # Stop if getting close to threshold
-                if health['memory_percent'] > 85:
+                if health["memory_percent"] > 85:
                     break
 
                 time.sleep(0.1)
@@ -397,10 +419,10 @@ class TestStressTestScenarios:
         threshold = 90  # Memory threshold
 
         return {
-            'passed': peak_memory < threshold,
-            'peak': peak_memory,
-            'threshold': threshold,
-            'loads': memory_loads
+            "passed": peak_memory < threshold,
+            "peak": peak_memory,
+            "threshold": threshold,
+            "loads": memory_loads,
         }
 
     def _test_disk_boundary(self, system_monitor):
@@ -414,14 +436,14 @@ class TestStressTestScenarios:
                 temp_file = f"disk_test_{i}_{int(time.time())}.tmp"
                 temp_files.append(temp_file)
 
-                with open(temp_file, 'w') as f:
-                    f.write('x' * 1024 * 1024)  # 1MB per file
+                with open(temp_file, "w") as f:
+                    f.write("x" * 1024 * 1024)  # 1MB per file
 
                 health = system_monitor.get_system_health()
-                disk_loads.append(health['disk_usage'])
+                disk_loads.append(health["disk_usage"])
 
                 # Stop if disk usage getting high
-                if health['disk_usage'] > 90:
+                if health["disk_usage"] > 90:
                     break
 
         finally:
@@ -436,11 +458,12 @@ class TestStressTestScenarios:
         threshold = 95  # Disk threshold
 
         return {
-            'passed': peak_disk < threshold,
-            'peak': peak_disk,
-            'threshold': threshold,
-            'loads': disk_loads
+            "passed": peak_disk < threshold,
+            "peak": peak_disk,
+            "threshold": threshold,
+            "loads": disk_loads,
         }
+
 
 @pytest.mark.operational
 @pytest.mark.performance
@@ -457,41 +480,43 @@ class TestOperationalPerformanceBenchmarks:
         start_time = time.time()
         while time.time() - start_time < measurement_duration:
             health = system_monitor.get_system_health()
-            baseline_measurements.append({
-                'timestamp': time.time(),
-                'cpu': health['cpu_percent'],
-                'memory': health['memory_percent'],
-                'disk': health['disk_usage']
-            })
+            baseline_measurements.append(
+                {
+                    "timestamp": time.time(),
+                    "cpu": health["cpu_percent"],
+                    "memory": health["memory_percent"],
+                    "disk": health["disk_usage"],
+                }
+            )
             time.sleep(0.5)
 
         # Calculate baseline statistics
-        cpu_values = [m['cpu'] for m in baseline_measurements]
-        memory_values = [m['memory'] for m in baseline_measurements]
-        disk_values = [m['disk'] for m in baseline_measurements]
+        cpu_values = [m["cpu"] for m in baseline_measurements]
+        memory_values = [m["memory"] for m in baseline_measurements]
+        disk_values = [m["disk"] for m in baseline_measurements]
 
         baseline_stats = {
-            'cpu': {
-                'mean': statistics.mean(cpu_values),
-                'median': statistics.median(cpu_values),
-                'stdev': statistics.stdev(cpu_values) if len(cpu_values) > 1 else 0,
-                'min': min(cpu_values),
-                'max': max(cpu_values)
+            "cpu": {
+                "mean": statistics.mean(cpu_values),
+                "median": statistics.median(cpu_values),
+                "stdev": statistics.stdev(cpu_values) if len(cpu_values) > 1 else 0,
+                "min": min(cpu_values),
+                "max": max(cpu_values),
             },
-            'memory': {
-                'mean': statistics.mean(memory_values),
-                'median': statistics.median(memory_values),
-                'stdev': statistics.stdev(memory_values) if len(memory_values) > 1 else 0,
-                'min': min(memory_values),
-                'max': max(memory_values)
+            "memory": {
+                "mean": statistics.mean(memory_values),
+                "median": statistics.median(memory_values),
+                "stdev": statistics.stdev(memory_values) if len(memory_values) > 1 else 0,
+                "min": min(memory_values),
+                "max": max(memory_values),
             },
-            'disk': {
-                'mean': statistics.mean(disk_values),
-                'median': statistics.median(disk_values),
-                'stdev': statistics.stdev(disk_values) if len(disk_values) > 1 else 0,
-                'min': min(disk_values),
-                'max': max(disk_values)
-            }
+            "disk": {
+                "mean": statistics.mean(disk_values),
+                "median": statistics.median(disk_values),
+                "stdev": statistics.stdev(disk_values) if len(disk_values) > 1 else 0,
+                "min": min(disk_values),
+                "max": max(disk_values),
+            },
         }
 
         print("Performance baseline established:")
@@ -500,9 +525,15 @@ class TestOperationalPerformanceBenchmarks:
         print(f"- Disk baseline: {baseline_stats['disk']['mean']:.1f}%")
 
         # Verify baseline measurements are reasonable
-        assert len(baseline_measurements) >= measurement_duration * 0.8, "Insufficient baseline measurements"
-        assert baseline_stats['cpu']['mean'] < 90, f"Baseline CPU too high: {baseline_stats['cpu']['mean']:.1f}%"
-        assert baseline_stats['memory']['mean'] < 90, f"Baseline memory too high: {baseline_stats['memory']['mean']:.1f}%"
+        assert len(baseline_measurements) >= measurement_duration * 0.8, (
+            "Insufficient baseline measurements"
+        )
+        assert baseline_stats["cpu"]["mean"] < 90, (
+            f"Baseline CPU too high: {baseline_stats['cpu']['mean']:.1f}%"
+        )
+        assert baseline_stats["memory"]["mean"] < 90, (
+            f"Baseline memory too high: {baseline_stats['memory']['mean']:.1f}%"
+        )
 
         return baseline_stats
 
@@ -512,36 +543,39 @@ class TestOperationalPerformanceBenchmarks:
 
         # Test different operational intensities
         test_scenarios = [
-            {'name': 'light_load', 'users': 5, 'duration': 5},
-            {'name': 'medium_load', 'users': 10, 'duration': 5},
-            {'name': 'heavy_load', 'users': 15, 'duration': 5}
+            {"name": "light_load", "users": 5, "duration": 5},
+            {"name": "medium_load", "users": 10, "duration": 5},
+            {"name": "heavy_load", "users": 15, "duration": 5},
         ]
 
         for scenario in test_scenarios:
             print(f"Testing throughput: {scenario['name']} ({scenario['users']} users)...")
 
             throughput = self._measure_throughput_scenario(
-                scenario['users'],
-                scenario['duration'],
-                system_monitor
+                scenario["users"], scenario["duration"], system_monitor
             )
 
-            throughput_tests.append({
-                'scenario': scenario['name'],
-                'users': scenario['users'],
-                'duration': scenario['duration'],
-                'throughput': throughput
-            })
+            throughput_tests.append(
+                {
+                    "scenario": scenario["name"],
+                    "users": scenario["users"],
+                    "duration": scenario["duration"],
+                    "throughput": throughput,
+                }
+            )
 
         # Analyze throughput results
         print("\nOperational throughput test results:")
         for test in throughput_tests:
-            print(f"- {test['scenario']}: {test['throughput']:.0f} ops/sec "
-                  f"({test['users']} users)")
+            print(f"- {test['scenario']}: {test['throughput']:.0f} ops/sec ({test['users']} users)")
 
         # Verify throughput scaling
-        light_throughput = next(t['throughput'] for t in throughput_tests if t['scenario'] == 'light_load')
-        heavy_throughput = next(t['throughput'] for t in throughput_tests if t['scenario'] == 'heavy_load')
+        light_throughput = next(
+            t["throughput"] for t in throughput_tests if t["scenario"] == "light_load"
+        )
+        heavy_throughput = next(
+            t["throughput"] for t in throughput_tests if t["scenario"] == "heavy_load"
+        )
 
         # Throughput should scale reasonably with load
         scaling_factor = heavy_throughput / light_throughput if light_throughput > 0 else 0
@@ -580,6 +614,7 @@ class TestOperationalPerformanceBenchmarks:
 
         return throughput_ops_per_sec
 
+
 @pytest.mark.integration
 @pytest.mark.operational
 @pytest.mark.performance
@@ -594,23 +629,20 @@ class TestOperationalLoadIntegration:
 
         # Test integrated load scenario
         load_scenario = {
-            'duration': 15,
-            'concurrent_users': 8,
-            'memory_intensity': 'medium',
-            'io_operations': 'light'
+            "duration": 15,
+            "concurrent_users": 8,
+            "memory_intensity": "medium",
+            "io_operations": "light",
         }
 
         integration_results = self._run_integrated_load_test(
-            load_scenario,
-            system_monitor,
-            baseline_monitor,
-            performance_dashboard
+            load_scenario, system_monitor, baseline_monitor, performance_dashboard
         )
 
         # Verify integration results
-        assert integration_results['completed'], "Integration test failed"
-        assert integration_results['avg_response_time'] < 0.5, "Response time too slow"
-        assert integration_results['error_rate'] < 0.05, "Error rate too high"
+        assert integration_results["completed"], "Integration test failed"
+        assert integration_results["avg_response_time"] < 0.5, "Response time too slow"
+        assert integration_results["error_rate"] < 0.05, "Error rate too high"
 
         print("Full system load integration test: PASSED")
         print(f"- Duration: {integration_results['duration']:.1f}s")
@@ -622,13 +654,13 @@ class TestOperationalLoadIntegration:
     def _run_integrated_load_test(self, scenario, system_monitor, baseline_monitor, dashboard):
         """Run integrated load test with multiple components."""
         results = {
-            'completed': False,
-            'duration': 0,
-            'total_operations': 0,
-            'avg_response_time': 0,
-            'error_rate': 0,
-            'system_health': [],
-            'performance_metrics': []
+            "completed": False,
+            "duration": 0,
+            "total_operations": 0,
+            "avg_response_time": 0,
+            "error_rate": 0,
+            "system_health": [],
+            "performance_metrics": [],
         }
 
         start_time = time.time()
@@ -641,18 +673,18 @@ class TestOperationalLoadIntegration:
             nonlocal operations_completed, errors_encountered
 
             worker_start = time.time()
-            while time.time() - worker_start < scenario['duration']:
+            while time.time() - worker_start < scenario["duration"]:
                 operation_start = time.time()
 
                 try:
                     # Simulate integrated operation
                     # Memory operation
-                    if scenario['memory_intensity'] == 'medium':
+                    if scenario["memory_intensity"] == "medium":
                         data = [i for i in range(10000)]
                         _ = sum(data)
 
                     # I/O operation
-                    if scenario['io_operations'] == 'light':
+                    if scenario["io_operations"] == "light":
                         time.sleep(0.001)
 
                     # CPU operation
@@ -670,21 +702,21 @@ class TestOperationalLoadIntegration:
 
         # Start integrated workers
         workers = []
-        for i in range(scenario['concurrent_users']):
+        for i in range(scenario["concurrent_users"]):
             worker = threading.Thread(target=integrated_worker, args=(i,))
             workers.append(worker)
             worker.start()
 
         # Monitor system during test
         monitoring_start = time.time()
-        while time.time() - monitoring_start < scenario['duration']:
+        while time.time() - monitoring_start < scenario["duration"]:
             # Collect system health
             health = system_monitor.get_system_health()
-            results['system_health'].append(health)
+            results["system_health"].append(health)
 
             # Collect performance metrics
             metrics = dashboard.get_system_metrics()
-            results['performance_metrics'].append(metrics)
+            results["performance_metrics"].append(metrics)
 
             time.sleep(0.5)
 
@@ -694,15 +726,15 @@ class TestOperationalLoadIntegration:
 
         # Calculate results
         end_time = time.time()
-        results['duration'] = end_time - start_time
-        results['total_operations'] = operations_completed
-        results['completed'] = True
+        results["duration"] = end_time - start_time
+        results["total_operations"] = operations_completed
+        results["completed"] = True
 
         if response_times:
-            results['avg_response_time'] = statistics.mean(response_times)
+            results["avg_response_time"] = statistics.mean(response_times)
 
         total_operations = operations_completed + errors_encountered
         if total_operations > 0:
-            results['error_rate'] = errors_encountered / total_operations
+            results["error_rate"] = errors_encountered / total_operations
 
         return results

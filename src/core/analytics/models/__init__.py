@@ -4,5 +4,5 @@
 from . import coordination_analytics_models
 
 __all__ = [
-    'coordination_analytics_models',
+    "coordination_analytics_models",
 ]

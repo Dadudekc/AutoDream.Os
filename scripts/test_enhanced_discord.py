@@ -179,7 +179,7 @@ class EnhancedDiscordTester:
         try:
             # Import enhanced integration
             sys.path.append(str(self.discord_dir))
-            from enhanced_discord_integration import EnhancedDiscordCommander, AgentChannel
+            from enhanced_discord_integration import AgentChannel, EnhancedDiscordCommander
 
             # Create commander instance
             commander = EnhancedDiscordCommander()

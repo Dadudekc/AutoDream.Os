@@ -4,7 +4,7 @@
 from . import pattern_analyzer, prediction_analyzer, swarm_analyzer
 
 __all__ = [
-    'pattern_analyzer',
-    'prediction_analyzer',
-    'swarm_analyzer',
+    "pattern_analyzer",
+    "prediction_analyzer",
+    "swarm_analyzer",
 ]

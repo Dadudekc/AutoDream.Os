@@ -15,6 +15,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class UnifiedMessagingSystem:
     """Unified messaging system for all agent communication"""
 
@@ -52,6 +53,7 @@ class UnifiedMessagingSystem:
         except Exception as e:
             self.logger.error(f"Failed to broadcast message: {e}")
             return False
+
 
 # Global instance
 unified_messaging = UnifiedMessagingSystem()

@@ -32,6 +32,7 @@ from .config_core import (
 @dataclass
 class TimeoutConfig:
     """Centralized timeout configurations."""
+
     # Browser/UI timeouts
     scrape_timeout: float = get_config("SCRAPE_TIMEOUT", 30.0)
     response_wait_timeout: float = get_config("RESPONSE_WAIT_TIMEOUT", 120.0)
@@ -56,6 +57,7 @@ class TimeoutConfig:
 @dataclass
 class AgentConfig:
     """Centralized agent configuration."""
+
     agent_count: int = get_config("AGENT_COUNT", 8)
     captain_id: str = get_config("CAPTAIN_ID", "Agent-4")
     default_mode: str = get_config("DEFAULT_MODE", "pyautogui")
@@ -70,34 +72,41 @@ class AgentConfig:
 @dataclass
 class FilePatternConfig:
     """Centralized file pattern configurations."""
+
     # Test file patterns
     test_file_pattern: str = get_config("TEST_FILE_PATTERN", "test_*.py")
 
     # Project file patterns
-    architecture_files: str = get_config("ARCHITECTURE_FILES", r'\.(py|js|ts|java|cpp|h|md)$')
-    config_files: str = get_config("CONFIG_FILES", r'(config|settings|env|yml|yaml|json|toml|ini)$')
-    test_files: str = get_config("TEST_FILES", r'(test|spec)\.(py|js|ts|java)$')
-    docs_files: str = get_config("DOCS_FILES", r'(README|CHANGELOG|CONTRIBUTING|docs?)\.md$')
-    build_files: str = get_config("BUILD_FILES", r'(Dockerfile|docker-compose|\.gitlab-ci|\.github|Makefile|build\.gradle|pom\.xml)$')
+    architecture_files: str = get_config("ARCHITECTURE_FILES", r"\.(py|js|ts|java|cpp|h|md)$")
+    config_files: str = get_config("CONFIG_FILES", r"(config|settings|env|yml|yaml|json|toml|ini)$")
+    test_files: str = get_config("TEST_FILES", r"(test|spec)\.(py|js|ts|java)$")
+    docs_files: str = get_config("DOCS_FILES", r"(README|CHANGELOG|CONTRIBUTING|docs?)\.md$")
+    build_files: str = get_config(
+        "BUILD_FILES",
+        r"(Dockerfile|docker-compose|\.gitlab-ci|\.github|Makefile|build\.gradle|pom\.xml)$",
+    )
 
     @property
     def project_patterns(self) -> dict[str, str]:
         """Get all project file patterns."""
         return {
-            'architecture_files': self.architecture_files,
-            'config_files': self.config_files,
-            'test_files': self.test_files,
-            'docs_files': self.docs_files,
-            'build_files': self.build_files
+            "architecture_files": self.architecture_files,
+            "config_files": self.config_files,
+            "test_files": self.test_files,
+            "docs_files": self.docs_files,
+            "build_files": self.build_files,
         }
 
 
 @dataclass
 class ThresholdConfig:
     """Centralized threshold and alert configurations."""
+
     # Quality monitoring thresholds
     test_failure_threshold: int = get_config("TEST_FAILURE_THRESHOLD", 0)
-    performance_degradation_threshold: float = get_config("PERFORMANCE_DEGRADATION_THRESHOLD", 100.0)
+    performance_degradation_threshold: float = get_config(
+        "PERFORMANCE_DEGRADATION_THRESHOLD", 100.0
+    )
     coverage_threshold: float = get_config("COVERAGE_THRESHOLD", 80.0)
 
     # Performance benchmark targets
@@ -150,34 +159,55 @@ class ThresholdConfig:
 @dataclass
 class BrowserConfig:
     """Centralized browser interaction configuration."""
+
     # URLs
-    gpt_url: str = get_config("GPT_URL", 'https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager')
-    conversation_url: str = get_config("CONVERSATION_URL", 'https://chatgpt.com/c/68bf1b1b-37b8-8324-be55-e3ccf20af737')
+    gpt_url: str = get_config(
+        "GPT_URL", "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager"
+    )
+    conversation_url: str = get_config(
+        "CONVERSATION_URL", "https://chatgpt.com/c/68bf1b1b-37b8-8324-be55-e3ccf20af737"
+    )
 
     # Primary selectors
     input_selector: str = get_config("INPUT_SELECTOR", "textarea[data-testid='prompt-textarea']")
-    send_button_selector: str = get_config("SEND_BUTTON_SELECTOR", "button[data-testid='send-button']")
-    response_selector: str = get_config("RESPONSE_SELECTOR", "[data-testid='conversation-turn']:last-child .markdown")
+    send_button_selector: str = get_config(
+        "SEND_BUTTON_SELECTOR", "button[data-testid='send-button']"
+    )
+    response_selector: str = get_config(
+        "RESPONSE_SELECTOR", "[data-testid='conversation-turn']:last-child .markdown"
+    )
     thinking_indicator: str = get_config("THINKING_INDICATOR", "[data-testid='thinking-indicator']")
 
     # Fallback selectors
-    input_fallback_selectors: list[str] = field(default_factory=lambda: [
-        "textarea[placeholder*='Message']", "textarea[placeholder*='Ask']",
-        'textarea', '#prompt-textarea', "[contenteditable='true']",
-        "div[contenteditable='true']", 'p[data-placeholder]',
-        "[data-placeholder='Ask anything']"
-    ])
+    input_fallback_selectors: list[str] = field(
+        default_factory=lambda: [
+            "textarea[placeholder*='Message']",
+            "textarea[placeholder*='Ask']",
+            "textarea",
+            "#prompt-textarea",
+            "[contenteditable='true']",
+            "div[contenteditable='true']",
+            "p[data-placeholder]",
+            "[data-placeholder='Ask anything']",
+        ]
+    )
 
-    send_fallback_selectors: list[str] = field(default_factory=lambda: [
-        "button[data-testid='send-button']", "button[type='submit']",
-        "button:has-text('Send')"
-    ])
+    send_fallback_selectors: list[str] = field(
+        default_factory=lambda: [
+            "button[data-testid='send-button']",
+            "button[type='submit']",
+            "button:has-text('Send')",
+        ]
+    )
 
-    response_fallback_selectors: list[str] = field(default_factory=lambda: [
-        "[data-testid='conversation-turn']:last-child .markdown",
-        '.message-content:last-child', '.markdown:last-child',
-        '[data-message-id]:last-child'
-    ])
+    response_fallback_selectors: list[str] = field(
+        default_factory=lambda: [
+            "[data-testid='conversation-turn']:last-child .markdown",
+            ".message-content:last-child",
+            ".markdown:last-child",
+            "[data-message-id]:last-child",
+        ]
+    )
 
     # Retry configuration
     max_scrape_retries: int = get_config("MAX_SCRAPE_RETRIES", 3)
@@ -186,79 +216,82 @@ class BrowserConfig:
 @dataclass
 class TestConfig:
     """Centralized test configuration."""
+
     # Test categories
-    test_categories: dict[str, dict[str, Any]] = field(default_factory=lambda: {
-        "smoke": {
-            "description": "Smoke tests for basic functionality validation",
-            "marker": "smoke",
-            "timeout": 60,
-            "critical": True,
-            "directory": "smoke",
-        },
-        "unit": {
-            "description": "Unit tests for individual components",
-            "marker": "unit",
-            "timeout": 120,
-            "critical": True,
-            "directory": "unit",
-        },
-        "integration": {
-            "description": "Integration tests for component interaction",
-            "marker": "integration",
-            "timeout": 300,
-            "critical": False,
-            "directory": "integration",
-        },
-        "performance": {
-            "description": "Performance and load testing",
-            "marker": "performance",
-            "timeout": 600,
-            "critical": False,
-            "directory": "performance",
-        },
-        "security": {
-            "description": "Security and vulnerability testing",
-            "marker": "security",
-            "timeout": 180,
-            "critical": True,
-            "directory": "security",
-        },
-        "api": {
-            "description": "API endpoint testing",
-            "marker": "api",
-            "timeout": 240,
-            "critical": False,
-            "directory": "api",
-        },
-        "behavior": {
-            "description": "Behavior tree tests",
-            "marker": "behavior",
-            "timeout": 120,
-            "critical": False,
-            "directory": "behavior_trees",
-        },
-        "decision": {
-            "description": "Decision engine tests",
-            "marker": "decision",
-            "timeout": 120,
-            "critical": False,
-            "directory": "decision_engines",
-        },
-        "coordination": {
-            "description": "Multi-agent coordination tests",
-            "marker": "coordination",
-            "timeout": 180,
-            "critical": False,
-            "directory": "multi_agent",
-        },
-        "learning": {
-            "description": "Learning component tests",
-            "marker": "learning",
-            "timeout": 180,
-            "critical": False,
-            "directory": "learning",
-        },
-    })
+    test_categories: dict[str, dict[str, Any]] = field(
+        default_factory=lambda: {
+            "smoke": {
+                "description": "Smoke tests for basic functionality validation",
+                "marker": "smoke",
+                "timeout": 60,
+                "critical": True,
+                "directory": "smoke",
+            },
+            "unit": {
+                "description": "Unit tests for individual components",
+                "marker": "unit",
+                "timeout": 120,
+                "critical": True,
+                "directory": "unit",
+            },
+            "integration": {
+                "description": "Integration tests for component interaction",
+                "marker": "integration",
+                "timeout": 300,
+                "critical": False,
+                "directory": "integration",
+            },
+            "performance": {
+                "description": "Performance and load testing",
+                "marker": "performance",
+                "timeout": 600,
+                "critical": False,
+                "directory": "performance",
+            },
+            "security": {
+                "description": "Security and vulnerability testing",
+                "marker": "security",
+                "timeout": 180,
+                "critical": True,
+                "directory": "security",
+            },
+            "api": {
+                "description": "API endpoint testing",
+                "marker": "api",
+                "timeout": 240,
+                "critical": False,
+                "directory": "api",
+            },
+            "behavior": {
+                "description": "Behavior tree tests",
+                "marker": "behavior",
+                "timeout": 120,
+                "critical": False,
+                "directory": "behavior_trees",
+            },
+            "decision": {
+                "description": "Decision engine tests",
+                "marker": "decision",
+                "timeout": 120,
+                "critical": False,
+                "directory": "decision_engines",
+            },
+            "coordination": {
+                "description": "Multi-agent coordination tests",
+                "marker": "coordination",
+                "timeout": 180,
+                "critical": False,
+                "directory": "multi_agent",
+            },
+            "learning": {
+                "description": "Learning component tests",
+                "marker": "learning",
+                "timeout": 180,
+                "critical": False,
+                "directory": "learning",
+            },
+        }
+    )
 
     # Coverage configuration
     coverage_report_precision: int = get_config("COVERAGE_REPORT_PRECISION", 2)
@@ -268,6 +301,7 @@ class TestConfig:
 @dataclass
 class ReportConfig:
     """Centralized reporting configuration."""
+
     # Report formats
     class ReportFormat(str, Enum):
         JSON = "json"
@@ -329,15 +363,15 @@ class UnifiedConfig:
             issues.append("Agent count must be between 1 and 20")
         if not self.agents.captain_id:
             issues.append("Captain ID cannot be empty")
-        if not self.agents.captain_id.startswith('Agent-'):
+        if not self.agents.captain_id.startswith("Agent-"):
             issues.append("Captain ID must start with 'Agent-'")
-        if self.agents.default_mode not in ['pyautogui', 'selenium', 'manual']:
+        if self.agents.default_mode not in ["pyautogui", "selenium", "manual"]:
             issues.append("Default mode must be one of: pyautogui, selenium, manual")
 
         # Validate browser configuration
-        if not self.browser.gpt_url.startswith('https://'):
+        if not self.browser.gpt_url.startswith("https://"):
             issues.append("GPT URL must be HTTPS")
-        if not self.browser.conversation_url.startswith('https://'):
+        if not self.browser.conversation_url.startswith("https://"):
             issues.append("Conversation URL must be HTTPS")
         if not self.browser.input_selector.strip():
             issues.append("Input selector cannot be empty")

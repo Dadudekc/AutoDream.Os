@@ -13,7 +13,8 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from core.message_queue import MessageQueue, QueueConfig, AsyncQueueProcessor
+from core.message_queue import AsyncQueueProcessor, MessageQueue, QueueConfig
+
 
 def test_backwards_compatibility():
     """Test that existing MessageQueue usage patterns still work."""
@@ -42,6 +43,7 @@ def test_backwards_compatibility():
     # Test 3: Enqueue with delivery callback (original API)
     print("\n3. Testing enqueue with callback (original API)...")
     try:
+
         def dummy_callback(msg):
             return True
 
@@ -105,6 +107,7 @@ def test_backwards_compatibility():
     print("✅ Original APIs preserved")
     return True
 
+
 def test_file_organization():
     """Test that files are properly organized."""
 
@@ -117,7 +120,7 @@ def test_file_organization():
         "message_queue_interfaces.py",
         "message_queue_persistence.py",
         "message_queue_statistics.py",
-        "message_queue_pyautogui_integration.py"
+        "message_queue_pyautogui_integration.py",
     ]
 
     missing_files = []
@@ -135,6 +138,7 @@ def test_file_organization():
 
     print("✅ All message queue files properly organized in src/core/")
     return True
+
 
 if __name__ == "__main__":
     success1 = test_backwards_compatibility()

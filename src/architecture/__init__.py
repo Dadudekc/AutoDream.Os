@@ -4,7 +4,7 @@
 from . import design_patterns, system_integration, unified_architecture_core
 
 __all__ = [
-    'design_patterns',
-    'system_integration',
-    'unified_architecture_core',
+    "design_patterns",
+    "system_integration",
+    "unified_architecture_core",
 ]

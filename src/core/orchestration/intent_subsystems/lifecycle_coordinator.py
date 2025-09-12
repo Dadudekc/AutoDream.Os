@@ -27,6 +27,7 @@ from ..contracts import OrchestrationContext, Step
 
 class LifecyclePhase(Enum):
     """Agent lifecycle phases."""
+
     INITIALIZING = "initializing"
     OBSERVING = "observing"
     ANALYZING = "analyzing"
@@ -41,6 +42,7 @@ class LifecyclePhase(Enum):
 
 class LifecycleStatus(Enum):
     """Agent lifecycle status."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     SUSPENDED = "suspended"
@@ -51,6 +53,7 @@ class LifecycleStatus(Enum):
 
 class AgentCapability(Enum):
     """Standard agent capabilities."""
+
     OBSERVATION = "observation"
     ANALYSIS = "analysis"
     COMMUNICATION = "communication"
@@ -63,6 +66,7 @@ class AgentCapability(Enum):
 @dataclass
 class AgentState:
     """Agent state representation."""
+
     agent_id: str
     current_phase: LifecyclePhase = LifecyclePhase.INITIALIZING
     status: LifecycleStatus = LifecycleStatus.ACTIVE
@@ -79,6 +83,7 @@ class AgentState:
 @dataclass
 class LifecycleTransition:
     """Lifecycle transition record."""
+
     transition_id: str
     agent_id: str
     from_phase: LifecyclePhase
@@ -131,11 +136,17 @@ class SwarmAgent(Protocol):
 class LifecycleStrategy(Protocol):
     """Strategy pattern for lifecycle management."""
 
-    def should_transition(self, agent: SwarmAgent, current_state: AgentState, context: dict[str, Any]) -> LifecyclePhase | None: ...
+    def should_transition(
+        self, agent: SwarmAgent, current_state: AgentState, context: dict[str, Any]
+    ) -> LifecyclePhase | None: ...
 
-    def validate_transition(self, agent: SwarmAgent, from_phase: LifecyclePhase, to_phase: LifecyclePhase) -> bool: ...
+    def validate_transition(
+        self, agent: SwarmAgent, from_phase: LifecyclePhase, to_phase: LifecyclePhase
+    ) -> bool: ...
 
-    def handle_transition_error(self, agent: SwarmAgent, transition: LifecycleTransition) -> None: ...
+    def handle_transition_error(
+        self, agent: SwarmAgent, transition: LifecycleTransition
+    ) -> None: ...
 
 
 class SwarmLifecycleStrategy:
@@ -148,27 +159,45 @@ class SwarmLifecycleStrategy:
         self.transition_rules = {
             LifecyclePhase.INITIALIZING: [LifecyclePhase.OBSERVING],
             LifecyclePhase.OBSERVING: [LifecyclePhase.ANALYZING, LifecyclePhase.ERROR],
-            LifecyclePhase.ANALYZING: [LifecyclePhase.DEBATING, LifecyclePhase.OBSERVING, LifecyclePhase.ERROR],
-            LifecyclePhase.DEBATING: [LifecyclePhase.DECIDING, LifecyclePhase.ANALYZING, LifecyclePhase.ERROR],
-            LifecyclePhase.DECIDING: [LifecyclePhase.ACTING, LifecyclePhase.DEBATING, LifecyclePhase.ERROR],
+            LifecyclePhase.ANALYZING: [
+                LifecyclePhase.DEBATING,
+                LifecyclePhase.OBSERVING,
+                LifecyclePhase.ERROR,
+            ],
+            LifecyclePhase.DEBATING: [
+                LifecyclePhase.DECIDING,
+                LifecyclePhase.ANALYZING,
+                LifecyclePhase.ERROR,
+            ],
+            LifecyclePhase.DECIDING: [
+                LifecyclePhase.ACTING,
+                LifecyclePhase.DEBATING,
+                LifecyclePhase.ERROR,
+            ],
             LifecyclePhase.ACTING: [LifecyclePhase.REFLECTING, LifecyclePhase.ERROR],
-            LifecyclePhase.REFLECTING: [LifecyclePhase.OBSERVING, LifecyclePhase.MAINTENANCE, LifecyclePhase.ERROR],
+            LifecyclePhase.REFLECTING: [
+                LifecyclePhase.OBSERVING,
+                LifecyclePhase.MAINTENANCE,
+                LifecyclePhase.ERROR,
+            ],
             LifecyclePhase.MAINTENANCE: [LifecyclePhase.OBSERVING, LifecyclePhase.ERROR],
             LifecyclePhase.ERROR: [LifecyclePhase.INITIALIZING, LifecyclePhase.SHUTDOWN],
-            LifecyclePhase.SHUTDOWN: []
+            LifecyclePhase.SHUTDOWN: [],
         }
 
         # Phase timeouts (seconds)
         self.phase_timeouts = {
-            LifecyclePhase.OBSERVING: 300,      # 5 minutes
-            LifecyclePhase.ANALYZING: 600,      # 10 minutes
-            LifecyclePhase.DEBATING: 1800,      # 30 minutes
-            LifecyclePhase.DECIDING: 300,       # 5 minutes
-            LifecyclePhase.ACTING: 900,         # 15 minutes
-            LifecyclePhase.REFLECTING: 300,     # 5 minutes
+            LifecyclePhase.OBSERVING: 300,  # 5 minutes
+            LifecyclePhase.ANALYZING: 600,  # 10 minutes
+            LifecyclePhase.DEBATING: 1800,  # 30 minutes
+            LifecyclePhase.DECIDING: 300,  # 5 minutes
+            LifecyclePhase.ACTING: 900,  # 15 minutes
+            LifecyclePhase.REFLECTING: 300,  # 5 minutes
         }
 
-    def should_transition(self, agent: SwarmAgent, current_state: AgentState, context: dict[str, Any]) -> LifecyclePhase | None:
+    def should_transition(
+        self, agent: SwarmAgent, current_state: AgentState, context: dict[str, Any]
+    ) -> LifecyclePhase | None:
         """Determine if agent should transition to next phase."""
         current_phase = current_state.current_phase
 
@@ -212,14 +241,18 @@ class SwarmLifecycleStrategy:
 
         return None
 
-    def validate_transition(self, agent: SwarmAgent, from_phase: LifecyclePhase, to_phase: LifecyclePhase) -> bool:
+    def validate_transition(
+        self, agent: SwarmAgent, from_phase: LifecyclePhase, to_phase: LifecyclePhase
+    ) -> bool:
         """Validate if a transition is allowed."""
         allowed_transitions = self.transition_rules.get(from_phase, [])
         return to_phase in allowed_transitions
 
     def handle_transition_error(self, agent: SwarmAgent, transition: LifecycleTransition) -> None:
         """Handle transition errors."""
-        self.logger.error(f"Transition error for {agent.agent_id}: {transition.from_phase.value} → {transition.to_phase.value}")
+        self.logger.error(
+            f"Transition error for {agent.agent_id}: {transition.from_phase.value} → {transition.to_phase.value}"
+        )
         self.logger.error(f"Error: {transition.error_message}")
 
 
@@ -252,15 +285,14 @@ class LifecycleCoordinator:
             return False
 
         # Create initial state
-        initial_state = AgentState(
-            agent_id=agent_id,
-            capabilities=agent.capabilities.copy()
-        )
+        initial_state = AgentState(agent_id=agent_id, capabilities=agent.capabilities.copy())
 
         self.registered_agents[agent_id] = agent
         self.agent_states[agent_id] = initial_state
 
-        self.logger.info(f"Registered agent: {agent_id} with capabilities: {[c.value for c in agent.capabilities]}")
+        self.logger.info(
+            f"Registered agent: {agent_id} with capabilities: {[c.value for c in agent.capabilities]}"
+        )
         return True
 
     def unregister_agent(self, agent_id: str) -> bool:
@@ -276,7 +308,7 @@ class LifecycleCoordinator:
             from_phase=state.current_phase,
             to_phase=LifecyclePhase.SHUTDOWN,
             trigger="unregistration",
-            context={"reason": "unregistered"}
+            context={"reason": "unregistered"},
         )
         self.lifecycle_history.append(transition)
 
@@ -292,10 +324,7 @@ class LifecycleCoordinator:
             return
 
         self.monitoring_active = True
-        self.monitoring_thread = threading.Thread(
-            target=self._coordination_loop,
-            daemon=True
-        )
+        self.monitoring_thread = threading.Thread(target=self._coordination_loop, daemon=True)
         self.monitoring_thread.start()
         self.logger.info("Lifecycle coordination started")
 
@@ -306,7 +335,9 @@ class LifecycleCoordinator:
             self.monitoring_thread.join(timeout=10)
         self.logger.info("Lifecycle coordination stopped")
 
-    def execute_lifecycle_cycle(self, agent_id: str, context: dict[str, Any]) -> LifecycleTransition | None:
+    def execute_lifecycle_cycle(
+        self, agent_id: str, context: dict[str, Any]
+    ) -> LifecycleTransition | None:
         """Execute a complete lifecycle cycle for an agent."""
         if agent_id not in self.registered_agents:
             return None
@@ -345,9 +376,13 @@ class LifecycleCoordinator:
 
         except Exception as e:
             self.logger.error(f"Error in lifecycle cycle for {agent_id}: {e}")
-            return self._transition_agent(agent, state, LifecyclePhase.ERROR, "cycle_error", context)
+            return self._transition_agent(
+                agent, state, LifecyclePhase.ERROR, "cycle_error", context
+            )
 
-    def force_transition(self, agent_id: str, to_phase: LifecyclePhase, trigger: str, context: dict[str, Any]) -> LifecycleTransition | None:
+    def force_transition(
+        self, agent_id: str, to_phase: LifecyclePhase, trigger: str, context: dict[str, Any]
+    ) -> LifecycleTransition | None:
         """Force an agent to transition to a specific phase."""
         if agent_id not in self.registered_agents:
             return None
@@ -376,9 +411,10 @@ class LifecycleCoordinator:
             "performance_metrics": state.performance_metrics,
             "last_activity": state.last_activity.isoformat(),
             "context_summary": {
-                k: v for k, v in state.context.items()
+                k: v
+                for k, v in state.context.items()
                 if not isinstance(v, (list, dict)) or len(str(v)) < 100
-            }
+            },
         }
 
     def get_coordination_stats(self) -> dict[str, Any]:
@@ -389,7 +425,7 @@ class LifecycleCoordinator:
             "agents_by_phase": {},
             "agents_by_status": {},
             "total_transitions": len(self.lifecycle_history),
-            "recent_transitions": []
+            "recent_transitions": [],
         }
 
         for agent_id, state in self.agent_states.items():
@@ -406,17 +442,21 @@ class LifecycleCoordinator:
 
         # Recent transitions
         for transition in self.lifecycle_history[-20:]:
-            stats["recent_transitions"].append({
-                "agent_id": transition.agent_id,
-                "transition": f"{transition.from_phase.value} → {transition.to_phase.value}",
-                "trigger": transition.trigger,
-                "timestamp": transition.timestamp.isoformat(),
-                "success": transition.success
-            })
+            stats["recent_transitions"].append(
+                {
+                    "agent_id": transition.agent_id,
+                    "transition": f"{transition.from_phase.value} → {transition.to_phase.value}",
+                    "trigger": transition.trigger,
+                    "timestamp": transition.timestamp.isoformat(),
+                    "success": transition.success,
+                }
+            )
 
         return stats
 
-    def _execute_phase(self, agent: SwarmAgent, state: AgentState, context: dict[str, Any]) -> dict[str, Any]:
+    def _execute_phase(
+        self, agent: SwarmAgent, state: AgentState, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute the current phase for an agent."""
         phase = state.current_phase
 
@@ -441,8 +481,14 @@ class LifecycleCoordinator:
         else:
             return {"status": "idle", "phase": phase.value}
 
-    def _transition_agent(self, agent: SwarmAgent, state: AgentState, to_phase: LifecyclePhase,
-                         trigger: str, context: dict[str, Any]) -> LifecycleTransition:
+    def _transition_agent(
+        self,
+        agent: SwarmAgent,
+        state: AgentState,
+        to_phase: LifecyclePhase,
+        trigger: str,
+        context: dict[str, Any],
+    ) -> LifecycleTransition:
         """Transition an agent to a new phase."""
         from_phase = state.current_phase
 
@@ -459,7 +505,7 @@ class LifecycleCoordinator:
                 trigger=trigger,
                 context=context,
                 success=False,
-                error_message=error_msg
+                error_message=error_msg,
             )
             self.lifecycle_history.append(transition)
             return transition
@@ -476,11 +522,13 @@ class LifecycleCoordinator:
                 to_phase=to_phase,
                 trigger=trigger,
                 context=context,
-                success=True
+                success=True,
             )
 
             self.lifecycle_history.append(transition)
-            self.logger.info(f"Agent {agent.agent_id} transitioned: {from_phase.value} → {to_phase.value}")
+            self.logger.info(
+                f"Agent {agent.agent_id} transitioned: {from_phase.value} → {to_phase.value}"
+            )
 
             return transition
 
@@ -496,7 +544,7 @@ class LifecycleCoordinator:
                 trigger=trigger,
                 context=context,
                 success=False,
-                error_message=error_msg
+                error_message=error_msg,
             )
 
             self.lifecycle_history.append(transition)
@@ -510,7 +558,7 @@ class LifecycleCoordinator:
                 # Process agents in batches
                 agent_ids = list(self.registered_agents.keys())
                 for i in range(0, len(agent_ids), self.max_agents_per_cycle):
-                    batch = agent_ids[i:i + self.max_agents_per_cycle]
+                    batch = agent_ids[i : i + self.max_agents_per_cycle]
 
                     for agent_id in batch:
                         try:
@@ -518,13 +566,15 @@ class LifecycleCoordinator:
                             context = {
                                 "coordination_cycle": datetime.now().isoformat(),
                                 "active_agents": len(self.registered_agents),
-                                "system_status": "operational"
+                                "system_status": "operational",
                             }
 
                             # Execute lifecycle cycle
                             transition = self.execute_lifecycle_cycle(agent_id, context)
                             if transition:
-                                self.logger.debug(f"Transition: {agent_id} {transition.from_phase.value} → {transition.to_phase.value}")
+                                self.logger.debug(
+                                    f"Transition: {agent_id} {transition.from_phase.value} → {transition.to_phase.value}"
+                                )
 
                         except Exception as e:
                             self.logger.error(f"Error coordinating {agent_id}: {e}")
@@ -563,7 +613,9 @@ class LifecycleOrchestrationStep(Step):
                 agent_id = self.params.get("agent_id")
                 context = self.params.get("context", payload)
                 if agent_id:
-                    transition = self.lifecycle_coordinator.execute_lifecycle_cycle(agent_id, context)
+                    transition = self.lifecycle_coordinator.execute_lifecycle_cycle(
+                        agent_id, context
+                    )
                     payload["lifecycle_transition"] = transition
 
             elif self.operation == "force_transition":
@@ -572,7 +624,9 @@ class LifecycleOrchestrationStep(Step):
                 trigger = self.params.get("trigger", "forced")
                 context = self.params.get("context", payload)
                 if agent_id and to_phase:
-                    transition = self.lifecycle_coordinator.force_transition(agent_id, to_phase, trigger, context)
+                    transition = self.lifecycle_coordinator.force_transition(
+                        agent_id, to_phase, trigger, context
+                    )
                     payload["forced_transition"] = transition
 
             elif self.operation == "status":
@@ -611,5 +665,5 @@ __all__ = [
     "LifecycleStrategy",
     "SwarmLifecycleStrategy",
     "LifecycleOrchestrationStep",
-    "create_lifecycle_coordinator"
+    "create_lifecycle_coordinator",
 ]

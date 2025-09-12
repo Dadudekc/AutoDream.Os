@@ -36,17 +36,17 @@ class EnvironmentLoader:
             return False
 
         try:
-            with open(self.env_file, encoding='utf-8') as f:
+            with open(self.env_file, encoding="utf-8") as f:
                 for line_num, line in enumerate(f, 1):
                     line = line.strip()
 
                     # Skip comments and empty lines
-                    if not line or line.startswith('#'):
+                    if not line or line.startswith("#"):
                         continue
 
                     # Parse key=value pairs
-                    if '=' in line:
-                        key, value = line.split('=', 1)
+                    if "=" in line:
+                        key, value = line.split("=", 1)
                         key = key.strip()
                         value = value.strip()
 
@@ -59,7 +59,9 @@ class EnvironmentLoader:
                         os.environ[key] = value
                         self._loaded_vars[key] = value
 
-            self.logger.info(f"Loaded {len(self._loaded_vars)} environment variables from {self.env_file}")
+            self.logger.info(
+                f"Loaded {len(self._loaded_vars)} environment variables from {self.env_file}"
+            )
             return True
 
         except Exception as e:
@@ -76,13 +78,13 @@ class EnvironmentLoader:
         try:
             # Type conversion
             if var_type == bool:
-                return value.lower() in ('true', '1', 'yes', 'on')
+                return value.lower() in ("true", "1", "yes", "on")
             elif var_type == int:
                 return int(value)
             elif var_type == float:
                 return float(value)
             elif var_type == list:
-                return [item.strip() for item in value.split(',')]
+                return [item.strip() for item in value.split(",")]
             elif var_type == Path:
                 return Path(value)
             else:
@@ -97,12 +99,7 @@ class EnvironmentLoader:
         issues = []
 
         # Validate required settings
-        required_settings = [
-            'AGENT_COUNT',
-            'CAPTAIN_ID',
-            'DEFAULT_MODE',
-            'COORDINATE_MODE'
-        ]
+        required_settings = ["AGENT_COUNT", "CAPTAIN_ID", "DEFAULT_MODE", "COORDINATE_MODE"]
 
         for setting in required_settings:
             if not os.environ.get(setting):
@@ -110,10 +107,10 @@ class EnvironmentLoader:
 
         # Validate numeric settings
         numeric_settings = {
-            'AGENT_COUNT': (int, 1, 20),
-            'SCRAPE_TIMEOUT': (float, 1.0, 300.0),
-            'RESPONSE_WAIT_TIMEOUT': (float, 10.0, 600.0),
-            'COVERAGE_THRESHOLD': (float, 0.0, 100.0)
+            "AGENT_COUNT": (int, 1, 20),
+            "SCRAPE_TIMEOUT": (float, 1.0, 300.0),
+            "RESPONSE_WAIT_TIMEOUT": (float, 10.0, 600.0),
+            "COVERAGE_THRESHOLD": (float, 0.0, 100.0),
         }
 
         for setting, (var_type, min_val, max_val) in numeric_settings.items():
@@ -122,10 +119,10 @@ class EnvironmentLoader:
                 issues.append(f"{setting} must be between {min_val} and {max_val}")
 
         # Validate URL settings
-        url_settings = ['GPT_URL', 'CONVERSATION_URL']
+        url_settings = ["GPT_URL", "CONVERSATION_URL"]
         for setting in url_settings:
-            value = os.environ.get(setting, '')
-            if value and not value.startswith('https://'):
+            value = os.environ.get(setting, "")
+            if value and not value.startswith("https://"):
                 issues.append(f"{setting} must be a valid HTTPS URL")
 
         return issues
@@ -148,57 +145,117 @@ class EnvironmentLoader:
             config = get_unified_config()
 
             # Update timeout config
-            config.timeouts.scrape_timeout = self.get_env_var('SCRAPE_TIMEOUT', 30.0, float)
-            config.timeouts.response_wait_timeout = self.get_env_var('RESPONSE_WAIT_TIMEOUT', 120.0, float)
-            config.timeouts.quality_check_interval = self.get_env_var('QUALITY_CHECK_INTERVAL', 30.0, float)
-            config.timeouts.metrics_collection_interval = self.get_env_var('METRICS_COLLECTION_INTERVAL', 60.0, float)
+            config.timeouts.scrape_timeout = self.get_env_var("SCRAPE_TIMEOUT", 30.0, float)
+            config.timeouts.response_wait_timeout = self.get_env_var(
+                "RESPONSE_WAIT_TIMEOUT", 120.0, float
+            )
+            config.timeouts.quality_check_interval = self.get_env_var(
+                "QUALITY_CHECK_INTERVAL", 30.0, float
+            )
+            config.timeouts.metrics_collection_interval = self.get_env_var(
+                "METRICS_COLLECTION_INTERVAL", 60.0, float
+            )
 
             # Update agent config
-            config.agents.agent_count = self.get_env_var('AGENT_COUNT', 8, int)
-            config.agents.captain_id = self.get_env_var('CAPTAIN_ID', 'Agent-4', str)
-            config.agents.default_mode = self.get_env_var('DEFAULT_MODE', 'pyautogui', str)
-            config.agents.coordinate_mode = self.get_env_var('COORDINATE_MODE', '8-agent', str)
+            config.agents.agent_count = self.get_env_var("AGENT_COUNT", 8, int)
+            config.agents.captain_id = self.get_env_var("CAPTAIN_ID", "Agent-4", str)
+            config.agents.default_mode = self.get_env_var("DEFAULT_MODE", "pyautogui", str)
+            config.agents.coordinate_mode = self.get_env_var("COORDINATE_MODE", "8-agent", str)
 
             # Update file pattern config
-            config.file_patterns.test_file_pattern = self.get_env_var('TEST_FILE_PATTERN', 'test_*.py', str)
-            config.file_patterns.architecture_files = self.get_env_var('ARCHITECTURE_FILES', r'\.(py|js|ts|java|cpp|h|md)$', str)
-            config.file_patterns.config_files = self.get_env_var('CONFIG_FILES', r'(config|settings|env|yml|yaml|json|toml|ini)$', str)
-            config.file_patterns.test_files = self.get_env_var('TEST_FILES', r'(test|spec)\.(py|js|ts|java)$', str)
-            config.file_patterns.docs_files = self.get_env_var('DOCS_FILES', r'(README|CHANGELOG|CONTRIBUTING|docs?)\.md$', str)
-            config.file_patterns.build_files = self.get_env_var('BUILD_FILES', r'(Dockerfile|docker-compose|\.gitlab-ci|\.github|Makefile|build\.gradle|pom\.xml)$', str)
+            config.file_patterns.test_file_pattern = self.get_env_var(
+                "TEST_FILE_PATTERN", "test_*.py", str
+            )
+            config.file_patterns.architecture_files = self.get_env_var(
+                "ARCHITECTURE_FILES", r"\.(py|js|ts|java|cpp|h|md)$", str
+            )
+            config.file_patterns.config_files = self.get_env_var(
+                "CONFIG_FILES", r"(config|settings|env|yml|yaml|json|toml|ini)$", str
+            )
+            config.file_patterns.test_files = self.get_env_var(
+                "TEST_FILES", r"(test|spec)\.(py|js|ts|java)$", str
+            )
+            config.file_patterns.docs_files = self.get_env_var(
+                "DOCS_FILES", r"(README|CHANGELOG|CONTRIBUTING|docs?)\.md$", str
+            )
+            config.file_patterns.build_files = self.get_env_var(
+                "BUILD_FILES",
+                r"(Dockerfile|docker-compose|\.gitlab-ci|\.github|Makefile|build\.gradle|pom\.xml)$",
+                str,
+            )
 
             # Update threshold config
-            config.thresholds.test_failure_threshold = self.get_env_var('TEST_FAILURE_THRESHOLD', 0, int)
-            config.thresholds.performance_degradation_threshold = self.get_env_var('PERFORMANCE_DEGRADATION_THRESHOLD', 100.0, float)
-            config.thresholds.coverage_threshold = self.get_env_var('COVERAGE_THRESHOLD', 80.0, float)
-            config.thresholds.response_time_target = self.get_env_var('RESPONSE_TIME_TARGET', 100.0, float)
-            config.thresholds.throughput_target = self.get_env_var('THROUGHPUT_TARGET', 1000.0, float)
-            config.thresholds.scalability_target = self.get_env_var('SCALABILITY_TARGET', 100, int)
-            config.thresholds.reliability_target = self.get_env_var('RELIABILITY_TARGET', 99.9, float)
-            config.thresholds.latency_target = self.get_env_var('LATENCY_TARGET', 50.0, float)
-            config.thresholds.single_message_timeout = self.get_env_var('SINGLE_MESSAGE_TIMEOUT', 1.0, float)
-            config.thresholds.bulk_message_timeout = self.get_env_var('BULK_MESSAGE_TIMEOUT', 10.0, float)
-            config.thresholds.concurrent_message_timeout = self.get_env_var('CONCURRENT_MESSAGE_TIMEOUT', 5.0, float)
-            config.thresholds.min_throughput = self.get_env_var('MIN_THROUGHPUT', 10.0, float)
-            config.thresholds.max_memory_per_message = self.get_env_var('MAX_MEMORY_PER_MESSAGE', 1024, int)
+            config.thresholds.test_failure_threshold = self.get_env_var(
+                "TEST_FAILURE_THRESHOLD", 0, int
+            )
+            config.thresholds.performance_degradation_threshold = self.get_env_var(
+                "PERFORMANCE_DEGRADATION_THRESHOLD", 100.0, float
+            )
+            config.thresholds.coverage_threshold = self.get_env_var(
+                "COVERAGE_THRESHOLD", 80.0, float
+            )
+            config.thresholds.response_time_target = self.get_env_var(
+                "RESPONSE_TIME_TARGET", 100.0, float
+            )
+            config.thresholds.throughput_target = self.get_env_var(
+                "THROUGHPUT_TARGET", 1000.0, float
+            )
+            config.thresholds.scalability_target = self.get_env_var("SCALABILITY_TARGET", 100, int)
+            config.thresholds.reliability_target = self.get_env_var(
+                "RELIABILITY_TARGET", 99.9, float
+            )
+            config.thresholds.latency_target = self.get_env_var("LATENCY_TARGET", 50.0, float)
+            config.thresholds.single_message_timeout = self.get_env_var(
+                "SINGLE_MESSAGE_TIMEOUT", 1.0, float
+            )
+            config.thresholds.bulk_message_timeout = self.get_env_var(
+                "BULK_MESSAGE_TIMEOUT", 10.0, float
+            )
+            config.thresholds.concurrent_message_timeout = self.get_env_var(
+                "CONCURRENT_MESSAGE_TIMEOUT", 5.0, float
+            )
+            config.thresholds.min_throughput = self.get_env_var("MIN_THROUGHPUT", 10.0, float)
+            config.thresholds.max_memory_per_message = self.get_env_var(
+                "MAX_MEMORY_PER_MESSAGE", 1024, int
+            )
 
             # Update browser config
-            config.browser.gpt_url = self.get_env_var('GPT_URL', 'https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager', str)
-            config.browser.conversation_url = self.get_env_var('CONVERSATION_URL', 'https://chatgpt.com/c/68bf1b1b-37b8-8324-be55-e3ccf20af737', str)
-            config.browser.input_selector = self.get_env_var('INPUT_SELECTOR', "textarea[data-testid='prompt-textarea']", str)
-            config.browser.send_button_selector = self.get_env_var('SEND_BUTTON_SELECTOR', "button[data-testid='send-button']", str)
-            config.browser.response_selector = self.get_env_var('RESPONSE_SELECTOR', "[data-testid='conversation-turn']:last-child .markdown", str)
-            config.browser.thinking_indicator = self.get_env_var('THINKING_INDICATOR', "[data-testid='thinking-indicator']", str)
-            config.browser.max_scrape_retries = self.get_env_var('MAX_SCRAPE_RETRIES', 3, int)
+            config.browser.gpt_url = self.get_env_var(
+                "GPT_URL",
+                "https://chatgpt.com/g/g-67f437d96d7c81918b2dbc12f0423867-thea-manager",
+                str,
+            )
+            config.browser.conversation_url = self.get_env_var(
+                "CONVERSATION_URL",
+                "https://chatgpt.com/c/68bf1b1b-37b8-8324-be55-e3ccf20af737",
+                str,
+            )
+            config.browser.input_selector = self.get_env_var(
+                "INPUT_SELECTOR", "textarea[data-testid='prompt-textarea']", str
+            )
+            config.browser.send_button_selector = self.get_env_var(
+                "SEND_BUTTON_SELECTOR", "button[data-testid='send-button']", str
+            )
+            config.browser.response_selector = self.get_env_var(
+                "RESPONSE_SELECTOR", "[data-testid='conversation-turn']:last-child .markdown", str
+            )
+            config.browser.thinking_indicator = self.get_env_var(
+                "THINKING_INDICATOR", "[data-testid='thinking-indicator']", str
+            )
+            config.browser.max_scrape_retries = self.get_env_var("MAX_SCRAPE_RETRIES", 3, int)
 
             # Update test config
-            config.tests.coverage_report_precision = self.get_env_var('COVERAGE_REPORT_PRECISION', 2, int)
-            config.tests.history_window = self.get_env_var('HISTORY_WINDOW', 100, int)
+            config.tests.coverage_report_precision = self.get_env_var(
+                "COVERAGE_REPORT_PRECISION", 2, int
+            )
+            config.tests.history_window = self.get_env_var("HISTORY_WINDOW", 100, int)
 
             # Update report config
-            config.reports.reports_dir = self.get_env_var('REPORTS_DIR', Path('reports'), Path)
-            config.reports.include_metadata = self.get_env_var('INCLUDE_METADATA', True, bool)
-            config.reports.include_recommendations = self.get_env_var('INCLUDE_RECOMMENDATIONS', True, bool)
+            config.reports.reports_dir = self.get_env_var("REPORTS_DIR", Path("reports"), Path)
+            config.reports.include_metadata = self.get_env_var("INCLUDE_METADATA", True, bool)
+            config.reports.include_recommendations = self.get_env_var(
+                "INCLUDE_RECOMMENDATIONS", True, bool
+            )
 
             self.logger.info("Successfully loaded unified configuration from environment variables")
             return True
@@ -213,7 +270,7 @@ class EnvironmentLoader:
             "loaded_vars": len(self._loaded_vars),
             "env_file": str(self.env_file),
             "env_file_exists": self.env_file.exists(),
-            "critical_settings_valid": len(self.validate_critical_settings()) == 0
+            "critical_settings_valid": len(self.validate_critical_settings()) == 0,
         }
 
 

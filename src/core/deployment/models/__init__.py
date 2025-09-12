@@ -4,5 +4,5 @@
 from . import factory_functions
 
 __all__ = [
-    'factory_functions',
+    "factory_functions",
 ]

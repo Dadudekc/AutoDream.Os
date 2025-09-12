@@ -31,8 +31,10 @@ from typing import Any
 # PERFORMANCE ENUMS AND MODELS
 # ============================================================================
 
+
 class PerformanceStatus(Enum):
     """Performance status enumeration."""
+
     EXCELLENT = "excellent"
     GOOD = "good"
     FAIR = "fair"
@@ -42,6 +44,7 @@ class PerformanceStatus(Enum):
 
 class PerformanceMetric(Enum):
     """Performance metric enumeration."""
+
     CPU_USAGE = "cpu_usage"
     MEMORY_USAGE = "memory_usage"
     DISK_USAGE = "disk_usage"
@@ -54,6 +57,7 @@ class PerformanceMetric(Enum):
 
 class AlertLevel(Enum):
     """Alert level enumeration."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -62,6 +66,7 @@ class AlertLevel(Enum):
 
 class PerformanceTrend(Enum):
     """Performance trend enumeration."""
+
     IMPROVING = "improving"
     STABLE = "stable"
     DEGRADING = "degrading"
@@ -72,9 +77,11 @@ class PerformanceTrend(Enum):
 # PERFORMANCE MODELS
 # ============================================================================
 
+
 @dataclass
 class PerformanceData:
     """Performance data model."""
+
     data_id: str
     metric: PerformanceMetric
     value: float
@@ -87,6 +94,7 @@ class PerformanceData:
 @dataclass
 class PerformanceAlert:
     """Performance alert model."""
+
     alert_id: str
     metric: PerformanceMetric
     level: AlertLevel
@@ -101,6 +109,7 @@ class PerformanceAlert:
 @dataclass
 class PerformanceReport:
     """Performance report model."""
+
     report_id: str
     title: str
     period_start: datetime
@@ -114,6 +123,7 @@ class PerformanceReport:
 @dataclass
 class PerformanceThreshold:
     """Performance threshold model."""
+
     metric: PerformanceMetric
     warning_threshold: float
     error_threshold: float
@@ -125,6 +135,7 @@ class PerformanceThreshold:
 # ============================================================================
 # PERFORMANCE INTERFACES
 # ============================================================================
+
 
 class PerformanceMonitor(ABC):
     """Base performance monitor interface."""
@@ -173,7 +184,7 @@ class PerformanceMonitor(ABC):
                 level=AlertLevel.CRITICAL,
                 message=f"Critical {data.metric.value}: {data.value}{data.unit}",
                 threshold=threshold.critical_threshold,
-                current_value=data.value
+                current_value=data.value,
             )
         elif data.value >= threshold.error_threshold:
             return PerformanceAlert(
@@ -182,7 +193,7 @@ class PerformanceMonitor(ABC):
                 level=AlertLevel.ERROR,
                 message=f"High {data.metric.value}: {data.value}{data.unit}",
                 threshold=threshold.error_threshold,
-                current_value=data.value
+                current_value=data.value,
             )
         elif data.value >= threshold.warning_threshold:
             return PerformanceAlert(
@@ -191,7 +202,7 @@ class PerformanceMonitor(ABC):
                 level=AlertLevel.WARNING,
                 message=f"Warning {data.metric.value}: {data.value}{data.unit}",
                 threshold=threshold.warning_threshold,
-                current_value=data.value
+                current_value=data.value,
             )
 
         return None
@@ -231,14 +242,12 @@ class PerformanceDashboard(ABC):
 # PERFORMANCE MONITORS
 # ============================================================================
 
+
 class SystemPerformanceMonitor(PerformanceMonitor):
     """System performance monitor implementation."""
 
     def __init__(self, monitor_id: str = None):
-        super().__init__(
-            monitor_id or str(uuid.uuid4()),
-            "SystemPerformanceMonitor"
-        )
+        super().__init__(monitor_id or str(uuid.uuid4()), "SystemPerformanceMonitor")
         self.monitoring_data: dict[PerformanceMetric, float] = {}
 
     def start_monitoring(self) -> bool:
@@ -267,15 +276,19 @@ class SystemPerformanceMonitor(PerformanceMonitor):
             metrics = []
 
             # Simulate metric collection
-            for metric in [PerformanceMetric.CPU_USAGE, PerformanceMetric.MEMORY_USAGE,
-                          PerformanceMetric.DISK_USAGE, PerformanceMetric.RESPONSE_TIME]:
+            for metric in [
+                PerformanceMetric.CPU_USAGE,
+                PerformanceMetric.MEMORY_USAGE,
+                PerformanceMetric.DISK_USAGE,
+                PerformanceMetric.RESPONSE_TIME,
+            ]:
                 value = self.monitoring_data.get(metric, 0.0)
                 data = PerformanceData(
                     data_id=str(uuid.uuid4()),
                     metric=metric,
                     value=value,
                     unit=self._get_metric_unit(metric),
-                    source="system_monitor"
+                    source="system_monitor",
                 )
                 metrics.append(data)
 
@@ -286,7 +299,12 @@ class SystemPerformanceMonitor(PerformanceMonitor):
 
     def get_capabilities(self) -> list[str]:
         """Get system monitoring capabilities."""
-        return ["cpu_monitoring", "memory_monitoring", "disk_monitoring", "response_time_monitoring"]
+        return [
+            "cpu_monitoring",
+            "memory_monitoring",
+            "disk_monitoring",
+            "response_time_monitoring",
+        ]
 
     def _get_metric_unit(self, metric: PerformanceMetric) -> str:
         """Get unit for metric."""
@@ -298,7 +316,7 @@ class SystemPerformanceMonitor(PerformanceMonitor):
             PerformanceMetric.RESPONSE_TIME: "ms",
             PerformanceMetric.THROUGHPUT: "req/s",
             PerformanceMetric.ERROR_RATE: "%",
-            PerformanceMetric.AVAILABILITY: "%"
+            PerformanceMetric.AVAILABILITY: "%",
         }
         return units.get(metric, "")
 
@@ -311,10 +329,7 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
     """Application performance monitor implementation."""
 
     def __init__(self, monitor_id: str = None):
-        super().__init__(
-            monitor_id or str(uuid.uuid4()),
-            "ApplicationPerformanceMonitor"
-        )
+        super().__init__(monitor_id or str(uuid.uuid4()), "ApplicationPerformanceMonitor")
         self.application_metrics: dict[str, float] = {}
 
     def start_monitoring(self) -> bool:
@@ -343,15 +358,19 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
             metrics = []
 
             # Simulate application metric collection
-            for metric in [PerformanceMetric.RESPONSE_TIME, PerformanceMetric.THROUGHPUT,
-                          PerformanceMetric.ERROR_RATE, PerformanceMetric.AVAILABILITY]:
+            for metric in [
+                PerformanceMetric.RESPONSE_TIME,
+                PerformanceMetric.THROUGHPUT,
+                PerformanceMetric.ERROR_RATE,
+                PerformanceMetric.AVAILABILITY,
+            ]:
                 value = self.application_metrics.get(metric.value, 0.0)
                 data = PerformanceData(
                     data_id=str(uuid.uuid4()),
                     metric=metric,
                     value=value,
                     unit=self._get_metric_unit(metric),
-                    source="application_monitor"
+                    source="application_monitor",
                 )
                 metrics.append(data)
 
@@ -362,7 +381,12 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
 
     def get_capabilities(self) -> list[str]:
         """Get application monitoring capabilities."""
-        return ["response_time_monitoring", "throughput_monitoring", "error_rate_monitoring", "availability_monitoring"]
+        return [
+            "response_time_monitoring",
+            "throughput_monitoring",
+            "error_rate_monitoring",
+            "availability_monitoring",
+        ]
 
     def _get_metric_unit(self, metric: PerformanceMetric) -> str:
         """Get unit for metric."""
@@ -374,7 +398,7 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
             PerformanceMetric.RESPONSE_TIME: "ms",
             PerformanceMetric.THROUGHPUT: "req/s",
             PerformanceMetric.ERROR_RATE: "%",
-            PerformanceMetric.AVAILABILITY: "%"
+            PerformanceMetric.AVAILABILITY: "%",
         }
         return units.get(metric, "")
 
@@ -387,14 +411,12 @@ class ApplicationPerformanceMonitor(PerformanceMonitor):
 # PERFORMANCE DASHBOARDS
 # ============================================================================
 
+
 class RealTimeDashboard(PerformanceDashboard):
     """Real-time performance dashboard implementation."""
 
     def __init__(self, dashboard_id: str = None):
-        super().__init__(
-            dashboard_id or str(uuid.uuid4()),
-            "RealTimeDashboard"
-        )
+        super().__init__(dashboard_id or str(uuid.uuid4()), "RealTimeDashboard")
         self.display_data: dict[str, Any] = {}
 
     def start_dashboard(self) -> bool:
@@ -424,7 +446,7 @@ class RealTimeDashboard(PerformanceDashboard):
                 self.display_data[metric_data.metric.value] = {
                     "value": metric_data.value,
                     "unit": metric_data.unit,
-                    "timestamp": metric_data.timestamp.isoformat()
+                    "timestamp": metric_data.timestamp.isoformat(),
                 }
 
             self.logger.debug(f"Dashboard updated with {len(data)} metrics")
@@ -440,10 +462,7 @@ class HistoricalDashboard(PerformanceDashboard):
     """Historical performance dashboard implementation."""
 
     def __init__(self, dashboard_id: str = None):
-        super().__init__(
-            dashboard_id or str(uuid.uuid4()),
-            "HistoricalDashboard"
-        )
+        super().__init__(dashboard_id or str(uuid.uuid4()), "HistoricalDashboard")
         self.historical_data: list[PerformanceData] = []
 
     def start_dashboard(self) -> bool:
@@ -486,6 +505,7 @@ class HistoricalDashboard(PerformanceDashboard):
 # ============================================================================
 # PERFORMANCE MANAGER
 # ============================================================================
+
 
 class PerformanceManager:
     """Performance management system."""
@@ -565,7 +585,7 @@ class PerformanceManager:
             "monitors_registered": len(self.monitors),
             "dashboards_registered": len(self.dashboards),
             "active_alerts": len([alert for alert in self.alerts if not alert.acknowledged]),
-            "total_alerts": len(self.alerts)
+            "total_alerts": len(self.alerts),
         }
 
 
@@ -573,12 +593,12 @@ class PerformanceManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_performance_monitor(monitor_type: str, monitor_id: str = None) -> PerformanceMonitor | None:
+
+def create_performance_monitor(
+    monitor_type: str, monitor_id: str = None
+) -> PerformanceMonitor | None:
     """Create performance monitor by type."""
-    monitors = {
-        "system": SystemPerformanceMonitor,
-        "application": ApplicationPerformanceMonitor
-    }
+    monitors = {"system": SystemPerformanceMonitor, "application": ApplicationPerformanceMonitor}
 
     monitor_class = monitors.get(monitor_type)
     if monitor_class:
@@ -587,12 +607,11 @@ def create_performance_monitor(monitor_type: str, monitor_id: str = None) -> Per
     return None
 
 
-def create_performance_dashboard(dashboard_type: str, dashboard_id: str = None) -> PerformanceDashboard | None:
+def create_performance_dashboard(
+    dashboard_type: str, dashboard_id: str = None
+) -> PerformanceDashboard | None:
     """Create performance dashboard by type."""
-    dashboards = {
-        "realtime": RealTimeDashboard,
-        "historical": HistoricalDashboard
-    }
+    dashboards = {"realtime": RealTimeDashboard, "historical": HistoricalDashboard}
 
     dashboard_class = dashboards.get(dashboard_type)
     if dashboard_class:
@@ -609,6 +628,7 @@ def create_performance_manager() -> PerformanceManager:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""

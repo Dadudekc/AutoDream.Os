@@ -12,18 +12,19 @@ from dataclasses import dataclass
 @dataclass
 class Agent:
     """Simple agent representation used for demonstration purposes."""
+
     name: str
 
-    def greet(self) ->str:
+    def greet(self) -> str:
         """Return a greeting message."""
-        return f'Hello from {self.name}!'
+        return f"Hello from {self.name}!"
 
 
-def run_demo() ->None:
+def run_demo() -> None:
     """Run the workflow demo."""
-    agent = Agent(name='DemoAgent')
+    agent = Agent(name="DemoAgent")
     logger.info(agent.greet())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run_demo()

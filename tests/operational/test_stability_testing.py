@@ -20,18 +20,24 @@ try:
     from src.core.performance_monitoring_dashboard import PerformanceMonitoringDashboard
     from src.core.unified_logging_system import UnifiedLoggingSystem
     from src.core.unified_messaging import UnifiedMessagingCore
+
     STABILITY_COMPONENTS_AVAILABLE = True
 except ImportError:
     STABILITY_COMPONENTS_AVAILABLE = False
+
     # Create mock classes
     class PerformanceMonitoringDashboard:
-        def get_system_metrics(self): return {'cpu': 50, 'memory': 60}
+        def get_system_metrics(self):
+            return {"cpu": 50, "memory": 60}
 
     class UnifiedMessagingCore:
-        def send_message(self, *args, **kwargs): return True
+        def send_message(self, *args, **kwargs):
+            return True
 
     class UnifiedLoggingSystem:
-        def log_event(self, *args, **kwargs): pass
+        def log_event(self, *args, **kwargs):
+            pass
+
 
 @pytest.mark.operational
 @pytest.mark.stability
@@ -58,7 +64,7 @@ class TestLongRunningOperations:
                 # Verify metrics are reasonable
                 if metrics:
                     for key, value in metrics.items():
-                        if isinstance(value, (int, float)) and 'percent' in key:
+                        if isinstance(value, (int, float)) and "percent" in key:
                             assert 0 <= value <= 100
 
             except Exception:
@@ -89,7 +95,7 @@ class TestLongRunningOperations:
                     content=f"Stability test message {i}",
                     sender="test_agent",
                     recipient="test_recipient",
-                    message_type="test"
+                    message_type="test",
                 )
                 if result:
                     success_count += 1
@@ -118,6 +124,7 @@ class TestLongRunningOperations:
         assert success_rate >= 0.8, f"Success rate too low: {success_rate:.2%}"
         assert duration < 30, f"Test took too long: {duration:.2f}s"
 
+
 @pytest.mark.operational
 @pytest.mark.stability
 class TestResourceUsageStability:
@@ -125,20 +132,20 @@ class TestResourceUsageStability:
 
     def test_memory_usage_stability(self, system_monitor):
         """Test memory usage stability over time."""
-        initial_memory = system_monitor.get_system_health()['memory_percent']
+        initial_memory = system_monitor.get_system_health()["memory_percent"]
 
         # Perform memory-intensive operations
         memory_consuming_data = []
         for i in range(1000):
             memory_consuming_data.append([j for j in range(100)])
 
-        peak_memory = system_monitor.get_system_health()['memory_percent']
+        peak_memory = system_monitor.get_system_health()["memory_percent"]
 
         # Clean up
         del memory_consuming_data
         gc.collect()
 
-        final_memory = system_monitor.get_system_health()['memory_percent']
+        final_memory = system_monitor.get_system_health()["memory_percent"]
 
         print("Memory usage test:")
         print(f"- Initial: {initial_memory:.1f}%")
@@ -151,13 +158,13 @@ class TestResourceUsageStability:
 
     def test_cpu_usage_stability(self, system_monitor):
         """Test CPU usage stability during operations."""
-        initial_cpu = system_monitor.get_system_health()['cpu_percent']
+        initial_cpu = system_monitor.get_system_health()["cpu_percent"]
 
         # Perform CPU-intensive operations
         def cpu_intensive_task():
             result = 0
             for i in range(100000):
-                result += i ** 2
+                result += i**2
             return result
 
         # Run multiple CPU-intensive tasks
@@ -165,8 +172,8 @@ class TestResourceUsageStability:
         for _ in range(5):
             results.append(cpu_intensive_task())
 
-        peak_cpu = system_monitor.get_system_health()['cpu_percent']
-        final_cpu = system_monitor.get_system_health()['cpu_percent']
+        peak_cpu = system_monitor.get_system_health()["cpu_percent"]
+        final_cpu = system_monitor.get_system_health()["cpu_percent"]
 
         print("CPU usage test:")
         print(f"- Initial: {initial_cpu:.1f}%")
@@ -180,13 +187,13 @@ class TestResourceUsageStability:
 
     def test_disk_io_stability(self, system_monitor):
         """Test disk I/O stability during file operations."""
-        initial_disk = system_monitor.get_system_health()['disk_usage']
+        initial_disk = system_monitor.get_system_health()["disk_usage"]
 
         # Perform disk-intensive operations
         test_files = []
         for i in range(10):
             filename = f"test_stability_file_{i}.tmp"
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 f.write("x" * 10000)  # 10KB per file
             test_files.append(filename)
 
@@ -203,7 +210,7 @@ class TestResourceUsageStability:
             except OSError:
                 pass
 
-        final_disk = system_monitor.get_system_health()['disk_usage']
+        final_disk = system_monitor.get_system_health()["disk_usage"]
 
         print("Disk I/O test:")
         print(f"- Initial usage: {initial_disk:.1f}%")
@@ -212,6 +219,7 @@ class TestResourceUsageStability:
 
         # Disk usage should not change significantly
         assert abs(final_disk - initial_disk) < 5, "Disk usage changed too much"
+
 
 @pytest.mark.operational
 @pytest.mark.stability
@@ -270,7 +278,7 @@ class TestConcurrentOperationStability:
                         content=f"Concurrent message {worker_id}-{i}",
                         sender=f"worker_{worker_id}",
                         recipient="test_recipient",
-                        message_type="stability_test"
+                        message_type="stability_test",
                     )
                     results.append((worker_id, i, result))
                     time.sleep(0.05)
@@ -301,6 +309,7 @@ class TestConcurrentOperationStability:
         success_rate = sum(1 for r in results if r[2]) / len(results) if results else 0
         assert success_rate >= 0.7, f"Success rate too low: {success_rate:.2%}"
 
+
 @pytest.mark.operational
 @pytest.mark.stability
 class TestLoadTestingScenarios:
@@ -327,25 +336,24 @@ class TestLoadTestingScenarios:
             health = system_monitor.get_system_health()
             is_stable = system_monitor.check_stability()
 
-            stability_results.append({
-                'load_level': load_level,
-                'duration': duration,
-                'cpu_usage': health.get('cpu_percent', 0),
-                'memory_usage': health.get('memory_percent', 0),
-                'is_stable': is_stable
-            })
+            stability_results.append(
+                {
+                    "load_level": load_level,
+                    "duration": duration,
+                    "cpu_usage": health.get("cpu_percent", 0),
+                    "memory_usage": health.get("memory_percent", 0),
+                    "is_stable": is_stable,
+                }
+            )
 
             time.sleep(0.5)  # Brief pause between load levels
 
         print("Gradual load increase test:")
         for result in stability_results:
-            print(f"- Load {result['load_level']}%: "
-                  ".1f"
-                  ".1f"
-                  f"({result['is_stable']})")
+            print(f"- Load {result['load_level']}%: .1f.1f({result['is_stable']})")
 
         # Verify system remained stable (adjusted for test environment)
-        stable_count = sum(1 for r in stability_results if r['is_stable'])
+        stable_count = sum(1 for r in stability_results if r["is_stable"])
         assert stable_count >= len(load_levels) * 0.6, "System not stable under load"
 
     def test_burst_load_handling(self, system_monitor):
@@ -376,8 +384,9 @@ class TestLoadTestingScenarios:
 
         # Verify system handled burst load (adjusted for test environment)
         final_health = system_monitor.get_system_health()
-        assert final_health['cpu_percent'] < 105, "CPU usage too high after burst"
+        assert final_health["cpu_percent"] < 105, "CPU usage too high after burst"
         assert len(burst_operations) > 1000, "Insufficient operations completed"
+
 
 @pytest.mark.operational
 @pytest.mark.stability
@@ -387,19 +396,19 @@ class TestRecoveryAndResilience:
     def test_service_restart_resilience(self):
         """Test system resilience during service restarts."""
         # Simulate service restart scenario
-        service_states = ['running', 'stopping', 'stopped', 'starting', 'running']
+        service_states = ["running", "stopping", "stopped", "starting", "running"]
         operations_during_states = []
 
         for state in service_states:
             # Simulate operations during different service states
-            if state == 'running':
-                operations_during_states.append(('normal_operation', True))
-            elif state == 'stopping':
-                operations_during_states.append(('graceful_shutdown', True))
-            elif state == 'stopped':
-                operations_during_states.append(('failed_operation', False))
-            elif state == 'starting':
-                operations_during_states.append(('recovery_operation', True))
+            if state == "running":
+                operations_during_states.append(("normal_operation", True))
+            elif state == "stopping":
+                operations_during_states.append(("graceful_shutdown", True))
+            elif state == "stopped":
+                operations_during_states.append(("failed_operation", False))
+            elif state == "starting":
+                operations_during_states.append(("recovery_operation", True))
 
         # Verify resilience behavior
         successful_ops = sum(1 for op in operations_during_states if op[1])
@@ -416,10 +425,10 @@ class TestRecoveryAndResilience:
     def test_error_recovery_stability(self):
         """Test stability of error recovery mechanisms."""
         recovery_scenarios = [
-            ('network_timeout', ConnectionError("Network timeout")),
-            ('file_not_found', FileNotFoundError("File not found")),
-            ('permission_denied', PermissionError("Permission denied")),
-            ('invalid_input', ValueError("Invalid input")),
+            ("network_timeout", ConnectionError("Network timeout")),
+            ("file_not_found", FileNotFoundError("File not found")),
+            ("permission_denied", PermissionError("Permission denied")),
+            ("invalid_input", ValueError("Invalid input")),
         ]
 
         recovery_results = []
@@ -457,6 +466,7 @@ class TestRecoveryAndResilience:
             # Unknown errors
             return False
 
+
 @pytest.mark.operational
 @pytest.mark.stability
 @pytest.mark.performance
@@ -484,8 +494,7 @@ class TestSystemEndurance:
             # Log progress
             elapsed = time.time() - start_time
             if int(elapsed) % check_interval == 0:
-                print(".1f"
-                      f"({health.get('cpu_percent', 0):.1f}% CPU)")
+                print(f".1f({health.get('cpu_percent', 0):.1f}% CPU)")
 
             time.sleep(1)
 
@@ -505,7 +514,7 @@ class TestSystemEndurance:
 
     def test_memory_leak_detection(self, system_monitor):
         """Test detection of memory leaks during extended operation."""
-        initial_memory = system_monitor.get_system_health()['memory_percent']
+        initial_memory = system_monitor.get_system_health()["memory_percent"]
 
         # Perform operations that might cause memory leaks
         memory_stress_data = []
@@ -515,17 +524,14 @@ class TestSystemEndurance:
                 # Periodic cleanup attempt
                 gc.collect()
 
-        peak_memory = max(
-            system_monitor.get_system_health()['memory_percent']
-            for _ in range(5)
-        )
+        peak_memory = max(system_monitor.get_system_health()["memory_percent"] for _ in range(5))
 
         # Clean up
         del memory_stress_data
         gc.collect()
         time.sleep(1)
 
-        final_memory = system_monitor.get_system_health()['memory_percent']
+        final_memory = system_monitor.get_system_health()["memory_percent"]
 
         memory_growth = peak_memory - initial_memory
         memory_recovery = peak_memory - final_memory
@@ -542,6 +548,7 @@ class TestSystemEndurance:
         # Be more lenient with memory recovery in test environments
         memory_recovery_threshold = max(0.1, memory_growth * 0.3)  # At least 0.1% or 30% of growth
         assert memory_recovery > -1, f"Memory recovery too negative: {memory_recovery:.1f}%"
+
 
 @pytest.mark.integration
 @pytest.mark.operational
@@ -570,31 +577,28 @@ class TestStabilityIntegrationScenarios:
                     content="Integration stability test",
                     sender="stability_test",
                     recipient="test_recipient",
-                    message_type="test"
+                    message_type="test",
                 )
                 logger.log_event(
-                    level="INFO",
-                    message="Stability test operation",
-                    component="integration_test"
+                    level="INFO", message="Stability test operation", component="integration_test"
                 )
 
-                integration_results.append({
-                    'timestamp': time.time(),
-                    'metrics_collected': bool(metrics),
-                    'message_sent': message_result,
-                    'log_written': True
-                })
+                integration_results.append(
+                    {
+                        "timestamp": time.time(),
+                        "metrics_collected": bool(metrics),
+                        "message_sent": message_result,
+                        "log_written": True,
+                    }
+                )
 
             except Exception as e:
-                integration_results.append({
-                    'timestamp': time.time(),
-                    'error': str(e)
-                })
+                integration_results.append({"timestamp": time.time(), "error": str(e)})
 
             time.sleep(0.5)
 
         # Analyze integration stability
-        successful_operations = sum(1 for r in integration_results if 'error' not in r)
+        successful_operations = sum(1 for r in integration_results if "error" not in r)
         total_operations = len(integration_results)
         success_rate = successful_operations / total_operations if total_operations > 0 else 0
 

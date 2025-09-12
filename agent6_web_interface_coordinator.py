@@ -20,13 +20,14 @@ from pathlib import Path
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler('agent6_web_interface_coordinator.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
+        logging.FileHandler("agent6_web_interface_coordinator.log", encoding="utf-8"),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
+
 
 class Agent6WebInterfaceCoordinator:
     """Agent-6 Web Interface Coordinator for Phase 2 consolidation"""
@@ -46,41 +47,35 @@ class Agent6WebInterfaceCoordinator:
                         "src/web/static/js/dashboard-*.js",
                         "src/web/static/js/architecture/*.js",
                         "src/web/static/js/core/*.js",
-                        "src/web/static/js/services/*.js"
+                        "src/web/static/js/services/*.js",
                     ],
                     "target": "src/web/static/js/core/dashboard_core.js",
                     "documentation": "docs/web/dashboard_core.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "services_modules": {
-                    "files": [
-                        "src/web/static/js/services/*.js"
-                    ],
+                    "files": ["src/web/static/js/services/*.js"],
                     "target": "src/web/static/js/core/services_core.js",
                     "documentation": "docs/web/services_core.md",
-                    "status": "PENDING"
-                }
+                    "status": "PENDING",
+                },
             },
             "css_modules": {
                 "unified_styles": {
-                    "files": [
-                        "src/web/static/css/*.css"
-                    ],
+                    "files": ["src/web/static/css/*.css"],
                     "target": "src/web/static/css/unified.css",
                     "documentation": "docs/web/unified_styles.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 }
             },
             "web_components": {
                 "frontend_components": {
-                    "files": [
-                        "src/web/frontend/*.py"
-                    ],
+                    "files": ["src/web/frontend/*.py"],
                     "target": "src/web/frontend/unified_frontend.py",
                     "documentation": "docs/web/unified_frontend.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 }
-            }
+            },
         }
 
     def analyze_static_assets(self) -> dict:
@@ -97,7 +92,7 @@ class Agent6WebInterfaceCoordinator:
                 "javascript_files": [],
                 "css_files": [],
                 "total_files": 0,
-                "consolidation_opportunities": []
+                "consolidation_opportunities": [],
             }
 
             # Analyze JavaScript files
@@ -109,11 +104,13 @@ class Agent6WebInterfaceCoordinator:
 
                 # Identify consolidation opportunities
                 if len(js_files) > 10:
-                    assets["consolidation_opportunities"].append({
-                        "type": "javascript",
-                        "files": len(js_files),
-                        "recommendation": "Consolidate into core modules"
-                    })
+                    assets["consolidation_opportunities"].append(
+                        {
+                            "type": "javascript",
+                            "files": len(js_files),
+                            "recommendation": "Consolidate into core modules",
+                        }
+                    )
 
             # Analyze CSS files
             css_dir = web_static_dir / "css"
@@ -124,11 +121,13 @@ class Agent6WebInterfaceCoordinator:
 
                 # Identify consolidation opportunities
                 if len(css_files) > 3:
-                    assets["consolidation_opportunities"].append({
-                        "type": "css",
-                        "files": len(css_files),
-                        "recommendation": "Consolidate into unified styles"
-                    })
+                    assets["consolidation_opportunities"].append(
+                        {
+                            "type": "css",
+                            "files": len(css_files),
+                            "recommendation": "Consolidate into unified styles",
+                        }
+                    )
 
             logger.info(f"Static assets analysis complete: {assets['total_files']} files found")
             return assets
@@ -147,11 +146,13 @@ class Agent6WebInterfaceCoordinator:
             docs_dir.mkdir(parents=True, exist_ok=True)
 
             # Generate documentation content
-            doc_content = self.generate_web_interface_documentation_content(module_name, module_info)
+            doc_content = self.generate_web_interface_documentation_content(
+                module_name, module_info
+            )
 
             # Write documentation file
             doc_file = docs_dir / f"{module_name}.md"
-            with open(doc_file, 'w', encoding='utf-8') as f:
+            with open(doc_file, "w", encoding="utf-8") as f:
                 f.write(doc_content)
 
             logger.info(f"Web interface documentation created: {doc_file}")
@@ -161,7 +162,9 @@ class Agent6WebInterfaceCoordinator:
             logger.error(f"Error creating web interface documentation for {module_name}: {e}")
             return False
 
-    def generate_web_interface_documentation_content(self, module_name: str, module_info: dict) -> str:
+    def generate_web_interface_documentation_content(
+        self, module_name: str, module_info: dict
+    ) -> str:
         """Generate web interface documentation content for a module"""
         try:
             # Extract module information
@@ -169,12 +172,12 @@ class Agent6WebInterfaceCoordinator:
             source_files = module_info.get("files", [])
 
             # Generate documentation content
-            content = f"""# {module_name.replace('_', ' ').title()} Web Interface Documentation
+            content = f"""# {module_name.replace("_", " ").title()} Web Interface Documentation
 
-**Generated by:** Agent-6 (Communication & Documentation Specialist)  
-**Date:** {datetime.now().strftime('%Y-%m-%d')}  
-**Phase:** 2 - High-Impact Optimization  
-**Status:** Web Interface Module  
+**Generated by:** Agent-6 (Communication & Documentation Specialist)
+**Date:** {datetime.now().strftime("%Y-%m-%d")}
+**Phase:** 2 - High-Impact Optimization
+**Status:** Web Interface Module
 
 ---
 
@@ -185,7 +188,7 @@ This module represents the consolidated web interface functionality from multipl
 ### **Consolidation Details:**
 - **Target File:** `{target_file}`
 - **Source Files:** {len(source_files)} files consolidated
-- **Consolidation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+- **Consolidation Date:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 - **Phase:** 2 - High-Impact Optimization
 
 ---
@@ -252,9 +255,9 @@ This module represents the consolidated web interface functionality from multipl
 
 ## 📞 **CONTACT**
 
-**Documentation Maintainer:** Agent-6 (Communication & Documentation Specialist)  
-**Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}  
-**Phase:** 2 - High-Impact Optimization  
+**Documentation Maintainer:** Agent-6 (Communication & Documentation Specialist)
+**Last Updated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+**Phase:** 2 - High-Impact Optimization
 
 ---
 
@@ -264,7 +267,9 @@ This module represents the consolidated web interface functionality from multipl
             return content
 
         except Exception as e:
-            logger.error(f"Error generating web interface documentation content for {module_name}: {e}")
+            logger.error(
+                f"Error generating web interface documentation content for {module_name}: {e}"
+            )
             return f"# {module_name} Web Interface Documentation\n\n*Documentation generation failed: {e}*"
 
     def validate_web_interface_functionality(self) -> dict:
@@ -279,7 +284,7 @@ This module represents the consolidated web interface functionality from multipl
                 "validation_status": "PENDING",
                 "checks": [],
                 "issues": [],
-                "recommendations": []
+                "recommendations": [],
             }
 
             # Check for web interface files
@@ -312,7 +317,9 @@ This module represents the consolidated web interface functionality from multipl
             if frontend_dir.exists():
                 frontend_files = list(frontend_dir.rglob("*.py"))
                 if frontend_files:
-                    validation_results["checks"].append(f"Frontend components found: {len(frontend_files)}")
+                    validation_results["checks"].append(
+                        f"Frontend components found: {len(frontend_files)}"
+                    )
                 else:
                     validation_results["issues"].append("No frontend components found")
 
@@ -322,7 +329,9 @@ This module represents the consolidated web interface functionality from multipl
             else:
                 validation_results["validation_status"] = "PASSED"
 
-            logger.info(f"Web interface validation complete: {validation_results['validation_status']}")
+            logger.info(
+                f"Web interface validation complete: {validation_results['validation_status']}"
+            )
             return validation_results
 
         except Exception as e:
@@ -347,18 +356,20 @@ This module represents the consolidated web interface functionality from multipl
                 "web_interface_map": self.web_interface_map,
                 "assets_analysis": assets_analysis,
                 "validation_results": validation_results,
-                "consolidation_opportunities": assets_analysis.get("consolidation_opportunities", []),
+                "consolidation_opportunities": assets_analysis.get(
+                    "consolidation_opportunities", []
+                ),
                 "next_steps": [
                     "Monitor web interface consolidation progress",
                     "Validate frontend functionality after consolidation",
                     "Update web documentation as needed",
-                    "Prepare for next phase transition"
-                ]
+                    "Prepare for next phase transition",
+                ],
             }
 
             # Save web interface summary
             summary_file = self.project_root / "agent6_web_interface_summary.json"
-            with open(summary_file, 'w', encoding='utf-8') as f:
+            with open(summary_file, "w", encoding="utf-8") as f:
                 json.dump(summary, f, indent=2)
 
             logger.info(f"Web interface summary saved: {summary_file}")
@@ -384,7 +395,9 @@ This module represents the consolidated web interface functionality from multipl
             for category, modules in self.web_interface_map.items():
                 for module_name, module_info in modules.items():
                     if not self.create_web_interface_documentation(module_name, module_info):
-                        logger.error(f"Failed to create web interface documentation for {module_name}")
+                        logger.error(
+                            f"Failed to create web interface documentation for {module_name}"
+                        )
                         return False
 
             # 4. Validate web interface functionality
@@ -406,13 +419,13 @@ This module represents the consolidated web interface functionality from multipl
                     "Monitor web interface consolidation progress",
                     "Validate frontend functionality after consolidation",
                     "Update web documentation as needed",
-                    "Prepare for next phase transition"
-                ]
+                    "Prepare for next phase transition",
+                ],
             }
 
             # Save coordination report
             report_file = self.project_root / "agent6_web_interface_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2)
 
             logger.info("🎉 Phase 2 Web Interface Coordination completed successfully!")
@@ -423,6 +436,7 @@ This module represents the consolidated web interface functionality from multipl
         except Exception as e:
             logger.error(f"Error in Phase 2 web interface coordination: {e}")
             return False
+
 
 def main():
     """Main execution function"""
@@ -447,6 +461,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error in Phase 2 web interface coordination: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

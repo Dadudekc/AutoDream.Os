@@ -26,11 +26,11 @@ class UnifiedValidationOrchestrator:
 
     def validate_hasattr(self, obj: Any, attr: str) -> bool:
         """Validate that object has attribute.
-        
+
         Args:
             obj: Object to validate
             attr: Attribute name to check
-            
+
         Returns:
             True if object has attribute, False otherwise
         """
@@ -38,11 +38,11 @@ class UnifiedValidationOrchestrator:
 
     def validate_type(self, obj: Any, expected_type: type) -> bool:
         """Validate that object is of expected type.
-        
+
         Args:
             obj: Object to validate
             expected_type: Expected type
-            
+
         Returns:
             True if object is of expected type, False otherwise
         """
@@ -50,10 +50,10 @@ class UnifiedValidationOrchestrator:
 
     def validate_not_none(self, obj: Any) -> bool:
         """Validate that object is not None.
-        
+
         Args:
             obj: Object to validate
-            
+
         Returns:
             True if object is not None, False otherwise
         """
@@ -61,10 +61,10 @@ class UnifiedValidationOrchestrator:
 
     def validate_not_empty(self, obj: Any) -> bool:
         """Validate that object is not empty.
-        
+
         Args:
             obj: Object to validate
-            
+
         Returns:
             True if object is not empty, False otherwise
         """
@@ -76,12 +76,12 @@ class UnifiedValidationOrchestrator:
 
     def validate_range(self, value: float, min_val: float, max_val: float) -> bool:
         """Validate that value is within range.
-        
+
         Args:
             value: Value to validate
             min_val: Minimum value
             max_val: Maximum value
-            
+
         Returns:
             True if value is within range, False otherwise
         """
@@ -89,24 +89,25 @@ class UnifiedValidationOrchestrator:
 
     def validate_regex(self, value: str, pattern: str) -> bool:
         """Validate that value matches regex pattern.
-        
+
         Args:
             value: Value to validate
             pattern: Regex pattern
-            
+
         Returns:
             True if value matches pattern, False otherwise
         """
         import re
+
         return bool(re.match(pattern, value))
 
     def validate_custom(self, obj: Any, validator_func: callable) -> bool:
         """Validate using custom validator function.
-        
+
         Args:
             obj: Object to validate
             validator_func: Custom validator function
-            
+
         Returns:
             True if validation passes, False otherwise
         """

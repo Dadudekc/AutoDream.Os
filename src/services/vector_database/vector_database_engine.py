@@ -11,7 +11,8 @@ License: MIT
 """
 
 import logging
-from typing import Any, List, Optional
+from typing import Any
+
 from .vector_database_models import SearchQuery, SearchResult, VectorDocument
 
 logger = logging.getLogger(__name__)
@@ -24,10 +25,10 @@ class VectorDatabaseEngine:
         """Initialize the vector database engine."""
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.data_store: dict[str, List[VectorDocument]] = {}
+        self.data_store: dict[str, list[VectorDocument]] = {}
         logger.info("VectorDatabaseEngine initialized (stub implementation)")
 
-    def add_documents(self, collection: str, documents: List[VectorDocument]) -> bool:
+    def add_documents(self, collection: str, documents: list[VectorDocument]) -> bool:
         """Add documents to a collection."""
         if collection not in self.data_store:
             self.data_store[collection] = []
@@ -36,7 +37,7 @@ class VectorDatabaseEngine:
         logger.info(f"Added {len(documents)} documents to collection '{collection}'")
         return True
 
-    def search_documents(self, query: SearchQuery) -> List[SearchResult]:
+    def search_documents(self, query: SearchQuery) -> list[SearchResult]:
         """Search for documents matching the query."""
         results = []
 
@@ -47,14 +48,16 @@ class VectorDatabaseEngine:
             for i, doc in enumerate(collection):
                 # Simple text matching
                 if query.query.lower() in doc.content.lower():
-                    results.append(SearchResult(
-                        document=doc,
-                        score=0.8,  # Placeholder score
-                        metadata={"index": i}
-                    ))
+                    results.append(
+                        SearchResult(
+                            document=doc,
+                            score=0.8,
+                            metadata={"index": i},  # Placeholder score
+                        )
+                    )
 
         # Limit results
-        results = results[:query.limit] if hasattr(query, 'limit') else results[:5]
+        results = results[: query.limit] if hasattr(query, "limit") else results[:5]
 
         logger.info(f"Search completed: {len(results)} results found")
         return results
@@ -65,5 +68,5 @@ class VectorDatabaseEngine:
         return {
             "total_collections": len(self.data_store),
             "total_documents": total_docs,
-            "collections": list(self.data_store.keys())
+            "collections": list(self.data_store.keys()),
         }

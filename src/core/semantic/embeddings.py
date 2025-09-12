@@ -2,9 +2,11 @@
 Simple embedding provider for semantic search.
 Uses hash-based embeddings for demonstration - replace with real embeddings as needed.
 """
+
 from __future__ import annotations
-from typing import List
+
 import hashlib
+
 import numpy as np
 
 
@@ -14,7 +16,7 @@ class EmbeddingProvider:
     def __init__(self, dim: int = 128):
         self.dim = dim
 
-    def embed_texts(self, texts: List[str]) -> np.ndarray:
+    def embed_texts(self, texts: list[str]) -> np.ndarray:
         """Convert texts to embeddings using hash functions."""
         embeddings = []
         for text in texts:
@@ -28,7 +30,7 @@ class EmbeddingProvider:
             if len(embedding) < self.dim:
                 embedding = np.pad(embedding, (0, self.dim - len(embedding)))
             else:
-                embedding = embedding[:self.dim]
+                embedding = embedding[: self.dim]
 
             # Normalize to unit vector
             norm = np.linalg.norm(embedding)

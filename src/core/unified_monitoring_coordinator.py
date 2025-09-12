@@ -59,6 +59,7 @@ except ImportError:
 
 class MonitoringAlertLevel(Enum):
     """Alert severity levels for SWARM monitoring."""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -67,6 +68,7 @@ class MonitoringAlertLevel(Enum):
 
 class SwarmComponent(Enum):
     """SWARM components being monitored."""
+
     MESSAGING_SYSTEM = "messaging_system"
     PYAUTOGUI_INTEGRATION = "pyautogui_integration"
     INBOX_SYSTEM = "inbox_system"
@@ -78,6 +80,7 @@ class SwarmComponent(Enum):
 @dataclass
 class MonitoringAlert:
     """Represents a monitoring alert."""
+
     alert_id: str
     component: SwarmComponent
     level: MonitoringAlertLevel
@@ -91,6 +94,7 @@ class MonitoringAlert:
 @dataclass
 class SwarmMonitoringStatus:
     """Current status of SWARM monitoring components."""
+
     messaging_system: HealthStatus = HealthStatus.UNKNOWN
     pyautogui_integration: HealthStatus = HealthStatus.UNKNOWN
     inbox_system: HealthStatus = HealthStatus.UNKNOWN
@@ -124,10 +128,10 @@ class UnifiedMonitoringCoordinator:
 
         # Alert thresholds
         self.alert_thresholds = {
-            'response_time_max': 5.0,  # seconds
-            'message_delivery_rate_min': 99.0,  # percentage
-            'system_uptime_min': 99.9,  # percentage
-            'queue_size_max': 100,  # messages
+            "response_time_max": 5.0,  # seconds
+            "message_delivery_rate_min": 99.0,  # percentage
+            "system_uptime_min": 99.9,  # percentage
+            "queue_size_max": 100,  # messages
         }
 
     def _initialize_monitoring_systems(self):
@@ -166,9 +170,7 @@ class UnifiedMonitoringCoordinator:
 
         self.is_monitoring = True
         self.monitoring_thread = threading.Thread(
-            target=self._monitoring_loop,
-            args=(interval_seconds,),
-            daemon=True
+            target=self._monitoring_loop, args=(interval_seconds,), daemon=True
         )
         self.monitoring_thread.start()
         self.logger.info(f"🚀 Unified monitoring started (interval: {interval_seconds}s)")
@@ -191,7 +193,7 @@ class UnifiedMonitoringCoordinator:
                 self._create_alert(
                     SwarmComponent.AGENT_COORDINATION,
                     MonitoringAlertLevel.ERROR,
-                    f"Monitoring cycle failed: {e}"
+                    f"Monitoring cycle failed: {e}",
                 )
 
     def _perform_monitoring_cycle(self):
@@ -225,26 +227,27 @@ class UnifiedMonitoringCoordinator:
         try:
             # Check if messaging core is operational
             from .messaging_core import UnifiedMessagingCore
+
             messaging_core = UnifiedMessagingCore()
 
             # Perform health check
             health_result = messaging_core.validate_messaging_system()
 
-            if health_result.get('status') == 'healthy':
+            if health_result.get("status") == "healthy":
                 self.monitoring_status.messaging_system = HealthStatus.HEALTHY
-            elif health_result.get('warnings'):
+            elif health_result.get("warnings"):
                 self.monitoring_status.messaging_system = HealthStatus.WARNING
                 self._create_alert(
                     SwarmComponent.MESSAGING_SYSTEM,
                     MonitoringAlertLevel.WARNING,
-                    f"Messaging system warnings: {health_result.get('warnings')}"
+                    f"Messaging system warnings: {health_result.get('warnings')}",
                 )
             else:
                 self.monitoring_status.messaging_system = HealthStatus.CRITICAL
                 self._create_alert(
                     SwarmComponent.MESSAGING_SYSTEM,
                     MonitoringAlertLevel.CRITICAL,
-                    "Messaging system critical failure"
+                    "Messaging system critical failure",
                 )
 
         except Exception as e:
@@ -252,7 +255,7 @@ class UnifiedMonitoringCoordinator:
             self._create_alert(
                 SwarmComponent.MESSAGING_SYSTEM,
                 MonitoringAlertLevel.CRITICAL,
-                f"Messaging system check failed: {e}"
+                f"Messaging system check failed: {e}",
             )
 
     def _check_pyautogui_integration(self):
@@ -273,7 +276,7 @@ class UnifiedMonitoringCoordinator:
             self._create_alert(
                 SwarmComponent.PYAUTOGUI_INTEGRATION,
                 MonitoringAlertLevel.CRITICAL,
-                f"PyAutoGUI integration failed: {e}"
+                f"PyAutoGUI integration failed: {e}",
             )
 
     def _check_inbox_system(self):
@@ -295,7 +298,7 @@ class UnifiedMonitoringCoordinator:
                 self._create_alert(
                     SwarmComponent.INBOX_SYSTEM,
                     MonitoringAlertLevel.CRITICAL,
-                    f"Only {healthy_inboxes}/8 agent inboxes operational"
+                    f"Only {healthy_inboxes}/8 agent inboxes operational",
                 )
 
         except Exception as e:
@@ -303,7 +306,7 @@ class UnifiedMonitoringCoordinator:
             self._create_alert(
                 SwarmComponent.INBOX_SYSTEM,
                 MonitoringAlertLevel.CRITICAL,
-                f"Inbox system check failed: {e}"
+                f"Inbox system check failed: {e}",
             )
 
     def _check_agent_coordination(self):
@@ -311,6 +314,7 @@ class UnifiedMonitoringCoordinator:
         try:
             # Check coordinate loader
             from .coordinate_loader import get_coordinate_loader
+
             coord_loader = get_coordinate_loader()
 
             active_agents = len(coord_loader.get_all_agents())
@@ -323,7 +327,7 @@ class UnifiedMonitoringCoordinator:
                 self._create_alert(
                     SwarmComponent.AGENT_COORDINATION,
                     MonitoringAlertLevel.CRITICAL,
-                    f"Only {active_agents}/8 agents coordinated"
+                    f"Only {active_agents}/8 agents coordinated",
                 )
 
         except Exception as e:
@@ -331,7 +335,7 @@ class UnifiedMonitoringCoordinator:
             self._create_alert(
                 SwarmComponent.AGENT_COORDINATION,
                 MonitoringAlertLevel.CRITICAL,
-                f"Agent coordination check failed: {e}"
+                f"Agent coordination check failed: {e}",
             )
 
     def _check_coordinate_system(self):
@@ -342,7 +346,7 @@ class UnifiedMonitoringCoordinator:
                 with open(coord_file) as f:
                     coords_data = json.load(f)
 
-                agents_with_coords = len(coords_data.get('agents', {}))
+                agents_with_coords = len(coords_data.get("agents", {}))
                 if agents_with_coords == 8:
                     self.monitoring_status.coordinate_system = HealthStatus.HEALTHY
                 else:
@@ -350,7 +354,7 @@ class UnifiedMonitoringCoordinator:
                     self._create_alert(
                         SwarmComponent.COORDINATE_SYSTEM,
                         MonitoringAlertLevel.WARNING,
-                        f"Incomplete coordinate configuration: {agents_with_coords}/8 agents"
+                        f"Incomplete coordinate configuration: {agents_with_coords}/8 agents",
                     )
             else:
                 raise FileNotFoundError("cursor_agent_coords.json not found")
@@ -360,7 +364,7 @@ class UnifiedMonitoringCoordinator:
             self._create_alert(
                 SwarmComponent.COORDINATE_SYSTEM,
                 MonitoringAlertLevel.CRITICAL,
-                f"Coordinate system check failed: {e}"
+                f"Coordinate system check failed: {e}",
             )
 
     def _check_message_queue(self):
@@ -372,14 +376,14 @@ class UnifiedMonitoringCoordinator:
                     queue_data = json.load(f)
 
                 queue_size = len(queue_data)
-                if queue_size <= self.alert_thresholds['queue_size_max']:
+                if queue_size <= self.alert_thresholds["queue_size_max"]:
                     self.monitoring_status.message_queue = HealthStatus.HEALTHY
                 else:
                     self.monitoring_status.message_queue = HealthStatus.WARNING
                     self._create_alert(
                         SwarmComponent.MESSAGE_QUEUE,
                         MonitoringAlertLevel.WARNING,
-                        f"Message queue size ({queue_size}) exceeds threshold ({self.alert_thresholds['queue_size_max']})"
+                        f"Message queue size ({queue_size}) exceeds threshold ({self.alert_thresholds['queue_size_max']})",
                     )
             else:
                 # Queue doesn't exist yet, which is okay
@@ -390,11 +394,16 @@ class UnifiedMonitoringCoordinator:
             self._create_alert(
                 SwarmComponent.MESSAGE_QUEUE,
                 MonitoringAlertLevel.WARNING,
-                f"Message queue check failed: {e}"
+                f"Message queue check failed: {e}",
             )
 
-    def _create_alert(self, component: SwarmComponent, level: MonitoringAlertLevel,
-                     message: str, metadata: dict[str, Any] | None = None):
+    def _create_alert(
+        self,
+        component: SwarmComponent,
+        level: MonitoringAlertLevel,
+        message: str,
+        metadata: dict[str, Any] | None = None,
+    ):
         """Create a new monitoring alert."""
         alert = MonitoringAlert(
             alert_id=f"alert_{int(time.time())}_{component.value}",
@@ -402,7 +411,7 @@ class UnifiedMonitoringCoordinator:
             level=level,
             message=message,
             timestamp=datetime.now(),
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         self.monitoring_status.active_alerts.append(alert)
@@ -413,14 +422,14 @@ class UnifiedMonitoringCoordinator:
     def _log_monitoring_status(self):
         """Log current monitoring status."""
         status_summary = {
-            'timestamp': self.monitoring_status.last_updated.isoformat(),
-            'messaging_system': self.monitoring_status.messaging_system.value,
-            'pyautogui_integration': self.monitoring_status.pyautogui_integration.value,
-            'inbox_system': self.monitoring_status.inbox_system.value,
-            'agent_coordination': self.monitoring_status.agent_coordination.value,
-            'coordinate_system': self.monitoring_status.coordinate_system.value,
-            'message_queue': self.monitoring_status.message_queue.value,
-            'active_alerts': len(self.monitoring_status.active_alerts)
+            "timestamp": self.monitoring_status.last_updated.isoformat(),
+            "messaging_system": self.monitoring_status.messaging_system.value,
+            "pyautogui_integration": self.monitoring_status.pyautogui_integration.value,
+            "inbox_system": self.monitoring_status.inbox_system.value,
+            "agent_coordination": self.monitoring_status.agent_coordination.value,
+            "coordinate_system": self.monitoring_status.coordinate_system.value,
+            "message_queue": self.monitoring_status.message_queue.value,
+            "active_alerts": len(self.monitoring_status.active_alerts),
         }
 
         self.logger.info(f"📊 Monitoring Status: {json.dumps(status_summary, indent=2)}")
@@ -428,29 +437,29 @@ class UnifiedMonitoringCoordinator:
     def get_monitoring_report(self) -> dict[str, Any]:
         """Generate a comprehensive monitoring report."""
         return {
-            'timestamp': datetime.now().isoformat(),
-            'monitoring_status': {
-                'messaging_system': self.monitoring_status.messaging_system.value,
-                'pyautogui_integration': self.monitoring_status.pyautogui_integration.value,
-                'inbox_system': self.monitoring_status.inbox_system.value,
-                'agent_coordination': self.monitoring_status.agent_coordination.value,
-                'coordinate_system': self.monitoring_status.coordinate_system.value,
-                'message_queue': self.monitoring_status.message_queue.value,
-                'last_updated': self.monitoring_status.last_updated.isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "monitoring_status": {
+                "messaging_system": self.monitoring_status.messaging_system.value,
+                "pyautogui_integration": self.monitoring_status.pyautogui_integration.value,
+                "inbox_system": self.monitoring_status.inbox_system.value,
+                "agent_coordination": self.monitoring_status.agent_coordination.value,
+                "coordinate_system": self.monitoring_status.coordinate_system.value,
+                "message_queue": self.monitoring_status.message_queue.value,
+                "last_updated": self.monitoring_status.last_updated.isoformat(),
             },
-            'active_alerts': [
+            "active_alerts": [
                 {
-                    'alert_id': alert.alert_id,
-                    'component': alert.component.value,
-                    'level': alert.level.value,
-                    'message': alert.message,
-                    'timestamp': alert.timestamp.isoformat(),
-                    'resolved': alert.resolved
+                    "alert_id": alert.alert_id,
+                    "component": alert.component.value,
+                    "level": alert.level.value,
+                    "message": alert.message,
+                    "timestamp": alert.timestamp.isoformat(),
+                    "resolved": alert.resolved,
                 }
                 for alert in self.monitoring_status.active_alerts
             ],
-            'alert_history_count': len(self.alert_history),
-            'alert_thresholds': self.alert_thresholds
+            "alert_history_count": len(self.alert_history),
+            "alert_thresholds": self.alert_thresholds,
         }
 
     def resolve_alert(self, alert_id: str):
@@ -465,7 +474,7 @@ class UnifiedMonitoringCoordinator:
 
 def get_monitoring_coordinator() -> UnifiedMonitoringCoordinator:
     """Get global monitoring coordinator instance."""
-    if not hasattr(get_monitoring_coordinator, '_instance'):
+    if not hasattr(get_monitoring_coordinator, "_instance"):
         get_monitoring_coordinator._instance = UnifiedMonitoringCoordinator()
     return get_monitoring_coordinator._instance
 

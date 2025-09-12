@@ -29,22 +29,26 @@ from uuid import uuid4
 
 class DatabaseConnectionError(Exception):
     """Database connection error."""
+
     pass
 
 
 class DatabaseOperationError(Exception):
     """Database operation error."""
+
     pass
 
 
 class DatabaseValidationError(Exception):
     """Database validation error."""
+
     pass
 
 
 @dataclass
 class DatabaseConfig:
     """Database configuration."""
+
     database_path: str = ":memory:"
     connection_timeout: float = 30.0
     max_connections: int = 10
@@ -57,6 +61,7 @@ class DatabaseConfig:
 @dataclass
 class DatabaseStats:
     """Database statistics."""
+
     total_connections: int = 0
     active_connections: int = 0
     total_queries: int = 0
@@ -101,8 +106,7 @@ class DatabaseConnectionManager:
         """Create a new database connection."""
         try:
             connection = sqlite3.connect(
-                self.config.database_path,
-                timeout=self.config.connection_timeout
+                self.config.database_path, timeout=self.config.connection_timeout
             )
 
             # Configure connection
@@ -162,9 +166,15 @@ class DatabaseQueryBuilder:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    def build_select(self, table: str, columns: list[str] = None,
-                    where: dict[str, Any] = None, order_by: list[str] = None,
-                    limit: int = None, offset: int = None) -> str:
+    def build_select(
+        self,
+        table: str,
+        columns: list[str] = None,
+        where: dict[str, Any] = None,
+        order_by: list[str] = None,
+        limit: int = None,
+        offset: int = None,
+    ) -> str:
         """Build SELECT query."""
         columns_str = "*" if not columns else ", ".join(columns)
         query = f"SELECT {columns_str} FROM {table}"
@@ -198,8 +208,9 @@ class DatabaseQueryBuilder:
         query = f"INSERT INTO {table} ({', '.join(columns)}) VALUES ({', '.join(placeholders)})"
         return query, values
 
-    def build_update(self, table: str, data: dict[str, Any],
-                    where: dict[str, Any]) -> tuple[str, list]:
+    def build_update(
+        self, table: str, data: dict[str, Any], where: dict[str, Any]
+    ) -> tuple[str, list]:
         """Build UPDATE query."""
         set_clauses = []
         values = []
@@ -258,8 +269,11 @@ class DatabaseModel(ABC):
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
-        return {key: getattr(self, key) for key in dir(self)
-                if not key.startswith('_') and not callable(getattr(self, key))}
+        return {
+            key: getattr(self, key)
+            for key in dir(self)
+            if not key.startswith("_") and not callable(getattr(self, key))
+        }
 
 
 class DatabaseValidator:
@@ -273,10 +287,13 @@ class DatabaseValidator:
         try:
             # Basic validation - check required fields
             instance = model_class()
-            required_attrs = [attr for attr in dir(instance)
-                            if not attr.startswith('_') and
-                            not callable(getattr(instance, attr)) and
-                            getattr(instance, attr) is None]
+            required_attrs = [
+                attr
+                for attr in dir(instance)
+                if not attr.startswith("_")
+                and not callable(getattr(instance, attr))
+                and getattr(instance, attr) is None
+            ]
 
             for attr in required_attrs:
                 if attr not in data:
@@ -308,11 +325,13 @@ class UnifiedDatabaseService:
 
     def register_model(self, model_class: type):
         """Register a database model."""
-        if not hasattr(model_class, 'table_name') or not model_class.table_name:
+        if not hasattr(model_class, "table_name") or not model_class.table_name:
             raise ValueError("Model must have a table_name attribute")
 
         self._models[model_class.table_name] = model_class
-        self.logger.info(f"Registered model: {model_class.__name__} for table {model_class.table_name}")
+        self.logger.info(
+            f"Registered model: {model_class.__name__} for table {model_class.table_name}"
+        )
 
     def create_tables(self):
         """Create all registered tables."""
@@ -349,14 +368,16 @@ class UnifiedDatabaseService:
                 self.logger.error(f"Insert failed: {e}")
                 raise DatabaseOperationError(f"Insert failed: {e}")
 
-    def select(self, model_class: type, where: dict[str, Any] = None,
-              order_by: list[str] = None, limit: int = None) -> list[dict[str, Any]]:
+    def select(
+        self,
+        model_class: type,
+        where: dict[str, Any] = None,
+        order_by: list[str] = None,
+        limit: int = None,
+    ) -> list[dict[str, Any]]:
         """Select records."""
         query = self.query_builder.build_select(
-            model_class.table_name,
-            where=where,
-            order_by=order_by,
-            limit=limit
+            model_class.table_name, where=where, order_by=order_by, limit=limit
         )
 
         with self.connection_manager.get_connection() as conn:
@@ -492,5 +513,5 @@ __all__ = [
     "DatabaseConnectionError",
     "DatabaseOperationError",
     "DatabaseValidationError",
-    "create_unified_database_service"
+    "create_unified_database_service",
 ]

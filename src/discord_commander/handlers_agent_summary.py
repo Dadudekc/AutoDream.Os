@@ -11,8 +11,9 @@ License: MIT
 
 from __future__ import annotations
 
-import discord
 from discord.ext import commands
+
+import discord
 
 
 class AgentSummary(commands.Cog):
@@ -23,41 +24,31 @@ class AgentSummary(commands.Cog):
         self.bot = bot
         self.gateway = gateway
 
-    async def _send_and_ack(self, ctx: commands.Context, agent_key: str, context: str | None = None):
+    async def _send_and_ack(
+        self, ctx: commands.Context, agent_key: str, context: str | None = None
+    ):
         """Send summary request and acknowledge via Discord"""
         try:
             # Send the summary request via PyAutoGUI
             result = self.gateway.request_agent_summary(
-                agent_key,
-                requested_by=str(ctx.author),
-                context=context
+                agent_key, requested_by=str(ctx.author), context=context
             )
 
             # Create and send Discord embed acknowledgment
             embed = discord.Embed(
                 title=f"📊 Summary Request → {agent_key}",
                 description="Delivered via **PyAutoGUI** using Unified Messaging.",
-                color=0x00ff88,  # Green color
-                timestamp=discord.utils.utcnow()
+                color=0x00FF88,  # Green color
+                timestamp=discord.utils.utcnow(),
             )
 
-            embed.add_field(
-                name="🎯 Requested By",
-                value=f"{ctx.author.mention}",
-                inline=True
-            )
+            embed.add_field(name="🎯 Requested By", value=f"{ctx.author.mention}", inline=True)
 
             embed.add_field(
-                name="📝 Context",
-                value=context or "General status update",
-                inline=True
+                name="📝 Context", value=context or "General status update", inline=True
             )
 
-            embed.add_field(
-                name="⚡ Status",
-                value="✅ Request sent successfully",
-                inline=True
-            )
+            embed.add_field(name="⚡ Status", value="✅ Request sent successfully", inline=True)
 
             embed.set_footer(text=f"V2_SWARM - Agent coordination via {agent_key}")
 
@@ -71,8 +62,8 @@ class AgentSummary(commands.Cog):
             error_embed = discord.Embed(
                 title=f"❌ Summary Request Failed → {agent_key}",
                 description=f"Error: `{str(e)}`",
-                color=0xff4444,  # Red color
-                timestamp=discord.utils.utcnow()
+                color=0xFF4444,  # Red color
+                timestamp=discord.utils.utcnow(),
             )
 
             await ctx.reply(embed=error_embed, mention_author=False)
@@ -99,7 +90,10 @@ class AgentSummary(commands.Cog):
         """Request summary from Agent-4"""
         await self._send_and_ack(ctx, "Agent-4", context or None)
 
-    @commands.command(name="summary", help="Request summary from specific agent (!summary <agent_number> [context])")
+    @commands.command(
+        name="summary",
+        help="Request summary from specific agent (!summary <agent_number> [context])",
+    )
     async def summary_general(self, ctx: commands.Context, agent_number: int, *, context: str = ""):
         """General summary command for any agent number"""
         if 1 <= agent_number <= 4:
@@ -114,8 +108,8 @@ class AgentSummary(commands.Cog):
         embed = discord.Embed(
             title="📊 Agent Summary Commands",
             description="Request status summaries from agents via PyAutoGUI",
-            color=0x0099ff,
-            timestamp=discord.utils.utcnow()
+            color=0x0099FF,
+            timestamp=discord.utils.utcnow(),
         )
 
         embed.add_field(
@@ -126,19 +120,19 @@ class AgentSummary(commands.Cog):
                 "`!summary3 [context]` - Agent-3 summary\n"
                 "`!summary_agent4 [context]` - Agent-4 summary"
             ),
-            inline=False
+            inline=False,
         )
 
         embed.add_field(
             name="⚡ General Command",
             value="`!summary <number> [context]` - Request from any agent (1-4)",
-            inline=False
+            inline=False,
         )
 
         embed.add_field(
             name="📝 Context Parameter",
             value="Optional context for the summary request (e.g., `working on discord integration`)",
-            inline=False
+            inline=False,
         )
 
         embed.set_footer(text="V2_SWARM - Discord to PyAutoGUI coordination")

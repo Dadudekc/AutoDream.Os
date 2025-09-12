@@ -4,5 +4,5 @@
 from . import context_core
 
 __all__ = [
-    'context_core',
+    "context_core",
 ]

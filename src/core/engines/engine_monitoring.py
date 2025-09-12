@@ -135,7 +135,9 @@ class EngineHealthMonitor:
             "status": (
                 "healthy"
                 if success_rate >= 0.95
-                else "warning" if success_rate >= 0.85 else "critical"
+                else "warning"
+                if success_rate >= 0.85
+                else "critical"
             ),
             "value": success_rate,
             "threshold": 0.95,

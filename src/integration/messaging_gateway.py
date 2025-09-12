@@ -10,6 +10,7 @@ with safe fallbacks, config-driven coordinates, and summary helpers.
 Author: Agent-4 (Captain - Discord Integration Coordinator)
 License: MIT
 """
+
 from __future__ import annotations
 
 import importlib
@@ -26,6 +27,7 @@ log = logging.getLogger(__name__)
 
 
 # -------- Utilities ----------------------------------------------------------
+
 
 def _import_symbol(spec: str, default_attr: str = "UnifiedMessagingSystem") -> Any:
     """
@@ -65,6 +67,7 @@ def _first_ok(candidates: tuple[str, ...]) -> Any:
 
 # -------- Data Models --------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class DispatchResult:
     request_id: str
@@ -79,6 +82,7 @@ class DispatchResult:
 
 
 # -------- Gateway ------------------------------------------------------------
+
 
 class MessagingGateway:
     """
@@ -100,9 +104,9 @@ class MessagingGateway:
         "core.unified_messaging",
     )
 
-    def __init__(self,
-                 coordinates_path: str = "config/coordinates.json",
-                 dry_run: bool | None = None):
+    def __init__(
+        self, coordinates_path: str = "config/coordinates.json", dry_run: bool | None = None
+    ):
         # Resolve core
         try:
             UMS = _first_ok(self._CORE_SPECS)
@@ -129,7 +133,7 @@ class MessagingGateway:
                 "4) Next 2 steps\n"
                 "5) ETA to next milestone\n"
                 "Reply in 5 bullet points, ≤80 chars each."
-            )
+            ),
         )
 
         # Dry-run switch (never touch UI; for tests)
@@ -144,17 +148,20 @@ class MessagingGateway:
     @staticmethod
     def _basic_core():
         class BasicMessagingCore:
-            def send_message(self, message: str, target: dict[str, Any], **kwargs) -> dict[str, Any]:
-                print(f"📤 [BASIC] {target.get('window_title','?')}: {message[:60]}...")
+            def send_message(
+                self, message: str, target: dict[str, Any], **kwargs
+            ) -> dict[str, Any]:
+                print(f"📤 [BASIC] {target.get('window_title', '?')}: {message[:60]}...")
                 return {"ok": True, "channel": kwargs.get("channel", "pyautogui")}
 
             def receive_message(self, source: dict[str, Any]):
-                print(f"📥 [BASIC] receive from {source.get('window_title','?')}")
+                print(f"📥 [BASIC] receive from {source.get('window_title', '?')}")
                 return {"ok": True, "messages": []}
 
             def broadcast_message(self, message: str, **kwargs) -> dict[str, Any]:
                 print(f"📢 [BASIC] broadcast: {message[:60]}...")
                 return {"ok": True}
+
         return BasicMessagingCore()
 
     # ----- Config & Normalization -------------------------------------------
@@ -174,10 +181,11 @@ class MessagingGateway:
                     "inbox_path": f"agent_workspaces/Agent-{i}/inbox",
                     "pyautogui_target": {
                         "window_title": f"Cursor - Agent {i}",
-                        "focus_xy": [200 + (i in {2,4}) * 760, 120 + (i in {3,4}) * 440],
-                        "input_xy": [420 + (i in {2,4}) * 760, 980]
-                    }
-                } for i in range(1, 5)
+                        "focus_xy": [200 + (i in {2, 4}) * 760, 120 + (i in {3, 4}) * 440],
+                        "input_xy": [420 + (i in {2, 4}) * 760, 980],
+                    },
+                }
+                for i in range(1, 5)
             }
 
     def _normalize_target(self, agent_key: str) -> dict[str, Any]:
@@ -209,16 +217,19 @@ class MessagingGateway:
         except Exception as e:
             return {"ok": False, "error": str(e)}
 
-    def request_agent_summary(self, agent_key: str, requested_by: str, context: str | None = None) -> DispatchResult:
+    def request_agent_summary(
+        self, agent_key: str, requested_by: str, context: str | None = None
+    ) -> DispatchResult:
         prompt = self.summary_template
         if context:
             prompt += f"\nContext: {context}"
-        return self.send_pyautogui(agent_key, prompt, meta={"requested_by": requested_by, "type": "summary_request"})
+        return self.send_pyautogui(
+            agent_key, prompt, meta={"requested_by": requested_by, "type": "summary_request"}
+        )
 
-    def send_pyautogui(self,
-                       agent_key: str,
-                       text: str,
-                       meta: dict[str, Any] | None = None) -> DispatchResult:
+    def send_pyautogui(
+        self, agent_key: str, text: str, meta: dict[str, Any] | None = None
+    ) -> DispatchResult:
         """
         Synchronous send. Returns structured DispatchResult.
         Resilient to core signature variations.
@@ -226,11 +237,7 @@ class MessagingGateway:
         req_id = str(uuid.uuid4())
         ts = time.time()
         tgt = self._normalize_target(agent_key)
-        payload_meta = {
-            "channel": "pyautogui",
-            "agent": agent_key,
-            **(meta or {})
-        }
+        payload_meta = {"channel": "pyautogui", "agent": agent_key, **(meta or {})}
 
         if self.dry_run:
             log.info("[DRY-RUN] %s -> %s", agent_key, tgt.get("window_title"))
@@ -240,19 +247,29 @@ class MessagingGateway:
                 backend=f"{self.backend_name}:dry",
                 status="skipped",
                 ts=ts,
-                extra={"meta": payload_meta}
+                extra={"meta": payload_meta},
             )
 
         # Attempt rich signature, fallback to simple
         try:
-            result = self.core.send_message(message=text, target=tgt, channel="pyautogui",
-                                            sender="DiscordOps", sender_type="DISCORD", metadata=payload_meta)
+            result = self.core.send_message(
+                message=text,
+                target=tgt,
+                channel="pyautogui",
+                sender="DiscordOps",
+                sender_type="DISCORD",
+                metadata=payload_meta,
+            )
             ok = bool(result.get("ok", True)) if isinstance(result, dict) else bool(result)
         except TypeError:
             result = self.core.send_message(text, tgt)  # type: ignore[misc]
             ok = bool(result)
         except Exception as e:
-            return DispatchResult(req_id, agent_key, self.backend_name, "error", ts, {"error": str(e)})
+            return DispatchResult(
+                req_id, agent_key, self.backend_name, "error", ts, {"error": str(e)}
+            )
 
         status = "sent" if ok else "failed"
-        return DispatchResult(req_id, agent_key, self.backend_name, status, ts, {"meta": payload_meta})
+        return DispatchResult(
+            req_id, agent_key, self.backend_name, status, ts, {"meta": payload_meta}
+        )

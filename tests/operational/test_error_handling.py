@@ -18,16 +18,23 @@ import pytest
 try:
     from src.core.error_handling_unified import UnifiedErrorHandler
     from src.core.unified_logging_system import UnifiedLoggingSystem
+
     ERROR_HANDLING_AVAILABLE = True
 except ImportError:
     ERROR_HANDLING_AVAILABLE = False
+
     # Create mock classes
     class UnifiedErrorHandler:
-        def handle_error(self, *args, **kwargs): return None
-        def log_error(self, *args, **kwargs): return None
+        def handle_error(self, *args, **kwargs):
+            return None
+
+        def log_error(self, *args, **kwargs):
+            return None
 
     class UnifiedLoggingSystem:
-        def log_error(self, *args, **kwargs): pass
+        def log_error(self, *args, **kwargs):
+            pass
+
 
 @pytest.mark.operational
 class TestUnifiedErrorHandler:
@@ -52,8 +59,8 @@ class TestUnifiedErrorHandler:
                 # Test error classification
                 error_info = error_handler.handle_error(e)
                 if error_info:
-                    assert 'error_type' in error_info
-                    assert expected_type in error_info['error_type']
+                    assert "error_type" in error_info
+                    assert expected_type in error_info["error_type"]
 
     def test_error_logging(self):
         """Test error logging functionality."""
@@ -72,7 +79,7 @@ class TestUnifiedErrorHandler:
                 error_handler.log_error(error, "test_component")
             except Exception as e:
                 # Only acceptable if it's a logging-related error
-                assert 'log' in str(e).lower()
+                assert "log" in str(e).lower()
 
     def test_error_recovery_mechanisms(self):
         """Test error recovery and retry mechanisms."""
@@ -103,7 +110,9 @@ class TestUnifiedErrorHandler:
         error_handler = UnifiedErrorHandler()
 
         # Test system behavior when components fail
-        with patch('src.core.unified_logging_system.UnifiedLoggingSystem', create=True) as mock_logging_class:
+        with patch(
+            "src.core.unified_logging_system.UnifiedLoggingSystem", create=True
+        ) as mock_logging_class:
             mock_logger = Mock()
             mock_logger.log_error.side_effect = Exception("Logger failure")
             mock_logging_class.return_value = mock_logger
@@ -114,7 +123,8 @@ class TestUnifiedErrorHandler:
                 # Should not raise unhandled exceptions
             except Exception as e:
                 # Only logger-related errors should propagate
-                assert 'log' in str(e).lower()
+                assert "log" in str(e).lower()
+
 
 @pytest.mark.operational
 class TestExceptionManagement:
@@ -135,17 +145,21 @@ class TestExceptionManagement:
 
     def test_custom_exception_hierarchy(self):
         """Test custom exception hierarchy for V2_SWARM."""
+
         # Define custom exception hierarchy
         class SwarmException(Exception):
             """Base exception for V2_SWARM."""
+
             pass
 
         class OperationalException(SwarmException):
             """Operational error."""
+
             pass
 
         class ConfigurationException(SwarmException):
             """Configuration error."""
+
             pass
 
         # Test exception hierarchy
@@ -163,13 +177,14 @@ class TestExceptionManagement:
 
     def test_error_context_preservation(self):
         """Test preservation of error context and debugging information."""
+
         def operation_with_context():
             """Simulate operation that provides context."""
             context = {
-                'operation': 'test_operation',
-                'parameters': {'param1': 'value1'},
-                'timestamp': time.time(),
-                'component': 'test_component'
+                "operation": "test_operation",
+                "parameters": {"param1": "value1"},
+                "timestamp": time.time(),
+                "component": "test_component",
             }
             raise ValueError("Operation failed")
 
@@ -181,6 +196,7 @@ class TestExceptionManagement:
 
             # In a real system, context would be logged or attached
             # For testing, we verify the error is properly raised and catchable
+
 
 @pytest.mark.operational
 class TestSystemResilience:
@@ -208,14 +224,15 @@ class TestSystemResilience:
 
     def test_circuit_breaker_pattern(self):
         """Test circuit breaker pattern for fault tolerance."""
+
         class CircuitBreaker:
             def __init__(self, failure_threshold=3):
                 self.failure_count = 0
                 self.failure_threshold = failure_threshold
-                self.state = 'closed'  # closed, open, half-open
+                self.state = "closed"  # closed, open, half-open
 
             def call(self, operation):
-                if self.state == 'open':
+                if self.state == "open":
                     raise Exception("Circuit breaker is open")
 
                 try:
@@ -228,22 +245,23 @@ class TestSystemResilience:
 
             def _on_success(self):
                 self.failure_count = 0
-                self.state = 'closed'
+                self.state = "closed"
 
             def _on_failure(self):
                 self.failure_count += 1
                 if self.failure_count >= self.failure_threshold:
-                    self.state = 'open'
+                    self.state = "open"
 
         breaker = CircuitBreaker()
 
         # Test successful operations
         result = breaker.call(lambda: "success")
         assert result == "success"
-        assert breaker.state == 'closed'
+        assert breaker.state == "closed"
 
         # Test failure handling
         failure_count = 0
+
         def failing_operation():
             nonlocal failure_count
             failure_count += 1
@@ -255,12 +273,12 @@ class TestSystemResilience:
                 breaker.call(failing_operation)
 
         # Should still be closed
-        assert breaker.state == 'closed'
+        assert breaker.state == "closed"
 
         # Third failure should open circuit
         with pytest.raises(ValueError):
             breaker.call(failing_operation)
-        assert breaker.state == 'open'
+        assert breaker.state == "open"
 
         # Subsequent calls should fail fast
         with pytest.raises(Exception, match="Circuit breaker is open"):
@@ -268,6 +286,7 @@ class TestSystemResilience:
 
     def test_fallback_mechanisms(self):
         """Test fallback mechanisms for system resilience."""
+
         def primary_operation():
             raise ConnectionError("Primary service unavailable")
 
@@ -282,6 +301,7 @@ class TestSystemResilience:
             result = fallback_operation()
 
         assert result == "fallback_response"
+
 
 @pytest.mark.operational
 class TestErrorRecoveryScenarios:
@@ -326,6 +346,7 @@ class TestErrorRecoveryScenarios:
             with pytest.raises(type(error)):
                 raise error
 
+
 @pytest.mark.operational
 class TestErrorReportingAndMonitoring:
     """Test error reporting and monitoring systems."""
@@ -344,10 +365,10 @@ class TestErrorReportingAndMonitoring:
 
         for error, component in error_scenarios:
             error_info = {
-                'error': str(error),
-                'type': type(error).__name__,
-                'component': component,
-                'timestamp': time.time()
+                "error": str(error),
+                "type": type(error).__name__,
+                "component": component,
+                "timestamp": time.time(),
             }
             errors.append(error_info)
 
@@ -355,20 +376,20 @@ class TestErrorReportingAndMonitoring:
         assert len(errors) == len(error_scenarios)
 
         # Check error categorization
-        error_types = [e['type'] for e in errors]
-        assert 'ValueError' in error_types
-        assert 'KeyError' in error_types
-        assert 'ConnectionError' in error_types
-        assert 'TimeoutError' in error_types
+        error_types = [e["type"] for e in errors]
+        assert "ValueError" in error_types
+        assert "KeyError" in error_types
+        assert "ConnectionError" in error_types
+        assert "TimeoutError" in error_types
 
     def test_error_trending_analysis(self):
         """Test analysis of error trends over time."""
         # Simulate error patterns over time
         error_timeline = [
-            {'timestamp': time.time(), 'error_type': 'ConnectionError', 'component': 'api'},
-            {'timestamp': time.time() + 1, 'error_type': 'TimeoutError', 'component': 'api'},
-            {'timestamp': time.time() + 2, 'error_type': 'ConnectionError', 'component': 'api'},
-            {'timestamp': time.time() + 3, 'error_type': 'ValueError', 'component': 'processing'},
+            {"timestamp": time.time(), "error_type": "ConnectionError", "component": "api"},
+            {"timestamp": time.time() + 1, "error_type": "TimeoutError", "component": "api"},
+            {"timestamp": time.time() + 2, "error_type": "ConnectionError", "component": "api"},
+            {"timestamp": time.time() + 3, "error_type": "ValueError", "component": "processing"},
         ]
 
         # Analyze error patterns
@@ -376,21 +397,24 @@ class TestErrorReportingAndMonitoring:
         component_errors = {}
 
         for error in error_timeline:
-            error_type = error['error_type']
-            component = error['component']
+            error_type = error["error_type"]
+            component = error["component"]
 
             error_counts[error_type] = error_counts.get(error_type, 0) + 1
             if component not in component_errors:
                 component_errors[component] = {}
-            component_errors[component][error_type] = component_errors[component].get(error_type, 0) + 1
+            component_errors[component][error_type] = (
+                component_errors[component].get(error_type, 0) + 1
+            )
 
         # Verify analysis
-        assert error_counts['ConnectionError'] == 2
-        assert error_counts['TimeoutError'] == 1
-        assert error_counts['ValueError'] == 1
+        assert error_counts["ConnectionError"] == 2
+        assert error_counts["TimeoutError"] == 1
+        assert error_counts["ValueError"] == 1
 
-        assert 'api' in component_errors
-        assert 'processing' in component_errors
+        assert "api" in component_errors
+        assert "processing" in component_errors
+
 
 @pytest.mark.operational
 class TestBoundaryConditionHandling:
@@ -432,22 +456,22 @@ class TestBoundaryConditionHandling:
     def test_extreme_value_handling(self):
         """Test handling of extreme values."""
         extreme_values = [
-            float('inf'),
-            float('-inf'),
-            float('nan'),
+            float("inf"),
+            float("-inf"),
+            float("nan"),
             sys.maxsize,
             -sys.maxsize - 1,
             10**100,  # Very large number
-            -10**100,  # Very small number
+            -(10**100),  # Very small number
         ]
 
         for value in extreme_values:
             try:
                 # Test numeric operations with extreme values
-                if value == float('inf') or value == float('-inf'):
+                if value == float("inf") or value == float("-inf"):
                     # Handle infinity
                     result = "infinity_handled"
-                elif str(value) == 'nan':
+                elif str(value) == "nan":
                     # Handle NaN
                     result = "nan_handled"
                 else:
@@ -459,6 +483,7 @@ class TestBoundaryConditionHandling:
             except (OverflowError, ValueError) as e:
                 # Expected for extreme values
                 assert "overflow" in str(e).lower() or "value" in str(e).lower()
+
 
 @pytest.mark.integration
 @pytest.mark.operational

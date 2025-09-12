@@ -67,7 +67,7 @@ class AgentAssignmentManager:
             os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
             # Convert enum values to strings for JSON serialization
             config = {agent: principle.value for agent, principle in self.assignments.items()}
-            with open(self.config_path, 'w') as f:
+            with open(self.config_path, "w") as f:
                 json.dump(config, f, indent=2)
         except Exception:
             # Silently fail if saving fails
@@ -79,5 +79,8 @@ class AgentAssignmentManager:
 
     def get_agents_by_principle(self, principle: ArchitecturalPrinciple) -> list[str]:
         """Get all agents assigned to a specific principle."""
-        return [agent for agent, assigned_principle in self.assignments.items()
-                if assigned_principle == principle]
+        return [
+            agent
+            for agent, assigned_principle in self.assignments.items()
+            if assigned_principle == principle
+        ]

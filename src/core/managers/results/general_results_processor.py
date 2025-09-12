@@ -64,8 +64,8 @@ class GeneralResultsProcessor(BaseResultsManager):
         """Analyze dictionary data."""
         return {
             "key_count": len(data),
-            "key_types": list(set(type(k).__name__ for k in data.keys())),
-            "value_types": list(set(type(v).__name__ for v in data.values())),
+            "key_types": list({type(k).__name__ for k in data.keys()}),
+            "value_types": list({type(v).__name__ for v in data.values()}),
             "nested_objects": sum(1 for v in data.values() if isinstance(v, dict)),
             "nested_arrays": sum(1 for v in data.values() if isinstance(v, list)),
         }
@@ -74,8 +74,8 @@ class GeneralResultsProcessor(BaseResultsManager):
         """Analyze list data."""
         return {
             "item_count": len(data),
-            "item_types": list(set(type(item).__name__ for item in data)),
-            "has_duplicates": len(data) != len(set(str(item) for item in data)),
+            "item_types": list({type(item).__name__ for item in data}),
+            "has_duplicates": len(data) != len({str(item) for item in data}),
             "nested_objects": sum(1 for item in data if isinstance(item, dict)),
             "nested_arrays": sum(1 for item in data if isinstance(item, list)),
         }

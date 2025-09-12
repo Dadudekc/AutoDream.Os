@@ -114,7 +114,7 @@ class EnhancedDiscordSetup:
             if self.config_file.exists():
                 print("⚠️  Discord channels config already exists")
                 overwrite = input("Overwrite existing configuration? (y/N): ").lower().strip()
-                if overwrite != 'y':
+                if overwrite != "y":
                     print("✅ Keeping existing configuration")
                     return True
 
@@ -122,7 +122,7 @@ class EnhancedDiscordSetup:
             config = template_config.copy()
 
             # Save configuration
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 json.dump(config, f, indent=2)
 
             print("✅ Discord channels configuration created")
@@ -177,7 +177,7 @@ Enhanced Discord integration has been implemented with individual agent channels
 
             # Save coordination message
             coord_file = inbox_dir / "AGENT-3_DISCORD_COORDINATION.md"
-            with open(coord_file, 'w', encoding='utf-8') as f:
+            with open(coord_file, "w", encoding="utf-8") as f:
                 f.write(coordination_message)
 
             print("✅ Agent coordination setup complete")
@@ -256,7 +256,7 @@ if __name__ == "__main__":
 
             # Save webhook configuration script
             webhook_script_path = self.scripts_dir / "configure_discord_webhooks.py"
-            with open(webhook_script_path, 'w', encoding='utf-8') as f:
+            with open(webhook_script_path, "w", encoding="utf-8") as f:
                 f.write(webhook_config_script)
 
             print("✅ Webhook configuration helper created")
@@ -317,5 +317,6 @@ def main():
 
 if __name__ == "__main__":
     import sys
+
     success = main()
     sys.exit(0 if success else 1)

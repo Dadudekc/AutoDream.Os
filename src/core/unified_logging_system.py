@@ -25,10 +25,9 @@ class UnifiedLoggingSystem:
         self._loggers = {}
         self._configured = False
 
-    def configure(self,
-                  level: str = "INFO",
-                  log_file: Path | None = None,
-                  format_string: str | None = None) -> None:
+    def configure(
+        self, level: str = "INFO", log_file: Path | None = None, format_string: str | None = None
+    ) -> None:
         """Configure the logging system."""
         if self._configured:
             return
@@ -41,9 +40,7 @@ class UnifiedLoggingSystem:
 
         # Configure root logger
         logging.basicConfig(
-            level=log_level,
-            format=format_string,
-            handlers=self._get_handlers(log_file)
+            level=log_level, format=format_string, handlers=self._get_handlers(log_file)
         )
 
         self._configured = True
@@ -82,9 +79,9 @@ def get_logger(name: str) -> logging.Logger:
     return _logging_system.get_logger(name)
 
 
-def configure_logging(level: str = "INFO",
-                     log_file: Path | None = None,
-                     format_string: str | None = None) -> None:
+def configure_logging(
+    level: str = "INFO", log_file: Path | None = None, format_string: str | None = None
+) -> None:
     """Configure the unified logging system."""
     _logging_system.configure(level, log_file, format_string)
 

@@ -29,10 +29,15 @@ from .utils.vector_config_utils import load_simple_config
 
 logger = logging.getLogger(__name__)
 
+
 class ConsolidatedAgentManagementService:
     """Unified agent management service combining assignment, status, and vector integration."""
 
-    def __init__(self, agent_id: str = "default", config_path: str = "src/config/architectural_assignments.json"):
+    def __init__(
+        self,
+        agent_id: str = "default",
+        config_path: str = "src/config/architectural_assignments.json",
+    ):
         """Initialize the consolidated agent management service."""
         self.agent_id = agent_id
         self.config_path = config_path
@@ -84,6 +89,7 @@ class ConsolidatedAgentManagementService:
         try:
             # Try to import and initialize vector database service
             from .consolidated_vector_service import ConsolidatedVectorService
+
             vector_service = ConsolidatedVectorService(self.agent_id)
             return {"status": "connected", "service": vector_service}
         except Exception as e:
@@ -96,7 +102,7 @@ class ConsolidatedAgentManagementService:
             os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
             # Convert enum values to strings for JSON serialization
             config = {agent: principle.value for agent, principle in self.assignments.items()}
-            with open(self.config_path, 'w') as f:
+            with open(self.config_path, "w") as f:
                 json.dump(config, f, indent=2)
         except Exception:
             # Silently fail if saving fails
@@ -118,8 +124,11 @@ class ConsolidatedAgentManagementService:
 
     def get_agents_by_principle(self, principle: ArchitecturalPrinciple) -> list[str]:
         """Get all agents assigned to a specific principle."""
-        return [agent for agent, assigned_principle in self.assignments.items()
-                if assigned_principle == principle]
+        return [
+            agent
+            for agent, assigned_principle in self.assignments.items()
+            if assigned_principle == principle
+        ]
 
     # Status Management Methods
     def get_agent_status(self) -> dict[str, Any]:
@@ -172,8 +181,7 @@ class ConsolidatedAgentManagementService:
 
             # Use consolidated vector service
             results = self.vector_integration["service"].search_documents(
-                query=f"agent:{self.agent_id}",
-                limit=100
+                query=f"agent:{self.agent_id}", limit=100
             )
             return len(results)
         except Exception:
@@ -230,8 +238,7 @@ class ConsolidatedAgentManagementService:
                 return 0
 
             results = self.vector_integration["service"].search_documents(
-                query=f"agent:{self.agent_id}",
-                limit=1000
+                query=f"agent:{self.agent_id}", limit=1000
             )
             return len(results)
         except Exception:
@@ -244,9 +251,7 @@ class ConsolidatedAgentManagementService:
             if self.vector_integration["status"] != "connected":
                 return False
 
-            result = self.vector_integration["service"].index_agent_work(
-                work_content, work_type
-            )
+            result = self.vector_integration["service"].index_agent_work(work_content, work_type)
             return result.success
         except Exception as e:
             self.logger.error(f"Error indexing work: {e}")
@@ -258,17 +263,14 @@ class ConsolidatedAgentManagementService:
             if self.vector_integration["status"] != "connected":
                 return []
 
-            results = self.vector_integration["service"].search_documents(
-                query=query,
-                limit=limit
-            )
+            results = self.vector_integration["service"].search_documents(query=query, limit=limit)
 
             return [
                 {
                     "content": result.document.content,
                     "similarity": result.similarity,
                     "metadata": result.document.metadata,
-                    "document_id": result.document.id
+                    "document_id": result.document.id,
                 }
                 for result in results
             ]

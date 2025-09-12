@@ -4,5 +4,5 @@
 from . import assignment_service
 
 __all__ = [
-    'assignment_service',
+    "assignment_service",
 ]

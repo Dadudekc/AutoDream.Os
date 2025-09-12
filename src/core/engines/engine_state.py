@@ -37,7 +37,7 @@ class EngineStateManager:
         EngineState.DEGRADED: [EngineState.ACTIVE, EngineState.ERROR, EngineState.CLEANING_UP],
         EngineState.ERROR: [EngineState.INITIALIZING, EngineState.CLEANING_UP],
         EngineState.CLEANING_UP: [EngineState.TERMINATED],
-        EngineState.TERMINATED: []
+        EngineState.TERMINATED: [],
     }
 
     def __init__(self, engine_id: str, initial_state: EngineState = EngineState.UNINITIALIZED):
@@ -75,7 +75,12 @@ class EngineStateManager:
 
     def is_stable_state(self) -> bool:
         """Check if current state is stable (not transitioning)."""
-        stable_states = [EngineState.READY, EngineState.ACTIVE, EngineState.DEGRADED, EngineState.TERMINATED]
+        stable_states = [
+            EngineState.READY,
+            EngineState.ACTIVE,
+            EngineState.DEGRADED,
+            EngineState.TERMINATED,
+        ]
         return self.current_state in stable_states
 
     def is_error_state(self) -> bool:
@@ -101,22 +106,34 @@ class EngineStateManager:
         """Record a state change in history."""
         from datetime import datetime
 
-        self.state_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "from_state": self.current_state.value if hasattr(self.current_state, 'value') else str(self.current_state),
-            "to_state": new_state.value if hasattr(new_state, 'value') else str(new_state),
-            "reason": reason
-        })
+        self.state_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "from_state": (
+                    self.current_state.value
+                    if hasattr(self.current_state, "value")
+                    else str(self.current_state)
+                ),
+                "to_state": new_state.value if hasattr(new_state, "value") else str(new_state),
+                "reason": reason,
+            }
+        )
 
     def get_state_summary(self) -> dict[str, Any]:
         """Get comprehensive state summary."""
         return {
             "engine_id": self.engine_id,
-            "current_state": self.current_state.value if hasattr(self.current_state, 'value') else str(self.current_state),
+            "current_state": (
+                self.current_state.value
+                if hasattr(self.current_state, "value")
+                else str(self.current_state)
+            ),
             "error_count": self.error_count,
             "last_error": self.last_error,
             "is_stable": self.is_stable_state(),
             "is_error": self.is_error_state(),
-            "valid_transitions": [s.value if hasattr(s, 'value') else str(s) for s in self.get_valid_transitions()],
-            "state_history_count": len(self.state_history)
+            "valid_transitions": [
+                s.value if hasattr(s, "value") else str(s) for s in self.get_valid_transitions()
+            ],
+            "state_history_count": len(self.state_history),
         }

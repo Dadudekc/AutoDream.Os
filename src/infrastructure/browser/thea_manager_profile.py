@@ -24,9 +24,4 @@ from .thea_modules import ScrapedContent, TheaConfigManager, TheaManagerConfig, 
 logger = logging.getLogger(__name__)
 
 # Re-export for backward compatibility
-__all__ = [
-    'TheaManagerProfile',
-    'TheaConfigManager',
-    'TheaManagerConfig',
-    'ScrapedContent'
-]
+__all__ = ["TheaManagerProfile", "TheaConfigManager", "TheaManagerConfig", "ScrapedContent"]

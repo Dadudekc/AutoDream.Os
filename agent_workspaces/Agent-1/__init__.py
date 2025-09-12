@@ -4,5 +4,5 @@
 from . import mission_continuation
 
 __all__ = [
-    'mission_continuation',
+    "mission_continuation",
 ]

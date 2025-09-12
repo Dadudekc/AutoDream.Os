@@ -32,7 +32,7 @@ class QueueStatisticsCalculator:
             "average_age": 0.0,
             "priority_distribution": {},
             "status_distribution": {},
-            "retry_distribution": {}
+            "retry_distribution": {},
         }
 
         now = dt.now()
@@ -40,7 +40,7 @@ class QueueStatisticsCalculator:
 
         for entry in entries:
             # Count by status
-            status = getattr(entry, 'status', 'unknown')
+            status = getattr(entry, "status", "unknown")
             stats["status_distribution"][status] = stats["status_distribution"].get(status, 0) + 1
 
             # Count specific statuses
@@ -56,11 +56,11 @@ class QueueStatisticsCalculator:
                 stats["expired_entries"] += 1
 
             # Calculate age statistics
-            if hasattr(entry, 'created_at'):
+            if hasattr(entry, "created_at"):
                 created_at = entry.created_at
                 if isinstance(created_at, str):
                     # Parse ISO string if needed
-                    created_at = dt.fromisoformat(created_at.replace('Z', '+00:00'))
+                    created_at = dt.fromisoformat(created_at.replace("Z", "+00:00"))
 
                 if isinstance(created_at, dt):
                     age = (now - created_at).total_seconds()
@@ -72,14 +72,18 @@ class QueueStatisticsCalculator:
                         stats["newest_entry_age"] = age
 
             # Priority distribution
-            if hasattr(entry, 'priority_score'):
+            if hasattr(entry, "priority_score"):
                 priority_bucket = self._get_priority_bucket(entry.priority_score)
-                stats["priority_distribution"][priority_bucket] = stats["priority_distribution"].get(priority_bucket, 0) + 1
+                stats["priority_distribution"][priority_bucket] = (
+                    stats["priority_distribution"].get(priority_bucket, 0) + 1
+                )
 
             # Retry distribution
-            if hasattr(entry, 'delivery_attempts'):
+            if hasattr(entry, "delivery_attempts"):
                 retry_bucket = self._get_retry_bucket(entry.delivery_attempts)
-                stats["retry_distribution"][retry_bucket] = stats["retry_distribution"].get(retry_bucket, 0) + 1
+                stats["retry_distribution"][retry_bucket] = (
+                    stats["retry_distribution"].get(retry_bucket, 0) + 1
+                )
 
         # Calculate averages
         if entries:
@@ -107,7 +111,7 @@ class QueueStatisticsCalculator:
             "retry_distribution": {},
             "oldest_entry_age_formatted": "N/A",
             "newest_entry_age_formatted": "N/A",
-            "average_age_formatted": "N/A"
+            "average_age_formatted": "N/A",
         }
 
     def _get_priority_bucket(self, priority_score: float) -> str:
@@ -171,12 +175,7 @@ class QueueHealthMonitor:
         """Assess overall queue health."""
         stats = self.stats_calculator.calculate_statistics(entries)
 
-        health = {
-            "overall_health": "good",
-            "issues": [],
-            "recommendations": [],
-            "metrics": stats
-        }
+        health = {"overall_health": "good", "issues": [], "recommendations": [], "metrics": stats}
 
         # Check for health issues
         self._check_queue_size_health(health, stats)
@@ -198,7 +197,9 @@ class QueueHealthMonitor:
         total_entries = stats["total_entries"]
         if total_entries > 1000:
             health["issues"].append(f"Queue size critically high: {total_entries} entries")
-            health["recommendations"].append("Consider increasing processing capacity or reducing message volume")
+            health["recommendations"].append(
+                "Consider increasing processing capacity or reducing message volume"
+            )
         elif total_entries > 500:
             health["issues"].append(f"Queue size elevated: {total_entries} entries")
             health["recommendations"].append("Monitor processing capacity")
@@ -219,7 +220,9 @@ class QueueHealthMonitor:
         average_age = stats["average_age"]
         if average_age > 3600:  # 1 hour
             health["issues"].append(f"Messages are aging: average {stats['average_age_formatted']}")
-            health["recommendations"].append("Increase processing capacity or optimize message handling")
+            health["recommendations"].append(
+                "Increase processing capacity or optimize message handling"
+            )
 
     def _check_failure_health(self, health: dict[str, Any], stats: dict[str, Any]) -> None:
         """Check failure rate health."""

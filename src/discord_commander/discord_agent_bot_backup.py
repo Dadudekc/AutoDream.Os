@@ -24,8 +24,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-import discord
 from discord.ext import commands
+
+import discord
 
 try:
     from .agent_communication_engine_refactored import AgentCommunicationEngine

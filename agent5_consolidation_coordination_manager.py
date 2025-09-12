@@ -20,13 +20,14 @@ from pathlib import Path
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler('agent5_consolidation_coordination_manager.log'),
-        logging.StreamHandler()
-    ]
+        logging.FileHandler("agent5_consolidation_coordination_manager.log"),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
+
 
 class Agent5ConsolidationCoordinationManager:
     """Agent-5 Consolidation Coordination Manager"""
@@ -50,7 +51,7 @@ class Agent5ConsolidationCoordinationManager:
                     "target": "50 → 15 files (70% reduction)",
                     "status": "PENDING",
                     "progress": 0,
-                    "priority": "CRITICAL"
+                    "priority": "CRITICAL",
                 },
                 "chunk_002": {
                     "name": "Services Layer",
@@ -58,7 +59,7 @@ class Agent5ConsolidationCoordinationManager:
                     "target": "50 → 20 files (60% reduction)",
                     "status": "PENDING",
                     "progress": 0,
-                    "priority": "CRITICAL"
+                    "priority": "CRITICAL",
                 },
                 "chunk_003": {
                     "name": "Web Interface",
@@ -66,7 +67,7 @@ class Agent5ConsolidationCoordinationManager:
                     "target": "50 → 30 files (40% reduction)",
                     "status": "PENDING",
                     "progress": 0,
-                    "priority": "MEDIUM"
+                    "priority": "MEDIUM",
                 },
                 "chunk_004": {
                     "name": "Utilities",
@@ -74,7 +75,7 @@ class Agent5ConsolidationCoordinationManager:
                     "target": "12 → 5 files (58% reduction)",
                     "status": "PENDING",
                     "progress": 0,
-                    "priority": "HIGH"
+                    "priority": "HIGH",
                 },
                 "chunk_005": {
                     "name": "Infrastructure",
@@ -82,9 +83,9 @@ class Agent5ConsolidationCoordinationManager:
                     "target": "19 → 8 files (58% reduction)",
                     "status": "PENDING",
                     "progress": 0,
-                    "priority": "HIGH"
-                }
-            }
+                    "priority": "HIGH",
+                },
+            },
         }
 
         # Initialize agent coordination
@@ -92,11 +93,19 @@ class Agent5ConsolidationCoordinationManager:
             "Agent-1": {"status": "PENDING", "chunk": "chunk_002", "last_update": None},
             "Agent-2": {"status": "PENDING", "chunk": "chunk_001", "last_update": None},
             "Agent-3": {"status": "PENDING", "chunk": "chunk_004-005", "last_update": None},
-            "Agent-4": {"status": "ACTIVE", "chunk": "qa", "last_update": datetime.now().isoformat()},
-            "Agent-5": {"status": "ACTIVE", "chunk": "coordination", "last_update": datetime.now().isoformat()},
+            "Agent-4": {
+                "status": "ACTIVE",
+                "chunk": "qa",
+                "last_update": datetime.now().isoformat(),
+            },
+            "Agent-5": {
+                "status": "ACTIVE",
+                "chunk": "coordination",
+                "last_update": datetime.now().isoformat(),
+            },
             "Agent-6": {"status": "PENDING", "chunk": "communication", "last_update": None},
             "Agent-7": {"status": "PENDING", "chunk": "chunk_003", "last_update": None},
-            "Agent-8": {"status": "PENDING", "chunk": "operations", "last_update": None}
+            "Agent-8": {"status": "PENDING", "chunk": "operations", "last_update": None},
         }
 
     def initialize_consolidation_coordination(self) -> None:
@@ -109,7 +118,7 @@ class Agent5ConsolidationCoordinationManager:
                 "roi_tracking": "ACTIVE",
                 "progress_monitoring": "ACTIVE",
                 "quality_assurance": "ACTIVE",
-                "swarm_coordination": "ACTIVE"
+                "swarm_coordination": "ACTIVE",
             }
 
             logger.info("✅ Consolidation coordination initialized successfully")
@@ -171,20 +180,27 @@ class Agent5ConsolidationCoordinationManager:
                     cutoff_date = datetime.now() - timedelta(hours=6)
 
                     for file_path in agent_dir.rglob("*"):
-                        if file_path.is_file() and file_path.stat().st_mtime > cutoff_date.timestamp():
+                        if (
+                            file_path.is_file()
+                            and file_path.stat().st_mtime > cutoff_date.timestamp()
+                        ):
                             recent_files += 1
 
                     if recent_files > 0:
                         active_agents += 1
                         self.agent_coordination[agent_id]["status"] = "ACTIVE"
-                        self.agent_coordination[agent_id]["last_update"] = datetime.now().isoformat()
+                        self.agent_coordination[agent_id]["last_update"] = (
+                            datetime.now().isoformat()
+                        )
                     else:
                         self.agent_coordination[agent_id]["status"] = "INACTIVE"
 
             # Update consolidation status
             self.consolidation_status["active_agents"] = active_agents
             self.consolidation_status["total_agents"] = total_agents
-            self.consolidation_status["coordination_rate"] = (active_agents / max(1, total_agents)) * 100
+            self.consolidation_status["coordination_rate"] = (
+                active_agents / max(1, total_agents)
+            ) * 100
 
             logger.info(f"Consolidation progress: {active_agents}/{total_agents} agents active")
             return True
@@ -200,20 +216,28 @@ class Agent5ConsolidationCoordinationManager:
 
             # Calculate consolidation metrics
             total_chunks = len(self.consolidation_status["chunks"])
-            completed_chunks = sum(1 for chunk in self.consolidation_status["chunks"].values()
-                                 if chunk["status"] == "COMPLETED")
-            in_progress_chunks = sum(1 for chunk in self.consolidation_status["chunks"].values()
-                                   if chunk["status"] == "IN_PROGRESS")
+            completed_chunks = sum(
+                1
+                for chunk in self.consolidation_status["chunks"].values()
+                if chunk["status"] == "COMPLETED"
+            )
+            in_progress_chunks = sum(
+                1
+                for chunk in self.consolidation_status["chunks"].values()
+                if chunk["status"] == "IN_PROGRESS"
+            )
 
             # Calculate business value metrics
-            consolidation_progress = (completed_chunks / total_chunks) * 100 if total_chunks > 0 else 0
+            consolidation_progress = (
+                (completed_chunks / total_chunks) * 100 if total_chunks > 0 else 0
+            )
 
             # Estimate business value
             estimated_benefits = {
                 "file_reduction": consolidation_progress,
                 "maintainability_improvement": consolidation_progress * 0.8,
                 "performance_optimization": consolidation_progress * 0.6,
-                "team_productivity": consolidation_progress * 0.7
+                "team_productivity": consolidation_progress * 0.7,
             }
 
             # Calculate ROI
@@ -221,16 +245,20 @@ class Agent5ConsolidationCoordinationManager:
             estimated_cost = 20  # Base cost
             roi_percentage = ((total_benefit - estimated_cost) / estimated_cost) * 100
 
-            self.business_metrics.update({
-                "consolidation_progress": consolidation_progress,
-                "completed_chunks": completed_chunks,
-                "in_progress_chunks": in_progress_chunks,
-                "estimated_benefits": estimated_benefits,
-                "roi_percentage": roi_percentage,
-                "last_update": datetime.now().isoformat()
-            })
+            self.business_metrics.update(
+                {
+                    "consolidation_progress": consolidation_progress,
+                    "completed_chunks": completed_chunks,
+                    "in_progress_chunks": in_progress_chunks,
+                    "estimated_benefits": estimated_benefits,
+                    "roi_percentage": roi_percentage,
+                    "last_update": datetime.now().isoformat(),
+                }
+            )
 
-            logger.info(f"Business value tracking: {consolidation_progress:.1f}% progress, {roi_percentage:.1f}% ROI")
+            logger.info(
+                f"Business value tracking: {consolidation_progress:.1f}% progress, {roi_percentage:.1f}% ROI"
+            )
             return True
 
         except Exception as e:
@@ -247,22 +275,23 @@ class Agent5ConsolidationCoordinationManager:
             cutoff_date = datetime.now() - timedelta(hours=2)
 
             # Check various communication channels
-            communication_dirs = [
-                "agent_workspaces",
-                "devlogs",
-                "logs"
-            ]
+            communication_dirs = ["agent_workspaces", "devlogs", "logs"]
 
             for comm_dir in communication_dirs:
                 comm_path = self.project_root / comm_dir
                 if comm_path.exists():
                     for file_path in comm_path.rglob("*"):
-                        if file_path.is_file() and file_path.stat().st_mtime > cutoff_date.timestamp():
+                        if (
+                            file_path.is_file()
+                            and file_path.stat().st_mtime > cutoff_date.timestamp()
+                        ):
                             recent_communications += 1
 
             # Update communication metrics
             self.business_metrics["recent_communications"] = recent_communications
-            self.business_metrics["communication_status"] = "ACTIVE" if recent_communications > 0 else "INACTIVE"
+            self.business_metrics["communication_status"] = (
+                "ACTIVE" if recent_communications > 0 else "INACTIVE"
+            )
 
             logger.info(f"Agent communication: {recent_communications} recent communications")
             return True
@@ -278,10 +307,16 @@ class Agent5ConsolidationCoordinationManager:
 
             # Calculate overall progress
             total_chunks = len(self.consolidation_status["chunks"])
-            completed_chunks = sum(1 for chunk in self.consolidation_status["chunks"].values()
-                                 if chunk["status"] == "COMPLETED")
-            in_progress_chunks = sum(1 for chunk in self.consolidation_status["chunks"].values()
-                                   if chunk["status"] == "IN_PROGRESS")
+            completed_chunks = sum(
+                1
+                for chunk in self.consolidation_status["chunks"].values()
+                if chunk["status"] == "COMPLETED"
+            )
+            in_progress_chunks = sum(
+                1
+                for chunk in self.consolidation_status["chunks"].values()
+                if chunk["status"] == "IN_PROGRESS"
+            )
 
             overall_progress = (completed_chunks / total_chunks) * 100 if total_chunks > 0 else 0
 
@@ -298,19 +333,19 @@ class Agent5ConsolidationCoordinationManager:
                     "overall_progress": overall_progress,
                     "completed_chunks": completed_chunks,
                     "in_progress_chunks": in_progress_chunks,
-                    "total_chunks": total_chunks
+                    "total_chunks": total_chunks,
                 },
                 "next_actions": [
                     "Continue monitoring consolidation progress",
                     "Coordinate with active agents",
                     "Track business value and ROI",
-                    "Maintain swarm coordination"
-                ]
+                    "Maintain swarm coordination",
+                ],
             }
 
             # Save coordination report
             report_file = self.project_root / "agent5_consolidation_coordination_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2)
 
             logger.info(f"Coordination report saved: {report_file}")
@@ -327,11 +362,11 @@ class Agent5ConsolidationCoordinationManager:
                 "timestamp": datetime.now().isoformat(),
                 "consolidation_status": self.consolidation_status,
                 "agent_coordination": self.agent_coordination,
-                "business_metrics": self.business_metrics
+                "business_metrics": self.business_metrics,
             }
 
             status_file = self.project_root / "agent5_consolidation_coordination_status.json"
-            with open(status_file, 'w', encoding='utf-8') as f:
+            with open(status_file, "w", encoding="utf-8") as f:
                 json.dump(status_data, f, indent=2)
 
             logger.info(f"Coordination status saved: {status_file}")
@@ -381,13 +416,13 @@ class Agent5ConsolidationCoordinationManager:
                     "Continue monitoring consolidation progress",
                     "Coordinate with active agents",
                     "Track business value and ROI",
-                    "Maintain swarm coordination"
-                ]
+                    "Maintain swarm coordination",
+                ],
             }
 
             # Save coordination summary
             summary_file = self.project_root / "agent5_consolidation_coordination_summary.json"
-            with open(summary_file, 'w', encoding='utf-8') as f:
+            with open(summary_file, "w", encoding="utf-8") as f:
                 json.dump(coordination_summary, f, indent=2)
 
             logger.info("🎉 Consolidation coordination completed!")
@@ -398,6 +433,7 @@ class Agent5ConsolidationCoordinationManager:
         except Exception as e:
             logger.error(f"Error in consolidation coordination: {e}")
             return False
+
 
 def main():
     """Main execution function"""
@@ -422,6 +458,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error in consolidation coordination: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

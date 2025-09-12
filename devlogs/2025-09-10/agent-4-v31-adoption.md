@@ -18,7 +18,7 @@ Adopt v3.1 Unified Feedback Loop as policy and coordinate rollout across swarm
 ## Artifacts
 - Commit: 2025-09-10_v31_adoption
 - Devlog: devlogs/2025-09-10/agent-4-v31-adoption.md
-- Status: 
+- Status:
 untime/status/agent-4.json
 
 ## Scan Notes (Duplication/Reuse)

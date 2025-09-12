@@ -31,8 +31,10 @@ from typing import Any
 # ERROR ENUMS AND MODELS
 # ============================================================================
 
+
 class ErrorSeverity(Enum):
     """Error severity enumeration."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -42,6 +44,7 @@ class ErrorSeverity(Enum):
 
 class ErrorType(Enum):
     """Error type enumeration."""
+
     SYSTEM_ERROR = "system_error"
     NETWORK_ERROR = "network_error"
     VALIDATION_ERROR = "validation_error"
@@ -56,6 +59,7 @@ class ErrorType(Enum):
 
 class ErrorStatus(Enum):
     """Error status enumeration."""
+
     DETECTED = "detected"
     ACKNOWLEDGED = "acknowledged"
     IN_PROGRESS = "in_progress"
@@ -66,6 +70,7 @@ class ErrorStatus(Enum):
 
 class RecoveryStrategy(Enum):
     """Recovery strategy enumeration."""
+
     RETRY = "retry"
     FALLBACK = "fallback"
     CIRCUIT_BREAKER = "circuit_breaker"
@@ -78,9 +83,11 @@ class RecoveryStrategy(Enum):
 # ERROR MODELS
 # ============================================================================
 
+
 @dataclass
 class ErrorInfo:
     """Error information model."""
+
     error_id: str
     error_type: ErrorType
     severity: ErrorSeverity
@@ -95,6 +102,7 @@ class ErrorInfo:
 @dataclass
 class ErrorContext:
     """Error context model."""
+
     context_id: str
     error_id: str
     stack_trace: str | None = None
@@ -108,6 +116,7 @@ class ErrorContext:
 @dataclass
 class RecoveryAction:
     """Recovery action model."""
+
     action_id: str
     error_id: str
     strategy: RecoveryStrategy
@@ -122,6 +131,7 @@ class RecoveryAction:
 @dataclass
 class ErrorMetrics:
     """Error metrics model."""
+
     total_errors: int = 0
     resolved_errors: int = 0
     active_errors: int = 0
@@ -133,6 +143,7 @@ class ErrorMetrics:
 # ============================================================================
 # ERROR INTERFACES
 # ============================================================================
+
 
 class ErrorHandler(ABC):
     """Base error handler interface."""
@@ -188,14 +199,12 @@ class ErrorRecovery(ABC):
 # ERROR HANDLERS
 # ============================================================================
 
+
 class SystemErrorHandler(ErrorHandler):
     """System error handler implementation."""
 
     def __init__(self, handler_id: str = None):
-        super().__init__(
-            handler_id or str(uuid.uuid4()),
-            "SystemErrorHandler"
-        )
+        super().__init__(handler_id or str(uuid.uuid4()), "SystemErrorHandler")
 
     def can_handle(self, error: ErrorInfo) -> bool:
         """Check if can handle system errors."""
@@ -209,7 +218,7 @@ class SystemErrorHandler(ErrorHandler):
                 error_id=error.error_id,
                 strategy=RecoveryStrategy.RESTART,
                 description="Attempting system restart to resolve error",
-                status=ErrorStatus.IN_PROGRESS
+                status=ErrorStatus.IN_PROGRESS,
             )
 
             self.logger.error(f"Handling system error {error.error_id}: {error.message}")
@@ -235,10 +244,7 @@ class NetworkErrorHandler(ErrorHandler):
     """Network error handler implementation."""
 
     def __init__(self, handler_id: str = None):
-        super().__init__(
-            handler_id or str(uuid.uuid4()),
-            "NetworkErrorHandler"
-        )
+        super().__init__(handler_id or str(uuid.uuid4()), "NetworkErrorHandler")
         self.retry_count = 0
         self.max_retries = 3
 
@@ -254,7 +260,7 @@ class NetworkErrorHandler(ErrorHandler):
                 error_id=error.error_id,
                 strategy=RecoveryStrategy.RETRY,
                 description=f"Attempting network retry (attempt {self.retry_count + 1}/{self.max_retries})",
-                status=ErrorStatus.IN_PROGRESS
+                status=ErrorStatus.IN_PROGRESS,
             )
 
             self.logger.warning(f"Handling network error {error.error_id}: {error.message}")
@@ -286,10 +292,7 @@ class ValidationErrorHandler(ErrorHandler):
     """Validation error handler implementation."""
 
     def __init__(self, handler_id: str = None):
-        super().__init__(
-            handler_id or str(uuid.uuid4()),
-            "ValidationErrorHandler"
-        )
+        super().__init__(handler_id or str(uuid.uuid4()), "ValidationErrorHandler")
 
     def can_handle(self, error: ErrorInfo) -> bool:
         """Check if can handle validation errors."""
@@ -303,7 +306,7 @@ class ValidationErrorHandler(ErrorHandler):
                 error_id=error.error_id,
                 strategy=RecoveryStrategy.FALLBACK,
                 description="Using fallback validation or default values",
-                status=ErrorStatus.IN_PROGRESS
+                status=ErrorStatus.IN_PROGRESS,
             )
 
             self.logger.warning(f"Handling validation error {error.error_id}: {error.message}")
@@ -329,14 +332,12 @@ class ValidationErrorHandler(ErrorHandler):
 # ERROR RECOVERY SYSTEMS
 # ============================================================================
 
+
 class CircuitBreakerRecovery(ErrorRecovery):
     """Circuit breaker recovery implementation."""
 
     def __init__(self, recovery_id: str = None):
-        super().__init__(
-            recovery_id or str(uuid.uuid4()),
-            "CircuitBreakerRecovery"
-        )
+        super().__init__(recovery_id or str(uuid.uuid4()), "CircuitBreakerRecovery")
         self.failure_count = 0
         self.failure_threshold = 5
         self.timeout_duration = timedelta(minutes=5)
@@ -354,7 +355,10 @@ class CircuitBreakerRecovery(ErrorRecovery):
 
             # Check circuit breaker state
             if self.state == "OPEN":
-                if self.last_failure_time and (current_time - self.last_failure_time) > self.timeout_duration:
+                if (
+                    self.last_failure_time
+                    and (current_time - self.last_failure_time) > self.timeout_duration
+                ):
                     self.state = "HALF_OPEN"
                 else:
                     action = RecoveryAction(
@@ -363,7 +367,7 @@ class CircuitBreakerRecovery(ErrorRecovery):
                         strategy=RecoveryStrategy.CIRCUIT_BREAKER,
                         description="Circuit breaker is OPEN, request blocked",
                         status=ErrorStatus.IGNORED,
-                        result="Request blocked by circuit breaker"
+                        result="Request blocked by circuit breaker",
                     )
                     return action
 
@@ -374,7 +378,7 @@ class CircuitBreakerRecovery(ErrorRecovery):
                     error_id=error.error_id,
                     strategy=RecoveryStrategy.RETRY,
                     description="Circuit breaker is CLOSED, attempting retry",
-                    status=ErrorStatus.IN_PROGRESS
+                    status=ErrorStatus.IN_PROGRESS,
                 )
 
                 # Simulate retry attempt
@@ -397,7 +401,7 @@ class CircuitBreakerRecovery(ErrorRecovery):
                     error_id=error.error_id,
                     strategy=RecoveryStrategy.RETRY,
                     description="Circuit breaker is HALF_OPEN, testing recovery",
-                    status=ErrorStatus.IN_PROGRESS
+                    status=ErrorStatus.IN_PROGRESS,
                 )
 
                 # Test recovery
@@ -416,7 +420,7 @@ class CircuitBreakerRecovery(ErrorRecovery):
                 strategy=RecoveryStrategy.CIRCUIT_BREAKER,
                 description="Circuit breaker recovery failed",
                 status=ErrorStatus.ESCALATED,
-                result=f"Recovery failed: {e}"
+                result=f"Recovery failed: {e}",
             )
             return action
 
@@ -429,10 +433,7 @@ class FallbackRecovery(ErrorRecovery):
     """Fallback recovery implementation."""
 
     def __init__(self, recovery_id: str = None):
-        super().__init__(
-            recovery_id or str(uuid.uuid4()),
-            "FallbackRecovery"
-        )
+        super().__init__(recovery_id or str(uuid.uuid4()), "FallbackRecovery")
         self.fallback_data: dict[str, Any] = {}
 
     def can_recover(self, error: ErrorInfo) -> bool:
@@ -447,7 +448,7 @@ class FallbackRecovery(ErrorRecovery):
                 error_id=error.error_id,
                 strategy=RecoveryStrategy.FALLBACK,
                 description="Using fallback data or default behavior",
-                status=ErrorStatus.IN_PROGRESS
+                status=ErrorStatus.IN_PROGRESS,
             )
 
             self.logger.info(f"Recovering from error {error.error_id} using fallback")
@@ -466,7 +467,7 @@ class FallbackRecovery(ErrorRecovery):
                 strategy=RecoveryStrategy.FALLBACK,
                 description="Fallback recovery failed",
                 status=ErrorStatus.ESCALATED,
-                result=f"Recovery failed: {e}"
+                result=f"Recovery failed: {e}",
             )
             return action
 
@@ -478,6 +479,7 @@ class FallbackRecovery(ErrorRecovery):
 # ============================================================================
 # ERROR ORCHESTRATOR
 # ============================================================================
+
 
 class ErrorOrchestrator:
     """Error handling orchestrator."""
@@ -561,7 +563,7 @@ class ErrorOrchestrator:
             "total_errors": self.metrics.total_errors,
             "resolved_errors": self.metrics.resolved_errors,
             "handlers_registered": len(self.handlers),
-            "recoveries_registered": len(self.recoveries)
+            "recoveries_registered": len(self.recoveries),
         }
 
 
@@ -569,12 +571,13 @@ class ErrorOrchestrator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_error_handler(handler_type: str, handler_id: str = None) -> ErrorHandler | None:
     """Create error handler by type."""
     handlers = {
         "system_error": SystemErrorHandler,
         "network_error": NetworkErrorHandler,
-        "validation_error": ValidationErrorHandler
+        "validation_error": ValidationErrorHandler,
     }
 
     handler_class = handlers.get(handler_type)
@@ -586,10 +589,7 @@ def create_error_handler(handler_type: str, handler_id: str = None) -> ErrorHand
 
 def create_error_recovery(recovery_type: str, recovery_id: str = None) -> ErrorRecovery | None:
     """Create error recovery by type."""
-    recoveries = {
-        "circuit_breaker": CircuitBreakerRecovery,
-        "fallback": FallbackRecovery
-    }
+    recoveries = {"circuit_breaker": CircuitBreakerRecovery, "fallback": FallbackRecovery}
 
     recovery_class = recoveries.get(recovery_type)
     if recovery_class:
@@ -606,6 +606,7 @@ def create_error_orchestrator() -> ErrorOrchestrator:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -643,14 +644,14 @@ def main():
         severity=ErrorSeverity.HIGH,
         status=ErrorStatus.DETECTED,
         message="Test system error",
-        source="test_source"
+        source="test_source",
     )
 
     test_context = ErrorContext(
         context_id="test_context_001",
         error_id=test_error.error_id,
         stack_trace="Test stack trace",
-        variables={"test_var": "test_value"}
+        variables={"test_var": "test_value"},
     )
 
     action = orchestrator.handle_error(test_error, test_context)

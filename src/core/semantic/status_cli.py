@@ -3,11 +3,14 @@ CLI demo:
   python -m src.core.semantic.status_cli "survey completed, 50 files analyzed"
   python -m src.core.semantic.status_cli @data/semantic_seed/status/Agent-1.json
 """
+
 from __future__ import annotations
-import sys
+
 import json
-import yaml
+import sys
 from pathlib import Path
+
+import yaml
 
 # Add project root to Python path when running as module
 if __name__ == "__main__":
@@ -28,7 +31,7 @@ def main():
         sys.exit(1)
     raw = " ".join(sys.argv[1:])
     if raw.startswith("@"):
-        with open(raw[1:], "r", encoding="utf-8") as f:
+        with open(raw[1:], encoding="utf-8") as f:
             data = json.load(f)
     else:
         data = raw
@@ -44,7 +47,7 @@ def main():
     hits = idx.similar(data)
     out = {
         "query_kind": "json" if isinstance(data, dict) else "text",
-        "results": [{"id": i, "score": s, "meta": m} for (i, s, m) in hits]
+        "results": [{"id": i, "score": s, "meta": m} for (i, s, m) in hits],
     }
     print(json.dumps(out, indent=2))
 

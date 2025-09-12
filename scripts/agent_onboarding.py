@@ -4,12 +4,13 @@ Agent Swarm Onboarding Script
 Automated onboarding for new agents joining the swarm system.
 """
 
-import os
 import json
-import sys
-from pathlib import Path
+import os
 import subprocess
+import sys
 from datetime import datetime
+from pathlib import Path
+
 
 class AgentOnboarding:
     """Automated onboarding system for new agents."""
@@ -74,12 +75,12 @@ class AgentOnboarding:
             "achievements": ["Agent activation successful"],
             "next_actions": ["Claim first contract using --get-next-task"]
         }
-        
+
         with open(workspace_dir / "status.json", "w", encoding="utf-8") as f:
             json.dump(status_data, f, indent=2)
-        
+
         return workspace_dir
-    
+
 >>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
     def send_captain_acknowledgment(self, agent_id):
         """Send acknowledgment message to Captain Agent-4."""
@@ -88,7 +89,7 @@ class AgentOnboarding:
 <<<<<<< HEAD
 
 =======
-        
+
 >>>>>>> origin/cursor/refactor-dashboard-js-to-under-300-lines-dc65
         message = f"""# Agent {agent_id} - Onboarding Complete
 
@@ -212,11 +213,11 @@ class AgentOnboarding:
         return True
 
 =======
-        
+
         ack_file = captain_inbox / f"AGENT_{agent_id}_ONBOARDING_COMPLETE.md"
         with open(ack_file, "w", encoding="utf-8") as f:
             f.write(message)
-    
+
     def run_contract_assignment(self, agent_id):
         """Run the contract assignment command."""
         try:
@@ -227,7 +228,7 @@ class AgentOnboarding:
             return result.stdout
         except subprocess.CalledProcessError as e:
             return f"Error running contract assignment: {e.stderr}"
-    
+
     def display_onboarding_summary(self, agent_id, workspace_dir):
         """Display onboarding completion summary."""
         print("\n" + "="*60)
@@ -257,48 +258,48 @@ class AgentOnboarding:
         print()
         print("⚡ **WE. ARE. SWARM.** 🚀🔥")
         print("="*60)
-    
+
     def run_onboarding(self):
         """Run the complete onboarding process."""
         print("🎯 **AGENT SWARM ONBOARDING SYSTEM** 🎯")
         print("="*50)
-        
+
         # Find available agent ID
         agent_id = self.get_available_agent_id()
         if not agent_id:
             print("❌ ERROR: No available agent IDs found!")
             print("All agents are currently assigned. Contact Captain Agent-4 for assistance.")
             return False
-        
+
         print(f"🎯 **ASSIGNED AGENT ID**: {agent_id}")
         print(f"🎯 **ROLE**: {self.available_agents[agent_id]}")
         print()
-        
+
         # Create workspace
         print("📁 Creating agent workspace...")
         workspace_dir = self.create_agent_workspace(agent_id)
         print(f"✅ Workspace created: {workspace_dir}")
-        
+
         # Send captain acknowledgment
         print("📬 Sending acknowledgment to Captain Agent-4...")
         self.send_captain_acknowledgment(agent_id)
         print("✅ Acknowledgment sent")
-        
+
         # Run contract assignment
         print("📋 Running contract assignment...")
         contract_output = self.run_contract_assignment(agent_id)
         print("✅ Contract assignment completed")
-        
+
         # Display summary
         self.display_onboarding_summary(agent_id, workspace_dir)
-        
+
         return True
 
 def main():
     """Main entry point for the onboarding script."""
     onboarding = AgentOnboarding()
     success = onboarding.run_onboarding()
-    
+
     if success:
         print("\n🎉 **ONBOARDING SUCCESSFUL!** 🎉")
         print("You are now part of the most efficient multi-agent coordination system!")

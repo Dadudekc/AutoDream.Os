@@ -4,6 +4,6 @@
 from . import insight_processor, prediction_processor
 
 __all__ = [
-    'insight_processor',
-    'prediction_processor',
+    "insight_processor",
+    "prediction_processor",
 ]

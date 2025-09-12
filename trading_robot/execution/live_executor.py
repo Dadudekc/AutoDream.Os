@@ -1,6 +1,7 @@
 """
 Live Trading Executor
 """
+
 import asyncio
 from datetime import datetime, time
 from typing import Any
@@ -15,8 +16,12 @@ from strategies.base_strategy import Signal, StrategyManager
 class LiveExecutor:
     """Live trading execution engine"""
 
-    def __init__(self, alpaca_client: AlpacaClient, risk_manager: RiskManager,
-                 strategy_manager: StrategyManager):
+    def __init__(
+        self,
+        alpaca_client: AlpacaClient,
+        risk_manager: RiskManager,
+        strategy_manager: StrategyManager,
+    ):
         self.alpaca_client = alpaca_client
         self.risk_manager = risk_manager
         self.strategy_manager = strategy_manager
@@ -95,9 +100,7 @@ class LiveExecutor:
 
             # Get recent market data
             market_data = self.alpaca_client.get_historical_data(
-                symbol=symbol,
-                timeframe="1Min",
-                limit=100
+                symbol=symbol, timeframe="1Min", limit=100
             )
 
             if market_data.empty:
@@ -108,7 +111,9 @@ class LiveExecutor:
             strategy_results = self.strategy_manager.analyze_symbol(symbol, market_data)
 
             # Get consensus signal
-            consensus_signal, confidence = self.strategy_manager.get_consensus_signal(strategy_results)
+            consensus_signal, confidence = self.strategy_manager.get_consensus_signal(
+                strategy_results
+            )
 
             if consensus_signal == Signal.HOLD or confidence < 0.7:
                 return  # Not confident enough
@@ -119,11 +124,12 @@ class LiveExecutor:
         except Exception as e:
             logger.error(f"❌ Error evaluating symbol {symbol}: {e}")
 
-    async def _execute_signal(self, symbol: str, signal: Signal, confidence: float,
-                            current_bar: pd.Series):
+    async def _execute_signal(
+        self, symbol: str, signal: Signal, confidence: float, current_bar: pd.Series
+    ):
         """Execute a trading signal"""
         try:
-            current_price = current_bar['close']
+            current_price = current_bar["close"]
 
             # Calculate position size
             if signal == Signal.BUY:
@@ -132,22 +138,21 @@ class LiveExecutor:
             elif signal == Signal.SELL:
                 # Check if we have position to sell
                 positions = self.alpaca_client.get_positions()
-                symbol_position = next((p for p in positions if p['symbol'] == symbol), None)
+                symbol_position = next((p for p in positions if p["symbol"] == symbol), None)
 
-                if not symbol_position or symbol_position['qty'] <= 0:
+                if not symbol_position or symbol_position["qty"] <= 0:
                     return  # No position to sell
 
-                quantity = min(symbol_position['qty'], self.risk_manager.calculate_position_size(current_price))
+                quantity = min(
+                    symbol_position["qty"], self.risk_manager.calculate_position_size(current_price)
+                )
                 side = "sell"
             else:
                 return
 
             # Validate trade with risk manager
             is_valid, reason = self.risk_manager.validate_trade(
-                symbol=symbol,
-                quantity=quantity,
-                price=current_price,
-                side=side
+                symbol=symbol, quantity=quantity, price=current_price, side=side
             )
 
             if not is_valid:
@@ -163,16 +168,15 @@ class LiveExecutor:
             if order:
                 # Record trade
                 self.risk_manager.record_trade(
-                    symbol=symbol,
-                    side=side,
-                    quantity=quantity,
-                    price=current_price
+                    symbol=symbol, side=side, quantity=quantity, price=current_price
                 )
 
                 # Update trade interval
                 self.trading_intervals[symbol] = datetime.now().timestamp()
 
-                logger.info(f"✅ Trade executed: {side} {quantity} {symbol} @ ${current_price:.2f} (confidence: {confidence:.2f})")
+                logger.info(
+                    f"✅ Trade executed: {side} {quantity} {symbol} @ ${current_price:.2f} (confidence: {confidence:.2f})"
+                )
 
         except Exception as e:
             logger.error(f"❌ Error executing signal for {symbol}: {e}")
@@ -197,14 +201,16 @@ class LiveExecutor:
     async def _check_position_levels(self, position: dict[str, Any]):
         """Check stop loss and take profit levels for a position"""
         try:
-            symbol = position['symbol']
-            current_price = position['current_price']
-            avg_entry_price = position['avg_entry_price']
-            quantity = position['qty']
+            symbol = position["symbol"]
+            current_price = position["current_price"]
+            avg_entry_price = position["avg_entry_price"]
+            quantity = position["qty"]
 
             # Calculate stop loss and take profit prices
             stop_loss_price = self.risk_manager.calculate_stop_loss_price(avg_entry_price, "buy")
-            take_profit_price = self.risk_manager.calculate_take_profit_price(avg_entry_price, "buy")
+            take_profit_price = self.risk_manager.calculate_take_profit_price(
+                avg_entry_price, "buy"
+            )
 
             # Check stop loss
             if current_price <= stop_loss_price:
@@ -229,10 +235,7 @@ class LiveExecutor:
                 # Record the closing trade
                 current_price = await self._get_current_price(symbol)
                 self.risk_manager.record_trade(
-                    symbol=symbol,
-                    side="sell",
-                    quantity=quantity,
-                    price=current_price
+                    symbol=symbol, side="sell", quantity=quantity, price=current_price
                 )
 
         except Exception as e:
@@ -243,7 +246,7 @@ class LiveExecutor:
         try:
             bars = self.alpaca_client.get_historical_data(symbol, "1Min", limit=1)
             if not bars.empty:
-                return bars.iloc[-1]['close']
+                return bars.iloc[-1]["close"]
             return 0.0
         except Exception as e:
             logger.error(f"❌ Error getting current price for {symbol}: {e}")
@@ -272,7 +275,7 @@ class LiveExecutor:
             orders = self.alpaca_client.get_orders(status="open")
             for order in orders:
                 try:
-                    self.alpaca_client.cancel_order(order['id'])
+                    self.alpaca_client.cancel_order(order["id"])
                     logger.info(f"❌ Order cancelled: {order['id']}")
                 except Exception as e:
                     logger.error(f"❌ Error cancelling order {order['id']}: {e}")
@@ -287,7 +290,10 @@ class LiveExecutor:
             current_time = datetime.now().time()
             market_open = time(9, 30)  # Assuming 9:30 AM market open
 
-            if current_time.hour == market_open.hour and current_time.minute <= market_open.minute + 5:
+            if (
+                current_time.hour == market_open.hour
+                and current_time.minute <= market_open.minute + 5
+            ):
                 self.risk_manager.reset_daily_counters()
                 logger.info("🌅 New trading day detected - daily counters reset")
 
@@ -316,5 +322,5 @@ class LiveExecutor:
             "is_running": self.is_running,
             "symbols_trading": len(self.symbols_to_trade),
             "trading_symbols": self.symbols_to_trade,
-            "last_update": datetime.now().isoformat()
+            "last_update": datetime.now().isoformat(),
         }

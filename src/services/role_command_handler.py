@@ -19,13 +19,13 @@ from typing import Any
 class RoleCommandHandler:
     """Handles role-related operations."""
 
-    def can_handle(self, args: Any) ->bool:
+    def can_handle(self, args: Any) -> bool:
         """Check if this handler can handle the given arguments."""
-        return hasattr(args, 'role_mode') and args.role_mode
+        return hasattr(args, "role_mode") and args.role_mode
 
-    def handle(self, args: Any) ->bool:
+    def handle(self, args: Any) -> bool:
         """Handle role operations."""
-        logger.info(f'🎭 Setting role mode: {args.role_mode}')
-        logger.info('Role management feature is currently under development.')
-        logger.info('Use standard messaging CLI commands for communication.')
+        logger.info(f"🎭 Setting role mode: {args.role_mode}")
+        logger.info("Role management feature is currently under development.")
+        logger.info("Use standard messaging CLI commands for communication.")
         return True

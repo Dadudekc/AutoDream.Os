@@ -4,7 +4,7 @@
 from . import deployment_executor, metrics_tracker, target_discovery
 
 __all__ = [
-    'deployment_executor',
-    'metrics_tracker',
-    'target_discovery',
+    "deployment_executor",
+    "metrics_tracker",
+    "target_discovery",
 ]

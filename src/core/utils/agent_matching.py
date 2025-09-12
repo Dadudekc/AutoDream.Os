@@ -8,6 +8,7 @@ V2 Compliance: Under 300-line limit with focused functionality
 @License: MIT
 """
 
+
 @dataclass
 class AgentCapability:
     """Standard agent capability structure."""

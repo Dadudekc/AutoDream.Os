@@ -33,6 +33,7 @@ try:
         UnifiedMessagePriority,
         UnifiedMessageType,
     )
+
     SERVICES_AVAILABLE = True
 except ImportError:
     SERVICES_AVAILABLE = False
@@ -51,7 +52,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
     @pytest.mark.unit
@@ -67,9 +68,9 @@ class TestConsolidatedCoordinationServiceUnit:
         assert service_custom.name == "custom-coordinator"
 
         # Test initialization attributes
-        assert hasattr(self.service, 'coordination_rules')
-        assert hasattr(self.service, 'routing_table')
-        assert hasattr(self.service, 'command_history')
+        assert hasattr(self.service, "coordination_rules")
+        assert hasattr(self.service, "routing_table")
+        assert hasattr(self.service, "command_history")
         assert self.service.command_count == 0
 
     @pytest.mark.unit
@@ -127,7 +128,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="Agent-1",
             message_type=UnifiedMessageType.COORDINATION,
             priority=UnifiedMessagePriority.URGENT,
-            sender_type=SenderType.CAPTAIN
+            sender_type=SenderType.CAPTAIN,
         )
 
         strategy = self.service.determine_coordination_strategy(urgent_message)
@@ -154,7 +155,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="all",
             message_type=UnifiedMessageType.BROADCAST,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.SYSTEM
+            sender_type=SenderType.SYSTEM,
         )
 
         strategy = self.service.determine_coordination_strategy(broadcast_message)
@@ -172,7 +173,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="Agent-1",
             message_type=UnifiedMessageType.SYSTEM_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.SYSTEM
+            sender_type=SenderType.SYSTEM,
         )
 
         strategy = self.service.determine_coordination_strategy(system_message)
@@ -198,7 +199,9 @@ class TestConsolidatedCoordinationServiceUnit:
         if not SERVICES_AVAILABLE:
             pytest.skip("Services not available")
 
-        with patch.object(self.service, 'determine_coordination_strategy', return_value='coordination_priority'):
+        with patch.object(
+            self.service, "determine_coordination_strategy", return_value="coordination_priority"
+        ):
             result = self.service.process_message(self.sample_message)
 
             assert result["strategy"] == "coordination_priority"
@@ -238,7 +241,7 @@ class TestConsolidatedCoordinationServiceUnit:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
             for i in range(3)
         ]
@@ -280,15 +283,21 @@ class TestConsolidatedCoordinationServiceUnit:
             pytest.skip("Services not available")
 
         # Update a priority routing rule
-        original_urgent = self.service.coordination_rules["priority_routing"][UnifiedMessagePriority.URGENT]
+        original_urgent = self.service.coordination_rules["priority_routing"][
+            UnifiedMessagePriority.URGENT
+        ]
 
-        self.service.update_coordination_rule("priority_routing", UnifiedMessagePriority.URGENT, "updated_urgent")
+        self.service.update_coordination_rule(
+            "priority_routing", UnifiedMessagePriority.URGENT, "updated_urgent"
+        )
 
         updated_rules = self.service.get_coordination_rules()
         assert updated_rules["priority_routing"][UnifiedMessagePriority.URGENT] == "updated_urgent"
 
         # Restore original
-        self.service.update_coordination_rule("priority_routing", UnifiedMessagePriority.URGENT, original_urgent)
+        self.service.update_coordination_rule(
+            "priority_routing", UnifiedMessagePriority.URGENT, original_urgent
+        )
 
     @pytest.mark.unit
     def test_message_validation_valid(self):
@@ -312,7 +321,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
         result = self.service.validate_message(invalid_message)
@@ -333,7 +342,7 @@ class TestConsolidatedCoordinationServiceUnit:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
             for i in range(5)
         ]
@@ -397,7 +406,7 @@ class TestConsolidatedCoordinationServiceUnit:
             UnifiedMessagePriority.URGENT,
             UnifiedMessagePriority.HIGH,
             UnifiedMessagePriority.NORMAL,
-            UnifiedMessagePriority.LOW
+            UnifiedMessagePriority.LOW,
         ]
 
         for priority in priorities:
@@ -407,7 +416,7 @@ class TestConsolidatedCoordinationServiceUnit:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=priority,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
 
             result = self.service.process_message(message)
@@ -424,7 +433,7 @@ class TestConsolidatedCoordinationServiceUnit:
             UnifiedMessageType.AGENT_TO_AGENT,
             UnifiedMessageType.COORDINATION,
             UnifiedMessageType.BROADCAST,
-            UnifiedMessageType.SYSTEM_TO_AGENT
+            UnifiedMessageType.SYSTEM_TO_AGENT,
         ]
 
         for msg_type in message_types:
@@ -434,7 +443,7 @@ class TestConsolidatedCoordinationServiceUnit:
                 recipient="Agent-2",
                 message_type=msg_type,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
 
             result = self.service.process_message(message)
@@ -447,11 +456,7 @@ class TestConsolidatedCoordinationServiceUnit:
         if not SERVICES_AVAILABLE:
             pytest.skip("Services not available")
 
-        sender_types = [
-            SenderType.AGENT,
-            SenderType.CAPTAIN,
-            SenderType.SYSTEM
-        ]
+        sender_types = [SenderType.AGENT, SenderType.CAPTAIN, SenderType.SYSTEM]
 
         for sender_type in sender_types:
             message = UnifiedMessage(
@@ -460,7 +465,7 @@ class TestConsolidatedCoordinationServiceUnit:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=sender_type
+                sender_type=sender_type,
             )
 
             result = self.service.process_message(message)
@@ -473,7 +478,11 @@ class TestConsolidatedCoordinationServiceUnit:
         if not SERVICES_AVAILABLE:
             pytest.skip("Services not available")
 
-        with patch.object(self.service, 'determine_coordination_strategy', side_effect=Exception("Processing error")):
+        with patch.object(
+            self.service,
+            "determine_coordination_strategy",
+            side_effect=Exception("Processing error"),
+        ):
             result = self.service.process_message(self.sample_message)
 
             assert result["status"] == "failed"
@@ -524,7 +533,7 @@ class TestConsolidatedCoordinationServiceUnit:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
             self.service.process_message(message)
         end_time = time.time()
@@ -545,7 +554,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
         result = self.service.process_message(empty_message)
@@ -564,7 +573,7 @@ class TestConsolidatedCoordinationServiceUnit:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
         result = self.service.process_message(long_message)
@@ -573,11 +582,13 @@ class TestConsolidatedCoordinationServiceUnit:
 
 
 if __name__ == "__main__":
-    pytest.main([
-        __file__,
-        "-v",
-        "--cov=src/services/consolidated_coordination_service",
-        "--cov-report=html",
-        "--cov-report=term-missing",
-        "--tb=short"
-    ])
+    pytest.main(
+        [
+            __file__,
+            "-v",
+            "--cov=src/services/consolidated_coordination_service",
+            "--cov-report=html",
+            "--cov-report=term-missing",
+            "--tb=short",
+        ]
+    )

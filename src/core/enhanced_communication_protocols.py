@@ -33,24 +33,30 @@ logger = logging.getLogger(__name__)
 
 # ==================== Enhanced Protocol Configuration ====================
 
+
 class CommunicationPriority(Enum):
     """Enhanced priority levels with SLA requirements."""
-    CRITICAL = "critical"    # SLA: < 30 seconds, guaranteed delivery
-    URGENT = "urgent"        # SLA: < 2 minutes, guaranteed delivery
-    HIGH = "high"           # SLA: < 5 minutes, guaranteed delivery
-    NORMAL = "normal"       # SLA: < 15 minutes, best effort
-    LOW = "low"            # SLA: < 60 minutes, best effort
+
+    CRITICAL = "critical"  # SLA: < 30 seconds, guaranteed delivery
+    URGENT = "urgent"  # SLA: < 2 minutes, guaranteed delivery
+    HIGH = "high"  # SLA: < 5 minutes, guaranteed delivery
+    NORMAL = "normal"  # SLA: < 15 minutes, best effort
+    LOW = "low"  # SLA: < 60 minutes, best effort
+
 
 class DeliveryChannel(Enum):
     """Available delivery channels."""
+
     PYAUTOGUI = "pyautogui"
     INBOX = "inbox"
     BROADCAST = "broadcast"
     DIRECT_API = "direct_api"
 
+
 @dataclass
 class ProtocolMetrics:
     """Communication protocol performance metrics."""
+
     total_messages_sent: int = 0
     total_messages_delivered: int = 0
     total_messages_failed: int = 0
@@ -65,9 +71,11 @@ class ProtocolMetrics:
             self.success_rate = (self.total_messages_delivered / total) * 100
         self.last_updated = datetime.now()
 
+
 @dataclass
 class AgentHealthStatus:
     """Agent health monitoring status."""
+
     agent_id: str
     is_online: bool = True
     last_seen: datetime = field(default_factory=datetime.now)
@@ -102,6 +110,7 @@ class AgentHealthStatus:
         self.consecutive_failures = 0
         logger.info(f"✅ Circuit breaker reset for {self.agent_id}")
 
+
 class EnhancedCommunicationProtocols:
     """Enhanced communication protocols with advanced features."""
 
@@ -126,8 +135,16 @@ class EnhancedCommunicationProtocols:
 
     def _initialize_agent_health(self):
         """Initialize health status for all agents."""
-        agents = ["Agent-1", "Agent-2", "Agent-3", "Agent-4",
-                 "Agent-5", "Agent-6", "Agent-7", "Agent-8"]
+        agents = [
+            "Agent-1",
+            "Agent-2",
+            "Agent-3",
+            "Agent-4",
+            "Agent-5",
+            "Agent-6",
+            "Agent-7",
+            "Agent-8",
+        ]
 
         for agent_id in agents:
             self.agent_health[agent_id] = AgentHealthStatus(agent_id)
@@ -136,9 +153,7 @@ class EnhancedCommunicationProtocols:
         """Start background delivery worker threads."""
         for i in range(3):  # 3 worker threads
             worker = threading.Thread(
-                target=self._delivery_worker,
-                name=f"DeliveryWorker-{i+1}",
-                daemon=True
+                target=self._delivery_worker, name=f"DeliveryWorker-{i + 1}", daemon=True
             )
             worker.start()
             self.delivery_workers.append(worker)
@@ -209,8 +224,9 @@ class EnhancedCommunicationProtocols:
 
         return health.is_online
 
-    def _attempt_delivery_with_fallback(self, recipient: str, content: str,
-                                      priority: CommunicationPriority) -> bool:
+    def _attempt_delivery_with_fallback(
+        self, recipient: str, content: str, priority: CommunicationPriority
+    ) -> bool:
         """Attempt delivery using multiple channels with fallback."""
         channels = self._get_delivery_channels(priority)
 
@@ -262,12 +278,13 @@ class EnhancedCommunicationProtocols:
 
             # Create unified message for formatting
             from .messaging_core import UnifiedMessage, UnifiedMessagePriority, UnifiedMessageType
+
             message = UnifiedMessage(
                 content=content,
                 sender="Agent-6",
                 recipient=recipient,
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.REGULAR
+                priority=UnifiedMessagePriority.REGULAR,
             )
 
             return deliver_message_pyautogui(message, coords)
@@ -288,7 +305,7 @@ class EnhancedCommunicationProtocols:
                 sender="Agent-6",
                 recipient=recipient,
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.REGULAR
+                priority=UnifiedMessagePriority.REGULAR,
             )
 
             inbox_dir = Path("agent_workspaces") / recipient / "inbox"
@@ -327,9 +344,13 @@ class EnhancedCommunicationProtocols:
 
     # ==================== Public API ====================
 
-    def send_message(self, recipient: str, content: str,
-                    priority: CommunicationPriority = CommunicationPriority.NORMAL,
-                    callback: Callable[[bool, str | None], None] | None = None) -> bool:
+    def send_message(
+        self,
+        recipient: str,
+        content: str,
+        priority: CommunicationPriority = CommunicationPriority.NORMAL,
+        callback: Callable[[bool, str | None], None] | None = None,
+    ) -> bool:
         """Send message with enhanced protocols."""
         if not self._is_agent_healthy(recipient):
             logger.warning(f"⚠️ Cannot send to unhealthy agent: {recipient}")
@@ -340,14 +361,15 @@ class EnhancedCommunicationProtocols:
             "content": content,
             "priority": priority,
             "callback": callback,
-            "timestamp": datetime.now()
+            "timestamp": datetime.now(),
         }
 
         self.message_queue.put(message_data)
         return True
 
-    def broadcast_message(self, content: str,
-                         priority: CommunicationPriority = CommunicationPriority.NORMAL) -> dict[str, bool]:
+    def broadcast_message(
+        self, content: str, priority: CommunicationPriority = CommunicationPriority.NORMAL
+    ) -> dict[str, bool]:
         """Broadcast message to all agents."""
         results = {}
         for agent_id in self.agent_health.keys():
@@ -363,21 +385,21 @@ class EnhancedCommunicationProtocols:
                 "total_delivered": self.metrics.total_messages_delivered,
                 "total_failed": self.metrics.total_messages_failed,
                 "success_rate": f"{self.metrics.success_rate:.1f}%",
-                "avg_delivery_time": f"{self.metrics.average_delivery_time:.2f}s"
+                "avg_delivery_time": f"{self.metrics.average_delivery_time:.2f}s",
             },
             "agent_health": {
                 agent_id: {
                     "online": health.is_online,
                     "last_seen": health.last_seen.isoformat(),
                     "failures": health.consecutive_failures,
-                    "circuit_breaker": health.circuit_breaker_tripped
+                    "circuit_breaker": health.circuit_breaker_tripped,
                 }
                 for agent_id, health in self.agent_health.items()
             },
             "queue_status": {
                 "pending_messages": self.message_queue.qsize(),
-                "retry_queue": self.retry_queue.qsize()
-            }
+                "retry_queue": self.retry_queue.qsize(),
+            },
         }
 
     def reset_agent_health(self, agent_id: str):
@@ -404,6 +426,7 @@ class EnhancedCommunicationProtocols:
 
 _enhanced_protocols: EnhancedCommunicationProtocols | None = None
 
+
 def get_enhanced_protocols() -> EnhancedCommunicationProtocols:
     """Get global enhanced protocols instance."""
     global _enhanced_protocols
@@ -411,23 +434,31 @@ def get_enhanced_protocols() -> EnhancedCommunicationProtocols:
         _enhanced_protocols = EnhancedCommunicationProtocols()
     return _enhanced_protocols
 
+
 # ==================== Convenience Functions ====================
 
-def send_enhanced_message(recipient: str, content: str,
-                         priority: CommunicationPriority = CommunicationPriority.NORMAL) -> bool:
+
+def send_enhanced_message(
+    recipient: str, content: str, priority: CommunicationPriority = CommunicationPriority.NORMAL
+) -> bool:
     """Convenience function for sending enhanced messages."""
     return get_enhanced_protocols().send_message(recipient, content, priority)
 
-def broadcast_enhanced_message(content: str,
-                              priority: CommunicationPriority = CommunicationPriority.NORMAL) -> dict[str, bool]:
+
+def broadcast_enhanced_message(
+    content: str, priority: CommunicationPriority = CommunicationPriority.NORMAL
+) -> dict[str, bool]:
     """Convenience function for broadcasting enhanced messages."""
     return get_enhanced_protocols().broadcast_message(content, priority)
+
 
 def get_protocol_health() -> dict[str, Any]:
     """Get protocol health status."""
     return get_enhanced_protocols().get_protocol_status()
 
+
 # ==================== Initialization ====================
+
 
 def initialize_enhanced_protocols() -> None:
     """Initialize enhanced communication protocols."""
@@ -439,6 +470,7 @@ def initialize_enhanced_protocols() -> None:
     status = protocols.get_protocol_status()
     logger.info(f"✅ Enhanced protocols initialized with {len(protocols.agent_health)} agents")
     logger.info(f"📊 Initial success rate: {status['metrics']['success_rate']}")
+
 
 try:
     initialize_enhanced_protocols()
@@ -455,5 +487,5 @@ __all__ = [
     "send_enhanced_message",
     "broadcast_enhanced_message",
     "get_protocol_health",
-    "initialize_enhanced_protocols"
+    "initialize_enhanced_protocols",
 ]

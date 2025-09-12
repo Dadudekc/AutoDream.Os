@@ -1,6 +1,7 @@
 """
 Core Trading Engine for Alpaca Trading Robot
 """
+
 import asyncio
 
 import alpaca_trade_api as tradeapi
@@ -29,7 +30,7 @@ class TradingEngine:
                 key_id=config.alpaca_api_key,
                 secret_key=config.alpaca_secret_key,
                 base_url=config.alpaca_base_url,
-                api_version='v2'
+                api_version="v2",
             )
 
             # Test connection
@@ -62,7 +63,9 @@ class TradingEngine:
         """Update account information"""
         try:
             self.account = self.api.get_account()
-            logger.info(f"💰 Account: {self.account.cash} cash, {self.account.portfolio_value} portfolio value")
+            logger.info(
+                f"💰 Account: {self.account.cash} cash, {self.account.portfolio_value} portfolio value"
+            )
 
         except Exception as e:
             logger.error(f"❌ Failed to get account info: {e}")
@@ -126,7 +129,9 @@ class TradingEngine:
                 self.positions = {pos.symbol: pos for pos in positions}
 
                 if positions:
-                    logger.debug(f"📊 Current positions: {[f'{p.symbol}:{p.qty}' for p in positions]}")
+                    logger.debug(
+                        f"📊 Current positions: {[f'{p.symbol}:{p.qty}' for p in positions]}"
+                    )
 
                 await asyncio.sleep(30)  # Update every 30 seconds
 
@@ -138,27 +143,34 @@ class TradingEngine:
         """Get market data for a symbol"""
         try:
             bars = self.api.get_bars(
-                symbol=symbol,
-                timeframe=timeframe,
-                limit=limit,
-                adjustment='raw'
+                symbol=symbol, timeframe=timeframe, limit=limit, adjustment="raw"
             )
 
-            return [{
-                'timestamp': bar.t,
-                'open': bar.o,
-                'high': bar.h,
-                'low': bar.l,
-                'close': bar.c,
-                'volume': bar.v
-            } for bar in bars]
+            return [
+                {
+                    "timestamp": bar.t,
+                    "open": bar.o,
+                    "high": bar.h,
+                    "low": bar.l,
+                    "close": bar.c,
+                    "volume": bar.v,
+                }
+                for bar in bars
+            ]
 
         except Exception as e:
             logger.error(f"❌ Error getting market data for {symbol}: {e}")
             return []
 
-    async def place_order(self, symbol: str, qty: int, side: str, order_type: str = "market",
-                         time_in_force: str = "gtc", limit_price: float | None = None):
+    async def place_order(
+        self,
+        symbol: str,
+        qty: int,
+        side: str,
+        order_type: str = "market",
+        time_in_force: str = "gtc",
+        limit_price: float | None = None,
+    ):
         """Place a trading order"""
         try:
             if not self.market_open and order_type != "limit":
@@ -172,7 +184,7 @@ class TradingEngine:
                 side=side,
                 type=order_type,
                 time_in_force=time_in_force,
-                limit_price=limit_price
+                limit_price=limit_price,
             )
 
             self.orders[order.id] = order
@@ -189,7 +201,7 @@ class TradingEngine:
         try:
             bars = await self.get_market_data(symbol, limit=1)
             if bars:
-                return bars[0]['close']
+                return bars[0]["close"]
             return 0.0
         except Exception as e:
             logger.error(f"❌ Error getting current price for {symbol}: {e}")

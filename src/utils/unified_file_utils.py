@@ -351,7 +351,7 @@ class BackupManager:
         backups = sorted(
             [p for p in self.dest.iterdir() if p.is_dir()],
             key=lambda p: p.stat().st_mtime,
-            reverse=True
+            reverse=True,
         )
 
         if len(backups) <= keep_count:
@@ -371,6 +371,7 @@ class BackupManager:
 @dataclass
 class FileValidationResult:
     """Result of file validation."""
+
     path: str
     exists: bool
     is_file: bool
@@ -397,7 +398,7 @@ class FileValidator:
             writable=False,
             size_bytes=0,
             modified_time=None,
-            errors=[]
+            errors=[],
         )
 
         try:
@@ -427,8 +428,13 @@ class UnifiedFileScanner:
     def _get_default_skip_patterns(self) -> set[str]:
         """Get default patterns for files that should be skipped."""
         return {
-            '__pycache__', '.git', 'venv', 'env', 'node_modules',
-            '*.pyc', 'unified_file_utils.py'
+            "__pycache__",
+            ".git",
+            "venv",
+            "env",
+            "node_modules",
+            "*.pyc",
+            "unified_file_utils.py",
         }
 
     def should_skip_file(self, file_path: Path) -> bool:
@@ -447,50 +453,50 @@ class UnifiedFileScanner:
     def get_directory_stats(self, root_dir: Path) -> dict[str, Any]:
         """Get comprehensive directory statistics."""
         stats = {
-            'total_files': 0,
-            'total_directories': 0,
-            'total_size': 0,
-            'file_types': {},
-            'largest_files': [],
-            'recently_modified': []
+            "total_files": 0,
+            "total_directories": 0,
+            "total_size": 0,
+            "file_types": {},
+            "largest_files": [],
+            "recently_modified": [],
         }
 
         for item in root_dir.rglob("*"):
             if item.is_file():
-                stats['total_files'] += 1
+                stats["total_files"] += 1
                 size = item.stat().st_size
-                stats['total_size'] += size
+                stats["total_size"] += size
 
                 # Track file types
                 ext = item.suffix.lower()
-                if ext in stats['file_types']:
-                    stats['file_types'][ext] += 1
+                if ext in stats["file_types"]:
+                    stats["file_types"][ext] += 1
                 else:
-                    stats['file_types'][ext] = 1
+                    stats["file_types"][ext] = 1
 
                 # Track largest files
-                if len(stats['largest_files']) < 10:
-                    stats['largest_files'].append((str(item), size))
+                if len(stats["largest_files"]) < 10:
+                    stats["largest_files"].append((str(item), size))
                 else:
-                    stats['largest_files'].sort(key=lambda x: x[1], reverse=True)
-                    if size > stats['largest_files'][-1][1]:
-                        stats['largest_files'][-1] = (str(item), size)
+                    stats["largest_files"].sort(key=lambda x: x[1], reverse=True)
+                    if size > stats["largest_files"][-1][1]:
+                        stats["largest_files"][-1] = (str(item), size)
 
                 # Track recently modified
                 mtime = datetime.fromtimestamp(item.stat().st_mtime)
-                if len(stats['recently_modified']) < 10:
-                    stats['recently_modified'].append((str(item), mtime))
+                if len(stats["recently_modified"]) < 10:
+                    stats["recently_modified"].append((str(item), mtime))
                 else:
-                    stats['recently_modified'].sort(key=lambda x: x[1], reverse=True)
-                    if mtime > stats['recently_modified'][-1][1]:
-                        stats['recently_modified'][-1] = (str(item), mtime)
+                    stats["recently_modified"].sort(key=lambda x: x[1], reverse=True)
+                    if mtime > stats["recently_modified"][-1][1]:
+                        stats["recently_modified"][-1] = (str(item), mtime)
 
             elif item.is_dir():
-                stats['total_directories'] += 1
+                stats["total_directories"] += 1
 
         # Sort the lists
-        stats['largest_files'].sort(key=lambda x: x[1], reverse=True)
-        stats['recently_modified'].sort(key=lambda x: x[1], reverse=True)
+        stats["largest_files"].sort(key=lambda x: x[1], reverse=True)
+        stats["recently_modified"].sort(key=lambda x: x[1], reverse=True)
 
         return stats
 
@@ -548,7 +554,7 @@ def create_backup_manager(root: str, dest: str) -> BackupManager:
     return BackupManager(root, dest)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Example usage
     utils = UnifiedFileUtils()
 

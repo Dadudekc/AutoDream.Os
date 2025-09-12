@@ -23,15 +23,14 @@ except ImportError:
 import yaml
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class CycleConfig:
     """Configuration for agent cycle"""
+
     cycle_duration: str = "24_hours"
     validation_enabled: bool = True
     duplication_scan_enabled: bool = True
@@ -40,9 +39,11 @@ class CycleConfig:
     auto_commit: bool = True
     discord_integration: bool = True
 
+
 @dataclass
 class CycleResult:
     """Result of cycle execution"""
+
     agent_id: str
     cycle_number: int
     start_time: datetime
@@ -55,6 +56,7 @@ class CycleResult:
     v2_compliance: bool
     issues_found: list[str]
     recommendations: list[str]
+
 
 class AgentCycleAutomation:
     """Unified cycle automation for swarm agents"""
@@ -122,7 +124,7 @@ class AgentCycleAutomation:
                 quality_score=validation_results.get("quality_score", 0),
                 v2_compliance=validation_results.get("v2_compliance", False),
                 issues_found=validation_results.get("issues", []),
-                recommendations=validation_results.get("recommendations", [])
+                recommendations=validation_results.get("recommendations", []),
             )
 
             logger.info(f"Cycle completed successfully for {self.agent_id}")
@@ -144,7 +146,7 @@ class AgentCycleAutomation:
                 quality_score=0,
                 v2_compliance=False,
                 issues_found=[str(e)],
-                recommendations=["Review error logs and retry cycle"]
+                recommendations=["Review error logs and retry cycle"],
             )
 
     def _get_next_cycle_number(self) -> int:
@@ -163,11 +165,7 @@ class AgentCycleAutomation:
         logger.info("Performing pre-cycle validation...")
 
         # Check required files exist
-        required_files = [
-            self.schema_file,
-            self.contract_file,
-            self.devlog_template
-        ]
+        required_files = [self.schema_file, self.contract_file, self.devlog_template]
 
         for file_path in required_files:
             if not file_path.exists():
@@ -214,7 +212,7 @@ class AgentCycleAutomation:
             "cycle_info": {
                 "cycle_number": 0,
                 "start_time": None,
-                "duration": self.config.cycle_duration
+                "duration": self.config.cycle_duration,
             },
             "performance_metrics": {
                 "tasks_completed": 0,
@@ -222,8 +220,8 @@ class AgentCycleAutomation:
                 "coordination_score": 0,
                 "quality_score": 0,
                 "v2_compliance": False,
-                "file_size_compliance": True
-            }
+                "file_size_compliance": True,
+            },
         }
 
     def _execute_cycle_tasks(self, current_status: dict[str, Any]) -> dict[str, Any]:
@@ -236,7 +234,7 @@ class AgentCycleAutomation:
             "coordination_score": 0,
             "code_changes": [],
             "files_modified": [],
-            "new_files_created": []
+            "new_files_created": [],
         }
 
         # Task 1: Check inbox
@@ -283,17 +281,17 @@ class AgentCycleAutomation:
     def _parse_and_respond_to_message(self, content: str, message_file: Path) -> None:
         """Parse message and generate response"""
         # Extract sender and priority
-        lines = content.split('\n')
+        lines = content.split("\n")
         sender = None
         priority = "REGULAR"
 
         for line in lines:
-            if line.startswith('[C2A]'):
-                parts = line.split(' → ')
+            if line.startswith("[C2A]"):
+                parts = line.split(" → ")
                 if len(parts) > 1:
-                    sender = parts[0].replace('[C2A] ', '')
-            elif line.startswith('Priority:'):
-                priority = line.split(':')[1].strip()
+                    sender = parts[0].replace("[C2A] ", "")
+            elif line.startswith("Priority:"):
+                priority = line.split(":")[1].strip()
 
         # Generate acknowledgment
         if sender:
@@ -304,11 +302,16 @@ class AgentCycleAutomation:
         try:
             # Use messaging service to send acknowledgment
             cmd = [
-                "python", "src/services/consolidated_messaging_service.py",
-                "--agent", self.agent_id,
-                "--message", f"ACK: Received — processing now ({self.agent_id})",
-                "--priority", priority,
-                "--tag", "STATUS"
+                "python",
+                "src/services/consolidated_messaging_service.py",
+                "--agent",
+                self.agent_id,
+                "--message",
+                f"ACK: Received — processing now ({self.agent_id})",
+                "--priority",
+                priority,
+                "--tag",
+                "STATUS",
             ]
 
             subprocess.run(cmd, capture_output=True, text=True)
@@ -344,7 +347,7 @@ class AgentCycleAutomation:
             "v2_compliance": False,
             "file_size_compliance": True,
             "issues": [],
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Validate status against schema
@@ -396,19 +399,13 @@ class AgentCycleAutomation:
                 # Parse scan results
                 return {
                     "duplication_scan_passed": True,
-                    "duplications_found": 0  # Would parse from output
+                    "duplications_found": 0,  # Would parse from output
                 }
             else:
-                return {
-                    "duplication_scan_passed": False,
-                    "issues": ["Duplication scan failed"]
-                }
+                return {"duplication_scan_passed": False, "issues": ["Duplication scan failed"]}
 
         except Exception as e:
-            return {
-                "duplication_scan_passed": False,
-                "issues": [f"Duplication scan error: {e}"]
-            }
+            return {"duplication_scan_passed": False, "issues": [f"Duplication scan error: {e}"]}
 
     def _check_v2_compliance(self) -> bool:
         """Check V2 compliance"""
@@ -431,7 +428,9 @@ class AgentCycleAutomation:
 
         return max(0, score)
 
-    def _generate_devlog(self, cycle_tasks: dict[str, Any], validation_results: dict[str, Any]) -> None:
+    def _generate_devlog(
+        self, cycle_tasks: dict[str, Any], validation_results: dict[str, Any]
+    ) -> None:
         """Generate devlog using template"""
         logger.info("Generating devlog...")
 
@@ -449,7 +448,7 @@ class AgentCycleAutomation:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         devlog_file = devlog_dir / f"{self.agent_id}_cycle_{timestamp}.md"
 
-        with open(devlog_file, 'w') as f:
+        with open(devlog_file, "w") as f:
             f.write(devlog_content)
 
         logger.info(f"Devlog saved to {devlog_file}")
@@ -458,7 +457,9 @@ class AgentCycleAutomation:
         if self.config.discord_integration:
             self._post_devlog_to_discord(devlog_file)
 
-    def _fill_devlog_template(self, template: str, cycle_tasks: dict[str, Any], validation_results: dict[str, Any]) -> str:
+    def _fill_devlog_template(
+        self, template: str, cycle_tasks: dict[str, Any], validation_results: dict[str, Any]
+    ) -> str:
         """Fill devlog template with cycle data"""
         # This would fill the template with actual data
         # For now, return a simplified version
@@ -473,7 +474,12 @@ class AgentCycleAutomation:
         except Exception as e:
             logger.warning(f"Error posting devlog to Discord: {e}")
 
-    def _update_status(self, current_status: dict[str, Any], cycle_tasks: dict[str, Any], validation_results: dict[str, Any]) -> dict[str, Any]:
+    def _update_status(
+        self,
+        current_status: dict[str, Any],
+        cycle_tasks: dict[str, Any],
+        validation_results: dict[str, Any],
+    ) -> dict[str, Any]:
         """Update agent status"""
         new_status = current_status.copy()
 
@@ -481,7 +487,7 @@ class AgentCycleAutomation:
         new_status["cycle_info"] = {
             "cycle_number": self._get_next_cycle_number(),
             "start_time": datetime.now().isoformat(),
-            "duration": self.config.cycle_duration
+            "duration": self.config.cycle_duration,
         }
 
         # Update performance metrics
@@ -491,7 +497,7 @@ class AgentCycleAutomation:
             "coordination_score": cycle_tasks.get("coordination_score", 0),
             "quality_score": validation_results.get("quality_score", 0),
             "v2_compliance": validation_results.get("v2_compliance", False),
-            "file_size_compliance": validation_results.get("file_size_compliance", True)
+            "file_size_compliance": validation_results.get("file_size_compliance", True),
         }
 
         # Update last updated timestamp
@@ -499,7 +505,7 @@ class AgentCycleAutomation:
         new_status["version"] = "3.1"
 
         # Save status
-        with open(self.status_file, 'w') as f:
+        with open(self.status_file, "w") as f:
             json.dump(new_status, f, indent=2)
 
         logger.info("Status updated successfully")
@@ -525,9 +531,11 @@ class AgentCycleAutomation:
         try:
             # Broadcast status update
             cmd = [
-                "python", "src/services/consolidated_messaging_service.py",
+                "python",
+                "src/services/consolidated_messaging_service.py",
                 "--broadcast",
-                "--message", f"Cycle {status['cycle_info']['cycle_number']} completed by {self.agent_id}"
+                "--message",
+                f"Cycle {status['cycle_info']['cycle_number']} completed by {self.agent_id}",
             ]
 
             subprocess.run(cmd, capture_output=True, text=True)
@@ -535,6 +543,7 @@ class AgentCycleAutomation:
 
         except Exception as e:
             logger.warning(f"Error coordinating with swarm: {e}")
+
 
 def main():
     """Main entry point for agent cycle automation"""
@@ -581,6 +590,7 @@ def main():
         print("\n💡 RECOMMENDATIONS:")
         for rec in result.recommendations:
             print(f"   • {rec}")
+
 
 if __name__ == "__main__":
     main()

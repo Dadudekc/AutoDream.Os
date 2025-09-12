@@ -4,6 +4,6 @@
 from . import analytics_coordinator, processing_coordinator
 
 __all__ = [
-    'analytics_coordinator',
-    'processing_coordinator',
+    "analytics_coordinator",
+    "processing_coordinator",
 ]

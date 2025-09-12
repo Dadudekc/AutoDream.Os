@@ -5,7 +5,7 @@ from . import commandresult, swarmstatus
 from . import coordinate_agent_registry as agent_registry
 
 __all__ = [
-    'agent_registry',
-    'commandresult',
-    'swarmstatus',
+    "agent_registry",
+    "commandresult",
+    "swarmstatus",
 ]

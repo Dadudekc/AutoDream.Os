@@ -30,8 +30,10 @@ from typing import Any
 # VALIDATION TYPES
 # ============================================================================
 
+
 class ValidationType(Enum):
     """Validation type enumeration."""
+
     REQUIRED = "required"
     TYPE = "type"
     RANGE = "range"
@@ -41,6 +43,7 @@ class ValidationType(Enum):
 
 class ValidationLevel(Enum):
     """Validation level enumeration."""
+
     BASIC = "basic"
     STANDARD = "standard"
     STRICT = "strict"
@@ -49,6 +52,7 @@ class ValidationLevel(Enum):
 @dataclass
 class ValidationResult:
     """Validation result structure."""
+
     is_valid: bool
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
@@ -69,7 +73,7 @@ class ValidationResult:
             "is_valid": self.is_valid,
             "errors": self.errors,
             "warnings": self.warnings,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -77,9 +81,11 @@ class ValidationResult:
 # VALIDATION RULES
 # ============================================================================
 
+
 @dataclass
 class ValidationRule:
     """Validation rule structure."""
+
     name: str
     validation_type: ValidationType
     required: bool = False
@@ -139,6 +145,7 @@ class ValidationRule:
 # VALIDATION SCHEMAS
 # ============================================================================
 
+
 class ValidationSchema:
     """Validation schema for structured data."""
 
@@ -179,14 +186,17 @@ class ValidationSchema:
             "name": self.name,
             "field_count": len(self.rules),
             "required_fields": [name for name, rule in self.rules.items() if rule.required],
-            "field_types": {name: rule.data_type.__name__ if rule.data_type else "any"
-                          for name, rule in self.rules.items()}
+            "field_types": {
+                name: rule.data_type.__name__ if rule.data_type else "any"
+                for name, rule in self.rules.items()
+            },
         }
 
 
 # ============================================================================
 # VALIDATION VALIDATORS
 # ============================================================================
+
 
 class BaseValidator(ABC):
     """Base validator interface."""
@@ -202,10 +212,7 @@ class BaseValidator(ABC):
 
     def get_validator_info(self) -> dict[str, Any]:
         """Get validator information."""
-        return {
-            "name": self.name,
-            "type": self.__class__.__name__
-        }
+        return {"name": self.name, "type": self.__class__.__name__}
 
 
 class TypeValidator(BaseValidator):
@@ -220,7 +227,9 @@ class TypeValidator(BaseValidator):
         result = ValidationResult(is_valid=True)
 
         if not isinstance(data, self.expected_type):
-            result.add_error(f"Expected type {self.expected_type.__name__}, got {type(data).__name__}")
+            result.add_error(
+                f"Expected type {self.expected_type.__name__}, got {type(data).__name__}"
+            )
 
         return result
 
@@ -228,7 +237,9 @@ class TypeValidator(BaseValidator):
 class RangeValidator(BaseValidator):
     """Range validator."""
 
-    def __init__(self, min_value: float = None, max_value: float = None, name: str = "RangeValidator"):
+    def __init__(
+        self, min_value: float = None, max_value: float = None, name: str = "RangeValidator"
+    ):
         super().__init__(name)
         self.min_value = min_value
         self.max_value = max_value
@@ -296,6 +307,7 @@ class CustomValidator(BaseValidator):
 # VALIDATION ORCHESTRATOR
 # ============================================================================
 
+
 class ValidationOrchestrator:
     """Orchestrates validation operations."""
 
@@ -326,7 +338,9 @@ class ValidationOrchestrator:
             self.logger.error(f"Failed to register schema {name}: {e}")
             return False
 
-    def validate(self, data: Any, validator_name: str = None, schema_name: str = None) -> ValidationResult:
+    def validate(
+        self, data: Any, validator_name: str = None, schema_name: str = None
+    ) -> ValidationResult:
         """Validate data using specified validator or schema."""
         result = ValidationResult(is_valid=True)
 
@@ -346,14 +360,16 @@ class ValidationOrchestrator:
             result = self._default_validation(data)
 
         # Record validation history
-        self.validation_history.append({
-            "timestamp": datetime.now(),
-            "validator": validator_name,
-            "schema": schema_name,
-            "is_valid": result.is_valid,
-            "error_count": len(result.errors),
-            "warning_count": len(result.warnings)
-        })
+        self.validation_history.append(
+            {
+                "timestamp": datetime.now(),
+                "validator": validator_name,
+                "schema": schema_name,
+                "is_valid": result.is_valid,
+                "error_count": len(result.errors),
+                "warning_count": len(result.warnings),
+            }
+        )
 
         return result
 
@@ -400,10 +416,12 @@ class ValidationOrchestrator:
         return {
             "total_validations": total_validations,
             "successful_validations": successful_validations,
-            "success_rate": successful_validations / total_validations if total_validations > 0 else 0,
+            "success_rate": (
+                successful_validations / total_validations if total_validations > 0 else 0
+            ),
             "registered_validators": len(self.validators),
             "registered_schemas": len(self.schemas),
-            "validation_level": self.validation_level.value
+            "validation_level": self.validation_level.value,
         }
 
     def clear_history(self) -> None:
@@ -416,6 +434,7 @@ class ValidationOrchestrator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_validation_rule(
     name: str,
     validation_type: ValidationType,
@@ -424,7 +443,7 @@ def create_validation_rule(
     min_value: float = None,
     max_value: float = None,
     pattern: str = None,
-    custom_validator: callable = None
+    custom_validator: callable = None,
 ) -> ValidationRule:
     """Create a validation rule."""
     return ValidationRule(
@@ -435,7 +454,7 @@ def create_validation_rule(
         min_value=min_value,
         max_value=max_value,
         pattern=pattern,
-        custom_validator=custom_validator
+        custom_validator=custom_validator,
     )
 
 
@@ -449,7 +468,9 @@ def create_type_validator(expected_type: type, name: str = "TypeValidator") -> T
     return TypeValidator(expected_type, name)
 
 
-def create_range_validator(min_value: float = None, max_value: float = None, name: str = "RangeValidator") -> RangeValidator:
+def create_range_validator(
+    min_value: float = None, max_value: float = None, name: str = "RangeValidator"
+) -> RangeValidator:
     """Create a range validator."""
     return RangeValidator(min_value, max_value, name)
 
@@ -459,12 +480,16 @@ def create_format_validator(pattern: str, name: str = "FormatValidator") -> Form
     return FormatValidator(pattern, name)
 
 
-def create_custom_validator(validator_func: callable, name: str = "CustomValidator") -> CustomValidator:
+def create_custom_validator(
+    validator_func: callable, name: str = "CustomValidator"
+) -> CustomValidator:
     """Create a custom validator."""
     return CustomValidator(validator_func, name)
 
 
-def create_validation_orchestrator(validation_level: ValidationLevel = ValidationLevel.STANDARD) -> ValidationOrchestrator:
+def create_validation_orchestrator(
+    validation_level: ValidationLevel = ValidationLevel.STANDARD,
+) -> ValidationOrchestrator:
     """Create a validation orchestrator."""
     return ValidationOrchestrator(validation_level)
 
@@ -472,6 +497,7 @@ def create_validation_orchestrator(validation_level: ValidationLevel = Validatio
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -484,9 +510,20 @@ def main():
 
     # Create validation schema
     schema = create_validation_schema("test_schema")
-    schema.add_rule("name", create_validation_rule("name", ValidationType.REQUIRED, required=True, data_type=str))
-    schema.add_rule("age", create_validation_rule("age", ValidationType.RANGE, data_type=int, min_value=0, max_value=120))
-    schema.add_rule("email", create_validation_rule("email", ValidationType.FORMAT, pattern=r"^[^@]+@[^@]+\.[^@]+$"))
+    schema.add_rule(
+        "name",
+        create_validation_rule("name", ValidationType.REQUIRED, required=True, data_type=str),
+    )
+    schema.add_rule(
+        "age",
+        create_validation_rule(
+            "age", ValidationType.RANGE, data_type=int, min_value=0, max_value=120
+        ),
+    )
+    schema.add_rule(
+        "email",
+        create_validation_rule("email", ValidationType.FORMAT, pattern=r"^[^@]+@[^@]+\.[^@]+$"),
+    )
 
     orchestrator.register_schema("test_schema", schema)
     print(f"Validation schema created: {schema.get_schema_info()}")

@@ -4,7 +4,7 @@
 from . import alert_manager, metrics_collector, monitoring_thread
 
 __all__ = [
-    'alert_manager',
-    'metrics_collector',
-    'monitoring_thread',
+    "alert_manager",
+    "metrics_collector",
+    "monitoring_thread",
 ]

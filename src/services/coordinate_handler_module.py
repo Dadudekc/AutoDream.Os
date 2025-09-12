@@ -21,9 +21,9 @@ class CoordinateHandler:
 
     def process_coordinate(self, request) -> dict[str, Any]:
         """Process a coordination request"""
-        coordination_type = request.data.get('type', '')
-        participants = request.data.get('participants', [])
-        context = request.data.get('context', {})
+        coordination_type = request.data.get("type", "")
+        participants = request.data.get("participants", [])
+        context = request.data.get("context", {})
 
         if coordination_type == "task":
             return self.coordinate_task(participants, context)
@@ -36,35 +36,41 @@ class CoordinateHandler:
 
     def coordinate_task(self, participants: list[str], context: dict[str, Any]) -> dict[str, Any]:
         """Coordinate a task among participants"""
-        task_id = context.get('task_id', f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        task_id = context.get("task_id", f"task_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
 
         return {
             "task_id": task_id,
             "participants": participants,
             "coordinated_at": datetime.now().isoformat(),
-            "status": "coordinated"
+            "status": "coordinated",
         }
 
-    def coordinate_project(self, participants: list[str], context: dict[str, Any]) -> dict[str, Any]:
+    def coordinate_project(
+        self, participants: list[str], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Coordinate a project among participants"""
-        project_id = context.get('project_id', f"project_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        project_id = context.get(
+            "project_id", f"project_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
 
         return {
             "project_id": project_id,
             "participants": participants,
             "coordinated_at": datetime.now().isoformat(),
-            "status": "coordinated"
+            "status": "coordinated",
         }
 
-    def coordinate_communication(self, participants: list[str], context: dict[str, Any]) -> dict[str, Any]:
+    def coordinate_communication(
+        self, participants: list[str], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Coordinate communication among participants"""
-        message = context.get('message', '')
-        channel = context.get('channel', 'default')
+        message = context.get("message", "")
+        channel = context.get("channel", "default")
 
         return {
             "participants": participants,
             "message": message,
             "channel": channel,
             "coordinated_at": datetime.now().isoformat(),
-            "status": "coordinated"
+            "status": "coordinated",
         }

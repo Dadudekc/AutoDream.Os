@@ -17,21 +17,21 @@ from datetime import datetime
 from pathlib import Path
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class DuplicationResult:
     """Represents a duplication detection result"""
+
     file1: str
     file2: str
     similarity_score: float
     duplicate_lines: list[int]
     duplicate_content: str
     severity: str
+
 
 class DuplicationScanner:
     """Advanced duplication scanner for swarm codebase"""
@@ -43,13 +43,24 @@ class DuplicationScanner:
         self.content_hashes: dict[str, list[str]] = {}
 
         # File extensions to scan
-        self.scan_extensions = {'.py', '.js', '.ts', '.md', '.json', '.yaml', '.yml'}
+        self.scan_extensions = {".py", ".js", ".ts", ".md", ".json", ".yaml", ".yml"}
 
         # Directories to exclude
         self.exclude_dirs = {
-            '__pycache__', '.git', 'node_modules', '.venv', 'venv',
-            'htmlcov', 'coverage_reports', 'coverage_latest', 'coverage_baseline',
-            'backup', 'backups', 'archive', 'logs', 'devlogs'
+            "__pycache__",
+            ".git",
+            "node_modules",
+            ".venv",
+            "venv",
+            "htmlcov",
+            "coverage_reports",
+            "coverage_latest",
+            "coverage_baseline",
+            "backup",
+            "backups",
+            "archive",
+            "logs",
+            "devlogs",
         }
 
         # Minimum similarity threshold
@@ -100,7 +111,7 @@ class DuplicationScanner:
         """Calculate hashes for all files"""
         for file_path in files:
             try:
-                with open(file_path, encoding='utf-8', errors='ignore') as f:
+                with open(file_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
 
                 # File hash (entire content)
@@ -108,7 +119,7 @@ class DuplicationScanner:
                 self.file_hashes[str(file_path)] = file_hash
 
                 # Content hash (for similarity detection)
-                lines = content.split('\n')
+                lines = content.split("\n")
                 for i, line in enumerate(lines):
                     if len(line.strip()) > 10:  # Skip short lines
                         line_hash = hashlib.md5(line.encode()).hexdigest()
@@ -143,7 +154,7 @@ class DuplicationScanner:
                             similarity_score=1.0,
                             duplicate_lines=[],
                             duplicate_content="",
-                            severity="critical"
+                            severity="critical",
                         )
                         self.duplications.append(result)
 
@@ -159,7 +170,7 @@ class DuplicationScanner:
             if len(file_lines) > 1:
                 files = set()
                 for file_line in file_lines:
-                    file_path = file_line.split(':')[0]
+                    file_path = file_line.split(":")[0]
                     files.add(file_path)
 
                 if len(files) > 1:
@@ -177,7 +188,7 @@ class DuplicationScanner:
                                         similarity_score=similarity,
                                         duplicate_lines=[],
                                         duplicate_content="",
-                                        severity="high" if similarity > 0.9 else "medium"
+                                        severity="high" if similarity > 0.9 else "medium",
                                     )
                                     self.duplications.append(result)
 
@@ -186,11 +197,11 @@ class DuplicationScanner:
     def _calculate_similarity(self, file1: str, file2: str) -> float:
         """Calculate similarity between two files"""
         try:
-            with open(file1, encoding='utf-8', errors='ignore') as f:
-                content1 = set(f.read().split('\n'))
+            with open(file1, encoding="utf-8", errors="ignore") as f:
+                content1 = set(f.read().split("\n"))
 
-            with open(file2, encoding='utf-8', errors='ignore') as f:
-                content2 = set(f.read().split('\n'))
+            with open(file2, encoding="utf-8", errors="ignore") as f:
+                content2 = set(f.read().split("\n"))
 
             if not content1 or not content2:
                 return 0.0
@@ -210,7 +221,7 @@ class DuplicationScanner:
             "most_duplicated_files": {},
             "duplication_by_extension": {},
             "duplication_by_directory": {},
-            "severity_distribution": {"critical": 0, "high": 0, "medium": 0, "low": 0}
+            "severity_distribution": {"critical": 0, "high": 0, "medium": 0, "low": 0},
         }
 
         for dup in self.duplications:
@@ -241,7 +252,9 @@ class DuplicationScanner:
 
         return patterns
 
-    def _generate_report(self, exact_duplicates: list, similar_content: list, patterns: dict) -> dict[str, any]:
+    def _generate_report(
+        self, exact_duplicates: list, similar_content: list, patterns: dict
+    ) -> dict[str, any]:
         """Generate comprehensive duplication report"""
         report = {
             "scan_metadata": {
@@ -250,13 +263,13 @@ class DuplicationScanner:
                 "deployed_by": "Agent-5",
                 "root_path": str(self.root_path),
                 "total_files_scanned": len(self.file_hashes),
-                "total_duplications_found": len(self.duplications)
+                "total_duplications_found": len(self.duplications),
             },
             "summary": {
                 "exact_duplicates": len(exact_duplicates),
                 "similar_content": len(similar_content),
                 "total_duplications": len(self.duplications),
-                "severity_breakdown": patterns["severity_distribution"]
+                "severity_breakdown": patterns["severity_distribution"],
             },
             "duplications": [
                 {
@@ -265,12 +278,16 @@ class DuplicationScanner:
                     "similarity_score": dup.similarity_score,
                     "severity": dup.severity,
                     "duplicate_lines": dup.duplicate_lines,
-                    "duplicate_content": dup.duplicate_content[:200] + "..." if len(dup.duplicate_content) > 200 else dup.duplicate_content
+                    "duplicate_content": (
+                        dup.duplicate_content[:200] + "..."
+                        if len(dup.duplicate_content) > 200
+                        else dup.duplicate_content
+                    ),
                 }
                 for dup in self.duplications
             ],
             "patterns": patterns,
-            "recommendations": self._generate_recommendations(patterns)
+            "recommendations": self._generate_recommendations(patterns),
         }
 
         return report
@@ -281,9 +298,7 @@ class DuplicationScanner:
 
         # Most duplicated files
         most_duplicated = sorted(
-            patterns["most_duplicated_files"].items(),
-            key=lambda x: x[1],
-            reverse=True
+            patterns["most_duplicated_files"].items(), key=lambda x: x[1], reverse=True
         )[:5]
 
         if most_duplicated:
@@ -312,11 +327,13 @@ class DuplicationScanner:
         if patterns["severity_distribution"]["high"] > 5:
             recommendations.append("HIGH: Consider refactoring similar code into shared modules")
 
-        recommendations.extend([
-            "Implement code review process to prevent future duplications",
-            "Use shared libraries for common functionality",
-            "Regular duplication scans should be part of CI/CD pipeline"
-        ])
+        recommendations.extend(
+            [
+                "Implement code review process to prevent future duplications",
+                "Use shared libraries for common functionality",
+                "Regular duplication scans should be part of CI/CD pipeline",
+            ]
+        )
 
         return recommendations
 
@@ -324,16 +341,19 @@ class DuplicationScanner:
         """Save duplication report to file"""
         output_path = self.root_path / output_file
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
 
         logger.info(f"Duplication report saved to {output_path}")
+
 
 def main():
     """Main entry point for duplication scanner"""
     parser = argparse.ArgumentParser(description="Duplication Scanner v3.1")
     parser.add_argument("--path", default=".", help="Root path to scan")
-    parser.add_argument("--output", default="duplication_scan_report.json", help="Output report file")
+    parser.add_argument(
+        "--output", default="duplication_scan_report.json", help="Output report file"
+    )
     parser.add_argument("--threshold", type=float, default=0.8, help="Similarity threshold")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
 
@@ -361,10 +381,11 @@ def main():
     print(f"📄 Report saved to: {args.output}")
 
     # Print recommendations
-    if report['recommendations']:
+    if report["recommendations"]:
         print("\n💡 RECOMMENDATIONS:")
-        for i, rec in enumerate(report['recommendations'], 1):
+        for i, rec in enumerate(report["recommendations"], 1):
             print(f"   {i}. {rec}")
+
 
 if __name__ == "__main__":
     main()

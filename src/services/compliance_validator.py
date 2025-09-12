@@ -15,10 +15,7 @@ class ComplianceValidator:
     """Validates architectural compliance for agents."""
 
     def validate_agent_compliance(
-        self,
-        agent_id: str,
-        principle: ArchitecturalPrinciple,
-        code_changes: list[str]
+        self, agent_id: str, principle: ArchitecturalPrinciple, code_changes: list[str]
     ) -> ComplianceValidationResult:
         """Validate that an agent's changes comply with their assigned principle."""
 
@@ -49,7 +46,7 @@ class ComplianceValidator:
             compliant=len(issues) == 0,
             issues=issues,
             recommendations=recommendations,
-            validated_at=self._get_current_timestamp()
+            validated_at=self._get_current_timestamp(),
         )
 
     def _validate_single_responsibility(self, change: str) -> list[str]:
@@ -91,9 +88,7 @@ class ComplianceValidator:
         return issues
 
     def _generate_recommendations(
-        self,
-        principle: ArchitecturalPrinciple,
-        issues: list[str]
+        self, principle: ArchitecturalPrinciple, issues: list[str]
     ) -> list[str]:
         """Generate recommendations based on validation issues."""
         recommendations = []
@@ -119,4 +114,5 @@ class ComplianceValidator:
     def _get_current_timestamp(self) -> str:
         """Get current timestamp."""
         from datetime import datetime
+
         return datetime.now().isoformat()

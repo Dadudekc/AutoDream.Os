@@ -4,6 +4,6 @@
 from . import messaging_coordinator, vector_database_coordinator
 
 __all__ = [
-    'messaging_coordinator',
-    'vector_database_coordinator',
+    "messaging_coordinator",
+    "vector_database_coordinator",
 ]

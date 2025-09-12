@@ -21,25 +21,25 @@ class CommandHandler:
 
     def process_command(self, request) -> dict[str, Any]:
         """Process a command request"""
-        command = request.data.get('command', '')
-        args = request.data.get('args', [])
-        kwargs = request.data.get('kwargs', {})
+        command = request.data.get("command", "")
+        args = request.data.get("args", [])
+        kwargs = request.data.get("kwargs", {})
 
         self.logger.info(f"Executing command: {command}")
 
         # Command routing logic
-        if command.startswith('agent_'):
+        if command.startswith("agent_"):
             return self._handle_agent_command(command, args, kwargs)
-        elif command.startswith('task_'):
+        elif command.startswith("task_"):
             return self._handle_task_command(command, args, kwargs)
-        elif command.startswith('system_'):
+        elif command.startswith("system_"):
             return self._handle_system_command(command, args, kwargs)
         else:
             return self._handle_generic_command(command, args, kwargs)
 
     def _handle_agent_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle agent-specific commands"""
-        cmd_parts = command.split('_', 2)
+        cmd_parts = command.split("_", 2)
         if len(cmd_parts) < 3:
             return {"error": "Invalid agent command format"}
 
@@ -49,32 +49,32 @@ class CommandHandler:
         if action == "status":
             return self.get_agent_status(agent_id)
         elif action == "assign":
-            return self.assign_task_to_agent(agent_id, kwargs.get('task'))
+            return self.assign_task_to_agent(agent_id, kwargs.get("task"))
         elif action == "coordinate":
-            return self.coordinate_with_agent(agent_id, kwargs.get('message'))
+            return self.coordinate_with_agent(agent_id, kwargs.get("message"))
         else:
             return {"error": f"Unknown agent action: {action}"}
 
     def _handle_task_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle task-related commands"""
-        cmd_parts = command.split('_', 1)
+        cmd_parts = command.split("_", 1)
         if len(cmd_parts) < 2:
             return {"error": "Invalid task command format"}
 
         action = cmd_parts[1]
 
         if action == "create":
-            return self.create_task(kwargs.get('task_data', {}))
+            return self.create_task(kwargs.get("task_data", {}))
         elif action == "update":
-            return self.update_task(kwargs.get('task_id'), kwargs.get('updates', {}))
+            return self.update_task(kwargs.get("task_id"), kwargs.get("updates", {}))
         elif action == "complete":
-            return self.complete_task(kwargs.get('task_id'))
+            return self.complete_task(kwargs.get("task_id"))
         else:
             return {"error": f"Unknown task action: {action}"}
 
     def _handle_system_command(self, command: str, args: list, kwargs: dict) -> dict[str, Any]:
         """Handle system-level commands"""
-        cmd_parts = command.split('_', 1)
+        cmd_parts = command.split("_", 1)
         if len(cmd_parts) < 2:
             return {"error": "Invalid system command format"}
 
@@ -83,7 +83,7 @@ class CommandHandler:
         if action == "status":
             return self.get_system_status()
         elif action == "restart":
-            return self.restart_system_component(kwargs.get('component'))
+            return self.restart_system_component(kwargs.get("component"))
         elif action == "health":
             return self.check_system_health()
         else:
@@ -96,7 +96,7 @@ class CommandHandler:
             "args": args,
             "kwargs": kwargs,
             "executed_at": datetime.now().isoformat(),
-            "status": "executed"
+            "status": "executed",
         }
 
     # Supporting methods

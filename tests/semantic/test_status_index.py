@@ -1,8 +1,9 @@
 from __future__ import annotations
+
 import json
-import os
 import tempfile
 from pathlib import Path
+
 from src.core.semantic.status_index import StatusIndex
 
 
@@ -18,10 +19,10 @@ def test_status_similarity():
                 "seed_dir": str(tmp_path),
                 "store_path": str(tmp_path / "store"),
                 "top_k": 3,
-                "min_confidence": 0.0
+                "min_confidence": 0.0,
             },
             "store": {"backend": "numpy", "normalize": True},
-            "embedding": {"provider": "hash", "dim": 128}
+            "embedding": {"provider": "hash", "dim": 128},
         }
 
         # Seed two test statuses
@@ -31,7 +32,7 @@ def test_status_similarity():
             "current_tasks": ["Survey mission completed successfully"],
             "completed_tasks": ["analysis of src/services/"],
             "achievements": ["survey done"],
-            "survey_results": {"total_files_analyzed": 50, "consolidation_opportunities": 50}
+            "survey_results": {"total_files_analyzed": 50, "consolidation_opportunities": 50},
         }
         a2 = {
             "agent_id": "Agent-3",
@@ -39,7 +40,7 @@ def test_status_similarity():
             "current_tasks": ["dockerization"],
             "completed_tasks": ["CI pipeline sketch"],
             "achievements": ["infra baseline"],
-            "survey_results": {"total_files_analyzed": 10, "consolidation_opportunities": 5}
+            "survey_results": {"total_files_analyzed": 10, "consolidation_opportunities": 5},
         }
 
         # Write test files
@@ -59,10 +60,9 @@ def test_status_similarity():
         assert hits[0][0] == "Agent-1", f"Expected Agent-1 as most similar, got {hits[0][0]}"
 
         # Test JSON similarity search
-        hits2 = idx.similar({
-            "status": "SURVEY_MISSION_COMPLETED",
-            "survey_results": {"total_files_analyzed": 50}
-        })
+        hits2 = idx.similar(
+            {"status": "SURVEY_MISSION_COMPLETED", "survey_results": {"total_files_analyzed": 50}}
+        )
         assert len(hits2) >= 1, "Expected at least 1 similar result from JSON query"
 
         print("✅ All status similarity tests passed!")

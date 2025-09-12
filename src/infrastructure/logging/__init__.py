@@ -4,5 +4,5 @@
 from . import std_logger
 
 __all__ = [
-    'std_logger',
+    "std_logger",
 ]

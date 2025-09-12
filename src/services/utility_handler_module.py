@@ -22,8 +22,8 @@ class UtilityHandler:
 
     def process_utility(self, request) -> dict[str, Any]:
         """Process a utility request"""
-        utility_type = request.data.get('type', '')
-        params = request.data.get('params', {})
+        utility_type = request.data.get("type", "")
+        params = request.data.get("params", {})
 
         if utility_type == "format":
             return self.format_data(params)
@@ -36,20 +36,20 @@ class UtilityHandler:
 
     def format_data(self, params: dict[str, Any]) -> dict[str, Any]:
         """Format data according to specifications"""
-        data = params.get('data')
-        format_type = params.get('format_type', 'json')
+        data = params.get("data")
+        format_type = params.get("format_type", "json")
 
-        if format_type == 'json':
+        if format_type == "json":
             return {"formatted_data": json.dumps(data, indent=2)}
-        elif format_type == 'string':
+        elif format_type == "string":
             return {"formatted_data": str(data)}
         else:
             return {"error": f"Unsupported format type: {format_type}"}
 
     def validate_data(self, params: dict[str, Any]) -> dict[str, Any]:
         """Validate data against schema"""
-        data = params.get('data')
-        schema = params.get('schema', {})
+        data = params.get("data")
+        schema = params.get("schema", {})
 
         # Basic validation
         errors = []
@@ -60,13 +60,13 @@ class UtilityHandler:
         return {
             "valid": len(errors) == 0,
             "errors": errors,
-            "validated_at": datetime.now().isoformat()
+            "validated_at": datetime.now().isoformat(),
         }
 
     def transform_data(self, params: dict[str, Any]) -> dict[str, Any]:
         """Transform data according to rules"""
-        data = params.get('data')
-        transformations = params.get('transformations', [])
+        data = params.get("data")
+        transformations = params.get("transformations", [])
 
         result = data.copy()
         for transformation in transformations:

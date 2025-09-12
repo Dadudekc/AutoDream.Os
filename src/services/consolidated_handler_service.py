@@ -24,6 +24,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class ConsolidatedHandlerService:
     """Unified handler service combining coordinate, onboarding, command, contract, and utility handlers."""
 
@@ -45,17 +46,17 @@ class ConsolidatedHandlerService:
             self.onboarding_handler,
             self.command_handler,
             self.contract_handler,
-            self.utility_handler
+            self.utility_handler,
         ]
 
         for handler in handlers:
-            if hasattr(handler, 'can_handle'):
+            if hasattr(handler, "can_handle"):
                 if args is not None:
                     if handler.can_handle(args):
                         return True
                 else:
                     # Try command-based handling
-                    if hasattr(handler, f'handle_{command}'):
+                    if hasattr(handler, f"handle_{command}"):
                         return True
 
         return False
@@ -72,15 +73,15 @@ class ConsolidatedHandlerService:
                 return await self.onboarding_handler.handle_onboarding(args)
 
             # Try command handler
-            if hasattr(args, 'command') and args.command:
+            if hasattr(args, "command") and args.command:
                 return await self.command_handler.process_command(args.command, args.__dict__)
 
             # Try contract handler
-            if hasattr(args, 'contract') and args.contract:
+            if hasattr(args, "contract") and args.contract:
                 return await self.contract_handler.handle_contract(args)
 
             # Try utility handler
-            if hasattr(args, 'utility') and args.utility:
+            if hasattr(args, "utility") and args.utility:
                 return await self.utility_handler.handle_utility(args)
 
             # Default to command handler
@@ -88,11 +89,7 @@ class ConsolidatedHandlerService:
 
         except Exception as e:
             self.logger.error(f"Error handling command {command}: {e}")
-            return {
-                "success": False,
-                "error": str(e),
-                "command": command
-            }
+            return {"success": False, "error": str(e), "command": command}
 
     def get_available_commands(self) -> list[str]:
         """Get list of available commands."""
@@ -105,7 +102,7 @@ class ConsolidatedHandlerService:
             "utility",
             "help",
             "ping",
-            "shutdown"
+            "shutdown",
         ]
 
     def get_command_help(self, command: str | None = None) -> str:
@@ -132,7 +129,7 @@ class ConsolidatedHandlerService:
             return """
 Available Commands:
 - coordinates: Manage agent coordinates and positioning
-- onboarding: Handle agent onboarding processes  
+- onboarding: Handle agent onboarding processes
 - list_agents: List all available agents
 - status: Show system status
 - contract: Manage contracts and agreements
@@ -148,7 +145,7 @@ class CoordinateHandler:
 
     def can_handle(self, args) -> bool:
         """Check if can handle coordinates."""
-        return hasattr(args, 'coordinates') and args.coordinates
+        return hasattr(args, "coordinates") and args.coordinates
 
     async def handle_coordinates(self, args) -> dict[str, Any]:
         """Handle coordinate operations."""
@@ -162,21 +159,15 @@ class CoordinateHandler:
                 "Agent-5": {"x": 652, "y": 421},
                 "Agent-6": {"x": 1612, "y": 419},
                 "Agent-7": {"x": 920, "y": 851},
-                "Agent-8": {"x": 1611, "y": 941}
+                "Agent-8": {"x": 1611, "y": 941},
             }
 
             return {
                 "success": True,
-                "data": {
-                    "coordinates": coordinates,
-                    "count": len(coordinates)
-                }
+                "data": {"coordinates": coordinates, "count": len(coordinates)},
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Failed to handle coordinates: {e}"
-            }
+            return {"success": False, "error": f"Failed to handle coordinates: {e}"}
 
 
 class OnboardingHandler:
@@ -184,27 +175,24 @@ class OnboardingHandler:
 
     def can_handle(self, args) -> bool:
         """Check if can handle onboarding."""
-        return hasattr(args, 'onboarding') and args.onboarding
+        return hasattr(args, "onboarding") and args.onboarding
 
     async def handle_onboarding(self, args) -> dict[str, Any]:
         """Handle onboarding operations."""
         try:
             # Mock onboarding handling
-            agent_id = getattr(args, 'agent_id', 'unknown')
+            agent_id = getattr(args, "agent_id", "unknown")
 
             return {
                 "success": True,
                 "data": {
                     "agent_id": agent_id,
                     "onboarding_status": "completed",
-                    "message": f"Agent {agent_id} onboarded successfully"
-                }
+                    "message": f"Agent {agent_id} onboarded successfully",
+                },
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Failed to handle onboarding: {e}"
-            }
+            return {"success": False, "error": f"Failed to handle onboarding: {e}"}
 
 
 class CommandHandler:
@@ -235,19 +223,18 @@ class CommandHandler:
             elif command == "shutdown":
                 result = await self._handle_shutdown()
             else:
-                result = {
-                    "success": False,
-                    "error": f"Unknown command: {command}"
-                }
+                result = {"success": False, "error": f"Unknown command: {command}"}
 
             # Record command
             execution_time = time.time() - start_time
-            self.command_history.append({
-                "command": command,
-                "success": result.get("success", False),
-                "execution_time": execution_time,
-                "timestamp": time.time()
-            })
+            self.command_history.append(
+                {
+                    "command": command,
+                    "success": result.get("success", False),
+                    "execution_time": execution_time,
+                    "timestamp": time.time(),
+                }
+            )
 
             if result.get("success", False):
                 self.successful_commands += 1
@@ -259,21 +246,12 @@ class CommandHandler:
         except Exception as e:
             self.logger.error(f"Error processing command {command}: {e}")
             self.failed_commands += 1
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     async def _handle_list_agents(self) -> dict[str, Any]:
         """Handle list agents command."""
         agents = [f"Agent-{i}" for i in range(1, 9)]
-        return {
-            "success": True,
-            "data": {
-                "agents": agents,
-                "count": len(agents)
-            }
-        }
+        return {"success": True, "data": {"agents": agents, "count": len(agents)}}
 
     async def _handle_status(self) -> dict[str, Any]:
         """Handle status command."""
@@ -283,39 +261,28 @@ class CommandHandler:
                 "command_stats": {
                     "total_commands": self.command_count,
                     "successful_commands": self.successful_commands,
-                    "failed_commands": self.failed_commands
+                    "failed_commands": self.failed_commands,
                 },
-                "status": "active"
-            }
+                "status": "active",
+            },
         }
 
     async def _handle_help(self) -> dict[str, Any]:
         """Handle help command."""
         return {
             "success": True,
-            "data": {
-                "help": "Available commands: list_agents, status, help, ping, shutdown"
-            }
+            "data": {"help": "Available commands: list_agents, status, help, ping, shutdown"},
         }
 
     async def _handle_ping(self) -> dict[str, Any]:
         """Handle ping command."""
-        return {
-            "success": True,
-            "data": {
-                "response": "pong",
-                "timestamp": time.time()
-            }
-        }
+        return {"success": True, "data": {"response": "pong", "timestamp": time.time()}}
 
     async def _handle_shutdown(self) -> dict[str, Any]:
         """Handle shutdown command."""
         return {
             "success": True,
-            "data": {
-                "message": "Shutdown initiated",
-                "timestamp": time.time()
-            }
+            "data": {"message": "Shutdown initiated", "timestamp": time.time()},
         }
 
 
@@ -328,16 +295,10 @@ class ContractHandler:
             # Mock contract handling
             return {
                 "success": True,
-                "data": {
-                    "contract_status": "active",
-                    "message": "Contract operation completed"
-                }
+                "data": {"contract_status": "active", "message": "Contract operation completed"},
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Failed to handle contract: {e}"
-            }
+            return {"success": False, "error": f"Failed to handle contract: {e}"}
 
 
 class UtilityHandler:
@@ -349,13 +310,7 @@ class UtilityHandler:
             # Mock utility handling
             return {
                 "success": True,
-                "data": {
-                    "utility_status": "completed",
-                    "message": "Utility operation completed"
-                }
+                "data": {"utility_status": "completed", "message": "Utility operation completed"},
             }
         except Exception as e:
-            return {
-                "success": False,
-                "error": f"Failed to handle utility: {e}"
-            }
+            return {"success": False, "error": f"Failed to handle utility: {e}"}

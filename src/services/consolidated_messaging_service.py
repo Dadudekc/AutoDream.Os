@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 """
-Consolidated Messaging Service - V2 Compliant Module
-===================================================
+Consolidated Messaging Service - MAIN MESSAGING SYSTEM
+=====================================================
 
-Unified messaging service consolidating:
-- messaging_core.py (stub - points to core system)
-- messaging_cli.py (CLI interface)
-- messaging_pyautogui.py (PyAutoGUI delivery)
-
-V2 Compliance: < 400 lines, single responsibility for all messaging operations.
+This is the MAIN messaging service that consolidates all messaging functionality.
+Provides unified interface for all messaging operations across the system.
 
 Author: Agent-1 (Integration & Core Systems Specialist)
-Mission: Phase 2 Consolidation - Chunk 002 (Services)
 License: MIT
 """
 
@@ -29,64 +24,115 @@ if __name__ == "__main__":
     if str(script_dir) not in sys.path:
         sys.path.insert(0, str(script_dir))
 
-# Import from PyAutoGUI messaging system (SSOT)
+# Import from coordinate loader (SSOT)
 try:
     from enum import Enum
+    import logging
+    import time
+    import os
+    import sys
 
     # Create fallback classes for unified messaging compatibility
     from typing import Any, Dict, List, Optional
 
     from src.core.coordinate_loader import get_coordinate_loader
-    from src.core.messaging_pyautogui import (
-        PYAUTOGUI_AVAILABLE,
-        deliver_bulk_messages_pyautogui,
-        deliver_message_pyautogui,
-        get_agent_coordinates,
-        load_coordinates_from_json,
-    )
+    
+    # PyAutoGUI availability check
+    try:
+        import pyautogui
+        PYAUTOGUI_AVAILABLE = True
+    except ImportError:
+        PYAUTOGUI_AVAILABLE = False
+        
+    try:
+        import pyperclip
+        PYPERCLIP_AVAILABLE = True
+    except ImportError:
+        PYPERCLIP_AVAILABLE = False
+
+    class DeliveryMethod(Enum):
+        """Delivery methods for messages."""
+        INBOX = "inbox"
+        PYAUTOGUI = "pyautogui"
+        BROADCAST = "broadcast"
 
     class UnifiedMessageType(Enum):
-        AGENT_TO_AGENT = "agent_to_agent"
+        """Message types for unified messaging."""
+        TEXT = "text"
         BROADCAST = "broadcast"
+        ONBOARDING = "onboarding"
+        AGENT_TO_AGENT = "agent_to_agent"
+        CAPTAIN_TO_AGENT = "captain_to_agent"
         SYSTEM_TO_AGENT = "system_to_agent"
+        HUMAN_TO_AGENT = "human_to_agent"
 
     class UnifiedMessagePriority(Enum):
+        """Message priorities for unified messaging."""
+        REGULAR = "regular"
+        URGENT = "urgent"
+        # Legacy support
         LOW = "LOW"
         NORMAL = "NORMAL"
         HIGH = "HIGH"
-        URGENT = "URGENT"
 
     class UnifiedMessageTag(Enum):
-        GENERAL = "GENERAL"
+        """Message tags for unified messaging."""
+        CAPTAIN = "captain"
+        ONBOARDING = "onboarding"
+        WRAPUP = "wrapup"
         COORDINATION = "COORDINATION"
+        SYSTEM = "system"
+        # Legacy support
+        GENERAL = "GENERAL"
         TASK = "TASK"
         STATUS = "STATUS"
 
+    class RecipientType(Enum):
+        """Recipient types for unified messaging."""
+        AGENT = "agent"
+        CAPTAIN = "captain"
+        SYSTEM = "system"
+        HUMAN = "human"
+
+    class SenderType(Enum):
+        """Sender types for unified messaging."""
+        AGENT = "agent"
+        CAPTAIN = "captain"
+        SYSTEM = "system"
+        HUMAN = "human"
+
     class UnifiedMessage:
+        """Core message structure for unified messaging."""
         def __init__(
             self,
             content: str,
             sender: str,
             recipient: str,
             message_type: UnifiedMessageType,
-            priority: UnifiedMessagePriority,
-            tags: list[UnifiedMessageTag],
+            priority: UnifiedMessagePriority = UnifiedMessagePriority.REGULAR,
+            tags: list[UnifiedMessageTag] = None,
+            metadata: dict[str, Any] = None,
+            message_id: str = None,
             timestamp: str | None = None,
+            sender_type: SenderType = SenderType.SYSTEM,
+            recipient_type: RecipientType = RecipientType.AGENT,
         ):
+            import uuid
             self.content = content
             self.sender = sender
             self.recipient = recipient
             self.message_type = message_type
             self.priority = priority
-            self.tags = tags
+            self.tags = tags or []
+            self.metadata = metadata or {}
+            self.message_id = message_id or str(uuid.uuid4())
             self.timestamp = timestamp or time.strftime("%Y-%m-%d %H:%M:%S")
+            self.sender_type = sender_type
+            self.recipient_type = recipient_type
 
     def send_message(message: UnifiedMessage) -> bool:
-        """Send message using PyAutoGUI system"""
-        coords = get_agent_coordinates(message.recipient)
-        if not coords:
-            return False
-        return deliver_message_pyautogui(message, coords)
+        """Send message using PyAutoGUI system with inbox fallback"""
+        return send_message_with_fallback(message)
 
     def broadcast_message(content: str, sender: str) -> bool:
         """Broadcast message to all agents"""
@@ -126,6 +172,191 @@ try:
         """Show message history (placeholder)"""
         logger.info(f"Message history for {agent_id or 'all agents'}")
         return []
+
+    def send_message_pyautogui(agent_id: str, message: str, timeout: int = 30) -> bool:
+        """Send message using PyAutoGUI delivery"""
+        try:
+            unified_message = UnifiedMessage(
+                content=message,
+                sender="CLI",
+                recipient=agent_id,
+                message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                priority=UnifiedMessagePriority.NORMAL,
+                tags=[UnifiedMessageTag.COORDINATION],
+            )
+            return send_message(unified_message)
+        except Exception as e:
+            logger.error(f"Failed to send PyAutoGUI message: {e}")
+            return False
+
+    def deliver_message_pyautogui(message: UnifiedMessage, coords: tuple[int, int]) -> bool:
+        """Deliver message via PyAutoGUI to specific coordinates."""
+        if not PYAUTOGUI_AVAILABLE:
+            logger.error("PyAutoGUI not available/enabled")
+            return False
+        if not coords:
+            logger.error("No coordinates for %s", message.recipient)
+            return False
+
+        x, y = coords
+        formatted_message = format_message_for_delivery(message)
+
+        for attempt in range(1, 3):  # 2 attempts
+            try:
+                _focus_and_clear(x, y)
+                _paste_or_type(formatted_message)
+                time.sleep(0.05)
+                pyautogui.press("enter")
+                logger.info(
+                    "Message delivered to %s at %s (attempt %d)", message.recipient, coords, attempt
+                )
+                return True
+            except Exception as e:
+                logger.warning("Deliver attempt %d failed for %s: %s", attempt, message.recipient, e)
+                time.sleep(0.3)
+
+        logger.error("Failed to deliver to %s after 2 attempts", message.recipient)
+        return False
+
+    def deliver_bulk_messages_pyautogui(
+        messages: list[UnifiedMessage], agent_order: list[str] | None = None
+    ) -> dict[str, bool]:
+        """Deliver multiple messages via PyAutoGUI."""
+        results: dict[str, bool] = {}
+        if not PYAUTOGUI_AVAILABLE:
+            logger.error("PyAutoGUI not available/enabled")
+            return results
+
+        order = agent_order or [f"Agent-{i}" for i in range(1, 9)]
+        for msg in messages:
+            if msg.recipient not in order:
+                results[msg.recipient] = False
+                continue
+            coords = get_agent_coordinates(msg.recipient)
+            ok = deliver_message_pyautogui(msg, coords) if coords else False
+            results[msg.recipient] = ok
+            time.sleep(1.0)  # small pacing across recipients
+        return results
+
+    def format_message_for_delivery(message: UnifiedMessage) -> str:
+        """Format message for PyAutoGUI delivery."""
+        return f"[{message.sender}] {message.content}"
+
+    def _focus_and_clear(x: int, y: int):
+        """Focus on coordinates and clear input field."""
+        pyautogui.click(x, y, duration=0.4)
+        time.sleep(0.1)
+        pyautogui.hotkey("ctrl", "a")  # Select all
+        time.sleep(0.05)
+        pyautogui.press("backspace")  # Clear
+        time.sleep(0.05)
+
+    def _paste_or_type(text: str):
+        """Paste or type text using clipboard or direct typing."""
+        if PYPERCLIP_AVAILABLE:
+            try:
+                pyperclip.copy(text)
+                pyautogui.hotkey("ctrl", "v")
+                return
+            except Exception:
+                pass
+        # Fallback to direct typing
+        pyautogui.typewrite(text, interval=0.01)
+
+    def send_message_inbox(
+        agent_id: str, message: str, sender: str = "ConsolidatedMessagingService"
+    ) -> bool:
+        """Send message to agent's inbox"""
+        try:
+            from pathlib import Path
+            from datetime import datetime
+            
+            agent_workspaces = Path("agent_workspaces")
+            inbox_dir = agent_workspaces / agent_id / "inbox"
+            inbox_dir.mkdir(parents=True, exist_ok=True)
+
+            # Create message filename with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            message_filename = f"CONSOLIDATED_MESSAGE_{timestamp}.md"
+
+            # Create message content
+            message_content = f"""# 🚨 CONSOLIDATED MESSAGE - {agent_id}
+
+**From**: {sender}
+**To**: {agent_id}
+**Priority**: normal
+**Message ID**: consolidated_{timestamp}
+**Timestamp**: {datetime.now().isoformat()}
+
+---
+
+{message}
+
+---
+
+*Message delivered via Consolidated Messaging Service*
+*Agent-8 - SSOT & System Integration Specialist*
+"""
+
+            # Write message to agent's inbox
+            message_file_path = inbox_dir / message_filename
+            with open(message_file_path, "w", encoding="utf-8") as f:
+                f.write(message_content)
+
+            logger.info(f"✅ Message sent to {agent_id}'s inbox: {message_filename}")
+            return True
+
+        except Exception as e:
+            logger.error(f"❌ Failed to send inbox message to {agent_id}: {e}")
+            return False
+
+    def get_agent_coordinates(agent_id: str) -> tuple[int, int] | None:
+        """Get agent coordinates from coordinate loader"""
+        try:
+            coord_loader = get_coordinate_loader()
+            return coord_loader.get_chat_coordinates(agent_id)
+        except Exception as e:
+            logger.error(f"Failed to get coordinates for {agent_id}: {e}")
+            return None
+
+    def load_coordinates_from_json() -> dict[str, tuple[int, int]]:
+        """Load agent coordinates using SSOT coordinate loader."""
+        try:
+            loader = get_coordinate_loader()
+            coordinates = {}
+            for agent_id in loader.get_all_agents():
+                if loader.is_agent_active(agent_id):
+                    try:
+                        coords = loader.get_chat_coordinates(agent_id)
+                        coordinates[agent_id] = coords
+                        logging.debug(f"Loaded coordinates for {agent_id}: {coords}")
+                    except ValueError:
+                        logging.warning(f"Invalid coordinates for {agent_id}")
+            return coordinates
+        except Exception as e:
+            logger.error(f"Failed to load coordinates: {e}")
+            return {}
+
+    def send_message_with_fallback(message: UnifiedMessage) -> bool:
+        """Send message with PyAutoGUI fallback to inbox"""
+        try:
+            # Try PyAutoGUI first
+            coords = get_agent_coordinates(message.recipient)
+            if coords and PYAUTOGUI_AVAILABLE:
+                success = deliver_message_pyautogui(message, coords)
+                if success:
+                    return True
+            
+            # Fallback to inbox
+            logger.info(f"Falling back to inbox delivery for {message.recipient}")
+            return send_message_inbox(
+                message.recipient, 
+                message.content, 
+                message.sender
+            )
+        except Exception as e:
+            logger.error(f"Failed to send message with fallback: {e}")
+            return False
 
     MESSAGING_AVAILABLE = True
 

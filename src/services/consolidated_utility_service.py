@@ -24,6 +24,7 @@ from .architectural_models import ArchitecturalPrinciple, ComplianceValidationRe
 
 logger = logging.getLogger(__name__)
 
+
 class ConsolidatedUtilityService:
     """Unified utility service combining registry, performance analysis, and compliance validation."""
 
@@ -94,18 +95,14 @@ class ConsolidatedUtilityService:
             "performance_thresholds": {
                 "task_completion_rate": 0.8,
                 "coordination_effectiveness": 0.7,
-                "knowledge_utilization": 0.75
+                "knowledge_utilization": 0.75,
             },
-            "metrics_weights": {
-                "task_completion": 0.4,
-                "coordination": 0.3,
-                "knowledge": 0.3
-            },
+            "metrics_weights": {"task_completion": 0.4, "coordination": 0.3, "knowledge": 0.3},
             "compliance_thresholds": {
                 "max_file_lines": 400,
                 "max_function_lines": 50,
-                "max_class_methods": 20
-            }
+                "max_class_methods": 20,
+            },
         }
 
     # Agent Registry Methods
@@ -130,14 +127,15 @@ class ConsolidatedUtilityService:
         agent_info = self.get_agent_info(agent_id)
         return agent_info.get("inbox") if agent_info else None
 
-    def register_agent(self, agent_id: str, description: str,
-                      coords: tuple[int, int], inbox: str) -> bool:
+    def register_agent(
+        self, agent_id: str, description: str, coords: tuple[int, int], inbox: str
+    ) -> bool:
         """Register a new agent."""
         try:
             self.agents[agent_id] = {
                 "description": description,
                 "coords": {"x": coords[0], "y": coords[1]},
-                "inbox": inbox
+                "inbox": inbox,
             }
             self.logger.info(f"Registered agent {agent_id}")
             return True
@@ -146,16 +144,14 @@ class ConsolidatedUtilityService:
             return False
 
     # Performance Analysis Methods
-    def record_performance_metric(self, metric_name: str, value: float,
-                                timestamp: datetime | None = None) -> None:
+    def record_performance_metric(
+        self, metric_name: str, value: float, timestamp: datetime | None = None
+    ) -> None:
         """Record a performance metric."""
         if timestamp is None:
             timestamp = datetime.now()
 
-        self.performance_metrics[metric_name].append({
-            "value": value,
-            "timestamp": timestamp
-        })
+        self.performance_metrics[metric_name].append({"value": value, "timestamp": timestamp})
 
     def get_performance_summary(self, days: int = 30) -> dict[str, Any]:
         """Get performance summary for the last N days."""
@@ -163,10 +159,7 @@ class ConsolidatedUtilityService:
 
         summary = {}
         for metric_name, values in self.performance_metrics.items():
-            recent_values = [
-                v["value"] for v in values
-                if v["timestamp"] >= cutoff_date
-            ]
+            recent_values = [v["value"] for v in values if v["timestamp"] >= cutoff_date]
 
             if recent_values:
                 summary[metric_name] = {
@@ -174,7 +167,7 @@ class ConsolidatedUtilityService:
                     "average": sum(recent_values) / len(recent_values),
                     "min": min(recent_values),
                     "max": max(recent_values),
-                    "latest": recent_values[-1]
+                    "latest": recent_values[-1],
                 }
 
         return summary
@@ -183,7 +176,8 @@ class ConsolidatedUtilityService:
         """Analyze performance trends for a specific metric."""
         cutoff_date = datetime.now() - timedelta(days=days)
         values = [
-            v["value"] for v in self.performance_metrics.get(metric_name, [])
+            v["value"]
+            for v in self.performance_metrics.get(metric_name, [])
             if v["timestamp"] >= cutoff_date
         ]
 
@@ -191,8 +185,8 @@ class ConsolidatedUtilityService:
             return {"trend": "insufficient_data", "values": values}
 
         # Simple trend analysis
-        first_half = values[:len(values)//2]
-        second_half = values[len(values)//2:]
+        first_half = values[: len(values) // 2]
+        second_half = values[len(values) // 2 :]
 
         first_avg = sum(first_half) / len(first_half)
         second_avg = sum(second_half) / len(second_half)
@@ -209,7 +203,7 @@ class ConsolidatedUtilityService:
             "values": values,
             "first_half_avg": first_avg,
             "second_half_avg": second_avg,
-            "change_percent": ((second_avg - first_avg) / first_avg) * 100
+            "change_percent": ((second_avg - first_avg) / first_avg) * 100,
         }
 
     def get_performance_recommendations(self) -> list[str]:
@@ -221,15 +215,15 @@ class ConsolidatedUtilityService:
             threshold = self.config["performance_thresholds"].get(metric_name, 0.5)
             if data["average"] < threshold:
                 recommendations.append(
-                    f"Improve {metric_name}: current {data['average']:.2f}, "
-                    f"target {threshold:.2f}"
+                    f"Improve {metric_name}: current {data['average']:.2f}, target {threshold:.2f}"
                 )
 
         return recommendations
 
     # Compliance Validation Methods
-    def validate_agent_compliance(self, agent_id: str, principle: ArchitecturalPrinciple,
-                                code_changes: list[str]) -> ComplianceValidationResult:
+    def validate_agent_compliance(
+        self, agent_id: str, principle: ArchitecturalPrinciple, code_changes: list[str]
+    ) -> ComplianceValidationResult:
         """Validate that an agent's changes comply with their assigned principle."""
         issues = []
         recommendations = []
@@ -251,19 +245,21 @@ class ConsolidatedUtilityService:
         recommendations = self._generate_recommendations(principle, issues)
 
         # Record compliance check
-        self.compliance_history.append({
-            "agent_id": agent_id,
-            "principle": principle,
-            "compliant": len(issues) == 0,
-            "timestamp": datetime.now()
-        })
+        self.compliance_history.append(
+            {
+                "agent_id": agent_id,
+                "principle": principle,
+                "compliant": len(issues) == 0,
+                "timestamp": datetime.now(),
+            }
+        )
 
         return ComplianceValidationResult(
             agent_id=agent_id,
             principle=principle,
             compliant=len(issues) == 0,
             issues=issues,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
     def _validate_single_responsibility(self, code: str) -> list[str]:
@@ -284,10 +280,10 @@ class ConsolidatedUtilityService:
         issues = []
 
         # Simple duplicate code detection
-        lines = code.split('\n')
+        lines = code.split("\n")
         for i, line in enumerate(lines):
             if line.strip() and lines.count(line) > 2:
-                issues.append(f"Duplicate code detected at line {i+1}: {line[:50]}...")
+                issues.append(f"Duplicate code detected at line {i + 1}: {line[:50]}...")
 
         return issues
 
@@ -296,13 +292,13 @@ class ConsolidatedUtilityService:
         issues = []
 
         # Check for overly complex code
-        if len(code.split('\n')) > self.config["compliance_thresholds"]["max_file_lines"]:
-            line_count = len(code.split('\n'))
-            max_lines = self.config['compliance_thresholds']['max_file_lines']
+        if len(code.split("\n")) > self.config["compliance_thresholds"]["max_file_lines"]:
+            line_count = len(code.split("\n"))
+            max_lines = self.config["compliance_thresholds"]["max_file_lines"]
             issues.append(f"File too long: {line_count} lines (max: {max_lines})")
 
         # Check for complex nested structures
-        if code.count('    ') > 20:  # Deep nesting
+        if code.count("    ") > 20:  # Deep nesting
             issues.append("Code has excessive nesting - consider simplifying")
 
         return issues
@@ -317,8 +313,9 @@ class ConsolidatedUtilityService:
 
         return issues
 
-    def _generate_recommendations(self, principle: ArchitecturalPrinciple,
-                                issues: list[str]) -> list[str]:
+    def _generate_recommendations(
+        self, principle: ArchitecturalPrinciple, issues: list[str]
+    ) -> list[str]:
         """Generate recommendations based on issues."""
         recommendations = []
 
@@ -353,7 +350,7 @@ class ConsolidatedUtilityService:
             "total_checks": total_checks,
             "compliant_checks": compliant_checks,
             "compliance_rate": compliance_rate,
-            "recent_checks": self.compliance_history[-10:]  # Last 10 checks
+            "recent_checks": self.compliance_history[-10:],  # Last 10 checks
         }
 
     def get_service_status(self) -> dict[str, Any]:
@@ -363,5 +360,5 @@ class ConsolidatedUtilityService:
             "registered_agents": len(self.agents),
             "performance_metrics": len(self.performance_metrics),
             "compliance_checks": len(self.compliance_history),
-            "status": "active"
+            "status": "active",
         }

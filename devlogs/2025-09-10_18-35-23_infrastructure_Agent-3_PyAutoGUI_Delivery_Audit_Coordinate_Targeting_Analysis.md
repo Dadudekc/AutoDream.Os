@@ -49,7 +49,7 @@
 #### **Active Agent Coordinates (4/8 loaded):**
 ```
 📺 Agent-1: (-1269, 481) - Left Monitor
-📺 Agent-2: (-308, 480)  - Left Monitor  
+📺 Agent-2: (-308, 480)  - Left Monitor
 📺 Agent-3: (-1269, 1001) - Left Monitor
 📺 Agent-4: (-308, 1000) - Left Monitor
 ```
@@ -277,7 +277,7 @@ def deliver_with_validation(message: UnifiedMessage) -> bool:
 ### **Current Health Status:**
 ```
 🟢 Coordinate System: HEALTHY
-🟢 PyAutoGUI Integration: HEALTHY  
+🟢 PyAutoGUI Integration: HEALTHY
 🟢 Fallback Mechanisms: HEALTHY
 🟡 Dual-Monitor Balance: DEGRADED
 🔴 Inactive Agent Handling: CRITICAL

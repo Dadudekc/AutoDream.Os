@@ -20,4 +20,4 @@ from .config.thea_config import TheaConfig, get_thea_config
 from .core.thea_communication_manager import TheaCommunicationManager
 
 __version__ = "2.0.0"
-__all__ = ['TheaCommunicationManager', 'TheaConfig', 'get_thea_config']
+__all__ = ["TheaCommunicationManager", "TheaConfig", "get_thea_config"]

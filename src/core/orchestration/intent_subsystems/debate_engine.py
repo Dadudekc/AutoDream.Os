@@ -25,6 +25,7 @@ from ..contracts import OrchestrationContext, Step
 
 class DebateStatus(Enum):
     """Debate status enumeration."""
+
     PENDING = "pending"
     ACTIVE = "active"
     VOTING = "voting"
@@ -35,6 +36,7 @@ class DebateStatus(Enum):
 
 class DebatePhase(Enum):
     """Debate phase enumeration."""
+
     INITIALIZATION = "initialization"
     ARGUMENT_COLLECTION = "argument_collection"
     ANALYSIS = "analysis"
@@ -46,6 +48,7 @@ class DebatePhase(Enum):
 @dataclass
 class DebateArgument:
     """Debate argument structure."""
+
     id: str
     author_agent: str
     content: str
@@ -61,6 +64,7 @@ class DebateArgument:
 @dataclass
 class DebateSession:
     """Debate session container."""
+
     session_id: str
     topic: str
     status: DebateStatus = DebateStatus.PENDING
@@ -76,9 +80,13 @@ class DebateSession:
 class DebateStrategy(Protocol):
     """Strategy pattern for debate management."""
 
-    def initialize_debate(self, topic: str, options: list[str], participants: list[str]) -> DebateSession: ...
+    def initialize_debate(
+        self, topic: str, options: list[str], participants: list[str]
+    ) -> DebateSession: ...
 
-    def collect_arguments(self, session: DebateSession, arguments: list[DebateArgument]) -> DebateSession: ...
+    def collect_arguments(
+        self, session: DebateSession, arguments: list[DebateArgument]
+    ) -> DebateSession: ...
 
     def analyze_arguments(self, session: DebateSession) -> dict[str, Any]: ...
 
@@ -90,7 +98,9 @@ class DebateStrategy(Protocol):
 class SwarmDebateStrategy:
     """Swarm-optimized debate strategy."""
 
-    def initialize_debate(self, topic: str, options: list[str], participants: list[str]) -> DebateSession:
+    def initialize_debate(
+        self, topic: str, options: list[str], participants: list[str]
+    ) -> DebateSession:
         """Initialize a new debate session."""
         session_id = f"debate_{int(time.time())}_{len(participants)}agents"
 
@@ -99,18 +109,17 @@ class SwarmDebateStrategy:
             topic=topic,
             participants=participants,
             options=options,
-            deadline=datetime.now() + timedelta(hours=24)  # 24-hour default
+            deadline=datetime.now() + timedelta(hours=24),  # 24-hour default
         )
 
         return session
 
-    def collect_arguments(self, session: DebateSession, arguments: list[DebateArgument]) -> DebateSession:
+    def collect_arguments(
+        self, session: DebateSession, arguments: list[DebateArgument]
+    ) -> DebateSession:
         """Collect and validate arguments."""
         # Filter arguments by participants
-        valid_arguments = [
-            arg for arg in arguments
-            if arg.author_agent in session.participants
-        ]
+        valid_arguments = [arg for arg in arguments if arg.author_agent in session.participants]
 
         session.arguments = valid_arguments
         session.current_phase = DebatePhase.ARGUMENT_COLLECTION
@@ -124,7 +133,7 @@ class SwarmDebateStrategy:
             "arguments_by_option": {},
             "average_quality_by_option": {},
             "top_contributors": [],
-            "consensus_indicators": {}
+            "consensus_indicators": {},
         }
 
         # Group arguments by option
@@ -162,11 +171,7 @@ class SwarmDebateStrategy:
 
     def conduct_voting(self, session: DebateSession) -> dict[str, Any]:
         """Conduct voting on arguments."""
-        voting_results = {
-            "votes_cast": 0,
-            "argument_votes": {},
-            "participant_votes": {}
-        }
+        voting_results = {"votes_cast": 0, "argument_votes": {}, "participant_votes": {}}
 
         # Simple majority voting simulation
         for arg in session.arguments:
@@ -271,8 +276,7 @@ class DebateEngine:
 
     def get_session_status(self, session_id: str) -> dict[str, Any] | None:
         """Get status of a debate session."""
-        session = (self.active_sessions.get(session_id) or
-                  self.completed_sessions.get(session_id))
+        session = self.active_sessions.get(session_id) or self.completed_sessions.get(session_id)
 
         if not session:
             return None
@@ -286,15 +290,12 @@ class DebateEngine:
             "arguments_count": len(session.arguments),
             "options": session.options,
             "created_at": session.created_at.isoformat(),
-            "deadline": session.deadline.isoformat() if session.deadline else None
+            "deadline": session.deadline.isoformat() if session.deadline else None,
         }
 
     def list_active_sessions(self) -> list[dict[str, Any]]:
         """List all active debate sessions."""
-        return [
-            self.get_session_status(session_id)
-            for session_id in self.active_sessions.keys()
-        ]
+        return [self.get_session_status(session_id) for session_id in self.active_sessions.keys()]
 
     def get_debate_history(self) -> list[dict[str, Any]]:
         """Get debate history."""
@@ -305,7 +306,7 @@ class DebateEngine:
                 "status": session.status.value,
                 "created_at": session.created_at.isoformat(),
                 "arguments_count": len(session.arguments),
-                "consensus": getattr(session, 'consensus', 'Unknown')
+                "consensus": getattr(session, "consensus", "Unknown"),
             }
             for session in self.debate_history[-10:]  # Last 10 debates
         ]
@@ -329,7 +330,7 @@ class DebateOrchestrationStep(Step):
                 session_id = self.debate_engine.create_debate(
                     topic=self.params.get("topic", "Strategic Debate"),
                     options=self.params.get("options", []),
-                    participants=self.params.get("participants", [])
+                    participants=self.params.get("participants", []),
                 )
                 payload["debate_session_id"] = session_id
 
@@ -369,5 +370,5 @@ __all__ = [
     "DebateStrategy",
     "SwarmDebateStrategy",
     "DebateOrchestrationStep",
-    "create_debate_engine"
+    "create_debate_engine",
 ]

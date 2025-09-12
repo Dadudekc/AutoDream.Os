@@ -10,4 +10,4 @@ License: MIT
 
 from .thea_messaging_service import MessageStatus, TheaMessagingService
 
-__all__ = ['TheaMessagingService', 'MessageStatus']
+__all__ = ["TheaMessagingService", "MessageStatus"]

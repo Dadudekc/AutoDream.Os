@@ -97,9 +97,7 @@ class CoreOnboardingManager(Manager):
         session.status = "completed" if payload.get("success", True) else "failed"
         session.end_time = datetime.utcnow()
         session.notes = payload.get("notes")
-        context.logger(
-            f"Onboarding session completed: {payload['session_id']} " f"{COMPLETION_SIGNAL}"
-        )
+        context.logger(f"Onboarding session completed: {payload['session_id']} {COMPLETION_SIGNAL}")
         return ManagerResult(
             True,
             {"session_id": payload["session_id"], "status": session.status},

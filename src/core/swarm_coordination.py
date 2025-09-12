@@ -30,8 +30,10 @@ from typing import Any
 # SWARM MODELS
 # ============================================================================
 
+
 class SwarmStatus(Enum):
     """Swarm status enumeration."""
+
     INITIALIZING = "initializing"
     ACTIVE = "active"
     COORDINATING = "coordinating"
@@ -42,6 +44,7 @@ class SwarmStatus(Enum):
 
 class SwarmPhase(Enum):
     """Swarm phase enumeration."""
+
     FOUNDATION = "foundation"
     CONSOLIDATION = "consolidation"
     OPTIMIZATION = "optimization"
@@ -51,6 +54,7 @@ class SwarmPhase(Enum):
 
 class AgentRole(Enum):
     """Agent role enumeration."""
+
     ARCHITECTURE = "architecture"
     COORDINATION = "coordination"
     COMMUNICATION = "communication"
@@ -64,6 +68,7 @@ class AgentRole(Enum):
 @dataclass
 class SwarmAgent:
     """Swarm agent representation."""
+
     agent_id: str
     agent_name: str
     role: AgentRole
@@ -93,13 +98,14 @@ class SwarmAgent:
             "current_phase": self.current_phase.value,
             "last_activity": self.last_activity.isoformat(),
             "performance_metrics": self.performance_metrics,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class SwarmTask:
     """Swarm task representation."""
+
     task_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     task_name: str = ""
     task_type: str = ""
@@ -159,13 +165,14 @@ class SwarmTask:
             "actual_duration": str(self.actual_duration) if self.actual_duration else None,
             "requirements": self.requirements,
             "dependencies": self.dependencies,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
 @dataclass
 class SwarmMetrics:
     """Swarm performance metrics."""
+
     total_agents: int = 0
     active_agents: int = 0
     total_tasks: int = 0
@@ -200,13 +207,14 @@ class SwarmMetrics:
             "success_rate": self.get_success_rate(),
             "average_task_duration": self.average_task_duration,
             "coordination_efficiency": self.coordination_efficiency,
-            "last_updated": self.last_updated.isoformat()
+            "last_updated": self.last_updated.isoformat(),
         }
 
 
 # ============================================================================
 # SWARM ENGINES
 # ============================================================================
+
 
 class SwarmEngine(ABC):
     """Base swarm engine interface."""
@@ -268,7 +276,7 @@ class PerformanceMonitoringEngine(SwarmEngine):
             "is_running": self.is_running,
             "monitoring_interval": self.monitoring_interval,
             "last_monitoring": self.last_monitoring.isoformat(),
-            "metrics": self.metrics.to_dict()
+            "metrics": self.metrics.to_dict(),
         }
 
     def update_metrics(self, agents: list[SwarmAgent], tasks: list[SwarmTask]) -> None:
@@ -276,7 +284,9 @@ class PerformanceMonitoringEngine(SwarmEngine):
         self.metrics.total_agents = len(agents)
         self.metrics.active_agents = sum(1 for agent in agents if agent.is_active())
         self.metrics.total_tasks = len(tasks)
-        self.metrics.completed_tasks = sum(1 for task in tasks if task.status == SwarmStatus.ACTIVE and task.completed_at)
+        self.metrics.completed_tasks = sum(
+            1 for task in tasks if task.status == SwarmStatus.ACTIVE and task.completed_at
+        )
         self.metrics.failed_tasks = sum(1 for task in tasks if task.status == SwarmStatus.ERROR)
 
         # Calculate average task duration
@@ -325,7 +335,7 @@ class TaskCoordinationEngine(SwarmEngine):
             "is_running": self.is_running,
             "total_tasks": len(self.tasks),
             "queued_tasks": len(self.task_queue),
-            "total_agents": len(self.agents)
+            "total_agents": len(self.agents),
         }
 
     def add_task(self, task: SwarmTask) -> bool:
@@ -369,6 +379,7 @@ class TaskCoordinationEngine(SwarmEngine):
 # ============================================================================
 # SWARM ORCHESTRATORS
 # ============================================================================
+
 
 class SwarmCoordinationOrchestrator:
     """Swarm coordination orchestrator."""
@@ -421,10 +432,14 @@ class SwarmCoordinationOrchestrator:
         """Coordinate swarm activities."""
         try:
             # Update performance metrics
-            self.performance_engine.update_metrics(list(self.agents.values()), list(self.tasks.values()))
+            self.performance_engine.update_metrics(
+                list(self.agents.values()), list(self.tasks.values())
+            )
 
             # Assign pending tasks
-            pending_tasks = [task for task in self.tasks.values() if task.status == SwarmStatus.INITIALIZING]
+            pending_tasks = [
+                task for task in self.tasks.values() if task.status == SwarmStatus.INITIALIZING
+            ]
             available_agents = [agent for agent in self.agents.values() if agent.is_active()]
 
             for task in pending_tasks:
@@ -434,7 +449,9 @@ class SwarmCoordinationOrchestrator:
                     if self.task_engine.assign_task(task.task_id, agent.agent_id):
                         available_agents.remove(agent)  # Remove from available list
 
-            self.logger.info(f"Coordinated {len(pending_tasks)} tasks with {len(available_agents)} available agents")
+            self.logger.info(
+                f"Coordinated {len(pending_tasks)} tasks with {len(available_agents)} available agents"
+            )
             return True
         except Exception as e:
             self.logger.error(f"Failed to coordinate swarm: {e}")
@@ -450,7 +467,7 @@ class SwarmCoordinationOrchestrator:
             "completed_tasks": sum(1 for task in self.tasks.values() if task.completed_at),
             "performance_engine": self.performance_engine.get_status(),
             "task_engine": self.task_engine.get_status(),
-            "metrics": self.metrics.to_dict()
+            "metrics": self.metrics.to_dict(),
         }
 
     def shutdown(self) -> bool:
@@ -469,34 +486,21 @@ class SwarmCoordinationOrchestrator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_swarm_agent(
-    agent_id: str,
-    agent_name: str,
-    role: AgentRole,
-    capabilities: list[str] = None
+    agent_id: str, agent_name: str, role: AgentRole, capabilities: list[str] = None
 ) -> SwarmAgent:
     """Create a swarm agent."""
     return SwarmAgent(
-        agent_id=agent_id,
-        agent_name=agent_name,
-        role=role,
-        capabilities=capabilities or []
+        agent_id=agent_id, agent_name=agent_name, role=role, capabilities=capabilities or []
     )
 
 
 def create_swarm_task(
-    task_name: str,
-    task_type: str,
-    phase: SwarmPhase = SwarmPhase.FOUNDATION,
-    priority: int = 0
+    task_name: str, task_type: str, phase: SwarmPhase = SwarmPhase.FOUNDATION, priority: int = 0
 ) -> SwarmTask:
     """Create a swarm task."""
-    return SwarmTask(
-        task_name=task_name,
-        task_type=task_type,
-        phase=phase,
-        priority=priority
-    )
+    return SwarmTask(task_name=task_name, task_type=task_type, phase=phase, priority=priority)
 
 
 def create_performance_monitoring_engine() -> PerformanceMonitoringEngine:
@@ -518,6 +522,7 @@ def create_swarm_coordination_orchestrator() -> SwarmCoordinationOrchestrator:
 # MAIN EXECUTION
 # ============================================================================
 
+
 def main():
     """Main execution function."""
     print("Swarm Coordination - Consolidated Swarm Management")
@@ -533,17 +538,14 @@ def main():
         "agent-2",
         "Architecture & Design Specialist",
         AgentRole.ARCHITECTURE,
-        ["consolidation", "analysis", "architecture"]
+        ["consolidation", "analysis", "architecture"],
     )
     orchestrator.register_agent(agent2)
     print(f"Agent-2 registered: {agent2.to_dict()}")
 
     # Create test task
     task = create_swarm_task(
-        "Consolidate Core Modules",
-        "consolidation",
-        SwarmPhase.CONSOLIDATION,
-        priority=1
+        "Consolidate Core Modules", "consolidation", SwarmPhase.CONSOLIDATION, priority=1
     )
     orchestrator.create_task(task)
     print(f"Task created: {task.to_dict()}")

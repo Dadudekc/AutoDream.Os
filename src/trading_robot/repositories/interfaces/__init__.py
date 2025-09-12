@@ -8,7 +8,7 @@ from . import (
 )
 
 __all__ = [
-    'portfolio_repository_interface',
-    'position_repository_interface',
-    'trading_repository_interface',
+    "portfolio_repository_interface",
+    "position_repository_interface",
+    "trading_repository_interface",
 ]

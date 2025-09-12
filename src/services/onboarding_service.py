@@ -62,26 +62,26 @@ class OnboardingService:
             "friendly": {
                 "greeting": "Hey there!",
                 "body": f"{base_message} We're excited to have you join our collaborative team. You'll be working with cutting-edge AI technologies and contributing to innovative projects.",
-                "closing": "Let's make some amazing things together! 🚀"
+                "closing": "Let's make some amazing things together! 🚀",
             },
             "professional": {
                 "greeting": "Dear Colleague,",
                 "body": f"{base_message} As part of our professional development team, you will be responsible for delivering high-quality solutions and maintaining system excellence.",
-                "closing": "We look forward to your valuable contributions to our mission."
+                "closing": "We look forward to your valuable contributions to our mission.",
             },
             "technical": {
                 "greeting": "Greetings,",
                 "body": f"{base_message} You will be integrated into our distributed processing network. Your primary responsibilities include system optimization, debugging, and maintaining code quality standards.",
-                "closing": "System integration complete. Awaiting your first task assignment."
-            }
+                "closing": "System integration complete. Awaiting your first task assignment.",
+            },
         }
 
         template = style_templates.get(style, style_templates["friendly"])
 
         return f"""
-{template['greeting']}
+{template["greeting"]}
 
-{template['body']}
+{template["body"]}
 
 Key responsibilities:
 - Execute assigned tasks efficiently
@@ -89,13 +89,15 @@ Key responsibilities:
 - Contribute to system improvements
 - Follow V2 compliance standards
 
-{template['closing']}
+{template["closing"]}
 
 Best regards,
 V2 Swarm Captain
 """
 
-    def _generate_welcome_back_message(self, agent_id: str, agent_status: dict[str, Any], style: str) -> str:
+    def _generate_welcome_back_message(
+        self, agent_id: str, agent_status: dict[str, Any], style: str
+    ) -> str:
         """Generate welcome back message for existing agent."""
         role = agent_status.get("role", "Specialist")
         onboarded_at = agent_status.get("onboarded_at", "recently")
@@ -104,33 +106,33 @@ V2 Swarm Captain
             "friendly": {
                 "greeting": f"Welcome back, {agent_id}!",
                 "body": f"Great to see you again! As a {role} in our V2 Swarm System, you're already making valuable contributions. Ready to tackle some new challenges?",
-                "closing": "Let's continue building amazing things together! 🚀"
+                "closing": "Let's continue building amazing things together! 🚀",
             },
             "professional": {
                 "greeting": f"Welcome back, {agent_id}.",
                 "body": f"As a {role} in our professional development team since {onboarded_at}, you continue to demonstrate excellent performance and dedication to our mission.",
-                "closing": "We look forward to your continued contributions."
+                "closing": "We look forward to your continued contributions.",
             },
             "technical": {
                 "greeting": f"Agent {agent_id} reconnected.",
                 "body": f"System recognizes {role} agent onboarded {onboarded_at}. Agent status: ACTIVE. Ready for task assignment and system integration.",
-                "closing": "Awaiting task assignment. System ready."
-            }
+                "closing": "Awaiting task assignment. System ready.",
+            },
         }
 
         template = style_templates.get(style, style_templates["friendly"])
 
         return f"""
-{template['greeting']}
+{template["greeting"]}
 
-{template['body']}
+{template["body"]}
 
 Current status:
 - Role: {role}
 - Onboarded: {onboarded_at}
 - System Status: ACTIVE
 
-{template['closing']}
+{template["closing"]}
 
 Best regards,
 V2 Swarm Captain
@@ -144,15 +146,11 @@ V2 Swarm Captain
                 "service": "onboarding",
                 "status": "active",
                 "onboarded_agents_count": len(onboarded_agents),
-                "onboarded_agents": onboarded_agents
+                "onboarded_agents": onboarded_agents,
             }
         except Exception as e:
             self.logger.error(f"Error getting service status: {e}")
-            return {
-                "service": "onboarding",
-                "status": "error",
-                "error": str(e)
-            }
+            return {"service": "onboarding", "status": "error", "error": str(e)}
 
 
 __all__ = ["OnboardingService"]

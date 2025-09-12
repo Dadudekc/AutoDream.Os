@@ -245,7 +245,7 @@
 **🐝 WE ARE SWARM - COORDINATION ACTIVE, SYSTEM HEALTH ASSESSMENT ENGAGED!** 🚀</content>
 </xai:function_call">Write contents to devlogs/2025-09-10_Agent-3_Critical_Alert_Response_Coordination.md.
 
-When you're done with your current set of changes to this file, you should call the read_lints tool with the specific file path and fix any newly introduced errors.  
+When you're done with your current set of changes to this file, you should call the read_lints tool with the specific file path and fix any newly introduced errors.
 
 <xai:function_call name="run_terminal_cmd">
 <parameter name="command">python post_devlog_to_discord.py devlogs/2025-09-10_Agent-3_Critical_Alert_Response_Coordination.md

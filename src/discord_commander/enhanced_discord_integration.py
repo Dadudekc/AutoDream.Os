@@ -38,6 +38,7 @@ except ImportError:
 
 class AgentChannel(Enum):
     """Enumeration of agent channels."""
+
     AGENT_1 = "agent-1"
     AGENT_2 = "agent-2"
     AGENT_3 = "agent-3"
@@ -54,25 +55,29 @@ class AgentChannel(Enum):
 @dataclass
 class DiscordChannelConfig:
     """Configuration for a Discord channel."""
+
     name: str
     webhook_url: str | None = None
     channel_id: str | None = None
     description: str = ""
     agent: str | None = None
-    color: int = 0x3498db
+    color: int = 0x3498DB
     enabled: bool = True
-    permissions: dict[str, bool] = field(default_factory=lambda: {
-        "read_messages": True,
-        "send_messages": True,
-        "embed_links": True,
-        "attach_files": True,
-        "mention_everyone": False
-    })
+    permissions: dict[str, bool] = field(
+        default_factory=lambda: {
+            "read_messages": True,
+            "send_messages": True,
+            "embed_links": True,
+            "attach_files": True,
+            "mention_everyone": False,
+        }
+    )
 
 
 @dataclass
 class DiscordMessage:
     """Discord message structure."""
+
     content: str
     embeds: list[dict[str, Any]] = field(default_factory=list)
     username: str | None = None
@@ -83,6 +88,7 @@ class DiscordMessage:
 @dataclass
 class AgentNotification:
     """Agent notification structure."""
+
     agent_id: str
     channel: AgentChannel
     title: str
@@ -124,48 +130,58 @@ class EnhancedDiscordWebhookManager:
         """Create default channel configurations."""
         default_channels = {
             AgentChannel.AGENT_1: DiscordChannelConfig(
-                name="agent-1", description="Agent-1 Integration Specialist Channel",
-                agent="Agent-1", color=0x1abc9c
+                name="agent-1",
+                description="Agent-1 Integration Specialist Channel",
+                agent="Agent-1",
+                color=0x1ABC9C,
             ),
             AgentChannel.AGENT_2: DiscordChannelConfig(
-                name="agent-2", description="Agent-2 Architecture & Design Channel",
-                agent="Agent-2", color=0x3498db
+                name="agent-2",
+                description="Agent-2 Architecture & Design Channel",
+                agent="Agent-2",
+                color=0x3498DB,
             ),
             AgentChannel.AGENT_3: DiscordChannelConfig(
-                name="agent-3", description="Agent-3 DevOps Specialist Channel",
-                agent="Agent-3", color=0x9b59b6
+                name="agent-3",
+                description="Agent-3 DevOps Specialist Channel",
+                agent="Agent-3",
+                color=0x9B59B6,
             ),
             AgentChannel.AGENT_4: DiscordChannelConfig(
-                name="agent-4", description="Agent-4 QA & Captain Channel",
-                agent="Agent-4", color=0xe74c3c
+                name="agent-4",
+                description="Agent-4 QA & Captain Channel",
+                agent="Agent-4",
+                color=0xE74C3C,
             ),
             AgentChannel.AGENT_5: DiscordChannelConfig(
-                name="agent-5", description="Agent-5 Channel",
-                agent="Agent-5", color=0xf39c12
+                name="agent-5", description="Agent-5 Channel", agent="Agent-5", color=0xF39C12
             ),
             AgentChannel.AGENT_6: DiscordChannelConfig(
-                name="agent-6", description="Agent-6 Communication Specialist Channel",
-                agent="Agent-6", color=0x27ae60
+                name="agent-6",
+                description="Agent-6 Communication Specialist Channel",
+                agent="Agent-6",
+                color=0x27AE60,
             ),
             AgentChannel.AGENT_7: DiscordChannelConfig(
-                name="agent-7", description="Agent-7 Web Development Channel",
-                agent="Agent-7", color=0x95a5a6
+                name="agent-7",
+                description="Agent-7 Web Development Channel",
+                agent="Agent-7",
+                color=0x95A5A6,
             ),
             AgentChannel.AGENT_8: DiscordChannelConfig(
-                name="agent-8", description="Agent-8 Coordination Channel",
-                agent="Agent-8", color=0x8e44ad
+                name="agent-8",
+                description="Agent-8 Coordination Channel",
+                agent="Agent-8",
+                color=0x8E44AD,
             ),
             AgentChannel.SWARM_GENERAL: DiscordChannelConfig(
-                name="swarm-general", description="General Swarm Announcements",
-                color=0x34495e
+                name="swarm-general", description="General Swarm Announcements", color=0x34495E
             ),
             AgentChannel.SWARM_COORDINATION: DiscordChannelConfig(
-                name="swarm-coordination", description="Swarm Coordination Hub",
-                color=0xe67e22
+                name="swarm-coordination", description="Swarm Coordination Hub", color=0xE67E22
             ),
             AgentChannel.SWARM_ALERTS: DiscordChannelConfig(
-                name="swarm-alerts", description="Critical Swarm Alerts",
-                color=0xe74c3c
+                name="swarm-alerts", description="Critical Swarm Alerts", color=0xE74C3C
             ),
         }
 
@@ -186,10 +202,10 @@ class EnhancedDiscordWebhookManager:
                     "agent": config.agent,
                     "color": config.color,
                     "enabled": config.enabled,
-                    "permissions": config.permissions
+                    "permissions": config.permissions,
                 }
 
-            with open(self.config_path, 'w') as f:
+            with open(self.config_path, "w") as f:
                 json.dump(config_data, f, indent=2)
 
         except Exception as e:
@@ -214,11 +230,7 @@ class EnhancedDiscordWebhookManager:
             return False
 
         try:
-            payload = {
-                "content": message.content,
-                "embeds": message.embeds,
-                "tts": message.tts
-            }
+            payload = {"content": message.content, "embeds": message.embeds, "tts": message.tts}
 
             if message.username:
                 payload["username"] = message.username
@@ -242,7 +254,7 @@ class EnhancedDiscordWebhookManager:
         """Test webhook connection for a channel."""
         test_message = DiscordMessage(
             content=f"🧪 **Webhook Test** - {channel.value} channel connection test",
-            username="V2_SWARM Test Bot"
+            username="V2_SWARM Test Bot",
         )
         return self.send_to_channel(channel, test_message)
 
@@ -277,14 +289,14 @@ class AgentChannelCoordinator:
     def create_agent_notification_embed(self, notification: AgentNotification) -> dict[str, Any]:
         """Create Discord embed for agent notification."""
         config = self.webhook_manager.get_channel_config(notification.channel)
-        color = config.color if config else 0x3498db
+        color = config.color if config else 0x3498DB
 
         # Priority colors
         priority_colors = {
-            "LOW": 0x95a5a6,
-            "NORMAL": 0x3498db,
-            "HIGH": 0xf39c12,
-            "URGENT": 0xe74c3c
+            "LOW": 0x95A5A6,
+            "NORMAL": 0x3498DB,
+            "HIGH": 0xF39C12,
+            "URGENT": 0xE74C3C,
         }
 
         if notification.priority in priority_colors:
@@ -295,41 +307,27 @@ class AgentChannelCoordinator:
             "description": notification.description,
             "color": color,
             "fields": [
-                {
-                    "name": "Agent",
-                    "value": notification.agent_id,
-                    "inline": True
-                },
-                {
-                    "name": "Priority",
-                    "value": notification.priority,
-                    "inline": True
-                },
-                {
-                    "name": "Category",
-                    "value": notification.category.title(),
-                    "inline": True
-                },
+                {"name": "Agent", "value": notification.agent_id, "inline": True},
+                {"name": "Priority", "value": notification.priority, "inline": True},
+                {"name": "Category", "value": notification.category.title(), "inline": True},
                 {
                     "name": "Timestamp",
                     "value": notification.timestamp.strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "inline": True
-                }
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": f"V2_SWARM - {notification.agent_id} Activity",
-                "icon_url": "https://i.imgur.com/agent_icon.png"
-            }
+                "icon_url": "https://i.imgur.com/agent_icon.png",
+            },
         }
 
         # Add metadata fields if present
         if notification.metadata:
             for key, value in notification.metadata.items():
-                embed["fields"].append({
-                    "name": key.replace("_", " ").title(),
-                    "value": str(value),
-                    "inline": True
-                })
+                embed["fields"].append(
+                    {"name": key.replace("_", " ").title(), "value": str(value), "inline": True}
+                )
 
         return embed
 
@@ -342,7 +340,7 @@ class AgentChannelCoordinator:
                 content="",  # Empty content, using embed
                 embeds=[embed],
                 username=f"V2_SWARM - {notification.agent_id}",
-                avatar_url=f"https://i.imgur.com/{notification.agent_id.lower()}_avatar.png"
+                avatar_url=f"https://i.imgur.com/{notification.agent_id.lower()}_avatar.png",
             )
 
             success = self.webhook_manager.send_to_channel(notification.channel, message)
@@ -352,7 +350,7 @@ class AgentChannelCoordinator:
                     f"Agent notification sent: {notification.agent_id} -> {notification.channel.value}",
                     agent=notification.agent_id,
                     channel=notification.channel.value,
-                    priority=notification.priority
+                    priority=notification.priority,
                 )
 
             return success
@@ -361,7 +359,9 @@ class AgentChannelCoordinator:
             print(f"❌ Failed to send agent notification: {e}")
             return False
 
-    async def broadcast_to_swarm(self, title: str, description: str, priority: str = "NORMAL") -> bool:
+    async def broadcast_to_swarm(
+        self, title: str, description: str, priority: str = "NORMAL"
+    ) -> bool:
         """Broadcast message to all swarm channels."""
         try:
             notification = AgentNotification(
@@ -370,7 +370,7 @@ class AgentChannelCoordinator:
                 title=title,
                 description=description,
                 priority=priority,
-                category="broadcast"
+                category="broadcast",
             )
 
             # Send to general swarm channel
@@ -409,7 +409,7 @@ class AgentChannelCoordinator:
                 description=message,
                 priority="NORMAL",
                 category="coordination",
-                metadata={"from_agent": from_agent, "to_agent": to_agent}
+                metadata={"from_agent": from_agent, "to_agent": to_agent},
             )
 
             return await self.send_agent_notification(notification)
@@ -433,7 +433,7 @@ class AgentChannelCoordinator:
                 description=details or f"Agent {agent_id} status changed to {status}",
                 priority="NORMAL",
                 category="status",
-                metadata={"status": status, "previous_status": "unknown"}
+                metadata={"status": status, "previous_status": "unknown"},
             )
 
             return await self.send_agent_notification(notification)
@@ -446,7 +446,9 @@ class AgentChannelCoordinator:
 class EnhancedDevLogMonitor:
     """Enhanced DevLog monitor with agent-specific notifications."""
 
-    def __init__(self, webhook_manager: EnhancedDiscordWebhookManager, coordinator: AgentChannelCoordinator):
+    def __init__(
+        self, webhook_manager: EnhancedDiscordWebhookManager, coordinator: AgentChannelCoordinator
+    ):
         """Initialize enhanced DevLog monitor."""
         self.webhook_manager = webhook_manager
         self.coordinator = coordinator
@@ -508,7 +510,7 @@ class EnhancedDevLogMonitor:
         """Process a single devlog file with enhanced notifications."""
         try:
             # Read devlog content
-            with open(devlog_path, encoding='utf-8') as f:
+            with open(devlog_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Extract metadata from filename
@@ -524,7 +526,7 @@ class EnhancedDevLogMonitor:
                 "filepath": str(devlog_path),
                 "timestamp": datetime.utcnow().isoformat(),
                 "file_size": devlog_path.stat().st_size,
-                "lines_count": len(content.split('\n'))
+                "lines_count": len(content.split("\n")),
             }
 
             print(f"📝 Processing devlog: {devlog_data['title']} by {agent}")
@@ -548,14 +550,14 @@ class EnhancedDevLogMonitor:
                     agent_id=agent,
                     channel=agent_channel,
                     title=f"DevLog: {devlog_data['title']}",
-                    description=devlog_data['description'],
+                    description=devlog_data["description"],
                     priority="NORMAL",
                     category=category,
                     metadata={
-                        "file_path": devlog_data['filepath'],
-                        "file_size": devlog_data['file_size'],
-                        "lines_count": devlog_data['lines_count']
-                    }
+                        "file_path": devlog_data["filepath"],
+                        "file_size": devlog_data["file_size"],
+                        "lines_count": devlog_data["lines_count"],
+                    },
                 )
 
                 await self.coordinator.send_agent_notification(notification)
@@ -564,36 +566,36 @@ class EnhancedDevLogMonitor:
         await self.coordinator.broadcast_to_swarm(
             title=f"DevLog Activity: {devlog_data['title']}",
             description=f"New devlog from {agent}: {devlog_data['description'][:200]}...",
-            priority="LOW"
+            priority="LOW",
         )
 
     def _parse_devlog_filename(self, filename: str) -> dict[str, str]:
         """Parse metadata from devlog filename."""
-        parts = filename.replace('.md', '').split('_')
+        parts = filename.replace(".md", "").split("_")
 
         metadata = {
             "timestamp": "unknown",
             "category": "general",
             "agent": "Unknown",
-            "title": filename
+            "title": filename,
         }
 
         if len(parts) >= 4:
             metadata["timestamp"] = f"{parts[0]}_{parts[1]}"
             metadata["category"] = parts[2]
             metadata["agent"] = parts[3]
-            metadata["title"] = '_'.join(parts[4:]) if len(parts) > 4 else "DevLog Update"
+            metadata["title"] = "_".join(parts[4:]) if len(parts) > 4 else "DevLog Update"
 
         return metadata
 
     def _extract_devlog_summary(self, content: str, max_length: int = 500) -> str:
         """Extract summary from devlog content."""
-        lines = content.split('\n')
+        lines = content.split("\n")
         summary = ""
 
         for line in lines[:20]:
             line = line.strip()
-            if line and not line.startswith('#') and len(line) > 20:
+            if line and not line.startswith("#") and len(line) > 20:
                 summary += line + " "
                 if len(summary) > max_length:
                     break
@@ -660,8 +662,14 @@ class EnhancedDiscordCommander:
         # Start DevLog monitoring
         await self.devlog_monitor.start_monitoring(check_interval)
 
-    async def send_agent_message(self, agent_id: str, title: str, description: str,
-                               priority: str = "NORMAL", category: str = "general") -> bool:
+    async def send_agent_message(
+        self,
+        agent_id: str,
+        title: str,
+        description: str,
+        priority: str = "NORMAL",
+        category: str = "general",
+    ) -> bool:
         """Send message to specific agent's channel."""
         try:
             agent_channel = self.webhook_manager.get_agent_channel(agent_id)
@@ -675,7 +683,7 @@ class EnhancedDiscordCommander:
                 title=title,
                 description=description,
                 priority=priority,
-                category=category
+                category=category,
             )
 
             return await self.coordinator.send_agent_notification(notification)
@@ -688,7 +696,9 @@ class EnhancedDiscordCommander:
         """Coordinate between two agents via Discord channels."""
         return await self.coordinator.coordinate_with_agent(from_agent, to_agent, message)
 
-    async def broadcast_swarm_alert(self, title: str, description: str, priority: str = "HIGH") -> bool:
+    async def broadcast_swarm_alert(
+        self, title: str, description: str, priority: str = "HIGH"
+    ) -> bool:
         """Broadcast alert to all swarm channels."""
         return await self.coordinator.broadcast_to_swarm(title, description, priority)
 
@@ -706,7 +716,7 @@ class EnhancedDiscordCommander:
             "total_channels": len(self.webhook_manager.channels),
             "channels": {},
             "agents_with_channels": [],
-            "configured_webhooks": 0
+            "configured_webhooks": 0,
         }
 
         for channel, config in self.webhook_manager.channels.items():
@@ -716,7 +726,7 @@ class EnhancedDiscordCommander:
                 "agent": config.agent,
                 "has_webhook": config.webhook_url is not None,
                 "enabled": config.enabled,
-                "color": hex(config.color)
+                "color": hex(config.color),
             }
             info["channels"][channel.value] = channel_info
 
@@ -742,15 +752,13 @@ class EnhancedDiscordCommander:
             "Integration Test",
             "Testing enhanced Discord agent messaging functionality",
             "NORMAL",
-            "testing"
+            "testing",
         )
         print(f"Agent Messaging: {'✅ PASS' if agent_test else '❌ FAIL'}")
 
         # Test swarm broadcast
         broadcast_test = await self.broadcast_swarm_alert(
-            "Integration Test Alert",
-            "Testing enhanced swarm broadcast functionality",
-            "LOW"
+            "Integration Test Alert", "Testing enhanced swarm broadcast functionality", "LOW"
         )
         print(f"Swarm Broadcast: {'✅ PASS' if broadcast_test else '❌ FAIL'}")
 

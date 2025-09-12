@@ -37,7 +37,7 @@ class CoordinatorStatusParser(ICoordinatorStatusParser):
             return {
                 "name": getattr(coordinator, "name", "unknown"),
                 "status": "error",
-                "error": str(e)
+                "error": str(e),
             }
 
     def can_parse_status(self, coordinator: Any) -> bool:
@@ -53,9 +53,7 @@ class CoordinatorStatusFilter:
         self.status_parser = status_parser
 
     def get_coordinators_by_status(
-        self,
-        coordinators: dict[str, Any],
-        status: str
+        self, coordinators: dict[str, Any], status: str
     ) -> dict[str, Any]:
         """Get coordinators filtered by status."""
         filtered = {}

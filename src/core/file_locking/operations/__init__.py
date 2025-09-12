@@ -4,6 +4,6 @@
 from . import lock_operations, lock_queries
 
 __all__ = [
-    'lock_operations',
-    'lock_queries',
+    "lock_operations",
+    "lock_queries",
 ]

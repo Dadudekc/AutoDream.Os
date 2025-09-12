@@ -22,6 +22,7 @@ import psutil
 
 class MonitoringPriority(Enum):
     """Operational monitoring priority levels."""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -31,15 +32,17 @@ class MonitoringPriority(Enum):
 
 class SLATier(Enum):
     """Service Level Agreement tiers."""
+
     PLATINUM = "platinum"  # 99.99% uptime
-    GOLD = "gold"          # 99.9% uptime
-    SILVER = "silver"      # 99.5% uptime
-    BRONZE = "bronze"      # 99.0% uptime
+    GOLD = "gold"  # 99.9% uptime
+    SILVER = "silver"  # 99.5% uptime
+    BRONZE = "bronze"  # 99.0% uptime
 
 
 @dataclass
 class OperationalMetric:
     """Represents a single operational metric."""
+
     name: str
     value: int | float | str | bool
     unit: str
@@ -55,6 +58,7 @@ class OperationalMetric:
 @dataclass
 class SystemHealthStatus:
     """Comprehensive system health status."""
+
     timestamp: datetime
     overall_status: str = "unknown"
     components: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -67,6 +71,7 @@ class SystemHealthStatus:
 @dataclass
 class SLAAnalysis:
     """Service Level Agreement impact analysis."""
+
     tier: SLATier
     current_uptime_percentage: float
     required_uptime_percentage: float
@@ -234,12 +239,14 @@ class OperationalMonitoringBaseline:
         ]
 
         if not compliance_status:
-            strategies.extend([
-                "Increase monitoring frequency during consolidation",
-                "Implement additional redundancy measures",
-                "Prepare emergency intervention procedures",
-                "Establish cross-team incident response coordination",
-            ])
+            strategies.extend(
+                [
+                    "Increase monitoring frequency during consolidation",
+                    "Implement additional redundancy measures",
+                    "Prepare emergency intervention procedures",
+                    "Establish cross-team incident response coordination",
+                ]
+            )
 
         return strategies
 
@@ -256,10 +263,10 @@ class OperationalMonitoringBaseline:
 
         # Capacity planning for different phases
         self.monitoring_capacity["phase_capacity"] = {
-            "baseline": 1.0,    # Normal operations
+            "baseline": 1.0,  # Normal operations
             "consolidation": 1.5,  # During file consolidation
-            "validation": 2.0,    # During testing and validation
-            "rollback": 1.2,      # During rollback operations
+            "validation": 2.0,  # During testing and validation
+            "rollback": 1.2,  # During rollback operations
         }
 
     def _set_alert_thresholds(self) -> None:
@@ -361,45 +368,51 @@ class OperationalMonitoringBaseline:
         try:
             # CPU usage
             cpu_percent = psutil.cpu_percent(interval=1)
-            metrics.append(OperationalMetric(
-                name="system_cpu_usage",
-                value=cpu_percent,
-                unit="percentage",
-                timestamp=datetime.now(),
-                priority=MonitoringPriority.HIGH,
-                sla_impact=True,
-                baseline_value=self.alert_thresholds["cpu_usage"]["baseline"],
-                threshold_warning=self.alert_thresholds["cpu_usage"]["warning"],
-                threshold_critical=self.alert_thresholds["cpu_usage"]["critical"],
-            ))
+            metrics.append(
+                OperationalMetric(
+                    name="system_cpu_usage",
+                    value=cpu_percent,
+                    unit="percentage",
+                    timestamp=datetime.now(),
+                    priority=MonitoringPriority.HIGH,
+                    sla_impact=True,
+                    baseline_value=self.alert_thresholds["cpu_usage"]["baseline"],
+                    threshold_warning=self.alert_thresholds["cpu_usage"]["warning"],
+                    threshold_critical=self.alert_thresholds["cpu_usage"]["critical"],
+                )
+            )
 
             # Memory usage
             memory = psutil.virtual_memory()
-            metrics.append(OperationalMetric(
-                name="system_memory_usage",
-                value=memory.percent,
-                unit="percentage",
-                timestamp=datetime.now(),
-                priority=MonitoringPriority.HIGH,
-                sla_impact=True,
-                baseline_value=self.alert_thresholds["memory_usage"]["baseline"],
-                threshold_warning=self.alert_thresholds["memory_usage"]["warning"],
-                threshold_critical=self.alert_thresholds["memory_usage"]["critical"],
-            ))
+            metrics.append(
+                OperationalMetric(
+                    name="system_memory_usage",
+                    value=memory.percent,
+                    unit="percentage",
+                    timestamp=datetime.now(),
+                    priority=MonitoringPriority.HIGH,
+                    sla_impact=True,
+                    baseline_value=self.alert_thresholds["memory_usage"]["baseline"],
+                    threshold_warning=self.alert_thresholds["memory_usage"]["warning"],
+                    threshold_critical=self.alert_thresholds["memory_usage"]["critical"],
+                )
+            )
 
             # Disk usage
-            disk = psutil.disk_usage('/')
-            metrics.append(OperationalMetric(
-                name="system_disk_usage",
-                value=disk.percent,
-                unit="percentage",
-                timestamp=datetime.now(),
-                priority=MonitoringPriority.MEDIUM,
-                sla_impact=True,
-                baseline_value=self.alert_thresholds["disk_usage"]["baseline"],
-                threshold_warning=self.alert_thresholds["disk_usage"]["warning"],
-                threshold_critical=self.alert_thresholds["disk_usage"]["critical"],
-            ))
+            disk = psutil.disk_usage("/")
+            metrics.append(
+                OperationalMetric(
+                    name="system_disk_usage",
+                    value=disk.percent,
+                    unit="percentage",
+                    timestamp=datetime.now(),
+                    priority=MonitoringPriority.MEDIUM,
+                    sla_impact=True,
+                    baseline_value=self.alert_thresholds["disk_usage"]["baseline"],
+                    threshold_warning=self.alert_thresholds["disk_usage"]["warning"],
+                    threshold_critical=self.alert_thresholds["disk_usage"]["critical"],
+                )
+            )
 
         except Exception as e:
             print(f"⚠️  Error collecting system metrics: {e}")
@@ -412,31 +425,35 @@ class OperationalMonitoringBaseline:
 
         # Response time simulation (would be from real application monitoring)
         response_time = 245.0  # milliseconds
-        metrics.append(OperationalMetric(
-            name="application_response_time",
-            value=response_time,
-            unit="milliseconds",
-            timestamp=datetime.now(),
-            priority=MonitoringPriority.HIGH,
-            sla_impact=True,
-            baseline_value=self.alert_thresholds["response_time_ms"]["baseline"],
-            threshold_warning=self.alert_thresholds["response_time_ms"]["warning"],
-            threshold_critical=self.alert_thresholds["response_time_ms"]["critical"],
-        ))
+        metrics.append(
+            OperationalMetric(
+                name="application_response_time",
+                value=response_time,
+                unit="milliseconds",
+                timestamp=datetime.now(),
+                priority=MonitoringPriority.HIGH,
+                sla_impact=True,
+                baseline_value=self.alert_thresholds["response_time_ms"]["baseline"],
+                threshold_warning=self.alert_thresholds["response_time_ms"]["warning"],
+                threshold_critical=self.alert_thresholds["response_time_ms"]["critical"],
+            )
+        )
 
         # Error rate simulation
         error_rate = 0.05  # 0.05%
-        metrics.append(OperationalMetric(
-            name="application_error_rate",
-            value=error_rate,
-            unit="percentage",
-            timestamp=datetime.now(),
-            priority=MonitoringPriority.HIGH,
-            sla_impact=True,
-            baseline_value=self.alert_thresholds["error_rate_percentage"]["baseline"],
-            threshold_warning=self.alert_thresholds["error_rate_percentage"]["warning"],
-            threshold_critical=self.alert_thresholds["error_rate_percentage"]["critical"],
-        ))
+        metrics.append(
+            OperationalMetric(
+                name="application_error_rate",
+                value=error_rate,
+                unit="percentage",
+                timestamp=datetime.now(),
+                priority=MonitoringPriority.HIGH,
+                sla_impact=True,
+                baseline_value=self.alert_thresholds["error_rate_percentage"]["baseline"],
+                threshold_warning=self.alert_thresholds["error_rate_percentage"]["warning"],
+                threshold_critical=self.alert_thresholds["error_rate_percentage"]["critical"],
+            )
+        )
 
         return metrics
 
@@ -446,28 +463,32 @@ class OperationalMonitoringBaseline:
 
         # Consolidation performance impact simulation
         consolidation_impact = 2.5  # 2.5% performance impact
-        metrics.append(OperationalMetric(
-            name="consolidation_performance_impact",
-            value=consolidation_impact,
-            unit="percentage",
-            timestamp=datetime.now(),
-            priority=MonitoringPriority.CRITICAL,
-            sla_impact=True,
-            baseline_value=self.alert_thresholds["consolidation_disruption"]["baseline"],
-            threshold_warning=self.alert_thresholds["consolidation_disruption"]["warning"],
-            threshold_critical=self.alert_thresholds["consolidation_disruption"]["critical"],
-        ))
+        metrics.append(
+            OperationalMetric(
+                name="consolidation_performance_impact",
+                value=consolidation_impact,
+                unit="percentage",
+                timestamp=datetime.now(),
+                priority=MonitoringPriority.CRITICAL,
+                sla_impact=True,
+                baseline_value=self.alert_thresholds["consolidation_disruption"]["baseline"],
+                threshold_warning=self.alert_thresholds["consolidation_disruption"]["warning"],
+                threshold_critical=self.alert_thresholds["consolidation_disruption"]["critical"],
+            )
+        )
 
         # File consolidation progress simulation
         consolidation_progress = 15.0  # 15% complete
-        metrics.append(OperationalMetric(
-            name="consolidation_progress",
-            value=consolidation_progress,
-            unit="percentage",
-            timestamp=datetime.now(),
-            priority=MonitoringPriority.MEDIUM,
-            sla_impact=False,
-        ))
+        metrics.append(
+            OperationalMetric(
+                name="consolidation_progress",
+                value=consolidation_progress,
+                unit="percentage",
+                timestamp=datetime.now(),
+                priority=MonitoringPriority.MEDIUM,
+                sla_impact=False,
+            )
+        )
 
         return metrics
 
@@ -477,24 +498,28 @@ class OperationalMonitoringBaseline:
 
         for component, analysis in self.sla_analysis.items():
             # SLA compliance status
-            metrics.append(OperationalMetric(
-                name=f"sla_compliance_{component}",
-                value=1 if analysis.compliance_status else 0,
-                unit="boolean",
-                timestamp=datetime.now(),
-                priority=MonitoringPriority.CRITICAL,
-                sla_impact=True,
-            ))
+            metrics.append(
+                OperationalMetric(
+                    name=f"sla_compliance_{component}",
+                    value=1 if analysis.compliance_status else 0,
+                    unit="boolean",
+                    timestamp=datetime.now(),
+                    priority=MonitoringPriority.CRITICAL,
+                    sla_impact=True,
+                )
+            )
 
             # Uptime percentage
-            metrics.append(OperationalMetric(
-                name=f"sla_uptime_{component}",
-                value=analysis.current_uptime_percentage,
-                unit="percentage",
-                timestamp=datetime.now(),
-                priority=MonitoringPriority.HIGH,
-                sla_impact=True,
-            ))
+            metrics.append(
+                OperationalMetric(
+                    name=f"sla_uptime_{component}",
+                    value=analysis.current_uptime_percentage,
+                    unit="percentage",
+                    timestamp=datetime.now(),
+                    priority=MonitoringPriority.HIGH,
+                    sla_impact=True,
+                )
+            )
 
         return metrics
 
@@ -515,8 +540,9 @@ class OperationalMonitoringBaseline:
         overall_status = self._determine_overall_status(components, alerts)
 
         # Analyze SLA compliance
-        sla_compliance = {comp: analysis.compliance_status
-                         for comp, analysis in self.sla_analysis.items()}
+        sla_compliance = {
+            comp: analysis.compliance_status for comp, analysis in self.sla_analysis.items()
+        }
 
         # Assess consolidation impact
         consolidation_impact = self._assess_current_consolidation_impact(metrics)
@@ -538,14 +564,16 @@ class OperationalMonitoringBaseline:
 
         return health_status
 
-    def _analyze_component_health(self, metrics: list[OperationalMetric]) -> dict[str, dict[str, Any]]:
+    def _analyze_component_health(
+        self, metrics: list[OperationalMetric]
+    ) -> dict[str, dict[str, Any]]:
         """Analyze health of individual system components."""
         components = {}
 
         # Group metrics by component
         component_metrics = {}
         for metric in metrics:
-            component_name = metric.name.split('_')[0] if '_' in metric.name else 'system'
+            component_name = metric.name.split("_")[0] if "_" in metric.name else "system"
             if component_name not in component_metrics:
                 component_metrics[component_name] = []
             component_metrics[component_name].append(metric)
@@ -584,7 +612,7 @@ class OperationalMonitoringBaseline:
                 alert_data = {
                     "id": f"alert_{int(time.time())}_{metric.name}",
                     "type": "critical",
-                    "component": metric.name.split('_')[0],
+                    "component": metric.name.split("_")[0],
                     "message": f"CRITICAL: {metric.name} at {metric.value}{metric.unit}",
                     "value": metric.value,
                     "threshold": metric.threshold_critical,
@@ -595,7 +623,7 @@ class OperationalMonitoringBaseline:
                 alert_data = {
                     "id": f"alert_{int(time.time())}_{metric.name}",
                     "type": "warning",
-                    "component": metric.name.split('_')[0],
+                    "component": metric.name.split("_")[0],
                     "message": f"WARNING: {metric.name} at {metric.value}{metric.unit}",
                     "value": metric.value,
                     "threshold": metric.threshold_warning,
@@ -608,8 +636,9 @@ class OperationalMonitoringBaseline:
 
         return alerts
 
-    def _determine_overall_status(self, components: dict[str, dict[str, Any]],
-                                alerts: list[dict[str, Any]]) -> str:
+    def _determine_overall_status(
+        self, components: dict[str, dict[str, Any]], alerts: list[dict[str, Any]]
+    ) -> str:
         """Determine overall system health status."""
         if any(component["status"] == "critical" for component in components.values()):
             return "critical"
@@ -622,7 +651,9 @@ class OperationalMonitoringBaseline:
         else:
             return "healthy"
 
-    def _assess_current_consolidation_impact(self, metrics: list[OperationalMetric]) -> dict[str, Any]:
+    def _assess_current_consolidation_impact(
+        self, metrics: list[OperationalMetric]
+    ) -> dict[str, Any]:
         """Assess current consolidation impact on system."""
         consolidation_metrics = [m for m in metrics if "consolidation" in m.name.lower()]
 
@@ -693,8 +724,7 @@ class OperationalMonitoringBaseline:
 
         # SLA compliance recommendations
         non_compliant_components = [
-            comp for comp, analysis in self.sla_analysis.items()
-            if not analysis.compliance_status
+            comp for comp, analysis in self.sla_analysis.items() if not analysis.compliance_status
         ]
         if non_compliant_components:
             recommendations.append(
@@ -704,15 +734,11 @@ class OperationalMonitoringBaseline:
         # Alert-based recommendations
         critical_alerts = [alert for alert in health.alerts if alert["type"] == "critical"]
         if critical_alerts:
-            recommendations.append(
-                f"Address {len(critical_alerts)} critical alerts immediately"
-            )
+            recommendations.append(f"Address {len(critical_alerts)} critical alerts immediately")
 
         warning_alerts = [alert for alert in health.alerts if alert["type"] == "warning"]
         if warning_alerts:
-            recommendations.append(
-                f"Review {len(warning_alerts)} warning alerts"
-            )
+            recommendations.append(f"Review {len(warning_alerts)} warning alerts")
 
         # Consolidation impact recommendations
         if health.consolidation_impact.get("stability_impact") in ["medium", "high"]:
@@ -722,11 +748,13 @@ class OperationalMonitoringBaseline:
 
         # Capacity recommendations
         if len(health.metrics) > self.monitoring_capacity["max_metrics_per_minute"] * 60:
-            recommendations.append(
-                "Consider increasing monitoring capacity for current load"
-            )
+            recommendations.append("Consider increasing monitoring capacity for current load")
 
-        return recommendations if recommendations else ["All systems operating within normal parameters"]
+        return (
+            recommendations
+            if recommendations
+            else ["All systems operating within normal parameters"]
+        )
 
     def save_baseline_snapshot(self) -> None:
         """Save current operational baseline snapshot."""
@@ -755,7 +783,7 @@ class OperationalMonitoringBaseline:
         }
 
         snapshot_file = self.baseline_directory / f"operational_baseline_{int(time.time())}.json"
-        with open(snapshot_file, 'w') as f:
+        with open(snapshot_file, "w") as f:
             json.dump(snapshot, f, indent=2, default=str)
 
         print(f"✅ Operational baseline snapshot saved: {snapshot_file}")
@@ -793,8 +821,12 @@ class OperationalMonitoringBaseline:
                 if metric.priority in [MonitoringPriority.CRITICAL, MonitoringPriority.HIGH]
             },
             "consolidation_status": {
-                "impact_level": current_health.consolidation_impact.get("stability_impact", "unknown"),
-                "performance_impact": current_health.consolidation_impact.get("performance_impact", 0.0),
+                "impact_level": current_health.consolidation_impact.get(
+                    "stability_impact", "unknown"
+                ),
+                "performance_impact": current_health.consolidation_impact.get(
+                    "performance_impact", 0.0
+                ),
                 "recommendations": current_health.consolidation_impact.get("recommendations", []),
             },
         }
@@ -818,14 +850,13 @@ class OperationalMonitoringBaseline:
         critical_alerts = [a for a in current_health.alerts if a["type"] == "critical"]
         if critical_alerts:
             safety_status["consolidation_safe"] = False
-            safety_status["blocking_issues"].extend([
-                f"Critical alert: {alert['message']}" for alert in critical_alerts
-            ])
+            safety_status["blocking_issues"].extend(
+                [f"Critical alert: {alert['message']}" for alert in critical_alerts]
+            )
 
         # Check SLA compliance
         non_compliant_slas = [
-            comp for comp, compliant in current_health.sla_compliance.items()
-            if not compliant
+            comp for comp, compliant in current_health.sla_compliance.items() if not compliant
         ]
         if non_compliant_slas:
             safety_status["sla_protected"] = False
@@ -836,16 +867,14 @@ class OperationalMonitoringBaseline:
         # Check consolidation impact
         if current_health.consolidation_impact.get("stability_impact") == "high":
             safety_status["consolidation_safe"] = False
-            safety_status["blocking_issues"].append(
-                "High consolidation stability impact detected"
-            )
+            safety_status["blocking_issues"].append("High consolidation stability impact detected")
 
         # Check for warnings
         warning_alerts = [a for a in current_health.alerts if a["type"] == "warning"]
         if warning_alerts:
-            safety_status["warnings"].extend([
-                f"Warning: {alert['message']}" for alert in warning_alerts
-            ])
+            safety_status["warnings"].extend(
+                [f"Warning: {alert['message']}" for alert in warning_alerts]
+            )
 
         return safety_status
 
@@ -871,8 +900,10 @@ def main():
     print("\n📋 SLA COMPLIANCE ANALYSIS:")
     for component, analysis in baseline.sla_analysis.items():
         status_icon = "✅" if analysis.compliance_status else "❌"
-        print(f"  {status_icon} {component}: {analysis.current_uptime_percentage:.2f}% "
-              f"(Required: {analysis.required_uptime_percentage:.2f}%)")
+        print(
+            f"  {status_icon} {component}: {analysis.current_uptime_percentage:.2f}% "
+            f"(Required: {analysis.required_uptime_percentage:.2f}%)"
+        )
 
     # Display alerts
     if health_status.alerts:

@@ -10,9 +10,9 @@ from . import (
 )
 
 __all__ = [
-    'analytics_engine',
-    'forecast_generator',
-    'recommendation_engine_analysis',
-    'recommendation_engine_base',
-    'recommendation_engine_system',
+    "analytics_engine",
+    "forecast_generator",
+    "recommendation_engine_analysis",
+    "recommendation_engine_base",
+    "recommendation_engine_system",
 ]

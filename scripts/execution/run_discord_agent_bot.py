@@ -24,6 +24,7 @@ from pathlib import Path
 # Load environment variables from .env file
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
     print("⚠️  python-dotenv not installed. Environment variables must be set manually.")
@@ -70,7 +71,7 @@ Available Commands:
 
 def get_token_from_env() -> str:
     """Get Discord bot token from environment variables."""
-    token = os.getenv('DISCORD_BOT_TOKEN')
+    token = os.getenv("DISCORD_BOT_TOKEN")
     if not token:
         print("❌ Discord bot token not found!")
         print("💡 Set the DISCORD_BOT_TOKEN environment variable")
@@ -81,7 +82,7 @@ def get_token_from_env() -> str:
 
 def get_token_from_args() -> str:
     """Get Discord bot token from command line arguments."""
-    if len(sys.argv) > 1 and not sys.argv[1].startswith('--'):
+    if len(sys.argv) > 1 and not sys.argv[1].startswith("--"):
         return sys.argv[1]
     return get_token_from_env()
 
@@ -117,13 +118,13 @@ def show_config():
     print(f"👥 Admin Users: {len(config.get('admin_users', []))} configured")
 
     print("\n🎯 Features:")
-    features = config.get('features', {})
+    features = config.get("features", {})
     for feature, enabled in features.items():
         status = "✅ Enabled" if enabled else "❌ Disabled"
         print(f"  {status} {feature.replace('_', ' ').title()}")
 
     print("\n🔧 Integrations:")
-    integrations = config.get('integrations', {})
+    integrations = config.get("integrations", {})
     for integration, enabled in integrations.items():
         status = "✅ Enabled" if enabled else "❌ Disabled"
         print(f"  {status} {integration.replace('_', ' ').title()}")
@@ -132,10 +133,10 @@ def show_config():
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(description="V2_SWARM Discord Agent Bot")
-    parser.add_argument('token', nargs='?', help='Discord bot token')
-    parser.add_argument('--test', action='store_true', help='Test bot connection only')
-    parser.add_argument('--config', action='store_true', help='Show bot configuration')
-    parser.add_argument('--setup', action='store_true', help='Show setup instructions')
+    parser.add_argument("token", nargs="?", help="Discord bot token")
+    parser.add_argument("--test", action="store_true", help="Test bot connection only")
+    parser.add_argument("--config", action="store_true", help="Show bot configuration")
+    parser.add_argument("--setup", action="store_true", help="Show setup instructions")
 
     args = parser.parse_args()
 

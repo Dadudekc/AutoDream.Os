@@ -4,6 +4,6 @@
 from . import agent_assignment_engine, risk_assessment_engine
 
 __all__ = [
-    'agent_assignment_engine',
-    'risk_assessment_engine',
+    "agent_assignment_engine",
+    "risk_assessment_engine",
 ]

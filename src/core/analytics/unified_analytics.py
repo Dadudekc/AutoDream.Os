@@ -11,6 +11,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 class UnifiedAnalyticsFramework:
     """Unified analytics framework for all agent operations"""
 
@@ -39,6 +40,7 @@ class UnifiedAnalyticsFramework:
         except Exception as e:
             self.logger.error(f"Failed to process metrics: {e}")
             return {"status": "error", "error": str(e)}
+
 
 # Global instance
 unified_analytics = UnifiedAnalyticsFramework()

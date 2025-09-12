@@ -29,6 +29,7 @@ from typing import Any
 # AGENT CONTEXT MANAGEMENT
 # ============================================================================
 
+
 class AgentContextManager:
     """Manages agent context and state."""
 
@@ -42,12 +43,14 @@ class AgentContextManager:
         """Set context value."""
         try:
             self.context[key] = value
-            self.state_history.append({
-                "timestamp": datetime.now(),
-                "action": "set_context",
-                "key": key,
-                "value": str(value)
-            })
+            self.state_history.append(
+                {
+                    "timestamp": datetime.now(),
+                    "action": "set_context",
+                    "key": key,
+                    "value": str(value),
+                }
+            )
             return True
         except Exception as e:
             self.logger.error(f"Failed to set context {key}: {e}")
@@ -61,10 +64,7 @@ class AgentContextManager:
         """Clear all context."""
         try:
             self.context.clear()
-            self.state_history.append({
-                "timestamp": datetime.now(),
-                "action": "clear_context"
-            })
+            self.state_history.append({"timestamp": datetime.now(), "action": "clear_context"})
             return True
         except Exception as e:
             self.logger.error(f"Failed to clear context: {e}")
@@ -76,13 +76,14 @@ class AgentContextManager:
             "agent_id": self.agent_id,
             "context_keys": list(self.context.keys()),
             "context_size": len(self.context),
-            "state_history_size": len(self.state_history)
+            "state_history_size": len(self.state_history),
         }
 
 
 # ============================================================================
 # DOCUMENTATION SERVICES
 # ============================================================================
+
 
 class DocumentationService:
     """Manages documentation services."""
@@ -98,7 +99,7 @@ class DocumentationService:
             self.documentation_index[doc_id] = {
                 "content": content,
                 "metadata": metadata or {},
-                "indexed_at": datetime.now()
+                "indexed_at": datetime.now(),
             }
             return True
         except Exception as e:
@@ -111,17 +112,17 @@ class DocumentationService:
             results = []
             for doc_id, doc_data in self.documentation_index.items():
                 if query.lower() in doc_data["content"].lower():
-                    results.append({
-                        "doc_id": doc_id,
-                        "content": doc_data["content"],
-                        "metadata": doc_data["metadata"]
-                    })
+                    results.append(
+                        {
+                            "doc_id": doc_id,
+                            "content": doc_data["content"],
+                            "metadata": doc_data["metadata"],
+                        }
+                    )
 
-            self.search_history.append({
-                "timestamp": datetime.now(),
-                "query": query,
-                "results_count": len(results)
-            })
+            self.search_history.append(
+                {"timestamp": datetime.now(), "query": query, "results_count": len(results)}
+            )
 
             return results
         except Exception as e:
@@ -133,7 +134,8 @@ class DocumentationService:
         return {
             "total_docs": len(self.documentation_index),
             "total_searches": len(self.search_history),
-            "avg_results_per_search": sum(h["results_count"] for h in self.search_history) / max(len(self.search_history), 1)
+            "avg_results_per_search": sum(h["results_count"] for h in self.search_history)
+            / max(len(self.search_history), 1),
         }
 
 
@@ -141,8 +143,10 @@ class DocumentationService:
 # MESSAGE QUEUE MANAGEMENT
 # ============================================================================
 
+
 class MessageQueueStatus(Enum):
     """Message queue status enumeration."""
+
     PENDING = "pending"
     PROCESSING = "processing"
     COMPLETED = "completed"
@@ -153,6 +157,7 @@ class MessageQueueStatus(Enum):
 @dataclass
 class MessageQueueEntry:
     """Message queue entry."""
+
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     message: str = ""
     priority: int = 0
@@ -182,7 +187,7 @@ class MessageQueueEntry:
             "processed_at": self.processed_at.isoformat() if self.processed_at else None,
             "retry_count": self.retry_count,
             "max_retries": self.max_retries,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -197,7 +202,7 @@ class MessageQueueManager:
             "total_processed": 0,
             "total_failed": 0,
             "total_retries": 0,
-            "avg_processing_time": 0.0
+            "avg_processing_time": 0.0,
         }
 
     def enqueue(self, message: str, priority: int = 0, metadata: dict = None) -> str:
@@ -206,11 +211,7 @@ class MessageQueueManager:
             self.logger.warning("Queue is full, removing oldest entry")
             self.queue.pop(0)
 
-        entry = MessageQueueEntry(
-            message=message,
-            priority=priority,
-            metadata=metadata or {}
-        )
+        entry = MessageQueueEntry(message=message, priority=priority, metadata=metadata or {})
 
         # Insert based on priority (higher priority first)
         inserted = False
@@ -282,7 +283,7 @@ class MessageQueueManager:
         return {
             "total_entries": len(self.queue),
             "status_counts": status_counts,
-            "statistics": self.statistics
+            "statistics": self.statistics,
         }
 
     def cleanup_expired(self, ttl_seconds: int = 3600) -> int:
@@ -301,9 +302,11 @@ class MessageQueueManager:
 # METRICS MANAGEMENT
 # ============================================================================
 
+
 @dataclass
 class Metric:
     """Metric data structure."""
+
     name: str
     value: float
     timestamp: datetime = field(default_factory=datetime.now)
@@ -315,7 +318,7 @@ class Metric:
             "name": self.name,
             "value": self.value,
             "timestamp": self.timestamp.isoformat(),
-            "tags": self.tags
+            "tags": self.tags,
         }
 
 
@@ -358,7 +361,7 @@ class MetricsManager:
             "min": min(values),
             "max": max(values),
             "avg": sum(values) / len(values),
-            "latest": values[-1] if values else None
+            "latest": values[-1] if values else None,
         }
 
     def get_all_metrics(self) -> list[dict]:
@@ -381,9 +384,11 @@ class MetricsManager:
 # WORKSPACE AGENT REGISTRY
 # ============================================================================
 
+
 @dataclass
 class AgentInfo:
     """Agent information structure."""
+
     agent_id: str
     agent_name: str
     agent_type: str
@@ -405,7 +410,7 @@ class AgentInfo:
             "status": self.status,
             "last_seen": self.last_seen.isoformat(),
             "capabilities": self.capabilities,
-            "metadata": self.metadata
+            "metadata": self.metadata,
         }
 
 
@@ -479,13 +484,14 @@ class WorkspaceAgentRegistry:
             "total_agents": total_agents,
             "online_agents": online_agents,
             "offline_agents": total_agents - online_agents,
-            "type_counts": type_counts
+            "type_counts": type_counts,
         }
 
 
 # ============================================================================
 # FACTORY FUNCTIONS
 # ============================================================================
+
 
 def create_agent_context_manager(agent_id: str = "agent-2") -> AgentContextManager:
     """Create an agent context manager."""
@@ -516,6 +522,7 @@ def create_workspace_agent_registry() -> WorkspaceAgentRegistry:
 # MAIN EXECUTION
 # ============================================================================
 
+
 def main():
     """Main execution function."""
     print("Core Manager System - Consolidated Manager Classes")
@@ -539,7 +546,9 @@ def main():
     # Create metrics manager
     metrics_manager = create_metrics_manager()
     metrics_manager.record_metric("consolidation_progress", 25.0)
-    print(f"Metrics manager created: {metrics_manager.get_metric_summary('consolidation_progress')}")
+    print(
+        f"Metrics manager created: {metrics_manager.get_metric_summary('consolidation_progress')}"
+    )
 
     # Create workspace agent registry
     agent_registry = create_workspace_agent_registry()
@@ -547,7 +556,7 @@ def main():
         agent_id="agent-2",
         agent_name="Architecture & Design Specialist",
         agent_type="consolidation",
-        capabilities=["analysis", "consolidation", "architecture"]
+        capabilities=["analysis", "consolidation", "architecture"],
     )
     agent_registry.register_agent(agent_info)
     print(f"Workspace agent registry created: {agent_registry.get_registry_stats()}")

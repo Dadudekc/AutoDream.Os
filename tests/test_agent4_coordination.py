@@ -31,6 +31,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 try:
     from test_coordination_center import CoordinationCenter
     from test_monitor import ProgressMonitor
+
     COORDINATION_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️  Coordination components not available: {e}")
@@ -39,6 +40,7 @@ except ImportError as e:
 # Import reporting components
 try:
     from tests.test_reporting import CoverageReporter
+
     REPORTING_AVAILABLE = True
 except ImportError:
     # Create a simple mock if not available
@@ -49,7 +51,9 @@ except ImportError:
             self.timestamp = datetime.now()
 
         def generate_coverage_report(self, coverage_data):
-            report_path = self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+            report_path = (
+                self.report_dir / f"coverage_report_{self.timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+            )
             # Simple implementation
             return str(report_path)
 
@@ -147,22 +151,16 @@ class TestReportingSystemFunctionality:
     def test_report_generation(self):
         """Test report generation works."""
         reporter = CoverageReporter()
-        coverage_data = {
-            "total": 85.0,
-            "covered": 68.0,
-            "percentage": 80.0
-        }
+        coverage_data = {"total": 85.0, "covered": 68.0, "percentage": 80.0}
         report_path = reporter.generate_coverage_report(coverage_data)
         assert Path(report_path).exists()
 
     def test_html_report_generation(self):
         """Test HTML report generation."""
         reporter = CoverageReporter()
-        html_content = reporter.generate_html_report({
-            "total_lines": 1000,
-            "covered_lines": 850,
-            "percentage": 85.0
-        })
+        html_content = reporter.generate_html_report(
+            {"total_lines": 1000, "covered_lines": 850, "percentage": 85.0}
+        )
         assert "Test Coverage Report" in html_content
         assert "85.0%" in html_content
 
@@ -175,7 +173,7 @@ class TestCrossAgentCoordination:
     def test_agent_communication_channels(self):
         """Test agent communication channels work."""
         # Mock agent communication
-        with patch('pathlib.Path.exists', return_value=True):
+        with patch("pathlib.Path.exists", return_value=True):
             # This would test actual agent communication
             # For now, just verify the infrastructure exists
             inbox_dir = Path("agent_workspaces")
@@ -188,7 +186,7 @@ class TestCrossAgentCoordination:
 
         center = CoordinationCenter()
         # Test that broadcast functionality exists
-        assert hasattr(center, '_broadcast_mission_start')
+        assert hasattr(center, "_broadcast_mission_start")
 
     def test_progress_aggregation(self):
         """Test progress aggregation across agents."""
@@ -197,7 +195,7 @@ class TestCrossAgentCoordination:
 
         center = CoordinationCenter()
         # Test that progress tracking exists
-        assert hasattr(center, 'mission_status')
+        assert hasattr(center, "mission_status")
 
 
 @pytest.mark.agent4
@@ -216,7 +214,7 @@ class TestQualityAssuranceFramework:
             "agent5": 89,
             "agent6": 93,
             "agent7": 87,
-            "agent8": 91
+            "agent8": 91,
         }
 
         for agent, target in targets.items():
@@ -227,6 +225,7 @@ class TestQualityAssuranceFramework:
         start_time = datetime.now()
         # Simulate some work
         import time
+
         time.sleep(0.1)
         end_time = datetime.now()
 
@@ -259,6 +258,7 @@ class TestPerformanceMetrics:
     def test_execution_time_measurement(self):
         """Test execution time measurement."""
         import time
+
         start = time.time()
 
         # Simulate test execution
@@ -297,6 +297,7 @@ class TestPerformanceMetrics:
         """Test coverage collection efficiency."""
         # Mock coverage collection timing
         import time
+
         start = time.time()
 
         # Simulate coverage analysis
@@ -331,7 +332,9 @@ class TestSystemIntegration:
         assert len(test_files) > 0
 
         # Check for agent4 specific tests
-        agent4_tests = [f for f in test_files if "agent4" in f.name.lower() or "coordination" in f.name.lower()]
+        agent4_tests = [
+            f for f in test_files if "agent4" in f.name.lower() or "coordination" in f.name.lower()
+        ]
         assert len(agent4_tests) >= 1
 
     def test_coverage_reporting_integration(self):
@@ -339,6 +342,7 @@ class TestSystemIntegration:
         # Test that coverage reporting can be initialized
         try:
             import coverage
+
             assert True
         except ImportError:
             # Coverage not available, but that's okay for some environments
@@ -353,4 +357,6 @@ if __name__ == "__main__":
     print("Test execution: IMMEDIATE - PYTEST_MODE_ACTIVE")
     print()
     print("Running pytest on this file...")
-    print("Command: pytest tests/test_agent4_coordination.py -v --cov=src --cov-report=term-missing")
+    print(
+        "Command: pytest tests/test_agent4_coordination.py -v --cov=src --cov-report=term-missing"
+    )

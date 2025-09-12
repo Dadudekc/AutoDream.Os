@@ -160,8 +160,8 @@ python -m src.services.messaging_cli --help
 
 The built-in coordinate management system provides **enterprise-grade coordinate management** with full V2 compliance. Use the CLI commands above for all coordinate operations.
 
-**Agent-4 - Quality Assurance Specialist (CAPTAIN)**  
-**Mission**: Coordinate System Architecture & Enforcement  
-**Status**: **ENFORCED** ✅  
+**Agent-4 - Quality Assurance Specialist (CAPTAIN)**
+**Mission**: Coordinate System Architecture & Enforcement
+**Status**: **ENFORCED** ✅
 
 **WE. ARE. SWARM.** 🚀🏴‍☠️

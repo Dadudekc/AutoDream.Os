@@ -4,6 +4,6 @@
 from . import anomaly_detector, pattern_extractor
 
 __all__ = [
-    'anomaly_detector',
-    'pattern_extractor',
+    "anomaly_detector",
+    "pattern_extractor",
 ]

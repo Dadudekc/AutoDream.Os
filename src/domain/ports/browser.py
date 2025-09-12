@@ -12,6 +12,7 @@ from dataclasses import dataclass
 @dataclass
 class PageReply:
     """Standardized response from browser interactions."""
+
     id: str
     text: str
 

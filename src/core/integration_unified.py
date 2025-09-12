@@ -31,8 +31,10 @@ from typing import Any
 # INTEGRATION ENUMS AND MODELS
 # ============================================================================
 
+
 class IntegrationStatus(Enum):
     """Integration status enumeration."""
+
     INITIALIZING = "initializing"
     CONNECTING = "connecting"
     CONNECTED = "connected"
@@ -43,6 +45,7 @@ class IntegrationStatus(Enum):
 
 class IntegrationType(Enum):
     """Integration type enumeration."""
+
     API = "api"
     DATABASE = "database"
     MESSAGE_QUEUE = "message_queue"
@@ -54,6 +57,7 @@ class IntegrationType(Enum):
 
 class IntegrationProtocol(Enum):
     """Integration protocol enumeration."""
+
     HTTP = "http"
     HTTPS = "https"
     TCP = "tcp"
@@ -66,6 +70,7 @@ class IntegrationProtocol(Enum):
 
 class IntegrationHealth(Enum):
     """Integration health enumeration."""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     UNHEALTHY = "unhealthy"
@@ -76,9 +81,11 @@ class IntegrationHealth(Enum):
 # INTEGRATION MODELS
 # ============================================================================
 
+
 @dataclass
 class IntegrationInfo:
     """Integration information model."""
+
     integration_id: str
     name: str
     integration_type: IntegrationType
@@ -94,6 +101,7 @@ class IntegrationInfo:
 @dataclass
 class IntegrationRequest:
     """Integration request model."""
+
     request_id: str
     integration_id: str
     method: str
@@ -108,6 +116,7 @@ class IntegrationRequest:
 @dataclass
 class IntegrationResponse:
     """Integration response model."""
+
     response_id: str
     request_id: str
     status_code: int
@@ -122,6 +131,7 @@ class IntegrationResponse:
 @dataclass
 class IntegrationMetrics:
     """Integration metrics model."""
+
     integration_id: str
     total_requests: int = 0
     successful_requests: int = 0
@@ -133,6 +143,7 @@ class IntegrationMetrics:
 # ============================================================================
 # INTEGRATION INTERFACES
 # ============================================================================
+
 
 class IntegrationConnector(ABC):
     """Base integration connector interface."""
@@ -176,7 +187,9 @@ class IntegrationConnector(ABC):
 
         # Update average response time
         total_time = self.metrics.average_response_time * (self.metrics.total_requests - 1)
-        self.metrics.average_response_time = (total_time + response_time) / self.metrics.total_requests
+        self.metrics.average_response_time = (
+            total_time + response_time
+        ) / self.metrics.total_requests
         self.metrics.last_updated = datetime.now()
 
 
@@ -184,15 +197,12 @@ class IntegrationConnector(ABC):
 # INTEGRATION CONNECTORS
 # ============================================================================
 
+
 class APIConnector(IntegrationConnector):
     """API integration connector."""
 
     def __init__(self, integration_id: str = None):
-        super().__init__(
-            integration_id or str(uuid.uuid4()),
-            "APIConnector",
-            IntegrationType.API
-        )
+        super().__init__(integration_id or str(uuid.uuid4()), "APIConnector", IntegrationType.API)
         self.base_url = ""
         self.api_key = ""
 
@@ -232,7 +242,7 @@ class APIConnector(IntegrationConnector):
                 request_id=request.request_id,
                 status_code=200,
                 data={"message": "API request successful"},
-                response_time=response_time
+                response_time=response_time,
             )
 
             self.update_metrics(response_time, True)
@@ -246,7 +256,7 @@ class APIConnector(IntegrationConnector):
                 request_id=request.request_id,
                 status_code=500,
                 error_message=str(e),
-                response_time=response_time
+                response_time=response_time,
             )
 
     def get_capabilities(self) -> list[str]:
@@ -259,9 +269,7 @@ class DatabaseConnector(IntegrationConnector):
 
     def __init__(self, integration_id: str = None):
         super().__init__(
-            integration_id or str(uuid.uuid4()),
-            "DatabaseConnector",
-            IntegrationType.DATABASE
+            integration_id or str(uuid.uuid4()), "DatabaseConnector", IntegrationType.DATABASE
         )
         self.connection_string = ""
         self.database_name = ""
@@ -302,7 +310,7 @@ class DatabaseConnector(IntegrationConnector):
                 request_id=request.request_id,
                 status_code=200,
                 data={"rows_affected": 1, "query_result": "success"},
-                response_time=response_time
+                response_time=response_time,
             )
 
             self.update_metrics(response_time, True)
@@ -316,7 +324,7 @@ class DatabaseConnector(IntegrationConnector):
                 request_id=request.request_id,
                 status_code=500,
                 error_message=str(e),
-                response_time=response_time
+                response_time=response_time,
             )
 
     def get_capabilities(self) -> list[str]:
@@ -331,7 +339,7 @@ class MessageQueueConnector(IntegrationConnector):
         super().__init__(
             integration_id or str(uuid.uuid4()),
             "MessageQueueConnector",
-            IntegrationType.MESSAGE_QUEUE
+            IntegrationType.MESSAGE_QUEUE,
         )
         self.queue_name = ""
         self.broker_url = ""
@@ -372,7 +380,7 @@ class MessageQueueConnector(IntegrationConnector):
                 request_id=request.request_id,
                 status_code=200,
                 data={"message_id": str(uuid.uuid4()), "status": "queued"},
-                response_time=response_time
+                response_time=response_time,
             )
 
             self.update_metrics(response_time, True)
@@ -386,7 +394,7 @@ class MessageQueueConnector(IntegrationConnector):
                 request_id=request.request_id,
                 status_code=500,
                 error_message=str(e),
-                response_time=response_time
+                response_time=response_time,
             )
 
     def get_capabilities(self) -> list[str]:
@@ -397,6 +405,7 @@ class MessageQueueConnector(IntegrationConnector):
 # ============================================================================
 # INTEGRATION MANAGER
 # ============================================================================
+
 
 class IntegrationManager:
     """Integration management system."""
@@ -431,7 +440,9 @@ class IntegrationManager:
                 success = False
         return success
 
-    def send_request(self, integration_id: str, request: IntegrationRequest) -> IntegrationResponse | None:
+    def send_request(
+        self, integration_id: str, request: IntegrationRequest
+    ) -> IntegrationResponse | None:
         """Send request to specific integration."""
         connector = self.connectors.get(integration_id)
         if not connector:
@@ -446,7 +457,7 @@ class IntegrationManager:
             "total_connectors": len(self.connectors),
             "connected_connectors": 0,
             "healthy_connectors": 0,
-            "connectors": {}
+            "connectors": {},
         }
 
         for connector in self.connectors.values():
@@ -459,7 +470,7 @@ class IntegrationManager:
                 "name": connector.name,
                 "type": connector.integration_type.value,
                 "status": connector.status.value,
-                "health": connector.health.value
+                "health": connector.health.value,
             }
 
         return status
@@ -469,12 +480,15 @@ class IntegrationManager:
 # FACTORY FUNCTIONS
 # ============================================================================
 
-def create_integration_connector(connector_type: str, integration_id: str = None) -> IntegrationConnector | None:
+
+def create_integration_connector(
+    connector_type: str, integration_id: str = None
+) -> IntegrationConnector | None:
     """Create integration connector by type."""
     connectors = {
         "api": APIConnector,
         "database": DatabaseConnector,
-        "message_queue": MessageQueueConnector
+        "message_queue": MessageQueueConnector,
     }
 
     connector_class = connectors.get(connector_type)
@@ -492,6 +506,7 @@ def create_integration_manager() -> IntegrationManager:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -524,7 +539,7 @@ def main():
         integration_id=list(manager.connectors.keys())[0],
         method="GET",
         endpoint="/test",
-        payload={"test": "data"}
+        payload={"test": "data"},
     )
 
     response = manager.send_request(test_request.integration_id, test_request)

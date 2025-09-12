@@ -69,7 +69,7 @@ try:
     from .embeds import EmbedManager
     from .handlers_agents import AgentCommandHandlers
     from .handlers_swarm import SwarmCommandHandlers
-    
+
     # Optional messaging imports
     try:
         from ..integration.messaging_gateway import MessagingGateway
@@ -96,7 +96,7 @@ except ImportError as e:
         from embeds import EmbedManager
         from handlers_agents import AgentCommandHandlers
         from handlers_swarm import SwarmCommandHandlers
-        
+
         # Optional messaging fallback imports
         try:
             from integration.messaging_gateway import MessagingGateway

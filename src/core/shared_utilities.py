@@ -17,7 +17,7 @@ from datetime import datetime
 from typing import Any, Generic, TypeVar
 
 # Type variables for generic utilities
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class BaseUtility(ABC):
@@ -122,8 +122,8 @@ class ErrorHandler(BaseUtility):
     def get_error_summary(self) -> dict[str, Any]:
         """Get error summary."""
         return {
-            'error_count': self.error_count,
-            'last_error': str(self.last_error) if self.last_error else None
+            "error_count": self.error_count,
+            "last_error": str(self.last_error) if self.last_error else None,
         }
 
 
@@ -252,11 +252,9 @@ class StatusManager(BaseUtility):
         self.status = status
         timestamp = datetime.now()
 
-        self.status_history.append({
-            'timestamp': timestamp,
-            'old_status': old_status,
-            'new_status': status
-        })
+        self.status_history.append(
+            {"timestamp": timestamp, "old_status": old_status, "new_status": status}
+        )
 
         self.logger.info(f"Status changed: {old_status} -> {status}")
 
@@ -303,11 +301,9 @@ class ValidationManager(BaseUtility):
             except Exception as e:
                 results[name] = f"Validation error: {e}"
 
-        self.validation_results.append({
-            'timestamp': datetime.now(),
-            'data': str(data),
-            'results': results
-        })
+        self.validation_results.append(
+            {"timestamp": datetime.now(), "data": str(data), "results": results}
+        )
 
         return results
 
@@ -358,22 +354,22 @@ def create_validation_manager() -> ValidationManager:
 
 
 __all__ = [
-    'BaseUtility',
-    'CleanupManager',
-    'ConfigurationManager',
-    'ErrorHandler',
-    'InitializationManager',
-    'LoggingManager',
-    'ResultManager',
-    'StatusManager',
-    'ValidationManager',
+    "BaseUtility",
+    "CleanupManager",
+    "ConfigurationManager",
+    "ErrorHandler",
+    "InitializationManager",
+    "LoggingManager",
+    "ResultManager",
+    "StatusManager",
+    "ValidationManager",
     # Factory functions
-    'create_cleanup_manager',
-    'create_configuration_manager',
-    'create_error_handler',
-    'create_initialization_manager',
-    'create_logging_manager',
-    'create_result_manager',
-    'create_status_manager',
-    'create_validation_manager',
+    "create_cleanup_manager",
+    "create_configuration_manager",
+    "create_error_handler",
+    "create_initialization_manager",
+    "create_logging_manager",
+    "create_result_manager",
+    "create_status_manager",
+    "create_validation_manager",
 ]

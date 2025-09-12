@@ -4,5 +4,5 @@
 from . import dependency_injection
 
 __all__ = [
-    'dependency_injection',
+    "dependency_injection",
 ]

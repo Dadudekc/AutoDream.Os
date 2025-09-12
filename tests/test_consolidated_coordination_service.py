@@ -46,7 +46,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
     def teardown_method(self):
@@ -59,9 +59,9 @@ class TestConsolidatedCoordinationService:
         # Test default initialization
         service = ConsolidatedCoordinationService()
         assert service.name == "ConsolidatedCoordinator"
-        assert hasattr(service, 'coordination_rules')
-        assert hasattr(service, 'routing_table')
-        assert hasattr(service, 'command_history')
+        assert hasattr(service, "coordination_rules")
+        assert hasattr(service, "routing_table")
+        assert hasattr(service, "command_history")
 
         # Test custom initialization
         service_custom = ConsolidatedCoordinationService("custom-coordinator")
@@ -115,7 +115,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.URGENT,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
         strategy = service.determine_coordination_strategy(urgent_message)
         assert strategy == "immediate"
@@ -127,7 +127,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
         strategy = service.determine_coordination_strategy(normal_message)
         assert strategy == "standard"
@@ -144,7 +144,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_COORDINATOR,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
         strategy = service.determine_coordination_strategy(coord_message)
         assert strategy == "coordination_priority"
@@ -156,7 +156,7 @@ class TestConsolidatedCoordinationService:
             recipient="all",
             message_type=UnifiedMessageType.SYSTEM_BROADCAST,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
         strategy = service.determine_coordination_strategy(broadcast_message)
         assert strategy == "broadcast"
@@ -173,7 +173,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-1",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.COORDINATOR
+            sender_type=SenderType.COORDINATOR,
         )
         strategy = service.determine_coordination_strategy(captain_message)
         assert strategy == "highest_priority"
@@ -185,7 +185,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-1",
             message_type=UnifiedMessageType.COORDINATOR_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.SYSTEM
+            sender_type=SenderType.SYSTEM,
         )
         strategy = service.determine_coordination_strategy(system_message)
         assert strategy == "system_priority"
@@ -213,7 +213,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-1",
             message_type=UnifiedMessageType.AGENT_TO_COORDINATOR,
             priority=UnifiedMessagePriority.URGENT,
-            sender_type=SenderType.COORDINATOR
+            sender_type=SenderType.COORDINATOR,
         )
 
         result = service.process_message(urgent_message)
@@ -229,7 +229,9 @@ class TestConsolidatedCoordinationService:
         service = ConsolidatedCoordinationService()
 
         # Mock the routing decision to test different paths
-        with patch.object(service, 'determine_coordination_strategy', return_value='coordination_priority'):
+        with patch.object(
+            service, "determine_coordination_strategy", return_value="coordination_priority"
+        ):
             result = service.process_message(self.sample_message)
 
             assert result["strategy"] == "coordination_priority"
@@ -257,10 +259,14 @@ class TestConsolidatedCoordinationService:
 
         # Process multiple messages
         messages = [
-            UnifiedMessage(content=f"Message {i}", sender="Agent-1", recipient="Agent-2",
-                          message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                          priority=UnifiedMessagePriority.NORMAL,
-                          sender_type=SenderType.AGENT)
+            UnifiedMessage(
+                content=f"Message {i}",
+                sender="Agent-1",
+                recipient="Agent-2",
+                message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                priority=UnifiedMessagePriority.NORMAL,
+                sender_type=SenderType.AGENT,
+            )
             for i in range(3)
         ]
 
@@ -298,10 +304,14 @@ class TestConsolidatedCoordinationService:
         service = ConsolidatedCoordinationService()
 
         # Update a priority routing rule
-        service.update_coordination_rule("priority_routing", UnifiedMessagePriority.LOW, "low_priority_updated")
+        service.update_coordination_rule(
+            "priority_routing", UnifiedMessagePriority.LOW, "low_priority_updated"
+        )
 
         updated_rules = service.get_coordination_rules()
-        assert updated_rules["priority_routing"][UnifiedMessagePriority.LOW] == "low_priority_updated"
+        assert (
+            updated_rules["priority_routing"][UnifiedMessagePriority.LOW] == "low_priority_updated"
+        )
 
     @pytest.mark.unit
     def test_message_validation(self):
@@ -319,7 +329,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
         invalid_result = service.validate_message(invalid_message)
@@ -332,7 +342,9 @@ class TestConsolidatedCoordinationService:
         service = ConsolidatedCoordinationService()
 
         # Mock a processing failure
-        with patch.object(service, 'determine_coordination_strategy', side_effect=Exception("Processing error")):
+        with patch.object(
+            service, "determine_coordination_strategy", side_effect=Exception("Processing error")
+        ):
             result = service.process_message(self.sample_message)
 
             assert result["status"] == "failed"
@@ -355,7 +367,7 @@ class TestConsolidatedCoordinationService:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
             for i in range(5)
         ]
@@ -407,7 +419,7 @@ class TestConsolidatedCoordinationService:
             UnifiedMessagePriority.URGENT,
             UnifiedMessagePriority.HIGH,
             UnifiedMessagePriority.NORMAL,
-            UnifiedMessagePriority.LOW
+            UnifiedMessagePriority.LOW,
         ]
 
         for priority in priorities:
@@ -417,7 +429,7 @@ class TestConsolidatedCoordinationService:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=priority,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
 
             result = service.process_message(message)
@@ -434,7 +446,7 @@ class TestConsolidatedCoordinationService:
             UnifiedMessageType.AGENT_TO_COORDINATOR,
             UnifiedMessageType.SYSTEM_BROADCAST,
             UnifiedMessageType.COORDINATOR_TO_AGENT,
-            UnifiedMessageType.HUMAN_TO_AGENT
+            UnifiedMessageType.HUMAN_TO_AGENT,
         ]
 
         expected_statuses = {
@@ -442,7 +454,7 @@ class TestConsolidatedCoordinationService:
             UnifiedMessageType.AGENT_TO_COORDINATOR: "coordinated",
             UnifiedMessageType.SYSTEM_BROADCAST: "broadcasted",
             UnifiedMessageType.COORDINATOR_TO_AGENT: "prioritized",
-            UnifiedMessageType.HUMAN_TO_AGENT: "processed"
+            UnifiedMessageType.HUMAN_TO_AGENT: "processed",
         }
 
         for msg_type in message_types:
@@ -452,7 +464,7 @@ class TestConsolidatedCoordinationService:
                 recipient="Agent-2",
                 message_type=msg_type,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
 
             result = service.process_message(message)
@@ -473,7 +485,7 @@ class TestConsolidatedCoordinationService:
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             )
             for i in range(num_messages)
         ]
@@ -526,7 +538,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
         result = service.process_message(minimal_message)
@@ -540,7 +552,7 @@ class TestConsolidatedCoordinationService:
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
             priority=UnifiedMessagePriority.NORMAL,
-            sender_type=SenderType.AGENT
+            sender_type=SenderType.AGENT,
         )
 
         result = service.process_message(long_message)
@@ -563,7 +575,7 @@ class TestCoordinationServiceIntegration:
             recipient="all-agents",
             message_type=UnifiedMessageType.AGENT_TO_COORDINATOR,
             priority=UnifiedMessagePriority.URGENT,
-            sender_type=SenderType.COORDINATOR
+            sender_type=SenderType.COORDINATOR,
         )
 
         # Process the message
@@ -579,7 +591,9 @@ class TestCoordinationServiceIntegration:
         assert len(service.command_history) == 1
         history_entry = service.command_history[0]
         assert history_entry["strategy"] == "highest_priority"
-        assert history_entry["status"] == "coordinated"  # COORDINATOR sender gets coordinated status
+        assert (
+            history_entry["status"] == "coordinated"
+        )  # COORDINATOR sender gets coordinated status
 
     @pytest.mark.integration
     def test_multi_agent_coordination_scenario(self):
@@ -594,7 +608,7 @@ class TestCoordinationServiceIntegration:
                 recipient="Agent-1",
                 message_type=UnifiedMessageType.AGENT_TO_COORDINATOR,
                 priority=UnifiedMessagePriority.HIGH,
-                sender_type=SenderType.COORDINATOR
+                sender_type=SenderType.COORDINATOR,
             ),
             UnifiedMessage(
                 content="Normal agent communication",
@@ -602,7 +616,7 @@ class TestCoordinationServiceIntegration:
                 recipient="Agent-3",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.AGENT
+                sender_type=SenderType.AGENT,
             ),
             UnifiedMessage(
                 content="System maintenance notification",
@@ -610,8 +624,8 @@ class TestCoordinationServiceIntegration:
                 recipient="all-agents",
                 message_type=UnifiedMessageType.COORDINATOR_TO_AGENT,
                 priority=UnifiedMessagePriority.NORMAL,
-                sender_type=SenderType.SYSTEM
-            )
+                sender_type=SenderType.SYSTEM,
+            ),
         ]
 
         # Process all messages
@@ -627,7 +641,7 @@ class TestCoordinationServiceIntegration:
 
         # Verify all were processed successfully with appropriate statuses
         assert results[0]["status"] == "coordinated"  # highest_priority strategy
-        assert results[1]["status"] == "processed"    # standard strategy
+        assert results[1]["status"] == "processed"  # standard strategy
         assert results[2]["status"] == "prioritized"  # system_priority strategy
 
         # Verify command history
@@ -640,6 +654,7 @@ class TestCoordinationServiceIntegration:
 
         # Mock a temporary failure scenario
         call_count = 0
+
         def mock_routing_failure(strategy):
             nonlocal call_count
             call_count += 1
@@ -648,14 +663,14 @@ class TestCoordinationServiceIntegration:
             return {"timeout": 10, "retries": 3}  # Succeed on 3rd attempt
 
         # Process message with simulated failures
-        with patch.object(service, 'get_routing_config', side_effect=mock_routing_failure):
+        with patch.object(service, "get_routing_config", side_effect=mock_routing_failure):
             urgent_message = UnifiedMessage(
                 content="Critical coordination with retry",
                 sender="Agent-4",
                 recipient="Agent-1",
                 message_type=UnifiedMessageType.AGENT_TO_COORDINATOR,
                 priority=UnifiedMessagePriority.URGENT,
-                sender_type=SenderType.COORDINATOR
+                sender_type=SenderType.COORDINATOR,
             )
 
             result = service.process_message(urgent_message)
@@ -666,5 +681,12 @@ class TestCoordinationServiceIntegration:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "--cov=src/services/consolidated_coordination_service",
-                "--cov-report=html", "--cov-report=term-missing"])
+    pytest.main(
+        [
+            __file__,
+            "-v",
+            "--cov=src/services/consolidated_coordination_service",
+            "--cov-report=html",
+            "--cov-report=term-missing",
+        ]
+    )

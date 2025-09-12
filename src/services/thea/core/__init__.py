@@ -10,4 +10,4 @@ License: MIT
 
 from .thea_communication_manager import TheaCommunicationManager
 
-__all__ = ['TheaCommunicationManager']
+__all__ = ["TheaCommunicationManager"]

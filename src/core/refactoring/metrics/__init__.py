@@ -5,8 +5,8 @@ from . import definitions
 from .definitions import MetricsManager, RefactoringMetrics, update_metrics
 
 __all__ = [
-    'definitions',
-    'MetricsManager',
-    'RefactoringMetrics',
-    'update_metrics',
+    "definitions",
+    "MetricsManager",
+    "RefactoringMetrics",
+    "update_metrics",
 ]

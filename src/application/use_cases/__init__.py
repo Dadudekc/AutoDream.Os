@@ -4,6 +4,6 @@
 from . import assign_task_uc, complete_task_uc
 
 __all__ = [
-    'assign_task_uc',
-    'complete_task_uc',
+    "assign_task_uc",
+    "complete_task_uc",
 ]

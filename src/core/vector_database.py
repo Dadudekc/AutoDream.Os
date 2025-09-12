@@ -19,6 +19,7 @@ from typing import Any
 
 class DocumentType(Enum):
     """Document types for vector database."""
+
     MESSAGE = "message"
     DEVLOG = "devlog"
     CONTRACT = "contract"
@@ -29,6 +30,7 @@ class DocumentType(Enum):
 
 class SearchType(Enum):
     """Search types for vector database."""
+
     SIMILARITY = "similarity"
     MAX_MARGINAL_RELEVANCE = "mmr"
     FILTERED = "filtered"
@@ -37,7 +39,9 @@ class SearchType(Enum):
 class SearchResult:
     """Result of vector database search."""
 
-    def __init__(self, document_id: str, content: str, similarity_score: float, metadata: dict[str, Any]):
+    def __init__(
+        self, document_id: str, content: str, similarity_score: float, metadata: dict[str, Any]
+    ):
         self.document_id = document_id
         self.content = content
         self.similarity_score = similarity_score
@@ -56,6 +60,7 @@ class VectorDocument:
 
 class EmbeddingModel(Enum):
     """Supported embedding models."""
+
     SENTENCE_TRANSFORMERS = "sentence_transformers"
     OPENAI_ADA = "openai-ada-002"
     OPENAI_3_SMALL = "openai-3-small"
@@ -68,6 +73,7 @@ class VectorDatabaseStats:
     def __init__(self):
         self.total_documents = 0
         self.collections = {}
+
 
 # ---------------------------------------------------------------------------
 # Single source of truth constants
@@ -86,6 +92,7 @@ class CollectionConfig:
     similarity_threshold: float = 0.7
     max_documents: int = 10000
     metadata: dict[str, Any] | None = None
+
 
 SCHEMA = f"""
 CREATE TABLE IF NOT EXISTS {AGENT_STATUS_TABLE} (

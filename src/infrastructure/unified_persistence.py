@@ -33,12 +33,13 @@ from typing import Any, Generic, TypeVar
 logger = logging.getLogger(__name__)
 
 # Generic type for entities
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 @dataclass
 class PersistenceConfig:
     """Configuration for persistence operations."""
+
     db_path: str = "data/unified.db"
     auto_migrate: bool = True
     connection_timeout: float = 30.0
@@ -61,10 +62,7 @@ class DatabaseConnection:
     @contextmanager
     def get_connection(self):
         """Get a database connection with proper configuration and cleanup."""
-        conn = sqlite3.connect(
-            self.db_path,
-            timeout=self.config.connection_timeout
-        )
+        conn = sqlite3.connect(self.db_path, timeout=self.config.connection_timeout)
 
         try:
             if self.config.enable_foreign_keys:
@@ -136,6 +134,7 @@ class BaseRepository(ABC, Generic[T]):
 @dataclass
 class Agent:
     """Agent entity."""
+
     id: str
     name: str
     role: str
@@ -153,6 +152,7 @@ class Agent:
 @dataclass
 class Task:
     """Task entity."""
+
     id: str
     title: str
     description: str | None = None
@@ -199,7 +199,7 @@ class AgentRepository(BaseRepository[Agent]):
                    is_active, created_at, last_active_at
             FROM agents WHERE id = ?
             """,
-            (agent_id,)
+            (agent_id,),
         )
 
         if not rows:
@@ -216,7 +216,7 @@ class AgentRepository(BaseRepository[Agent]):
             FROM agents
             WHERE capabilities LIKE ?
             """,
-            (f"%{capability}%",)
+            (f"%{capability}%",),
         )
 
         for row in rows:
@@ -266,15 +266,12 @@ class AgentRepository(BaseRepository[Agent]):
                 is_active, created_at, last_active_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            self._agent_to_row(agent)
+            self._agent_to_row(agent),
         )
 
     def delete(self, agent_id: str) -> bool:
         """Delete agent by ID."""
-        affected = self.db.execute_update(
-            "DELETE FROM agents WHERE id = ?",
-            (agent_id,)
-        )
+        affected = self.db.execute_update("DELETE FROM agents WHERE id = ?", (agent_id,))
         return affected > 0
 
     def list_all(self, limit: int = 1000) -> Iterable[Agent]:
@@ -287,7 +284,7 @@ class AgentRepository(BaseRepository[Agent]):
             ORDER BY created_at DESC
             LIMIT ?
             """,
-            (limit,)
+            (limit,),
         )
 
         for row in rows:
@@ -296,8 +293,14 @@ class AgentRepository(BaseRepository[Agent]):
     def _row_to_agent(self, row) -> Agent:
         """Convert database row to Agent entity."""
         (
-            agent_id, name, role, capabilities_json,
-            max_concurrent_tasks, is_active, created_at_str, last_active_at_str
+            agent_id,
+            name,
+            role,
+            capabilities_json,
+            max_concurrent_tasks,
+            is_active,
+            created_at_str,
+            last_active_at_str,
         ) = row
 
         # Parse capabilities from JSON
@@ -320,7 +323,7 @@ class AgentRepository(BaseRepository[Agent]):
             max_concurrent_tasks=max_concurrent_tasks,
             is_active=bool(is_active),
             created_at=created_at,
-            last_active_at=last_active_at
+            last_active_at=last_active_at,
         )
 
     def _agent_to_row(self, agent: Agent) -> tuple:
@@ -370,7 +373,7 @@ class TaskRepository(BaseRepository[Task]):
                    created_at, assigned_at, completed_at, priority
             FROM tasks WHERE id = ?
             """,
-            (task_id,)
+            (task_id,),
         )
 
         if not rows:
@@ -389,7 +392,7 @@ class TaskRepository(BaseRepository[Task]):
             ORDER BY created_at DESC
             LIMIT ?
             """,
-            (agent_id, limit)
+            (agent_id, limit),
         )
 
         for row in rows:
@@ -406,7 +409,7 @@ class TaskRepository(BaseRepository[Task]):
             ORDER BY priority DESC, created_at ASC
             LIMIT ?
             """,
-            (limit,)
+            (limit,),
         )
 
         for row in rows:
@@ -421,15 +424,12 @@ class TaskRepository(BaseRepository[Task]):
                 created_at, assigned_at, completed_at, priority
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            self._task_to_row(task)
+            self._task_to_row(task),
         )
 
     def delete(self, task_id: str) -> bool:
         """Delete task by ID."""
-        affected = self.db.execute_update(
-            "DELETE FROM tasks WHERE id = ?",
-            (task_id,)
-        )
+        affected = self.db.execute_update("DELETE FROM tasks WHERE id = ?", (task_id,))
         return affected > 0
 
     def list_all(self, limit: int = 1000) -> Iterable[Task]:
@@ -442,7 +442,7 @@ class TaskRepository(BaseRepository[Task]):
             ORDER BY created_at DESC
             LIMIT ?
             """,
-            (limit,)
+            (limit,),
         )
 
         for row in rows:
@@ -451,8 +451,14 @@ class TaskRepository(BaseRepository[Task]):
     def _row_to_task(self, row) -> Task:
         """Convert database row to Task entity."""
         (
-            task_id, title, description, assigned_agent_id,
-            created_at_str, assigned_at_str, completed_at_str, priority
+            task_id,
+            title,
+            description,
+            assigned_agent_id,
+            created_at_str,
+            assigned_at_str,
+            completed_at_str,
+            priority,
         ) = row
 
         # Parse datetime strings
@@ -468,7 +474,7 @@ class TaskRepository(BaseRepository[Task]):
             created_at=created_at,
             assigned_at=assigned_at,
             completed_at=completed_at,
-            priority=priority
+            priority=priority,
         )
 
     def _task_to_row(self, task: Task) -> tuple:
@@ -481,7 +487,7 @@ class TaskRepository(BaseRepository[Task]):
             task.created_at.isoformat(),
             task.assigned_at.isoformat() if task.assigned_at else None,
             task.completed_at.isoformat() if task.completed_at else None,
-            task.priority
+            task.priority,
         )
 
 
@@ -495,41 +501,47 @@ class PersistenceStatistics:
     def get_database_stats(self) -> dict[str, Any]:
         """Get comprehensive database statistics."""
         stats = {
-            'total_agents': 0,
-            'active_agents': 0,
-            'total_tasks': 0,
-            'pending_tasks': 0,
-            'completed_tasks': 0,
-            'assigned_tasks': 0,
-            'database_size': 0,
-            'table_info': {}
+            "total_agents": 0,
+            "active_agents": 0,
+            "total_tasks": 0,
+            "pending_tasks": 0,
+            "completed_tasks": 0,
+            "assigned_tasks": 0,
+            "database_size": 0,
+            "table_info": {},
         }
 
         try:
             # Agent statistics
             agent_rows = self.db.execute_query("SELECT COUNT(*) FROM agents")
-            stats['total_agents'] = agent_rows[0][0] if agent_rows else 0
+            stats["total_agents"] = agent_rows[0][0] if agent_rows else 0
 
             active_rows = self.db.execute_query("SELECT COUNT(*) FROM agents WHERE is_active = 1")
-            stats['active_agents'] = active_rows[0][0] if active_rows else 0
+            stats["active_agents"] = active_rows[0][0] if active_rows else 0
 
             # Task statistics
             task_rows = self.db.execute_query("SELECT COUNT(*) FROM tasks")
-            stats['total_tasks'] = task_rows[0][0] if task_rows else 0
+            stats["total_tasks"] = task_rows[0][0] if task_rows else 0
 
-            pending_rows = self.db.execute_query("SELECT COUNT(*) FROM tasks WHERE assigned_agent_id IS NULL")
-            stats['pending_tasks'] = pending_rows[0][0] if pending_rows else 0
+            pending_rows = self.db.execute_query(
+                "SELECT COUNT(*) FROM tasks WHERE assigned_agent_id IS NULL"
+            )
+            stats["pending_tasks"] = pending_rows[0][0] if pending_rows else 0
 
-            completed_rows = self.db.execute_query("SELECT COUNT(*) FROM tasks WHERE completed_at IS NOT NULL")
-            stats['completed_tasks'] = completed_rows[0][0] if completed_rows else 0
+            completed_rows = self.db.execute_query(
+                "SELECT COUNT(*) FROM tasks WHERE completed_at IS NOT NULL"
+            )
+            stats["completed_tasks"] = completed_rows[0][0] if completed_rows else 0
 
-            assigned_rows = self.db.execute_query("SELECT COUNT(*) FROM tasks WHERE assigned_agent_id IS NOT NULL AND completed_at IS NULL")
-            stats['assigned_tasks'] = assigned_rows[0][0] if assigned_rows else 0
+            assigned_rows = self.db.execute_query(
+                "SELECT COUNT(*) FROM tasks WHERE assigned_agent_id IS NOT NULL AND completed_at IS NULL"
+            )
+            stats["assigned_tasks"] = assigned_rows[0][0] if assigned_rows else 0
 
             # Database file size
             db_path = Path(self.db.db_path)
             if db_path.exists():
-                stats['database_size'] = db_path.stat().st_size
+                stats["database_size"] = db_path.stat().st_size
 
             # Table information
             table_info_rows = self.db.execute_query(
@@ -538,7 +550,7 @@ class PersistenceStatistics:
             for row in table_info_rows:
                 table_name = row[0]
                 count_rows = self.db.execute_query(f"SELECT COUNT(*) FROM {table_name}")
-                stats['table_info'][table_name] = count_rows[0][0] if count_rows else 0
+                stats["table_info"][table_name] = count_rows[0][0] if count_rows else 0
 
         except Exception as e:
             logger.error(f"Error getting database stats: {e}")
@@ -659,16 +671,13 @@ def create_persistence_service(db_path: str = "data/unified.db") -> UnifiedPersi
     return UnifiedPersistenceService(config)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Example usage
     service = create_persistence_service()
 
     # Create sample agent
     agent = Agent(
-        id="agent_001",
-        name="Test Agent",
-        role="Test Role",
-        capabilities=["test", "debug"]
+        id="agent_001", name="Test Agent", role="Test Role", capabilities=["test", "debug"]
     )
 
     # Save agent
@@ -681,12 +690,7 @@ if __name__ == '__main__':
         print(f"✅ Agent retrieved: {retrieved.name}")
 
     # Create sample task
-    task = Task(
-        id="task_001",
-        title="Test Task",
-        description="A test task",
-        priority=2
-    )
+    task = Task(id="task_001", title="Test Task", description="A test task", priority=2)
 
     # Save task
     service.save_task(task)

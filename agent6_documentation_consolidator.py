@@ -20,13 +20,14 @@ from pathlib import Path
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler('agent6_documentation_consolidator.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
+        logging.FileHandler("agent6_documentation_consolidator.log", encoding="utf-8"),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
+
 
 class Agent6DocumentationConsolidator:
     """Agent-6 Documentation Consolidator for Phase 2 consolidation"""
@@ -46,11 +47,11 @@ class Agent6DocumentationConsolidator:
                         "src/core/messaging_core.py",
                         "src/core/messaging_pyautogui.py",
                         "src/services/messaging_core.py",
-                        "src/services/messaging_pyautogui.py"
+                        "src/services/messaging_pyautogui.py",
                     ],
                     "target": "src/core/unified_messaging.py",
                     "documentation": "docs/api/unified_messaging.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "analytics_engine": {
                     "files": [
@@ -58,32 +59,32 @@ class Agent6DocumentationConsolidator:
                         "src/core/analytics/engines/*.py",
                         "src/core/analytics/intelligence/*.py",
                         "src/core/analytics/orchestrators/*.py",
-                        "src/core/analytics/processors/*.py"
+                        "src/core/analytics/processors/*.py",
                     ],
                     "target": "src/core/analytics/unified_analytics.py",
                     "documentation": "docs/api/unified_analytics.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "configuration_system": {
                     "files": [
                         "src/core/unified_config.py",
                         "src/core/config_core.py",
-                        "src/core/env_loader.py"
+                        "src/core/env_loader.py",
                     ],
                     "target": "src/core/unified_config.py",
                     "documentation": "docs/api/unified_config.md",
-                    "status": "PENDING"
-                }
+                    "status": "PENDING",
+                },
             },
             "services_layer": {
                 "pyautogui_services": {
                     "files": [
                         "src/services/messaging_pyautogui.py",
-                        "src/core/messaging_pyautogui.py"
+                        "src/core/messaging_pyautogui.py",
                     ],
                     "target": "Merged into core unified messaging",
                     "documentation": "docs/api/unified_messaging.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "service_handlers": {
                     "files": [
@@ -91,22 +92,22 @@ class Agent6DocumentationConsolidator:
                         "src/services/handlers/contract_handler.py",
                         "src/services/handlers/coordinate_handler.py",
                         "src/services/handlers/onboarding_handler.py",
-                        "src/services/handlers/utility_handler.py"
+                        "src/services/handlers/utility_handler.py",
                     ],
                     "target": "src/services/handlers/unified_handler.py",
                     "documentation": "docs/api/unified_handler.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "vector_database_services": {
                     "files": [
                         "src/services/vector_database/*.py",
                         "src/services/agent_vector_*.py",
-                        "src/services/embedding_service.py"
+                        "src/services/embedding_service.py",
                     ],
                     "target": "src/services/vector_service.py",
                     "documentation": "docs/api/vector_service.md",
-                    "status": "PENDING"
-                }
+                    "status": "PENDING",
+                },
             },
             "utilities": {
                 "config_utilities": {
@@ -114,44 +115,44 @@ class Agent6DocumentationConsolidator:
                         "src/utils/config_consolidator.py",
                         "src/utils/config_core.py",
                         "src/utils/config_scanners.py",
-                        "src/utils/config_core/fsm_config.py"
+                        "src/utils/config_core/fsm_config.py",
                     ],
                     "target": "Merged into core unified config system",
                     "documentation": "docs/api/unified_config.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "file_utilities": {
                     "files": [
                         "src/utils/file_utils.py",
                         "src/utils/file_scanner.py",
-                        "src/utils/backup.py"
+                        "src/utils/backup.py",
                     ],
                     "target": "src/utils/unified_file_utils.py",
                     "documentation": "docs/api/unified_file_utils.md",
-                    "status": "PENDING"
-                }
+                    "status": "PENDING",
+                },
             },
             "infrastructure": {
                 "browser_modules": {
                     "files": [
                         "src/infrastructure/browser/chrome_undetected.py",
                         "src/infrastructure/browser/thea_*.py",
-                        "src/infrastructure/browser/thea_modules/*.py"
+                        "src/infrastructure/browser/thea_modules/*.py",
                     ],
                     "target": "src/infrastructure/browser/unified_browser.py",
                     "documentation": "docs/api/unified_browser.md",
-                    "status": "PENDING"
+                    "status": "PENDING",
                 },
                 "persistence_layer": {
                     "files": [
                         "src/infrastructure/persistence/sqlite_*.py",
-                        "src/infrastructure/persistence/__init__.py"
+                        "src/infrastructure/persistence/__init__.py",
                     ],
                     "target": "src/infrastructure/persistence/unified_persistence.py",
                     "documentation": "docs/api/unified_persistence.md",
-                    "status": "PENDING"
-                }
-            }
+                    "status": "PENDING",
+                },
+            },
         }
 
     def create_api_documentation(self, module_name: str, module_info: dict) -> bool:
@@ -168,7 +169,7 @@ class Agent6DocumentationConsolidator:
 
             # Write documentation file
             doc_file = docs_dir / f"{module_name}.md"
-            with open(doc_file, 'w', encoding='utf-8') as f:
+            with open(doc_file, "w", encoding="utf-8") as f:
                 f.write(doc_content)
 
             logger.info(f"API documentation created: {doc_file}")
@@ -186,12 +187,12 @@ class Agent6DocumentationConsolidator:
             source_files = module_info.get("files", [])
 
             # Generate documentation content
-            content = f"""# {module_name.replace('_', ' ').title()} API Documentation
+            content = f"""# {module_name.replace("_", " ").title()} API Documentation
 
-**Generated by:** Agent-6 (Communication & Documentation Specialist)  
-**Date:** {datetime.now().strftime('%Y-%m-%d')}  
-**Phase:** 2 - High-Impact Optimization  
-**Status:** Consolidated Module  
+**Generated by:** Agent-6 (Communication & Documentation Specialist)
+**Date:** {datetime.now().strftime("%Y-%m-%d")}
+**Phase:** 2 - High-Impact Optimization
+**Status:** Consolidated Module
 
 ---
 
@@ -202,7 +203,7 @@ This module represents the consolidated functionality from multiple source files
 ### **Consolidation Details:**
 - **Target File:** `{target_file}`
 - **Source Files:** {len(source_files)} files consolidated
-- **Consolidation Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+- **Consolidation Date:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 - **Phase:** 2 - High-Impact Optimization
 
 ---
@@ -211,7 +212,7 @@ This module represents the consolidated functionality from multiple source files
 
 ### **Import Statement:**
 ```python
-from {target_file.replace('/', '.').replace('.py', '')} import *
+from {target_file.replace("/", ".").replace(".py", "")} import *
 ```
 
 ### **Basic Usage:**
@@ -268,9 +269,9 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
 
 ## 📞 **CONTACT**
 
-**Documentation Maintainer:** Agent-6 (Communication & Documentation Specialist)  
-**Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}  
-**Phase:** 2 - High-Impact Optimization  
+**Documentation Maintainer:** Agent-6 (Communication & Documentation Specialist)
+**Last Updated:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+**Phase:** 2 - High-Impact Optimization
 
 ---
 
@@ -293,14 +294,14 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                 return False
 
             # Read existing documentation
-            with open(file_path, encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Apply consolidation changes
             updated_content = self.apply_consolidation_changes(content, consolidation_changes)
 
             # Write updated documentation
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(updated_content)
 
             logger.info(f"Documentation updated: {file_path}")
@@ -332,7 +333,7 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
             consolidation_notice = f"""
 ---
 **🔄 CONSOLIDATION UPDATE**
-*This documentation was updated during Phase 2 consolidation on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
+*This documentation was updated during Phase 2 consolidation on {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}*
 ---
 """
             content = consolidation_notice + content
@@ -355,7 +356,7 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                 "total_modules": len(self.documentation_map),
                 "consolidation_summary": {},
                 "api_documentation": {},
-                "changes_applied": self.consolidation_changes
+                "changes_applied": self.consolidation_changes,
             }
 
             # Generate summary for each module category
@@ -363,7 +364,7 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                 summary["consolidation_summary"][category] = {
                     "total_modules": len(modules),
                     "modules": list(modules.keys()),
-                    "status": "PENDING"
+                    "status": "PENDING",
                 }
 
             # Generate API documentation summary
@@ -372,12 +373,12 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                     if "documentation" in module_info:
                         summary["api_documentation"][module_name] = {
                             "file": module_info["documentation"],
-                            "status": "PENDING"
+                            "status": "PENDING",
                         }
 
             # Save consolidation summary
             summary_file = self.project_root / "agent6_consolidation_summary.json"
-            with open(summary_file, 'w', encoding='utf-8') as f:
+            with open(summary_file, "w", encoding="utf-8") as f:
                 json.dump(summary, f, indent=2)
 
             logger.info(f"Consolidation summary saved: {summary_file}")
@@ -417,13 +418,13 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
                     "Monitor consolidation progress",
                     "Update documentation as modules are consolidated",
                     "Maintain API documentation synchronization",
-                    "Prepare for next phase transition"
-                ]
+                    "Prepare for next phase transition",
+                ],
             }
 
             # Save documentation report
             report_file = self.project_root / "agent6_documentation_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2)
 
             logger.info("🎉 Phase 2 Documentation Consolidation completed successfully!")
@@ -434,6 +435,7 @@ from {target_file.replace('/', '.').replace('.py', '')} import *
         except Exception as e:
             logger.error(f"Error in Phase 2 documentation consolidation: {e}")
             return False
+
 
 def main():
     """Main execution function"""
@@ -458,6 +460,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error in Phase 2 documentation consolidation: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

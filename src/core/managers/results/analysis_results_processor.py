@@ -62,7 +62,7 @@ class AnalysisResultsProcessor(BaseResultsManager):
                 analysis_result = {
                     "count": len(data_points),
                     "data_type": "non_numeric",
-                    "unique_values": len(set(str(x) for x in data_points)),
+                    "unique_values": len({str(x) for x in data_points}),
                 }
 
             return {

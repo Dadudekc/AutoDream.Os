@@ -10,9 +10,9 @@ from . import (
 )
 
 __all__ = [
-    'market_trend_engine',
-    'performance_metrics_engine',
-    'risk_analysis_engine',
-    'trading_bi_models',
-    'trading_bi_orchestrator',
+    "market_trend_engine",
+    "performance_metrics_engine",
+    "risk_analysis_engine",
+    "trading_bi_models",
+    "trading_bi_orchestrator",
 ]

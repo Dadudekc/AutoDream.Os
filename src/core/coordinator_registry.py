@@ -28,7 +28,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
     def register_coordinator(self, coordinator: Any) -> bool:
         """Register a coordinator instance."""
         try:
-            if not hasattr(coordinator, 'name'):
+            if not hasattr(coordinator, "name"):
                 self.logger.error("Coordinator must have a 'name' attribute")
                 return False
 
@@ -61,7 +61,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
                 return False
 
             coordinator = self._coordinators[name]
-            if hasattr(coordinator, 'shutdown'):
+            if hasattr(coordinator, "shutdown"):
                 coordinator.shutdown()
 
             del self._coordinators[name]
@@ -78,7 +78,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
             statuses = {}
             for name, coordinator in self._coordinators.items():
                 try:
-                    if hasattr(coordinator, 'get_status'):
+                    if hasattr(coordinator, "get_status"):
                         statuses[name] = coordinator.get_status()
                     else:
                         statuses[name] = {"status": "unknown", "error": "No get_status method"}
@@ -97,7 +97,7 @@ class CoordinatorRegistry(ICoordinatorRegistry):
             self.logger.info("Shutting down all coordinators")
             for name, coordinator in list(self._coordinators.items()):
                 try:
-                    if hasattr(coordinator, 'shutdown'):
+                    if hasattr(coordinator, "shutdown"):
                         coordinator.shutdown()
                     self.logger.info(f"Shutdown coordinator: {name}")
                 except Exception as e:

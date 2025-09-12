@@ -4,7 +4,7 @@
 from . import gaming_alert_utils, gaming_handlers, gaming_monitors
 
 __all__ = [
-    'gaming_alert_utils',
-    'gaming_handlers',
-    'gaming_monitors',
+    "gaming_alert_utils",
+    "gaming_handlers",
+    "gaming_monitors",
 ]

@@ -4,5 +4,5 @@
 from . import gaming_alert_handlers
 
 __all__ = [
-    'gaming_alert_handlers',
+    "gaming_alert_handlers",
 ]

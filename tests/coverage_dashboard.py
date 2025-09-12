@@ -28,13 +28,15 @@ class CoverageDashboard:
         try:
             # Run pytest with coverage
             cmd = [
-                "python", "-m", "pytest",
+                "python",
+                "-m",
+                "pytest",
                 f"--cov={self.source_dir}",
                 "--cov-report=html:coverage_latest",
                 "--cov-report=json:coverage_latest.json",
                 "--cov-report=term-missing",
                 "-v",
-                str(self.test_dir)
+                str(self.test_dir),
             ]
 
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
@@ -55,10 +57,10 @@ class CoverageDashboard:
                     "passed": result.stdout.count("PASSED") if result.stdout else 0,
                     "failed": result.stdout.count("FAILED") if result.stdout else 0,
                     "errors": result.stdout.count("ERROR") if result.stdout else 0,
-                    "warnings": result.stdout.count("WARNING") if result.stdout else 0
+                    "warnings": result.stdout.count("WARNING") if result.stdout else 0,
                 },
                 "file_coverage": coverage_data.get("files", {}),
-                "execution_time": result.stdout.split()[-1] if result.stdout else "unknown"
+                "execution_time": result.stdout.split()[-1] if result.stdout else "unknown",
             }
 
             # Save report
@@ -72,7 +74,7 @@ class CoverageDashboard:
                 "status": "error",
                 "error": str(e),
                 "overall_coverage": 0,
-                "target_coverage": 85
+                "target_coverage": 85,
             }
 
     def _parse_coverage_data(self) -> dict[str, Any]:
@@ -91,12 +93,12 @@ class CoverageDashboard:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = self.reports_dir / f"coverage_report_{timestamp}.json"
 
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         # Update latest report
         latest_file = self.reports_dir / "latest_coverage_report.json"
-        with open(latest_file, 'w') as f:
+        with open(latest_file, "w") as f:
             json.dump(report, f, indent=2)
 
     def get_coverage_summary(self) -> str:
@@ -106,25 +108,25 @@ class CoverageDashboard:
 
             summary = f"""
 🌟 V2_SWARM TEST COVERAGE DASHBOARD
-{'='*50}
+{"=" * 50}
 
 📊 COVERAGE METRICS:
-   Overall Coverage: {report.get('overall_coverage', 0):.1f}%
-   Target Coverage: {report.get('target_coverage', 85)}%
-   Status: {'✅ ON TRACK' if report.get('overall_coverage', 0) >= 50 else '⚠️  BEHIND SCHEDULE'}
+   Overall Coverage: {report.get("overall_coverage", 0):.1f}%
+   Target Coverage: {report.get("target_coverage", 85)}%
+   Status: {"✅ ON TRACK" if report.get("overall_coverage", 0) >= 50 else "⚠️  BEHIND SCHEDULE"}
 
 📁 FILE STATISTICS:
-   Total Files: {report.get('total_files', 0)}
-   Covered Files: {report.get('covered_files', 0)}
-   Missing Lines: {report.get('missing_lines', 0)}
+   Total Files: {report.get("total_files", 0)}
+   Covered Files: {report.get("covered_files", 0)}
+   Missing Lines: {report.get("missing_lines", 0)}
 
 🧪 TEST RESULTS:
-   Passed: {report.get('test_results', {}).get('passed', 0)}
-   Failed: {report.get('test_results', {}).get('failed', 0)}
-   Errors: {report.get('test_results', {}).get('errors', 0)}
-   Warnings: {report.get('test_results', {}).get('warnings', 0)}
+   Passed: {report.get("test_results", {}).get("passed", 0)}
+   Failed: {report.get("test_results", {}).get("failed", 0)}
+   Errors: {report.get("test_results", {}).get("errors", 0)}
+   Warnings: {report.get("test_results", {}).get("warnings", 0)}
 
-⏰ EXECUTION TIME: {report.get('execution_time', 'unknown')}
+⏰ EXECUTION TIME: {report.get("execution_time", "unknown")}
 
 🎯 NEXT MILESTONES:
    Week 1: Reach 25% coverage (Foundation Complete)
@@ -133,8 +135,8 @@ class CoverageDashboard:
    Week 4: Achieve 85%+ coverage (Mission Complete)
 
 📋 ACTION ITEMS:
-   1. Fix failing tests ({report.get('test_results', {}).get('failed', 0)} issues)
-   2. Address import errors ({report.get('test_results', {}).get('errors', 0)} errors)
+   1. Fix failing tests ({report.get("test_results", {}).get("failed", 0)} issues)
+   2. Address import errors ({report.get("test_results", {}).get("errors", 0)} errors)
    3. Improve coverage in critical modules
    4. Coordinate with swarm agents for comprehensive testing
 
@@ -153,7 +155,7 @@ class CoverageDashboard:
 
             # Calculate time-based progress expectations
             current_time = datetime.now()
-            coverage_pct = report.get('overall_coverage', 0)
+            coverage_pct = report.get("overall_coverage", 0)
 
             # Time-based milestone calculations
             if coverage_pct < 25:
@@ -186,9 +188,9 @@ class CoverageDashboard:
 🚨🚨🚨🚨🚨 FINAL MISSION PROGRESS UPDATE - PYTEST COVERAGE INITIATIVE 🚨🚨🚨🚨🚨
 
 **CURRENT STATUS:**
-Overall Coverage: {report.get('overall_coverage', 0):.1f}% (Target: 85%)
-Test Status: {'✅ PASSING' if report.get('status') == 'success' else '❌ ISSUES DETECTED'}
-Files Analyzed: {report.get('total_files', 0)}
+Overall Coverage: {report.get("overall_coverage", 0):.1f}% (Target: 85%)
+Test Status: {"✅ PASSING" if report.get("status") == "success" else "❌ ISSUES DETECTED"}
+Files Analyzed: {report.get("total_files", 0)}
 Mission Phase: {current_phase} {phase_status}
 Next Milestone: {next_milestone} ({time_to_next})
 

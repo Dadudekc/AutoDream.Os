@@ -18,29 +18,36 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class VectorDocument:
     """Vector document structure."""
+
     id: str
     content: str
     embedding: list[float] | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.now)
 
+
 @dataclass
 class VectorSearchResult:
     """Vector search result structure."""
+
     document: VectorDocument
     score: float
+
 
 @dataclass
 class VectorIntegrationConfig:
     """Configuration for vector integration."""
+
     embedding_model: str = "sentence-transformers"
     vector_db_type: str = "chroma"
     collection_name: str = "agent_vectors"
     similarity_threshold: float = 0.7
     max_results: int = 10
+
 
 class UnifiedVectorIntegration:
     """
@@ -105,7 +112,8 @@ class UnifiedVectorIntegration:
         """Generate embedding using sentence transformers."""
         try:
             from sentence_transformers import SentenceTransformer
-            model = SentenceTransformer('all-MiniLM-L6-v2')
+
+            model = SentenceTransformer("all-MiniLM-L6-v2")
             return model.encode(text).tolist()
         except ImportError:
             return self._generate_fallback_embedding(text)
@@ -114,6 +122,7 @@ class UnifiedVectorIntegration:
         """Generate embedding using OpenAI."""
         try:
             import openai
+
             # Simplified OpenAI call - would need actual API key
             return [0.1] * 384  # Placeholder
         except ImportError:
@@ -125,13 +134,15 @@ class UnifiedVectorIntegration:
         hash_bytes = hash_obj.digest()
         embedding = []
         for i in range(0, len(hash_bytes), 4):
-            chunk = hash_bytes[i:i+4]
-            value = int.from_bytes(chunk, byteorder='big', signed=False)
+            chunk = hash_bytes[i : i + 4]
+            value = int.from_bytes(chunk, byteorder="big", signed=False)
             normalized = (value / 2**32) * 2 - 1
             embedding.append(normalized)
         return embedding[:384]
 
-    async def search_similar(self, query: str, limit: int | None = None) -> list[VectorSearchResult]:
+    async def search_similar(
+        self, query: str, limit: int | None = None
+    ) -> list[VectorSearchResult]:
         """Search for documents similar to query."""
         if not self._initialized:
             raise RuntimeError("Service not initialized")
@@ -144,7 +155,9 @@ class UnifiedVectorIntegration:
         for doc_id, doc in self._document_cache.items():
             if doc.embedding:
                 # Simple cosine similarity approximation
-                similarity = sum(a*b for a, b in zip(query_embedding[:10], doc.embedding[:10], strict=False))
+                similarity = sum(
+                    a * b for a, b in zip(query_embedding[:10], doc.embedding[:10], strict=False)
+                )
                 if similarity >= self.config.similarity_threshold:
                     results.append(VectorSearchResult(document=doc, score=similarity))
 
@@ -164,9 +177,10 @@ class UnifiedVectorIntegration:
                 {
                     "id": doc.document.id,
                     "content": doc.document.content[:200] + "...",
-                    "score": doc.score
-                } for doc in similar_docs
-            ]
+                    "score": doc.score,
+                }
+                for doc in similar_docs
+            ],
         }
 
     async def update_agent_vectors(self, agent_id: str, data: dict[str, Any]) -> bool:
@@ -176,7 +190,7 @@ class UnifiedVectorIntegration:
             document = VectorDocument(
                 id=f"agent_{agent_id}_{datetime.now().isoformat()}",
                 content=content,
-                metadata={"agent_id": agent_id, **data}
+                metadata={"agent_id": agent_id, **data},
             )
             await self.store_document(document)
             return True
@@ -190,18 +204,21 @@ class UnifiedVectorIntegration:
             "initialized": self._initialized,
             "cached_documents": len(self._document_cache),
             "cached_embeddings": len(self._embedding_cache),
-            "embedding_model": self.config.embedding_model
+            "embedding_model": self.config.embedding_model,
         }
+
 
 # Factory function for V2 compliance
 def create_unified_vector_integration(config: VectorIntegrationConfig | None = None):
     """Factory function for UnifiedVectorIntegration."""
     return UnifiedVectorIntegration(config)
 
+
 # Legacy compatibility functions
 async def store_embedding(data: dict) -> str:
     """Legacy compatibility - redirects to unified service."""
     import warnings
+
     warnings.warn("store_embedding deprecated, use UnifiedVectorIntegration", DeprecationWarning)
 
     service = UnifiedVectorIntegration()
@@ -209,11 +226,12 @@ async def store_embedding(data: dict) -> str:
     doc = VectorDocument(id=str(hash(str(data))), content=str(data), metadata=data)
     return await service.store_document(doc)
 
+
 __all__ = [
     "UnifiedVectorIntegration",
     "VectorDocument",
     "VectorSearchResult",
     "VectorIntegrationConfig",
     "create_unified_vector_integration",
-    "store_embedding"
+    "store_embedding",
 ]

@@ -115,7 +115,7 @@ def format_search_results(results: List[Dict[str, Any]]) -> str:
         output.append(
             f"""
 {i}. 📄 {file_path}
-   📊 Relevance: {1-distance:.3f}
+   📊 Relevance: {1 - distance:.3f}
    📝 Content: {content}
 """
         )

@@ -60,7 +60,7 @@
 ```python
 class CommandRouter:
     """Routes Discord commands to appropriate handlers."""
-    
+
     - Command pattern matching with regex
     - Command validation and sanitization
     - Context creation for handlers
@@ -72,7 +72,7 @@ class CommandRouter:
 ```python
 class EmbedBuilder:
     """Builder for Discord embeds with standardized formatting."""
-    
+
     - Standardized color schemes
     - Rich embed components (fields, footers, timestamps)
     - Error and success state handling
@@ -84,7 +84,7 @@ class EmbedBuilder:
 ```python
 class AgentCommandHandlers:
     """Handles agent-specific commands (prompt, status)."""
-    
+
     - Agent prompt delivery to inboxes
     - Agent status checking and reporting
     - Command tracking and response handling
@@ -96,7 +96,7 @@ class AgentCommandHandlers:
 ```python
 class SwarmCommandHandlers:
     """Handles swarm-wide commands (broadcast, coordination)."""
-    
+
     - Swarm broadcast message delivery
     - Multi-agent coordination tracking
     - Broadcast status reporting
@@ -108,7 +108,7 @@ class SwarmCommandHandlers:
 ```python
 class DiscordAgentBot:
     """Streamlined Discord bot with modular architecture."""
-    
+
     - Component orchestration and initialization
     - Security policy enforcement
     - Rate limiting integration

@@ -32,6 +32,7 @@ try:
         UnifiedMessageType,
     )
     from services.models.vector_models import EmbeddingModel, VectorDocument
+
     SERVICES_AVAILABLE = True
 except ImportError:
     SERVICES_AVAILABLE = False
@@ -76,7 +77,7 @@ class TestFinalIntegrationCoverage:
             sender="Agent-1",
             recipient="coordinator",
             message_type=UnifiedMessageType.COORDINATION,
-            priority=UnifiedMessagePriority.HIGH
+            priority=UnifiedMessagePriority.HIGH,
         )
 
         # Process through coordination service
@@ -87,11 +88,11 @@ class TestFinalIntegrationCoverage:
         doc = VectorDocument(
             id="integration-data-flow-test",
             content=test_message.content,
-            metadata={"source": "coordination", "priority": test_message.priority.value}
+            metadata={"source": "coordination", "priority": test_message.priority.value},
         )
 
         # Mock vector storage
-        with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
+        with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
             mock_engine.store.return_value = Mock(success=True)
             store_result = self.vector_service.store_document(doc)
             assert store_result.success is True
@@ -107,7 +108,7 @@ class TestFinalIntegrationCoverage:
             pytest.skip("Services not available")
 
         # Test messaging -> coordination dependency
-        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
+        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
             message_result = self.messaging_service.send_message_pyautogui(
                 "Agent-2", "Dependency chain test"
             )
@@ -119,7 +120,7 @@ class TestFinalIntegrationCoverage:
             sender="Agent-1",
             recipient="vector-service",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=UnifiedMessagePriority.NORMAL
+            priority=UnifiedMessagePriority.NORMAL,
         )
 
         coord_result = self.coordination_service.process_message(coord_message)
@@ -129,10 +130,10 @@ class TestFinalIntegrationCoverage:
         vector_doc = VectorDocument(
             id="dependency-chain-test",
             content="Independent vector operation",
-            metadata={"test": "dependency_chain"}
+            metadata={"test": "dependency_chain"},
         )
 
-        with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
+        with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
             mock_engine.store.return_value = Mock(success=True)
             vector_result = self.vector_service.store_document(vector_doc)
             assert vector_result.success is True
@@ -144,19 +145,23 @@ class TestFinalIntegrationCoverage:
             pytest.skip("Services not available")
 
         # Test messaging service error handling
-        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
+        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
             # This should work in dry run mode
             result = self.messaging_service.send_message_pyautogui("Agent-1", "Error test")
             assert result is True
 
         # Test coordination service error handling
-        with patch.object(self.coordination_service, 'determine_coordination_strategy', side_effect=Exception("Coordination error")):
+        with patch.object(
+            self.coordination_service,
+            "determine_coordination_strategy",
+            side_effect=Exception("Coordination error"),
+        ):
             error_message = UnifiedMessage(
                 content="Error propagation test",
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL
+                priority=UnifiedMessagePriority.NORMAL,
             )
 
             result = self.coordination_service.process_message(error_message)
@@ -164,7 +169,7 @@ class TestFinalIntegrationCoverage:
             assert "error" in result
 
         # Test vector service error handling
-        with patch.object(self.vector_service, '_engine', None):
+        with patch.object(self.vector_service, "_engine", None):
             error_doc = VectorDocument(id="error-test", content="Error content")
             result = self.vector_service.store_document(error_doc)
             assert result.success is False
@@ -178,7 +183,9 @@ class TestFinalIntegrationCoverage:
         # Test messaging service performance
         start_time = time.time()
         for i in range(50):
-            self.messaging_service.send_message_pyautogui(f"Agent-{i%5+1}", f"Performance test {i}")
+            self.messaging_service.send_message_pyautogui(
+                f"Agent-{i % 5 + 1}", f"Performance test {i}"
+            )
         messaging_time = time.time() - start_time
         assert messaging_time < 2.0  # Should complete within 2 seconds
 
@@ -186,13 +193,15 @@ class TestFinalIntegrationCoverage:
         start_time = time.time()
         messages = []
         for i in range(50):
-            messages.append(UnifiedMessage(
-                content=f"Performance message {i}",
-                sender="Agent-1",
-                recipient="Agent-2",
-                message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL
-            ))
+            messages.append(
+                UnifiedMessage(
+                    content=f"Performance message {i}",
+                    sender="Agent-1",
+                    recipient="Agent-2",
+                    message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                    priority=UnifiedMessagePriority.NORMAL,
+                )
+            )
 
         results = self.coordination_service.process_bulk_messages(messages)
         coordination_time = time.time() - start_time
@@ -205,13 +214,15 @@ class TestFinalIntegrationCoverage:
         start_time = time.time()
         docs = []
         for i in range(25):
-            docs.append(VectorDocument(
-                id=f"perf-doc-{i}",
-                content=f"Performance content {i}",
-                metadata={"batch": "performance_test"}
-            ))
+            docs.append(
+                VectorDocument(
+                    id=f"perf-doc-{i}",
+                    content=f"Performance content {i}",
+                    metadata={"batch": "performance_test"},
+                )
+            )
 
-        with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
+        with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
             mock_engine.store.return_value = Mock(success=True)
             for doc in docs:
                 self.vector_service.store_document(doc)
@@ -235,7 +246,7 @@ class TestFinalIntegrationCoverage:
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL
+                priority=UnifiedMessagePriority.NORMAL,
             )
             self.coordination_service.process_message(message)
 
@@ -257,17 +268,17 @@ class TestFinalIntegrationCoverage:
             pytest.skip("Services not available")
 
         # Test messaging service configuration
-        assert hasattr(self.messaging_service, 'dry_run')
+        assert hasattr(self.messaging_service, "dry_run")
 
         # Test vector service configuration
-        assert hasattr(self.vector_service, 'agent_id')
-        assert hasattr(self.vector_service, 'config')
-        assert hasattr(self.vector_service, 'embedding_model')
+        assert hasattr(self.vector_service, "agent_id")
+        assert hasattr(self.vector_service, "config")
+        assert hasattr(self.vector_service, "embedding_model")
 
         # Test coordination service configuration
-        assert hasattr(self.coordination_service, 'name')
-        assert hasattr(self.coordination_service, 'coordination_rules')
-        assert hasattr(self.coordination_service, 'routing_table')
+        assert hasattr(self.coordination_service, "name")
+        assert hasattr(self.coordination_service, "coordination_rules")
+        assert hasattr(self.coordination_service, "routing_table")
 
         # Test service interoperability
         status = self.coordination_service.get_service_status()
@@ -286,7 +297,7 @@ class TestFinalIntegrationCoverage:
             sender="Agent-1",
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=UnifiedMessagePriority.NORMAL
+            priority=UnifiedMessagePriority.NORMAL,
         )
 
         result = self.coordination_service.process_message(empty_message)
@@ -299,7 +310,7 @@ class TestFinalIntegrationCoverage:
             sender="Agent-1",
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=UnifiedMessagePriority.NORMAL
+            priority=UnifiedMessagePriority.NORMAL,
         )
 
         result = self.coordination_service.process_message(large_message)
@@ -307,7 +318,7 @@ class TestFinalIntegrationCoverage:
 
         # Test empty document handling
         empty_doc = VectorDocument(id="empty-test", content="")
-        with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
+        with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
             mock_engine.store.return_value = Mock(success=True)
             result = self.vector_service.store_document(empty_doc)
             assert result.success is True
@@ -321,8 +332,10 @@ class TestFinalIntegrationCoverage:
         # Simulate concurrent messaging operations
         message_results = []
         for i in range(20):
-            with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
-                result = self.messaging_service.send_message_pyautogui(f"Agent-{i%5+1}", f"Concurrent test {i}")
+            with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
+                result = self.messaging_service.send_message_pyautogui(
+                    f"Agent-{i % 5 + 1}", f"Concurrent test {i}"
+                )
                 message_results.append(result)
 
         assert all(message_results)  # All should succeed in dry run
@@ -330,13 +343,15 @@ class TestFinalIntegrationCoverage:
         # Simulate concurrent coordination operations
         coord_messages = []
         for i in range(20):
-            coord_messages.append(UnifiedMessage(
-                content=f"Concurrent coord test {i}",
-                sender="Agent-1",
-                recipient="Agent-2",
-                message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL
-            ))
+            coord_messages.append(
+                UnifiedMessage(
+                    content=f"Concurrent coord test {i}",
+                    sender="Agent-1",
+                    recipient="Agent-2",
+                    message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                    priority=UnifiedMessagePriority.NORMAL,
+                )
+            )
 
         coord_results = self.coordination_service.process_bulk_messages(coord_messages)
         assert len(coord_results) == 20
@@ -373,7 +388,7 @@ class TestFinalIntegrationCoverage:
             pytest.skip("Services not available")
 
         # Step 1: Send message via messaging service
-        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
+        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
             message_result = self.messaging_service.send_message_pyautogui(
                 "Agent-2", "End-to-end workflow test message"
             )
@@ -385,7 +400,7 @@ class TestFinalIntegrationCoverage:
             sender="Agent-1",
             recipient="workflow-coordinator",
             message_type=UnifiedMessageType.COORDINATION,
-            priority=UnifiedMessagePriority.HIGH
+            priority=UnifiedMessagePriority.HIGH,
         )
 
         coord_result = self.coordination_service.process_message(workflow_message)
@@ -399,11 +414,11 @@ class TestFinalIntegrationCoverage:
             metadata={
                 "workflow_step": "coordination_complete",
                 "coordination_strategy": coord_result["strategy"],
-                "timestamp": coord_result["timestamp"]
-            }
+                "timestamp": coord_result["timestamp"],
+            },
         )
 
-        with patch.object(self.vector_service, '_engine', Mock()) as mock_engine:
+        with patch.object(self.vector_service, "_engine", Mock()) as mock_engine:
             mock_engine.store.return_value = Mock(success=True)
             vector_result = self.vector_service.store_document(workflow_doc)
             assert vector_result.success is True
@@ -434,14 +449,18 @@ class TestIntegrationCoverageExpansion:
         coordination = ConsolidatedCoordinationService("pattern-test")
 
         # Pattern 1: Multiple messages to same recipient
-        with patch('services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE', False):
+        with patch("services.consolidated_messaging_service.PYAUTOGUI_AVAILABLE", False):
             for i in range(5):
                 result = messaging.send_message_pyautogui("Agent-2", f"Pattern test {i}")
                 assert result is True
 
         # Pattern 2: Different priority levels
-        priorities = [UnifiedMessagePriority.URGENT, UnifiedMessagePriority.HIGH,
-                     UnifiedMessagePriority.NORMAL, UnifiedMessagePriority.LOW]
+        priorities = [
+            UnifiedMessagePriority.URGENT,
+            UnifiedMessagePriority.HIGH,
+            UnifiedMessagePriority.NORMAL,
+            UnifiedMessagePriority.LOW,
+        ]
 
         for priority in priorities:
             message = UnifiedMessage(
@@ -449,7 +468,7 @@ class TestIntegrationCoverageExpansion:
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=priority
+                priority=priority,
             )
             result = coordination.process_message(message)
             assert result["status"] == "processed"
@@ -471,13 +490,15 @@ class TestIntegrationCoverageExpansion:
 
             messages = []
             for i in range(count):
-                messages.append(UnifiedMessage(
-                    content=f"Scaling test message {i}",
-                    sender="Agent-1",
-                    recipient="Agent-2",
-                    message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                    priority=UnifiedMessagePriority.NORMAL
-                ))
+                messages.append(
+                    UnifiedMessage(
+                        content=f"Scaling test message {i}",
+                        sender="Agent-1",
+                        recipient="Agent-2",
+                        message_type=UnifiedMessageType.AGENT_TO_AGENT,
+                        priority=UnifiedMessagePriority.NORMAL,
+                    )
+                )
 
             results = coordination.process_bulk_messages(messages)
             processing_time = time.time() - start_time
@@ -504,7 +525,7 @@ class TestIntegrationCoverageExpansion:
             sender="Agent-1",
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=UnifiedMessagePriority.NORMAL
+            priority=UnifiedMessagePriority.NORMAL,
         )
 
         result = coordination.process_message(normal_message)
@@ -512,13 +533,17 @@ class TestIntegrationCoverageExpansion:
         initial_count = coordination.command_count
 
         # Simulate failure scenario
-        with patch.object(coordination, 'determine_coordination_strategy', side_effect=Exception("Temporary failure")):
+        with patch.object(
+            coordination,
+            "determine_coordination_strategy",
+            side_effect=Exception("Temporary failure"),
+        ):
             failure_message = UnifiedMessage(
                 content="Failure simulation test",
                 sender="Agent-1",
                 recipient="Agent-2",
                 message_type=UnifiedMessageType.AGENT_TO_AGENT,
-                priority=UnifiedMessagePriority.NORMAL
+                priority=UnifiedMessagePriority.NORMAL,
             )
 
             failure_result = coordination.process_message(failure_message)
@@ -530,7 +555,7 @@ class TestIntegrationCoverageExpansion:
             sender="Agent-1",
             recipient="Agent-2",
             message_type=UnifiedMessageType.AGENT_TO_AGENT,
-            priority=UnifiedMessagePriority.NORMAL
+            priority=UnifiedMessagePriority.NORMAL,
         )
 
         recovery_result = coordination.process_message(recovery_message)
@@ -541,12 +566,14 @@ class TestIntegrationCoverageExpansion:
 
 
 if __name__ == "__main__":
-    pytest.main([
-        __file__,
-        "-v",
-        "--cov=src/services",
-        "--cov-report=html",
-        "--cov-report=term-missing",
-        "--tb=short",
-        "--cov-fail-under=92"
-    ])
+    pytest.main(
+        [
+            __file__,
+            "-v",
+            "--cov=src/services",
+            "--cov-report=html",
+            "--cov-report=term-missing",
+            "--tb=short",
+            "--cov-fail-under=92",
+        ]
+    )

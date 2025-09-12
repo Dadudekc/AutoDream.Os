@@ -4,5 +4,5 @@
 from . import ssot
 
 __all__ = [
-    'ssot',
+    "ssot",
 ]

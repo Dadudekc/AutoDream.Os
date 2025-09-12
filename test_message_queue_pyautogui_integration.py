@@ -23,13 +23,11 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from core.message_queue import MessageQueue, QueueConfig, AsyncQueueProcessor
-from core.message_queue_pyautogui_integration import get_queue_delivery_statistics
+from core.message_queue import AsyncQueueProcessor, MessageQueue, QueueConfig
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -44,9 +42,7 @@ async def test_message_queue_pyautogui_integration():
     print("\n📋 Step 1: Creating Message Queue with PyAutoGUI Delivery")
 
     config = QueueConfig(
-        queue_directory="message_queue",
-        enable_pyautogui_delivery=True,
-        processing_batch_size=5
+        queue_directory="message_queue", enable_pyautogui_delivery=True, processing_batch_size=5
     )
 
     queue = MessageQueue(config=config, logger=logger)
@@ -61,7 +57,7 @@ async def test_message_queue_pyautogui_integration():
             message="Test message to Agent-1 via PyAutoGUI",
             recipient="Agent-1",
             message_type="test",
-            priority="regular"
+            priority="regular",
         )
         print(f"✅ Basic enqueue successful: {message_id1}")
     except Exception as e:
@@ -70,8 +66,7 @@ async def test_message_queue_pyautogui_integration():
     # Test 2: Broadcast message
     try:
         message_id2 = queue.enqueue_broadcast_with_pyautogui(
-            message="SWARM ALERT: Integration test broadcast",
-            sender="TestSystem"
+            message="SWARM ALERT: Integration test broadcast", sender="TestSystem"
         )
         print(f"✅ Broadcast enqueue successful: {message_id2}")
     except Exception as e:
@@ -80,11 +75,11 @@ async def test_message_queue_pyautogui_integration():
     # Test 3: Direct enqueue with PyAutoGUI
     try:
         test_message = {
-            'content': 'Direct enqueue test message',
-            'recipient': 'Agent-2',
-            'sender': 'IntegrationTest',
-            'message_type': 'system_to_agent',
-            'priority': 'urgent'
+            "content": "Direct enqueue test message",
+            "recipient": "Agent-2",
+            "sender": "IntegrationTest",
+            "message_type": "system_to_agent",
+            "priority": "urgent",
         }
         message_id3 = queue.enqueue(test_message, use_pyautogui=True)
         print(f"✅ Direct enqueue successful: {message_id3}")
@@ -132,7 +127,9 @@ async def test_message_queue_pyautogui_integration():
         if entries:
             print(f"📦 Dequeued {len(entries)} messages for processing")
             for i, entry in enumerate(entries, 1):
-                print(f"   {i}. {getattr(entry, 'queue_id', 'unknown')} → {getattr(entry, 'status', 'unknown')}")
+                print(
+                    f"   {i}. {getattr(entry, 'queue_id', 'unknown')} → {getattr(entry, 'status', 'unknown')}"
+                )
         else:
             print("📭 No messages available for processing")
 
@@ -187,6 +184,7 @@ def main():
     except Exception as e:
         print(f"\n❌ Test failed with error: {e}")
         import traceback
+
         traceback.print_exc()
     finally:
         print("\n👋 Test completed")

@@ -92,9 +92,7 @@ class AgentStatusManager:
                 return 0
 
             query = SearchQuery(
-                query=f"agent:{self.agent_id}",
-                collection_name="agent_work",
-                limit=100
+                query=f"agent:{self.agent_id}", collection_name="agent_work", limit=100
             )
             results = search_vector_database(query)
             return len(results)
@@ -152,9 +150,7 @@ class AgentStatusManager:
                 return 0
 
             query = SearchQuery(
-                query=f"agent:{self.agent_id}",
-                collection_name="agent_work",
-                limit=1000
+                query=f"agent:{self.agent_id}", collection_name="agent_work", limit=1000
             )
             results = search_vector_database(query)
             return len(results)

@@ -4,7 +4,7 @@
 from . import prediction_analyzer, prediction_calculator, prediction_validator
 
 __all__ = [
-    'prediction_analyzer',
-    'prediction_calculator',
-    'prediction_validator',
+    "prediction_analyzer",
+    "prediction_calculator",
+    "prediction_validator",
 ]

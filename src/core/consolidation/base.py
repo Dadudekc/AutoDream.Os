@@ -13,6 +13,7 @@ Provides common helpers for consolidating scattered files into a
 central single source of truth (SSOT).
 """
 
+
 class ConsolidationBase:
     """Reusable helpers for consolidation workflows."""
 

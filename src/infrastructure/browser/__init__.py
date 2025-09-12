@@ -10,9 +10,9 @@ from . import (
 )
 
 __all__ = [
-    'chrome_undetected',
-    'thea_cookie_manager',
-    'thea_login_handler',
-    'thea_manager_profile',
-    'thea_session_manager',
+    "chrome_undetected",
+    "thea_cookie_manager",
+    "thea_login_handler",
+    "thea_manager_profile",
+    "thea_session_manager",
 ]

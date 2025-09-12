@@ -4,5 +4,5 @@
 from . import base_analyzer
 
 __all__ = [
-    'base_analyzer',
+    "base_analyzer",
 ]

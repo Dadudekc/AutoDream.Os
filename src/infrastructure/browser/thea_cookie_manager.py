@@ -12,6 +12,7 @@ from typing import Any
 @dataclass
 class TheaCookieConfig:
     """Configuration for Thea cookie management."""
+
     cookie_file: str = "data/thea_cookies.json"
     auto_save: bool = True
 

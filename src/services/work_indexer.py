@@ -55,7 +55,7 @@ class WorkIndexer:
                 return False
 
             # Read file content
-            content = file_path.read_text(encoding='utf-8')
+            content = file_path.read_text(encoding="utf-8")
             if not content.strip():
                 self.logger.warning(f"File is empty: {file_path}")
                 return False
@@ -71,8 +71,8 @@ class WorkIndexer:
                     "agent_id": self.agent_id,
                     "work_type": work_type,
                     "file_size": len(content),
-                    "indexed_at": datetime.now().isoformat()
-                }
+                    "indexed_at": datetime.now().isoformat(),
+                },
             )
 
             # Add to vector database
@@ -110,7 +110,7 @@ class WorkIndexer:
 
             for message_file in message_files:
                 try:
-                    content = message_file.read_text(encoding='utf-8')
+                    content = message_file.read_text(encoding="utf-8")
                     if not content.strip():
                         continue
 
@@ -124,8 +124,8 @@ class WorkIndexer:
                         metadata={
                             "agent_id": self.agent_id,
                             "message_file": message_file.name,
-                            "indexed_at": datetime.now().isoformat()
-                        }
+                            "indexed_at": datetime.now().isoformat(),
+                        },
                     )
 
                     # Add to vector database
@@ -134,7 +134,9 @@ class WorkIndexer:
                         indexed_count += 1
                         self.logger.debug(f"Indexed inbox message: {message_file.name}")
                     else:
-                        self.logger.warning(f"Failed to index message {message_file.name}: {result.message}")
+                        self.logger.warning(
+                            f"Failed to index message {message_file.name}: {result.message}"
+                        )
 
                 except Exception as e:
                     self.logger.error(f"Error indexing message {message_file.name}: {e}")

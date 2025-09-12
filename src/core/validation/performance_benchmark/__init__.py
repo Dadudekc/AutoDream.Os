@@ -4,6 +4,6 @@
 from . import benchmark_runner_core, benchmark_runner_operations
 
 __all__ = [
-    'benchmark_runner_core',
-    'benchmark_runner_operations',
+    "benchmark_runner_core",
+    "benchmark_runner_operations",
 ]

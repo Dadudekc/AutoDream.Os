@@ -4,5 +4,5 @@
 from . import agent7_vector_database_integration
 
 __all__ = [
-    'agent7_vector_database_integration',
+    "agent7_vector_database_integration",
 ]

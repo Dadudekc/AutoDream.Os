@@ -20,13 +20,11 @@ from pathlib import Path
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('agent5_consolidation_execution.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("agent5_consolidation_execution.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
+
 
 class Agent5ConsolidationExecutor:
     """Agent-5 Consolidation Execution Coordinator"""
@@ -120,7 +118,9 @@ class Agent5ConsolidationExecutor:
 
             # Calculate overall success rate
             total_tasks = len(self.execution_status)
-            completed_tasks = sum(1 for status in self.execution_status.values() if status == "COMPLETED")
+            completed_tasks = sum(
+                1 for status in self.execution_status.values() if status == "COMPLETED"
+            )
             success_rate = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
 
             report = {
@@ -133,8 +133,12 @@ class Agent5ConsolidationExecutor:
                     "overall_success_rate": f"{success_rate:.1f}%",
                     "total_tasks": total_tasks,
                     "completed_tasks": completed_tasks,
-                    "failed_tasks": sum(1 for status in self.execution_status.values() if status == "FAILED"),
-                    "error_tasks": sum(1 for status in self.execution_status.values() if status == "ERROR")
+                    "failed_tasks": sum(
+                        1 for status in self.execution_status.values() if status == "FAILED"
+                    ),
+                    "error_tasks": sum(
+                        1 for status in self.execution_status.values() if status == "ERROR"
+                    ),
                 },
                 "task_details": self.execution_status,
                 "coordination_results": self.coordination_results,
@@ -142,19 +146,19 @@ class Agent5ConsolidationExecutor:
                     "Continue monitoring consolidation progress",
                     "Coordinate Phase 1 consolidation execution",
                     "Track business value and ROI",
-                    "Maintain agent coordination"
+                    "Maintain agent coordination",
                 ],
                 "swarm_coordination": {
                     "status": "ACTIVE",
                     "core_consolidation": "VALIDATED",
                     "business_intelligence": "MONITORING",
-                    "consolidation_coordination": "ACTIVE"
-                }
+                    "consolidation_coordination": "ACTIVE",
+                },
             }
 
             # Save status report
             report_file = self.project_root / "agent5_consolidation_status_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2)
 
             logger.info(f"Agent-5 status report saved: {report_file}")
@@ -176,7 +180,9 @@ class Agent5ConsolidationExecutor:
 
             # 2. Execute business intelligence analysis
             if not self.execute_business_intelligence_analysis():
-                logger.error("Business intelligence analysis failed, continuing with other tasks...")
+                logger.error(
+                    "Business intelligence analysis failed, continuing with other tasks..."
+                )
 
             # 3. Execute consolidation coordination
             if not self.execute_consolidation_coordination():
@@ -200,20 +206,20 @@ class Agent5ConsolidationExecutor:
                     "core_validation": "COMPLETED",
                     "business_intelligence": "ACTIVE",
                     "consolidation_coordination": "ACTIVE",
-                    "swarm_coordination": "ESTABLISHED"
+                    "swarm_coordination": "ESTABLISHED",
                 },
                 "next_actions": [
                     "Monitor consolidation progress continuously",
                     "Coordinate Phase 1 consolidation execution",
                     "Track business value and ROI metrics",
                     "Maintain agent coordination and communication",
-                    "Prepare for Phase 2 transition"
-                ]
+                    "Prepare for Phase 2 transition",
+                ],
             }
 
             # Save execution report
             report_file = self.project_root / "agent5_consolidation_execution_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(execution_report, f, indent=2)
 
             logger.info("🎉 Agent-5 Consolidation System Execution completed!")
@@ -224,6 +230,7 @@ class Agent5ConsolidationExecutor:
         except Exception as e:
             logger.error(f"Error in Agent-5 consolidation system execution: {e}")
             return False
+
 
 def main():
     """Main execution function"""
@@ -248,6 +255,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error in Agent-5 consolidation system execution: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

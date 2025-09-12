@@ -37,9 +37,7 @@ class VectorDatabaseService:
         self.logger.info("VectorDatabaseService initialized")
 
     def add_document(
-        self,
-        document: VectorDocument,
-        collection_name: str = "default"
+        self, document: VectorDocument, collection_name: str = "default"
     ) -> VectorDatabaseResult:
         """Add a document to the vector database."""
         return self.engine.add_document(document, collection_name)
@@ -49,29 +47,22 @@ class VectorDatabaseService:
         query: str,
         collection_name: str = "default",
         limit: int = 10,
-        document_types: list[DocumentType] | None = None
+        document_types: list[DocumentType] | None = None,
     ) -> list[SearchResult]:
         """Search documents in the vector database."""
         search_query = SearchQuery(
-            query=query,
-            collection_name=collection_name,
-            limit=limit,
-            document_types=document_types
+            query=query, collection_name=collection_name, limit=limit, document_types=document_types
         )
         return self.engine.search_documents(search_query)
 
     def get_document(
-        self,
-        document_id: str,
-        collection_name: str = "default"
+        self, document_id: str, collection_name: str = "default"
     ) -> VectorDocument | None:
         """Retrieve a document by ID."""
         return self.engine.get_document(document_id, collection_name)
 
     def delete_document(
-        self,
-        document_id: str,
-        collection_name: str = "default"
+        self, document_id: str, collection_name: str = "default"
     ) -> VectorDatabaseResult:
         """Delete a document by ID."""
         return self.engine.delete_document(document_id, collection_name)
@@ -93,7 +84,7 @@ class VectorDatabaseService:
                 "max_collections": self.config.max_collections,
                 "max_documents_per_collection": self.config.max_documents_per_collection,
                 "enable_persistence": self.config.enable_persistence,
-            }
+            },
         }
 
 
@@ -110,8 +101,7 @@ def get_vector_database_service() -> VectorDatabaseService:
 
 
 def add_document_to_vector_db(
-    document: VectorDocument,
-    collection_name: str = "default"
+    document: VectorDocument, collection_name: str = "default"
 ) -> VectorDatabaseResult:
     """Add a document to the vector database."""
     service = get_vector_database_service()
@@ -122,7 +112,7 @@ def search_vector_database(
     query: str,
     collection_name: str = "default",
     limit: int = 10,
-    document_types: list[DocumentType] | None = None
+    document_types: list[DocumentType] | None = None,
 ) -> list[SearchResult]:
     """Search the vector database."""
     service = get_vector_database_service()

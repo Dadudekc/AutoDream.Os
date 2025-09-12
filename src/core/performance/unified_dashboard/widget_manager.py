@@ -153,7 +153,7 @@ class WidgetManager:
         return {
             "total_widgets": len(self.widgets),
             "total_configs": len(self.configs),
-            "widget_types": list(set(widget.widget_type for widget in self.widgets.values())),
+            "widget_types": list({widget.widget_type for widget in self.widgets.values()}),
             "last_updated": max(
                 (widget.updated_at for widget in self.widgets.values()), default=None
             ),

@@ -46,7 +46,7 @@ class FileQueuePersistence(IQueuePersistence):
 
             # Direct write for better performance
             with open(self.queue_file, "w", encoding="utf-8") as f:
-                json.dump(data, f, separators=(',', ':'), ensure_ascii=False, default=str)
+                json.dump(data, f, separators=(",", ":"), ensure_ascii=False, default=str)
         except Exception as e:
             print(f"Failed to save queue entries: {e}")
             raise
@@ -72,7 +72,7 @@ class QueueEntry:
         status: str,
         created_at: Any,
         updated_at: Any,
-        metadata: dict[str, Any] | None = None
+        metadata: dict[str, Any] | None = None,
     ):
         """Initialize queue entry."""
         self.message = message
@@ -86,24 +86,32 @@ class QueueEntry:
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
-            'message': self.message,
-            'queue_id': self.queue_id,
-            'priority_score': self.priority_score,
-            'status': self.status,
-            'created_at': self.created_at.isoformat() if hasattr(self.created_at, 'isoformat') else str(self.created_at),
-            'updated_at': self.updated_at.isoformat() if hasattr(self.updated_at, 'isoformat') else str(self.updated_at),
-            'metadata': self.metadata
+            "message": self.message,
+            "queue_id": self.queue_id,
+            "priority_score": self.priority_score,
+            "status": self.status,
+            "created_at": (
+                self.created_at.isoformat()
+                if hasattr(self.created_at, "isoformat")
+                else str(self.created_at)
+            ),
+            "updated_at": (
+                self.updated_at.isoformat()
+                if hasattr(self.updated_at, "isoformat")
+                else str(self.updated_at)
+            ),
+            "metadata": self.metadata,
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'QueueEntry':
+    def from_dict(cls, data: dict[str, Any]) -> "QueueEntry":
         """Create from dictionary."""
         return cls(
-            message=data['message'],
-            queue_id=data['queue_id'],
-            priority_score=data['priority_score'],
-            status=data['status'],
-            created_at=data['created_at'],
-            updated_at=data['updated_at'],
-            metadata=data.get('metadata', {})
+            message=data["message"],
+            queue_id=data["queue_id"],
+            priority_score=data["priority_score"],
+            status=data["status"],
+            created_at=data["created_at"],
+            updated_at=data["updated_at"],
+            metadata=data.get("metadata", {}),
         )

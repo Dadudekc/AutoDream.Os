@@ -31,8 +31,10 @@ from typing import Any
 # SSOT ENUMS AND MODELS
 # ============================================================================
 
+
 class SSOTStatus(Enum):
     """SSOT status enumeration."""
+
     ACTIVE = "active"
     INACTIVE = "inactive"
     SYNCING = "syncing"
@@ -42,6 +44,7 @@ class SSOTStatus(Enum):
 
 class SSOTType(Enum):
     """SSOT type enumeration."""
+
     CONFIGURATION = "configuration"
     DATA = "data"
     SCHEMA = "schema"
@@ -52,6 +55,7 @@ class SSOTType(Enum):
 
 class SSOTOperation(Enum):
     """SSOT operation enumeration."""
+
     CREATE = "create"
     READ = "read"
     UPDATE = "update"
@@ -62,6 +66,7 @@ class SSOTOperation(Enum):
 
 class SSOTConsistency(Enum):
     """SSOT consistency enumeration."""
+
     CONSISTENT = "consistent"
     INCONSISTENT = "inconsistent"
     PARTIALLY_CONSISTENT = "partially_consistent"
@@ -72,9 +77,11 @@ class SSOTConsistency(Enum):
 # SSOT MODELS
 # ============================================================================
 
+
 @dataclass
 class SSOTRecord:
     """SSOT record model."""
+
     record_id: str
     ssot_type: SSOTType
     key: str
@@ -89,6 +96,7 @@ class SSOTRecord:
 @dataclass
 class SSOTOperation:
     """SSOT operation model."""
+
     operation_id: str
     ssot_type: SSOTType
     operation: SSOTOperation
@@ -103,6 +111,7 @@ class SSOTOperation:
 @dataclass
 class SSOTValidation:
     """SSOT validation model."""
+
     validation_id: str
     ssot_type: SSOTType
     key: str
@@ -117,6 +126,7 @@ class SSOTValidation:
 @dataclass
 class SSOTMetrics:
     """SSOT metrics model."""
+
     ssot_type: SSOTType
     total_records: int = 0
     active_records: int = 0
@@ -129,6 +139,7 @@ class SSOTMetrics:
 # ============================================================================
 # SSOT INTERFACES
 # ============================================================================
+
 
 class SSOTManager(ABC):
     """Base SSOT manager interface."""
@@ -201,14 +212,13 @@ class SSOTValidator(ABC):
 # SSOT MANAGERS
 # ============================================================================
 
+
 class ConfigurationSSOTManager(SSOTManager):
     """Configuration SSOT manager implementation."""
 
     def __init__(self, manager_id: str = None):
         super().__init__(
-            manager_id or str(uuid.uuid4()),
-            "ConfigurationSSOTManager",
-            SSOTType.CONFIGURATION
+            manager_id or str(uuid.uuid4()), "ConfigurationSSOTManager", SSOTType.CONFIGURATION
         )
         self.records: dict[str, SSOTRecord] = {}
 
@@ -246,7 +256,7 @@ class ConfigurationSSOTManager(SSOTManager):
                 key=key,
                 value=value,
                 version=1,
-                status=SSOTStatus.ACTIVE
+                status=SSOTStatus.ACTIVE,
             )
 
             self.records[key] = record
@@ -319,11 +329,7 @@ class DataSSOTManager(SSOTManager):
     """Data SSOT manager implementation."""
 
     def __init__(self, manager_id: str = None):
-        super().__init__(
-            manager_id or str(uuid.uuid4()),
-            "DataSSOTManager",
-            SSOTType.DATA
-        )
+        super().__init__(manager_id or str(uuid.uuid4()), "DataSSOTManager", SSOTType.DATA)
         self.records: dict[str, SSOTRecord] = {}
 
     def start(self) -> bool:
@@ -360,7 +366,7 @@ class DataSSOTManager(SSOTManager):
                 key=key,
                 value=value,
                 version=1,
-                status=SSOTStatus.ACTIVE
+                status=SSOTStatus.ACTIVE,
             )
 
             self.records[key] = record
@@ -433,14 +439,12 @@ class DataSSOTManager(SSOTManager):
 # SSOT VALIDATORS
 # ============================================================================
 
+
 class SSOTRecordValidator(SSOTValidator):
     """SSOT record validator implementation."""
 
     def __init__(self, validator_id: str = None):
-        super().__init__(
-            validator_id or str(uuid.uuid4()),
-            "SSOTRecordValidator"
-        )
+        super().__init__(validator_id or str(uuid.uuid4()), "SSOTRecordValidator")
 
     def validate_record(self, record: SSOTRecord) -> SSOTValidation:
         """Validate SSOT record."""
@@ -450,7 +454,7 @@ class SSOTRecordValidator(SSOTValidator):
                 ssot_type=record.ssot_type,
                 key=record.key,
                 is_valid=True,
-                validation_rules=["record_structure", "data_integrity", "version_consistency"]
+                validation_rules=["record_structure", "data_integrity", "version_consistency"],
             )
 
             # Validate record structure
@@ -469,7 +473,13 @@ class SSOTRecordValidator(SSOTValidator):
                 validation.errors.append("Record version must be >= 1")
 
             # Validate status
-            if record.status not in [SSOTStatus.ACTIVE, SSOTStatus.INACTIVE, SSOTStatus.SYNCING, SSOTStatus.ERROR, SSOTStatus.MAINTENANCE]:
+            if record.status not in [
+                SSOTStatus.ACTIVE,
+                SSOTStatus.INACTIVE,
+                SSOTStatus.SYNCING,
+                SSOTStatus.ERROR,
+                SSOTStatus.MAINTENANCE,
+            ]:
                 validation.is_valid = False
                 validation.errors.append("Invalid record status")
 
@@ -487,7 +497,7 @@ class SSOTRecordValidator(SSOTValidator):
                 ssot_type=record.ssot_type,
                 key=record.key,
                 is_valid=False,
-                errors=[f"Validation error: {e}"]
+                errors=[f"Validation error: {e}"],
             )
 
     def get_capabilities(self) -> list[str]:
@@ -498,6 +508,7 @@ class SSOTRecordValidator(SSOTValidator):
 # ============================================================================
 # SSOT COORDINATOR
 # ============================================================================
+
 
 class SSOTCoordinator:
     """SSOT coordination system."""
@@ -597,9 +608,11 @@ class SSOTCoordinator:
         return {
             "managers_registered": len(self.managers),
             "validators_registered": len(self.validators),
-            "active_managers": len([m for m in self.managers.values() if m.status == SSOTStatus.ACTIVE]),
+            "active_managers": len(
+                [m for m in self.managers.values() if m.status == SSOTStatus.ACTIVE]
+            ),
             "total_records": sum(m.metrics.total_records for m in self.managers.values()),
-            "active_records": sum(m.metrics.active_records for m in self.managers.values())
+            "active_records": sum(m.metrics.active_records for m in self.managers.values()),
         }
 
 
@@ -607,12 +620,10 @@ class SSOTCoordinator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_ssot_manager(ssot_type: SSOTType, manager_id: str = None) -> SSOTManager | None:
     """Create SSOT manager by type."""
-    managers = {
-        SSOTType.CONFIGURATION: ConfigurationSSOTManager,
-        SSOTType.DATA: DataSSOTManager
-    }
+    managers = {SSOTType.CONFIGURATION: ConfigurationSSOTManager, SSOTType.DATA: DataSSOTManager}
 
     manager_class = managers.get(ssot_type)
     if manager_class:
@@ -623,9 +634,7 @@ def create_ssot_manager(ssot_type: SSOTType, manager_id: str = None) -> SSOTMana
 
 def create_ssot_validator(validator_type: str, validator_id: str = None) -> SSOTValidator | None:
     """Create SSOT validator by type."""
-    validators = {
-        "record": SSOTRecordValidator
-    }
+    validators = {"record": SSOTRecordValidator}
 
     validator_class = validators.get(validator_type)
     if validator_class:
@@ -642,6 +651,7 @@ def create_ssot_coordinator() -> SSOTCoordinator:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""

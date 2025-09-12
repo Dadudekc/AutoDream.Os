@@ -8,7 +8,7 @@ from . import (
 )
 
 __all__ = [
-    'utility_consolidation_engine',
-    'utility_consolidation_models',
-    'utility_consolidation_orchestrator',
+    "utility_consolidation_engine",
+    "utility_consolidation_models",
+    "utility_consolidation_orchestrator",
 ]

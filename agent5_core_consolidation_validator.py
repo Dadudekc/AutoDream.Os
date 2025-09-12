@@ -21,13 +21,14 @@ from typing import Any
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler('agent5_core_consolidation_validator.log'),
-        logging.StreamHandler()
-    ]
+        logging.FileHandler("agent5_core_consolidation_validator.log"),
+        logging.StreamHandler(),
+    ],
 )
 logger = logging.getLogger(__name__)
+
 
 class Agent5CoreConsolidationValidator:
     """Agent-5 Core Modules Consolidation Validator"""
@@ -45,10 +46,10 @@ class Agent5CoreConsolidationValidator:
                     "src/core/messaging_core.py",
                     "src/core/messaging_pyautogui.py",
                     "src/services/messaging_core.py",
-                    "src/services/messaging_pyautogui.py"
+                    "src/services/messaging_pyautogui.py",
                 ],
                 "target_file": "src/core/unified_messaging.py",
-                "reduction": "4 → 1 (75% reduction)"
+                "reduction": "4 → 1 (75% reduction)",
             },
             "analytics_engine": {
                 "current_files": [
@@ -56,20 +57,20 @@ class Agent5CoreConsolidationValidator:
                     "src/core/analytics/engines/*.py",
                     "src/core/analytics/intelligence/*.py",
                     "src/core/analytics/orchestrators/*.py",
-                    "src/core/analytics/processors/*.py"
+                    "src/core/analytics/processors/*.py",
                 ],
                 "target_file": "src/core/analytics/unified_analytics.py",
-                "reduction": "28 → 5 (82% reduction)"
+                "reduction": "28 → 5 (82% reduction)",
             },
             "configuration_system": {
                 "current_files": [
                     "src/core/unified_config.py",
                     "src/core/config_core.py",
-                    "src/core/env_loader.py"
+                    "src/core/env_loader.py",
                 ],
                 "target_file": "src/core/enhanced_unified_config.py",
-                "reduction": "3 → 1 (67% reduction)"
-            }
+                "reduction": "3 → 1 (67% reduction)",
+            },
         }
 
     def validate_messaging_system_consolidation(self) -> bool:
@@ -97,7 +98,7 @@ class Agent5CoreConsolidationValidator:
                 return False
 
             # Check unified messaging system functionality
-            with open(unified_messaging_file, encoding='utf-8') as f:
+            with open(unified_messaging_file, encoding="utf-8") as f:
                 content = f.read()
 
             # Check for key functionality
@@ -105,7 +106,7 @@ class Agent5CoreConsolidationValidator:
                 "send_message",
                 "broadcast_message",
                 "pyautogui_integration",
-                "unified_interface"
+                "unified_interface",
             ]
 
             found_functions = sum(1 for func in required_functions if func in content)
@@ -130,7 +131,9 @@ class Agent5CoreConsolidationValidator:
             logger.info("🔍 Validating analytics engine consolidation...")
 
             # Check if unified analytics system exists
-            unified_analytics_file = self.project_root / "src" / "core" / "analytics" / "unified_analytics.py"
+            unified_analytics_file = (
+                self.project_root / "src" / "core" / "analytics" / "unified_analytics.py"
+            )
             if not unified_analytics_file.exists():
                 logger.warning("Unified analytics system not found")
                 self.validation_results["analytics_consolidation"] = "PENDING"
@@ -149,11 +152,15 @@ class Agent5CoreConsolidationValidator:
 
             # Check if consolidation target achieved (28 → 5)
             if remaining_files <= 5:
-                logger.info(f"✅ Analytics engine consolidation validated ({remaining_files} files)")
+                logger.info(
+                    f"✅ Analytics engine consolidation validated ({remaining_files} files)"
+                )
                 self.validation_results["analytics_consolidation"] = "PASS"
                 return True
             else:
-                logger.warning(f"⚠️ Analytics engine consolidation incomplete ({remaining_files} files)")
+                logger.warning(
+                    f"⚠️ Analytics engine consolidation incomplete ({remaining_files} files)"
+                )
                 self.validation_results["analytics_consolidation"] = "PARTIAL"
                 return False
 
@@ -187,7 +194,7 @@ class Agent5CoreConsolidationValidator:
                 return False
 
             # Check enhanced config functionality
-            with open(enhanced_config_file, encoding='utf-8') as f:
+            with open(enhanced_config_file, encoding="utf-8") as f:
                 content = f.read()
 
             # Check for key functionality
@@ -195,7 +202,7 @@ class Agent5CoreConsolidationValidator:
                 "load_config",
                 "env_loader",
                 "unified_config",
-                "configuration_interface"
+                "configuration_interface",
             ]
 
             found_functions = sum(1 for func in required_functions if func in content)
@@ -220,11 +227,7 @@ class Agent5CoreConsolidationValidator:
             logger.info("🔍 Validating business value preservation...")
 
             # Check for critical business functionality
-            business_functions = [
-                "messaging_core.py",
-                "analytics",
-                "unified_config.py"
-            ]
+            business_functions = ["messaging_core.py", "analytics", "unified_config.py"]
 
             preserved_functions = 0
             for func in business_functions:
@@ -263,7 +266,7 @@ class Agent5CoreConsolidationValidator:
                 memory_status = "WARNING"
 
             # Check disk space
-            disk_usage = psutil.disk_usage('/').percent
+            disk_usage = psutil.disk_usage("/").percent
             if disk_usage < 90:
                 logger.info(f"✅ Disk usage acceptable: {disk_usage}%")
                 disk_status = "PASS"
@@ -306,10 +309,12 @@ class Agent5CoreConsolidationValidator:
                 "target_files": target_count,
                 "reduction_percentage": reduction_percentage,
                 "consolidation_progress": min(100, reduction_percentage),
-                "status": "ON_TRACK" if current_count <= target_count else "NEEDS_WORK"
+                "status": "ON_TRACK" if current_count <= target_count else "NEEDS_WORK",
             }
 
-            logger.info(f"Consolidation metrics: {current_count} files, {reduction_percentage:.1f}% reduction")
+            logger.info(
+                f"Consolidation metrics: {current_count} files, {reduction_percentage:.1f}% reduction"
+            )
             return metrics
 
         except Exception as e:
@@ -323,10 +328,18 @@ class Agent5CoreConsolidationValidator:
 
             # Calculate overall validation status
             total_checks = len(self.validation_results)
-            passed_checks = sum(1 for status in self.validation_results.values() if status == "PASS")
-            warning_checks = sum(1 for status in self.validation_results.values() if status == "WARNING")
-            failed_checks = sum(1 for status in self.validation_results.values() if status == "FAIL")
-            error_checks = sum(1 for status in self.validation_results.values() if status == "ERROR")
+            passed_checks = sum(
+                1 for status in self.validation_results.values() if status == "PASS"
+            )
+            warning_checks = sum(
+                1 for status in self.validation_results.values() if status == "WARNING"
+            )
+            failed_checks = sum(
+                1 for status in self.validation_results.values() if status == "FAIL"
+            )
+            error_checks = sum(
+                1 for status in self.validation_results.values() if status == "ERROR"
+            )
 
             overall_status = "PASS"
             if error_checks > 0:
@@ -351,7 +364,9 @@ class Agent5CoreConsolidationValidator:
                     "warnings": warning_checks,
                     "failed": failed_checks,
                     "errors": error_checks,
-                    "success_rate": f"{(passed_checks/total_checks)*100:.1f}%" if total_checks > 0 else "0%"
+                    "success_rate": (
+                        f"{(passed_checks / total_checks) * 100:.1f}%" if total_checks > 0 else "0%"
+                    ),
                 },
                 "consolidation_targets": self.consolidation_targets,
                 "validation_results": self.validation_results,
@@ -361,13 +376,13 @@ class Agent5CoreConsolidationValidator:
                     "Address any failed or error status checks",
                     "Continue consolidation execution",
                     "Monitor system performance continuously",
-                    "Validate business value preservation"
-                ]
+                    "Validate business value preservation",
+                ],
             }
 
             # Save consolidation report
             report_file = self.project_root / "agent5_core_consolidation_validation_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2)
 
             logger.info(f"Consolidation validation report saved: {report_file}")
@@ -384,13 +399,21 @@ class Agent5CoreConsolidationValidator:
         for check, status in self.validation_results.items():
             if status == "FAIL":
                 if check == "messaging_consolidation":
-                    recommendations.append("Complete messaging system consolidation - merge duplicate files")
+                    recommendations.append(
+                        "Complete messaging system consolidation - merge duplicate files"
+                    )
                 elif check == "analytics_consolidation":
-                    recommendations.append("Complete analytics engine consolidation - reduce file count")
+                    recommendations.append(
+                        "Complete analytics engine consolidation - reduce file count"
+                    )
                 elif check == "config_consolidation":
-                    recommendations.append("Complete configuration system consolidation - merge config files")
+                    recommendations.append(
+                        "Complete configuration system consolidation - merge config files"
+                    )
                 elif check == "business_value":
-                    recommendations.append("Ensure business value preservation during consolidation")
+                    recommendations.append(
+                        "Ensure business value preservation during consolidation"
+                    )
 
             elif status == "WARNING":
                 if check == "system_performance":
@@ -446,13 +469,13 @@ class Agent5CoreConsolidationValidator:
                     "Review consolidation validation report",
                     "Address failed or error status checks",
                     "Continue consolidation execution",
-                    "Monitor system performance continuously"
-                ]
+                    "Monitor system performance continuously",
+                ],
             }
 
             # Save validation summary
             summary_file = self.project_root / "agent5_core_consolidation_validation_summary.json"
-            with open(summary_file, 'w', encoding='utf-8') as f:
+            with open(summary_file, "w", encoding="utf-8") as f:
                 json.dump(validation_summary, f, indent=2)
 
             logger.info("🎉 Core modules consolidation validation completed!")
@@ -463,6 +486,7 @@ class Agent5CoreConsolidationValidator:
         except Exception as e:
             logger.error(f"Error in consolidation validation: {e}")
             return False
+
 
 def main():
     """Main execution function"""
@@ -487,6 +511,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error in core modules consolidation validation: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

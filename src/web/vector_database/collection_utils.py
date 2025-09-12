@@ -56,8 +56,8 @@ class CollectionUtils:
             collection=request.collection,
             data="Mock exported data",
             filename=(
-                f'vector_db_export_{request.collection}_'
-                f'{datetime.now().strftime("%Y%m%d_%H%M%S")}.{request.format}'
+                f"vector_db_export_{request.collection}_"
+                f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.{request.format}"
             ),
             size="1.2 MB",
         )

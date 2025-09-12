@@ -34,7 +34,7 @@ class EngineLifecycleManager:
                 engine_id=self.engine_id,
                 operation="initialize",
                 data={"initialized_at": self.initialized_at.isoformat()},
-                metadata={"lifecycle": "initialized"}
+                metadata={"lifecycle": "initialized"},
             )
         except Exception as e:
             return EngineResult(
@@ -42,7 +42,7 @@ class EngineLifecycleManager:
                 engine_id=self.engine_id,
                 operation="initialize",
                 error=str(e),
-                metadata={"lifecycle": "failed"}
+                metadata={"lifecycle": "failed"},
             )
 
     def shutdown_engine(self) -> EngineResult:
@@ -55,7 +55,7 @@ class EngineLifecycleManager:
                 engine_id=self.engine_id,
                 operation="shutdown",
                 data={"shutdown_at": datetime.now().isoformat()},
-                metadata={"lifecycle": "shutdown"}
+                metadata={"lifecycle": "shutdown"},
             )
         except Exception as e:
             return EngineResult(
@@ -63,7 +63,7 @@ class EngineLifecycleManager:
                 engine_id=self.engine_id,
                 operation="shutdown",
                 error=str(e),
-                metadata={"lifecycle": "shutdown_failed"}
+                metadata={"lifecycle": "shutdown_failed"},
             )
 
     def update_last_operation(self):
@@ -75,8 +75,10 @@ class EngineLifecycleManager:
         return {
             "engine_id": self.engine_id,
             "initialized_at": self.initialized_at.isoformat() if self.initialized_at else None,
-            "last_operation_at": self.last_operation_at.isoformat() if self.last_operation_at else None,
+            "last_operation_at": (
+                self.last_operation_at.isoformat() if self.last_operation_at else None
+            ),
             "uptime_seconds": (
-                datetime.now() - self.initialized_at
-            ).total_seconds() if self.initialized_at else 0
+                (datetime.now() - self.initialized_at).total_seconds() if self.initialized_at else 0
+            ),
         }

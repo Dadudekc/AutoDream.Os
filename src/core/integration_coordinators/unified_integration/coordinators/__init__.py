@@ -4,7 +4,7 @@
 from . import config_manager, health_monitor, task_manager
 
 __all__ = [
-    'config_manager',
-    'health_monitor',
-    'task_manager',
+    "config_manager",
+    "health_monitor",
+    "task_manager",
 ]

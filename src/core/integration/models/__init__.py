@@ -4,5 +4,5 @@
 from . import data_models
 
 __all__ = [
-    'data_models',
+    "data_models",
 ]

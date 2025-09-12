@@ -7,7 +7,7 @@ swarm_contract:
   deployment_date: "2025-01-10"
   deployed_by: "Agent-5"
   status: "active"
-  
+
   # Core Swarm Architecture
   swarm_architecture:
     total_agents: 8
@@ -26,84 +26,84 @@ swarm_contract:
           Agent-6: [1612, 419]
           Agent-7: [920, 851]
           Agent-8: [1611, 941]
-    
+
     communication_protocol:
       primary: "cursor_automation"
       secondary: "file_based_messaging"
       tertiary: "api_communication"
-      
+
   # Unified Feedback Loop Components
   feedback_loop:
     devlog_template: "templates/DEVLOG_TEMPLATE.md"
     status_schema: "schemas/status.schema.json"
     duplication_scanner: "scripts/dup_scan.py"
     cycle_automation: "scripts/agent_cycle.py"
-    
+
   # Agent Responsibilities
   agent_roles:
     Agent-1:
       specialty: "File Management & Cleanup"
       coordinates: [-1269, 481]
       status: "active"
-      
+
     Agent-2:
       specialty: "Configuration & Infrastructure"
       coordinates: [-308, 480]
       status: "active"
-      
+
     Agent-3:
       specialty: "Core Systems & Architecture"
       coordinates: [-1269, 1001]
       status: "active"
-      
+
     Agent-4:
       specialty: "Quality Assurance & V2 Compliance"
       coordinates: [-308, 1000]
       status: "active"
-      
+
     Agent-5:
       specialty: "Integration & Tooling"
       coordinates: [652, 421]
       status: "active"
       current_mission: "V3.1 Unified Feedback Loop Rollout"
-      
+
     Agent-6:
       specialty: "Web Interface & Communication"
       coordinates: [1612, 419]
       status: "active"
-      
+
     Agent-7:
       specialty: "Dashboard & Visualization"
       coordinates: [920, 851]
       status: "active"
-      
+
     Agent-8:
       specialty: "Monitoring & Analytics"
       coordinates: [1611, 941]
       status: "active"
-      
+
   # Operational Protocols
   protocols:
     cycle_management:
       duration: "24_hours"
       validation: "status.schema.json"
       automation: "agent_cycle.py"
-      
+
     communication:
       inbox_location: "agent_workspaces/{agent_id}/inbox/"
       messaging_service: "src/services/consolidated_messaging_service.py"
       broadcast_protocol: "unified_cycle_process"
-      
+
     quality_assurance:
       duplication_prevention: "dup_scan.py"
       v2_compliance: "enforced"
       file_size_limit: 400_lines
-      
+
     devlog_standardization:
       template: "DEVLOG_TEMPLATE.md"
       location: "devlogs/"
       discord_integration: "post_devlog_to_discord.py"
-      
+
   # Mission Status
   current_missions:
     v31_rollout:
@@ -117,7 +117,7 @@ swarm_contract:
       timeline: "24_hours"
       priority: "HIGH"
       status: "in_progress"
-      
+
   # Success Metrics
   success_criteria:
     zero_drift_operations: true
@@ -125,7 +125,7 @@ swarm_contract:
     standardized_devlogs: true
     duplication_prevention: true
     automated_validation: true
-    
+
   # Contract Validation
   validation:
     schema_compliance: "status.schema.json"

@@ -58,7 +58,7 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM DevLog Monitor",
-                "avatar_url": "https://i.imgur.com/XXXXXXX.png"  # Add swarm avatar URL
+                "avatar_url": "https://i.imgur.com/XXXXXXX.png",  # Add swarm avatar URL
             }
 
             response = self.session.post(self.webhook_url, json=payload)
@@ -86,13 +86,15 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM Status Monitor",
-                "avatar_url": "https://i.imgur.com/YYYYYYY.png"
+                "avatar_url": "https://i.imgur.com/YYYYYYY.png",
             }
 
             response = self.session.post(self.webhook_url, json=payload)
 
             if response.status_code == 204:
-                print(f"✅ Agent status notification sent for: {agent_status.get('agent_id', 'Unknown')}")
+                print(
+                    f"✅ Agent status notification sent for: {agent_status.get('agent_id', 'Unknown')}"
+                )
                 return True
             else:
                 print(f"❌ Failed to send agent status notification: {response.status_code}")
@@ -114,13 +116,15 @@ class DiscordWebhookIntegration:
             payload = {
                 "embeds": [embed],
                 "username": "V2_SWARM Coordinator",
-                "avatar_url": "https://i.imgur.com/ZZZZZZZ.png"
+                "avatar_url": "https://i.imgur.com/ZZZZZZZ.png",
             }
 
             response = self.session.post(self.webhook_url, json=payload)
 
             if response.status_code == 204:
-                print(f"✅ Swarm coordination notification sent: {coordination_data.get('topic', 'Unknown')}")
+                print(
+                    f"✅ Swarm coordination notification sent: {coordination_data.get('topic', 'Unknown')}"
+                )
                 return True
             else:
                 print(f"❌ Failed to send coordination notification: {response.status_code}")
@@ -139,39 +143,31 @@ class DiscordWebhookIntegration:
 
         # Color coding based on category
         colors = {
-            "general": 0x3498db,      # Blue
-            "cleanup": 0xe74c3c,      # Red
-            "consolidation": 0x9b59b6, # Purple
-            "coordination": 0x1abc9c,  # Teal
-            "testing": 0xf39c12,      # Orange
-            "deployment": 0x27ae60     # Green
+            "general": 0x3498DB,  # Blue
+            "cleanup": 0xE74C3C,  # Red
+            "consolidation": 0x9B59B6,  # Purple
+            "coordination": 0x1ABC9C,  # Teal
+            "testing": 0xF39C12,  # Orange
+            "deployment": 0x27AE60,  # Green
         }
 
         embed = {
             "title": f"📋 {title}",
             "description": description[:2000] if description else "DevLog update received",
-            "color": colors.get(category, 0x3498db),
+            "color": colors.get(category, 0x3498DB),
             "fields": [
-                {
-                    "name": "Category",
-                    "value": category.title(),
-                    "inline": True
-                },
-                {
-                    "name": "Agent",
-                    "value": agent,
-                    "inline": True
-                },
+                {"name": "Category", "value": category.title(), "inline": True},
+                {"name": "Agent", "value": agent, "inline": True},
                 {
                     "name": "Timestamp",
                     "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "inline": True
-                }
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM DevLog Monitor",
-                "icon_url": "https://i.imgur.com/AAAAAAA.png"
-            }
+                "icon_url": "https://i.imgur.com/AAAAAAA.png",
+            },
         }
 
         return embed
@@ -184,36 +180,28 @@ class DiscordWebhookIntegration:
 
         # Color based on status
         status_colors = {
-            "active": 0x27ae60,      # Green
-            "idle": 0xf39c12,        # Orange
-            "error": 0xe74c3c,       # Red
-            "offline": 0x95a5a6      # Gray
+            "active": 0x27AE60,  # Green
+            "idle": 0xF39C12,  # Orange
+            "error": 0xE74C3C,  # Red
+            "offline": 0x95A5A6,  # Gray
         }
 
         embed = {
             "title": f"🤖 Agent Status Update - {agent_id}",
-            "color": status_colors.get(status, 0x3498db),
+            "color": status_colors.get(status, 0x3498DB),
             "fields": [
-                {
-                    "name": "Status",
-                    "value": status.title(),
-                    "inline": True
-                },
-                {
-                    "name": "Last Activity",
-                    "value": last_activity,
-                    "inline": True
-                },
+                {"name": "Status", "value": status.title(), "inline": True},
+                {"name": "Last Activity", "value": last_activity, "inline": True},
                 {
                     "name": "Timestamp",
                     "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "inline": True
-                }
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM Status Monitor",
-                "icon_url": "https://i.imgur.com/BBBBBBB.png"
-            }
+                "icon_url": "https://i.imgur.com/BBBBBBB.png",
+            },
         }
 
         return embed
@@ -226,37 +214,33 @@ class DiscordWebhookIntegration:
 
         # Color based on priority
         priority_colors = {
-            "LOW": 0x95a5a6,         # Gray
-            "NORMAL": 0x3498db,      # Blue
-            "HIGH": 0xf39c12,        # Orange
-            "URGENT": 0xe74c3c       # Red
+            "LOW": 0x95A5A6,  # Gray
+            "NORMAL": 0x3498DB,  # Blue
+            "HIGH": 0xF39C12,  # Orange
+            "URGENT": 0xE74C3C,  # Red
         }
 
         embed = {
             "title": f"🐝 SWARM COORDINATION - {topic}",
             "description": coordination_data.get("description", ""),
-            "color": priority_colors.get(priority, 0x3498db),
+            "color": priority_colors.get(priority, 0x3498DB),
             "fields": [
-                {
-                    "name": "Priority",
-                    "value": priority,
-                    "inline": True
-                },
+                {"name": "Priority", "value": priority, "inline": True},
                 {
                     "name": "Participants",
                     "value": ", ".join(participants) if participants else "All Agents",
-                    "inline": True
+                    "inline": True,
                 },
                 {
                     "name": "Timestamp",
                     "value": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "inline": True
-                }
+                    "inline": True,
+                },
             ],
             "footer": {
                 "text": "V2_SWARM Coordinator",
-                "icon_url": "https://i.imgur.com/CCCCCCC.png"
-            }
+                "icon_url": "https://i.imgur.com/CCCCCCC.png",
+            },
         }
 
         return embed
@@ -270,7 +254,7 @@ class DiscordWebhookIntegration:
         try:
             test_payload = {
                 "content": "🧪 **Discord Webhook Test**\n\nV2_SWARM DevLog integration is now operational!",
-                "username": "V2_SWARM Test Bot"
+                "username": "V2_SWARM Test Bot",
             }
 
             response = self.session.post(self.webhook_url, json=test_payload)

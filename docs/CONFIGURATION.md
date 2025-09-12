@@ -41,7 +41,7 @@ class AgentConfig:
     captain_id: str = "Agent-4"
     default_mode: str = "pyautogui"
     coordinate_mode: str = "8-agent"
-    
+
     @property
     def agent_ids(self) -> List[str]:
         return [f"Agent-{i}" for i in range(1, self.agent_count + 1)]

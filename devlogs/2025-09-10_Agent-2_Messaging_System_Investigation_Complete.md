@@ -28,12 +28,12 @@
 ```python
 class UnifiedMessagingSystem:
     """Unified messaging system for all agent communication"""
-    
+
     def __init__(self):
         self.logger = logger
         self.coordinate_manager = None  # NOT IMPLEMENTED
         self.pyautogui_handler = None    # NOT IMPLEMENTED
-    
+
     def send_message(self, message: str, target: str, **kwargs) -> bool:
         """Send a message to a target agent or system"""
         try:

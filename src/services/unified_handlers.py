@@ -33,6 +33,7 @@ try:
     )
 except ImportError as e:
     import logging
+
     logging.warning(f"Failed to import handlers orchestrator: {e}")
     UnifiedHandlersOrchestrator = None
     HandlerType = None
@@ -44,6 +45,7 @@ except ImportError as e:
 # LEGACY COMPATIBILITY LAYER
 # ================================
 
+
 class UnifiedHandlersService:
     """
     LEGACY: Unified service for all handler operations
@@ -54,15 +56,18 @@ class UnifiedHandlersService:
 
     def __init__(self):
         import logging
+
         self.logger = logging.getLogger(__name__)
 
         # Delegate to new orchestrator if available
         if UnifiedHandlersOrchestrator:
             self._orchestrator = UnifiedHandlersOrchestrator()
-            self.logger.warning('[V2 COMPLIANCE] UnifiedHandlersService now delegates to modular orchestrator')
+            self.logger.warning(
+                "[V2 COMPLIANCE] UnifiedHandlersService now delegates to modular orchestrator"
+            )
         else:
             self._orchestrator = None
-            self.logger.error('UnifiedHandlersOrchestrator not available - using legacy mode')
+            self.logger.error("UnifiedHandlersOrchestrator not available - using legacy mode")
 
     # ================================
     # DELEGATION METHODS
@@ -93,17 +98,20 @@ class UnifiedHandlersService:
     def _legacy_process_request(self, request):
         """Legacy processing method"""
         from datetime import datetime
+
         return {
-            "request_id": getattr(request, 'id', 'unknown'),
+            "request_id": getattr(request, "id", "unknown"),
             "status": "processed",
-            "processed_at": datetime.now().isoformat()
+            "processed_at": datetime.now().isoformat(),
         }
 
     def _legacy_submit_request(self, handler_type, data, priority=None):
         """Legacy submission method"""
         from datetime import datetime
+
         request_id = f"legacy_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         return request_id
+
 
 # ================================
 # BACKWARD COMPATIBILITY EXPORTS
@@ -114,60 +122,67 @@ if UnifiedHandlersOrchestrator:
     create_unified_handlers_service = create_unified_handlers_orchestrator
     UnifiedHandlersOrchestratorClass = UnifiedHandlersOrchestrator
 else:
+
     def create_unified_handlers_service():
         return UnifiedHandlersService()
+
     UnifiedHandlersOrchestratorClass = UnifiedHandlersService
 
 # ================================
 # LEGACY COMPATIBILITY FUNCTIONS
 # ================================
 
+
 def handle_command(command: str, *args, **kwargs):
     """Legacy command handler function"""
     import warnings
+
     warnings.warn(
         "handle_command is deprecated. Use UnifiedHandlersOrchestrator instead.",
         DeprecationWarning,
-        stacklevel=2
+        stacklevel=2,
     )
 
     service = UnifiedHandlersService()
     request = service.submit_request(
-        getattr(HandlerType, 'COMMAND', 'command'),
-        {"command": command, "args": args, "kwargs": kwargs}
+        getattr(HandlerType, "COMMAND", "command"),
+        {"command": command, "args": args, "kwargs": kwargs},
     )
 
     processed_request = service.process_request(service.get_request_status(request))
     return processed_request.result if processed_request else {}
+
 
 def handle_contract(action: str, contract_data):
     """Legacy contract handler function"""
     import warnings
+
     warnings.warn(
         "handle_contract is deprecated. Use UnifiedHandlersOrchestrator instead.",
         DeprecationWarning,
-        stacklevel=2
+        stacklevel=2,
     )
 
     service = UnifiedHandlersService()
     request = service.submit_request(
-        getattr(HandlerType, 'CONTRACT', 'contract'),
-        {"action": action, "contract_data": contract_data}
+        getattr(HandlerType, "CONTRACT", "contract"),
+        {"action": action, "contract_data": contract_data},
     )
 
     processed_request = service.process_request(service.get_request_status(request))
     return processed_request.result if processed_request else {}
+
 
 # ================================
 # EXPORTS
 # ================================
 
 __all__ = [
-    'UnifiedHandlersService',
-    'UnifiedHandlersOrchestratorClass',
-    'create_unified_handlers_service',
-    'handle_command',
-    'handle_contract'
+    "UnifiedHandlersService",
+    "UnifiedHandlersOrchestratorClass",
+    "create_unified_handlers_service",
+    "handle_command",
+    "handle_contract",
 ]
 
 # ================================

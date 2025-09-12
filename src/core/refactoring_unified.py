@@ -31,8 +31,10 @@ from typing import Any
 # REFACTORING ENUMS AND MODELS
 # ============================================================================
 
+
 class RefactoringType(Enum):
     """Refactoring type enumeration."""
+
     EXTRACT_METHOD = "extract_method"
     EXTRACT_CLASS = "extract_class"
     RENAME_VARIABLE = "rename_variable"
@@ -52,6 +54,7 @@ class RefactoringType(Enum):
 
 class RefactoringStatus(Enum):
     """Refactoring status enumeration."""
+
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
@@ -62,6 +65,7 @@ class RefactoringStatus(Enum):
 
 class RefactoringPriority(Enum):
     """Refactoring priority enumeration."""
+
     LOW = 1
     MEDIUM = 2
     HIGH = 3
@@ -70,6 +74,7 @@ class RefactoringPriority(Enum):
 
 class CodeQuality(Enum):
     """Code quality enumeration."""
+
     EXCELLENT = "excellent"
     GOOD = "good"
     FAIR = "fair"
@@ -81,9 +86,11 @@ class CodeQuality(Enum):
 # REFACTORING MODELS
 # ============================================================================
 
+
 @dataclass
 class RefactoringTask:
     """Refactoring task model."""
+
     task_id: str
     refactoring_type: RefactoringType
     status: RefactoringStatus
@@ -99,6 +106,7 @@ class RefactoringTask:
 @dataclass
 class CodeAnalysis:
     """Code analysis model."""
+
     analysis_id: str
     file_path: str
     lines_of_code: int
@@ -113,6 +121,7 @@ class CodeAnalysis:
 @dataclass
 class RefactoringResult:
     """Refactoring result model."""
+
     result_id: str
     task_id: str
     success: bool
@@ -127,6 +136,7 @@ class RefactoringResult:
 @dataclass
 class RefactoringMetrics:
     """Refactoring metrics model."""
+
     total_tasks: int = 0
     completed_tasks: int = 0
     failed_tasks: int = 0
@@ -138,6 +148,7 @@ class RefactoringMetrics:
 # ============================================================================
 # REFACTORING INTERFACES
 # ============================================================================
+
 
 class RefactoringTool(ABC):
     """Base refactoring tool interface."""
@@ -188,14 +199,12 @@ class CodeAnalyzer(ABC):
 # REFACTORING TOOLS
 # ============================================================================
 
+
 class ExtractMethodTool(RefactoringTool):
     """Extract method refactoring tool."""
 
     def __init__(self, tool_id: str = None):
-        super().__init__(
-            tool_id or str(uuid.uuid4()),
-            "ExtractMethodTool"
-        )
+        super().__init__(tool_id or str(uuid.uuid4()), "ExtractMethodTool")
 
     def can_refactor(self, task: RefactoringTask) -> bool:
         """Check if can handle extract method refactoring."""
@@ -217,7 +226,7 @@ class ExtractMethodTool(RefactoringTool):
                 success=True,
                 changes_made=changes_made,
                 lines_affected=lines_affected,
-                quality_improvement=quality_improvement
+                quality_improvement=quality_improvement,
             )
 
             return result
@@ -230,7 +239,7 @@ class ExtractMethodTool(RefactoringTool):
                 changes_made=0,
                 lines_affected=0,
                 quality_improvement=0.0,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     def get_capabilities(self) -> list[str]:
@@ -242,10 +251,7 @@ class RenameVariableTool(RefactoringTool):
     """Rename variable refactoring tool."""
 
     def __init__(self, tool_id: str = None):
-        super().__init__(
-            tool_id or str(uuid.uuid4()),
-            "RenameVariableTool"
-        )
+        super().__init__(tool_id or str(uuid.uuid4()), "RenameVariableTool")
 
     def can_refactor(self, task: RefactoringTask) -> bool:
         """Check if can handle rename variable refactoring."""
@@ -267,7 +273,7 @@ class RenameVariableTool(RefactoringTool):
                 success=True,
                 changes_made=changes_made,
                 lines_affected=lines_affected,
-                quality_improvement=quality_improvement
+                quality_improvement=quality_improvement,
             )
 
             return result
@@ -280,7 +286,7 @@ class RenameVariableTool(RefactoringTool):
                 changes_made=0,
                 lines_affected=0,
                 quality_improvement=0.0,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     def get_capabilities(self) -> list[str]:
@@ -292,10 +298,7 @@ class ConsolidateDuplicateTool(RefactoringTool):
     """Consolidate duplicate refactoring tool."""
 
     def __init__(self, tool_id: str = None):
-        super().__init__(
-            tool_id or str(uuid.uuid4()),
-            "ConsolidateDuplicateTool"
-        )
+        super().__init__(tool_id or str(uuid.uuid4()), "ConsolidateDuplicateTool")
 
     def can_refactor(self, task: RefactoringTask) -> bool:
         """Check if can handle consolidate duplicate refactoring."""
@@ -317,7 +320,7 @@ class ConsolidateDuplicateTool(RefactoringTool):
                 success=True,
                 changes_made=changes_made,
                 lines_affected=lines_affected,
-                quality_improvement=quality_improvement
+                quality_improvement=quality_improvement,
             )
 
             return result
@@ -330,7 +333,7 @@ class ConsolidateDuplicateTool(RefactoringTool):
                 changes_made=0,
                 lines_affected=0,
                 quality_improvement=0.0,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     def get_capabilities(self) -> list[str]:
@@ -342,14 +345,12 @@ class ConsolidateDuplicateTool(RefactoringTool):
 # CODE ANALYZERS
 # ============================================================================
 
+
 class ComplexityAnalyzer(CodeAnalyzer):
     """Code complexity analyzer."""
 
     def __init__(self, analyzer_id: str = None):
-        super().__init__(
-            analyzer_id or str(uuid.uuid4()),
-            "ComplexityAnalyzer"
-        )
+        super().__init__(analyzer_id or str(uuid.uuid4()), "ComplexityAnalyzer")
 
     def analyze_code(self, file_path: str) -> CodeAnalysis:
         """Analyze code complexity."""
@@ -364,13 +365,13 @@ class ComplexityAnalyzer(CodeAnalyzer):
             issues = [
                 "High cyclomatic complexity detected",
                 "Long method found",
-                "Deep nesting detected"
+                "Deep nesting detected",
             ]
 
             suggestions = [
                 "Consider extracting methods",
                 "Reduce nesting levels",
-                "Break down complex logic"
+                "Break down complex logic",
             ]
 
             analysis = CodeAnalysis(
@@ -380,7 +381,7 @@ class ComplexityAnalyzer(CodeAnalyzer):
                 complexity=complexity,
                 quality_score=quality_score,
                 issues=issues,
-                suggestions=suggestions
+                suggestions=suggestions,
             )
 
             return analysis
@@ -393,7 +394,7 @@ class ComplexityAnalyzer(CodeAnalyzer):
                 complexity=0,
                 quality_score=0.0,
                 issues=[f"Analysis failed: {e}"],
-                suggestions=[]
+                suggestions=[],
             )
 
     def get_analysis_capabilities(self) -> list[str]:
@@ -405,10 +406,7 @@ class DuplicateCodeAnalyzer(CodeAnalyzer):
     """Duplicate code analyzer."""
 
     def __init__(self, analyzer_id: str = None):
-        super().__init__(
-            analyzer_id or str(uuid.uuid4()),
-            "DuplicateCodeAnalyzer"
-        )
+        super().__init__(analyzer_id or str(uuid.uuid4()), "DuplicateCodeAnalyzer")
 
     def analyze_code(self, file_path: str) -> CodeAnalysis:
         """Analyze duplicate code."""
@@ -423,13 +421,13 @@ class DuplicateCodeAnalyzer(CodeAnalyzer):
             issues = [
                 "Duplicate code blocks detected",
                 "Similar functions found",
-                "Repeated logic patterns"
+                "Repeated logic patterns",
             ]
 
             suggestions = [
                 "Extract common functionality",
                 "Create utility functions",
-                "Consolidate similar methods"
+                "Consolidate similar methods",
             ]
 
             analysis = CodeAnalysis(
@@ -439,7 +437,7 @@ class DuplicateCodeAnalyzer(CodeAnalyzer):
                 complexity=complexity,
                 quality_score=quality_score,
                 issues=issues,
-                suggestions=suggestions
+                suggestions=suggestions,
             )
 
             return analysis
@@ -452,7 +450,7 @@ class DuplicateCodeAnalyzer(CodeAnalyzer):
                 complexity=0,
                 quality_score=0.0,
                 issues=[f"Analysis failed: {e}"],
-                suggestions=[]
+                suggestions=[],
             )
 
     def get_analysis_capabilities(self) -> list[str]:
@@ -463,6 +461,7 @@ class DuplicateCodeAnalyzer(CodeAnalyzer):
 # ============================================================================
 # REFACTORING ORCHESTRATOR
 # ============================================================================
+
 
 class RefactoringOrchestrator:
     """Refactoring orchestration system."""
@@ -495,8 +494,12 @@ class RefactoringOrchestrator:
             self.logger.error(f"Failed to register code analyzer {analyzer.name}: {e}")
             return False
 
-    def create_task(self, refactoring_type: RefactoringType, source_file: str,
-                   priority: RefactoringPriority = RefactoringPriority.MEDIUM) -> RefactoringTask:
+    def create_task(
+        self,
+        refactoring_type: RefactoringType,
+        source_file: str,
+        priority: RefactoringPriority = RefactoringPriority.MEDIUM,
+    ) -> RefactoringTask:
         """Create refactoring task."""
         task = RefactoringTask(
             task_id=str(uuid.uuid4()),
@@ -504,7 +507,7 @@ class RefactoringOrchestrator:
             status=RefactoringStatus.PENDING,
             priority=priority,
             source_file=source_file,
-            description=f"Refactor {refactoring_type.value} in {source_file}"
+            description=f"Refactor {refactoring_type.value} in {source_file}",
         )
 
         self.tasks[task.task_id] = task
@@ -573,7 +576,7 @@ class RefactoringOrchestrator:
             "total_changes": self.metrics.total_changes,
             "quality_improvement": self.metrics.quality_improvement,
             "tools_registered": len(self.tools),
-            "analyzers_registered": len(self.analyzers)
+            "analyzers_registered": len(self.analyzers),
         }
 
 
@@ -581,12 +584,13 @@ class RefactoringOrchestrator:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_refactoring_tool(tool_type: str, tool_id: str = None) -> RefactoringTool | None:
     """Create refactoring tool by type."""
     tools = {
         "extract_method": ExtractMethodTool,
         "rename_variable": RenameVariableTool,
-        "consolidate_duplicate": ConsolidateDuplicateTool
+        "consolidate_duplicate": ConsolidateDuplicateTool,
     }
 
     tool_class = tools.get(tool_type)
@@ -598,10 +602,7 @@ def create_refactoring_tool(tool_type: str, tool_id: str = None) -> RefactoringT
 
 def create_code_analyzer(analyzer_type: str, analyzer_id: str = None) -> CodeAnalyzer | None:
     """Create code analyzer by type."""
-    analyzers = {
-        "complexity": ComplexityAnalyzer,
-        "duplicate": DuplicateCodeAnalyzer
-    }
+    analyzers = {"complexity": ComplexityAnalyzer, "duplicate": DuplicateCodeAnalyzer}
 
     analyzer_class = analyzers.get(analyzer_type)
     if analyzer_class:
@@ -618,6 +619,7 @@ def create_refactoring_orchestrator() -> RefactoringOrchestrator:
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
+
 
 def main():
     """Main execution function."""
@@ -650,9 +652,7 @@ def main():
 
     # Test refactoring functionality
     task = orchestrator.create_task(
-        RefactoringType.EXTRACT_METHOD,
-        "test_file.py",
-        RefactoringPriority.HIGH
+        RefactoringType.EXTRACT_METHOD, "test_file.py", RefactoringPriority.HIGH
     )
     print(f"✅ Refactoring task created: {task.task_id}")
 

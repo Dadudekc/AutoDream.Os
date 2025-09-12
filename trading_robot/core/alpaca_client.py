@@ -1,6 +1,7 @@
 """
 Alpaca API Client Wrapper
 """
+
 from datetime import datetime, timedelta
 from typing import Any
 
@@ -24,7 +25,7 @@ class AlpacaClient:
                 key_id=config.alpaca_api_key,
                 secret_key=config.alpaca_secret_key,
                 base_url=config.alpaca_base_url,
-                api_version='v2'
+                api_version="v2",
             )
 
             # Test connection
@@ -48,12 +49,12 @@ class AlpacaClient:
         try:
             account = self.api.get_account()
             return {
-                'id': account.id,
-                'cash': float(account.cash),
-                'portfolio_value': float(account.portfolio_value),
-                'buying_power': float(account.buying_power),
-                'daytrade_count': account.daytrade_count,
-                'status': account.status
+                "id": account.id,
+                "cash": float(account.cash),
+                "portfolio_value": float(account.portfolio_value),
+                "buying_power": float(account.buying_power),
+                "daytrade_count": account.daytrade_count,
+                "status": account.status,
             }
         except Exception as e:
             logger.error(f"❌ Error getting account info: {e}")
@@ -66,15 +67,18 @@ class AlpacaClient:
 
         try:
             positions = self.api.list_positions()
-            return [{
-                'symbol': pos.symbol,
-                'qty': int(pos.qty),
-                'avg_entry_price': float(pos.avg_entry_price),
-                'current_price': float(pos.current_price),
-                'market_value': float(pos.market_value),
-                'unrealized_pl': float(pos.unrealized_pl),
-                'unrealized_plpc': float(pos.unrealized_plpc)
-            } for pos in positions]
+            return [
+                {
+                    "symbol": pos.symbol,
+                    "qty": int(pos.qty),
+                    "avg_entry_price": float(pos.avg_entry_price),
+                    "current_price": float(pos.current_price),
+                    "market_value": float(pos.market_value),
+                    "unrealized_pl": float(pos.unrealized_pl),
+                    "unrealized_plpc": float(pos.unrealized_plpc),
+                }
+                for pos in positions
+            ]
         except Exception as e:
             logger.error(f"❌ Error getting positions: {e}")
             return []
@@ -86,25 +90,33 @@ class AlpacaClient:
 
         try:
             orders = self.api.list_orders(status=status)
-            return [{
-                'id': order.id,
-                'symbol': order.symbol,
-                'qty': order.qty,
-                'side': order.side,
-                'type': order.type,
-                'status': order.status,
-                'submitted_at': order.submitted_at,
-                'filled_at': order.filled_at,
-                'filled_qty': order.filled_qty,
-                'filled_avg_price': order.filled_avg_price
-            } for order in orders]
+            return [
+                {
+                    "id": order.id,
+                    "symbol": order.symbol,
+                    "qty": order.qty,
+                    "side": order.side,
+                    "type": order.type,
+                    "status": order.status,
+                    "submitted_at": order.submitted_at,
+                    "filled_at": order.filled_at,
+                    "filled_qty": order.filled_qty,
+                    "filled_avg_price": order.filled_avg_price,
+                }
+                for order in orders
+            ]
         except Exception as e:
             logger.error(f"❌ Error getting orders: {e}")
             return []
 
-    def get_historical_data(self, symbol: str, timeframe: str = "1Min",
-                           start: datetime | None = None, end: datetime | None = None,
-                           limit: int = 1000) -> pd.DataFrame:
+    def get_historical_data(
+        self,
+        symbol: str,
+        timeframe: str = "1Min",
+        start: datetime | None = None,
+        end: datetime | None = None,
+        limit: int = 1000,
+    ) -> pd.DataFrame:
         """Get historical market data"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -122,23 +134,26 @@ class AlpacaClient:
                 start=start.isoformat(),
                 end=end.isoformat(),
                 limit=limit,
-                adjustment='raw'
+                adjustment="raw",
             )
 
             # Convert to DataFrame
-            data = [{
-                'timestamp': bar.t,
-                'open': bar.o,
-                'high': bar.h,
-                'low': bar.l,
-                'close': bar.c,
-                'volume': bar.v
-            } for bar in bars]
+            data = [
+                {
+                    "timestamp": bar.t,
+                    "open": bar.o,
+                    "high": bar.h,
+                    "low": bar.l,
+                    "close": bar.c,
+                    "volume": bar.v,
+                }
+                for bar in bars
+            ]
 
             df = pd.DataFrame(data)
             if not df.empty:
-                df['timestamp'] = pd.to_datetime(df['timestamp'])
-                df.set_index('timestamp', inplace=True)
+                df["timestamp"] = pd.to_datetime(df["timestamp"])
+                df.set_index("timestamp", inplace=True)
 
             return df
 
@@ -146,37 +161,35 @@ class AlpacaClient:
             logger.error(f"❌ Error getting historical data for {symbol}: {e}")
             return pd.DataFrame()
 
-    def submit_market_order(self, symbol: str, qty: int, side: str,
-                           time_in_force: str = "gtc") -> dict[str, Any]:
+    def submit_market_order(
+        self, symbol: str, qty: int, side: str, time_in_force: str = "gtc"
+    ) -> dict[str, Any]:
         """Submit a market order"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
 
         try:
             order = self.api.submit_order(
-                symbol=symbol,
-                qty=qty,
-                side=side,
-                type="market",
-                time_in_force=time_in_force
+                symbol=symbol, qty=qty, side=side, type="market", time_in_force=time_in_force
             )
 
             logger.info(f"📋 Market order submitted: {side} {qty} {symbol}")
             return {
-                'id': order.id,
-                'symbol': order.symbol,
-                'qty': order.qty,
-                'side': order.side,
-                'type': order.type,
-                'status': order.status
+                "id": order.id,
+                "symbol": order.symbol,
+                "qty": order.qty,
+                "side": order.side,
+                "type": order.type,
+                "status": order.status,
             }
 
         except Exception as e:
             logger.error(f"❌ Error submitting market order for {symbol}: {e}")
             raise
 
-    def submit_limit_order(self, symbol: str, qty: int, side: str,
-                          limit_price: float, time_in_force: str = "gtc") -> dict[str, Any]:
+    def submit_limit_order(
+        self, symbol: str, qty: int, side: str, limit_price: float, time_in_force: str = "gtc"
+    ) -> dict[str, Any]:
         """Submit a limit order"""
         if not self._connected:
             raise ConnectionError("Not connected to Alpaca API")
@@ -188,18 +201,18 @@ class AlpacaClient:
                 side=side,
                 type="limit",
                 limit_price=limit_price,
-                time_in_force=time_in_force
+                time_in_force=time_in_force,
             )
 
             logger.info(f"📋 Limit order submitted: {side} {qty} {symbol} @ {limit_price}")
             return {
-                'id': order.id,
-                'symbol': order.symbol,
-                'qty': order.qty,
-                'side': order.side,
-                'type': order.type,
-                'limit_price': limit_price,
-                'status': order.status
+                "id": order.id,
+                "symbol": order.symbol,
+                "qty": order.qty,
+                "side": order.side,
+                "type": order.type,
+                "limit_price": limit_price,
+                "status": order.status,
             }
 
         except Exception as e:
@@ -226,10 +239,10 @@ class AlpacaClient:
         try:
             clock = self.api.get_clock()
             return {
-                'timestamp': clock.timestamp,
-                'is_open': clock.is_open,
-                'next_open': clock.next_open,
-                'next_close': clock.next_close
+                "timestamp": clock.timestamp,
+                "is_open": clock.is_open,
+                "next_open": clock.next_open,
+                "next_close": clock.next_close,
             }
         except Exception as e:
             logger.error(f"❌ Error getting market clock: {e}")

@@ -22,6 +22,7 @@ class FSMConfig:
         """Set FSM configuration value."""
         self._configs[key] = value
 
+
 # Also provide FSMConfiguration alias for compatibility
 FSMConfiguration = FSMConfig
 

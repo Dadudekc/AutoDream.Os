@@ -23,7 +23,7 @@ def test_config():
         "test_data_dir": Path(__file__).parent / "fixtures",
         "coverage_target": 85,
         "timeout": 30,
-        "retries": 3
+        "retries": 3,
     }
 
 
@@ -36,7 +36,7 @@ def setup_test_environment():
         Path(__file__).parent / "integration",
         Path(__file__).parent / "e2e",
         Path(__file__).parent / "performance",
-        Path(__file__).parent / "fixtures"
+        Path(__file__).parent / "fixtures",
     ]
 
     for test_dir in test_dirs:
@@ -60,7 +60,7 @@ def temp_directory():
 def mock_file(temp_directory):
     """Create a mock file for testing."""
     mock_file_path = os.path.join(temp_directory, "test_file.txt")
-    with open(mock_file_path, 'w') as f:
+    with open(mock_file_path, "w") as f:
         f.write("test content")
     return mock_file_path
 
@@ -69,19 +69,9 @@ def mock_file(temp_directory):
 def sample_config():
     """Sample configuration data for testing."""
     return {
-        "database": {
-            "host": "localhost",
-            "port": 5432,
-            "name": "test_db"
-        },
-        "logging": {
-            "level": "DEBUG",
-            "format": "%(asctime)s - %(levelname)s - %(message)s"
-        },
-        "features": {
-            "enable_cache": True,
-            "max_connections": 10
-        }
+        "database": {"host": "localhost", "port": 5432, "name": "test_db"},
+        "logging": {"level": "DEBUG", "format": "%(asctime)s - %(levelname)s - %(message)s"},
+        "features": {"enable_cache": True, "max_connections": 10},
     }
 
 
@@ -93,7 +83,7 @@ def mock_agent_data():
         "coordinates": [100, 200],
         "status": "active",
         "capabilities": ["test", "mock"],
-        "last_updated": "2025-09-09T17:00:00Z"
+        "last_updated": "2025-09-09T17:00:00Z",
     }
 
 
@@ -144,7 +134,7 @@ class TestUtils:
         """Create a temporary file with content."""
         fd, path = tempfile.mkstemp(suffix=suffix)
         try:
-            with os.fdopen(fd, 'w') as f:
+            with os.fdopen(fd, "w") as f:
                 f.write(content)
             return path
         except:
@@ -174,6 +164,7 @@ class PerformanceUtils:
     def measure_execution_time(func, *args, **kwargs):
         """Measure function execution time."""
         import time
+
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
@@ -183,7 +174,9 @@ class PerformanceUtils:
     def assert_performance(func, max_time: float, *args, **kwargs):
         """Assert function performance meets requirements."""
         _, execution_time = PerformanceUtils.measure_execution_time(func, *args, **kwargs)
-        assert execution_time <= max_time, f"Function took {execution_time:.2f}s, max allowed: {max_time}s"
+        assert execution_time <= max_time, (
+            f"Function took {execution_time:.2f}s, max allowed: {max_time}s"
+        )
 
 
 @pytest.fixture
@@ -201,13 +194,15 @@ class MockDataGenerator:
         """Generate mock agent data."""
         agents = []
         for i in range(count):
-            agents.append({
-                "agent_id": f"agent_{i}",
-                "coordinates": [i * 100, i * 100],
-                "status": "active",
-                "capabilities": ["test", "mock"],
-                "last_updated": "2025-09-09T17:00:00Z"
-            })
+            agents.append(
+                {
+                    "agent_id": f"agent_{i}",
+                    "coordinates": [i * 100, i * 100],
+                    "status": "active",
+                    "capabilities": ["test", "mock"],
+                    "last_updated": "2025-09-09T17:00:00Z",
+                }
+            )
         return agents if count > 1 else agents[0]
 
     @staticmethod
@@ -215,13 +210,15 @@ class MockDataGenerator:
         """Generate mock task data."""
         tasks = []
         for i in range(count):
-            tasks.append({
-                "task_id": f"task_{i}",
-                "description": f"Test task {i}",
-                "priority": "medium",
-                "status": "pending",
-                "assigned_agent": f"agent_{i}"
-            })
+            tasks.append(
+                {
+                    "task_id": f"task_{i}",
+                    "description": f"Test task {i}",
+                    "priority": "medium",
+                    "status": "pending",
+                    "assigned_agent": f"agent_{i}",
+                }
+            )
         return tasks if count > 1 else tasks[0]
 
 

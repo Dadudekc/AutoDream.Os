@@ -29,6 +29,7 @@ from ..contracts import OrchestrationContext, Step
 
 class MessagePriority(Enum):
     """Message priority levels."""
+
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -37,6 +38,7 @@ class MessagePriority(Enum):
 
 class MessageType(Enum):
     """Message type enumeration."""
+
     AGENT_TO_AGENT = "agent_to_agent"
     SYSTEM_TO_AGENT = "system_to_agent"
     HUMAN_TO_AGENT = "human_to_agent"
@@ -49,6 +51,7 @@ class MessageType(Enum):
 
 class DeliveryMethod(Enum):
     """Message delivery method enumeration."""
+
     PYAUTOGUI = "pyautogui"
     INBOX = "inbox"
     API = "api"
@@ -57,6 +60,7 @@ class DeliveryMethod(Enum):
 
 class MessageStatus(Enum):
     """Message delivery status."""
+
     PENDING = "pending"
     DELIVERED = "delivered"
     FAILED = "failed"
@@ -67,6 +71,7 @@ class MessageStatus(Enum):
 @dataclass
 class MessageTag:
     """Message tag structure."""
+
     name: str
     value: Any
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -75,6 +80,7 @@ class MessageTag:
 @dataclass
 class MessageAttachment:
     """Message attachment structure."""
+
     filename: str
     content_type: str
     data: bytes
@@ -85,6 +91,7 @@ class MessageAttachment:
 @dataclass
 class Message:
     """Unified message structure."""
+
     id: str
     sender: str
     recipient: str
@@ -102,6 +109,7 @@ class Message:
 @dataclass
 class DeliveryResult:
     """Message delivery result."""
+
     message_id: str
     status: MessageStatus
     method: DeliveryMethod
@@ -136,9 +144,15 @@ class PriorityBasedRoutingRule:
 
     def matches(self, message: Message) -> bool:
         """Check if rule matches message."""
-        priority_order = {MessagePriority.LOW: 0, MessagePriority.NORMAL: 1,
-                         MessagePriority.HIGH: 2, MessagePriority.URGENT: 3}
-        return priority_order.get(message.priority, 0) >= priority_order.get(self.priority_threshold, 0)
+        priority_order = {
+            MessagePriority.LOW: 0,
+            MessagePriority.NORMAL: 1,
+            MessagePriority.HIGH: 2,
+            MessagePriority.URGENT: 3,
+        }
+        return priority_order.get(message.priority, 0) >= priority_order.get(
+            self.priority_threshold, 0
+        )
 
     def get_delivery_method(self, message: Message) -> DeliveryMethod:
         """Get delivery method for message."""
@@ -173,6 +187,7 @@ class PyAutoGUIHandler:
         try:
             import pyautogui
             import pyperclip
+
             return True
         except ImportError:
             return False
@@ -185,7 +200,7 @@ class PyAutoGUIHandler:
             MessageType.HUMAN_TO_AGENT,
             MessageType.CAPTAIN_TO_AGENT,
             MessageType.COORDINATION,
-            MessageType.STATUS
+            MessageType.STATUS,
         ]
 
     def handle(self, message: Message) -> DeliveryResult:
@@ -197,7 +212,7 @@ class PyAutoGUIHandler:
                 method=DeliveryMethod.PYAUTOGUI,
                 attempts=1,
                 delivered_at=None,
-                error_message="PyAutoGUI not available"
+                error_message="PyAutoGUI not available",
             )
 
         try:
@@ -216,7 +231,7 @@ class PyAutoGUIHandler:
                     method=DeliveryMethod.PYAUTOGUI,
                     attempts=1,
                     delivered_at=None,
-                    error_message=f"No coordinates found for {message.recipient}"
+                    error_message=f"No coordinates found for {message.recipient}",
                 )
 
             # Create unified message format
@@ -227,7 +242,7 @@ class PyAutoGUIHandler:
                 "priority": message.priority.value,
                 "tags": [tag.name for tag in message.tags],
                 "content": message.content,
-                "timestamp": message.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+                "timestamp": message.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
             }
 
             # Attempt delivery
@@ -239,7 +254,7 @@ class PyAutoGUIHandler:
                     status=MessageStatus.DELIVERED,
                     method=DeliveryMethod.PYAUTOGUI,
                     attempts=1,
-                    delivered_at=datetime.now()
+                    delivered_at=datetime.now(),
                 )
             else:
                 return DeliveryResult(
@@ -248,7 +263,7 @@ class PyAutoGUIHandler:
                     method=DeliveryMethod.PYAUTOGUI,
                     attempts=1,
                     delivered_at=None,
-                    error_message="PyAutoGUI delivery failed"
+                    error_message="PyAutoGUI delivery failed",
                 )
 
         except Exception as e:
@@ -259,7 +274,7 @@ class PyAutoGUIHandler:
                 method=DeliveryMethod.PYAUTOGUI,
                 attempts=1,
                 delivered_at=None,
-                error_message=str(e)
+                error_message=str(e),
             )
 
 
@@ -302,7 +317,7 @@ class InboxHandler:
                 method=DeliveryMethod.INBOX,
                 attempts=1,
                 delivered_at=datetime.now(),
-                metadata={"inbox_file": str(message_file_path)}
+                metadata={"inbox_file": str(message_file_path)},
             )
 
         except Exception as e:
@@ -313,7 +328,7 @@ class InboxHandler:
                 method=DeliveryMethod.INBOX,
                 attempts=1,
                 delivered_at=None,
-                error_message=str(e)
+                error_message=str(e),
             )
 
     def _format_message_content(self, message: Message) -> str:
@@ -337,40 +352,23 @@ class InboxHandler:
             tag_str = ", ".join(f"{tag.name}: {tag.value}" for tag in message.tags)
             lines.append(f"**Tags**: {tag_str}")
 
-        lines.extend([
-            "",
-            "---",
-            "",
-            message.content,
-            "",
-            "---"
-        ])
+        lines.extend(["", "---", "", message.content, "", "---"])
 
         # Add attachments info
         if message.attachments:
-            lines.extend([
-                "",
-                "### 📎 ATTACHMENTS",
-                ""
-            ])
+            lines.extend(["", "### 📎 ATTACHMENTS", ""])
             for attachment in message.attachments:
-                lines.extend([
-                    f"- **{attachment.filename}** ({attachment.content_type}, {attachment.size} bytes)",
-                    f"  Metadata: {attachment.metadata}",
-                    ""
-                ])
+                lines.extend(
+                    [
+                        f"- **{attachment.filename}** ({attachment.content_type}, {attachment.size} bytes)",
+                        f"  Metadata: {attachment.metadata}",
+                        "",
+                    ]
+                )
 
         # Add metadata
         if message.metadata:
-            lines.extend([
-                "",
-                "### 📊 METADATA",
-                "",
-                "```json",
-                f"{message.metadata}",
-                "```",
-                ""
-            ])
+            lines.extend(["", "### 📊 METADATA", "", "```json", f"{message.metadata}", "```", ""])
 
         return "\n".join(lines)
 
@@ -384,7 +382,7 @@ class MessageRouter:
         # Initialize handlers
         self.handlers: dict[DeliveryMethod, MessageHandler] = {
             DeliveryMethod.PYAUTOGUI: PyAutoGUIHandler(),
-            DeliveryMethod.INBOX: InboxHandler()
+            DeliveryMethod.INBOX: InboxHandler(),
         }
 
         # Initialize routing rules (priority-based)
@@ -394,9 +392,19 @@ class MessageRouter:
             # High priority messages try PyAutoGUI first
             PriorityBasedRoutingRule(MessagePriority.HIGH, DeliveryMethod.PYAUTOGUI),
             # Agent-1 to Agent-8 get PyAutoGUI preference
-            AgentBasedRoutingRule(["Agent-1", "Agent-2", "Agent-3", "Agent-4",
-                                 "Agent-5", "Agent-6", "Agent-7", "Agent-8"],
-                                DeliveryMethod.PYAUTOGUI)
+            AgentBasedRoutingRule(
+                [
+                    "Agent-1",
+                    "Agent-2",
+                    "Agent-3",
+                    "Agent-4",
+                    "Agent-5",
+                    "Agent-6",
+                    "Agent-7",
+                    "Agent-8",
+                ],
+                DeliveryMethod.PYAUTOGUI,
+            ),
         ]
 
         # Message queues
@@ -450,7 +458,7 @@ class MessageRouter:
                 timestamp=message.timestamp,
                 expires_at=message.expires_at,
                 correlation_id=message.correlation_id,
-                metadata={**message.metadata, "broadcast_original": message.id}
+                metadata={**message.metadata, "broadcast_original": message.id},
             )
             message_ids.append(self.send_message(broadcast_msg))
 
@@ -471,7 +479,7 @@ class MessageRouter:
                         method=DeliveryMethod.INBOX,
                         attempts=0,
                         delivered_at=None,
-                        error_message="Message expired"
+                        error_message="Message expired",
                     )
                     continue
 
@@ -489,7 +497,7 @@ class MessageRouter:
                         self.retry_counts[message.id] = retry_count + 1
                         result.status = MessageStatus.RETRYING
                         # Re-queue for retry after delay
-                        time.sleep(2 ** retry_count)  # Exponential backoff
+                        time.sleep(2**retry_count)  # Exponential backoff
                         self.message_queue.put(message)
                     else:
                         result.error_message = f"Failed after {retry_count + 1} attempts"
@@ -517,7 +525,7 @@ class MessageRouter:
             "retrying": 0,
             "expired": 0,
             "by_method": {},
-            "by_priority": {}
+            "by_priority": {},
         }
 
         for result in self.delivery_results.values():
@@ -536,16 +544,18 @@ class MessageRouter:
 
         return stats
 
-    def create_message(self,
-                      sender: str,
-                      recipient: str,
-                      content: str,
-                      message_type: MessageType = MessageType.AGENT_TO_AGENT,
-                      priority: MessagePriority = MessagePriority.NORMAL,
-                      tags: list[MessageTag] | None = None,
-                      attachments: list[MessageAttachment] | None = None,
-                      correlation_id: str | None = None,
-                      expires_in_hours: int | None = None) -> Message:
+    def create_message(
+        self,
+        sender: str,
+        recipient: str,
+        content: str,
+        message_type: MessageType = MessageType.AGENT_TO_AGENT,
+        priority: MessagePriority = MessagePriority.NORMAL,
+        tags: list[MessageTag] | None = None,
+        attachments: list[MessageAttachment] | None = None,
+        correlation_id: str | None = None,
+        expires_in_hours: int | None = None,
+    ) -> Message:
         """Create a new message."""
         message_id = str(uuid.uuid4())
 
@@ -563,7 +573,7 @@ class MessageRouter:
             tags=tags or [],
             attachments=attachments or [],
             expires_at=expires_at,
-            correlation_id=correlation_id
+            correlation_id=correlation_id,
         )
 
 
@@ -636,5 +646,5 @@ __all__ = [
     "PyAutoGUIHandler",
     "InboxHandler",
     "MessageRouterOrchestrationStep",
-    "create_message_router"
+    "create_message_router",
 ]

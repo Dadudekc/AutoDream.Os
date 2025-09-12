@@ -2,6 +2,7 @@
 """
 Trading Robot Project Completion Summary
 """
+
 import os
 from datetime import datetime
 from pathlib import Path
@@ -12,36 +13,40 @@ def get_project_stats():
     project_root = Path(__file__).parent
 
     stats = {
-        'total_files': 0,
-        'total_lines': 0,
-        'directories': 0,
-        'python_files': 0,
-        'test_files': 0,
-        'config_files': 0
+        "total_files": 0,
+        "total_lines": 0,
+        "directories": 0,
+        "python_files": 0,
+        "test_files": 0,
+        "config_files": 0,
     }
 
     for root, dirs, files in os.walk(project_root):
         # Skip certain directories
-        dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ['__pycache__', 'node_modules']]
+        dirs[:] = [
+            d for d in dirs if not d.startswith(".") and d not in ["__pycache__", "node_modules"]
+        ]
 
-        stats['directories'] += len(dirs)
+        stats["directories"] += len(dirs)
 
         for file in files:
-            if file.endswith(('.py', '.md', '.yml', '.yaml', '.txt', '.sql', '.html', '.css', '.js')):
-                stats['total_files'] += 1
+            if file.endswith(
+                (".py", ".md", ".yml", ".yaml", ".txt", ".sql", ".html", ".css", ".js")
+            ):
+                stats["total_files"] += 1
 
                 filepath = Path(root) / file
                 try:
-                    with open(filepath, encoding='utf-8', errors='ignore') as f:
+                    with open(filepath, encoding="utf-8", errors="ignore") as f:
                         lines = len(f.readlines())
-                        stats['total_lines'] += lines
+                        stats["total_lines"] += lines
 
-                    if file.endswith('.py'):
-                        stats['python_files'] += 1
-                        if 'test' in file.lower():
-                            stats['test_files'] += 1
-                    elif file.endswith(('.yml', '.yaml', '.json', '.env', '.toml')):
-                        stats['config_files'] += 1
+                    if file.endswith(".py"):
+                        stats["python_files"] += 1
+                        if "test" in file.lower():
+                            stats["test_files"] += 1
+                    elif file.endswith((".yml", ".yaml", ".json", ".env", ".toml")):
+                        stats["config_files"] += 1
 
                 except Exception:
                     pass
@@ -78,8 +83,8 @@ def print_project_summary():
     print()
 
     # Calculate lines per file
-    if stats['python_files'] > 0:
-        avg_lines = stats['total_lines'] / stats['python_files']
+    if stats["python_files"] > 0:
+        avg_lines = stats["total_lines"] / stats["python_files"]
         print(".1f")
     print()
 
@@ -105,7 +110,7 @@ def print_features_summary():
         ("📈", "Performance Analytics", "Detailed metrics & visualization"),
         ("🛑", "Emergency Procedures", "Circuit breakers & shutdown protocols"),
         ("📚", "Documentation", "Comprehensive guides & API reference"),
-        ("🚀", "Production Ready", "Monitoring, logging, & maintenance procedures")
+        ("🚀", "Production Ready", "Monitoring, logging, & maintenance procedures"),
     ]
 
     for icon, feature, description in features:
@@ -148,7 +153,7 @@ def print_next_steps():
         "4. Monitor performance via web dashboard",
         "5. Gradually increase position sizes with live trading",
         "6. Implement additional custom strategies",
-        "7. Set up production monitoring and alerts"
+        "7. Set up production monitoring and alerts",
     ]
 
     for step in steps:
@@ -189,4 +194,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -4,5 +4,5 @@
 from . import unified_config
 
 __all__ = [
-    'unified_config',
+    "unified_config",
 ]

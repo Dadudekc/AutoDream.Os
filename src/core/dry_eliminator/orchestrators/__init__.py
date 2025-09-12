@@ -4,6 +4,6 @@
 from . import elimination_coordinator, results_manager
 
 __all__ = [
-    'elimination_coordinator',
-    'results_manager',
+    "elimination_coordinator",
+    "results_manager",
 ]

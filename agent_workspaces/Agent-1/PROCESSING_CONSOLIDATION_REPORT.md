@@ -35,7 +35,7 @@
 
 #### **2. Unified Processing System** ✅ **CREATED**
 - **Location**: `src/core/processing/unified_processing_system.py`
-- **Components**: 
+- **Components**:
   - `UnifiedProcessingSystem` - Base processing framework
   - `DataProcessingSystem` - Specialized data processing
   - `FileProcessingSystem` - Specialized file processing
@@ -58,16 +58,16 @@
 ```python
 class UnifiedProcessingSystem(ABC):
     """Consolidates all processing patterns across codebase."""
-    
+
     def process(self, processing_type: ProcessingType, data: Any, **kwargs) -> Any:
         """Single unified processing method replacing all duplicates."""
-        
+
     def _process_data(self, data: Any, context: ProcessingContext, **kwargs) -> Any:
         """Unified data processing logic."""
-        
+
     def _process_file(self, data: Any, context: ProcessingContext, **kwargs) -> Any:
         """Unified file processing logic."""
-        
+
     def _process_message(self, data: Any, context: ProcessingContext, **kwargs) -> Any:
         """Unified message processing logic."""
 ```
@@ -76,7 +76,7 @@ class UnifiedProcessingSystem(ABC):
 ```python
 class ProcessingType(Enum):
     DATA = "data"
-    FILE = "file" 
+    FILE = "file"
     MESSAGE = "message"
     EVENT = "event"
     TASK = "task"

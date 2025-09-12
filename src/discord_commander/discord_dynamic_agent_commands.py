@@ -5,29 +5,29 @@ Dynamic Agent Commands (V2)
 - Single slash command: /agent (agent autocomplete, summary toggle)
 - Uses MessagingGateway for Agents 1-4 (PyAutoGUI), engine inbox for others
 """
+
 from __future__ import annotations
 
 import asyncio
 import json
 from pathlib import Path
 
-import discord
-from discord import app_commands
 from discord.ext import commands
 
+import discord
+from discord import app_commands
+
 SUMMARY_PROMPT = (
-    "🔎 QUICK STATUS PING:\n"
     "- 3 bullets: (1) current task, (2) blockers, (3) ETA.\n"
-    "- Keep it under 60 seconds.\n"
+    "- This is a message from the GENERAL to the core agents.\n"
 )
+
 
 def _load_alias_map() -> tuple[dict[str, str], dict[str, list[str]]]:
     cfg = Path("config/agent_aliases.json")
     if not cfg.exists():
         # Defaults if missing
-        data = {
-            f"Agent-{i}": [f"agent{i}", f"a{i}"] for i in range(1, 9)
-        }
+        data = {f"Agent-{i}": [f"agent{i}", f"a{i}"] for i in range(1, 9)}
     else:
         data = json.loads(cfg.read_text(encoding="utf-8"))
     alias_to_agent: dict[str, str] = {}
@@ -37,6 +37,7 @@ def _load_alias_map() -> tuple[dict[str, str], dict[str, list[str]]]:
         # also map canonical name as alias
         alias_to_agent[agent.lower()] = agent
     return alias_to_agent, data
+
 
 async def _send_to_agent(
     bot: commands.Bot,
@@ -58,20 +59,23 @@ async def _send_to_agent(
 
     if getattr(bot, "messaging_gateway", None) and 1 <= idx <= 4:
         result = await bot.messaging_gateway.send(agent_id, payload, meta={"source": "discord"})
-        return f"🖥️ PyAutoGUI gateway → **{agent_id}**: {result.get('status','sent')}"
+        return f"🖥️ PyAutoGUI gateway → **{agent_id}**: {result.get('status', 'sent')}"
     # Fallback to engine inbox
     if getattr(bot, "agent_engine", None):
         await bot.agent_engine.send_to_agent_inbox(agent_id, payload, author_tag)
         return f"📬 Inbox drop → **{agent_id}**: queued"
     raise RuntimeError("No messaging backend available")
 
+
 def _mk_ok_embed(title: str, desc: str) -> discord.Embed:
     e = discord.Embed(title=title, description=desc, colour=discord.Colour.green())
     return e
 
+
 def _mk_err_embed(title: str, desc: str) -> discord.Embed:
     e = discord.Embed(title=title, description=desc, colour=discord.Colour.red())
     return e
+
 
 async def _agent_autocomplete(
     interaction: discord.Interaction, current: str
@@ -93,13 +97,87 @@ async def _agent_autocomplete(
             break
     return out
 
+
 async def setup_dynamic_agent_commands(bot: commands.Bot):
     alias_to_agent, by_agent = _load_alias_map()
 
+    # ---------- Keyboard Shortcut Handler: Ctrl+Enter 2x for Urgent Messages ----------
+    urgent_message_cache: dict[str, dict] = {}  # Cache for detecting double messages
+
+    async def handle_keyboard_shortcut(message: discord.Message, bot: commands.Bot):
+        """Handle keyboard shortcuts for high-priority messaging."""
+        content = message.content.strip()
+
+        # Check for urgent keyboard shortcut pattern: "URGENT:" or "!urgent"
+        if content.upper().startswith(("URGENT:", "!URGENT")):
+            # Extract agent and message from urgent command
+            parts = content.replace("URGENT:", "").replace("!urgent", "").strip().split(" ", 1)
+            if len(parts) >= 2:
+                agent_name = parts[0]
+                urgent_content = parts[1]
+
+                ag = alias_to_agent.get(agent_name.lower(), agent_name)
+                if ag in [f"Agent-{i}" for i in range(1, 9)] or ag in alias_to_agent.values():
+                    try:
+                        urgent_message = f"🚨 URGENT KEYBOARD: {urgent_content}"
+                        status = await _send_to_agent(
+                            bot,
+                            ag,
+                            urgent_message,
+                            author_tag=f"Discord:{message.author.id}",
+                            request_summary=False,
+                        )
+
+                        embed = _mk_ok_embed("🚨 URGENT Message (Keyboard Shortcut)", f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Triggered by keyboard shortcut*")
+                        await message.reply(embed=embed, mention_author=False)
+                        return True
+                    except Exception as e:
+                        embed = _mk_err_embed("🚨 Urgent Keyboard Shortcut Failed", str(e))
+                        await message.reply(embed=embed, mention_author=False)
+                        return True
+
+        return False
+
+    # ---------- Slash command: /urgent ---------- (HIGH PRIORITY - Ctrl+Enter 2x)
+    @bot.tree.command(name="urgent", description="Send URGENT high-priority message to agent (Ctrl+Enter delivery).")
+    @app_commands.describe(
+        agent="Agent or alias (autocomplete)",
+        message="Urgent message to send immediately",
+    )
+    @app_commands.autocomplete(agent=_agent_autocomplete)
+    async def urgent_cmd(
+        interaction: discord.Interaction,
+        agent: str,
+        message: str,
+    ):
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        ag = alias_to_agent.get(agent.lower(), agent)
+        try:
+            # Create urgent message with high priority indicators
+            urgent_message = f"🚨 URGENT: {message}"
+            status = await _send_to_agent(
+                bot,
+                ag,
+                urgent_message,
+                author_tag=f"Discord:{interaction.user.id}",
+                request_summary=False,  # Skip summary for urgent messages
+            )
+            await interaction.followup.send(
+                embed=_mk_ok_embed("🚨 URGENT Message Dispatched", f"**Agent:** {ag}\n**Status:** {status}\n\n**Message:** {urgent_message}\n\n*Delivered via Ctrl+Enter priority system*"),
+                ephemeral=True,
+            )
+        except Exception as e:
+            await interaction.followup.send(
+                embed=_mk_err_embed("🚨 Urgent Dispatch Failed", str(e)), ephemeral=True
+            )
+
     # ---------- Slash command: /agent ----------
     @bot.tree.command(name="agent", description="Send a message to an agent (summary toggle).")
-    @app_commands.describe(agent="Agent or alias (autocomplete)", message="What to send",
-                           summary="Ask the agent to reply with a 3-bullet status")
+    @app_commands.describe(
+        agent="Agent or alias (autocomplete)",
+        message="What to send",
+        summary="Ask the agent to reply with a 3-bullet status",
+    )
     @app_commands.autocomplete(agent=_agent_autocomplete)
     async def agent_cmd(
         interaction: discord.Interaction,
@@ -111,11 +189,14 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
         ag = alias_to_agent.get(agent.lower(), agent)
         try:
             status = await _send_to_agent(
-                bot, ag, message, author_tag=f"Discord:{interaction.user.id}", request_summary=summary
+                bot,
+                ag,
+                message,
+                author_tag=f"Discord:{interaction.user.id}",
+                request_summary=summary,
             )
             await interaction.followup.send(
-                embed=_mk_ok_embed("Message dispatched",
-                                   f"{status}\n\n**Message:** {message}"),
+                embed=_mk_ok_embed("Message dispatched", f"{status}\n\n**Message:** {message}"),
                 ephemeral=True,
             )
         except Exception as e:
@@ -129,9 +210,15 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
         await interaction.response.defer(ephemeral=True, thinking=True)
         tasks = []
         for i in range(1, 5):
-            tasks.append(_send_to_agent(
-                bot, f"Agent-{i}", "Status check requested.", author_tag=f"Discord:{interaction.user.id}", request_summary=True
-            ))
+            tasks.append(
+                _send_to_agent(
+                    bot,
+                    f"Agent-{i}",
+                    "Status check requested.",
+                    author_tag=f"Discord:{interaction.user.id}",
+                    request_summary=True,
+                )
+            )
         try:
             results = await asyncio.gather(*tasks, return_exceptions=True)
             lines = []
@@ -141,8 +228,7 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
                 else:
                     lines.append(f"{r}")
             await interaction.followup.send(
-                embed=_mk_ok_embed("Core summaries requested", "\n".join(lines)),
-                ephemeral=True
+                embed=_mk_ok_embed("Core summaries requested", "\n".join(lines)), ephemeral=True
             )
         except Exception as e:
             await interaction.followup.send(
@@ -158,13 +244,16 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
             status = await _send_to_agent(
                 bot, target_agent, msg, author_tag=f"Discord:{ctx.author.id}", request_summary=True
             )
-            await ctx.reply(embed=_mk_ok_embed("Message dispatched", f"{status}\n\n**Message:** {msg}"))
+            await ctx.reply(
+                embed=_mk_ok_embed("Message dispatched", f"{status}\n\n**Message:** {msg}")
+            )
         except Exception as e:
             await ctx.reply(embed=_mk_err_embed("Dispatch failed", str(e)))
 
     # Create one command per alias without repetition
     for agent_id, aliases in by_agent.items():
         for alias in aliases:
+
             @bot.command(name=alias)  # capture with default arg
             async def _alias_cmd(ctx: commands.Context, *, message: str, _agent=agent_id):
                 await _dispatch_prefix(ctx, _agent, message)
@@ -180,7 +269,15 @@ async def setup_dynamic_agent_commands(bot: commands.Bot):
     async def summary4(ctx: commands.Context):
         tasks = []
         for i in range(1, 5):
-            tasks.append(_send_to_agent(bot, f"Agent-{i}", "Status check requested.", author_tag=f"Discord:{ctx.author.id}", request_summary=True))
+            tasks.append(
+                _send_to_agent(
+                    bot,
+                    f"Agent-{i}",
+                    "Status check requested.",
+                    author_tag=f"Discord:{ctx.author.id}",
+                    request_summary=True,
+                )
+            )
         results = await asyncio.gather(*tasks, return_exceptions=True)
         lines = []
         for i, r in enumerate(results, start=1):

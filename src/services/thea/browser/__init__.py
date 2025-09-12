@@ -10,4 +10,4 @@ License: MIT
 
 from .thea_browser_service import BrowserMode, TheaBrowserService
 
-__all__ = ['TheaBrowserService', 'BrowserMode']
+__all__ = ["TheaBrowserService", "BrowserMode"]

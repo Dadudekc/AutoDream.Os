@@ -4,5 +4,5 @@
 from . import enhanced_integration_coordinator
 
 __all__ = [
-    'enhanced_integration_coordinator',
+    "enhanced_integration_coordinator",
 ]

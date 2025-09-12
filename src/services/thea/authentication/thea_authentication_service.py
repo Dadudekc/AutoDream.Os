@@ -22,6 +22,7 @@ from ...thea.config.thea_config import TheaConfig
 
 class AuthStatus(Enum):
     """Authentication status."""
+
     AUTHENTICATED = "authenticated"
     REQUIRES_LOGIN = "requires_login"
     EXPIRED = "expired"
@@ -40,10 +41,10 @@ class TheaCookieManager:
             cookie_data = {
                 "timestamp": datetime.now().isoformat(),
                 "cookies": cookies,
-                "domain": "chatgpt.com"
+                "domain": "chatgpt.com",
             }
 
-            with open(self.cookie_file, 'w') as f:
+            with open(self.cookie_file, "w") as f:
                 json.dump(cookie_data, f, indent=2)
 
             print(f"✅ Cookies saved: {self.cookie_file}")
@@ -70,8 +71,8 @@ class TheaCookieManager:
                 return cookies, True
             elif isinstance(data, dict):
                 # New format: dict with metadata
-                cookies = data.get('cookies', [])
-                timestamp_str = data.get('timestamp', '')
+                cookies = data.get("cookies", [])
+                timestamp_str = data.get("timestamp", "")
 
                 if timestamp_str:
                     try:
@@ -121,7 +122,7 @@ class TheaLoginDetector:
             login_indicators = [
                 ".flex.items-center.justify-center > div:contains('Sign up for free')",
                 "a[href*='login']",
-                "button:contains('Log in')"
+                "button:contains('Log in')",
             ]
 
             for indicator in login_indicators:
@@ -138,7 +139,7 @@ class TheaLoginDetector:
                 "[data-testid='profile-button']",
                 "[data-testid='send-button']",
                 "#prompt-textarea",
-                "textarea[data-testid*='prompt']"
+                "textarea[data-testid*='prompt']",
             ]
 
             for indicator in auth_indicators:

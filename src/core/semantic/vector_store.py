@@ -2,12 +2,13 @@
 Simple vector store for semantic search.
 Supports adding vectors and searching for nearest neighbors.
 """
+
 from __future__ import annotations
-from typing import Dict, List, Tuple, Any
-import os
+
 import json
-import numpy as np
 from pathlib import Path
+
+import numpy as np
 
 
 class VectorStore:
@@ -20,8 +21,8 @@ class VectorStore:
         self.normalize = normalize
 
         # In-memory storage
-        self.vectors: Dict[str, np.ndarray] = {}
-        self.metadata: Dict[str, Dict] = {}
+        self.vectors: dict[str, np.ndarray] = {}
+        self.metadata: dict[str, dict] = {}
 
         # Load existing data
         self._load()
@@ -38,7 +39,7 @@ class VectorStore:
                 self.vectors = vectors_dict
 
                 # Load metadata
-                with open(metadata_file, 'r', encoding='utf-8') as f:
+                with open(metadata_file, encoding="utf-8") as f:
                     self.metadata = json.load(f)
 
             except Exception as e:
@@ -54,24 +55,26 @@ class VectorStore:
             np.save(vectors_file, self.vectors)
 
             # Save metadata
-            with open(metadata_file, 'w', encoding='utf-8') as f:
+            with open(metadata_file, "w", encoding="utf-8") as f:
                 json.dump(self.metadata, f, indent=2, ensure_ascii=False)
 
         except Exception as e:
             print(f"Warning: Could not save vector store: {e}")
 
-    def add(self, ids: List[str], vectors: np.ndarray, metadata: List[Dict] | None = None):
+    def add(self, ids: list[str], vectors: np.ndarray, metadata: list[dict] | None = None):
         """Add vectors to the store."""
         if metadata is None:
             metadata = [{}] * len(ids)
 
-        for i, (id_val, vector, meta) in enumerate(zip(ids, vectors, metadata)):
+        for i, (id_val, vector, meta) in enumerate(zip(ids, vectors, metadata, strict=False)):
             self.vectors[id_val] = vector.copy()
             self.metadata[id_val] = meta.copy()
 
         self._save()
 
-    def search(self, query_vectors: np.ndarray, top_k: int = 3) -> List[List[Tuple[str, float, Dict]]]:
+    def search(
+        self, query_vectors: np.ndarray, top_k: int = 3
+    ) -> list[list[tuple[str, float, dict]]]:
         """Search for nearest neighbors."""
         results = []
 

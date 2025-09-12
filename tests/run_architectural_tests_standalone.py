@@ -39,6 +39,7 @@ print("=" * 60)
 
 class TestResult:
     """Simple test result tracking."""
+
     def __init__(self):
         self.passed = 0
         self.failed = 0
@@ -61,11 +62,11 @@ class TestResult:
     def get_summary(self):
         success_rate = (self.passed / self.total * 100) if self.total > 0 else 0
         return {
-            'total': self.total,
-            'passed': self.passed,
-            'failed': self.failed,
-            'success_rate': success_rate,
-            'results': self.results
+            "total": self.total,
+            "passed": self.passed,
+            "failed": self.failed,
+            "success_rate": success_rate,
+            "results": self.results,
         }
 
 
@@ -78,29 +79,35 @@ def run_solid_principles_tests():
     # Test Single Responsibility Principle
     try:
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+
         service = ConsolidatedMessagingService()
-        methods = [m for m in dir(service) if not m.startswith('_')]
-        messaging_methods = ['send_message_pyautogui', 'broadcast_message', 'list_agents']
+        methods = [m for m in dir(service) if not m.startswith("_")]
+        messaging_methods = ["send_message_pyautogui", "broadcast_message", "list_agents"]
         available_methods = [m for m in messaging_methods if m in methods]
 
         if len(available_methods) > 0:
             results.add_result("Single Responsibility Principle", True)
         else:
-            results.add_result("Single Responsibility Principle", False, "No messaging methods found")
+            results.add_result(
+                "Single Responsibility Principle", False, "No messaging methods found"
+            )
     except Exception as e:
         results.add_result("Single Responsibility Principle", False, str(e))
 
     # Test Open-Closed Principle
     try:
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
+
         service = ConsolidatedMessagingService()
-        extensible_methods = ['send_message_pyautogui', 'broadcast_message', 'list_agents']
+        extensible_methods = ["send_message_pyautogui", "broadcast_message", "list_agents"]
         available_methods = [m for m in extensible_methods if hasattr(service, m)]
 
         if len(available_methods) >= 2:
             results.add_result("Open-Closed Principle", True)
         else:
-            results.add_result("Open-Closed Principle", False, f"Only {len(available_methods)} extensible methods")
+            results.add_result(
+                "Open-Closed Principle", False, f"Only {len(available_methods)} extensible methods"
+            )
     except Exception as e:
         results.add_result("Open-Closed Principle", False, str(e))
 
@@ -115,22 +122,31 @@ def run_solid_principles_tests():
         msg_agents = msg_service.list_agents()
         coord_agents = coord_loader.get_all_agents()
 
-        if hasattr(msg_agents, '__iter__') and hasattr(coord_agents, '__iter__'):
+        if hasattr(msg_agents, "__iter__") and hasattr(coord_agents, "__iter__"):
             results.add_result("Liskov Substitution Principle", True)
         else:
-            results.add_result("Liskov Substitution Principle", False, "Services don't provide substitutable interfaces")
+            results.add_result(
+                "Liskov Substitution Principle",
+                False,
+                "Services don't provide substitutable interfaces",
+            )
     except Exception as e:
         results.add_result("Liskov Substitution Principle", False, str(e))
 
     # Test Interface Segregation Principle
     try:
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
-        methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith('_')]
+
+        methods = [m for m in dir(ConsolidatedMessagingService) if not m.startswith("_")]
 
         if len(methods) < 20:  # Reasonable interface size
             results.add_result("Interface Segregation Principle", True)
         else:
-            results.add_result("Interface Segregation Principle", False, f"Interface too large: {len(methods)} methods")
+            results.add_result(
+                "Interface Segregation Principle",
+                False,
+                f"Interface too large: {len(methods)} methods",
+            )
     except Exception as e:
         results.add_result("Interface Segregation Principle", False, str(e))
 
@@ -140,13 +156,15 @@ def run_solid_principles_tests():
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         msg_service = ConsolidatedMessagingService()
-        has_principles = hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
-        has_interface = hasattr(msg_service, 'send_message_pyautogui')
+        has_principles = hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY")
+        has_interface = hasattr(msg_service, "send_message_pyautogui")
 
         if has_principles and has_interface:
             results.add_result("Dependency Inversion Principle", True)
         else:
-            results.add_result("Dependency Inversion Principle", False, "Missing architectural dependencies")
+            results.add_result(
+                "Dependency Inversion Principle", False, "Missing architectural dependencies"
+            )
     except Exception as e:
         results.add_result("Dependency Inversion Principle", False, str(e))
 
@@ -163,10 +181,12 @@ def run_dependency_injection_tests():
     try:
         from src.services.consolidated_architectural_service import ArchitecturalPrinciple
 
-        if hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY'):
+        if hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY"):
             results.add_result("Constructor Injection", True)
         else:
-            results.add_result("Constructor Injection", False, "ArchitecturalPrinciple not available")
+            results.add_result(
+                "Constructor Injection", False, "ArchitecturalPrinciple not available"
+            )
     except Exception as e:
         results.add_result("Constructor Injection", False, str(e))
 
@@ -232,8 +252,8 @@ def run_architectural_patterns_tests():
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         service = ConsolidatedMessagingService()
-        methods = [m for m in dir(service) if not m.startswith('_')]
-        high_level_methods = [m for m in methods if len(m.split('_')) <= 3]
+        methods = [m for m in dir(service) if not m.startswith("_")]
+        high_level_methods = [m for m in methods if len(m.split("_")) <= 3]
 
         if len(high_level_methods) > 0:
             results.add_result("Facade Pattern", True)
@@ -292,8 +312,8 @@ def run_integrity_tests():
         from src.services.consolidated_messaging_service import ConsolidatedMessagingService
 
         service = ConsolidatedMessagingService()
-        has_principles = hasattr(ArchitecturalPrinciple, 'SINGLE_RESPONSIBILITY')
-        has_srp = hasattr(service, 'send_message_pyautogui')
+        has_principles = hasattr(ArchitecturalPrinciple, "SINGLE_RESPONSIBILITY")
+        has_srp = hasattr(service, "send_message_pyautogui")
 
         if has_principles and has_srp:
             results.add_result("Module Coupling", True)
@@ -307,7 +327,7 @@ def run_integrity_tests():
         from src.core.coordinate_loader import CoordinateLoader
 
         source = inspect.getsource(CoordinateLoader)
-        business_terms = ['business', 'workflow', 'process', 'policy']
+        business_terms = ["business", "workflow", "process", "policy"]
 
         layer_violations = [term for term in business_terms if term in source.lower()]
 
@@ -323,7 +343,7 @@ def run_integrity_tests():
         from src.core.coordinate_loader import CoordinateLoader
 
         source = inspect.getsource(CoordinateLoader)
-        outer_deps = ['web', 'api', 'interface', 'presentation']
+        outer_deps = ["web", "api", "interface", "presentation"]
 
         wrong_deps = [dep for dep in outer_deps if dep in source.lower()]
 
@@ -365,7 +385,9 @@ def run_error_handling_tests():
                 if coords is None:
                     results.add_result("Error Recovery Patterns", True)
                 else:
-                    results.add_result("Error Recovery Patterns", False, "Should return None for invalid agent")
+                    results.add_result(
+                        "Error Recovery Patterns", False, "Should return None for invalid agent"
+                    )
             except ValueError:
                 results.add_result("Error Recovery Patterns", True)
             except Exception as e:
@@ -403,7 +425,9 @@ def generate_coverage_report(total_tests, passed_tests, failed_tests):
     print("\n🏗️ ARCHITECTURAL VALIDATION SUMMARY:")
     print("- SOLID Principles: Design pattern compliance verified")
     print("- Dependency Injection: Architectural dependency management validated")
-    print("- Architectural Patterns: Core patterns (Repository, Facade, Adapter, Singleton) confirmed")
+    print(
+        "- Architectural Patterns: Core patterns (Repository, Facade, Adapter, Singleton) confirmed"
+    )
     print("- Integrity Checks: Layer separation and dependency direction validated")
     print("- Error Handling: Exception hierarchy and recovery patterns tested")
     print("\n🎯 NEXT STEPS:")
@@ -429,12 +453,27 @@ def main():
     error_results = run_error_handling_tests()
 
     # Aggregate results
-    total_tests = (solid_results.total + di_results.total + pattern_results.total +
-                   integrity_results.total + error_results.total)
-    total_passed = (solid_results.passed + di_results.passed + pattern_results.passed +
-                    integrity_results.passed + error_results.passed)
-    total_failed = (solid_results.failed + di_results.failed + pattern_results.failed +
-                    integrity_results.failed + error_results.failed)
+    total_tests = (
+        solid_results.total
+        + di_results.total
+        + pattern_results.total
+        + integrity_results.total
+        + error_results.total
+    )
+    total_passed = (
+        solid_results.passed
+        + di_results.passed
+        + pattern_results.passed
+        + integrity_results.passed
+        + error_results.passed
+    )
+    total_failed = (
+        solid_results.failed
+        + di_results.failed
+        + pattern_results.failed
+        + integrity_results.failed
+        + error_results.failed
+    )
 
     end_time = time.time()
     execution_time = end_time - start_time
@@ -447,19 +486,26 @@ def main():
 
     # Create summary for progress reporting
     summary = {
-        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
-        'total_tests': total_tests,
-        'passed_tests': total_passed,
-        'failed_tests': total_failed,
-        'success_rate': success_rate,
-        'execution_time': execution_time,
-        'target_achieved': success_rate >= 85,
-        'status': 'EXCELLENT' if success_rate >= 85 else 'GOOD' if success_rate >= 70 else 'NEEDS_IMPROVEMENT'
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "total_tests": total_tests,
+        "passed_tests": total_passed,
+        "failed_tests": total_failed,
+        "success_rate": success_rate,
+        "execution_time": execution_time,
+        "target_achieved": success_rate >= 85,
+        "status": (
+            "EXCELLENT"
+            if success_rate >= 85
+            else "GOOD"
+            if success_rate >= 70
+            else "NEEDS_IMPROVEMENT"
+        ),
     }
 
     # Save summary to file for progress tracking
     import json
-    with open('architectural_test_summary.json', 'w') as f:
+
+    with open("architectural_test_summary.json", "w") as f:
         json.dump(summary, f, indent=2)
 
     print("\n📄 Test summary saved to: architectural_test_summary.json")

@@ -20,13 +20,11 @@ from pathlib import Path
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('agent5_core_modules_coordinator.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("agent5_core_modules_coordinator.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
+
 
 class Agent5CoreModulesCoordinator:
     """Agent-5 Core Modules Consolidation Coordinator"""
@@ -44,13 +42,13 @@ class Agent5CoreModulesCoordinator:
                     "src/core/messaging_core.py",
                     "src/core/messaging_pyautogui.py",
                     "src/services/messaging_core.py",
-                    "src/services/messaging_pyautogui.py"
+                    "src/services/messaging_pyautogui.py",
                 ],
                 "target_file": "src/core/unified_messaging.py",
                 "reduction": "4 → 1 files",
                 "priority": "HIGH",
                 "status": "PENDING",
-                "progress": 0
+                "progress": 0,
             },
             "analytics_engine": {
                 "current_files": [
@@ -58,26 +56,26 @@ class Agent5CoreModulesCoordinator:
                     "src/core/analytics/engines/*.py (6 files)",
                     "src/core/analytics/intelligence/*.py (10 files)",
                     "src/core/analytics/orchestrators/*.py (2 files)",
-                    "src/core/analytics/processors/*.py (7 files)"
+                    "src/core/analytics/processors/*.py (7 files)",
                 ],
                 "target_file": "src/core/analytics/unified_analytics.py",
                 "reduction": "28 → 5 files",
                 "priority": "HIGH",
                 "status": "PENDING",
-                "progress": 0
+                "progress": 0,
             },
             "configuration_system": {
                 "current_files": [
                     "src/core/unified_config.py",
                     "src/core/config_core.py",
-                    "src/core/env_loader.py"
+                    "src/core/env_loader.py",
                 ],
                 "target_file": "src/core/enhanced_unified_config.py",
                 "reduction": "3 → 1 files",
                 "priority": "MEDIUM",
                 "status": "PENDING",
-                "progress": 0
-            }
+                "progress": 0,
+            },
         }
 
     def analyze_core_modules_structure(self) -> bool:
@@ -91,12 +89,7 @@ class Agent5CoreModulesCoordinator:
                 return False
 
             # Analyze core modules
-            core_modules = {
-                "messaging": [],
-                "analytics": [],
-                "configuration": [],
-                "other": []
-            }
+            core_modules = {"messaging": [], "analytics": [], "configuration": [], "other": []}
 
             # Categorize files
             for file_path in core_dir.rglob("*.py"):
@@ -119,10 +112,12 @@ class Agent5CoreModulesCoordinator:
                 "analytics_files": len(core_modules["analytics"]),
                 "configuration_files": len(core_modules["configuration"]),
                 "other_files": len(core_modules["other"]),
-                "last_analyzed": datetime.now().isoformat()
+                "last_analyzed": datetime.now().isoformat(),
             }
 
-            logger.info(f"Core modules analysis completed - {self.core_modules_status['total_files']} files")
+            logger.info(
+                f"Core modules analysis completed - {self.core_modules_status['total_files']} files"
+            )
             return True
 
         except Exception as e:
@@ -135,10 +130,7 @@ class Agent5CoreModulesCoordinator:
             logger.info("💬 Coordinating messaging system consolidation...")
 
             # Check current messaging files
-            messaging_files = [
-                "src/core/messaging_core.py",
-                "src/core/messaging_pyautogui.py"
-            ]
+            messaging_files = ["src/core/messaging_core.py", "src/core/messaging_pyautogui.py"]
 
             existing_files = []
             for file_path in messaging_files:
@@ -155,7 +147,7 @@ class Agent5CoreModulesCoordinator:
                 "Merge messaging_core.py and messaging_pyautogui.py into unified_messaging.py",
                 "Eliminate duplicate PyAutoGUI functionality",
                 "Create single interface for all messaging operations",
-                "Maintain backward compatibility during transition"
+                "Maintain backward compatibility during transition",
             ]
 
             logger.info(f"Messaging consolidation coordinated - {len(existing_files)} files found")
@@ -189,7 +181,7 @@ class Agent5CoreModulesCoordinator:
                 "Merge similar analytics engines into unified framework",
                 "Create single analytics interface",
                 "Eliminate duplicate intelligence modules",
-                "Consolidate orchestrators and processors"
+                "Consolidate orchestrators and processors",
             ]
 
             logger.info(f"Analytics consolidation coordinated - {analytics_count} files found")
@@ -208,7 +200,7 @@ class Agent5CoreModulesCoordinator:
             config_files = [
                 "src/core/unified_config.py",
                 "src/core/config_core.py",
-                "src/core/env_loader.py"
+                "src/core/env_loader.py",
             ]
 
             existing_files = []
@@ -226,10 +218,12 @@ class Agent5CoreModulesCoordinator:
                 "Integrate config_core.py into unified_config.py",
                 "Enhance env_loader.py integration",
                 "Create single configuration interface",
-                "Maintain environment variable support"
+                "Maintain environment variable support",
             ]
 
-            logger.info(f"Configuration consolidation coordinated - {len(existing_files)} files found")
+            logger.info(
+                f"Configuration consolidation coordinated - {len(existing_files)} files found"
+            )
             return True
 
         except Exception as e:
@@ -242,10 +236,14 @@ class Agent5CoreModulesCoordinator:
             logger.info("💰 Calculating business metrics...")
 
             # Calculate file reduction metrics
-            total_current_files = sum(len(plan["current_files"]) for plan in self.core_modules_plan.values())
+            total_current_files = sum(
+                len(plan["current_files"]) for plan in self.core_modules_plan.values()
+            )
             total_target_files = len(self.core_modules_plan)
             total_reduction = total_current_files - total_target_files
-            reduction_percent = (total_reduction / total_current_files * 100) if total_current_files > 0 else 0
+            reduction_percent = (
+                (total_reduction / total_current_files * 100) if total_current_files > 0 else 0
+            )
 
             # Calculate consolidation progress
             total_progress = sum(plan["progress"] for plan in self.core_modules_plan.values())
@@ -257,19 +255,19 @@ class Agent5CoreModulesCoordinator:
                     "current_files": total_current_files,
                     "target_files": total_target_files,
                     "reduction": total_reduction,
-                    "reduction_percent": reduction_percent
+                    "reduction_percent": reduction_percent,
                 },
                 "consolidation_progress": {
                     "average_progress": average_progress,
                     "total_progress": total_progress,
-                    "max_progress": len(self.core_modules_plan) * 100
+                    "max_progress": len(self.core_modules_plan) * 100,
                 },
                 "business_value": {
                     "complexity_reduction": reduction_percent,
                     "maintainability_improvement": reduction_percent * 0.8,
                     "development_efficiency": reduction_percent * 0.6,
-                    "overall_value": reduction_percent * 0.7
-                }
+                    "overall_value": reduction_percent * 0.7,
+                },
             }
 
             self.business_metrics = business_metrics
@@ -300,13 +298,13 @@ class Agent5CoreModulesCoordinator:
                     "Continue coordinating with Agent-2",
                     "Monitor consolidation progress",
                     "Track business value and ROI",
-                    "Maintain quality standards"
-                ]
+                    "Maintain quality standards",
+                ],
             }
 
             # Save coordination report
             report_file = self.project_root / "agent5_core_modules_coordination_report.json"
-            with open(report_file, 'w', encoding='utf-8') as f:
+            with open(report_file, "w", encoding="utf-8") as f:
                 json.dump(report, f, indent=2)
 
             logger.info(f"Coordination report saved: {report_file}")
@@ -388,13 +386,13 @@ class Agent5CoreModulesCoordinator:
                     "Continue coordinating with Agent-2",
                     "Monitor consolidation progress",
                     "Track business value and ROI",
-                    "Maintain quality standards"
-                ]
+                    "Maintain quality standards",
+                ],
             }
 
             # Save coordination summary
             summary_file = self.project_root / "agent5_core_modules_coordination_summary.json"
-            with open(summary_file, 'w', encoding='utf-8') as f:
+            with open(summary_file, "w", encoding="utf-8") as f:
                 json.dump(coordination_summary, f, indent=2)
 
             logger.info("🎉 Core modules consolidation coordination completed!")
@@ -405,6 +403,7 @@ class Agent5CoreModulesCoordinator:
         except Exception as e:
             logger.error(f"Error in core modules coordination: {e}")
             return False
+
 
 def main():
     """Main execution function"""
@@ -429,6 +428,7 @@ def main():
     except Exception as e:
         logger.error(f"Fatal error in core modules coordination: {e}")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

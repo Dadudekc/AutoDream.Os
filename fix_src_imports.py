@@ -24,26 +24,26 @@ def fix_src_imports():
 
         try:
             # Read the file
-            with open(py_file, encoding='utf-8') as f:
+            with open(py_file, encoding="utf-8") as f:
                 content = f.read()
 
             # Look for src. imports
             original_content = content
-            lines = content.split('\n')
+            lines = content.split("\n")
             modified_lines = []
 
             for line in lines:
                 # Fix imports starting with 'from src.'
-                line = re.sub(r'^(\s*)from src\.(.+)$', r'\1from \2', line)
+                line = re.sub(r"^(\s*)from src\.(.+)$", r"\1from \2", line)
                 # Fix imports starting with 'import src.'
-                line = re.sub(r'^(\s*)import src\.(.+)$', r'\1import \2', line)
+                line = re.sub(r"^(\s*)import src\.(.+)$", r"\1import \2", line)
                 modified_lines.append(line)
 
-            new_content = '\n'.join(modified_lines)
+            new_content = "\n".join(modified_lines)
 
             # Only write if there were changes
             if new_content != original_content:
-                with open(py_file, 'w', encoding='utf-8') as f:
+                with open(py_file, "w", encoding="utf-8") as f:
                     f.write(new_content)
                 fixed_count += 1
                 print(f"✅ Fixed {py_file}")

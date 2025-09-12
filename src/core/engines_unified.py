@@ -31,8 +31,10 @@ from typing import Any
 # ENGINE ENUMS AND MODELS
 # ============================================================================
 
+
 class EngineStatus(Enum):
     """Engine status enumeration."""
+
     INITIALIZING = "initializing"
     RUNNING = "running"
     PAUSED = "paused"
@@ -43,6 +45,7 @@ class EngineStatus(Enum):
 
 class EngineType(Enum):
     """Engine type enumeration."""
+
     CORE = "core"
     ML = "ml"
     PERFORMANCE = "performance"
@@ -57,6 +60,7 @@ class EngineType(Enum):
 
 class EngineCapability(Enum):
     """Engine capability enumeration."""
+
     ANALYSIS = "analysis"
     COMMUNICATION = "communication"
     CONFIGURATION = "configuration"
@@ -76,9 +80,11 @@ class EngineCapability(Enum):
 # ENGINE MODELS
 # ============================================================================
 
+
 @dataclass
 class EngineInfo:
     """Engine information model."""
+
     engine_id: str
     name: str
     engine_type: EngineType
@@ -92,6 +98,7 @@ class EngineInfo:
 @dataclass
 class EngineMetrics:
     """Engine metrics model."""
+
     engine_id: str
     cpu_usage: float = 0.0
     memory_usage: float = 0.0
@@ -103,6 +110,7 @@ class EngineMetrics:
 @dataclass
 class EngineConfig:
     """Engine configuration model."""
+
     engine_id: str
     max_tasks: int = 100
     timeout_seconds: int = 300
@@ -114,6 +122,7 @@ class EngineConfig:
 # ============================================================================
 # ENGINE INTERFACES
 # ============================================================================
+
 
 class Engine(ABC):
     """Base engine interface."""
@@ -170,15 +179,12 @@ class Engine(ABC):
 # CORE ENGINES
 # ============================================================================
 
+
 class AnalysisCoreEngine(Engine):
     """Analysis core engine implementation."""
 
     def __init__(self, engine_id: str = None):
-        super().__init__(
-            engine_id or str(uuid.uuid4()),
-            "AnalysisCoreEngine",
-            EngineType.CORE
-        )
+        super().__init__(engine_id or str(uuid.uuid4()), "AnalysisCoreEngine", EngineType.CORE)
         self.analysis_tasks: list[dict[str, Any]] = []
 
     def start(self) -> bool:
@@ -227,7 +233,7 @@ class AnalysisCoreEngine(Engine):
             result = {
                 "data_type": type(data).__name__,
                 "analysis_timestamp": datetime.now().isoformat(),
-                "status": "completed"
+                "status": "completed",
             }
             self.analysis_tasks.append(result)
             self.metrics.task_count += 1
@@ -242,11 +248,7 @@ class CommunicationCoreEngine(Engine):
     """Communication core engine implementation."""
 
     def __init__(self, engine_id: str = None):
-        super().__init__(
-            engine_id or str(uuid.uuid4()),
-            "CommunicationCoreEngine",
-            EngineType.CORE
-        )
+        super().__init__(engine_id or str(uuid.uuid4()), "CommunicationCoreEngine", EngineType.CORE)
         self.message_queue: list[dict[str, Any]] = []
 
     def start(self) -> bool:
@@ -305,11 +307,7 @@ class ConfigurationCoreEngine(Engine):
     """Configuration core engine implementation."""
 
     def __init__(self, engine_id: str = None):
-        super().__init__(
-            engine_id or str(uuid.uuid4()),
-            "ConfigurationCoreEngine",
-            EngineType.CORE
-        )
+        super().__init__(engine_id or str(uuid.uuid4()), "ConfigurationCoreEngine", EngineType.CORE)
         self.configurations: dict[str, Any] = {}
 
     def start(self) -> bool:
@@ -372,15 +370,12 @@ class ConfigurationCoreEngine(Engine):
 # ML ENGINES
 # ============================================================================
 
+
 class MLCoreEngine(Engine):
     """Machine learning core engine implementation."""
 
     def __init__(self, engine_id: str = None):
-        super().__init__(
-            engine_id or str(uuid.uuid4()),
-            "MLCoreEngine",
-            EngineType.ML
-        )
+        super().__init__(engine_id or str(uuid.uuid4()), "MLCoreEngine", EngineType.ML)
         self.models: dict[str, Any] = {}
 
     def start(self) -> bool:
@@ -426,7 +421,10 @@ class MLCoreEngine(Engine):
         """Train ML model."""
         try:
             # Implementation for model training
-            self.models[model_name] = {"trained": True, "data_size": len(data) if hasattr(data, '__len__') else 0}
+            self.models[model_name] = {
+                "trained": True,
+                "data_size": len(data) if hasattr(data, "__len__") else 0,
+            }
             self.metrics.task_count += 1
             self.logger.info(f"Model {model_name} trained successfully")
             return True
@@ -440,14 +438,13 @@ class MLCoreEngine(Engine):
 # PERFORMANCE ENGINES
 # ============================================================================
 
+
 class PerformanceCoreEngine(Engine):
     """Performance core engine implementation."""
 
     def __init__(self, engine_id: str = None):
         super().__init__(
-            engine_id or str(uuid.uuid4()),
-            "PerformanceCoreEngine",
-            EngineType.PERFORMANCE
+            engine_id or str(uuid.uuid4()), "PerformanceCoreEngine", EngineType.PERFORMANCE
         )
         self.performance_data: dict[str, Any] = {}
 
@@ -496,10 +493,9 @@ class PerformanceCoreEngine(Engine):
             if operation not in self.performance_data:
                 self.performance_data[operation] = []
 
-            self.performance_data[operation].append({
-                "duration": duration,
-                "timestamp": datetime.now()
-            })
+            self.performance_data[operation].append(
+                {"duration": duration, "timestamp": datetime.now()}
+            )
             self.metrics.task_count += 1
         except Exception as e:
             self.logger.error(f"Failed to measure performance for {operation}: {e}")
@@ -510,15 +506,12 @@ class PerformanceCoreEngine(Engine):
 # STORAGE ENGINES
 # ============================================================================
 
+
 class StorageCoreEngine(Engine):
     """Storage core engine implementation."""
 
     def __init__(self, engine_id: str = None):
-        super().__init__(
-            engine_id or str(uuid.uuid4()),
-            "StorageCoreEngine",
-            EngineType.STORAGE
-        )
+        super().__init__(engine_id or str(uuid.uuid4()), "StorageCoreEngine", EngineType.STORAGE)
         self.storage_data: dict[str, Any] = {}
 
     def start(self) -> bool:
@@ -581,6 +574,7 @@ class StorageCoreEngine(Engine):
 # ENGINE REGISTRY
 # ============================================================================
 
+
 class EngineRegistry:
     """Engine registry for managing engines."""
 
@@ -627,23 +621,18 @@ class EngineRegistry:
 # FACTORY FUNCTIONS
 # ============================================================================
 
+
 def create_engine(engine_type: EngineType, engine_id: str = None) -> Engine | None:
     """Create engine by type."""
     engines = {
         EngineType.CORE: {
             "analysis": AnalysisCoreEngine,
             "communication": CommunicationCoreEngine,
-            "configuration": ConfigurationCoreEngine
+            "configuration": ConfigurationCoreEngine,
         },
-        EngineType.ML: {
-            "ml": MLCoreEngine
-        },
-        EngineType.PERFORMANCE: {
-            "performance": PerformanceCoreEngine
-        },
-        EngineType.STORAGE: {
-            "storage": StorageCoreEngine
-        }
+        EngineType.ML: {"ml": MLCoreEngine},
+        EngineType.PERFORMANCE: {"performance": PerformanceCoreEngine},
+        EngineType.STORAGE: {"storage": StorageCoreEngine},
     }
 
     type_engines = engines.get(engine_type, {})
@@ -664,6 +653,7 @@ def create_engine_registry() -> EngineRegistry:
 # MAIN EXECUTION
 # ============================================================================
 
+
 def main():
     """Main execution function."""
     print("Engines Unified - Consolidated Engine System")
@@ -680,7 +670,7 @@ def main():
         (EngineType.CORE, "configuration"),
         (EngineType.ML, "ml"),
         (EngineType.PERFORMANCE, "performance"),
-        (EngineType.STORAGE, "storage")
+        (EngineType.STORAGE, "storage"),
     ]
 
     for engine_type, engine_name in engines_to_create:

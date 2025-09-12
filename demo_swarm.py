@@ -14,6 +14,7 @@ print("=" * 60)
 print("\n🔧 STEP 1: VERIFYING PYAUTOGUI SYSTEM...")
 try:
     import pyautogui as pg
+
     print(f"✅ PyAutoGUI v{pg.__version__}: OPERATIONAL")
     print(f"   Screen Resolution: {pg.size().width}x{pg.size().height}")
     print(f"   Failsafe Protection: {pg.FAILSAFE}")
@@ -26,7 +27,8 @@ except ImportError:
 print("\n📡 STEP 2: TESTING CONSOLIDATED MESSAGING SYSTEM...")
 try:
     import sys
-    sys.path.insert(0, 'src')
+
+    sys.path.insert(0, "src")
 
     from src.core.messaging_core import (
         UnifiedMessage,
@@ -34,6 +36,7 @@ try:
         UnifiedMessageType,
         UnifiedMessagingCore,
     )
+
     print("✅ Consolidated Messaging Core: LOADED")
 
     messaging = UnifiedMessagingCore()
@@ -57,7 +60,7 @@ swarm_message = UnifiedMessage(
     recipient="Agent-2",
     message_type=UnifiedMessageType.AGENT_TO_AGENT,
     priority=UnifiedMessagePriority.URGENT,
-    tags=["swarm", "communication", "pyautogui", "operational"]
+    tags=["swarm", "communication", "pyautogui", "operational"],
 )
 
 print("✅ Swarm Coordination Message: CREATED")
@@ -84,6 +87,7 @@ except Exception as e:
 print("\n🤖 STEP 5: AGENT COORDINATION SYSTEM...")
 try:
     from src.core.messaging_core import list_agents
+
     print("🤖 Available Swarm Agents:")
     list_agents()
     print("✅ Agent Coordination: OPERATIONAL")

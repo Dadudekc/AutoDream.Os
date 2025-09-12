@@ -92,7 +92,7 @@ class DiscordCommander:
         """Process a single devlog file."""
         try:
             # Read devlog content
-            with open(devlog_path, encoding='utf-8') as f:
+            with open(devlog_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Extract metadata from filename
@@ -106,7 +106,7 @@ class DiscordCommander:
                 "category": metadata.get("category", "general"),
                 "agent": metadata.get("agent", "Unknown"),
                 "filepath": str(devlog_path),
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
             print(f"📝 Processing devlog: {devlog_data['title']}")
@@ -127,32 +127,32 @@ class DiscordCommander:
     def _parse_devlog_filename(self, filename: str) -> dict[str, str]:
         """Parse metadata from devlog filename."""
         # Example: 2025-09-09_094500_general_Agent-3_Project_Status_Update.md
-        parts = filename.replace('.md', '').split('_')
+        parts = filename.replace(".md", "").split("_")
 
         metadata = {
             "timestamp": "unknown",
             "category": "general",
             "agent": "Unknown",
-            "title": filename
+            "title": filename,
         }
 
         if len(parts) >= 4:
             metadata["timestamp"] = f"{parts[0]}_{parts[1]}"
             metadata["category"] = parts[2]
             metadata["agent"] = parts[3]
-            metadata["title"] = '_'.join(parts[4:]) if len(parts) > 4 else "DevLog Update"
+            metadata["title"] = "_".join(parts[4:]) if len(parts) > 4 else "DevLog Update"
 
         return metadata
 
     def _extract_devlog_summary(self, content: str, max_length: int = 500) -> str:
         """Extract summary from devlog content."""
-        lines = content.split('\n')
+        lines = content.split("\n")
 
         # Look for summary section or first meaningful paragraph
         summary = ""
         for line in lines[:20]:  # Check first 20 lines
             line = line.strip()
-            if line and not line.startswith('#') and len(line) > 20:
+            if line and not line.startswith("#") and len(line) > 20:
                 summary += line + " "
                 if len(summary) > max_length:
                     break
@@ -172,10 +172,10 @@ class DiscordCommander:
             message = f"""🚨 DEVCORD DEVLOG ALERT
 
 **New DevLog Activity Detected:**
-• **Title:** {devlog_data['title']}
+• **Title:** {devlog_data["title"]}
 • **Category:** {category.title()}
 • **Agent:** {agent}
-• **Summary:** {devlog_data['description'][:200]}...
+• **Summary:** {devlog_data["description"][:200]}...
 
 **DevLog monitoring is active and Discord notifications are enabled.**
 **WE ARE SWARM - Stay coordinated!**
@@ -186,8 +186,7 @@ class DiscordCommander:
 
             # Send to all agents for awareness
             result = await self.agent_engine.broadcast_to_all_agents(
-                message,
-                sender="Discord_DevLog_Monitor"
+                message, sender="Discord_DevLog_Monitor"
             )
 
             if result.success:
@@ -204,7 +203,7 @@ class DiscordCommander:
             "agent_id": agent_id,
             "status": status,
             "last_activity": details or f"Status update at {datetime.utcnow().isoformat()}",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         if self.webhook_integration.send_agent_status_notification(status_data):
@@ -212,14 +211,16 @@ class DiscordCommander:
         else:
             print(f"❌ Failed to send agent {agent_id} status to Discord")
 
-    async def send_coordination_notification(self, topic: str, description: str, priority: str = "NORMAL"):
+    async def send_coordination_notification(
+        self, topic: str, description: str, priority: str = "NORMAL"
+    ):
         """Send swarm coordination notification via Discord."""
         coordination_data = {
             "topic": topic,
             "description": description,
             "priority": priority,
             "participants": ["All Agents"],
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         if self.webhook_integration.send_swarm_coordination_notification(coordination_data):
@@ -242,10 +243,11 @@ class DiscordCommander:
         print(f"Webhook Connection: {'✅ PASS' if webhook_test else '❌ FAIL'}")
 
         # Test agent communication
-        test_message = "🧪 **Discord Commander Integration Test**\n\nTesting agent communication system..."
+        test_message = (
+            "🧪 **Discord Commander Integration Test**\n\nTesting agent communication system..."
+        )
         broadcast_result = await self.agent_engine.broadcast_to_all_agents(
-            test_message,
-            sender="Discord_Commander_Test"
+            test_message, sender="Discord_Commander_Test"
         )
         agent_test = broadcast_result.success
         print(f"Agent Communication: {'✅ PASS' if agent_test else '❌ FAIL'}")
@@ -257,7 +259,7 @@ class DiscordCommander:
             "category": "testing",
             "agent": "Discord_Commander",
             "filepath": "test/integration_test.md",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         devlog_test = self.webhook_integration.send_devlog_notification(devlog_test_data)
@@ -265,7 +267,9 @@ class DiscordCommander:
 
         # Summary
         all_tests_pass = webhook_test and agent_test and devlog_test
-        print(f"\n📊 Integration Test Result: {'✅ ALL TESTS PASSED' if all_tests_pass else '❌ SOME TESTS FAILED'}")
+        print(
+            f"\n📊 Integration Test Result: {'✅ ALL TESTS PASSED' if all_tests_pass else '❌ SOME TESTS FAILED'}"
+        )
 
         return all_tests_pass
 

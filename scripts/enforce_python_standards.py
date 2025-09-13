@@ -46,55 +46,63 @@ class PythonStandardEnforcer:
         """Check a single file for violations."""
         violations = []
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Parse AST
             tree = ast.parse(content)
 
             # Check line count
-            lines = content.split('\n')
+            lines = content.split("\n")
             if len(lines) > 400:
-                violations.append(Violation(
-                    file_path=file_path,
-                    line_number=len(lines),
-                    violation_type="FILE_TOO_LONG",
-                    message=f"File has {len(lines)} lines, exceeds 400 LOC limit",
-                    severity="ERROR"
-                ))
+                violations.append(
+                    Violation(
+                        file_path=file_path,
+                        line_number=len(lines),
+                        violation_type="FILE_TOO_LONG",
+                        message=f"File has {len(lines)} lines, exceeds 400 LOC limit",
+                        severity="ERROR",
+                    )
+                )
 
             # Check class and function lengths
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
                     class_lines = node.end_lineno - node.lineno + 1
                     if class_lines > 100:
-                        violations.append(Violation(
-                            file_path=file_path,
-                            line_number=node.lineno,
-                            violation_type="CLASS_TOO_LONG",
-                            message=f"Class '{node.name}' has {class_lines} lines, exceeds 100 LOC limit",
-                            severity="ERROR"
-                        ))
+                        violations.append(
+                            Violation(
+                                file_path=file_path,
+                                line_number=node.lineno,
+                                violation_type="CLASS_TOO_LONG",
+                                message=f"Class '{node.name}' has {class_lines} lines, exceeds 100 LOC limit",
+                                severity="ERROR",
+                            )
+                        )
 
                 elif isinstance(node, ast.FunctionDef):
                     func_lines = node.end_lineno - node.lineno + 1
                     if func_lines > 50:
-                        violations.append(Violation(
-                            file_path=file_path,
-                            line_number=node.lineno,
-                            violation_type="FUNCTION_TOO_LONG",
-                            message=f"Function '{node.name}' has {func_lines} lines, exceeds 50 LOC limit",
-                            severity="ERROR"
-                        ))
+                        violations.append(
+                            Violation(
+                                file_path=file_path,
+                                line_number=node.lineno,
+                                violation_type="FUNCTION_TOO_LONG",
+                                message=f"Function '{node.name}' has {func_lines} lines, exceeds 50 LOC limit",
+                                severity="ERROR",
+                            )
+                        )
 
         except Exception as e:
-            violations.append(Violation(
-                file_path=file_path,
-                line_number=0,
-                violation_type="PARSE_ERROR",
-                message=f"Failed to parse file: {str(e)}",
-                severity="ERROR"
-            ))
+            violations.append(
+                Violation(
+                    file_path=file_path,
+                    line_number=0,
+                    violation_type="PARSE_ERROR",
+                    message=f"Failed to parse file: {str(e)}",
+                    severity="ERROR",
+                )
+            )
 
         return violations
 

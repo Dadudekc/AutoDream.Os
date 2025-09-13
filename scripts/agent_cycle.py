@@ -66,11 +66,7 @@ class AgentCycleManager:
     def start_cycle(self) -> str:
         """Start a new agent cycle."""
         cycle_id = f"cycle_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        self.current_cycle = {
-            'id': cycle_id,
-            'start_time': datetime.now(),
-            'status': 'RUNNING'
-        }
+        self.current_cycle = {"id": cycle_id, "start_time": datetime.now(), "status": "RUNNING"}
         logger.info(f"Started agent cycle: {cycle_id}")
         return cycle_id
 
@@ -81,14 +77,14 @@ class AgentCycleManager:
 
         end_time = datetime.now()
         result = CycleResult(
-            cycle_id=self.current_cycle['id'],
-            start_time=self.current_cycle['start_time'],
+            cycle_id=self.current_cycle["id"],
+            start_time=self.current_cycle["start_time"],
             end_time=end_time,
-            status='COMPLETED',
+            status="COMPLETED",
             tasks_completed=tasks_completed,
             errors=errors or [],
             devlog_created=self.config.devlog_required,
-            coordination_successful=self.config.coordination_required
+            coordination_successful=self.config.coordination_required,
         )
 
         self.results.append(result)

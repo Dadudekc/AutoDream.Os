@@ -38,31 +38,21 @@ Examples:
 
   # Run consultation from file
   python scripts/thea/commander_thea_consultation.py --file consultation_request.md
-        """
+        """,
     )
 
     parser.add_argument(
-        "--message", "-m",
-        type=str,
-        help="Consultation message to send to Commander THEA"
+        "--message", "-m", type=str, help="Consultation message to send to Commander THEA"
+    )
+
+    parser.add_argument("--file", "-f", type=str, help="Read consultation message from file")
+
+    parser.add_argument(
+        "--quick", "-q", action="store_true", help="Run quick analysis without browser interaction"
     )
 
     parser.add_argument(
-        "--file", "-f",
-        type=str,
-        help="Read consultation message from file"
-    )
-
-    parser.add_argument(
-        "--quick", "-q",
-        action="store_true",
-        help="Run quick analysis without browser interaction"
-    )
-
-    parser.add_argument(
-        "--context", "-c",
-        type=str,
-        help="Additional context for the consultation (JSON format)"
+        "--context", "-c", type=str, help="Additional context for the consultation (JSON format)"
     )
 
     args = parser.parse_args()
@@ -80,7 +70,7 @@ Examples:
     # Get the message
     if args.file:
         try:
-            with open(args.file, 'r', encoding='utf-8') as f:
+            with open(args.file, "r", encoding="utf-8") as f:
                 message = f.read()
         except FileNotFoundError:
             print(f"❌ Error: File not found: {args.file}")
@@ -96,6 +86,7 @@ Examples:
     if args.context:
         try:
             import json
+
             context = json.loads(args.context)
         except json.JSONDecodeError:
             print("❌ Error: Invalid JSON in --context")
@@ -114,9 +105,9 @@ Examples:
         if args.quick:
             print("⚡ RUNNING QUICK ANALYSIS MODE...")
             result = commander.run_quick_analysis(message, context)
-            print("\n" + "="*70)
+            print("\n" + "=" * 70)
             print(result)
-            print("="*70)
+            print("=" * 70)
         else:
             print("🚀 RUNNING FULL COMMANDER THEA CONSULTATION...")
             success = commander.run_enhanced_consultation(message, context)

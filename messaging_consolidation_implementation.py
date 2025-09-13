@@ -10,12 +10,17 @@ from pathlib import Path
 import json
 from datetime import datetime
 
+
 class MessagingSystemConsolidator:
     """Handles the consolidation and deletion of messaging systems."""
 
     def __init__(self, project_root="."):
         self.project_root = Path(project_root)
-        self.backup_dir = self.project_root / "backup" / f"messaging_consolidation_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = (
+            self.project_root
+            / "backup"
+            / f"messaging_consolidation_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
         self.registry_path = self.project_root / "config" / "messaging_systems.yaml"
 
         # Systems to delete (with logic to extract first)
@@ -32,7 +37,7 @@ class MessagingSystemConsolidator:
             "src/services/messaging/cli/perf_cli.py",
             "src/discord_commander/webhook/",
             "src/services/thea/communication/",
-            "src/onboarding/onboarding_bridge.py"
+            "src/onboarding/onboarding_bridge.py",
         ]
 
         # Target files for integration
@@ -41,7 +46,7 @@ class MessagingSystemConsolidator:
             "pyautogui_delivery": "src/services/messaging/providers/pyautogui_delivery.py",
             "messaging_cli": "src/services/messaging/cli/messaging_cli.py",
             "thea_messaging": "src/services/thea/messaging/thea_messaging_service.py",
-            "swarm_onboarding": "swarm_onboarding/main.py"
+            "swarm_onboarding": "swarm_onboarding/main.py",
         }
 
     def create_backup(self):
@@ -80,7 +85,7 @@ class MessagingSystemConsolidator:
         print(f"🔍 Extracting logic from: {file_path}")
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Basic logic extraction - look for classes, functions, and imports
@@ -89,33 +94,24 @@ class MessagingSystemConsolidator:
                 "classes": [],
                 "functions": [],
                 "imports": [],
-                "content_preview": content[:500] + "..." if len(content) > 500 else content
+                "content_preview": content[:500] + "..." if len(content) > 500 else content,
             }
 
-            lines = content.split('\n')
+            lines = content.split("\n")
             for i, line in enumerate(lines):
                 line = line.strip()
 
                 # Extract class definitions
-                if line.startswith('class ') and ':' in line:
-                    extracted_logic["classes"].append({
-                        "line": i + 1,
-                        "definition": line
-                    })
+                if line.startswith("class ") and ":" in line:
+                    extracted_logic["classes"].append({"line": i + 1, "definition": line})
 
                 # Extract function definitions
-                elif line.startswith('def ') and ':' in line:
-                    extracted_logic["functions"].append({
-                        "line": i + 1,
-                        "definition": line
-                    })
+                elif line.startswith("def ") and ":" in line:
+                    extracted_logic["functions"].append({"line": i + 1, "definition": line})
 
                 # Extract imports
-                elif line.startswith(('import ', 'from ')):
-                    extracted_logic["imports"].append({
-                        "line": i + 1,
-                        "import": line
-                    })
+                elif line.startswith(("import ", "from ")):
+                    extracted_logic["imports"].append({"line": i + 1, "import": line})
 
             return extracted_logic
 
@@ -145,7 +141,7 @@ class MessagingSystemConsolidator:
 
         # Save extracted logic to backup directory
         logic_file = self.backup_dir / "extracted_logic.json"
-        with open(logic_file, 'w', encoding='utf-8') as f:
+        with open(logic_file, "w", encoding="utf-8") as f:
             json.dump(extracted_logic, f, indent=2)
 
         print(f"💾 Extracted logic saved to: {logic_file}")
@@ -188,7 +184,7 @@ class MessagingSystemConsolidator:
 
         try:
             # Read current registry
-            with open(self.registry_path, 'r', encoding='utf-8') as f:
+            with open(self.registry_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Remove entries for deleted systems
@@ -199,7 +195,7 @@ class MessagingSystemConsolidator:
                 system_id = Path(system_path).stem
 
                 # Simple removal - look for system ID in registry
-                lines = updated_content.split('\n')
+                lines = updated_content.split("\n")
                 filtered_lines = []
                 skip_next = False
 
@@ -209,19 +205,21 @@ class MessagingSystemConsolidator:
                         skip_next = True
                         continue
 
-                    if skip_next and line.strip() and not line.startswith(' '):
+                    if skip_next and line.strip() and not line.startswith(" "):
                         skip_next = False
 
                     if not skip_next:
                         filtered_lines.append(line)
 
-                updated_content = '\n'.join(filtered_lines)
+                updated_content = "\n".join(filtered_lines)
 
             # Write updated registry
-            with open(self.registry_path, 'w', encoding='utf-8') as f:
+            with open(self.registry_path, "w", encoding="utf-8") as f:
                 f.write(updated_content)
 
-            print(f"  ✅ Updated registry, removed {len(removed_systems)} systems: {removed_systems}")
+            print(
+                f"  ✅ Updated registry, removed {len(removed_systems)} systems: {removed_systems}"
+            )
 
         except Exception as e:
             print(f"  ❌ Error updating registry: {e}")
@@ -232,6 +230,7 @@ class MessagingSystemConsolidator:
 
         try:
             from src.core.messaging.health_check import print_health_report
+
             print_health_report(verbose=True)
         except Exception as e:
             print(f"  ❌ Error running health check: {e}")
@@ -270,6 +269,7 @@ class MessagingSystemConsolidator:
             print(f"🔄 Restore from backup: {self.backup_dir}")
             return False
 
+
 def main():
     """Main execution function."""
     print("🔧 Messaging System Consolidation Tool")
@@ -284,15 +284,18 @@ def main():
 
     response = input("\nProceed with consolidation? (y/N): ").strip().lower()
 
-    if response == 'y':
+    if response == "y":
         success = consolidator.execute_consolidation()
         if success:
             print("\n✅ Consolidation completed successfully!")
-            print("📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory")
+            print(
+                "📝 DISCORD DEVLOG REMINDER: Create a Discord devlog for this action in devlogs/ directory"
+            )
         else:
             print("\n❌ Consolidation failed. Check backup for recovery.")
     else:
         print("❌ Consolidation cancelled.")
+
 
 if __name__ == "__main__":
     main()
